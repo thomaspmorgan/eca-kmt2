@@ -150,6 +150,7 @@
     <Content Include="scripts\controllers\project\overview_test.js" />
     <Content Include="scripts\controllers\project\projectparticipant.js" />
     <Content Include="scripts\controllers\project\unsavedchanges.js" />
+    <Content Include="scripts\controllers\reports\PostAwards.js" />
     <Content Include="scripts\controllers\reports\RegionAwards.js" />
     <Content Include="scripts\directives\exposetablestate.js" />
     <Content Include="scripts\directives\socialmedialink.js" />
@@ -437,6 +438,7 @@
     <Content Include="views\reports\publish.html" />
     <Content Include="views\reports\refineSearch.html" />
     <Content Include="views\reports\refineSearchDeselect.html" />
+    <Content Include="views\reports\postAwards.html" />
     <Content Include="views\reports\regionAwards.html" />
     <Content Include="views\reports\reportGenerated.html" />
     <Content Include="views\reports\searchResults.html" />

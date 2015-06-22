@@ -13,7 +13,8 @@ angular.module('staticApp')
       $scope.$log = $log;
       $scope.reports = [
           { Title: "Project Awards", Published: "4/28/2015", Author: "Tom Morgan", Clearance: "Cleared By Office" },
-          { Title: "Region Awards", Published: "6/22/2015", Author: "Tom Morgan", Clearance: "Cleared By Office" }
+          { Title: "Region Awards", Published: "6/22/2015", Author: "Tom Morgan", Clearance: "Cleared By Office" },
+          { Title: "Post Awards", Published: "6/22/2015", Author: "Tom Morgan", Clearance: "Cleared By Office" }
       ]
       $scope.parameters = [];
       $scope.currentpage = $stateParams.page || 1;
@@ -90,6 +91,10 @@ angular.module('staticApp')
           {
               var template = "/views/reports/regionAwards.html";
               var controller = "RegionAwardsCtrl";
+          }
+          else if (title == 'Post Awards') {
+              var template = "/views/reports/postAwards.html";
+              var controller = "PostAwardsCtrl";
           }
           else
           {
