@@ -35,5 +35,47 @@ namespace ECA.Business.Queries.Programs
         {
             return context.Locations.Find(countryId).LocationName;
         }
+
+        public static IQueryable<RegionAwardDTO> CreateGetRegionAward(EcaContext context, int programId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var result = (from m in context.MoneyFlows where m.RecipientProject.ProgramId == programId
+                             group m by new {m.RecipientProject.Locations.FirstOrDefault().Region.LocationName}
+                             into grp
+                             select new RegionAwardDTO
+                             {
+                                 Region = grp.Key.LocationName,
+                                 Projects = grp.Count(),
+                                 ProgramValue = grp.Where(m => m.SourceProgramId == programId).Sum(m => m.Value),
+                                 OtherValue = grp.Where(m => m.SourceProgramId == null || m.SourceProgramId != programId).Sum(m => m.Value),
+                                 Average = grp.Average(m => m.Value),
+                             });
+            return result;            
+        }
+
+
+        public static IQueryable<PostAwardDTO> CreateGetPostAward(EcaContext context, int programId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var result = (from p in context.Locations 
+                          from m in context.MoneyFlows 
+                          where p.CountryId == m.RecipientProject.Locations.FirstOrDefault().CountryId 
+                          && m.RecipientProject.ProgramId == programId
+                          && p.LocationTypeId == LocationType.Post.Id
+                          group new {p, m} by new { Post = p.LocationName, Region = p.Region.LocationName}
+                              into grp
+                              orderby grp.Key.Post
+                              select new PostAwardDTO
+                              {
+                                  Post = grp.Key.Post,
+                                  Region = grp.Key.Region,
+                                  Projects = grp.Count(),
+                                  ProgramValue = grp.Where(g => g.m.SourceProgramId == programId).Sum(g => g.m.Value),
+                                  OtherValue = grp.Where(g => g.m.SourceProgramId == null || g.m.SourceProgramId != programId).Sum(g => g.m.Value),
+                                  Average = grp.Average(g => g.m.Value)
+                              });
+            return result;
+        }
+        
     }
 }

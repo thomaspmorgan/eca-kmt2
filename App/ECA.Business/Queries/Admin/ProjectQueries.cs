@@ -1,9 +1,11 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
+using ECA.Core.DynamicLinq.Filter;
 using ECA.Data;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Text;
 
 namespace ECA.Business.Queries.Admin
 {
@@ -28,21 +30,27 @@ namespace ECA.Business.Queries.Admin
                         let objectives = project.Objectives
                         let status = project.Status
                         let startDate = project.StartDate
+                        let regionNames = project.Regions.Select(l => l.LocationName)
+                        let regionIds = project.Regions.Select(l => l.LocationId)
+                        let locationNames = project.Locations.Select(l => l.LocationName)
                         where project.ProgramId == programId
                         select new SimpleProjectDTO
                         {
                             ProgramId = parentProgram.ProgramId,
                             ProjectId = project.ProjectId,
                             ProjectName = project.Name,
-                            LocationNames = locations.Select(x => x.LocationName),
+                            RegionNames = regionNames,
+                            RegionIds = regionIds,
                             ProjectStatusId = status.ProjectStatusId,
                             ProjectStatusName = status.Status,
+                            LocationNames = locationNames,
                             StartDate = startDate,
                             StartYear = startDate.Year,
                             StartYearAsString = startDate.Year.ToString()
                         };
 
             query = query.Apply(queryOperator);
+            
             return query;
         }
 
@@ -61,6 +69,7 @@ namespace ECA.Business.Queries.Admin
             var query = context.Participants.Where(x => x.PersonId == personId).Select(x => new ParticipantTimelineDTO
             {
                 ProjectId = x.ProjectId,
+                ParticipantId = x.ParticipantId,
                 ProgramId = x.Project.ProgramId,
                 OfficeId = x.Project.ParentProgram != null ? x.Project.ParentProgram.OwnerId : default(int),
                 Name = x.Project.Name,

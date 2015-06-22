@@ -358,6 +358,13 @@ namespace ECA.Business.Test.Service.Projects
                 LocationId = 2,
                 LocationName = "location2"
             };
+
+            var location3 = new Location
+            {
+                LocationId = 4,
+                LocationName = "region"
+            };
+
             var program = new Program
             {
                 ProgramId = 1,
@@ -381,11 +388,14 @@ namespace ECA.Business.Test.Service.Projects
             project.Locations = new List<Location>();
             project.Locations.Add(location1);
             project.Locations.Add(location2);
+            project.Regions.Add(location3);
 
             context.ProjectStatuses.Add(status);
             context.Projects.Add(project);
             context.Locations.Add(location1);
             context.Locations.Add(location2);
+                        context.Locations.Add(location3);
+
             context.Programs.Add(program);
 
             var defaultSorter = new ExpressionSorter<SimpleProjectDTO>(x => x.ProjectId, SortDirection.Ascending);
@@ -409,6 +419,7 @@ namespace ECA.Business.Test.Service.Projects
                 Assert.AreEqual(status.Status, firstResult.ProjectStatusName);
                 Assert.AreEqual(status.ProjectStatusId, firstResult.ProjectStatusId);
 
+                Assert.IsTrue(firstResult.RegionNames.Contains(location3.LocationName));
                 Assert.IsTrue(firstResult.LocationNames.Contains(location1.LocationName));
                 Assert.IsTrue(firstResult.LocationNames.Contains(location2.LocationName));
             };

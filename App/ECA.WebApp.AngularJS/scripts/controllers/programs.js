@@ -8,7 +8,8 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProgramsCtrl', function ($scope, $stateParams, $state, ProgramService, ProjectService, TableService, orderByFilter) {
+  .controller('ProgramsCtrl', function ($scope, $stateParams, $state, ProgramService, 
+      ProjectService, TableService, LocationService, ConstantsService, orderByFilter) {
 
       $scope.confirmClose = false;
       $scope.confirmFail = false;
@@ -16,6 +17,11 @@ angular.module('staticApp')
       $scope.newProjectId = null;
       $scope.isSavingProject = false;
       $scope.validations = [];
+
+      $scope.showIncludedRegion = [];
+      $scope.regions = {};
+
+      $scope.filteredRegions = [];
 
       $scope.newProject = {
           title: '',
@@ -74,7 +80,11 @@ angular.module('staticApp')
               $scope.sortedObjectives = orderByFilter($scope.program.objectives, '+justificationName');
           });
 
-     
+      LocationService.get({ limit: 300, filter: { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.region.id } })
+            .then(function (data) {
+                $scope.regions = data.results;
+       });
+
       $scope.projectsLoading = false;
 
       $scope.getProjects = function (tableState) {
@@ -100,6 +110,9 @@ angular.module('staticApp')
             })
             .then(function(){
                 $scope.projectsLoading = false;
+                angular.forEach($scope.projects, function (value) {
+                    $scope.showIncludedRegion[value.projectId] = true;
+                });
             });
           //move to getSubPrograms once written
           updateHeader();
@@ -215,4 +228,32 @@ angular.module('staticApp')
           $scope.confirmFail = false;
       };
 
+      $scope.changeRegionFilter = function () {
+          var regions = $('#regionSelect').val();
+
+          var items = $("#regionSelect option:selected").map(function () {
+              return $(this).text();
+          }).get();
+
+          $scope.selectedRegions = items.join();
+
+          if (regions == null) {
+              // all regions should be displayed
+              angular.forEach($scope.projects, function (value) {
+                  $scope.showIncludedRegion[value.projectId] = true;
+              });
+          }
+          else {
+              angular.forEach($scope.projects, function (value) {
+
+                  $scope.showIncludedRegion[value.projectId] = false;
+                  angular.forEach(regions, function (selectedRegion) {
+
+                      if (value.regionIds.indexOf(parseInt(selectedRegion)) > -1) {
+                          $scope.showIncludedRegion[value.projectId] = true;
+                      }
+                  });
+              });
+          };
+      };
   });
