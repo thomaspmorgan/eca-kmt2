@@ -17,6 +17,11 @@ namespace ECA.Business.Queries.Models.Admin
         public int ProjectId { get; set; }
 
         /// <summary>
+        /// Gets or sets the participant id
+        /// </summary>
+        public int ParticipantId { get; set; }
+
+        /// <summary>
         /// Gets and sets the program id
         /// </summary>
         public int ProgramId { get; set; }
