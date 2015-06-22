@@ -570,7 +570,7 @@ namespace CAM.Business.Service
                 resourceToUpdate.ParentResourceId = parentResource.ResourceId;
                 RemoveFromCache(resourceToUpdate);
                 RemoveFromCache(parentResource);
-
+                RemoveFromCache(updatedEntity);
             }
             if (updatedEntity.GetPermissableType().GetResourceTypeId() != resourceToUpdate.ResourceTypeId)
             {
