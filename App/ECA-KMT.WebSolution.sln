@@ -53,6 +53,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAM.Business.Test", "CAM.Bu
 EndProject
 Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "ECA.WebApi.Azure", "ECA.WebApi.Azure\ECA.WebApi.Azure.ccproj", "{7E9EB7F6-B17D-45E0-B825-616A6B1EA076}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Reports", "ECA.Reports\ECA.Reports.csproj", "{8A53ED70-DD1D-4D62-89A4-D9A3C4512446}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +125,10 @@ Global
 		{7E9EB7F6-B17D-45E0-B825-616A6B1EA076}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E9EB7F6-B17D-45E0-B825-616A6B1EA076}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E9EB7F6-B17D-45E0-B825-616A6B1EA076}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A53ED70-DD1D-4D62-89A4-D9A3C4512446}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A53ED70-DD1D-4D62-89A4-D9A3C4512446}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A53ED70-DD1D-4D62-89A4-D9A3C4512446}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A53ED70-DD1D-4D62-89A4-D9A3C4512446}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

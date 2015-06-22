@@ -120,6 +120,7 @@ namespace ECA.Business.Test.Queries.Projects
             var projectResult = projects.FirstOrDefault();
 
             Assert.AreEqual(project.ProjectId, projectResult.ProjectId);
+            Assert.AreEqual(participant.ParticipantId, projectResult.ParticipantId);
             Assert.AreEqual(project.Name, projectResult.Name);
             Assert.AreEqual(project.StartDate, projectResult.StartDate);
             Assert.AreEqual(project.EndDate, projectResult.EndDate);

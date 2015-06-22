@@ -32,12 +32,33 @@ namespace ECA.Business.Service.Reports
             return this.GetProjectAwardDTOQuery(programId, countryId);
         }
 
+        public IQueryable<RegionAwardDTO> GetRegionAwards(int programId)
+        {
+            logger.Trace("Getting Region Awards for program: [{0}]", programId);
+            return this.GetRegionAwardDTOQuery(programId);
+        }
+
+        public IQueryable<PostAwardDTO> GetPostAwards(int programId)
+        {
+            logger.Trace("Getting Region Awards for program: [{0}]", programId);
+            return this.GetPostAwardDTOQuery(programId);
+        }
         #endregion
 
         #region Queries
         protected IQueryable<ProjectAwardDTO> GetProjectAwardDTOQuery(int programId, int countryId)
         {
             return ReportQueries.CreateGetProjectAward(this.Context, programId, countryId);
+        }
+
+        protected IQueryable<RegionAwardDTO> GetRegionAwardDTOQuery(int programId)
+        {
+            return ReportQueries.CreateGetRegionAward(this.Context, programId);
+        }
+
+        protected IQueryable<PostAwardDTO> GetPostAwardDTOQuery(int programId)
+        {
+            return ReportQueries.CreateGetPostAward(this.Context, programId);
         }
 
         public string GetProgramName(int programId)

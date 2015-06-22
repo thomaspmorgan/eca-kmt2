@@ -69,6 +69,7 @@ namespace ECA.Business.Queries.Admin
             var query = context.Participants.Where(x => x.PersonId == personId).Select(x => new ParticipantTimelineDTO
             {
                 ProjectId = x.ProjectId,
+                ParticipantId = x.ParticipantId,
                 ProgramId = x.Project.ProgramId,
                 OfficeId = x.Project.ParentProgram != null ? x.Project.ParentProgram.OwnerId : default(int),
                 Name = x.Project.Name,

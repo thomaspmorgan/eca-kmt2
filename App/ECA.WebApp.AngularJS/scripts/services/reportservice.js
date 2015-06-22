@@ -25,6 +25,10 @@ angular.module('staticApp')
           },
           getProjectAwards: function(programId, countryId) {
               return "report/ProjectAwards?programId=" + programId + "&countryId=" + countryId;
+          },
+          getRegionAwards:  function(programId)
+          {
+              return "report/RegionAwards?programId=" + programId;
           }
       };
   });
