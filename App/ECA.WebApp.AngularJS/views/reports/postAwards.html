@@ -1,8 +1,8 @@
 ﻿<div class="modal-header">
-    <h3 class="modal-title">Region Awards</h3>
+    <h3 class="modal-title">Post Awards</h3>
 </div>
 
-<form name="regionAwardForm">
+<form name="postAwardForm">
     <div class="modal-body">
         <div class="form-group">
             <label>Program<span class="asterisk"> *</span></label>
@@ -10,7 +10,7 @@
                    typeahead="p as p.name for p in getPrograms($viewValue)" typeahead-loading="loadingPrograms" typeahead-on-select="model=$item.id"
                    typeahead-editable="false" class="form-control" required /><i ng-show="loadingPrograms" class="glyphicon glyphicon-refresh"></i>
         </div>
-        <div ng-show="regionAwardForm.program.$dirty">
+        <div ng-show="postAwardForm.program.$dirty">
             <div class="error" ng-show="!parameters.program">Please select a program.</div>
         </div>
         <div class="spinner" ng-show="isRunning">
