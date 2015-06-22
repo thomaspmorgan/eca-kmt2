@@ -40,15 +40,6 @@ angular.module('staticApp')
 
       function getReportsFiltered(params) {
           var dfd = $q.defer();
-          //ReportService.getAll(params)
-          //      .then(function (data, status, headers, config) {
-          //          dfd.resolve(data.data);
-          //      },
-          //      function (data, status, headers, config) {
-          //          var errorCode = data.status;
-          //          dfd.reject(errorCode);
-
-          //      });
           dfd.resolve($scope.reports);
           return dfd.promise;
       };
