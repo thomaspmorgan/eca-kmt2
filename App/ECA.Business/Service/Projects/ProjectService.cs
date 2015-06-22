@@ -5,6 +5,7 @@ using ECA.Business.Validation;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Exceptions;
 using ECA.Core.Query;
+using ECA.Core.Service;
 using ECA.Data;
 using NLog;
 using System;
@@ -34,8 +35,12 @@ namespace ECA.Business.Service.Projects
         /// <param name="context">The db context</param>
         /// <param name="officeService">The office service.</param>
         /// <param name="validator">The project business validator.</param>
-        public ProjectService(EcaContext context, IOfficeService officeService, IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity> validator)
-            : base(context)
+        public ProjectService(
+            EcaContext context, 
+            IOfficeService officeService, 
+            IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity> validator,
+            List<ISaveAction> saveActions = null)
+            : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(validator != null, "The validator must not be null.");

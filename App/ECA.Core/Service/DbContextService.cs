@@ -22,14 +22,18 @@ namespace ECA.Core.Service
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
+        private readonly List<ISaveAction> saveActions;
+
         /// <summary>
         /// Creates a new DbContextService with the given DbContext instance.
         /// </summary>
         /// <param name="context">The DbContext instance.</param>
-        public DbContextService(T context)
+        /// <param name="saveActions">Save actions for before and after the context is saved.</param>
+        public DbContextService(T context, List<ISaveAction> saveActions = null)
         {
             Contract.Requires(context != null, "The context must not be null.");
             this.Context = context;
+            this.saveActions = saveActions ?? new List<ISaveAction>();
         }
 
         /// <summary>
@@ -40,13 +44,11 @@ namespace ECA.Core.Service
         /// <summary>
         /// Saves the changes to underlying context.
         /// </summary>
-        /// <param name="saveActions">The optional list of save actions.</param>
         /// <returns>The DbContext's save changes result.</returns>
-        public int SaveChanges(IList<ISaveAction> saveActions = null)
+        public int SaveChanges()
         {
             var stopWatch = Stopwatch.StartNew();
-            var list = GetSaveActions(saveActions);
-            list.ForEach(x => x.BeforeSaveChanges(this.Context));            
+            this.saveActions.ForEach(x => x.BeforeSaveChanges(this.Context));            
             //var errors = this.Context.GetValidationErrors();
             int i = -1;
             try
@@ -57,7 +59,7 @@ namespace ECA.Core.Service
             {
                 throw HandleDbUpdateConcurrencyException(ex);
             }
-            list.ForEach(x => x.AfterSaveChanges(this.Context));
+            this.saveActions.ForEach(x => x.AfterSaveChanges(this.Context));
             stopWatch.Stop();
             logger.Trace("Saved changes in DbContextService.");
             return i;
@@ -66,13 +68,11 @@ namespace ECA.Core.Service
         /// <summary>
         /// Saves the changes to underlying context.
         /// </summary>
-        /// <param name="saveActions">The optional list of save actions.</param>
         /// <returns>The DbContext's save changes result.</returns>
-        public async Task<int> SaveChangesAsync(IList<ISaveAction> saveActions = null)
+        public async Task<int> SaveChangesAsync()
         {
             var stopWatch = Stopwatch.StartNew();
-            var list = GetSaveActions(saveActions);
-            foreach(var saveAction in list)
+            foreach (var saveAction in this.saveActions)
             {
                 await saveAction.BeforeSaveChangesAsync(this.Context);
             }
@@ -86,24 +86,12 @@ namespace ECA.Core.Service
             {
                 throw HandleDbUpdateConcurrencyException(ex);
             }
-            foreach (var saveAction in list)
+            foreach (var saveAction in this.saveActions)
             {
                 await saveAction.AfterSaveChangesAsync(this.Context);
             }
             logger.Trace("Saved changes async in DbContextService.");
             return i;
-        }
-
-        private List<ISaveAction> GetSaveActions(IList<ISaveAction> actions)
-        {
-            if (actions != null)
-            {
-                return actions.ToList();
-            }
-            else
-            {
-                return new List<ISaveAction>();
-            }
         }
 
         private EcaDbUpdateConcurrencyException HandleDbUpdateConcurrencyException(DbUpdateConcurrencyException ex)

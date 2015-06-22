@@ -173,7 +173,7 @@ namespace ECA.WebApi.Test.Controllers.Security
             var result = await controller.PostRegisterAsync();
             userService.Verify(x => x.GetUserByIdAsync(It.IsAny<Guid>()), Times.Once());
             userService.Verify(x => x.Create(It.IsAny<AzureUser>()), Times.Once());
-            userService.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
+            userService.Verify(x => x.SaveChangesAsync(), Times.Once());
         }
 
         [TestMethod]
@@ -196,7 +196,7 @@ namespace ECA.WebApi.Test.Controllers.Security
             Assert.IsInstanceOfType(result, typeof(OkResult));
             userService.Verify(x => x.GetUserByIdAsync(It.IsAny<Guid>()), Times.Once());
             userService.Verify(x => x.Create(It.IsAny<AzureUser>()), Times.Never());
-            userService.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Never());
+            userService.Verify(x => x.SaveChangesAsync(), Times.Never());
         }
 
         [TestMethod]

@@ -15,6 +15,7 @@ using ECA.Core.Query;
 using ECA.Core.DynamicLinq;
 using CAM.Business.Queries.Models;
 using ECA.Core.Exceptions;
+using ECA.Core.Data;
 
 namespace CAM.Business.Service
 {
@@ -22,7 +23,7 @@ namespace CAM.Business.Service
     /// A ResourceService is used to track resource's and their related types and foreign resource ids.  The 
     /// resources are cached in the given object cache.
     /// </summary>
-    public class ResourceService : DbContextService<CamModel>, CAM.Business.Service.IResourceService
+    public class ResourceService : DbContextService<CamModel>, CAM.Business.Service.IResourceService, ECA.Core.Service.IPermissableService
     {
         /// <summary>
         /// The format string for the resource key in the cache.
@@ -64,6 +65,12 @@ namespace CAM.Business.Service
 
         #region Resource/Foreign ResourceId
 
+        private IQueryable<Resource> CreateGetResourceByResourceIdQuery(int resourceId)
+        {
+            return this.Context.Resources.Where(x => x.ResourceId == resourceId)
+                .Include(x => x.ResourceType);
+        }
+
         /// <summary>
         /// Returns the resourceId for a given applicationId
         /// </summary>
@@ -99,8 +106,19 @@ namespace CAM.Business.Service
             else
             {
                 var resource = ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, foreignResourceId, resourceTypeId).FirstOrDefault();
+                int? parentResourceId = null;
+                int? parentForeignResourceId = null;
+                int? parentResourceTypeId = null;
+                if (resource != null && resource.ParentResourceId.HasValue)
+                {
+                    var parentResource = CreateGetResourceByResourceIdQuery(resource.ParentResourceId.Value).FirstOrDefault();
+                    Contract.Assert(parentResource != null, "The parent resource should not be null.");
+                    parentResourceId = parentResource.ResourceId;
+                    parentForeignResourceId = parentResource.ForeignResourceId;
+                    parentResourceTypeId = parentResource.ResourceTypeId;
+                }
                 var resourceId = resource != null ? resource.ResourceId : default(int?);
-                return HandleNonCachedResource(foreignResourceId, resourceId, resourceTypeId);
+                return HandleNonCachedResource(foreignResourceId, resourceId, resourceTypeId, parentForeignResourceId, parentResourceId, parentResourceTypeId);
             }
         }
 
@@ -119,8 +137,19 @@ namespace CAM.Business.Service
             else
             {
                 var resource = await ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, foreignResourceId, resourceTypeId).FirstOrDefaultAsync();
+                int? parentResourceId = null;
+                int? parentForeignResourceId = null;
+                int? parentResourceTypeId = null;
+                if (resource != null && resource.ParentResourceId.HasValue)
+                {
+                    var parentResource = await CreateGetResourceByResourceIdQuery(resource.ParentResourceId.Value).FirstOrDefaultAsync();
+                    Contract.Assert(parentResource != null, "The parent resource should not be null.");
+                    parentResourceId = parentResource.ResourceId;
+                    parentForeignResourceId = parentResource.ForeignResourceId;
+                    parentResourceTypeId = parentResource.ResourceTypeId;
+                }
                 var resourceId = resource != null ? resource.ResourceId : default(int?);
-                return HandleNonCachedResource(foreignResourceId, resourceId, resourceTypeId);
+                return HandleNonCachedResource(foreignResourceId, resourceId, resourceTypeId, parentForeignResourceId, parentResourceId, parentResourceTypeId);
             }
         }
 
@@ -132,7 +161,7 @@ namespace CAM.Business.Service
             return item.ResourceId;
         }
 
-        private int? HandleNonCachedResource(int foreignResourceId, int? resourceId, int resourceTypeId)
+        private int? HandleNonCachedResource(int foreignResourceId, int? resourceId, int resourceTypeId, int? parentForeignResourceId, int? parentResourceId, int? parentResourceTypeId)
         {
             if (!resourceId.HasValue)
             {
@@ -140,7 +169,7 @@ namespace CAM.Business.Service
             }
             else
             {
-                Add(foreignResourceId, resourceId.Value, resourceTypeId);
+                Add(foreignResourceId, resourceId.Value, resourceTypeId, parentForeignResourceId, parentResourceId, parentResourceTypeId);
             }
             return resourceId;
         }
@@ -204,9 +233,9 @@ namespace CAM.Business.Service
         /// <param name="resourceId">The resource id.</param>
         /// <param name="resourceTypeId">The resource type id.</param>
         /// <returns>The cache item added.</returns>
-        public CacheItem Add(int foreignResourceId, int resourceId, int resourceTypeId)
+        public CacheItem Add(int foreignResourceId, int resourceId, int resourceTypeId, int? parentForeignResourceId, int? parentResourceId, int? parentResourceTypeId)
         {
-            return Add(new ForeignResourceCache(foreignResourceId, resourceId, resourceTypeId));
+            return Add(new ForeignResourceCache(foreignResourceId, resourceId, resourceTypeId, parentForeignResourceId, parentResourceId, parentResourceTypeId));
         }
 
         /// <summary>
@@ -313,7 +342,7 @@ namespace CAM.Business.Service
             return results;
         }
         #endregion
-        
+
         /// <summary>
         /// Returns the permissions that can be set on a resource of the given type and resource id.  If only the 
         /// permissions for the resource type are needed, null can be passed for resource id.  In this case, permission
@@ -388,5 +417,125 @@ namespace CAM.Business.Service
             logger.Trace("Successfully retrieved resource types.");
             return resourceTypes;
         }
+
+        #region IPermissableService
+
+
+        public void OnAdded(IList<IPermissable> addedEntities)
+        {
+            if (addedEntities.Count > 3)
+            {
+                logger.Warn("There are more than the recommended number of entities [{0}] being added to CAM performance issues may be arise.", addedEntities.Count);
+            }
+            foreach (var addedEntity in addedEntities.ToList())
+            {
+                OnAdded(addedEntity);
+            }
+        }
+
+        public async Task OnAddedAsync(IList<IPermissable> addedEntities)
+        {
+            if (addedEntities.Count > 3)
+            {
+                logger.Warn("There are more than the recommended number of entities [{0}] being added to CAM performance issues may be arise.", addedEntities.Count);
+            }
+            foreach (var addedEntity in addedEntities.ToList())
+            {
+                await OnAddedAsync(addedEntity);
+            }
+        }
+
+        public void OnAdded(IPermissable addedEntity)
+        {
+            var existingResource = ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, addedEntity.GetId(), addedEntity.GetPermissableType().GetResourceTypeId())
+                .FirstOrDefault();
+            Resource parentResource = null;
+            if (addedEntity.GetParentId().HasValue)
+            {
+                parentResource = ResourceQueries.CreateGetResourceByForeignResourceIdQuery(
+                    this.Context,
+                    addedEntity.GetParentId().Value,
+                    addedEntity.GetParentPermissableType().GetResourceTypeId())
+                .FirstOrDefault();
+            }
+            DoOnAdded(addedEntity, existingResource, parentResource);
+        }
+
+        public async Task OnAddedAsync(IPermissable addedEntity)
+        {
+            var existingResource = await ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, addedEntity.GetId(), addedEntity.GetPermissableType().GetResourceTypeId())
+                .FirstOrDefaultAsync();
+            Resource parentResource = null;
+            if (addedEntity.GetParentId().HasValue)
+            {
+                parentResource = await ResourceQueries.CreateGetResourceByForeignResourceIdQuery(
+                    this.Context,
+                    addedEntity.GetParentId().Value,
+                    addedEntity.GetParentPermissableType().GetResourceTypeId())
+                .FirstOrDefaultAsync();
+            }
+            DoOnAdded(addedEntity, existingResource, parentResource);
+        }
+
+        private void DoOnAdded(IPermissable addedEntity, Resource existingResource, Resource parentResource)
+        {
+            if (existingResource == null)
+            {
+                var newResource = AddResourceToCAM(addedEntity, parentResource);                                
+                this.Context.SaveChanges();
+            } 
+            RemoveFromCache(addedEntity);
+        }
+
+        private Resource AddResourceToCAM(IPermissable permissable, Resource parentResource)
+        {
+            var resource = new Resource
+            {
+                ForeignResourceId = permissable.GetId(),
+                ResourceTypeId = permissable.GetPermissableType().GetResourceTypeId()
+            };
+            if (parentResource != null)
+            {
+                resource.ParentResourceId = parentResource.ResourceId;
+                resource.ParentResource = parentResource;
+            }
+            else if (permissable.GetParentId().HasValue && parentResource == null)
+            {
+                var newParentResource = new Resource
+                {
+                    ForeignResourceId = permissable.GetParentId().Value,
+                    ResourceTypeId = permissable.GetParentPermissableType().GetResourceTypeId()
+                };
+                resource.ParentResource = newParentResource;
+                newParentResource.ChildResources.Add(resource);
+                Context.Resources.Add(newParentResource);
+            }
+            Context.Resources.Add(resource);
+            return resource;
+        }
+
+        public void OnUpdated(IList<IPermissable> updatedEntities)
+        {
+            
+        }
+
+        public Task OnUpdatedAsync(IList<IPermissable> updatedEntities)
+        {
+            
+        }
+
+        public void RemoveFromCache(IPermissable permissable)
+        {
+            if (permissable != null)
+            {
+                cache.Remove(GetKey(permissable.GetId(), permissable.GetPermissableType().GetResourceTypeId()));
+                if (permissable.GetParentId().HasValue)
+                {
+                    cache.Remove(GetKey(permissable.GetParentId().Value, permissable.GetParentPermissableType().GetResourceTypeId()));
+                }
+            }
+        }
+
+        #endregion
     }
 }

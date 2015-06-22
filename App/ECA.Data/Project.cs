@@ -22,7 +22,8 @@ namespace ECA.Data
         IThemeable,
         IContactable,
         ICategorizable,
-        IObjectivable
+        IObjectivable,
+        IPermissable
     {
         /// <summary>
         /// Creates a new Project and initializes the collections.
@@ -129,6 +130,26 @@ namespace ECA.Data
                         this.Name),
                     new List<string> { "Name" });
             }
+        }
+
+        int IPermissable.GetId()
+        {
+            return this.ProjectId;
+        }
+
+        public PermissableType GetPermissableType()
+        {
+            return PermissableType.Project;
+        }
+
+        public int? GetParentId()
+        {
+            return this.ProgramId;
+        }
+
+        public PermissableType GetParentPermissableType()
+        {
+            return PermissableType.Program;
         }
     }
 }

@@ -8,10 +8,13 @@ using ECA.Business.Service.Projects;
 using ECA.Business.Service.Reports;
 using ECA.Business.Validation;
 using ECA.Core.Generation;
+using ECA.Core.Service;
 using ECA.Data;
 using ECA.WebApi.Custom;
 using ECA.WebApi.Security;
 using Microsoft.Practices.Unity;
+using Microsoft.Practices.Unity.InterceptionExtension;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
@@ -48,6 +51,12 @@ namespace ECA.WebApi
             var connectionString = "EcaContext";
             container.RegisterType<EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
             container.RegisterType<DbContext, EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
+            container.RegisterType<List<ISaveAction>>(new InjectionFactory((c) =>
+            {
+                var list = new List<ISaveAction>();
+                list.Add(new PermissableSaveAction(c.Resolve<IPermissableService>()));
+                return list;
+            }));
         }
 
         /// <summary>
@@ -117,6 +126,7 @@ namespace ECA.WebApi
             container.RegisterType<CamModel>(new HierarchicalLifetimeManager(), new InjectionConstructor("CamModel"));
             container.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPrincipalService, PrincipalService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IPermissableService, ResourceService>(new HierarchicalLifetimeManager());
 
             container.RegisterType<IPermissionModelService, PermissionModelService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPermissionStore<IPermission>, PermissionStore>(

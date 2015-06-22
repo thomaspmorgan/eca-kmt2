@@ -83,6 +83,8 @@
     <Compile Include="Queries\ResourceQueriesTest.cs" />
     <Compile Include="Service.PermissionStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\ForeignResourceCacheTest.cs" />
+    <Compile Include="Service\PermissableTypeExtensionsTest.cs" />
     <Compile Include="Service\PermissionModelServiceTest.cs" />
     <Compile Include="Service\PermissionStoreBaseTest.cs" />
     <Compile Include="Service\PrincipalServiceTest.cs" />

@@ -45,7 +45,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
                 .ReturnsAsync(new PagedQueryResults<OrganizationProgramDTO>(1, new List<OrganizationProgramDTO>()));
             service.Setup(x => x.CreateAsync(It.IsAny<DraftProgram>())).ReturnsAsync(new Program { RowVersion = new byte[0] });
             service.Setup(x => x.UpdateAsync(It.IsAny<EcaProgram>())).Returns(Task.FromResult<object>(null));
-            service.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
+            service.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
             service.Setup(x => x.GetProgramByIdAsync(It.IsAny<int>())).ReturnsAsync(new ProgramDTO { Id = 1, RowVersion = new byte[0] });
             controller = new ProgramsController(service.Object, userProvider.Object, focusCategoryService.Object, justificationObjectiveService.Object);
             controller.ControllerContext = ContextUtil.CreateControllerContext();
@@ -133,7 +133,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
             };
             var response = await controller.PostProgramAsync(model);
             service.Verify(x => x.CreateAsync(It.IsAny<DraftProgram>()), Times.Once());
-            service.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
+            service.Verify(x => x.SaveChangesAsync(), Times.Once());
             service.Verify(x => x.GetProgramByIdAsync(It.IsAny<int>()), Times.Once());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ProgramViewModel>));
         }
@@ -166,7 +166,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
             var response = await controller.PutProgramAsync(model);
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ProgramViewModel>));
             service.Verify(x => x.UpdateAsync(It.IsAny<EcaProgram>()), Times.Once());
-            service.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
+            service.Verify(x => x.SaveChangesAsync(), Times.Once());
             service.Verify(x => x.GetProgramByIdAsync(It.IsAny<int>()), Times.Once());
         }
 

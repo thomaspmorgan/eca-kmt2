@@ -94,7 +94,7 @@ namespace CAM.Business.Service
         /// </summary>
         /// <param name="saveActions"></param>
         /// <returns></returns>
-        public int SaveChanges(System.Collections.Generic.IList<ISaveAction> saveActions = null)
+        public int SaveChanges()
         {
             return 1;
         }
@@ -103,7 +103,7 @@ namespace CAM.Business.Service
         /// </summary>
         /// <param name="saveActions"></param>
         /// <returns></returns>
-        public System.Threading.Tasks.Task<int> SaveChangesAsync(System.Collections.Generic.IList<ISaveAction> saveActions = null)
+        public System.Threading.Tasks.Task<int> SaveChangesAsync()
         {
             return System.Threading.Tasks.Task.FromResult<int>(1);
         }

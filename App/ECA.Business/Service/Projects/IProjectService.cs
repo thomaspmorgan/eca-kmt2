@@ -219,7 +219,7 @@ namespace ECA.Business.Service.Projects
         /// </summary>
         /// <param name="saveActions"></param>
         /// <returns></returns>
-        public int SaveChanges(System.Collections.Generic.IList<ISaveAction> saveActions = null)
+        public int SaveChanges()
         {
             return 1;
         }
@@ -229,7 +229,7 @@ namespace ECA.Business.Service.Projects
         /// </summary>
         /// <param name="saveActions"></param>
         /// <returns></returns>
-        public Task<int> SaveChangesAsync(System.Collections.Generic.IList<ISaveAction> saveActions = null)
+        public Task<int> SaveChangesAsync()
         {
             return Task.FromResult<int>(1);
         }

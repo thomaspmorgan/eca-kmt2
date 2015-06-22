@@ -13,6 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4A2B55FF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAM.Business.Test", "CAM.Business.Test\CAM.Business.Test.csproj", "{07850DA1-7DD9-452C-BDAE-8DAF8F39446D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Core", "ECA.Core\ECA.Core.csproj", "{983C0BE6-5E42-494D-9947-0D67B84016C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Core.DynamicLinq", "ECA.Core.DynamicLinq\ECA.Core.DynamicLinq.csproj", "{2FFE2C53-412A-43AE-840D-470901649ED8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +41,14 @@ Global
 		{07850DA1-7DD9-452C-BDAE-8DAF8F39446D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07850DA1-7DD9-452C-BDAE-8DAF8F39446D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07850DA1-7DD9-452C-BDAE-8DAF8F39446D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{983C0BE6-5E42-494D-9947-0D67B84016C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{983C0BE6-5E42-494D-9947-0D67B84016C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{983C0BE6-5E42-494D-9947-0D67B84016C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{983C0BE6-5E42-494D-9947-0D67B84016C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FFE2C53-412A-43AE-840D-470901649ED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FFE2C53-412A-43AE-840D-470901649ED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FFE2C53-412A-43AE-840D-470901649ED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FFE2C53-412A-43AE-840D-470901649ED8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

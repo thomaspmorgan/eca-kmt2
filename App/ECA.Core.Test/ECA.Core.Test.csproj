@@ -81,6 +81,7 @@
     <Compile Include="Query\PagedQueryResultsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\DbContextServiceTest.cs" />
+    <Compile Include="Service\PermissableSaveActionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

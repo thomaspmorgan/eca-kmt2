@@ -24,8 +24,9 @@ namespace ECA.Business.Service
         /// An EcaService is a common service that can be extended by ECA services to advantage of common code.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
-        public EcaService(EcaContext context)
-            : base(context)
+        /// <param name="saveActions">The save actions.</param>
+        public EcaService(EcaContext context, List<ISaveAction> saveActions = null)
+            : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
         }

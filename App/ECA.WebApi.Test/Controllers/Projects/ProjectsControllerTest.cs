@@ -113,10 +113,10 @@ namespace ECA.WebApi.Test.Controllers.Projects
             userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(0));
             service.Setup(x => x.CreateAsync(It.IsAny<DraftProject>()))
                 .ReturnsAsync(new Project());
-            service.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
+            service.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
             var response = await controller.PostProjectAsync(new DraftProjectBindingModel());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ProjectDTO>));
-            service.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
+            service.Verify(x => x.SaveChangesAsync(), Times.Once());
         }
 
         [TestMethod]
@@ -134,10 +134,10 @@ namespace ECA.WebApi.Test.Controllers.Projects
         {
             userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(0));
             service.Setup(x => x.UpdateAsync(It.IsAny<PublishedProject>())).Returns(Task.FromResult<object>(null));
-            service.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
+            service.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
             var response = await controller.PutProjectAsync(new PublishedProjectBindingModel());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ProjectDTO>));
-            service.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
+            service.Verify(x => x.SaveChangesAsync(), Times.Once());
         }
 
         [TestMethod]
@@ -155,12 +155,12 @@ namespace ECA.WebApi.Test.Controllers.Projects
         public async Task TestPostAddPersonParticipantAsync()
         {
             userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(0));
-            service.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
+            service.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
             var model = new AdditionalPersonProjectParticipantBindingModel();
             model.ParticipantTypeId = ParticipantType.Individual.Id;
             var response = await controller.PostAddPersonParticipantAsync(model);
             Assert.IsInstanceOfType(response, typeof(OkResult));
-            service.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
+            service.Verify(x => x.SaveChangesAsync(), Times.Once());
             service.Verify(x => x.AddParticipantAsync(It.IsAny<AdditionalPersonProjectParticipant>()), Times.Once());
         }
 
@@ -177,12 +177,12 @@ namespace ECA.WebApi.Test.Controllers.Projects
         public async Task TestPostAddOrganizationParticipantAsync()
         {
             userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(0));
-            service.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
+            service.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
             var model = new AdditionalOrganizationProjectPariticipantBindingModel();
             model.ParticipantTypeId = ParticipantType.Individual.Id;
             var response = await controller.PostAddOrganizationParticipantAsync(model);
             Assert.IsInstanceOfType(response, typeof(OkResult));
-            service.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
+            service.Verify(x => x.SaveChangesAsync(), Times.Once());
             service.Verify(x => x.AddParticipantAsync(It.IsAny<AdditionalOrganizationProjectParticipant>()), Times.Once());
         }
 

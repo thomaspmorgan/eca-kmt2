@@ -129,11 +129,10 @@ namespace ECA.WebApi.Security
         /// <summary>
         /// Saves the changes made via this handler.
         /// </summary>
-        /// <param name="saveActions">The save actions.</param>
         /// <returns>The underlying context results.</returns>
-        public int SaveChanges(IList<ISaveAction> saveActions = null)
+        public int SaveChanges()
         {
-            var result = principalService.SaveChanges(saveActions);
+            var result = principalService.SaveChanges();
             logger.Info("Successfully saved changes to principal service.");
             return result;
         }
@@ -141,11 +140,10 @@ namespace ECA.WebApi.Security
         /// <summary>
         /// Saves the changes made via this handler.
         /// </summary>
-        /// <param name="saveActions">The save actions.</param>
         /// <returns>The underlying context results.</returns>
-        public async Task<int> SaveChangesAsync(IList<ISaveAction> saveActions = null)
+        public async Task<int> SaveChangesAsync()
         {
-            var result = await principalService.SaveChangesAsync(saveActions);
+            var result = await principalService.SaveChangesAsync();
             logger.Info("Successfully saved changes to principal service.");
             return result;
         }
