@@ -516,12 +516,78 @@ namespace CAM.Business.Service
 
         public void OnUpdated(IList<IPermissable> updatedEntities)
         {
-            
+            foreach (var updatedEntity in updatedEntities.ToList())
+            {
+                OnUpdated(updatedEntity);
+            }
         }
 
-        public Task OnUpdatedAsync(IList<IPermissable> updatedEntities)
+        public async Task OnUpdatedAsync(IList<IPermissable> updatedEntities)
         {
+            foreach (var updatedEntity in updatedEntities.ToList())
+            {
+                await OnUpdatedAsync(updatedEntity);
+            }
+        }
+
+        public async Task OnUpdatedAsync(IPermissable updatedEntity)
+        {
+            var resource = await ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, updatedEntity.GetId(), updatedEntity.GetPermissableType().GetResourceTypeId()).FirstOrDefaultAsync();
+            Resource parentResource = null;
+            if (updatedEntity.GetParentId().HasValue)
+            {
+                parentResource = await ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, updatedEntity.GetParentId().Value, updatedEntity.GetParentPermissableType().GetResourceTypeId()).FirstOrDefaultAsync();
+            }
+
+            DoUpdate(updatedEntity, resource, parentResource);
+        }
+
+        public void OnUpdated(IPermissable updatedEntity)
+        {
+            var resource = ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, updatedEntity.GetId(), updatedEntity.GetPermissableType().GetResourceTypeId()).FirstOrDefault();
+            Resource parentResource = null;
+            if (updatedEntity.GetParentId().HasValue)
+            {
+                parentResource = ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, updatedEntity.GetParentId().Value, updatedEntity.GetParentPermissableType().GetResourceTypeId()).FirstOrDefault();
+            }
             
+            DoUpdate(updatedEntity, resource, parentResource);
+        }
+
+        private bool DoUpdate(IPermissable updatedEntity, Resource resourceToUpdate, Resource parentResource)
+        {
+            if (resourceToUpdate == null)
+            {
+                throw new ModelNotFoundException(String.Format("The resource with foreign id [{0}] and resource type id [{1}] was not found.", 
+                    updatedEntity.GetId(), 
+                    updatedEntity.GetPermissableType().GetResourceTypeId()));
+            }
+            var saveChangesRequired = false;
+            if (resourceToUpdate.ResourceId != parentResource.ResourceId)
+            {
+                saveChangesRequired = true;
+                resourceToUpdate.ParentResource = parentResource;
+                resourceToUpdate.ParentResourceId = parentResource.ResourceId;
+                RemoveFromCache(resourceToUpdate);
+                RemoveFromCache(parentResource);
+
+            }
+            if (updatedEntity.GetPermissableType().GetResourceTypeId() != resourceToUpdate.ResourceTypeId)
+            {
+                saveChangesRequired = true;
+                resourceToUpdate.ResourceTypeId = updatedEntity.GetPermissableType().GetResourceTypeId();
+                RemoveFromCache(updatedEntity);
+            }
+            
+            return saveChangesRequired;
+        }
+
+        public void RemoveFromCache(Resource resource)
+        {
+            if (resource != null)
+            {
+                cache.Remove(GetKey(resource.ForeignResourceId, resource.ResourceTypeId));
+            }
         }
 
         public void RemoveFromCache(IPermissable permissable)
