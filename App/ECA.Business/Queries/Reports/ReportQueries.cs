@@ -76,6 +76,46 @@ namespace ECA.Business.Queries.Programs
                               });
             return result;
         }
-        
+
+
+        public static IQueryable<FocusAwardDTO> CreateGetFocusAward(EcaContext context, int programId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var result = (from m in context.MoneyFlows
+                          where m.RecipientProject.ProgramId == programId
+                          group m by new { Focus = m.RecipientProject.Categories.FirstOrDefault().Focus.FocusName}
+                              into grp
+                              orderby grp.Key.Focus
+                              select new FocusAwardDTO
+                              {
+                                  Focus = grp.Key.Focus,
+                                  Projects = grp.Count(),
+                                  ProgramValue = grp.Where(m => m.SourceProgramId == programId).Sum(m => m.Value),
+                                  OtherValue = grp.Where(m => m.SourceProgramId == null || m.SourceProgramId != programId).Sum(m => m.Value),
+                                  Average = grp.Average(m => m.Value)
+                              });
+            return result;
+        }
+
+
+        public static IQueryable<FocusCategoryAwardDTO> CreateGetFocusCategoryAward(EcaContext context, int programId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var result = (from m in context.MoneyFlows
+                          where m.RecipientProject.ProgramId == programId
+                          group m by new { Focus = m.RecipientProject.Categories.FirstOrDefault().Focus.FocusName, Category = m.RecipientProject.Categories.FirstOrDefault().CategoryName }
+                              into grp
+                              orderby grp.Key.Focus, grp.Key.Category
+                              select new FocusCategoryAwardDTO
+                              {
+                                  Focus = grp.Key.Focus,
+                                  Category = grp.Key.Category,
+                                  Projects = grp.Count(),
+                                  ProgramValue = grp.Where(m => m.SourceProgramId == programId).Sum(m => m.Value),
+                                  OtherValue = grp.Where(m => m.SourceProgramId == null || m.SourceProgramId != programId).Sum(m => m.Value),
+                                  Average = grp.Average(m => m.Value)
+                              });
+            return result;
+        }
     }
 }

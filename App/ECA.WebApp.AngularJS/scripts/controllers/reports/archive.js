@@ -14,7 +14,9 @@ angular.module('staticApp')
       $scope.reports = [
           { Title: "Project Awards", Published: "4/28/2015", Author: "Tom Morgan", Clearance: "Cleared By Office" },
           { Title: "Region Awards", Published: "6/22/2015", Author: "Tom Morgan", Clearance: "Cleared By Office" },
-          { Title: "Post Awards", Published: "6/22/2015", Author: "Tom Morgan", Clearance: "Cleared By Office" }
+          { Title: "Post Awards", Published: "6/22/2015", Author: "Tom Morgan", Clearance: "Cleared By Office" },
+          { Title: "Focus Awards", Published: "6/23/2015", Author: "Tom Morgan", Clearance: "Cleared By Office" },
+          { Title: "Focus-Category Awards", Published: "6/23/2015", Author: "Tom Morgan", Clearance: "Cleared By Office" }
       ]
       $scope.parameters = [];
       $scope.currentpage = $stateParams.page || 1;
@@ -95,6 +97,14 @@ angular.module('staticApp')
           else if (title == 'Post Awards') {
               var template = "/views/reports/postAwards.html";
               var controller = "PostAwardsCtrl";
+          }
+          else if (title == 'Focus Awards') {
+              var template = "/views/reports/focusAwards.html";
+              var controller = "FocusAwardsCtrl";
+          }
+          else if (title == 'Focus-Category Awards') {
+              var template = "/views/reports/focusCategoryAwards.html";
+              var controller = "FocusCategoryAwardsCtrl";
           }
           else
           {

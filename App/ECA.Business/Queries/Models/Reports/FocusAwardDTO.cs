@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Queries.Models.Reports
 {
-    public class PostAwardDTO
+    public class FocusAwardDTO
     {
-        public string Post { get; set; } 
-        public string Region { get; set; }
+        public string Focus { get; set; }
         public float? ProgramValue { get; set; }
         public float? OtherValue { get; set; }
         public int? Projects { get; set; }
