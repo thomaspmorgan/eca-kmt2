@@ -291,6 +291,11 @@ angular
             url: '/impact',
             templateUrl: 'views/program/impact.html'
         })
+        .state('programs.collaborators', {
+            url: '/collaborators',
+            templateUrl: 'views/program/collaborators.html',
+            controller: 'ProgramCollaboratorsCtrl'
+        })
 
         .state('projects', {
             url: '/offices/:officeId/programs/:programId/project/:projectId',
