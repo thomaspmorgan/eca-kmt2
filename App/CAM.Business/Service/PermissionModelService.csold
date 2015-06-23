@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CAM.Business.Service
 {
-    public class PermissionModelService : DbContextService<CamModel>, CAM.Business.Service.IPermissionModelService
+    public class PermissionModelService : DbContextService<CamModel>, CAM.Business.Service.IPermissionService
     {
         private readonly ILogger logger = new LoggerAdapter(NLog.LogManager.GetCurrentClassLogger());
 
@@ -196,25 +196,25 @@ namespace CAM.Business.Service
 
         #endregion
 
-        #region Private Methods
+        //#region Private Methods
 
-        private class ResultsComparer : IEqualityComparer<PermissionModel>
-        {
+        //private class ResultsComparer : IEqualityComparer<PermissionModel>
+        //{
 
-            public int GetHashCode(PermissionModel obj)
-            {
-                return obj.PermissionId + (int)obj.ApplicationId;
-            }
+        //    public int GetHashCode(PermissionModel obj)
+        //    {
+        //        return obj.PermissionId + (int)obj.ApplicationId;
+        //    }
 
-            public bool Equals(PermissionModel x, PermissionModel y)
-            {
-                if (x.PermissionId == y.PermissionId && x.ApplicationId == y.ApplicationId)
-                    return true;
-                return false;
-            }
-        }
+        //    public bool Equals(PermissionModel x, PermissionModel y)
+        //    {
+        //        if (x.PermissionId == y.PermissionId && x.ApplicationId == y.ApplicationId)
+        //            return true;
+        //        return false;
+        //    }
+        //}
 
-        #endregion
+        //#endregion
 
 
 

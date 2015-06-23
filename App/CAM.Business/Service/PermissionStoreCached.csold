@@ -21,7 +21,7 @@ namespace CAM.Business.Service
         /// <summary>
         /// Instantiates the PermissionsStore and loads a cached version of the PermissionLookups
         /// </summary>
-        public PermissionStoreCached(CamModel model, IPermissionModelService permissionModelService, IResourceService resourceService)
+        public PermissionStoreCached(CamModel model, IPermissionService permissionModelService, IResourceService resourceService)
             : base(model, permissionModelService, resourceService)
         {
             ResourceId = null;

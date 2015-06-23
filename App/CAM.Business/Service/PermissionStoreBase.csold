@@ -20,7 +20,7 @@ namespace CAM.Business.Service
         private readonly ILogger logger = new LoggerAdapter(NLog.LogManager.GetCurrentClassLogger());
 
 
-        public PermissionStoreBase(CamModel camModel, IPermissionModelService permissionModelService, IResourceService resourceService)
+        public PermissionStoreBase(CamModel camModel, IPermissionService permissionModelService, IResourceService resourceService)
             : base(camModel)
         {
             Contract.Requires(permissionModelService != null, "The permission model service must not be null.");
@@ -32,7 +32,7 @@ namespace CAM.Business.Service
         /// <summary>
         /// Gets the permission model service.
         /// </summary>
-        public IPermissionModelService PermissionModelService { get; private set; }
+        public IPermissionService PermissionModelService { get; private set; }
 
         /// <summary>
         /// Gets the Resource Service.

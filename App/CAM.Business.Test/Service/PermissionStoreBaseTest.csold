@@ -12,7 +12,7 @@ namespace CAM.Business.Test.Service
 {
     public class SimplePermissionStore : PermissionStoreBase
     {
-        public SimplePermissionStore(CamModel context, IPermissionModelService permissionModelService, IResourceService resourceService)
+        public SimplePermissionStore(CamModel context, IPermissionService permissionModelService, IResourceService resourceService)
             : base(context, permissionModelService, resourceService)
         {
 
@@ -32,7 +32,7 @@ namespace CAM.Business.Test.Service
     [TestClass]
     public class PermissionStoreBaseTest
     {
-        private Mock<IPermissionModelService> permissionModelService;
+        private Mock<IPermissionService> permissionModelService;
         private Mock<IResourceService> resourceService;
         private SimplePermissionStore store;
         private InMemoryCamModel context;
@@ -41,7 +41,7 @@ namespace CAM.Business.Test.Service
         public void TestInit()
         {
             resourceService = new Mock<IResourceService>();
-            permissionModelService = new Mock<IPermissionModelService>();
+            permissionModelService = new Mock<IPermissionService>();
             context = new InMemoryCamModel();
             store = new SimplePermissionStore(context, permissionModelService.Object, resourceService.Object);
         }

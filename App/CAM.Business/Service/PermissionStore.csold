@@ -20,7 +20,7 @@ namespace CAM.Business.Service
         /// <summary>
         /// Instantiates the PermissionsStore
         /// </summary>
-        public PermissionStore(CamModel model, IPermissionModelService permissionModelService, IResourceService resourceService)
+        public PermissionStore(CamModel model, IPermissionService permissionModelService, IResourceService resourceService)
             : base(model, permissionModelService, resourceService)
         {
             ResourceId = null;

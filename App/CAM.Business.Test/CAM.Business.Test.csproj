@@ -81,12 +81,13 @@
     <Compile Include="Model\RevokedPermissionTest.cs" />
     <Compile Include="Model\GrantedPermissionTest.cs" />
     <Compile Include="Queries\ResourceQueriesTest.cs" />
-    <Compile Include="Service.PermissionStore.cs" />
+    <None Include="Service.PermissionStore.csold" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\ForeignResourceCacheTest.cs" />
     <Compile Include="Service\PermissableTypeExtensionsTest.cs" />
-    <Compile Include="Service\PermissionModelServiceTest.cs" />
-    <Compile Include="Service\PermissionStoreBaseTest.cs" />
+    <None Include="Service\PermissionModelServiceTest.csold" />
+    <Compile Include="Service\PermissionServiceTest.cs" />
+    <None Include="Service\PermissionStoreBaseTest.csold" />
     <Compile Include="Service\PrincipalServiceTest.cs" />
     <Compile Include="Service\ResourceServiceTest.cs" />
     <Compile Include="Service\UserServiceTest.cs" />

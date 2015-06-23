@@ -137,7 +137,7 @@ namespace ECA.WebApi.Controllers.Security
             {
                 var resource = await this.resourceService.GetResourceByForeignResourceIdAsync(id, resourceTypeId.Value);
                 if (resource != null)
-                {
+                {   
                     (await this.provider.GetPermissionsAsync(user))
                         .Where(x => x.IsAllowed
                         && x.PrincipalId == principalId
