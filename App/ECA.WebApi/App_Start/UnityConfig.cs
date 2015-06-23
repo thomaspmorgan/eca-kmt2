@@ -128,9 +128,7 @@ namespace ECA.WebApi
             container.RegisterType<IPrincipalService, PrincipalService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPermissableService, ResourceService>(new HierarchicalLifetimeManager());
 
-            container.RegisterType<IPermissionModelService, PermissionModelService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IPermissionStore<IPermission>, PermissionStore>(
-                new InjectionConstructor(new ResolvedParameter<CamModel>(), new ResolvedParameter<IPermissionModelService>(), new ResolvedParameter<IResourceService>()));
+            container.RegisterType<IPermissionService, PermissionService>(new HierarchicalLifetimeManager());
             container.RegisterType<IUserProvider, BearerTokenUserProvider>(new HierarchicalLifetimeManager());
             container.RegisterType<ObjectCache>(new InjectionFactory((c) =>
             {

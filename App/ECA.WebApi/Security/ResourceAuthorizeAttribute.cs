@@ -55,11 +55,11 @@ namespace ECA.WebApi.Security
             }
         }
 
-        private static Func<HttpRequestMessage, IPermissionStore<IPermission>> permissionLookupFactory;
+        private static Func<HttpRequestMessage, IPermissionService> permissionLookupFactory;
         /// <summary>
-        /// A Function to return a permission store.
+        /// A Function to return a permission service.
         /// </summary>
-        public static Func<HttpRequestMessage, IPermissionStore<IPermission>> PermissionLookupFactory
+        public static Func<HttpRequestMessage, IPermissionService> PermissionServiceFactory
         {
             get
             {
@@ -67,7 +67,7 @@ namespace ECA.WebApi.Security
                 {
                     permissionLookupFactory = (msg) =>
                     {
-                        return (IPermissionStore<IPermission>)msg.GetDependencyScope().GetService(typeof(IPermissionStore<IPermission>));
+                        return (IPermissionService)msg.GetDependencyScope().GetService(typeof(IPermissionService));
                     };
                 }
                 return permissionLookupFactory;
@@ -186,7 +186,7 @@ namespace ECA.WebApi.Security
         /// <returns></returns>
         public override async Task OnActionExecutingAsync(System.Web.Http.Controllers.HttpActionContext actionContext, System.Threading.CancellationToken cancellationToken)
         {
-            var permissionStore = PermissionLookupFactory(actionContext.Request);
+            var permissionService = PermissionServiceFactory(actionContext.Request);
             var userProvider = UserProviderFactory(actionContext.Request);
             var resourceService = ResourceServiceFactory(actionContext.Request);
 
@@ -204,6 +204,8 @@ namespace ECA.WebApi.Security
             var principalId = await userProvider.GetPrincipalIdAsync(currentUser);
             Contract.Assert(userPermissions != null, "The user permissions must not be null.");
             var permissionName = this.Permission.PermissionName;
+            var permission = await permissionService.GetPermissionByNameAsync(permissionName);
+            var permissionId = permission.Id;
             var resourceTypeName = this.Permission.ResourceType;
             var foreignResourceId = this.Permission.GetResourceId(actionArguments);
 
@@ -221,10 +223,7 @@ namespace ECA.WebApi.Security
             }
             else
             {
-                permissionStore.ResourceId = resource.ResourceId;
-                permissionStore.PrincipalId = principalId;
-                permissionStore.Permissions = userPermissions;
-                var hasPermission = permissionStore.HasPermission(permissionName);
+                var hasPermission = permissionService.HasPermission(resource.ResourceId, resource.ParentResourceId, permissionId, userPermissions);
                 if (!hasPermission)
                 {
                     this.logger.Info("User [{0}] denied access to resource [{1}] with foreign key of [{2}] because the user does not have the [{3}] permission.",

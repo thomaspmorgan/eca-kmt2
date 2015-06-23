@@ -21,25 +21,25 @@ namespace ECA.WebApi.Security
 
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private IUserCacheService cacheService;
-        private IPermissionStore<IPermission> permissionStore;
+        private IPermissionService permissionService;
         private IUserService userService;
 
         /// <summary>
         /// Creates a new BearerTokenUserProvider instance with the given logger instance.
         /// </summary>
         /// <param name="cacheService">The user cache service.</param>
-        /// <param name="permissionStore">The permission store.</param>
+        /// <param name="permissionService">The permission store.</param>
         /// <param name="userService">The user service.</param>
         public BearerTokenUserProvider(
             IUserService userService,
             IUserCacheService cacheService,
-            IPermissionStore<IPermission> permissionStore)
+            IPermissionService permissionService)
         {
             Contract.Requires(cacheService != null, "The cache service must not be null.");
-            Contract.Requires(permissionStore != null, "The permissionStore must not be null.");
+            Contract.Requires(permissionService != null, "The permissionStore must not be null.");
             Contract.Requires(userService != null, "The user service must not be null.");
             this.cacheService = cacheService;
-            this.permissionStore = permissionStore;
+            this.permissionService = permissionService;
             this.userService = userService;
         }
 
@@ -223,16 +223,14 @@ namespace ECA.WebApi.Security
 
         private async Task<IEnumerable<IPermission>> GetUserPermissionsAsync(int principalId)
         {
-            await this.permissionStore.LoadUserPermissionsAsync(principalId);
-            var permissions = this.permissionStore.Permissions;
+            var permissions = await this.permissionService.GetAllowedPermissionsByPrincipalIdAsync(principalId);
             logger.Trace("Retrieved user with principal id [{0}] permissions.", principalId);
             return permissions;
         }
 
         private IEnumerable<IPermission> GetUserPermissions(int principalId)
         {
-            this.permissionStore.LoadUserPermissions(principalId);
-            var permissions = this.permissionStore.Permissions;
+            var permissions = this.permissionService.GetAllowedPermissionsByPrincipalId(principalId);
             logger.Trace("Retrieved user with principal id [{0}] permissions.", principalId);
             return permissions;
         }
@@ -337,10 +335,10 @@ namespace ECA.WebApi.Security
                     ((IDisposable)this.userService).Dispose();
                     this.userService = null;
                 }
-                if (this.permissionStore != null && this.permissionStore is IDisposable)
+                if (this.permissionService != null && this.permissionService is IDisposable)
                 {
-                    ((IDisposable)this.permissionStore).Dispose();
-                    this.permissionStore = null;
+                    ((IDisposable)this.permissionService).Dispose();
+                    this.permissionService = null;
                 }
                 if (this.cacheService != null && this.cacheService is IDisposable)
                 {

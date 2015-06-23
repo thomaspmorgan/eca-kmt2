@@ -8,6 +8,12 @@ namespace CAM.Business.Service
         PermissionModel GetPermissionByName(string permissionName);
         Task<PermissionModel> GetPermissionByNameAsync(string permissionName);
         PermissionModel GetPermissionById(int id);
-        PermissionModel GetPermissionByIdAsync(int id);
+        Task<PermissionModel> GetPermissionByIdAsync(int id);
+
+        List<IPermission> GetAllowedPermissionsByPrincipalId(int principalId);
+
+        Task<List<IPermission>> GetAllowedPermissionsByPrincipalIdAsync(int principalId);
+
+        bool HasPermission(int resourceId, int? parentResourceId, int permissionId, List<IPermission> grantedPermissions);
     }
 }

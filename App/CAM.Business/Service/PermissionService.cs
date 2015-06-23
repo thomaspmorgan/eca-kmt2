@@ -13,7 +13,7 @@ using CAM.Business.Queries;
 
 namespace CAM.Business.Service
 {
-    public class PermissionService : DbContextService<CamModel>//, IPermissionModelService
+    public class PermissionService : DbContextService<CamModel>, IPermissionService
     {
         /// <summary>
         /// The format string for the permission model key in the cache.

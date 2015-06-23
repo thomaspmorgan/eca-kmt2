@@ -25,29 +25,29 @@ namespace ECA.WebApi.Controllers.Security
         private IUserProvider provider;
         private IUserService userService;
         private IResourceService resourceService;
-        private IPermissionModelService permissionModelService;
+        private IPermissionService permissionService;
 
         /// <summary>
         /// The AuthController provides user authentication and authorization details.
         /// </summary>
         /// <param name="provider">The user provider.</param>
         /// <param name="userService">The user service.</param>
-        /// <param name="permissionModelService">The permission model service.</param>
+        /// <param name="permissionService">The permission service.</param>
         /// <param name="resourceService">The resource service.</param>
         public AuthController(
             IUserProvider provider, 
             IUserService userService, 
             IResourceService resourceService,
-            IPermissionModelService permissionModelService)
+            IPermissionService permissionService)
         {
             Contract.Requires(provider != null, "The provider must not be null.");
             Contract.Requires(userService != null, "The user service must not be null.");
             Contract.Requires(resourceService != null, "The resource service must not be null.");
-            Contract.Requires(permissionModelService != null, "The permission model service must not be null.");
+            Contract.Requires(permissionService != null, "The permission model service must not be null.");
             this.provider = provider;
             this.userService = userService;
             this.resourceService = resourceService;
-            this.permissionModelService = permissionModelService;
+            this.permissionService = permissionService;
         }
 
         /// <summary>
@@ -138,20 +138,20 @@ namespace ECA.WebApi.Controllers.Security
                 var resource = await this.resourceService.GetResourceByForeignResourceIdAsync(id, resourceTypeId.Value);
                 if (resource != null)
                 {   
-                    (await this.provider.GetPermissionsAsync(user))
+                    var userPermissions = (await this.provider.GetPermissionsAsync(user))
                         .Where(x => x.IsAllowed
                         && x.PrincipalId == principalId
                         && x.ResourceId == resource.ResourceId)
-                        .ToList()
-                        .ForEach((p) =>
+                        .ToList();
+                    foreach (var p in userPermissions)
+                    {
+                        var permissionModel = await this.permissionService.GetPermissionByIdAsync(p.PermissionId);
+                        models.Add(new ResourcePermissionViewModel
                         {
-                            var permissionName = this.permissionModelService.GetPermissionNameById(p.PermissionId);
-                            models.Add(new ResourcePermissionViewModel
-                            {
-                                PermissionName = permissionName,
-                                PermissionId = p.PermissionId
-                            });
+                            PermissionName = permissionModel.Name,
+                            PermissionId = p.PermissionId
                         });
+                    }
                 }
             }
             return models;

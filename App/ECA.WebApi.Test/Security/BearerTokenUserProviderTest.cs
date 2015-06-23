@@ -22,7 +22,7 @@ namespace ECA.WebApi.Test.Security
     public class BearerTokenUserProviderTest
     {
         private Mock<IUserCacheService> cacheService;
-        private Mock<IPermissionStore<IPermission>> permissionStore;
+        private Mock<IPermissionService> permissionService;
         private Mock<IUserService> userService;
 
 
@@ -30,7 +30,7 @@ namespace ECA.WebApi.Test.Security
         public void TestInit()
         {
             cacheService = new Mock<IUserCacheService>();
-            permissionStore = new Mock<IPermissionStore<IPermission>>();
+            permissionService = new Mock<IPermissionService>();
             userService = new Mock<IUserService>();
             HttpContext.Current = new HttpContext(
                 new HttpRequest("", "http://localhost", ""),
@@ -41,7 +41,7 @@ namespace ECA.WebApi.Test.Security
         [TestMethod]
         public void TestGetCurrentUser_NoCurrentUser()
         {
-            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionStore.Object);
+            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
             var user = provider.GetCurrentUser();
             Assert.IsInstanceOfType(user, typeof(AnonymousUser));
         }
@@ -50,7 +50,7 @@ namespace ECA.WebApi.Test.Security
         public void TestGetCurrentUser_HasCurrentUser()
         {
             var debugUser = SetDebugUser();
-            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionStore.Object);
+            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
             var user = provider.GetCurrentUser();
             Assert.IsInstanceOfType(user, typeof(WebApiUser));
             Assert.AreEqual(debugUser.Id, user.Id);
@@ -73,7 +73,7 @@ namespace ECA.WebApi.Test.Security
             cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(true);
             cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(userCache);
 
-            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionStore.Object);
+            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
             Action<ECA.Business.Service.User> tester = (testUser) =>
             {
                 Assert.AreEqual(camId, testUser.Id);
@@ -101,7 +101,7 @@ namespace ECA.WebApi.Test.Security
             cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(true);
             cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(userCache);
 
-            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionStore.Object);
+            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
             Action<IEnumerable<IPermission>> tester = (testPermissions) =>
             {
                 Assert.IsTrue(Object.ReferenceEquals(permissions, testPermissions));
@@ -133,7 +133,7 @@ namespace ECA.WebApi.Test.Security
             {
                 Assert.IsTrue(Object.ReferenceEquals(userCache, testCache));
             };
-            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionStore.Object);
+            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
             tester(provider.GetUserCache(user));
             tester(await provider.GetUserCacheAsync(user));
         }
@@ -155,7 +155,7 @@ namespace ECA.WebApi.Test.Security
             var userCache = new UserCache(user, camUser, isUserValid, permissions);
             cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(false);
             cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(userCache);
-            permissionStore.SetupProperty(x => x.Permissions, permissions);
+            permissionService.Setup(x => x.GetAllowedPermissionsByPrincipalIdAsync(It.IsAny<int>())).ReturnsAsync(permissions);
             userService.Setup(x => x.GetUserById(It.IsAny<Guid>())).Returns(camUser);
             userService.Setup(x => x.GetUserByIdAsync(It.IsAny<Guid>())).ReturnsAsync(camUser);
             userService.Setup(x => x.IsUserValid(It.IsAny<Guid>())).Returns(isUserValid);
@@ -165,12 +165,12 @@ namespace ECA.WebApi.Test.Security
             {
                 Assert.IsTrue(Object.ReferenceEquals(userCache, testCache));
             };
-            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionStore.Object);
+            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
             tester(provider.GetUserCache(user));
             tester(await provider.GetUserCacheAsync(user));
-
-            permissionStore.Verify(x => x.LoadUserPermissionsAsync(It.IsAny<int>()), Times.Exactly(1));
-            permissionStore.Verify(x => x.LoadUserPermissions(It.IsAny<int>()), Times.Exactly(1));
+            
+            permissionService.Verify(x => x.GetAllowedPermissionsByPrincipalIdAsync(It.IsAny<int>()), Times.Exactly(1));
+            permissionService.Verify(x => x.GetAllowedPermissionsByPrincipalId(It.IsAny<int>()), Times.Exactly(1));
         }
 
         [TestMethod]
@@ -193,7 +193,7 @@ namespace ECA.WebApi.Test.Security
             cacheService.Setup(x => x.Add(It.IsAny<UserCache>())).Callback(userCacheSetter);
             cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(getUserCache);
 
-            permissionStore.SetupProperty(x => x.Permissions, permissions);
+            permissionService.Setup(x => x.GetAllowedPermissionsByPrincipalIdAsync(It.IsAny<int>())).ReturnsAsync(permissions);
 
             userService.Setup(x => x.GetUserById(It.IsAny<Guid>())).Returns(nullUser);
             userService.Setup(x => x.GetUserByIdAsync(It.IsAny<Guid>())).ReturnsAsync(nullUser);
@@ -205,12 +205,12 @@ namespace ECA.WebApi.Test.Security
                 Assert.AreEqual(0, testCache.Permissions.Count());
 
             };
-            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionStore.Object);
+            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
             var z = provider.GetUserCache(user);
             tester(provider.GetUserCache(user));
             tester(await provider.GetUserCacheAsync(user));
 
-            permissionStore.Verify(x => x.LoadUserPermissions(It.IsAny<int>()), Times.Exactly(0));
+            permissionService.Verify(x => x.GetAllowedPermissionsByPrincipalIdAsync(It.IsAny<int>()), Times.Exactly(0));
         }
 
         [TestMethod]
@@ -233,8 +233,8 @@ namespace ECA.WebApi.Test.Security
             userService.Setup(x => x.GetUserById(It.IsAny<Guid>())).Returns(camUser);
             userService.Setup(x => x.GetUserByIdAsync(It.IsAny<Guid>())).ReturnsAsync(camUser);
 
-            permissionStore.SetupProperty(x => x.Permissions, permissions);
-            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionStore.Object);
+            permissionService.Setup(x => x.GetAllowedPermissionsByPrincipalIdAsync(It.IsAny<int>())).ReturnsAsync(permissions);
+            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
 
             Action<bool> tester = (userValidatity) =>
             {
@@ -264,8 +264,8 @@ namespace ECA.WebApi.Test.Security
             userService.Setup(x => x.GetUserById(It.IsAny<Guid>())).Returns(camUser);
             userService.Setup(x => x.GetUserByIdAsync(It.IsAny<Guid>())).ReturnsAsync(camUser);
 
-            permissionStore.SetupProperty(x => x.Permissions, permissions);
-            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionStore.Object);
+            permissionService.Setup(x => x.GetAllowedPermissionsByPrincipalIdAsync(It.IsAny<int>())).ReturnsAsync(permissions);
+            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
 
             Action<bool> tester = (userValidatity) =>
             {
@@ -295,8 +295,8 @@ namespace ECA.WebApi.Test.Security
             userService.Setup(x => x.GetUserById(It.IsAny<Guid>())).Returns(camUser);
             userService.Setup(x => x.GetUserByIdAsync(It.IsAny<Guid>())).ReturnsAsync(camUser);
 
-            permissionStore.SetupProperty(x => x.Permissions, permissions);
-            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionStore.Object);
+            permissionService.Setup(x => x.GetAllowedPermissionsByPrincipalIdAsync(It.IsAny<int>())).ReturnsAsync(permissions);
+            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
 
             Action<int> tester = (testId) =>
             {
@@ -326,8 +326,8 @@ namespace ECA.WebApi.Test.Security
             cacheService.Setup(x => x.Remove(It.IsAny<IWebApiUser>()));
             cacheService.Setup(x => x.Remove(It.IsAny<Guid>()));
 
-            permissionStore.SetupProperty(x => x.Permissions, permissions);
-            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionStore.Object);
+            permissionService.Setup(x => x.GetAllowedPermissionsByPrincipalIdAsync(It.IsAny<int>())).ReturnsAsync(permissions);
+            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
             provider.Clear(user);
             cacheService.Verify(x => x.Remove(It.IsAny<IWebApiUser>()), Times.Never());
             cacheService.Verify(x => x.Remove(It.IsAny<Guid>()), Times.Once());
@@ -351,8 +351,8 @@ namespace ECA.WebApi.Test.Security
             cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(false);
             cacheService.Setup(x => x.Remove(It.IsAny<IWebApiUser>()));
 
-            permissionStore.SetupProperty(x => x.Permissions, permissions);
-            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionStore.Object);
+            permissionService.Setup(x => x.GetAllowedPermissionsByPrincipalIdAsync(It.IsAny<int>())).ReturnsAsync(permissions);
+            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
             provider.Clear(user);
             cacheService.Verify(x => x.Remove(It.IsAny<IWebApiUser>()), Times.Never());
         }
@@ -363,8 +363,8 @@ namespace ECA.WebApi.Test.Security
         {
             userService.As<IDisposable>();
             cacheService.As<IDisposable>();
-            permissionStore.As<IDisposable>();
-            var testService = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionStore.Object);
+            permissionService.As<IDisposable>();
+            var testService = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
 
             var serviceField = typeof(BearerTokenUserProvider).GetField("userService", BindingFlags.Instance | BindingFlags.NonPublic);
             var serviceValue = serviceField.GetValue(testService);
@@ -382,8 +382,8 @@ namespace ECA.WebApi.Test.Security
         {
             userService.As<IDisposable>();
             cacheService.As<IDisposable>();
-            permissionStore.As<IDisposable>();
-            var testService = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionStore.Object);
+            permissionService.As<IDisposable>();
+            var testService = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
 
             var serviceField = typeof(BearerTokenUserProvider).GetField("cacheService", BindingFlags.Instance | BindingFlags.NonPublic);
             var serviceValue = serviceField.GetValue(testService);
@@ -401,8 +401,8 @@ namespace ECA.WebApi.Test.Security
         {
             userService.As<IDisposable>();
             cacheService.As<IDisposable>();
-            permissionStore.As<IDisposable>();
-            var testService = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionStore.Object);
+            permissionService.As<IDisposable>();
+            var testService = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
 
             var storeField = typeof(BearerTokenUserProvider).GetField("permissionStore", BindingFlags.Instance | BindingFlags.NonPublic);
             var storeValue = storeField.GetValue(testService);
@@ -420,8 +420,8 @@ namespace ECA.WebApi.Test.Security
         {
             userService.As<IDisposable>();
             cacheService.As<IDisposable>();
-            permissionStore.As<IDisposable>();
-            var testService = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionStore.Object);
+            permissionService.As<IDisposable>();
+            var testService = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
             testService.Dispose();
             testService.Invoking(x => x.Dispose()).ShouldNotThrow();
         }

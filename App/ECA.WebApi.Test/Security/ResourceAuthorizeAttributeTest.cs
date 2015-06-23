@@ -20,14 +20,14 @@ namespace ECA.WebApi.Test.Security
     public class ResourceAuthorizeAttributeTest
     {
         private Mock<IUserProvider> userProvider;
-        private Mock<IPermissionStore<IPermission>> permissionStore;
+        private Mock<IPermissionService> permissionService;
         private Mock<IResourceService> resourceService;
 
         [TestInitialize]
         public void TestInit()
         {
             userProvider = new Mock<IUserProvider>();
-            permissionStore = new Mock<IPermissionStore<IPermission>>();
+            permissionService = new Mock<IPermissionService>();
             resourceService = new Mock<IResourceService>();
             ResourceAuthorizeAttribute.ResourceServiceFactory = (msg) =>
             {
@@ -37,9 +37,9 @@ namespace ECA.WebApi.Test.Security
             {
                 return userProvider.Object;
             };
-            ResourceAuthorizeAttribute.PermissionLookupFactory = (msg) =>
+            ResourceAuthorizeAttribute.PermissionServiceFactory = (msg) =>
             {
-                return permissionStore.Object;
+                return permissionService.Object;
             };
         }
 
@@ -124,7 +124,7 @@ namespace ECA.WebApi.Test.Security
             userProvider.Setup(x => x.IsUserValidAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(true);
             resourceService.Setup(x => x.GetResourceTypeId(It.IsAny<string>())).Returns(1);
             resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
-            permissionStore.Setup(x => x.HasPermission(It.IsAny<string>())).Returns(true);
+            permissionService.Setup(x => x.HasPermission(It.IsAny<int>(), It.IsAny<int?>(), It.IsAny<int>(), It.IsAny<List<IPermission>>())).Returns(true);
 
             var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, id);
             var actionContext = ContextUtil.CreateActionContext();
@@ -145,7 +145,7 @@ namespace ECA.WebApi.Test.Security
             var user = GetTestUser();
             userProvider.Setup(x => x.GetCurrentUser()).Returns(user);
             userProvider.Setup(x => x.IsUserValidAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(false);
-            permissionStore.Setup(x => x.HasPermission(It.IsAny<string>())).Returns(true);
+            permissionService.Setup(x => x.HasPermission(It.IsAny<int>(), It.IsAny<int?>(), It.IsAny<int>(), It.IsAny<List<IPermission>>())).Returns(true);
 
             var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, id);
             var actionContext = ContextUtil.CreateActionContext();
@@ -180,7 +180,7 @@ namespace ECA.WebApi.Test.Security
             userProvider.Setup(x => x.IsUserValidAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(true);
             resourceService.Setup(x => x.GetResourceTypeId(It.IsAny<string>())).Returns(1);
             resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
-            permissionStore.Setup(x => x.HasPermission(It.IsAny<string>())).Returns(false);
+            permissionService.Setup(x => x.HasPermission(It.IsAny<int>(), It.IsAny<int?>(), It.IsAny<int>(), It.IsAny<List<IPermission>>())).Returns(false);
 
             var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, id);
             try
@@ -216,7 +216,7 @@ namespace ECA.WebApi.Test.Security
             userProvider.Setup(x => x.GetCurrentUser()).Returns(user);
             resourceService.Setup(x => x.GetResourceTypeId(It.IsAny<string>())).Returns(default(int?));
             resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
-            permissionStore.Setup(x => x.HasPermission(It.IsAny<string>())).Returns(true);
+            permissionService.Setup(x => x.HasPermission(It.IsAny<int>(), It.IsAny<int?>(), It.IsAny<int>(), It.IsAny<List<IPermission>>())).Returns(true);
             userProvider.Setup(x => x.IsUserValidAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(true);
 
             var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, actionArgument);
@@ -253,7 +253,7 @@ namespace ECA.WebApi.Test.Security
             userProvider.Setup(x => x.GetCurrentUser()).Returns(user);
             resourceService.Setup(x => x.GetResourceTypeId(It.IsAny<string>())).Returns(1);
             resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(default(ForeignResourceCache));
-            permissionStore.Setup(x => x.HasPermission(It.IsAny<string>())).Returns(true);
+            permissionService.Setup(x => x.HasPermission(It.IsAny<int>(), It.IsAny<int?>(), It.IsAny<int>(), It.IsAny<List<IPermission>>())).Returns(true);
             userProvider.Setup(x => x.IsUserValidAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(true);
 
             var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, actionArgument);

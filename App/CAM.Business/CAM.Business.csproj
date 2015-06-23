@@ -79,7 +79,7 @@
     <Compile Include="Service\CacheManager.cs" />
     <Compile Include="Service\IAuditable.cs" />
     <Compile Include="Service\IPermission.cs" />
-    <Compile Include="Service\IPermissionStore.cs" />
+    <None Include="Service\IPermissionStore.csold" />
     <Compile Include="Service\PermissionModel.cs" />
     <None Include="Service\PermissionModelService.csold" />
     <None Include="Service\PermissionStore.csold" />
