@@ -213,18 +213,15 @@ namespace ECA.WebApi.Security
                 throw new NotSupportedException(String.Format("The resource type name [{0}] does not have a matching resource id in CAM.", resourceTypeName));
             }
 
-            var resourceId = await resourceService.GetResourceIdByForeignResourceIdAsync(foreignResourceId, resourceTypeId.Value);
-            if (!resourceId.HasValue || resourceId.Value == 0)
-            {
-                this.logger.Warn("User [{0}] granted access to resource of type [{1}] with foreign key of [{2}] because the object is NOT in the CAM resources.",
-                    currentUser.GetUsername(),
-                    resourceTypeName,
-                    foreignResourceId);
+            var resource = await resourceService.GetResourceByForeignResourceIdAsync(foreignResourceId, resourceTypeId.Value);
+            if (resource == null)
+            {                
                 SetAuthorizationResult(AuthorizationResult.ResourceDoesNotExist);
+                throw new HttpResponseException(HttpStatusCode.Forbidden);
             }
             else
             {
-                permissionStore.ResourceId = resourceId;
+                permissionStore.ResourceId = resource.ResourceId;
                 permissionStore.PrincipalId = principalId;
                 permissionStore.Permissions = userPermissions;
                 var hasPermission = permissionStore.HasPermission(permissionName);
@@ -239,11 +236,9 @@ namespace ECA.WebApi.Security
                     throw new HttpResponseException(HttpStatusCode.Forbidden);
                 }
             }
-            this.logger.Info("User [{0}] granted access to resource with id [{1}] with foreign key [{2}] of type [{3}] on web api action [{4}].[{5}].",
+            this.logger.Info("User [{0}] granted access to resource [{1}] on web api action [{2}].[{3}].",
                 currentUser.GetUsername(),
-                resourceId,
-                foreignResourceId,
-                resourceTypeName,
+                resource,
                 controllerName,
                 actionName);
             SetAuthorizationResult(AuthorizationResult.Allowed);
