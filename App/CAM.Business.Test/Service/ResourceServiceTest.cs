@@ -1032,7 +1032,49 @@ namespace CAM.Business.Test.Service
         }
 
         #region IPermissableService
+        [TestMethod]
+        public void TestRemoveFromCache()
+        {
+            var resourceType = new ResourceType
+            {
+                ResourceTypeId = ResourceType.Project.Id,
+                ResourceTypeName = ResourceType.Project.Value
+            };
+            var resource = new Resource
+            {
+                ResourceId = 1,
+                ForeignResourceId = 2,
+                ResourceTypeId = resourceType.ResourceTypeId,
+                ResourceType = resourceType
+            };
+            service.Add(resource.ForeignResourceId, resource.ResourceId, resourceType.ResourceTypeId, null, null, null);
+            Assert.AreEqual(1, cacheDictionary.Count);
+            service.RemoveFromCache(resource);
+            Assert.AreEqual(0, cacheDictionary.Count);
+        }
 
+        [TestMethod]
+        public void TestRemoveFromCache_NullResource()
+        {
+            var resourceType = new ResourceType
+            {
+                ResourceTypeId = ResourceType.Project.Id,
+                ResourceTypeName = ResourceType.Project.Value
+            };
+            var resource = new Resource
+            {
+                ResourceId = 1,
+                ForeignResourceId = 2,
+                ResourceTypeId = resourceType.ResourceTypeId,
+                ResourceType = resourceType
+            };
+            service.Add(resource.ForeignResourceId, resource.ResourceId, resourceType.ResourceTypeId, null, null, null);
+            Assert.AreEqual(1, cacheDictionary.Count);
+
+            Resource nullResource = null;
+            service.RemoveFromCache(nullResource);
+            Assert.AreEqual(1, cacheDictionary.Count);
+        }
 
         [TestMethod]
         public void TestRemoveFromCache_HasParent()
@@ -1114,7 +1156,7 @@ namespace CAM.Business.Test.Service
                 cacheDictionary.Clear();
             });
 
-            Action tester = () =>
+            Action<bool> tester = (isAsync) =>
             {
                 Assert.AreEqual(2, context.Resources.Count());
                 var parent = context.Resources.Where(x => x.ForeignResourceId == parentId).First();
@@ -1127,14 +1169,23 @@ namespace CAM.Business.Test.Service
                 Assert.AreEqual(PermissableType.Project.GetResourceTypeId(), child.ResourceTypeId);
 
                 Assert.AreEqual(0, cacheDictionary.Count);
+                if (isAsync)
+                {
+                    Assert.AreEqual(1, context.SaveChangesAsyncCount);
+                }
+                else
+                {
+                    Assert.AreEqual(1, context.SaveChangesCount);
+                }
+
             };
             context.Revert();
             service.OnAdded(list);
-            tester();
+            tester(false);
 
             context.Revert();
             await service.OnAddedAsync(list);
-            tester();
+            tester(true);
         }
 
         [TestMethod]
@@ -1175,7 +1226,7 @@ namespace CAM.Business.Test.Service
                 Assert.AreEqual(1, context.ResourceTypes.Count());
             });
 
-            Action tester = () =>
+            Action<bool> tester = (isAsync) =>
             {
                 Assert.AreEqual(2, context.Resources.Count());
                 var parent = context.Resources.Where(x => x.ForeignResourceId == parentId).First();
@@ -1188,14 +1239,22 @@ namespace CAM.Business.Test.Service
                 Assert.AreEqual(PermissableType.Project.GetResourceTypeId(), child.ResourceTypeId);
                 Assert.AreEqual(parentResource.ResourceId, child.ParentResourceId);
                 Assert.IsTrue(Object.ReferenceEquals(parentResource, child.ParentResource));
+                if (isAsync)
+                {
+                    Assert.AreEqual(1, context.SaveChangesAsyncCount);
+                }
+                else
+                {
+                    Assert.AreEqual(1, context.SaveChangesCount);
+                }
             };
             context.Revert();
             service.OnAdded(list);
-            tester();
+            tester(false);
 
             context.Revert();
             await service.OnAddedAsync(list);
-            tester();
+            tester(true);
         }
 
         [TestMethod]
@@ -1216,7 +1275,7 @@ namespace CAM.Business.Test.Service
                 cacheDictionary.Clear();
             });
 
-            Action tester = () =>
+            Action<bool> tester = (isAsync) =>
             {
                 Assert.AreEqual(1, context.Resources.Count());
                 var resource = context.Resources.First();
@@ -1225,14 +1284,22 @@ namespace CAM.Business.Test.Service
                 Assert.AreEqual(PermissableType.Project.GetResourceTypeId(), resource.ResourceTypeId);
 
                 Assert.AreEqual(0, cacheDictionary.Count);
+                if (isAsync)
+                {
+                    Assert.AreEqual(1, context.SaveChangesAsyncCount);
+                }
+                else
+                {
+                    Assert.AreEqual(1, context.SaveChangesCount);
+                }
             };
 
             service.OnAdded(list);
-            tester();
+            tester(false);
 
             context.Revert();
             await service.OnAddedAsync(list);
-            tester();
+            tester(true);
         }
 
         [TestMethod]
@@ -1303,6 +1370,260 @@ namespace CAM.Business.Test.Service
             Assert.AreEqual(2, cacheDictionary.Count);
             await service.OnAddedAsync(list);
             tester();
+        }
+
+        [TestMethod]
+        public async Task TestOnUpdated_HasParent()
+        {
+            var childResourceId = 1;
+            var parentResourceId = 2;
+            var targetParentResourceId = 3;
+
+            var childForeignResourceId = 1;
+            var targetForeignResourceId = 2;
+            var parentForeignResourceId = 3;
+            context.SetupActions.Add(() =>
+            {
+                var programType = new ResourceType
+                {
+                    ResourceTypeId = ResourceType.Program.Id,
+                    ResourceTypeName = ResourceType.Program.Value
+                };
+                var projectType = new ResourceType
+                {
+                    ResourceTypeId = ResourceType.Project.Id,
+                    ResourceTypeName = ResourceType.Project.Value
+                };
+                var officeType = new ResourceType
+                {
+                    ResourceTypeId = ResourceType.Office.Id,
+                    ResourceTypeName = ResourceType.Office.Value
+                };
+                var applicationType = new ResourceType
+                {
+                    ResourceTypeId = ResourceType.Application.Id,
+                    ResourceTypeName = ResourceType.Application.Value
+                };
+                var parentResource = new Resource
+                {
+                    ResourceId = parentResourceId,
+                    ResourceTypeId = programType.ResourceTypeId,
+                    ResourceType = programType,
+                    ForeignResourceId = parentForeignResourceId,
+                };
+                var resource = new Resource
+                {
+                    ResourceId = childResourceId,
+                    ResourceTypeId = projectType.ResourceTypeId,
+                    ResourceType = projectType,
+                    ForeignResourceId = childForeignResourceId,
+                };
+                var targetParentResource = new Resource
+                {
+                    ResourceId = targetParentResourceId,
+                    ResourceType = officeType,
+                    ResourceTypeId = officeType.ResourceTypeId,
+                    ForeignResourceId = targetForeignResourceId
+                };
+                parentResource.ChildResources.Add(resource);
+                resource.ParentResource = parentResource;
+                resource.ParentResourceId = parentResource.ResourceId;
+                context.Resources.Add(parentResource);
+                context.Resources.Add(resource);
+                context.Resources.Add(targetParentResource);
+                context.ResourceTypes.Add(programType);
+                context.ResourceTypes.Add(projectType);
+                context.ResourceTypes.Add(officeType);
+                context.ResourceTypes.Add(applicationType);
+                cacheDictionary.Clear();
+                cacheDictionary.Add(service.GetKey(resource.ForeignResourceId, resource.ResourceTypeId), 1);
+                cacheDictionary.Add(service.GetKey(parentResource.ForeignResourceId, parentResource.ResourceTypeId), 1);
+                cacheDictionary.Add(service.GetKey(targetParentResource.ForeignResourceId, targetParentResource.ResourceTypeId), 1);
+            });
+            Action<bool> tester = (isAsync) =>
+            {
+                Assert.AreEqual(0, cacheDictionary.Count);
+                Assert.AreEqual(3, context.Resources.Count());
+                var updatedChildResource = context.Resources.Where(x => x.ResourceId == childResourceId).First();
+                Assert.AreEqual(targetParentResourceId, updatedChildResource.ParentResourceId);
+                
+                if (isAsync)
+                {
+                    Assert.AreEqual(1, context.SaveChangesAsyncCount);
+                }
+                else
+                {
+                    Assert.AreEqual(1, context.SaveChangesCount);
+                }
+            };
+
+            var updatedEntity = new TestPermissableResource
+            {
+                Id = childForeignResourceId,
+                ParentId = targetForeignResourceId,
+                PermissableType = PermissableType.Project,
+                ParentPermissableType = PermissableType.Office
+            };
+            context.Revert();
+            service.OnUpdated(new List<IPermissable> { updatedEntity });
+            tester(false);
+
+            context.Revert();
+            await service.OnUpdatedAsync(new List<IPermissable> { updatedEntity });
+            tester(true);
+        }
+
+        [TestMethod]
+        public async Task TestOnUpdated_AddingParent()
+        {
+            var childResourceId = 1;
+            var parentResourceId = 2;
+
+            var childForeignResourceId = 1;
+            var parentForeignResourceId = 3;
+            context.SetupActions.Add(() =>
+            {
+                var programType = new ResourceType
+                {
+                    ResourceTypeId = ResourceType.Program.Id,
+                    ResourceTypeName = ResourceType.Program.Value
+                };
+                var projectType = new ResourceType
+                {
+                    ResourceTypeId = ResourceType.Project.Id,
+                    ResourceTypeName = ResourceType.Project.Value
+                };
+                var parentResource = new Resource
+                {
+                    ResourceId = parentResourceId,
+                    ResourceTypeId = programType.ResourceTypeId,
+                    ResourceType = programType,
+                    ForeignResourceId = parentForeignResourceId,
+                };
+                var resource = new Resource
+                {
+                    ResourceId = childResourceId,
+                    ResourceTypeId = projectType.ResourceTypeId,
+                    ResourceType = projectType,
+                    ForeignResourceId = childForeignResourceId,
+                };
+                parentResource.ChildResources.Add(resource);
+                
+                context.Resources.Add(parentResource);
+                context.Resources.Add(resource);
+                context.ResourceTypes.Add(programType);
+                context.ResourceTypes.Add(projectType);
+                cacheDictionary.Clear();
+                cacheDictionary.Add(service.GetKey(resource.ForeignResourceId, resource.ResourceTypeId), 1);
+                cacheDictionary.Add(service.GetKey(parentResource.ForeignResourceId, parentResource.ResourceTypeId), 1);
+
+                Assert.IsNull(resource.ParentResource);
+                Assert.IsFalse(resource.ParentResourceId.HasValue);
+            });
+            Action<bool> tester = (isAsync) =>
+            {
+                Assert.AreEqual(0, cacheDictionary.Count);
+                Assert.AreEqual(2, context.Resources.Count());
+                var updatedChildResource = context.Resources.Where(x => x.ResourceId == childResourceId).First();
+                Assert.AreEqual(parentResourceId, updatedChildResource.ParentResourceId);
+
+                if (isAsync)
+                {
+                    Assert.AreEqual(1, context.SaveChangesAsyncCount);
+                }
+                else
+                {
+                    Assert.AreEqual(1, context.SaveChangesCount);
+                }
+            };
+
+            var updatedEntity = new TestPermissableResource
+            {
+                Id = childForeignResourceId,
+                ParentId = parentForeignResourceId,
+                PermissableType = PermissableType.Project,
+                ParentPermissableType = PermissableType.Program
+            };
+            context.Revert();
+            service.OnUpdated(new List<IPermissable> { updatedEntity });
+            tester(false);
+
+            context.Revert();
+            await service.OnUpdatedAsync(new List<IPermissable> { updatedEntity });
+            tester(true);
+        }
+
+        [TestMethod]
+        public async Task TestOnUpdated_ResourceDoesNotExist()
+        {
+            var updatedEntity = new TestPermissableResource
+            {
+                Id = 1,
+                PermissableType = PermissableType.Project,
+            };
+
+            Func<Task> updateAsyncFn = () =>
+            {
+                return service.OnUpdatedAsync(new List<IPermissable> { updatedEntity });
+            };
+            Action updateFn = () =>
+            {
+                service.OnUpdated(new List<IPermissable> { updatedEntity });
+            };
+
+            updateFn.ShouldThrow<ModelNotFoundException>()
+                .WithMessage(String.Format("The resource with foreign id [{0}] and resource type id [{1}] was not found.  It should have been registered when it was created.", 
+                updatedEntity.Id, 
+                updatedEntity.PermissableType.GetResourceTypeId()));
+            updateAsyncFn.ShouldThrow<ModelNotFoundException>()
+                .WithMessage(String.Format("The resource with foreign id [{0}] and resource type id [{1}] was not found.  It should have been registered when it was created.",
+                updatedEntity.Id,
+                updatedEntity.PermissableType.GetResourceTypeId()));
+        }
+
+        [TestMethod]
+        public async Task TestOnUpdated_ParentResourceDoesNotExist()
+        {
+            var projectType = new ResourceType
+            {
+                ResourceTypeId = ResourceType.Project.Id,
+                ResourceTypeName = ResourceType.Project.Value
+            };
+            var resource = new Resource
+            {
+                ResourceId = 1,
+                ForeignResourceId = 2,
+                ResourceType = projectType,
+                ResourceTypeId = projectType.ResourceTypeId
+            };
+            context.Resources.Add(resource);
+            context.ResourceTypes.Add(projectType);
+
+            var updatedEntity = new TestPermissableResource
+            {
+                Id = resource.ForeignResourceId,
+                PermissableType = PermissableType.Project,
+                ParentId = 2,
+                ParentPermissableType = PermissableType.Program
+            };
+
+            Func<Task> updateAsyncFn = () =>
+            {
+                return service.OnUpdatedAsync(new List<IPermissable> { updatedEntity });
+            };
+            Action updateFn = () =>
+            {
+                service.OnUpdated(new List<IPermissable> { updatedEntity });
+            };
+
+            updateFn.ShouldThrow<ModelNotFoundException>()
+                .WithMessage(String.Format("The parent resource with foreign id [{0}] and resource type id [{1}] was not found.  It should have been registered when it was created.",
+                updatedEntity.ParentId,
+                updatedEntity.ParentPermissableType.GetResourceTypeId()));
+            updateAsyncFn.ShouldThrow<ModelNotFoundException>()
+                .WithMessage(String.Format("The parent resource with foreign id [{0}] and resource type id [{1}] was not found.  It should have been registered when it was created.",
+                updatedEntity.ParentId,
+                updatedEntity.ParentPermissableType.GetResourceTypeId()));
         }
         #endregion
     }

@@ -35,6 +35,11 @@ namespace CAM.Business.Service
         /// </summary>
         public const int DEFAULT_CACHE_TIME_TO_LIVE_IN_SECONDS = 10 * 60;
 
+        /// <summary>
+        /// The number of entities to handle in an IPermissableService before a warning should be logged detailing possible performance impacts.
+        /// </summary>
+        public const int MAX_LEVEL_OF_ENTITIES_TO_REGISTER = 10;
+
         private readonly ILogger logger = new LoggerAdapter(NLog.LogManager.GetCurrentClassLogger());
         private readonly ObjectCache cache;
         private readonly int timeToLiveInSeconds;
@@ -423,7 +428,7 @@ namespace CAM.Business.Service
 
         public void OnAdded(IList<IPermissable> addedEntities)
         {
-            if (addedEntities.Count > 3)
+            if (addedEntities.Count > MAX_LEVEL_OF_ENTITIES_TO_REGISTER)
             {
                 logger.Warn("There are more than the recommended number of entities [{0}] being added to CAM performance issues may be arise.", addedEntities.Count);
             }
@@ -435,7 +440,7 @@ namespace CAM.Business.Service
 
         public async Task OnAddedAsync(IList<IPermissable> addedEntities)
         {
-            if (addedEntities.Count > 3)
+            if (addedEntities.Count > MAX_LEVEL_OF_ENTITIES_TO_REGISTER)
             {
                 logger.Warn("There are more than the recommended number of entities [{0}] being added to CAM performance issues may be arise.", addedEntities.Count);
             }
@@ -459,6 +464,7 @@ namespace CAM.Business.Service
                 .FirstOrDefault();
             }
             DoOnAdded(addedEntity, existingResource, parentResource);
+            this.Context.SaveChanges();
         }
 
         public async Task OnAddedAsync(IPermissable addedEntity)
@@ -475,6 +481,7 @@ namespace CAM.Business.Service
                 .FirstOrDefaultAsync();
             }
             DoOnAdded(addedEntity, existingResource, parentResource);
+            await this.Context.SaveChangesAsync();
         }
 
         private void DoOnAdded(IPermissable addedEntity, Resource existingResource, Resource parentResource)
@@ -482,7 +489,6 @@ namespace CAM.Business.Service
             if (existingResource == null)
             {
                 var newResource = AddResourceToCAM(addedEntity, parentResource);                                
-                this.Context.SaveChanges();
             } 
             RemoveFromCache(addedEntity);
         }
@@ -516,6 +522,10 @@ namespace CAM.Business.Service
 
         public void OnUpdated(IList<IPermissable> updatedEntities)
         {
+            if (updatedEntities.Count > MAX_LEVEL_OF_ENTITIES_TO_REGISTER)
+            {
+                logger.Warn("There are more than the recommended number of entities [{0}] being updated in CAM performance issues may be arise.", updatedEntities.Count);
+            }
             foreach (var updatedEntity in updatedEntities.ToList())
             {
                 OnUpdated(updatedEntity);
@@ -524,6 +534,10 @@ namespace CAM.Business.Service
 
         public async Task OnUpdatedAsync(IList<IPermissable> updatedEntities)
         {
+            if (updatedEntities.Count > MAX_LEVEL_OF_ENTITIES_TO_REGISTER)
+            {
+                logger.Warn("There are more than the recommended number of entities [{0}] being updated in CAM performance issues may be arise.", updatedEntities.Count);
+            }
             foreach (var updatedEntity in updatedEntities.ToList())
             {
                 await OnUpdatedAsync(updatedEntity);
@@ -533,53 +547,60 @@ namespace CAM.Business.Service
         public async Task OnUpdatedAsync(IPermissable updatedEntity)
         {
             var resource = await ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, updatedEntity.GetId(), updatedEntity.GetPermissableType().GetResourceTypeId()).FirstOrDefaultAsync();
-            Resource parentResource = null;
+            Resource targetParentResource = null;
+            Resource previousParentResource = null;
             if (updatedEntity.GetParentId().HasValue)
             {
-                parentResource = await ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, updatedEntity.GetParentId().Value, updatedEntity.GetParentPermissableType().GetResourceTypeId()).FirstOrDefaultAsync();
+                targetParentResource = await ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, updatedEntity.GetParentId().Value, updatedEntity.GetParentPermissableType().GetResourceTypeId()).FirstOrDefaultAsync();
             }
-
-            DoUpdate(updatedEntity, resource, parentResource);
+            if (resource != null && resource.ParentResourceId.HasValue)
+            {
+                previousParentResource = Context.Resources.Find(resource.ParentResourceId.Value);
+            }
+            DoUpdate(updatedEntity, resource, targetParentResource, previousParentResource);
+            await this.Context.SaveChangesAsync();
         }
 
         public void OnUpdated(IPermissable updatedEntity)
         {
             var resource = ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, updatedEntity.GetId(), updatedEntity.GetPermissableType().GetResourceTypeId()).FirstOrDefault();
-            Resource parentResource = null;
+            Resource targetParentResource = null;
+            Resource previousParentResource = null;
             if (updatedEntity.GetParentId().HasValue)
             {
-                parentResource = ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, updatedEntity.GetParentId().Value, updatedEntity.GetParentPermissableType().GetResourceTypeId()).FirstOrDefault();
+                targetParentResource = ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, updatedEntity.GetParentId().Value, updatedEntity.GetParentPermissableType().GetResourceTypeId()).FirstOrDefault();
             }
-            
-            DoUpdate(updatedEntity, resource, parentResource);
+            if (resource != null && resource.ParentResourceId.HasValue)
+            {
+                previousParentResource = Context.Resources.Find(resource.ParentResourceId.Value);
+            }
+            DoUpdate(updatedEntity, resource, targetParentResource, previousParentResource);
+            this.Context.SaveChanges();
         }
 
-        private bool DoUpdate(IPermissable updatedEntity, Resource resourceToUpdate, Resource parentResource)
+        private void DoUpdate(IPermissable updatedEntity, Resource resourceToUpdate, Resource targetParentResource, Resource previousParentResource)
         {
             if (resourceToUpdate == null)
             {
-                throw new ModelNotFoundException(String.Format("The resource with foreign id [{0}] and resource type id [{1}] was not found.", 
+                throw new ModelNotFoundException(String.Format("The resource with foreign id [{0}] and resource type id [{1}] was not found.  It should have been registered when it was created.", 
                     updatedEntity.GetId(), 
                     updatedEntity.GetPermissableType().GetResourceTypeId()));
             }
-            var saveChangesRequired = false;
-            if (resourceToUpdate.ResourceId != parentResource.ResourceId)
+            if (updatedEntity.GetParentId().HasValue && targetParentResource == null)
             {
-                saveChangesRequired = true;
-                resourceToUpdate.ParentResource = parentResource;
-                resourceToUpdate.ParentResourceId = parentResource.ResourceId;
+                throw new ModelNotFoundException(String.Format("The parent resource with foreign id [{0}] and resource type id [{1}] was not found.  It should have been registered when it was created.",
+                    updatedEntity.GetParentId().Value,
+                    updatedEntity.GetParentPermissableType().GetResourceTypeId()));
+            }
+            if (resourceToUpdate.ResourceId != targetParentResource.ResourceId)
+            {
                 RemoveFromCache(resourceToUpdate);
-                RemoveFromCache(parentResource);
+                RemoveFromCache(targetParentResource);
                 RemoveFromCache(updatedEntity);
+                RemoveFromCache(previousParentResource);
+                resourceToUpdate.ParentResource = targetParentResource;
+                resourceToUpdate.ParentResourceId = targetParentResource.ResourceId;                
             }
-            if (updatedEntity.GetPermissableType().GetResourceTypeId() != resourceToUpdate.ResourceTypeId)
-            {
-                saveChangesRequired = true;
-                resourceToUpdate.ResourceTypeId = updatedEntity.GetPermissableType().GetResourceTypeId();
-                RemoveFromCache(updatedEntity);
-            }
-            
-            return saveChangesRequired;
         }
 
         public void RemoveFromCache(Resource resource)
