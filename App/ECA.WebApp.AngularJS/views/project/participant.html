@@ -187,8 +187,8 @@
                         </td>
                         <td>
                             <a ng-click="toggleParticipantInfo(participant.participantId)">
-                                <i class="fa fa-chevron-up" ng-show="participantInfo[participant.participantId] === undefined || participantInfo[participant.participantId].show === false"></i>
-                                <i class="fa fa-chevron-down" ng-show="participantInfo[participant.participantId].show"></i>
+                                <i class="material-icons md-dark md-36 pull-right" ng-show="participantInfo[participant.participantId] === undefined || participantInfo[participant.participantId].show === false">expand_less</i>
+                                <i class="material-icons md-dark md-36 pull-right" ng-show="participantInfo[participant.participantId].show">expand_more</i>
                             </a>
                         </td>
                     </tr>

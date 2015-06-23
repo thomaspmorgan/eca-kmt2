@@ -82,6 +82,42 @@ namespace ECA.Reports
             return GetReport(reportViewer, out bytes);
         }
 
+        public HttpResponseMessage ReportFocusAwards(int programId)
+        {
+            byte[] bytes;
+
+            var reportViewer = new ReportViewer();
+            reportViewer.ProcessingMode = ProcessingMode.Local;
+
+            var rds = new ReportDataSource("FocusAwardDS", reportService.GetFocusAwards(programId).ToList());
+            string programName = reportService.GetProgramName(programId);
+
+            reportViewer.Reset();
+            reportViewer.LocalReport.DataSources.Add(rds);
+            reportViewer.LocalReport.ReportEmbeddedResource = "ECA.Reports.FocusAwards.rdlc";
+            reportViewer.LocalReport.SetParameters(new ReportParameter("Program", programName));
+
+            return GetReport(reportViewer, out bytes);
+        }
+
+        public HttpResponseMessage ReportFocusCategoryAwards(int programId)
+        {
+            byte[] bytes;
+
+            var reportViewer = new ReportViewer();
+            reportViewer.ProcessingMode = ProcessingMode.Local;
+
+            var rds = new ReportDataSource("FocusCategoryAwardDS", reportService.GetFocusCategoryAwards(programId).ToList());
+            string programName = reportService.GetProgramName(programId);
+
+            reportViewer.Reset();
+            reportViewer.LocalReport.DataSources.Add(rds);
+            reportViewer.LocalReport.ReportEmbeddedResource = "ECA.Reports.FocusCategoryAwards.rdlc";
+            reportViewer.LocalReport.SetParameters(new ReportParameter("Program", programName));
+
+            return GetReport(reportViewer, out bytes);
+        }
+
         private static HttpResponseMessage GetReport(ReportViewer reportViewer, out byte[] bytes)
         {
             Warning[] warnings;

@@ -9,11 +9,15 @@ namespace ECA.Business.Service.Reports
 {
     public interface IReportService
     {
-        IQueryable<ProjectAwardDTO> GetProjectAwards(int projectId, int countryId);
+        IQueryable<ProjectAwardDTO> GetProjectAwards(int programId, int countryId);
 
-        IQueryable<RegionAwardDTO> GetRegionAwards(int projectId);
+        IQueryable<RegionAwardDTO> GetRegionAwards(int programId);
 
-        IQueryable<PostAwardDTO> GetPostAwards(int projectId);
+        IQueryable<PostAwardDTO> GetPostAwards(int programId);
+
+        IQueryable<FocusAwardDTO> GetFocusAwards(int programId);
+
+        IQueryable<FocusCategoryAwardDTO> GetFocusCategoryAwards(int programId);
 
         string GetProgramName(int programId);
 

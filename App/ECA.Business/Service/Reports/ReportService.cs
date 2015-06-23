@@ -43,6 +43,18 @@ namespace ECA.Business.Service.Reports
             logger.Trace("Getting Region Awards for program: [{0}]", programId);
             return this.GetPostAwardDTOQuery(programId);
         }
+
+        public IQueryable<FocusAwardDTO> GetFocusAwards(int programId)
+        {
+            logger.Trace("Getting Focus Awards for program: [{0}]", programId);
+            return this.GetFocusAwardDTOQuery(programId);
+        }
+
+        public IQueryable<FocusCategoryAwardDTO> GetFocusCategoryAwards(int programId)
+        {
+            logger.Trace("Getting Focus-Category Awards for program: [{0}]", programId);
+            return this.GetFocusCategoryAwardDTOQuery(programId);
+        }
         #endregion
 
         #region Queries
@@ -59,6 +71,16 @@ namespace ECA.Business.Service.Reports
         protected IQueryable<PostAwardDTO> GetPostAwardDTOQuery(int programId)
         {
             return ReportQueries.CreateGetPostAward(this.Context, programId);
+        }
+
+        protected IQueryable<FocusAwardDTO> GetFocusAwardDTOQuery(int programId)
+        {
+            return ReportQueries.CreateGetFocusAward(this.Context, programId);
+        }
+
+        protected IQueryable<FocusCategoryAwardDTO> GetFocusCategoryAwardDTOQuery(int programId)
+        {
+            return ReportQueries.CreateGetFocusCategoryAward(this.Context, programId);
         }
 
         public string GetProgramName(int programId)

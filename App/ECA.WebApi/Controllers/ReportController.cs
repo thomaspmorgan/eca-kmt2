@@ -44,6 +44,16 @@ namespace ECA.WebApi.Controllers
             return reportGenerator.ReportPostAwards(programId);
         }
 
+        [Route("FocusAwards")]
+        public HttpResponseMessage GetFocusAwards(int programId)
+        {
+            return reportGenerator.ReportFocusAwards(programId);
+        }
 
+        [Route("FocusCategoryAwards")]
+        public HttpResponseMessage GetFocusCategoryAwards(int programId)
+        {
+            return reportGenerator.ReportFocusCategoryAwards(programId);
+        }
     }
 }

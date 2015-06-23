@@ -150,6 +150,8 @@
     <Content Include="scripts\controllers\project\overview_test.js" />
     <Content Include="scripts\controllers\project\projectparticipant.js" />
     <Content Include="scripts\controllers\project\unsavedchanges.js" />
+    <Content Include="scripts\controllers\reports\FocusCategoryAwards.js" />
+    <Content Include="scripts\controllers\reports\FocusAwards.js" />
     <Content Include="scripts\controllers\reports\PostAwards.js" />
     <Content Include="scripts\controllers\reports\RegionAwards.js" />
     <Content Include="scripts\directives\exposetablestate.js" />
@@ -442,6 +444,8 @@
     <Content Include="views\reports\created.html" />
     <Content Include="views\reports\crunchingData.html" />
     <Content Include="views\reports\overviewOpen.html" />
+    <Content Include="views\reports\focusCategoryAwards.html" />
+    <Content Include="views\reports\focusAwards.html" />
     <Content Include="views\reports\preview.html" />
     <Content Include="views\reports\projectAwards.html" />
     <Content Include="views\reports\publish.html" />

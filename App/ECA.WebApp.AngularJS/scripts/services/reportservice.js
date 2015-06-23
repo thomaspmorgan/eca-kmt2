@@ -33,6 +33,14 @@ angular.module('staticApp')
           getPostAwards:  function(programId)
           {
               return "report/PostAwards?programId=" + programId;
+          },
+          getFocusAwards: function(programId)
+          {
+              return "report/FocusAwards?programId=" + programId;
+          },
+          getFocusCategoryAwards: function(programId)
+          {
+              return "report/FocusCategoryAwards?programId=" + programId;
           }
       };
   });
