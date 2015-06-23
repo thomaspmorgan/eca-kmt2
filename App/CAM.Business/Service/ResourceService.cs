@@ -77,32 +77,12 @@ namespace CAM.Business.Service
         }
 
         /// <summary>
-        /// Returns the resourceId for a given applicationId
-        /// </summary>
-        /// <param name="applicationId">ApplicationId (from table Application)</param>
-        /// <returns>ResourceId</returns>
-        public int? GetResourceIdForApplicationId(int applicationId)
-        {
-            return GetResourceIdByForeignResourceId(applicationId, ResourceType.Application.Id);
-        }
-
-        /// <summary>
-        /// Returns the resourceId for a given applicationId
-        /// </summary>
-        /// <param name="applicationId">ApplicationId (from table Application)</param>
-        /// <returns>ResourceId</returns>
-        public Task<int?> GetResourceIdForApplicationIdAsync(int applicationId)
-        {
-            return GetResourceIdByForeignResourceIdAsync(applicationId, ResourceType.Application.Id);
-        }
-
-        /// <summary>
         /// Get a ResourceId giving a foreignResourceId and a ResourceTypeId
         /// </summary>
         /// <param name="foreignResourceId"></param>
         /// <param name="resourceTypeId"></param>
         /// <returns></returns>
-        public int? GetResourceIdByForeignResourceId(int foreignResourceId, int resourceTypeId)
+        public ForeignResourceCache GetResourceByForeignResourceId(int foreignResourceId, int resourceTypeId)
         {
             if (IsCached(foreignResourceId, resourceTypeId))
             {
@@ -133,7 +113,7 @@ namespace CAM.Business.Service
         /// <param name="foreignResourceId"></param>
         /// <param name="resourceTypeId"></param>
         /// <returns></returns>
-        public async Task<int?> GetResourceIdByForeignResourceIdAsync(int foreignResourceId, int resourceTypeId)
+        public async Task<ForeignResourceCache> GetResourceByForeignResourceIdAsync(int foreignResourceId, int resourceTypeId)
         {
             if (IsCached(foreignResourceId, resourceTypeId))
             {
@@ -158,25 +138,25 @@ namespace CAM.Business.Service
             }
         }
 
-        private int? HandleCachedResource(int foreignResourceId, int resourceTypeId)
+        private ForeignResourceCache HandleCachedResource(int foreignResourceId, int resourceTypeId)
         {
             var item = GetForeignResourceCache(foreignResourceId, resourceTypeId);
             Contract.Assert(item != null, "The item must not be null.");
             logger.Info("The foreign resource with id [{0}] of type [{1}] was cached with resource id [{2}].", foreignResourceId, resourceTypeId, item.ResourceId);
-            return item.ResourceId;
+            return item;
         }
 
-        private int? HandleNonCachedResource(int foreignResourceId, int? resourceId, int resourceTypeId, int? parentForeignResourceId, int? parentResourceId, int? parentResourceTypeId)
+        private ForeignResourceCache HandleNonCachedResource(int foreignResourceId, int? resourceId, int resourceTypeId, int? parentForeignResourceId, int? parentResourceId, int? parentResourceTypeId)
         {
             if (!resourceId.HasValue)
             {
                 logger.Warn("ResourceId not found for foreignResourceId = '{0}', resourceTypeId='{1}'", foreignResourceId, resourceTypeId);
+                return null;
             }
             else
             {
-                Add(foreignResourceId, resourceId.Value, resourceTypeId, parentForeignResourceId, parentResourceId, parentResourceTypeId);
+                return Add(foreignResourceId, resourceId.Value, resourceTypeId, parentForeignResourceId, parentResourceId, parentResourceTypeId);
             }
-            return resourceId;
         }
 
         /// <summary>
@@ -238,9 +218,11 @@ namespace CAM.Business.Service
         /// <param name="resourceId">The resource id.</param>
         /// <param name="resourceTypeId">The resource type id.</param>
         /// <returns>The cache item added.</returns>
-        public CacheItem Add(int foreignResourceId, int resourceId, int resourceTypeId, int? parentForeignResourceId, int? parentResourceId, int? parentResourceTypeId)
+        public ForeignResourceCache Add(int foreignResourceId, int resourceId, int resourceTypeId, int? parentForeignResourceId, int? parentResourceId, int? parentResourceTypeId)
         {
-            return Add(new ForeignResourceCache(foreignResourceId, resourceId, resourceTypeId, parentForeignResourceId, parentResourceId, parentResourceTypeId));
+            var cache = new ForeignResourceCache(foreignResourceId, resourceId, resourceTypeId, parentForeignResourceId, parentResourceId, parentResourceTypeId); 
+            var cacheItem = Add(cache);
+            return cache;
         }
 
         /// <summary>
@@ -362,7 +344,7 @@ namespace CAM.Business.Service
             int? resourceId = null;
             if (foreignResourceId.HasValue)
             {
-                resourceId = GetResourceIdByForeignResourceId(foreignResourceId.Value, ResourceType.GetStaticLookup(resourceType).Id);
+                resourceId = GetResourceByForeignResourceId(foreignResourceId.Value, ResourceType.GetStaticLookup(resourceType).Id).ResourceId;
                 logger.Trace("Retrieved resourceId [{0}] for foreign resource id [{1}].", resourceId, foreignResourceId);
             }
             var permissions = ResourceQueries.CreateGetResourcePermissionsQuery(this.Context, resourceType, resourceId).ToList();
@@ -384,7 +366,7 @@ namespace CAM.Business.Service
             int? resourceId = null;
             if (foreignResourceId.HasValue)
             {
-                resourceId = GetResourceIdByForeignResourceId(foreignResourceId.Value, ResourceType.GetStaticLookup(resourceType).Id);
+                resourceId = GetResourceByForeignResourceId(foreignResourceId.Value, ResourceType.GetStaticLookup(resourceType).Id).ResourceId;
                 logger.Trace("Retrieved resourceId [{0}] for foreign resource id [{1}].", resourceId, foreignResourceId);
             }
             var permissions = await ResourceQueries.CreateGetResourcePermissionsQuery(this.Context, resourceType, resourceId).ToListAsync();

@@ -123,10 +123,10 @@ namespace CAM.Business.Service
         /// <returns>true if permission is found in list of permissions for the giving applicationId</returns>
         public bool HasPermissionForApplication(int principalId, string permissionName, int applicationId)
         {
-            int? resourceId = this.ResourceService.GetResourceIdForApplicationId(applicationId);
-            Contract.Assert(resourceId.HasValue, "The application resource id should have a value.");
+            var resource = this.ResourceService.GetResourceByForeignResourceId(applicationId, ResourceType.Application.Id);
+            Contract.Assert(resource != null, "The application resource id should have a value.");
             var permissionId = this.PermissionModelService.GetPermissionIdByName(permissionName);
-            return HasPermission(principalId, permissionId, resourceId.Value);
+            return HasPermission(principalId, permissionId, resource.ResourceId);
         }
 
         /// <summary>

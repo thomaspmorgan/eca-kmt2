@@ -28,29 +28,6 @@ namespace CAM.Business.Service
             Permissions = new List<IPermission>();
         }
 
-        /// <summary>
-        /// Instantiates the PermissionsStore 
-        /// </summary>
-        /// <param name="applicationId">Sets the ApplicationResourceId property given the ApplicationId</param>
-        public PermissionStore(int resourceId, CamModel model, IPermissionModelService permissionModelService, IResourceService resourceService)
-            : base(model, permissionModelService, resourceService)
-        {
-            ResourceId = resourceService.GetResourceIdForApplicationId(resourceId);
-            PrincipalId = null;
-        }
-
-        /// <summary>
-        /// Instantiates the PermissionsStore 
-        /// </summary>
-        /// <param name="resourceId">Sets the ApplicationResourceId property</param>
-        /// <param name="principalId">Sets the PrincipalId property</param>
-        public PermissionStore(int resourceId, int principalId, CamModel model, IPermissionModelService permissionModelService, IResourceService resourceService)
-            : base(model, permissionModelService, resourceService)
-        {
-            ResourceId = resourceService.GetResourceIdForApplicationId(resourceId);
-            PrincipalId = principalId;
-        }
-
         #endregion
 
         #region Public Methods

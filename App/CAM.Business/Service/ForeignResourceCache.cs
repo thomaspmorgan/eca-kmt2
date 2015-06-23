@@ -61,5 +61,14 @@ namespace CAM.Business.Service
         /// Gets the resource id.
         /// </summary>
         public int ResourceId { get; private set; }
+
+        /// <summary>
+        /// A formatted string of the resource cache.
+        /// </summary>
+        /// <returns>A formatted string of the resource cache.</returns>
+        public override string ToString()
+        {
+            return String.Format("ForeignResourceId:  [{0}], ParentForeignResourceId:  [{1}], ParentResourceId:  [{2}], ParentResourceTypeId:  [{3}], ResourceTypeId:  [{4}], ResourceId:  [{5}].");
+        }
     }
 }
