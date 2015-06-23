@@ -1,4 +1,3 @@
-/// <vs AfterBuild='localstyles' />
 var gulp = require('gulp');
 
 gulp.task('clean', function (cb) {
@@ -20,7 +19,7 @@ gulp.task('localstyles', ['clean'], function () {
         .pipe(gulp.dest('styles'));
 });
 
-gulp.task('html', ['clean'], function () {
+gulp.task('html', ['styles'], function () {
     var useref = require('gulp-useref');
     var gulpIf = require('gulp-if');
     var uglify = require('gulp-uglify');

@@ -150,12 +150,19 @@
     <Content Include="scripts\controllers\project\overview_test.js" />
     <Content Include="scripts\controllers\project\projectparticipant.js" />
     <Content Include="scripts\controllers\project\unsavedchanges.js" />
+    <Content Include="scripts\controllers\reports\PostAwards.js" />
     <Content Include="scripts\controllers\reports\RegionAwards.js" />
     <Content Include="scripts\directives\exposetablestate.js" />
     <Content Include="scripts\directives\socialmedialink.js" />
     <Content Include="scripts\filters\groupby.js" />
     <Content Include="scripts\services\participantperson.js" />
     <Content Include="scripts\services\userservice.js" />
+    <Content Include="styles\main.css">
+      <DependentUpon>main.scss</DependentUpon>
+    </Content>
+    <Content Include="styles\main.min.css">
+      <DependentUpon>main.css</DependentUpon>
+    </Content>
     <Content Include="views\organizations\activities.html" />
     <Content Include="views\organizations\impact.html" />
     <Content Include="views\organizations\artifacts.html" />
@@ -230,6 +237,9 @@
     <Content Include="scripts\services\constantsservice.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>constantsservice.js</LastGenOutput>
+    </Content>
+    <Content Include="styles\main.css.map">
+      <DependentUpon>main.css</DependentUpon>
     </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -437,6 +447,7 @@
     <Content Include="views\reports\publish.html" />
     <Content Include="views\reports\refineSearch.html" />
     <Content Include="views\reports\refineSearchDeselect.html" />
+    <Content Include="views\reports\postAwards.html" />
     <Content Include="views\reports\regionAwards.html" />
     <Content Include="views\reports\reportGenerated.html" />
     <Content Include="views\reports\searchResults.html" />
