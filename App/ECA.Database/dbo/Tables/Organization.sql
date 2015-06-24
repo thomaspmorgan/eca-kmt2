@@ -26,3 +26,7 @@ GO
 CREATE NONCLUSTERED INDEX [IX_ParentOrganization_OrganizationId]
     ON [dbo].[Organization]([ParentOrganization_OrganizationId] ASC);
 
+
+GO
+
+CREATE INDEX [IX_Name] ON [dbo].[Organization] ([Name])
