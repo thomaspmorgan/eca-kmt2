@@ -1,4 +1,20 @@
 /* These are all corrections and updates to correct the missing participants */
+select * from participantproject
+where participantid in (
+select participantid from participant
+where participantid in (
+SELECT [ParticipantId]
+      --,count([ProjectId])
+  FROM [dbo].[ParticipantProject]
+  group by participantid
+  having count(projectid) > 1)
+  and personid is not null)
+--and participantid in (833)
+order by participantid,projectid
+
+
+
+
 select * from ParticipantProject where participantid = 8
 select * from ParticipantProject where participantid = 8 and projectid = 628
 select * from ParticipantProject where projectid = 628
