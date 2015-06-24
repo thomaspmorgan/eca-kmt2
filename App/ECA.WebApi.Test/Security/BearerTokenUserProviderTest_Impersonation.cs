@@ -93,7 +93,7 @@ namespace ECA.WebApi.Test.Security
                 Id = impersonatedId,
                 Username = "impersonated"
             };
-            permissionService.Setup(x => x.GetAllowedPermissionsByPrincipalIdAsync(It.IsAny<int>())).ReturnsAsync(impersonatedUserPermissions);
+            permissionService.Setup(x => x.GetAllowedPermissionsByPrincipalId(It.IsAny<int>())).Returns(impersonatedUserPermissions);
             Func<Guid, User> getUserById = (id) =>
             {
                 if (id == impersonatorId)

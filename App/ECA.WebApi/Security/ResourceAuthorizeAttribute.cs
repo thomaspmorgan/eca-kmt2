@@ -214,7 +214,6 @@ namespace ECA.WebApi.Security
             {
                 throw new NotSupportedException(String.Format("The resource type name [{0}] does not have a matching resource id in CAM.", resourceTypeName));
             }
-
             var resource = await resourceService.GetResourceByForeignResourceIdAsync(foreignResourceId, resourceTypeId.Value);
             if (resource == null)
             {                

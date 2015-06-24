@@ -397,21 +397,21 @@ namespace ECA.WebApi.Test.Security
         }
 
         [TestMethod]
-        public void TestDispose_PermissionStore()
+        public void TestDispose_PermissionService()
         {
             userService.As<IDisposable>();
             cacheService.As<IDisposable>();
             permissionService.As<IDisposable>();
             var testService = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
 
-            var storeField = typeof(BearerTokenUserProvider).GetField("permissionStore", BindingFlags.Instance | BindingFlags.NonPublic);
-            var storeValue = storeField.GetValue(testService);
-            Assert.IsNotNull(storeField);
-            Assert.IsNotNull(storeValue);
+            var serviceField = typeof(BearerTokenUserProvider).GetField("permissionService", BindingFlags.Instance | BindingFlags.NonPublic);
+            var serviceValue = serviceField.GetValue(testService);
+            Assert.IsNotNull(serviceField);
+            Assert.IsNotNull(serviceValue);
 
             testService.Dispose();
-            storeValue = storeField.GetValue(testService);
-            Assert.IsNull(storeValue);
+            serviceValue = serviceField.GetValue(testService);
+            Assert.IsNull(serviceValue);
 
         }
 
