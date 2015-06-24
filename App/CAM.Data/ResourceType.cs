@@ -19,6 +19,8 @@ namespace CAM.Data
             this.Permissions = new HashSet<Permission>();
             this.Resources = new HashSet<Resource>();
             this.Roles = new HashSet<Role>();
+            this.ParentPermissions = new HashSet<Permission>();
+            this.ChildResourceTypes = new HashSet<ResourceType>();
         }
     
         public int ResourceTypeId { get; set; }
@@ -29,9 +31,13 @@ namespace CAM.Data
         public int CreatedBy { get; set; }
         public System.DateTimeOffset RevisedOn { get; set; }
         public int RevisedBy { get; set; }
+        public Nullable<int> ParentResourceTypeId { get; set; }
     
         public virtual ICollection<Permission> Permissions { get; set; }
         public virtual ICollection<Resource> Resources { get; set; }
         public virtual ICollection<Role> Roles { get; set; }
+        public virtual ICollection<Permission> ParentPermissions { get; set; }
+        public virtual ICollection<ResourceType> ChildResourceTypes { get; set; }
+        public virtual ResourceType ParentResourceType { get; set; }
     }
 }

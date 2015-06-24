@@ -40,6 +40,7 @@
           <Property Name="RevisedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="ResourceTypeId" Type="int" />
+          <Property Name="ParentResourceTypeId" Type="int" />
           <Property Name="ResourceId" Type="int" />
           <Property Name="PermissionDescription" Type="nchar" MaxLength="255" />
         </EntityType>
@@ -93,6 +94,7 @@
           <Property Name="ResourceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ResourceTypeId" Type="int" Nullable="false" />
           <Property Name="ForeignResourceId" Type="int" Nullable="false" />
+          <Property Name="ParentResourceId" Type="int" />
         </EntityType>
         <EntityType Name="ResourceType">
           <Key>
@@ -101,6 +103,7 @@
           <Property Name="ResourceTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ResourceTypeName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ResourceTypeDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="ParentResourceTypeId" Type="int" />
           <Property Name="CreatedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="RevisedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
@@ -172,6 +175,18 @@
             </Principal>
             <Dependent Role="Application">
               <PropertyRef Name="ResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permission_ToParentResourceType">
+          <End Role="ResourceType" Type="Self.ResourceType" Multiplicity="0..1" />
+          <End Role="Permission" Type="Self.Permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResourceType">
+              <PropertyRef Name="ResourceTypeId" />
+            </Principal>
+            <Dependent Role="Permission">
+              <PropertyRef Name="ParentResourceTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -271,6 +286,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Resource_ToResource">
+          <End Role="Resource" Type="Self.Resource" Multiplicity="0..1" />
+          <End Role="Resource1" Type="Self.Resource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resource">
+              <PropertyRef Name="ResourceId" />
+            </Principal>
+            <Dependent Role="Resource1">
+              <PropertyRef Name="ParentResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Resource_ToResourceType">
           <End Role="ResourceType" Type="Self.ResourceType" Multiplicity="1" />
           <End Role="Resource" Type="Self.Resource" Multiplicity="*" />
@@ -280,6 +307,18 @@
             </Principal>
             <Dependent Role="Resource">
               <PropertyRef Name="ResourceTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResourceType_ToResourceType">
+          <End Role="ResourceType" Type="Self.ResourceType" Multiplicity="0..1" />
+          <End Role="ResourceType1" Type="Self.ResourceType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResourceType">
+              <PropertyRef Name="ResourceTypeId" />
+            </Principal>
+            <Dependent Role="ResourceType1">
+              <PropertyRef Name="ParentResourceTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -385,6 +424,10 @@
             <End Role="Resource" EntitySet="Resource" />
             <End Role="Application" EntitySet="Application" />
           </AssociationSet>
+          <AssociationSet Name="FK_Permission_ToParentResourceType" Association="Self.FK_Permission_ToParentResourceType">
+            <End Role="ResourceType" EntitySet="ResourceType" />
+            <End Role="Permission" EntitySet="Permission" />
+          </AssociationSet>
           <AssociationSet Name="FK_Permission_ToResource" Association="Self.FK_Permission_ToResource">
             <End Role="Resource" EntitySet="Resource" />
             <End Role="Permission" EntitySet="Permission" />
@@ -417,9 +460,17 @@
             <End Role="Role" EntitySet="Role" />
             <End Role="PrincipalRole" EntitySet="PrincipalRole" />
           </AssociationSet>
+          <AssociationSet Name="FK_Resource_ToResource" Association="Self.FK_Resource_ToResource">
+            <End Role="Resource" EntitySet="Resource" />
+            <End Role="Resource1" EntitySet="Resource" />
+          </AssociationSet>
           <AssociationSet Name="FK_Resource_ToResourceType" Association="Self.FK_Resource_ToResourceType">
             <End Role="ResourceType" EntitySet="ResourceType" />
             <End Role="Resource" EntitySet="Resource" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResourceType_ToResourceType" Association="Self.FK_ResourceType_ToResourceType">
+            <End Role="ResourceType" EntitySet="ResourceType" />
+            <End Role="ResourceType1" EntitySet="ResourceType" />
           </AssociationSet>
           <AssociationSet Name="FK_Role_ToResource" Association="Self.FK_Role_ToResource">
             <End Role="Resource" EntitySet="Resource" />
@@ -484,6 +535,8 @@
           <Property Name="CreatedBy" Type="Int32" Nullable="false" />
           <Property Name="RevisedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
           <Property Name="RevisedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ParentResourceTypeId" Type="Int32" />
+          <NavigationProperty Name="ParentResourceType" Relationship="CAM.Data.FK_Permission_ToParentResourceType" FromRole="Permission" ToRole="ResourceType" />
         </EntityType>
         <EntityType Name="PermissionAssignment">
           <Key>
@@ -539,6 +592,9 @@
           <NavigationProperty Name="ResourceType" Relationship="Self.FK_Resource_ToResourceType" FromRole="Resource" ToRole="ResourceType" />
           <NavigationProperty Name="Roles" Relationship="Self.FK_Role_ToResource" FromRole="Resource" ToRole="Role" />
           <NavigationProperty Name="RoleResourcePermissions" Relationship="Self.FK_RoleResourcePermission_ToResource" FromRole="Resource" ToRole="RoleResourcePermission" />
+          <Property Name="ParentResourceId" Type="Int32" />
+          <NavigationProperty Name="ChildResources" Relationship="CAM.Data.FK_Resource_ToResource" FromRole="Resource" ToRole="Resource1" />
+          <NavigationProperty Name="ParentResource" Relationship="CAM.Data.FK_Resource_ToResource" FromRole="Resource1" ToRole="Resource" />
         </EntityType>
         <EntityType Name="ResourceType">
           <Key>
@@ -555,6 +611,10 @@
           <Property Name="CreatedBy" Type="Int32" Nullable="false" />
           <Property Name="RevisedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
           <Property Name="RevisedBy" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ParentPermissions" Relationship="CAM.Data.FK_Permission_ToParentResourceType" FromRole="ResourceType" ToRole="Permission" />
+          <Property Name="ParentResourceTypeId" Type="Int32" />
+          <NavigationProperty Name="ChildResourceTypes" Relationship="CAM.Data.FK_ResourceType_ToResourceType" FromRole="ResourceType" ToRole="ResourceType1" />
+          <NavigationProperty Name="ParentResourceType" Relationship="CAM.Data.FK_ResourceType_ToResourceType" FromRole="ResourceType1" ToRole="ResourceType" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -871,6 +931,18 @@
             <End Role="Role" EntitySet="Roles" />
             <End Role="PrincipalRole" EntitySet="PrincipalRoles" />
           </AssociationSet>
+          <AssociationSet Name="FK_Permission_ToParentResourceType" Association="CAM.Data.FK_Permission_ToParentResourceType">
+            <End EntitySet="ResourceTypes" Role="ResourceType" />
+            <End EntitySet="Permissions" Role="Permission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Resource_ToResource" Association="CAM.Data.FK_Resource_ToResource">
+            <End Role="Resource" EntitySet="Resources" />
+            <End Role="Resource1" EntitySet="Resources" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResourceType_ToResourceType" Association="CAM.Data.FK_ResourceType_ToResourceType">
+            <End Role="ResourceType" EntitySet="ResourceTypes" />
+            <End Role="ResourceType1" EntitySet="ResourceTypes" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="AccountStatus">
           <Key>
@@ -933,6 +1005,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Permission_ToParentResourceType">
+          <End Type="CAM.Data.ResourceType" Multiplicity="0..1" Role="ResourceType" />
+          <End Type="CAM.Data.Permission" Multiplicity="*" Role="Permission" />
+          <ReferentialConstraint>
+            <Principal Role="ResourceType">
+              <PropertyRef Name="ResourceTypeId" />
+            </Principal>
+            <Dependent Role="Permission">
+              <PropertyRef Name="ParentResourceTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Resource_ToResource">
+          <End Type="CAM.Data.Resource" Role="Resource" Multiplicity="0..1" />
+          <End Type="CAM.Data.Resource" Role="Resource1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resource">
+              <PropertyRef Name="ResourceId" />
+            </Principal>
+            <Dependent Role="Resource1">
+              <PropertyRef Name="ParentResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResourceType_ToResourceType">
+          <End Type="CAM.Data.ResourceType" Role="ResourceType" Multiplicity="0..1" />
+          <End Type="CAM.Data.ResourceType" Role="ResourceType1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResourceType">
+              <PropertyRef Name="ResourceTypeId" />
+            </Principal>
+            <Dependent Role="ResourceType1">
+              <PropertyRef Name="ParentResourceTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -954,6 +1062,7 @@
           <EntitySetMapping Name="Permissions">
             <EntityTypeMapping TypeName="CAM.Data.Permission">
               <MappingFragment StoreEntitySet="Permission">
+                <ScalarProperty Name="ParentResourceTypeId" ColumnName="ParentResourceTypeId" />
                 <ScalarProperty Name="RevisedBy" ColumnName="RevisedBy" />
                 <ScalarProperty Name="RevisedOn" ColumnName="RevisedOn" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
@@ -1004,6 +1113,7 @@
           <EntitySetMapping Name="Resources">
             <EntityTypeMapping TypeName="CAM.Data.Resource">
               <MappingFragment StoreEntitySet="Resource">
+                <ScalarProperty Name="ParentResourceId" ColumnName="ParentResourceId" />
                 <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
                 <ScalarProperty Name="ResourceTypeId" ColumnName="ResourceTypeId" />
                 <ScalarProperty Name="ForeignResourceId" ColumnName="ForeignResourceId" />
@@ -1013,6 +1123,7 @@
           <EntitySetMapping Name="ResourceTypes">
             <EntityTypeMapping TypeName="CAM.Data.ResourceType">
               <MappingFragment StoreEntitySet="ResourceType">
+                <ScalarProperty Name="ParentResourceTypeId" ColumnName="ParentResourceTypeId" />
                 <ScalarProperty Name="RevisedBy" ColumnName="RevisedBy" />
                 <ScalarProperty Name="RevisedOn" ColumnName="RevisedOn" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />

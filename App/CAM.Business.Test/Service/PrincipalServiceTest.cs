@@ -62,12 +62,13 @@ namespace CAM.Business.Test.Service
                 ForeignResourceId = 10,
                 ResourceTypeId = resourceType.Id,
             };
+            var foreignResourceCache = new ForeignResourceCache(resource.ForeignResourceId, resource.ResourceId, resource.ResourceTypeId, null, null, null);
             context.Principals.Add(grantor);
             context.Principals.Add(grantee);
             context.Permissions.Add(permission);
             context.Resources.Add(resource);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(resource.ResourceId);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(resource.ResourceId);
+            resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
+            resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
             resourceService.Setup(x => x.GetResourcePermissions(It.IsAny<string>(), It.IsAny<int?>())).Returns(GetAvailablePermissionsList(permission));
             resourceService.Setup(x => x.GetResourcePermissionsAsync(It.IsAny<string>(), It.IsAny<int?>())).ReturnsAsync(GetAvailablePermissionsList(permission));
 
@@ -116,12 +117,13 @@ namespace CAM.Business.Test.Service
                 ForeignResourceId = 10,
                 ResourceTypeId = resourceType.Id,
             };
+            var foreignResourceCache = new ForeignResourceCache(resource.ForeignResourceId, resource.ResourceId, resource.ResourceTypeId, null, null, null);
             context.Principals.Add(grantor);
             context.Principals.Add(grantee);
             context.Permissions.Add(permission);
             context.Resources.Add(resource);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(resource.ResourceId);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(resource.ResourceId);
+            resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
+            resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
             resourceService.Setup(x => x.GetResourcePermissions(It.IsAny<string>(), It.IsAny<int?>())).Returns(GetAvailablePermissionsList());
             resourceService.Setup(x => x.GetResourcePermissionsAsync(It.IsAny<string>(), It.IsAny<int?>())).ReturnsAsync(GetAvailablePermissionsList());
 
@@ -164,6 +166,7 @@ namespace CAM.Business.Test.Service
                 ForeignResourceId = 10,
                 ResourceTypeId = resourceType.Id,
             };
+            var foreignResourceCache = new ForeignResourceCache(resource.ForeignResourceId, resource.ResourceId, resource.ResourceTypeId, null, null, null);
             var permissionAssignment = new PermissionAssignment
             {
                 PrincipalId = grantee.PrincipalId,
@@ -176,8 +179,8 @@ namespace CAM.Business.Test.Service
             context.Permissions.Add(permission);
             context.Resources.Add(resource);
             context.PermissionAssignments.Add(permissionAssignment);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(resource.ResourceId);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(resource.ResourceId);
+            resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
+            resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
 
             Assert.AreEqual(1, context.PermissionAssignments.Count());
             Action tester = () =>
@@ -213,11 +216,12 @@ namespace CAM.Business.Test.Service
                 ForeignResourceId = 10,
                 ResourceTypeId = resourceType.Id,
             };
+            var foreignResourceCache = new ForeignResourceCache(resource.ForeignResourceId, resource.ResourceId, resource.ResourceTypeId, null, null, null);
             context.Principals.Add(grantor);
             context.Permissions.Add(permission);
             context.Resources.Add(resource);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(resource.ResourceId);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(resource.ResourceId);
+            resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
+            resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
             var grantedPermission = new GrantedPermission(0, permission.PermissionId, resource.ForeignResourceId, resourceType.Value, grantor.PrincipalId);
 
             //invoking async
@@ -252,11 +256,12 @@ namespace CAM.Business.Test.Service
                 ForeignResourceId = 10,
                 ResourceTypeId = resourceType.Id,
             };
+            var foreignResourceCache = new ForeignResourceCache(resource.ForeignResourceId, resource.ResourceId, resource.ResourceTypeId, null, null, null);
             context.Principals.Add(grantee);
             context.Permissions.Add(permission);
             context.Resources.Add(resource);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(resource.ResourceId);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(resource.ResourceId);
+            resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
+            resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
             var grantedPermission = new GrantedPermission(grantee.PrincipalId, permission.PermissionId, resource.ForeignResourceId, resourceType.Value, 0);
 
             //invoking async
@@ -290,11 +295,12 @@ namespace CAM.Business.Test.Service
                 ForeignResourceId = 10,
                 ResourceTypeId = resourceType.Id,
             };
+            var foreignResourceCache = new ForeignResourceCache(resource.ForeignResourceId, resource.ResourceId, resource.ResourceTypeId, null, null, null);
             context.Principals.Add(grantor);
             context.Principals.Add(grantee);
             context.Resources.Add(resource);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(resource.ResourceId);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(resource.ResourceId);
+            resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
+            resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
             var grantedPermission = new GrantedPermission(grantee.PrincipalId, 0, resource.ForeignResourceId, resourceType.Value, grantor.PrincipalId);
             //invoking async
             Func<Task> grantAction = async () =>
@@ -328,8 +334,9 @@ namespace CAM.Business.Test.Service
             context.Principals.Add(grantor);
             context.Principals.Add(grantee);
             context.Permissions.Add(permission);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(default(int?));
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(default(int?));
+            ForeignResourceCache foreignResourceCache = null;
+            resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
+            resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
             var grantedPermission = new GrantedPermission(grantee.PrincipalId, permission.PermissionId, 0, resourceType.Value, grantor.PrincipalId);
             //invoking async
             Func<Task> grantAction = async () =>
@@ -370,6 +377,7 @@ namespace CAM.Business.Test.Service
                 ForeignResourceId = 10,
                 ResourceTypeId = resourceType.Id,
             };
+            var foreignResourceCache = new ForeignResourceCache(resource.ForeignResourceId, resource.ResourceId, resource.ResourceTypeId, null, null, null);
             var permissionAssignment1 = new PermissionAssignment
             {
                 PrincipalId = grantee.PrincipalId,
@@ -390,8 +398,8 @@ namespace CAM.Business.Test.Service
             context.Resources.Add(resource);
             context.PermissionAssignments.Add(permissionAssignment1);
             context.PermissionAssignments.Add(permissionAssignment2);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(resource.ResourceId);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(resource.ResourceId);
+            resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
+            resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
             resourceService.Setup(x => x.GetResourcePermissions(It.IsAny<string>(), It.IsAny<int?>())).Returns(GetAvailablePermissionsList(permission));
             resourceService.Setup(x => x.GetResourcePermissionsAsync(It.IsAny<string>(), It.IsAny<int?>())).ReturnsAsync(GetAvailablePermissionsList(permission));
 
@@ -433,12 +441,13 @@ namespace CAM.Business.Test.Service
                 ForeignResourceId = 10,
                 ResourceTypeId = resourceType.Id,
             };
+            var foreignResourceCache = new ForeignResourceCache(resource.ForeignResourceId, resource.ResourceId, resource.ResourceTypeId, null, null, null);
             context.Principals.Add(grantor);
             context.Principals.Add(grantee);
             context.Permissions.Add(permission);
             context.Resources.Add(resource);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(resource.ResourceId);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(resource.ResourceId);
+            resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
+            resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
             resourceService.Setup(x => x.GetResourcePermissions(It.IsAny<string>(), It.IsAny<int?>())).Returns(GetAvailablePermissionsList(permission));
             resourceService.Setup(x => x.GetResourcePermissionsAsync(It.IsAny<string>(), It.IsAny<int?>())).ReturnsAsync(GetAvailablePermissionsList(permission));
 
@@ -487,6 +496,7 @@ namespace CAM.Business.Test.Service
                 ForeignResourceId = 10,
                 ResourceTypeId = resourceType.Id,
             };
+            var foreignResourceCache = new ForeignResourceCache(resource.ForeignResourceId, resource.ResourceId, resource.ResourceTypeId, null, null, null);
             var permissionAssignment = new PermissionAssignment
             {
                 PrincipalId = grantee.PrincipalId,
@@ -499,8 +509,8 @@ namespace CAM.Business.Test.Service
             context.Permissions.Add(permission);
             context.Resources.Add(resource);
             context.PermissionAssignments.Add(permissionAssignment);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(resource.ResourceId);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(resource.ResourceId);
+            resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
+            resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
             resourceService.Setup(x => x.GetResourcePermissions(It.IsAny<string>(), It.IsAny<int?>())).Returns(GetAvailablePermissionsList(permission));
             resourceService.Setup(x => x.GetResourcePermissionsAsync(It.IsAny<string>(), It.IsAny<int?>())).ReturnsAsync(GetAvailablePermissionsList(permission));
 
@@ -538,11 +548,12 @@ namespace CAM.Business.Test.Service
                 ForeignResourceId = 10,
                 ResourceTypeId = resourceType.Id,
             };
+            var foreignResourceCache = new ForeignResourceCache(resource.ForeignResourceId, resource.ResourceId, resource.ResourceTypeId, null, null, null);
             context.Principals.Add(grantor);
             context.Permissions.Add(permission);
             context.Resources.Add(resource);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(resource.ResourceId);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(resource.ResourceId);
+            resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
+            resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
             var revokePermission = new RevokedPermission(0, permission.PermissionId, resource.ForeignResourceId, resourceType.Value, grantor.PrincipalId);
 
             //invoking async
@@ -577,11 +588,12 @@ namespace CAM.Business.Test.Service
                 ForeignResourceId = 10,
                 ResourceTypeId = resourceType.Id,
             };
+            var foreignResourceCache = new ForeignResourceCache(resource.ForeignResourceId, resource.ResourceId, resource.ResourceTypeId, null, null, null);
             context.Principals.Add(grantee);
             context.Permissions.Add(permission);
             context.Resources.Add(resource);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(resource.ResourceId);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(resource.ResourceId);
+            resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
+            resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
             var revokedPermission = new RevokedPermission(grantee.PrincipalId, permission.PermissionId, resource.ForeignResourceId, resourceType.Value, 0);
 
             //invoking async
@@ -615,11 +627,12 @@ namespace CAM.Business.Test.Service
                 ForeignResourceId = 10,
                 ResourceTypeId = resourceType.Id,
             };
+            var foreignResourceCache = new ForeignResourceCache(resource.ForeignResourceId, resource.ResourceId, resource.ResourceTypeId, null, null, null);
             context.Principals.Add(grantor);
             context.Principals.Add(grantee);
             context.Resources.Add(resource);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(resource.ResourceId);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(resource.ResourceId);
+            resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
+            resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
             var revokedPermission = new RevokedPermission(grantee.PrincipalId, 0, resource.ForeignResourceId, resourceType.Value, grantor.PrincipalId);
             //invoking async
             Func<Task> revokeAction = async () =>
@@ -653,8 +666,8 @@ namespace CAM.Business.Test.Service
             context.Principals.Add(grantor);
             context.Principals.Add(grantee);
             context.Permissions.Add(permission);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(default(int?));
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(default(int?));
+            resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(default(ForeignResourceCache));
+            resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(default(ForeignResourceCache));
             var revokedPermission = new RevokedPermission(grantee.PrincipalId, permission.PermissionId, 0, resourceType.Value, grantor.PrincipalId);
             //invoking async
             Func<Task> revokeAction = async () =>
@@ -695,6 +708,7 @@ namespace CAM.Business.Test.Service
                 ForeignResourceId = 10,
                 ResourceTypeId = resourceType.Id,
             };
+            var foreignResourceCache = new ForeignResourceCache(resource.ForeignResourceId, resource.ResourceId, resource.ResourceTypeId, null, null, null);
             var permissionAssignment1 = new PermissionAssignment
             {
                 PrincipalId = grantee.PrincipalId,
@@ -715,8 +729,8 @@ namespace CAM.Business.Test.Service
             context.Resources.Add(resource);
             context.PermissionAssignments.Add(permissionAssignment1);
             context.PermissionAssignments.Add(permissionAssignment2);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(resource.ResourceId);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(resource.ResourceId);
+            resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
+            resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
 
             var revokedPermission = new RevokedPermission(grantee.PrincipalId, permission.PermissionId, resource.ForeignResourceId, resourceType.Value, grantor.PrincipalId);
 
@@ -744,9 +758,10 @@ namespace CAM.Business.Test.Service
                 PrincipalId = 2,
                 ResourceId = 3
             };
+            var foreignResourceCache = new ForeignResourceCache(foreignResourceId, permissionAssignment.ResourceId, 0, null, null, null);
             context.PermissionAssignments.Add(permissionAssignment);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(permissionAssignment.ResourceId);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(permissionAssignment.ResourceId);
+            resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
+            resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
 
             var deletedPermission = new DeletedPermission(permissionAssignment.PrincipalId, foreignResourceId, permissionAssignment.PermissionId, ResourceType.Project.Value);
             Assert.AreEqual(1, context.PermissionAssignments.Count());
@@ -764,9 +779,10 @@ namespace CAM.Business.Test.Service
                 PrincipalId = 2,
                 ResourceId = 3
             };
+            var foreignResourceCache = new ForeignResourceCache(foreignResourceId, permissionAssignment.ResourceId, 0, null, null, null);
             context.PermissionAssignments.Add(permissionAssignment);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(permissionAssignment.ResourceId);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(permissionAssignment.ResourceId);
+            resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
+            resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
 
             var deletedPermission = new DeletedPermission(permissionAssignment.PrincipalId, foreignResourceId, permissionAssignment.PermissionId, ResourceType.Project.Value);
             Assert.AreEqual(1, context.PermissionAssignments.Count());
@@ -776,9 +792,10 @@ namespace CAM.Business.Test.Service
 
         [TestMethod]
         public void TestDeletePermission_ForeignResourceByIdDoesNotExist()
-        {   
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(default(int?));
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(default(int?));
+        {
+            ForeignResourceCache foreignResourceCache = null;
+            resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
+            resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
 
             var deletedPermission = new DeletedPermission(0, 0, 0, ResourceType.Project.Value);
             Func<Task> f = async () =>
@@ -802,9 +819,10 @@ namespace CAM.Business.Test.Service
                 PrincipalId = 2,
                 ResourceId = 3
             };
+            var foreignResourceCache = new ForeignResourceCache(foreignResourceId, permissionAssignment.ResourceId, 0, null, null, null);
             context.PermissionAssignments.Add(permissionAssignment);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(permissionAssignment.ResourceId);
-            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(permissionAssignment.ResourceId);
+            resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
+            resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
 
             var deletedPermission = new DeletedPermission(0, 0, 0, ResourceType.Project.Value);
             Func<Task> f = async () =>

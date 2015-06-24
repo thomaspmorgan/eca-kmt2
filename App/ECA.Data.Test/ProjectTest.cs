@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using ECA.Core.Data;
 
 namespace ECA.Data.Test
 {
@@ -16,15 +17,74 @@ namespace ECA.Data.Test
         {
             context = new TestEcaContext();
         }
-
+        #region Permissable
         [TestMethod]
-        public void TestGetId()
+        public void TestIsExempt()
         {
             var project = new Project
             {
                 ProjectId = 1
             };
-            Assert.AreEqual(project.ProjectId, project.GetId());
+            var permissable = project as IPermissable;
+            Assert.IsFalse(permissable.IsExempt());
+        }
+
+        [TestMethod]
+        public void TestGetId_Permissable()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var permissable = project as IPermissable;
+            Assert.AreEqual(project.ProjectId, permissable.GetId());
+        }
+
+        [TestMethod]
+        public void TestGetPermissableType()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var permissable = project as IPermissable;
+            Assert.AreEqual(PermissableType.Project, permissable.GetPermissableType());
+        }
+
+        [TestMethod]
+        public void TestGetParentPermissableType()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var permissable = project as IPermissable;
+            Assert.AreEqual(PermissableType.Program, permissable.GetParentPermissableType());
+        }
+
+        [TestMethod]
+        public void TestParentId_Permissable()
+        {
+            var project = new Project
+            {
+                ProjectId = 1,
+                ProgramId = 2
+            };
+            var permissable = project as IPermissable;
+            Assert.AreEqual(project.ProgramId, permissable.GetParentId());
+        }
+
+        #endregion
+
+        [TestMethod]
+        public void TestGetId_IConcurrentEntity()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var concurrent = project as IConcurrentEntity;
+            Assert.AreEqual(project.ProjectId, concurrent.GetId());
         }
 
         [TestMethod]

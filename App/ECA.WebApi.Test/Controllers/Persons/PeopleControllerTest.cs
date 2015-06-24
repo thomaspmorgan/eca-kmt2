@@ -81,9 +81,9 @@ namespace ECA.WebApi.Test.Controllers.Persons
             userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(0));
             mock.Setup(x => x.CreateAsync(It.IsAny<NewPerson>()))
                 .ReturnsAsync(new Person());
-            mock.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
+            mock.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
             var response = await controller.PostPersonAsync(new PersonBindingModel());
-            mock.Verify(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>()), Times.Once());
+            mock.Verify(x => x.SaveChangesAsync(), Times.Once());
             Assert.IsInstanceOfType(response, typeof(OkResult));
         }
 

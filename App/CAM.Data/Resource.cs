@@ -20,11 +20,13 @@ namespace CAM.Data
             this.PermissionAssignments = new HashSet<PermissionAssignment>();
             this.Roles = new HashSet<Role>();
             this.RoleResourcePermissions = new HashSet<RoleResourcePermission>();
+            this.ChildResources = new HashSet<Resource>();
         }
     
         public int ResourceId { get; set; }
         public int ResourceTypeId { get; set; }
         public int ForeignResourceId { get; set; }
+        public Nullable<int> ParentResourceId { get; set; }
     
         public virtual Application Application { get; set; }
         public virtual ICollection<Permission> Permissions { get; set; }
@@ -32,5 +34,7 @@ namespace CAM.Data
         public virtual ResourceType ResourceType { get; set; }
         public virtual ICollection<Role> Roles { get; set; }
         public virtual ICollection<RoleResourcePermission> RoleResourcePermissions { get; set; }
+        public virtual ICollection<Resource> ChildResources { get; set; }
+        public virtual Resource ParentResource { get; set; }
     }
 }

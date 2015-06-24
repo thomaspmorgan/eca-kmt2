@@ -7,6 +7,8 @@
 
 namespace CAM.Business.Test
 {
+	using System;
+	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
 	#region CamModel
@@ -207,6 +209,12 @@ namespace CAM.Business.Test
 	{
 		public InMemoryCamModel()
 		{
+			InitializeDbSets();
+			this.SetupActions = new List<Action>();
+		}
+
+		public void InitializeDbSets()
+		{
 			this.AccountStatus = new AccountStatusTestDbSet();
 			this.Applications = new ApplicationTestDbSet();
 			this.C__RefactorLog = new C__RefactorLogTestDbSet();
@@ -220,6 +228,14 @@ namespace CAM.Business.Test
 			this.RoleResourcePermissions = new RoleResourcePermissionTestDbSet();
 			this.Roles = new RoleTestDbSet();
 			this.UserAccounts = new UserAccountTestDbSet();
+		}
+
+		public List<Action> SetupActions { get; set; }
+
+		public void Revert()
+		{
+			InitializeDbSets();
+			this.SetupActions.ForEach(x => x());
 		}
 	}
 	#endregion

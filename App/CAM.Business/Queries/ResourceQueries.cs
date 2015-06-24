@@ -36,6 +36,7 @@ namespace CAM.Business.Queries
 
         /// <summary>
         /// Creates a query to retrieve all ResourceAuthorizations from the CAM granted by role.  Use this query in conjunction with another to further filter the results.
+        /// Permissions that are not allowed in PermissionAssignments will be removed by this query.
         /// </summary>
         /// <param name="context">The context to query.</param>
         /// <returns>The query to retrieve all ResourceAuthroizations from the Cam.</returns>

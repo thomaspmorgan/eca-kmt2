@@ -4,18 +4,34 @@ using CAM.Data;
 
 namespace CAM.Business.Service
 {
+    /// <summary>
+    /// A PermissionModel is a simple dto used to demonstrate permission relationships.
+    /// </summary>
     public class PermissionModel
     {
-        public string PermissionName { get; set; }
-        public string PermissionDescription { get; set; }
-        public bool IsActive { get; set; }
-        public int PermissionId { get; set; }
-        public string ApplicationName { get; set; }
-        public int? ApplicationId { get; set; }
-        public string ResourceType { get; set; }
+        /// <summary>
+        /// Gets or sets the Name.
+        /// </summary>
+        public string Name { get; set; }
 
-        public int? ResourceId { get; set; }
+        /// <summary>
+        /// Gets or sets the Id.
+        /// </summary>
+        public int Id { get; set; }        
+
+        /// <summary>
+        /// Gets or sets the resource type id.
+        /// </summary>
         public int? ResourceTypeId { get; set; }
-        public string ResourceName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parent resource type id.
+        /// </summary>
+        public int? ParentResourceTypeId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Parent Permission Id, by the parent resource type id.
+        /// </summary>
+        public int? ParentPermissionId { get; set; }
     }
 }

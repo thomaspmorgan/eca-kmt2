@@ -22,7 +22,8 @@ namespace ECA.Data
         IContactable,
         ICategorizable,
         IObjectivable,
-        IRegionable
+        IRegionable,
+        IPermissable
     {
         public Program()
         {
@@ -156,6 +157,51 @@ namespace ECA.Data
             {
                 yield return new ValidationResult(String.Format("The program with the name [{0}] already exists.", this.Name), new List<string> { "Name" });
             }
+        }
+
+        /// <summary>
+        /// Returns the program id.
+        /// </summary>
+        /// <returns>The program id.</returns>
+        int IPermissable.GetId()
+        {
+            return this.ProgramId;
+        }
+
+        /// <summary>
+        /// Returns the proram permissable type.
+        /// </summary>
+        /// <returns>The program permissable type.</returns>
+        public PermissableType GetPermissableType()
+        {
+            return PermissableType.Program;
+        }
+
+        /// <summary>
+        /// Returns the owner id.
+        /// </summary>
+        /// <returns>The owner id.</returns>
+        public int? GetParentId()
+        {
+            return this.OwnerId;
+        }
+
+        /// <summary>
+        /// Returns the office permissable type.
+        /// </summary>
+        /// <returns>The office permissable type.</returns>
+        public PermissableType GetParentPermissableType()
+        {
+            return PermissableType.Office;
+        }
+
+        /// <summary>
+        /// Returns false a program is not exempt from permission protection.
+        /// </summary>
+        /// <returns>False.</returns>
+        public bool IsExempt()
+        {
+            return false;
         }
     }
 }

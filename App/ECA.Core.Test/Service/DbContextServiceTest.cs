@@ -152,10 +152,11 @@ namespace ECA.Core.Test.Service
 
         [TestMethod]
         public void TestSaveChanges()
-        {   
-            var context = new SampleDbContext();
-            var service = new DbContextService<SampleDbContext>(context);
+        {
             var saveAction = new SampleSaveAction();
+            var context = new SampleDbContext();
+            var service = new DbContextService<SampleDbContext>(context, new List<ISaveAction> { saveAction });
+            
             Assert.AreEqual(0, saveAction.BeforeSaveChangesCount);
             Assert.AreEqual(0, saveAction.AfterSaveChangesCount);
             Assert.AreEqual(0, saveAction.BeforeSaveChangesCountAsync);
@@ -163,7 +164,7 @@ namespace ECA.Core.Test.Service
             Assert.IsFalse(context.SaveChangesCalled);
             Assert.IsFalse(context.SaveChangesAsyncCalled);
 
-            service.SaveChanges(new List<ISaveAction> { saveAction });
+            service.SaveChanges();
             Assert.AreEqual(1, saveAction.BeforeSaveChangesCount);
             Assert.AreEqual(1, saveAction.AfterSaveChangesCount);
             Assert.AreEqual(0, saveAction.BeforeSaveChangesCountAsync);
@@ -176,9 +177,10 @@ namespace ECA.Core.Test.Service
         [TestMethod]
         public async Task TestSaveChangesAsync()
         {
-            var context = new SampleDbContext();
-            var service = new DbContextService<SampleDbContext>(context);
             var saveAction = new SampleSaveAction();
+            var context = new SampleDbContext();
+            var service = new DbContextService<SampleDbContext>(context, new List<ISaveAction> { saveAction });
+
             Assert.AreEqual(0, saveAction.BeforeSaveChangesCount);
             Assert.AreEqual(0, saveAction.AfterSaveChangesCount);
             Assert.AreEqual(0, saveAction.BeforeSaveChangesCountAsync);
@@ -186,7 +188,7 @@ namespace ECA.Core.Test.Service
             Assert.IsFalse(context.SaveChangesCalled);
             Assert.IsFalse(context.SaveChangesAsyncCalled);
 
-            await service.SaveChangesAsync(new List<ISaveAction> { saveAction });
+            await service.SaveChangesAsync();
             Assert.AreEqual(0, saveAction.BeforeSaveChangesCount);
             Assert.AreEqual(0, saveAction.AfterSaveChangesCount);
             Assert.AreEqual(1, saveAction.BeforeSaveChangesCountAsync);

@@ -60,10 +60,12 @@ namespace ECA.WebApi.Security
             var cachedObject = cache.Get(GetKey(user));
             if (cachedObject == null)
             {
-                throw new NotSupportedException("The user should have a cached object in the system cache.  Be sure use to the IsUserCached method and Add method for user cache logic.");
+                return null;
             }
-            UserCache userCache = userCache = (UserCache)cachedObject;
-            return userCache;
+            else
+            {
+                return (UserCache)cachedObject;
+            }
         }
 
         /// <summary>
@@ -114,26 +116,6 @@ namespace ECA.WebApi.Security
             var key = arguments.CacheItem.Key;
             var removedReason = arguments.RemovedReason;
             logger.Info("User cache item with id [{0}] removed because [{1}].", key, removedReason.ToString());
-        }
-
-        /// <summary>
-        /// Returns true if the user has a cache item.
-        /// </summary>
-        /// <param name="user">The user to check.</param>
-        /// <returns>True, if a UserCache exists for the given user.</returns>
-        public bool IsUserCached(IWebApiUser user)
-        {
-            return IsUserCached(user.Id);
-        }
-
-        /// <summary>
-        /// Returns true if the user has a cache item.
-        /// </summary>
-        /// <param name="userId">The user id to check.</param>
-        /// <returns>True, if a UserCache exists for the given user.</returns>
-        public bool IsUserCached(Guid userId)
-        {
-            return this.cache.Get(GetKey(userId)) != null;
         }
 
         /// <summary>

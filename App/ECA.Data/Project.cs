@@ -22,7 +22,8 @@ namespace ECA.Data
         IThemeable,
         IContactable,
         ICategorizable,
-        IObjectivable
+        IObjectivable,
+        IPermissable
     {
         /// <summary>
         /// Creates a new Project and initializes the collections.
@@ -129,6 +130,51 @@ namespace ECA.Data
                         this.Name),
                     new List<string> { "Name" });
             }
+        }
+
+        /// <summary>
+        /// Returns the project id.
+        /// </summary>
+        /// <returns>The project id.</returns>
+        int IPermissable.GetId()
+        {
+            return this.ProjectId;
+        }
+
+        /// <summary>
+        /// Returns the project permissable type.
+        /// </summary>
+        /// <returns>The project permissable type.</returns>
+        public PermissableType GetPermissableType()
+        {
+            return PermissableType.Project;
+        }
+
+        /// <summary>
+        /// Returns the parent program id.
+        /// </summary>
+        /// <returns>The parent program id.</returns>
+        public int? GetParentId()
+        {
+            return this.ProgramId;
+        }
+
+        /// <summary>
+        /// Returns the program permissable type.
+        /// </summary>
+        /// <returns>The program permissable type.</returns>
+        public PermissableType GetParentPermissableType()
+        {
+            return PermissableType.Program;
+        }
+
+        /// <summary>
+        /// Returns false a project is not exempt from permission protection.
+        /// </summary>
+        /// <returns>False.</returns>
+        public bool IsExempt()
+        {
+            return false;
         }
     }
 }
