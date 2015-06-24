@@ -121,8 +121,8 @@ angular
 
         .state('reports', {
             url: '/report',
-            templateUrl: 'views/reports/archiveList.html',
-            controller: 'ReportsArchiveCtrl',
+            templateUrl: 'views/reports.html',
+            controller: 'ReportsCtrl',
             requireADLogin: true
         })
 
@@ -214,8 +214,16 @@ angular
 
 
         .state('reports.archive', {
-            url: '/reports/archive',
+            url: '/archive',
             templateUrl: 'views/reports/archive.html',
+            controller: 'ReportsArchiveCtrl',
+            requireADLogin: true
+        })
+        .state('reports.custom', {
+            url: '/custom',
+            templateUrl: 'views/reports/custom.html',
+            controller: 'ReportsCustomCtrl',
+            requireADLogin: true
         })
 
 
@@ -462,7 +470,7 @@ angular
           { name: 'Participants', state: 'allparticipants' },
           { name: 'Organizations', state: 'allorganizations' },
           { name: 'Activities', state: 'events' },
-          { name: 'Reports', state: 'reports' },
+          { name: 'Reports', state: 'reports.archive' },
           { name: 'Partners', state: 'home.notifications' }
         ];
 
