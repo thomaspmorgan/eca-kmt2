@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>2.6</ProductVersion>
-    <ProjectGuid>{7e9eb7f6-b17d-45e0-b825-616a6b1ea076}</ProjectGuid>
+    <ProjectGuid>{cea0e515-55a9-43ac-aa46-a6b31f6b98b9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ECA.WebApi.Azure</RootNamespace>
@@ -50,6 +50,16 @@
   <ItemGroup>
     <PublishProfile Include="Profiles\ECAApi Prod.azurePubxml" />
     <PublishProfile Include="Profiles\ECAApi Staging.azurePubxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ECA.WebApi\ECA.WebApi.csproj">
+      <Name>ECA.WebApi</Name>
+      <Project>{72993aaf-4c9f-4ea3-a3cb-263d20c32de0}</Project>
+      <Private>True</Private>
+      <RoleType>Web</RoleType>
+      <RoleName>ECA.WebApi</RoleName>
+      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+    </ProjectReference>
   </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>
