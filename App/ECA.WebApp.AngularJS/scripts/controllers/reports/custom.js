@@ -12,7 +12,7 @@ angular.module('staticApp')
 
       $scope.$log = $log;
       $scope.reports = [
-          { Title: "Project Awards", Published: "4/28/2015", Author: "Tom Morgan", Prompts: "Program, Country" },
+          { Title: "Project Awards By Year", Published: "4/28/2015", Author: "Tom Morgan", Prompts: "Program, Country" },
           { Title: "Region Awards", Published: "6/22/2015", Author: "Tom Morgan", Prompts: "Program" },
           { Title: "Post Awards", Published: "6/22/2015", Author: "Tom Morgan", Prompts: "Program" },
           { Title: "Focus Awards", Published: "6/23/2015", Author: "Tom Morgan", Prompts: "Program" },
