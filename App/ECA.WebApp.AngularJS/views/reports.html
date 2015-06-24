@@ -1,22 +1,6 @@
-<div class="breadcrumbs">
-    <p></p>
-</div>
 <div class="jumbotron report-archive">
     <div class="toolbar" sticky offset="50">
         <div class="left2">
-            <div class="btn-group" dropdown>
-                <button type="button" class="btn btn-danger" ng-click="onDraftButtonClick($event)"></button>
-                <button type="button" class="btn btn-danger dropdown-toggle" dropdown-toggle>
-                    <span class="caret"></span>
-                    <span class="sr-only">Split button!</span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">SAVE AS DRAFT</a></li>
-                    <li><a href="#">PUBLISH</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">DELETE PERMANENTLY</a></li>
-                </ul>
-            </div>
             <span class="detail">Last Updated </span>
         </div>
         <div class="right">
@@ -27,10 +11,9 @@
         </div>
     </div>
     <div class="heading">
-        <h5>REPORT</h5>
         <h1>REPORTS</h1>
     </div>
 </div>
-<tab-bar tabs="tabs" on-add="addTab()" edit></tab-bar>
+<tab-bar tabs="tabs"></tab-bar>
 <div class="container" ui-view>
 </div>

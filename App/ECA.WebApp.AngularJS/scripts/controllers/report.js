@@ -8,9 +8,21 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ReportCtrl', function ($scope) {
-    $scope.staticImageSet = [];
-    for (var i = 1; i < 21; i++) {
-        $scope.staticImageSet.push('images/placeholders/report/report' + i + '.png');
-    }
+  .controller('ReportsCtrl', function ($scope, $stateParams) {
+      $scope.tabs = {
+          archive: {
+              title: 'Archive',
+              path: 'archive',
+              controller: 'ReportsArchiveCtrl',
+              active: true,
+              order: 1
+          },
+          custom: {
+              title: 'Custom',
+              path: 'custom',
+              controller: 'ReportsCustomCtrl',
+              active: true,
+              order: 2
+          }
+      };
   });
