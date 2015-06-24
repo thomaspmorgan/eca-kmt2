@@ -66,7 +66,6 @@ namespace ECA.WebApi.Security
         public UserCache GetUserCache(IWebApiUser user)
         {
             Contract.Requires(user != null, "The user must not be null.");
-            Contract.Ensures(Contract.Result<UserCache>() != null, "The user cache returned must not be null.");
             return null;
 
         }
@@ -79,19 +78,7 @@ namespace ECA.WebApi.Security
         public System.Threading.Tasks.Task<UserCache> GetUserCacheAsync(IWebApiUser user)
         {
             Contract.Requires(user != null, "The user must not be null.");
-            Contract.Ensures(Contract.Result<UserCache>() != null, "The user cache returned must not be null.");
             return Task.FromResult<UserCache>(null);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        public bool IsUserCached(IWebApiUser user)
-        {
-            Contract.Requires(user != null, "The user must not be null.");
-            return true;
         }
 
         /// <summary>
@@ -101,16 +88,6 @@ namespace ECA.WebApi.Security
         public void Remove(IWebApiUser user)
         {
             Contract.Requires(user != null, "The user must not be null.");
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public bool IsUserCached(Guid userId)
-        {
-            return false;
         }
 
         /// <summary>
