@@ -17,6 +17,10 @@ using System.Web.Http.Description;
 using System.Diagnostics.Contracts;
 using ECA.WebApi.Security;
 using ECA.Business.Service.Admin;
+using CAM.Business.Service;
+using CAM.Business.Model;
+using ECA.Core.DynamicLinq.Filter;
+using CAM.Data;
 
 namespace ECA.WebApi.Controllers.Programs
 {
@@ -45,11 +49,14 @@ namespace ECA.WebApi.Controllers.Programs
         private static readonly ExpressionSorter<JustificationObjectiveDTO> DEFAULT_JUSTIFICATION_OBJECTIVE_DTO_SORTER =
             new ExpressionSorter<JustificationObjectiveDTO>(x => x.JustificationName, SortDirection.Ascending);
 
+        private static readonly ExpressionSorter<ResourceAuthorization> DEFAULT_RESOURCE_AUTHORIZATION_SORTER = new ExpressionSorter<ResourceAuthorization>(x => x.DisplayName, SortDirection.Ascending);
+
 
         private IProgramService programService;
         private IUserProvider userProvider;
         private IFocusCategoryService categoryService;
         private IJustificationObjectiveService justificationObjectiveService;
+        private IResourceService resourceService;
 
         /// <summary>
         /// Creates a new ProgramController with the given program service.
@@ -58,16 +65,18 @@ namespace ECA.WebApi.Controllers.Programs
         /// <param name="userProvider">The user provider.</param>
         /// <param name="categoryService">The focus category service.</param>
         /// <param name="justificationObjectiveService">The justification objective service.</param>
-        public ProgramsController(IProgramService programService, IUserProvider userProvider, IFocusCategoryService categoryService, IJustificationObjectiveService justificationObjectiveService)
+        public ProgramsController(IProgramService programService, IUserProvider userProvider, IFocusCategoryService categoryService, IJustificationObjectiveService justificationObjectiveService, IResourceService resourceService)
         {
             Contract.Requires(programService != null, "The program service must not be null.");
             Contract.Requires(userProvider != null, "The user provider must not be null.");
             Contract.Requires(categoryService != null, "The category service must not be null.");
             Contract.Requires(justificationObjectiveService != null, "The justification service must not be null.");
+            Contract.Requires(resourceService != null, "The resource service must not be null.");
             this.programService = programService;
             this.userProvider = userProvider;
             this.categoryService = categoryService;
             this.justificationObjectiveService = justificationObjectiveService;
+            this.resourceService = resourceService;
         }
 
         /// <summary>
@@ -222,6 +231,36 @@ namespace ECA.WebApi.Controllers.Programs
             {
                 return BadRequest(ModelState);
             }
+        }
+
+        [ResponseType(typeof(PagedQueryResults<ResourceAuthorization>))]
+        [Route("Programs/{programId}/Collaborators")]
+        [ResourceAuthorize(CAM.Data.Permission.PROGRAM_OWNER_VALUE, CAM.Data.ResourceType.PROGRAM_VALUE, "programId")]
+        public async Task<IHttpActionResult> GetCollaboratorsAsync([FromUri]int programId, [FromUri]PagingQueryBindingModel<ResourceAuthorization> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var authorizations = await GetResourceAuthorizationsAsync(GetQueryableOperator(programId, queryModel));
+                return Ok(authorizations);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+
+        private QueryableOperator<ResourceAuthorization> GetQueryableOperator(int programId, PagingQueryBindingModel<ResourceAuthorization> queryModel)
+        {
+            var queryOperator = queryModel.ToQueryableOperator(DEFAULT_RESOURCE_AUTHORIZATION_SORTER);
+            queryOperator.Filters.Add(new ExpressionFilter<ResourceAuthorization>(x => x.ForeignResourceId, ComparisonType.Equal, programId));
+            queryOperator.Filters.Add(new ExpressionFilter<ResourceAuthorization>(x => x.ResourceTypeId, ComparisonType.Equal, ResourceType.Program.Id));
+            return queryOperator;
+        }
+
+        private Task<PagedQueryResults<ResourceAuthorization>> GetResourceAuthorizationsAsync(QueryableOperator<ResourceAuthorization> queryOperator)
+        {
+            return resourceService.GetResourceAuthorizationsAsync(queryOperator);
         }
     }
 }
