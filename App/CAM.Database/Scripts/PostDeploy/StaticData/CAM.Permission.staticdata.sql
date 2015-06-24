@@ -30,6 +30,7 @@ DECLARE @tblTempTable TABLE (
 [RevisedBy] nvarchar(50),
 [IsActive] bit,
 [ResourceTypeId] int,
+[ParentResourceTypeId] int,
 [ResourceId] int,
 [PermissionDescription] nchar(255)
 )
@@ -41,20 +42,19 @@ DECLARE @tblTempTable TABLE (
 -- removed entries. If you remove an entry then it will no longer
 -- be added to new databases based on your schema, but the entry
 -- will not be deleted from databases in which the value already exists.
-INSERT INTO @tblTempTable ([PermissionId], [PermissionName], [CreatedOn], [CreatedBy], [RevisedOn], [RevisedBy], [IsActive], [ResourceTypeId], [ResourceId], [PermissionDescription]) VALUES ('1', 'View Office', '4/14/2015 12:00:00 AM -04:00', '1', '4/14/2015 12:00:00 AM -04:00', '1', 'True', '2', NULL, 'Can View Office Overview Information')
-INSERT INTO @tblTempTable ([PermissionId], [PermissionName], [CreatedOn], [CreatedBy], [RevisedOn], [RevisedBy], [IsActive], [ResourceTypeId], [ResourceId], [PermissionDescription]) VALUES ('2', 'View Program', '4/14/2015 12:00:00 AM -04:00', '1', '4/14/2015 12:00:00 AM -04:00', '1', 'True', '3', NULL, 'Can View Program Overview Information')
-INSERT INTO @tblTempTable ([PermissionId], [PermissionName], [CreatedOn], [CreatedBy], [RevisedOn], [RevisedBy], [IsActive], [ResourceTypeId], [ResourceId], [PermissionDescription]) VALUES ('3', 'View Project', '4/14/2015 12:00:00 AM -04:00', '1', '4/14/2015 12:00:00 AM -04:00', '1', 'True', '4', NULL, 'Can View Project Overview Information')
-INSERT INTO @tblTempTable ([PermissionId], [PermissionName], [CreatedOn], [CreatedBy], [RevisedOn], [RevisedBy], [IsActive], [ResourceTypeId], [ResourceId], [PermissionDescription]) VALUES ('4', 'Edit Office', '4/14/2015 12:00:00 AM -04:00', '1', '4/14/2015 12:00:00 AM -04:00', '1', 'True', '2', NULL, 'Can Create/Edit Offices')
-INSERT INTO @tblTempTable ([PermissionId], [PermissionName], [CreatedOn], [CreatedBy], [RevisedOn], [RevisedBy], [IsActive], [ResourceTypeId], [ResourceId], [PermissionDescription]) VALUES ('5', 'Edit Program', '4/14/2015 12:00:00 AM -04:00', '1', '4/14/2015 12:00:00 AM -04:00', '1', 'True', '3', NULL, 'Can Create/Edit Program')
-INSERT INTO @tblTempTable ([PermissionId], [PermissionName], [CreatedOn], [CreatedBy], [RevisedOn], [RevisedBy], [IsActive], [ResourceTypeId], [ResourceId], [PermissionDescription]) VALUES ('7', 'Edit Project', '4/14/2015 12:00:00 AM -04:00', '1', '4/14/2015 12:00:00 AM -04:00', '1', 'True', '4', NULL, 'Can Create/Edit Project')
-INSERT INTO @tblTempTable ([PermissionId], [PermissionName], [CreatedOn], [CreatedBy], [RevisedOn], [RevisedBy], [IsActive], [ResourceTypeId], [ResourceId], [PermissionDescription]) VALUES ('8', 'Project Owner', '4/14/2015 12:00:00 AM -04:00', '1', '4/14/2015 12:00:00 AM -04:00', '1', 'True', '4', NULL, 'Can Assign Collaborators to a Project.')
-
+INSERT INTO @tblTempTable ([PermissionId], [PermissionName], [CreatedOn], [CreatedBy], [RevisedOn], [RevisedBy], [IsActive], [ResourceTypeId], [ParentResourceTypeId], [ResourceId], [PermissionDescription]) VALUES ('1', 'View Office', '4/14/2015 12:00:00 AM -04:00', '1', '4/14/2015 12:00:00 AM -04:00', '1', 'True', '2', NULL, NULL, 'Can View Office Overview Information                                                                                                                                                                                                                           ')
+INSERT INTO @tblTempTable ([PermissionId], [PermissionName], [CreatedOn], [CreatedBy], [RevisedOn], [RevisedBy], [IsActive], [ResourceTypeId], [ParentResourceTypeId], [ResourceId], [PermissionDescription]) VALUES ('2', 'View Program', '4/14/2015 12:00:00 AM -04:00', '1', '4/14/2015 12:00:00 AM -04:00', '1', 'True', '3', '2', NULL, 'Can View Program Overview Information                                                                                                                                                                                                                          ')
+INSERT INTO @tblTempTable ([PermissionId], [PermissionName], [CreatedOn], [CreatedBy], [RevisedOn], [RevisedBy], [IsActive], [ResourceTypeId], [ParentResourceTypeId], [ResourceId], [PermissionDescription]) VALUES ('3', 'View Project', '4/14/2015 12:00:00 AM -04:00', '1', '4/14/2015 12:00:00 AM -04:00', '1', 'True', '4', '3', NULL, 'Can View Project Overview Information                                                                                                                                                                                                                          ')
+INSERT INTO @tblTempTable ([PermissionId], [PermissionName], [CreatedOn], [CreatedBy], [RevisedOn], [RevisedBy], [IsActive], [ResourceTypeId], [ParentResourceTypeId], [ResourceId], [PermissionDescription]) VALUES ('4', 'Edit Office', '4/14/2015 12:00:00 AM -04:00', '1', '4/14/2015 12:00:00 AM -04:00', '1', 'True', '2', NULL, NULL, 'Can Create/Edit Offices                                                                                                                                                                                                                                        ')
+INSERT INTO @tblTempTable ([PermissionId], [PermissionName], [CreatedOn], [CreatedBy], [RevisedOn], [RevisedBy], [IsActive], [ResourceTypeId], [ParentResourceTypeId], [ResourceId], [PermissionDescription]) VALUES ('5', 'Edit Program', '4/14/2015 12:00:00 AM -04:00', '1', '4/14/2015 12:00:00 AM -04:00', '1', 'True', '3', '2', NULL, 'Can Create/Edit Program                                                                                                                                                                                                                                        ')
+INSERT INTO @tblTempTable ([PermissionId], [PermissionName], [CreatedOn], [CreatedBy], [RevisedOn], [RevisedBy], [IsActive], [ResourceTypeId], [ParentResourceTypeId], [ResourceId], [PermissionDescription]) VALUES ('7', 'Edit Project', '4/14/2015 12:00:00 AM -04:00', '1', '4/14/2015 12:00:00 AM -04:00', '1', 'True', '4', '3', NULL, 'Can Create/Edit Project                                                                                                                                                                                                                                        ')
+INSERT INTO @tblTempTable ([PermissionId], [PermissionName], [CreatedOn], [CreatedBy], [RevisedOn], [RevisedBy], [IsActive], [ResourceTypeId], [ParentResourceTypeId], [ResourceId], [PermissionDescription]) VALUES ('8', 'Project Owner', '4/14/2015 12:00:00 AM -04:00', '1', '4/14/2015 12:00:00 AM -04:00', '1', 'True', '4', '3', NULL, 'Can Assign Collaborators to a Project.                                                                                                                                                                                                                         ')
 
 
 -- 3: Insert any new items into the table from the table variable
 SET IDENTITY_INSERT [cam].[Permission] ON
-INSERT INTO [cam].[Permission] ([PermissionId], [PermissionName], [CreatedOn], [CreatedBy], [RevisedOn], [RevisedBy], [IsActive], [ResourceTypeId], [ResourceId], [PermissionDescription])
-SELECT tmp.[PermissionId], tmp.[PermissionName], tmp.[CreatedOn], tmp.[CreatedBy], tmp.[RevisedOn], tmp.[RevisedBy], tmp.[IsActive], tmp.[ResourceTypeId], tmp.[ResourceId], tmp.[PermissionDescription]
+INSERT INTO [cam].[Permission] ([PermissionId], [PermissionName], [CreatedOn], [CreatedBy], [RevisedOn], [RevisedBy], [IsActive], [ResourceTypeId], [ParentResourceTypeId], [ResourceId], [PermissionDescription])
+SELECT tmp.[PermissionId], tmp.[PermissionName], tmp.[CreatedOn], tmp.[CreatedBy], tmp.[RevisedOn], tmp.[RevisedBy], tmp.[IsActive], tmp.[ResourceTypeId], tmp.[ParentResourceTypeId], tmp.[ResourceId], tmp.[PermissionDescription]
 FROM @tblTempTable tmp
 LEFT JOIN [cam].[Permission] tbl ON tbl.[PermissionId] = tmp.[PermissionId]
 WHERE tbl.[PermissionId] IS NULL
@@ -69,6 +69,7 @@ LiveTable.[RevisedOn] = tmp.[RevisedOn],
 LiveTable.[RevisedBy] = tmp.[RevisedBy],
 LiveTable.[IsActive] = tmp.[IsActive],
 LiveTable.[ResourceTypeId] = tmp.[ResourceTypeId],
+LiveTable.[ParentResourceTypeId] = tmp.[ParentResourceTypeId],
 LiveTable.[ResourceId] = tmp.[ResourceId],
 LiveTable.[PermissionDescription] = tmp.[PermissionDescription]
 FROM [cam].[Permission] LiveTable 

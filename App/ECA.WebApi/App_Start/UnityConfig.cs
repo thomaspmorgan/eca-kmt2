@@ -127,8 +127,6 @@ namespace ECA.WebApi
             container.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPrincipalService, PrincipalService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPermissableService, ResourceService>(new HierarchicalLifetimeManager());
-
-            container.RegisterType<IPermissionService, PermissionService>(new HierarchicalLifetimeManager());
             container.RegisterType<IUserProvider, BearerTokenUserProvider>(new HierarchicalLifetimeManager());
             container.RegisterType<ObjectCache>(new InjectionFactory((c) =>
             {
@@ -142,6 +140,10 @@ namespace ECA.WebApi
             container.RegisterType<IResourceService, ResourceService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
             {
                 return new ResourceService(c.Resolve<CamModel>(), c.Resolve<ObjectCache>(), cacheLifeInSeconds);
+            }));
+            container.RegisterType<IPermissionService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
+            {
+                return new PermissionService(c.Resolve<CamModel>(), c.Resolve<ObjectCache>(), cacheLifeInSeconds);
             }));
             container.RegisterType<IResourceAuthorizationHandler, ResourceAuthorizationHandler>(new HierarchicalLifetimeManager());
         }

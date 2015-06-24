@@ -68,7 +68,14 @@ namespace CAM.Business.Service
         /// <returns>A formatted string of the resource cache.</returns>
         public override string ToString()
         {
-            return String.Format("ForeignResourceId:  [{0}], ParentForeignResourceId:  [{1}], ParentResourceId:  [{2}], ParentResourceTypeId:  [{3}], ResourceTypeId:  [{4}], ResourceId:  [{5}].");
+            return String.Format(
+                "ForeignResourceId:  [{0}], ParentForeignResourceId:  [{1}], ParentResourceId:  [{2}], ParentResourceTypeId:  [{3}], ResourceTypeId:  [{4}], ResourceId:  [{5}].",
+                this.ForeignResourceId,
+                this.ParentForeignResourceId,
+                this.ParentResourceId,
+                this.ParentResourceTypeId,
+                this.ResourceTypeId,
+                this.ResourceId);
         }
     }
 }

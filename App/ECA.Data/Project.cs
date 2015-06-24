@@ -132,21 +132,37 @@ namespace ECA.Data
             }
         }
 
+        /// <summary>
+        /// Returns the project id.
+        /// </summary>
+        /// <returns>The project id.</returns>
         int IPermissable.GetId()
         {
             return this.ProjectId;
         }
 
+        /// <summary>
+        /// Returns the project permissable type.
+        /// </summary>
+        /// <returns>The project permissable type.</returns>
         public PermissableType GetPermissableType()
         {
             return PermissableType.Project;
         }
 
+        /// <summary>
+        /// Returns the parent program id.
+        /// </summary>
+        /// <returns>The parent program id.</returns>
         public int? GetParentId()
         {
             return this.ProgramId;
         }
 
+        /// <summary>
+        /// Returns the program permissable type.
+        /// </summary>
+        /// <returns>The program permissable type.</returns>
         public PermissableType GetParentPermissableType()
         {
             return PermissableType.Program;
