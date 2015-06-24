@@ -84,9 +84,10 @@ namespace CAM.Business.Service
         /// <returns></returns>
         public ForeignResourceCache GetResourceByForeignResourceId(int foreignResourceId, int resourceTypeId)
         {
-            if (IsCached(foreignResourceId, resourceTypeId))
+            var cache = GetCachedForeignResourceCache(foreignResourceId, resourceTypeId);
+            if (cache != null)
             {
-                return HandleCachedResource(foreignResourceId, resourceTypeId);
+                return cache;
             }
             else
             {
@@ -115,9 +116,10 @@ namespace CAM.Business.Service
         /// <returns></returns>
         public async Task<ForeignResourceCache> GetResourceByForeignResourceIdAsync(int foreignResourceId, int resourceTypeId)
         {
-            if (IsCached(foreignResourceId, resourceTypeId))
-            {
-                return HandleCachedResource(foreignResourceId, resourceTypeId);
+            var cache = GetCachedForeignResourceCache(foreignResourceId, resourceTypeId);
+            if (cache != null)
+            {   
+                return cache;
             }
             else
             {
@@ -136,14 +138,6 @@ namespace CAM.Business.Service
                 var resourceId = resource != null ? resource.ResourceId : default(int?);
                 return HandleNonCachedResource(foreignResourceId, resourceId, resourceTypeId, parentForeignResourceId, parentResourceId, parentResourceTypeId);
             }
-        }
-
-        private ForeignResourceCache HandleCachedResource(int foreignResourceId, int resourceTypeId)
-        {
-            var item = GetForeignResourceCache(foreignResourceId, resourceTypeId);
-            Contract.Assert(item != null, "The item must not be null.");
-            logger.Info("The foreign resource with id [{0}] of type [{1}] was cached with resource id [{2}].", foreignResourceId, resourceTypeId, item.ResourceId);
-            return item;
         }
 
         private ForeignResourceCache HandleNonCachedResource(int foreignResourceId, int? resourceId, int resourceTypeId, int? parentForeignResourceId, int? parentResourceId, int? parentResourceTypeId)
@@ -199,18 +193,6 @@ namespace CAM.Business.Service
         }
 
         /// <summary>
-        /// Returns true if a cached object exists for an item with the given foreign resource id and resource type id.
-        /// </summary>
-        /// <param name="foreignResourceId">The foreign resource id.</param>
-        /// <param name="resourceTypeId">The resource type id.</param>
-        /// <returns>True, if a cached object exists, otherwise, false.</returns>
-        public bool IsCached(int foreignResourceId, int resourceTypeId)
-        {
-            var key = GetKey(foreignResourceId, resourceTypeId);
-            return cache.Get(key) != null;
-        }
-
-        /// <summary>
         /// Adds a ForeignResourceCache object with the given foreign resource id, resource id, and
         /// resource type id.
         /// </summary>
@@ -262,13 +244,15 @@ namespace CAM.Business.Service
         /// <param name="foreignResourceId">The foreign resource id.</param>
         /// <param name="resourceTypeId">The resource type id.</param>
         /// <returns>The cached ForeignResourceCache instance, or null if none exists.</returns>
-        public ForeignResourceCache GetForeignResourceCache(int foreignResourceId, int resourceTypeId)
+        public ForeignResourceCache GetCachedForeignResourceCache(int foreignResourceId, int resourceTypeId)
         {
             var key = GetKey(foreignResourceId, resourceTypeId);
             var item = cache.Get(key);
             if (item != null)
             {
-                return (ForeignResourceCache)item;
+                var cachedItem = (ForeignResourceCache)item;
+                logger.Info("The foreign resource with id [{0}] of type [{1}] was cached with value.", foreignResourceId, resourceTypeId, cachedItem);
+                return cachedItem;
             }
             else
             {
@@ -407,7 +391,10 @@ namespace CAM.Business.Service
 
         #region IPermissableService
 
-
+        /// <summary>
+        /// Handles the added IPermissable entities.
+        /// </summary>
+        /// <param name="addedEntities">The added entities.</param>
         public void OnAdded(IList<IPermissable> addedEntities)
         {
             if (addedEntities.Count > MAX_LEVEL_OF_ENTITIES_TO_REGISTER)
@@ -420,6 +407,10 @@ namespace CAM.Business.Service
             }
         }
 
+        /// <summary>
+        /// Handles the added IPermissable entities.
+        /// </summary>
+        /// <param name="addedEntities">The added entities.</param>
         public async Task OnAddedAsync(IList<IPermissable> addedEntities)
         {
             if (addedEntities.Count > MAX_LEVEL_OF_ENTITIES_TO_REGISTER)
@@ -432,6 +423,10 @@ namespace CAM.Business.Service
             }
         }
 
+        /// <summary>
+        /// Handles a single added permissable entity by adding it as a cam resource.
+        /// </summary>
+        /// <param name="addedEntity">The added entity.</param>
         public void OnAdded(IPermissable addedEntity)
         {
             var existingResource = ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, addedEntity.GetId(), addedEntity.GetPermissableType().GetResourceTypeId())
@@ -446,9 +441,14 @@ namespace CAM.Business.Service
                 .FirstOrDefault();
             }
             DoOnAdded(addedEntity, existingResource, parentResource);
+            logger.Info("Saving cam model context changes.");
             this.Context.SaveChanges();
         }
 
+        /// <summary>
+        /// Handles a single added permissable entity by adding it as a cam resource.
+        /// </summary>
+        /// <param name="addedEntity">The added entity.</param>
         public async Task OnAddedAsync(IPermissable addedEntity)
         {
             var existingResource = await ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, addedEntity.GetId(), addedEntity.GetPermissableType().GetResourceTypeId())
@@ -463,6 +463,7 @@ namespace CAM.Business.Service
                 .FirstOrDefaultAsync();
             }
             DoOnAdded(addedEntity, existingResource, parentResource);
+            logger.Info("Saving cam model context changes.");
             await this.Context.SaveChangesAsync();
         }
 
@@ -477,6 +478,7 @@ namespace CAM.Business.Service
 
         private Resource AddResourceToCAM(IPermissable permissable, Resource parentResource)
         {
+            logger.Info("Adding the permissable entity with id [{0}] and permissable type [{1}] to CAM.", permissable.GetId(), permissable.GetPermissableType());
             var resource = new Resource
             {
                 ForeignResourceId = permissable.GetId(),
@@ -486,9 +488,11 @@ namespace CAM.Business.Service
             {
                 resource.ParentResourceId = parentResource.ResourceId;
                 resource.ParentResource = parentResource;
+                logger.Info("Setting parent resource to existing resource with id [{0}] to new cam resource.", parentResource.ResourceId);
             }
             else if (permissable.GetParentId().HasValue && parentResource == null)
             {
+                logger.Info("Parent resource does not exist.  Adding to CAM.");
                 var newParentResource = new Resource
                 {
                     ForeignResourceId = permissable.GetParentId().Value,
@@ -502,6 +506,10 @@ namespace CAM.Business.Service
             return resource;
         }
 
+        /// <summary>
+        /// Handles the given updated entities.
+        /// </summary>
+        /// <param name="updatedEntities">The updated permissable entities.</param>
         public void OnUpdated(IList<IPermissable> updatedEntities)
         {
             if (updatedEntities.Count > MAX_LEVEL_OF_ENTITIES_TO_REGISTER)
@@ -514,6 +522,10 @@ namespace CAM.Business.Service
             }
         }
 
+        /// <summary>
+        /// Handles the given updated entities.
+        /// </summary>
+        /// <param name="updatedEntities">The updated permissable entities.</param>
         public async Task OnUpdatedAsync(IList<IPermissable> updatedEntities)
         {
             if (updatedEntities.Count > MAX_LEVEL_OF_ENTITIES_TO_REGISTER)
@@ -526,6 +538,11 @@ namespace CAM.Business.Service
             }
         }
 
+        /// <summary>
+        /// Updates the given permissable entity in CAM by updating it's parent resource if necessary.
+        /// </summary>
+        /// <param name="updatedEntity">The updated entity.</param>
+        /// <returns>The task.</returns>
         public async Task OnUpdatedAsync(IPermissable updatedEntity)
         {
             var resource = await ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, updatedEntity.GetId(), updatedEntity.GetPermissableType().GetResourceTypeId()).FirstOrDefaultAsync();
@@ -543,6 +560,11 @@ namespace CAM.Business.Service
             await this.Context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Updates the given permissable entity in CAM by updating it's parent resource if necessary.
+        /// </summary>
+        /// <param name="updatedEntity">The updated entity.</param>
+        /// <returns>The task.</returns>
         public void OnUpdated(IPermissable updatedEntity)
         {
             var resource = ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, updatedEntity.GetId(), updatedEntity.GetPermissableType().GetResourceTypeId()).FirstOrDefault();
@@ -585,6 +607,10 @@ namespace CAM.Business.Service
             }
         }
 
+        /// <summary>
+        /// Removes the given resource from the resource cache.
+        /// </summary>
+        /// <param name="resource">The resource to remove from the cache.</param>
         public void RemoveFromCache(Resource resource)
         {
             if (resource != null)
@@ -593,6 +619,10 @@ namespace CAM.Business.Service
             }
         }
 
+        /// <summary>
+        /// Removes the permissable entity and its parent from the resource cache.
+        /// </summary>
+        /// <param name="permissable">The permissable to entity to remove from the cache.</param>
         public void RemoveFromCache(IPermissable permissable)
         {
             if (permissable != null)

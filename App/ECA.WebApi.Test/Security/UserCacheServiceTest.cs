@@ -93,8 +93,7 @@ namespace ECA.WebApi.Test.Security
 
             var testService = new UserCacheService(cache.Object, expectedTimeToLive);
             Assert.AreEqual(0, testService.GetCount());
-            testService.Invoking(x => x.GetUserCache(user)).ShouldThrow<NotSupportedException>()
-                .WithMessage("The user should have a cached object in the system cache.  Be sure use to the IsUserCached method and Add method for user cache logic.");
+            Assert.IsNull(testService.GetUserCache(user));
         }
 
         [TestMethod]
@@ -264,85 +263,6 @@ namespace ECA.WebApi.Test.Security
             policy.AbsoluteExpiration.Should().BeCloseTo(DateTimeOffset.UtcNow.AddSeconds((double)expectedTimeToLive));
             Assert.IsNotNull(policy.RemovedCallback);
             policy.Invoking(x => x.RemovedCallback(new CacheEntryRemovedArguments(cache.Object, CacheEntryRemovedReason.Removed, new CacheItem(Guid.NewGuid().ToString())))).ShouldNotThrow();
-        }
-
-        [TestMethod]
-        public void TestIsUserCached_NoUserCached()
-        {
-            var user = new SimpleUser
-            {
-                Id = Guid.NewGuid()
-            };
-            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
-            Assert.AreEqual(0, testService.GetCount());
-            Assert.AreEqual(0, cacheDictionary.Count);
-            Assert.IsFalse(testService.IsUserCached(user));
-        }
-
-        [TestMethod]
-        public void TestIsUserCached_MultipleUsersCached_RequestedUserNotCached()
-        {
-            var camId1 = 1;
-            var isCamUser1Valid = true;
-            var isCamUser2Valid = true;
-            var camUser1 = new User
-            {
-                PrincipalId = camId1,
-            };
-            var camId2 = 1;
-            var camUser2 = new User
-            {
-                PrincipalId = camId2,
-            };
-            var user1 = new SimpleUser
-            {
-                Id = Guid.NewGuid()
-            };
-            var user2 = new SimpleUser
-            {
-                Id = Guid.NewGuid()
-            };
-            var testUser = new SimpleUser
-            {
-                Id = Guid.NewGuid()
-            };
-            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
-            Assert.AreEqual(0, testService.GetCount());
-            Assert.AreEqual(0, cacheDictionary.Count);
-            testService.Add(new UserCache(user1, camUser1, isCamUser1Valid));
-            testService.Add(new UserCache(user2, camUser2, isCamUser2Valid));
-            Assert.IsFalse(testService.IsUserCached(testUser));
-        }
-
-        [TestMethod]
-        public void TestIsUserCached_MultipleUsersCached_UserIsCached()
-        {
-            var camId1 = 1;
-            var isCamUser1Valid = true;
-            var isCamUser2Valid = true;
-            var camUser1 = new User
-            {
-                PrincipalId = camId1,
-            };
-            var camId2 = 1;
-            var camUser2 = new User
-            {
-                PrincipalId = camId2,
-            };
-            var user1 = new SimpleUser
-            {
-                Id = Guid.NewGuid()
-            };
-            var user2 = new SimpleUser
-            {
-                Id = Guid.NewGuid()
-            };
-            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
-            Assert.AreEqual(0, testService.GetCount());
-            Assert.AreEqual(0, cacheDictionary.Count);
-            testService.Add(new UserCache(user1, camUser1, isCamUser1Valid));
-            testService.Add(new UserCache(user2, camUser2, isCamUser2Valid));
-            Assert.IsTrue(testService.IsUserCached(user1));
         }
     }
 }

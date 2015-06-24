@@ -70,7 +70,6 @@ namespace ECA.WebApi.Test.Security
             };
             var isUserValid = true;
             var userCache = new UserCache(user, camUser, isUserValid);
-            cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(true);
             cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(userCache);
 
             var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
@@ -98,7 +97,6 @@ namespace ECA.WebApi.Test.Security
             };
             var permissions = new List<IPermission>();
             var userCache = new UserCache(user, camUser, isUserValid, permissions);
-            cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(true);
             cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(userCache);
 
             var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
@@ -126,7 +124,6 @@ namespace ECA.WebApi.Test.Security
             };
             var permissions = new List<IPermission>();
             var userCache = new UserCache(user, camUser, isUserValid, permissions);
-            cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(true);
             cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(userCache);
 
             Action<UserCache> tester = (testCache) =>
@@ -152,23 +149,27 @@ namespace ECA.WebApi.Test.Security
                 Id = Guid.NewGuid()
             };
             var permissions = new List<IPermission>();
-            var userCache = new UserCache(user, camUser, isUserValid, permissions);
-            cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(false);
-            cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(userCache);
+            Action<UserCache> addCallback = (c) => 
+            {
+                Assert.IsNotNull(c);
+                Assert.AreEqual(camId, c.CamPrincipalId);
+                Assert.AreEqual(isUserValid, c.IsValidCamUser);
+                Assert.AreEqual(user.Id, c.UserId);
+            };
+            cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(default(UserCache));
+            cacheService.Setup(x => x.Add(It.IsAny<UserCache>())).Callback(addCallback);
+
             permissionService.Setup(x => x.GetAllowedPermissionsByPrincipalIdAsync(It.IsAny<int>())).ReturnsAsync(permissions);
             userService.Setup(x => x.GetUserById(It.IsAny<Guid>())).Returns(camUser);
             userService.Setup(x => x.GetUserByIdAsync(It.IsAny<Guid>())).ReturnsAsync(camUser);
             userService.Setup(x => x.IsUserValid(It.IsAny<Guid>())).Returns(isUserValid);
             userService.Setup(x => x.IsUserValidAsync(It.IsAny<Guid>())).ReturnsAsync(isUserValid);
 
-            Action<UserCache> tester = (testCache) =>
-            {
-                Assert.IsTrue(Object.ReferenceEquals(userCache, testCache));
-            };
             var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
-            tester(provider.GetUserCache(user));
-            tester(await provider.GetUserCacheAsync(user));
+            provider.GetUserCache(user);
+            await provider.GetUserCacheAsync(user);
             
+            //be sure we make it through the IsValidUser check and load the user permissions.
             permissionService.Verify(x => x.GetAllowedPermissionsByPrincipalIdAsync(It.IsAny<int>()), Times.Exactly(1));
             permissionService.Verify(x => x.GetAllowedPermissionsByPrincipalId(It.IsAny<int>()), Times.Exactly(1));
         }
@@ -181,18 +182,15 @@ namespace ECA.WebApi.Test.Security
             {
                 Id = Guid.NewGuid()
             };
-            UserCache cache = null;
-            Action<UserCache> userCacheSetter = (uc) =>
-                {
-                    cache = uc;
-                };
-            Func<UserCache> getUserCache = () => cache;
             User nullUser = null;
             var permissions = new List<IPermission>();
-            cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(cache != null);
-            cacheService.Setup(x => x.Add(It.IsAny<UserCache>())).Callback(userCacheSetter);
-            cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(getUserCache);
+            Action<UserCache> tester = (c) => 
+            {
+                Assert.AreEqual(0, c.Permissions.Count());
+            };
 
+            cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(default(UserCache));
+            cacheService.Setup(x => x.Add(It.IsAny<UserCache>())).Callback(tester);
             permissionService.Setup(x => x.GetAllowedPermissionsByPrincipalIdAsync(It.IsAny<int>())).ReturnsAsync(permissions);
 
             userService.Setup(x => x.GetUserById(It.IsAny<Guid>())).Returns(nullUser);
@@ -200,15 +198,12 @@ namespace ECA.WebApi.Test.Security
             userService.Setup(x => x.IsUserValid(It.IsAny<Guid>())).Returns(isUserValid);
             userService.Setup(x => x.IsUserValidAsync(It.IsAny<Guid>())).ReturnsAsync(isUserValid);
 
-            Action<UserCache> tester = (testCache) =>
-            {
-                Assert.AreEqual(0, testCache.Permissions.Count());
-
-            };
             var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
-            var z = provider.GetUserCache(user);
-            tester(provider.GetUserCache(user));
-            tester(await provider.GetUserCacheAsync(user));
+            provider.GetUserCache(user);
+            userService.Verify(x => x.GetUserById(It.IsAny<Guid>()), Times.Once());
+
+            await provider.GetUserCacheAsync(user);
+            userService.Verify(x => x.GetUserByIdAsync(It.IsAny<Guid>()), Times.Once());
 
             permissionService.Verify(x => x.GetAllowedPermissionsByPrincipalIdAsync(It.IsAny<int>()), Times.Exactly(0));
         }
@@ -228,7 +223,6 @@ namespace ECA.WebApi.Test.Security
             };
             var permissions = new List<IPermission>();
             var userCache = new UserCache(user, camUser, isUserValid, permissions);
-            cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(false);
             cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(userCache);
             userService.Setup(x => x.GetUserById(It.IsAny<Guid>())).Returns(camUser);
             userService.Setup(x => x.GetUserByIdAsync(It.IsAny<Guid>())).ReturnsAsync(camUser);
@@ -259,7 +253,6 @@ namespace ECA.WebApi.Test.Security
             };
             var permissions = new List<IPermission>();
             var userCache = new UserCache(user, camUser, isUserValid, permissions);
-            cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(false);
             cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(userCache);
             userService.Setup(x => x.GetUserById(It.IsAny<Guid>())).Returns(camUser);
             userService.Setup(x => x.GetUserByIdAsync(It.IsAny<Guid>())).ReturnsAsync(camUser);
@@ -290,7 +283,6 @@ namespace ECA.WebApi.Test.Security
             };
             var permissions = new List<IPermission>();
             var userCache = new UserCache(user, camUser, isUserValid, permissions);
-            cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(false);
             cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(userCache);
             userService.Setup(x => x.GetUserById(It.IsAny<Guid>())).Returns(camUser);
             userService.Setup(x => x.GetUserByIdAsync(It.IsAny<Guid>())).ReturnsAsync(camUser);
@@ -321,8 +313,7 @@ namespace ECA.WebApi.Test.Security
             };
             var permissions = new List<IPermission>();
             var userCache = new UserCache(user, camUser, isUserValid, permissions);
-            cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(true);
-            cacheService.Setup(x => x.IsUserCached(It.IsAny<Guid>())).Returns(true);
+            cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(userCache);
             cacheService.Setup(x => x.Remove(It.IsAny<IWebApiUser>()));
             cacheService.Setup(x => x.Remove(It.IsAny<Guid>()));
 
@@ -337,7 +328,6 @@ namespace ECA.WebApi.Test.Security
         public void TestClear_UserCacheIsNotPresent()
         {
             var camId = 1;
-            var isUserValid = true;
             var camUser = new User
             {
                 PrincipalId = camId,
@@ -347,14 +337,14 @@ namespace ECA.WebApi.Test.Security
                 Id = Guid.NewGuid()
             };
             var permissions = new List<IPermission>();
-            var userCache = new UserCache(user, camUser, isUserValid, permissions);
-            cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(false);
+            cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(default(UserCache));
             cacheService.Setup(x => x.Remove(It.IsAny<IWebApiUser>()));
 
             permissionService.Setup(x => x.GetAllowedPermissionsByPrincipalIdAsync(It.IsAny<int>())).ReturnsAsync(permissions);
             var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
             provider.Clear(user);
             cacheService.Verify(x => x.Remove(It.IsAny<IWebApiUser>()), Times.Never());
+            cacheService.Verify(x => x.Remove(It.IsAny<Guid>()), Times.Once());
         }
 
         #region Dispose

@@ -123,48 +123,6 @@ namespace CAM.Business.Test.Service
         }
 
         [TestMethod]
-        public void TestIsCached_NothingCached()
-        {
-            Assert.AreEqual(0, cacheDictionary.Count);
-            var foreignResourceId = 1;
-            var resourceTypeId = 2;
-            Assert.IsFalse(service.IsCached(foreignResourceId, resourceTypeId));
-        }
-
-        [TestMethod]
-        public void TestIsCached_OneItemCached()
-        {
-            Assert.AreEqual(0, cacheDictionary.Count);
-            var foreignResourceId = 1;
-            var resourceTypeId = 2;
-            var resourceId = 3;
-            var parentResourceId = 4;
-            var parentForeignResourceId = 5;
-            var parentResourceTypeId = 6;
-
-            var resourceCache = new ForeignResourceCache(foreignResourceId, resourceId, resourceTypeId, parentForeignResourceId, parentResourceId, parentResourceTypeId);
-            service.Add(resourceCache);
-            Assert.AreEqual(1, cacheDictionary.Count);
-            Assert.IsTrue(service.IsCached(foreignResourceId, resourceTypeId));
-        }
-
-        [TestMethod]
-        public void TestIsCached_DifferentItemCached()
-        {
-            Assert.AreEqual(0, cacheDictionary.Count);
-            var foreignResourceId = 1;
-            var resourceTypeId = 2;
-            var resourceId = 3;
-            var parentResourceId = 4;
-            var parentForeignResourceId = 5;
-            var parentResourceTypeId = 6;
-            var resourceCache = new ForeignResourceCache(foreignResourceId, resourceId, resourceTypeId, parentForeignResourceId, parentResourceId, parentResourceTypeId);
-            service.Add(resourceCache);
-            Assert.AreEqual(1, cacheDictionary.Count);
-            Assert.IsFalse(service.IsCached(-1, -2));
-        }
-
-        [TestMethod]
         public void TestAdd()
         {
             Assert.AreEqual(0, cacheDictionary.Count);
@@ -176,7 +134,7 @@ namespace CAM.Business.Test.Service
             var parentResourceTypeId = 6;
             var cacheItem = service.Add(foreignResourceId, resourceId, resourceTypeId, parentForeignResourceId, parentResourceId, parentResourceTypeId);
             Assert.IsNotNull(cacheItem);
-            var testCacheItem = service.GetForeignResourceCache(foreignResourceId, resourceTypeId);
+            var testCacheItem = service.GetCachedForeignResourceCache(foreignResourceId, resourceTypeId);
             Assert.IsTrue(object.ReferenceEquals(cacheItem, testCacheItem));
 
             Assert.AreEqual(foreignResourceId, testCacheItem.ForeignResourceId);
@@ -197,17 +155,17 @@ namespace CAM.Business.Test.Service
         }
 
         [TestMethod]
-        public void TestGetForeignResourceCache_NoItemsCached()
+        public void TestGetCachedForeignResourceCache_NoItemsCached()
         {
             var foreignResourceId = 1;
             var resourceTypeId = 2;
             var resourceId = 3;
             Assert.AreEqual(0, cacheDictionary.Count);
-            Assert.IsNull(service.GetForeignResourceCache(foreignResourceId, resourceTypeId));
+            Assert.IsNull(service.GetCachedForeignResourceCache(foreignResourceId, resourceTypeId));
         }
 
         [TestMethod]
-        public void TestGetForeignResourceCache_DifferentItemCached()
+        public void TestGetCachedForeignResourceCache_DifferentItemCached()
         {
             var foreignResourceId = 1;
             var resourceTypeId = 2;
@@ -218,11 +176,11 @@ namespace CAM.Business.Test.Service
             var foreignResource = new ForeignResourceCache(foreignResourceId, resourceId, resourceTypeId, parentForeignResourceId, parentResourceId, parentResourceTypeId);
             service.Add(foreignResource);
             Assert.AreEqual(1, cacheDictionary.Count);
-            Assert.IsNull(service.GetForeignResourceCache(-1, -1));
+            Assert.IsNull(service.GetCachedForeignResourceCache(-1, -1));
         }
 
         [TestMethod]
-        public void TestGetForeignResourceCache()
+        public void TestGetCachedForeignResourceCache()
         {
             var foreignResourceId = 1;
             var resourceTypeId = 2;
@@ -234,7 +192,7 @@ namespace CAM.Business.Test.Service
             service.Add(foreignResource);
             Assert.AreEqual(1, cacheDictionary.Count);
 
-            var testItem = service.GetForeignResourceCache(foreignResourceId, resourceTypeId);
+            var testItem = service.GetCachedForeignResourceCache(foreignResourceId, resourceTypeId);
             Assert.IsNotNull(testItem);
             Assert.IsTrue(Object.ReferenceEquals(foreignResource, testItem));
         }
@@ -278,7 +236,7 @@ namespace CAM.Business.Test.Service
                 cacheDictionary.Clear();
                 context.Resources.Add(resource);
                 context.ResourceTypes.Add(resourceType);
-                Assert.IsFalse(service.IsCached(foreignResourceId, resourceType.ResourceTypeId));
+                Assert.IsNull(service.GetCachedForeignResourceCache(foreignResourceId, resourceType.ResourceTypeId));
             });
             Action<ForeignResourceCache> tester = (testCache) =>
             {
@@ -289,7 +247,7 @@ namespace CAM.Business.Test.Service
                 Assert.IsFalse(testCache.ParentResourceId.HasValue);
                 Assert.IsFalse(testCache.ParentResourceTypeId.HasValue);
 
-                Assert.IsTrue(service.IsCached(foreignResourceId, resourceType.ResourceTypeId));
+                Assert.IsNotNull(service.GetCachedForeignResourceCache(foreignResourceId, resourceType.ResourceTypeId));
                 var cacheItem = cacheDictionary.First().Value as ForeignResourceCache;
                 Assert.IsNotNull(cacheItem);
                 Assert.AreEqual(foreignResourceId, cacheItem.ForeignResourceId);
@@ -352,7 +310,7 @@ namespace CAM.Business.Test.Service
                 context.ResourceTypes.Add(resourceType);
                 context.Resources.Add(parentResource);
                 context.ResourceTypes.Add(parentResourceType);
-                Assert.IsFalse(service.IsCached(foreignResourceId, resourceType.ResourceTypeId));
+                Assert.IsNull(service.GetCachedForeignResourceCache(foreignResourceId, resourceType.ResourceTypeId));
             });
             Action<ForeignResourceCache> tester = (testCache) =>
             {   
@@ -363,7 +321,7 @@ namespace CAM.Business.Test.Service
                 Assert.AreEqual(parentResource.ResourceId, testCache.ParentResourceId);
                 Assert.AreEqual(parentResource.ResourceTypeId, testCache.ParentResourceTypeId);
 
-                Assert.IsTrue(service.IsCached(foreignResourceId, resourceType.ResourceTypeId));
+                Assert.IsNotNull(service.GetCachedForeignResourceCache(foreignResourceId, resourceType.ResourceTypeId));
                 var cacheItem = cacheDictionary.First().Value as ForeignResourceCache;
                 Assert.IsNotNull(cacheItem);
                 Assert.AreEqual(foreignResourceId, cacheItem.ForeignResourceId);
@@ -404,7 +362,7 @@ namespace CAM.Business.Test.Service
             Assert.AreEqual(0, context.Resources.Count());
             Assert.AreEqual(0, context.ResourceTypes.Count());
             var addedCache = service.Add(foreignResourceId, resourceId, resourceType.ResourceTypeId, null, null, null);
-            Assert.IsTrue(service.IsCached(foreignResourceId, resourceType.ResourceTypeId));
+            Assert.IsNotNull(service.GetCachedForeignResourceCache(foreignResourceId, resourceType.ResourceTypeId));
 
             Action<ForeignResourceCache> tester = (testCache) =>
             {
@@ -429,7 +387,7 @@ namespace CAM.Business.Test.Service
             Assert.AreEqual(0, context.Resources.Count());
             Assert.AreEqual(0, context.ResourceTypes.Count());
             Assert.AreEqual(0, cacheDictionary.Count);
-            Assert.IsFalse(service.IsCached(foreignResourceId, resourceTypeId));
+            Assert.IsNull(service.GetCachedForeignResourceCache(foreignResourceId, resourceTypeId));
 
             Action<ForeignResourceCache> tester = (testCache) =>
             {

@@ -162,9 +162,9 @@ namespace ECA.WebApi.Security
         public async Task<UserCache> GetUserCacheAsync(IWebApiUser user)
         {
             Contract.Requires(user != null, "The user must not be null.");
-            var isUserCached = cacheService.IsUserCached(user);
-            logger.Info("User [{0}] is cached:  {1}.", user, isUserCached);
-            if (!isUserCached)
+            var userCache = cacheService.GetUserCache(user);
+            logger.Info("User [{0}] is cached:  {1}.", user, userCache != null);
+            if (userCache == null)
             {
                 logger.Info("Caching user [{0}] information.", user);
                 var camUser = await userService.GetUserByIdAsync(user.Id);
@@ -196,9 +196,9 @@ namespace ECA.WebApi.Security
         public UserCache GetUserCache(IWebApiUser user)
         {
             Contract.Requires(user != null, "The user must not be null.");
-            var isUserCached = cacheService.IsUserCached(user);
-            logger.Info("User [{0}] is cached:  {1}.", user, isUserCached);
-            if (!isUserCached)
+            var userCache = cacheService.GetUserCache(user);
+            logger.Info("User [{0}] is cached:  {1}.", user, userCache != null);
+            if (userCache == null)
             {
                 logger.Info("Caching user [{0}] information.", user);
                 var camUser = userService.GetUserById(user.Id);
@@ -250,11 +250,8 @@ namespace ECA.WebApi.Security
         /// <param name="userId">The id of the user to clear cache.</param>
         public void Clear(Guid userId)
         {
-            if (this.cacheService.IsUserCached(userId))
-            {
-                this.cacheService.Remove(userId);
-                logger.Info("Removed user with id [{0}] from cache.", userId);
-            }
+            this.cacheService.Remove(userId);
+            logger.Info("Removed user with id [{0}] from cache.", userId);
         }
 
         /// <summary>
@@ -304,11 +301,7 @@ namespace ECA.WebApi.Security
 
         private void BeforeImpersonateUser(Guid impersonatorId)
         {
-            var isUserCached = cacheService.IsUserCached(impersonatorId);
-            if (isUserCached)
-            {
-                this.Clear(impersonatorId);
-            }
+            this.Clear(impersonatorId);
         }
 
         #region IDispose

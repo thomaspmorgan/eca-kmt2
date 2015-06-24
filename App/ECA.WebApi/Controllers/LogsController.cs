@@ -83,7 +83,7 @@ namespace ECA.WebApi.Controllers
 
         private string GetCurrentLogFile()
         {
-            var currentLogFolder = System.Web.Hosting.HostingEnvironment.MapPath("~/log");
+            var currentLogFolder = System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data");
             var directoryInfo = new DirectoryInfo(currentLogFolder);
             if (directoryInfo.Exists)
             {
@@ -103,7 +103,7 @@ namespace ECA.WebApi.Controllers
 
         private List<string> GetArchiveLogFiles()
         {
-            var archiveLogFolder = System.Web.Hosting.HostingEnvironment.MapPath("~/log/archive");
+            var archiveLogFolder = System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/archive");
             var info = new DirectoryInfo(archiveLogFolder);
             if (info.Exists)
             {

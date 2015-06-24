@@ -27,20 +27,6 @@ namespace ECA.WebApi.Security
         UserCache GetUserCache(IWebApiUser user);
 
         /// <summary>
-        /// Returns true if the user has a cache item.
-        /// </summary>
-        /// <param name="user">The user to check.</param>
-        /// <returns>True, if a UserCache exists for the given user.</returns>
-        bool IsUserCached(IWebApiUser user);
-
-        /// <summary>
-        /// Returns true if the user has a cache item.
-        /// </summary>
-        /// <param name="userId">The user id to check.</param>
-        /// <returns>True, if a UserCache exists for the given user.</returns>
-        bool IsUserCached(Guid userId);
-
-        /// <summary>
         /// Removes all cached items for the given user.
         /// </summary>
         /// <param name="user">The user to remove cache for.</param>
