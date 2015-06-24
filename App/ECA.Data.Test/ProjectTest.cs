@@ -19,6 +19,17 @@ namespace ECA.Data.Test
         }
         #region Permissable
         [TestMethod]
+        public void TestIsExempt()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var permissable = project as IPermissable;
+            Assert.IsFalse(permissable.IsExempt());
+        }
+
+        [TestMethod]
         public void TestGetId_Permissable()
         {
             var project = new Project

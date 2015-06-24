@@ -21,6 +21,17 @@ namespace ECA.Data.Test
 
         #region Permissable
         [TestMethod]
+        public void TestIsExempt()
+        {
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            var permissable = program as IPermissable;
+            Assert.IsFalse(permissable.IsExempt());
+        }
+
+        [TestMethod]
         public void TestGetId_Permissable()
         {
             var program = new Program

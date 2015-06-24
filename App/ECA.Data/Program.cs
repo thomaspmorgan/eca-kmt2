@@ -194,6 +194,15 @@ namespace ECA.Data
         {
             return PermissableType.Office;
         }
+
+        /// <summary>
+        /// Returns false a program is not exempt from permission protection.
+        /// </summary>
+        /// <returns>False.</returns>
+        public bool IsExempt()
+        {
+            return false;
+        }
     }
 }
 

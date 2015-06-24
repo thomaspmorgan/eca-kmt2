@@ -29,6 +29,8 @@ namespace CAM.Business.Test.Service
 
         public PermissableType ParentPermissableType { get; set; }
 
+        public bool Exempt { get; set; }
+
         public int GetId()
         {
             return this.Id;
@@ -47,6 +49,11 @@ namespace CAM.Business.Test.Service
         public PermissableType GetParentPermissableType()
         {
             return this.ParentPermissableType;
+        }
+
+        public bool IsExempt()
+        {
+            return Exempt;
         }
     }
 
@@ -313,7 +320,7 @@ namespace CAM.Business.Test.Service
                 Assert.IsNull(service.GetCachedForeignResourceCache(foreignResourceId, resourceType.ResourceTypeId));
             });
             Action<ForeignResourceCache> tester = (testCache) =>
-            {   
+            {
                 Assert.AreEqual(resourceId, testCache.ResourceId);
                 Assert.AreEqual(foreignResourceId, testCache.ForeignResourceId);
                 Assert.AreEqual(resourceType.ResourceTypeId, testCache.ResourceTypeId);
@@ -1048,6 +1055,50 @@ namespace CAM.Business.Test.Service
         }
 
         [TestMethod]
+        public async Task TestOnAdded_IsExempt()
+        {
+            var id = 1;
+            var parentId = 2;
+            var entity = new TestPermissableResource
+            {
+                Id = id,
+                ParentId = parentId,
+                ParentPermissableType = PermissableType.Program,
+                PermissableType = PermissableType.Project,
+                Exempt = true
+            };
+            var list = new List<IPermissable> { entity };
+            Assert.AreEqual(0, context.Resources.Count());
+            Assert.AreEqual(0, context.ResourceTypes.Count());
+
+            context.SetupActions.Add(() =>
+            {
+                cacheDictionary.Clear();
+            });
+
+            Action<bool> tester = (isAsync) =>
+            {
+                Assert.AreEqual(0, context.Resources.Count());
+                Assert.AreEqual(0, cacheDictionary.Count);
+                if (isAsync)
+                {
+                    Assert.AreEqual(0, context.SaveChangesAsyncCount);
+                }
+                else
+                {
+                    Assert.AreEqual(0, context.SaveChangesCount);
+                }
+            };
+            context.Revert();
+            service.OnAdded(list);
+            tester(false);
+
+            context.Revert();
+            await service.OnAddedAsync(list);
+            tester(true);
+        }
+
+        [TestMethod]
         public async Task TestOnAdded_HasNewParent()
         {
             var id = 1;
@@ -1284,6 +1335,50 @@ namespace CAM.Business.Test.Service
             tester();
         }
 
+
+        [TestMethod]
+        public async Task TestOnUpdated_IsExempt()
+        {
+            var childForeignResourceId = 1;
+            context.SetupActions.Add(() =>
+            {
+                var projectType = new ResourceType
+                {
+                    ResourceTypeId = ResourceType.Project.Id,
+                    ResourceTypeName = ResourceType.Project.Value
+                };
+                context.ResourceTypes.Add(projectType);
+                cacheDictionary.Clear();
+            });
+            Action<bool> tester = (isAsync) =>
+            {
+                Assert.AreEqual(0, cacheDictionary.Count);
+                Assert.AreEqual(0, context.Resources.Count());
+                if (isAsync)
+                {
+                    Assert.AreEqual(0, context.SaveChangesAsyncCount);
+                }
+                else
+                {
+                    Assert.AreEqual(0, context.SaveChangesCount);
+                }
+            };
+
+            var updatedEntity = new TestPermissableResource
+            {
+                Id = childForeignResourceId,
+                PermissableType = PermissableType.Project,
+                Exempt = true
+            };
+            context.Revert();
+            service.OnUpdated(new List<IPermissable> { updatedEntity });
+            tester(false);
+
+            context.Revert();
+            await service.OnUpdatedAsync(new List<IPermissable> { updatedEntity });
+            tester(true);
+        }
+
         [TestMethod]
         public async Task TestOnUpdated_HasParent()
         {
@@ -1358,7 +1453,7 @@ namespace CAM.Business.Test.Service
                 Assert.AreEqual(3, context.Resources.Count());
                 var updatedChildResource = context.Resources.Where(x => x.ResourceId == childResourceId).First();
                 Assert.AreEqual(targetParentResourceId, updatedChildResource.ParentResourceId);
-                
+
                 if (isAsync)
                 {
                     Assert.AreEqual(1, context.SaveChangesAsyncCount);
@@ -1420,7 +1515,7 @@ namespace CAM.Business.Test.Service
                     ForeignResourceId = childForeignResourceId,
                 };
                 parentResource.ChildResources.Add(resource);
-                
+
                 context.Resources.Add(parentResource);
                 context.Resources.Add(resource);
                 context.ResourceTypes.Add(programType);
@@ -1484,8 +1579,8 @@ namespace CAM.Business.Test.Service
             };
 
             updateFn.ShouldThrow<ModelNotFoundException>()
-                .WithMessage(String.Format("The resource with foreign id [{0}] and resource type id [{1}] was not found.  It should have been registered when it was created.", 
-                updatedEntity.Id, 
+                .WithMessage(String.Format("The resource with foreign id [{0}] and resource type id [{1}] was not found.  It should have been registered when it was created.",
+                updatedEntity.Id,
                 updatedEntity.PermissableType.GetResourceTypeId()));
             updateAsyncFn.ShouldThrow<ModelNotFoundException>()
                 .WithMessage(String.Format("The resource with foreign id [{0}] and resource type id [{1}] was not found.  It should have been registered when it was created.",

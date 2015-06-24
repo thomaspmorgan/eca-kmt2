@@ -167,5 +167,14 @@ namespace ECA.Data
         {
             return PermissableType.Program;
         }
+
+        /// <summary>
+        /// Returns false a project is not exempt from permission protection.
+        /// </summary>
+        /// <returns>False.</returns>
+        public bool IsExempt()
+        {
+            return false;
+        }
     }
 }

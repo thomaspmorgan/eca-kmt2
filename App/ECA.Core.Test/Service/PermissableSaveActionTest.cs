@@ -40,6 +40,11 @@ namespace ECA.Core.Test.Service
         {
             throw new NotImplementedException();
         }
+
+        public bool IsExempt()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class StandardEntity
