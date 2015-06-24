@@ -34,9 +34,7 @@ $navBarZIndex: 1001;
 // bower:scss
 @import "../bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
-// font-awesome
-@import "//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css";
-//
+
 @import 'form';
 @import 'nav';
 @import 'hero';
@@ -542,8 +540,8 @@ div.modal-center-large .modal-content .modal-body {
 
 .select2-search-field:before {
     color: #a0a9ab;
-    font-family: FontAwesome;
-    content: "\f002";
+    font-family: "Material Icons";
+    content: "\e8b6";
     padding-left: 5px;
 }
 

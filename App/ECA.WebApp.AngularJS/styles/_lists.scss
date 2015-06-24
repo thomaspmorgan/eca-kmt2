@@ -263,3 +263,14 @@
 .indentTwice {
     padding-left: 100px;
 }
+
+.circle {
+    height: 29px;
+    width: 29px;
+    border-radius: 50%;
+    line-height: 29px;
+    text-align: center;
+    color: #fff;
+    font-weight: bold;
+    float: right;
+}

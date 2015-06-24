@@ -1,9 +1,12 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service.Persons;
+using ECA.Core.DynamicLinq;
+using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
 using ECA.WebApi.Controllers.Persons;
 using ECA.WebApi.Models.Person;
+using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -17,7 +20,7 @@ using System.Web.Http.Results;
 namespace ECA.WebApi.Test.Controllers.Persons
 {
     [TestClass]
-    public class PersonControllerTest
+    public class PeopleControllerTest
     {
         private Mock<IPersonService> mock;
         private Mock<IUserProvider> userProvider;
@@ -92,6 +95,24 @@ namespace ECA.WebApi.Test.Controllers.Persons
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
 
+        #endregion
+
+        #region Get People
+        [TestMethod]
+        public async Task TestGetPeopleAsync()
+        {
+            var response = await controller.GetPeopleAsync(new PagingQueryBindingModel<SimplePersonDTO>());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<SimplePersonDTO>>));
+            mock.Verify(x => x.GetPeopleAsync(It.IsAny<QueryableOperator<SimplePersonDTO>>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestGetPeopleAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetPeopleAsync(new PagingQueryBindingModel<SimplePersonDTO>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
         #endregion
     }
 }

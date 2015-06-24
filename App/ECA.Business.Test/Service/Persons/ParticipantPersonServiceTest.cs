@@ -34,7 +34,21 @@ namespace ECA.Business.Test.Service.Persons
                 ContactAgreement = false,
                 StudyProject = "studyProject",
             };
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantPerson.ParticipantId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            participantPerson.Participant = participant;
+            project.Participants.Add(participant);
 
+            context.Projects.Add(project);
+            context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
 
             Action<PagedQueryResults<SimpleParticipantPersonDTO>> tester = (results) =>
@@ -46,6 +60,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(participantPerson.SevisId, participantPersonResult.SevisId);
                 Assert.AreEqual(participantPerson.ContactAgreement, participantPersonResult.ContactAgreement);
                 Assert.AreEqual(participantPerson.StudyProject, participantPersonResult.StudyProject);
+                Assert.AreEqual(project.ProjectId, participantPersonResult.ProjectId);
 
                 Assert.IsNull(participantPersonResult.FieldOfStudy);
                 Assert.IsNull(participantPersonResult.ProgramSubject);
@@ -91,7 +106,9 @@ namespace ECA.Business.Test.Service.Persons
 
             var participant = new Participant
             {
-                ParticipantId = 1
+                ParticipantId = 1,
+                Project = project,
+                ProjectId = project.ProjectId
             };
 
             var participantPerson = new ParticipantPerson
@@ -102,8 +119,10 @@ namespace ECA.Business.Test.Service.Persons
                 StudyProject = "studyProject",
             };
 
+            participantPerson.Participant = participant;
             project.Participants.Add(participant);
-            participant.Projects.Add(project);
+            participant.Project = project;
+            participant.ProjectId = project.ProjectId;
 
             context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
@@ -115,6 +134,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(1, results.Results.Count);
                 var participantPersonResult = results.Results.First();
 
+                Assert.AreEqual(project.ProjectId, participantPersonResult.ProjectId);
                 Assert.AreEqual(participantPerson.SevisId, participantPersonResult.SevisId);
                 Assert.AreEqual(participantPerson.ContactAgreement, participantPersonResult.ContactAgreement);
                 Assert.AreEqual(participantPerson.StudyProject, participantPersonResult.StudyProject);
@@ -173,7 +193,21 @@ namespace ECA.Business.Test.Service.Persons
                 ContactAgreement = false,
                 StudyProject = "studyProject",
             };
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantPerson.ParticipantId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            participantPerson.Participant = participant;
+            project.Participants.Add(participant);
 
+            context.Projects.Add(project);
+            context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
 
             Action<SimpleParticipantPersonDTO> tester = (results) =>
@@ -181,6 +215,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(participantPerson.SevisId, results.SevisId);
                 Assert.AreEqual(participantPerson.ContactAgreement, results.ContactAgreement);
                 Assert.AreEqual(participantPerson.StudyProject, results.StudyProject);
+                Assert.AreEqual(project.ProjectId, results.ProjectId);
 
                 Assert.IsNull(results.FieldOfStudy);
                 Assert.IsNull(results.ProgramSubject);

@@ -61,5 +61,10 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the date revised on.
         /// </summary>
         public DateTimeOffset RevisedOn { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ProjectId of this participant.
+        /// </summary>
+        public int ProjectId { get; set; }
     }
 }

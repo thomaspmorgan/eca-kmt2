@@ -450,10 +450,13 @@ namespace ECA.Business.Test.Service.Programs
             };
             var parentProgram = new Program
             {
-                ProgramId = 2,
+                ProgramId = 3,
                 Name = "parent",
                 Owner = owner1,
-                OwnerId = owner1.OrganizationId
+                OwnerId = owner1.OrganizationId,
+                Description = "desc_parent",
+                ProgramStatus = active,
+                ProgramStatusId = active.ProgramStatusId,
             };
             var program1 = new Program
             {
@@ -468,6 +471,7 @@ namespace ECA.Business.Test.Service.Programs
                 ProgramStatus = active,
                 ProgramStatusId = active.ProgramStatusId,
                 ParentProgram = parentProgram,
+
             };
             context.Programs.Add(parentProgram);
             context.Programs.Add(program1);

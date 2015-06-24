@@ -31,53 +31,219 @@ namespace ECA.Business.Test.Service.Admin
         }
 
         [TestMethod]
-        public async Task TestGetOrganizations_CheckProperties_AddressIsNull()
+        public async Task TestGetOrganizations_CheckProperties()
         {
-            using (ShimsContext.Create())
+            var country = new Location
             {
-                //Fake an address all the way up until the LocationName is requested which will be null.
-                var nullAddress = new Address
-                {
-                    Location = new Location
-                    {
-                        Country = new Location
-                        {
-                            LocationName = null
-                        }
-                    }
-                };
-                System.Linq.Fakes.ShimEnumerable.FirstOrDefaultOf1IEnumerableOfM0<Address>((addressList) =>
-                {
-                    return nullAddress;    
-                });
+                LocationId = 1,
+                LocationName = "Country",
+            };
+            var city = new Location
+            {
+                LocationId = 2,
+                LocationName = "City"
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 3,
+                City = city,
+                Country = country
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                Location = addressLocation
+            };
+            var organizationType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.ForeignEducationalInstitution.Id,
+                OrganizationTypeName = OrganizationType.ForeignEducationalInstitution.Value
+            };
 
-                var organizationType = new OrganizationType
-                {
-                    OrganizationTypeId = OrganizationType.ForeignEducationalInstitution.Id,
-                    OrganizationTypeName = OrganizationType.ForeignEducationalInstitution.Value
-                };
+            var organization = new Organization
+            {
+                OrganizationId = 1,
+                OrganizationTypeId = organizationType.OrganizationTypeId,
+                OrganizationType = organizationType,
+                Name = "name",
+                Description = "test",
+                Status = "status",
+                ParentOrganization = new Organization()
+            };
+            organization.Addresses.Add(address);
+            address.Organization = organization;
+            context.Addresses.Add(address);
+            context.Locations.Add(addressLocation);
+            context.Locations.Add(country);
+            context.Locations.Add(city);
+            context.OrganizationTypes.Add(organizationType);
+            context.Organizations.Add(organization);
+            Action<PagedQueryResults<SimpleOrganizationDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                var org = results.Results.First();
+                Assert.AreEqual(organization.Name, org.Name);
+                Assert.AreEqual(organizationType.OrganizationTypeName, org.OrganizationType);
+                Assert.AreEqual(organization.OrganizationId, org.OrganizationId);
+                Assert.AreEqual(organization.Status, org.Status);
+                Assert.AreEqual(city.LocationName + ", " + country.LocationName, org.Location);
+            };
+            var defaultSorter = new ExpressionSorter<SimpleOrganizationDTO>(x => x.Name, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<SimpleOrganizationDTO>(0, 10, defaultSorter);
+            var serviceResults = service.GetOrganizations(queryOperator);
+            var serviceResultsAsync = await service.GetOrganizationsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
 
-                var organization = new Organization
-                {
-                    OrganizationId = 1,
-                    OrganizationTypeId = organizationType.OrganizationTypeId,
-                    OrganizationType = organizationType,
-                    Name = "name",
-                    Description = "test",
-                    Status = "status",
-                    ParentOrganization = new Organization()
-                };
+        [TestMethod]
+        public async Task TestGetOrganizations_AddressHasCountryOnly()
+        {
+            var country = new Location
+            {
+                LocationId = 1,
+                LocationName = "Country",
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 3,
+                Country = country
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                Location = addressLocation
+            };
+            var organizationType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.ForeignEducationalInstitution.Id,
+                OrganizationTypeName = OrganizationType.ForeignEducationalInstitution.Value
+            };
 
-                context.OrganizationTypes.Add(organizationType);
-                context.Organizations.Add(organization);
+            var organization = new Organization
+            {
+                OrganizationId = 1,
+                OrganizationTypeId = organizationType.OrganizationTypeId,
+                OrganizationType = organizationType,
+                Name = "name",
+                Description = "test",
+                Status = "status",
+                ParentOrganization = new Organization()
+            };
+            organization.Addresses.Add(address);
+            address.Organization = organization;
+            context.Addresses.Add(address);
+            context.Locations.Add(addressLocation);
+            context.Locations.Add(country);
+            context.OrganizationTypes.Add(organizationType);
+            context.Organizations.Add(organization);
+            Action<PagedQueryResults<SimpleOrganizationDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                var org = results.Results.First();
+                Assert.AreEqual(country.LocationName, org.Location);
+            };
+            var defaultSorter = new ExpressionSorter<SimpleOrganizationDTO>(x => x.Name, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<SimpleOrganizationDTO>(0, 10, defaultSorter);
+            var serviceResults = service.GetOrganizations(queryOperator);
+            var serviceResultsAsync = await service.GetOrganizationsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
 
-                var defaultSorter = new ExpressionSorter<SimpleOrganizationDTO>(x => x.Name, SortDirection.Ascending);
-                var queryOperator = new QueryableOperator<SimpleOrganizationDTO>(0, 10, defaultSorter);
-                var serviceResultsAsync = await service.GetOrganizationsAsync(queryOperator);
+        [TestMethod]
+        public async Task TestGetOrganizations_AddressHasCityOnly()
+        {
+            var city = new Location
+            {
+                LocationId = 2,
+                LocationName = "City"
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 3,
+                City = city
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                Location = addressLocation
+            };
+            var organizationType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.ForeignEducationalInstitution.Id,
+                OrganizationTypeName = OrganizationType.ForeignEducationalInstitution.Value
+            };
 
-                Assert.AreEqual(1, serviceResultsAsync.Total);
-            }
+            var organization = new Organization
+            {
+                OrganizationId = 1,
+                OrganizationTypeId = organizationType.OrganizationTypeId,
+                OrganizationType = organizationType,
+                Name = "name",
+                Description = "test",
+                Status = "status",
+                ParentOrganization = new Organization()
+            };
+            organization.Addresses.Add(address);
+            address.Organization = organization;
+            context.Addresses.Add(address);
+            context.Locations.Add(addressLocation);
+            context.Locations.Add(city);
+            context.OrganizationTypes.Add(organizationType);
+            context.Organizations.Add(organization);
+            Action<PagedQueryResults<SimpleOrganizationDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                var org = results.Results.First();
+                Assert.AreEqual(city.LocationName, org.Location);
+            };
+            var defaultSorter = new ExpressionSorter<SimpleOrganizationDTO>(x => x.Name, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<SimpleOrganizationDTO>(0, 10, defaultSorter);
+            var serviceResults = service.GetOrganizations(queryOperator);
+            var serviceResultsAsync = await service.GetOrganizationsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
 
+        [TestMethod]
+        public async Task TestGetOrganizations_AddressIsNull()
+        {
+
+            var organizationType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.ForeignEducationalInstitution.Id,
+                OrganizationTypeName = OrganizationType.ForeignEducationalInstitution.Value
+            };
+
+            var organization = new Organization
+            {
+                OrganizationId = 1,
+                OrganizationTypeId = organizationType.OrganizationTypeId,
+                OrganizationType = organizationType,
+                Name = "name",
+                Description = "test",
+                Status = "status",
+                ParentOrganization = new Organization()
+            };
+            context.OrganizationTypes.Add(organizationType);
+            context.Organizations.Add(organization);
+            Action<PagedQueryResults<SimpleOrganizationDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                var org = results.Results.First();
+                Assert.AreEqual(String.Empty, org.Location);
+            };
+            var defaultSorter = new ExpressionSorter<SimpleOrganizationDTO>(x => x.Name, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<SimpleOrganizationDTO>(0, 10, defaultSorter);
+            var serviceResults = service.GetOrganizations(queryOperator);
+            var serviceResultsAsync = await service.GetOrganizationsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
         }
 
         #region Get By Id

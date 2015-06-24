@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="bower_components/material-design-iconic-font/css/material-design-iconic-font.min.css" />
     <!-- endbower -->
     <!-- endbuild -->
+    <!-- build:css(.) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
     <!--
@@ -64,7 +65,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>                
+                </button>
                 <div style="margin-right: 50px;" class="navbar-right right">
                     <div id="search-bar-icon" class="glyphicon glyphicon-search col-sd-1" ng-click="spotlightModal=!spotlightModal"></div>
                 </div>
@@ -188,7 +189,9 @@
     <script src="scripts/controllers/reports/archive.js"></script>
     <script src="scripts/controllers/settings.js"></script>
     <script src="scripts/controllers/participants.js"></script>
+    <script src="scripts/controllers/participant/timeline.js"></script>
     <script src="scripts/controllers/programs.js"></script>
+    <script src="scripts/controllers/program/collaborators.js"></script>
     <script src="scripts/services/dragonbreath.js"></script>
     <script src="scripts/modules/modal.js"></script>
     <script src="scripts/directives/form-element.js"></script>
@@ -226,9 +229,13 @@
     <script src="scripts/controllers/reports/archive.js"></script>
     <script src="scripts/services/reportservice.js"></script>
     <script src="scripts/controllers/reports/ProjectAwards.js"></script>
+    <script src="scripts/controllers/reports/RegionAwards.js"></script>
+    <script src="scripts/controllers/reports/PostAwards.js"></script>
+    <script src="scripts/controllers/reports/FocusAwards.js"></script>
+    <script src="scripts/controllers/reports/FocusCategoryAwards.js"></script>
     <script src="scripts/controllers/person/personGeneral.js"></script>
     <script src="scripts/controllers/person/personEduEmp.js"></script>
-    <script src="scripts/controllers/person//personEvaluationNotes.js"></script>
+    <script src="scripts/controllers/person/personEvaluationNotes.js"></script>
     <!-- endbuild -->
     <!--<script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="http://d3js.org/topojson.v1.min.js"></script>

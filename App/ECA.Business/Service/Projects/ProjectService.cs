@@ -119,7 +119,7 @@ namespace ECA.Business.Service.Projects
             var project = CreateGetProjectByIdQuery(additionalOrganizationProjectParticipant.ProjectId).FirstOrDefault();
             throwIfProjectDoesNotExist(additionalOrganizationProjectParticipant.ProjectId, project);
 
-            var participantType = CreateGetParticipantTypeQuery().FirstOrDefault();
+            var participantType = CreateGetParticipantTypeQuery(additionalOrganizationProjectParticipant.ParticipantTypeId).FirstOrDefault();
             throwIfParticipantTypeDoesNotExist(participantType);
 
             var existingParticipant = CreateGetParticipantByProjectIdAndOrganizationId(project.ProjectId, organization.OrganizationId).FirstOrDefault();
@@ -139,7 +139,7 @@ namespace ECA.Business.Service.Projects
             var project = await CreateGetProjectByIdQuery(additionalOrganizationProjectParticipant.ProjectId).FirstOrDefaultAsync();
             throwIfProjectDoesNotExist(additionalOrganizationProjectParticipant.ProjectId, project);
 
-            var participantType = await CreateGetParticipantTypeQuery().FirstOrDefaultAsync();
+            var participantType = await CreateGetParticipantTypeQuery(additionalOrganizationProjectParticipant.ParticipantTypeId).FirstOrDefaultAsync();
             throwIfParticipantTypeDoesNotExist(participantType);
             var existingParticipant = CreateGetParticipantByProjectIdAndOrganizationId(project.ProjectId, organization.OrganizationId).FirstOrDefault();
             if (existingParticipant == null)
@@ -158,7 +158,7 @@ namespace ECA.Business.Service.Projects
             var project = CreateGetProjectByIdQuery(additionalPersonProjectParticipant.ProjectId).FirstOrDefault();
             throwIfProjectDoesNotExist(additionalPersonProjectParticipant.ProjectId, project);
 
-            var participantType = CreateGetParticipantTypeQuery().FirstOrDefault();
+            var participantType = CreateGetParticipantTypeQuery(additionalPersonProjectParticipant.ParticipantTypeId).FirstOrDefault();
             throwIfParticipantTypeDoesNotExist(participantType);
 
             var existingParticipant = CreateGetParticipantByProjectIdAndPersonId(project.ProjectId, person.PersonId).FirstOrDefault();
@@ -178,7 +178,7 @@ namespace ECA.Business.Service.Projects
             var project = await CreateGetProjectByIdQuery(additionalPersonProjectParticipant.ProjectId).FirstOrDefaultAsync();
             throwIfProjectDoesNotExist(additionalPersonProjectParticipant.ProjectId, project);
 
-            var participantType = await CreateGetParticipantTypeQuery().FirstOrDefaultAsync();
+            var participantType = await CreateGetParticipantTypeQuery(additionalPersonProjectParticipant.ParticipantTypeId).FirstOrDefaultAsync();
             throwIfParticipantTypeDoesNotExist(participantType);
 
             var existingParticipant = await CreateGetParticipantByProjectIdAndPersonId(project.ProjectId, person.PersonId).FirstOrDefaultAsync();
@@ -199,17 +199,17 @@ namespace ECA.Business.Service.Projects
 
         private IQueryable<Participant> CreateGetParticipantByProjectIdAndPersonId(int projectId, int personId)
         {
-            return Context.Participants.Where(x => x.PersonId == personId);
+            return Context.Participants.Where(x => x.PersonId == personId && x.ProjectId == projectId);
         }
 
         private IQueryable<Participant> CreateGetParticipantByProjectIdAndOrganizationId(int projectId, int organizationId)
         {
-            return Context.Participants.Where(x => x.OrganizationId == organizationId);
+            return Context.Participants.Where(x => x.OrganizationId == organizationId && x.ProjectId == projectId);
         }
 
-        private IQueryable<ParticipantType> CreateGetParticipantTypeQuery()
+        private IQueryable<ParticipantType> CreateGetParticipantTypeQuery(int participantTypeId)
         {
-            return this.Context.ParticipantTypes.Where(x => x.ParticipantTypeId == ParticipantType.ForeignEducationalInstitution.Id);
+            return this.Context.ParticipantTypes.Where(x => x.ParticipantTypeId == participantTypeId);
         }
 
         private IQueryable<Organization> CreateGetOrganizationQuery(int organizationId)
@@ -545,6 +545,32 @@ namespace ECA.Business.Service.Projects
         {
             var projects = ProjectQueries.CreateGetProjectsByProgramQuery(this.Context, programId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
             this.logger.Trace("Retrieved projects by program id {0} and query operator {1}.", programId, queryOperator);
+            return projects;
+        }
+
+        /// <summary>
+        /// Returns projects by person id
+        /// </summary>
+        /// <param name="personId">The person id</param>
+        /// <param name="queryOperator">The query operator</param>
+        /// <returns>Projects by person id</returns>
+        public PagedQueryResults<ParticipantTimelineDTO> GetProjectsByPersonId(int personId, QueryableOperator<ParticipantTimelineDTO> queryOperator)
+        {
+            var projects = ProjectQueries.CreateGetProjectsByPersonIdQuery(this.Context, personId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved projects by person id {0} and query operator {1}.", personId, queryOperator);
+            return projects;
+        }
+
+        /// <summary>
+        /// Returns projects by person id
+        /// </summary>
+        /// <param name="personId">The person id</param>
+        /// <param name="queryOperator">The query operator</param>
+        /// <returns>Projects by person id</returns>
+        public Task<PagedQueryResults<ParticipantTimelineDTO>> GetProjectsByPersonIdAsync(int personId, QueryableOperator<ParticipantTimelineDTO> queryOperator)
+        {
+            var projects = ProjectQueries.CreateGetProjectsByPersonIdQuery(this.Context, personId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved projects by person id {0} and query operator {1}.", personId, queryOperator);
             return projects;
         }
 

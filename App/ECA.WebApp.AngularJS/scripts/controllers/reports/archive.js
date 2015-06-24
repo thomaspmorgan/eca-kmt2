@@ -12,7 +12,11 @@ angular.module('staticApp')
 
       $scope.$log = $log;
       $scope.reports = [
-          { Title: "Project Awards", Published: "4/28/2015", Author: "Tom Morgan", Clearance: "Cleared By Office"}
+          { Title: "Project Awards", Published: "4/28/2015", Author: "Tom Morgan", Clearance: "Cleared By Office" },
+          { Title: "Region Awards", Published: "6/22/2015", Author: "Tom Morgan", Clearance: "Cleared By Office" },
+          { Title: "Post Awards", Published: "6/22/2015", Author: "Tom Morgan", Clearance: "Cleared By Office" },
+          { Title: "Focus Awards", Published: "6/23/2015", Author: "Tom Morgan", Clearance: "Cleared By Office" },
+          { Title: "Focus-Category Awards", Published: "6/23/2015", Author: "Tom Morgan", Clearance: "Cleared By Office" }
       ]
       $scope.parameters = [];
       $scope.currentpage = $stateParams.page || 1;
@@ -39,15 +43,6 @@ angular.module('staticApp')
 
       function getReportsFiltered(params) {
           var dfd = $q.defer();
-          //ReportService.getAll(params)
-          //      .then(function (data, status, headers, config) {
-          //          dfd.resolve(data.data);
-          //      },
-          //      function (data, status, headers, config) {
-          //          var errorCode = data.status;
-          //          dfd.reject(errorCode);
-
-          //      });
           dfd.resolve($scope.reports);
           return dfd.promise;
       };
@@ -89,26 +84,51 @@ angular.module('staticApp')
       };
 
       $scope.openReport = function (title) {
-          if (title == 'Project Awards') {
-              var modalInstance = $modal.open({
-                  templateUrl: '/views/reports/projectAwards.html',
-                  controller: 'ProjectAwardsCtrl',
-                  resolve: {
-                      parameters: function () {
-                          return $scope.parameters;
-                      }
-                  },
-                  size: 'lg'
-              });
-
-
-              modalInstance.result.then(function (parameters) {
-                  $scope.parameters = parameters;
-                  
-              }, function () {
-                  $log.info('Report: ' + title + '  Dismissed at: ' + new Date());
-              });
+          if (title == 'Project Awards')
+          {
+              var template = "/views/reports/projectAwards.html";
+              var controller = "ProjectAwardsCtrl";
           }
+          else if (title == 'Region Awards')
+          {
+              var template = "/views/reports/regionAwards.html";
+              var controller = "RegionAwardsCtrl";
+          }
+          else if (title == 'Post Awards') {
+              var template = "/views/reports/postAwards.html";
+              var controller = "PostAwardsCtrl";
+          }
+          else if (title == 'Focus Awards') {
+              var template = "/views/reports/focusAwards.html";
+              var controller = "FocusAwardsCtrl";
+          }
+          else if (title == 'Focus-Category Awards') {
+              var template = "/views/reports/focusCategoryAwards.html";
+              var controller = "FocusCategoryAwardsCtrl";
+          }
+          else
+          {
+              return;
+          }
+       
+         var modalInstance = $modal.open({
+            templateUrl: template,
+            controller: controller,
+            resolve: {
+                parameters: function () {
+                    return $scope.parameters;
+                }
+            },
+            size: 'lg'
+         });
+
+
+         modalInstance.result.then(function (parameters) {
+            $scope.parameters = parameters;
+                  
+         }, function () {
+            $log.info('Report: ' + title + '  Dismissed at: ' + new Date());
+         });
       };
 
   });

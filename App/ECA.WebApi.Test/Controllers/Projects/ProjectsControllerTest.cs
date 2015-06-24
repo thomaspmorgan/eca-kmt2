@@ -87,6 +87,25 @@ namespace ECA.WebApi.Test.Controllers.Projects
         }
         #endregion
 
+        #region Get Projects By Person Id
+        [TestMethod]
+        public async Task TestGetProjectsByPersonIdAsync()
+        {
+            service.Setup(x => x.GetProjectsByPersonIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<ParticipantTimelineDTO>>()))
+                .ReturnsAsync(new PagedQueryResults<ParticipantTimelineDTO>(1, new List<ParticipantTimelineDTO>()));
+            var response = await controller.GetProjectsByPersonIdAsync(1, new PagingQueryBindingModel<ParticipantTimelineDTO>());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<ParticipantTimelineDTO>>));
+        }
+
+        [TestMethod]
+        public async Task TestGetProjectsByPersonIdAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetProjectsByPersonIdAsync(1, new PagingQueryBindingModel<ParticipantTimelineDTO>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+        #endregion
+
         #region Post
         [TestMethod]
         public async Task TestPostProjectAsync()
@@ -138,6 +157,7 @@ namespace ECA.WebApi.Test.Controllers.Projects
             userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(0));
             service.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
             var model = new AdditionalPersonProjectParticipantBindingModel();
+            model.ParticipantTypeId = ParticipantType.Individual.Id;
             var response = await controller.PostAddPersonParticipantAsync(model);
             Assert.IsInstanceOfType(response, typeof(OkResult));
             service.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
@@ -159,6 +179,7 @@ namespace ECA.WebApi.Test.Controllers.Projects
             userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(0));
             service.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
             var model = new AdditionalOrganizationProjectPariticipantBindingModel();
+            model.ParticipantTypeId = ParticipantType.Individual.Id;
             var response = await controller.PostAddOrganizationParticipantAsync(model);
             Assert.IsInstanceOfType(response, typeof(OkResult));
             service.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());

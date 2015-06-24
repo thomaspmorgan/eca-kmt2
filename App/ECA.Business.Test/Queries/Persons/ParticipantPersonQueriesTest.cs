@@ -25,9 +25,23 @@ namespace ECA.Business.Test.Queries.Persons
                 ParticipantId = 1,
                 SevisId = "N0000000001",
                 ContactAgreement = false,
-                StudyProject = "studyProject"
+                StudyProject = "studyProject",
             };
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantPerson.ParticipantId,                
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            participantPerson.Participant = participant;
+            project.Participants.Add(participant);
 
+            context.Projects.Add(project);
+            context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
 
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
@@ -35,6 +49,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(participantPerson.SevisId, participantPersonResult.SevisId);
             Assert.AreEqual(participantPerson.ContactAgreement, participantPersonResult.ContactAgreement);
             Assert.AreEqual(participantPerson.StudyProject, participantPersonResult.StudyProject);
+            Assert.AreEqual(project.ProjectId, participantPersonResult.ProjectId);
 
             Assert.IsNull(participantPersonResult.FieldOfStudy);
             Assert.IsNull(participantPersonResult.ProgramSubject);
@@ -58,7 +73,21 @@ namespace ECA.Business.Test.Queries.Persons
                 ParticipantId = 1,
                 FieldOfStudy = fieldOfStudy
             };
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantPerson.ParticipantId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            participantPerson.Participant = participant;
+            project.Participants.Add(participant);
 
+            context.Projects.Add(project);
+            context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
 
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
@@ -81,9 +110,23 @@ namespace ECA.Business.Test.Queries.Persons
                 ParticipantId = 1,
                 ProgramSubject = programSubject
             };
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantPerson.ParticipantId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            participantPerson.Participant = participant;
+            project.Participants.Add(participant);
 
+            context.Projects.Add(project);
+            context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
-
+            
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
 
             Assert.AreEqual(programSubject.Description, participantPersonResult.ProgramSubject);
@@ -104,9 +147,22 @@ namespace ECA.Business.Test.Queries.Persons
                 ParticipantId = 1,
                 Position = position
             };
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantPerson.ParticipantId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            participantPerson.Participant = participant;
+            project.Participants.Add(participant);
 
+            context.Projects.Add(project);
+            context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
-
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
 
             Assert.AreEqual(position.Description, participantPersonResult.Position);
@@ -160,7 +216,21 @@ namespace ECA.Business.Test.Queries.Persons
                 ParticipantId = 1,
                 HomeInstitution = homeInstitution
             };
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantPerson.ParticipantId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            participantPerson.Participant = participant;
+            project.Participants.Add(participant);
 
+            context.Projects.Add(project);
+            context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
 
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
@@ -227,6 +297,21 @@ namespace ECA.Business.Test.Queries.Persons
                 HostInstitution = hostInstitution
             };
 
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantPerson.ParticipantId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            participantPerson.Participant = participant;
+            project.Participants.Add(participant);
+
+            context.Projects.Add(project);
+            context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
 
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();

@@ -20,10 +20,10 @@
     <table class="col-md-12 table">
         <thead>
             <tr>
-                <th st-sort="'projectName'" st-sort-default="true" class="col-md-7 sort-label medium">Title</th>
+                <th st-sort="'projectName'" st-sort-default="true" class="col-md-6 sort-label medium">Title</th>
                 <th st-sort="'projectStatusName'" class="col-md-1 sort-label medium">Status</th>
                 <th st-sort="'startYearAsString'" class="col-md-1 sort-label medium">Year</th>
-                <th class="col-md-1 sort-label medium">Region</th>
+                <th class="col-md-2 sort-label medium">Region <span>(ctrl-click to select multiple)</span></th>
                 <th class="col-md-2">&nbsp;</th>
             </tr>
             <tr>
@@ -37,21 +37,25 @@
                     <input st-search="'startYearAsString'" placeholder="" type="search" class="input-lg form-control" />
                 </th>
                 <th>
-                    <input st-search="'region'" placeholder="" type="search" class="input-lg form-control" />
+                    <select style="height: 45px;" multiple class="form-control" id="regionSelect"
+                            ng-options="s.id as s.name for s in regions track by s.id"
+                            ng-model="filteredRegions"
+                            ng-change="changeRegionFilter()" />
                 </th>
                 <th>
-                    &nbsp;
+                    {{selectedRegions}}
                 </th>
             </tr>
         </thead>
         <tbody class="list2">
-            <tr ng-repeat="project in projects" class="hover" ng-show="!projectsLoading">
+            <tr ng-repeat="project in projects" class="hover" ng-show="!projectsLoading && showIncludedRegion[{{project.projectId}}]" 
+                id="projectRow{{project.projectId}}">
                 <td>
                     <h5 class="list-title"><a ui-sref="projects.overview({officeId: program.ownerOrganizationId, programId: program.id, projectId: project.projectId})">{{project.projectName}}</a></h5>
                 </td>
                 <td style="vertical-align:middle;">{{project.projectStatusName}}</td>
                 <td style="vertical-align:middle;">{{project.startYearAsString}}</td>
-                <td style="vertical-align:middle;">{{project.locationNames[0]}}</td>
+                <td style="vertical-align:middle;">{{project.regionNamesAsString}}</td>
                 <td style="vertical-align:middle;">
                     <div class="right" style="display:none;" showonparentrow>
                         <div class="copyEditDeleteOptions">
