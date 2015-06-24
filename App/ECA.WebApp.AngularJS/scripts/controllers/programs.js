@@ -58,6 +58,12 @@ angular.module('staticApp')
               path: 'impact',
               active: true,
               order: 5
+          },
+          collaborators: {
+              title: 'Collaborators',
+              path: 'collaborators',
+              active: true,
+              order: 6
           }
       };
 
