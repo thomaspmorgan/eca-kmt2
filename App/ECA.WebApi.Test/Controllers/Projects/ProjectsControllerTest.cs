@@ -57,6 +57,8 @@ namespace ECA.WebApi.Test.Controllers.Projects
         {
             var response = await controller.GetProjectsByProgramAsync(1, new PagingQueryBindingModel<SimpleProjectDTO>());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<SimpleProjectDTO>>));
+            service.Verify(x => x.GetProjectsByProgramIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<SimpleProjectDTO>>()), Times.Once());
+
         }
 
         [TestMethod]
@@ -76,6 +78,7 @@ namespace ECA.WebApi.Test.Controllers.Projects
                .ReturnsAsync(new ProjectDTO());
             var response = await controller.GetProjectByIdAsync(1);
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ProjectDTO>));
+            service.Verify(x => x.GetProjectByIdAsync(It.IsAny<int>()), Times.Once());
         }
 
         [TestMethod]

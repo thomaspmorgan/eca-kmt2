@@ -350,7 +350,7 @@ namespace CAM.Business.Service
             int? resourceId = null;
             if (foreignResourceId.HasValue)
             {
-                resourceId = GetResourceByForeignResourceId(foreignResourceId.Value, ResourceType.GetStaticLookup(resourceType).Id).ResourceId;
+                resourceId = (await GetResourceByForeignResourceIdAsync(foreignResourceId.Value, ResourceType.GetStaticLookup(resourceType).Id)).ResourceId;
                 logger.Trace("Retrieved resourceId [{0}] for foreign resource id [{1}].", resourceId, foreignResourceId);
             }
             var permissions = await ResourceQueries.CreateGetResourcePermissionsQuery(this.Context, resourceType, resourceId).ToListAsync();

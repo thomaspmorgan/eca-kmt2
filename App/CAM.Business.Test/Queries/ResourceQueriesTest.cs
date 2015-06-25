@@ -2314,6 +2314,41 @@ namespace CAM.Business.Test.Queries
         }
 
         [TestMethod]
+        public void TestCreateGetResourcePermissionsQuery_ParentResourceType()
+        {
+            var projectResourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Project.Value,
+                ResourceTypeId = ResourceType.Project.Id
+            };
+            var programResourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Program.Value,
+                ResourceTypeId = ResourceType.Program.Id
+            };
+            var viewProjectPermission = new Permission
+            {
+                PermissionId = Permission.ViewProject.Id,
+                PermissionName = Permission.ViewProject.Value,
+                PermissionDescription = "desc",
+                ResourceType = projectResourceType,
+                ResourceTypeId = projectResourceType.ResourceTypeId,
+                ParentResourceTypeId = programResourceType.ResourceTypeId,
+                ParentResourceType = programResourceType
+            };
+            context.Permissions.Add(viewProjectPermission);
+            context.ResourceTypes.Add(projectResourceType);
+            context.ResourceTypes.Add(programResourceType);
+
+            var dtos = ResourceQueries.CreateGetResourcePermissionsQuery(context, programResourceType.ResourceTypeName, null);
+            Assert.AreEqual(1, dtos.Count());
+            var firstDto = dtos.First();
+            Assert.AreEqual(viewProjectPermission.PermissionDescription, firstDto.PermissionDescription);
+            Assert.AreEqual(viewProjectPermission.PermissionId, firstDto.PermissionId);
+            Assert.AreEqual(viewProjectPermission.PermissionName, firstDto.PermissionName);
+        }
+
+        [TestMethod]
         public void TestCreateGetResourcePermissionsQuery_HasPermission_OtherResourceOfSameTypeShouldNotBeFound()
         {
             var resourceType = new ResourceType
@@ -2587,6 +2622,181 @@ namespace CAM.Business.Test.Queries
             var result = results.First();
             Assert.AreEqual(1, result.AllowedPrincipalsCount);
             Assert.AreEqual(permissionAssignment.AssignedOn, result.LastRevisedOn);
+        }
+
+        [TestMethod]
+        public void TestCreateGetResourceAuthorizationInfoDTOQuery_PrincipalHasInheritedPermission()
+        {
+            var principal = new Principal
+            {
+                PrincipalId = 1
+            };
+            var userAccount = new UserAccount
+            {
+                DisplayName = "display",
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                EmailAddress = "someone@isp.com"
+            };
+            principal.UserAccount = userAccount;
+            userAccount.Principal = principal;
+
+            var projectResourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Project.Value,
+                ResourceTypeId = ResourceType.Project.Id
+            };
+            var programResourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Program.Value,
+                ResourceTypeId = ResourceType.Program.Id
+            };
+            var projectResource = new Resource
+            {
+                ResourceId = 1,
+                ResourceType = projectResourceType,
+                ResourceTypeId = projectResourceType.ResourceTypeId,
+                ForeignResourceId = 2,
+            };
+            var programResource = new Resource
+            {
+                ResourceId = 2,
+                ResourceType = programResourceType,
+                ResourceTypeId = programResourceType.ResourceTypeId,
+                ForeignResourceId = 3,
+            };
+            projectResource.ParentResource = programResource;
+            projectResource.ParentResourceId = programResource.ResourceId;
+            programResource.ChildResources.Add(projectResource);
+            var permission = new Permission
+            {
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
+                PermissionDescription = "desc",
+                ParentResourceType = programResourceType,
+                ParentResourceTypeId = programResourceType.ResourceTypeId,
+                ResourceType = projectResourceType,
+                ResourceTypeId = projectResourceType.ResourceTypeId
+            };
+            var permissionAssignment = new PermissionAssignment
+            {
+                IsAllowed = true,
+                Permission = permission,
+                PermissionId = permission.PermissionId,
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Resource = programResource,
+                ResourceId = programResource.ResourceId,
+                AssignedOn = DateTimeOffset.UtcNow,
+            };
+
+            context.Principals.Add(principal);
+            context.UserAccounts.Add(userAccount);
+            context.ResourceTypes.Add(projectResourceType);
+            context.ResourceTypes.Add(programResourceType);
+            context.Resources.Add(projectResource);
+            context.Resources.Add(programResource);
+            context.Permissions.Add(permission);
+            context.PermissionAssignments.Add(permissionAssignment);
+
+            var results = ResourceQueries.CreateGetResourceAuthorizationInfoDTOQuery(context, projectResourceType.ResourceTypeName, projectResource.ForeignResourceId);
+            Assert.AreEqual(1, results.Count());
+            var result = results.First();
+            Assert.AreEqual(1, result.AllowedPrincipalsCount);
+            Assert.AreEqual(permissionAssignment.AssignedOn, result.LastRevisedOn);
+        }
+
+        [TestMethod]
+        public void TestCreateGetResourceAuthorizationInfoDTOQuery_PrincipalHasInheritedRolePermission()
+        {
+            var principal = new Principal
+            {
+                PrincipalId = 1
+            };
+            var userAccount = new UserAccount
+            {
+                DisplayName = "display",
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                EmailAddress = "someone@isp.com"
+            };
+            principal.UserAccount = userAccount;
+            userAccount.Principal = principal;
+            var projectResourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Project.Value,
+                ResourceTypeId = ResourceType.Project.Id
+            };
+            var programResourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Program.Value,
+                ResourceTypeId = ResourceType.Program.Id
+            };
+            var projectResource = new Resource
+            {
+                ResourceId = 1,
+                ResourceType = projectResourceType,
+                ResourceTypeId = projectResourceType.ResourceTypeId,
+                ForeignResourceId = 2,
+            };
+            var programResource = new Resource
+            {
+                ResourceId = 2,
+                ResourceType = programResourceType,
+                ResourceTypeId = programResourceType.ResourceTypeId,
+                ForeignResourceId = 20
+            };
+            projectResource.ParentResource = programResource;
+            projectResource.ParentResourceId = programResource.ResourceId;
+            programResource.ChildResources.Add(projectResource);
+            var editProjectPermission = new Permission
+            {
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
+                PermissionDescription = "desc",
+                ResourceType = projectResourceType,
+                ResourceTypeId = projectResourceType.ResourceTypeId,
+                ParentResourceType = programResourceType,
+                ParentResourceTypeId = programResourceType.ResourceTypeId,
+            };
+            var role = new Role
+            {
+                RoleName = "role",
+                RoleId = 1,
+            };
+            var roleResourcePermission = new RoleResourcePermission
+            {
+                Permission = editProjectPermission,
+                PermissionId = editProjectPermission.PermissionId,
+                Resource = programResource,
+                ResourceId = programResource.ResourceId,
+                Role = role,
+                RoleId = role.RoleId,
+                AssignedOn = DateTimeOffset.UtcNow,
+            };
+            var principalRole = new PrincipalRole
+            {
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Role = role,
+                RoleId = role.RoleId
+            };
+            context.Principals.Add(principal);
+            context.UserAccounts.Add(userAccount);
+            context.ResourceTypes.Add(projectResourceType);
+            context.ResourceTypes.Add(programResourceType);
+            context.Resources.Add(projectResource);
+            context.Resources.Add(programResource);
+            context.Permissions.Add(editProjectPermission);
+            context.Roles.Add(role);
+            context.RoleResourcePermissions.Add(roleResourcePermission);
+            context.PrincipalRoles.Add(principalRole);
+
+            var results = ResourceQueries.CreateGetResourceAuthorizationInfoDTOQuery(context, projectResourceType.ResourceTypeName, projectResource.ForeignResourceId);
+            Assert.AreEqual(1, results.Count());
+            var result = results.First();
+            Assert.AreEqual(1, result.AllowedPrincipalsCount);
+            Assert.AreEqual(roleResourcePermission.AssignedOn, result.LastRevisedOn);
         }
 
         [TestMethod]

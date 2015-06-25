@@ -47,7 +47,8 @@ namespace ECA.WebApi.Controllers.Projects
         /// </summary>
         /// <param name="projectService">The project service.</param>
         /// <param name="userProvider">The user provider.</param>
-        /// <param name="authorizationHandler">The authorization handler;</param>
+        /// <param name="authorizationHandler">The authorization handler.</param>
+        /// <param name="resourceService">The resource service.</param>
         public ProjectsController(IProjectService projectService, IResourceAuthorizationHandler authorizationHandler, IUserProvider userProvider, IResourceService resourceService)
         {
             Contract.Requires(projectService != null, "The project service must not be null.");

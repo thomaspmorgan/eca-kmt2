@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CAM.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -96,5 +97,24 @@ namespace CAM.Business.Model
         /// Gets or sets the role id this authorization is granted by.
         /// </summary>
         public int RoleId { get; set; }
+
+        /// <summary>
+        /// Returns a formatted string of this permission.
+        /// </summary>
+        /// <returns>A formatted string of this permission.</returns>
+        public override string ToString()
+        {
+            var resourceType = CAM.Data.ResourceType.GetStaticLookup(this.ResourceTypeId);
+            var permission = CAM.Data.Permission.GetStaticLookup(this.PermissionId);
+            return String.Format("PrincipalId:  [{0}], ResourceId:  [{1}], PermissionId:  [{2}], IsAllowed:  [{3}], ForeignResourceId:  [{4}], ResourceTypeId:  [{5}], ResourceType:  [{6}], Permission:  [{7}]",
+                PrincipalId,
+                ResourceId,
+                PermissionId,
+                IsAllowed,
+                ForeignResourceId,
+                ResourceTypeId,
+                resourceType == null ? "Unknown" : resourceType.Value,
+                permission == null ? "Unknown" : permission.Value);
+        }
     }
 }

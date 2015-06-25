@@ -25,5 +25,18 @@ namespace CAM.Business.Test.Service
             Assert.AreEqual(parentResourceId, cache.ParentResourceId);
             Assert.AreEqual(parentResourceTypeId, cache.ParentResourceTypeId);
         }
+
+        [TestMethod]
+        public void TestToString()
+        {
+            var foreignResourceId = 1;
+            var resourceId = 2;
+            var resourceTypeId = 3;
+            var parentForeignResourceId = 4;
+            var parentResourceId = 5;
+            var parentResourceTypeId = 6;
+            var cache = new ForeignResourceCache(foreignResourceId, resourceId, resourceTypeId, parentForeignResourceId, parentResourceId, parentResourceTypeId);
+            Assert.IsNotNull(cache.ToString());
+        }
     }
 }

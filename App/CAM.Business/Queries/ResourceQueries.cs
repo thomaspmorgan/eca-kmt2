@@ -306,7 +306,7 @@ namespace CAM.Business.Queries
         /// <returns>The info dto.</returns>
         public static IQueryable<ResourceAuthorizationInfoDTO> CreateGetResourceAuthorizationInfoDTOQuery(CamModel context, string resourceType, int foreignResourceId)
         {
-            var query = CreateGetResourceAuthorizationsByPermissionAssignmentsQuery(context).Union(CreateGetResourceAuthorizationsByRoleQuery(context));
+            var query = CreateGetResourceAuthorizationsQuery(context);
             query = query.Where(x => x.IsAllowed && x.ResourceType == resourceType && x.ForeignResourceId == foreignResourceId);
             var groupedQuery = from resourceAuthorization in query
                                group resourceAuthorization by resourceAuthorization.ResourceId into g
@@ -332,7 +332,7 @@ namespace CAM.Business.Queries
             Contract.Requires(ResourceType.GetStaticLookup(resourceType) != null, "The resource type must be valid.");
             var resourceTypeId = ResourceType.GetStaticLookup(resourceType).Id;
             var query = from p in context.Permissions
-                        where p.ResourceTypeId == resourceTypeId
+                        where (p.ResourceTypeId == resourceTypeId || p.ParentResourceTypeId == resourceTypeId)
                         && !p.ResourceId.HasValue
                         select new ResourcePermissionDTO
                         {
