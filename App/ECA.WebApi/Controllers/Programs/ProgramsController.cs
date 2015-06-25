@@ -127,6 +127,7 @@ namespace ECA.WebApi.Controllers.Programs
         /// </summary>
         /// <returns>The program with the given id.</returns>
         [ResponseType(typeof(ProgramViewModel))]
+        [ResourceAuthorize(CAM.Data.Permission.VIEW_PROGRAM_VALUE, CAM.Data.ResourceType.PROGRAM_VALUE)]
         public async Task<IHttpActionResult> GetProgramByIdAsync(int id)
         {
             var program = await this.programService.GetProgramByIdAsync(id);
@@ -233,6 +234,12 @@ namespace ECA.WebApi.Controllers.Programs
             }
         }
 
+        /// <summary>
+        /// Returns the collaborators associated with the given program id 
+        /// </summary>
+        /// <param name="programId">The id of the program</param>
+        /// <param name="queryModel">The query model</param>
+        /// <returns>The collaborators</returns>
         [ResponseType(typeof(PagedQueryResults<ResourceAuthorization>))]
         [Route("Programs/{programId}/Collaborators")]
         [ResourceAuthorize(CAM.Data.Permission.PROGRAM_OWNER_VALUE, CAM.Data.ResourceType.PROGRAM_VALUE, "programId")]
@@ -248,7 +255,6 @@ namespace ECA.WebApi.Controllers.Programs
                 return BadRequest(ModelState);
             }
         }
-
 
         private QueryableOperator<ResourceAuthorization> GetQueryableOperator(int programId, PagingQueryBindingModel<ResourceAuthorization> queryModel)
         {

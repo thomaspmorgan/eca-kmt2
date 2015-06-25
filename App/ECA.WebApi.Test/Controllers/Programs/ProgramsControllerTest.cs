@@ -22,6 +22,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http.Results;
 using ECA.Business.Service.Admin;
+using CAM.Business.Service;
+using CAM.Business.Model;
 
 namespace ECA.WebApi.Test.Controllers.Programs
 {
@@ -32,6 +34,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
         private Mock<IUserProvider> userProvider;
         private Mock<IFocusCategoryService> focusCategoryService;
         private Mock<IJustificationObjectiveService> justificationObjectiveService;
+        private Mock<IResourceService> resourceService;
         private ProgramsController controller;
 
         [TestInitialize]
@@ -41,13 +44,14 @@ namespace ECA.WebApi.Test.Controllers.Programs
             service = new Mock<IProgramService>();
             focusCategoryService = new Mock<IFocusCategoryService>();
             justificationObjectiveService = new Mock<IJustificationObjectiveService>();
+            resourceService = new Mock<IResourceService>();
             service.Setup(x => x.GetProgramsAsync(It.IsAny<QueryableOperator<OrganizationProgramDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<OrganizationProgramDTO>(1, new List<OrganizationProgramDTO>()));
             service.Setup(x => x.CreateAsync(It.IsAny<DraftProgram>())).ReturnsAsync(new Program { RowVersion = new byte[0] });
             service.Setup(x => x.UpdateAsync(It.IsAny<EcaProgram>())).Returns(Task.FromResult<object>(null));
             service.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
             service.Setup(x => x.GetProgramByIdAsync(It.IsAny<int>())).ReturnsAsync(new ProgramDTO { Id = 1, RowVersion = new byte[0] });
-            controller = new ProgramsController(service.Object, userProvider.Object, focusCategoryService.Object, justificationObjectiveService.Object);
+            controller = new ProgramsController(service.Object, userProvider.Object, focusCategoryService.Object, justificationObjectiveService.Object, resourceService.Object);
             controller.ControllerContext = ContextUtil.CreateControllerContext();
             HttpContext.Current = new HttpContext(
                 new HttpRequest("", "http://localhost", ""),
@@ -118,6 +122,14 @@ namespace ECA.WebApi.Test.Controllers.Programs
             Assert.IsInstanceOfType(response, typeof(NotFoundResult));
         }
 
+        [TestMethod]
+        public async Task TestGetCollaboratorsAsync()
+        {
+            resourceService.Setup(x => x.GetResourceAuthorizationsAsync(It.IsAny<QueryableOperator<ResourceAuthorization>>()))
+                .ReturnsAsync(new PagedQueryResults<ResourceAuthorization>(1, null));
+            var response = await controller.GetCollaboratorsAsync(1, new PagingQueryBindingModel<ResourceAuthorization>());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<ResourceAuthorization>>));
+        }
         #endregion
 
         #region Post
