@@ -21,6 +21,7 @@ using CAM.Business.Service;
 using CAM.Business.Model;
 using ECA.Core.DynamicLinq.Filter;
 using CAM.Data;
+using System.Web.Http.Results;
 
 namespace ECA.WebApi.Controllers.Programs
 {
@@ -57,6 +58,7 @@ namespace ECA.WebApi.Controllers.Programs
         private IFocusCategoryService categoryService;
         private IJustificationObjectiveService justificationObjectiveService;
         private IResourceService resourceService;
+        private IResourceAuthorizationHandler authorizationHandler;
 
         /// <summary>
         /// Creates a new ProgramController with the given program service.
@@ -65,18 +67,21 @@ namespace ECA.WebApi.Controllers.Programs
         /// <param name="userProvider">The user provider.</param>
         /// <param name="categoryService">The focus category service.</param>
         /// <param name="justificationObjectiveService">The justification objective service.</param>
-        public ProgramsController(IProgramService programService, IUserProvider userProvider, IFocusCategoryService categoryService, IJustificationObjectiveService justificationObjectiveService, IResourceService resourceService)
+        public ProgramsController(IProgramService programService, IUserProvider userProvider, IFocusCategoryService categoryService, IJustificationObjectiveService justificationObjectiveService, IResourceService resourceService, IResourceAuthorizationHandler authorizationHandler)
         {
             Contract.Requires(programService != null, "The program service must not be null.");
             Contract.Requires(userProvider != null, "The user provider must not be null.");
             Contract.Requires(categoryService != null, "The category service must not be null.");
             Contract.Requires(justificationObjectiveService != null, "The justification service must not be null.");
             Contract.Requires(resourceService != null, "The resource service must not be null.");
+            Contract.Requires(authorizationHandler != null, "The authorization handler must not be null.");
+            
             this.programService = programService;
             this.userProvider = userProvider;
             this.categoryService = categoryService;
             this.justificationObjectiveService = justificationObjectiveService;
             this.resourceService = resourceService;
+            this.authorizationHandler = authorizationHandler;
         }
 
         /// <summary>
@@ -232,6 +237,45 @@ namespace ECA.WebApi.Controllers.Programs
             {
                 return BadRequest(ModelState);
             }
+        }
+
+        /// <summary>
+        /// Adds a collaborator to a program.
+        /// </summary>
+        /// <param name="model">The add collaborator model.</param>
+        /// <returns>An ok result.</returns>
+        [Route("Programs/Collaborator/Add")]
+        [ResponseType(typeof(OkResult))]
+        [ResourceAuthorize(CAM.Data.Permission.PROGRAM_OWNER_VALUE, ResourceType.PROGRAM_VALUE, typeof(CollaboratorBindingModel), "ProgramId")]
+        public Task<IHttpActionResult> PostAddCollaboratorAsync(CollaboratorBindingModel model)
+        {
+            return authorizationHandler.HandleGrantedPermissionBindingModelAsync(model, this);
+        }
+
+        /// <summary>
+        /// Remove a collaborator to a program.
+        /// </summary>
+        /// <param name="model">The remove collaborator model.</param>
+        /// <returns>An ok result.</returns>
+        [Route("Programs/Collaborator/Remove")]
+        [ResponseType(typeof(OkResult))]
+        [ResourceAuthorize(CAM.Data.Permission.PROGRAM_OWNER_VALUE, ResourceType.PROGRAM_VALUE, typeof(CollaboratorBindingModel), "ProgramId")]
+        public Task<IHttpActionResult> PostRemoveCollaboratorAsync(CollaboratorBindingModel model)
+        {
+            return authorizationHandler.HandleDeletedPermissionBindingModelAsync(model, this);
+        }
+
+        /// <summary>
+        /// Revokes a collaborator permission from a project.
+        /// </summary>
+        /// <param name="model">The add collaborator model.</param>
+        /// <returns>An ok result.</returns>
+        [Route("Programs/Collaborator/Revoke")]
+        [ResponseType(typeof(OkResult))]
+        [ResourceAuthorize(CAM.Data.Permission.PROGRAM_OWNER_VALUE, ResourceType.PROGRAM_VALUE, typeof(CollaboratorBindingModel), "ProgramId")]
+        public Task<IHttpActionResult> PostRevokeCollaboratorAsync(CollaboratorBindingModel model)
+        {
+            return authorizationHandler.HandleRevokedPermissionBindingModelAsync(model, this);
         }
 
         /// <summary>

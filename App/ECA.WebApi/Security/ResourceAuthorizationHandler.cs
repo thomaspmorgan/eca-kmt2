@@ -50,6 +50,7 @@ namespace ECA.WebApi.Security
             {
                 if (granteePrincipalId == grantorPrincipalId)
                 {
+                    logger.Warn("The user with principal id {0} cannot grant permissions to himself/herself.", grantorPrincipalId);
                     throw new HttpResponseException(HttpStatusCode.Forbidden);
                 }
             };
