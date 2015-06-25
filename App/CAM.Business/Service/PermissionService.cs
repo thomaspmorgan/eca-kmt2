@@ -262,12 +262,14 @@ namespace CAM.Business.Service
                 .OrderBy(x => x.PrincipalId)
                 .ThenBy(x => x.ResourceId)
                 .ThenBy(x => x.PermissionId)
-                .Select(x => new CAM.Business.Service.SimplePermission
+                .Select(x => new SimplePermission
                 {
+                    ForeignResourceId = x.ForeignResourceId,
                     IsAllowed = x.IsAllowed,
                     PermissionId = x.PermissionId,
                     PrincipalId = x.PrincipalId,
-                    ResourceId = x.ResourceId
+                    ResourceId = x.ResourceId,
+                    ResourceTypeId = x.ResourceTypeId
                 }).Distinct();
             return permissionsQuery;
         }

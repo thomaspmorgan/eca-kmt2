@@ -12,11 +12,6 @@ using System.Net;
 
 namespace ECA.WebApi.Controllers.Security
 {
-    //public class TestBindingModel
-    //{
-    //    public int ProgramId { get; set; }
-    //}
-
     /// <summary>
     /// The AuthController provide user authentication and authorization details.
     /// </summary>
@@ -135,23 +130,17 @@ namespace ECA.WebApi.Controllers.Security
             var models = new List<ResourcePermissionViewModel>();
             if(resourceTypeId.HasValue)
             {
-                var resource = await this.resourceService.GetResourceByForeignResourceIdAsync(id, resourceTypeId.Value);
-                if (resource != null)
-                {   
-                    var userPermissions = (await this.provider.GetPermissionsAsync(user))
-                        .Where(x => x.IsAllowed
-                        && x.PrincipalId == principalId
-                        && x.ResourceId == resource.ResourceId)
-                        .ToList();
-                    foreach (var p in userPermissions)
+                var userPermissions = (await this.provider.GetPermissionsAsync(user))
+                    .Where(x => x.IsAllowed && x.ForeignResourceId == id && x.ResourceTypeId == resourceTypeId.Value)
+                    .ToList();
+                foreach (var p in userPermissions)
+                {
+                    var permissionModel = await this.permissionService.GetPermissionByIdAsync(p.PermissionId);
+                    models.Add(new ResourcePermissionViewModel
                     {
-                        var permissionModel = await this.permissionService.GetPermissionByIdAsync(p.PermissionId);
-                        models.Add(new ResourcePermissionViewModel
-                        {
-                            PermissionName = permissionModel.Name,
-                            PermissionId = p.PermissionId
-                        });
-                    }
+                        PermissionName = permissionModel.Name,
+                        PermissionId = p.PermissionId
+                    });
                 }
             }
             return models;

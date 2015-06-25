@@ -144,7 +144,7 @@ namespace CAM.Business.Service
         {
             if (!resourceId.HasValue)
             {
-                logger.Warn("ResourceId not found for foreignResourceId = '{0}', resourceTypeId='{1}'", foreignResourceId, resourceTypeId);
+                logger.Error("ResourceId not found for foreignResourceId = '{0}', resourceTypeId='{1}'", foreignResourceId, resourceTypeId);
                 return null;
             }
             else

@@ -87,6 +87,7 @@
     <Compile Include="Service\PermissionServiceTest.cs" />
     <Compile Include="Service\PrincipalServiceTest.cs" />
     <Compile Include="Service\ResourceServiceTest.cs" />
+    <Compile Include="Service\SimplePermissionTest.cs" />
     <Compile Include="Service\UserServiceTest.cs" />
     <Compile Include="TestInMemoryCamModel.cs" />
   </ItemGroup>

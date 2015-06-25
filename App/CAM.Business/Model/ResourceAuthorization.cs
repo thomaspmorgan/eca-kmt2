@@ -83,6 +83,11 @@ namespace CAM.Business.Model
         public bool IsGrantedByPermission { get; set; }
 
         /// <summary>
+        /// Gets or sets the value indicating whether this permission is granted by a resource's parent permission.
+        /// </summary>
+        public bool IsGrantedByInheritance { get; set; }
+
+        /// <summary>
         /// Gets or sets the name of the role this authorization is granted.
         /// </summary>
         public string RoleName { get; set; }
