@@ -8,7 +8,6 @@ namespace CAM.Business.Test.Model
     [TestClass]
     public class ResourceAuthorizationTest
     {
-
         [TestMethod]
         public void TestToString()
         {

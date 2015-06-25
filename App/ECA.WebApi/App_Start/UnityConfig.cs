@@ -117,11 +117,10 @@ namespace ECA.WebApi
 
         public static void RegisterSecurityConcerns(IUnityContainer container)
         {
-            var cacheLifeInSeconds = 10 * 60;
+            var cacheLifeInSeconds = 10 * 60; //10 minutes
 #if DEBUG
             cacheLifeInSeconds = 20;
 #endif
-            var cacheLifeInMinutes = cacheLifeInSeconds / 60.0;
 
             container.RegisterType<CamModel>(new HierarchicalLifetimeManager(), new InjectionConstructor("CamModel"));
             container.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
@@ -134,7 +133,6 @@ namespace ECA.WebApi
             }));
             container.RegisterType<IUserCacheService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
             {
-                CacheManager.CacheExpirationInMinutes = cacheLifeInMinutes;
                 return new UserCacheService(c.Resolve<ObjectCache>(), cacheLifeInSeconds);
             }));
             container.RegisterType<IResourceService, ResourceService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
