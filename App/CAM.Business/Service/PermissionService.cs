@@ -249,10 +249,10 @@ namespace CAM.Business.Service
         #region Get User Permissions
 
         /// <summary>
-        /// Returns a query that gets all allowed permissions for the user with the given principal id.
+        /// Returns a query that gets all permissions (granted, revoked, and inherited) for the user with the given principal id.
         /// </summary>
         /// <param name="principalId">The principal id.</param>
-        /// <returns>The allowed permissions of the principal with the given id.</returns>
+        /// <returns>The granted, revoked, and inherited permissions of the principal with the given id.</returns>
         public IQueryable<IPermission> CreateGetAllowedPermissionsByPrincipalIdQuery(int principalId)
         {
             var query = ResourceQueries.CreateGetResourceAuthorizationsQuery(this.Context);
@@ -274,7 +274,7 @@ namespace CAM.Business.Service
         }
 
         /// <summary>
-        /// Returns the permissions currently allowed of the principal with the given id.
+        /// Returns the permissions currently inherited, granted, and revoked for the principal with the given id.
         /// </summary>
         /// <param name="principalId">The principal id.</param>
         /// <returns>The permissions of the principal with the given id.</returns>
@@ -284,7 +284,7 @@ namespace CAM.Business.Service
         }
 
         /// <summary>
-        /// Returns the permissions currently allowed of the principal with the given id.
+        /// Returns the permissions currently inherited, granted, and revoked for the principal with the given id.
         /// </summary>
         /// <param name="principalId">The principal id.</param>
         /// <returns>The permissions of the principal with the given id.</returns>
