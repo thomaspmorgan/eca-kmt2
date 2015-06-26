@@ -258,7 +258,6 @@ namespace CAM.Business.Service
             var query = ResourceQueries.CreateGetResourceAuthorizationsQuery(this.Context);
             var permissionsQuery = query
                 .Where(x => x.PrincipalId == principalId)
-                .Where(x => x.IsAllowed)
                 .OrderBy(x => x.PrincipalId)
                 .ThenBy(x => x.ResourceId)
                 .ThenBy(x => x.PermissionId)
@@ -295,16 +294,12 @@ namespace CAM.Business.Service
         }
 
         /// <summary>
-        /// Returns a query that filters the given granted permissions into only allowed permissions
-        /// with the given resourceId, parentResourceId, and PermissionId.  Use this method to determine
-        /// if a permission exists for either the resource directly or the resource's parent.
+        /// Creates a query to group the given permissions by principal, resource, and permission and calculate whether
+        /// the permission is allowed.
         /// </summary>
-        /// <param name="resourceId">The resource id.</param>
-        /// <param name="parentResourceId">The parent resource id.</param>
-        /// <param name="permissionId">The permission id.</param>
-        /// <param name="permissions">The permissions to locate the allowed permission in.</param>
-        /// <returns>A query to determine if a permission exists in the given permissions for the resource and its parent by id.</returns>
-        public IQueryable<IPermission> CreateHasPermissionQuery(int resourceId, int? parentResourceId, int permissionId, IQueryable<IPermission> permissions)
+        /// <param name="permissions">The permissions to group.</param>
+        /// <returns>A query to group the given permissions and calculate whether that permission is allowed.</returns>
+        public IQueryable<IPermission> CreateCollapsePermissionsQuery(IQueryable<IPermission> permissions)
         {
             var groupedPermissionsQuery = from permission in permissions
                                          group permission by new
@@ -320,12 +315,7 @@ namespace CAM.Business.Service
                                              ResourceId = g.Key.ResourceId,
                                              IsAllowed = !(g.Where(x => !x.IsAllowed).Count() > 0)
                                          };
-
-            var query = groupedPermissionsQuery.Where(x =>
-                x.IsAllowed
-                && x.PermissionId == permissionId
-                && (x.ResourceId == resourceId || (parentResourceId.HasValue && x.ResourceId == parentResourceId.Value)));
-            return query;
+            return groupedPermissionsQuery;
         }
 
         /// <summary>
@@ -338,8 +328,26 @@ namespace CAM.Business.Service
         /// <returns>True, if the given permissions contains the desired permission, otherwise, false.</returns>
         public bool HasPermission(int resourceId, int? parentResourceId, int permissionId, List<IPermission> permissions)
         {
-            var allowedPermission = CreateHasPermissionQuery(resourceId, parentResourceId, permissionId, permissions.AsQueryable()).FirstOrDefault();
-            return allowedPermission != null;
+            var queryablePermissions = permissions.AsQueryable();
+            var groupedPermissions = CreateCollapsePermissionsQuery(queryablePermissions).Where(x => x.PermissionId == permissionId);
+            var resoucePermission = groupedPermissions.Where(x => x.ResourceId == resourceId).FirstOrDefault();
+            IPermission parentPermission = null;
+            if (parentResourceId.HasValue)
+            {
+                parentPermission = groupedPermissions.Where(x => x.ResourceId == parentResourceId.Value).FirstOrDefault();
+            }
+            if (resoucePermission != null)
+            {
+                return resoucePermission.IsAllowed;
+            }
+            else if(parentPermission != null)
+            {
+                return parentPermission.IsAllowed;
+            }
+            else
+            {
+                return false;
+            }
         }
         #endregion
     }

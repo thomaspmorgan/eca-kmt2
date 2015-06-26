@@ -551,7 +551,9 @@ namespace CAM.Business.Test.Service
 
             Action<IList<IPermission>> tester = (testPermissions) =>
             {
-                Assert.AreEqual(0, testPermissions.Count);
+                Assert.AreEqual(1, testPermissions.Count);
+                var firstPermission = testPermissions.First();
+                Assert.IsFalse(firstPermission.IsAllowed);
             };
             var results = service.CreateGetAllowedPermissionsByPrincipalIdQuery(principal.PrincipalId).ToList();
             tester(results);
@@ -870,7 +872,9 @@ namespace CAM.Business.Test.Service
 
             Action<IList<IPermission>> tester = (testPermissions) =>
             {
-                Assert.AreEqual(0, testPermissions.Count);
+                Assert.AreEqual(1, testPermissions.Count);
+                var firstPermission = testPermissions.First();
+                Assert.IsFalse(firstPermission.IsAllowed);
             };
             var results = service.CreateGetAllowedPermissionsByPrincipalIdQuery(principal.PrincipalId).ToList();
             tester(results);
@@ -1254,174 +1258,313 @@ namespace CAM.Business.Test.Service
         #endregion
 
         #region HasPermission
+        //[TestMethod]
+        //public void TestCreateHasPermissionQuery_PermissionsAllowed_DoesNotHaveParent()
+        //{
+        //    var principalId = 1;
+        //    var resourceId = 1;
+        //    var permissionId = Permission.EditProject.Id;
+        //    var simplePermission = new SimplePermission
+        //    {
+        //        IsAllowed = true,
+        //        PermissionId = Permission.EditProject.Id,
+        //        PrincipalId = principalId,
+        //        ResourceId = resourceId
+        //    };
+        //    var list = new List<IPermission> { simplePermission };
+        //    var result = service.CreateHasPermissionQuery(resourceId, null, permissionId, list.AsQueryable()).ToList();
+        //    Assert.AreEqual(1, result.Count);
+        //    var firstResult = result.First();
+        //    Assert.AreEqual(principalId, firstResult.PrincipalId);
+        //    Assert.AreEqual(resourceId, firstResult.ResourceId);
+        //    Assert.AreEqual(permissionId, firstResult.PermissionId);
+        //    Assert.IsTrue(firstResult.IsAllowed);
+        //}
+
+        //[TestMethod]
+        //public void TestCreateHasPermissionQuery_PermissionIsAllowedOnParent_PermissionIsRevokedOnChild()
+        //{
+        //    var principalId = 1;
+        //    var resourceId = 1;
+        //    var parentResourceId = 2;
+        //    var permissionId = Permission.EditProject.Id;
+        //    var childRevokedPermission = new SimplePermission
+        //    {
+        //        IsAllowed = false,
+        //        PermissionId = Permission.EditProject.Id,
+        //        PrincipalId = principalId,
+        //        ResourceId = resourceId
+        //    };
+
+        //    var parentGrantedPermission = new SimplePermission
+        //    {
+        //        IsAllowed = true,
+        //        PermissionId = Permission.EditProject.Id,
+        //        PrincipalId = principalId,
+        //        ResourceId = parentResourceId,
+        //    };
+        //    var list = new List<IPermission> { childRevokedPermission, parentGrantedPermission };
+        //    var result = service.CreateHasPermissionQuery(resourceId, parentResourceId, permissionId, list.AsQueryable()).ToList();
+        //    Assert.AreEqual(1, result.Count);
+        //    var firstResult = result.First();
+        //    Assert.AreEqual(principalId, firstResult.PrincipalId);
+        //    Assert.AreEqual(parentResourceId, firstResult.ResourceId);
+        //    Assert.AreEqual(permissionId, firstResult.PermissionId);
+        //    Assert.IsFalse(firstResult.IsAllowed);
+        //}
+
+        //[TestMethod]
+        //public void TestCreateHasPermissionQuery_PermissionIsNotAllowed()
+        //{
+        //    var principalId = 1;
+        //    var resourceId = 1;
+        //    var permissionId = Permission.EditProject.Id;
+        //    var simplePermission = new SimplePermission
+        //    {
+        //        IsAllowed = false,
+        //        PermissionId = Permission.EditProject.Id,
+        //        PrincipalId = principalId,
+        //        ResourceId = resourceId
+        //    };
+        //    var list = new List<IPermission> { simplePermission };
+        //    var result = service.CreateHasPermissionQuery(resourceId, null, permissionId, list.AsQueryable()).ToList();
+        //    Assert.AreEqual(0, result.Count);
+        //}
+
+        //[TestMethod]
+        //public void TestCreateHasPermissionQuery_NoPermissionsGranted()
+        //{
+        //    var resourceId = 1;
+        //    var permissionId = Permission.EditProject.Id;
+        //    var list = new List<IPermission>();
+        //    var result = service.CreateHasPermissionQuery(resourceId, null, permissionId, list.AsQueryable()).ToList();
+        //    Assert.AreEqual(0, result.Count);
+        //}
+
+
+        //[TestMethod]
+        //public void TestCreateHasPermissionQuery_HasParent_PermissionIsAllowedOnParentResource()
+        //{
+        //    var principalId = 1;
+        //    var resourceId = 1;
+        //    var permissionId = Permission.EditProgram.Id;
+        //    var parentResourceId = 2;
+        //    var simplePermission = new SimplePermission
+        //    {
+        //        IsAllowed = true,
+        //        PermissionId = permissionId,
+        //        PrincipalId = principalId,
+        //        ResourceId = parentResourceId
+        //    };
+        //    var list = new List<IPermission> { simplePermission };
+        //    var result = service.CreateHasPermissionQuery(resourceId, parentResourceId, permissionId, list.AsQueryable()).ToList();
+
+        //    Assert.AreEqual(1, result.Count);
+        //    var firstResult = result.First();
+        //    Assert.AreEqual(principalId, firstResult.PrincipalId);
+        //    Assert.AreEqual(parentResourceId, firstResult.ResourceId);
+        //    Assert.AreEqual(permissionId, firstResult.PermissionId);
+        //    Assert.IsTrue(firstResult.IsAllowed);
+        //}
+
+        //[TestMethod]
+        //public void TestCreateHasPermissionQuery_GrantedPermissionIsNotForRequestedResource()
+        //{
+        //    var principalId = 1;
+        //    var resourceId = 1;
+        //    var permissionId = Permission.EditProject.Id;
+        //    var simplePermission = new SimplePermission
+        //    {
+        //        IsAllowed = true,
+        //        PermissionId = Permission.EditProject.Id,
+        //        PrincipalId = principalId,
+        //        ResourceId = resourceId + 1
+        //    };
+        //    var list = new List<IPermission> { simplePermission };
+        //    var result = service.CreateHasPermissionQuery(resourceId, null, permissionId, list.AsQueryable()).ToList();
+        //    Assert.AreEqual(0, result.Count);
+        //}
+
+        //[TestMethod]
+        //public void TestCreateHasPermissionQuery_SamePermissionGrantedAndDenied()
+        //{
+        //    var principalId = 1;
+        //    var resourceId = 1;
+        //    var permissionId = Permission.EditProject.Id;
+        //    var grantedPermission = new SimplePermission
+        //    {
+        //        IsAllowed = true,
+        //        PermissionId = Permission.EditProject.Id,
+        //        PrincipalId = principalId,
+        //        ResourceId = resourceId
+        //    };
+        //    var deniedPermission = new SimplePermission
+        //    {
+        //        IsAllowed = false,
+        //        PermissionId = Permission.EditProject.Id,
+        //        PrincipalId = principalId,
+        //        ResourceId = resourceId
+        //    };
+        //    var list = new List<IPermission> { grantedPermission, deniedPermission };
+        //    var result = service.CreateHasPermissionQuery(resourceId, null, permissionId, list.AsQueryable()).ToList();
+        //    Assert.AreEqual(0, result.Count);
+        //}
+
+        //[TestMethod]
+        //public void TestCreateHasPermissionQuery_PermissionGrantedTwice()
+        //{
+        //    var principalId = 1;
+        //    var resourceId = 1;
+        //    var permissionId = Permission.EditProject.Id;
+        //    var grantedPermission = new SimplePermission
+        //    {
+        //        IsAllowed = true,
+        //        PermissionId = Permission.EditProject.Id,
+        //        PrincipalId = principalId,
+        //        ResourceId = resourceId
+        //    };
+        //    var grantedPermission2 = new SimplePermission
+        //    {
+        //        IsAllowed = true,
+        //        PermissionId = Permission.EditProject.Id,
+        //        PrincipalId = principalId,
+        //        ResourceId = resourceId
+        //    };
+        //    var list = new List<IPermission> { grantedPermission, grantedPermission2 };
+        //    var result = service.CreateHasPermissionQuery(resourceId, null, permissionId, list.AsQueryable()).ToList();
+        //    Assert.AreEqual(1, result.Count);
+        //}
+
+        //[TestMethod]
+        //public void TestCreateHasPermissionQuery_PermissionDeniedTwice()
+        //{
+        //    var principalId = 1;
+        //    var resourceId = 1;
+        //    var permissionId = Permission.EditProject.Id;
+        //    var deniedPermission = new SimplePermission
+        //    {
+        //        IsAllowed = false,
+        //        PermissionId = Permission.EditProject.Id,
+        //        PrincipalId = principalId,
+        //        ResourceId = resourceId
+        //    };
+        //    var deniedPermission2 = new SimplePermission
+        //    {
+        //        IsAllowed = false,
+        //        PermissionId = Permission.EditProject.Id,
+        //        PrincipalId = principalId,
+        //        ResourceId = resourceId
+        //    };
+        //    var list = new List<IPermission> { deniedPermission, deniedPermission2 };
+        //    var result = service.CreateHasPermissionQuery(resourceId, null, permissionId, list.AsQueryable()).ToList();
+        //    Assert.AreEqual(0, result.Count);
+        //}
+
         [TestMethod]
-        public void TestCreateHasPermissionQuery_PermissionsAllowed_DoesNotHaveParent()
+        public void TestCreateCollapsePermissionsQuery_OneAllowedPermission()
         {
-            var principalId = 1;
             var resourceId = 1;
-            var permissionId = Permission.EditProject.Id;
-            var simplePermission = new SimplePermission
+            var permissionId = Permission.ViewProject.Id;
+            var principalId = 2;
+            var permission = new SimplePermission
             {
-                IsAllowed = true,
-                PermissionId = Permission.EditProject.Id,
+                ResourceId = resourceId,
                 PrincipalId = principalId,
-                ResourceId = resourceId
+                IsAllowed = true,
+                PermissionId = permissionId
             };
-            var list = new List<IPermission> { simplePermission };
-            var result = service.CreateHasPermissionQuery(resourceId, null, permissionId, list.AsQueryable()).ToList();
-            Assert.AreEqual(1, result.Count);
-            var firstResult = result.First();
-            Assert.AreEqual(principalId, firstResult.PrincipalId);
+            var list = new List<IPermission> { permission };
+            var results = service.CreateCollapsePermissionsQuery(list.AsQueryable());
+            Assert.AreEqual(1, results.Count());
+            var firstResult = results.First();
             Assert.AreEqual(resourceId, firstResult.ResourceId);
-            Assert.AreEqual(permissionId, firstResult.PermissionId);
-            Assert.IsTrue(firstResult.IsAllowed);
-        }
-
-        [TestMethod]
-        public void TestCreateHasPermissionQuery_PermissionIsNotAllowed()
-        {
-            var principalId = 1;
-            var resourceId = 1;
-            var permissionId = Permission.EditProject.Id;
-            var simplePermission = new SimplePermission
-            {
-                IsAllowed = false,
-                PermissionId = Permission.EditProject.Id,
-                PrincipalId = principalId,
-                ResourceId = resourceId
-            };
-            var list = new List<IPermission> { simplePermission };
-            var result = service.CreateHasPermissionQuery(resourceId, null, permissionId, list.AsQueryable()).ToList();
-            Assert.AreEqual(0, result.Count);
-        }
-
-        [TestMethod]
-        public void TestCreateHasPermissionQuery_NoPermissionsGranted()
-        {
-            var resourceId = 1;
-            var permissionId = Permission.EditProject.Id;
-            var list = new List<IPermission>();
-            var result = service.CreateHasPermissionQuery(resourceId, null, permissionId, list.AsQueryable()).ToList();
-            Assert.AreEqual(0, result.Count);
-        }
-
-
-        [TestMethod]
-        public void TestCreateHasPermissionQuery_HasParent_PermissionIsAllowedOnParentResource()
-        {
-            var principalId = 1;
-            var resourceId = 1;
-            var permissionId = Permission.EditProgram.Id;
-            var parentResourceId = 2;
-            var simplePermission = new SimplePermission
-            {
-                IsAllowed = true,
-                PermissionId = permissionId,
-                PrincipalId = principalId,
-                ResourceId = parentResourceId
-            };
-            var list = new List<IPermission> { simplePermission };
-            var result = service.CreateHasPermissionQuery(resourceId, parentResourceId, permissionId, list.AsQueryable()).ToList();
-
-            Assert.AreEqual(1, result.Count);
-            var firstResult = result.First();
             Assert.AreEqual(principalId, firstResult.PrincipalId);
-            Assert.AreEqual(parentResourceId, firstResult.ResourceId);
             Assert.AreEqual(permissionId, firstResult.PermissionId);
             Assert.IsTrue(firstResult.IsAllowed);
         }
 
         [TestMethod]
-        public void TestCreateHasPermissionQuery_GrantedPermissionIsNotForRequestedResource()
+        public void TestCreateCollapsePermissionsQuery_TestGroupByResourceId()
         {
-            var principalId = 1;
-            var resourceId = 1;
-            var permissionId = Permission.EditProject.Id;
-            var simplePermission = new SimplePermission
+            var resourceId1 = 1;
+            var resourceId2 = 2;
+            var permissionId = Permission.ViewProject.Id;
+            var principalId = 2;
+            var permission1 = new SimplePermission
             {
-                IsAllowed = true,
-                PermissionId = Permission.EditProject.Id,
+                ResourceId = resourceId1,
                 PrincipalId = principalId,
-                ResourceId = resourceId + 1
+                IsAllowed = true,
+                PermissionId = permissionId
             };
-            var list = new List<IPermission> { simplePermission };
-            var result = service.CreateHasPermissionQuery(resourceId, null, permissionId, list.AsQueryable()).ToList();
-            Assert.AreEqual(0, result.Count);
+            var permission2 = new SimplePermission
+            {
+                ResourceId = resourceId2,
+                PrincipalId = permission1.PrincipalId,
+                IsAllowed = true,
+                PermissionId = permission1.PermissionId
+            };
+            var list = new List<IPermission> { permission1, permission2 };
+            var results = service.CreateCollapsePermissionsQuery(list.AsQueryable());
+            Assert.AreEqual(2, results.Count());
+            Assert.AreEqual(1, results.Where(x => x.ResourceId == resourceId1).Count());
+            Assert.AreEqual(1, results.Where(x => x.ResourceId == resourceId2).Count());
         }
 
         [TestMethod]
-        public void TestCreateHasPermissionQuery_SamePermissionGrantedAndDenied()
+        public void TestCreateCollapsePermissionsQuery_TestGroupByPermissionId()
         {
-            var principalId = 1;
-            var resourceId = 1;
-            var permissionId = Permission.EditProject.Id;
-            var grantedPermission = new SimplePermission
+            var resourceId1 = 1;
+            var permissionId1 = Permission.ViewProject.Id;
+            var permissionId2 = Permission.EditProject.Id;
+            var principalId = 2;
+            var permission1 = new SimplePermission
             {
+                ResourceId = resourceId1,
+                PrincipalId = principalId,
                 IsAllowed = true,
-                PermissionId = Permission.EditProject.Id,
-                PrincipalId = principalId,
-                ResourceId = resourceId
+                PermissionId = permissionId1
             };
-            var deniedPermission = new SimplePermission
+            var permission2 = new SimplePermission
             {
-                IsAllowed = false,
-                PermissionId = Permission.EditProject.Id,
-                PrincipalId = principalId,
-                ResourceId = resourceId
+                ResourceId = permission1.ResourceId,
+                PrincipalId = permission1.PrincipalId,
+                IsAllowed = true,
+                PermissionId = permissionId2
             };
-            var list = new List<IPermission> { grantedPermission, deniedPermission };
-            var result = service.CreateHasPermissionQuery(resourceId, null, permissionId, list.AsQueryable()).ToList();
-            Assert.AreEqual(0, result.Count);
+            var list = new List<IPermission> { permission1, permission2 };
+            var results = service.CreateCollapsePermissionsQuery(list.AsQueryable());
+            Assert.AreEqual(2, results.Count());
+            Assert.AreEqual(1, results.Where(x => x.PermissionId == permissionId1).Count());
+            Assert.AreEqual(1, results.Where(x => x.PermissionId == permissionId2).Count());
         }
 
         [TestMethod]
-        public void TestCreateHasPermissionQuery_PermissionGrantedTwice()
+        public void TestCreateCollapsePermissionsQuery_TestGroupByPrincipalId()
         {
-            var principalId = 1;
-            var resourceId = 1;
-            var permissionId = Permission.EditProject.Id;
-            var grantedPermission = new SimplePermission
+            var resourceId1 = 1;
+            var permissionId = Permission.ViewProject.Id;
+            var principalId1 = 2;
+            var principalId2 = 3;
+            var permission1 = new SimplePermission
             {
+                ResourceId = resourceId1,
+                PrincipalId = principalId1,
                 IsAllowed = true,
-                PermissionId = Permission.EditProject.Id,
-                PrincipalId = principalId,
-                ResourceId = resourceId
+                PermissionId = permissionId
             };
-            var grantedPermission2 = new SimplePermission
+            var permission2 = new SimplePermission
             {
+                ResourceId = permission1.ResourceId,
+                PrincipalId = principalId2,
                 IsAllowed = true,
-                PermissionId = Permission.EditProject.Id,
-                PrincipalId = principalId,
-                ResourceId = resourceId
+                PermissionId = permissionId
             };
-            var list = new List<IPermission> { grantedPermission, grantedPermission2 };
-            var result = service.CreateHasPermissionQuery(resourceId, null, permissionId, list.AsQueryable()).ToList();
-            Assert.AreEqual(1, result.Count);
-        }
-
-        [TestMethod]
-        public void TestCreateHasPermissionQuery_PermissionDeniedTwice()
-        {
-            var principalId = 1;
-            var resourceId = 1;
-            var permissionId = Permission.EditProject.Id;
-            var deniedPermission = new SimplePermission
-            {
-                IsAllowed = false,
-                PermissionId = Permission.EditProject.Id,
-                PrincipalId = principalId,
-                ResourceId = resourceId
-            };
-            var deniedPermission2 = new SimplePermission
-            {
-                IsAllowed = false,
-                PermissionId = Permission.EditProject.Id,
-                PrincipalId = principalId,
-                ResourceId = resourceId
-            };
-            var list = new List<IPermission> { deniedPermission, deniedPermission2 };
-            var result = service.CreateHasPermissionQuery(resourceId, null, permissionId, list.AsQueryable()).ToList();
-            Assert.AreEqual(0, result.Count);
+            var list = new List<IPermission> { permission1, permission2 };
+            var results = service.CreateCollapsePermissionsQuery(list.AsQueryable());
+            Assert.AreEqual(2, results.Count());
+            Assert.AreEqual(1, results.Where(x => x.PrincipalId == principalId1).Count());
+            Assert.AreEqual(1, results.Where(x => x.PrincipalId == principalId2).Count());
         }
 
         [TestMethod]
@@ -1463,21 +1606,63 @@ namespace CAM.Business.Test.Service
         [TestMethod]
         public void TestHasPermission_HasParent_PermissionIsAllowedOnParentResource()
         {
+            var parentResourceId = 2;
+            var permissionId = Permission.ViewProject.Id;
+            var principalId = 2;
+            var viewProjectPermission = new SimplePermission
+            {
+                ResourceId = parentResourceId,
+                PrincipalId = principalId,
+                IsAllowed = true,
+                PermissionId = permissionId
+            };
+            var list = new List<IPermission> { viewProjectPermission };
+            var result = service.HasPermission(1, parentResourceId, permissionId, list);
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void TestHasPermission_NoPermissions()
+        {   
+            var list = new List<IPermission>();
+            var result = service.HasPermission(1, 2, Permission.EditProject.Id, list);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void TestHasPermission_PermissionsForADifferentResource()
+        {
             var principalId = 1;
             var resourceId = 1;
-            var permissionId = Permission.EditProgram.Id;
-            var parentResourceId = 2;
+            var permissionId = Permission.EditProject.Id;
             var simplePermission = new SimplePermission
             {
                 IsAllowed = true,
-                PermissionId = permissionId,
+                PermissionId = Permission.EditProject.Id,
                 PrincipalId = principalId,
-                ResourceId = parentResourceId
+                ResourceId = resourceId
             };
             var list = new List<IPermission> { simplePermission };
+            var result = service.HasPermission(resourceId - 1, null, permissionId, list);
+            Assert.IsFalse(result);
+        }
 
-            var result = service.HasPermission(resourceId, parentResourceId, permissionId, list);
-            Assert.IsTrue(result);
+        [TestMethod]
+        public void TestHasPermission_PermissionsForADifferentPermission()
+        {
+            var principalId = 1;
+            var resourceId = 1;
+            var permissionId = Permission.EditProject.Id;
+            var simplePermission = new SimplePermission
+            {
+                IsAllowed = true,
+                PermissionId = Permission.EditProject.Id,
+                PrincipalId = principalId,
+                ResourceId = resourceId
+            };
+            var list = new List<IPermission> { simplePermission };
+            var result = service.HasPermission(resourceId, null, Permission.EditOffice.Id, list);
+            Assert.IsFalse(result);
         }
         #endregion
     }
