@@ -22,6 +22,18 @@ namespace CAM.Business.Service
     /// <summary>
     /// A ResourceService is used to track resource's and their related types and foreign resource ids.  The 
     /// resources are cached in the given object cache.
+    /// 
+    /// The ResourceService is also used to retrieve principal resource authorizations that would be used for granting, revoking, or inheriting permissions.
+    /// 
+    /// The following is an explanation of permissions, roles, and inheritance in CAM.
+    /// To retrieve a combined, flat list of resource authorizations by using <see cref="CAM.Business.Service.GetResourceAuthorizationsAsync(QueryableOperator<ResourceAuthorization>)"/>.  
+    /// This will include all of the permissions that have been granted, revoked(negative), or inherited and provide information about how it was granted.  
+    /// 
+    /// The <see cref="CAM.Business.Service.GetResourceAuthorizationInfoDTOAsync(string, int)"/> method can be used to get simple information about
+    /// the resource authorizations applied to given resource.  This is useful for example in seeing the number of collaborators on an ECA KMT project.
+    /// 
+    /// The IPermissableService implementation is used to handle new resources that should be added to CAM.  This service is capable of handling multiple
+    /// added or updated entities at once; however, performance issues could arise with to many entities added at once.
     /// </summary>
     public class ResourceService : DbContextService<CamModel>, CAM.Business.Service.IResourceService, ECA.Core.Service.IPermissableService
     {

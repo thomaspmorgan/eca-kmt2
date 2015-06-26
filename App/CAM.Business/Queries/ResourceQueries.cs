@@ -244,7 +244,7 @@ namespace CAM.Business.Queries
                         //do a left join to see if the resource itself is allowed the permission
                         join permissionAssignment in context.PermissionAssignments
                         on resource equals permissionAssignment.Resource into permissionAssignments
-                        from tempPermissionAssignment in permissionAssignments
+                        from childPermissionAssignment in permissionAssignments
                             .Where(x => x.PrincipalId == principal.PrincipalId
                                 && x.PermissionId == permission.PermissionId).DefaultIfEmpty()
 
@@ -259,7 +259,7 @@ namespace CAM.Business.Queries
                             DisplayName = userAccount.DisplayName,
                             EmailAddress = userAccount.EmailAddress,
                             ForeignResourceId = resource.ForeignResourceId,
-                            IsAllowed = tempPermissionAssignment != null ? tempPermissionAssignment.IsAllowed : parentPermissionAssignment.IsAllowed,
+                            IsAllowed = childPermissionAssignment != null ? childPermissionAssignment.IsAllowed : parentPermissionAssignment.IsAllowed,
                             IsGrantedByInheritance = true,
                             IsGrantedByPermission = true,
                             IsGrantedByRole = false,
