@@ -49,6 +49,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
             focusCategoryService = new Mock<IFocusCategoryService>();
             justificationObjectiveService = new Mock<IJustificationObjectiveService>();
             resourceService = new Mock<IResourceService>();
+            authorizationHandler = new Mock<IResourceAuthorizationHandler>();
             service.Setup(x => x.GetProgramsAsync(It.IsAny<QueryableOperator<OrganizationProgramDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<OrganizationProgramDTO>(1, new List<OrganizationProgramDTO>()));
             service.Setup(x => x.CreateAsync(It.IsAny<DraftProgram>())).ReturnsAsync(new Program { RowVersion = new byte[0] });
