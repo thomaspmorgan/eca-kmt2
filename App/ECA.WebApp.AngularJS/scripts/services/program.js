@@ -49,6 +49,10 @@ angular.module('staticApp')
               var path = 'programs/' + programId + '/subprograms';
               return DragonBreath.get(params, path);
           },
+          getCollaborators: function (programId, params) {
+              var path = 'programs/' + programId + '/collaborators';
+              return DragonBreath.get(params, path);
+          },
           getAllProgramsHierarchy: function (params) {
               var defer = $q.defer();
               var path = 'programs/Hierarchy';

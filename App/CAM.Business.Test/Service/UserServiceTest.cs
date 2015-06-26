@@ -205,7 +205,7 @@ namespace CAM.Business.Test.Service
             context.AccountStatus.Add(accountStatus);
             Action<User> tester = (u) =>
             {
-                Assert.AreEqual(accountStatus.Status, u.AccountStatusText);
+                Assert.AreEqual(accountStatus.Status, u.AccountStatus);
 
                 Assert.AreEqual(userAccount.AccountStatusId, u.AccountStatusId);
                 Assert.AreEqual(userAccount.AdGuid, u.AdGuid);
@@ -270,7 +270,7 @@ namespace CAM.Business.Test.Service
             context.AccountStatus.Add(accountStatus);
             Action<User> tester = (u) =>
             {
-                Assert.AreEqual(accountStatus.Status, u.AccountStatusText);
+                Assert.AreEqual(accountStatus.Status, u.AccountStatus);
 
                 Assert.AreEqual(userAccount.AccountStatusId, u.AccountStatusId);
                 Assert.AreEqual(userAccount.AdGuid, u.AdGuid);

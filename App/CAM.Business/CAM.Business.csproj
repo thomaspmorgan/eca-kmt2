@@ -76,7 +76,6 @@
     <Compile Include="Service\SimplePermission.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Audit.cs" />
-    <Compile Include="Service\CacheManager.cs" />
     <Compile Include="Service\IAuditable.cs" />
     <Compile Include="Service\IPermission.cs" />
     <Compile Include="Service\PermissionModel.cs" />

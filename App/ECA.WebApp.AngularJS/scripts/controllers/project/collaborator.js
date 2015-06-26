@@ -112,7 +112,7 @@ angular.module('staticApp')
           }
       }
 
-      $scope.view.onRolePermissionCheckboxChange = function (permission, collaborator) {
+      $scope.view.onPermissionCheckboxChange = function (permission, collaborator) {
           if (permission.isAllowed) {
               return doUpdatePermission(true, permission, collaborator)
                 .then(function () {

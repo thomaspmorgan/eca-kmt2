@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
   DTS:CreationDate="6/15/2015 11:37:47 AM"
@@ -11,9 +11,1166 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Package1"
   DTS:PackageType="5"
-  DTS:VersionGUID="{F82E21D9-535C-4C52-969F-764A0E7B105A}">
+  DTS:VersionBuild="4"
+  DTS:VersionGUID="{B1D109BF-2540-48FF-8FEE-2AC842168CCD}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{D27E8751-C63B-4252-BD3D-7DABBC38EA1E}"
+      DTS:ObjectName="(localdb)\v11.0.ECA_Local">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=(localdb)\v11.0;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{35C030A4-5E42-4C4C-961D-25046A2C3175}"
+      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAB92mx/OA5JfpmJQV5KAh6PC+Sb/E4yUbJf3Klex/qDiAAAAAAOgAAAAAIAACAAAAADD4oS2Qp4si6ijbT2CUeMfXExVtmeQloica4KwJb5ECAAAACw0EZAbo71EM1YwTNx53V0TcsHVSLpKPx16krAP/PN40AAAADeTqV+3/ydvCAPJ/yZu8dUyjXkSyXbmH5lsX0GcpnuojDNmNAAr91c+BDyVVqMA8j3JZBVVxV6Go45eKpnku5m</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
   <DTS:Variables />
-  <DTS:Executables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Populate ParticipantPerson"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{616AC9F5-BAD6-4F5F-90E2-CD17EDC6195D}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Populate ParticipantPerson"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Populate ParticipantPerson\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Populate ParticipantPerson\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Populate ParticipantPerson\Data Conversion.Inputs[Data Conversion Input].Columns[SevisId]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="SevisId"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[SevisId]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Populate ParticipantPerson\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Populate ParticipantPerson\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Data Conversion.Outputs[Data Conversion Output].Columns[VarcharSevisId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="15"
+                      lineageId="Package\Populate ParticipantPerson\Data Conversion.Outputs[Data Conversion Output].Columns[VarcharSevisId]"
+                      name="VarcharSevisId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[SevisId]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Populate ParticipantPerson\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Populate ParticipantPerson\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Populate ParticipantPerson\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Populate ParticipantPerson\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Populate ParticipantPerson\Lookup Person to filter Organizations"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup Person to filter Organizations"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Person]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Person]) [refTable]
+where [refTable].[PersonId] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="PersonId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="FirstName" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LastName" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="SecondLastName" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="NamePrefix" dataType="DT_WSTR" length="10" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="NameSuffix" dataType="DT_WSTR" length="10" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="GivenName" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="FamilyName" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="MiddleName" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Patronym" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Alias" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="GenderId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="DateOfBirth" dataType="DT_DBTIMESTAMP2" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Ethnicity" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Location_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="MedicalConditions" dataType="DT_WSTR" length="2000" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Awards" dataType="DT_WSTR" length="2000" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="MaritalStatusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PlaceOfBirth_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[PersonId]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Populate ParticipantPerson\Lookup Person to filter Organizations.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Populate ParticipantPerson\Lookup Person to filter Organizations.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Populate ParticipantPerson\Lookup Person to filter Organizations.Inputs[Lookup Input].Columns[PersonId]"
+                      cachedDataType="i4"
+                      cachedName="PersonId"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[PersonId]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">PersonId</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Populate ParticipantPerson\Lookup Person to filter Organizations.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Populate ParticipantPerson\Lookup Person to filter Organizations.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Populate ParticipantPerson\Lookup Person to filter Organizations.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Populate ParticipantPerson\Lookup Person to filter Organizations.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Populate ParticipantPerson\Lookup Person to filter Organizations.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Populate ParticipantPerson\Lookup Person to filter Organizations.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Lookup Person to filter Organizations.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Populate ParticipantPerson\Lookup Person to filter Organizations.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Lookup Person to filter Organizations.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Populate ParticipantPerson\Lookup Person to filter Organizations.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Populate ParticipantPerson\Participant"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Participant"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Participant]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Populate ParticipantPerson\Participant.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[ParticipantId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].ExternalColumns[ParticipantId]"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[ParticipantId]"
+                      name="ParticipantId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[History_CreatedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[History_CreatedBy]"
+                      name="History_CreatedBy"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[History_CreatedOn]"
+                      name="History_CreatedOn"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[History_RevisedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[History_RevisedBy]"
+                      name="History_RevisedBy"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[History_RevisedOn]"
+                      name="History_RevisedOn"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[SevisId]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].ExternalColumns[SevisId]"
+                      length="15"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[SevisId]"
+                      name="SevisId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[ContactAgreement]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].ExternalColumns[ContactAgreement]"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[ContactAgreement]"
+                      name="ContactAgreement"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[PersonId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].ExternalColumns[PersonId]"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[PersonId]"
+                      name="PersonId"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].ExternalColumns[ParticipantId]"
+                      dataType="i4"
+                      name="ParticipantId" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].ExternalColumns[OrganizationId]"
+                      dataType="i4"
+                      name="OrganizationId" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].ExternalColumns[PersonId]"
+                      dataType="i4"
+                      name="PersonId" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].ExternalColumns[ParticipantTypeId]"
+                      dataType="i4"
+                      name="ParticipantTypeId" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].ExternalColumns[SevisId]"
+                      dataType="wstr"
+                      length="15"
+                      name="SevisId" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].ExternalColumns[ContactAgreement]"
+                      dataType="bool"
+                      name="ContactAgreement" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].ExternalColumns[ParticipantStatusId]"
+                      dataType="i4"
+                      name="ParticipantStatusId" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].ExternalColumns[StatusDate]"
+                      dataType="dbTimeStampOffset"
+                      name="StatusDate"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].ExternalColumns[ProjectId]"
+                      dataType="i4"
+                      name="ProjectId" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Error Output].Columns[ParticipantId]"
+                      dataType="i4"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Error Output].Columns[ParticipantId]"
+                      name="ParticipantId" />
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Error Output].Columns[History_CreatedBy]"
+                      dataType="i4"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Error Output].Columns[History_CreatedBy]"
+                      name="History_CreatedBy" />
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Error Output].Columns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Error Output].Columns[History_CreatedOn]"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Error Output].Columns[History_RevisedBy]"
+                      dataType="i4"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Error Output].Columns[History_RevisedBy]"
+                      name="History_RevisedBy" />
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Error Output].Columns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Error Output].Columns[History_RevisedOn]"
+                      name="History_RevisedOn"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Error Output].Columns[SevisId]"
+                      dataType="wstr"
+                      length="15"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Error Output].Columns[SevisId]"
+                      name="SevisId" />
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Error Output].Columns[ContactAgreement]"
+                      dataType="bool"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Error Output].Columns[ContactAgreement]"
+                      name="ContactAgreement" />
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Error Output].Columns[PersonId]"
+                      dataType="i4"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Error Output].Columns[PersonId]"
+                      name="PersonId" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Populate ParticipantPerson\ParticipantPerson"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="ParticipantPerson"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[ParticipantPerson]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Populate ParticipantPerson\ParticipantPerson.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].Columns[ParticipantId]"
+                      cachedDataType="i4"
+                      cachedName="ParticipantId"
+                      externalMetadataColumnId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].ExternalColumns[ParticipantId]"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[ParticipantId]" />
+                    <inputColumn
+                      refId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      externalMetadataColumnId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      cachedDataType="dbTimeStampOffset"
+                      cachedName="History_CreatedOn"
+                      cachedScale="7"
+                      externalMetadataColumnId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[History_CreatedOn]" />
+                    <inputColumn
+                      refId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_RevisedBy"
+                      externalMetadataColumnId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[History_RevisedBy]" />
+                    <inputColumn
+                      refId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      cachedDataType="dbTimeStampOffset"
+                      cachedName="History_RevisedOn"
+                      cachedScale="7"
+                      externalMetadataColumnId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[History_RevisedOn]" />
+                    <inputColumn
+                      refId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].Columns[ContactAgreement]"
+                      cachedDataType="bool"
+                      cachedName="ContactAgreement"
+                      externalMetadataColumnId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].ExternalColumns[ContactAgreement]"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[ContactAgreement]" />
+                    <inputColumn
+                      refId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].Columns[VarcharSevisId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="VarcharSevisId"
+                      externalMetadataColumnId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].ExternalColumns[SevisId]"
+                      lineageId="Package\Populate ParticipantPerson\Data Conversion.Outputs[Data Conversion Output].Columns[VarcharSevisId]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].ExternalColumns[ParticipantId]"
+                      dataType="i4"
+                      name="ParticipantId" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].ExternalColumns[SevisId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="SevisId" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].ExternalColumns[ContactAgreement]"
+                      dataType="bool"
+                      name="ContactAgreement" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].ExternalColumns[FieldOfStudyId]"
+                      dataType="i4"
+                      name="FieldOfStudyId" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].ExternalColumns[StudyProject]"
+                      dataType="wstr"
+                      length="250"
+                      name="StudyProject" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].ExternalColumns[ProgramSubjectId]"
+                      dataType="i4"
+                      name="ProgramSubjectId" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].ExternalColumns[PositionId]"
+                      dataType="i4"
+                      name="PositionId" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].ExternalColumns[HostInstitutionId]"
+                      dataType="i4"
+                      name="HostInstitutionId" />
+                    <externalMetadataColumn
+                      refId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input].ExternalColumns[HomeInstitutionId]"
+                      dataType="i4"
+                      name="HomeInstitutionId" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Populate ParticipantPerson\ParticipantPerson.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\ParticipantPerson.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Populate ParticipantPerson\ParticipantPerson.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\ParticipantPerson.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Populate ParticipantPerson\ParticipantPerson.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Populate ParticipantPerson\Temporarily remove Participant 1962 and 1996 (already in table)"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Temporarily remove Participant 1962 and 1996 (already in table)"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Participant]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Participant]) [refTable]
+where [refTable].[ParticipantId] = ? AND ? NOT IN (1962,1996)</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">2</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ParticipantId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="OrganizationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PersonId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ParticipantTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="SevisId" dataType="DT_WSTR" length="15" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ContactAgreement" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ParticipantStatusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StatusDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="ProjectId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[ParticipantId]};#{Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[ParticipantId]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Populate ParticipantPerson\Temporarily remove Participant 1962 and 1996 (already in table).Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Populate ParticipantPerson\Temporarily remove Participant 1962 and 1996 (already in table).Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Populate ParticipantPerson\Temporarily remove Participant 1962 and 1996 (already in table).Inputs[Lookup Input].Columns[ParticipantId]"
+                      cachedDataType="i4"
+                      cachedName="ParticipantId"
+                      lineageId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output].Columns[ParticipantId]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">ParticipantId</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Populate ParticipantPerson\Temporarily remove Participant 1962 and 1996 (already in table).Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Populate ParticipantPerson\Temporarily remove Participant 1962 and 1996 (already in table).Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Populate ParticipantPerson\Temporarily remove Participant 1962 and 1996 (already in table).Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Populate ParticipantPerson\Temporarily remove Participant 1962 and 1996 (already in table).Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Populate ParticipantPerson\Temporarily remove Participant 1962 and 1996 (already in table).Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Populate ParticipantPerson\Temporarily remove Participant 1962 and 1996 (already in table).Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Temporarily remove Participant 1962 and 1996 (already in table).Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Populate ParticipantPerson\Temporarily remove Participant 1962 and 1996 (already in table).Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Populate ParticipantPerson\Temporarily remove Participant 1962 and 1996 (already in table).Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Populate ParticipantPerson\Temporarily remove Participant 1962 and 1996 (already in table).Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Populate ParticipantPerson.Paths[Data Conversion Output]"
+              endId="Package\Populate ParticipantPerson\Temporarily remove Participant 1962 and 1996 (already in table).Inputs[Lookup Input]"
+              name="Data Conversion Output"
+              startId="Package\Populate ParticipantPerson\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Populate ParticipantPerson.Paths[Lookup Match Output]"
+              endId="Package\Populate ParticipantPerson\Data Conversion.Inputs[Data Conversion Input]"
+              name="Lookup Match Output"
+              startId="Package\Populate ParticipantPerson\Lookup Person to filter Organizations.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Populate ParticipantPerson.Paths[Lookup Match Output1]"
+              endId="Package\Populate ParticipantPerson\ParticipantPerson.Inputs[OLE DB Destination Input]"
+              name="Lookup Match Output"
+              startId="Package\Populate ParticipantPerson\Temporarily remove Participant 1962 and 1996 (already in table).Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Populate ParticipantPerson.Paths[OLE DB Source Output]"
+              endId="Package\Populate ParticipantPerson\Lookup Person to filter Organizations.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\Populate ParticipantPerson\Participant.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="205,42"
+          Id="Package\Populate ParticipantPerson"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Populate ParticipantPerson">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="129,42"
+          Id="Package\Populate ParticipantPerson\Participant"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="253,42"
+          Id="Package\Populate ParticipantPerson\Lookup Person to filter Organizations"
+          TopLeft="67.5,89.5" />
+        <EdgeLayout
+          Id="Package\Populate ParticipantPerson.Paths[OLE DB Source Output]"
+          TopLeft="70,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="124,42"
+              Start="0,0"
+              End="124,34.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,17"
+                    Point2="0,21"
+                    Point3="4,21" />
+                  <mssgle:LineSegment
+                    End="120,21" />
+                  <mssgle:CubicBezierSegment
+                    Point1="120,21"
+                    Point2="124,21"
+                    Point3="124,25" />
+                  <mssgle:LineSegment
+                    End="124,34.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Populate ParticipantPerson\ParticipantPerson"
+          TopLeft="587.5,317.5" />
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Populate ParticipantPerson\Data Conversion"
+          TopLeft="230.5,169.5" />
+        <EdgeLayout
+          Id="Package\Populate ParticipantPerson.Paths[Lookup Match Output]"
+          TopLeft="194,131.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="114.5,38"
+              Start="0,0"
+              End="114.5,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,15"
+                    Point2="0,19"
+                    Point3="4,19" />
+                  <mssgle:LineSegment
+                    End="110.5,19" />
+                  <mssgle:CubicBezierSegment
+                    Point1="110.5,19"
+                    Point2="114.5,19"
+                    Point3="114.5,23" />
+                  <mssgle:LineSegment
+                    End="114.5,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="9.05861328125,24,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="384,42"
+          Id="Package\Populate ParticipantPerson\Temporarily remove Participant 1962 and 1996 (already in table)"
+          TopLeft="268.5,250.5" />
+        <EdgeLayout
+          Id="Package\Populate ParticipantPerson.Paths[Data Conversion Output]"
+          TopLeft="308.5,211.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="152,39"
+              Start="0,0"
+              End="152,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,15.5"
+                    Point2="0,19.5"
+                    Point3="4,19.5" />
+                  <mssgle:LineSegment
+                    End="148,19.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="148,19.5"
+                    Point2="152,19.5"
+                    Point3="152,23.5" />
+                  <mssgle:LineSegment
+                    End="152,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Populate ParticipantPerson.Paths[Lookup Match Output1]"
+          TopLeft="460.5,292.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="207.5,25"
+              Start="0,0"
+              End="207.5,17.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,8.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,8.5"
+                    Point2="0,12.5"
+                    Point3="4,12.5" />
+                  <mssgle:LineSegment
+                    End="203.5,12.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="203.5,12.5"
+                    Point2="207.5,12.5"
+                    Point3="207.5,16.5" />
+                  <mssgle:LineSegment
+                    End="207.5,17.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="55.55861328125,17.5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Populate ParticipantPerson\Participant">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Populate ParticipantPerson\Lookup Person to filter Organizations">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Person]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Populate ParticipantPerson\ParticipantPerson">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Populate ParticipantPerson\Temporarily remove Participant 1962 and 1996 (already in table)">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">true</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Participant]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>

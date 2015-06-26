@@ -249,31 +249,32 @@ namespace CAM.Business.Service
         #region Get User Permissions
 
         /// <summary>
-        /// Returns a query that gets all allowed permissions for the user with the given principal id.
+        /// Returns a query that gets all permissions (granted, revoked, and inherited) for the user with the given principal id.
         /// </summary>
         /// <param name="principalId">The principal id.</param>
-        /// <returns>The allowed permissions of the principal with the given id.</returns>
+        /// <returns>The granted, revoked, and inherited permissions of the principal with the given id.</returns>
         public IQueryable<IPermission> CreateGetAllowedPermissionsByPrincipalIdQuery(int principalId)
         {
             var query = ResourceQueries.CreateGetResourceAuthorizationsQuery(this.Context);
             var permissionsQuery = query
                 .Where(x => x.PrincipalId == principalId)
-                .Where(x => x.IsAllowed)
                 .OrderBy(x => x.PrincipalId)
                 .ThenBy(x => x.ResourceId)
                 .ThenBy(x => x.PermissionId)
-                .Select(x => new CAM.Business.Service.SimplePermission
+                .Select(x => new SimplePermission
                 {
+                    ForeignResourceId = x.ForeignResourceId,
                     IsAllowed = x.IsAllowed,
                     PermissionId = x.PermissionId,
                     PrincipalId = x.PrincipalId,
-                    ResourceId = x.ResourceId
+                    ResourceId = x.ResourceId,
+                    ResourceTypeId = x.ResourceTypeId
                 }).Distinct();
             return permissionsQuery;
         }
 
         /// <summary>
-        /// Returns the permissions currently allowed of the principal with the given id.
+        /// Returns the permissions currently inherited, granted, and revoked for the principal with the given id.
         /// </summary>
         /// <param name="principalId">The principal id.</param>
         /// <returns>The permissions of the principal with the given id.</returns>
@@ -283,7 +284,7 @@ namespace CAM.Business.Service
         }
 
         /// <summary>
-        /// Returns the permissions currently allowed of the principal with the given id.
+        /// Returns the permissions currently inherited, granted, and revoked for the principal with the given id.
         /// </summary>
         /// <param name="principalId">The principal id.</param>
         /// <returns>The permissions of the principal with the given id.</returns>
@@ -293,16 +294,12 @@ namespace CAM.Business.Service
         }
 
         /// <summary>
-        /// Returns a query that filters the given granted permissions into only allowed permissions
-        /// with the given resourceId, parentResourceId, and PermissionId.  Use this method to determine
-        /// if a permission exists for either the resource directly or the resource's parent.
+        /// Creates a query to group the given permissions by principal, resource, and permission and calculate whether
+        /// the permission is allowed.
         /// </summary>
-        /// <param name="resourceId">The resource id.</param>
-        /// <param name="parentResourceId">The parent resource id.</param>
-        /// <param name="permissionId">The permission id.</param>
-        /// <param name="permissions">The permissions to locate the allowed permission in.</param>
-        /// <returns>A query to determine if a permission exists in the given permissions for the resource and its parent by id.</returns>
-        public IQueryable<IPermission> CreateHasPermissionQuery(int resourceId, int? parentResourceId, int permissionId, IQueryable<IPermission> permissions)
+        /// <param name="permissions">The permissions to group.</param>
+        /// <returns>A query to group the given permissions and calculate whether that permission is allowed.</returns>
+        public IQueryable<IPermission> CreateCollapsePermissionsQuery(IQueryable<IPermission> permissions)
         {
             var groupedPermissionsQuery = from permission in permissions
                                          group permission by new
@@ -318,12 +315,7 @@ namespace CAM.Business.Service
                                              ResourceId = g.Key.ResourceId,
                                              IsAllowed = !(g.Where(x => !x.IsAllowed).Count() > 0)
                                          };
-
-            var query = groupedPermissionsQuery.Where(x =>
-                x.IsAllowed
-                && x.PermissionId == permissionId
-                && (x.ResourceId == resourceId || (parentResourceId.HasValue && x.ResourceId == parentResourceId.Value)));
-            return query;
+            return groupedPermissionsQuery;
         }
 
         /// <summary>
@@ -336,8 +328,26 @@ namespace CAM.Business.Service
         /// <returns>True, if the given permissions contains the desired permission, otherwise, false.</returns>
         public bool HasPermission(int resourceId, int? parentResourceId, int permissionId, List<IPermission> permissions)
         {
-            var allowedPermission = CreateHasPermissionQuery(resourceId, parentResourceId, permissionId, permissions.AsQueryable()).FirstOrDefault();
-            return allowedPermission != null;
+            var queryablePermissions = permissions.AsQueryable();
+            var groupedPermissions = CreateCollapsePermissionsQuery(queryablePermissions).Where(x => x.PermissionId == permissionId);
+            var resoucePermission = groupedPermissions.Where(x => x.ResourceId == resourceId).FirstOrDefault();
+            IPermission parentPermission = null;
+            if (parentResourceId.HasValue)
+            {
+                parentPermission = groupedPermissions.Where(x => x.ResourceId == parentResourceId.Value).FirstOrDefault();
+            }
+            if (resoucePermission != null)
+            {
+                return resoucePermission.IsAllowed;
+            }
+            else if(parentPermission != null)
+            {
+                return parentPermission.IsAllowed;
+            }
+            else
+            {
+                return false;
+            }
         }
         #endregion
     }

@@ -50,7 +50,7 @@
                             Outside ECA
                         </div>
                     </td>
-                    <td class="col-md-3">
+                    <!--<td class="col-md-3">
                         <div>
                             <ul ng-repeat="permission in collaborator.rolePermissions">
                                 <li>
@@ -61,7 +61,22 @@
                                         <input type="checkbox"
                                                ng-model="permission.isAllowed"
                                                ng-disabled="view.isSaving || collaborator.isCurrentUser"
-                                               ng-change="view.onRolePermissionCheckboxChange(permission, collaborator)" />
+                                               ng-change="view.onPermissionCheckboxChange(permission, collaborator)" />
+                                        <span tooltip="{{permission.permissionDescription}}">{{permission.permissionName}}</span>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>-->
+                    <td class="col-md-3">
+                        <div>
+                            <ul ng-repeat="permission in collaborator.inheritedPermissions">
+                                <li>
+                                    <label>
+                                        <input type="checkbox"
+                                               ng-model="permission.isAllowed"
+                                               ng-disabled="view.isSaving || collaborator.isCurrentUser"
+                                               ng-change="view.onPermissionCheckboxChange(permission, collaborator)" />
                                         <span tooltip="{{permission.permissionDescription}}">{{permission.permissionName}}</span>
                                     </label>
                                 </li>

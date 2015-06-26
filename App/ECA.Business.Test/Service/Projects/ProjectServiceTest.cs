@@ -885,7 +885,19 @@ namespace ECA.Business.Test.Service.Projects
                 FullName = "fullName",
                 Position = "Position"
             };
-
+            var owner = new Organization
+            {
+                OrganizationId = 20,
+                Name = "owner"
+            };
+            var program = new Program
+            {
+                ProgramId = 10,
+                Name = "program",
+                Owner = owner,
+                OwnerId = owner.OrganizationId
+            };
+            owner.OwnerPrograms.Add(program);
             var project = new Project
             {
                 ProjectId = 1,
@@ -903,8 +915,10 @@ namespace ECA.Business.Test.Service.Projects
                 {
                     RevisedOn = revisedOn,
                     CreatedOn = createdOn
-                }
-            };
+                },
+                ProgramId = program.ProgramId,
+                ParentProgram = program
+            };           
 
             project.Themes.Add(theme);
             project.Locations.Add(location);
@@ -912,6 +926,7 @@ namespace ECA.Business.Test.Service.Projects
             project.Goals.Add(goal);
             project.Contacts.Add(contact);
 
+            context.Organizations.Add(owner);
             context.Themes.Add(theme);
             context.Locations.Add(location);
             context.Projects.Add(project);
@@ -919,9 +934,14 @@ namespace ECA.Business.Test.Service.Projects
             context.Goals.Add(goal);
             context.ProjectStatuses.Add(status);
             context.Contacts.Add(contact);
+            context.Programs.Add(program);
 
             Action<ProjectDTO> tester = (serviceResult) =>
             {
+                Assert.AreEqual(owner.Name, serviceResult.OwnerName);
+                Assert.AreEqual(owner.OrganizationId, serviceResult.OwnerId);
+                Assert.AreEqual(program.Name, serviceResult.ProgramName);
+                Assert.AreEqual(program.ProgramId, serviceResult.ProgramId);
                 Assert.AreEqual(project.Name, serviceResult.Name);
                 Assert.AreEqual(project.Description, serviceResult.Description);
                 Assert.AreEqual(status.ProjectStatusId, serviceResult.ProjectStatusId);
@@ -951,14 +971,31 @@ namespace ECA.Business.Test.Service.Projects
         [TestMethod]
         public async Task TestGetProjectById_EmptyCollections()
         {
+            var owner = new Organization
+            {
+                OrganizationId = 1,
+                Name = "owner"
+            };
+            var program = new Program
+            {
+                ProgramId = 1,
+                Name = "program",
+                Owner = owner,
+                OwnerId = owner.OrganizationId
+            };
+            owner.OwnerPrograms.Add(program);
             var project = new Project
             {
+                ProgramId = program.ProgramId,
+                ParentProgram = program,
                 ProjectId = 1,
                 Name = "name",
                 Description = "description",
                 Status = new ProjectStatus()
             };
-
+            program.Projects.Add(project);
+            context.Programs.Add(program);
+            context.Organizations.Add(owner);
             context.Projects.Add(project);
 
             Action<ProjectDTO> tester = (serviceResult) =>
@@ -987,13 +1024,30 @@ namespace ECA.Business.Test.Service.Projects
         [TestMethod]
         public async Task TestGetProjectById_WrongId()
         {
+            var owner = new Organization
+            {
+                OrganizationId = 1,
+                Name = "owner"
+            };
+            var program = new Program
+            {
+                ProgramId = 1,
+                Name = "program",
+                Owner = owner,
+                OwnerId = owner.OrganizationId
+            };
+            owner.OwnerPrograms.Add(program);
             var project = new Project
             {
                 ProjectId = 1,
                 Name = "name",
                 Description = "description",
+                ProgramId= program.ProgramId,
+                ParentProgram = program
             };
-
+            program.Projects.Add(project);
+            context.Organizations.Add(owner);
+            context.Programs.Add(program);
             context.Projects.Add(project);
 
             Action<ProjectDTO> tester = (serviceResult) =>

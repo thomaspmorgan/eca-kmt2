@@ -97,6 +97,8 @@ namespace ECA.Business.Queries.Admin
                                select country;
 
             var query = from project in context.Projects
+                        let program = project.ParentProgram
+                        let owner = program.Owner
                         let status = project.Status
                         let themes = project.Themes
                         let regions = project.Regions
@@ -116,6 +118,10 @@ namespace ECA.Business.Queries.Admin
                             RevisedOn = project.History.RevisedOn,
                             StartDate = project.StartDate,
                             EndDate = project.EndDate,
+                            ProgramId = project.ProgramId,
+                            ProgramName = program.Name,
+                            OwnerId = owner.OrganizationId,
+                            OwnerName = owner.Name,
                             Themes = themes.Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName }),
                             CountryIsos = countries.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationIso }),
                             Goals = goals.Select(x => new SimpleLookupDTO {Id = x.GoalId, Value = x.GoalName}),

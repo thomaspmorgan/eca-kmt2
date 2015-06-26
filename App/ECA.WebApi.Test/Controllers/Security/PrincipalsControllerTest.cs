@@ -24,12 +24,14 @@ namespace ECA.WebApi.Test.Controllers.Security
     {
         private PrincipalsController controller;
         private Mock<IResourceAuthorizationHandler> handler;
+        private Mock<IResourceService> resourceService;
 
         [TestInitialize]
         public void TestInit()
         {
             handler = new Mock<IResourceAuthorizationHandler>();
-            controller = new PrincipalsController(handler.Object);
+            resourceService = new Mock<IResourceService>();
+            controller = new PrincipalsController(handler.Object, resourceService.Object);
             controller.ControllerContext = ContextUtil.CreateControllerContext();
         }
 
@@ -59,6 +61,22 @@ namespace ECA.WebApi.Test.Controllers.Security
 
             var response = await controller.PostDeletePermissionAsync(model1);
             handler.Verify(x => x.HandleDeletedPermissionBindingModelAsync(It.IsAny<IDeletedPermissionBindingModel>(), It.IsAny<ApiController>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestGetResourceAuthorizationsAsync()
+        {
+            var response = await controller.GetResourceAuthorizationsAsync(new PagingQueryBindingModel<ResourceAuthorization>());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<ResourceAuthorization>>));
+            resourceService.Verify(x => x.GetResourceAuthorizationsAsync(It.IsAny<QueryableOperator<ResourceAuthorization>>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestGetResourceAuthorizationsAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetResourceAuthorizationsAsync(new PagingQueryBindingModel<ResourceAuthorization>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
     }
 }

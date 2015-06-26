@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CAM.Data;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -68,13 +69,29 @@ namespace CAM.Business.Service
         /// <returns>A formatted string of the resource cache.</returns>
         public override string ToString()
         {
+            var resourceType = ResourceType.GetStaticLookup(this.ResourceTypeId);
+            string parentResourceTypeName = null;
+            if (this.ParentResourceTypeId.HasValue)
+            {
+                var parentResourceType = ResourceType.GetStaticLookup(this.ParentResourceTypeId.Value);
+                if (parentResourceType != null)
+                {
+                    parentResourceTypeName = parentResourceType.Value;
+                }
+                else
+                {
+                    parentResourceTypeName = "UNKNOWN";
+                }
+            }
             return String.Format(
-                "ForeignResourceId:  [{0}], ParentForeignResourceId:  [{1}], ParentResourceId:  [{2}], ParentResourceTypeId:  [{3}], ResourceTypeId:  [{4}], ResourceId:  [{5}].",
+                "ForeignResourceId:  [{0}], ParentForeignResourceId:  [{1}], ParentResourceId:  [{2}], ParentResourceTypeId:  [{3}], ParentResourceType:  [{4}], ResourceTypeId:  [{5}], ResourceType:  [{6}], ResourceId:  [{7}].",
                 this.ForeignResourceId,
                 this.ParentForeignResourceId,
                 this.ParentResourceId,
                 this.ParentResourceTypeId,
+                parentResourceTypeName,
                 this.ResourceTypeId,
+                resourceType != null ? resourceType.Value : "UNKNOWN",
                 this.ResourceId);
         }
     }

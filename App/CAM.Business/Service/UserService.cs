@@ -85,7 +85,6 @@ namespace CAM.Business.Service
                 DoUpdateLoadAccess(user);
                 this.SaveChanges();
             }
-
         }
 
         private async Task UpdateLastAccessedAsync(Guid id)
@@ -96,7 +95,6 @@ namespace CAM.Business.Service
                 DoUpdateLoadAccess(user);
                 await this.SaveChangesAsync();
             }
-            
         }
 
         private void DoUpdateLoadAccess(UserAccount userAccount)
@@ -111,7 +109,7 @@ namespace CAM.Business.Service
                 Select(x => new User
                 {
                     AccountStatusId = x.AccountStatusId,
-                    AccountStatusText = x.AccountStatus.Status,
+                    AccountStatus = x.AccountStatus.Status,
                     AdGuid = x.AdGuid,
                     DisplayName = x.DisplayName,                    
                     EmailAddress = x.EmailAddress,
