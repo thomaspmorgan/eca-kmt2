@@ -27,6 +27,12 @@ namespace ECA.Business.Queries.Programs
             return CreateGetPublishedProgramsQuery(context).Where(x => x.Id == programId);
         }
 
+        public static IQueryable<OrganizationProgramDTO> CreateGetSubprogramsQuery(EcaContext context, int programId, QueryableOperator<OrganizationProgramDTO> queryOperator)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            return CreateGetOrganizationProgramDTOQuery(context, queryOperator).Where(x => x.ParentProgram_ProgramId == programId);
+        }
+
         /// <summary>
         /// Returns a query for retrieving organization program dto's in non-hierarchy collection.
         /// </summary>

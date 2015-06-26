@@ -72,6 +72,20 @@ namespace ECA.Business.Service.Programs
             return results;
         }
 
+        public async Task<PagedQueryResults<OrganizationProgramDTO>> GetSubprogramsByProgramAsync(int programId, QueryableOperator<OrganizationProgramDTO> queryOperator)
+        {
+            var dto = await ProgramQueries.CreateGetSubprogramsQuery(this.Context, programId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved subprograms of program id [{0}].", programId);
+            return dto;
+        }
+
+        public PagedQueryResults<OrganizationProgramDTO> GetSubprogramsByProgram(int programId, QueryableOperator<OrganizationProgramDTO> queryOperator)
+        {
+            var dto = ProgramQueries.CreateGetSubprogramsQuery(this.Context, programId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit); ;
+            this.logger.Trace("Retrieved subprograms of program id  [{0}].", programId);
+            return dto;
+        }
+
         public PagedQueryResults<OrganizationProgramDTO> GetProgramsHierarchy(QueryableOperator<OrganizationProgramDTO> queryOperator)
         {
             var results = CreateGetProgramsHierarchySqlQuery().ToArray();
@@ -117,6 +131,8 @@ namespace ECA.Business.Service.Programs
             this.logger.Trace("Retrieved program by id [{0}].", programId);
             return dto;
         }
+
+
 
         #endregion
 

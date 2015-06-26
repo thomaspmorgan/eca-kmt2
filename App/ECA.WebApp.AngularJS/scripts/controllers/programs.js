@@ -11,6 +11,10 @@ angular.module('staticApp')
   .controller('ProgramsCtrl', function ($scope, $stateParams, $state, ProgramService, 
       ProjectService, TableService, LocationService, ConstantsService, orderByFilter) {
 
+      $scope.listOfNewItemOptions = ['Sub-program', 'Project'];
+
+      $scope.currentCreatedItem = '';
+
       $scope.confirmClose = false;
       $scope.confirmFail = false;
       $scope.confirmSave = false;
@@ -21,6 +25,7 @@ angular.module('staticApp')
       $scope.showIncludedRegion = [];
       $scope.regions = {};
 
+      $scope.selectedNewItem = '';
       $scope.filteredRegions = [];
 
       $scope.newProject = {
@@ -36,7 +41,7 @@ angular.module('staticApp')
               order: 1
           },
           projects: {
-              title: 'Subprograms & Projects',
+              title: 'Sub-Programs & Projects',
               path: 'projects',
               active: true,
               order: 2
@@ -67,7 +72,7 @@ angular.module('staticApp')
           }
       };
 
-      $scope.header = "Subprograms and Projects";
+      $scope.header = "Sub-Programs and Projects";
       $scope.branches = [];
       $scope.subprograms = [];
       $scope.projects = [];
@@ -120,17 +125,32 @@ angular.module('staticApp')
                     $scope.showIncludedRegion[value.projectId] = true;
                 });
             });
-          //move to getSubPrograms once written
-          updateHeader();
+
       }
 
-      //add subprograms
+      $scope.getSubPrograms = function (tableState) { // get the subprograms (first children of this program)
+          
+          $scope.subProgramsLoading = true;
+          TableService.setTableState(tableState);
 
-      function updateHeader() {
-          if ($scope.subprograms.length === 0) {
-              $scope.header = "Projects";
-              $scope.tabs.projects.title = "Projects";
-          }
+          var params = {
+              start: TableService.getStart(),
+              limit: TableService.getLimit(),
+              sort: TableService.getSort(),
+              filter: TableService.getFilter()
+          };
+
+          ProgramService.getSubPrograms($stateParams.programId, params)
+            .then(function (response) {
+                $scope.subprograms = response.data.results;
+                var limit = TableService.getLimit();
+                tableState.pagination.numberOfPages = Math.ceil(response.data.total / limit);
+            })
+            .then(function () {
+                $scope.subProgramsLoading = false;
+            });
+
+            
       }
 
       $scope.saveProject = function () {
@@ -170,7 +190,8 @@ angular.module('staticApp')
               $scope.confirmClose = true;
           }
           else {
-              this.modal.createProject = false;
+              $scope.createProject = false;
+              $scope.createProgram = false;
           }
       };
 
@@ -232,6 +253,21 @@ angular.module('staticApp')
 
       $scope.confirmFailOk = function () {
           $scope.confirmFail = false;
+      };
+
+      $scope.createItemChanged = function (createdItem) {
+          switch (createdItem)
+          {
+              case "Sub-program":
+                  $scope.createProgram = true;
+                  break;
+              case "Project":
+                  $scope.createProject = true;
+                  break;
+          }
+
+          $scope.selectedNewItem = "?";
+
       };
 
       $scope.changeRegionFilter = function () {

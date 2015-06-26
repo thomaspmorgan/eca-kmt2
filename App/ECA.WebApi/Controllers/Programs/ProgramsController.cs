@@ -123,6 +123,26 @@ namespace ECA.WebApi.Controllers.Programs
         }
 
         /// <summary>
+        /// Returns the subprograms of a program with the given id
+        /// </summary>
+        /// <param name="id">The program id.</param>
+        /// <returns>The subprograms</returns>
+        [Route("Programs/{programId}/Subprograms")]
+        [ResponseType(typeof(PagedQueryResults<OrganizationProgramDTO>))]
+        public async Task<IHttpActionResult> GetSubprogramsByProgramAsync(int programId, [FromUri]PagingQueryBindingModel<OrganizationProgramDTO> queryModel)
+        {
+            var dto = await this.programService.GetSubprogramsByProgramAsync(programId, queryModel.ToQueryableOperator(ALPHA_PROGRAM_SORTER));
+            if (dto != null)
+            {
+                return Ok(dto);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
         /// Returns the program with the given id.
         /// </summary>
         /// <returns>The program with the given id.</returns>

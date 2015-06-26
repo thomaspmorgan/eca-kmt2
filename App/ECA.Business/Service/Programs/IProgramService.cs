@@ -47,6 +47,10 @@ namespace ECA.Business.Service.Programs
         /// <returns>The program, or null if it doesn't exist.</returns>
         ProgramDTO GetProgramById(int programId);
 
+        Task<PagedQueryResults<OrganizationProgramDTO>> GetSubprogramsByProgramAsync(int programId, QueryableOperator<OrganizationProgramDTO> queryOperator);
+
+        PagedQueryResults<OrganizationProgramDTO> GetSubprogramsByProgram(int programId, QueryableOperator<OrganizationProgramDTO> queryOperator);
+
         /// <summary>
         /// Creates a new program in the ECA system with a status of draft.
         /// </summary>
@@ -134,6 +138,15 @@ namespace ECA.Business.Service.Programs
             return null;
         }
 
+        public Task<PagedQueryResults<OrganizationProgramDTO>> GetSubprogramsByProgramAsync(int programId, QueryableOperator<OrganizationProgramDTO> queryOperator)
+        {
+            return Task.FromResult<PagedQueryResults<OrganizationProgramDTO>>(null);
+        }
+
+        public PagedQueryResults<OrganizationProgramDTO> GetSubprogramsByProgram(int programId, QueryableOperator<OrganizationProgramDTO> queryOperator)
+        {
+            return null;
+        }
         /// <summary>
         /// 
         /// </summary>
