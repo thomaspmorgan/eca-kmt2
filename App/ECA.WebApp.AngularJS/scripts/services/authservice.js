@@ -258,13 +258,17 @@ angular.module('staticApp')
                           emailAddress: principalIdOrderedCollaborator.emailAddress,
                           rolePermissions: [],
                           revokedPermissions: [],
-                          grantedPermissions: []
+                          grantedPermissions: [], 
+                          inheritedPermissions: []
                       });
                       currentGroupedPermissionByPrincipalId = groupedPermissionsByPrincipalIds[groupedPermissionsByPrincipalIds.length - 1];
                   }
                   var groupedPermission = service.getGroupedPermission(principalIdOrderedCollaborator);
                   if (groupedPermission.isGrantedByRole) {
                       currentGroupedPermissionByPrincipalId.rolePermissions.push(groupedPermission);
+                  }
+                  else if (groupedPermission.isGrantedByInheritance) {
+                      currentGroupedPermissionByPrincipalId.inheritedPermissions.push(groupedPermission);
                   }
                   else {
                       if (groupedPermission.isAllowed) {
@@ -278,6 +282,7 @@ angular.module('staticApp')
               for (var i = 0; i < groupedPermissionsByPrincipalIds.length; i++) {
                   var groupedPrincipal = groupedPermissionsByPrincipalIds[i];
                   groupedPrincipal.rolePermissions = orderByFilter(groupedPrincipal.rolePermissions, '[+roleName, +permissionName]');
+                  groupedPrincipal.inheritedPermissions = orderByFilter(groupedPrincipal.inheritedPermissions, '+permissionName');
                   groupedPrincipal.grantedPermissions = orderByFilter(groupedPrincipal.grantedPermissions, '+permissionName');
                   groupedPrincipal.revokedPermissions = orderByFilter(groupedPrincipal.revokedPermissions, '+permissionName');
               }

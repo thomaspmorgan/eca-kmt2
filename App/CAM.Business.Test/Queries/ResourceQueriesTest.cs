@@ -564,7 +564,6 @@ namespace CAM.Business.Test.Queries
         #endregion
 
         #region CreateGetResourceAuthorizationsByInheritedRolePermissionsQuery
-
         [TestMethod]
         public void TestCreateGetResourceAuthorizationsByInheritedRolePermissionsQuery_PrincipalHasRole()
         {
@@ -1600,6 +1599,189 @@ namespace CAM.Business.Test.Queries
             Assert.AreEqual(projectResourceType.ResourceTypeId, viewPermissionAuthorization.ResourceTypeId);
             Assert.AreEqual(ResourceQueries.AUTHORIZATION_ASSIGNED_BY_PERMISSION_ROLE_ID, viewPermissionAuthorization.RoleId);
             Assert.AreEqual(null, viewPermissionAuthorization.RoleName);
+        }
+
+        [TestMethod]
+        public void TestCreateGetResourceAuthorizationsByInheritedPermissionAssignmentQuery_ParentResourceAllowed_ChildResourceRevoked()
+        {
+            var principal = new Principal
+            {
+                PrincipalId = 1
+            };
+            var userAccount = new UserAccount
+            {
+                PrincipalId = principal.PrincipalId,
+                Principal = principal,
+                DisplayName = "display",
+                EmailAddress = "email"
+            };
+            var projectResourceType = new ResourceType
+            {
+                ResourceTypeId = ResourceType.Project.Id,
+                ResourceTypeName = ResourceType.Project.Value
+            };
+            var programResourceType = new ResourceType
+            {
+                ResourceTypeId = ResourceType.Program.Id,
+                ResourceTypeName = ResourceType.Program.Value
+            };
+            var programResource = new Resource
+            {
+                ResourceId = 1,
+                ResourceType = programResourceType,
+                ResourceTypeId = programResourceType.ResourceTypeId,
+                ForeignResourceId = 10
+            };
+            var projectResource = new Resource
+            {
+                ResourceId = 2,
+                ResourceType = projectResourceType,
+                ResourceTypeId = projectResourceType.ResourceTypeId,
+                ForeignResourceId = 20
+            };
+            projectResource.ParentResourceId = programResource.ResourceId;
+            projectResource.ParentResource = programResource;
+            programResource.ChildResources.Add(projectResource);
+
+            var viewProjectPermission = new Permission
+            {
+                PermissionId = Permission.ViewProject.Id,
+                PermissionName = Permission.ViewProject.Value,
+                PermissionDescription = "desc",
+                ResourceType = projectResourceType,
+                ResourceTypeId = projectResourceType.ResourceTypeId,
+                ParentResourceType = programResourceType,
+                ParentResourceTypeId = programResourceType.ResourceTypeId
+            };
+            var viewProjectParentPermissionAssignment = new PermissionAssignment
+            {
+                IsAllowed = true,
+                Permission = viewProjectPermission,
+                PermissionId = viewProjectPermission.PermissionId,
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Resource = programResource,
+                ResourceId = programResource.ResourceId,
+                AssignedOn = DateTimeOffset.UtcNow
+            };
+            var revokedViewProjectParentPermissionAssignment = new PermissionAssignment
+            {
+                IsAllowed = false,
+                Permission = viewProjectPermission,
+                PermissionId = viewProjectPermission.PermissionId,
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Resource = projectResource,
+                ResourceId = projectResource.ResourceId,
+                AssignedOn = DateTimeOffset.UtcNow
+            };
+            context.UserAccounts.Add(userAccount);
+            context.Principals.Add(principal);
+            context.ResourceTypes.Add(projectResourceType);
+            context.ResourceTypes.Add(programResourceType);
+            context.Resources.Add(programResource);
+            context.Resources.Add(projectResource);
+            context.Permissions.Add(viewProjectPermission);
+            context.PermissionAssignments.Add(viewProjectParentPermissionAssignment);
+            context.PermissionAssignments.Add(revokedViewProjectParentPermissionAssignment);
+
+            var results = ResourceQueries.CreateGetResourceAuthorizationsByInheritedPermissionAssignmentQuery(context).ToList();
+            Assert.AreEqual(1, results.Count);
+            var viewPermissionAuthorization = results.Where(x => x.PermissionId == viewProjectPermission.PermissionId).FirstOrDefault();
+            Assert.IsNotNull(viewPermissionAuthorization);
+            Assert.IsFalse(viewPermissionAuthorization.IsAllowed);
+        }
+
+
+        [TestMethod]
+        public void TestCreateGetResourceAuthorizationsByInheritedPermissionAssignmentQuery_ParentResourceRevoked_ChildResourceAllowed()
+        {
+            var principal = new Principal
+            {
+                PrincipalId = 1
+            };
+            var userAccount = new UserAccount
+            {
+                PrincipalId = principal.PrincipalId,
+                Principal = principal,
+                DisplayName = "display",
+                EmailAddress = "email"
+            };
+            var projectResourceType = new ResourceType
+            {
+                ResourceTypeId = ResourceType.Project.Id,
+                ResourceTypeName = ResourceType.Project.Value
+            };
+            var programResourceType = new ResourceType
+            {
+                ResourceTypeId = ResourceType.Program.Id,
+                ResourceTypeName = ResourceType.Program.Value
+            };
+            var programResource = new Resource
+            {
+                ResourceId = 1,
+                ResourceType = programResourceType,
+                ResourceTypeId = programResourceType.ResourceTypeId,
+                ForeignResourceId = 10
+            };
+            var projectResource = new Resource
+            {
+                ResourceId = 2,
+                ResourceType = projectResourceType,
+                ResourceTypeId = projectResourceType.ResourceTypeId,
+                ForeignResourceId = 20
+            };
+            projectResource.ParentResourceId = programResource.ResourceId;
+            projectResource.ParentResource = programResource;
+            programResource.ChildResources.Add(projectResource);
+
+            var viewProjectPermission = new Permission
+            {
+                PermissionId = Permission.ViewProject.Id,
+                PermissionName = Permission.ViewProject.Value,
+                PermissionDescription = "desc",
+                ResourceType = projectResourceType,
+                ResourceTypeId = projectResourceType.ResourceTypeId,
+                ParentResourceType = programResourceType,
+                ParentResourceTypeId = programResourceType.ResourceTypeId
+            };
+            var revokedViewProjectParentPermissionAssignment = new PermissionAssignment
+            {
+                IsAllowed = false,
+                Permission = viewProjectPermission,
+                PermissionId = viewProjectPermission.PermissionId,
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Resource = programResource,
+                ResourceId = programResource.ResourceId,
+                AssignedOn = DateTimeOffset.UtcNow
+            };
+            var allowedViewProjectParentPermissionAssignment = new PermissionAssignment
+            {
+                IsAllowed = true,
+                Permission = viewProjectPermission,
+                PermissionId = viewProjectPermission.PermissionId,
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Resource = projectResource,
+                ResourceId = projectResource.ResourceId,
+                AssignedOn = DateTimeOffset.UtcNow
+            };
+            context.UserAccounts.Add(userAccount);
+            context.Principals.Add(principal);
+            context.ResourceTypes.Add(projectResourceType);
+            context.ResourceTypes.Add(programResourceType);
+            context.Resources.Add(programResource);
+            context.Resources.Add(projectResource);
+            context.Permissions.Add(viewProjectPermission);
+            context.PermissionAssignments.Add(revokedViewProjectParentPermissionAssignment);
+            context.PermissionAssignments.Add(allowedViewProjectParentPermissionAssignment);
+
+            var results = ResourceQueries.CreateGetResourceAuthorizationsByInheritedPermissionAssignmentQuery(context).ToList();
+            Assert.AreEqual(1, results.Count);
+            var viewPermissionAuthorization = results.Where(x => x.PermissionId == viewProjectPermission.PermissionId).FirstOrDefault();
+            Assert.IsNotNull(viewPermissionAuthorization);
+            Assert.IsTrue(viewPermissionAuthorization.IsAllowed);
         }
 
         [TestMethod]
