@@ -34,9 +34,7 @@ $navBarZIndex: 1001;
 // bower:scss
 @import "../bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
-// font-awesome
-@import "//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css";
-//
+
 @import 'form';
 @import 'nav';
 @import 'hero';
@@ -47,6 +45,45 @@ $navBarZIndex: 1001;
 @import 'search';
 @import 'static';
 @import 'footer';
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 14px;  /* Preferred icon size */
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+// Rules for sizing the icon.
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+// Rules for using icons as black on a light background.
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+// Rules for using icons as white on a dark background.
+.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
 
 body {
     color: $primarytext;
@@ -503,8 +540,8 @@ div.modal-center-large .modal-content .modal-body {
 
 .select2-search-field:before {
     color: #a0a9ab;
-    font-family: FontAwesome;
-    content: "\f002";
+    font-family: "Material Icons";
+    content: "\e8b6";
     padding-left: 5px;
 }
 
@@ -601,6 +638,14 @@ div.modal-center-large .modal-content .modal-body {
     border:none;
 }
 
+.expandChevron {
+    position: absolute;
+    right:70px;
+    cursor:pointer;
+    margin-top:-15px;
+
+
+}
 tr#participantInfo {
     .row {
         padding-left: 0;
@@ -611,6 +656,44 @@ tr#participantInfo {
     }
 }
 
+label.radio-inline{
+    font-size:12pt;
+    text-transform:none;
+}
+
 .radio-inline input[type=radio]{
-    margin-top:0px;
+    margin-top:0;
+}
+
+.expandedDescription {
+    background-color:#f7f7f7;
+}
+
+.narrowPadding {
+    padding:20px 0 20px 60px !important;
+}
+
+
+/* tooltip styling */
+div.tip:hover {
+    position: relative
+}
+
+div.tip span {
+    display: none
+}
+div.tip:hover span {
+    border: #c0c0c0 1px dotted;
+    border-radius: 4px;
+    padding: 5px 5px 5px 5px;
+    display: block;
+    z-index: 100;
+    background-color: black;
+    color: white;
+    left: -5px;
+    margin: 5px;
+    width: 55px;
+    position: absolute;
+    top: 50px;
+    text-decoration: none
 }

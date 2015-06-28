@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseName>ECA_UAT</TargetDatabaseName>
+    <DeployScriptFileName>ECA_UAT.sql</DeployScriptFileName>
+    <TargetConnectionString>Data Source=paqethoyqt.database.usgovcloudapi.net;Persist Security Info=True;User ID=ECA;Pooling=False</TargetConnectionString>
+    <ProfileVersionNumber>1</ProfileVersionNumber>
+  </PropertyGroup>
+</Project>

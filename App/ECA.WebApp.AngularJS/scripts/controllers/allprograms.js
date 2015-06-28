@@ -446,12 +446,7 @@ angular.module('staticApp')
           return ($scope.modalForm.editProgramForm.$dirty || $scope.modalForm.programForm.$dirty || $scope.dropDownDirty);
       };
 
-      $scope.createProgramForm = function () {
 
-          $scope.editExisting = false;
-          $scope.showCreateProgram = true;
-          $scope.dropDownDirty = false;
-      };
 
       $scope.editProgram = function (programId) {
 

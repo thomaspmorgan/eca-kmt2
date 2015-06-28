@@ -16,26 +16,6 @@ namespace ECA.WebApi.Security
     public abstract class PermissionBase
     {
         /// <summary>
-        /// The character that splits multiple permissions in a string.
-        /// </summary>
-        public static readonly string[] PERMISSIONS_DELIMITER = new string[] { "," };
-
-        /// <summary>
-        /// The character that splits the permission name and the resource type.
-        /// </summary>
-        public static readonly string[] RESOURCE_PERMISSION_NAME_DELIMITER = new string[] { ":" };
-
-        /// <summary>
-        /// The character that splits the model type and model variable name.
-        /// </summary>
-        public static readonly string[] MODEL_AND_MODEL_NAME_DELIMITER = new string[] { "#" };
-
-        /// <summary>
-        /// The regular expression to check a single action permission in a string i.e. PermissionName:ResourceType(argumentName)
-        /// </summary>
-        public static readonly Regex PERMISSION_REGEX = new Regex(@"[A-Za-z]+:{1}[A-Za-z]+[(]{1}[A-Za-z0-9#.]+[)]{1}");
-
-        /// <summary>
         /// Gets or sets the type of the resource.
         /// </summary>
         public string ResourceType { get; set; }

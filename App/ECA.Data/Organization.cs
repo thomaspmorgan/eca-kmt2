@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ECA.Core.Data;
 
 namespace ECA.Data
 {
     /// <summary>
     /// An organization is an entity which participates in the implementation or execution of a project, such as a cooperating organization, a host family or an ECA office.
     /// </summary>
-    public class Organization
+    public class Organization : IPermissable
     {
         /// <summary>
         /// Returns all organization type ids that represent an office.
@@ -82,6 +83,43 @@ namespace ECA.Data
         public History History { get; set; }
 
         public ICollection<OfficeSetting> OfficeSettings { get; set; }
+
+        /// <summary>
+        /// Returns the organization id.
+        /// </summary>
+        /// <returns>The organization id.</returns>
+        public int GetId()
+        {
+            return this.OrganizationId;
+        }
+
+        /// <summary>
+        /// Returns the office permissable type.
+        /// </summary>
+        /// <returns>Office permissable type.</returns>
+        public PermissableType GetPermissableType()
+        {
+            return PermissableType.Office;
+        }
+
+        public int? GetParentId()
+        {
+            return null;
+        }
+
+        public PermissableType GetParentPermissableType()
+        {
+            throw new NotSupportedException("The organization does not have a parent permissable type.");
+        }
+
+        /// <summary>
+        /// Returns true if this organization is not an office, otherwise false.
+        /// </summary>
+        /// <returns>Returns true if this organization is not an office, otherwise false.</returns>
+        public bool IsExempt()
+        {
+            return !OFFICE_ORGANIZATION_TYPE_IDS.Contains(this.OrganizationTypeId);
+        }
     }
 
 }

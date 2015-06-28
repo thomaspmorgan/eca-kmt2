@@ -11,9 +11,10 @@
                 <th st-sort="'status'" class="col-md-1 sort-label medium">Status</th>
                 <th st-sort="'sourceType'" class="col-md-1 sort-label medium">Source/Recipient Type</th>
                 <th st-sort="'fromTo'" class="col-md-2 sort-label medium">Source / Recipient</th>
-                <th st-sort="'fromTo'" class="col-md-2 sort-label medium">Direction</th>
+                <th st-sort="'direction'" class="col-md-1 sort-label medium">Direction</th>
                 <th st-sort="'amount'" class="col-md-1 sort-label medium">Amount</th>
                 <th st-sort="'description'" class="col-md-2 sort-label medium">Description</th>
+                <th class="col-md-1">&nbsp;</th>
                 <th class="{{moneyFlowEditColumnClass}}">&nbsp;</th>
             </tr>
         </thead>
@@ -28,22 +29,37 @@
                 <td>{{moneyFlow.fromTo}}</td>
                 <td>{{moneyFlow.type}}</td>
                 <td><span class="{{moneyFlow.amount < 0 ? 'text-danger' : ''}}">{{moneyFlow.amount | currency}}</span></td>
-                <td>{{moneyFlow.description}}</td>
+                <td>{{moneyFlow.description | limitTo: 20}}<span ng-show="moneyFlow.description.length > 20">....</span></td>
+                <td>
+                    <span ng-show="moneyFlow.description.length > 20">
+                        <div style="cursor:pointer;" id="expand{{moneyFlow.id}}" ng-click="expandMoneyFlowDescription(moneyFlow.id, true)">
+                            <img src="images/expand.png">
+                        </div>
+                        <div style="cursor:pointer; display:none;" id="contract{{moneyFlow.id}}" ng-click="expandMoneyFlowDescription(moneyFlow.id, false)">
+                            <img src="images/contract.png">
+                        </div>
+                    </span>
+                </td>
                 <td>
                     <div class="right" style="display:none;" showonparentrow>
-                        <div class="copyEditDeleteOptions" ng-click="copyMoneyFlow(moneyFlow.id)">
+                        <div class="copyEditDeleteOptions tip" ng-click="copyMoneyFlow(moneyFlow.id)">
                             <i class="md md-content-copy md-2x copyEditDeleteOption" ng-show="!copyMoneyFlowLoading"></i>
                             <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="copyMoneyFlowLoading"></i>
+                            <span>Copy</span>
                         </div>
-                        <div class="copyEditDeleteOptions" ng-click="editMoneyFlow(moneyFlow.id)">
+                        <div class="copyEditDeleteOptions tip" ng-click="editMoneyFlow(moneyFlow.id)">
                             <i class="md md-mode-edit md-2x copyEditDeleteOption" ng-show="!editMoneyFlowLoading"></i>
-                            <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="editMoneyFlowLoading"></i>
+                            <span>Edit</span>
                         </div>
-                        <div class="copyEditDeleteOptions" ng-click="deleteMoneyFlow(moneyFlow.id)">
+                        <div class="copyEditDeleteOptions tip" ng-click="deleteMoneyFlow(moneyFlow.id)">
                             <i class="md md-delete md-2x copyEditDeleteOption"></i>
+                            <span>Delete</span>
                         </div>
                     </div>
                 </td>
+            </tr>
+            <tr class="expandedDescription" ng-show="showFullMoneyFlowDescription[{{moneyFlow.id}}]" id="description{{moneyFlow.id}}">
+                    <td colspan="8" style="padding-top:5px; padding-bottom:5px;"><div>Description: {{moneyFlow.description}}</div></td>
             </tr>
             <!-- EDITING ROW -->
             <tr ng-show="editingMoneyFlows[{{moneyFlow.id}}]" class="editingRow">
@@ -73,7 +89,6 @@
                             ng-options="s.id as s.name for s in moneyFlowFromTo"
                             placeholder="Enter {{fromToType}} title..."
                             ng-model="draftMoneyFlow.sourceRecipientId" />
-                    <input name="fromTo" type="text" ng-show="showFromToTextControl" ng-model="draftMoneyFlow.fromToText" />
                 </td>
                 <td>
                     <select class="form-control" id="direction" ng-options="s.id as s.name for s in moneyFlowTypes" ng-model="draftMoneyFlow.moneyFlowTypeId" />
@@ -160,7 +175,7 @@
                                 &nbsp;
                             </th>
                             <th>
-                                <select class="form-control" id="modalFiscalYear" ng-options="s.year for s in fiscalYears" ng-model="draftMoneyFlow.moneyFlowFiscalYear" ng-required="true" />
+                                <select class="form-control" id="modalFiscalYear" ng-options="s.year as s.name for s in fiscalYears" ng-model="draftMoneyFlow.moneyFlowFiscalYear" ng-required="true" />
 
                             </th>
                         </tr>
@@ -217,15 +232,21 @@
     <button class="btn btn-success right" ng-click="confirmClose(false)">NO</button>
 </modal-dialog>
 
-<modal-dialog show="confirmCopy" dialog-title="Please confirm" before-close="confirmSaveYes()">
+<modal-dialog show="confirmCopy" dialog-title="Please confirm">
     <p class="strong">Are you sure? Copy this funding item?</p>
     <button class="btn btn-default right" ng-click="confirmCancel()">Cancel</button>
     <button class="btn btn-default right" ng-click="confirmCopyYes()">OK</button>
 </modal-dialog>
 
-<modal-dialog show="confirmSuccess" dialog-title="Success!" before-close="confirmSaveYes()">
+<modal-dialog show="confirmDelete" dialog-title="Please confirm">
+    <p class="strong">Are you sure? DELETE this funding item? PLEASE NOTE: once deleted, the entry cannot be restored.</p>
+    <button class="btn btn-default right" ng-click="confirmCancel()">Cancel</button>
+    <button class="btn btn-default right" ng-click="confirmDeleteYes()">OK</button>
+</modal-dialog>
+
+<modal-dialog show="confirmSuccess" dialog-title="Success!">
     <p class="strong">The funding item was {{moneyFlowConfirmMessage}} sucessfully</p>
-    <button class="btn btn-default right" ng-click="closeConfirm()">OK</button>
+    <button class="btn btn-default right" ng-click="confirmCloseSuccess()">OK</button>
 </modal-dialog>
 
 <style>

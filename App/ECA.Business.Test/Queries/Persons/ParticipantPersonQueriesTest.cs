@@ -25,9 +25,23 @@ namespace ECA.Business.Test.Queries.Persons
                 ParticipantId = 1,
                 SevisId = "N0000000001",
                 ContactAgreement = false,
-                StudyProject = "studyProject"
+                StudyProject = "studyProject",
             };
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantPerson.ParticipantId,                
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            participantPerson.Participant = participant;
+            project.Participants.Add(participant);
 
+            context.Projects.Add(project);
+            context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
 
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
@@ -35,6 +49,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(participantPerson.SevisId, participantPersonResult.SevisId);
             Assert.AreEqual(participantPerson.ContactAgreement, participantPersonResult.ContactAgreement);
             Assert.AreEqual(participantPerson.StudyProject, participantPersonResult.StudyProject);
+            Assert.AreEqual(project.ProjectId, participantPersonResult.ProjectId);
 
             Assert.IsNull(participantPersonResult.FieldOfStudy);
             Assert.IsNull(participantPersonResult.ProgramSubject);
@@ -58,7 +73,21 @@ namespace ECA.Business.Test.Queries.Persons
                 ParticipantId = 1,
                 FieldOfStudy = fieldOfStudy
             };
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantPerson.ParticipantId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            participantPerson.Participant = participant;
+            project.Participants.Add(participant);
 
+            context.Projects.Add(project);
+            context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
 
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
@@ -81,9 +110,23 @@ namespace ECA.Business.Test.Queries.Persons
                 ParticipantId = 1,
                 ProgramSubject = programSubject
             };
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantPerson.ParticipantId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            participantPerson.Participant = participant;
+            project.Participants.Add(participant);
 
+            context.Projects.Add(project);
+            context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
-
+            
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
 
             Assert.AreEqual(programSubject.Description, participantPersonResult.ProgramSubject);
@@ -104,9 +147,22 @@ namespace ECA.Business.Test.Queries.Persons
                 ParticipantId = 1,
                 Position = position
             };
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantPerson.ParticipantId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            participantPerson.Participant = participant;
+            project.Participants.Add(participant);
 
+            context.Projects.Add(project);
+            context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
-
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
 
             Assert.AreEqual(position.Description, participantPersonResult.Position);
@@ -122,6 +178,13 @@ namespace ECA.Business.Test.Queries.Persons
                 LocationName = "country"
             };
 
+            var city = new Location
+            {
+                LocationId = 3,
+                LocationTypeId = LocationType.City.Id,
+                LocationName = "city"
+            };
+
             var location = new Location
             {
                 LocationId = 1,
@@ -130,7 +193,7 @@ namespace ECA.Business.Test.Queries.Persons
                 Street2 = "street2",
                 Street3 = "street3",
                 Country = country, 
-                City = "city",
+                City = city,
                 PostalCode = "12345"
             };
 
@@ -153,7 +216,21 @@ namespace ECA.Business.Test.Queries.Persons
                 ParticipantId = 1,
                 HomeInstitution = homeInstitution
             };
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantPerson.ParticipantId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            participantPerson.Participant = participant;
+            project.Participants.Add(participant);
 
+            context.Projects.Add(project);
+            context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
 
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
@@ -167,7 +244,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(location.Street3, addressResult.Street3);
             Assert.AreEqual(country.LocationName, addressResult.Country);
             Assert.AreEqual(country.LocationId, addressResult.CountryId);
-            Assert.AreEqual(location.City, addressResult.City);
+            Assert.AreEqual(location.City.LocationName, addressResult.City);
             Assert.AreEqual(location.PostalCode, addressResult.PostalCode);
         }
 
@@ -181,6 +258,13 @@ namespace ECA.Business.Test.Queries.Persons
                 LocationName = "country"
             };
 
+            var city = new Location
+            {
+                LocationId = 3,
+                LocationTypeId = LocationType.City.Id,
+                LocationName = "city"
+            };
+
             var location = new Location
             {
                 LocationId = 1,
@@ -189,7 +273,7 @@ namespace ECA.Business.Test.Queries.Persons
                 Street2 = "street2",
                 Street3 = "street3",
                 Country = country, 
-                City = "city",
+                City = city,
                 PostalCode = "12345"
             };
 
@@ -213,6 +297,21 @@ namespace ECA.Business.Test.Queries.Persons
                 HostInstitution = hostInstitution
             };
 
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantPerson.ParticipantId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            participantPerson.Participant = participant;
+            project.Participants.Add(participant);
+
+            context.Projects.Add(project);
+            context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
 
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
@@ -226,7 +325,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(location.Street3, addressResult.Street3);
             Assert.AreEqual(country.LocationName, addressResult.Country);
             Assert.AreEqual(country.LocationId, addressResult.CountryId);
-            Assert.AreEqual(location.City, addressResult.City);
+            Assert.AreEqual(city.LocationName, addressResult.City);
             Assert.AreEqual(location.PostalCode, addressResult.PostalCode);
         }
     }

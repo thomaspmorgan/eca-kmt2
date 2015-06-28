@@ -1,5 +1,4 @@
 ﻿using System;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +11,9 @@ namespace ECA.Business.Queries.Models.Admin
     /// </summary>
     public class JustificationObjectiveDTO : BaseDTO
     {
+        /// <summary>
+        /// Gets or sets the justification name.
+        /// </summary>
         public string JustificationName { get; set; }
     }
 }

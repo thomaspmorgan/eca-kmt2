@@ -12,11 +12,6 @@ using System.Net;
 
 namespace ECA.WebApi.Controllers.Security
 {
-    //public class TestBindingModel
-    //{
-    //    public int ProgramId { get; set; }
-    //}
-
     /// <summary>
     /// The AuthController provide user authentication and authorization details.
     /// </summary>
@@ -25,29 +20,29 @@ namespace ECA.WebApi.Controllers.Security
         private IUserProvider provider;
         private IUserService userService;
         private IResourceService resourceService;
-        private IPermissionModelService permissionModelService;
+        private IPermissionService permissionService;
 
         /// <summary>
         /// The AuthController provides user authentication and authorization details.
         /// </summary>
         /// <param name="provider">The user provider.</param>
         /// <param name="userService">The user service.</param>
-        /// <param name="permissionModelService">The permission model service.</param>
+        /// <param name="permissionService">The permission service.</param>
         /// <param name="resourceService">The resource service.</param>
         public AuthController(
             IUserProvider provider, 
             IUserService userService, 
             IResourceService resourceService,
-            IPermissionModelService permissionModelService)
+            IPermissionService permissionService)
         {
             Contract.Requires(provider != null, "The provider must not be null.");
             Contract.Requires(userService != null, "The user service must not be null.");
             Contract.Requires(resourceService != null, "The resource service must not be null.");
-            Contract.Requires(permissionModelService != null, "The permission model service must not be null.");
+            Contract.Requires(permissionService != null, "The permission model service must not be null.");
             this.provider = provider;
             this.userService = userService;
             this.resourceService = resourceService;
-            this.permissionModelService = permissionModelService;
+            this.permissionService = permissionService;
         }
 
         /// <summary>
@@ -135,23 +130,17 @@ namespace ECA.WebApi.Controllers.Security
             var models = new List<ResourcePermissionViewModel>();
             if(resourceTypeId.HasValue)
             {
-                var resourceId = await this.resourceService.GetResourceIdByForeignResourceIdAsync(id, resourceTypeId.Value);
-                if (resourceId.HasValue)
+                var userPermissions = (await this.provider.GetPermissionsAsync(user))
+                    .Where(x => x.IsAllowed && x.ForeignResourceId == id && x.ResourceTypeId == resourceTypeId.Value)
+                    .ToList();
+                foreach (var p in userPermissions)
                 {
-                    (await this.provider.GetPermissionsAsync(user))
-                        .Where(x => x.IsAllowed
-                        && x.PrincipalId == principalId
-                        && x.ResourceId == resourceId.Value)
-                        .ToList()
-                        .ForEach((p) =>
-                        {
-                            var permissionName = this.permissionModelService.GetPermissionNameById(p.PermissionId);
-                            models.Add(new ResourcePermissionViewModel
-                            {
-                                PermissionName = permissionName,
-                                PermissionId = p.PermissionId
-                            });
-                        });
+                    var permissionModel = await this.permissionService.GetPermissionByIdAsync(p.PermissionId);
+                    models.Add(new ResourcePermissionViewModel
+                    {
+                        PermissionName = permissionModel.Name,
+                        PermissionId = p.PermissionId
+                    });
                 }
             }
             return models;
@@ -187,75 +176,5 @@ namespace ECA.WebApi.Controllers.Security
             }
             return Ok();
         }
-
-        /// <summary>
-        /// A simple test method of the user permissions and authorization.
-        /// </summary>
-        /// <param name="model">The model.</param>
-        /// <param name="id">The id.</param>
-        /// <returns>An Ok if the user is authorized.</returns>
-        //[Authorize]
-        //[Route("api/auth/user/{id}")]
-        //[ResourceAuthorize(OrganizationType.BRANCH_VALUE, "Program", 1009)]
-        //[ResourceAuthorize("EditProgram", "Program", 1009)]
-        //[ResourceAuthorize("EditProgram", "Program", "id")]
-        //[ResourceAuthorize("EditProgram", "Program")]
-        //[ResourceAuthorize("EditProgram", "Program", typeof(TestBindingModel), "model.ProgramId")]//model.ProgramId because we have more than one argument
-        //public IHttpActionResult PostTestResourceAuthorizeModelType([FromBody]TestBindingModel model, int id)
-        //{
-        //    return Ok();
-        //}
-
-        //[Authorize]
-        //[Route("api/auth/logout/{id}")]
-        //[ResourceAuthorize("Admin", "Application", APPLICATION_RESOURCE_ID)]
-        //public async Task<IHttpActionResult> PostLogout(Guid id)
-        //{
-        //    this.provider.Clear(id);
-        //    return Ok();
-        //}
-
-        //[HttpGet]
-        //[Route("api/auth/token")]
-        //public async Task<HttpResponseMessage> GetToken(string code, string redirect_uri)
-        //{
-        //    var form = new HttpForm();
-
-        //    form.Add("code", code);
-        //    form.Add("client_id", AppSettings.AdClientId);
-        //    form.Add("client_secret", AppSettings.AdClientSecret);
-        //    form.Add("resource", AppSettings.AdAudience);
-        //    form.Add("redirect_uri", redirect_uri);
-        //    form.Add("grant_type", "authorization_code");
-
-        //    var path = string.Format("/{0}/oauth2/token", AppSettings.AdTenantId);
-        //    var request = new HttpRequestMessage(HttpMethod.Post, path);
-        //    request.Content = form.Content;
-
-        //    var client = new HttpClient();
-        //    client.BaseAddress = new System.Uri("https://login.windows.net");
-        //    return await client.SendAsync(request);
-        //}
-
-        //[HttpGet]
-        //[Route("api/auth/refresh")]
-        //public async Task<HttpResponseMessage> GetNewToken(string refresh_token)
-        //{
-        //    var form = new HttpForm();
-
-        //    form.Add("refresh_token", refresh_token);
-        //    form.Add("client_id", AppSettings.AdClientId);
-        //    form.Add("client_secret", AppSettings.AdClientSecret);
-        //    form.Add("resource", AppSettings.AdAudience);
-        //    form.Add("grant_type", "refresh_token");
-
-        //    var path = string.Format("/{0}/oauth2/token", AppSettings.AdTenantId);
-        //    var request = new HttpRequestMessage(HttpMethod.Post, path);
-        //    request.Content = form.Content;
-
-        //    var client = new HttpClient();
-        //    client.BaseAddress = new System.Uri("https://login.windows.net");
-        //    return await client.SendAsync(request);
-        //}
     }
 }

@@ -18,7 +18,7 @@ namespace ECA.WebApi.Test.Security
         private IDictionary<string, object> cacheDictionary;
         private int expectedTimeToLive = 10;
         private UserCacheService cacheService;
-        private Mock<IPermissionStore<IPermission>> permissionStore;
+        private Mock<IPermissionService> permissionService;
         private Mock<IUserService> userService;
 
         [TestInitialize]
@@ -26,7 +26,7 @@ namespace ECA.WebApi.Test.Security
         {   
             cacheDictionary = new Dictionary<string, object>();
             cache = new Mock<ObjectCache>();
-            permissionStore = new Mock<IPermissionStore<IPermission>>();
+            permissionService = new Mock<IPermissionService>();
             userService = new Mock<IUserService>();
             Action<string, string> removeAction = (id, region) =>
             {
@@ -93,7 +93,7 @@ namespace ECA.WebApi.Test.Security
                 Id = impersonatedId,
                 Username = "impersonated"
             };
-            permissionStore.SetupProperty(x => x.Permissions, impersonatedUserPermissions);
+            permissionService.Setup(x => x.GetAllowedPermissionsByPrincipalId(It.IsAny<int>())).Returns(impersonatedUserPermissions);
             Func<Guid, User> getUserById = (id) =>
             {
                 if (id == impersonatorId)
@@ -120,7 +120,7 @@ namespace ECA.WebApi.Test.Security
             userService.Setup(x => x.IsUserValid(It.IsAny<Guid>())).Returns(getIsUserValid);
             cacheDictionary.Add(impersonatorId.ToString(), new UserCache(impersonatedUser, impersonatedCamUser, isImpersonatedCamUserValid, impersonatedUserPermissions));
 
-            var provider = new BearerTokenUserProvider(userService.Object, cacheService, permissionStore.Object);
+            var provider = new BearerTokenUserProvider(userService.Object, cacheService, permissionService.Object);
             provider.Impersonate(impersonator, impersonatedId);
 
             var userCache = provider.GetUserCache(impersonator);
@@ -168,7 +168,7 @@ namespace ECA.WebApi.Test.Security
                 Id = impersonatedId,
                 Username = "impersonated"
             };
-            permissionStore.SetupProperty(x => x.Permissions, impersonatedUserPermissions);
+            permissionService.Setup(x => x.GetAllowedPermissionsByPrincipalIdAsync(It.IsAny<int>())).ReturnsAsync(impersonatedUserPermissions);
             
             userService.Setup(x => x.GetUserByIdAsync(It.Is<Guid>((id) => id == impersonatedId))).ReturnsAsync(impersonatedCamUser);
             userService.Setup(x => x.GetUserByIdAsync(It.Is<Guid>((id) => id == impersonatorId))).ReturnsAsync(impersonatorCamUser);
@@ -177,7 +177,7 @@ namespace ECA.WebApi.Test.Security
             
             cacheDictionary.Add(impersonatorId.ToString(), new UserCache(impersonatedUser, impersonatedCamUser, isImpersonatedCamUserValid, impersonatedUserPermissions));
 
-            var provider = new BearerTokenUserProvider(userService.Object, cacheService, permissionStore.Object);
+            var provider = new BearerTokenUserProvider(userService.Object, cacheService, permissionService.Object);
             await provider.ImpersonateAsync(impersonator, impersonatedId);
 
             var userCache = provider.GetUserCache(impersonator);
@@ -188,10 +188,6 @@ namespace ECA.WebApi.Test.Security
             Assert.AreEqual(impersonator.Username, userCache.UserName);
             Assert.AreEqual(isImpersonatedCamUserValid, userCache.IsValidCamUser);
         }
-
-
-
-
 
         [TestMethod]
         public void TestImpersonate_ImpersonatedUserIsNotValid()
@@ -230,7 +226,7 @@ namespace ECA.WebApi.Test.Security
                 Id = impersonatedId,
                 Username = "impersonated"
             };
-            permissionStore.SetupProperty(x => x.Permissions, impersonatedUserPermissions);
+            permissionService.Setup(x => x.GetAllowedPermissionsByPrincipalIdAsync(It.IsAny<int>())).ReturnsAsync(impersonatedUserPermissions);
             Func<Guid, User> getUserById = (id) =>
             {
                 if (id == impersonatorId)
@@ -257,7 +253,7 @@ namespace ECA.WebApi.Test.Security
             userService.Setup(x => x.IsUserValid(It.IsAny<Guid>())).Returns(getIsUserValid);
             cacheDictionary.Add(impersonatorId.ToString(), new UserCache(impersonatedUser, impersonatedCamUser, isImpersonatedCamUserValid, impersonatedUserPermissions));
 
-            var provider = new BearerTokenUserProvider(userService.Object, cacheService, permissionStore.Object);
+            var provider = new BearerTokenUserProvider(userService.Object, cacheService, permissionService.Object);
             provider.Impersonate(impersonator, impersonatedId);
 
             var userCache = provider.GetUserCache(impersonator);
@@ -301,7 +297,7 @@ namespace ECA.WebApi.Test.Security
                 Id = impersonatedId,
                 Username = "impersonated"
             };
-            permissionStore.SetupProperty(x => x.Permissions, impersonatedUserPermissions);
+            permissionService.Setup(x => x.GetAllowedPermissionsByPrincipalIdAsync(It.IsAny<int>())).ReturnsAsync(impersonatedUserPermissions);
 
             userService.Setup(x => x.GetUserByIdAsync(It.Is<Guid>((id) => id == impersonatedId))).ReturnsAsync(impersonatedCamUser);
             userService.Setup(x => x.GetUserByIdAsync(It.Is<Guid>((id) => id == impersonatorId))).ReturnsAsync(impersonatorCamUser);
@@ -310,7 +306,7 @@ namespace ECA.WebApi.Test.Security
 
             cacheDictionary.Add(impersonatorId.ToString(), new UserCache(impersonatedUser, impersonatedCamUser, isImpersonatedCamUserValid, impersonatedUserPermissions));
 
-            var provider = new BearerTokenUserProvider(userService.Object, cacheService, permissionStore.Object);
+            var provider = new BearerTokenUserProvider(userService.Object, cacheService, permissionService.Object);
             await provider.ImpersonateAsync(impersonator, impersonatedId);
 
             var userCache = provider.GetUserCache(impersonator);

@@ -170,14 +170,14 @@ namespace ECA.WebApi.Test.Security
         public async Task TestSaveChanges()
         {
             var returnValue = 1;
-            principalService.Setup(x => x.SaveChanges(It.IsAny<IList<ISaveAction>>())).Returns(returnValue);
-            principalService.Setup(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>())).ReturnsAsync(returnValue);
-            principalService.Verify(x => x.SaveChanges(It.IsAny<IList<ISaveAction>>()), Times.Never());
-            principalService.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Never());
+            principalService.Setup(x => x.SaveChanges()).Returns(returnValue);
+            principalService.Setup(x => x.SaveChangesAsync()).ReturnsAsync(returnValue);
+            principalService.Verify(x => x.SaveChanges(), Times.Never());
+            principalService.Verify(x => x.SaveChangesAsync(), Times.Never());
             handler.SaveChanges();
             await handler.SaveChangesAsync();
-            principalService.Verify(x => x.SaveChanges(It.IsAny<IList<ISaveAction>>()), Times.Once());
-            principalService.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
+            principalService.Verify(x => x.SaveChanges(), Times.Once());
+            principalService.Verify(x => x.SaveChangesAsync(), Times.Once());
         }
 
         [TestMethod]
@@ -196,7 +196,7 @@ namespace ECA.WebApi.Test.Security
 
             userProvider.Verify(x => x.Clear(It.IsAny<Guid>()), Times.Once());
             principalService.Verify(x => x.GrantPermissionsAsync(It.IsAny<GrantedPermission>()), Times.Once());
-            principalService.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
+            principalService.Verify(x => x.SaveChangesAsync(), Times.Once());
             Assert.IsInstanceOfType(response, typeof(OkResult));
         }
 
@@ -243,7 +243,7 @@ namespace ECA.WebApi.Test.Security
 
             userProvider.Verify(x => x.Clear(It.IsAny<Guid>()), Times.Once());
             principalService.Verify(x => x.RevokePermissionAsync(It.IsAny<RevokedPermission>()), Times.Once());
-            principalService.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
+            principalService.Verify(x => x.SaveChangesAsync(), Times.Once());
             Assert.IsInstanceOfType(response, typeof(OkResult));
         }
 
@@ -290,7 +290,7 @@ namespace ECA.WebApi.Test.Security
 
             userProvider.Verify(x => x.Clear(It.IsAny<Guid>()), Times.Once());
             principalService.Verify(x => x.DeletePermissionAsync(It.IsAny<DeletedPermission>()), Times.Once());
-            principalService.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
+            principalService.Verify(x => x.SaveChangesAsync(), Times.Once());
             Assert.IsInstanceOfType(response, typeof(OkResult));
         }
 

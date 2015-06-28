@@ -5,7 +5,7 @@
     <div class="bounce3"></div>
 </div>
 <div class="list2" ng-show="!view.isLoading">
-    <div class="row" ng-click="view.isCollaboratorExpanded = !view.isCollaboratorExpanded">
+    <div class="row">
         <div class="col-md-10">
             <h4 class="tab-subheader">Required Data</h4>
             <h5 class="subheader2">Setup the required data that you'll need to track, and add collaborators.</h5>
@@ -13,8 +13,10 @@
             <p class="mute" ng-if="view.numberOfCollaborators > 0">{{view.numberOfCollaborators}} Collaborators | Last updated {{view.collaboratorsLastUpdated | date}}</p>
         </div>
         <div class="col-sd-2">
-            <span class="right"><img src="images/expand.png"></span>
-            <!--<img class="right icon" src="images/yeoman.png" alt="">-->
+            <a ng-click="view.isCollaboratorExpanded = !view.isCollaboratorExpanded">
+                <i class="material-icons md-dark md-36 pull-right" ng-show="view.isCollaboratorExpanded">expand_more</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="!view.isCollaboratorExpanded">expand_less</i>
+            </a>
         </div>
     </div>
     <div class="row recess" ng-show="view.isCollaboratorExpanded && permissions.isProjectOwner">
@@ -76,14 +78,17 @@
         </div>
     </div>
 
-    <div class="row" ng-click="dataExpanded2 = !dataExpanded2">
+    <div class="row">
         <div class="col-md-10">
             <h4 class="tab-subheader">Participant Data</h4>
             <h5 class="subheader2">Keep track of participant data that has been added to this project.</h5>
             <p class="mute">Participants: {{participants.length}} | Last updated {{project.updated | date}}</p>
         </div>
         <div class="col-sd-2">
-            <span class="right"><img src="images/expand.png"></span>
+            <a ng-click="dataExpanded2 = !dataExpanded2">
+                <i class="material-icons md-dark md-36 pull-right" ng-show="dataExpanded2">expand_more</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="!dataExpanded2">expand_less</i>
+            </a>
         </div>
     </div>
     <div class="row" ng-show="dataExpanded2">
@@ -96,8 +101,8 @@
             </div>
         </div>
         <div class="col-md-6" ng-show="!view.isAddingParticipant">
-            <div>
-                Filter By:
+            <div style="margin-top:10px;">
+                <span style="font-size:12pt;margin-right:5px;">Filter By:</span>
                 <label class="radio-inline">
                     <input type="radio" value="{{view.addPersonFilterValue}}" ng-change="view.onRadioButtonChange(view.addPersonFilterValue)" ng-model="view.addParticipantFilter" />
                     Person
@@ -107,39 +112,40 @@
                     Organization
                 </label>
             </div>
-            <div>
-                <div>
+            <div style="margin-top:10px;">
+                <div style="margin-top:10px;" style="margin-top:10px;" class="mute">
                     Showing {{view.displayedAvailableParticipantsCount}} of {{view.totalAvailableParticipants}} available participants.
                 </div>
-                <input type="text"
-                       class="form-control"
+                <input type="search"
+                       class="search-contextual"
+                       maxlength="100"
                        typeahead-append-to-body="true"
                        typeahead-input-formatter="view.formatAddedParticipant($model)"
                        placeholder="Add an existing participant..."
                        ng-model="view.selectedExistingParticipant"
-                       typeahead-wait-ms="250"
+                       typeahead-wait-ms="400"
                        typeahead-loading="view.isLoadingAvailableParticipants"
                        typeahead="participant as participant.name for participant in view.getAvailableParticipants($viewValue) | filter : $viewValue | limitTo : view.addParticipantsLimit"
                        typeahead-on-select="view.onAddParticipantSelect($item, $model, $label)"
                        typeahead-template-url="addCollaboratorTemplate.html"
-                       typeahead-editable="false" />
-                <div>
-                    <i ng-show="view.isLoadingAvailableParticipants" class="glyphicon glyphicon-refresh"></i>
-                </div>
+                       typeahead-editable="false">
+                </input>
+                <i class="glyphicon glyphicon-search contextual" ng-show="!view.isLoadingAvailableParticipants"></i>
+                <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingAvailableParticipants">refresh</i>
             </div>
         </div>
-        <div class="col-md-4" ng-show="!view.isAddingParticipant">
-            <p class="pull-right" style="margin-top:10px;">Search not returning a result?</p>
+        <div class="col-md-5" ng-show="!view.isAddingParticipant" style="margin-top:75px;">
+            <p class="pull-right" style="font-style:italic">Search not returning a result?</p>
         </div>
-        <div class="col-md-2" ng-show="!view.isAddingParticipant">
-            <button class="btn btn-primary" ng-click="modal.addParticipant = true">ADD NEW PARTICIPANT</button>
+        <div class="col-md-1" ng-show="!view.isAddingParticipant" style="margin-top:65px;">
+            <button class="btn btn-primary" ng-click=" modal.addParticipant=true">ADD NEW PARTICIPANT</button>
         </div>
     </div>
     <div class="row expand" ng-show="dataExpanded2">
         <div class="dashed col-md-12" ng-show="participants.length === 0">
             <h4>No participants yet.<span class="light"> Drop files here, <a>upload</a> or <a ng-click="modal.addParticipant = true">add manually</a>.</span></h4>
         </div>
-        <div st-pipe="getParticipants" st-table="participants" id="sort-list">
+        <div st-pipe="getParticipants" st-table="participants" exposetablestate="getParticipantsTableState" id="sort-list">
             <table class="col-md-12 alt">
                 <thead>
                     <tr>
@@ -181,8 +187,8 @@
                         </td>
                         <td>
                             <a ng-click="toggleParticipantInfo(participant.participantId)">
-                                <i class="fa fa-chevron-up" ng-show="participantInfo[participant.participantId] === undefined || participantInfo[participant.participantId].show === false"></i>
-                                <i class="fa fa-chevron-down" ng-show="participantInfo[participant.participantId].show"></i>
+                                <i class="material-icons md-dark md-36 pull-right" ng-show="participantInfo[participant.participantId] === undefined || participantInfo[participant.participantId].show === false">expand_less</i>
+                                <i class="material-icons md-dark md-36 pull-right" ng-show="participantInfo[participant.participantId].show">expand_more</i>
                             </a>
                         </td>
                     </tr>
@@ -192,20 +198,20 @@
                                 <div class="row" ng-show="participantInfo[participant.participantId].hostInstitution">
                                     <div class="col-md-4 title-label">Host Institution</div>
                                     <div class="col-md-8">
-                                        <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].hostInstitution.name">
+                                        <div class="form-group" ng-show="participantInfo[participant.participantId].hostInstitution.name">
                                             <label class="col-md-4 title-label">Name</label>
                                             <div class="col-md-8">
                                                 {{participantInfo[participant.participantId].hostInstitution.name}}
                                             </div>
                                         </div>
                                         <div ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0]">
-                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].street1">
+                                            <div class="form-group" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].street1">
                                                 <label class="col-md-4 title-label">Street 1</label>
                                                 <div class="col-md-8">
                                                     {{participantInfo[participant.participantId].hostInstitution.addresses[0].street1}}
                                                 </div>
                                             </div>
-                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].street2">
+                                            <div class="form-group" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].street2">
                                                 <label class="col-md-4 title-label">
                                                     Street 2
                                                 </label>
@@ -213,7 +219,7 @@
                                                     {{participantInfo[participant.participantId].hostInstitution.addresses[0].street2}}
                                                 </div>
                                             </div>
-                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].street3">
+                                            <div class="form-group" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].street3">
                                                 <label class=" col-md-4 title-label">
                                                     Street 3
                                                 </label>
@@ -221,19 +227,19 @@
                                                     {{participantInfo[participant.participantId].hostInstitution.addresses[0].street3}}
                                                 </div>
                                             </div>
-                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].country">
+                                            <div class="form-group" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].country">
                                                 <label class="col-md-4 title-label">Country</label>
                                                 <div class="col-md-8">
                                                     {{participantInfo[participant.participantId].hostInstitution.addresses[0].country}}
                                                 </div>
                                             </div>
-                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].city">
+                                            <div class="form-group" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].city">
                                                 <label class="col-md-4 title-label">City</label>
                                                 <div class="col-md-8">
                                                     {{participantInfo[participant.participantId].hostInstitution.addresses[0].city}}
                                                 </div>
                                             </div>
-                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].postalCode">
+                                            <div class="form-group" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].postalCode">
                                                 <label class="col-md-4 title-label">Postal Code</label>
                                                 <div class="col-md-8">
                                                     {{participantInfo[participant.participantId].hostInstitution.addresses[0].postalCode}}
@@ -245,7 +251,7 @@
                                 <div class="row" ng-show="participantInfo[participant.participantId].homeInstitution">
                                     <div class="col-md-4 title-label">Home Institution</div>
                                     <div class="col-md-8">
-                                        <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].homeInstitution.name">
+                                        <div class="form-group" ng-show="participantInfo[participant.participantId].homeInstitution.name">
                                             <label class=" col-md-4 title-label">
                                                 Name
                                             </label>
@@ -254,37 +260,37 @@
                                             </div>
                                         </div>
                                         <div ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0]">
-                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].street1">
+                                            <div class="form-group" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].street1">
                                                 <label class="col-md-4 title-label">Street 1</label>
                                                 <div class="col-md-8">
                                                     {{participantInfo[participant.participantId].homeInstitution.addresses[0].street1}}
                                                 </div>
                                             </div>
-                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].street2">
+                                            <div class="form-group" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].street2">
                                                 <label class="col-md-4 title-label">Street 2</label>
                                                 <div class="col-md-8">
                                                     {{participantInfo[participant.participantId].homeInstitution.addresses[0].street2}}
                                                 </div>
                                             </div>
-                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].street3">
+                                            <div class="form-group" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].street3">
                                                 <label class="col-md-4 title-label">Street 3</label>
                                                 <div class="col-md-8">
                                                     {{participantInfo[participant.participantId].homeInstitution.addresses[0].street3}}
                                                 </div>
                                             </div>
-                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].country">
+                                            <div class="form-group" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].country">
                                                 <label class="col-md-4 title-label">Country</label>
                                                 <div class="col-md-8">
                                                     {{participantInfo[participant.participantId].homeInstitution.addresses[0].country}}
                                                 </div>
                                             </div>
-                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].city">
+                                            <div class="form-group" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].city">
                                                 <label class="col-md-4 title-label">City</label>
                                                 <div class="col-md-8">
                                                     {{participantInfo[participant.participantId].homeInstitution.addresses[0].city}}
                                                 </div>
                                             </div>
-                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].postalCode">
+                                            <div class="form-group" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].postalCode">
                                                 <label class="col-md-4 title-label">Postal Code</label>
                                                 <div class="col-md-8">
                                                     {{participantInfo[participant.participantId].homeInstitution.addresses[0].postalCode}}
@@ -340,7 +346,7 @@
             </table>
             <div st-template="views/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="participants.length > 0"></div>
         </div>
-        <modal-dialog show="modal.addParticipant" dialog-title="Add to Participants" before-close="modalClose()" on-close="modalClear()" main-model="newParticipant">
+        <modal-dialog show="modal.addParticipant" dialog-title="Add to Participants" before-close="addParticipantModalClose()" on-close="addParticipantModalClear()" main-model="newParticipant">
             <h5>Fill out the required information below for each participant.</h5>
             <div class="required2">* Marks required fields</div>
             <div id="modal-tab" class="tabs">
@@ -423,13 +429,25 @@
 
     <script type="text/ng-template" id="addCollaboratorTemplate.html">
         <a>
-            <div>
+            <!--Organization search results-->
+            <div ng-show="match.model.name">
                 <span bind-html-unsafe="match.model.name | typeaheadHighlight:query"></span>
             </div>
-            <div ng-show="match.model.city || match.model.country" style="margin-left:10px;">
-                <span bind-html-unsafe="match.model.city | typeaheadHighlight:query"></span>
-                <span ng-show="match.model.city && match.model.country">, </span>
-                <span bind-html-unsafe="match.model.country | typeaheadHighlight:query"></span>
+            <div ng-show="match.model.location" style="margin-left:30px;">
+                <span bind-html-unsafe="match.model.location | typeaheadHighlight:query"></span>
+            </div>
+
+            <!--Person search results-->
+            <div ng-show="match.model.fullName">
+                <span bind-html-unsafe="match.model.fullName | typeaheadHighlight:query"></span>
+            </div>
+            <div ng-show="match.model.gender" style="margin-left:30px;">
+                <span bind-html-unsafe="match.model.gender | typeaheadHighlight:query"></span>
+            </div>
+            <div ng-show="match.model.dateOfBirth" style="margin-left:30px;">
+                <span>Born:  </span>
+                <span bind-html-unsafe="(match.model.dateOfBirth | date:'MMM dd, yyyy')"></span>
             </div>
         </a>
     </script>
+</div>

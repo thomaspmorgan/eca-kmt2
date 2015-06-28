@@ -14,34 +14,20 @@ namespace CAM.Business.Service
     public interface IResourceService
     {
         /// <summary>
-        /// Returns the resourceid for the resource with the given foreign resource id and resource type id.
+        /// Returns the resource details for the resource with the given foreign resource id and resource type id.
         /// </summary>
         /// <param name="foreignResourceId">The foreign resource id.</param>
         /// <param name="resourceTypeId">The resource type id.</param>
         /// <returns>The resource id.</returns>
-        int? GetResourceIdByForeignResourceId(int foreignResourceId, int resourceTypeId);
+        ForeignResourceCache GetResourceByForeignResourceId(int foreignResourceId, int resourceTypeId);
 
         /// <summary>
-        /// Returns the resourceid for the resource with the given foreign resource id and resource type id.
+        /// Returns the resource details for the resource with the given foreign resource id and resource type id.
         /// </summary>
         /// <param name="foreignResourceId">The foreign resource id.</param>
         /// <param name="resourceTypeId">The resource type id.</param>
-        /// <returns>The resource id.</returns>
-        System.Threading.Tasks.Task<int?> GetResourceIdByForeignResourceIdAsync(int foreignResourceId, int resourceTypeId);
-
-        /// <summary>
-        /// Returns the resourceid for the resource with the given application id.
-        /// </summary>
-        /// <param name="applicationId">The application id.</param>
-        /// <returns>The resource id.</returns>
-        int? GetResourceIdForApplicationId(int applicationId);
-
-        /// <summary>
-        /// Returns the resourceid for the resource with the given application id.
-        /// </summary>
-        /// <param name="applicationId">The application id.</param>
-        /// <returns>The resource id.</returns>
-        System.Threading.Tasks.Task<int?> GetResourceIdForApplicationIdAsync(int applicationId);
+        /// <returns>The resource cache.</returns>
+        System.Threading.Tasks.Task<ForeignResourceCache> GetResourceByForeignResourceIdAsync(int foreignResourceId, int resourceTypeId);
 
         /// <summary>
         /// Returns the resource type id for the resource type with the given name.
@@ -119,44 +105,6 @@ namespace CAM.Business.Service
     [ContractClassFor(typeof(IResourceService))]
     public abstract class ResourceServiceContract : IResourceService
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="foreignResourceId"></param>
-        /// <param name="resourceTypeId"></param>
-        /// <returns></returns>
-        public int? GetResourceIdByForeignResourceId(int foreignResourceId, int resourceTypeId)
-        {
-            return default(int?);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="foreignResourceId"></param>
-        /// <param name="resourceTypeId"></param>
-        /// <returns></returns>
-        public System.Threading.Tasks.Task<int?> GetResourceIdByForeignResourceIdAsync(int foreignResourceId, int resourceTypeId)
-        {
-            return System.Threading.Tasks.Task.FromResult<int?>(default(int?));
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="applicationId"></param>
-        /// <returns></returns>
-        public int? GetResourceIdForApplicationId(int applicationId)
-        {
-            return default(int?);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="applicationId"></param>
-        /// <returns></returns>
-        public System.Threading.Tasks.Task<int?> GetResourceIdForApplicationIdAsync(int applicationId)
-        {
-            return System.Threading.Tasks.Task.FromResult<int?>(default(int?));
-        }
         /// <summary>
         /// 
         /// </summary>
@@ -251,6 +199,28 @@ namespace CAM.Business.Service
         {
             Contract.Requires(resourceType != null, "The resource type must not be null.");
             return Task.FromResult<ResourceAuthorizationInfoDTO>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="foreignResourceId"></param>
+        /// <param name="resourceTypeId"></param>
+        /// <returns></returns>
+        public ForeignResourceCache GetResourceByForeignResourceId(int foreignResourceId, int resourceTypeId)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="foreignResourceId"></param>
+        /// <param name="resourceTypeId"></param>
+        /// <returns></returns>
+        public Task<ForeignResourceCache> GetResourceByForeignResourceIdAsync(int foreignResourceId, int resourceTypeId)
+        {
+            return System.Threading.Tasks.Task.FromResult<ForeignResourceCache>(null);
         }
     }
 }

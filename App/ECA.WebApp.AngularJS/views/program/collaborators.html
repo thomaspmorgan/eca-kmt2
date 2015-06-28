@@ -1,0 +1,61 @@
+﻿<h2 class="program-color tab-header">Collaborators</h2>
+
+<div class="row">
+    <p class="subheader listCount ng-binding">Showing {{listCount.start}} - {{listCount.total}} of {{listCount.total}} collaborators</p>
+</div>
+
+<table class="col-md-12 alt">
+    <thead ng-show="collaborators.length > 0">
+        <tr>
+            <th class="col-md-3 sort-label medium">User</th>
+            <th class="col-md-3 sort-label medium">ECA/Outside ECA</th>
+            <th class="col-md-2 sort-label medium">Inherited Permissions</th>
+            <th class="col-md-2 sort-label medium">Permissions</th>
+            <th class="col-md-2 sort-label medium">&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody class="list2">
+        <tr class="hover" ng-repeat="collaborator in collaborators">
+            <td class="col-md-3">
+                <h5 class="list-title">{{collaborator.displayName}}</h5>
+                <p class="text-muted"><small>{{collaborator.emailAddress}}</small></p>
+            </td>
+            <td class="col-md-3">
+                {{collaborator.isEcaUser == true ? "ECA" : "Outside ECA"}}
+            </td>
+            <td class="col-md-2">
+                <ul>
+                    <li ng-repeat="permission in collaborator.inheritedPermissions">
+                        <i class="material-icons">{{permission.isAllowed ? 'check' : 'close'}}</i> {{permission.permissionName}}
+                    </li>
+                </ul>
+            </td>
+            <td class="col-md-2">
+                <ul>
+                    <li ng-repeat="permission in collaborator.grantedPermissions">
+                        <i class="material-icons">check</i> {{permission.permissionName}}
+                    </li>
+                </ul>
+                <ul>
+                    <li ng-repeat="permission in collaborator.revokedPermissions">
+                        <i class="material-icons">close</i> {{permission.permissionName}}
+                    </li>
+                </ul>
+            </td>
+            <td class="col-md-2">
+                <img class="icon" src="images/duplicateA.png" alt="">
+                <img class="icon" src="images/editA.png" alt="">
+                <img class="icon" src="images/trash.png" alt="">
+            </td>
+        </tr>
+        <tr ng-show="collaboratorsLoading">
+            <td colspan="5">
+                <div class="spinner">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

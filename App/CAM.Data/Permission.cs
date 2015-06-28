@@ -30,10 +30,12 @@ namespace CAM.Data
         public int CreatedBy { get; set; }
         public System.DateTimeOffset RevisedOn { get; set; }
         public string RevisedBy { get; set; }
+        public Nullable<int> ParentResourceTypeId { get; set; }
     
         public virtual Resource Resource { get; set; }
         public virtual ResourceType ResourceType { get; set; }
         public virtual ICollection<PermissionAssignment> PermissionAssignments { get; set; }
         public virtual ICollection<RoleResourcePermission> RoleResourcePermissions { get; set; }
+        public virtual ResourceType ParentResourceType { get; set; }
     }
 }

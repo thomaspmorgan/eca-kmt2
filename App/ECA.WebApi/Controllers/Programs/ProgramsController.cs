@@ -17,6 +17,11 @@ using System.Web.Http.Description;
 using System.Diagnostics.Contracts;
 using ECA.WebApi.Security;
 using ECA.Business.Service.Admin;
+using CAM.Business.Service;
+using CAM.Business.Model;
+using ECA.Core.DynamicLinq.Filter;
+using CAM.Data;
+using System.Web.Http.Results;
 
 namespace ECA.WebApi.Controllers.Programs
 {
@@ -45,11 +50,15 @@ namespace ECA.WebApi.Controllers.Programs
         private static readonly ExpressionSorter<JustificationObjectiveDTO> DEFAULT_JUSTIFICATION_OBJECTIVE_DTO_SORTER =
             new ExpressionSorter<JustificationObjectiveDTO>(x => x.JustificationName, SortDirection.Ascending);
 
+        private static readonly ExpressionSorter<ResourceAuthorization> DEFAULT_RESOURCE_AUTHORIZATION_SORTER = new ExpressionSorter<ResourceAuthorization>(x => x.DisplayName, SortDirection.Ascending);
+
 
         private IProgramService programService;
         private IUserProvider userProvider;
         private IFocusCategoryService categoryService;
         private IJustificationObjectiveService justificationObjectiveService;
+        private IResourceService resourceService;
+        private IResourceAuthorizationHandler authorizationHandler;
 
         /// <summary>
         /// Creates a new ProgramController with the given program service.
@@ -57,16 +66,22 @@ namespace ECA.WebApi.Controllers.Programs
         /// <param name="programService">The program service.</param>
         /// <param name="userProvider">The user provider.</param>
         /// <param name="categoryService">The focus category service.</param>
-        public ProgramsController(IProgramService programService, IUserProvider userProvider, IFocusCategoryService categoryService, IJustificationObjectiveService justificationObjectiveService)
+        /// <param name="justificationObjectiveService">The justification objective service.</param>
+        public ProgramsController(IProgramService programService, IUserProvider userProvider, IFocusCategoryService categoryService, IJustificationObjectiveService justificationObjectiveService, IResourceService resourceService, IResourceAuthorizationHandler authorizationHandler)
         {
             Contract.Requires(programService != null, "The program service must not be null.");
             Contract.Requires(userProvider != null, "The user provider must not be null.");
             Contract.Requires(categoryService != null, "The category service must not be null.");
             Contract.Requires(justificationObjectiveService != null, "The justification service must not be null.");
+            Contract.Requires(resourceService != null, "The resource service must not be null.");
+            Contract.Requires(authorizationHandler != null, "The authorization handler must not be null.");
+            
             this.programService = programService;
             this.userProvider = userProvider;
             this.categoryService = categoryService;
             this.justificationObjectiveService = justificationObjectiveService;
+            this.resourceService = resourceService;
+            this.authorizationHandler = authorizationHandler;
         }
 
         /// <summary>
@@ -113,10 +128,31 @@ namespace ECA.WebApi.Controllers.Programs
         }
 
         /// <summary>
+        /// Returns the subprograms of a program with the given id
+        /// </summary>
+        /// <param name="id">The program id.</param>
+        /// <returns>The subprograms</returns>
+        [Route("Programs/{programId}/Subprograms")]
+        [ResponseType(typeof(PagedQueryResults<OrganizationProgramDTO>))]
+        public async Task<IHttpActionResult> GetSubprogramsByProgramAsync(int programId, [FromUri]PagingQueryBindingModel<OrganizationProgramDTO> queryModel)
+        {
+            var dto = await this.programService.GetSubprogramsByProgramAsync(programId, queryModel.ToQueryableOperator(ALPHA_PROGRAM_SORTER));
+            if (dto != null)
+            {
+                return Ok(dto);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
         /// Returns the program with the given id.
         /// </summary>
         /// <returns>The program with the given id.</returns>
         [ResponseType(typeof(ProgramViewModel))]
+        [ResourceAuthorize(CAM.Data.Permission.VIEW_PROGRAM_VALUE, CAM.Data.ResourceType.PROGRAM_VALUE)]
         public async Task<IHttpActionResult> GetProgramByIdAsync(int id)
         {
             var program = await this.programService.GetProgramByIdAsync(id);
@@ -221,6 +257,80 @@ namespace ECA.WebApi.Controllers.Programs
             {
                 return BadRequest(ModelState);
             }
+        }
+
+        /// <summary>
+        /// Adds a collaborator to a program.
+        /// </summary>
+        /// <param name="model">The add collaborator model.</param>
+        /// <returns>An ok result.</returns>
+        [Route("Programs/Collaborator/Add")]
+        [ResponseType(typeof(OkResult))]
+        [ResourceAuthorize(CAM.Data.Permission.PROGRAM_OWNER_VALUE, ResourceType.PROGRAM_VALUE, typeof(CollaboratorBindingModel), "ProgramId")]
+        public Task<IHttpActionResult> PostAddCollaboratorAsync(CollaboratorBindingModel model)
+        {
+            return authorizationHandler.HandleGrantedPermissionBindingModelAsync(model, this);
+        }
+
+        /// <summary>
+        /// Remove a collaborator to a program.
+        /// </summary>
+        /// <param name="model">The remove collaborator model.</param>
+        /// <returns>An ok result.</returns>
+        [Route("Programs/Collaborator/Remove")]
+        [ResponseType(typeof(OkResult))]
+        [ResourceAuthorize(CAM.Data.Permission.PROGRAM_OWNER_VALUE, ResourceType.PROGRAM_VALUE, typeof(CollaboratorBindingModel), "ProgramId")]
+        public Task<IHttpActionResult> PostRemoveCollaboratorAsync(CollaboratorBindingModel model)
+        {
+            return authorizationHandler.HandleDeletedPermissionBindingModelAsync(model, this);
+        }
+
+        /// <summary>
+        /// Revokes a collaborator permission from a project.
+        /// </summary>
+        /// <param name="model">The add collaborator model.</param>
+        /// <returns>An ok result.</returns>
+        [Route("Programs/Collaborator/Revoke")]
+        [ResponseType(typeof(OkResult))]
+        [ResourceAuthorize(CAM.Data.Permission.PROGRAM_OWNER_VALUE, ResourceType.PROGRAM_VALUE, typeof(CollaboratorBindingModel), "ProgramId")]
+        public Task<IHttpActionResult> PostRevokeCollaboratorAsync(CollaboratorBindingModel model)
+        {
+            return authorizationHandler.HandleRevokedPermissionBindingModelAsync(model, this);
+        }
+
+        /// <summary>
+        /// Returns the collaborators associated with the given program id 
+        /// </summary>
+        /// <param name="programId">The id of the program</param>
+        /// <param name="queryModel">The query model</param>
+        /// <returns>The collaborators</returns>
+        [ResponseType(typeof(PagedQueryResults<ResourceAuthorization>))]
+        [Route("Programs/{programId}/Collaborators")]
+        [ResourceAuthorize(CAM.Data.Permission.PROGRAM_OWNER_VALUE, CAM.Data.ResourceType.PROGRAM_VALUE, "programId")]
+        public async Task<IHttpActionResult> GetCollaboratorsAsync([FromUri]int programId, [FromUri]PagingQueryBindingModel<ResourceAuthorization> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var authorizations = await GetResourceAuthorizationsAsync(GetQueryableOperator(programId, queryModel));
+                return Ok(authorizations);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        private QueryableOperator<ResourceAuthorization> GetQueryableOperator(int programId, PagingQueryBindingModel<ResourceAuthorization> queryModel)
+        {
+            var queryOperator = queryModel.ToQueryableOperator(DEFAULT_RESOURCE_AUTHORIZATION_SORTER);
+            queryOperator.Filters.Add(new ExpressionFilter<ResourceAuthorization>(x => x.ForeignResourceId, ComparisonType.Equal, programId));
+            queryOperator.Filters.Add(new ExpressionFilter<ResourceAuthorization>(x => x.ResourceTypeId, ComparisonType.Equal, ResourceType.Program.Id));
+            return queryOperator;
+        }
+
+        private Task<PagedQueryResults<ResourceAuthorization>> GetResourceAuthorizationsAsync(QueryableOperator<ResourceAuthorization> queryOperator)
+        {
+            return resourceService.GetResourceAuthorizationsAsync(queryOperator);
         }
     }
 }

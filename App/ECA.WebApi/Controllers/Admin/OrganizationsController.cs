@@ -34,6 +34,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// Constructor
         /// </summary>
         /// <param name="service">The service</param>
+        /// <param name="organizationTypeService">The organization type service.</param>
         public OrganizationsController(IOrganizationService service, IOrganizationTypeService organizationTypeService)
         {
             Contract.Requires(service != null, "The organization service must not be null.");
@@ -52,7 +53,8 @@ namespace ECA.WebApi.Controllers.Admin
         public async Task<IHttpActionResult> GetOrganizationsAsync([FromUri]PagingQueryBindingModel<SimpleOrganizationDTO> queryModel) {
             if (ModelState.IsValid)
             {
-                var results = await organizationService.GetOrganizationsAsync(queryModel.ToQueryableOperator(DEFAULT_SORTER));
+                var results = await organizationService.GetOrganizationsAsync(
+                    queryModel.ToQueryableOperator(DEFAULT_SORTER, x => x.Name, x => x.Location, x => x.Status));
                 return Ok(results);
             }
             else

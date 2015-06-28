@@ -25,30 +25,11 @@ namespace ECA.Business.Queries.Models.Persons
             RelatedReports = new List<SimpleLookupDTO>();
             ImpactStories = new List<SimpleLookupDTO>();
         }
-        /// <summary>
-        /// Gets or sets the participant id.
-        /// </summary>
-        public int ParticipantId { get; set; }
 
         /// <summary>
         /// Gets or sets the Person Id.
         /// </summary>
         public int? PersonId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the participant id.
-        /// </summary>
-        public int ParticipantTypeId { get; set; }
-
-        /// <summary>E:\S\ECA-KMT\App\ECA.Business\Queries\Models\Persons\GeneralDTO.cs
-        /// Gets or sets the participant type.
-        /// </summary>
-        public string ParticipantType { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the participant.
-        /// </summary>
-        public string Status { get; set; }
 
         public DateTimeOffset StatusDate { get; set;}
         

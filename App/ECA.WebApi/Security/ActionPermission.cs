@@ -50,5 +50,4 @@ namespace ECA.WebApi.Security
             return (int)actionArgumentValue;
         }
     }
-
 }

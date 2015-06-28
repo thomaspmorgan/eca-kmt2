@@ -46,13 +46,31 @@ namespace ECA.Business.Test.Service.Admin
         [TestMethod]
         public async Task TestGetMoneyFlowsByProjectId_CheckProperties()
         {
+            var active = new ProgramStatus
+            {
+                ProgramStatusId = ProgramStatus.Active.Id,
+                Status = ProgramStatus.Active.Value
+            };
+            var owner1 = new Organization
+            {
+                OrganizationId = 1,
+                Name = "owner 1",
+                OfficeSymbol = "owner 1 symbol",
+            };
+
             var program = new Program
             {
-                ProgramId = 2,
-                Name = "program",
-                Description = "description",
-                Owner = new Organization(),
-                Regions = new HashSet<Location>(),
+                ProgramId = 5,
+                Description = "desc1",
+                History = new History
+                {
+                    CreatedBy = 1,
+                },
+                Name = "program 1",
+                Owner = owner1,
+                OwnerId = owner1.OrganizationId,
+                ProgramStatus = active,
+                ProgramStatusId = active.ProgramStatusId,
             };
 
             var project = new Project
@@ -80,21 +98,34 @@ namespace ECA.Business.Test.Service.Admin
                 TypeName = "project"
             };
 
-            var moneyflow = new MoneyFlow
+            var moneyFlowType = new MoneyFlowType {
+                MoneyFlowTypeId = 1,
+                MoneyFlowTypeName = "program",
+            };
+
+            var moneyFlowStatus = new MoneyFlowStatus
             {
-                MoneyFlowId = 3,
-                MoneyFlowTypeId = 4,
+                MoneyFlowStatusId = 1,
+                MoneyFlowStatusName = "test status",
+            };
+            var moneyFlow1 = new MoneyFlow
+            {
+                MoneyFlowId = 1,
                 Value = 50,
-                TransactionDate = DateTimeOffset.Now,
-                FiscalYear = 2015,
-                SourceProgramId = 2,
-                SourceProgram = program,
                 RecipientProjectId = 1,
-                SourceTypeId = 1,
+                TransactionDate = new DateTimeOffset(),
+                MoneyFlowStatus = moneyFlowStatus,
+                MoneyFlowStatusId = 1,
+                RecipientProject = project,
+                SourceProgramId = 5,
+                SourceProgram = program,
                 SourceType = sourceType,
-                RecipientTypeId = 2,
                 RecipientType = recipientType,
-                Description = "description"
+                SourceTypeId= 1,
+                RecipientTypeId = 2,
+                Description = "moneyFlow",
+                MoneyFlowType = moneyFlowType,
+                MoneyFlowTypeId = 1
             };
 
             program.Projects.Add(project);
@@ -103,7 +134,9 @@ namespace ECA.Business.Test.Service.Admin
             context.Programs.Add(program);
             context.MoneyFlowSourceRecipientTypes.Add(sourceType);
             context.MoneyFlowSourceRecipientTypes.Add(recipientType);
-            context.MoneyFlows.Add(moneyflow);
+            context.MoneyFlowTypes.Add(moneyFlowType);
+            context.MoneyFlowStatuses.Add(moneyFlowStatus);
+            context.MoneyFlows.Add(moneyFlow1);
 
             var defaultSorter = new ExpressionSorter<MoneyFlowDTO>(x => x.TransactionDate, SortDirection.Ascending);
             var start = 0;
@@ -117,11 +150,11 @@ namespace ECA.Business.Test.Service.Admin
                 Assert.AreEqual(1, results.Count);
                 var firstResult = results.First();
 
-                Assert.AreEqual(moneyflow.TransactionDate, firstResult.TransactionDate);
-                Assert.AreEqual(moneyflow.SourceType.TypeName, firstResult.Type);
+                Assert.AreEqual(moneyFlow1.TransactionDate, firstResult.TransactionDate);
+                Assert.AreEqual(moneyFlow1.SourceType.TypeName, firstResult.Type);
                 Assert.AreEqual(program.Name, firstResult.FromTo);
-                Assert.AreEqual(moneyflow.Value, firstResult.Amount);
-                Assert.AreEqual(moneyflow.Description, firstResult.Description);
+                Assert.AreEqual(moneyFlow1.Value, firstResult.Amount);
+                Assert.AreEqual(moneyFlow1.Description, firstResult.Description);
             };
 
             var result = service.GetMoneyFlowsByProjectId(project.ProjectId, queryOperator);

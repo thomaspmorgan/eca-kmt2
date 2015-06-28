@@ -64,6 +64,15 @@ angular.module('staticApp')
                     defer.resolve(data);
                 });
               return defer.promise;
+          },
+          delete: function (id) {
+              var defer = $q.defer();
+              DragonBreath.delete(id, 'moneyFlows')
+               .success(function (data) {
+                   defer.resolve(data);
+               });
+              return defer.promise;
           }
+
       };
   });

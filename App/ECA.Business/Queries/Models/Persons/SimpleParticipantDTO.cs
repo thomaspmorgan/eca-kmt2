@@ -55,5 +55,10 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the city the participant is located.
         /// </summary>
         public string City { get; set; }
+
+        /// <summary>
+        /// Gets or sets the project id.
+        /// </summary>
+        public int ProjectId { get; set; }
     }
 }

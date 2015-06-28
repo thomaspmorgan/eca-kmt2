@@ -46,6 +46,10 @@ namespace ECA.Business.Service.Admin
 
         Task<MoneyFlow> CopyAsync(int moneyFlowId, User user);
 
+        void Delete(int moneyFlowId, User user);
+
+        Task DeleteAsync(int moneyFlowId, User user);
+
         Task<MoneyFlow> GetMoneyFlowByIdAsync(int moneyFlowId);
 
         MoneyFlow GetMoneyFlowById(int moneyFlowId);

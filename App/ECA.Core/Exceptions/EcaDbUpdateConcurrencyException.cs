@@ -12,7 +12,6 @@ namespace ECA.Core.Exceptions
     /// An EcaDbUpdateConcurrencyException extends DbUpdateConcurrencyException so that a client
     /// able to ascertain the rowversion and object id.
     /// </summary>
-    [Serializable]
     public class EcaDbUpdateConcurrencyException : DbUpdateConcurrencyException
     {
         /// <summary>

@@ -40,3 +40,11 @@ GO
 CREATE NONCLUSTERED INDEX [IX_Location_LocationId]
     ON [dbo].[Person]([Location_LocationId] ASC);
 
+
+GO
+
+CREATE INDEX [IX_LastName] ON [dbo].[Person] ([LastName])
+
+GO
+
+CREATE INDEX [IX_FirstName] ON [dbo].[Person] ([FirstName])

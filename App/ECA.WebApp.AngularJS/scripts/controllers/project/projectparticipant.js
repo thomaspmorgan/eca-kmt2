@@ -14,6 +14,10 @@ angular.module('staticApp')
         $q,
         $log,
         $modal,
+        OrganizationService,
+        PersonService,
+        LocationService,
+        LookupService,
         ConstantsService,
         AuthService,
         ProjectService,
@@ -21,6 +25,9 @@ angular.module('staticApp')
         TableService,
         ParticipantService,
         ParticipantPersonsService) {
+
+      $scope.newParticipant = {};
+      $scope.genders = {};
 
       $scope.view = {};
       $scope.view.params = $stateParams;
@@ -64,27 +71,61 @@ angular.module('staticApp')
       };
 
       $scope.view.onAddParticipantSelect = function ($item, $model, $label) {
-          $scope.view.isAddingParticipant = true;
           var clientModel = {
-              projectId: projectId
+              projectId: projectId,
+              name: $model.name || $model.fullName
           }
-          var dfd = null;
           if ($item.personId) {
               clientModel.personId = $item.personId;
-              dfd = ProjectService.addPersonParticipant(clientModel)
           }
           else {
               clientModel.organizationId = $item.organizationId;
+          }
+          addParticipant(clientModel);
+      }
+
+      function addParticipant(clientModel) {
+          var modalInstance = $modal.open({
+              templateUrl: '/views/project/selectparticipanttype.html',
+              controller: 'SelectParticipantTypeCtrl',
+              backdrop: 'static',
+              resolve: {
+                  clientModel: function () {
+                      return clientModel;
+                  }
+              },
+          });
+          modalInstance.result.then(function (updatedClientModel) {
+              console.assert(updatedClientModel.participantTypeId, "The participant type must be set.");
+              doAddParticipant(updatedClientModel);
+              $log.info('Closing...');
+          }, function () {
+              clearAddParticipantView();
+              $log.info('Dismiss select participant type dialog...');
+          })
+          .then(function () {
+
+          });
+      };
+
+      function doAddParticipant(clientModel) {
+          $scope.view.isAddingParticipant = true;
+          var dfd = null;
+          if (clientModel.personId) {
+              dfd = ProjectService.addPersonParticipant(clientModel)
+          }
+          else {
               dfd = ProjectService.addOrganizationParticipant(clientModel);
           }
           dfd.then(function () {
-              NotificationService.showSuccessMessage('Successfully added the project participant.');
+              NotificationService.showSuccessMessage('Successfully added ' + clientModel.name + ' as a project participant.');
           })
           .catch(function () {
               NotificationService.showErrorMessage('Unable to add project participant.');
           })
           .then(function () {
               $scope.view.isAddingParticipant = false;
+              reloadParticipantTable();
           });
           return dfd;
       }
@@ -94,52 +135,162 @@ angular.module('staticApp')
       }
 
       $scope.view.formatAddedParticipant = function (participant) {
-          if (participant && participant.name.length > 0) {
+          if (participant && participant.name && participant.name.length > 0) {
               return participant.name;
+          }
+          else if (participant && participant.fullName && participant.fullName.length > 0) {
+              return participant.fullName;
           }
           else {
               return '';
           }
       }
 
-
       $scope.view.onRadioButtonChange = function (radioButtonValue) {
+          clearAddParticipantView();
+      }
+
+      $scope.birthCountrySelected = function (data) {
+          LocationService.get({
+              limit: 300,
+              filter: [{ property: 'countryId', comparison: 'eq', value: data.id },
+                       { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.city.id }]
+          }).then(function (data) {
+              $scope.cities = data.results;
+          });
+      }
+
+      $scope.addParticipant = function () {
+          setupNewParticipant();
+          PersonService.create($scope.newParticipant)
+            .then(function () {
+                displaySuccess();
+                reloadParticipantTable();
+            }, function (error) {
+                if (error.status == 400) {
+                    displayError(error.data);
+                }
+            });
+          $scope.addParticipantModalClose();
+      };
+
+      $scope.addParticipantModalClose = function () {
+          $scope.modal.addParticipant = false;
+      };
+
+      $scope.addParticipantModalClear = function () {
+          $scope.modal.addParticipant = false;
+
+          angular.forEach($scope.newParticipant, function (value, key) {
+              $scope.newParticipant[key] = '';
+          });
+
+          angular.forEach($scope.genders, function (value, key) {
+              if ($scope.genders[key].ticked === undefined) {
+                  $scope.genders[key].ticked = false;
+              } else {
+                  delete $scope.genders[key].ticked;
+              }
+          });
+          angular.forEach($scope.countries, function (value, key) {
+              if ($scope.countries[key].ticked === undefined) {
+                  $scope.countries[key].ticked = false;
+              } else {
+                  delete $scope.countries[key].ticked;
+              }
+          });
+          $scope.cities = [];
+      };
+
+      function reloadParticipantTable() {
+          console.assert($scope.getParticipantsTableState, "The table state function must exist.");
+          $scope.getParticipants($scope.getParticipantsTableState());
+      }
+
+      function clearAddParticipantView() {
           $scope.view.selectedExistingParticipant = null;
           $scope.view.displayedAvailableParticipantsCount = 0;
           $scope.view.totalAvailableParticipants = 0;
       }
 
-      function loadAvailableParticipants(search, participantType) {
-          var participantTypeFilter = {
-              comparison: ConstantsService.isNotNullComparisonType
-          };
-          if (participantType === $scope.view.addPersonFilterValue) {
-              $log.info('Adding not null filter on person participant type.');
-              participantTypeFilter.property = 'personId';
-          }
-          else if (participantType === $scope.view.addOrganizationFilterValue) {
-              $log.info('Adding not null filter on organization participant type.');
-              participantTypeFilter.property = 'organizationId';
-          }
-          else {
-              $log.error('Unable to add participant type filter.');
-          }
+      function loadGenders() {
+          return LookupService.getAllGenders({ limit: 300 })
+            .then(function (data) {
+                $scope.genders = data.results;
+            });
+      }
 
+      function loadCountries() {
+          return LocationService.get({ limit: 300, filter: { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country.id } })
+            .then(function (data) {
+                $scope.countries = data.results;
+            });
+      }
+
+      function setupNewParticipant() {
+          delete $scope.newParticipant.countryOfBirth;
+          $scope.newParticipant.projectId = $scope.project.id;
+          $scope.newParticipant.gender = $scope.newParticipant.gender[0].id;
+          $scope.newParticipant.cityOfBirth = $scope.newParticipant.cityOfBirth[0].id;
+          $scope.newParticipant.countriesOfCitizenship =
+               $scope.newParticipant.countriesOfCitizenship.map(function (obj) {
+                   return obj.id;
+               });
+      };
+
+      function displaySuccess() {
+          $scope.modal.addParticipantResult = true;
+          $scope.result = {};
+          $scope.result.title = "Person Created";
+          $scope.result.subtitle = "The person was created successfully!";
+      };
+
+      function displayError(error) {
+          $scope.modal.addParticipantResult = true;
+          $scope.result = {};
+          $scope.result.title = "Error Creating Person";
+          $scope.result.subtitle = "There was an error creating the new person.";
+          $scope.result.error = error;
+      };
+
+      function loadAvailableParticipants(search, participantType) {
           var params = {
               start: 0,
               limit: $scope.view.addParticipantsLimit,
-              filter: [participantTypeFilter]
           };
           if (search) {
               params.keyword = search
           }
           $scope.view.isLoadingAvailableParticipants = true;
-          return ParticipantService.getParticipants(params)
+          var dfd = null;
+          
+
+          if (participantType === $scope.view.addPersonFilterValue) {
+              dfd = PersonService.getPeople(params);
+          }
+          else if (participantType === $scope.view.addOrganizationFilterValue) {
+              dfd = OrganizationService.getOrganizations(params);
+          }
+          else {
+              throw error('Unable to add participant type filter.');
+          }
+
+          return dfd
           .then(function (response) {
+              var data = null;
+              var total = null;
+              if (response.data) {
+                  data = response.data.results;
+                  total = response.data.total;
+              }
+              else{
+                  data = response.results;
+                  total = response.total;
+              }
               $scope.view.isLoadingAvailableParticipants = false;
-              $scope.view.totalAvailableParticipants = response.total;
-              $scope.view.displayedAvailableParticipantsCount = response.results.length;
-              return response.results;
+              $scope.view.totalAvailableParticipants = total;
+              $scope.view.displayedAvailableParticipantsCount = data.length;
+              return data;
           })
           .catch(function () {
               $scope.view.isLoadingAvailableParticipants = false;
@@ -194,7 +345,6 @@ angular.module('staticApp')
 
       $scope.participantsLoading = false;
       $scope.getParticipants = function (tableState) {
-
           $scope.participantInfo = {};
           $scope.participantsLoading = true;
 
@@ -249,7 +399,7 @@ angular.module('staticApp')
       };
 
       $scope.view.isLoading = true;
-      $q.all([loadPermissions(), loadCollaboratorDetails()])
+      $q.all([loadPermissions(), loadCollaboratorDetails(), loadGenders(), loadCountries()])
       .then(function (results) {
 
       }, function (errorResponse) {

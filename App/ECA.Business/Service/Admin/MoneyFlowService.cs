@@ -188,6 +188,33 @@ namespace ECA.Business.Service.Admin
             return null;
         }
 
+        public void Delete(int moneyFlowId, User user)
+        {
+            // STUB
+            var moneyFlow = this.GetMoneyFlowById(moneyFlowId);
+            this.DoDelete(moneyFlow, user);
+            this.logger.Trace("Delete money flow {0}.", moneyFlowId);
+        }
+
+        public async Task DeleteAsync(int moneyFlowId, User user)
+        {
+            //STUB
+            var moneyFlow = this.GetMoneyFlowById(moneyFlowId);
+            await this.DoDeleteAsync(moneyFlow, user);
+            this.logger.Trace("Deleted money flow {0}.", moneyFlowId);
+
+        }
+
+        private void DoDelete(MoneyFlow moneyFlow, User deletedBy)
+        {
+            this.Context.MoneyFlows.Remove(moneyFlow);
+        }
+        
+        private async Task DoDeleteAsync(MoneyFlow moneyFlow, User deletedBy)
+        {
+            this.Context.MoneyFlows.Remove(moneyFlow);
+        }
+
         #endregion
 
         private MoneyFlow GetParent(int? parentId)

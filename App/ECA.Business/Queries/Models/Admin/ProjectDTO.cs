@@ -26,6 +26,9 @@ namespace ECA.Business.Queries.Models.Admin
         public string Status { get; set; }
         public int ProjectStatusId { get; set; }
         public int ProgramId { get; set; }
+        public string ProgramName { get; set; }
+        public int OwnerId { get; set; }
+        public string OwnerName { get; set; }
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
         public DateTimeOffset RevisedOn { get; set; }

@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Load CE_Person_Language"
   DTS:PackageType="5"
-  DTS:VersionBuild="13"
-  DTS:VersionGUID="{B9026AB4-07FB-470E-A64E-AFB816023903}">
+  DTS:VersionBuild="15"
+  DTS:VersionGUID="{943F6AB9-3853-43E9-95CE-F71ACE1807EA}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -37,7 +37,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACNGz8LeRNLuWTxZjSLr+hWA+RxRo/4DvEDUs30RMb5lwAAAAAOgAAAAAIAACAAAAArkGEYC0Wae66omCIY+RX+wg/QxPnvHJ96hYCKjfehWCAAAADi+maWFLo9C4j7Nwo2OjrEl3ZlzIlpZRxoSi75FgIdW0AAAAB0a6jHMO4ieqlc0ll5+bO5Ft9BBU6uErGCP/SXP1INqlfoj/TUTHRX/cD2I9xZiPRHf5BMTQHsNgGUBlrHXwOI</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABbUuo7cUeHwnu13oXVOFwN4KpEg4RnoGW0NwPeUyDU9QAAAAAOgAAAAAIAACAAAADc/6mCH3ttnLfE6btdq7b8vO7+apgsWPOVkFnSyOUPSCAAAAAEwebacEMQjuoPmsbDstU9xHOiibMQpaMRMDlnCEzXRUAAAACnUrjjkcMDidap8/bSirTGol4gybWENVnxDAps8yoQq8Gasp9Bumw1u0EMQGwFRCS46W921ygHyRH0jiGpROzR</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -52,7 +52,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABSEQ217opdupxueMsSArZRDENloxQJelPe6khP+MeGJQAAAAAOgAAAAAIAACAAAAB9XXVNMfqsdHiAxx3FQflmTS7WNDnl1OXxku8+XLdnoyAAAAAEkGlDdDs1eTgisommRgZPHZQPqnUV/kbsgPvprnd0+UAAAADi1K3jL6JfSqTBBYVWRB/u6nWX3Ei2ENJ4eEqgMltKmDeDdM2r0g5Q2Ef7IQk3OvGKsUj9HKQX4APJjZA0DhRr</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACgmKemPrNoOlV7gMFW915b1VnpGqdGcDAOcxhZ/MqGhgAAAAAOgAAAAAIAACAAAACVJDCsf4rqVf7KNpuaYTc8a0uR7PM1NtlGz9B76MYzMSAAAAAp7VOlxZ+5DkYW4AP01fyvqMY1AZolqbP9aqBRylUxPkAAAABH/CY7T+2cjiZQfCGIC/SSjSAp9NNUuEZPQPHWXZ+34bqHPhBUJgMxpnBr+UVFmmW1DXI0idjMJMu+Xzzbk5f1</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -67,7 +67,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACKeOvDpXlHTCiYBsiPXZhdV+PuN+8xtkMsLGtbdRzB3wAAAAAOgAAAAAIAACAAAADa+eBaX2cOOCfZj40KBnM2G+mLkCysLUEuog5cTzfvYSAAAADcCwndV2m1ej0e8OM4olxiRoL66zVD5fkyJJR69kUufUAAAABmo+7gYy00lNNk71zjXHOFRK6viwChQWW3AA8vuDBOihAv6X1IbNxDkRuYZrutN2NINrONDqjForMw/CbqJlwV</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADDxO/AsFyBA5jGNCaOUu/P1U6CDzptIR6De1CqDvhBiAAAAAAOgAAAAAIAACAAAAAF6J6usXNWvqXNGMIYPSKKUdyvp2ItJl1MPuRfEA1QcSAAAABKsxFo1paE9Ewipqy15YpieTU8NjZLldi+3/mtj+yMvEAAAAD1rQpkk91tCI9OxxSkGMDtk8FDZ4X6+cJxeejUJFEBmHTLxd9iFmKZDmi013FZhDmWyKzLazFqLf15NurLTQyM</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -78,7 +78,22 @@
       DTS:ObjectName="Excel Connection Manager">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\CE\CE_PILOT_DATA_PERSON_LANGUAGE.xls;Extended Properties=&quot;Excel 8.0;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\CE\CE_PILOT_DATA_PERSON_LANGUAGE.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{15A7AABB-8784-4724-B57A-4B88EE8FFA54}"
+      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAB65ysN4X86X0SBpD8Wcg6RstECq1VLafszszxdMbwPGAAAAAAOgAAAAAIAACAAAABlVj2+98U8Eu/DC6DkpsdRP/PA0tK7tCiXEPnpA8fX/CAAAABvNWIHaVHFo9nK1nB32S8JPuzTKCnCiUFBI22GI2Or/0AAAACJSLc4XEzCTKqGnuxh8Nvagy0tK8N/Ea9wNfJWdhHbadk8/yzmAtyXn7y4yn7pHzKrgW4vgDCQe37HpMmdJ5LJ</DTS:Password>
+        </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -1181,8 +1196,8 @@ where (UPPER([refTable].[LanguageName]) LIKE '%'+UPPER( ? )+'%' OR
               <connections>
                 <connection
                   refId="Package\Load CE Person Language\Lookup Language.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -1328,8 +1343,8 @@ where (UPPER([refTable].[LanguageName]) LIKE '%'+UPPER( ? )+'%' OR
               <connections>
                 <connection
                   refId="Package\Load CE Person Language\Person Language Proficiency.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -1486,13 +1501,13 @@ where (UPPER([refTable].[LanguageName]) LIKE '%'+UPPER( ? )+'%' OR
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="202,42"
-          Id="Package\Load CE Person Language"
-          TopLeft="95.5,145.5" />
-        <NodeLayout
           Size="211,42"
           Id="Package\Import CE Person Language"
           TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="202,42"
+          Id="Package\Load CE Person Language"
+          TopLeft="95.5,145.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="111,47.5">
@@ -1530,6 +1545,84 @@ where (UPPER([refTable].[LanguageName]) LIKE '%'+UPPER( ? )+'%' OR
       </GraphLayout>
     </LayoutInfo>
   </Package>
+  <TaskHost
+    design-time-name="Package\Import CE Person Language">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="181,42"
+          Id="Package\Import CE Person Language\CE_Person_Language"
+          TopLeft="44.5,119.5" />
+        <NodeLayout
+          Size="239,42"
+          Id="Package\Import CE Person Language\CE Person Language Excel Source"
+          TopLeft="5.5,5.5" />
+        <EdgeLayout
+          Id="Package\Import CE Person Language.Paths[Excel Source Output]"
+          TopLeft="125,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="10,72"
+              Start="0,0"
+              End="10,64.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,32"
+                    Point2="0,36"
+                    Point3="4,36" />
+                  <mssgle:LineSegment
+                    End="6,36" />
+                  <mssgle:CubicBezierSegment
+                    Point1="6,36"
+                    Point2="10,36"
+                    Point3="10,40" />
+                  <mssgle:LineSegment
+                    End="10,64.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import CE Person Language\CE Person Language Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import CE Person Language\CE_Person_Language">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <TaskHost
     design-time-name="Package\Load CE Person Language">
     <LayoutInfo>
@@ -1753,7 +1846,7 @@ where (UPPER([refTable].[LanguageName]) LIKE '%'+UPPER( ? )+'%' OR
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">false</Value>
+          type="q2:string">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -1763,86 +1856,10 @@ where (UPPER([refTable].[LanguageName]) LIKE '%'+UPPER( ? )+'%' OR
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <TaskHost
-    design-time-name="Package\Import CE Person Language">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="239,42"
-          Id="Package\Import CE Person Language\CE Person Language Excel Source"
-          TopLeft="5.5,5.5" />
-        <NodeLayout
-          Size="181,42"
-          Id="Package\Import CE Person Language\CE_Person_Language"
-          TopLeft="44.5,119.5" />
-        <EdgeLayout
-          Id="Package\Import CE Person Language.Paths[Excel Source Output]"
-          TopLeft="125,47.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="10,72"
-              Start="0,0"
-              End="10,64.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,32" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,32"
-                    Point2="0,36"
-                    Point3="4,36" />
-                  <mssgle:LineSegment
-                    End="6,36" />
-                  <mssgle:CubicBezierSegment
-                    Point1="6,36"
-                    Point2="10,36"
-                    Point3="10,40" />
-                  <mssgle:LineSegment
-                    End="10,64.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Import CE Person Language\CE Person Language Excel Source">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Import CE Person Language\CE_Person_Language">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>

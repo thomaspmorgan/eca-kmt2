@@ -6,6 +6,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <link href='https://fonts.googleapis.com/css?family=Raleway:400,100,300,200,500,600,700,800,900' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
@@ -18,6 +19,7 @@
     <link rel="stylesheet" href="bower_components/material-design-iconic-font/css/material-design-iconic-font.min.css" />
     <!-- endbower -->
     <!-- endbuild -->
+    <!-- build:css(.) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
     <!--
@@ -63,7 +65,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>                
+                </button>
                 <div style="margin-right: 50px;" class="navbar-right right">
                     <div id="search-bar-icon" class="glyphicon glyphicon-search col-sd-1" ng-click="spotlightModal=!spotlightModal"></div>
                 </div>
@@ -169,6 +171,7 @@
     <script src="scripts/controllers/project/overview.js"></script>
     <script src="scripts/controllers/project/projectparticipant.js"></script>
     <script src="scripts/controllers/project/collaborator.js"></script>
+    <script src="scripts/controllers/project/selectparticipanttype.js"></script>
     <script src="scripts/controllers/project/unsavedchanges.js"></script>
     <script src="scripts/controllers/project/edit.js"></script>
     <script src="scripts/controllers/about.js"></script>
@@ -177,15 +180,19 @@
     <script src="scripts/controllers/logout.js"></script>
     <script src="scripts/services/schema.js"></script>
     <script src="scripts/directives/incontextform.js"></script>
+    <script src="scripts/directives/exposetablestate.js"></script>
     <script src="scripts/directives/datepickerpopup.js"></script>
     <script src="scripts/directives/guidance.js"></script>
     <script src="scripts/directives/socialmedialink.js"></script>
     <script src="scripts/controllers/formvalidation.js"></script>
-    <script src="scripts/controllers/reports/create.js"></script>
+    <script src="scripts/controllers/reports/custom.js"></script>
     <script src="scripts/controllers/reports/archive.js"></script>
+    <script src="scripts/controllers/report.js"></script>
     <script src="scripts/controllers/settings.js"></script>
     <script src="scripts/controllers/participants.js"></script>
+    <script src="scripts/controllers/participant/timeline.js"></script>
     <script src="scripts/controllers/programs.js"></script>
+    <script src="scripts/controllers/program/collaborators.js"></script>
     <script src="scripts/services/dragonbreath.js"></script>
     <script src="scripts/modules/modal.js"></script>
     <script src="scripts/directives/form-element.js"></script>
@@ -223,9 +230,13 @@
     <script src="scripts/controllers/reports/archive.js"></script>
     <script src="scripts/services/reportservice.js"></script>
     <script src="scripts/controllers/reports/ProjectAwards.js"></script>
+    <script src="scripts/controllers/reports/RegionAwards.js"></script>
+    <script src="scripts/controllers/reports/PostAwards.js"></script>
+    <script src="scripts/controllers/reports/FocusAwards.js"></script>
+    <script src="scripts/controllers/reports/FocusCategoryAwards.js"></script>
     <script src="scripts/controllers/person/personGeneral.js"></script>
     <script src="scripts/controllers/person/personEduEmp.js"></script>
-    <script src="scripts/controllers/person//personEvaluationNotes.js"></script>
+    <script src="scripts/controllers/person/personEvaluationNotes.js"></script>
     <!-- endbuild -->
     <!--<script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="http://d3js.org/topojson.v1.min.js"></script>

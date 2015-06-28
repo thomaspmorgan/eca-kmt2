@@ -13,14 +13,10 @@ angular.module('staticApp')
       TableService, ConstantsService, LookupService, orderByFilter) {
 
       $scope.project = {};
-
-      $scope.newParticipant = {};
-
       $scope.modalForm = {};
-
       $scope.showConfirmCopy = false;
 
-      $scope.genders = {};
+
       $scope.currencyTypes = {};
 
       /* Money Flow */
@@ -32,13 +28,16 @@ angular.module('staticApp')
       $scope.moneyFlowStati = [];
       $scope.moneyFlowSourceTypes = [];
       $scope.moneyFlowFromTo = [];
-      $scope.currentCopyMoneyFlow = -1;
+
+      $scope.currentMoneyFlowId = -1;
+
       $scope.moneyFlowEditColumnClass = "col-md-2";
       $scope.sourceRecipientFreeText = false;
       $scope.moneyFlowConfirmMessage = "saved";
       
       $scope.showFromToSelectControl = false;
       
+      $scope.showFullMoneyFlowDescription = [];
       $scope.editingMoneyFlows = [];
       $scope.dateFormat = 'dd-MMMM-yyyy';
 
@@ -72,11 +71,11 @@ angular.module('staticApp')
           overview: {title: 'Overview', path: 'overview', active: true, order: 1 },
           partners: {title: 'Partners', path: 'partners', active: false,order: 3 },
           participants: {title: 'Participants',path: 'participants',active: true,order: 2 },
-          artifacts: {title: 'Artifacts',path: 'artifacts',active: true,order: 4 },
+          artifacts: {title: 'Attachments',path: 'artifacts',active: true,order: 4 },
           moneyflows: {title: 'Funding',path: 'moneyflows',active: true,order: 5},
           impact: {title: 'Impact',path: 'impact',active: false,order: 6},
-          activity: {title: 'Activities',path: 'activity',active: true,order: 7},
-          itinerary: {title: 'Itineraries',path: 'itineraries',active: true,order: 8}
+          activity: {title: 'Timeline',path: 'activity',active: true,order: 7},
+          itinerary: {title: 'Travel',path: 'itineraries',active: true,order: 8}
       };
 
       function enabledProjectStatusButton() {
@@ -162,11 +161,6 @@ angular.module('staticApp')
           saveProject();
       }
 
-      LookupService.getAllGenders({ limit: 300 })
-        .then(function (data) {
-            $scope.genders = data.results;
-        });
-
       LookupService.getAllMoneyFlowStati({ limit: 300 })
         .then(function (data) {
             $scope.moneyFlowStati = data.results;
@@ -180,75 +174,7 @@ angular.module('staticApp')
       LookupService.getAllMoneyFlowSourceRecipientTypes({ limit: 300 })
       .then(function (data) {
           $scope.moneyFlowSourceTypes = data.results;
-      });
-
-      LocationService.get({ limit: 300, filter: {property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country.id}})
-        .then(function (data) {
-            $scope.countries = data.results;
-        });
-
-      $scope.birthCountrySelected = function (data) {
-          LocationService.get({
-              limit: 300,
-              filter: [{ property: 'countryId', comparison: 'eq', value: data.id },
-                       { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.city.id}]
-          }).then(function (data) {
-                $scope.cities = data.results;
-            });
-      }
-
-      $scope.addParticipant = function () {
-
-          setupNewParticipant();
-
-          console.log($scope.newParticipant);
-
-          PersonService.create($scope.newParticipant)
-            .then(function () {
-                $scope.participantsLoading = true;
-                var params = {
-                    start: TableService.getStart(),
-                    limit: TableService.getLimit(),
-                };
-                ParticipantService.getParticipantsByProject($stateParams.projectId, params)
-                    .then(function (data) {
-                        $scope.project.participants = data.results;
-                        $scope.participantsLoading = false;
-                    });
-                displaySuccess();
-            }, function (error) {
-                if (error.status == 400) {
-                    displayError(error.data);
-                }
-            });
-          $scope.modalClose();
-      };
-      
-      function setupNewParticipant() {
-          delete $scope.newParticipant.countryOfBirth;
-          $scope.newParticipant.projectId = $scope.project.id;
-          $scope.newParticipant.gender = $scope.newParticipant.gender[0].id;
-          $scope.newParticipant.cityOfBirth = $scope.newParticipant.cityOfBirth[0].id;
-          $scope.newParticipant.countriesOfCitizenship =
-               $scope.newParticipant.countriesOfCitizenship.map(function (obj) {
-                   return obj.id;
-               });
-      };
-
-      function displaySuccess() {
-          $scope.modal.addParticipantResult = true;
-          $scope.result = {};
-          $scope.result.title = "Person Created";
-          $scope.result.subtitle = "The person was created successfully!";
-      };
-
-      function displayError(error) {
-          $scope.modal.addParticipantResult = true;
-          $scope.result = {};
-          $scope.result.title = "Error Creating Person";
-          $scope.result.subtitle = "There was an error creating the new person.";
-          $scope.result.error = error;
-      };
+      });      
 
       $scope.saveProject = function () {
           var project = {
@@ -286,34 +212,6 @@ angular.module('staticApp')
                 $scope.project = project;
             });
       }
-
-      $scope.modalClose = function () {
-          $scope.modal.addParticipant = false;
-      };
-
-      $scope.modalClear = function () {
-          $scope.modal.addParticipant = false;
-
-          angular.forEach($scope.newParticipant, function (value, key) {
-              $scope.newParticipant[key] = '';
-          });
-
-          angular.forEach($scope.genders, function (value, key) {
-              if ($scope.genders[key].ticked === undefined) {
-                  $scope.genders[key].ticked = false;
-              } else {
-                  delete $scope.genders[key].ticked;
-              }
-          });
-          angular.forEach($scope.countries, function (value, key) {
-              if ($scope.countries[key].ticked === undefined) {
-                  $scope.countries[key].ticked = false;
-              } else {
-                  delete $scope.countries[key].ticked;
-              }
-          });
-          $scope.cities = [];
-      };
       
       function loadPermissions() {
           console.assert(ConstantsService.resourceType.project.value, 'The constants service must have the project resource type value.');
@@ -361,6 +259,7 @@ angular.module('staticApp')
 
                  angular.forEach($scope.moneyFlows, function (value) {
                      $scope.editingMoneyFlows[value.id] = false;
+                     $scope.showFullMoneyFlowDescription[value.id] = false;
                  });
 
                  $scope.moneyFlowsLoading = false;
@@ -375,7 +274,7 @@ angular.module('staticApp')
 
           $scope.fiscalYears = [];
           for (var i = new Date().getFullYear() ; i >= 2010 ; i--) {
-              $scope.fiscalYears.push({ year: i });
+              $scope.fiscalYears.push({ year: i, name: i-1 + ' - ' + i });
           }
 
           $scope.showCreateMoneyFlow = true;
@@ -392,11 +291,18 @@ angular.module('staticApp')
                 $scope.currentlyEditing = true;
             });
       };
-
+      
       $scope.copyMoneyFlow = function (moneyFlowId) {
           // show dialog then create new money flow based on existing
-          $scope.currentCopyMoneyFlow = moneyFlowId;
+          $scope.currentMoneyFlowId = moneyFlowId;
           $scope.confirmCopy = true;
+      };
+
+      $scope.deleteMoneyFlow = function (moneyFlowId) {
+          // show confirmation dialog then delete
+          $scope.currentMoneyFlowId = moneyFlowId;
+          $scope.confirmDelete = true;
+
       };
 
       $scope.changeMoneyFlowDirection = function (direction) {
@@ -409,10 +315,19 @@ angular.module('staticApp')
 
       // DIALOG BOX FUNCTIONS
       $scope.confirmCopyYes = function () {
-          saveCopiedMoneyFlow();
+          executeCopyMoneyFlow();
           $scope.confirmCopy = false;
           $scope.moneyFlowConfirmMessage = "copied";
           $scope.confirmSuccess = true;
+
+      }
+
+      $scope.confirmDeleteYes = function () {
+          executeDeleteMoneyFlow();
+          $scope.confirmDelete = false;
+          $scope.moneyFlowConfirmMessage = "deleted";
+          $scope.confirmSuccess = true;
+
       }
 
       $scope.closeConfirm = function () {
@@ -471,8 +386,8 @@ angular.module('staticApp')
                 }
                 else {
                     $scope.draftMoneyFlow = moneyFlow; //perhaps not, this is to get the id
-                    $scope.confirmSave = true;
-                    $scope.modalClear();
+                    $scope.confirmSuccess = true;
+                    $scope.modalClearMoneyFlow();
                 }
             })
               .then(function () {
@@ -480,7 +395,7 @@ angular.module('staticApp')
             })
 
               .catch(function () {
-                  alert('Unable to save money flow.');
+                  alert('Unable to save this funding item.');
               });
       };
 
@@ -492,7 +407,7 @@ angular.module('staticApp')
           {
               // set the source
               $scope.draftMoneyFlow.sourceTypeid = $scope.draftMoneyFlow.sourceRecipientTypeId;
-              $scope.recipientProjectId = $scope.currentProjectId;
+              $scope.draftMoneyFlow.recipientProjectId = $scope.currentProjectId;
               $scope.draftMoneyFlow.recipientTypeId = 3;
               $scope.draftMoneyFlow.moneyFlowTypeId = 1;
 
@@ -521,7 +436,7 @@ angular.module('staticApp')
           {
               // set the recipient
               $scope.draftMoneyFlow.recipientTypeid = $scope.draftMoneyFlow.sourceRecipientTypeId;
-              $scope.sourceProjectId = $scope.currentProjectId;
+              $scope.draftMoneyFlow.sourceProjectId = $scope.currentProjectId;
               $scope.draftMoneyFlow.sourceTypeId = 3;
               $scope.draftMoneyFlow.moneyFlowTypeId = 2;
 
@@ -548,10 +463,13 @@ angular.module('staticApp')
           }
       };
 
-      function saveCopiedMoneyFlow() {
-          alert('Copying with function: ' + $scope.currentCopyMoneyFlow);
+      function executeDeleteMoneyFlow() {
+          //MoneyFlowService.deleteMoneyFlow();
+      };
 
-          MoneyFlowService.copy($scope.currentCopyMoneyFlow)
+      function executeCopyMoneyFlow() {
+
+          MoneyFlowService.copy($scope.currentMoneyFlowId)
             .then(function (moneyFlow) {
                 if (Array.isArray(moneyFlow)) {
                     $scope.errorMessage = "There were one or more errors:";
@@ -576,9 +494,18 @@ angular.module('staticApp')
                 else {
                     $scope.moneyFlow = moneyFlow; //perhaps not, this is to get the id
                     $scope.confirmSuccess = true;
-                    $scope.modalClear();
+                    $scope.modalClearMoneyFlow();
                 }
             });
+      };
+
+      $scope.expandMoneyFlowDescription = function (moneyFlowId, showFullDescription) {
+
+          $scope.showFullMoneyFlowDescription[moneyFlowId] = showFullDescription;
+          $('#expand' + moneyFlowId).toggle();
+          $('#contract' + moneyFlowId).toggle();
+
+
       };
 
       $scope.changeSourceRecipientType = function () {
@@ -594,7 +521,7 @@ angular.module('staticApp')
       function getFromToChoices() {
 
           $scope.moneyFlowFromTo = [];
-          var lookupParams = { start: null,limit: 300,sort: null,filter: null };
+          var lookupParams = { start: null, limit: 300 ,sort: null,filter: null };
 
           switch ($scope.draftMoneyFlow.sourceRecipientTypeId)
           {
@@ -645,12 +572,20 @@ angular.module('staticApp')
           }
       };
 
-      $scope.modalClear = function () {
+      $scope.confirmCloseSuccess = function () {
+          $scope.confirmSuccess = false;
+          $scope.getMoneyFlows();
+
+      };
+
+
+      $scope.modalClearMoneyFlow = function () {
           angular.forEach($scope.draftMoneyFlow, function (value, key) {
               $scope.draftMoneyFlow[key] = ''
           });
 
           $scope.modalForm.moneyFlowForm.$setPristine();
+          $scope.showCreateMoneyFlow = false;
       };
 
       $scope.checkFormStatus = function () {
@@ -669,7 +604,9 @@ angular.module('staticApp')
       };
 
       $scope.confirmCancel = function () {
+          // simply close the confirmation modal dialog
           $scope.confirmCopy = false;
+          $scope.confirmDelete = false;
       };
 
       $scope.openTransactionDatePicker = function ($event) {

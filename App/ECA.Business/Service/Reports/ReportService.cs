@@ -32,12 +32,55 @@ namespace ECA.Business.Service.Reports
             return this.GetProjectAwardDTOQuery(programId, countryId);
         }
 
+        public IQueryable<RegionAwardDTO> GetRegionAwards(int programId)
+        {
+            logger.Trace("Getting Region Awards for program: [{0}]", programId);
+            return this.GetRegionAwardDTOQuery(programId);
+        }
+
+        public IQueryable<PostAwardDTO> GetPostAwards(int programId)
+        {
+            logger.Trace("Getting Region Awards for program: [{0}]", programId);
+            return this.GetPostAwardDTOQuery(programId);
+        }
+
+        public IQueryable<FocusAwardDTO> GetFocusAwards(int programId)
+        {
+            logger.Trace("Getting Focus Awards for program: [{0}]", programId);
+            return this.GetFocusAwardDTOQuery(programId);
+        }
+
+        public IQueryable<FocusCategoryAwardDTO> GetFocusCategoryAwards(int programId)
+        {
+            logger.Trace("Getting Focus-Category Awards for program: [{0}]", programId);
+            return this.GetFocusCategoryAwardDTOQuery(programId);
+        }
         #endregion
 
         #region Queries
         protected IQueryable<ProjectAwardDTO> GetProjectAwardDTOQuery(int programId, int countryId)
         {
             return ReportQueries.CreateGetProjectAward(this.Context, programId, countryId);
+        }
+
+        protected IQueryable<RegionAwardDTO> GetRegionAwardDTOQuery(int programId)
+        {
+            return ReportQueries.CreateGetRegionAward(this.Context, programId);
+        }
+
+        protected IQueryable<PostAwardDTO> GetPostAwardDTOQuery(int programId)
+        {
+            return ReportQueries.CreateGetPostAward(this.Context, programId);
+        }
+
+        protected IQueryable<FocusAwardDTO> GetFocusAwardDTOQuery(int programId)
+        {
+            return ReportQueries.CreateGetFocusAward(this.Context, programId);
+        }
+
+        protected IQueryable<FocusCategoryAwardDTO> GetFocusCategoryAwardDTOQuery(int programId)
+        {
+            return ReportQueries.CreateGetFocusCategoryAward(this.Context, programId);
         }
 
         public string GetProgramName(int programId)

@@ -218,6 +218,10 @@ namespace ECA.WebApi
                     });
         }
 
+        /// <summary>
+        /// Returns the xml path for the web api comments.
+        /// </summary>
+        /// <returns>The xml path for the web api comments.</returns>
         public static string GetXmlCommentsPath()
         {
             return System.String.Format(@"{0}\bin\ECA.WebApi.XML", System.AppDomain.CurrentDomain.BaseDirectory);

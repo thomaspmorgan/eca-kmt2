@@ -121,8 +121,8 @@ angular
 
         .state('reports', {
             url: '/report',
-            templateUrl: 'views/reports/archiveList.html',
-            controller: 'ReportsArchiveCtrl',
+            templateUrl: 'views/reports.html',
+            controller: 'ReportsCtrl',
             requireADLogin: true
         })
 
@@ -214,8 +214,16 @@ angular
 
 
         .state('reports.archive', {
-            url: '/reports/archive',
+            url: '/archive',
             templateUrl: 'views/reports/archive.html',
+            controller: 'ReportsArchiveCtrl',
+            requireADLogin: true
+        })
+        .state('reports.custom', {
+            url: '/custom',
+            templateUrl: 'views/reports/custom.html',
+            controller: 'ReportsCustomCtrl',
+            requireADLogin: true
         })
 
 
@@ -237,10 +245,10 @@ angular
             controller: 'ParticipantCtrl',
             requireADLogin: true
         })
-        .state('participants.activity', {
-            url: '/activity',
-            templateUrl: 'views/participants/activity.html',
-            controller: 'ParticipantCtrl'
+        .state('participants.timeline', {
+            url: '/timeline',
+            templateUrl: 'views/participants/timeline.html',
+            controller: 'ParticipantTimelineCtrl'
         })
         .state('participants.personalinformation', {
             url: '/personalinformation',
@@ -290,6 +298,11 @@ angular
         .state('programs.impact', {
             url: '/impact',
             templateUrl: 'views/program/impact.html'
+        })
+        .state('programs.collaborators', {
+            url: '/collaborators',
+            templateUrl: 'views/program/collaborators.html',
+            controller: 'ProgramCollaboratorsCtrl'
         })
 
         .state('projects', {
@@ -456,8 +469,8 @@ angular
           { name: 'Programs', state: 'allprograms' },
           { name: 'Participants', state: 'allparticipants' },
           { name: 'Organizations', state: 'allorganizations' },
-          { name: 'Events', state: 'events' },
-          { name: 'Reports', state: 'reports' },
+          { name: 'Activities', state: 'events' },
+          { name: 'Reports', state: 'reports.archive' },
           { name: 'Partners', state: 'home.notifications' }
         ];
 

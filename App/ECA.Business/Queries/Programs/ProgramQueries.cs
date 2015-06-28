@@ -10,30 +10,11 @@ using ECA.Business.Service;
 
 namespace ECA.Business.Queries.Programs
 {
+    /// <summary>
+    /// Contains queries for retrieving program dto's from the eca context.
+    /// </summary>
     public static class ProgramQueries
     {
-        /// <summary>
-        /// Creates a query to return filtered and sorted simple program dtos.
-        /// </summary>
-        /// <param name="context">The context to query.</param>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The query to return filtered and sorted simple program dtos.</returns>
-        public static IQueryable<SimpleProgramDTO> CreateGetSimpleProgramDTOsQuery(EcaContext context, QueryableOperator<SimpleProgramDTO> queryOperator)
-        {
-            Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(queryOperator != null, "The query operator must not be null.");
-            var query = context.Programs.Select(x => new SimpleProgramDTO
-            {
-                Description = x.Description,
-                Name = x.Name,
-                OwnerId = x.Owner.OrganizationId,
-                ProgramId = x.ProgramId,
-                ProgramStatusId = x.ProgramStatusId
-            });
-            query = query.Apply(queryOperator);
-            return query;
-        }
-
         /// <summary>
         /// Returns a query to locate a program by id.
         /// </summary>
@@ -44,6 +25,12 @@ namespace ECA.Business.Queries.Programs
         {
             Contract.Requires(context != null, "The context must not be null.");
             return CreateGetPublishedProgramsQuery(context).Where(x => x.Id == programId);
+        }
+
+        public static IQueryable<OrganizationProgramDTO> CreateGetSubprogramsQuery(EcaContext context, int programId, QueryableOperator<OrganizationProgramDTO> queryOperator)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            return CreateGetOrganizationProgramDTOQuery(context, queryOperator).Where(x => x.ParentProgram_ProgramId == programId);
         }
 
         /// <summary>

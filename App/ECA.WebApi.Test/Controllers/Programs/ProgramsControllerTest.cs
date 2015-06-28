@@ -14,6 +14,7 @@ using ECA.WebApi.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Claims;
@@ -22,6 +23,10 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http.Results;
 using ECA.Business.Service.Admin;
+using CAM.Business.Service;
+using CAM.Business.Model;
+using CAM.Data;
+using ECA.Core.DynamicLinq.Filter;
 
 namespace ECA.WebApi.Test.Controllers.Programs
 {
@@ -32,6 +37,8 @@ namespace ECA.WebApi.Test.Controllers.Programs
         private Mock<IUserProvider> userProvider;
         private Mock<IFocusCategoryService> focusCategoryService;
         private Mock<IJustificationObjectiveService> justificationObjectiveService;
+        private Mock<IResourceService> resourceService;
+        private Mock<IResourceAuthorizationHandler> authorizationHandler;
         private ProgramsController controller;
 
         [TestInitialize]
@@ -41,13 +48,15 @@ namespace ECA.WebApi.Test.Controllers.Programs
             service = new Mock<IProgramService>();
             focusCategoryService = new Mock<IFocusCategoryService>();
             justificationObjectiveService = new Mock<IJustificationObjectiveService>();
+            resourceService = new Mock<IResourceService>();
+            authorizationHandler = new Mock<IResourceAuthorizationHandler>();
             service.Setup(x => x.GetProgramsAsync(It.IsAny<QueryableOperator<OrganizationProgramDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<OrganizationProgramDTO>(1, new List<OrganizationProgramDTO>()));
             service.Setup(x => x.CreateAsync(It.IsAny<DraftProgram>())).ReturnsAsync(new Program { RowVersion = new byte[0] });
             service.Setup(x => x.UpdateAsync(It.IsAny<EcaProgram>())).Returns(Task.FromResult<object>(null));
-            service.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
+            service.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
             service.Setup(x => x.GetProgramByIdAsync(It.IsAny<int>())).ReturnsAsync(new ProgramDTO { Id = 1, RowVersion = new byte[0] });
-            controller = new ProgramsController(service.Object, userProvider.Object, focusCategoryService.Object, justificationObjectiveService.Object);
+            controller = new ProgramsController(service.Object, userProvider.Object, focusCategoryService.Object, justificationObjectiveService.Object, resourceService.Object, authorizationHandler.Object);
             controller.ControllerContext = ContextUtil.CreateControllerContext();
             HttpContext.Current = new HttpContext(
                 new HttpRequest("", "http://localhost", ""),
@@ -118,6 +127,44 @@ namespace ECA.WebApi.Test.Controllers.Programs
             Assert.IsInstanceOfType(response, typeof(NotFoundResult));
         }
 
+        [TestMethod]
+        public async Task TestGetCollaboratorsAsync()
+        {
+            var programId = 10;
+            var queryModel = new PagingQueryBindingModel<ResourceAuthorization>();
+            queryModel.Start = 0;
+            queryModel.Limit = 10;
+
+            Action<QueryableOperator<ResourceAuthorization>> callbackTester = (op) =>
+            {
+                Assert.AreEqual(2, op.Filters.Count);
+                var filters = op.Filters.ToList().Select(x => (ExpressionFilter<ResourceAuthorization>)x).ToList();
+                var foreignResourceIdFilter = filters.Where(x => x.Property == "ForeignResourceId").FirstOrDefault();
+                Assert.IsNotNull(foreignResourceIdFilter, "The foreign resource filter must exist.");
+                Assert.AreEqual(ComparisonType.Equal.Value, foreignResourceIdFilter.Comparison);
+                Assert.AreEqual(programId, foreignResourceIdFilter.Value);
+
+                var resourceTypeFilter = filters.Where(x => x.Property == "ResourceTypeId").FirstOrDefault();
+                Assert.IsNotNull(resourceTypeFilter, "The resource type filter must exist.");
+                Assert.AreEqual(ComparisonType.Equal.Value, resourceTypeFilter.Comparison);
+                Assert.AreEqual(ResourceType.Program.Id, resourceTypeFilter.Value);
+            };
+
+            resourceService.Setup(x => x.GetResourceAuthorizationsAsync(It.IsAny<QueryableOperator<ResourceAuthorization>>()))
+                .ReturnsAsync(new PagedQueryResults<ResourceAuthorization>(0, new List<ResourceAuthorization>()))
+                .Callback(callbackTester);
+
+            var response = await controller.GetCollaboratorsAsync(programId, queryModel);
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<ResourceAuthorization>>));
+        }
+
+        [TestMethod]
+        public async Task TestGetCollaboratorsAsync_InvalidModelState()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetCollaboratorsAsync(1, new PagingQueryBindingModel<ResourceAuthorization>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
         #endregion
 
         #region Post
@@ -132,6 +179,9 @@ namespace ECA.WebApi.Test.Controllers.Programs
                 ProgramStatusId = ProgramStatus.Active.Id
             };
             var response = await controller.PostProgramAsync(model);
+            service.Verify(x => x.CreateAsync(It.IsAny<DraftProgram>()), Times.Once());
+            service.Verify(x => x.SaveChangesAsync(), Times.Once());
+            service.Verify(x => x.GetProgramByIdAsync(It.IsAny<int>()), Times.Once());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ProgramViewModel>));
         }
 
@@ -162,6 +212,9 @@ namespace ECA.WebApi.Test.Controllers.Programs
             userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(1));
             var response = await controller.PutProgramAsync(model);
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ProgramViewModel>));
+            service.Verify(x => x.UpdateAsync(It.IsAny<EcaProgram>()), Times.Once());
+            service.Verify(x => x.SaveChangesAsync(), Times.Once());
+            service.Verify(x => x.GetProgramByIdAsync(It.IsAny<int>()), Times.Once());
         }
 
         [TestMethod]

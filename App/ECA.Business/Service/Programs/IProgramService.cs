@@ -47,6 +47,10 @@ namespace ECA.Business.Service.Programs
         /// <returns>The program, or null if it doesn't exist.</returns>
         ProgramDTO GetProgramById(int programId);
 
+        Task<PagedQueryResults<OrganizationProgramDTO>> GetSubprogramsByProgramAsync(int programId, QueryableOperator<OrganizationProgramDTO> queryOperator);
+
+        PagedQueryResults<OrganizationProgramDTO> GetSubprogramsByProgram(int programId, QueryableOperator<OrganizationProgramDTO> queryOperator);
+
         /// <summary>
         /// Creates a new program in the ECA system with a status of draft.
         /// </summary>
@@ -134,6 +138,15 @@ namespace ECA.Business.Service.Programs
             return null;
         }
 
+        public Task<PagedQueryResults<OrganizationProgramDTO>> GetSubprogramsByProgramAsync(int programId, QueryableOperator<OrganizationProgramDTO> queryOperator)
+        {
+            return Task.FromResult<PagedQueryResults<OrganizationProgramDTO>>(null);
+        }
+
+        public PagedQueryResults<OrganizationProgramDTO> GetSubprogramsByProgram(int programId, QueryableOperator<OrganizationProgramDTO> queryOperator)
+        {
+            return null;
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -161,7 +174,7 @@ namespace ECA.Business.Service.Programs
         /// </summary>
         /// <param name="saveActions"></param>
         /// <returns></returns>
-        public int SaveChanges(System.Collections.Generic.IList<ISaveAction> saveActions = null)
+        public int SaveChanges()
         {
             return 1;
         }
@@ -171,7 +184,7 @@ namespace ECA.Business.Service.Programs
         /// </summary>
         /// <param name="saveActions"></param>
         /// <returns></returns>
-        public Task<int> SaveChangesAsync(System.Collections.Generic.IList<ISaveAction> saveActions = null)
+        public Task<int> SaveChangesAsync()
         {
             return Task.FromResult<int>(1);
         }

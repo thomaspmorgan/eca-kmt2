@@ -85,7 +85,6 @@ namespace ECA.Business.Service.Lookup
         /// 
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="logger"></param>
         public LookupServiceContract(EcaContext context) : base(context) { }
         /// <summary>
         /// 

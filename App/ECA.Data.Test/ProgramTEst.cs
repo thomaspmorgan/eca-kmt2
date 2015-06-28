@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using ECA.Core.Data;
 
 namespace ECA.Data.Test
 {
@@ -18,14 +19,74 @@ namespace ECA.Data.Test
             context = new TestEcaContext();
         }
 
+        #region Permissable
         [TestMethod]
-        public void TestGetId()
+        public void TestIsExempt()
         {
             var program = new Program
             {
                 ProgramId = 1
             };
-            Assert.AreEqual(program.ProgramId, program.GetId());
+            var permissable = program as IPermissable;
+            Assert.IsFalse(permissable.IsExempt());
+        }
+
+        [TestMethod]
+        public void TestGetId_Permissable()
+        {
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            var permissable = program as IPermissable;
+            Assert.AreEqual(program.ProgramId, permissable.GetId());
+        }
+
+        [TestMethod]
+        public void TestGetPermissableType()
+        {
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            var permissable = program as IPermissable;
+            Assert.AreEqual(PermissableType.Program, permissable.GetPermissableType());
+        }
+
+        [TestMethod]
+        public void TestGetParentPermissableType()
+        {
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            var permissable = program as IPermissable;
+            Assert.AreEqual(PermissableType.Office, permissable.GetParentPermissableType());
+        }
+
+        [TestMethod]
+        public void TestParentId_Permissable_HasParentOrg()
+        {
+            var program = new Program
+            {
+                ProgramId = 1,
+                OwnerId = 2
+            };
+            var permissable = program as IPermissable;
+            Assert.AreEqual(program.OwnerId, permissable.GetParentId());
+        }
+
+        #endregion
+
+        [TestMethod]
+        public void TestGetId_ConcurrentEntity()
+        {
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            var concurrent = program as IConcurrentEntity;
+            Assert.AreEqual(program.ProgramId, concurrent.GetId());
         }
 
         [TestMethod]

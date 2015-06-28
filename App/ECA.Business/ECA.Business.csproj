@@ -110,6 +110,7 @@
     <Compile Include="Queries\Models\Admin\OfficeDTO.cs" />
     <Compile Include="Queries\Models\Admin\MoneyFlowHelpersDTO.cs" />
     <Compile Include="Queries\Models\Admin\OrganizationDTO.cs" />
+    <Compile Include="Queries\Models\Admin\ParticipantTimelineDTO.cs" />
     <Compile Include="Queries\Models\Admin\SimpleOrganizationDTO.cs" />
     <Compile Include="Queries\Models\Admin\OrganizationProgramDTO.cs" />
     <Compile Include="Queries\Models\Admin\ProjectStatusDTO.cs" />
@@ -125,6 +126,11 @@
     <Compile Include="Queries\Models\Persons\ParticipantDTO.cs" />
     <Compile Include="Queries\Models\Persons\PiiDTO.cs" />
     <Compile Include="Queries\Models\Persons\SimpleParticipantPersonDTO.cs" />
+    <Compile Include="Queries\Models\Persons\SimplePersonDTO.cs" />
+    <Compile Include="Queries\Models\Reports\FocusCategoryAwardDTO.cs" />
+    <Compile Include="Queries\Models\Reports\FocusAwardDTO.cs" />
+    <Compile Include="Queries\Models\Reports\PostAwardDTO.cs" />
+    <Compile Include="Queries\Models\Reports\RegionAwardDTO.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonQueries.cs" />
     <Compile Include="Queries\Persons\PersonQueries.cs" />
     <Compile Include="Queries\Reports\ReportQueries.cs" />
@@ -140,6 +146,9 @@
     <Compile Include="Service\Admin\IJustificationObjectiveService.cs" />
     <Compile Include="Service\Admin\IFocusCategoryService.cs" />
     <Compile Include="Service\Admin\IGenderService.cs" />
+    <Compile Include="Service\Lookup\IParticipantTypeService.cs" />
+    <Compile Include="Service\Lookup\ParticipantTypeDTO.cs" />
+    <Compile Include="Service\Lookup\ParticipantTypeService.cs" />
     <Compile Include="Service\Projects\AdditionalOrganizationProjectParticipant.cs" />
     <Compile Include="Service\Projects\AdditionalPersonProjectParticipant.cs" />
     <Compile Include="Service\Projects\IProjectStatusService.cs" />

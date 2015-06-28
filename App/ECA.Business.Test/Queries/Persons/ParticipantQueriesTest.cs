@@ -96,6 +96,22 @@ namespace ECA.Business.Test.Queries.Persons
                 ParticipantType = participantType,
                 ParticipantTypeId = participantType.ParticipantTypeId
             };
+            var address = new Address
+            {
+                Location = new Location
+                {
+                    City = new Location
+                    {
+                        LocationName = "city"
+                    },
+                    Country = new Location
+                    {
+                        LocationName = "country"
+                    }
+                }
+            };
+            person.Addresses.Add(address);
+            address.Person = person;
             context.ParticipantTypes.Add(participantType);
             context.Genders.Add(gender);
             context.People.Add(person);
@@ -107,11 +123,9 @@ namespace ECA.Business.Test.Queries.Persons
 
             //Assert all org properties are null
             Assert.IsFalse(participantResult.OrganizationId.HasValue);
+            Assert.AreEqual(address.Location.City.LocationName, participantResult.City);
+            Assert.AreEqual(address.Location.Country.LocationName, participantResult.Country);
 
-            Assert.AreEqual(participantType.ParticipantTypeId, participantResult.ParticipantTypeId);
-            Assert.AreEqual(participantType.Name, participantResult.ParticipantType);
-            Assert.AreEqual(person.PersonId, participantResult.PersonId);
-            Assert.AreEqual(String.Format("{0} {1}", person.FirstName, person.LastName), participantResult.Name);
         }
 
         [TestMethod]
@@ -300,7 +314,10 @@ namespace ECA.Business.Test.Queries.Persons
             {
                 Location = new Location
                 {
-                    City = "city",
+                    City = new Location
+                    {
+                        LocationName = "city"
+                    },
                     Country = new Location
                     {
                         LocationName = "country"
@@ -324,10 +341,75 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(participantType.ParticipantTypeId, participantResult.ParticipantTypeId);
             Assert.AreEqual(participantType.Name, participantResult.ParticipantType);
             Assert.AreEqual(organization.Name, participantResult.Name);
-            Assert.AreEqual(address.Location.City, participantResult.City);
+            Assert.AreEqual(address.Location.City.LocationName, participantResult.City);
             Assert.AreEqual(address.Location.Country.LocationName, participantResult.Country);
         }
 
         #endregion
+
+        [TestMethod]
+        public void TestCreateGetParticipantDTOByIdQuery()
+        {
+            var person = new Person
+            {
+                PersonId = 1,
+                FirstName = "firstName",
+                LastName = "lastName"
+            };
+
+            var history = new History
+            {
+                RevisedOn = DateTimeOffset.Now
+            };
+
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = ParticipantType.Individual.Id,
+                Name = "name"
+            };
+
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                PersonId = person.PersonId,
+                Person = person,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId,
+                SevisId = "1234567890",
+                History = history
+            };
+            var status = new ParticipantStatus
+            {
+                Status = "status",
+            };
+            participant.Status = status;
+            status.Participants.Add(participant);
+
+            context.ParticipantStatuses.Add(status);
+            context.People.Add(person);
+            context.ParticipantTypes.Add(participantType);
+            context.Participants.Add(participant);
+            var results = ParticipantQueries.CreateGetParticipantDTOByIdQuery(context, participant.ParticipantId);
+            Assert.AreEqual(1, results.Count());
+            var result = results.First();
+            Assert.AreEqual(participant.ParticipantId, result.ParticipantId);
+            Assert.AreEqual(participant.PersonId, result.PersonId);
+            Assert.IsNull(participant.OrganizationId);
+            Assert.AreEqual(participant.ParticipantTypeId, result.ParticipantTypeId);
+            Assert.AreEqual(participant.ParticipantType.Name, result.ParticipantType);
+            Assert.AreEqual(person.FirstName + " " + person.LastName, result.Name);
+            Assert.AreEqual(participant.SevisId, result.SevisId);
+            Assert.AreEqual(participant.ContactAgreement, result.ContactAgreement);
+            Assert.AreEqual(status.Status, result.Status);
+            Assert.AreEqual(history.RevisedOn, result.RevisedOn);
+        }
+
+        [TestMethod]
+        public void TestCreateGetParticipantDTOByIdQuery_DoesNotExist()
+        {
+
+            var results = ParticipantQueries.CreateGetParticipantDTOByIdQuery(context, 1);
+            Assert.AreEqual(0, results.Count());
+        }
     }
 }
