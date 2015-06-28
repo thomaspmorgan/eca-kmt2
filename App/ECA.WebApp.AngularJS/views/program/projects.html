@@ -1,15 +1,24 @@
 <div class="row">
     <h2 class="program-color tab-header">
         {{header}}
-        <select ng-options="option as option for option in listOfNewItemOptions" class="btn btn-success right col-sd-2"
-                ng-model="selectedNewItem" ng-change="createItemChanged(selectedNewItem);">
-            <option value="" disabled selected style="display:none;">Create New...</option>
+        
+        <button class="btn right btn-success col-sd-2" style="width:150px;" ng-click="clickCreate($event)">
+                Create New...
+        </button>
 
-        </select>
+<br/>
+        <button ng-show="showCreateOptions" class="btn right col-sd-2 dropDownButtons" ng-click="createItem('subprogram')">
+            Sub-Program
+        </button>
+<br/>
+
+            <button ng-show="showCreateOptions" class="btn right col-sd-2 dropDownButtons" ng-click="createItem('project')">
+                Project
+            </button>
+            </span>
 
     </h2>
 </div>
-
 <h4 class="tab-subheader">Sub-Programs List</h4>
 <div ng-show="!subprograms.length">
     <p>No subprograms to show</p>

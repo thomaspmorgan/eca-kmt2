@@ -185,6 +185,11 @@ angular.module('staticApp')
           });
       };
 
+      $scope.clickCreate = function ($event) {
+        $event.preventDefault();
+        $scope.showCreateOptions = true;
+      };
+
       $scope.modalClose = function () {
           if (unsavedChanges()) {
               $scope.confirmClose = true;
@@ -255,13 +260,13 @@ angular.module('staticApp')
           $scope.confirmFail = false;
       };
 
-      $scope.createItemChanged = function (createdItem) {
+      $scope.createItem = function (createdItem) {
           switch (createdItem)
           {
-              case "Sub-program":
+              case "subprogram":
                   $scope.createProgram = true;
                   break;
-              case "Project":
+              case "project":
                   $scope.createProject = true;
                   break;
           }
