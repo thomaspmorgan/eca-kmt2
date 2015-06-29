@@ -28,3 +28,4 @@ Post-Deployment Script Template
 :r .\StaticData\dbo.SocialMediaType.staticdata.sql
 :r .\StaticData\dbo.MaritalStatus.staticdata.sql
 
+:r .\CAM.InsertResources.sql
