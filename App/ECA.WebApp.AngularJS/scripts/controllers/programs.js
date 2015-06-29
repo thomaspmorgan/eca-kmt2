@@ -9,7 +9,11 @@
  */
 angular.module('staticApp')
   .controller('ProgramsCtrl', function ($scope, $stateParams, $state, ProgramService, 
-      ProjectService, TableService, LocationService, ConstantsService, orderByFilter) {
+      ProjectService, TableService, LocationService, ConstantsService, LookupService, orderByFilter) {
+
+      $scope.listOfNewItemOptions = ['Sub-program', 'Project'];
+
+      $scope.currentCreatedItem = '';
 
       $scope.confirmClose = false;
       $scope.confirmFail = false;
@@ -19,15 +23,45 @@ angular.module('staticApp')
       $scope.validations = [];
 
       $scope.showIncludedRegion = [];
-      $scope.regions = {};
 
+      $scope.selectedNewItem = '';
       $scope.filteredRegions = [];
+
+      $scope.themes = [];
+      $scope.categories = [];
+      $scope.objectives = [];
+      $scope.goals = [];
+      $scope.regions = [];
+      $scope.pointsOfContact = [];
 
       $scope.newProject = {
           title: '',
           description: ''
       };
-
+      $scope.newProgram = {
+          name: '',
+          description: '',
+          parentProgramId: null,
+          ownerOrganizationId: null,
+          programStatusId: null,
+          startDate: new Date(),
+          themes: [],
+          categories: [],
+          objectives: [],
+          goals: [],
+          regions: [],
+          contacts: [],
+          website: null
+      };
+      $scope.out = {
+          Themes: [],
+          Regions: [],
+          Goals: [],
+          Contacts: [],
+          Categories: [],
+          Objectives: [],
+          OwnerOrganizationId: []
+      };
       $scope.tabs = {
           overview: {
               title: 'Overview',
@@ -36,7 +70,7 @@ angular.module('staticApp')
               order: 1
           },
           projects: {
-              title: 'Subprograms & Projects',
+              title: 'Sub-Programs & Projects',
               path: 'projects',
               active: true,
               order: 2
@@ -67,7 +101,7 @@ angular.module('staticApp')
           }
       };
 
-      $scope.header = "Subprograms and Projects";
+      $scope.header = "Sub-Programs and Projects";
       $scope.branches = [];
       $scope.subprograms = [];
       $scope.projects = [];
@@ -75,6 +109,59 @@ angular.module('staticApp')
       $scope.sortedCategories = [];
       $scope.sortedObjectives = [];
       
+      $scope.lookupParams = {
+          start: null,
+          limit: 100,
+          sort: null,
+          filter: null
+      };
+
+      $scope.parentLookupParams = {
+          start: null,
+          limit: 25,
+          sort: null,
+          filter: null
+      };
+
+      $scope.regionsLookupParams = {
+          start: null,
+          limit: 10,
+          sort: null,
+          filter: [{ property: 'locationtypeid', comparison: 'eq', value: 2 }]
+      };
+
+      LookupService.getAllThemes($scope.lookupParams)
+    .then(function (data) {
+        $scope.themes = data.results;
+        angular.forEach($scope.themes, function (value, key) {
+            $scope.themes[key].ticked = false;
+        });
+    });
+
+      LookupService.getAllGoals($scope.lookupParams)
+        .then(function (data) {
+            $scope.goals = data.results;
+            angular.forEach($scope.goals, function (value, key) {
+                $scope.goals[key].ticked = false;
+            })
+        });
+
+      LookupService.getAllContacts($scope.lookupParams)
+          .then(function (data) {
+              $scope.pointsOfContact = data.results;
+              angular.forEach($scope.pointsOfContact, function (value, key) {
+                  $scope.pointsOfContact[key].ticked = false;
+              })
+          });
+
+      LookupService.getAllRegions($scope.regionsLookupParams)
+          .then(function (data) {
+              $scope.regions = data.results;
+              angular.forEach($scope.regions, function (value, key) {
+                  $scope.regions[key].ticked = false;
+              });
+          });
+
       ProgramService.get($stateParams.programId)
           .then(function (program) {
               $scope.program = program;
@@ -90,6 +177,60 @@ angular.module('staticApp')
             .then(function (data) {
                 $scope.regions = data.results;
        });
+
+      $scope.allCategoriesGrouped = [];
+      function loadCategories(officeId) {
+          return ProgramService.getCategories(officeId, $scope.officeSpecificLookupParams)
+            .then(function (response) {
+                var focusName = '';
+                $scope.categories = response.data.results;
+
+                angular.forEach($scope.categories, function (value, key) {
+
+                    if (value.focusName != focusName) {
+
+                        $scope.allCategoriesGrouped.push({ focusGroup: false });
+
+                        focusName = value.focusName;
+                        $scope.allCategoriesGrouped.push(
+                          { name: '<strong>Focus: ' + value.focusName + '</strong>', focusGroup: true }
+                        );
+                    }
+                    $scope.allCategoriesGrouped.push(
+                        { id: value.id, name: value.name, ticked: false }
+                    );
+                });
+            });
+      }
+
+
+      $scope.allObjectivesGrouped = [];
+      function loadObjectives(officeId) {
+          return ProgramService.getObjectives(officeId, $scope.officeSpecificLookupParams)
+            .then(function (response) {
+
+                var justificationName = '';
+                $scope.objectives = response.data.results;
+
+                angular.forEach($scope.objectives, function (value, key) {
+
+                    if (value.justificationName != justificationName) {
+
+                        $scope.allObjectivesGrouped.push({ justificationGroup: false });
+
+                        justificationName = value.justificationName;
+                        $scope.allObjectivesGrouped.push(
+                          { name: '<strong>Justification: ' + value.justificationName + '</strong>', justificationGroup: true }
+                        );
+                    }
+                    $scope.allObjectivesGrouped.push(
+                        { id: value.id, name: value.name, ticked: false }
+                    );
+                });
+
+            });
+      }
+
 
       $scope.projectsLoading = false;
 
@@ -120,17 +261,32 @@ angular.module('staticApp')
                     $scope.showIncludedRegion[value.projectId] = true;
                 });
             });
-          //move to getSubPrograms once written
-          updateHeader();
+
       }
 
-      //add subprograms
+      $scope.getSubPrograms = function (tableState) { // get the subprograms (first children of this program)
+          
+          $scope.subProgramsLoading = true;
+          TableService.setTableState(tableState);
 
-      function updateHeader() {
-          if ($scope.subprograms.length === 0) {
-              $scope.header = "Projects";
-              $scope.tabs.projects.title = "Projects";
-          }
+          var params = {
+              start: TableService.getStart(),
+              limit: TableService.getLimit(),
+              sort: TableService.getSort(),
+              filter: TableService.getFilter()
+          };
+
+          ProgramService.getSubPrograms($stateParams.programId, params)
+            .then(function (response) {
+                $scope.subprograms = response.data.results;
+                var limit = TableService.getLimit();
+                tableState.pagination.numberOfPages = Math.ceil(response.data.total / limit);
+            })
+            .then(function () {
+                $scope.subProgramsLoading = false;
+            });
+
+            
       }
 
       $scope.saveProject = function () {
@@ -165,12 +321,18 @@ angular.module('staticApp')
           });
       };
 
+      $scope.clickCreate = function ($event) {
+        $event.preventDefault();
+        $scope.showCreateOptions = true;
+      };
+
       $scope.modalClose = function () {
           if (unsavedChanges()) {
               $scope.confirmClose = true;
           }
           else {
-              this.modal.createProject = false;
+              $scope.createProject = false;
+              $scope.createProgram = false;
           }
       };
 
@@ -234,6 +396,28 @@ angular.module('staticApp')
           $scope.confirmFail = false;
       };
 
+      $scope.createItem = function (createdItem) {
+          switch (createdItem)
+          {
+              case "subprogram":
+                  $scope.createNewSubProgram();
+                  break;
+              case "project":
+                  $scope.createProject = true;
+                  break;
+          }
+
+          $scope.showCreateOptions = false;
+
+      };
+
+      $scope.createNewSubProgram = function () {
+          $scope.newProgram.parentProgramId = $stateParams.programId;
+          $scope.newProgram.parentProgram = "Ambassadors Fund For Cultural Preservation (AFCP)";
+          $scope.createProgram = true;
+
+      };
+
       $scope.changeRegionFilter = function () {
           var regions = $('#regionSelect').val();
 
@@ -262,4 +446,6 @@ angular.module('staticApp')
               });
           };
       };
+
+
   });

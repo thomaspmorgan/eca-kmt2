@@ -45,6 +45,10 @@ angular.module('staticApp')
               var path = 'offices/' + officeId + '/objectives';
               return DragonBreath.get(params, path);
           },
+          getSubPrograms: function (programId, params) {
+              var path = 'programs/' + programId + '/subprograms';
+              return DragonBreath.get(params, path);
+          },
           getCollaborators: function (programId, params) {
               var path = 'programs/' + programId + '/collaborators';
               return DragonBreath.get(params, path);

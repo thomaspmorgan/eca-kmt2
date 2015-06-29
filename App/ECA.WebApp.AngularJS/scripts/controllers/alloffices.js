@@ -9,7 +9,6 @@
  */
 angular.module('staticApp')
   .controller('AllOfficesCtrl', function ($scope, $stateParams, $q, OfficeService, TableService) {
-    
 
     $scope.offices = [];
     $scope.currentpage = $stateParams.page || 1;

@@ -1,22 +1,82 @@
-<h2 class="program-color tab-header">{{header}}</h2>
-<div ng-show="subprograms.length">
-    <h4 class="tab-subheader">Subprograms</h4>
-    <ul class="branch-list">
-        <li ng-repeat="subprogram in subprograms" class="branch">
-            <span class="branch-title">{{subprogram.programType}}</span>
-            <span class="branch-name"><a ui-sref="programs.overview({programId: subprogram.programId, officeId: subprogram.officeId})">{{ subprogram.displayName }}</a></span>
-        </li>
-    </ul>
-</div>
-<h4 class="tab-subheader">Projects List</h4>
 <div class="row">
-    <!--
-    <input st-search type="search" placeholder="Search Projects" class="search-contextual" />
-    <i class="glyphicon glyphicon-search contextual"></i>
-    -->
-    <button ng-click="modal.createProject = true" class="btn btn-success right col-sd-2">CREATE PROJECT</button>
+    <h2 class="program-color tab-header">
+        {{header}}
+        
+        <button class="btn right btn-success col-sd-2" style="width:150px;" ng-click="clickCreate($event)">
+                Create New...
+        </button>
+
+        <br/>
+        <button ng-show="showCreateOptions" class="btn right col-sd-2 dropDownButtons" ng-click="createItem('subprogram')">
+            Sub-Program
+        </button>
+        <br/>
+
+        <button ng-show="showCreateOptions" class="btn right col-sd-2 dropDownButtons" ng-click="createItem('project')">
+            Project
+        </button>
+
+    </h2>
 </div>
-<div st-pipe="getProjects" st-table="projects" id="sort-list">
+<h4 class="tab-subheader">Sub-Programs List</h4>
+<div ng-show="!subprograms.length">
+    <p>No subprograms to show</p>
+</div>
+<div ng-show="subprograms.length">
+    <div st-pipe="getSubPrograms" st-table="subprograms" id="sort-list">
+        <table class="col-md-12 table">
+            <thead>
+
+            </thead>
+            <tbody class="list2">
+                <tr ng-repeat="program in subprograms" class="hover" ng-show="!subprogramsLoading">
+                    <td class="narrowPadding">
+                        <div>
+                            <span class="owner-office" ng-bind-html="program.officeSymbol | highlight:programFilter">{{office.officeSymbol}}</span>
+                            <h4>
+                                <a style="font-size:18px;" ng-bind-html="program.name | highlight:programFilter" ui-sref="programs.overview({officeId: program.owner_OrganizationId, programId: program.programId})">{{program.name}}</a>
+                            </h4>
+                            <p ng-bind-html="program.description | highlight:programFilter" class="description">{{program.description | limitTo: 20}}</p>
+                        </div>
+                    </td>
+                    <td class="col-md-3 tools" style="vertical-align:middle; padding-right:40px;">
+
+                        <div class="right" style="display:none;" showonparentrow>
+                            <div id="copySection" class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy" ng-click="copyProgram(program.programId)">
+                                <i class="md md-content-copy md-2x copyEditDeleteOption" ng-show="!copyProgramLoading"></i>
+                                <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="copyProgramLoading"></i>
+                            </div>
+                            <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Edit" ng-click="editProgram(program.programId)">
+                                <i class="md md-mode-edit md-2x copyEditDeleteOption" ng-show="!editProgramLoading"></i>
+                                <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="editProgramLoading"></i>
+                            </div>
+                            <div class="copyEditDeleteOptions tip" tooltip-placement="bottom" tooltip="Delete" ng-click="deleteProgram(program.programId)">
+                                <i class="md md-delete md-2x copyEditDeleteOption"></i>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5" ng-show="isLoadingPrograms">
+                        <div class="spinner">
+                            <div class="bounce1"></div>
+                            <div class="bounce2"></div>
+                            <div class="bounce3"></div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div st-template="views/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="projects.length > 0"></div>
+    </div>
+</div>
+
+
+<h4 class="tab-subheader">Projects List</h4>
+<div ng-show="!projects.length">
+    <p>No projects to show</p>
+</div>
+<div st-pipe="getProjects" st-table="projects" id="sort-list" ng-show="projects.length > 0">
     <table class="col-md-12 table">
         <thead>
             <tr>
@@ -50,8 +110,8 @@
         <tbody class="list2">
             <tr ng-repeat="project in projects" class="hover" ng-show="!projectsLoading && showIncludedRegion[{{project.projectId}}]" 
                 id="projectRow{{project.projectId}}">
-                <td>
-                    <h5 class="list-title"><a ui-sref="projects.overview({officeId: program.ownerOrganizationId, programId: program.id, projectId: project.projectId})">{{project.projectName}}</a></h5>
+                <td class="narrowPadding">
+                    <h4 class="list-title"><a style="font-size:18px; font-weight: 500;" ui-sref="projects.overview({officeId: program.ownerOrganizationId, programId: program.id, projectId: project.projectId})">{{project.projectName}}</a></h4>
                 </td>
                 <td style="vertical-align:middle;">{{project.projectStatusName}}</td>
                 <td style="vertical-align:middle;">{{project.startYearAsString}}</td>
@@ -85,7 +145,8 @@
     </table>
     <div st-template="views/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="projects.length > 0"></div>
 </div>
-<modal-dialog show="modal.createProject" dialog-title="Create Project" on-open="modalSetPristine()" before-close="modalClose()" on-close="modalClear()">
+
+<modal-dialog show="createProject" dialog-title="Create Project" on-open="modalSetPristine()" on-close="modalClear()">
     <div class="tip" ng-show="!isSavingProject">
         <img src="images/tip.png"><span class="strong">Did you know?</span> This is a draft. Only you can see this.
         <div class="required">* Marks required fields</div>
@@ -130,16 +191,181 @@
     <button class="btn btn-default" ng-show="!isSavingProject" ng-click="createProject = !modalClose()">CANCEL</button>
     <button type="submit" form="projectForm" ng-show="!isSavingProject" ng-disabled="projectForm.projectDescription.$error.required" class="btn btn-success right" ng-click="saveProject()">CREATE</button>
 </modal-dialog>
+
+<modal-dialog show="createProgram" dialog-title="Create Program">
+    <div class="tip">
+        <img src="images/tip.png"><span class="strong">Did you know?</span> This is a draft. Only you can see this.
+        <div class="required">* Marks required fields</div>
+    </div>
+
+    <div id="modal" class="row" in-context-form>
+        <div class="col-md-10">
+            <div class="spinner" ng-show="isFormBusy">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+            <form name="modalForm.programForm" ng-show="!isFormBusy">
+                <div class="form-group">
+                    <label>Program Name<span class="asterisk"> *</span></label>
+                    <input name="name" ng-model="newProgram.name" form-element guidance="This is the name of your program. (e.g. ETA Fulbright)" type="text" class="form-control" placeholder="Enter program title..." required>
+                    <div ng-show="modalForm.programForm.name.$dirty">
+                        <div class="error" ng-show="modalForm.programForm.name.$error.required">Please enter a program name.</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Program Description<span class="asterisk"> *</span></label>
+                    <textarea name="description" ng-model="newProgram.description" form-element guidance="This briefly summarizes what this program is about." type="text" class="form-control" placeholder="Enter description..." required></textarea>
+                    <span class="error" ng-show="modalForm.programForm.description.$error.required && modalForm.programForm.description.$dirty">Program description is required.</span>
+                </div>
+                <div class="form-group">
+                    <label>Parent Program</label>
+                    <input name="parentProgram" ng-model="newProgram.parentProgram" form-element guidance="This is the parent program of your new program, if needed." type="text" placeholder="Enter Parent Program name..."
+                           typeahead="p as p.name for p in getParentPrograms($viewValue)" typeahead-loading="loadingPrograms" typeahead-on-select="model=$item.value"
+                           typeahead-editable="false" class="form-control" /><i ng-show="loadingPrograms" class="glyphicon glyphicon-refresh"></i>
+                </div>
+                <div class="form-group">
+                    <label>Program Inception<span class="asterisk"> *</span></label>
+                    <p class="input-group">
+                        <input name="start" type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="newProgram.startDate" is-open="calOpened"
+                               min-date="minDate" max-date="maxDate" close-text="Close" placeholder="Enter start date..." required />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="calOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
+                    <div ng-show="modalForm.programForm.start.$dirty">
+                        <div class="error" ng-show="modalForm.programForm.start.$error.required">Please enter a start date.</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Related Regions<span class="asterisk"> *</span></label>
+                    <isteven-multi-select input-model="regions"
+                                          output-model="out.Regions"
+                                          button-label="name"
+                                          item-label="name"
+                                          tick-property="ticked"
+                                          selection-mode="multiple"
+                                          helper-elements="none reset"
+                                          on-item-click="setDropDownDirty()">
+                    </isteven-multi-select>
+                    <div ng-show="regionsInvalid">
+                        <span class="error">Please select at least one region.</span>
+                    </div>
+                </div>
+                <div class="form-group" form-element guidance="This lists the themes for the program (at least one required).">
+                    <label>Themes<span class="asterisk"> *</span></label>
+                    <isteven-multi-select input-model="themes"
+                                          output-model="out.Themes"
+                                          button-label="name"
+                                          item-label="name"
+                                          tick-property="ticked"
+                                          selection-mode="multiple"
+                                          helper-elements="filter none reset"
+                                          max-height="250px"
+                                          on-item-click="setDropDownDirty()">
+                    </isteven-multi-select>
+                    <div ng-show="themesInvalid">
+                        <span class="error">Please select at least one theme.</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Goals<span class="asterisk"> *</span></label>
+                    <isteven-multi-select input-model="goals"
+                                          output-model="out.Goals"
+                                          button-label="name"
+                                          item-label="name"
+                                          tick-property="ticked"
+                                          selection-mode="multiple"
+                                          helper-elements="none reset"
+                                          max-height="250px"
+                                          on-item-click="setDropDownDirty()">
+                    </isteven-multi-select>
+                    <div ng-show="goalsInvalid">
+                        <span class="error">Please select at least one goal.</span>
+                    </div>
+                </div>
+                <div class="form-group" ng-show="showCategoryFocus">
+                    <label>{{categoryLabel}}</label>
+                    <isteven-multi-select input-model="allCategoriesGrouped"
+                                          output-model="out.Categories"
+                                          button-label="name"
+                                          item-label="name"
+                                          tick-property="ticked"
+                                          selection-mode="multiple"
+                                          helper-elements="none reset"
+                                          max-height="250px"
+                                          group-property="focusGroup"
+                                          on-item-click="setDropDownDirty()">
+                    </isteven-multi-select>
+                    <div ng-show="categoriesInvalid">
+                        <span class="error">Please select at least one focus/category.</span>
+                    </div>
+                </div>
+                <div class="form-group" ng-show="showObjectiveJustification">
+                    <label>{{objectiveLabel}}</label>
+                    <isteven-multi-select input-model="allObjectivesGrouped"
+                                          output-model="out.Objectives"
+                                          button-label="name"
+                                          item-label="name"
+                                          tick-property="ticked"
+                                          selection-mode="multiple"
+                                          helper-elements="none reset"
+                                          max-height="250px"
+                                          group-property="justificationGroup"
+                                          on-item-click="setDropDownDirty()">
+                    </isteven-multi-select>
+                    <div ng-show="objectivesInvalid">
+                        <span class="error">Please select at least one justification/objective.</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Points Of Contact<span class="asterisk"> *</span></label>
+                    <isteven-multi-select input-model="pointsOfContact"
+                                          output-model="out.Contacts"
+                                          button-label="fullName"
+                                          item-label="fullName"
+                                          tick-property="ticked"
+                                          selection-mode="multiple"
+                                          helper-elements="filter none reset"
+                                          max-height="250px"
+                                          on-item-click="setDropDownDirty()">
+                    </isteven-multi-select>
+                    <div ng-show="contactsInvalid">
+                        <span class="error">Please select at least one point of contact.</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>External Website</label>
+                    <input type="url" name="programWebsite" ng-model="newProgram.website" class="form-control" placeholder="Enter website address (e.g. http://somesite.com)..." form-element guidance="If the program has a website URL, you can enter it here." />
+                    <div ng-show="modalForm.programForm.programWebsite.$dirty">
+                        <span class="error" ng-show="modalForm.programForm.programWebsite.$error.url">Not a valid website address.</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-2">
+            <guidance></guidance>
+        </div>
+    </div>
+    <div class="modalFormButtons">
+        <button class="btn btn-default" ng-click="createProgram = !modalClose()">CANCEL</button>
+        <button ng-disabled="modalForm.programForm.$invalid" class="btn btn-success right" ng-click="saveCreatedProgram()">CREATE</button>
+    </div>
+</modal-dialog>
+
 <modal-dialog show="confirmClose" dialog-title="Confirm Close" before-close="confirmCloseNo()">
     <p class="strong">There is unsaved data.  Are you sure you want to close?</p>
     <button class="btn btn-default right" ng-click="confirmCloseYes()">YES</button>
     &nbsp;
     <button class="btn btn-success right" ng-click="confirmCloseNo()">NO</button>
 </modal-dialog>
+
 <modal-dialog show="confirmSave" dialog-title="Project Created" before-close="confirmSaveYes()">
     <p class="strong">The project was created sucessfully!</p>
     <button class="btn btn-default right" ng-click="confirmSaveYes()">OK</button>
 </modal-dialog>
+
 <modal-dialog show="confirmFail" dialog-title="Error Saving Project" before-close="confirmFailOk()" on-close="">
     <p class="strong">There was an error saving the new project.</p>
     <p class="alert-warning">{{errorMessage}}</p>
@@ -150,3 +376,8 @@
     </div>
     <button class="btn btn-default right" ng-click="confirmFailOk()">OK</button>
 </modal-dialog>
+<style>
+    .ng-modal-close-x {
+        display: none;
+    }
+</style>
