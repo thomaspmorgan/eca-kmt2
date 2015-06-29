@@ -7,10 +7,20 @@ using System.Web;
 
 namespace ECA.WebApi.Security
 {
+    /// <summary>
+    /// The debug web api user is a simple user for debugging through Swagger.  This user is equivalent
+    /// to the ECA Test user.
+    /// </summary>
     public class DebugWebApiUser : WebApiUser
     {
+        /// <summary>
+        /// The eca test user id.
+        /// </summary>
         public static readonly Guid DEBUG_USER_ID = Guid.Parse("3ffd6d01-cae3-4157-86fa-1e4e5618086a");
 
+        /// <summary>
+        /// Creates the debug web api user.
+        /// </summary>
         public DebugWebApiUser()
             : base(new List<Claim>
             {

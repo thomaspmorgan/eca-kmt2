@@ -23,6 +23,7 @@ namespace ECA.Business.Queries.Persons
         /// <returns>List of participant people</returns>
         public static IQueryable<SimpleParticipantPersonDTO> CreateGetSimpleParticipantPersonsDTOQuery(EcaContext context)
         {
+            Contract.Requires(context != null, "The context must not be null.");
             var query = (from p in context.ParticipantPersons
                          select new SimpleParticipantPersonDTO
                          {

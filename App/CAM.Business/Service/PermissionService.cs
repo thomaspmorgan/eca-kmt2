@@ -75,6 +75,7 @@ namespace CAM.Business.Service
         /// <returns>The cache item.</returns>
         public CacheItem Add(PermissionModel permissionModel)
         {
+            Contract.Requires(permissionModel != null, "The permission model must not be null.");
             var cacheItem = new CacheItem(GetKey(permissionModel), permissionModel);
             cache.Set(cacheItem, GetCacheItemPolicy());
             return cacheItem;
@@ -87,6 +88,7 @@ namespace CAM.Business.Service
         /// <returns>The cache key.</returns>
         public string GetKey(PermissionModel permission)
         {
+            Contract.Requires(permission != null, "The permission must not be null.");
             return GetKey(permission.Id, permission.Name);
         }
         
@@ -255,22 +257,13 @@ namespace CAM.Business.Service
         /// <returns>The granted, revoked, and inherited permissions of the principal with the given id.</returns>
         public IQueryable<IPermission> CreateGetAllowedPermissionsByPrincipalIdQuery(int principalId)
         {
-            var query = ResourceQueries.CreateGetResourceAuthorizationsQuery(this.Context);
-            var permissionsQuery = query
-                .Where(x => x.PrincipalId == principalId)
+            var query = ResourceQueries.CreateGetResourceAuthorizationsQuery(this.Context)
+                .Where(x => x.PrincipalId == principalId);
+            var groupedQuery = CreateCollapsePermissionsQuery(query)
                 .OrderBy(x => x.PrincipalId)
                 .ThenBy(x => x.ResourceId)
-                .ThenBy(x => x.PermissionId)
-                .Select(x => new SimplePermission
-                {
-                    ForeignResourceId = x.ForeignResourceId,
-                    IsAllowed = x.IsAllowed,
-                    PermissionId = x.PermissionId,
-                    PrincipalId = x.PrincipalId,
-                    ResourceId = x.ResourceId,
-                    ResourceTypeId = x.ResourceTypeId
-                }).Distinct();
-            return permissionsQuery;
+                .ThenBy(x => x.PermissionId);
+            return groupedQuery;
         }
 
         /// <summary>
@@ -299,20 +292,25 @@ namespace CAM.Business.Service
         /// </summary>
         /// <param name="permissions">The permissions to group.</param>
         /// <returns>A query to group the given permissions and calculate whether that permission is allowed.</returns>
-        public IQueryable<IPermission> CreateCollapsePermissionsQuery(IQueryable<IPermission> permissions)
+        public IQueryable<SimplePermission> CreateCollapsePermissionsQuery(IQueryable<IPermission> permissions)
         {
+            Contract.Requires(permissions != null, "The permissions must not be null.");
             var groupedPermissionsQuery = from permission in permissions
                                          group permission by new
                                          {
                                              ResourceId = permission.ResourceId,
                                              PermissionId = permission.PermissionId,
-                                             PrincipalId = permission.PrincipalId
+                                             PrincipalId = permission.PrincipalId,
+                                             ForeignResourceId = permission.ForeignResourceId,
+                                             ResourceTypeId = permission.ResourceTypeId
                                          } into g
                                          select new SimplePermission
                                          {
                                              PermissionId = g.Key.PermissionId,
                                              PrincipalId = g.Key.PrincipalId,
                                              ResourceId = g.Key.ResourceId,
+                                             ForeignResourceId = g.Key.ForeignResourceId,
+                                             ResourceTypeId = g.Key.ResourceTypeId,
                                              IsAllowed = !(g.Where(x => !x.IsAllowed).Count() > 0)
                                          };
             return groupedPermissionsQuery;

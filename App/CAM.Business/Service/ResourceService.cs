@@ -190,6 +190,7 @@ namespace CAM.Business.Service
         /// <returns>The key.</returns>
         public string GetKey(ForeignResourceCache resourceCache)
         {
+            Contract.Requires(resourceCache != null, "The resource cache must not be null.");
             return GetKey(resourceCache.ForeignResourceId, resourceCache.ResourceTypeId);
         }
 

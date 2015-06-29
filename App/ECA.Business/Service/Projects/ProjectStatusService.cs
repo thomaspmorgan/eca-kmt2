@@ -26,7 +26,6 @@ namespace ECA.Business.Service.Projects
         /// Creates a new ProjectStatusService with the context and logger.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
-        /// <param name="logger">The logger.</param>
         public ProjectStatusService(EcaContext context)
             : base(context)
         {

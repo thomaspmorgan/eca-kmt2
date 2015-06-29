@@ -167,6 +167,7 @@ namespace ECA.Business.Service.Admin
             return Task.FromResult<PagedQueryResults<OrganizationProgramDTO>>(null);
         }
 
+        /// <summary>
         /// Get list of Offices (Simple hierarchial list)
         /// </summary>
         /// <returns></returns>

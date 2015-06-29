@@ -166,7 +166,6 @@ namespace CAM.Business.Test.Service
         {
             var foreignResourceId = 1;
             var resourceTypeId = 2;
-            var resourceId = 3;
             Assert.AreEqual(0, cacheDictionary.Count);
             Assert.IsNull(service.GetCachedForeignResourceCache(foreignResourceId, resourceTypeId));
         }

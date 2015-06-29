@@ -665,7 +665,19 @@ namespace ECA.Business.Test.Service
 
             var newTheme = new Theme { ThemeId = 2 };
             var newThemeIds = new List<int> { newTheme.ThemeId };
-            contextMock.Setup(x => x.GetLocalEntity<Theme>(It.IsAny<Func<Theme, bool>>())).Returns(newTheme);
+            Action<Func<Theme, bool>> callbackTester = (f) =>
+            {
+                var testThemes = new List<Theme> { newTheme };
+
+                Assert.IsTrue(Object.ReferenceEquals(newTheme, testThemes.Where(f).First()));
+                testThemes.Clear();
+                testThemes.Add(new Theme
+                {
+                    ThemeId = newTheme.ThemeId - 1
+                });
+                Assert.AreEqual(0, testThemes.Where(f).Count());
+            };
+            contextMock.Setup(x => x.GetLocalEntity<Theme>(It.IsAny<Func<Theme, bool>>())).Callback(callbackTester).Returns(newTheme);
             service.SetThemes(newThemeIds, program);
             Assert.AreEqual(1, program.Themes.Count);
             Assert.AreEqual(newTheme.ThemeId, program.Themes.First().ThemeId);
@@ -731,7 +743,21 @@ namespace ECA.Business.Test.Service
 
             var newContact = new Contact { ContactId = 2 };
             var newContactIds = new List<int> { newContact.ContactId };
-            contextMock.Setup(x => x.GetLocalEntity<Contact>(It.IsAny<Func<Contact, bool>>())).Returns(newContact);
+            Action<Func<Contact, bool>> callbackTester = (f) => 
+            {
+                var testContacts = new List<Contact> { newContact };
+                
+                Assert.IsTrue(Object.ReferenceEquals(newContact, testContacts.Where(f).First()));
+                testContacts.Clear();
+                testContacts.Add(new Contact
+                {
+                    ContactId = newContact.ContactId - 1
+                });
+                Assert.AreEqual(0, testContacts.Where(f).Count());
+            };
+
+            contextMock.Setup(x => x.GetLocalEntity<Contact>(It.IsAny<Func<Contact, bool>>())).Callback(callbackTester)
+            .Returns(newContact);
             service.SetPointOfContacts(newContactIds, program);
             Assert.AreEqual(1, program.Contacts.Count);
             Assert.AreEqual(newContact.ContactId, program.Contacts.First().ContactId);
@@ -797,12 +823,22 @@ namespace ECA.Business.Test.Service
 
             var newRegion = new Location { LocationId = 2 };
             var newRegionIds = new List<int> { newRegion.LocationId };
-            contextMock.Setup(x => x.GetLocalEntity<Location>(It.IsAny<Func<Location, bool>>())).Returns(newRegion);
+            Action<Func<Location, bool>> callbackTester = (f) =>
+            {
+                var testLocations = new List<Location> { newRegion };
+
+                Assert.IsTrue(Object.ReferenceEquals(newRegion, testLocations.Where(f).First()));
+                testLocations.Clear();
+                testLocations.Add(new Location
+                {
+                    LocationId = newRegion.LocationId - 1
+                });
+                Assert.AreEqual(0, testLocations.Where(f).Count());
+            };
+            contextMock.Setup(x => x.GetLocalEntity<Location>(It.IsAny<Func<Location, bool>>())).Callback(callbackTester).Returns(newRegion);
             service.SetRegions(newRegionIds, program);
             Assert.AreEqual(1, program.Regions.Count);
             Assert.AreEqual(newRegion.LocationId, program.Regions.First().LocationId);
         }
-
-
     }
 }

@@ -44,7 +44,6 @@ namespace ECA.Core.Test.Generation
     [TestClass]
     public class DbContextStaticLookupValidatorTest
     {
-        private DbContextStaticLookupValidator validator;
         private Mock<TestDbContext> mockContext;
         private TestClassDbSet testDbSet;
 

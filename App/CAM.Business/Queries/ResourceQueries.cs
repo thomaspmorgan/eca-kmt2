@@ -1,11 +1,13 @@
 ﻿using CAM.Business.Model;
 using CAM.Business.Queries.Models;
+using CAM.Business.Service;
 using CAM.Data;
 using ECA.Core.DynamicLinq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -313,6 +315,8 @@ namespace CAM.Business.Queries
         /// <returns>The info dto.</returns>
         public static IQueryable<ResourceAuthorizationInfoDTO> CreateGetResourceAuthorizationInfoDTOQuery(CamModel context, string resourceType, int foreignResourceId)
         {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(resourceType != null, "The resource type must not be null.");
             var query = CreateGetResourceAuthorizationsQuery(context);
             query = query.Where(x => x.IsAllowed && x.ResourceType == resourceType && x.ForeignResourceId == foreignResourceId);
             var groupedQuery = from resourceAuthorization in query

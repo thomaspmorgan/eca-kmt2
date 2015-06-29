@@ -159,7 +159,6 @@ namespace ECA.Business.Service.Programs
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="saveActions"></param>
         /// <returns></returns>
         public int SaveChanges()
         {
@@ -169,7 +168,6 @@ namespace ECA.Business.Service.Programs
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="saveActions"></param>
         /// <returns></returns>
         public Task<int> SaveChangesAsync()
         {

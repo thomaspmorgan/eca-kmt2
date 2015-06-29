@@ -46,14 +46,15 @@ namespace ECA.Core.Query
         /// Returns a PagedQueryResults objects given the IQueryable and start and limit values.
         /// </summary>
         /// <typeparam name="T">The type of objects in the query.</typeparam>
-        /// <param name="query">The query to page.</param>
+        /// <param name="source">The query to page.</param>
         /// <param name="start">The number of records to skip.</param>
         /// <param name="limit">The number of records to take.</param>
         /// <returns>A PagedQueryResults object containing the total number of records and the paged records.</returns>
-        public static PagedQueryResults<T> ToPagedQueryResults<T>(this IQueryable<T> query, int start, int limit) where T : class
+        public static PagedQueryResults<T> ToPagedQueryResults<T>(this IQueryable<T> source, int start, int limit) where T : class
         {
-            var results = query.Skip(start).Take(limit).ToList();
-            var total = query.Count();
+            Contract.Requires(source != null, "The source must not be null.");
+            var results = source.Skip(start).Take(limit).ToList();
+            var total = source.Count();
             return new PagedQueryResults<T>(total, results);
         }
 
@@ -61,14 +62,15 @@ namespace ECA.Core.Query
         /// Returns a PagedQueryResults objects given the IQueryable and start and limit values.
         /// </summary>
         /// <typeparam name="T">The type of objects in the query.</typeparam>
-        /// <param name="query">The query to page.</param>
+        /// <param name="source">The query to page.</param>
         /// <param name="start">The number of records to skip.</param>
         /// <param name="limit">The number of records to take.</param>
         /// <returns>A PagedQueryResults object containing the total number of records and the paged records.</returns>
-        public static async Task<PagedQueryResults<T>> ToPagedQueryResultsAsync<T>(this IQueryable<T> query, int start, int limit) where T : class
+        public static async Task<PagedQueryResults<T>> ToPagedQueryResultsAsync<T>(this IQueryable<T> source, int start, int limit) where T : class
         {
-            var results = await query.Skip(start).Take(limit).ToListAsync();
-            var total = await query.CountAsync();
+            Contract.Requires(source != null, "The source must not be null.");
+            var results = await source.Skip(start).Take(limit).ToListAsync();
+            var total = await source.CountAsync();
             return new PagedQueryResults<T>(total, results);
         }
     }

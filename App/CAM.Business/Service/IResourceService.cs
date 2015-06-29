@@ -10,7 +10,7 @@ namespace CAM.Business.Service
     /// <summary>
     /// An IResourceService is capable of performing lookups for resources.
     /// </summary>
-    [ContractClass(typeof(IResourceService))]
+    [ContractClass(typeof(ResourceServiceContract))]
     public interface IResourceService
     {
         /// <summary>

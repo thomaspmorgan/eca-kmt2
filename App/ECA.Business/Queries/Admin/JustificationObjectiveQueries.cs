@@ -21,6 +21,7 @@ namespace ECA.Business.Queries.Admin
         /// <returns>The query.</returns>
         public static IQueryable<JustificationObjectiveDTO> CreateGetJustificationObjectiveDTByOfficeIdOQuery(EcaContext context, int officeId, QueryableOperator<JustificationObjectiveDTO> queryOperator)
         {
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
             Contract.Requires(context != null, "The context must not be null.");
             var query = context.Objectives
                 .Where(x => x.Justification.OfficeId == officeId)
@@ -63,6 +64,7 @@ namespace ECA.Business.Queries.Admin
         /// <returns>The query.</returns>
         public static IQueryable<JustificationObjectiveDTO> CreateGetJustificationObjectiveDTOByProgramIdQuery(EcaContext context, int programId, QueryableOperator<JustificationObjectiveDTO> queryOperator)
         {
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
             Contract.Requires(context != null, "The context must not be null.");
             var query = CreateGetJustificationObjectiveDTOByProgramIdQuery(context, programId);
             query = query.Apply(queryOperator);

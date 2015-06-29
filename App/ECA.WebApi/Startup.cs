@@ -25,7 +25,6 @@ namespace ECA.WebApi
 
             GlobalConfiguration.Configure(WebApiConfig.Register);
             AreaRegistration.RegisterAllAreas();
-            AutoMapperConfig.Configure();
             //FilterConfig.RegisterGlobalFilters();
             //RouteConfig.RegisterRoutes(RouteTable.Routes);
         }

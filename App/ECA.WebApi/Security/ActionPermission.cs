@@ -35,7 +35,7 @@ namespace ECA.WebApi.Security
         /// <returns>The resource id.</returns>
         public override int GetResourceId(IDictionary<string, object> actionArguments)
         {
-            Contract.Requires(this.ArgumentName != null, "The argument name must not be null.");
+            Contract.Assert(this.ArgumentName != null, "The argument name must not be null.");
             if (!actionArguments.ContainsKey(this.ArgumentName))
             {
                 var message = "The argument named [{0}] was not found in the given action arguments.  "
