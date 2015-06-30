@@ -98,77 +98,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountStatus.cs">
-      <DependentUpon>Model2.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Application.cs">
-      <DependentUpon>Model2.tt</DependentUpon>
-    </Compile>
     <Compile Include="CamModel.cs" />
-    <Compile Include="C__RefactorLog.cs">
-      <DependentUpon>Model2.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CamModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CamModel.edmx</DependentUpon>
-    </Compile>
+    <Compile Include="CF\AccountStatu.cs" />
+    <Compile Include="CF\Application.cs" />
+    <Compile Include="CF\CamModel.cs" />
+    <Compile Include="CF\Permission.cs" />
+    <Compile Include="CF\PermissionAssignment.cs" />
+    <Compile Include="CF\Principal.cs" />
+    <Compile Include="CF\PrincipalRole.cs" />
+    <Compile Include="CF\PrincipalType.cs" />
+    <Compile Include="CF\Resource.cs" />
+    <Compile Include="CF\ResourceType.cs" />
+    <Compile Include="CF\Role.cs" />
+    <Compile Include="CF\RoleResourcePermission.cs" />
+    <Compile Include="CF\UserAccount.cs" />
     <Compile Include="CAMStaticDataGenerator.generated.cs">
       <DependentUpon>CAMStaticDataGenerator.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Model2.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model2.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model2.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model2.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Permission.cs">
-      <DependentUpon>Model2.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PermissionAssignment.cs">
-      <DependentUpon>Model2.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Principal.cs">
-      <DependentUpon>Model2.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PrincipalRole.cs">
-      <DependentUpon>Model2.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PrincipalType.cs">
-      <DependentUpon>Model2.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resource.cs">
-      <DependentUpon>Model2.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ResourceType.cs">
-      <DependentUpon>Model2.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Role.cs">
-      <DependentUpon>Model2.tt</DependentUpon>
-    </Compile>
-    <Compile Include="RoleResourcePermission.cs">
-      <DependentUpon>Model2.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UserAccount.cs">
-      <DependentUpon>Model2.tt</DependentUpon>
-    </Compile>
     <Compile Include="UserAccount_Constants.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <EntityDeploy Include="CamModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>CamModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="CamModel.edmx.diagram">
-      <DependentUpon>CamModel.edmx</DependentUpon>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
     </None>
     <None Include="CAMStaticDataGenerator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -178,18 +132,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Model2.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Model2.Context.cs</LastGenOutput>
-      <DependentUpon>CamModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="Model2.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Model2.cs</LastGenOutput>
-      <DependentUpon>CamModel.edmx</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ECA.Core\ECA.Core.csproj">

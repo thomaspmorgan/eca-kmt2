@@ -7,6 +7,8 @@
 
 namespace CAM.Data.Test
 {
+	using System;
+	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
 	#region CamModel
@@ -38,19 +40,6 @@ namespace CAM.Data.Test
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
 			///ResourceId
 			return Task.FromResult<CAM.Data.Application>(this.SingleOrDefault(x => x.ResourceId.Equals(keyValues.First())));
-		}
-	}
-	public class C__RefactorLogTestDbSet : ECA.Core.Data.TestDbSet<CAM.Data.C__RefactorLog>
-	{
-		public override CAM.Data.C__RefactorLog Find(params object[] keyValues)
-		{
-			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			throw new System.NotSupportedException();
-		}
-		public override Task<CAM.Data.C__RefactorLog> FindAsync(params object[] keyValues)
-		{
-			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			throw new System.NotSupportedException();
 		}
 	}
 	public class PermissionAssignmentTestDbSet : ECA.Core.Data.TestDbSet<CAM.Data.PermissionAssignment>
@@ -207,9 +196,14 @@ namespace CAM.Data.Test
 	{
 		public InMemoryCamModel()
 		{
+			InitializeDbSets();
+			this.SetupActions = new List<Action>();
+		}
+
+		public void InitializeDbSets()
+		{
 			this.AccountStatus = new AccountStatusTestDbSet();
 			this.Applications = new ApplicationTestDbSet();
-			this.C__RefactorLog = new C__RefactorLogTestDbSet();
 			this.PermissionAssignments = new PermissionAssignmentTestDbSet();
 			this.Permissions = new PermissionTestDbSet();
 			this.PrincipalRoles = new PrincipalRoleTestDbSet();
@@ -220,6 +214,14 @@ namespace CAM.Data.Test
 			this.RoleResourcePermissions = new RoleResourcePermissionTestDbSet();
 			this.Roles = new RoleTestDbSet();
 			this.UserAccounts = new UserAccountTestDbSet();
+		}
+
+		public List<Action> SetupActions { get; set; }
+
+		public void Revert()
+		{
+			InitializeDbSets();
+			this.SetupActions.ForEach(x => x());
 		}
 	}
 	#endregion

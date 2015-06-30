@@ -8,9 +8,7 @@ using System.Threading.Tasks;
 namespace CAM.Data
 {
     public partial class CamModel
-    {
-        private readonly Logger logger = LogManager.GetCurrentClassLogger();
-
+    {   
         /// <summary>
         /// The key for retrieving the context in an IValidatatableObject instance.
         /// </summary>

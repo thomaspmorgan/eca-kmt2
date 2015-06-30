@@ -28,7 +28,9 @@ namespace CAM.Data.Test
             context.UserAccounts.Add(existingUser);
             var newUser = new UserAccount
             {
-                AdGuid = existingUser.AdGuid
+                AdGuid = existingUser.AdGuid,
+                DisplayName = "display",
+                FirstName = "first"
             };
             var items = new Dictionary<object, object> { { CamModel.VALIDATABLE_CONTEXT_KEY, context } };
             var vc = new ValidationContext(newUser, null, items);

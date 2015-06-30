@@ -57,6 +57,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CreateModelDbTest.cs" />
     <Compile Include="InMemoryCamModelGenerator.generated.cs">
       <DependentUpon>InMemoryCamModelGenerator.tt</DependentUpon>
       <AutoGen>True</AutoGen>

@@ -42,19 +42,6 @@ namespace CAM.Business.Test
 			return Task.FromResult<CAM.Data.Application>(this.SingleOrDefault(x => x.ResourceId.Equals(keyValues.First())));
 		}
 	}
-	public class C__RefactorLogTestDbSet : ECA.Core.Data.TestDbSet<CAM.Data.C__RefactorLog>
-	{
-		public override CAM.Data.C__RefactorLog Find(params object[] keyValues)
-		{
-			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			throw new System.NotSupportedException();
-		}
-		public override Task<CAM.Data.C__RefactorLog> FindAsync(params object[] keyValues)
-		{
-			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			throw new System.NotSupportedException();
-		}
-	}
 	public class PermissionAssignmentTestDbSet : ECA.Core.Data.TestDbSet<CAM.Data.PermissionAssignment>
 	{
 		public override CAM.Data.PermissionAssignment Find(params object[] keyValues)
@@ -217,7 +204,6 @@ namespace CAM.Business.Test
 		{
 			this.AccountStatus = new AccountStatusTestDbSet();
 			this.Applications = new ApplicationTestDbSet();
-			this.C__RefactorLog = new C__RefactorLogTestDbSet();
 			this.PermissionAssignments = new PermissionAssignmentTestDbSet();
 			this.Permissions = new PermissionTestDbSet();
 			this.PrincipalRoles = new PrincipalRoleTestDbSet();
