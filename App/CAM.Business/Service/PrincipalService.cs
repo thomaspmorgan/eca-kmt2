@@ -149,6 +149,9 @@ namespace CAM.Business.Service
             var grantee = await CreateGetPrincipalByIdQuery(grantedPermission.GranteePrincipalId).FirstOrDefaultAsync();
             throwIfGranteeNotFound(grantedPermission, grantee);
 
+            var userAccount = await Context.UserAccounts.FindAsync(grantedPermission.GranteePrincipalId);
+            UpdatePermissionsRevisedOn(userAccount);
+
             var camPermission = await CreateGetPermissionByIdQuery(grantedPermission.PermissionId).FirstOrDefaultAsync();
             throwIfPermissionNotFound(grantedPermission, camPermission);
 
@@ -166,6 +169,8 @@ namespace CAM.Business.Service
             {
                 UpdateIsAllowed(grantedPermission, existingPermissions);
             }
+
+            
         }
 
         private void Handle(GrantedPermission grantedPermission)
@@ -182,6 +187,9 @@ namespace CAM.Business.Service
 
             var grantor = CreateGetPrincipalByIdQuery(grantedPermission.Audit.UserId).FirstOrDefault();
             throwIfGrantorNotFound(grantedPermission, grantor);
+
+            var userAccount = Context.UserAccounts.Find(grantedPermission.GranteePrincipalId);
+            UpdatePermissionsRevisedOn(userAccount);
 
             var existingPermissions = CreateGetPermissionAssignmentQuery(grantee.PrincipalId, camPermission.PermissionId, resource.ResourceId).ToList();
             if (existingPermissions.Count == 0)
@@ -262,13 +270,15 @@ namespace CAM.Business.Service
         /// <param name="permission">The deleted permission.</param>
         public void DeletePermission(DeletedPermission permission)
         {
+            var user = Context.UserAccounts.Find(permission.GranteePrincipalId);
+
             var resource = resourceService.GetResourceByForeignResourceId(permission.ForeignResourceId, permission.GetResourceType().Id);
             throwIfForeignResourceNotFoundByDeletedPermission(permission, resource);
 
             var permissionAssignment = CreateGetPermissionAssignmentQuery(permission.GranteePrincipalId, permission.PermissionId, resource.ResourceId).FirstOrDefault();
             throwIfPermissionAssignmentNotFound(permissionAssignment);
 
-            DoDeletePermissionAssignment(permissionAssignment);
+            DoDeletePermissionAssignment(permissionAssignment, user);
         }
 
         /// <summary>
@@ -277,20 +287,31 @@ namespace CAM.Business.Service
         /// <param name="permission">The deleted permission.</param>
         public async Task DeletePermissionAsync(DeletedPermission permission)
         {
+            var user = await Context.UserAccounts.FindAsync(permission.GranteePrincipalId);
+
             var resource = await resourceService.GetResourceByForeignResourceIdAsync(permission.ForeignResourceId, permission.GetResourceType().Id);
             throwIfForeignResourceNotFoundByDeletedPermission(permission, resource);
 
             var permissionAssignment = await CreateGetPermissionAssignmentQuery(permission.GranteePrincipalId, permission.PermissionId, resource.ResourceId).FirstOrDefaultAsync();
-            throwIfPermissionAssignmentNotFound(permissionAssignment);
+            throwIfPermissionAssignmentNotFound(permissionAssignment);            
 
-            DoDeletePermissionAssignment(permissionAssignment);
+            DoDeletePermissionAssignment(permissionAssignment, user);
         }
 
-        private void DoDeletePermissionAssignment(PermissionAssignment permissionAssignment)
+        private void DoDeletePermissionAssignment(PermissionAssignment permissionAssignment, UserAccount user)
         {
             Contract.Requires(permissionAssignment != null, "The permission assignment must not be null.");
+            UpdatePermissionsRevisedOn(user);
             this.Context.PermissionAssignments.Remove(permissionAssignment);
         }
         #endregion
+
+        private void UpdatePermissionsRevisedOn(UserAccount modifiedUser)
+        {
+            if (modifiedUser != null)
+            {
+                modifiedUser.PermissionsRevisedOn = DateTimeOffset.UtcNow;
+            }
+        }
     }
 }
