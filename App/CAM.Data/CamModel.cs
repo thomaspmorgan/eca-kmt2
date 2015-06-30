@@ -99,16 +99,6 @@ namespace CAM.Data
                 .WithRequired(e => e.Resource)
                 .WillCascadeOnDelete(false);
 
-            //modelBuilder.Entity<ResourceType>()
-            //    .HasMany(e => e.Permissions)
-            //    .WithOptional(e => e.ResourceType)
-            //    .HasForeignKey(e => e.ParentResourceTypeId);
-
-            //modelBuilder.Entity<ResourceType>()
-            //    .HasMany(e => e.Permissions1)
-            //    .WithOptional(e => e.ParentResourceType)
-            //    .HasForeignKey(e => e.ResourceTypeId);
-
             modelBuilder.Entity<ResourceType>()
                 .HasMany(e => e.Resources)
                 .WithRequired(e => e.ResourceType)
