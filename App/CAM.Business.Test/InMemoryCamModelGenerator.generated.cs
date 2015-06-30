@@ -202,7 +202,7 @@ namespace CAM.Business.Test
 
 		public void InitializeDbSets()
 		{
-			this.AccountStatus = new AccountStatusTestDbSet();
+			this.AccountStatuses = new AccountStatusTestDbSet();
 			this.Applications = new ApplicationTestDbSet();
 			this.PermissionAssignments = new PermissionAssignmentTestDbSet();
 			this.Permissions = new PermissionTestDbSet();
