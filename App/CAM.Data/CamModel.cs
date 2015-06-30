@@ -6,6 +6,9 @@ namespace CAM.Data
     using System.Linq;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// The CamModel is the entity framework dbcontext model for CAM.
+    /// </summary>
     public partial class CamModel : DbContext
     {
         /// <summary>
@@ -13,28 +16,82 @@ namespace CAM.Data
         /// </summary>
         public const string VALIDATABLE_CONTEXT_KEY = "Context";
 
+        /// <summary>
+        /// Creates a new CamModel instance with the connection string or connection string key.
+        /// </summary>
+        /// <param name="connectionStringOrKey">The connection string or connection string key.</param>
         public CamModel(string connectionStringOrKey)
             : base(connectionStringOrKey)
         {
 
         }
 
+        /// <summary>
+        /// Creates a new instance and initializes with the connection string named CamModel.
+        /// </summary>
         public CamModel()
             : base("name=CamModel")
         {
         }
 
-        public virtual DbSet<AccountStatus> AccountStatus { get; set; }
+        /// <summary>
+        /// Gets or sets the account statuses.
+        /// </summary>
+        public virtual DbSet<AccountStatus> AccountStatuses { get; set; }
+
+        /// <summary>
+        /// Gets or sets the applications.
+        /// </summary>
         public virtual DbSet<Application> Applications { get; set; }
+
+        /// <summary>
+        /// Gets or sets the permissions.
+        /// </summary>
         public virtual DbSet<Permission> Permissions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the permission assignments.
+        /// </summary>
         public virtual DbSet<PermissionAssignment> PermissionAssignments { get; set; }
+
+        /// <summary>
+        /// Gets or sets the principals.
+        /// </summary>
         public virtual DbSet<Principal> Principals { get; set; }
+
+        /// <summary>
+        /// Gets or sets the principal roles.
+        /// </summary>
         public virtual DbSet<PrincipalRole> PrincipalRoles { get; set; }
+
+        /// <summary>
+        /// Gets or sets the principal types.
+        /// </summary>
         public virtual DbSet<PrincipalType> PrincipalTypes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the resources.
+        /// </summary>
         public virtual DbSet<Resource> Resources { get; set; }
+
+        /// <summary>
+        /// Get or sets the resource types.
+        /// </summary>
         public virtual DbSet<ResourceType> ResourceTypes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the roles.
+        /// </summary>
         public virtual DbSet<Role> Roles { get; set; }
+
+        /// <summary>
+        /// Gets or sets the role resource permissions.
+        /// </summary>
         public virtual DbSet<RoleResourcePermission> RoleResourcePermissions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user accounts.
+        /// </summary>
         public virtual DbSet<UserAccount> UserAccounts { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

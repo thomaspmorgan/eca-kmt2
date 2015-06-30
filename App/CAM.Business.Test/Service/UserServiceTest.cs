@@ -202,7 +202,7 @@ namespace CAM.Business.Test.Service
             userAccount.AccountStatus = accountStatus;
 
             context.UserAccounts.Add(userAccount);
-            context.AccountStatus.Add(accountStatus);
+            context.AccountStatuses.Add(accountStatus);
             Action<User> tester = (u) =>
             {
                 Assert.AreEqual(accountStatus.Status, u.AccountStatus);
@@ -267,7 +267,7 @@ namespace CAM.Business.Test.Service
             userAccount.AccountStatus = accountStatus;
 
             context.UserAccounts.Add(userAccount);
-            context.AccountStatus.Add(accountStatus);
+            context.AccountStatuses.Add(accountStatus);
             Action<User> tester = (u) =>
             {
                 Assert.AreEqual(accountStatus.Status, u.AccountStatus);
@@ -333,7 +333,7 @@ namespace CAM.Business.Test.Service
             userAccount.AccountStatus = accountStatus;
 
             context.UserAccounts.Add(userAccount);
-            context.AccountStatus.Add(accountStatus);
+            context.AccountStatuses.Add(accountStatus);
 
             Assert.IsFalse(userAccount.LastAccessed.HasValue);
             Assert.AreEqual(0, context.SaveChangesCount);
@@ -359,7 +359,7 @@ namespace CAM.Business.Test.Service
             userAccount.AccountStatus = accountStatus;
 
             context.UserAccounts.Add(userAccount);
-            context.AccountStatus.Add(accountStatus);
+            context.AccountStatuses.Add(accountStatus);
 
             Assert.IsFalse(userAccount.LastAccessed.HasValue);
             Assert.AreEqual(0, context.SaveChangesCount);
