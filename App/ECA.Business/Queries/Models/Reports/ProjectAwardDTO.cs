@@ -9,7 +9,7 @@ namespace ECA.Business.Queries.Models.Reports
     public class ProjectAwardDTO
     {
         public int Year { get; set; }
-        public float Award { get; set; }
+        public decimal Award { get; set; }
         public string Title { get; set;  }
         public string Summary { get; set; }
     }

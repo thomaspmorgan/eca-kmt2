@@ -24,7 +24,7 @@ namespace ECA.Data
         public int MoneyFlowTypeId { get; set; }
 
         [Required]
-        public float Value {get; set;}
+        public decimal Value {get; set;}
        
         public MoneyFlowStatus MoneyFlowStatus { get; set;}
         [Required]

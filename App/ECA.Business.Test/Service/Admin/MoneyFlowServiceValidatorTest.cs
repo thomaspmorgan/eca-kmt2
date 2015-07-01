@@ -24,7 +24,7 @@ namespace ECA.Business.Test.Service.Admin
         [TestMethod]
         public void TestDoCreate_NullDescription()
         {
-            var value = 1.00f;
+            var value = 1.00m;
             var description = "description";
             var transactionDate = new DateTimeOffset();
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
@@ -49,7 +49,7 @@ namespace ECA.Business.Test.Service.Admin
         [TestMethod]
         public void TestDoCreate_EmptyDescription()
         {
-            var value = 1.00f;
+            var value = 1.00m;
             var description = "description";
             var transactionDate = new DateTimeOffset();
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
@@ -74,7 +74,7 @@ namespace ECA.Business.Test.Service.Admin
         [TestMethod]
         public void TestDoCreate_WhitespaceDescription()
         {
-            var value = 1.00f;
+            var value = 1.00m;
             var description = "description";
             var transactionDate = new DateTimeOffset();
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>

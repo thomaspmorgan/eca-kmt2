@@ -40,7 +40,68 @@ namespace CAM.Business.Test.Service
 
         #region Grant
         [TestMethod]
-        public async Task TestGrantPermission()
+        public async Task TestGrantPermission_GranteeIsAUserAccount()
+        {
+            var grantor = new Principal
+            {
+                PrincipalId = 1,
+            };
+            var grantee = new Principal
+            {
+                PrincipalId = 2
+            };
+            var user = new UserAccount
+            {
+                Principal = grantee,
+                PrincipalId = grantee.PrincipalId
+            };
+            var permission = new CAM.Data.Permission
+            {
+                PermissionId = CAM.Data.Permission.EditOffice.Id,
+                PermissionName = CAM.Data.Permission.EditOffice.Value
+            };
+            var resourceType = ResourceType.Program;
+            var resource = new Resource
+            {
+                ResourceId = 8,
+                ForeignResourceId = 10,
+                ResourceTypeId = resourceType.Id,
+            };
+            var foreignResourceCache = new ForeignResourceCache(resource.ForeignResourceId, resource.ResourceId, resource.ResourceTypeId, null, null, null);
+            context.SetupActions.Add(() =>
+            {
+                context.Principals.Add(grantor);
+                context.Principals.Add(grantee);
+                context.Permissions.Add(permission);
+                context.Resources.Add(resource);
+                context.UserAccounts.Add(user);
+                Assert.AreEqual(0, context.PermissionAssignments.Count());
+            });
+            
+            resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
+            resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
+            resourceService.Setup(x => x.GetResourcePermissions(It.IsAny<string>(), It.IsAny<int?>())).Returns(GetAvailablePermissionsList(permission));
+            resourceService.Setup(x => x.GetResourcePermissionsAsync(It.IsAny<string>(), It.IsAny<int?>())).ReturnsAsync(GetAvailablePermissionsList(permission));
+
+            
+            Action tester = () =>
+            {
+                Assert.AreEqual(1, context.PermissionAssignments.Count());
+                DateTimeOffset.Now.Should().BeCloseTo(context.UserAccounts.First().PermissionsRevisedOn.Value, 2000);
+            };
+            context.Revert();
+            var grantedPermission = new GrantedPermission(grantee.PrincipalId, permission.PermissionId, resource.ForeignResourceId, resourceType.Value, grantor.PrincipalId);
+            service.GrantPermission(grantedPermission);
+            tester();
+
+            context.Revert();
+            context.PermissionAssignments = new PermissionAssignmentTestDbSet();
+            await service.GrantPermissionsAsync(grantedPermission);
+            tester();
+        }
+
+        [TestMethod]
+        public async Task TestGrantPermission_GranteeIsNotUserAccount()
         {
             var grantor = new Principal
             {
@@ -63,16 +124,20 @@ namespace CAM.Business.Test.Service
                 ResourceTypeId = resourceType.Id,
             };
             var foreignResourceCache = new ForeignResourceCache(resource.ForeignResourceId, resource.ResourceId, resource.ResourceTypeId, null, null, null);
-            context.Principals.Add(grantor);
-            context.Principals.Add(grantee);
-            context.Permissions.Add(permission);
-            context.Resources.Add(resource);
+            context.SetupActions.Add(() =>
+            {
+                context.Principals.Add(grantor);
+                context.Principals.Add(grantee);
+                context.Permissions.Add(permission);
+                context.Resources.Add(resource);
+                Assert.AreEqual(0, context.PermissionAssignments.Count());
+            });
+            
             resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
             resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
             resourceService.Setup(x => x.GetResourcePermissions(It.IsAny<string>(), It.IsAny<int?>())).Returns(GetAvailablePermissionsList(permission));
             resourceService.Setup(x => x.GetResourcePermissionsAsync(It.IsAny<string>(), It.IsAny<int?>())).ReturnsAsync(GetAvailablePermissionsList(permission));
-
-            Assert.AreEqual(0, context.PermissionAssignments.Count());
+            
             Action tester = () =>
             {
                 Assert.AreEqual(1, context.PermissionAssignments.Count());
@@ -84,11 +149,12 @@ namespace CAM.Business.Test.Service
                 Assert.AreEqual(resource.ResourceId, firstAssignment.ResourceId);
                 DateTimeOffset.Now.Should().BeCloseTo(firstAssignment.AssignedOn, 2000);
             };
-
+            context.Revert();
             var grantedPermission = new GrantedPermission(grantee.PrincipalId, permission.PermissionId, resource.ForeignResourceId, resourceType.Value, grantor.PrincipalId);
             service.GrantPermission(grantedPermission);
             tester();
 
+            context.Revert();
             context.PermissionAssignments = new PermissionAssignmentTestDbSet();
             await service.GrantPermissionsAsync(grantedPermission);
             tester();
@@ -174,25 +240,31 @@ namespace CAM.Business.Test.Service
                 ResourceId = resource.ResourceId,
                 IsAllowed = false
             };
-            context.Principals.Add(grantor);
-            context.Principals.Add(grantee);
-            context.Permissions.Add(permission);
-            context.Resources.Add(resource);
-            context.PermissionAssignments.Add(permissionAssignment);
+            context.SetupActions.Add(() =>
+            {
+                context.Principals.Add(grantor);
+                context.Principals.Add(grantee);
+                context.Permissions.Add(permission);
+                context.Resources.Add(resource);
+                context.PermissionAssignments.Add(permissionAssignment);
+                permissionAssignment.IsAllowed = false;
+                Assert.AreEqual(1, context.PermissionAssignments.Count());
+            });
+            
             resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
             resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
 
-            Assert.AreEqual(1, context.PermissionAssignments.Count());
+            
             Action tester = () =>
             {
                 Assert.AreEqual(1, context.PermissionAssignments.Count());
                 Assert.IsTrue(context.PermissionAssignments.First().IsAllowed);
             };
-
+            context.Revert();
             var grantedPermission = new GrantedPermission(grantee.PrincipalId, permission.PermissionId, resource.ForeignResourceId, resourceType.Value, grantor.PrincipalId);
             service.GrantPermission(grantedPermission);
-            permissionAssignment.IsAllowed = false;
 
+            context.Revert();            
             await service.GrantPermissionsAsync(grantedPermission);
             tester();
         }
@@ -419,7 +491,68 @@ namespace CAM.Business.Test.Service
 
         #region Revoke
         [TestMethod]
-        public async Task TestRevokePermission()
+        public async Task TestRevokePermission_PrincipalIsAUserAccount()
+        {
+            var grantor = new Principal
+            {
+                PrincipalId = 1,
+            };
+            var grantee = new Principal
+            {
+                PrincipalId = 2
+            };
+            var userAccount = new UserAccount
+            {
+                PrincipalId = grantee.PrincipalId,
+                Principal = grantee
+            };
+            var permission = new CAM.Data.Permission
+            {
+                PermissionId = CAM.Data.Permission.EditOffice.Id,
+                PermissionName = CAM.Data.Permission.EditOffice.Value
+            };
+            var resourceType = ResourceType.Program;
+            var resource = new Resource
+            {
+                ResourceId = 8,
+                ForeignResourceId = 10,
+                ResourceTypeId = resourceType.Id,
+            };
+            var foreignResourceCache = new ForeignResourceCache(resource.ForeignResourceId, resource.ResourceId, resource.ResourceTypeId, null, null, null);
+            context.SetupActions.Add(() =>
+            {
+                userAccount.PermissionsRevisedOn = null;
+                context.Principals.Add(grantor);
+                context.Principals.Add(grantee);
+                context.Permissions.Add(permission);
+                context.Resources.Add(resource);
+                context.UserAccounts.Add(userAccount);
+                Assert.AreEqual(0, context.PermissionAssignments.Count());
+            });
+            
+            resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
+            resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
+            resourceService.Setup(x => x.GetResourcePermissions(It.IsAny<string>(), It.IsAny<int?>())).Returns(GetAvailablePermissionsList(permission));
+            resourceService.Setup(x => x.GetResourcePermissionsAsync(It.IsAny<string>(), It.IsAny<int?>())).ReturnsAsync(GetAvailablePermissionsList(permission));
+            
+            Action tester = () =>
+            {
+                Assert.AreEqual(1, context.UserAccounts.Count());
+                DateTimeOffset.Now.Should().BeCloseTo(context.UserAccounts.First().PermissionsRevisedOn.Value, 2000);
+            };
+            context.Revert();
+            var revokedPermission = new RevokedPermission(grantee.PrincipalId, permission.PermissionId, resource.ForeignResourceId, resourceType.Value, grantor.PrincipalId);
+            service.RevokePermission(revokedPermission);
+            tester();
+
+            context.Revert();
+            context.PermissionAssignments = new PermissionAssignmentTestDbSet();
+            await service.RevokePermissionAsync(revokedPermission);
+            tester();
+        }
+
+        [TestMethod]
+        public async Task TestRevokePermission_PrincipalIsNotUserAccount()
         {
             var grantor = new Principal
             {
@@ -442,16 +575,21 @@ namespace CAM.Business.Test.Service
                 ResourceTypeId = resourceType.Id,
             };
             var foreignResourceCache = new ForeignResourceCache(resource.ForeignResourceId, resource.ResourceId, resource.ResourceTypeId, null, null, null);
-            context.Principals.Add(grantor);
-            context.Principals.Add(grantee);
-            context.Permissions.Add(permission);
-            context.Resources.Add(resource);
+            context.SetupActions.Add(() =>
+            {
+                context.Principals.Add(grantor);
+                context.Principals.Add(grantee);
+                context.Permissions.Add(permission);
+                context.Resources.Add(resource);
+                Assert.AreEqual(0, context.PermissionAssignments.Count());
+            });
+            
             resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
             resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
             resourceService.Setup(x => x.GetResourcePermissions(It.IsAny<string>(), It.IsAny<int?>())).Returns(GetAvailablePermissionsList(permission));
             resourceService.Setup(x => x.GetResourcePermissionsAsync(It.IsAny<string>(), It.IsAny<int?>())).ReturnsAsync(GetAvailablePermissionsList(permission));
 
-            Assert.AreEqual(0, context.PermissionAssignments.Count());
+            
             Action tester = () =>
             {
                 Assert.AreEqual(1, context.PermissionAssignments.Count());
@@ -463,11 +601,12 @@ namespace CAM.Business.Test.Service
                 Assert.AreEqual(resource.ResourceId, firstAssignment.ResourceId);
                 DateTimeOffset.Now.Should().BeCloseTo(firstAssignment.AssignedOn, 2000);
             };
-
+            context.Revert();
             var revokedPermission = new RevokedPermission(grantee.PrincipalId, permission.PermissionId, resource.ForeignResourceId, resourceType.Value, grantor.PrincipalId);
             service.RevokePermission(revokedPermission);
             tester();
 
+            context.Revert();
             context.PermissionAssignments = new PermissionAssignmentTestDbSet();
             await service.RevokePermissionAsync(revokedPermission);
             tester();
@@ -504,27 +643,33 @@ namespace CAM.Business.Test.Service
                 ResourceId = resource.ResourceId,
                 IsAllowed = true
             };
-            context.Principals.Add(grantor);
-            context.Principals.Add(grantee);
-            context.Permissions.Add(permission);
-            context.Resources.Add(resource);
-            context.PermissionAssignments.Add(permissionAssignment);
+            context.SetupActions.Add(() =>
+            {
+                context.Principals.Add(grantor);
+                context.Principals.Add(grantee);
+                context.Permissions.Add(permission);
+                context.Resources.Add(resource);
+                context.PermissionAssignments.Add(permissionAssignment);
+                permissionAssignment.IsAllowed = true;
+                Assert.AreEqual(1, context.PermissionAssignments.Count());
+            });
+            
             resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
             resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
             resourceService.Setup(x => x.GetResourcePermissions(It.IsAny<string>(), It.IsAny<int?>())).Returns(GetAvailablePermissionsList(permission));
             resourceService.Setup(x => x.GetResourcePermissionsAsync(It.IsAny<string>(), It.IsAny<int?>())).ReturnsAsync(GetAvailablePermissionsList(permission));
-
-            Assert.AreEqual(1, context.PermissionAssignments.Count());
+            
             Action tester = () =>
             {
                 Assert.AreEqual(1, context.PermissionAssignments.Count());
                 Assert.IsFalse(context.PermissionAssignments.First().IsAllowed);
             };
 
+            context.Revert();
             var revokedPermission = new RevokedPermission(grantee.PrincipalId, permission.PermissionId, resource.ForeignResourceId, resourceType.Value, grantor.PrincipalId);
             service.RevokePermission(revokedPermission);
-            permissionAssignment.IsAllowed = false;
 
+            context.Revert();
             await service.RevokePermissionAsync(revokedPermission);
             tester();
         }
@@ -749,42 +894,77 @@ namespace CAM.Business.Test.Service
         #region Delete
 
         [TestMethod]
-        public void TestDeletePermission()
+        public async Task TestDeletePermission_PrincipalIsUserAccount()
         {
             var foreignResourceId = 1;
+            var user = new UserAccount
+            {
+                PrincipalId = 2
+            };
             var permissionAssignment = new PermissionAssignment
             {
                 PermissionId = 1,
-                PrincipalId = 2,
+                PrincipalId = user.PrincipalId,
                 ResourceId = 3
             };
             var foreignResourceCache = new ForeignResourceCache(foreignResourceId, permissionAssignment.ResourceId, 0, null, null, null);
-            context.PermissionAssignments.Add(permissionAssignment);
+            context.SetupActions.Add(() =>
+            {
+                user.PermissionsRevisedOn = null;
+                context.PermissionAssignments.Add(permissionAssignment);
+                context.UserAccounts.Add(user);
+            });
+            
             resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
             resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
 
             var deletedPermission = new DeletedPermission(permissionAssignment.PrincipalId, foreignResourceId, permissionAssignment.PermissionId, ResourceType.Project.Value);
+
+            context.Revert();
             Assert.AreEqual(1, context.PermissionAssignments.Count());
             service.DeletePermission(deletedPermission);
             Assert.AreEqual(0, context.PermissionAssignments.Count());
+            DateTimeOffset.UtcNow.Should().BeCloseTo(user.PermissionsRevisedOn.Value, 2000);
+
+            context.Revert();
+            Assert.AreEqual(1, context.PermissionAssignments.Count());
+            await service.DeletePermissionAsync(deletedPermission);
+            Assert.AreEqual(0, context.PermissionAssignments.Count());
+            DateTimeOffset.UtcNow.Should().BeCloseTo(user.PermissionsRevisedOn.Value, 2000);
         }
 
         [TestMethod]
-        public async Task TestDeletePermissionAsync()
+        public async Task TestDeletePermission_PrincipalIsNotUserAccount()
         {
             var foreignResourceId = 1;
+            var principal = new Principal
+            {
+                PrincipalId = 2
+            };
             var permissionAssignment = new PermissionAssignment
             {
                 PermissionId = 1,
-                PrincipalId = 2,
+                PrincipalId = principal.PrincipalId,
                 ResourceId = 3
             };
             var foreignResourceCache = new ForeignResourceCache(foreignResourceId, permissionAssignment.ResourceId, 0, null, null, null);
-            context.PermissionAssignments.Add(permissionAssignment);
+            context.SetupActions.Add(() =>
+            {
+                context.PermissionAssignments.Add(permissionAssignment);
+                context.Principals.Add(principal);
+            });
+
             resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
             resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
 
             var deletedPermission = new DeletedPermission(permissionAssignment.PrincipalId, foreignResourceId, permissionAssignment.PermissionId, ResourceType.Project.Value);
+
+            context.Revert();
+            Assert.AreEqual(1, context.PermissionAssignments.Count());
+            service.DeletePermission(deletedPermission);
+            Assert.AreEqual(0, context.PermissionAssignments.Count());
+
+            context.Revert();
             Assert.AreEqual(1, context.PermissionAssignments.Count());
             await service.DeletePermissionAsync(deletedPermission);
             Assert.AreEqual(0, context.PermissionAssignments.Count());
@@ -793,11 +973,16 @@ namespace CAM.Business.Test.Service
         [TestMethod]
         public void TestDeletePermission_ForeignResourceByIdDoesNotExist()
         {
+            var user = new UserAccount
+            {
+                PrincipalId = 2
+            };
+            context.UserAccounts.Add(user);
             ForeignResourceCache foreignResourceCache = null;
             resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
             resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
 
-            var deletedPermission = new DeletedPermission(0, 0, 0, ResourceType.Project.Value);
+            var deletedPermission = new DeletedPermission(user.PrincipalId, 0, 0, ResourceType.Project.Value);
             Func<Task> f = async () =>
             {
                 await service.DeletePermissionAsync(deletedPermission);
@@ -813,18 +998,23 @@ namespace CAM.Business.Test.Service
         public void TestDeletePermission_PermissionAssignmentDoesNotExist()
         {
             var foreignResourceId = 1;
+            var user = new UserAccount
+            {
+                PrincipalId = 2
+            };
             var permissionAssignment = new PermissionAssignment
             {
                 PermissionId = 1,
-                PrincipalId = 2,
+                PrincipalId = user.PrincipalId,
                 ResourceId = 3
             };
             var foreignResourceCache = new ForeignResourceCache(foreignResourceId, permissionAssignment.ResourceId, 0, null, null, null);
             context.PermissionAssignments.Add(permissionAssignment);
+            context.UserAccounts.Add(user);
             resourceService.Setup(x => x.GetResourceByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(foreignResourceCache);
             resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
 
-            var deletedPermission = new DeletedPermission(0, 0, 0, ResourceType.Project.Value);
+            var deletedPermission = new DeletedPermission(user.PrincipalId, 0, 0, ResourceType.Project.Value);
             Func<Task> f = async () =>
             {
                 await service.DeletePermissionAsync(deletedPermission);

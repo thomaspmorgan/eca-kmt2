@@ -20,7 +20,7 @@ namespace ECA.Business.Models.Admin
             int id, 
             string description,
             int moneyFlowTypeId,
-            float value,
+            decimal value,
             int moneyFlowStatusId,
             DateTimeOffset transactionDate,
             int fiscalYear,
@@ -80,7 +80,7 @@ namespace ECA.Business.Models.Admin
 
         public int MoneyFlowTypeId { get; private set; }
 
-        public float Value { get; private set; }
+        public decimal Value { get; private set; }
 
         public int MoneyFlowStatusId { get; private set; }
 

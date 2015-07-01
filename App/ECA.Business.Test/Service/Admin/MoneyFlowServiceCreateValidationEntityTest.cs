@@ -11,7 +11,7 @@ namespace ECA.Business.Test.Service.Admin
         [TestMethod]
         public void TestConstructor()
         {
-            var value = 1.00f;
+            var value = 1.00m;
             var description = "desc";
             var transactionDate = new DateTimeOffset();
             var entity = new MoneyFlowServiceCreateValidationEntity(
