@@ -155,7 +155,6 @@
     <Build Include="dbo\Tables\OrganizationContact.sql" />
     <Build Include="dbo\Tables\OrganizationType.sql" />
     <Build Include="dbo\Tables\Participant.sql" />
-    <Build Include="dbo\Tables\ParticipantProject.sql" />
     <Build Include="dbo\Tables\ParticipantStatus.sql" />
     <Build Include="dbo\Tables\ParticipantType.sql" />
     <Build Include="dbo\Tables\Person.sql" />
@@ -288,7 +287,6 @@
     <Build Include="Sevis\Tables\BirthCountry.sql" />
     <Build Include="dbo\Tables\PersonEvaluationNote.sql" />
     <Build Include="dbo\Views\UserView.sql" />
-    <None Include="Scripts\PostDeploy\CAM.InsertResources.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ECA.Database.refactorlog" />

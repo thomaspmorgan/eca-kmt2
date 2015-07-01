@@ -532,4 +532,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="[IX_Name]" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="0e94836a-3876-4998-907a-db6b33e2220f" ChangeDateTime="06/30/2015 19:42:08">
+    <Property Name="ElementName" Value="[dbo].[Participant].[IX_ParticipantProjectId]" />
+    <Property Name="ElementType" Value="SqlIndex" />
+    <Property Name="ParentElementName" Value="[dbo].[Participant]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[IX_ProjectId]" />
+  </Operation>
 </Operations>

@@ -7,8 +7,6 @@
     [History_CreatedOn] DATETIMEOFFSET (7) NOT NULL,
     [History_RevisedBy] INT                NOT NULL,
     [History_RevisedOn] DATETIMEOFFSET (7) NOT NULL,
-    [SevisId] NVARCHAR(15) NULL, 
-    [ContactAgreement] BIT NOT NULL DEFAULT 0, 
     [ParticipantStatusId] INT NULL, 
     [StatusDate] DATETIMEOFFSET NULL, 
     [ProjectId] INT NOT NULL, 
@@ -34,3 +32,7 @@ GO
 CREATE NONCLUSTERED INDEX [IX_ParticipantTypeId]
     ON [dbo].[Participant]([ParticipantTypeId] ASC);
 
+
+GO
+
+CREATE INDEX [IX_ProjectId] ON [dbo].[Participant] ([ProjectId])
