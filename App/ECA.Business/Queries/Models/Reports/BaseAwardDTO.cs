@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Queries.Models.Reports
 {
-    public class FocusAwardDTO
+    public class BaseAwardDTO
     {
-        public string Focus { get; set; }
-        public float? ProgramValue { get; set; }
-        public float? OtherValue { get; set; }
+        public decimal? ProgramValue { get; set; }
+        public decimal? OtherValue { get; set; }
         public int? Projects { get; set; }
-        public float? Average { get; set; }
+        public decimal? Average { get; set; }
     }
 }

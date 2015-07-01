@@ -16,7 +16,7 @@ namespace ECA.Business.Service.Admin
             int id, 
             string description,
             int moneyFlowTypeId,
-            float value,
+            decimal value,
             int moneyFlowStatusId,
             DateTimeOffset transactionDate,
             int fiscalYear,

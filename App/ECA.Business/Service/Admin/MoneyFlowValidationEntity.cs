@@ -10,7 +10,8 @@ namespace ECA.Business.Service.Admin
     public class MoneyFlowServiceCreateValidationEntity
     {
 
-        public MoneyFlowServiceCreateValidationEntity(string description, float value, DateTimeOffset transactionDate)
+        public MoneyFlowServiceCreateValidationEntity(string description, decimal value, 
+            DateTimeOffset transactionDate)
         {
             this.Description = description;
             this.Value = value;
@@ -19,7 +20,7 @@ namespace ECA.Business.Service.Admin
 
         public string Description { get; private set; }
 
-        public float Value { get; private set; }
+        public decimal Value { get; private set; }
 
         public DateTimeOffset TransactionDate { get; private set; }
 
@@ -28,7 +29,8 @@ namespace ECA.Business.Service.Admin
         public class MoneyFlowServiceUpdateValidationEntity
     {
 
-            public MoneyFlowServiceUpdateValidationEntity(string description, float value, DateTimeOffset transactionDate)
+            public MoneyFlowServiceUpdateValidationEntity(string description, decimal value, 
+                DateTimeOffset transactionDate)
         {
             this.Description = description;
             this.Value = value;
@@ -37,7 +39,7 @@ namespace ECA.Business.Service.Admin
 
         public string Description { get; private set; }
 
-        public float Value { get; private set; }
+        public decimal Value { get; private set; }
 
         public DateTimeOffset TransactionDate { get; private set; }
 

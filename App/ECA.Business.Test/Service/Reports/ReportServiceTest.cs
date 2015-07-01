@@ -45,10 +45,10 @@ namespace ECA.Business.Test.Service.Reports
         [TestMethod]
         public void TestGetProgramAwards()
         {
-            float value1 = 500.26F;
-            float value2 = 750.73F;
-            float value3 = 1204.13F;
-            float value4 = 25.31F;
+            decimal value1 = 500.26m;
+            decimal value2 = 750.73m;
+            decimal value3 = 1204.13m;
+            decimal value4 = 25.31m;
             int locationId = 1;
             int countryId = 500;
             int programId = 501;
@@ -186,10 +186,10 @@ namespace ECA.Business.Test.Service.Reports
         [TestMethod]
         public void TestGetRegionAwards()
         {
-            float value1 = 500.26F;
-            float value2 = 750.73F;
-            float value3 = 1204.13F;
-            float value4 = 25.31F;
+            decimal value1 = 500.26m;
+            decimal value2 = 750.73m;
+            decimal value3 = 1204.13m;
+            decimal value4 = 25.31m;
             int locationId1 = 1;
             int locationId2 = 2;
             int locationId3 = 3;
@@ -304,7 +304,7 @@ namespace ECA.Business.Test.Service.Reports
             {
                 Region = "EUR",
                 ProgramValue = value1 + value2,
-                OtherValue = 0.0F,
+                OtherValue = 0.0m,
                 Projects = 2,
                 Average = (value1 + value2)/2
             };
@@ -376,10 +376,10 @@ namespace ECA.Business.Test.Service.Reports
         [TestMethod]
         public void TestGetPostAwards()
         {
-            float value1 = 500.26F;
-            float value2 = 750.73F;
-            float value3 = 1204.13F;
-            float value4 = 25.31F;
+            decimal value1 = 500.26m;
+            decimal value2 = 750.73m;
+            decimal value3 = 1204.13m;
+            decimal value4 = 25.31m;
             int locationId1 = 1;
             int locationId2 = 2;
             int locationId3 = 3;
@@ -516,7 +516,7 @@ namespace ECA.Business.Test.Service.Reports
                 Post = "Paris",
                 Region = "EUR",
                 ProgramValue = value1 + value2,
-                OtherValue = 0.0F,
+                OtherValue = 0.0m,
                 Projects = 2,
                 Average = (value1 + value2)/2
             };
