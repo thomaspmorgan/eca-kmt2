@@ -264,7 +264,8 @@
     padding-left: 100px;
 }
 
-.circle {
+.circle
+ {
     height: 29px;
     width: 29px;
     border-radius: 50%;
@@ -273,4 +274,27 @@
     color: #fff;
     font-weight: bold;
     float: right;
+}
+
+.table-permissions {
+
+    thead {
+        tr {
+            border-top: none;
+        }
+    }
+
+    tbody {
+        tr:last-child {
+            border-bottom: none;
+        }
+    }
+
+    td {
+        padding: 8px;
+    }
+
+    td:first-child {
+        padding: 8px;
+    }
 }

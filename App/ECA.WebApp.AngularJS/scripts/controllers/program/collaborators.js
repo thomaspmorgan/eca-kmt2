@@ -24,6 +24,7 @@
       }
 
       function updateCollaborators(resourceAuthorizations) {
+          console.log(resourceAuthorizations);
           $scope.collaborators = resourceAuthorizations;
       }
 

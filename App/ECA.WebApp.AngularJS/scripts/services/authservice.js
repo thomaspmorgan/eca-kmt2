@@ -256,28 +256,12 @@ angular.module('staticApp')
                           principalId: principalIdOrderedCollaborator.principalId,
                           displayName: principalIdOrderedCollaborator.displayName,
                           emailAddress: principalIdOrderedCollaborator.emailAddress,
-                          rolePermissions: [],
-                          revokedPermissions: [],
-                          grantedPermissions: [], 
-                          inheritedPermissions: []
+                          permissions: []
                       });
                       currentGroupedPermissionByPrincipalId = groupedPermissionsByPrincipalIds[groupedPermissionsByPrincipalIds.length - 1];
                   }
                   var groupedPermission = service.getGroupedPermission(principalIdOrderedCollaborator);
-                  if (groupedPermission.isGrantedByRole) {
-                      currentGroupedPermissionByPrincipalId.rolePermissions.push(groupedPermission);
-                  }
-                  else if (groupedPermission.isGrantedByInheritance) {
-                      currentGroupedPermissionByPrincipalId.inheritedPermissions.push(groupedPermission);
-                  }
-                  else {
-                      if (groupedPermission.isAllowed) {
-                          currentGroupedPermissionByPrincipalId.grantedPermissions.push(groupedPermission);
-                      }
-                      else {
-                          currentGroupedPermissionByPrincipalId.revokedPermissions.push(groupedPermission);
-                      }
-                  }
+                  currentGroupedPermissionByPrincipalId.permissions.push(groupedPermission);
               }
               for (var i = 0; i < groupedPermissionsByPrincipalIds.length; i++) {
                   var groupedPrincipal = groupedPermissionsByPrincipalIds[i];
