@@ -87,6 +87,18 @@ namespace ECA.Business.Service.Reports
             logger.Trace("Getting Focus-Category Awards for program: [{0}]", programId);
             return ReportQueries.CreateGetFocusCategoryAward(this.Context, programId);
         }
+
+        public async Task<List<CountryAwardDTO>> GetCountryAwardsAsync(int programId)
+        {
+            logger.Trace("Getting Country Awards (Async) for program: [{0}]", programId);
+            return await ReportQueries.CreateGetCountryAward(this.Context, programId).ToListAsync();
+        }
+
+        public IQueryable<CountryAwardDTO> GetCountryAwards(int programId)
+        {
+            logger.Trace("Getting Country Awards for program: [{0}]", programId);
+            return ReportQueries.CreateGetCountryAward(this.Context, programId);
+        }
         #endregion
 
         #region parameters

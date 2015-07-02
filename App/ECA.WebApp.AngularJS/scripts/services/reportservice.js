@@ -41,6 +41,10 @@ angular.module('staticApp')
           getFocusCategoryAwards: function(programId)
           {
               return "report/FocusCategoryAwards?programId=" + programId;
+          },
+          getCountryAwards: function(programId)
+          {
+              return "report/CountryAwards?programId=" + programId;
           }
       };
   });

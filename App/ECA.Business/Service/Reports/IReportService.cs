@@ -29,6 +29,10 @@ namespace ECA.Business.Service.Reports
 
         Task<List<FocusCategoryAwardDTO>> GetFocusCategoryAwardsAsync(int programId);
 
+        IQueryable<CountryAwardDTO> GetCountryAwards(int programId);
+
+        Task<List<CountryAwardDTO>> GetCountryAwardsAsync(int programId);
+
         string GetProgramName(int programId);
 
         string GetCountryName(int countryId);

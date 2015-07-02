@@ -117,6 +117,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.CountryAwardDTO.datasource" />
     <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.FocusAwardDTO.datasource" />
     <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.FocusCategoryAwardDTO.datasource" />
     <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.PostAwardDTO.datasource" />
@@ -126,6 +127,7 @@
   <ItemGroup>
     <EmbeddedResource Include="FocusAwards.rdlc" />
     <EmbeddedResource Include="FocusCategoryAwards.rdlc" />
+    <EmbeddedResource Include="CountryAwards.rdlc" />
     <EmbeddedResource Include="ProjectAwards.rdlc" />
     <EmbeddedResource Include="PostAwards.rdlc" />
     <EmbeddedResource Include="RegionAwards.rdlc" />
