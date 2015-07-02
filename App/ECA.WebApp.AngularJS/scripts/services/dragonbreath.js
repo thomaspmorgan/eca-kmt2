@@ -51,7 +51,7 @@ angular.module('staticApp')
           },
           copy: function (object) {
               var dPath = new DragonPath(arguments, 1);
-              return $http.copy(dPath.path, object);
+              return $http.post(dPath.path, object);
           },
           delete: function (object) {
               var dPath = new DragonPath(arguments, 1);

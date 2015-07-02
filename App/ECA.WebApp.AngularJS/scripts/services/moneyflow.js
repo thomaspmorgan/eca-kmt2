@@ -63,6 +63,7 @@ angular.module('staticApp')
                 .success(function (data) {
                     defer.resolve(data);
                 });
+
               return defer.promise;
           },
           delete: function (id) {
