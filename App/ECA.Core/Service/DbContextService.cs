@@ -34,6 +34,7 @@ namespace ECA.Core.Service
             Contract.Requires(context != null, "The context must not be null.");
             this.Context = context;
             this.saveActions = saveActions ?? new List<ISaveAction>();
+            context.Database.Log = s => logger.Trace(s);
         }
 
         /// <summary>

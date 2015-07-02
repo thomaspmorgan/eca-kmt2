@@ -11,11 +11,12 @@ using System.IO;
 using System.Net.Http.Headers;
 using ECA.Business.Service;
 using ECA.Reports;
+using System.Threading.Tasks;
 
 namespace ECA.WebApi.Controllers
 {
     [RoutePrefix("api/Report")]
-
+    [Authorize]
     public class ReportController : ApiController
     {
 
@@ -27,33 +28,33 @@ namespace ECA.WebApi.Controllers
         }
 
         [Route("ProjectAwards")]
-        public HttpResponseMessage GetProjectAwards(int programId, int countryId)
+        public async Task<HttpResponseMessage> GetProjectAwards(int programId, int countryId)
         {
-            return reportGenerator.ReportProjectAwards(programId, countryId);
+            return await reportGenerator.ReportProjectAwardsAsync(programId, countryId);
         }
 
         [Route("RegionAwards")]
-        public HttpResponseMessage GetRegionAwards(int programId)
+        public async Task<HttpResponseMessage> GetRegionAwards(int programId)
         {
-            return reportGenerator.ReportRegionAwards(programId);
+            return await reportGenerator.ReportRegionAwardsAsync(programId);
         }
 
         [Route("PostAwards")]
-        public HttpResponseMessage GetPostAwards(int programId)
+        public async Task<HttpResponseMessage> GetPostAwards(int programId)
         {
-            return reportGenerator.ReportPostAwards(programId);
+            return await reportGenerator.ReportPostAwardsAsync(programId);
         }
 
         [Route("FocusAwards")]
-        public HttpResponseMessage GetFocusAwards(int programId)
+        public async Task<HttpResponseMessage> GetFocusAwards(int programId)
         {
-            return reportGenerator.ReportFocusAwards(programId);
+            return await reportGenerator.ReportFocusAwardsAsync(programId);
         }
 
         [Route("FocusCategoryAwards")]
-        public HttpResponseMessage GetFocusCategoryAwards(int programId)
+        public async Task<HttpResponseMessage> GetFocusCategoryAwards(int programId)
         {
-            return reportGenerator.ReportFocusCategoryAwards(programId);
+            return await reportGenerator.ReportFocusCategoryAwardsAsync(programId);
         }
     }
 }

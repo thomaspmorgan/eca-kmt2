@@ -25,15 +25,15 @@ namespace ECA.Reports
             this.reportService = reportService;
         }
 
-        public HttpResponseMessage ReportRegionAwards(int programId)
+        public  async Task<HttpResponseMessage> ReportRegionAwardsAsync(int programId)
         {
 
             byte[] bytes;
 
             var reportViewer = new ReportViewer();
             reportViewer.ProcessingMode = ProcessingMode.Local;
-
-            var rds = new ReportDataSource("RegionAwardDS", reportService.GetRegionAwards(programId).ToList());
+            var regionAwards = await reportService.GetRegionAwardsAsync(programId);
+            var rds = new ReportDataSource("RegionAwardDS", regionAwards);
             string programName = reportService.GetProgramName(programId);
             reportViewer.Reset();
             reportViewer.LocalReport.DataSources.Add(rds);
@@ -44,14 +44,15 @@ namespace ECA.Reports
             return GetReport(reportViewer, out bytes);
         }
 
-        public HttpResponseMessage ReportProjectAwards(int programId, int countryId)
+
+        public async Task<HttpResponseMessage> ReportProjectAwardsAsync(int programId, int countryId)
         {
             byte[] bytes;
 
             var reportViewer = new ReportViewer();
             reportViewer.ProcessingMode = ProcessingMode.Local;
-
-            var rds = new ReportDataSource("ProjectAwardDS", reportService.GetProjectAwards(programId, countryId).ToList());
+            var projectAwards = await reportService.GetProjectAwardsAsync(programId, countryId);
+            var rds = new ReportDataSource("ProjectAwardDS", projectAwards);
             string programName = reportService.GetProgramName(programId);
             string countryName = reportService.GetCountryName(countryId);
             reportViewer.Reset();
@@ -64,14 +65,15 @@ namespace ECA.Reports
         }
 
 
-        public HttpResponseMessage ReportPostAwards(int programId)
+
+        public async Task<HttpResponseMessage> ReportPostAwardsAsync(int programId)
         {
             byte[] bytes;
 
             var reportViewer = new ReportViewer();
             reportViewer.ProcessingMode = ProcessingMode.Local;
-
-            var rds = new ReportDataSource("PostAwardDS", reportService.GetPostAwards(programId).ToList());
+            var postAwards = await reportService.GetPostAwardsAsync(programId);
+            var rds = new ReportDataSource("PostAwardDS", postAwards);
             string programName = reportService.GetProgramName(programId);
 
             reportViewer.Reset();
@@ -82,14 +84,14 @@ namespace ECA.Reports
             return GetReport(reportViewer, out bytes);
         }
 
-        public HttpResponseMessage ReportFocusAwards(int programId)
+        public async Task<HttpResponseMessage> ReportFocusAwardsAsync(int programId)
         {
             byte[] bytes;
 
             var reportViewer = new ReportViewer();
             reportViewer.ProcessingMode = ProcessingMode.Local;
-
-            var rds = new ReportDataSource("FocusAwardDS", reportService.GetFocusAwards(programId).ToList());
+            var focusAwards = await reportService.GetFocusAwardsAsync(programId);
+            var rds = new ReportDataSource("FocusAwardDS", focusAwards);
             string programName = reportService.GetProgramName(programId);
 
             reportViewer.Reset();
@@ -100,14 +102,14 @@ namespace ECA.Reports
             return GetReport(reportViewer, out bytes);
         }
 
-        public HttpResponseMessage ReportFocusCategoryAwards(int programId)
+        public async Task<HttpResponseMessage> ReportFocusCategoryAwardsAsync(int programId)
         {
             byte[] bytes;
 
             var reportViewer = new ReportViewer();
             reportViewer.ProcessingMode = ProcessingMode.Local;
-
-            var rds = new ReportDataSource("FocusCategoryAwardDS", reportService.GetFocusCategoryAwards(programId).ToList());
+            var focusCategoryAwards = await reportService.GetFocusCategoryAwardsAsync(programId);
+            var rds = new ReportDataSource("FocusCategoryAwardDS", focusCategoryAwards);
             string programName = reportService.GetProgramName(programId);
 
             reportViewer.Reset();
@@ -118,7 +120,7 @@ namespace ECA.Reports
             return GetReport(reportViewer, out bytes);
         }
 
-        private static HttpResponseMessage GetReport(ReportViewer reportViewer, out byte[] bytes)
+        private HttpResponseMessage GetReport(ReportViewer reportViewer, out byte[] bytes)
         {
             Warning[] warnings;
             string[] streamids;
