@@ -15,8 +15,6 @@ angular.module('staticApp')
       $scope.project = {};
       $scope.modalForm = {};
       $scope.showConfirmCopy = false;
-
-
       $scope.currencyTypes = {};
 
       /* Money Flow */
@@ -41,6 +39,11 @@ angular.module('staticApp')
       $scope.editingMoneyFlows = [];
       $scope.dateFormat = 'dd-MMMM-yyyy';
 
+      $scope.fiscalYears = [];
+
+      for (var i = new Date().getFullYear() ; i >= 2010 ; i--) {
+          $scope.fiscalYears.push({ year: i, name: i });
+      }
 // initialize new money flow record to be used for creating and editing
       $scope.draftMoneyFlow = {
           description: '',
@@ -271,11 +274,6 @@ angular.module('staticApp')
           $scope.incomingSelected = "directionSelected";
           $scope.outgoingSelected = "";
           $scope.sourceRecipientLabel = "Source";
-
-          $scope.fiscalYears = [];
-          for (var i = new Date().getFullYear() ; i >= 2010 ; i--) {
-              $scope.fiscalYears.push({ year: i, name: i-1 + ' - ' + i });
-          }
 
           $scope.showCreateMoneyFlow = true;
       };
