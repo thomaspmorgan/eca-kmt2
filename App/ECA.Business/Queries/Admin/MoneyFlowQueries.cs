@@ -72,5 +72,54 @@ namespace ECA.Business.Queries.Admin
             return query;
         }
 
+        public static IQueryable<MoneyFlowDTO> CreateGetMoneyFlowsByProgramIdQuery(EcaContext context, int programId, QueryableOperator<MoneyFlowDTO> queryOperator)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+
+            var query = from moneyflows in context.MoneyFlows
+                        let sourceType = moneyflows.SourceType.TypeName
+                        let recipientType = moneyflows.RecipientType.TypeName
+                        let amount = moneyflows.Value
+                        where moneyflows.RecipientProgramId == programId ||
+                              moneyflows.SourceProgramId == programId
+                        select new MoneyFlowDTO
+                        {
+                            Id = moneyflows.MoneyFlowId,
+                            TransactionDate = moneyflows.TransactionDate,
+                            SourceType = (moneyflows.SourceProgramId == programId ? moneyflows.RecipientType.TypeName : moneyflows.SourceType.TypeName),
+                            Status = moneyflows.MoneyFlowStatus.MoneyFlowStatusName,
+                            FromTo = (
+                                // If project is source
+                                moneyflows.SourceProgramId == programId && moneyflows.RecipientAccommodationId != null ? moneyflows.RecipientAccommodation.Host.Name :
+                                moneyflows.SourceProgramId == programId && moneyflows.RecipientOrganizationId != null ? moneyflows.RecipientOrganization.Name :
+                                moneyflows.SourceProgramId == programId && moneyflows.RecipientProgramId != null ? moneyflows.RecipientProgram.Name :
+                                moneyflows.SourceProgramId == programId && moneyflows.RecipientProjectId != null ? moneyflows.RecipientProject.Name :
+                                // Participant can be person or organization
+                                moneyflows.SourceProgramId == programId && moneyflows.RecipientParticipantId != null && moneyflows.RecipientParticipant.Person != null ? moneyflows.RecipientParticipant.Person.FirstName + " " + moneyflows.RecipientParticipant.Person.LastName :
+                                moneyflows.SourceProgramId == programId && moneyflows.RecipientParticipantId != null && moneyflows.RecipientParticipant.Organization != null ? moneyflows.RecipientParticipant.Organization.Name :
+                                moneyflows.SourceProgramId == programId && moneyflows.RecipientItineraryStopId != null ? "Unknown" : // ItineraryStop needs name
+                                moneyflows.SourceProgramId == programId && moneyflows.RecipientTransportationId != null ? moneyflows.RecipientTransportation.Carrier.Name :
+
+                                // If project is recipient
+                                moneyflows.RecipientProgramId == programId && moneyflows.SourceOrganizationId != null ? moneyflows.SourceOrganization.Name :
+                                moneyflows.RecipientProgramId == programId && moneyflows.SourceProgramId != null ? moneyflows.SourceProgram.Name :
+                                moneyflows.RecipientProgramId == programId && moneyflows.SourceProjectId != null ? moneyflows.SourceProject.Name :
+                                moneyflows.RecipientProgramId == programId && moneyflows.SourceParticipantId != null && moneyflows.SourceParticipant.Person != null ? moneyflows.SourceParticipant.Person.FirstName + " " + moneyflows.SourceParticipant.Person.LastName :
+                                moneyflows.RecipientProgramId == programId && moneyflows.SourceParticipantId != null && moneyflows.SourceParticipant.Organization != null ? moneyflows.SourceParticipant.Organization.Name :
+                                moneyflows.RecipientProgramId == programId && moneyflows.SourceItineraryStopId != null ? "Unknown" : // ItineraryStop needs name
+
+                                // else case
+                                "Unknown"
+                            ),
+                            Amount = (sourceType == "Program" ? -amount : amount),
+                            Description = moneyflows.Description,
+                            FiscalYear = moneyflows.FiscalYear,
+                            Type = moneyflows.MoneyFlowType.MoneyFlowTypeName
+                        };
+            query = query.Apply(queryOperator);
+            return query;
+        }
+
     }
 }

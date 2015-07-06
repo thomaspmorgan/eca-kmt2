@@ -30,6 +30,8 @@ namespace ECA.Business.Service.Admin
         /// <returns>List of moneyflows that are paged, sorted, and filtered</returns>
         Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByProjectIdAsync(int projectId, QueryableOperator<MoneyFlowDTO> queryOperator);
 
+        Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByProgramIdAsync(int programId, QueryableOperator<MoneyFlowDTO> queryOperator);
+
         MoneyFlow Create(EcaMoneyFlow moneyFlow, User user);
 
         Task<MoneyFlow> CreateAsync(EcaMoneyFlow moneyFlow, User user);

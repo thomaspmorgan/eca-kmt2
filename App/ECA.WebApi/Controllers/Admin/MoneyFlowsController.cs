@@ -97,6 +97,21 @@ namespace ECA.WebApi.Controllers.Admin
             }
         }
 
+        [ResponseType(typeof(PagedQueryResults<MoneyFlowDTO>))]
+        [Route("Programs/{programId:int}/MoneyFlows")]
+        public async Task<IHttpActionResult> GetMoneyFlowsByProgramId(int programId, [FromUri]PagingQueryBindingModel<MoneyFlowDTO> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var results = await this.moneyFlowService.GetMoneyFlowsByProgramIdAsync(programId, queryModel.ToQueryableOperator(DEFAULT_MONEY_FLOW_DTO_SORTER));
+                return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
         [ResponseType(typeof(MoneyFlowDTO))]
         public async Task<IHttpActionResult> PostMoneyFlowAsync(int moneyFlowId)  // copy money flow
         {
