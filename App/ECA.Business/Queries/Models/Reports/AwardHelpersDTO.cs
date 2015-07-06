@@ -24,4 +24,10 @@ namespace ECA.Business.Queries.Models.Reports
     {
         public string Region { get; set; }
     }
+    public class CountryAwardDTO: BaseAwardDTO
+    {
+        public string Country { get; set; }
+        public string Region { get; set; }
+        public string Post { get; set; }
+    }
 }

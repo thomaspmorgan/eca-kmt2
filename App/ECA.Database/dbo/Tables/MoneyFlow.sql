@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[MoneyFlow] (
     [MoneyFlowId]               INT                IDENTITY (1, 1) NOT NULL,
-    [Value]                     REAL               NOT NULL,
+    [Value]                     DECIMAL(12, 2)               NOT NULL,
     [RecipientAccommodationId]  INT                NULL,
     [History_CreatedBy]         INT                NOT NULL,
     [History_CreatedOn]         DATETIMEOFFSET (7) NOT NULL,
