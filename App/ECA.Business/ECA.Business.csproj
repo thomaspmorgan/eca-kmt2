@@ -129,6 +129,7 @@
     <Compile Include="Queries\Models\Persons\SimplePersonDTO.cs" />
     <Compile Include="Queries\Models\Reports\BaseAwardDTO.cs" />
     <Compile Include="Queries\Models\Reports\AwardHelpersDTO.cs" />
+    <Compile Include="Queries\Models\Reports\ObjectiveAwardDTO.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonQueries.cs" />
     <Compile Include="Queries\Persons\PersonQueries.cs" />
     <Compile Include="Queries\Reports\ReportQueries.cs" />

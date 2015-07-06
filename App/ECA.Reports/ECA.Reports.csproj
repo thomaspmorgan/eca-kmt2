@@ -120,12 +120,14 @@
     <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.CountryAwardDTO.datasource" />
     <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.FocusAwardDTO.datasource" />
     <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.FocusCategoryAwardDTO.datasource" />
+    <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.ObjectiveAwardDTO.datasource" />
     <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.PostAwardDTO.datasource" />
     <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.RegionAwardDTO.datasource" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="FocusAwards.rdlc" />
+    <EmbeddedResource Include="ObjectiveAwards.rdlc" />
     <EmbeddedResource Include="FocusCategoryAwards.rdlc" />
     <EmbeddedResource Include="CountryAwards.rdlc" />
     <EmbeddedResource Include="ProjectAwards.rdlc" />

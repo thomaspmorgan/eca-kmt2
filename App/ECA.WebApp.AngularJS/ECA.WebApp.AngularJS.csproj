@@ -152,6 +152,7 @@
     <Content Include="scripts\controllers\project\projectparticipant.js" />
     <Content Include="scripts\controllers\project\unsavedchanges.js" />
     <Content Include="scripts\controllers\reports\custom.js" />
+    <Content Include="scripts\controllers\reports\ObjectiveAwards.js" />
     <Content Include="scripts\controllers\reports\FocusCategoryAwards.js" />
     <Content Include="scripts\controllers\reports\FocusAwards.js" />
     <Content Include="scripts\controllers\reports\PostAwards.js" />
@@ -445,6 +446,7 @@
     <Content Include="views\reports\partials\focusCategoryAwards.html" />
     <Content Include="views\reports\partials\focusAwards.html" />
     <Content Include="views\reports\partials\countryAwards.html" />
+    <Content Include="views\reports\partials\objectiveAwards.html" />
     <Content Include="views\reports\preview.html" />
     <Content Include="views\reports\partials\projectAwards.html" />
     <Content Include="views\reports\publish.html" />
