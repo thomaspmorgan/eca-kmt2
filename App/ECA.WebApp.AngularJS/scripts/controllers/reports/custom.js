@@ -16,7 +16,8 @@ angular.module('staticApp')
           { Title: "Region Awards", Published: "6/22/2015", Author: "Tom Morgan", Prompts: "Program" },
           { Title: "Post Awards", Published: "6/22/2015", Author: "Tom Morgan", Prompts: "Program" },
           { Title: "Focus Awards", Published: "6/23/2015", Author: "Tom Morgan", Prompts: "Program" },
-          { Title: "Focus-Category Awards", Published: "6/23/2015", Author: "Tom Morgan", Prompts: "Program" }
+          { Title: "Focus-Category Awards", Published: "6/23/2015", Author: "Tom Morgan", Prompts: "Program" },
+          { Title: "Country Awards", Published: "7/2/2015", Author: "Tom Morgan", Prompts: "Program" }
       ]
       $scope.parameters = [];
       $scope.currentpage = $stateParams.page || 1;
@@ -105,6 +106,10 @@ angular.module('staticApp')
           else if (title == 'Focus-Category Awards') {
               var template = "/views/reports/partials/focusCategoryAwards.html";
               var controller = "FocusCategoryAwardsCtrl";
+          }
+          else if (title == 'Country Awards') {
+              var template = "/views/reports/partials/countryAwards.html";
+              var controller = "CountryAwardsCtrl";
           }
           else
           {

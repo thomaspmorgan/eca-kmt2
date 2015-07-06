@@ -30,6 +30,16 @@ angular.module('staticApp')
                 });
               return defer.promise;
           },
+          getMoneyFlowsByProgram: function (id, params) {
+              var defer = $q.defer();
+              var path = 'programs/' + id + '/moneyFlows'
+              DragonBreath.get(params, path)
+                .success(function (data) {
+                    defer.resolve(data);
+                });
+
+              return defer.promise;
+          },
           getMoneyFlowsByProject: function (id, params) {
               var defer = $q.defer();
               var path = 'projects/' + id + '/moneyFlows'
@@ -63,6 +73,7 @@ angular.module('staticApp')
                 .success(function (data) {
                     defer.resolve(data);
                 });
+
               return defer.promise;
           },
           delete: function (id) {

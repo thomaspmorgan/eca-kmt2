@@ -98,6 +98,12 @@ angular.module('staticApp')
               path: 'collaborators',
               active: true,
               order: 6
+          },
+          funding: {
+              title: 'Funding',
+              path: 'moneyflows',
+              active: true,
+              order: 7
           }
       };
 

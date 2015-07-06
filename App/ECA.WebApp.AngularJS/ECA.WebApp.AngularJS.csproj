@@ -143,6 +143,7 @@
     <Content Include="scripts\controllers\person\personEduEmp.js" />
     <Content Include="scripts\controllers\person\personEvaluationNotes.js" />
     <Content Include="scripts\controllers\person\personGeneral.js" />
+    <Content Include="scripts\controllers\program\moneyflows.js" />
     <Content Include="scripts\controllers\program\collaborators.js" />
     <Content Include="scripts\controllers\project\selectparticipanttype.js" />
     <Content Include="scripts\controllers\project\collaborator.js" />
@@ -155,6 +156,7 @@
     <Content Include="scripts\controllers\reports\FocusCategoryAwards.js" />
     <Content Include="scripts\controllers\reports\FocusAwards.js" />
     <Content Include="scripts\controllers\reports\PostAwards.js" />
+    <Content Include="scripts\controllers\reports\CountryAwards.js" />
     <Content Include="scripts\controllers\reports\RegionAwards.js" />
     <Content Include="scripts\directives\exposetablestate.js" />
     <Content Include="scripts\directives\socialmedialink.js" />
@@ -175,6 +177,7 @@
     <Content Include="views\participants\partials\generalView.html" />
     <Content Include="views\organization.html" />
     <Content Include="views\program\collaborators.html" />
+    <Content Include="views\program\moneyflows.html" />
     <Content Include="views\project\selectparticipanttype.html" />
     <Content Include="views\project\collaborators.html" />
     <Content Include="scripts\services\organization.js" />
@@ -215,7 +218,6 @@
     <Content Include="views\forbidden.html" />
     <Content Include="views\office\test.hs" />
     <Content Include="views\program\activity.html.orig" />
-    <Content Include="views\program\moneyflow.html.orig" />
     <Content Include="styles\main.scss" />
     <Content Include="packages.config" />
     <Content Include="bower.json" />
@@ -412,11 +414,6 @@
     <Content Include="views\program\allprograms.html" />
     <Content Include="views\program\artifacts.html" />
     <Content Include="views\program\impact.html" />
-    <Content Include="views\program\moneyflow.html" />
-    <Content Include="views\program\moneyflow.html.BACKUP.41042.html" />
-    <Content Include="views\program\moneyflow.html.BASE.41042.html" />
-    <Content Include="views\program\moneyflow.html.LOCAL.41042.html" />
-    <Content Include="views\program\moneyflow.html.REMOTE.41042.html" />
     <Content Include="views\program\overview.html" />
     <Content Include="views\program\projects.html" />
     <Content Include="views\project.html" />
@@ -443,6 +440,7 @@
     <Content Include="views\reports\overviewOpen.html" />
     <Content Include="views\reports\partials\focusCategoryAwards.html" />
     <Content Include="views\reports\partials\focusAwards.html" />
+    <Content Include="views\reports\partials\countryAwards.html" />
     <Content Include="views\reports\preview.html" />
     <Content Include="views\reports\partials\projectAwards.html" />
     <Content Include="views\reports\publish.html" />
@@ -488,7 +486,16 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>52987</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:5556</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>

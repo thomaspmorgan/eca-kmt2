@@ -13,6 +13,7 @@
                 <th st-sort="'fromTo'" class="col-md-2 sort-label medium">Source / Recipient</th>
                 <th st-sort="'direction'" class="col-md-1 sort-label medium">Direction</th>
                 <th st-sort="'amount'" class="col-md-1 sort-label medium">Amount</th>
+                <th st-sort="'fiscalYear'" class="col-md-1 sort-label medium">FY</th>
                 <th st-sort="'description'" class="col-md-2 sort-label medium">Description</th>
                 <th class="col-md-1">&nbsp;</th>
                 <th class="{{moneyFlowEditColumnClass}}">&nbsp;</th>
@@ -29,6 +30,7 @@
                 <td>{{moneyFlow.fromTo}}</td>
                 <td>{{moneyFlow.type}}</td>
                 <td><span class="{{moneyFlow.amount < 0 ? 'text-danger' : ''}}">{{moneyFlow.amount | currency}}</span></td>
+                <td>{{moneyFlow.fiscalYear}}</td>
                 <td>{{moneyFlow.description | limitTo: 20}}<span ng-show="moneyFlow.description.length > 20">....</span></td>
                 <td>
                     <span ng-show="moneyFlow.description.length > 20">
@@ -95,6 +97,9 @@
                 </td>
                 <td>
                     <input type="number" class="currency" min="-1000000.00" max="1000000.00" step="100" value="0.00" ng-model="draftMoneyFlow.value" required />
+                </td>
+                <td>
+                    <select class="form-control" id="modalFiscalYear" ng-options="s.year as s.name for s in fiscalYears" ng-model="draftMoneyFlow.moneyFlowFiscalYear" ng-required="true" />
                 </td>
                 <td>
                     <textarea name="description" class="multiLineInput" type="text" ng-model="draftMoneyFlow.description" required />

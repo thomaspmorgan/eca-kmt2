@@ -96,6 +96,44 @@ namespace ECA.WebApi.Controllers.Admin
                 return BadRequest(ModelState);
             }
         }
+
+        [ResponseType(typeof(PagedQueryResults<MoneyFlowDTO>))]
+        [Route("Programs/{programId:int}/MoneyFlows")]
+        public async Task<IHttpActionResult> GetMoneyFlowsByProgramId(int programId, [FromUri]PagingQueryBindingModel<MoneyFlowDTO> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var results = await this.moneyFlowService.GetMoneyFlowsByProgramIdAsync(programId, queryModel.ToQueryableOperator(DEFAULT_MONEY_FLOW_DTO_SORTER));
+                return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        [ResponseType(typeof(MoneyFlowDTO))]
+        public async Task<IHttpActionResult> PostMoneyFlowAsync(int moneyFlowId)  // copy money flow
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var moneyFlow = await this.moneyFlowService.GetMoneyFlowByIdAsync(moneyFlowId);
+
+                var ecaMoneyFlow = new EcaMoneyFlow(moneyFlow);
+                var newMoneyFlow = await moneyFlowService.CreateAsync(ecaMoneyFlow, businessUser);
+
+                await moneyFlowService.SaveChangesAsync();
+                var moneyFlowDTO = await moneyFlowService.GetMoneyFlowByIdAsync(newMoneyFlow.MoneyFlowId);
+                return Ok(moneyFlowDTO);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
         
         [ResponseType(typeof(MoneyFlowDTO))]
         public async Task<IHttpActionResult> PostMoneyFlowAsync(EcaMoneyFlow moneyFlow)
@@ -146,27 +184,5 @@ namespace ECA.WebApi.Controllers.Admin
 
             return null;
         }
-        /*
-        [ResponseType(typeof(MoneyFlowDTO))]
-        public async Task<IHttpActionResult> CopyMoneyFlowAsync(int moneyFlowId)
-        {
-            if (ModelState.IsValid)
-            {
-                var currentUser = userProvider.GetCurrentUser();
-                var businessUser = userProvider.GetBusinessUser(currentUser);
-                await moneyFlowService.CopyAsync(moneyFlowId, businessUser);
-
-                var moneyFlow = await moneyFlowService.CreateAsync(model, businessUser);
-                await moneyFlowService.SaveChangesAsync();
-                var dto = await moneyFlowService.GetProjectByIdAsync(project.ProjectId);
-                return Ok(dto);
-                
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-        }
-         * */
     }
 }

@@ -53,6 +53,30 @@ namespace ECA.Business.Queries.Programs
             return result;            
         }
 
+        public static IQueryable<CountryAwardDTO> CreateGetCountryAward(EcaContext context, int programId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var result = (from p in context.Locations
+                          from m in context.MoneyFlows
+                          where p.CountryId == m.RecipientProject.Locations.FirstOrDefault().CountryId
+                          && m.RecipientProject.ProgramId == programId
+                          && p.LocationTypeId == LocationType.Post.Id
+                          group new { p, m } by new { Country = p.Country.LocationName, Post = p.LocationName, Region = p.Region.LocationIso }
+                              into grp
+                              orderby grp.Key.Country
+                              select new CountryAwardDTO
+                              {
+                                  Country = grp.Key.Country,
+                                  Post = grp.Key.Post,
+                                  Region = grp.Key.Region,
+                                  Projects = grp.Count(),
+                                  ProgramValue = grp.Where(g => g.m.SourceProgramId == programId).Sum(g => g.m.Value),
+                                  OtherValue = grp.Where(g => g.m.SourceProgramId == null || g.m.SourceProgramId != programId).Sum(g => g.m.Value),
+                                  Average = grp.Average(g => g.m.Value)
+                              });
+            return result;
+        }
+
 
         public static IQueryable<PostAwardDTO> CreateGetPostAward(EcaContext context, int programId)
         {
