@@ -304,7 +304,11 @@ angular
             templateUrl: 'views/program/collaborators.html',
             controller: 'ProgramCollaboratorsCtrl'
         })
-
+        .state('programs.moneyflows', {
+            url: '/moneyflows',
+            templateUrl: 'views/program/moneyflows.html',
+            controller: 'ProgramMoneyFlowsCtrl'
+        })
         .state('projects', {
             url: '/offices/:officeId/programs/:programId/project/:projectId',
             templateUrl: 'views/project.html',

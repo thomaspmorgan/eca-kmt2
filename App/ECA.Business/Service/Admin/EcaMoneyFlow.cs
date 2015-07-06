@@ -14,6 +14,29 @@ namespace ECA.Business.Models.Admin
 {
     public class EcaMoneyFlow : IAuditable
     {
+        public EcaMoneyFlow(MoneyFlow moneyFlow)
+        {
+            this.Description = moneyFlow.Description;
+            this.MoneyFlowTypeId = moneyFlow.MoneyFlowTypeId;
+            this.Value = moneyFlow.Value;
+            this.MoneyFlowStatusId = moneyFlow.MoneyFlowStatusId;
+            this.TransactionDate = moneyFlow.TransactionDate;
+            this.FiscalYear = moneyFlow.FiscalYear;
+            this.SourceTypeId = moneyFlow.SourceTypeId;
+            this.RecipientTypeId = moneyFlow.RecipientTypeId;
+            this.SourceOrganizationId = moneyFlow.SourceOrganizationId;
+            int? RecipientOrganizationId = moneyFlow.RecipientOrganizationId;
+            this.SourceProgramId = moneyFlow.SourceProgramId;
+            this.RecipientProgramId = moneyFlow.RecipientProgramId;
+            this.SourceProjectId = moneyFlow.SourceProjectId;
+            this.RecipientProjectId = moneyFlow.RecipientProjectId;
+            this.SourceParticipantId = moneyFlow.SourceParticipantId;
+            this.RecipientParticipantId = moneyFlow.RecipientParticipantId;
+            this.SourceItineraryStopId = moneyFlow.SourceItineraryStopId;
+            this.RecipientItineraryStopId = moneyFlow.RecipientItineraryStopId;
+            this.RecipientTransportationId = moneyFlow.RecipientTransportationId;
+            this.RecipientAccommodationId = moneyFlow.RecipientAccommodationId;
+        }
 
         public EcaMoneyFlow(
             User updatedBy,
