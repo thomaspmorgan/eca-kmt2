@@ -3021,12 +3021,12 @@ namespace CreateParticipant.Test
             this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
             #endregion
         }
-        
+
         public void LaunchUrl(System.Uri url)
         {
             this.CopyFrom(BrowserWindow.Launch(url));
         }
-        
+    
         #region Properties
         public UISignintoECAClientDocument UISignintoECAClientDocument
         {

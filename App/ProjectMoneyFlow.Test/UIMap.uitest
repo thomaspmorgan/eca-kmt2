@@ -41,23 +41,6 @@
   </Configuration>
   <InitializeActions />
   <ExecuteActions>
-    <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UITopPane.UIBranchesProjectsHyperlink">
-      <ParameterName />
-      <PropertyName>InnerText</PropertyName>
-      <ExpectedValue>Branches &amp; Projects</ExpectedValue>
-      <MessageOnValidationFailure>No Branches &amp; Projects link available for selection</MessageOnValidationFailure>
-      <Type>String</Type>
-      <PropertyCondition>AreEqual</PropertyCondition>
-    </AssertAction>
-    <TestStepMarkerAction Comment="Verify Branches &amp; Projects Link is available for selection" MarkerInformation="AssertBranchesandProjectsLink">
-      <ParameterName />
-      <StepId>-1</StepId>
-      <Direction>Start</Direction>
-      <Outcome />
-      <Disabled>false</Disabled>
-      <WorkItemId>0</WorkItemId>
-      <MarkerRegionType>Assertion</MarkerRegionType>
-    </TestStepMarkerAction>
     <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITogglenavigationButton">
       <ParameterName />
       <PropertyName>ControlType</PropertyName>
@@ -237,43 +220,6 @@ Description
       <MouseButton>Left</MouseButton>
     </MouseAction>
     <TestStepMarkerAction Comment="Open browser; enter login creds for ECATest; click sign in" MarkerInformation="LogintoQA">
-      <ParameterName />
-      <StepId>-1</StepId>
-      <Direction>Start</Direction>
-      <Outcome />
-      <Disabled>false</Disabled>
-      <WorkItemId>0</WorkItemId>
-      <MarkerRegionType>Action</MarkerRegionType>
-    </TestStepMarkerAction>
-    <NavigateToUrlAction UIObjectName="UIMap.UINewtabInternetExplorWindow">
-      <ParameterName />
-      <Url>https://eca-kmt-qa.azurewebsites.net/</Url>
-      <NewInstance>true</NewInstance>
-    </NavigateToUrlAction>
-    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UISignintoECAClientDocument1.UIECATest1statedeptusHyperlink">
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="121" Y="38" />
-      <WheelDirection>0</WheelDirection>
-      <ActionType>Click</ActionType>
-      <MouseButton>Left</MouseButton>
-    </MouseAction>
-    <SetValueAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UISignintoECAClientDocument1.UIPasswordEdit">
-      <ParameterName />
-      <Value Encoded="true">pnl8gvcmh7k//RLoLhz21H311rAYM7tLgX1DFCS84gg=</Value>
-      <Type>String</Type>
-    </SetValueAction>
-    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UISignintoECAClientDocument1.UISigninPane">
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="30" Y="17" />
-      <WheelDirection>0</WheelDirection>
-      <ActionType>Click</ActionType>
-      <MouseButton>Left</MouseButton>
-    </MouseAction>
-    <TestStepMarkerAction Comment="Open browser; navigate to QA site; select ECATest user; enter password; click sign in. " MarkerInformation="LogintoQA_ExistingUser">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -566,6 +512,31 @@ Description
       <Disabled>false</Disabled>
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Action</MarkerRegionType>
+    </TestStepMarkerAction>
+    <StringAssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument7.UITopPane.UISubProgramsProjectsHyperlink">
+      <ParameterName />
+      <PropertyName>InnerText</PropertyName>
+      <ExpectedValue>Sub-Programs &amp; Projects</ExpectedValue>
+      <MessageOnValidationFailure>No Sub-Program and Project tab available.</MessageOnValidationFailure>
+      <Comparison>CurrentCulture</Comparison>
+      <PropertyCondition>Contains</PropertyCondition>
+    </StringAssertAction>
+    <StringAssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument7.UITopPane.UISubProgramsProjectsHyperlink">
+      <ParameterName />
+      <PropertyName>ControlType</PropertyName>
+      <ExpectedValue>Hyperlink</ExpectedValue>
+      <MessageOnValidationFailure>Sub-Programs and Projects Hyperlink not available.</MessageOnValidationFailure>
+      <Comparison>CurrentCulture</Comparison>
+      <PropertyCondition>Contains</PropertyCondition>
+    </StringAssertAction>
+    <TestStepMarkerAction Comment="Verify the existence of the Sub-Programs and Projects tab/link." MarkerInformation="AssertBranchesandProjectsLink">
+      <ParameterName />
+      <StepId>-1</StepId>
+      <Direction>Start</Direction>
+      <Outcome />
+      <Disabled>false</Disabled>
+      <WorkItemId>0</WorkItemId>
+      <MarkerRegionType>Assertion</MarkerRegionType>
     </TestStepMarkerAction>
   </ExecuteActions>
   <CleanupActions />
@@ -1739,6 +1710,88 @@ ECATest1@statedept.us
                   </AndCondition>
                   <SupportLevel>0</SupportLevel>
                   <Descendants />
+                </UIObject>
+              </Descendants>
+            </UIObject>
+            <UIObject ControlType="Document" Id="UIHttpsecakmtqaazureweDocument7" FriendlyName="https://eca-kmt-qa.azurewebsites.net/#/programs/10..." SpecialControlType="None">
+              <TechnologyName>Web</TechnologyName>
+              <WindowTitles>
+                <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+              </WindowTitles>
+              <AndCondition Id="SearchCondition">
+                <AndCondition Id="Primary">
+                  <PropertyCondition Name="ControlType">Document</PropertyCondition>
+                  <PropertyCondition Name="TagName">BODY</PropertyCondition>
+                  <PropertyCondition Name="Id" />
+                  <PropertyCondition Name="RedirectingPage">False</PropertyCondition>
+                  <PropertyCondition Name="FrameDocument">False</PropertyCondition>
+                </AndCondition>
+                <FilterCondition Id="Secondary">
+                  <PropertyCondition Name="Title" />
+                  <PropertyCondition Name="AbsolutePath">/</PropertyCondition>
+                  <PropertyCondition Name="PageUrl">https://eca-kmt-qa.azurewebsites.net/#/programs/1008/overview#top</PropertyCondition>
+                </FilterCondition>
+              </AndCondition>
+              <SupportLevel>0</SupportLevel>
+              <Descendants>
+                <UIObject ControlType="Pane" Id="UITopPane" FriendlyName="top" SpecialControlType="None">
+                  <TechnologyName>Web</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                  </WindowTitles>
+                  <AndCondition Id="SearchCondition">
+                    <AndCondition Id="Primary">
+                      <PropertyCondition Name="ControlType">Pane</PropertyCondition>
+                      <PropertyCondition Name="TagName">DIV</PropertyCondition>
+                      <PropertyCondition Name="Id">top</PropertyCondition>
+                      <PropertyCondition Name="Name" />
+                    </AndCondition>
+                    <FilterCondition Id="Secondary">
+                      <PropertyCondition Name="InnerText">• 
+
+
+
+Last Updated  
+
+    
+ 
+
+P</PropertyCondition>
+                      <PropertyCondition Name="Title" />
+                      <PropertyCondition Name="Class">ng-scope</PropertyCondition>
+                      <PropertyCondition Name="ControlDefinition">class="ng-scope" id="top" autoscroll="true" ui-view=""</PropertyCondition>
+                      <PropertyCondition Name="TagInstance">27</PropertyCondition>
+                    </FilterCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants>
+                    <UIObject ControlType="Hyperlink" Id="UISubProgramsProjectsHyperlink" FriendlyName="Sub-Programs &amp; Projects" SpecialControlType="None">
+                      <TechnologyName>Web</TechnologyName>
+                      <WindowTitles>
+                        <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                      </WindowTitles>
+                      <AndCondition Id="SearchCondition">
+                        <AndCondition Id="Primary">
+                          <PropertyCondition Name="ControlType">Hyperlink</PropertyCondition>
+                          <PropertyCondition Name="TagName">A</PropertyCondition>
+                          <PropertyCondition Name="Id" />
+                          <PropertyCondition Name="Name" />
+                          <PropertyCondition Name="Target" />
+                          <PropertyCondition Name="InnerText">Sub-Programs &amp; Projects</PropertyCondition>
+                        </AndCondition>
+                        <FilterCondition Id="Secondary">
+                          <PropertyCondition Name="AbsolutePath" />
+                          <PropertyCondition Name="Title" />
+                          <PropertyCondition Name="Href">#/programs/1008/projects</PropertyCondition>
+                          <PropertyCondition Name="Class">ng-binding</PropertyCondition>
+                          <PropertyCondition Name="ControlDefinition">class="ng-binding" href="#/programs/1008</PropertyCondition>
+                          <PropertyCondition Name="TagInstance">3</PropertyCondition>
+                        </FilterCondition>
+                      </AndCondition>
+                      <SupportLevel>0</SupportLevel>
+                      <Descendants />
+                    </UIObject>
+                  </Descendants>
                 </UIObject>
               </Descendants>
             </UIObject>
