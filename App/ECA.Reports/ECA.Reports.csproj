@@ -123,6 +123,7 @@
     <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.ObjectiveAwardDTO.datasource" />
     <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.PostAwardDTO.datasource" />
     <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.RegionAwardDTO.datasource" />
+    <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.YearAwardDTO.datasource" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -132,6 +133,7 @@
     <EmbeddedResource Include="CountryAwards.rdlc" />
     <EmbeddedResource Include="ProjectAwards.rdlc" />
     <EmbeddedResource Include="PostAwards.rdlc" />
+    <EmbeddedResource Include="YearAwards.rdlc" />
     <EmbeddedResource Include="RegionAwards.rdlc" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -158,6 +158,7 @@
     <Content Include="scripts\controllers\reports\FocusAwards.js" />
     <Content Include="scripts\controllers\reports\PostAwards.js" />
     <Content Include="scripts\controllers\reports\CountryAwards.js" />
+    <Content Include="scripts\controllers\reports\YearAwards.js" />
     <Content Include="scripts\controllers\reports\RegionAwards.js" />
     <Content Include="scripts\directives\exposetablestate.js" />
     <Content Include="scripts\directives\socialmedialink.js" />
@@ -443,6 +444,7 @@
     <Content Include="views\reports\partials\focusAwards.html" />
     <Content Include="views\reports\partials\countryAwards.html" />
     <Content Include="views\reports\partials\objectiveAwards.html" />
+    <Content Include="views\reports\partials\yearAwards.html" />
     <Content Include="views\reports\preview.html" />
     <Content Include="views\reports\partials\projectAwards.html" />
     <Content Include="views\reports\publish.html" />

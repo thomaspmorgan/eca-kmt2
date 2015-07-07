@@ -145,13 +145,31 @@ namespace ECA.Reports
 
             var reportViewer = new ReportViewer();
             reportViewer.ProcessingMode = ProcessingMode.Local;
-            var countryAwards = await reportService.GetObjectiveAwardsAsync(programId, objectiveId);
-            var rds = new ReportDataSource("ObjectiveAwardDS", countryAwards);
+            var objectiveAwards = await reportService.GetObjectiveAwardsAsync(programId, objectiveId);
+            var rds = new ReportDataSource("ObjectiveAwardDS", objectiveAwards);
             string programName = reportService.GetProgramName(programId);
 
             reportViewer.Reset();
             reportViewer.LocalReport.DataSources.Add(rds);
             reportViewer.LocalReport.ReportEmbeddedResource = "ECA.Reports.ObjectiveAwards.rdlc";
+            reportViewer.LocalReport.SetParameters(new ReportParameter("Program", programName));
+
+            return GetReport(reportViewer, out bytes);
+        }
+
+        public async Task<HttpResponseMessage> ReportYearAwardsAsync(int programId)
+        {
+            byte[] bytes;
+
+            var reportViewer = new ReportViewer();
+            reportViewer.ProcessingMode = ProcessingMode.Local;
+            var yearAwards = await reportService.GetYearAwardsAsync(programId);
+            var rds = new ReportDataSource("YearAwardDS", yearAwards);
+            string programName = reportService.GetProgramName(programId);
+
+            reportViewer.Reset();
+            reportViewer.LocalReport.DataSources.Add(rds);
+            reportViewer.LocalReport.ReportEmbeddedResource = "ECA.Reports.YearAwards.rdlc";
             reportViewer.LocalReport.SetParameters(new ReportParameter("Program", programName));
 
             return GetReport(reportViewer, out bytes);

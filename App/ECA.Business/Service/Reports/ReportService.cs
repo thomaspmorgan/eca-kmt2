@@ -111,6 +111,20 @@ namespace ECA.Business.Service.Reports
             logger.Trace("Getting Country Awards for program: [{0}], objective: [{1}]", programId, objectiveId);
             return ReportQueries.CreateGetObjectiveAward(this.Context, programId, objectiveId);
         }
+
+        public async Task<List<YearAwardDTO>> GetYearAwardsAsync(int programId)
+        {
+            logger.Trace("Getting Year Awards (Async) for program: [{0}]", programId);
+            return await ReportQueries.CreateGetYearAward(this.Context, programId).ToListAsync();
+        }
+
+        public IQueryable<YearAwardDTO> GetYearAwards(int programId)
+        {
+            logger.Trace("Getting Year Awards for program: [{0}]", programId);
+            return ReportQueries.CreateGetYearAward(this.Context, programId);
+        }
+        
+
         #endregion
 
         #region parameters

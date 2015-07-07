@@ -30,4 +30,8 @@ namespace ECA.Business.Queries.Models.Reports
         public string Region { get; set; }
         public string Post { get; set; }
     }
+    public class YearAwardDTO: BaseAwardDTO
+    {
+        public int Year { get; set; }
+    }
 }

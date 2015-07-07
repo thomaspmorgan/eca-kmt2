@@ -68,5 +68,11 @@ namespace ECA.WebApi.Controllers
         {
             return await reportGenerator.ReportObjectiveAwardsAsync(programId, objectiveId);
         }
+
+        [Route("YearAwards")]
+        public async Task<HttpResponseMessage> GetYearAwards(int programId)
+        {
+            return await reportGenerator.ReportYearAwardsAsync(programId);
+        }
     }
 }

@@ -137,7 +137,7 @@ namespace ECA.Business.Queries.Programs
                                   Projects = grp.Count(),
                                   ProgramValue = grp.Where(m => m.SourceProgramId == programId).Sum(m => m.Value),
                                   OtherValue = grp.Where(m => m.SourceProgramId == null || m.SourceProgramId != programId).Sum(m => m.Value),
-                                  Average = grp.Average(m => m.Value)
+                                  
                               });
             return result;
         }
@@ -161,6 +161,29 @@ namespace ECA.Business.Queries.Programs
                                   ProgramValue = grp.Where(m => m.SourceProgramId == programId).Sum(m => m.Value),
                                   OtherValue = grp.Where(m => m.SourceProgramId == null || m.SourceProgramId != programId).Sum(m => m.Value),
                                   Year = grp.FirstOrDefault().RecipientProject.StartDate.Year
+                              });
+            return result;
+        }
+
+
+        public static IQueryable<YearAwardDTO> CreateGetYearAward(EcaContext context, int programId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var result = (from m in context.MoneyFlows
+                          where m.RecipientProject.ProgramId == programId
+                          group m by new
+                          {
+                              Year = m.RecipientProject.StartDate.Year,
+                          }
+                              into grp
+                              orderby grp.Key.Year
+                              select new YearAwardDTO
+                              {
+                                  Year = grp.Key.Year,
+                                  ProgramValue = grp.Where(m => m.SourceProgramId == programId).Sum(m => m.Value),
+                                  OtherValue = grp.Where(m => m.SourceProgramId == null || m.SourceProgramId != programId).Sum(m => m.Value),
+                                  Projects = grp.Count(),
+                                  Average = grp.Average(m => m.Value)
                               });
             return result;
         }

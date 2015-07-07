@@ -37,6 +37,10 @@ namespace ECA.Business.Service.Reports
 
         Task<List<ObjectiveAwardDTO>> GetObjectiveAwardsAsync(int programId, int objectiveId);
 
+        IQueryable<YearAwardDTO> GetYearAwards(int programId);
+
+        Task<List<YearAwardDTO>> GetYearAwardsAsync(int programId);
+
         string GetProgramName(int programId);
 
         string GetCountryName(int countryId);
