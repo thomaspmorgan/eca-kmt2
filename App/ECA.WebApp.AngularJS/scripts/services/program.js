@@ -87,6 +87,15 @@ angular.module('staticApp')
                     defer.resolve(newProgram);
                 });
               return defer.promise;
+          },
+          addPermission: function (permissionModel) {
+              return DragonBreath.create(permissionModel, 'programs/collaborator/add');
+          },
+          revokePermission: function (permissionModel) {
+              return DragonBreath.create(permissionModel, 'programs/collaborator/revoke');
+          },
+          removePermission: function (permissionModel) {
+              return DragonBreath.create(permissionModel, 'programs/collaborator/remove');
           }
       };
   });
