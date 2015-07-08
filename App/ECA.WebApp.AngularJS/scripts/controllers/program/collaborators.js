@@ -22,7 +22,7 @@
           };
           ProgramService.addPermission(permissionModel)
                 .then(function () {
-                    $scope.selectedCollaborator = undefined;
+                    $scope.selectedCollaborator = "";
                     loadCollaborators({ start: 0, limit: 300 });
                 }, function () {
                     NotificationService.showErrorMessage('There was an error adding the collaborator.');

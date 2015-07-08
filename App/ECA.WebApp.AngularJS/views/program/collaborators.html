@@ -9,7 +9,7 @@
         <input type="text" placeholder="Select Collaborator..." class="search-contextual"
                ng-model="selectedCollaborator" typeahead="user as user.displayName for user in getUsers($viewValue) | filter : $viewValue | limitTo : 25"
                typeahead-editable="false">
-        <button class="btn btn-success" ng-click="addCollaborator(selectedCollaborator)" ng-disabled="selectedCollaborator === undefined">Add</button>
+        <button class="btn btn-success" ng-click="addCollaborator(selectedCollaborator)" ng-disabled="selectedCollaborator === undefined || selectedCollaborator === ''">Add</button>
     </div>
 
     <table class="col-md-12 alt">
