@@ -1,59 +1,106 @@
-﻿<h2 class="program-color tab-header">Collaborators</h2>
+﻿
+    <h2 class="program-color tab-header">Collaborators</h2>
 
-<div class="row">
-    <p class="subheader listCount ng-binding">Showing {{listCount.start}} - {{listCount.total}} of {{listCount.total}} collaborators</p>
-</div>
+    <div class="row">
+        <p class="subheader listCount ng-binding">Showing {{listCount.start}} - {{listCount.total}} of {{listCount.total}} collaborators</p>
+    </div>
 
-<table class="col-md-12 alt">
-    <thead ng-show="collaborators.length > 0">
-        <tr>
-            <th class="col-md-3 sort-label medium">User</th>
-            <th class="col-md-3 sort-label medium">ECA/Outside ECA</th>
-            <th class="col-md-4 sort-label medium">Permissions</th>
-            <th class="col-md-2">&nbsp;</th>
-        </tr>
-    </thead>
-    <tbody class="list2">
-        <tr class="hover" ng-repeat="collaborator in collaborators">
-            <td class="col-md-3">
-                <h5 class="list-title">{{collaborator.displayName}}</h5>
-                <p class="text-muted"><small>{{collaborator.emailAddress}}</small></p>
-            </td>
-            <td class="col-md-3">
-                {{collaborator.isEcaUser == true ? "ECA" : "Outside ECA"}}
-            </td>
-            <td class="col-md-4">
-                <table class="col-md-12 table-permissions">
-                    <thead>
-                        <tr>
-                            <td class="col-md-8"></td>
-                            <td class="col-md-3">Allow</td>
-                            <td class="col-md-3">Deny</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="permission in collaborator.permissions">
-                            <td>{{permission.permissionName}}</td>
-                            <td><i ng-show="{{permission.isAllowed}}" class="material-icons">check</i></td>
-                            <td><i ng-show="{{!permission.isAllowed}}" class="material-icons">check</i></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </td>
-            <td class="col-md-2">
-                <img class="icon" src="images/duplicateA.png" alt="">
-                <img class="icon" src="images/editA.png" alt="">
-                <img class="icon" src="images/trash.png" alt="">
-            </td>
-        </tr>
-        <tr ng-show="collaboratorsLoading">
-            <td colspan="5">
-                <div class="spinner">
-                    <div class="bounce1"></div>
-                    <div class="bounce2"></div>
-                    <div class="bounce3"></div>
-                </div>
-            </td>
-        </tr>
-    </tbody>
-</table>
+    <div class="row">
+        <input type="text" placeholder="Select Collaborator..." class="search-contextual"
+               ng-model="selectedCollaborator" typeahead="user as user.displayName for user in getUsers($viewValue) | filter : $viewValue | limitTo : 25"
+               typeahead-editable="false">
+        <button class="btn btn-success" ng-click="addCollaborator(selectedCollaborator)" ng-disabled="selectedCollaborator === undefined">Add</button>
+    </div>
+
+    <table class="col-md-12 alt">
+
+        <thead ng-show="collaborators.length > 0">
+            <tr>
+                <th class="col-md-3 sort-label medium">User</th>
+                <th class="col-md-2 sort-label medium">ECA/Outside</th>
+                <th class="col-md-3 sort-label medium">Inherited Permissions</th>
+                <th class="col-md-3 sort-label medium">permissions</th>
+                <th class="col-md-1">&nbsp;</th>
+            </tr>
+        </thead>
+
+        <tbody class="list2">
+            <tr class="hover" ng-repeat="collaborator in collaborators" ng-show="!collaboratorsLoading">
+                <td class="col-md-3">
+                    <h5 class="list-title">{{collaborator.displayName}} <span ng-if="collaborator.isCurrentUser">(Me)</span></h5>
+                    <p class="text-muted"><small>{{collaborator.emailAddress}}</small></p>
+                </td>
+                <td class="col-md-2">
+                    {{collaborator.isEcaUser == true ? "ECA" : "Outside ECA"}}
+                </td>
+                <td class="col-md-3">
+                    <table class="col-md-12 table-permissions" ng-show="collaborator.inheritedPermissions.length > 0">
+                        <thead>
+                            <tr>
+                                <td class="col-md-8"></td>
+                                <td class="col-md-3">Allow</td>
+                                <td class="col-md-3">Deny</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="permission in collaborator.inheritedPermissions">
+                                <td>{{permission.permissionName}}</td>
+                                <td><input type="checkbox" ng-model="permission.isAllowed" ng-disabled="true" /></td>
+                                <td><input type="checkbox" ng-model="permission.isAllowed" ng-true-value="false" ng-false-value="true" ng-disabled="true" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td class="col-md-3">
+                    <table class="col-md-12 table-permissions" ng-show="collaborator.assignedPermissions.length > 0 && !editingCollaborator[collaborator.principalId]">
+                        <thead>
+                            <tr>
+                                <td class="col-md-8"></td>
+                                <td class="col-md-3">Allow</td>
+                                <td class="col-md-3">Deny</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="permission in collaborator.assignedPermissions">
+                                <td>{{permission.permissionName}}</td>
+                                <td><input type="checkbox" ng-model="permission.isAllowed" ng-disabled="true" /></td>
+                                <td><input type="checkbox" ng-model="permission.isAllowed" ng-true-value="false" ng-false-value="true" ng-disabled="true" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="col-md-12 table-permissions" ng-show="collaborator.mergedPermissions.length > 0 && editingCollaborator[collaborator.principalId]">
+                        <thead>
+                            <tr>
+                                <td class="col-md-8"></td>
+                                <td class="col-md-3">Allow</td>
+                                <td class="col-md-3">Deny</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="permission in collaborator.mergedPermissions">
+                                <td>{{permission.permissionName}}</td>
+                                <td><input type="checkbox" ng-model="permission.isAllowed" ng-change="allowPermissionHandler(collaborator, permission)" ng-disabled="collaborator.isCurrentUser" /></td>
+                                <td><input type="checkbox" ng-model="permission.isAllowed" ng-change="denyPermissionHandler(collaborator, permission)" ng-true-value="false" ng-false-value="true" ng-disabled="collaborator.isCurrentUser" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td class="col-md-1">
+                    <a ng-click="editCollaborator(collaborator)" ng-show="!editingCollaborator[collaborator.principalId]">
+                        <img class="icon" src="images/editA.png" alt="">
+                    </a>
+                    <button class="btn btn-success" ng-show="editingCollaborator[collaborator.principalId]" ng-click="editingCollaborator[collaborator.principalId] = false">Done</button>
+                </td>
+            </tr>
+            <tr ng-show="collaboratorsLoading">
+                <td colspan="5">
+                    <div class="spinner">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
