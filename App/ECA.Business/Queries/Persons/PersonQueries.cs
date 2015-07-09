@@ -49,7 +49,8 @@ namespace ECA.Business.Queries.Persons
                                         + ((person.Patronym != null && person.Patronym.Trim().Length > 0) ? (person.Patronym.Trim() + " ") : String.Empty)
                                         + ((person.NameSuffix != null && person.NameSuffix.Trim().Length > 0) ? (person.NameSuffix.Trim() + " ") : String.Empty)
                                         + ((person.Alias != null && person.Alias.Trim().Length > 0) ? ("(" + person.Alias.Trim() + ")") : String.Empty)
-                                        ).Trim()
+                                        ).Trim(),
+                            CurrentStatus = (person.Participations.OrderByDescending(p => p.StatusDate).FirstOrDefault().Status.Status != null) ? (person.Participations.OrderByDescending(p => p.StatusDate).FirstOrDefault().Status.Status) : "Unknown"
                         };
             return query;
         }

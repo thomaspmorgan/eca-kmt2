@@ -81,6 +81,7 @@ namespace ECA.Data
             OtherFamily = new HashSet<Person>();
             Impacts = new HashSet<Impact>();
             History = new History();
+            Participations = new HashSet<Participant>();
         }
 
         [Key]
@@ -173,6 +174,7 @@ namespace ECA.Data
         public ICollection<Person> Family { get; set; }
         public ICollection<Person> OtherFamily { get; set; }
         public ICollection<Impact> Impacts { get; set; }
+        public ICollection<Participant> Participations { get; set; }
         public int? MaritalStatusId { get; set; }
         public MaritalStatus MaritalStatus { get; set; }
 

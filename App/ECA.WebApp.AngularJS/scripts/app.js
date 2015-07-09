@@ -234,7 +234,7 @@ angular
             requireADLogin: true
         })
         .state('participants', {
-            url: '/participants/:participantId',
+            url: '/participants/:personId',
             templateUrl: 'views/participants.html',
             controller: 'ParticipantCtrl',
             requireADLogin: true
@@ -401,6 +401,12 @@ angular
             controller: 'AllParticipantsCtrl',
             requireADLogin: true
         })
+        .state('allpersons', {
+            url: '/allpersons',
+            templateUrl: 'views/participants/allpersons.html',
+            controller: 'AllPersonsCtrl',
+            requireADLogin: true
+        })
         .state('allorganizations', {
             url: '/allorganizations',
             templateUrl: 'views/organizations/allorganizations.html',
@@ -471,7 +477,7 @@ angular
           { name: 'Home', state: 'home.shortcuts' },
           { name: 'Offices', state: 'alloffices' },
           { name: 'Programs', state: 'allprograms' },
-          { name: 'Participants', state: 'allparticipants' },
+          { name: 'Persons', state: 'allpersons' },
           { name: 'Organizations', state: 'allorganizations' },
           { name: 'Activities', state: 'events' },
           { name: 'Reports', state: 'reports.archive' },

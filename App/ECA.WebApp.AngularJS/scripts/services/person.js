@@ -59,6 +59,14 @@ angular.module('staticApp')
                 })
               return defer.promise;
           },
+          getPersonById: function(id) {
+              var defer = $q.defer();
+              DragonBreath.get('/people/' + id)
+                .success(function (data) {
+                    defer.resolve(data);
+                })
+              return defer.promise;
+          },
           getPeople: function(params) {
               return DragonBreath.get(params, 'people');
           },
