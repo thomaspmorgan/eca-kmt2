@@ -14,6 +14,7 @@ angular.module('staticApp')
         $q,
         $log,
         $modal,
+        $state,
         OrganizationService,
         PersonService,
         LocationService,
@@ -50,6 +51,21 @@ angular.module('staticApp')
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;
       var projectId = $stateParams.projectId;
+
+      $scope.onParticipantClick = function (participant) {
+
+          if (participant.personId) {
+              $log.info('Navigating the individual state.');
+              $state.go('participants.personalinformation', { personId: participant.personId });
+          }
+          else if (participant.organizationId) {
+              $log.info('Navigating to organization overview state.');
+              $state.go('organizations.overview', { organizationId: participant.organizationId });
+          }
+          else {
+              NotificationService.showErrorMessage('The participant is neither an organization nor a person.');
+          }
+      };
 
       $scope.view.addCollaborator = function ($event) {
           $scope.view.isCollaboratorsModalOpen = true;
