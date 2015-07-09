@@ -196,7 +196,7 @@
     <None Include="Scripts\PostDeploy\StaticData\dbo.EventType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.ImpactType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.ItineraryStatus.staticdata.sql" />
-    <None Include="Scripts\PostDeploy\StaticData\dbo.LocationType.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\dbo.ParticipantStatus.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.MoneyFlowSourceRecipientType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.MoneyFlowType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.ParticipantType.staticdata.sql" />
