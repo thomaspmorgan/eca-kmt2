@@ -361,9 +361,26 @@ namespace ECA.Business.Service.Persons
             return await CreateGetPersonById(personId).FirstOrDefaultAsync();
         }
 
+        /// <summary>
+        /// Get the person by id 
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>The person as SimplePersonDTO</returns>
+        public async Task<SimplePersonDTO> GetSimplePersonAsync(int personId)
+        {
+            this.logger.Trace("Retrieving person with id {0}.", personId);
+            return await CreateGetSimplePerson(personId).FirstOrDefaultAsync();
+        }
+
         private IQueryable<Person> CreateGetPersonById(int personId)
         {
             return Context.People.Where(x => x.PersonId == personId).Include(x => x.CountriesOfCitizenship);
+        }
+
+        private IQueryable<SimplePersonDTO> CreateGetSimplePerson(int personId)
+        {
+            var query = PersonQueries.CreateGetSimplePersonDTOsQuery(this.Context);
+            return query.Where(p => p.PersonId == personId);
         }
 
         private void DoUpdate(UpdatePii updatePii, Person person, Participant participant, Location cityOfBirth, List<Location> countriesOfCitizenship) {

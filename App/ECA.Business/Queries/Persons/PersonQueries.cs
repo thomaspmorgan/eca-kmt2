@@ -161,8 +161,9 @@ namespace ECA.Business.Queries.Persons
                             LanguageProficiencies = person.LanguageProficiencies.Select(x => new SimpleLookupDTO() { Id = x.LanguageProficiencyId, Value = x.LanguageName}),
                             Dependants = person.Family.Select( x => new SimpleLookupDTO() { Id = x.PersonId, Value = (x.LastName + ", " + x.FirstName)}),
                             // RelatedReports TBD
-                            ImpactStories = person.Impacts.Select(x => new SimpleLookupDTO() { Id = x.ImpactId, Value = x.Description})
-                        };
+                            ImpactStories = person.Impacts.Select(x => new SimpleLookupDTO() { Id = x.ImpactId, Value = x.Description}),
+                            CurrentStatus = (person.Participations.OrderByDescending(p => p.StatusDate).FirstOrDefault().Status.Status != null) ? (person.Participations.OrderByDescending(p => p.StatusDate).FirstOrDefault().Status.Status) : "Unknown"
+                          };
 
             return query;
 

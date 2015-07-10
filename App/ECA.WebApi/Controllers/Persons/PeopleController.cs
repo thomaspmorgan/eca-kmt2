@@ -46,15 +46,15 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
-        /// Returns pii associated with person 
+        /// Returns data associated with person 
         /// </summary>
-        /// <param name="personId">The person id to find pii for</param>
-        /// <returns>Pii associated to person</returns>
-        [ResponseType(typeof(Person))]
-        [Route("People/{personId:int}")]
+        /// <param name="personId">The person id to find </param>
+        /// <returns>data associated to person</returns>
+        [ResponseType(typeof(SimplePersonDTO))]
+        [Route("Person/{personId:int}")]
         public async Task<IHttpActionResult> GetPersonByIdAsync(int personId)
         {
-            var person = await service.GetPersonByIdAsync(personId);
+            var person = await service.GetSimplePersonAsync(personId);
             if (person != null)
             {
                 return Ok(person);

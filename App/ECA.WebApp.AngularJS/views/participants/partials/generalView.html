@@ -2,15 +2,9 @@
     <div ng-show="!editGeneral">
         <div class="col-md-6">
             <div class="row">
-                <label class="col-md-4 title-label">Participant Origination</label>
+                <label class="col-md-4 title-label">Current Status</label>
                 <div class="col-md-6">
-                    {{general.origination.Name}}
-                </div>
-            </div>
-            <div class="row">
-                <label class="col-md-4 title-label">Status</label>
-                <div class="col-md-6">
-                    {{participant.status}}
+                    {{general.currentStatus}}
                 </div>
             </div>
             <div class="row">
@@ -39,12 +33,6 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="row">
-                <label class="col-md-4 title-label">Participant Type</label>
-                <div class="col-md-6">
-                    {{participant.participantType}}
-                </div>
-            </div>
             <div class="row">
                 <label class="col-md-4 title-label">Memberships</label>
                 <div class="col-md-6">
