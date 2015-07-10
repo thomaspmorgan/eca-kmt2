@@ -44,18 +44,15 @@
                 </td>
                 <td>
                     <div class="right" style="display:none;" showonparentrow>
-                        <div class="copyEditDeleteOptions tip" ng-click="copyMoneyFlow(moneyFlow.id)">
+                        <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy" ng-click="copyMoneyFlow(moneyFlow.id)">
                             <i class="md md-content-copy md-2x copyEditDeleteOption" ng-show="!copyMoneyFlowLoading"></i>
                             <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="copyMoneyFlowLoading"></i>
-                            <span>Copy</span>
                         </div>
-                        <div class="copyEditDeleteOptions tip" ng-click="editMoneyFlow(moneyFlow.id)">
+                        <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Edit" ng-click="editMoneyFlow(moneyFlow.id)">
                             <i class="md md-mode-edit md-2x copyEditDeleteOption" ng-show="!editMoneyFlowLoading"></i>
-                            <span>Edit</span>
                         </div>
-                        <div class="copyEditDeleteOptions tip" ng-click="deleteMoneyFlow(moneyFlow.id)">
+                        <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Delete"  ng-click="deleteMoneyFlow(moneyFlow.id)">
                             <i class="md md-delete md-2x copyEditDeleteOption"></i>
-                            <span>Delete</span>
                         </div>
                     </div>
                 </td>
