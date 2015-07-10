@@ -33,8 +33,6 @@ namespace ECA.Business.Queries.Models.Persons
 
         public DateTimeOffset StatusDate { get; set;}
         
-        public SimpleOrganizationDTO ParticipantOrigination {get; set;}
-
         public IEnumerable<SimpleLookupDTO> ProminentCategories {get; set;}
 
         public IEnumerable<SimpleLookupDTO> Events { get; set; }
@@ -48,6 +46,8 @@ namespace ECA.Business.Queries.Models.Persons
         public IEnumerable<SimpleLookupDTO> RelatedReports { get; set; }
 
         public IEnumerable<SimpleLookupDTO> ImpactStories { get; set; }
+
+        public string CurrentStatus { get; set; }
 
         /// <summary>
         /// Gets or sets the date revised on.

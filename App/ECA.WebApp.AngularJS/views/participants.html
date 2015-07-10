@@ -1,10 +1,10 @@
 <div class="breadcrumbs">
-    <p><a ui-sref="allparticipants({page: 1})">Participants</a> &bull; {{participant.name}}</p>
+    <p><a ui-sref="allpersons({page: 1})">Persons </a> &bull; {{person.fullName}}</p>
 </div>
 <div class="jumbotron person">
     <div class="toolbar" sticky offset="50">
         <div class="left">
-            <span class="detail">Last Updated {{participant.revisedOn | date}}</span>
+            <span class="detail">Last Updated {{person.revisedOn | date}}</span>
         </div>
         <div class="right">
             <img class="icon star" src="images/star.png" alt="">
@@ -14,8 +14,8 @@
         </div>
     </div>
     <div class="heading">
-        <h5>PARTICIPANT</h5>
-        <h1>{{participant.name}}</h1>
+        <h5>Person</h5>
+        <h1>{{person.fullName}}</h1>
         <span class="prominent">Prominent</span>
         <div class="permalink">Permalink: url goes here</div>
     </div>

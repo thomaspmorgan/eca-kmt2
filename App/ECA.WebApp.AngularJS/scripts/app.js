@@ -234,7 +234,7 @@ angular
             requireADLogin: true
         })
         .state('participants', {
-            url: '/participants/:participantId',
+            url: '/participants/:personId',
             templateUrl: 'views/participants.html',
             controller: 'ParticipantCtrl',
             requireADLogin: true
@@ -287,6 +287,7 @@ angular
             url: '/projects',
             templateUrl: 'views/program/projects.html'
         })
+
         .state('programs.activity', {
             url: '/activity',
             templateUrl: 'views/program/activity.html'
@@ -295,20 +296,24 @@ angular
             url: '/artifacts',
             templateUrl: 'views/program/artifacts.html'
         })
+
         .state('programs.impact', {
             url: '/impact',
             templateUrl: 'views/program/impact.html'
         })
+
         .state('programs.collaborators', {
             url: '/collaborators',
             templateUrl: 'views/program/collaborators.html',
             controller: 'ProgramCollaboratorsCtrl'
         })
+
         .state('programs.moneyflows', {
             url: '/moneyflows',
             templateUrl: 'views/program/moneyflows.html',
             controller: 'ProgramMoneyFlowsCtrl'
         })
+
         .state('projects', {
             url: '/offices/:officeId/programs/:programId/project/:projectId',
             templateUrl: 'views/project.html',
@@ -401,6 +406,12 @@ angular
             controller: 'AllParticipantsCtrl',
             requireADLogin: true
         })
+        .state('allpersons', {
+            url: '/allpersons',
+            templateUrl: 'views/participants/allpersons.html',
+            controller: 'AllPersonsCtrl',
+            requireADLogin: true
+        })
         .state('allorganizations', {
             url: '/allorganizations',
             templateUrl: 'views/organizations/allorganizations.html',
@@ -471,7 +482,7 @@ angular
           { name: 'Home', state: 'home.shortcuts' },
           { name: 'Offices', state: 'alloffices' },
           { name: 'Programs', state: 'allprograms' },
-          { name: 'Participants', state: 'allparticipants' },
+          { name: 'Persons', state: 'allpersons' },
           { name: 'Organizations', state: 'allorganizations' },
           { name: 'Activities', state: 'events' },
           { name: 'Reports', state: 'reports.archive' },

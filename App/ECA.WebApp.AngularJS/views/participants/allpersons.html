@@ -1,0 +1,63 @@
+<div class="jumbotron person">
+    <div class="heading">
+        <h1>Persons</h1>
+    </div>
+</div>
+
+<div class="container">
+
+    <h4 class="tab-subheader">Persons List</h4>
+    <p class="subheader listCount">Showing {{start}} - {{end}} of {{total}} persons</p>
+
+    <div st-pipe="getPersons" st-table="persons" id="sort-list">
+        <table class="col-md-12 alt">
+            <thead>
+                <tr>
+                    <th st-sort="'fullName'" st-sort-default="true" class="col-md-5 sort-label medium">Name</th>
+                    <th st-sort="'gender'" class="col-md-3 sort-label medium">Gender</th>
+                    <th st-sort="'currentStatus'" class="col-md-2 sort-label medium">Current Status</th>
+                    <th class="col-md-2">&nbsp;</th>
+                </tr>
+                <tr>
+                    <th>
+                        <input st-search="'fullName'" placeholder="" type="search" class="input-lg form-control" />
+                    </th>
+                    <th>
+                        <input st-search="'gender'" placeholder="" type="search" class="input-lg form-control" />
+                    </th>
+                    <th>
+                        <input st-search="'currentStatus'" placeholder="" type="search" class="input-lg form-control" />
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="list2">
+                <tr class="hover" ng-repeat="person in persons" ng-show="!personsLoading">
+                    <td>
+                        <h5 class="list-title"><a ng-click="onPersonClick(person)">{{person.fullName}}</a></h5>
+                    </td>
+                    <td>{{person.gender}}</td>
+                    <td>{{person.currentStatus}}</td>
+                    <td>
+                        <img class="icon" src="images/duplicateA.png" alt="">
+                        <img class="icon" src="images/editA.png" alt="">
+                        <img class="icon" src="images/trash.png" alt="">
+                    </td>
+                </tr>
+                <tr ng-show="personsLoading">
+                    <td colspan="5">
+                        <div class="spinner">
+                            <div class="bounce1"></div>
+                            <div class="bounce2"></div>
+                            <div class="bounce3"></div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div st-template="views/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="persons.length > 0"></div>
+    </div>
+
+</div>

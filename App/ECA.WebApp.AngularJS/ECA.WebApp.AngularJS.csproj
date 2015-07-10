@@ -132,6 +132,7 @@
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="scripts\controllers\allpersons.js" />
     <Content Include="scripts\controllers\allorganizations.js" />
     <Content Include="scripts\controllers\organization\activities.js" />
     <Content Include="scripts\controllers\organization\impact.js" />
@@ -174,6 +175,7 @@
     <Content Include="views\organizations\edit.html" />
     <Content Include="views\organizations\overview.html" />
     <Content Include="views\partials\pagination.html" />
+    <Content Include="views\participants\allpersons.html" />
     <Content Include="views\participants\partials\evaluationNotesView.html" />
     <Content Include="views\participants\partials\eduempView.html" />
     <Content Include="views\participants\partials\generalView.html" />

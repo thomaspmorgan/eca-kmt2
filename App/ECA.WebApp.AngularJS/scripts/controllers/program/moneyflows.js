@@ -1,5 +1,6 @@
 ﻿angular.module('staticApp')
-  .controller('ProgramMoneyFlowsCtrl', function ($scope, $stateParams, $q, ProgramService,
+  .controller('ProgramMoneyFlowsCtrl',
+  function ($scope, $stateParams, $q, ProgramService,
       MoneyFlowService, ConstantsService, TableService) {
 
       $scope.listCount = {
@@ -30,6 +31,8 @@
       $scope.moneyFlowsLoading = false;
 
       $scope.getMoneyFlows = function (tableState) {
+
+          alert('get program money flows');
 
           $scope.moneyFlowsLoading = true;
           $scope.showFullMoneyFlowDescription = [];

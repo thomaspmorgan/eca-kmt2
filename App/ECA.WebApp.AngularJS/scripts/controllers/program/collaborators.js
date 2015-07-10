@@ -1,5 +1,7 @@
 ﻿angular.module('staticApp')
-  .controller('ProgramCollaboratorsCtrl', function ($scope, $stateParams, $q, ProgramService, AuthService, ConstantsService, NotificationService, orderByFilter, UserService) {
+  .controller('ProgramCollaboratorsCtrl',
+    function ($scope, $stateParams, $q, ProgramService, AuthService, ConstantsService,
+        NotificationService, orderByFilter, UserService) {
 
       $scope.listCount = {
           start: 0,
