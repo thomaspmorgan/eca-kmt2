@@ -5,6 +5,7 @@
     <button class="btn btn-primary right" ng-show="!moneyFlowsLoading && !currentlyEditing" ng-click="createMoneyFlowForm()">ADD FUNDING ITEM</button>
 </div>
 
+
 <div st-pipe="getMoneyFlows" st-table="program.moneyFlows" id="sort-list">
     <table class="col-md-12">
         <thead>
@@ -132,32 +133,6 @@
 
 
 
-
-
-
-    <modal-dialog show="showConfirmClose" dialog-title="Confirm Close">
-        <p class="strong">There is unsaved data.  Are you sure you want to cancel?</p>
-        <button class="btn btn-default right" ng-click="confirmClose(true)">YES</button>
-        &nbsp;
-        <button class="btn btn-success right" ng-click="confirmClose(false)">NO</button>
-    </modal-dialog>
-
-    <modal-dialog show="confirmCopy" dialog-title="Please confirm">
-        <p class="strong">Are you sure? Copy this funding item?</p>
-        <button class="btn btn-default right" ng-click="confirmCancel()">Cancel</button>
-        <button class="btn btn-default right" ng-click="confirmCopyYes()">OK</button>
-    </modal-dialog>
-
-    <modal-dialog show="confirmDelete" dialog-title="Please confirm">
-        <p class="strong">Are you sure? DELETE this funding item? PLEASE NOTE: once deleted, the entry cannot be restored.</p>
-        <button class="btn btn-default right" ng-click="confirmCancel()">Cancel</button>
-        <button class="btn btn-default right" ng-click="confirmDeleteYes()">OK</button>
-    </modal-dialog>
-
-    <modal-dialog show="confirmSuccess" dialog-title="Success!">
-        <p class="strong">The funding item was {{moneyFlowConfirmMessage}} sucessfully</p>
-        <button class="btn btn-default right" ng-click="confirmCloseSuccess()">OK</button>
-    </modal-dialog>
 
     <style>
         .ng-modal-close-x {

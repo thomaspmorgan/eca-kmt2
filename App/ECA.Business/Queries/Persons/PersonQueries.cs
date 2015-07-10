@@ -18,6 +18,11 @@ namespace ECA.Business.Queries.Persons
     public class PersonQueries
     {
         /// <summary>
+        /// The current status value to show for a person who is not a participant in any projects.
+        /// </summary>
+        public const string UNKNOWN_PARTICIPANT_STATUS = "Unknown";
+
+        /// <summary>
         /// Returns a query capable of retrieving people from the given context.  A FullName value is also calculated for the person.
         /// </summary>
         /// <param name="context">The context to query.</param>
@@ -27,6 +32,11 @@ namespace ECA.Business.Queries.Persons
             Contract.Requires(context != null, "The context must not be null.");
             var query = from person in context.People
                         let gender = person.Gender
+                        let currentParticipation = person.Participations.OrderByDescending(p => p.StatusDate).FirstOrDefault()
+                        let hasCurrentParticipation = currentParticipation != null
+                            && currentParticipation.Status != null
+                            && currentParticipation.Status.Status != null
+
                         select new SimplePersonDTO
                         {
                             Alias = person.Alias,
@@ -50,7 +60,7 @@ namespace ECA.Business.Queries.Persons
                                         + ((person.NameSuffix != null && person.NameSuffix.Trim().Length > 0) ? (person.NameSuffix.Trim() + " ") : String.Empty)
                                         + ((person.Alias != null && person.Alias.Trim().Length > 0) ? ("(" + person.Alias.Trim() + ")") : String.Empty)
                                         ).Trim(),
-                            CurrentStatus = (person.Participations.OrderByDescending(p => p.StatusDate).FirstOrDefault().Status.Status != null) ? (person.Participations.OrderByDescending(p => p.StatusDate).FirstOrDefault().Status.Status) : "Unknown"
+                            CurrentStatus = hasCurrentParticipation ? currentParticipation.Status.Status : UNKNOWN_PARTICIPANT_STATUS
                         };
             return query;
         }
@@ -87,7 +97,7 @@ namespace ECA.Business.Queries.Persons
                             Gender = person.Gender.GenderName,
                             GenderId = person.GenderId,
                             DateOfBirth = person.DateOfBirth,
-                            CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new SimpleLookupDTO{Id = x.LocationId, Value = x.LocationName}),
+                            CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }),
                             FirstName = person.FirstName,
                             LastName = person.LastName,
                             NamePrefix = person.NamePrefix,
@@ -102,13 +112,14 @@ namespace ECA.Business.Queries.Persons
                             Ethnicity = person.Ethnicity,
                             MedicalConditions = person.MedicalConditions,
                             HomeAddresses = person.Addresses.Where(x => x.AddressTypeId == AddressType.Home.Id)
-                                                        .Select(x => new LocationDTO {
+                                                        .Select(x => new LocationDTO
+                                                        {
                                                             Id = x.LocationId,
-                                                            Street1 = x.Location.Street1, 
-                                                            Street2 = x.Location.Street2, 
+                                                            Street1 = x.Location.Street1,
+                                                            Street2 = x.Location.Street2,
                                                             Street3 = x.Location.Street3,
                                                             City = x.Location.City.LocationName,
-                                                            CityId = context.Locations.Where(y => y.CountryId == x.Location.Country.LocationId && 
+                                                            CityId = context.Locations.Where(y => y.CountryId == x.Location.Country.LocationId &&
                                                                                              y.LocationName == x.Location.City.LocationName &&
                                                                                              y.LocationTypeId == LocationType.City.Id)
                                                                                              .FirstOrDefault().LocationId,
@@ -151,19 +162,24 @@ namespace ECA.Business.Queries.Persons
             Contract.Requires(context != null, "The context must not be null.");
 
             var query = from person in context.People
+                        let currentParticipation = person.Participations.OrderByDescending(p => p.StatusDate).FirstOrDefault()
+                        let hasCurrentParticipation = currentParticipation != null
+                            && currentParticipation.Status != null
+                            && currentParticipation.Status.Status != null
                         where person.PersonId == personId
                         select new GeneralDTO
                         {
                             PersonId = person.PersonId,
-                            ProminentCategories = person.ProminentCategories.Select(x => new SimpleLookupDTO() { Id = x.ProminentCategoryId, Value= x.Name}),
-                            Events = person.Events.Select(x => new SimpleLookupDTO() { Id = x.EventId, Value=x.Title}),
-                            Memberships = person.Memberships.Select(x =>  new ECA.Business.Queries.Models.Admin.SimpleOrganizationDTO() { OrganizationId=x.MembershipId, Name=x.Name}),
-                            LanguageProficiencies = person.LanguageProficiencies.Select(x => new SimpleLookupDTO() { Id = x.LanguageProficiencyId, Value = x.LanguageName}),
-                            Dependants = person.Family.Select( x => new SimpleLookupDTO() { Id = x.PersonId, Value = (x.LastName + ", " + x.FirstName)}),
+                            ProminentCategories = person.ProminentCategories.Select(x => new SimpleLookupDTO() { Id = x.ProminentCategoryId, Value = x.Name }),
+                            Events = person.Events.Select(x => new SimpleLookupDTO() { Id = x.EventId, Value = x.Title }),
+                            Memberships = person.Memberships.Select(x => new ECA.Business.Queries.Models.Admin.SimpleOrganizationDTO() { OrganizationId = x.MembershipId, Name = x.Name }),
+                            LanguageProficiencies = person.LanguageProficiencies.Select(x => new SimpleLookupDTO() { Id = x.LanguageProficiencyId, Value = x.LanguageName }),
+                            Dependants = person.Family.Select(x => new SimpleLookupDTO() { Id = x.PersonId, Value = (x.LastName + ", " + x.FirstName) }),
                             // RelatedReports TBD
-                            ImpactStories = person.Impacts.Select(x => new SimpleLookupDTO() { Id = x.ImpactId, Value = x.Description}),
-                            CurrentStatus = (person.Participations.OrderByDescending(p => p.StatusDate).FirstOrDefault().Status.Status != null) ? (person.Participations.OrderByDescending(p => p.StatusDate).FirstOrDefault().Status.Status) : "Unknown"
-                          };
+                            ImpactStories = person.Impacts.Select(x => new SimpleLookupDTO() { Id = x.ImpactId, Value = x.Description }),
+                            CurrentStatus = hasCurrentParticipation ? currentParticipation.Status.Status : UNKNOWN_PARTICIPANT_STATUS
+
+                        };
 
             return query;
 
@@ -184,13 +200,13 @@ namespace ECA.Business.Queries.Persons
                             StartDate = education.DateFrom,
                             EndDate = education.DateTo,
                             Organization = (education.Organization != null) ? new Models.Admin.SimpleOrganizationDTO()
-                                {
-                                    OrganizationId = education.Organization.OrganizationId,
-                                    Name = education.Organization.Name,
-                                    OrganizationType = education.Organization.OrganizationType.OrganizationTypeName,
-                                    Location = education.Organization.Addresses.FirstOrDefault().DisplayName,
-                                    Status = education.Organization.Status
-                                } : null
+                            {
+                                OrganizationId = education.Organization.OrganizationId,
+                                Name = education.Organization.Name,
+                                OrganizationType = education.Organization.OrganizationType.OrganizationTypeName,
+                                Location = education.Organization.Addresses.FirstOrDefault().DisplayName,
+                                Status = education.Organization.Status
+                            } : null
                         };
 
             return query;
