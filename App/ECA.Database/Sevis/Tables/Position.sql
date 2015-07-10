@@ -13,3 +13,7 @@
 GO
 
 CREATE INDEX [IX_PositionCode] ON [sevis].[Position] ([PositionCode])
+
+GO
+
+CREATE INDEX [IX_Description] ON [sevis].[Position] ([Description])

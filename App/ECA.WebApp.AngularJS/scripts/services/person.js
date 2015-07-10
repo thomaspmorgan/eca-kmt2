@@ -61,7 +61,7 @@ angular.module('staticApp')
           },
           getPersonById: function(id) {
               var defer = $q.defer();
-              DragonBreath.get('/people/' + id)
+              DragonBreath.get('/person/' + id)
                 .success(function (data) {
                     defer.resolve(data);
                 })

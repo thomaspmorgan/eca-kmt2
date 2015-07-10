@@ -130,5 +130,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="personId"></param>
         /// <returns></returns>
         Task<Person> GetPersonByIdAsync(int personId);
+
+        Task<SimplePersonDTO> GetSimplePersonAsync(int personId);
     }
 }
