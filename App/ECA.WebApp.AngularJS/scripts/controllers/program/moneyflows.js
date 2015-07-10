@@ -32,8 +32,6 @@
 
       $scope.getMoneyFlows = function (tableState) {
 
-          alert('get program money flows');
-
           $scope.moneyFlowsLoading = true;
           $scope.showFullMoneyFlowDescription = [];
           $scope.editingMoneyFlows = [];

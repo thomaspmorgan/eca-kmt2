@@ -125,7 +125,7 @@
     <div st-template="views/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="!moneyFlowsLoading"></div>
 </div>
 
-<modal-dialog show="showCreateMoneyFlow" dialog-title="Create Funding Item">
+<modal-dialog show="showCreateMoneyFlow" dialog-title="{{moneyFlowCreationType}} Funding Item">
     <div class="tip">
         <img src="images/tip.png"><span class="strong">Did you know?</span> This is a draft. Only you can see this.
         <div class="required">* Marks required fields</div>
@@ -185,9 +185,9 @@
                             </th>
                         </tr>
                     </table>
-                        <div ng-show="modalForm.moneyFlowForm.amount.$dirty">
-                            <div class="error" ng-show="modalForm.moneyFlowForm.amount.$error.required">Please enter an amount and fiscal year</div>
-                        </div>
+                    <div ng-show="modalForm.moneyFlowForm.amount.$dirty">
+                        <div class="error" ng-show="modalForm.moneyFlowForm.amount.$error.required">Please enter an amount and fiscal year</div>
+                    </div>
                 </div>
 
                 <div class="form-group narrow">
@@ -211,13 +211,13 @@
                 <div class="form-group">
                     <label>Description<span class="asterisk"> *</span></label>
                     <input name="name" ng-model="draftMoneyFlow.description" form-element guidance="Enter a short description of this income or expense"
-                           type="text" class="form-control" placeholder="Enter funding item description..." ng-required="true"/>
+                           type="text" class="form-control" placeholder="Enter funding item description..." ng-required="true" />
                     <div ng-show="modalForm.moneyFlowForm.description.$dirty">
                         <div class="error" ng-show="modalForm.moneyFlowForm.description.$error.required">Please enter a description.</div>
                     </div>
                 </div>
             </form>
-            </div>
+        </div>
 
         <div class="col-md-2">
             <guidance></guidance>
@@ -225,7 +225,7 @@
     </div>
     <div class="modalFormButtons">
         <button class="btn btn-default" ng-click="createModalCancel()">CANCEL</button>
-        <button ng-disabled="modalForm.moneyFlowForm.$invalid" class="btn btn-success right" ng-click="saveCreatedMoneyFlow()">CREATE</button>
+        <button ng-disabled="modalForm.moneyFlowForm.$invalid" class="btn btn-success right" ng-click="saveCreatedMoneyFlow()">{{moneyFlowCreationType}}</button>
     </div>
 </modal-dialog>
 
@@ -235,12 +235,6 @@
     <button class="btn btn-default right" ng-click="confirmClose(true)">YES</button>
     &nbsp;
     <button class="btn btn-success right" ng-click="confirmClose(false)">NO</button>
-</modal-dialog>
-
-<modal-dialog show="confirmCopy" dialog-title="Please confirm">
-    <p class="strong">Are you sure? Copy this funding item?</p>
-    <button class="btn btn-default right" ng-click="confirmCancel()">Cancel</button>
-    <button class="btn btn-default right" ng-click="confirmCopyYes()">OK</button>
 </modal-dialog>
 
 <modal-dialog show="confirmDelete" dialog-title="Please confirm">

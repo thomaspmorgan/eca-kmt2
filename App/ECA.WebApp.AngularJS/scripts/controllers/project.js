@@ -14,13 +14,10 @@ angular.module('staticApp')
 
       $scope.project = {};
       $scope.modalForm = {};
-      $scope.showConfirmCopy = false;
       $scope.currencyTypes = {};
-
-      /* Money Flow */
-
       $scope.currentProjectId = $stateParams.projectId;
 
+      $scope.moneyFlowCreationType = "Create";
       $scope.moneyFlows = [];
       $scope.moneyFlowTypes = [];
       $scope.moneyFlowStati = [];
@@ -44,7 +41,8 @@ angular.module('staticApp')
       for (var i = new Date().getFullYear() ; i >= 2010 ; i--) {
           $scope.fiscalYears.push({ year: i, name: i });
       }
-// initialize new money flow record to be used for creating and editing
+
+    // initialize new money flow record to be used for creating and editing
       $scope.draftMoneyFlow = {
           description: '',
           moneyFlowTypeId: null,
@@ -275,6 +273,8 @@ angular.module('staticApp')
           $scope.outgoingSelected = "";
           $scope.sourceRecipientLabel = "Source";
 
+          $scope.moneyFlowCreationType = "Create";
+
           $scope.showCreateMoneyFlow = true;
       };
 
@@ -290,10 +290,21 @@ angular.module('staticApp')
             });
       };
       
+
       $scope.copyMoneyFlow = function (moneyFlowId) {
-          // show dialog then create new money flow based on existing
+          // take selected money flow; create object and put in new money flow dialog
           $scope.currentMoneyFlowId = moneyFlowId;
-          $scope.confirmCopy = true;
+          $scope.moneyFlowCreationType = "Copy";
+
+          MoneyFlowService.get(moneyFlowId)
+            .then(function (data) {
+
+                $scope.draftMoneyFlow = data;
+                $scope.changeSourceRecipientType();
+                $scope.currentlyEditing = true;
+
+                $scope.showCreateMoneyFlow = true;
+            });
       };
 
       $scope.deleteMoneyFlow = function (moneyFlowId) {
@@ -312,20 +323,12 @@ angular.module('staticApp')
       };
 
       // DIALOG BOX FUNCTIONS
-      $scope.confirmCopyYes = function () {
-          executeCopyMoneyFlow();
-          $scope.confirmCopy = false;
-          $scope.moneyFlowConfirmMessage = "copied";
-          $scope.confirmSuccess = true;
-
-      }
 
       $scope.confirmDeleteYes = function () {
           executeDeleteMoneyFlow();
           $scope.confirmDelete = false;
           $scope.moneyFlowConfirmMessage = "deleted";
           $scope.confirmSuccess = true;
-
       }
 
       $scope.closeConfirm = function () {
@@ -603,7 +606,6 @@ angular.module('staticApp')
 
       $scope.confirmCancel = function () {
           // simply close the confirmation modal dialog
-          $scope.confirmCopy = false;
           $scope.confirmDelete = false;
       };
 
