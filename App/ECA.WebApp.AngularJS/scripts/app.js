@@ -287,6 +287,7 @@ angular
             url: '/projects',
             templateUrl: 'views/program/projects.html'
         })
+
         .state('programs.activity', {
             url: '/activity',
             templateUrl: 'views/program/activity.html'
@@ -295,20 +296,24 @@ angular
             url: '/artifacts',
             templateUrl: 'views/program/artifacts.html'
         })
+
         .state('programs.impact', {
             url: '/impact',
             templateUrl: 'views/program/impact.html'
         })
+
         .state('programs.collaborators', {
             url: '/collaborators',
             templateUrl: 'views/program/collaborators.html',
             controller: 'ProgramCollaboratorsCtrl'
         })
+
         .state('programs.moneyflows', {
             url: '/moneyflows',
             templateUrl: 'views/program/moneyflows.html',
             controller: 'ProgramMoneyFlowsCtrl'
         })
+
         .state('projects', {
             url: '/offices/:officeId/programs/:programId/project/:projectId',
             templateUrl: 'views/project.html',
