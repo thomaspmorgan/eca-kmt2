@@ -22,6 +22,31 @@ namespace ECA.Business.Test.Service.Admin
         #region Create
 
         [TestMethod]
+        public void TestDoCreate_NullValue()
+        {
+            var value = 1.00m;
+            var description = "description";
+            var transactionDate = new DateTimeOffset();
+            Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceCreateValidationEntity(
+                value: value,
+                description: description,
+                transactionDate: transactionDate
+                );
+            };
+            Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
+
+            value = 0;
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateCreate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(MoneyFlowServiceValidator.INVALID_AMOUNT_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("Value", validationErrors.First().Property);
+
+        }
+
+        [TestMethod]
         public void TestDoCreate_NullDescription()
         {
             var value = 1.00m;
@@ -45,6 +70,7 @@ namespace ECA.Business.Test.Service.Admin
             Assert.AreEqual("Description", validationErrors.First().Property);
 
         }
+
 
         [TestMethod]
         public void TestDoCreate_EmptyDescription()
