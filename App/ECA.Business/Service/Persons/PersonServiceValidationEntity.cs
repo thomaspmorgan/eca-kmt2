@@ -17,18 +17,16 @@ namespace ECA.Business.Service.Persons
         /// Constructor
         /// </summary>
         /// <param name="person">The person</param>
-        /// <param name="participant">The participant</param>
         /// <param name="firstName">The first name</param>
         /// <param name="lastName">The last name</param>
         /// <param name="genderId">The gender id</param>
         /// <param name="dateOfBirth">The date of birth</param>
         /// <param name="cityOfBirth">The city of birth</param>
         /// <param name="countriesOfCitizenship">The countries of citizenship</param>
-        public PersonServiceValidationEntity(Person person, Participant participant, int genderId, 
+        public PersonServiceValidationEntity(Person person, int genderId, 
                                              DateTime dateOfBirth, Location cityOfBirth, List<Location> countriesOfCitizenship)
         {
             this.Person = person;
-            this.Participant = participant;
             this.GenderId = genderId;
             this.DateOfBirth = dateOfBirth;
             this.CityOfBirth = cityOfBirth;
@@ -39,11 +37,6 @@ namespace ECA.Business.Service.Persons
         /// Gets or sets person
         /// </summary>
         public Person Person { get; private set; }
-
-        /// <summary>
-        /// Gets or sets participant
-        /// </summary>
-        public Participant Participant { get; private set; }
 
         /// <summary>
         /// Gets or sets gender id

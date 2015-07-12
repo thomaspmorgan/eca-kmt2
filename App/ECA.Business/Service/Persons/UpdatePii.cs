@@ -35,11 +35,9 @@ namespace ECA.Business.Service.Persons
         /// <param name="homeAddresses">The home addresses</param>
         /// <param name="medicalConditions">The medical conditions</param>
         /// <param name="maritalStatusId">The marital status id</param>
-        /// <param name="sevisId">The sevis id</param>
         public UpdatePii(
             User updatedBy,
             int personId,
-            int participantId,
             string firstName,
             string lastName,
             string namePrefix,
@@ -56,13 +54,11 @@ namespace ECA.Business.Service.Persons
             List<int> countriesOfCitizenship,
             List<HomeAddress> homeAddresses,
             string medicalConditions,
-            int maritalStatusId,
-            string sevisId
+            int maritalStatusId
             )
         {
             Contract.Requires(updatedBy != null, "The updated by user must not be null.");
             this.PersonId = personId;
-            this.ParticipantId = participantId;
             this.FirstName = firstName;
             this.LastName = lastName;
             this.NamePrefix = namePrefix;
@@ -80,7 +76,6 @@ namespace ECA.Business.Service.Persons
             this.HomeAddresses = homeAddresses;
             this.MedicalConditions = medicalConditions;
             this.MaritalStatusId = maritalStatusId;
-            this.SevisId = sevisId;
             this.Audit = new Create(updatedBy);
         }
 
@@ -88,11 +83,6 @@ namespace ECA.Business.Service.Persons
         /// Gets or sets the person id
         /// </summary>
         public int PersonId { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the participant id
-        /// </summary>
-        public int ParticipantId { get; private set; }
 
         /// <summary>
         /// Gets or sets the first name
@@ -179,10 +169,6 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         public int MaritalStatusId { get; private set; }
 
-        /// <summary>
-        /// Gets or sets the sevis id
-        /// </summary>
-        public string SevisId { get; private set; }
 
         /// <summary>
         /// Gets or sets the audit record

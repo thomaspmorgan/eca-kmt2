@@ -821,18 +821,11 @@ namespace ECA.Business.Test.Service.Persons
                 PlaceOfBirthId = default(int)
             };
 
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                PersonId = person.PersonId
-            };
             
             context.People.Add(person);
-            context.Participants.Add(participant);
 
             var pii = new UpdatePii(new User(0),
                                     person.PersonId,
-                                    participant.ParticipantId,
                                     "firstName",
                                     "lastName",
                                     "namePrefix",
@@ -849,8 +842,7 @@ namespace ECA.Business.Test.Service.Persons
                                     new List<int>(),
                                     new List<HomeAddress>(),
                                     "medicalConditions",
-                                    default(int),
-                                    null);
+                                    default(int));
             var updatedPerson = await service.UpdatePiiAsync(pii);
             Assert.AreEqual(pii.FirstName, updatedPerson.FirstName);
             Assert.AreEqual(pii.LastName, updatedPerson.LastName);
@@ -884,19 +876,11 @@ namespace ECA.Business.Test.Service.Persons
                 PlaceOfBirthId = default(int)
             };
 
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                PersonId = person.PersonId
-            };
-
             context.Genders.Add(gender);
             context.People.Add(person);
-            context.Participants.Add(participant);
 
             var pii = new UpdatePii(new User(0),
                                     person.PersonId,
-                                    participant.ParticipantId,
                                     "firstName",
                                     "lastName",
                                     "namePrefix",
@@ -913,8 +897,7 @@ namespace ECA.Business.Test.Service.Persons
                                     new List<int>(),
                                     new List<HomeAddress>(),
                                     "medicalConditions",
-                                    default(int),
-                                    null);
+                                    default(int));
             var updatedPerson = await service.UpdatePiiAsync(pii);
             Assert.AreEqual(gender.GenderId, updatedPerson.GenderId);
         }
@@ -936,19 +919,12 @@ namespace ECA.Business.Test.Service.Persons
                 PlaceOfBirthId = default(int)
             };
 
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                PersonId = person.PersonId
-            };
 
             context.Locations.Add(placeOfBirth);
             context.People.Add(person);
-            context.Participants.Add(participant);
 
             var pii = new UpdatePii(new User(0),
                                     person.PersonId,
-                                    participant.ParticipantId,
                                     "firstName",
                                     "lastName",
                                     "namePrefix",
@@ -965,8 +941,7 @@ namespace ECA.Business.Test.Service.Persons
                                     new List<int>(),
                                     new List<HomeAddress>(),
                                     "medicalConditions",
-                                    default(int),
-                                    null);
+                                    default(int));
             var updatedPerson = await service.UpdatePiiAsync(pii);
             Assert.AreEqual(placeOfBirth.LocationId, updatedPerson.PlaceOfBirthId);
         }
@@ -988,22 +963,15 @@ namespace ECA.Business.Test.Service.Persons
                 PlaceOfBirthId = default(int)
             };
 
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                PersonId = person.PersonId
-            };
 
             context.Locations.Add(country);
             context.People.Add(person);
-            context.Participants.Add(participant);
 
             var countriesOfCitizenship = new List<int>();
             countriesOfCitizenship.Add(country.LocationId);
 
             var pii = new UpdatePii(new User(0),
                                     person.PersonId,
-                                    participant.ParticipantId,
                                     "firstName",
                                     "lastName",
                                     "namePrefix",
@@ -1020,8 +988,7 @@ namespace ECA.Business.Test.Service.Persons
                                     countriesOfCitizenship,
                                     new List<HomeAddress>(),
                                     "medicalConditions",
-                                    default(int),
-                                    null);
+                                    default(int));
             var updatedPerson = await service.UpdatePiiAsync(pii);
 
             CollectionAssert.AreEqual(countriesOfCitizenship, updatedPerson.CountriesOfCitizenship.Select(x => x.LocationId).ToList());
@@ -1045,19 +1012,12 @@ namespace ECA.Business.Test.Service.Persons
                 PlaceOfBirthId = default(int)
             };
 
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                PersonId = person.PersonId
-            };
 
             context.MaritalStatuses.Add(maritalStatus);
             context.People.Add(person);
-            context.Participants.Add(participant);
 
             var pii = new UpdatePii(new User(0),
                                     person.PersonId,
-                                    participant.ParticipantId,
                                     "firstName",
                                     "lastName",
                                     "namePrefix",
@@ -1074,8 +1034,7 @@ namespace ECA.Business.Test.Service.Persons
                                     new List<int>(),
                                     new List<HomeAddress>(),
                                     "medicalConditions",
-                                    maritalStatus.MaritalStatusId,
-                                    null);
+                                    maritalStatus.MaritalStatusId);
             var updatedPerson = await service.UpdatePiiAsync(pii);
             Assert.AreEqual(maritalStatus.MaritalStatusId, updatedPerson.MaritalStatusId);
         }
@@ -1099,12 +1058,10 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             context.People.Add(person);
-            context.Participants.Add(participant);
 
             var pii = new UpdatePii(new User(0),
                                     person.PersonId,
-                                    participant.ParticipantId,
-                                    "firstName",
+                                     "firstName",
                                     "lastName",
                                     "namePrefix",
                                     "nameSuffix",
@@ -1120,11 +1077,8 @@ namespace ECA.Business.Test.Service.Persons
                                     new List<int>(),
                                     new List<HomeAddress>(),
                                     "medicalConditions",
-                                    default(int),
-                                    "1234567890");
+                                    default(int));
             var updatedPerson = await service.UpdatePiiAsync(pii);
-            var updatedParticipant = await context.Participants.Where(x => x.ParticipantId == participant.ParticipantId).FirstOrDefaultAsync();
-            Assert.AreEqual("1234567890", updatedParticipant.SevisId);
         }
 
         [TestMethod]
@@ -1167,7 +1121,6 @@ namespace ECA.Business.Test.Service.Persons
 
             var pii = new UpdatePii(new User(0),
                                     2,
-                                    participant.ParticipantId,
                                     "firstName",
                                     "lastName",
                                     null,
@@ -1184,8 +1137,7 @@ namespace ECA.Business.Test.Service.Persons
                                     new List<int>(),
                                     new List<HomeAddress>(),
                                     null,
-                                    default(int),
-                                    null);
+                                    default(int));
             var updatedPerson = await service.UpdatePiiAsync(pii);
         }
         #endregion
