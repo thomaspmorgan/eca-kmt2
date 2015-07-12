@@ -27,7 +27,6 @@ angular.module('staticApp')
       $scope.currentMoneyFlowId = -1;
 
       $scope.moneyFlowEditColumnClass = "col-md-2";
-      $scope.sourceRecipientFreeText = false;
       $scope.moneyFlowConfirmMessage = "saved";
       
       $scope.showFromToSelectControl = false;

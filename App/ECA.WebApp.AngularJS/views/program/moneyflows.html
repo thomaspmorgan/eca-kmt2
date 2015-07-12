@@ -125,6 +125,110 @@
     <div st-template="views/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="!moneyFlowsLoading"></div>
 </div>
 
+<modal-dialog show="showCreateMoneyFlow" dialog-title="{{moneyFlowCreationType}} Funding Item">
+    <div class="tip">
+        <img src="images/tip.png"><span class="strong">Did you know?</span> This is a draft. Only you can see this.
+        <div class="required">* Marks required fields</div>
+    </div>
+
+    <div id="modal" class="row" in-context-form>
+        <div class="col-md-10">
+            <form name="modalForm.moneyFlowForm">
+                <div class="form-group" id="transactionType">
+                    <span class="moneyFlowDirection {{incomingSelected}}" ng-click="changeMoneyFlowDirection('incoming')">Incoming</span>
+                    <span class="moneyFlowDirection {{outgoingSelected}}" ng-click="changeMoneyFlowDirection('outgoing')">Outgoing</span>
+                </div>
+                <div class="form-group narrow"
+                    <label>Transaction Date<span class="asterisk"> *</span></label>
+
+                    <p class="input-group">
+                        <input name="start" type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="draftMoneyFlow.transactionDate"
+                               is-open="transactionCalendarOpened" close-text="Close" placeholder="Enter transaction date..." required />
+                        <span class="input-group-btn" style="width:0;">
+                            <button type="button" class="btn btn-default" ng-click="transactionCalendarOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
+                    <div ng-show="modalForm.moneyFlowForm.transactionDate.$dirty">
+                        <div class="error" ng-show="modalForm.moneyFlowForm.transactionDate.$error.required">Please enter a transaction date.</div>
+                    </div>
+                </div>
+
+                <div class="form-group narrow">
+                    <label>Transaction Status<span class="asterisk"> *</span></label>
+                    <select class="form-control" id="modalStatus" ng-required="true" ng-options="s.id as s.name for s in moneyFlowStati" ng-model="draftMoneyFlow.moneyFlowStatusId" />
+                    <div ng-show="modalForm.moneyFlowForm.statusId.$dirty">
+                        <div class="error" ng-show="modalForm.moneyFlowForm.statusId.$error.required">Please enter a transaction date.</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <table class="col-md-12 modalTable">
+                        <thead>
+                            <tr>
+                                <th class="col-md-2 modalLabel"><label>Amount (USD)<span class="asterisk"> *</span></label></th>
+                                <th class="col-md-1">&nbsp;</th>
+                                <th class="col-md-2 modalLabel"><label>Fiscal Year<span class="asterisk"> *</span></label></th>
+                                <th class="col-md-4"></th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <th>
+                                <input type="number" class="form-control" ng-model="draftMoneyFlow.value" ng-required="true"
+                                       form-element guidance="The USD amount of the transaction." />
+                            </th>
+                            <th>
+                                &nbsp;
+                            </th>
+                            <th>
+                                <select class="form-control" id="modalFiscalYear" ng-options="s.year as s.name for s in fiscalYears" ng-model="draftMoneyFlow.moneyFlowFiscalYear" ng-required="true" />
+
+                            </th>
+                        </tr>
+                    </table>
+                    <div ng-show="modalForm.moneyFlowForm.amount.$dirty">
+                        <div class="error" ng-show="modalForm.moneyFlowForm.amount.$error.required">Please enter an amount and fiscal year</div>
+                    </div>
+                </div>
+
+                <div class="form-group narrow">
+                    <label>{{sourceRecipientLabel}} Type<span class="asterisk"> *</span></label>
+                    <select class="form-control" id="modalSourceType"
+                            ng-options="s.id as s.name for s in moneyFlowSourceTypes"
+                            ng-model="draftMoneyFlow.sourceRecipientTypeId"
+                            placeholder="Enter type of {{sourceRecipientLabel}}..."
+                            ng-change="changeSourceRecipientType()"
+                            ng-required="true" />
+                </div>
+
+                <div class="form-group" ng-show="showFromToSelectControl">
+                    <label>{{sourceRecipientLabel}}<span class="asterisk"> *</span></label>
+                    <select class="form-control" id="fromTo"
+                            ng-options="s.id as s.name for s in moneyFlowFromTo"
+                            placeholder="Enter {{fromToType}} title..."
+                            ng-model="draftMoneyFlow.sourceRecipientId" />
+                </div>
+
+                <div class="form-group">
+                    <label>Description<span class="asterisk"> *</span></label>
+                    <input name="name" ng-model="draftMoneyFlow.description" form-element guidance="Enter a short description of this income or expense"
+                           type="text" class="form-control" placeholder="Enter funding item description..." ng-required="true" />
+                    <div ng-show="modalForm.moneyFlowForm.description.$dirty">
+                        <div class="error" ng-show="modalForm.moneyFlowForm.description.$error.required">Please enter a description.</div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-2">
+            <guidance></guidance>
+        </div>
+    </div>
+    <div class="modalFormButtons">
+        <button class="btn btn-default" ng-click="createModalCancel()">CANCEL</button>
+        <button ng-disabled="modalForm.moneyFlowForm.$invalid" class="btn btn-success right" ng-click="saveCreatedMoneyFlow()">{{moneyFlowCreationType}}</button>
+    </div>
+</modal-dialog>
+
 <modal-dialog show="showConfirmClose" dialog-title="Confirm Close">
     <p class="strong">There is unsaved data.  Are you sure you want to cancel?</p>
     <button class="btn btn-default right" ng-click="confirmClose(true)">YES</button>
