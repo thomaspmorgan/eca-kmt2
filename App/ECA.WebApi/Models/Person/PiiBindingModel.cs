@@ -20,12 +20,6 @@ namespace ECA.WebApi.Models.Person
         public int PersonId { get; set; }
 
         /// <summary>
-        /// Gets and sets the participant id
-        /// </summary>
-        [Required]
-        public int ParticipantId { get; set; }
-
-        /// <summary>
         /// Gets or sets the first name
         /// </summary>
         [Required]
@@ -117,11 +111,6 @@ namespace ECA.WebApi.Models.Person
         public int MaritalStatusId { get; set; }
 
         /// <summary>
-        /// Gets or sets the sevis id
-        /// </summary>
-        public string SevisId { get; set; }
-
-        /// <summary>
         /// Convert binding model to business model 
         /// </summary>
         /// <param name="user">The user updating the pii</param>
@@ -131,7 +120,6 @@ namespace ECA.WebApi.Models.Person
             return new UpdatePii(
                 updatedBy: user,
                 personId: this.PersonId,
-                participantId: this.ParticipantId,
                 firstName: this.FirstName,
                 lastName: this.LastName,
                 namePrefix: this.NamePrefix,
@@ -148,8 +136,7 @@ namespace ECA.WebApi.Models.Person
                 countriesOfCitizenship: this.CountriesOfCitizenship,
                 homeAddresses: ToHomeAddresses(user),
                 medicalConditions: this.MedicalConditions,
-                maritalStatusId: this.MaritalStatusId,
-                sevisId: this.SevisId
+                maritalStatusId: this.MaritalStatusId
                 );
         }
 
