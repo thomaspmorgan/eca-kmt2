@@ -136,6 +136,7 @@
     <Compile Include="Queries\Models\Reports\ProjectAwardDTO.cs" />
     <Compile Include="Service\Admin\DraftMoneyFlow.cs" />
     <Compile Include="Service\Admin\EcaMoneyFlow.cs" />
+    <Compile Include="Service\Admin\EcaOrganization.cs" />
     <Compile Include="Service\Admin\IMaritalStatusService.cs" />
     <Compile Include="Service\Admin\IOrganizationService.cs" />
     <Compile Include="Service\Admin\IMoneyFlowHelpersService.cs" />
