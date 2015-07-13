@@ -3,9 +3,9 @@
 ***************************************/
 
 -- This script will manage the static data from
--- your Team Database project for [dbo].[EventType].
+-- your Team Database project for [dbo].[ActivityType].
 
-PRINT 'Updating static data table [dbo].[EventType]'
+PRINT 'Updating static data table [dbo].[ActivityType]'
 
 -- Set date format to ensure text dates are parsed correctly
 SET DATEFORMAT ymd
@@ -22,8 +22,8 @@ SET @DeleteMissingRecords = 0
 
 -- 1: Define table variable
 DECLARE @tblTempTable TABLE (
-[EventTypeId] int,
-[EventTypeName] nvarchar(MAX),
+[ActivityTypeId] int,
+[ActivityTypeName] nvarchar(MAX),
 [History_CreatedBy] int,
 [History_CreatedOn] datetimeoffset,
 [History_RevisedBy] int,
@@ -40,33 +40,33 @@ DECLARE @tblTempTable TABLE (
 
 
 -- 3: Insert any new items into the table from the table variable
-SET IDENTITY_INSERT [dbo].[EventType] ON
-INSERT INTO [dbo].[EventType] ([EventTypeId], [EventTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn])
-SELECT tmp.[EventTypeId], tmp.[EventTypeName], tmp.[History_CreatedBy], tmp.[History_CreatedOn], tmp.[History_RevisedBy], tmp.[History_RevisedOn]
+SET IDENTITY_INSERT [dbo].[ActivityType] ON
+INSERT INTO [dbo].[ActivityType] ([ActivityTypeId], [ActivityTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn])
+SELECT tmp.[ActivityTypeId], tmp.[ActivityTypeName], tmp.[History_CreatedBy], tmp.[History_CreatedOn], tmp.[History_RevisedBy], tmp.[History_RevisedOn]
 FROM @tblTempTable tmp
-LEFT JOIN [dbo].[EventType] tbl ON tbl.[EventTypeId] = tmp.[EventTypeId]
-WHERE tbl.[EventTypeId] IS NULL
-SET IDENTITY_INSERT [dbo].[EventType] OFF
+LEFT JOIN [dbo].[ActivityType] tbl ON tbl.[ActivityTypeId] = tmp.[ActivityTypeId]
+WHERE tbl.[ActivityTypeId] IS NULL
+SET IDENTITY_INSERT [dbo].[ActivityType] OFF
 
 -- 4: Update any modified values with the values from the table variable
 UPDATE LiveTable SET
-LiveTable.[EventTypeName] = tmp.[EventTypeName],
+LiveTable.[ActivityTypeName] = tmp.[ActivityTypeName],
 LiveTable.[History_CreatedBy] = tmp.[History_CreatedBy],
 LiveTable.[History_CreatedOn] = tmp.[History_CreatedOn],
 LiveTable.[History_RevisedBy] = tmp.[History_RevisedBy],
 LiveTable.[History_RevisedOn] = tmp.[History_RevisedOn]
-FROM [dbo].[EventType] LiveTable 
-INNER JOIN @tblTempTable tmp ON LiveTable.[EventTypeId] = tmp.[EventTypeId]
+FROM [dbo].[ActivityType] LiveTable 
+INNER JOIN @tblTempTable tmp ON LiveTable.[ActivityTypeId] = tmp.[ActivityTypeId]
 
 -- 5: Delete any missing records from the target
 IF @DeleteMissingRecords = 1
 BEGIN
-	DELETE FROM [dbo].[EventType] FROM [dbo].[EventType] LiveTable
-	LEFT JOIN @tblTempTable tmp ON LiveTable.[EventTypeId] = tmp.[EventTypeId]
-	WHERE tmp.[EventTypeId] IS NULL
+	DELETE FROM [dbo].[ActivityType] FROM [dbo].[ActivityType] LiveTable
+	LEFT JOIN @tblTempTable tmp ON LiveTable.[ActivityTypeId] = tmp.[ActivityTypeId]
+	WHERE tmp.[ActivityTypeId] IS NULL
 END
 
-PRINT 'Finished updating static data table [dbo].[EventType]'
+PRINT 'Finished updating static data table [dbo].[ActivityType]'
 
 -- Note: If you are not using the new GDR version of DBPro
 -- then remove this go command.
