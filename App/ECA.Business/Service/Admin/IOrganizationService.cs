@@ -1,6 +1,7 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
+using ECA.Core.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace ECA.Business.Service.Admin
     /// <summary>
     /// Interface for organization service
     /// </summary>
-    public interface IOrganizationService
+    public interface IOrganizationService : ISaveable
     {
         /// <summary>
         /// Returns a list of organizations asyncronously
@@ -41,5 +42,17 @@ namespace ECA.Business.Service.Admin
         /// <param name="organizationId">The organization id.</param>
         /// <returns>The organization.</returns>
         Task<OrganizationDTO> GetOrganizationByIdAsync(int organizationId);
+
+        /// <summary>
+        /// Updates an organization.
+        /// </summary>
+        /// <param name="organization">The updated organization.</param>
+        void Update(EcaOrganization organization);
+
+        /// <summary>
+        /// Updates an organization.
+        /// </summary>
+        /// <param name="organization">The updated organization.</param>
+        Task UpdateAsync(EcaOrganization organization);
     }
 }

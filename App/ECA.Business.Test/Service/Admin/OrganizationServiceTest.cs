@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions;
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,6 +12,10 @@ using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using System.Linq;
 using Microsoft.QualityTools.Testing.Fakes;
+using Moq;
+using ECA.Business.Validation;
+using ECA.Business.Service;
+using ECA.Core.Exceptions;
 
 namespace ECA.Business.Test.Service.Admin
 {
@@ -22,14 +27,17 @@ namespace ECA.Business.Test.Service.Admin
     {
         private TestEcaContext context;
         private OrganizationService service;
+        private Mock<IBusinessValidator<Object, UpdateOrganizationValidationEntity>> validator;
 
         [TestInitialize]
         public void TestInit()
         {
+            validator = new Mock<IBusinessValidator<object, UpdateOrganizationValidationEntity>>();
             context = new TestEcaContext();
-            service = new OrganizationService(context);
+            service = new OrganizationService(context, validator.Object);
         }
 
+        #region Get
         [TestMethod]
         public async Task TestGetOrganizations_CheckProperties()
         {
@@ -245,6 +253,8 @@ namespace ECA.Business.Test.Service.Admin
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
+
+        #endregion
 
         #region Get By Id
         [TestMethod]
@@ -548,6 +558,386 @@ namespace ECA.Business.Test.Service.Admin
             tester(dtoAsync);
         }
 
+        #endregion
+
+        #region Update
+        [TestMethod]
+        public async Task TestUpdate_OrganizationDoesNotExist()
+        {
+
+            var updater = new User(1);
+            var instance = new EcaOrganization(updater, 0, "website", OrganizationType.USEducationalInstitution.Id, null, null, "name", "desc");
+            Func<Task> invokeAsync = () =>
+            {
+                return service.UpdateAsync(instance);
+            };
+
+            service.Invoking(x => x.Update(instance)).ShouldThrow<ModelNotFoundException>()
+                .WithMessage(String.Format("The organization with id [{0}] was not found.", instance.OrganizationId));
+
+            invokeAsync.ShouldThrow<ModelNotFoundException>()
+                .WithMessage(String.Format("The organization with id [{0}] was not found.", instance.OrganizationId));
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_ParentOrganizationDoesNotExist()
+        {
+            var organization = new Organization
+            {
+                OrganizationId = 1
+            };
+            var parentOrgId = 10;
+            context.Organizations.Add(organization);
+            var updater = new User(1);
+            var instance = new EcaOrganization(updater, organization.OrganizationId, "website", OrganizationType.USEducationalInstitution.Id, null, parentOrgId, "name", "desc");
+            Func<Task> invokeAsync = () =>
+            {
+                return service.UpdateAsync(instance);
+            };
+
+            service.Invoking(x => x.Update(instance)).ShouldThrow<ModelNotFoundException>()
+                .WithMessage(String.Format("The organization with id [{0}] was not found.", parentOrgId));
+
+            invokeAsync.ShouldThrow<ModelNotFoundException>()
+                .WithMessage(String.Format("The organization with id [{0}] was not found.", parentOrgId));
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_OrganizationTypeDoesNotExist()
+        {
+            var orgTypeId = OrganizationType.USEducationalInstitution.Id;
+            var organization = new Organization
+            {
+                OrganizationId = 1
+            };
+            context.Organizations.Add(organization);
+            var updater = new User(1);
+            var instance = new EcaOrganization(updater, organization.OrganizationId, "website", orgTypeId, null, null, "name", "desc");
+            Func<Task> invokeAsync = () =>
+            {
+                return service.UpdateAsync(instance);
+            };
+
+            service.Invoking(x => x.Update(instance)).ShouldThrow<ModelNotFoundException>()
+                .WithMessage(String.Format("The organization type with id [{0}] was not found.", orgTypeId));
+
+            invokeAsync.ShouldThrow<ModelNotFoundException>()
+                .WithMessage(String.Format("The organization type with id [{0}] was not found.", orgTypeId));
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_CheckProperties()
+        {
+            var creatorId = 10;
+            var orgId = 1;
+            var oldName = "oldName";
+            var oldDescription = "oldDescription";
+            var oldWebsite = "old website";
+            var createDate = DateTimeOffset.Now.AddDays(-1.0);
+
+            var publicInternationalOrganizationType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.PublicInternationalOrganizationPio.Id,
+                OrganizationTypeName = OrganizationType.PublicInternationalOrganizationPio.Value
+            };
+            var otherOrganizationType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.USEducationalInstitution.Id,
+                OrganizationTypeName = OrganizationType.USEducationalInstitution.Value
+            };
+
+            var organization = new Organization
+            {
+                Description = oldDescription,
+                Name = oldName,
+                OrganizationId = orgId,
+                OrganizationTypeId = publicInternationalOrganizationType.OrganizationTypeId,
+                OrganizationType = publicInternationalOrganizationType,
+                Website = oldWebsite
+            };
+            organization.History.CreatedBy = creatorId;
+            organization.History.CreatedOn = createDate;
+            organization.History.RevisedBy = creatorId;
+            organization.History.RevisedOn = createDate;
+
+            context.SetupActions.Add(() =>
+            {
+                Assert.AreEqual(0, context.Organizations.Count());
+                Assert.AreEqual(0, context.OrganizationTypes.Count());
+                context.Organizations.Add(organization);
+                context.OrganizationTypes.Add(otherOrganizationType);
+                context.OrganizationTypes.Add(publicInternationalOrganizationType);
+            });
+
+            var updaterId = 20;
+            var newName = "new Name";
+            var newDescription = "new Description";
+            var newWebsite = "new website";
+            var updater = new User(updaterId);
+
+            Action tester = () =>
+            {
+                Assert.AreEqual(1, context.Organizations.Count());
+                Assert.AreEqual(2, context.OrganizationTypes.Count());
+                var updatedOrg = context.Organizations.Where(x => x.OrganizationId == orgId).FirstOrDefault();
+                Assert.AreEqual(newName, updatedOrg.Name);
+                Assert.AreEqual(newDescription, updatedOrg.Description);
+                Assert.AreEqual(newWebsite, updatedOrg.Website);
+                Assert.AreEqual(createDate, updatedOrg.History.CreatedOn);
+                Assert.AreEqual(creatorId, updatedOrg.History.CreatedBy);
+                Assert.AreEqual(updaterId, updatedOrg.History.RevisedBy);
+                DateTimeOffset.Now.Should().BeCloseTo(updatedOrg.History.RevisedOn, 2000);
+            };
+
+            var instance = new EcaOrganization(updater, orgId, newWebsite, otherOrganizationType.OrganizationTypeId, null, null, newName, newDescription);
+            context.Revert();
+            service.Update(instance);
+            tester();
+
+            context.Revert();
+            await service.UpdateAsync(instance);
+            tester();
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_SetContacts()
+        {
+            var creatorId = 10;
+            var orgId = 1;
+            var oldName = "oldName";
+            var oldDescription = "oldDescription";
+            var oldWebsite = "old website";
+            var createDate = DateTimeOffset.Now.AddDays(-1.0);
+
+            var publicInternationalOrganizationType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.PublicInternationalOrganizationPio.Id,
+                OrganizationTypeName = OrganizationType.PublicInternationalOrganizationPio.Value
+            };
+            var organization = new Organization
+            {
+                Description = oldDescription,
+                Name = oldName,
+                OrganizationId = orgId,
+                OrganizationTypeId = publicInternationalOrganizationType.OrganizationTypeId,
+                OrganizationType = publicInternationalOrganizationType,
+                Website = oldWebsite
+            };
+            var contact = new Contact
+            {
+                ContactId = 1
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                Assert.AreEqual(0, context.Organizations.Count());
+                Assert.AreEqual(0, context.OrganizationTypes.Count());
+                Assert.AreEqual(0, context.Contacts.Count());
+                organization.Contacts.Clear();
+                context.Organizations.Add(organization);
+                context.OrganizationTypes.Add(publicInternationalOrganizationType);
+                context.Contacts.Add(contact);
+            });
+
+            var updaterId = 20;
+            var newName = "new Name";
+            var newDescription = "new Description";
+            var newWebsite = "new website";
+            var updater = new User(updaterId);
+
+            Action tester = () =>
+            {
+                Assert.AreEqual(1, context.Organizations.Count());
+                Assert.AreEqual(1, context.OrganizationTypes.Count());
+                var updatedOrg = context.Organizations.Where(x => x.OrganizationId == orgId).FirstOrDefault();
+                Assert.AreEqual(1, updatedOrg.Contacts.Count());
+                Assert.AreEqual(contact.ContactId, updatedOrg.Contacts.First().ContactId);
+            };
+            var contactIds = new List<int> { contact.ContactId };
+            var instance = new EcaOrganization(updater, orgId, newWebsite, organization.OrganizationTypeId, contactIds, null, newName, newDescription);
+            context.Revert();
+            service.Update(instance);
+            tester();
+
+            context.Revert();
+            await service.UpdateAsync(instance);
+            tester();
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_SetParentOrganization()
+        {
+            var orgId = 1;
+            var oldName = "oldName";
+            var oldDescription = "oldDescription";
+            var oldWebsite = "old website";
+
+            var publicInternationalOrganizationType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.PublicInternationalOrganizationPio.Id,
+                OrganizationTypeName = OrganizationType.PublicInternationalOrganizationPio.Value
+            };
+
+            var organization = new Organization
+            {
+                Description = oldDescription,
+                Name = oldName,
+                OrganizationId = orgId,
+                OrganizationTypeId = publicInternationalOrganizationType.OrganizationTypeId,
+                OrganizationType = publicInternationalOrganizationType,
+                Website = oldWebsite
+            };
+            var parentOrganization = new Organization
+            {
+                OrganizationId = organization.OrganizationId + 1
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                organization.ParentOrganizationId = null;
+                organization.ParentOrganization = null;
+
+                Assert.AreEqual(0, context.Organizations.Count());
+                Assert.AreEqual(0, context.OrganizationTypes.Count());
+                Assert.IsNull(organization.ParentOrganization);
+                Assert.IsFalse(organization.ParentOrganizationId.HasValue);
+                context.Organizations.Add(organization);
+                context.Organizations.Add(parentOrganization);
+                context.OrganizationTypes.Add(publicInternationalOrganizationType);
+            });
+
+            var updaterId = 20;
+            var updater = new User(updaterId);
+
+            Action tester = () =>
+            {
+                Assert.AreEqual(2, context.Organizations.Count());
+                Assert.AreEqual(1, context.OrganizationTypes.Count());
+                var updatedOrg = context.Organizations.Where(x => x.OrganizationId == orgId).FirstOrDefault();
+                Assert.AreEqual(parentOrganization, updatedOrg.ParentOrganization);
+                Assert.AreEqual(parentOrganization.OrganizationId, updatedOrg.ParentOrganizationId.Value);
+            };
+
+            var instance = new EcaOrganization(updater, orgId, organization.Website, organization.OrganizationTypeId, null, parentOrganization.OrganizationId, organization.Name, organization.Description);
+            context.Revert();
+            service.Update(instance);
+            tester();
+
+            context.Revert();
+            await service.UpdateAsync(instance);
+            tester();
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_RemoveParentOrganization()
+        {
+            var orgId = 1;
+            var oldName = "oldName";
+            var oldDescription = "oldDescription";
+            var oldWebsite = "old website";
+
+            var publicInternationalOrganizationType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.PublicInternationalOrganizationPio.Id,
+                OrganizationTypeName = OrganizationType.PublicInternationalOrganizationPio.Value
+            };
+            var parentOrganization = new Organization
+            {
+                OrganizationId = 2
+            };
+
+            var organization = new Organization
+            {
+                Description = oldDescription,
+                Name = oldName,
+                OrganizationId = orgId,
+                OrganizationTypeId = publicInternationalOrganizationType.OrganizationTypeId,
+                OrganizationType = publicInternationalOrganizationType,
+                Website = oldWebsite,
+                ParentOrganizationId = parentOrganization.OrganizationId,
+                ParentOrganization = parentOrganization
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                organization.ParentOrganization = parentOrganization;
+                organization.ParentOrganizationId = parentOrganization.OrganizationId;
+                Assert.AreEqual(0, context.Organizations.Count());
+                Assert.AreEqual(0, context.OrganizationTypes.Count());
+                Assert.IsNotNull(organization.ParentOrganization);
+                Assert.IsTrue(organization.ParentOrganizationId.HasValue);
+                context.Organizations.Add(organization);
+                context.Organizations.Add(parentOrganization);
+                context.OrganizationTypes.Add(publicInternationalOrganizationType);
+            });
+
+            var updaterId = 20;
+            var updater = new User(updaterId);
+
+            Action tester = () =>
+            {
+                Assert.AreEqual(2, context.Organizations.Count());
+                Assert.AreEqual(1, context.OrganizationTypes.Count());
+                var updatedOrg = context.Organizations.Where(x => x.OrganizationId == orgId).FirstOrDefault();
+                Assert.IsNull(updatedOrg.ParentOrganization);
+                Assert.IsFalse(updatedOrg.ParentOrganizationId.HasValue);
+            };
+
+            var instance = new EcaOrganization(updater, orgId, organization.Website, organization.OrganizationTypeId, null, null, organization.Name, organization.Description);
+            context.Revert();
+            service.Update(instance);
+            tester();
+
+            context.Revert();
+            await service.UpdateAsync(instance);
+            tester();
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_CheckValidatorIsExecuted()
+        {
+            var orgId = 1;
+            var oldName = "oldName";
+            var oldDescription = "oldDescription";
+            var oldWebsite = "old website";
+
+            var publicInternationalOrganizationType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.PublicInternationalOrganizationPio.Id,
+                OrganizationTypeName = OrganizationType.PublicInternationalOrganizationPio.Value
+            };
+
+            var organization = new Organization
+            {
+                Description = oldDescription,
+                Name = oldName,
+                OrganizationId = orgId,
+                OrganizationTypeId = publicInternationalOrganizationType.OrganizationTypeId,
+                OrganizationType = publicInternationalOrganizationType,
+                Website = oldWebsite,
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                Assert.AreEqual(0, context.Organizations.Count());
+                Assert.AreEqual(0, context.OrganizationTypes.Count());
+                context.Organizations.Add(organization);
+                context.OrganizationTypes.Add(publicInternationalOrganizationType);
+            });
+
+            var updaterId = 20;
+            var updater = new User(updaterId);
+
+            validator.Verify(x => x.ValidateUpdate(It.IsAny<UpdateOrganizationValidationEntity>()), Times.Never());
+            var instance = new EcaOrganization(updater, orgId, organization.Website, organization.OrganizationTypeId, null, null, organization.Name, organization.Description);
+            context.Revert();
+            service.Update(instance);
+            validator.Verify(x => x.ValidateUpdate(It.IsAny<UpdateOrganizationValidationEntity>()), Times.Once());
+
+            context.Revert();
+            await service.UpdateAsync(instance);
+            validator.Verify(x => x.ValidateUpdate(It.IsAny<UpdateOrganizationValidationEntity>()), Times.Exactly(2));
+        }
         #endregion
     }
 }

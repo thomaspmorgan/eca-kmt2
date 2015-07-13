@@ -14,6 +14,7 @@ using ECA.WebApi.Custom;
 using ECA.WebApi.Security;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
@@ -113,6 +114,9 @@ namespace ECA.WebApi
             container.RegisterType<
                 IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity>,
                 MoneyFlowServiceValidator>();
+            container.RegisterType<
+                IBusinessValidator<Object, UpdateOrganizationValidationEntity>,
+                OrganizationServiceValidator>();
         }
 
         public static void RegisterSecurityConcerns(IUnityContainer container)

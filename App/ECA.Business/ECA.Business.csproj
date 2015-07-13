@@ -146,6 +146,8 @@
     <Compile Include="Service\Admin\IJustificationObjectiveService.cs" />
     <Compile Include="Service\Admin\IFocusCategoryService.cs" />
     <Compile Include="Service\Admin\IGenderService.cs" />
+    <Compile Include="Service\Admin\OrganizationServiceValidator.cs" />
+    <Compile Include="Service\Admin\UpdateOrganizationValidationEntity.cs" />
     <Compile Include="Service\Lookup\IParticipantTypeService.cs" />
     <Compile Include="Service\Lookup\ParticipantTypeDTO.cs" />
     <Compile Include="Service\Lookup\ParticipantTypeService.cs" />

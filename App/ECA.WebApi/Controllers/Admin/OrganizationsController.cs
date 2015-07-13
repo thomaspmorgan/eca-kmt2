@@ -5,7 +5,9 @@ using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
+using ECA.WebApi.Models.Admin;
 using ECA.WebApi.Models.Query;
+using ECA.WebApi.Security;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -29,18 +31,21 @@ namespace ECA.WebApi.Controllers.Admin
         private static readonly ExpressionSorter<OrganizationTypeDTO> DEFAULT_ORGANIZATION_TYPE_SORTER = new ExpressionSorter<OrganizationTypeDTO>(x => x.Name, SortDirection.Ascending);
         private IOrganizationService organizationService;
         private IOrganizationTypeService organizationTypeService;
+        private IUserProvider userProvider;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="service">The service</param>
         /// <param name="organizationTypeService">The organization type service.</param>
-        public OrganizationsController(IOrganizationService service, IOrganizationTypeService organizationTypeService)
+        public OrganizationsController(IOrganizationService service, IOrganizationTypeService organizationTypeService, IUserProvider userProvider)
         {
             Contract.Requires(service != null, "The organization service must not be null.");
             Contract.Requires(organizationTypeService != null, "The organization type service must not be null.");
+            Contract.Requires(userProvider != null, "The user provider must not be null.");
             this.organizationService = service;
             this.organizationTypeService = organizationTypeService;
+            this.userProvider = userProvider;
         }
 
         /// <summary>
@@ -80,6 +85,30 @@ namespace ECA.WebApi.Controllers.Admin
             else
             {
                 return NotFound();
+            }
+        }
+
+        /// <summary>
+        /// Updates the organization with the given data.
+        /// </summary>
+        /// <param name="model">The updated model.</param>
+        /// <returns>The updated organization.</returns>
+        [ResponseType(typeof(OrganizationDTO))]
+        [Route("Organizations")]
+        public async Task<IHttpActionResult> PutUpdateOrganizationAsync([FromBody]UpdatedOrganizationBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                await organizationService.UpdateAsync(model.ToEcaOrganization(businessUser));
+                await organizationService.SaveChangesAsync();
+                var updatedOrganization = organizationService.GetOrganizationByIdAsync(model.OrganizationId);
+                return Ok(updatedOrganization);
+            }
+            else
+            {
+                return BadRequest(ModelState);
             }
         }
 
