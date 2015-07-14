@@ -71,5 +71,9 @@ namespace ECA.Business.Service.Admin
             return ids;
         }
         #endregion
+
+        #region Addresses
+        
+        #endregion
     }
 }

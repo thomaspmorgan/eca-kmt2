@@ -12,8 +12,13 @@ namespace ECA.Data
     /// <summary>
     /// An address is a physical address associated with an organization or person
     /// </summary>
-    public class Address
+    public class Address : IHistorical
     {
+        public Address()
+        {
+            this.History = new History();
+        }
+
         [Key]
         public int AddressId { get; set; }
         [Required]
