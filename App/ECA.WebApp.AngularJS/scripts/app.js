@@ -522,6 +522,8 @@ angular
             }
         };
 
+        $rootScope.constants = ConstantsService;
+
         $rootScope.currentUser = {};
         $rootScope.currentUser.userMenuToggled = function (open) { };
         $rootScope.currentUser.logout = function () {

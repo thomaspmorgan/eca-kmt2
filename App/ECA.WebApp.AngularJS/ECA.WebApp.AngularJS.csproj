@@ -161,6 +161,7 @@
     <Content Include="scripts\controllers\reports\CountryAwards.js" />
     <Content Include="scripts\controllers\reports\YearAwards.js" />
     <Content Include="scripts\controllers\reports\RegionAwards.js" />
+    <Content Include="scripts\controllers\toolbar.js" />
     <Content Include="scripts\directives\exposetablestate.js" />
     <Content Include="scripts\directives\socialmedialink.js" />
     <Content Include="scripts\filters\groupby.js" />
