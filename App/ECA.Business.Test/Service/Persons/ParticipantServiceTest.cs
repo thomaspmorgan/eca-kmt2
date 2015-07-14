@@ -1059,13 +1059,11 @@ namespace ECA.Business.Test.Service.Persons
             };
             var participant = new Participant
             {
-                ContactAgreement = true,
                 ParticipantId = 1,
                 PersonId = person.PersonId,
                 Person = person,
                 ParticipantType = participantType,
                 ParticipantTypeId = participantType.ParticipantTypeId,
-                SevisId = "1234567890",
                 History = history,
                 Project = project,
                 ProjectId = project.ProjectId,
@@ -1098,8 +1096,6 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(person.PersonId, result.PersonId);
                 Assert.AreEqual(project.ProjectId, result.ProjectId);
                 Assert.AreEqual(history.RevisedOn, result.RevisedOn);
-                Assert.AreEqual(participant.SevisId, result.SevisId);
-                Assert.AreEqual(participant.ContactAgreement, result.ContactAgreement);
                 Assert.AreEqual(status.Status, result.Status);
                 Assert.AreEqual(participant.StatusDate, result.StatusDate);
             };
@@ -1137,13 +1133,11 @@ namespace ECA.Business.Test.Service.Persons
             };
             var participant = new Participant
             {
-                ContactAgreement = true,
                 ParticipantId = 1,
                 PersonId = person.PersonId,
                 Person = person,
                 ParticipantType = participantType,
                 ParticipantTypeId = participantType.ParticipantTypeId,
-                SevisId = "1234567890",
                 History = history,
                 Project = project,
                 ProjectId = project.ProjectId,
@@ -1201,13 +1195,11 @@ namespace ECA.Business.Test.Service.Persons
             };
             var participant = new Participant
             {
-                ContactAgreement = true,
                 ParticipantId = 1,
                 PersonId = person.PersonId,
                 Person = person,
                 ParticipantType = participantType,
                 ParticipantTypeId = participantType.ParticipantTypeId,
-                SevisId = "1234567890",
                 History = history,
                 Project = project,
                 ProjectId = project.ProjectId,
@@ -1265,13 +1257,11 @@ namespace ECA.Business.Test.Service.Persons
             };
             var participant = new Participant
             {
-                ContactAgreement = true,
                 ParticipantId = 1,
                 PersonId = person.PersonId,
                 Person = person,
                 ParticipantType = participantType,
                 ParticipantTypeId = participantType.ParticipantTypeId,
-                SevisId = "1234567890",
                 History = history,
                 Project = project,
                 ProjectId = project.ProjectId,
