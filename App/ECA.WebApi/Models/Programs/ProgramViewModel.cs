@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ECA.Business.Queries.Models.Programs;
+﻿using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Lookup;
 using System;

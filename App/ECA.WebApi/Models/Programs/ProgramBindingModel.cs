@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ECA.Business.Models.Programs;
+﻿using ECA.Business.Models.Programs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

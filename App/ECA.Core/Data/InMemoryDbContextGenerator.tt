@@ -10,7 +10,7 @@
 <#@ import namespace="System.Data.Entity" #>
 <#@ output extension=".generated.cs" #>
 
-<#@ assembly name="$(SolutionDir)packages/EntityFramework.6.1.2/lib/net45/EntityFramework.dll" #>
+<#@ assembly name="$(SolutionDir)packages/EntityFramework.6.1.3/lib/net45/EntityFramework.dll" #>
 
 
 <#+
