@@ -375,7 +375,6 @@ namespace ECA.Business.Test.Queries.Persons
                 Person = person,
                 ParticipantType = participantType,
                 ParticipantTypeId = participantType.ParticipantTypeId,
-                SevisId = "1234567890",
                 History = history
             };
             var status = new ParticipantStatus
@@ -398,8 +397,6 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(participant.ParticipantTypeId, result.ParticipantTypeId);
             Assert.AreEqual(participant.ParticipantType.Name, result.ParticipantType);
             Assert.AreEqual(person.FirstName + " " + person.LastName, result.Name);
-            Assert.AreEqual(participant.SevisId, result.SevisId);
-            Assert.AreEqual(participant.ContactAgreement, result.ContactAgreement);
             Assert.AreEqual(status.Status, result.Status);
             Assert.AreEqual(history.RevisedOn, result.RevisedOn);
         }
