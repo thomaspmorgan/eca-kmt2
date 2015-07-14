@@ -115,7 +115,7 @@ angular.module('staticApp')
           $scope.personIdDeferred.resolve(data.personId);
           PersonService.getContactInfoById(data.personId)
             .then(function (data) {
-                $scope.contractInfo = data;
+                $scope.contactInfo = data;
             })
       })
 
