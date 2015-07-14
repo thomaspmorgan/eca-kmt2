@@ -574,10 +574,11 @@ angular.module('staticApp')
 
       $scope.confirmCloseSuccess = function () {
           $scope.confirmSuccess = false;
+
+          $scope.currentlyEditing = false;
           $scope.getMoneyFlows();
 
       };
-
 
       $scope.modalClearMoneyFlow = function () {
           angular.forEach($scope.draftMoneyFlow, function (value, key) {

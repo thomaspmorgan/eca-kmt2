@@ -112,17 +112,18 @@
           $scope.showCreateMoneyFlow = true;
       };
 
-            $scope.editMoneyFlow = function (moneyFlowId) {
-          $scope.moneyFlowEditColumnClass = "col-md-1 editButtons";
-          $scope.editingMoneyFlows[moneyFlowId] = true;
+      $scope.editMoneyFlow = function (moneyFlowId) {
 
-          MoneyFlowService.get(moneyFlowId)
+            $scope.moneyFlowEditColumnClass = "col-md-1 editButtons";
+            $scope.editingMoneyFlows[moneyFlowId] = true;
+
+            MoneyFlowService.get(moneyFlowId)
             .then(function (data) {
                 $scope.draftMoneyFlow = data;
-                $scope.changeSourceRecipientType();
+                //$scope.changeSourceRecipientType();
                 $scope.currentlyEditing = true;
             });
-      };
+        };
       
 
       $scope.copyMoneyFlow = function (moneyFlowId) {
@@ -401,6 +402,7 @@
 
       $scope.confirmCloseSuccess = function () {
           $scope.confirmSuccess = false;
+          $scope.currentlyEditing = false;
           $scope.getMoneyFlows();
 
       };
