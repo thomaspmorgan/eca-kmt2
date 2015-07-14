@@ -494,6 +494,7 @@
     <None Include="Properties\PublishProfiles\ecaapi-kmt-dev - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\ecaapi-kmt-dev-Web-Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\ecaapi-kmt-qa.pubxml" />
+    <None Include="Properties\PublishProfiles\ECA_Pre.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

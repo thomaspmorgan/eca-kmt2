@@ -246,6 +246,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>constantsservice.js</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\ECA_Pre.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
