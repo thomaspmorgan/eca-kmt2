@@ -5,7 +5,6 @@
     <button class="btn btn-primary right" ng-show="!moneyFlowsLoading && !currentlyEditing" ng-click="createMoneyFlowForm()">ADD FUNDING ITEM</button>
 </div>
 
-
 <div st-pipe="getMoneyFlows" st-table="program.moneyFlows" id="sort-list">
     <table class="col-md-12">
         <thead>
@@ -17,7 +16,7 @@
                 <th st-sort="'direction'" class="col-md-1 sort-label medium">Direction</th>
                 <th st-sort="'amount'" class="col-md-1 sort-label medium">Amount</th>
                 <th st-sort="'fiscalYear'" class="col-md-1 sort-label medium">FY</th>
-                <th st-sort="'description'" class="col-md-2 sort-label medium">Description</th>
+                <th st-sort="'description'" ng-show="editingMoneyFlows[{{moneyFlow.id}}]" class="col-md-2 sort-label medium">Description</th>
                 <th class="col-md-1">&nbsp;</th>
                 <th class="{{moneyFlowEditColumnClass}}">&nbsp;</th>
             </tr>
@@ -45,7 +44,7 @@
                         </div>
                     </span>
                 </td>
-                <td>
+                <td ng-show="!moneyFlowsLoading && !currentlyEditing">
                     <div class="right" style="display:none;" showonparentrow>
                         <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy" ng-click="copyMoneyFlow(moneyFlow.id)">
                             <i class="md md-content-copy md-2x copyEditDeleteOption" ng-show="!copyMoneyFlowLoading"></i>
@@ -63,9 +62,10 @@
             <tr class="expandedDescription" ng-show="showFullMoneyFlowDescription[{{moneyFlow.id}}]" id="description{{moneyFlow.id}}">
                 <td colspan="8" style="padding-top:5px; padding-bottom:5px;"><div>Description: {{moneyFlow.description}}</div></td>
             </tr>
+
             <!-- EDITING ROW -->
             <tr ng-show="editingMoneyFlows[{{moneyFlow.id}}]" class="editingRow">
-                <td style="padding-left:10px;">
+                <td class="">
                     <input class="moneyFlowEdit"
                            type="text"
                            id="transactionDate"
@@ -75,7 +75,6 @@
                            is-open="isTransactionDatePickerOpen"
                            ng-required="true"
                            close-text="Close" />
-                    <button type="button" class="btn btn-default inlineEditCalendar" ng-click="openTransactionDatePicker($event)"><i class="fa fa-calendar"></i></button>
                 </td>
                 <td>
                     <select class="form-control" id="status" ng-options="s.id as s.name for s in moneyFlowStati" ng-model="draftMoneyFlow.moneyFlowStatusId" />
@@ -87,29 +86,49 @@
                             ng-change="changeSourceRecipientType()" />
                 </td>
                 <td>
-                    <select class="form-control" id="fromTo" ng-show="showFromToSelectControl"
-                            ng-options="s.id as s.name for s in moneyFlowFromTo"
-                            placeholder="Enter {{fromToType}} title..."
-                            ng-model="draftMoneyFlow.sourceRecipientId" />
+                    <select class="form-control" id="fromTo" ng-options="s.id as s.name for s in moneyFlowFromTo"
+                            placeholder="Enter {{fromToType}} title..." ng-model="draftMoneyFlow.sourceRecipientId" />
                 </td>
                 <td>
                     <select class="form-control" id="direction" ng-options="s.id as s.name for s in moneyFlowTypes" ng-model="draftMoneyFlow.moneyFlowTypeId" />
                 </td>
                 <td>
-                    <input type="number" class="currency" min="-1000000.00" max="1000000.00" step="100" value="0.00" ng-model="draftMoneyFlow.value" required />
+                    <input type="text" class="currency" ng-model="draftMoneyFlow.value" required />
                 </td>
                 <td>
                     <select class="form-control" id="modalFiscalYear" ng-options="s.year as s.name for s in fiscalYears" ng-model="draftMoneyFlow.moneyFlowFiscalYear" ng-required="true" />
-                </td>
-                <td>
-                    <textarea name="description" class="multiLineInput" type="text" ng-model="draftMoneyFlow.description" required />
                 </td>
                 <td class="inlineEditControls">
                     <button ng-click="saveMoneyFlow(moneyFlow.id)" class="btn btn-success">Save</button>
                     <button ng-click="cancelMoneyFlowEdit(moneyFlow.id)" class="btn btn-cancel">Cancel</button>
                 </td>
             </tr>
+
+            <tr ng-show="editingMoneyFlows[{{moneyFlow.id}}]" class="shortRow editingRow">
+                <td colspan="1">
+                    <div class="datetimepicker">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar calendarButton"></span>
+                        </span>
+                    </div>
+                </td>
+                <td colspan="4">&nbsp;</td>
+                <td colspan="1">
+
+                </td>
+                <td colspan="2">&nbsp;</td>
+            </tr>
+
+            <tr ng-show="editingMoneyFlows[{{moneyFlow.id}}]" class="editingRow" style="height:100px;">
+                <td colspan="1">
+                    Description
+                </td>
+                <td colspan="7">
+                    <textarea name="description" class="multiLineInput" type="text" ng-model="draftMoneyFlow.description" required />
+                </td>
+            </tr>
         </tbody>
+
         <tbody ng-show="moneyFlowsLoading" id="spinner">
             <tr>
                 <td colspan="5">
@@ -252,10 +271,6 @@
     <p class="strong">The funding item was {{moneyFlowConfirmMessage}} sucessfully</p>
     <button class="btn btn-default right" ng-click="confirmCloseSuccess()">OK</button>
 </modal-dialog>
-
-
-
-
 
     <style>
         .ng-modal-close-x {
