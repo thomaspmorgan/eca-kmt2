@@ -111,15 +111,6 @@ namespace ECA.Data
         /// </summary>
         public byte[] RowVersion { get; set; }
 
-        /// <summary>
-        /// Returns the program id.
-        /// </summary>
-        /// <returns>The program id.</returns>
-        public object GetId()
-        {
-            return this.ProgramId;
-        }
-
         [Required]
         [InverseProperty("RegionPrograms")]
         public ICollection<Location> Regions { get; set; }
@@ -163,7 +154,7 @@ namespace ECA.Data
         /// Returns the program id.
         /// </summary>
         /// <returns>The program id.</returns>
-        int IPermissable.GetId()
+        public int GetId()
         {
             return this.ProgramId;
         }

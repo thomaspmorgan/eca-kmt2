@@ -9,12 +9,8 @@ namespace ECA.Core.Data
     /// <summary>
     /// An IConcurrentEntity is a database entity that maintains concurrency.
     /// </summary>
-    public interface IConcurrentEntity : IConcurrent
+    public interface IConcurrentEntity : IConcurrent, IIdentifiable
     {
-        /// <summary>
-        /// Returns the id of the concurrent entity.
-        /// </summary>
-        /// <returns>The Id of the entity.</returns>
-        object GetId();
+        
     }
 }

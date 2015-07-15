@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Service.Programs;
@@ -13,6 +14,9 @@ using ECA.Core.DynamicLinq.Filter;
 using ECA.Business.Service.Admin;
 using ECA.Business.Queries.Models.Admin;
 using System.Collections.Generic;
+using Microsoft.QualityTools.Testing.Fakes;
+using ECA.Business.Service;
+using ECA.Core.Exceptions;
 
 namespace ECA.Business.Test.Service.Programs
 {
@@ -123,6 +127,907 @@ namespace ECA.Business.Test.Service.Programs
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
+        #endregion
+
+        #region Address
+        [TestMethod]
+        public async Task TestCreate_CheckProperties()
+        {
+            using (ShimsContext.Create())
+            {
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.SetOf1<Organization>((c) =>
+                {
+                    return context.Organizations;
+                });
+
+                var organizationId = 5;
+                var organization = new Organization
+                {
+                    OrganizationId = organizationId
+                };
+                var city = new Location
+                {
+                    LocationId = 1,
+                };
+                var country = new Location
+                {
+                    LocationId = 2,
+                };
+                var division = new Location
+                {
+                    LocationId = 3,
+                };
+                var userId = 1;
+                var user = new User(userId);
+                var addressTypeId = AddressType.Business.Id;
+                var displayName = "display";
+                var street1 = "street1";
+                var street2 = "street2";
+                var street3 = "street3";
+                var postalCode = "12345";
+                var locationName = "location name";
+                var countryId = country.LocationId;
+                var cityId = city.LocationId;
+                var divisionId = division.LocationId;
+
+                var instance = new AdditionalOrganizationAddress(
+                    user,
+                    addressTypeId,
+                    displayName,
+                    street1,
+                    street2,
+                    street3,
+                    postalCode,
+                    locationName,
+                    countryId,
+                    cityId,
+                    divisionId,
+                    organizationId
+                );
+                context.SetupActions.Add(() =>
+                {
+                    context.Organizations.Add(organization);
+                    organization.Addresses.ToList().ForEach(x => x.Location = null);
+                    organization.Addresses.Clear();
+                    context.Addresses.RemoveRange(context.Addresses.ToList());
+                    context.Locations.RemoveRange(context.Locations.ToList());
+                    context.Locations.Add(city);
+                    context.Locations.Add(country);
+                    context.Locations.Add(division);
+                });
+                Action beforeTester = () =>
+                {
+                    Assert.AreEqual(1, context.Organizations.Count());
+                    Assert.AreEqual(0, organization.Addresses.Count);
+                    Assert.AreEqual(0, context.Addresses.Count());
+                    Assert.AreEqual(3, context.Locations.Count());
+                };
+
+                Action afterTester = () =>
+                {
+                    Assert.AreEqual(1, context.Organizations.Count());
+                    Assert.AreEqual(1, context.Addresses.Count());
+                    Assert.AreEqual(4, context.Locations.Count());
+
+                    Assert.AreEqual(1, organization.Addresses.Count);
+                    var organizationAddress = organization.Addresses.First();
+                    Assert.IsNotNull(organizationAddress.Location);
+                    var location = organizationAddress.Location;
+
+                    Assert.AreEqual(addressTypeId, organizationAddress.AddressTypeId);
+                    Assert.AreEqual(displayName, organizationAddress.DisplayName);
+                    Assert.AreEqual(userId, organizationAddress.History.CreatedBy);
+                    Assert.AreEqual(userId, organizationAddress.History.RevisedBy);
+                    DateTimeOffset.Now.Should().BeCloseTo(organizationAddress.History.CreatedOn, 2000);
+                    DateTimeOffset.Now.Should().BeCloseTo(organizationAddress.History.RevisedOn, 2000);
+
+                    Assert.AreEqual(street1, location.Street1);
+                    Assert.AreEqual(street2, location.Street2);
+                    Assert.AreEqual(street3, location.Street3);
+                    Assert.AreEqual(postalCode, location.PostalCode);
+                    Assert.AreEqual(street3, location.Street3);
+                    Assert.AreEqual(locationName, location.LocationName);
+                    Assert.AreEqual(countryId, location.CountryId);
+                    Assert.AreEqual(cityId, location.CityId);
+                    Assert.AreEqual(divisionId, location.DivisionId);
+                    Assert.AreEqual(userId, location.History.CreatedBy);
+                    Assert.AreEqual(userId, location.History.RevisedBy);
+                    DateTimeOffset.Now.Should().BeCloseTo(location.History.CreatedOn, 2000);
+                    DateTimeOffset.Now.Should().BeCloseTo(location.History.RevisedOn, 2000);
+                };
+
+                context.Revert();
+                beforeTester();
+                service.Create<Organization>(instance);
+                afterTester();
+
+                context.Revert();
+                beforeTester();
+                await service.CreateAsync<Organization>(instance);
+                afterTester();
+            }
+        }
+
+        [TestMethod]
+        public async Task TestCreate_OrganizationDoesNotExist()
+        {
+            using (ShimsContext.Create())
+            {
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.SetOf1<Organization>((c) =>
+                {
+                    return context.Organizations;
+                });
+
+                var organizationId = 5;
+                var userId = 1;
+                var user = new User(userId);
+                var addressTypeId = AddressType.Business.Id;
+                var displayName = "display";
+                var street1 = "street1";
+                var street2 = "street2";
+                var street3 = "street3";
+                var postalCode = "12345";
+                var locationName = "location name";
+                var countryId = 2;
+                var cityId = 3;
+                var divisionId = 4;
+
+                var instance = new AdditionalOrganizationAddress(
+                    user,
+                    addressTypeId,
+                    displayName,
+                    street1,
+                    street2,
+                    street3,
+                    postalCode,
+                    locationName,
+                    countryId,
+                    cityId,
+                    divisionId,
+                    organizationId
+                );
+                context.Revert();
+                Func<Task> f = () =>
+                {
+                    return service.CreateAsync<Organization>(instance);
+                };
+                service.Invoking(x => x.Create<Organization>(instance)).ShouldThrow<ModelNotFoundException>()
+                    .WithMessage(String.Format("The model type [{0}] with Id [{1}] was not found.", typeof(Organization).Name, organizationId));
+                f.ShouldThrow<ModelNotFoundException>()
+                    .WithMessage(String.Format("The model type [{0}] with Id [{1}] was not found.", typeof(Organization).Name, organizationId));
+            }
+        }
+
+        [TestMethod]
+        public async Task TestCreate_CityDoesNotExist()
+        {
+            using (ShimsContext.Create())
+            {
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.SetOf1<Organization>((c) =>
+                {
+                    return context.Organizations;
+                });
+
+                var organizationId = 5;
+                var organization = new Organization
+                {
+                    OrganizationId = organizationId
+                };
+                var country = new Location
+                {
+                    LocationId = 2,
+                };
+                var division = new Location
+                {
+                    LocationId = 3,
+                };
+                var userId = 1;
+                var user = new User(userId);
+                var addressTypeId = AddressType.Business.Id;
+                var displayName = "display";
+                var street1 = "street1";
+                var street2 = "street2";
+                var street3 = "street3";
+                var postalCode = "12345";
+                var locationName = "location name";
+                var countryId = country.LocationId;
+                var cityId = 1;
+                var divisionId = division.LocationId;
+
+                var instance = new AdditionalOrganizationAddress(
+                    user,
+                    addressTypeId,
+                    displayName,
+                    street1,
+                    street2,
+                    street3,
+                    postalCode,
+                    locationName,
+                    countryId,
+                    cityId,
+                    divisionId,
+                    organizationId
+                );
+                context.Organizations.Add(organization);
+                organization.Addresses.ToList().ForEach(x => x.Location = null);
+                organization.Addresses.Clear();
+                context.Addresses.RemoveRange(context.Addresses.ToList());
+                context.Locations.RemoveRange(context.Locations.ToList());
+                context.Locations.Add(country);
+                context.Locations.Add(division);
+
+                Func<Task> f = () =>
+                {
+                    return service.CreateAsync<Organization>(instance);
+                };
+
+                service.Invoking(x => x.Create<Organization>(instance)).ShouldThrow<ModelNotFoundException>()
+                    .WithMessage(String.Format("The [{0}] with id [{1}] was not found.", "City", cityId));
+
+                f.ShouldThrow<ModelNotFoundException>()
+                    .WithMessage(String.Format("The [{0}] with id [{1}] was not found.", "City", cityId));
+            }
+        }
+
+        [TestMethod]
+        public async Task TestCreate_CountryDoesNotExist()
+        {
+            using (ShimsContext.Create())
+            {
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.SetOf1<Organization>((c) =>
+                {
+                    return context.Organizations;
+                });
+
+                var organizationId = 5;
+                var organization = new Organization
+                {
+                    OrganizationId = organizationId
+                };
+                var city = new Location
+                {
+                    LocationId = 2,
+                };
+                var division = new Location
+                {
+                    LocationId = 3,
+                };
+                var userId = 1;
+                var user = new User(userId);
+                var addressTypeId = AddressType.Business.Id;
+                var displayName = "display";
+                var street1 = "street1";
+                var street2 = "street2";
+                var street3 = "street3";
+                var postalCode = "12345";
+                var locationName = "location name";
+                var countryId = 1;
+                var cityId = city.LocationId;
+                var divisionId = division.LocationId;
+
+                var instance = new AdditionalOrganizationAddress(
+                    user,
+                    addressTypeId,
+                    displayName,
+                    street1,
+                    street2,
+                    street3,
+                    postalCode,
+                    locationName,
+                    countryId,
+                    cityId,
+                    divisionId,
+                    organizationId
+                );
+                context.Organizations.Add(organization);
+                organization.Addresses.ToList().ForEach(x => x.Location = null);
+                organization.Addresses.Clear();
+                context.Addresses.RemoveRange(context.Addresses.ToList());
+                context.Locations.RemoveRange(context.Locations.ToList());
+                context.Locations.Add(city);
+                context.Locations.Add(division);
+
+                Func<Task> f = () =>
+                {
+                    return service.CreateAsync<Organization>(instance);
+                };
+
+                service.Invoking(x => x.Create<Organization>(instance)).ShouldThrow<ModelNotFoundException>()
+                    .WithMessage(String.Format("The [{0}] with id [{1}] was not found.", "Country", countryId));
+
+                f.ShouldThrow<ModelNotFoundException>()
+                    .WithMessage(String.Format("The [{0}] with id [{1}] was not found.", "Country", countryId));
+            }
+        }
+
+        [TestMethod]
+        public async Task TestCreate_DivisionDoesNotExist()
+        {
+            using (ShimsContext.Create())
+            {
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.SetOf1<Organization>((c) =>
+                {
+                    return context.Organizations;
+                });
+
+                var organizationId = 5;
+                var organization = new Organization
+                {
+                    OrganizationId = organizationId
+                };
+                var city = new Location
+                {
+                    LocationId = 2,
+                };
+                var country = new Location
+                {
+                    LocationId = 3,
+                };
+                var userId = 1;
+                var user = new User(userId);
+                var addressTypeId = AddressType.Business.Id;
+                var displayName = "display";
+                var street1 = "street1";
+                var street2 = "street2";
+                var street3 = "street3";
+                var postalCode = "12345";
+                var locationName = "location name";
+                var countryId = country.LocationId;
+                var cityId = city.LocationId;
+                var divisionId = 1;
+
+                var instance = new AdditionalOrganizationAddress(
+                    user,
+                    addressTypeId,
+                    displayName,
+                    street1,
+                    street2,
+                    street3,
+                    postalCode,
+                    locationName,
+                    countryId,
+                    cityId,
+                    divisionId,
+                    organizationId
+                );
+                context.Organizations.Add(organization);
+                organization.Addresses.ToList().ForEach(x => x.Location = null);
+                organization.Addresses.Clear();
+                context.Addresses.RemoveRange(context.Addresses.ToList());
+                context.Locations.RemoveRange(context.Locations.ToList());
+                context.Locations.Add(city);
+                context.Locations.Add(country);
+
+                Func<Task> f = () =>
+                {
+                    return service.CreateAsync<Organization>(instance);
+                };
+
+                service.Invoking(x => x.Create<Organization>(instance)).ShouldThrow<ModelNotFoundException>()
+                    .WithMessage(String.Format("The [{0}] with id [{1}] was not found.", "Division", divisionId));
+
+                f.ShouldThrow<ModelNotFoundException>()
+                    .WithMessage(String.Format("The [{0}] with id [{1}] was not found.", "Division", divisionId));
+            }
+        }
+
+
+        [TestMethod]
+        public async Task TestUpdate()
+        {
+            var creatorId = 1;
+            var updatorId = 2;
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var addressLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.Address.Id,
+                LocationTypeName = LocationType.Address.Value
+            };
+            var businessAddressType = new AddressType
+            {
+                AddressName = AddressType.Business.Value,
+                AddressTypeId = AddressType.Business.Id
+            };
+            var homeAddressType = new AddressType
+            {
+                AddressName = AddressType.Home.Value,
+                AddressTypeId = AddressType.Home.Id
+            };
+            var organizationId = 2;
+            var organization = new Organization
+            {
+                OrganizationId = organizationId
+            };
+            var usa = new Location
+            {
+                LocationId = 1,
+                LocationName = "USA"
+            };
+            var england = new Location
+            {
+                LocationId = 2,
+                LocationName = "England"
+            };
+            var nashville = new Location
+            {
+                LocationId = 3,
+                LocationName = "nashville",
+            };
+            var london = new Location
+            {
+                LocationId = 4,
+                LocationName = "london"
+            };
+            var addressId = 1;
+            Location addressLocation = null;
+            Address address = null;
+
+            var user = new User(updatorId);
+            var addressTypeId = homeAddressType.AddressTypeId;
+            var displayName = "display";
+            var street1 = "street1";
+            var street2 = "street2";
+            var street3 = "street3";
+            var postalCode = "12345";
+            var locationName = "location name";
+            var countryId = 2;
+            var cityId = 3;
+            var divisionId = 4;
+            var instance = new UpdatedEcaAddress(
+                user,
+                addressId,
+                homeAddressType.AddressTypeId,
+                displayName,
+                street1,
+                street2,
+                street3,
+                postalCode,
+                locationName,
+                countryId,
+                cityId,
+                divisionId,
+                organizationId
+                );
+
+            Action tester = () =>
+            {
+                Assert.AreEqual(1, context.Addresses.Count());
+                Assert.AreEqual(addressTypeId, address.AddressTypeId);
+                Assert.AreEqual(displayName, address.DisplayName);
+                Assert.AreEqual(creatorId, address.History.CreatedBy);
+                Assert.AreEqual(yesterday, address.History.CreatedOn);
+                Assert.AreEqual(updatorId, address.History.RevisedBy);
+                DateTimeOffset.Now.Should().BeCloseTo(address.History.RevisedOn, 2000);
+
+                Assert.AreEqual(street1, addressLocation.Street1);
+                Assert.AreEqual(street2, addressLocation.Street2);
+                Assert.AreEqual(street3, addressLocation.Street3);
+                Assert.AreEqual(postalCode, addressLocation.PostalCode);
+                Assert.AreEqual(cityId, addressLocation.CityId);
+                Assert.AreEqual(countryId, addressLocation.CountryId);
+                Assert.AreEqual(divisionId, addressLocation.DivisionId);
+                Assert.AreEqual(creatorId, addressLocation.History.CreatedBy);
+                Assert.AreEqual(yesterday, addressLocation.History.CreatedOn);
+                Assert.AreEqual(updatorId, addressLocation.History.RevisedBy);
+                DateTimeOffset.Now.Should().BeCloseTo(addressLocation.History.RevisedOn, 2000);
+            };
+            context.SetupActions.Add(() =>
+            {
+                addressLocation = new Location
+                {
+                    LocationName = "old location name",
+                    LocationType = addressLocationType,
+                    LocationId = 5,
+                    LocationTypeId = addressLocationType.LocationTypeId,
+                };
+                addressLocation.History.CreatedBy = creatorId;
+                addressLocation.History.CreatedOn = yesterday;
+                addressLocation.History.RevisedBy = creatorId;
+
+                address = new Address
+                {
+                    AddressId = addressId,
+                    AddressType = businessAddressType,
+                    AddressTypeId = businessAddressType.AddressTypeId,
+                    DisplayName = "old display",
+                    Location = addressLocation,
+                    LocationId = addressLocation.LocationId
+                };
+                address.History.CreatedBy = creatorId;
+                address.History.CreatedOn = yesterday;
+                address.History.RevisedBy = creatorId;
+                address.History.RevisedOn = yesterday;
+                organization.Addresses.Add(address);
+
+                addressLocation.History.RevisedOn = yesterday;
+                organization.Addresses.Clear();
+                organization.Addresses.Add(address);
+
+                context.LocationTypes.Add(addressLocationType);
+                context.AddressTypes.Add(businessAddressType);
+                context.AddressTypes.Add(homeAddressType);
+                context.Organizations.Add(organization);
+                context.Locations.Add(usa);
+                context.Locations.Add(england);
+                context.Locations.Add(nashville);
+                context.Locations.Add(london);
+                context.Locations.Add(addressLocation);
+                context.Addresses.Add(address);
+            });
+            //need to make sure country, city, region, division etc all exist
+            context.Revert();
+            service.Update(instance);
+            tester();
+
+            context.Revert();
+            await service.UpdateAsync(instance);
+            tester();
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_CityDoesNotExist()
+        {
+            var creatorId = 1;
+            var updatorId = 2;
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var addressLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.Address.Id,
+                LocationTypeName = LocationType.Address.Value
+            };
+            var businessAddressType = new AddressType
+            {
+                AddressName = AddressType.Business.Value,
+                AddressTypeId = AddressType.Business.Id
+            };
+            var homeAddressType = new AddressType
+            {
+                AddressName = AddressType.Home.Value,
+                AddressTypeId = AddressType.Home.Id
+            };
+            var organizationId = 2;
+            var organization = new Organization
+            {
+                OrganizationId = organizationId
+            };
+            var country = new Location
+            {
+                LocationId = 1,
+                LocationName = "country"
+            };
+            var division = new Location
+            {
+                LocationId = 2,
+                LocationName = "division"
+            };
+            var city = new Location
+            {
+                LocationId = 3,
+                LocationName = "city",
+            };
+            var addressLocation = new Location
+            {
+                LocationName = "old location name",
+                LocationType = addressLocationType,
+                LocationId = 5,
+                LocationTypeId = addressLocationType.LocationTypeId,
+            };
+            addressLocation.History.CreatedBy = creatorId;
+            addressLocation.History.CreatedOn = yesterday;
+            addressLocation.History.RevisedBy = creatorId;
+
+            var address = new Address
+            {
+                AddressId = 1,
+                AddressType = businessAddressType,
+                AddressTypeId = businessAddressType.AddressTypeId,
+                DisplayName = "old display",
+                Location = addressLocation,
+                LocationId = addressLocation.LocationId
+            };
+            address.History.CreatedBy = creatorId;
+            address.History.CreatedOn = yesterday;
+            address.History.RevisedBy = creatorId;
+            address.History.RevisedOn = yesterday;
+            organization.Addresses.Add(address);
+
+            addressLocation.History.RevisedOn = yesterday;
+            organization.Addresses.Clear();
+            organization.Addresses.Add(address);
+
+            context.LocationTypes.Add(addressLocationType);
+            context.AddressTypes.Add(businessAddressType);
+            context.AddressTypes.Add(homeAddressType);
+            context.Organizations.Add(organization);
+            context.Locations.Add(country);
+            context.Locations.Add(division);
+            context.Locations.Add(addressLocation);
+            context.Addresses.Add(address);
+
+            var addressId = address.AddressId;
+            var user = new User(updatorId);
+            var addressTypeId = homeAddressType.AddressTypeId;
+            var displayName = "display";
+            var street1 = "street1";
+            var street2 = "street2";
+            var street3 = "street3";
+            var postalCode = "12345";
+            var locationName = "location name";
+            var countryId = country.LocationId;
+            var cityId = city.LocationId;
+            var divisionId = division.LocationId;
+            var instance = new UpdatedEcaAddress(
+                user,
+                addressId,
+                homeAddressType.AddressTypeId,
+                displayName,
+                street1,
+                street2,
+                street3,
+                postalCode,
+                locationName,
+                countryId,
+                cityId,
+                divisionId,
+                organizationId
+                );
+
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(instance);
+            };
+
+            service.Invoking(x => x.Update(instance)).ShouldThrow<ModelNotFoundException>()
+                                .WithMessage(String.Format("The [{0}] with id [{1}] was not found.", "City", cityId));
+
+            f.ShouldThrow<ModelNotFoundException>()
+                .WithMessage(String.Format("The [{0}] with id [{1}] was not found.", "City", cityId));
+            
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_CountryDoesNotExist()
+        {
+            var creatorId = 1;
+            var updatorId = 2;
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var addressLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.Address.Id,
+                LocationTypeName = LocationType.Address.Value
+            };
+            var businessAddressType = new AddressType
+            {
+                AddressName = AddressType.Business.Value,
+                AddressTypeId = AddressType.Business.Id
+            };
+            var homeAddressType = new AddressType
+            {
+                AddressName = AddressType.Home.Value,
+                AddressTypeId = AddressType.Home.Id
+            };
+            var organizationId = 2;
+            var organization = new Organization
+            {
+                OrganizationId = organizationId
+            };
+            var country = new Location
+            {
+                LocationId = 1,
+                LocationName = "country"
+            };
+            var division = new Location
+            {
+                LocationId = 2,
+                LocationName = "division"
+            };
+            var city = new Location
+            {
+                LocationId = 3,
+                LocationName = "city",
+            };
+            var addressLocation = new Location
+            {
+                LocationName = "old location name",
+                LocationType = addressLocationType,
+                LocationId = 5,
+                LocationTypeId = addressLocationType.LocationTypeId,
+            };
+            addressLocation.History.CreatedBy = creatorId;
+            addressLocation.History.CreatedOn = yesterday;
+            addressLocation.History.RevisedBy = creatorId;
+
+            var address = new Address
+            {
+                AddressId = 1,
+                AddressType = businessAddressType,
+                AddressTypeId = businessAddressType.AddressTypeId,
+                DisplayName = "old display",
+                Location = addressLocation,
+                LocationId = addressLocation.LocationId
+            };
+            address.History.CreatedBy = creatorId;
+            address.History.CreatedOn = yesterday;
+            address.History.RevisedBy = creatorId;
+            address.History.RevisedOn = yesterday;
+            organization.Addresses.Add(address);
+
+            addressLocation.History.RevisedOn = yesterday;
+            organization.Addresses.Clear();
+            organization.Addresses.Add(address);
+
+            context.LocationTypes.Add(addressLocationType);
+            context.AddressTypes.Add(businessAddressType);
+            context.AddressTypes.Add(homeAddressType);
+            context.Organizations.Add(organization);
+            context.Locations.Add(addressLocation);
+            context.Locations.Add(city);
+            context.Locations.Add(division);
+            context.Addresses.Add(address);
+
+            var addressId = address.AddressId;
+            var user = new User(updatorId);
+            var addressTypeId = homeAddressType.AddressTypeId;
+            var displayName = "display";
+            var street1 = "street1";
+            var street2 = "street2";
+            var street3 = "street3";
+            var postalCode = "12345";
+            var locationName = "location name";
+            var countryId = country.LocationId;
+            var cityId = city.LocationId;
+            var divisionId = division.LocationId;
+            var instance = new UpdatedEcaAddress(
+                user,
+                addressId,
+                homeAddressType.AddressTypeId,
+                displayName,
+                street1,
+                street2,
+                street3,
+                postalCode,
+                locationName,
+                countryId,
+                cityId,
+                divisionId,
+                organizationId
+                );
+
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(instance);
+            };
+
+            service.Invoking(x => x.Update(instance)).ShouldThrow<ModelNotFoundException>()
+                                .WithMessage(String.Format("The [{0}] with id [{1}] was not found.", "Country", countryId));
+
+            f.ShouldThrow<ModelNotFoundException>()
+                .WithMessage(String.Format("The [{0}] with id [{1}] was not found.", "Country", countryId));
+
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_DivisionDoesNotExist()
+        {
+            var creatorId = 1;
+            var updatorId = 2;
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var addressLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.Address.Id,
+                LocationTypeName = LocationType.Address.Value
+            };
+            var businessAddressType = new AddressType
+            {
+                AddressName = AddressType.Business.Value,
+                AddressTypeId = AddressType.Business.Id
+            };
+            var homeAddressType = new AddressType
+            {
+                AddressName = AddressType.Home.Value,
+                AddressTypeId = AddressType.Home.Id
+            };
+            var organizationId = 2;
+            var organization = new Organization
+            {
+                OrganizationId = organizationId
+            };
+            var country = new Location
+            {
+                LocationId = 1,
+                LocationName = "country"
+            };
+            var division = new Location
+            {
+                LocationId = 2,
+                LocationName = "division"
+            };
+            var city = new Location
+            {
+                LocationId = 3,
+                LocationName = "city",
+            };
+            var addressLocation = new Location
+            {
+                LocationName = "old location name",
+                LocationType = addressLocationType,
+                LocationId = 5,
+                LocationTypeId = addressLocationType.LocationTypeId,
+            };
+            addressLocation.History.CreatedBy = creatorId;
+            addressLocation.History.CreatedOn = yesterday;
+            addressLocation.History.RevisedBy = creatorId;
+
+            var address = new Address
+            {
+                AddressId = 1,
+                AddressType = businessAddressType,
+                AddressTypeId = businessAddressType.AddressTypeId,
+                DisplayName = "old display",
+                Location = addressLocation,
+                LocationId = addressLocation.LocationId
+            };
+            address.History.CreatedBy = creatorId;
+            address.History.CreatedOn = yesterday;
+            address.History.RevisedBy = creatorId;
+            address.History.RevisedOn = yesterday;
+            organization.Addresses.Add(address);
+
+            addressLocation.History.RevisedOn = yesterday;
+            organization.Addresses.Clear();
+            organization.Addresses.Add(address);
+
+            context.LocationTypes.Add(addressLocationType);
+            context.AddressTypes.Add(businessAddressType);
+            context.AddressTypes.Add(homeAddressType);
+            context.Organizations.Add(organization);
+            context.Locations.Add(addressLocation);
+            context.Locations.Add(city);
+            context.Locations.Add(country);
+            context.Addresses.Add(address);
+
+            var addressId = address.AddressId;
+            var user = new User(updatorId);
+            var addressTypeId = homeAddressType.AddressTypeId;
+            var displayName = "display";
+            var street1 = "street1";
+            var street2 = "street2";
+            var street3 = "street3";
+            var postalCode = "12345";
+            var locationName = "location name";
+            var countryId = country.LocationId;
+            var cityId = city.LocationId;
+            var divisionId = division.LocationId;
+            var instance = new UpdatedEcaAddress(
+                user,
+                addressId,
+                homeAddressType.AddressTypeId,
+                displayName,
+                street1,
+                street2,
+                street3,
+                postalCode,
+                locationName,
+                countryId,
+                cityId,
+                divisionId,
+                organizationId
+                );
+
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(instance);
+            };
+
+            service.Invoking(x => x.Update(instance)).ShouldThrow<ModelNotFoundException>()
+                                .WithMessage(String.Format("The [{0}] with id [{1}] was not found.", "Division", divisionId));
+
+            f.ShouldThrow<ModelNotFoundException>()
+                .WithMessage(String.Format("The [{0}] with id [{1}] was not found.", "Division", divisionId));
+
+        }
+
+
         #endregion
 
     }

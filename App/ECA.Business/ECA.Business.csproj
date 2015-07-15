@@ -137,7 +137,9 @@
     <Compile Include="Queries\Reports\ReportQueries.cs" />
     <Compile Include="Queries\Models\Reports\ProjectAwardDTO.cs" />
     <Compile Include="Service\Admin\AdditionalAddress.cs" />
+    <Compile Include="Service\Admin\AdditionalOrganizationAddress.cs" />
     <Compile Include="Service\Admin\DraftMoneyFlow.cs" />
+    <Compile Include="Service\Admin\EcaAddress.cs" />
     <Compile Include="Service\Admin\EcaMoneyFlow.cs" />
     <Compile Include="Service\Admin\EcaOrganization.cs" />
     <Compile Include="Service\Admin\IMaritalStatusService.cs" />
@@ -150,6 +152,7 @@
     <Compile Include="Service\Admin\IFocusCategoryService.cs" />
     <Compile Include="Service\Admin\IGenderService.cs" />
     <Compile Include="Service\Admin\OrganizationServiceValidator.cs" />
+    <Compile Include="Service\Admin\UpdatedEcaAddress.cs" />
     <Compile Include="Service\Admin\UpdateOrganizationValidationEntity.cs" />
     <Compile Include="Service\Lookup\IParticipantTypeService.cs" />
     <Compile Include="Service\Lookup\ParticipantTypeDTO.cs" />

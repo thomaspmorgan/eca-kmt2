@@ -98,16 +98,7 @@ namespace ECA.Data
         /// Gets or sets the RowVersion.
         /// </summary>
         public byte[] RowVersion { get; set; }
-
-        /// <summary>
-        /// Returns the program id.
-        /// </summary>
-        /// <returns>The program id.</returns>
-        public object GetId()
-        {
-            return this.ProjectId;
-        }
-
+        
         /// <summary>
         /// 
         /// </summary>
@@ -136,7 +127,7 @@ namespace ECA.Data
         /// Returns the project id.
         /// </summary>
         /// <returns>The project id.</returns>
-        int IPermissable.GetId()
+        public int GetId()
         {
             return this.ProjectId;
         }

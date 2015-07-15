@@ -98,6 +98,7 @@
   <ItemGroup>
     <Compile Include="Data\IConcurrent.cs" />
     <Compile Include="Data\IConcurrentEntity.cs" />
+    <Compile Include="Data\IIdentifiable.cs" />
     <Compile Include="Data\InMemoryDbContextGenerator.generated.cs">
       <DependentUpon>InMemoryDbContextGenerator.tt</DependentUpon>
       <AutoGen>True</AutoGen>

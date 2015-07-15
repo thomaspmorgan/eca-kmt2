@@ -126,6 +126,7 @@
     <Compile Include="Focus.cs" />
     <Compile Include="Gender.cs" />
     <Compile Include="Goal.cs" />
+    <Compile Include="IAddressable.cs" />
     <Compile Include="IObjectivable.cs" />
     <Compile Include="IContactable.cs" />
     <Compile Include="IGoalable.cs" />

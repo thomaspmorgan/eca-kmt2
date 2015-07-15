@@ -114,7 +114,7 @@ namespace ECA.Core.Test.Service
             set;
         }
 
-        public object GetId()
+        public int GetId()
         {
             return this.Id;
         }

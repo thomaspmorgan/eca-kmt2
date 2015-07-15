@@ -12,7 +12,7 @@ namespace ECA.Data
     /// <summary>
     /// A location is a specific place, city, administrative division, country or region somewhere on earth.
     /// </summary>
-    public class Location
+    public class Location : IHistorical
     {
         /// <summary>
         /// Creates a new instance of a Location.

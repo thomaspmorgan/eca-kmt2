@@ -13,7 +13,11 @@ namespace ECA.Data
     /// <summary>
     /// An organization is an entity which participates in the implementation or execution of a project, such as a cooperating organization, a host family or an ECA office.
     /// </summary>
-    public class Organization : IPermissable, IHistorical, IContactable
+    public class Organization : 
+        IPermissable, 
+        IHistorical, 
+        IContactable,
+        IAddressable
     {
         /// <summary>
         /// Returns all organization type ids that represent an office.
