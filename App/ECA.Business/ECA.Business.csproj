@@ -138,6 +138,7 @@
     <Compile Include="Queries\Models\Reports\ProjectAwardDTO.cs" />
     <Compile Include="Service\Admin\AdditionalAddress.cs" />
     <Compile Include="Service\Admin\AdditionalOrganizationAddress.cs" />
+    <Compile Include="Service\Admin\AdditionalPersonAddress.cs" />
     <Compile Include="Service\Admin\DraftMoneyFlow.cs" />
     <Compile Include="Service\Admin\EcaAddress.cs" />
     <Compile Include="Service\Admin\EcaMoneyFlow.cs" />

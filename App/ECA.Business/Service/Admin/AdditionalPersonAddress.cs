@@ -8,12 +8,10 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Admin
 {
-    /// <summary>
-    /// An AdditionalOrganizationAddress business entity is used to add an address to an organization in the ECA system.
-    /// </summary>
-    public class AdditionalOrganizationAddress : AdditionalAddress<Organization>
+    public class AdditionalPersonAddress : AdditionalAddress<Person>
     {
-        private readonly int organizationId;
+
+        private readonly int personId;
 
         /// <summary>
         /// Creates a new instance.
@@ -29,8 +27,8 @@ namespace ECA.Business.Service.Admin
         /// <param name="countryId">The country id.</param>
         /// <param name="cityId">The city id.</param>
         /// <param name="divisionId">The division id.</param>
-        /// <param name="organizationId">The id of the organization.</param>
-        public AdditionalOrganizationAddress(
+        /// <param name="personId">The id of the person.</param>
+        public AdditionalPersonAddress(
             User creator,
             int addressTypeId,
             string addressDisplayName,
@@ -42,21 +40,25 @@ namespace ECA.Business.Service.Admin
             int countryId,
             int cityId,
             int? divisionId,
-            int organizationId
+            int personId
             )
             : base(creator, addressTypeId, addressDisplayName, street1, street2, street3, postalCode, locationName, countryId, cityId, divisionId)
         {
             Contract.Requires(creator != null, "The creator must not be null.");
-            this.organizationId = organizationId;
+            this.personId = personId;
         }
 
         /// <summary>
-        /// Returns the organization id.
+        /// Returns the person id.
         /// </summary>
-        /// <returns>The organization id.</returns>
+        /// <returns>The person id.</returns>
         public override int GetAddressableEntityId()
         {
-            return organizationId;
+            return personId;
         }
+
+
     }
+
+
 }

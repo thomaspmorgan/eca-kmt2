@@ -12,7 +12,7 @@ namespace ECA.Data
     /// <summary>
     /// A person is someone who has applied to, is participating in, or has completed an ECA project.
     /// </summary>
-    public class Person : IHistorical
+    public class Person : IHistorical, IAddressable
     {
         /// <summary>
         /// Gets the max length of the first name.
@@ -180,6 +180,11 @@ namespace ECA.Data
 
         public History History { get; set; }
 
+
+        public int GetId()
+        {
+            return this.PersonId;
+        }
     }
 
 }

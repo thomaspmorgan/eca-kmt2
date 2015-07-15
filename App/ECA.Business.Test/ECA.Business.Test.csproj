@@ -95,6 +95,7 @@
     <Compile Include="Queries\Persons\PersonQueriesTest.cs" />
     <Compile Include="Queries\Projects\ProjectQueriesTest.cs" />
     <Compile Include="Service\Admin\AdditionalAddressTest.cs" />
+    <Compile Include="Service\Admin\AdditionalPersonAddressTest.cs" />
     <Compile Include="Service\Admin\AdditionalOrganizationAddressTest.cs" />
     <Compile Include="Service\Admin\EcaAddressTest.cs" />
     <Compile Include="Service\Admin\EcaOrganizationTest.cs" />

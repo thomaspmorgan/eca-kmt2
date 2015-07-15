@@ -19,6 +19,16 @@ namespace ECA.Data.Test
             var officeTypeIds = Organization.OFFICE_ORGANIZATION_TYPE_IDS;
             CollectionAssert.AreEqual(expectedOfficeTypeIds, officeTypeIds);
         }
+        [TestMethod]
+        public void TestGetId()
+        {
+            var org = new Organization
+            {
+                OrganizationId = 1
+            };
+            Assert.AreEqual(org.OrganizationId, org.GetId());
+        }
+
 
         #region Permissable
         [TestMethod]
