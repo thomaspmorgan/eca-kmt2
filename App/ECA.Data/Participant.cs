@@ -11,12 +11,6 @@ namespace ECA.Data
 {
     public class Participant : IHistorical
     {
-
-        /// <summary>
-        /// Gets the max length of the SEVIS Id.
-        /// </summary>
-        private const int SEVIS_ID_MAX_LENGTH = 11;
-
         public Participant()
         {
             this.ItineraryStops = new HashSet<ItineraryStop>();
@@ -34,12 +28,6 @@ namespace ECA.Data
         [Required]
         public int ParticipantTypeId { get; set; }
         public ParticipantType ParticipantType { get; set; }
-        [MaxLength(SEVIS_ID_MAX_LENGTH)]
-        public string SevisId {get; set;}
-        /// <summary>
-        /// Can the participant be contacted? (agreement to contact is in place)
-        /// </summary>
-        public bool ContactAgreement { get; set; }
 
         public ParticipantStatus Status { get; set; }
         public int? ParticipantStatusId { get; set; }

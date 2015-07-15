@@ -8,7 +8,7 @@
     [EndDate]                         DATETIMEOFFSET (7) NULL,
     [Language]                        NVARCHAR (100)     NULL,
     [AudienceReach]                   INT                NOT NULL,
-    [EventId]                         INT                NULL,
+    [ActivityId]                         INT                NULL,
     [History_CreatedBy]               INT                NOT NULL,
     [History_CreatedOn]               DATETIMEOFFSET (7) NOT NULL,
     [History_RevisedBy]               INT                NOT NULL,
@@ -19,15 +19,15 @@
 	[RowVersion] TIMESTAMP NOT NULL, 
     [ProjectNumberIVLP] NVARCHAR(100) NULL, 
     CONSTRAINT [PK_dbo.Project] PRIMARY KEY CLUSTERED ([ProjectId] ASC),
-    CONSTRAINT [FK_dbo.Project_dbo.Event_EventId] FOREIGN KEY ([EventId]) REFERENCES [dbo].[Event] ([EventId]),
+    CONSTRAINT [FK_dbo.Project_dbo.Activity_ActivityId] FOREIGN KEY ([ActivityId]) REFERENCES [dbo].[Activity] ([ActivityId]),
     CONSTRAINT [FK_dbo.Project_dbo.Organization_NominationSource_OrganizationId] FOREIGN KEY ([NominationSource_OrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId]),
     CONSTRAINT [FK_dbo.Project_dbo.ProgramId] FOREIGN KEY ([ProgramId]) REFERENCES [dbo].[Program] ([ProgramId]) 
 );
 
 
 GO
-CREATE NONCLUSTERED INDEX [IX_EventId]
-    ON [dbo].[Project]([EventId] ASC);
+CREATE NONCLUSTERED INDEX [IX_ActivityId]
+    ON [dbo].[Project]([ActivityId] ASC);
 
 
 GO

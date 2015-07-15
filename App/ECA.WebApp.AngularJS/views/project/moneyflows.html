@@ -62,7 +62,7 @@
             </tr>
             <!-- EDITING ROW -->
             <tr ng-show="editingMoneyFlows[{{moneyFlow.id}}]" class="editingRow">
-                <td style="padding-left:10px;">
+                <td class="">
                     <input class="moneyFlowEdit"
                            type="text"
                            id="transactionDate"
@@ -72,7 +72,6 @@
                            is-open="isTransactionDatePickerOpen"
                            ng-required="true"
                            close-text="Close" />
-                    <button type="button" class="btn btn-default inlineEditCalendar" ng-click="openTransactionDatePicker($event)"><i class="fa fa-calendar"></i></button>
                 </td>
                 <td>
                     <select class="form-control" id="status" ng-options="s.id as s.name for s in moneyFlowStati" ng-model="draftMoneyFlow.moneyFlowStatusId" />
@@ -84,26 +83,43 @@
                             ng-change="changeSourceRecipientType()" />
                 </td>
                 <td>
-                    <select class="form-control" id="fromTo" ng-show="showFromToSelectControl"
-                            ng-options="s.id as s.name for s in moneyFlowFromTo"
-                            placeholder="Enter {{fromToType}} title..."
-                            ng-model="draftMoneyFlow.sourceRecipientId" />
+                    <select class="form-control" id="fromTo" ng-options="s.id as s.name for s in moneyFlowFromTo"
+                            placeholder="Enter {{fromToType}} title..." ng-model="draftMoneyFlow.sourceRecipientId" />
                 </td>
                 <td>
                     <select class="form-control" id="direction" ng-options="s.id as s.name for s in moneyFlowTypes" ng-model="draftMoneyFlow.moneyFlowTypeId" />
                 </td>
                 <td>
-                    <input type="number" class="currency" min="-1000000.00" max="1000000.00" step="100" value="0.00" ng-model="draftMoneyFlow.value" required />
+                    <input type="text" class="currency" ng-model="draftMoneyFlow.value" required />
                 </td>
                 <td>
                     <select class="form-control" id="modalFiscalYear" ng-options="s.year as s.name for s in fiscalYears" ng-model="draftMoneyFlow.moneyFlowFiscalYear" ng-required="true" />
                 </td>
-                <td>
-                    <textarea name="description" class="multiLineInput" type="text" ng-model="draftMoneyFlow.description" required />
-                </td>
                 <td class="inlineEditControls">
                     <button ng-click="saveMoneyFlow(moneyFlow.id)" class="btn btn-success">Save</button>
                     <button ng-click="cancelMoneyFlowEdit(moneyFlow.id)" class="btn btn-cancel">Cancel</button>
+                </td>
+            </tr>
+
+            <tr ng-show="editingMoneyFlows[{{moneyFlow.id}}]" class="shortRow editingRow">
+                <td colspan="1">
+                    <div class="datetimepicker">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar calendarButton"></span>
+                        </span>
+                    </div>
+                </td>
+                <td colspan="4">&nbsp;</td>
+                <td colspan="1"></td>
+                <td colspan="2">&nbsp;</td>
+            </tr>
+
+            <tr ng-show="editingMoneyFlows[{{moneyFlow.id}}]" class="editingRow" style="height:100px;">
+                <td colspan="1">
+                    Description
+                </td>
+                <td colspan="7">
+                    <textarea name="description" class="multiLineInput" type="text" ng-model="draftMoneyFlow.description" required />
                 </td>
             </tr>
         </tbody>

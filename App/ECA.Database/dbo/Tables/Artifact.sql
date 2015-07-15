@@ -4,7 +4,7 @@
     [Path]              NVARCHAR (MAX)     NULL,
     [ArtifactTypeId]    INT                NOT NULL,
     [Data]              VARBINARY (MAX)    NULL,
-    [EventId]           INT                NULL,
+    [ActivityId]           INT                NULL,
     [ProjectId]         INT                NULL,
     [ProgramId]         INT                NULL,
     [PublicationId]     INT                NULL,
@@ -16,7 +16,7 @@
     [History_RevisedOn] DATETIMEOFFSET (7) NOT NULL,
     CONSTRAINT [PK_dbo.Artifact] PRIMARY KEY CLUSTERED ([ArtifactId] ASC),
     CONSTRAINT [FK_dbo.Artifact_dbo.ArtifactType_ArtifactTypeId] FOREIGN KEY ([ArtifactTypeId]) REFERENCES [dbo].[ArtifactType] ([ArtifactTypeId]) ON DELETE CASCADE,
-    CONSTRAINT [FK_dbo.Artifact_dbo.Event_EventId] FOREIGN KEY ([EventId]) REFERENCES [dbo].[Event] ([EventId]),
+    CONSTRAINT [FK_dbo.Artifact_dbo.Activity_ActivityId] FOREIGN KEY ([ActivityId]) REFERENCES [dbo].[Activity] ([ActivityId]),
     CONSTRAINT [FK_dbo.Artifact_dbo.Impact_ImpactId] FOREIGN KEY ([ImpactId]) REFERENCES [dbo].[Impact] ([ImpactId]),
     CONSTRAINT [FK_dbo.Artifact_dbo.ItineraryStop_ItineraryStopId] FOREIGN KEY ([ItineraryStopId]) REFERENCES [dbo].[ItineraryStop] ([ItineraryStopId]),
     CONSTRAINT [FK_dbo.Artifact_dbo.Program_ProgramId] FOREIGN KEY ([ProgramId]) REFERENCES [dbo].[Program] ([ProgramId]),
@@ -31,8 +31,8 @@ CREATE NONCLUSTERED INDEX [IX_ArtifactTypeId]
 
 
 GO
-CREATE NONCLUSTERED INDEX [IX_EventId]
-    ON [dbo].[Artifact]([EventId] ASC);
+CREATE NONCLUSTERED INDEX [IX_ActivityId]
+    ON [dbo].[Artifact]([ActivityId] ASC);
 
 
 GO

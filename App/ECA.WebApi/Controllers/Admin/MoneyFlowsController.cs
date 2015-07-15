@@ -113,7 +113,7 @@ namespace ECA.WebApi.Controllers.Admin
         }
         
         [ResponseType(typeof(MoneyFlowDTO))]
-        public async Task<IHttpActionResult> PostMoneyFlowAsync(EcaMoneyFlow moneyFlow)
+        public async Task<IHttpActionResult> PostMoneyFlowAsync(DraftMoneyFlow moneyFlow)
         {
             if (ModelState.IsValid)
             {
