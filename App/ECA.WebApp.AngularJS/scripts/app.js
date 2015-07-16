@@ -429,13 +429,7 @@ angular
             templateUrl: 'views/organizations/overview.html',
             controller: 'OrganizationOverviewCtrl',
             requireADLogin: true
-        })
-        .state('organizations.edit', {
-            url: '/edit',
-            templateUrl: 'views/organizations/edit.html',
-            controller: 'OrganizationEditCtrl',
-            requireADLogin: true
-        })
+        })        
         .state('organizations.artifacts', {
             url: '/artifacts',
             templateUrl: 'views/organizations/artifacts.html',

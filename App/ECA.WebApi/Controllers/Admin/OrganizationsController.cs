@@ -131,7 +131,14 @@ namespace ECA.WebApi.Controllers.Admin
         [ResponseType(typeof(PagedQueryResults<OrganizationTypeDTO>))]
         public async Task<IHttpActionResult> GetOrganizationTypesAsync([FromUri]PagingQueryBindingModel<OrganizationTypeDTO> queryModel)
         {
-            return Ok(await organizationTypeService.GetAsync(queryModel.ToQueryableOperator(DEFAULT_ORGANIZATION_TYPE_SORTER)));
+            if (ModelState.IsValid)
+            {
+                return Ok(await organizationTypeService.GetAsync(queryModel.ToQueryableOperator(DEFAULT_ORGANIZATION_TYPE_SORTER)));
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
         /// <summary>

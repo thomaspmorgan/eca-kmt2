@@ -133,7 +133,7 @@
     <Content Include="scripts\controllers\organization\activities.js" />
     <Content Include="scripts\controllers\organization\impact.js" />
     <Content Include="scripts\controllers\organization\artifacts.js" />
-    <Content Include="scripts\controllers\organization\edit.js" />
+    <Content Include="scripts\controllers\organization\editdetails.js" />
     <Content Include="scripts\controllers\organization\organization.js" />
     <Content Include="scripts\controllers\organization\overview.js" />
     <Content Include="scripts\controllers\participant\timeline.js" />
@@ -168,8 +168,8 @@
     <Content Include="views\organizations\activities.html" />
     <Content Include="views\organizations\impact.html" />
     <Content Include="views\organizations\artifacts.html" />
-    <Content Include="views\organizations\edit.html" />
     <Content Include="views\organizations\overview.html" />
+    <Content Include="views\organizations\partials\editdetails.html" />
     <Content Include="views\partials\pagination.html" />
     <Content Include="views\participants\allpersons.html" />
     <Content Include="views\participants\partials\evaluationNotesView.html" />

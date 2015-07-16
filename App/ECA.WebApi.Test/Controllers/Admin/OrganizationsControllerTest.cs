@@ -50,6 +50,14 @@ namespace ECA.WebApi.Test.Controllers.Admin
         }
 
         [TestMethod]
+        public async Task TestGetOrganizationTypesAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetOrganizationTypesAsync(new PagingQueryBindingModel<OrganizationTypeDTO>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
+        [TestMethod]
         public async Task TestGetOrganizationByIdAsync()
         {
             organizationService.Setup(x => x.GetOrganizationByIdAsync(It.IsAny<int>())).ReturnsAsync(new OrganizationDTO());
