@@ -72,9 +72,9 @@ namespace ECA.Business.Test.Service.Persons
                 Name = "Cat1"
             };
 
-            var event1 = new Event
+            var activity1 = new Activity
             {
-                EventId = 1,
+                ActivityId = 1,
                 Title = "Event1"
             };
 
@@ -119,13 +119,13 @@ namespace ECA.Business.Test.Service.Persons
             context.Genders.Add(gender);
             context.LanguangeProficiencies.Add(language1);
             context.ProminentCategories.Add(prominentCat1);
-            context.Events.Add(event1);
+            context.Activities.Add(activity1);
             context.Memberships.Add(membership1);
             context.People.Add(dependant1);
             context.Impacts.Add(impact1);
 
             person.ProminentCategories.Add(prominentCat1);
-            person.Events.Add(event1);
+            person.Activities.Add(activity1);
             person.Memberships.Add(membership1);
             person.LanguageProficiencies.Add(language1);
             person.Family.Add(dependant1);
@@ -138,7 +138,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Assert.IsNotNull(serviceResult);
                 Assert.AreEqual(person.ProminentCategories.FirstOrDefault().Name, serviceResult.ProminentCategories.FirstOrDefault().Value);
-                Assert.AreEqual(person.Events.FirstOrDefault().Title, serviceResult.Events.FirstOrDefault().Value);
+                Assert.AreEqual(person.Activities.FirstOrDefault().Title, serviceResult.Activities.FirstOrDefault().Value);
                 Assert.AreEqual(person.Memberships.FirstOrDefault().Name, serviceResult.Memberships.FirstOrDefault().Name);
                 Assert.AreEqual(person.LanguageProficiencies.FirstOrDefault().LanguageName, serviceResult.LanguageProficiencies.FirstOrDefault().Value);
                 Assert.AreEqual(person.Family.FirstOrDefault().LastName + ", " + person.Family.FirstOrDefault().FirstName, serviceResult.Dependants.FirstOrDefault().Value);

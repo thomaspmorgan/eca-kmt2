@@ -28,8 +28,8 @@ namespace ECA.Data
         public int? PersonId { get; set; }
         public virtual Organization Organization { get; set; }
         public int? OrganizationId { get; set; }
-        public virtual Event Event { get; set; }
-        public int? EventId { get; set; }
+        public virtual Activity Activity { get; set; }
+        public int? ActivityId { get; set; }
         public virtual ItineraryStop ItineraryStop { get; set; }
         public int? ItineraryStopId { get; set; }
 

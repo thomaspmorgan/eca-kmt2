@@ -163,8 +163,8 @@
     <Compile Include="EcaInitializer.cs" />
     <Compile Include="EmailAddress.cs" />
     <Compile Include="Enums.cs" />
-    <Compile Include="Event.cs" />
-    <Compile Include="EventType.cs" />
+    <Compile Include="Activity.cs" />
+    <Compile Include="ActivityType.cs" />
     <Compile Include="ExternalId.cs" />
     <Compile Include="History.cs" />
     <Compile Include="Impact.cs" />

@@ -10,12 +10,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ECA.Data
 {
 
-    public class EventType
+    public class ActivityType
     {
         [Key]
-        public int EventTypeId { get; set; }
+        public int ActivityTypeId { get; set; }
         [Required]
-        public string EventTypeName { get; set; }
+        public string ActivityTypeName { get; set; }
 
         public History History { get; set; }
     }
