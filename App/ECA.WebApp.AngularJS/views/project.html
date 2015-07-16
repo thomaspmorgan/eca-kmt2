@@ -1,7 +1,7 @@
 <div class="breadcrumbs">
     <p><a ui-sref="offices.overview({officeId: program.ownerOrganizationId})">{{program.ownerName}}</a> &bull; <a ui-sref="programs.overview({programId: program.id})">{{program.name}}</a> &bull; {{project.name}}</p>
 </div>
-<div class="jumbotron project">
+<div class="jumbotron project" ng-controller="ToolbarCtrl">
     <div class="toolbar" sticky offset="50">
         <div class="left2">
             <div class="btn-group" dropdown>
@@ -27,8 +27,8 @@
         <div class="right">
             <img class="icon star" src="images/star.png" alt="">
             <img class="icon" src="images/exportA.png" alt="">
-            <img class="icon wide" src="images/collabA.png" alt="">
-            <img class="icon" src="images/toolCommentsA.png" alt="">
+            <img class="icon wide" src="images/collabA.png" alt="" ng-click="openCollaboratorModal(constants.resourceType.project, project.id)">
+            <img class=" icon" src="images/toolCommentsA.png" alt="">
         </div>
     </div>
     <div class="heading">

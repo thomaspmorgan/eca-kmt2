@@ -963,7 +963,7 @@ namespace CAM.Business.Test.Queries
             var results = ResourceQueries.CreateGetResourceAuthorizationsByInheritedRolePermissionsQuery(context);
             Assert.AreEqual(1, results.Count());
             var firstResult = results.First();
-            Assert.AreEqual(false, firstResult.IsAllowed);
+            Assert.AreEqual(true, firstResult.IsAllowed);
         }
 
         [TestMethod]
@@ -1689,7 +1689,7 @@ namespace CAM.Business.Test.Queries
             Assert.AreEqual(1, results.Count);
             var viewPermissionAuthorization = results.Where(x => x.PermissionId == viewProjectPermission.PermissionId).FirstOrDefault();
             Assert.IsNotNull(viewPermissionAuthorization);
-            Assert.IsFalse(viewPermissionAuthorization.IsAllowed);
+            Assert.IsTrue(viewPermissionAuthorization.IsAllowed);
         }
 
 
@@ -1781,7 +1781,7 @@ namespace CAM.Business.Test.Queries
             Assert.AreEqual(1, results.Count);
             var viewPermissionAuthorization = results.Where(x => x.PermissionId == viewProjectPermission.PermissionId).FirstOrDefault();
             Assert.IsNotNull(viewPermissionAuthorization);
-            Assert.IsTrue(viewPermissionAuthorization.IsAllowed);
+            Assert.IsFalse(viewPermissionAuthorization.IsAllowed);
         }
 
         [TestMethod]

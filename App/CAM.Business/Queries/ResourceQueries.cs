@@ -137,13 +137,6 @@ namespace CAM.Business.Queries
                         join userAccount in context.UserAccounts
                         on principal.PrincipalId equals userAccount.PrincipalId
 
-                        join permissionAssignment in context.PermissionAssignments
-                        on resource equals permissionAssignment.Resource into permissionAssignments
-                        from tempPermissionAssignment in permissionAssignments
-                            .Where(x => !x.IsAllowed
-                                && x.PrincipalId == principal.PrincipalId
-                                && x.PermissionId == permission.PermissionId).DefaultIfEmpty()
-
                         where permission.ResourceTypeId == resourceType.ResourceTypeId
                         select new ResourceAuthorization
                         {
@@ -151,7 +144,7 @@ namespace CAM.Business.Queries
                             DisplayName = userAccount.DisplayName,
                             EmailAddress = userAccount.EmailAddress,
                             ForeignResourceId = resource.ForeignResourceId,
-                            IsAllowed = tempPermissionAssignment == null ? true : tempPermissionAssignment.IsAllowed,
+                            IsAllowed = true,
                             IsGrantedByInheritance = true,
                             IsGrantedByPermission = false,
                             IsGrantedByRole = true,
@@ -243,13 +236,6 @@ namespace CAM.Business.Queries
                         join principal in context.Principals
                         on parentPermissionAssignment.PrincipalId equals principal.PrincipalId
 
-                        //do a left join to see if the resource itself is allowed the permission
-                        join permissionAssignment in context.PermissionAssignments
-                        on resource equals permissionAssignment.Resource into permissionAssignments
-                        from childPermissionAssignment in permissionAssignments
-                            .Where(x => x.PrincipalId == principal.PrincipalId
-                                && x.PermissionId == permission.PermissionId).DefaultIfEmpty()
-
                         join userAccount in context.UserAccounts
                         on principal.PrincipalId equals userAccount.PrincipalId
 
@@ -261,7 +247,7 @@ namespace CAM.Business.Queries
                             DisplayName = userAccount.DisplayName,
                             EmailAddress = userAccount.EmailAddress,
                             ForeignResourceId = resource.ForeignResourceId,
-                            IsAllowed = childPermissionAssignment != null ? childPermissionAssignment.IsAllowed : parentPermissionAssignment.IsAllowed,
+                            IsAllowed = parentPermissionAssignment.IsAllowed,
                             IsGrantedByInheritance = true,
                             IsGrantedByPermission = true,
                             IsGrantedByRole = false,

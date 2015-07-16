@@ -8,10 +8,23 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ToolbarCtrl', function ($scope, ConstantsService) {
+  .controller('ToolbarCtrl', function ($scope, $modal, ConstantsService) {
 
       $scope.openCollaboratorModal = function(resourceType, foreignResourceId) {
-          console.log(resourceType);
-          console.log(foreignResourceId);
+
+          var modalInstance = $modal.open({
+              animation: $scope.animationsEnabled,
+              templateUrl: '/views/partials/collaborators.html',
+              controller: 'CollaboratorCtrl',
+              size: 'lg',
+              resolve: {
+                  parameters: function () {
+                      return {
+                          resourceType: resourceType,
+                          foreignResourceId: foreignResourceId
+                      }
+                  }
+              }
+          });
       };
   });
