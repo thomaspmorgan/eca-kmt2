@@ -142,7 +142,6 @@
     <Content Include="scripts\controllers\person\personEvaluationNotes.js" />
     <Content Include="scripts\controllers\person\personGeneral.js" />
     <Content Include="scripts\controllers\program\moneyflows.js" />
-    <Content Include="scripts\controllers\program\collaborators.js" />
     <Content Include="scripts\controllers\project\selectparticipanttype.js" />
     <Content Include="scripts\controllers\project\collaborator.js" />
     <Content Include="scripts\controllers\project\edit.js" />
@@ -179,7 +178,6 @@
     <Content Include="views\participants\partials\eduempView.html" />
     <Content Include="views\participants\partials\generalView.html" />
     <Content Include="views\organization.html" />
-    <Content Include="views\program\collaborators.html" />
     <Content Include="views\program\moneyflows.html" />
     <Content Include="views\project\selectparticipanttype.html" />
     <Content Include="views\project\collaborators.html" />
