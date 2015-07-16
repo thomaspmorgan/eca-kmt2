@@ -85,8 +85,8 @@ namespace ECA.Data
         public ICollection<Project> OtherRelatedProjects { get; set; }
         public ICollection<string> TreatiesAgreementsContracts { get; set; }
         public ICollection<Impact> Impacts { get; set; }
-        public Event Event { get; set; }
-        public int? EventId { get; set; }
+        public Activity Activity { get; set; }
+        public int? ActivityId { get; set; }
         public ICollection<Contact> Contacts { get; set; }
         
         public ICollection<Objective> Objectives { get; set; }

@@ -75,7 +75,7 @@ namespace ECA.Data
             ExternalIds = new HashSet<ExternalId>();
             SocialMedias = new HashSet<SocialMedia>();
             Addresses = new HashSet<Address>();
-            Events = new HashSet<Event>();
+            Activities = new HashSet<Activity>();
             EvaluationNotes = new HashSet<PersonEvaluationNote>();
             Family = new HashSet<Person>();
             OtherFamily = new HashSet<Person>();
@@ -169,7 +169,7 @@ namespace ECA.Data
         public ICollection<ExternalId> ExternalIds { get; set; }
         public ICollection<SocialMedia> SocialMedias { get; set; }
         public ICollection<Address> Addresses { get; set; }
-        public ICollection<Event> Events { get; set; }
+        public ICollection<Activity> Activities { get; set; }
         public ICollection<PersonEvaluationNote> EvaluationNotes { get; set; }
         public ICollection<Person> Family { get; set; }
         public ICollection<Person> OtherFamily { get; set; }
