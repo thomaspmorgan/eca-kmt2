@@ -452,16 +452,29 @@ h5.canEdit {
 }
 
 .editingRow {
-    background-color: lightgray;
+    background-color: #e5eae9;
 }
 
 .editingRow td {
-    padding-right:7px;
+    padding: 10px 0 0 5px !important;
+    height: 50px;
 }
 
 .editingRow input {
     height: 34px;
 
+}
+
+.calendarButton {
+    color:black;
+}
+
+.datetimepicker {
+    cursor: pointer;
+}
+.shortRow td {
+    height:20px !important;
+    padding-top:0;
 }
 .modal-center-small .modal-dialog {
     width: 400px;
@@ -566,8 +579,8 @@ div.modal-center-large .modal-content .modal-body {
 }
 
 .multiLineInput {
-    height: 50%;
-    width: 95%;
+    width: 90%;
+    height:75%;
 }
 
 .inlineEditCalendar {

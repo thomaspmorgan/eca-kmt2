@@ -70,11 +70,6 @@ namespace ECA.Business.Service.Persons
                 yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.Person, PERSON_NOT_FOUND);
             }
 
-            if (validationEntity.Participant == null)
-            {
-                yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.Participant, PARTICIPANT_NOT_FOUND);
-            }
-
             if (Gender.GetStaticLookup(validationEntity.GenderId) == null)
             {
                 yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.GenderId, GENDER_NOT_FOUND);

@@ -15,3 +15,7 @@ GO
 
 
 CREATE INDEX [IX_FieldOfStudyCode] ON [sevis].[FieldOfStudy] ([FieldOfStudyCode])
+
+GO
+
+CREATE INDEX [IX_Description] ON [sevis].[FieldOfStudy] ([Description])

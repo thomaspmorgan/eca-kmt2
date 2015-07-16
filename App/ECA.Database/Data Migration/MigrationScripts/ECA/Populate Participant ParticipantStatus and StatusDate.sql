@@ -22,12 +22,12 @@ SET participantstatusid  =
 (
 SELECT participantstatusid 
 FROM participantstatus 
-WHERE status = 'Alumnus'),
-statusdate = 
-(
-SELECT enddate 
-FROM project pp
-WHERE pp.projectid = participant.projectid
-)
+WHERE status = 'Active')--,
+--statusdate = 
+--(
+--SELECT enddate 
+--FROM project pp
+--WHERE pp.projectid = participant.projectid
+--)
 WHERE projectid IN (select projectid from project where projectstatusid = 1)
 Go

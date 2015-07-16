@@ -13,7 +13,7 @@ Post-Deployment Script Template
 :r .\StaticData\dbo.AddressType.staticdata.sql
 :r .\StaticData\dbo.ArtifactType.staticdata.sql
 :r .\StaticData\dbo.EmailAddressType.staticdata.sql
-:r .\StaticData\dbo.EventType.staticdata.sql
+:r .\StaticData\dbo.ActivityType.staticdata.sql
 :r .\StaticData\dbo.Focus.staticdata.sql
 :r .\StaticData\dbo.Gender.staticdata.sql
 :r .\StaticData\dbo.ImpactType.staticdata.sql

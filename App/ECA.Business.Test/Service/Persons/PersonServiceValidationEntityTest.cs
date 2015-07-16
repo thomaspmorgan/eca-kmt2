@@ -13,7 +13,6 @@ namespace ECA.Business.Test.Service.Persons
         public void TestConstructor()
         {
             var person = new Person();
-            var participant = new Participant();
             var genderId = 1;
             var dateOfBirth = DateTime.Now;
             var cityOfBirth = new Location();
@@ -23,14 +22,12 @@ namespace ECA.Business.Test.Service.Persons
 
             var entity = new PersonServiceValidationEntity(
                 person,
-                participant,
                 genderId,
                 dateOfBirth,
                 cityOfBirth,
                 countriesOfCitizenship);
 
             Assert.IsTrue(Object.ReferenceEquals(person, entity.Person));
-            Assert.IsTrue(Object.ReferenceEquals(participant, entity.Participant));
             Assert.AreEqual(genderId, entity.GenderId);
             Assert.AreEqual(dateOfBirth, entity.DateOfBirth);
             Assert.IsTrue(Object.ReferenceEquals(cityOfBirth, entity.CityOfBirth));
