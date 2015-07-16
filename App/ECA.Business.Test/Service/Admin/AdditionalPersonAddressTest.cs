@@ -26,7 +26,7 @@ namespace ECA.Business.Test.Service.Admin
             var divisionId = 4;
             var personId = 5;
 
-            var instance = new AdditionalOrganizationAddress(
+            var instance = new AdditionalPersonAddress(
                 user,
                 addressTypeId,
                 displayName,

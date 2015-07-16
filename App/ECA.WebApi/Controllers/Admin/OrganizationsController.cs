@@ -5,6 +5,7 @@ using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
+using ECA.Data;
 using ECA.WebApi.Models.Admin;
 using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
@@ -32,20 +33,29 @@ namespace ECA.WebApi.Controllers.Admin
         private IOrganizationService organizationService;
         private IOrganizationTypeService organizationTypeService;
         private IUserProvider userProvider;
+        private IAddressModelHandler addressHandler;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="service">The service</param>
         /// <param name="organizationTypeService">The organization type service.</param>
-        public OrganizationsController(IOrganizationService service, IOrganizationTypeService organizationTypeService, IUserProvider userProvider)
+        /// <param name="addressHandler">The address handler.</param>
+        /// <param name="userProvider">The user provider.</param>
+        public OrganizationsController(
+            IOrganizationService service,
+            IOrganizationTypeService organizationTypeService, 
+            IUserProvider userProvider, 
+            IAddressModelHandler addressHandler)
         {
             Contract.Requires(service != null, "The organization service must not be null.");
             Contract.Requires(organizationTypeService != null, "The organization type service must not be null.");
             Contract.Requires(userProvider != null, "The user provider must not be null.");
+            Contract.Requires(addressHandler != null, "The address handler must not be null.");
             this.organizationService = service;
             this.organizationTypeService = organizationTypeService;
             this.userProvider = userProvider;
+            this.addressHandler = addressHandler;
         }
 
         /// <summary>
@@ -122,6 +132,18 @@ namespace ECA.WebApi.Controllers.Admin
         public async Task<IHttpActionResult> GetOrganizationTypesAsync([FromUri]PagingQueryBindingModel<OrganizationTypeDTO> queryModel)
         {
             return Ok(await organizationTypeService.GetAsync(queryModel.ToQueryableOperator(DEFAULT_ORGANIZATION_TYPE_SORTER)));
+        }
+
+        /// <summary>
+        /// Adds a new address to the organization.
+        /// </summary>
+        /// <param name="model">The new address.</param>
+        /// <returns>The saved address.</returns>
+        [Route("Organizations/Address")]
+        [ResponseType(typeof(AddressDTO))]
+        public Task<IHttpActionResult> PostAddressAsync([FromBody]OrganizationAddressBindingModel model)
+        {
+            return addressHandler.HandleAdditionalAddress<Organization>(model, this);
         }
     }
 }

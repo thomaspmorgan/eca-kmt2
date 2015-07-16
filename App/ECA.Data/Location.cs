@@ -38,13 +38,11 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the location type id.
         /// </summary>
-        [Required]
         public int LocationTypeId { get; set; }
 
         /// <summary>
         /// Gets or sets the location type.
         /// </summary>
-        [Required]
         public virtual LocationType LocationType { get; set; }
 
         /// <summary>

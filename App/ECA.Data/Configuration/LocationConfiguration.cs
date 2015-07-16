@@ -21,6 +21,8 @@ namespace ECA.Data.Configuration
 
             HasKey(x => x.LocationId);
 
+            HasRequired(x => x.LocationType).WithMany().HasForeignKey(x => x.LocationTypeId).WillCascadeOnDelete(false);
+
             HasOptional(x => x.Country).WithMany().HasForeignKey(x => x.CountryId).WillCascadeOnDelete(false);
             Property(x => x.CountryId).HasColumnName("Country_LocationId");
 

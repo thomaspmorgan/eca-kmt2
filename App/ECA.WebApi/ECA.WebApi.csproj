@@ -391,6 +391,11 @@
     <Compile Include="Custom\SwaggerExtensions\ApplySchemaVendorExtensions.cs" />
     <Compile Include="Custom\SwaggerExtensions\AssignOAuth2SecurityRequirements.cs" />
     <Compile Include="Custom\SwaggerExtensions\DescendingAlphabeticComparer.cs" />
+    <Compile Include="Models\Admin\AddressBindingModel.cs" />
+    <Compile Include="Models\Admin\AddressModelHandler.cs" />
+    <Compile Include="Models\Admin\IAddressModelHandler.cs" />
+    <Compile Include="Models\Admin\OrganizationAddressBindingModel.cs" />
+    <Compile Include="Models\Admin\PersonAddressBindingModel.cs" />
     <Compile Include="Models\Admin\UpdatedOrganizationBindingModel.cs" />
     <Compile Include="Models\Person\AddressBindingModel.cs" />
     <Compile Include="Models\Person\PiiBindingModel.cs" />

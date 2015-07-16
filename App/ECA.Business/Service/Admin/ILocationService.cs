@@ -1,6 +1,7 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
+using ECA.Core.Service;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace ECA.Business.Service.Admin
     /// <summary>
     /// An ILocationService is capable of performing crud operations on a location.
     /// </summary>
-    public interface ILocationService
+    public interface ILocationService : ISaveable
     {
         /// <summary>
         /// Returns a list of locations.
@@ -71,6 +72,18 @@ namespace ECA.Business.Service.Admin
         Task<Address> CreateAsync<T>(AdditionalAddress<T> additionalAddress)
             where T : class, IAddressable;
 
+        /// <summary>
+        /// Returns the address with the given id.
+        /// </summary>
+        /// <param name="addressId">The address id.</param>
+        /// <returns>The address.</returns>
+        AddressDTO GetAddressById(int addressId);
 
+        /// <summary>
+        /// Returns the address with the given id.
+        /// </summary>
+        /// <param name="addressId">The address id.</param>
+        /// <returns>The address.</returns>
+        Task<AddressDTO> GetAddressByIdAsync(int addressId);
     }
 }

@@ -121,6 +121,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Models\Admin\AddressModelHandlerTest.cs" />
+    <Compile Include="Models\Admin\PersonAddressBindingModelTest.cs" />
+    <Compile Include="Models\Admin\OrganizationAddressBindingModelTest.cs" />
     <Compile Include="Models\Admin\UpdatedOrganizationBindingModelTest.cs" />
     <Compile Include="Models\Programs\ProgramBindingModelTest.cs" />
     <Compile Include="Models\Programs\DraftProgramBindingModelTest.cs" />

@@ -585,8 +585,7 @@ namespace ECA.Business.Test.Service.Programs
                 locationName,
                 countryId,
                 cityId,
-                divisionId,
-                organizationId
+                divisionId
                 );
 
             Action tester = () =>
@@ -768,8 +767,7 @@ namespace ECA.Business.Test.Service.Programs
                 locationName,
                 countryId,
                 cityId,
-                divisionId,
-                organizationId
+                divisionId
                 );
 
             Func<Task> f = () =>
@@ -889,8 +887,7 @@ namespace ECA.Business.Test.Service.Programs
                 locationName,
                 countryId,
                 cityId,
-                divisionId,
-                organizationId
+                divisionId
                 );
 
             Func<Task> f = () =>
@@ -1010,8 +1007,7 @@ namespace ECA.Business.Test.Service.Programs
                 locationName,
                 countryId,
                 cityId,
-                divisionId,
-                organizationId
+                divisionId
                 );
 
             Func<Task> f = () =>
@@ -1027,6 +1023,361 @@ namespace ECA.Business.Test.Service.Programs
 
         }
 
+        [TestMethod]
+        public async Task TestGetAddressById_CheckProperties()
+        {
+            var person = new Person
+            {
+                PersonId = 1,
+            };
+            var organization = new Organization
+            {
+                OrganizationId = 1
+            };
+            var addressLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.Address.Id,
+                LocationTypeName = LocationType.Address.Value
+            };
+            var division = new Location
+            {
+                LocationId = 1,
+                LocationName = "TN"
+            };
+            var country = new Location
+            {
+                LocationId = 2,
+                LocationName = "US",
+            };
+            var city = new Location
+            {
+                LocationId = 3,
+                LocationName = "Nashville"
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 4,
+                City = city,
+                CityId = city.LocationId,
+                Country = country,
+                CountryId = country.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
+                LocationName = "address",
+                LocationType = addressLocationType,
+                LocationTypeId = addressLocationType.LocationTypeId,
+                PostalCode = "12345",
+                Street1 = "street1",
+                Street2 = "street2",
+                Street3 = "street3",
+            };
+            var addressType = new AddressType
+            {
+                AddressName = AddressType.Home.Value,
+                AddressTypeId = AddressType.Home.Id
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                AddressType = addressType,
+                AddressTypeId = addressType.AddressTypeId,
+                DisplayName = "display Name",
+                Location = addressLocation,
+                LocationId = addressLocation.LocationId,
+                Organization = organization,
+                OrganizationId = organization.OrganizationId,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            context.AddressTypes.Add(addressType);
+            context.Locations.Add(division);
+            context.Locations.Add(country);
+            context.Locations.Add(city);
+            context.Locations.Add(addressLocation);
+            context.Addresses.Add(address);
+            context.People.Add(person);
+            context.Organizations.Add(organization);
+            context.LocationTypes.Add(addressLocationType);
+
+            Action<AddressDTO> tester = (dto) =>
+            {
+                Assert.AreEqual(person.PersonId, dto.PersonId);
+                Assert.AreEqual(organization.OrganizationId, dto.OrganizationId);
+                Assert.AreEqual(addressType.AddressTypeId, dto.AddressTypeId);
+                Assert.AreEqual(addressType.AddressName, dto.AddressType);
+                Assert.AreEqual(city.LocationName, dto.City);
+                Assert.AreEqual(city.LocationId, dto.CityId);
+                Assert.AreEqual(country.LocationName, dto.Country);
+                Assert.AreEqual(country.LocationId, dto.CountryId);
+                Assert.AreEqual(division.LocationName, dto.Division);
+                Assert.AreEqual(division.LocationId, dto.DivisionId);
+                Assert.AreEqual(addressLocation.LocationId, dto.LocationId);
+                Assert.AreEqual(addressLocation.LocationName, dto.LocationName);
+                Assert.AreEqual(addressLocation.Street1, dto.Street1);
+                Assert.AreEqual(addressLocation.Street2, dto.Street2);
+                Assert.AreEqual(addressLocation.Street3, dto.Street3);
+                Assert.AreEqual(address.AddressId, dto.AddressId);
+                Assert.AreEqual(address.DisplayName, dto.AddressDisplayName);
+            };
+
+            var serviceResult = service.GetAddressById(address.AddressId);
+            var serviceResultAsync = await service.GetAddressByIdAsync(address.AddressId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+
+        [TestMethod]
+        public async Task TestGetAddressById_AddressNotExist()
+        {
+            Action<AddressDTO> tester = (dto) =>
+            {
+                Assert.AreEqual(0, context.Addresses.Count());
+                Assert.IsNull(dto);
+            };
+
+            var serviceResult = service.GetAddressById(1);
+            var serviceResultAsync = await service.GetAddressByIdAsync(1);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetAddressById_DoesNotHaveCity()
+        {
+            var person = new Person
+            {
+                PersonId = 1,
+            };
+            var organization = new Organization
+            {
+                OrganizationId = 1
+            };
+            var addressLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.Address.Id,
+                LocationTypeName = LocationType.Address.Value
+            };
+            var division = new Location
+            {
+                LocationId = 1,
+                LocationName = "TN"
+            };
+            var country = new Location
+            {
+                LocationId = 2,
+                LocationName = "US",
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 4,
+                Country = country,
+                CountryId = country.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
+                LocationName = "address",
+                LocationType = addressLocationType,
+                LocationTypeId = addressLocationType.LocationTypeId,
+                PostalCode = "12345",
+                Street1 = "street1",
+                Street2 = "street2",
+                Street3 = "street3",
+            };
+            var addressType = new AddressType
+            {
+                AddressName = AddressType.Home.Value,
+                AddressTypeId = AddressType.Home.Id
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                AddressType = addressType,
+                AddressTypeId = addressType.AddressTypeId,
+                DisplayName = "display Name",
+                Location = addressLocation,
+                LocationId = addressLocation.LocationId,
+                Organization = organization,
+                OrganizationId = organization.OrganizationId,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            context.AddressTypes.Add(addressType);
+            context.Locations.Add(division);
+            context.Locations.Add(country);
+            context.Locations.Add(addressLocation);
+            context.Addresses.Add(address);
+            context.People.Add(person);
+            context.Organizations.Add(organization);
+            context.LocationTypes.Add(addressLocationType);
+
+            Action<AddressDTO> tester = (dto) =>
+            {
+                Assert.IsNotNull(dto);
+            };
+
+            var serviceResult = service.GetAddressById(address.AddressId);
+            var serviceResultAsync = await service.GetAddressByIdAsync(address.AddressId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetAddressById_DoesNotHaveCountry()
+        {
+            var person = new Person
+            {
+                PersonId = 1,
+            };
+            var organization = new Organization
+            {
+                OrganizationId = 1
+            };
+            var addressLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.Address.Id,
+                LocationTypeName = LocationType.Address.Value
+            };
+            var division = new Location
+            {
+                LocationId = 1,
+                LocationName = "TN"
+            };
+            var city = new Location
+            {
+                LocationId = 3,
+                LocationName = "Nashville"
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 4,
+                City = city,
+                CityId = city.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
+                LocationName = "address",
+                LocationType = addressLocationType,
+                LocationTypeId = addressLocationType.LocationTypeId,
+                PostalCode = "12345",
+                Street1 = "street1",
+                Street2 = "street2",
+                Street3 = "street3",
+            };
+            var addressType = new AddressType
+            {
+                AddressName = AddressType.Home.Value,
+                AddressTypeId = AddressType.Home.Id
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                AddressType = addressType,
+                AddressTypeId = addressType.AddressTypeId,
+                DisplayName = "display Name",
+                Location = addressLocation,
+                LocationId = addressLocation.LocationId,
+                Organization = organization,
+                OrganizationId = organization.OrganizationId,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            context.AddressTypes.Add(addressType);
+            context.Locations.Add(division);
+            context.Locations.Add(city);
+            context.Locations.Add(addressLocation);
+            context.Addresses.Add(address);
+            context.People.Add(person);
+            context.Organizations.Add(organization);
+            context.LocationTypes.Add(addressLocationType);
+
+            Action<AddressDTO> tester = (dto) =>
+            {
+                Assert.IsNotNull(dto);
+            };
+
+            var serviceResult = service.GetAddressById(address.AddressId);
+            var serviceResultAsync = await service.GetAddressByIdAsync(address.AddressId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetAddressById_DoesNotHaveDivision()
+        {
+            var person = new Person
+            {
+                PersonId = 1,
+            };
+            var organization = new Organization
+            {
+                OrganizationId = 1
+            };
+            var addressLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.Address.Id,
+                LocationTypeName = LocationType.Address.Value
+            };
+            var country = new Location
+            {
+                LocationId = 2,
+                LocationName = "US",
+            };
+            var city = new Location
+            {
+                LocationId = 3,
+                LocationName = "Nashville"
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 4,
+                City = city,
+                CityId = city.LocationId,
+                Country = country,
+                CountryId = country.LocationId,
+                LocationName = "address",
+                LocationType = addressLocationType,
+                LocationTypeId = addressLocationType.LocationTypeId,
+                PostalCode = "12345",
+                Street1 = "street1",
+                Street2 = "street2",
+                Street3 = "street3",
+            };
+            var addressType = new AddressType
+            {
+                AddressName = AddressType.Home.Value,
+                AddressTypeId = AddressType.Home.Id
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                AddressType = addressType,
+                AddressTypeId = addressType.AddressTypeId,
+                DisplayName = "display Name",
+                Location = addressLocation,
+                LocationId = addressLocation.LocationId,
+                Organization = organization,
+                OrganizationId = organization.OrganizationId,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            context.AddressTypes.Add(addressType);
+            context.Locations.Add(country);
+            context.Locations.Add(city);
+            context.Locations.Add(addressLocation);
+            context.Addresses.Add(address);
+            context.People.Add(person);
+            context.Organizations.Add(organization);
+            context.LocationTypes.Add(addressLocationType);
+
+            Action<AddressDTO> tester = (dto) =>
+            {
+                Assert.IsNotNull(dto);
+            };
+
+            var serviceResult = service.GetAddressById(address.AddressId);
+            var serviceResultAsync = await service.GetAddressByIdAsync(address.AddressId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
 
         #endregion
 

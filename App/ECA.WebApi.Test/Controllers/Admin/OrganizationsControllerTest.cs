@@ -15,6 +15,7 @@ using ECA.Business.Queries.Models.Lookup;
 using ECA.WebApi.Security;
 using ECA.WebApi.Models.Admin;
 using ECA.Data;
+using System.Web.Http;
 
 namespace ECA.WebApi.Test.Controllers.Admin
 {
@@ -24,6 +25,7 @@ namespace ECA.WebApi.Test.Controllers.Admin
         private Mock<IOrganizationService> organizationService;
         private Mock<IOrganizationTypeService> organizationTypeService;
         private Mock<IUserProvider> userProvider;
+        private Mock<IAddressModelHandler> addressHandler;
         private OrganizationsController controller;
 
         [TestInitialize]
@@ -32,10 +34,11 @@ namespace ECA.WebApi.Test.Controllers.Admin
             organizationService = new Mock<IOrganizationService>();
             organizationTypeService = new Mock<IOrganizationTypeService>();
             userProvider = new Mock<IUserProvider>();
+            addressHandler = new Mock<IAddressModelHandler>();
             organizationService.Setup(x => x.GetOrganizationsAsync(It.IsAny<QueryableOperator<SimpleOrganizationDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<SimpleOrganizationDTO>(1, new List<SimpleOrganizationDTO>()));
             
-            controller = new OrganizationsController(organizationService.Object, organizationTypeService.Object, userProvider.Object);
+            controller = new OrganizationsController(organizationService.Object, organizationTypeService.Object, userProvider.Object, addressHandler.Object);
         }
 
         [TestMethod]
@@ -101,6 +104,14 @@ namespace ECA.WebApi.Test.Controllers.Admin
             model.OrganizationTypeId = OrganizationType.USEducationalInstitution.Id;
             var response = await controller.PutUpdateOrganizationAsync(model);
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
+        [TestMethod]
+        public async Task TestPostAddressAsync()
+        {
+            var model = new OrganizationAddressBindingModel();
+            var response = await controller.PostAddressAsync(model);
+            addressHandler.Verify(x => x.HandleAdditionalAddress<Organization>(It.IsAny<AddressBindingModelBase<Organization>>(), It.IsAny<ApiController>()), Times.Once());
         }
     }
 }

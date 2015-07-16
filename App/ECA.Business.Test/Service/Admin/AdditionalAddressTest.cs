@@ -24,7 +24,7 @@ namespace ECA.Business.Test.Service.Admin
             string locationName,
             int countryId,
             int cityId,
-            int? divisionId,
+            int divisionId,
             int testId
             )
             : base(creator, addressTypeId, addressDisplayName, street1, street2, street3, postalCode, locationName, countryId, cityId, divisionId)

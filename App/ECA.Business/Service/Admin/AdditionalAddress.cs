@@ -9,9 +9,28 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Admin
 {
+    /// <summary>
+    /// An AdditionalAddress is a class contains the necessary information to add a new address to an Eca entity.  Extend
+    /// this class to handle the different IAddresssable entities.
+    /// </summary>
+    /// <typeparam name="T">The IAddressable ECA Entity type.</typeparam>
     public abstract class AdditionalAddress<T> : EcaAddress 
         where T : class, IAddressable
     {
+        /// <summary>
+        /// Creates a new AdditionalAddress instance.
+        /// </summary>
+        /// <param name="creator">The user creating a new address.</param>
+        /// <param name="addressTypeId">The address type.</param>
+        /// <param name="addressDisplayName">The display name.</param>
+        /// <param name="street1">The street 1.</param>
+        /// <param name="street2">The street 2.</param>
+        /// <param name="street3">The street 3.</param>
+        /// <param name="postalCode">The postal code.</param>
+        /// <param name="locationName">The location name.</param>
+        /// <param name="countryId">The country id.</param>
+        /// <param name="cityId">The city id.</param>
+        /// <param name="divisionId">The division id.</param>
         public AdditionalAddress(
             User creator,
             int addressTypeId,
@@ -23,7 +42,7 @@ namespace ECA.Business.Service.Admin
             string locationName,
             int countryId,
             int cityId,
-            int? divisionId
+            int divisionId
             )
             : base(addressTypeId, addressDisplayName, street1, street2, street3, postalCode, locationName, countryId, cityId, divisionId)
         {
@@ -36,6 +55,10 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         public Audit Create { get; private set; }
 
+        /// <summary>
+        /// Returns the location of the new address.
+        /// </summary>
+        /// <returns>The location of the new address.</returns>
         public Location GetLocation()
         {
             Contract.Ensures(Contract.Result<Location>() != null);
@@ -52,6 +75,10 @@ namespace ECA.Business.Service.Admin
             return location;
         }
 
+        /// <summary>
+        /// Returns the new address entity represented by this additional address.
+        /// </summary>
+        /// <returns>The address to add to the eca system.</returns>
         public Address GetAddress()
         {
             Contract.Ensures(Contract.Result<Address>() != null);
@@ -64,6 +91,12 @@ namespace ECA.Business.Service.Admin
             return address;
         }
 
+        /// <summary>
+        /// Adds the address and location represented by this AdditionalAddress to the given
+        /// IAddressable entity.
+        /// </summary>
+        /// <param name="addressable">The addressable entity.</param>
+        /// <returns>The address to add to the ECA Context.</returns>
         public Address AddAddress(T addressable)
         {
             Contract.Requires(addressable != null, "The addressable object must not be null.");
@@ -76,6 +109,10 @@ namespace ECA.Business.Service.Admin
             return address;
         }
 
+        /// <summary>
+        /// Returns the Id of the IAddressable entity.
+        /// </summary>
+        /// <returns>The id of the IAddressable entity.</returns>
         public abstract int GetAddressableEntityId();
     }
 }

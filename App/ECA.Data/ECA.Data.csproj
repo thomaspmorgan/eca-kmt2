@@ -105,6 +105,7 @@
     <Compile Include="Artifact.cs" />
     <Compile Include="ArtifactType.cs" />
     <Compile Include="Category.cs" />
+    <Compile Include="Configuration\AddressConfiguration.cs" />
     <Compile Include="Configuration\FieldOfStudyConfiguration.cs" />
     <Compile Include="Configuration\FocusConfiguration.cs" />
     <Compile Include="Configuration\ImpactConfiguration.cs" />

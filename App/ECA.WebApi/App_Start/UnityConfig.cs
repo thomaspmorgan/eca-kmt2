@@ -11,6 +11,7 @@ using ECA.Core.Generation;
 using ECA.Core.Service;
 using ECA.Data;
 using ECA.WebApi.Custom;
+using ECA.WebApi.Models.Admin;
 using ECA.WebApi.Security;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension;
@@ -68,6 +69,7 @@ namespace ECA.WebApi
         {
             Debug.Assert(container.IsRegistered<EcaContext>(), "The EcaContext is a dependency.  It should be registered.");
 
+            container.RegisterType<IAddressModelHandler, AddressModelHandler>(new HierarchicalLifetimeManager());
             container.RegisterType<IContactService, ContactService>(new HierarchicalLifetimeManager());
             container.RegisterType<IFocusService, FocusService>(new HierarchicalLifetimeManager());
             container.RegisterType<IFocusCategoryService, FocusCategoryService>(new HierarchicalLifetimeManager());

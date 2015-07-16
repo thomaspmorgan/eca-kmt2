@@ -8,8 +8,24 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Admin
 {
+    /// <summary>
+    /// An EcaAddress is an address that is either new or is already in the Eca system.
+    /// </summary>
     public class EcaAddress
     {
+        /// <summary>
+        /// Creates a new instance.
+        /// </summary>
+        /// <param name="addressTypeId">The address type id.</param>
+        /// <param name="addressDisplayName">The address display name.</param>
+        /// <param name="street1">The street 1.</param>
+        /// <param name="street2">The street 2.</param>
+        /// <param name="street3">The street 3.</param>
+        /// <param name="postalCode">The postal code.</param>
+        /// <param name="locationName">The location name.</param>
+        /// <param name="countryId">The country id.</param>
+        /// <param name="cityId">The city id.</param>
+        /// <param name="divisionId">The divison id.</param>
         public EcaAddress(
             int addressTypeId,
             string addressDisplayName,
@@ -20,7 +36,7 @@ namespace ECA.Business.Service.Admin
             string locationName,
             int countryId,
             int cityId,
-            int? divisionId
+            int divisionId
             )
         {
             if (AddressType.GetStaticLookup(addressTypeId) == null)
@@ -93,6 +109,6 @@ namespace ECA.Business.Service.Admin
         /// <summary>
         /// Gets or sets the division id
         /// </summary>
-        public int? DivisionId { get; private set; }
+        public int DivisionId { get; private set; }
     }
 }

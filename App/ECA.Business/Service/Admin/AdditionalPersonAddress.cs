@@ -10,7 +10,6 @@ namespace ECA.Business.Service.Admin
 {
     public class AdditionalPersonAddress : AdditionalAddress<Person>
     {
-
         private readonly int personId;
 
         /// <summary>
@@ -39,7 +38,7 @@ namespace ECA.Business.Service.Admin
             string locationName,
             int countryId,
             int cityId,
-            int? divisionId,
+            int divisionId,
             int personId
             )
             : base(creator, addressTypeId, addressDisplayName, street1, street2, street3, postalCode, locationName, countryId, cityId, divisionId)
@@ -56,9 +55,5 @@ namespace ECA.Business.Service.Admin
         {
             return personId;
         }
-
-
     }
-
-
 }

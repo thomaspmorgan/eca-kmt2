@@ -92,6 +92,30 @@ namespace ECA.Business.Service.Admin
         #region Addresses
 
         /// <summary>
+        /// Returns the address with the given id.
+        /// </summary>
+        /// <param name="addressId">The address id.</param>
+        /// <returns>The address.</returns>
+        public AddressDTO GetAddressById(int addressId)
+        {
+            var address = AddressQueries.CreateGetAddressDTOByIdQuery(this.Context, addressId).FirstOrDefault();
+            logger.Info("Retreived address with the given address id [{0}].", addressId);
+            return address;
+        }
+
+        /// <summary>
+        /// Returns the address with the given id.
+        /// </summary>
+        /// <param name="addressId">The address id.</param>
+        /// <returns>The address.</returns>
+        public async Task<AddressDTO> GetAddressByIdAsync(int addressId)
+        {
+            var address = await AddressQueries.CreateGetAddressDTOByIdQuery(this.Context, addressId).FirstOrDefaultAsync();
+            logger.Info("Retreived address with the given address id [{0}].", addressId);
+            return address;
+        }
+
+        /// <summary>
         /// Creates a new address in the system.
         /// </summary>
         /// <typeparam name="T">The type that is IAddressable, such as Organization.</typeparam>
@@ -111,11 +135,8 @@ namespace ECA.Business.Service.Admin
             var country = Context.Locations.Find(additionalAddress.CountryId);
             throwIfLocationNotFound(additionalAddress.CountryId, country, "Country");
 
-            if(additionalAddress.DivisionId.HasValue)
-            {
-                var division = Context.Locations.Find(additionalAddress.DivisionId.Value);
-                throwIfLocationNotFound(additionalAddress.DivisionId.Value, division, "Division");
-            }
+            var division = Context.Locations.Find(additionalAddress.DivisionId);
+            throwIfLocationNotFound(additionalAddress.DivisionId, division, "Division");
             
             return DoCreateAddress<T>(entity, additionalAddress);
         }
@@ -140,11 +161,8 @@ namespace ECA.Business.Service.Admin
             var country = await Context.Locations.FindAsync(additionalAddress.CountryId);
             throwIfLocationNotFound(additionalAddress.CountryId, country, "Country");
 
-            if (additionalAddress.DivisionId.HasValue)
-            {
-                var division = await Context.Locations.FindAsync(additionalAddress.DivisionId.Value);
-                throwIfLocationNotFound(additionalAddress.DivisionId.Value, division, "Division");
-            }
+            var division = await Context.Locations.FindAsync(additionalAddress.DivisionId);
+            throwIfLocationNotFound(additionalAddress.DivisionId, division, "Division");
 
             return DoCreateAddress<T>(entity, additionalAddress);
         }
@@ -152,6 +170,7 @@ namespace ECA.Business.Service.Admin
         private Address DoCreateAddress<T>(T entity, AdditionalAddress<T> additionalAddress)
             where T : class, IAddressable
         {
+            logger.Info("Adding an additional address to the [{0}] entity with id [{1}].", typeof(T).Name, additionalAddress.GetAddressableEntityId());
             var address = additionalAddress.AddAddress(entity);
             Context.Addresses.Add(address);
             Context.Locations.Add(address.Location);
@@ -176,11 +195,8 @@ namespace ECA.Business.Service.Admin
             var country = Context.Locations.Find(updatedAddress.CountryId);
             throwIfLocationNotFound(updatedAddress.CountryId, country, "Country");
 
-            if (updatedAddress.DivisionId.HasValue)
-            {
-                var division = Context.Locations.Find(updatedAddress.DivisionId.Value);
-                throwIfLocationNotFound(updatedAddress.DivisionId.Value, division, "Division");
-            }
+            var division = Context.Locations.Find(updatedAddress.DivisionId);
+            throwIfLocationNotFound(updatedAddress.DivisionId, division, "Division");
 
             DoUpdate(updatedAddress, location, address);
         }
@@ -202,11 +218,8 @@ namespace ECA.Business.Service.Admin
             var country = await Context.Locations.FindAsync(updatedAddress.CountryId);
             throwIfLocationNotFound(updatedAddress.CountryId, country, "Country");
 
-            if (updatedAddress.DivisionId.HasValue)
-            {
-                var division = await Context.Locations.FindAsync(updatedAddress.DivisionId.Value);
-                throwIfLocationNotFound(updatedAddress.DivisionId.Value, division, "Division");
-            }
+            var division = await Context.Locations.FindAsync(updatedAddress.DivisionId);
+            throwIfLocationNotFound(updatedAddress.DivisionId, division, "Division");
 
             DoUpdate(updatedAddress, location, address);
         }
@@ -216,6 +229,7 @@ namespace ECA.Business.Service.Admin
             Contract.Requires(updatedAddress != null, "The updated address must not be null.");
             Contract.Requires(location != null, "The location must not be null.");
             Contract.Requires(address != null, "The address must not be null.");
+            logger.Info("Updating the address with id [{0}].", updatedAddress.AddressId);
             location.CityId = updatedAddress.CityId;
             location.CountryId = updatedAddress.CountryId;
             location.DivisionId = updatedAddress.DivisionId;

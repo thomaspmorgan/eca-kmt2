@@ -19,17 +19,11 @@ namespace ECA.Data
             this.History = new History();
         }
 
-        [Key]
         public int AddressId { get; set; }
-        [Required]
         public int AddressTypeId { get; set; }
-        [Required]
         public virtual AddressType AddressType { get; set; }
-        [Required]
         public int LocationId { get; set; }
-        [Required]
         public virtual Location Location { get; set; }
-        [Required]
         public string DisplayName { get; set; }
 
         // relationships
