@@ -8,12 +8,7 @@ using System.Web;
 
 namespace ECA.WebApi.Models.Admin
 {
-    /// <summary>
-    /// An AddressBindingModelBase is used to bind an address from a client to an IAddressable entity.
-    /// </summary>
-    /// <typeparam name="T">The addressable entity type.</typeparam>
-    public abstract class AddressBindingModelBase<T>  
-        where T : class, IAddressable
+    public abstract class AddressBindingModelBase
     {
         /// <summary>
         /// Gets or sets the address display name.
@@ -64,7 +59,15 @@ namespace ECA.WebApi.Models.Admin
         /// Gets or sets the division id
         /// </summary>
         public int DivisionId { get; set; }
+    }
 
+    /// <summary>
+    /// An AddressBindingModelBase is used to bind an address from a client to an IAddressable entity.
+    /// </summary>
+    /// <typeparam name="T">The addressable entity type.</typeparam>
+    public abstract class AddressBindingModelBase<T> : AddressBindingModelBase
+        where T : class, IAddressable
+    {
         /// <summary>
         /// Returns the AdditionalAddress
         /// </summary>

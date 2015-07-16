@@ -1,18 +1,18 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.WebApi.Models.Admin;
-using ECA.Data;
 using ECA.Business.Service;
+using ECA.Data;
 
 namespace ECA.WebApi.Test.Models.Admin
 {
     [TestClass]
-    public class OrganizationAddressBindingModelTest
+    public class UpdatedAddressBindingModelTest
     {
         [TestMethod]
-        public void TestToAdditionalAddress()
+        public void TestToUpdatedEcaAddress()
         {
-            var model = new OrganizationAddressBindingModel
+            var model = new UpdatedAddressBindingModel
             {
                 AddressDisplayName = "display",
                 AddressTypeId = AddressType.Business.Id,
@@ -20,14 +20,14 @@ namespace ECA.WebApi.Test.Models.Admin
                 CountryId = 2,
                 DivisionId = 3,
                 LocationName = "location name",
-                OrganizationId = 4,
                 PostalCode = "12345",
                 Street1 = "street1",
                 Street2 = "street2",
                 Street3 = "street3",
+                AddressId = 10
             };
             var user = new User(1);
-            var instance = model.ToAdditionalAddress(user);
+            var instance = model.ToUpdatedEcaAddress(user);
             Assert.AreEqual(model.AddressDisplayName, instance.AddressDisplayName);
             Assert.AreEqual(model.AddressTypeId, instance.AddressTypeId);
             Assert.AreEqual(model.CityId, instance.CityId);
@@ -38,8 +38,8 @@ namespace ECA.WebApi.Test.Models.Admin
             Assert.AreEqual(model.Street1, instance.Street1);
             Assert.AreEqual(model.Street2, instance.Street2);
             Assert.AreEqual(model.Street3, instance.Street3);
-            Assert.AreEqual(model.OrganizationId, instance.GetAddressableEntityId());
-            Assert.IsTrue(Object.ReferenceEquals(user, instance.Create.User));
+            Assert.AreEqual(model.AddressId, instance.AddressId);
+            Assert.IsTrue(Object.ReferenceEquals(user, instance.Update.User));
         }
     }
 }

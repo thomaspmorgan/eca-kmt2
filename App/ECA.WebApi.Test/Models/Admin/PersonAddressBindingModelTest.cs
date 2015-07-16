@@ -39,6 +39,7 @@ namespace ECA.WebApi.Test.Models.Admin
             Assert.AreEqual(model.Street2, instance.Street2);
             Assert.AreEqual(model.Street3, instance.Street3);
             Assert.AreEqual(model.PersonId, instance.GetAddressableEntityId());
+            Assert.IsTrue(Object.ReferenceEquals(user, instance.Create.User));
         }
     }
 }

@@ -365,6 +365,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Common\AdGraph.cs" />
+    <Compile Include="Controllers\Admin\AddressesController.cs" />
     <Compile Include="Controllers\Admin\GendersController.cs" />
     <Compile Include="Controllers\Admin\MaritalStatusesController.cs" />
     <Compile Include="Controllers\Admin\MoneyFlowSourceRecipientTypesController.cs" />
@@ -396,6 +397,7 @@
     <Compile Include="Models\Admin\IAddressModelHandler.cs" />
     <Compile Include="Models\Admin\OrganizationAddressBindingModel.cs" />
     <Compile Include="Models\Admin\PersonAddressBindingModel.cs" />
+    <Compile Include="Models\Admin\UpdatedAddressBindingModel.cs" />
     <Compile Include="Models\Admin\UpdatedOrganizationBindingModel.cs" />
     <Compile Include="Models\Person\AddressBindingModel.cs" />
     <Compile Include="Models\Person\PiiBindingModel.cs" />
