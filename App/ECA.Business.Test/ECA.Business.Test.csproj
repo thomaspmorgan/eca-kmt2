@@ -104,6 +104,7 @@
     <Compile Include="Service\Admin\MoneyFlowServiceValidatorTest.cs" />
     <Compile Include="Service\Admin\OrganizationServiceValidatorTest.cs" />
     <Compile Include="Service\Admin\UpdateOrganizationValidationEntityTest.cs" />
+    <Compile Include="Service\Lookup\AddressTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\ParticipantTypeServiceTest.cs" />
     <Compile Include="Service\Persons\ParticipantPersonServiceTest.cs" />
     <Compile Include="Service\Projects\AdditionalOrganizationProjectParticipantTest.cs" />

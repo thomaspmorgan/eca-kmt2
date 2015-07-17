@@ -79,18 +79,41 @@ namespace ECA.Business.Queries.Admin
                         {
                             Contacts = contacts.Select(x => new SimpleLookupDTO { Id = x.ContactId, Value = x.FullName}),
                             Description = org.Description,
-                            Locations = addresses.Select(x => new ECA.Business.Queries.Models.Persons.LocationDTO
-                            {
-                                City = x.Location.City.LocationName,
-                                CityId = x.Location.CityId,
-                                Country = x.Location.Country.LocationName,
-                                CountryId = x.Location.Country.LocationId,
-                                Id = x.AddressId,
-                                PostalCode = x.Location.PostalCode,
-                                Street1 = x.Location.Street1,
-                                Street2 = x.Location.Street2,
-                                Street3 = x.Location.Street3
-                            }),
+                            Addresses = (from address in addresses
+                                        let addressType = address.AddressType
+
+                                        let location = address.Location
+
+                                        let hasCity = location.City != null
+                                        let city = location.City
+
+                                        let hasCountry = location.Country != null
+                                        let country = location.Country
+
+                                        let hasDivision = location.Division != null
+                                        let division = location.Division
+
+                                        select new AddressDTO
+                                        {
+                                            AddressDisplayName = address.DisplayName,
+                                            AddressId = address.AddressId,
+                                            AddressType = addressType.AddressName,
+                                            AddressTypeId = addressType.AddressTypeId,
+                                            City = hasCity ? city.LocationName : null,
+                                            CityId = location.CityId,
+                                            Country = hasCountry ? country.LocationName : null,
+                                            CountryId =  location.CountryId,
+                                            Division = hasDivision ? division.LocationName : null,
+                                            DivisionId = location.DivisionId,
+                                            LocationId = location.LocationId,
+                                            LocationName = location.LocationName,
+                                            OrganizationId = address.OrganizationId,
+                                            PostalCode = location.PostalCode,
+                                            PersonId = address.PersonId,
+                                            Street1 = location.Street1,
+                                            Street2 = location.Street2,
+                                            Street3 = location.Street3,                            
+                                        }),
                             Name = org.Name,
                             OrganizationId = org.OrganizationId,
                             OrganizationType = orgType.OrganizationTypeName,

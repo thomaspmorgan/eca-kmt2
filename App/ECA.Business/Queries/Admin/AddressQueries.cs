@@ -51,6 +51,7 @@ namespace ECA.Business.Queries.Admin
                             LocationId = location.LocationId,
                             LocationName = location.LocationName,
                             OrganizationId = address.OrganizationId,
+                            PostalCode = location.PostalCode,
                             PersonId = address.PersonId,
                             Street1 = location.Street1,
                             Street2 = location.Street2,

@@ -9,6 +9,9 @@ using ECA.Data;
 using System.Threading.Tasks;
 using ECA.Business.Queries.Models.Admin;
 using System.Web.Http.Results;
+using ECA.Business.Service.Lookup;
+using ECA.Core.Query;
+using ECA.WebApi.Models.Query;
 
 namespace ECA.WebApi.Test.Controllers.Admin
 {
@@ -18,13 +21,15 @@ namespace ECA.WebApi.Test.Controllers.Admin
         private Mock<IUserProvider> userProvider;
         private Mock<ILocationService> locationService;
         private AddressesController controller;
+        private Mock<IAddressTypeService> addressTypeService;
 
         [TestInitialize]
         public void TestInit()
         {
             userProvider = new Mock<IUserProvider>();
             locationService = new Mock<ILocationService>();
-            controller = new AddressesController(locationService.Object, userProvider.Object);
+            addressTypeService = new Mock<IAddressTypeService>();
+            controller = new AddressesController(locationService.Object, userProvider.Object, addressTypeService.Object);
         }
 
         [TestMethod]
@@ -52,6 +57,21 @@ namespace ECA.WebApi.Test.Controllers.Admin
                 AddressTypeId = AddressType.Business.Id,
             };
             var response = await controller.PutUpdateAddressAsync(model);
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
+        [TestMethod]
+        public async Task TestGetAddressTypesAsync()
+        {
+            var response = await controller.GetAddressTypesAsync(new PagingQueryBindingModel<AddressTypeDTO>());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<AddressTypeDTO>>));
+        }
+
+        [TestMethod]
+        public async Task TestGetAddressTypesAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetAddressTypesAsync(new PagingQueryBindingModel<AddressTypeDTO>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
     }

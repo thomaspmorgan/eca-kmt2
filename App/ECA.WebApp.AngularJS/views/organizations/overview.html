@@ -14,8 +14,6 @@
     </div>
     <div class="row table">
         <div class="row">
-
-
             <div class="col-md-6">
                 <h4 class="tab-subheader">Details</h4>
             </div>
@@ -29,7 +27,6 @@
                 </a>
             </div>
         </div>
-
         <div class="row" ng-show="!view.showEditDetails">
             <div class="col-md-6">
                 <div class="row" ng-show="organization.website">
@@ -66,31 +63,44 @@
                     <div class="col-md-6 title-label">Parent Organization</div>
                     <div class="col-md-6"><a ui-sref="organizations.overview({organizationId: organization.parentOrganizationId})">{{organization.parentOrganizationName}}</a></div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6 title-label"><ng-pluralize count="organization.locations.length" when="{'1':'Address','other':'Addresses'}"></ng-pluralize></div>
-                    <div class="col-md-6">
-                        <div ng-repeat="address in organization.locations">
-                            <div ng-show="address.street1">
-                                {{address.street1}}
-                            </div>
-                            <div ng-show="address.street2">
-                                {{address.street2}}
-                            </div>
-                            <div ng-show="address.street3">
-                                {{address.street3}}
-                            </div>
-                            <div style="margin-bottom:10px;">
-                                <span ng-show="address.city">{{address.city}}</span>
-                                <span ng-show="address.city && address.country">, </span>
-                                <span ng-show="address.country">{{address.country}}</span>
-                                <span ng-show="address.postalCode">{{address.postalCode}}</span>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+        </div>
+
+        <!--<div class="row">
+            <div class="col-md-6 title-label"><ng-pluralize count="organization.addresses.length" when="{'1':'Address','other':'Addresses'}"></ng-pluralize></div>
+            <div class="col-md-6">
+                <div ng-repeat="address in organization.addresses">
+                    <ng-include src="'/views/address/view.html'"></ng-include>
                 </div>
+            </div>
+        </div>-->
+        <!--<div class="col-md-2 title-label"><ng-pluralize count="organization.addresses.length" when="{'1':'Address','other':'Addresses'}"></ng-pluralize></div>-->
+        <!--<div class="col-md-12">-->
+
+        <div class="row">
+            <div ng-repeat="address in organization.addresses">
+                <ng-include src="'/views/address/view.html'"></ng-include>
             </div>
         </div>
     </div>
+
+
+
+    <div class="row table">
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="tab-subheader">Addresses</h4>
+            </div>
+            <div class="col-md-6">
+                    <div ng-repeat="address in organization.addresses">
+                        <ng-include src="'/views/address/view.html'"></ng-include>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <div ng-show="view.showEditDetails">
         <ng-include src="'/views/organizations/partials/editdetails.html'"></ng-include>
     </div>

@@ -385,7 +385,7 @@ namespace ECA.Business.Test.Service.Admin
         }
 
         [TestMethod]
-        public async Task TestGetById_CheckLocations()
+        public async Task TestGetById_CheckAddresses()
         {
             var country = new Location
             {
@@ -398,7 +398,11 @@ namespace ECA.Business.Test.Service.Admin
                 LocationId = 3,
                 LocationName = "Nashville"
             };
-
+            var division = new Location
+            {
+                LocationId = 4,
+                LocationName = "TN"
+            };
             var addressLocation = new Location
             {
                 LocationId = 2,
@@ -406,6 +410,8 @@ namespace ECA.Business.Test.Service.Admin
                 CityId = city.LocationId,
                 Country = country,
                 CountryId = country.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
                 PostalCode = "12345",
                 Street1 = "street1",
                 Street2 = "street2",
@@ -428,27 +434,41 @@ namespace ECA.Business.Test.Service.Admin
                 Website = "website"
             };
             org.History.RevisedOn = lastRevised;
+            var addressType = new AddressType
+            {
+                AddressName = AddressType.Business.Value,
+                AddressTypeId = AddressType.Business.Id
+            };
             var address = new Address
             {
                 AddressId = 1,
                 Location = addressLocation,
                 LocationId = addressLocation.LocationId,
                 Organization = org,
-                OrganizationId = org.OrganizationId
+                OrganizationId = org.OrganizationId,
+                AddressType = addressType,
+                AddressTypeId = addressType.AddressTypeId
             };
             org.Addresses.Add(address);
             context.Addresses.Add(address);
+            context.AddressTypes.Add(addressType);
             context.Organizations.Add(org);
             context.OrganizationTypes.Add(orgType);
+            context.Locations.Add(city);
+            context.Locations.Add(division);
+            context.Locations.Add(country);
             Action<OrganizationDTO> tester = (testDto) =>
             {
-                Assert.AreEqual(1, testDto.Locations.Count());
-                var testAddress = testDto.Locations.First();
+                Assert.AreEqual(1, testDto.Addresses.Count());
+                var testAddress = testDto.Addresses.First();
                 Assert.AreEqual(addressLocation.City.LocationName, testAddress.City);
                 Assert.AreEqual(addressLocation.City.LocationId, testAddress.CityId);
                 Assert.AreEqual(addressLocation.Country.LocationName, testAddress.Country);
                 Assert.AreEqual(addressLocation.Country.LocationId, testAddress.CountryId);
-                Assert.AreEqual(address.AddressId, testAddress.Id);
+                Assert.AreEqual(addressLocation.Division.LocationName, testAddress.Division);
+                Assert.AreEqual(addressLocation.Division.LocationId, testAddress.DivisionId);
+                Assert.AreEqual(address.AddressId, testAddress.AddressId);
+                Assert.AreEqual(addressLocation.LocationId, testAddress.LocationId);
                 Assert.AreEqual(addressLocation.PostalCode, testAddress.PostalCode);
                 Assert.AreEqual(addressLocation.Street1, testAddress.Street1);
                 Assert.AreEqual(addressLocation.Street2, testAddress.Street2);

@@ -157,6 +157,9 @@
     <Compile Include="Service\Admin\OrganizationServiceValidator.cs" />
     <Compile Include="Service\Admin\UpdatedEcaAddress.cs" />
     <Compile Include="Service\Admin\UpdateOrganizationValidationEntity.cs" />
+    <Compile Include="Service\Lookup\AddressTypeDTO.cs" />
+    <Compile Include="Service\Lookup\AddressTypeService.cs" />
+    <Compile Include="Service\Lookup\IAddressTypeService.cs" />
     <Compile Include="Service\Lookup\IParticipantTypeService.cs" />
     <Compile Include="Service\Lookup\ParticipantTypeDTO.cs" />
     <Compile Include="Service\Lookup\ParticipantTypeService.cs" />

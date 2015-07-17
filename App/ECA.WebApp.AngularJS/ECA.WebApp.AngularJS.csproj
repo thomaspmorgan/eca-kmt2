@@ -128,6 +128,7 @@
     <Content Include="gulpfile.js" />
     <Content Include="images\contract.png" />
     <Content Include="karma.conf.js" />
+    <Content Include="scripts\controllers\address\address.js" />
     <Content Include="scripts\controllers\allpersons.js" />
     <Content Include="scripts\controllers\allorganizations.js" />
     <Content Include="scripts\controllers\organization\activities.js" />
@@ -160,11 +161,13 @@
     <Content Include="scripts\directives\exposetablestate.js" />
     <Content Include="scripts\directives\socialmedialink.js" />
     <Content Include="scripts\filters\groupby.js" />
+    <Content Include="scripts\services\addressservice.js" />
     <Content Include="scripts\services\participantperson.js" />
     <Content Include="scripts\services\userservice.js" />
     <Content Include="styles\main.css">
       <DependentUpon>main.scss</DependentUpon>
     </Content>
+    <Content Include="views\address\view.html" />
     <Content Include="views\organizations\activities.html" />
     <Content Include="views\organizations\impact.html" />
     <Content Include="views\organizations\artifacts.html" />

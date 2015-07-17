@@ -43,18 +43,60 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public async Task TestGetLocations_CheckProperties()
         {
+
             var locationType = new LocationType
             {
                 LocationTypeId = 1,
                 LocationTypeName = "type"
             };
+            var city = new Location
+            {
+                LocationId = 100,
+                LocationName = "city",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var country = new Location
+            {
+                LocationId = 101,
+                LocationName = "country",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var region = new Location
+            {
+                LocationId = 102,
+                LocationName = "region",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var division = new Location
+            {
+                LocationId = 103,
+                LocationName = "division",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            
             var location = new Location
             {
                 LocationId = 2,
                 LocationName = "abc",
                 LocationTypeId = locationType.LocationTypeId,
-                LocationType = locationType
+                LocationType = locationType,
+                City = city,
+                CityId = city.LocationId,
+                Country = country,
+                CountryId = country.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
+                Region = region,
+                RegionId = region.LocationId,
             };
+            context.Locations.Add(region);
+            context.Locations.Add(city);
+            context.Locations.Add(country);
+            context.Locations.Add(division);
             context.Locations.Add(location);
             context.LocationTypes.Add(locationType);
             Action<PagedQueryResults<LocationDTO>> tester = (results) =>
@@ -67,15 +109,293 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(location.LocationName, firstResult.Name);
                 Assert.AreEqual(location.LocationTypeId, firstResult.LocationTypeId);
                 Assert.AreEqual(locationType.LocationTypeName, firstResult.LocationTypeName);
+                Assert.AreEqual(country.LocationId, firstResult.CountryId);
+                Assert.AreEqual(country.LocationName, firstResult.Country);
+                Assert.AreEqual(region.LocationId, firstResult.RegionId);
+                Assert.AreEqual(region.LocationName, firstResult.Region);
+                Assert.AreEqual(city.LocationId, firstResult.CityId);
+                Assert.AreEqual(city.LocationName, firstResult.City);
+                Assert.AreEqual(division.LocationId, firstResult.DivisionId);
+                Assert.AreEqual(division.LocationName, firstResult.Division);
             };
             var defaultSorter = new ExpressionSorter<LocationDTO>(x => x.Id, SortDirection.Ascending);
             var queryOperator = new QueryableOperator<LocationDTO>(0, 10, defaultSorter);
-
+            queryOperator.Filters.Add(new ExpressionFilter<LocationDTO>(x => x.Id, ComparisonType.Equal, location.LocationId));
             var serviceResults = service.Get(queryOperator);
             var serviceResultsAsync = await service.GetAsync(queryOperator);
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
+
+        [TestMethod]
+        public async Task TestGetLocations_DoesNotHaveRegion()
+        {
+
+            var locationType = new LocationType
+            {
+                LocationTypeId = 1,
+                LocationTypeName = "type"
+            };
+            var city = new Location
+            {
+                LocationId = 100,
+                LocationName = "city",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var country = new Location
+            {
+                LocationId = 101,
+                LocationName = "country",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var division = new Location
+            {
+                LocationId = 103,
+                LocationName = "division",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+
+            var location = new Location
+            {
+                LocationId = 2,
+                LocationName = "abc",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+                City = city,
+                CityId = city.LocationId,
+                Country = country,
+                CountryId = country.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
+            };
+            context.Locations.Add(city);
+            context.Locations.Add(country);
+            context.Locations.Add(division);
+            context.Locations.Add(location);
+            context.LocationTypes.Add(locationType);
+            Action<PagedQueryResults<LocationDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+
+                var firstResult = results.Results.First();
+                Assert.IsFalse(firstResult.RegionId.HasValue);
+                Assert.IsNull(firstResult.Region);
+            };
+            var defaultSorter = new ExpressionSorter<LocationDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<LocationDTO>(0, 10, defaultSorter);
+            queryOperator.Filters.Add(new ExpressionFilter<LocationDTO>(x => x.Id, ComparisonType.Equal, location.LocationId));
+            var serviceResults = service.Get(queryOperator);
+            var serviceResultsAsync = await service.GetAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetLocations_DoesNotHaveCountry()
+        {
+
+            var locationType = new LocationType
+            {
+                LocationTypeId = 1,
+                LocationTypeName = "type"
+            };
+            var city = new Location
+            {
+                LocationId = 100,
+                LocationName = "city",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var region = new Location
+            {
+                LocationId = 102,
+                LocationName = "region",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var division = new Location
+            {
+                LocationId = 103,
+                LocationName = "division",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+
+            var location = new Location
+            {
+                LocationId = 2,
+                LocationName = "abc",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+                City = city,
+                CityId = city.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
+                Region = region,
+                RegionId = region.LocationId,
+            };
+            context.Locations.Add(region);
+            context.Locations.Add(city);
+            context.Locations.Add(division);
+            context.Locations.Add(location);
+            context.LocationTypes.Add(locationType);
+            Action<PagedQueryResults<LocationDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+
+                var firstResult = results.Results.First();
+                Assert.IsFalse(firstResult.CountryId.HasValue);
+                Assert.IsNull(firstResult.Country);
+            };
+            var defaultSorter = new ExpressionSorter<LocationDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<LocationDTO>(0, 10, defaultSorter);
+            queryOperator.Filters.Add(new ExpressionFilter<LocationDTO>(x => x.Id, ComparisonType.Equal, location.LocationId));
+            var serviceResults = service.Get(queryOperator);
+            var serviceResultsAsync = await service.GetAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetLocations_DoesNotHaveDivision()
+        {
+
+            var locationType = new LocationType
+            {
+                LocationTypeId = 1,
+                LocationTypeName = "type"
+            };
+            var city = new Location
+            {
+                LocationId = 100,
+                LocationName = "city",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var country = new Location
+            {
+                LocationId = 101,
+                LocationName = "country",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var region = new Location
+            {
+                LocationId = 102,
+                LocationName = "region",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+
+            var location = new Location
+            {
+                LocationId = 2,
+                LocationName = "abc",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+                City = city,
+                CityId = city.LocationId,
+                Country = country,
+                CountryId = country.LocationId,
+                Region = region,
+                RegionId = region.LocationId,
+            };
+            context.Locations.Add(region);
+            context.Locations.Add(city);
+            context.Locations.Add(country);
+            context.Locations.Add(location);
+            context.LocationTypes.Add(locationType);
+            Action<PagedQueryResults<LocationDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+
+                var firstResult = results.Results.First();
+                Assert.IsFalse(firstResult.DivisionId.HasValue);
+                Assert.IsNull(firstResult.Division);
+            };
+            var defaultSorter = new ExpressionSorter<LocationDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<LocationDTO>(0, 10, defaultSorter);
+            queryOperator.Filters.Add(new ExpressionFilter<LocationDTO>(x => x.Id, ComparisonType.Equal, location.LocationId));
+            var serviceResults = service.Get(queryOperator);
+            var serviceResultsAsync = await service.GetAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetLocations_DoesNotHaveCity()
+        {
+
+            var locationType = new LocationType
+            {
+                LocationTypeId = 1,
+                LocationTypeName = "type"
+            };
+            var country = new Location
+            {
+                LocationId = 101,
+                LocationName = "country",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var region = new Location
+            {
+                LocationId = 102,
+                LocationName = "region",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var division = new Location
+            {
+                LocationId = 103,
+                LocationName = "division",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+
+            var location = new Location
+            {
+                LocationId = 2,
+                LocationName = "abc",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+                Country = country,
+                CountryId = country.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
+                Region = region,
+                RegionId = region.LocationId,
+            };
+            context.Locations.Add(region);
+            context.Locations.Add(country);
+            context.Locations.Add(division);
+            context.Locations.Add(location);
+            context.LocationTypes.Add(locationType);
+            Action<PagedQueryResults<LocationDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+
+                var firstResult = results.Results.First();
+                Assert.IsFalse(firstResult.CityId.HasValue);
+                Assert.IsNull(firstResult.City);
+            };
+            var defaultSorter = new ExpressionSorter<LocationDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<LocationDTO>(0, 10, defaultSorter);
+            queryOperator.Filters.Add(new ExpressionFilter<LocationDTO>(x => x.Id, ComparisonType.Equal, location.LocationId));
+            var serviceResults = service.Get(queryOperator);
+            var serviceResultsAsync = await service.GetAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+
         #endregion
 
         #region Validation

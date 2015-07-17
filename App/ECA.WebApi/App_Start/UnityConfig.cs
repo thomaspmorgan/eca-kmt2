@@ -70,6 +70,7 @@ namespace ECA.WebApi
             Debug.Assert(container.IsRegistered<EcaContext>(), "The EcaContext is a dependency.  It should be registered.");
 
             container.RegisterType<IAddressModelHandler, AddressModelHandler>(new HierarchicalLifetimeManager());
+            container.RegisterType<IAddressTypeService, AddressTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IContactService, ContactService>(new HierarchicalLifetimeManager());
             container.RegisterType<IFocusService, FocusService>(new HierarchicalLifetimeManager());
             container.RegisterType<IFocusCategoryService, FocusCategoryService>(new HierarchicalLifetimeManager());

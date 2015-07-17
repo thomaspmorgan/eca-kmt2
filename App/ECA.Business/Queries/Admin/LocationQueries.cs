@@ -20,15 +20,38 @@ namespace ECA.Business.Queries.Admin
         public static IQueryable<LocationDTO> CreateGetLocationsQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var query = context.Locations.Select(x => new LocationDTO
-            {
-                Id = x.LocationId,
-                LocationTypeId = x.LocationTypeId,
-                LocationTypeName = x.LocationType.LocationTypeName,
-                Name = x.LocationName,
-                RegionId = x.RegionId,
-                CountryId = x.CountryId
-            });
+
+            var query = from location in context.Locations
+                        let locationType = location.LocationType
+
+                        let hasCountry = location.Country != null
+                        let country = location.Country
+
+                        let hasDivision = location.Division != null
+                        let division = location.Division
+
+                        let hasCity = location.City != null
+                        let city = location.City
+
+                        let hasRegion = location.Region != null
+                        let region = location.Region
+
+                        select new LocationDTO
+                        {
+                            Country = hasCountry ? country.LocationName : null,
+                            CountryId = location.CountryId,
+                            Division = hasDivision ? division.LocationName : null,
+                            DivisionId = location.DivisionId,
+                            Id = location.LocationId,
+                            LocationTypeId = locationType.LocationTypeId,
+                            LocationTypeName = locationType.LocationTypeName,
+                            Name = location.LocationName,
+                            Region = hasRegion ? region.LocationName : null,
+                            RegionId = location.RegionId,
+                            City = hasCity ? city.LocationName : null,
+                            CityId = location.CityId
+                        };
+
             return query;
         }
 

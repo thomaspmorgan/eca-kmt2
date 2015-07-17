@@ -95,5 +95,10 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or sets the address type.
         /// </summary>
         public string AddressType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the postal code.
+        /// </summary>
+        public string PostalCode { get; set; }
     }
 }
