@@ -113,7 +113,7 @@ namespace ECA.WebApi.Controllers.Admin
                 var businessUser = userProvider.GetBusinessUser(currentUser);
                 await organizationService.UpdateAsync(model.ToEcaOrganization(businessUser));
                 await organizationService.SaveChangesAsync();
-                var updatedOrganization = organizationService.GetOrganizationByIdAsync(model.OrganizationId);
+                var updatedOrganization = await organizationService.GetOrganizationByIdAsync(model.OrganizationId);
                 return Ok(updatedOrganization);
             }
             else

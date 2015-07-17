@@ -23,6 +23,9 @@ angular.module('staticApp')
           },
           getTypes: function (params) {
               return DragonBreath.get(params, 'organizations/types');
+          },
+          update: function (organization) {
+              return DragonBreath.save(organization, 'organizations');
           }
       };
   });

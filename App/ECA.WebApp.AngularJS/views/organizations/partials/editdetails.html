@@ -73,20 +73,19 @@
                         </li>
                     </ul>
                 </div>
-            </div>-->
+            </div>
+                -->
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label class="col-md-4 title-label">Parent Organization</label>
                 <div class="col-md-8">
-
                     <input type="search"
                            class="search-contextual"
                            maxlength="100"
                            typeahead-append-to-body="false"
-                           typeahead-input-formatter="view.formatAddedParentOrganization($model)"
                            placeholder="Select parent organization..."
-                           ng-model="view.parentOrganization"
+                           ng-model="organization.parentOrganizationName"
                            typeahead-wait-ms="400"
                            typeahead-loading="view.isLoadingParentOrganizations"
                            typeahead="org as org.name for org in view.getAvailableParentOrganizations($viewValue) | filter : $viewValue | limitTo : view.searchAvailableOrganizationsLimit"
@@ -96,12 +95,6 @@
                     </input>
                     <i class="glyphicon glyphicon-search contextual" ng-show="!view.isLoadingParentOrganizations"></i>
                     <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingParentOrganizations">refresh</i>
-
-
-
-                    <!--<select class="form-control" 
-                            ng-model="organization.parentOrganizationId" 
-                            ng-options="organizationType.id as organizationType.name for organizationType in view.organizationTypes" />-->
                 </div>
             </div>
         </div>

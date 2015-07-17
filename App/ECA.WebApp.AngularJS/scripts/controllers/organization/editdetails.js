@@ -23,31 +23,10 @@ angular.module('staticApp')
       $scope.view.organizationTypes = [];
       $scope.view.isLoadingParentOrganizations = false;
       $scope.view.searchAvailableOrganizationsLimit = 10;
-      $scope.view.showEditDetails = false;
-
-      $scope.view.saveDetailsEdit = function () {
-
-      }
-
-      $scope.view.cancelDetailsEdit = function () {
-          debugger;
-          $scope.view.showEditDetails = false;
-      }
+      
 
       $scope.view.getAvailableParentOrganizations = function (search) {
           return loadAvailableOrganizations(search);
-      }
-
-      $scope.view.formatAddedParentOrganization = function (org) {
-          if (org && org.name && org.name.length > 0) {
-              return org.name;
-          }
-          else if ($scope.organization && $scope.organization.parentOrganizationName) {
-              return $scope.organization.parentOrganizationName;
-          }
-          else {
-              return '';
-          }
       }
 
       $scope.view.onSelectAvailableParentOrganization = function ($item, $model, $label) {
@@ -86,17 +65,6 @@ angular.module('staticApp')
               NotificationService.showErrorMessage('Unable to load available organizations.');
           });
       }
-
-      //isOrganizationLoading(true);
-
-      //$scope.data.loadedOrganizationPromise.promise
-      //.then(function (org) {
-      //    isOrganizationLoading(false);
-      //});
-
-      //function isOrganizationLoading(isLoading) {
-      //    $scope.view.isOrganizationLoading = isLoading;
-      //}
 
       var orgTypesParams = {
           start: 0,
