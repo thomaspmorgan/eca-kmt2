@@ -2,9 +2,9 @@
 
 /**
  * @ngdoc function
- * @name staticApp.controller:OrganizationOverviewCtrl
- * @description The overview controller is used on the overview tab of an organization.
- * # OrganizationOverviewCtrl
+ * @name staticApp.controller:AddressCtrl
+ * @description The address control is use to control a single address.
+ * # AddressCtrl
  * Controller of the staticApp
  */
 angular.module('staticApp')
@@ -104,15 +104,15 @@ angular.module('staticApp')
           $scope.address.countryId = $item.id;
       }
 
-      $scope.view.onAddressClick = function (addressableType, entityAddresses, entityId) {
-          console.assert(entityAddresses, 'The entity addresses is not defined.');
-          console.assert(entityAddresses instanceof Array, 'The entity address is defined but must be an array.');
-          var newAddress = {
-              Id: entityId,
-              addressableType: addressableType
-          };
-          entityAddresses.splice(0, 0, newAddress);          
-      }
+      //$scope.view.onAddressClick = function (addressableType, entityAddresses, entityId) {
+      //    console.assert(entityAddresses, 'The entity addresses is not defined.');
+      //    console.assert(entityAddresses instanceof Array, 'The entity address is defined but must be an array.');
+      //    var newAddress = {
+      //        Id: entityId,
+      //        addressableType: addressableType
+      //    };
+      //    entityAddresses.splice(0, 0, newAddress);          
+      //}
 
       $scope.view.onSelectCityBlur = function ($event) {
           if ($scope.address.city === '') {
