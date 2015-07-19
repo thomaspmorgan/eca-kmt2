@@ -64,11 +64,24 @@
                     <div class="col-md-6"><a ui-sref="organizations.overview({organizationId: organization.parentOrganizationId})">{{organization.parentOrganizationName}}</a></div>
                 </div>
             </div>
+
+            <!--<div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6 title-label">Addresses</div>
+                    <div class="col-md-6">
+                        <addresses model="organization" modelid="organization.organizationId" modeltype="'organization'" />
+                    </div>
+                </div>
+            </div>-->
+
+
+
             <addresses model="organization" modelid="organization.organizationId" modeltype="'organization'" />
+
         </div>
     </div>
 
-    <addresses model="organization" modelid="organization.organizationId" modeltype="'organization'" />    
+    <!--<addresses model="organization" modelid="organization.organizationId" modeltype="'organization'" />-->    
     <div ng-show="view.showEditDetails">
         <ng-include src="'/views/organizations/partials/editdetails.html'"></ng-include>
     </div>
