@@ -168,7 +168,6 @@
     <Content Include="styles\main.css">
       <DependentUpon>main.scss</DependentUpon>
     </Content>
-    <Content Include="views\address\view.html" />
     <Content Include="views\directives\addresses.html" />
     <Content Include="views\organizations\activities.html" />
     <Content Include="views\organizations\impact.html" />
