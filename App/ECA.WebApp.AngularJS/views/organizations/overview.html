@@ -64,37 +64,18 @@
                     <div class="col-md-6"><a ui-sref="organizations.overview({organizationId: organization.parentOrganizationId})">{{organization.parentOrganizationName}}</a></div>
                 </div>
             </div>
-        </div>
 
-        <!--<div class="row">
-            <div class="col-md-6 title-label"><ng-pluralize count="organization.addresses.length" when="{'1':'Address','other':'Addresses'}"></ng-pluralize></div>
+
+            <div class="col-md-6 title-label">
+                <ng-pluralize count="organization.addresses.length" when="{'1':'Address','other':'Addresses'}"></ng-pluralize>
+                <a ng-controller="AddressCtrl" ng-click="view.onAddressClick('organization', organization.addresses, organization.organizationId)">
+                    <i class="material-icons md-24 md-dark pull-right">add</i>
+                </a>
+            </div>
             <div class="col-md-6">
                 <div ng-repeat="address in organization.addresses">
                     <ng-include src="'/views/address/view.html'"></ng-include>
                 </div>
-            </div>
-        </div>-->
-        <!--<div class="col-md-2 title-label"><ng-pluralize count="organization.addresses.length" when="{'1':'Address','other':'Addresses'}"></ng-pluralize></div>-->
-        <!--<div class="col-md-12">-->
-
-        <div class="row">
-            <div ng-repeat="address in organization.addresses">
-                <ng-include src="'/views/address/view.html'"></ng-include>
-            </div>
-        </div>
-    </div>
-
-
-
-    <div class="row table">
-        <div class="row">
-            <div class="col-md-6">
-                <h4 class="tab-subheader">Addresses</h4>
-            </div>
-            <div class="col-md-6">
-                    <div ng-repeat="address in organization.addresses">
-                        <ng-include src="'/views/address/view.html'"></ng-include>
-                    </div>
             </div>
         </div>
     </div>

@@ -13,11 +13,6 @@ namespace ECA.WebApi.Models.Admin
     public class PersonAddressBindingModel : AddressBindingModelBase<ECA.Data.Person>
     {
         /// <summary>
-        /// Gets or sets the Person Id.
-        /// </summary>
-        public int PersonId { get; set; }
-
-        /// <summary>
         /// Returns the business layer AdditionalPersonAddress to be used to add a new Address to a person.
         /// </summary>
         /// <param name="creator">The user creating the address.</param>
@@ -36,7 +31,7 @@ namespace ECA.WebApi.Models.Admin
                 countryId: this.CountryId,
                 cityId: this.CityId,
                 divisionId: this.DivisionId,
-                personId: this.PersonId
+                personId: this.Id
                 );
         }
     }

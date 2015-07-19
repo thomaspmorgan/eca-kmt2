@@ -6,15 +6,15 @@
     </div>
     <div ng-show="!view.isSavingChanges && !view.isLoadingRequiredData">
         <div class="row" ng-show="!view.showEditAddress">
-            <div class="col-md-2">
-                <div>
-                    {{address.addressType}}
-                </div>
+            <div class="row">
                 <div ng-show="address.addressDisplayName">
                     {{address.addressDisplayName}}
                 </div>
+                <div>
+                    Type:  {{address.addressType}}
+                </div>
             </div>
-            <div class="col-md-9">               
+            <div class="col-md-11">
                 <div ng-show="address.street1">
                     {{address.street1}}
                 </div>
@@ -43,7 +43,7 @@
         <div in-context-form ng-show="view.showEditAddress" class="row">
             <form name="form.addressForm" class="row form-horizontal">
                 <div class="form-group">
-                    <label class="title-label col-md-3" for="street1">Name</label>
+                    <label class="title-label col-md-3" for="street1">Name<span class="asterisk"> *</span></label>
                     <div class="col-md-9">
                         <input name="addressDisplayName"
                                ng-model="address.addressDisplayName"
@@ -51,15 +51,25 @@
                                type="text"
                                class="form-control"
                                placeholder="Enter address name."
-                               id="addressDisplayName" />
+                               id="addressDisplayName"
+                               required />
+                    </div>
+                    <div ng-show="form.addressForm.addressDisplayName.$dirty || form.addressForm.addressDisplayName.$error.required">
+                        <div class="error" ng-show="form.addressForm.addressDisplayName.$error.required">Please enter an address name.</div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="title-label col-md-3" for="type">Type</label>
+                    <label class="title-label col-md-3" for="type">Type<span class="asterisk"> *</span></label>
                     <div class="col-md-9">
-                        <select class="form-control" id="type"
+                        <select class="form-control"
+                                id="type"
+                                name="addressTypeId"
                                 ng-options="t.id as t.name for t in view.addressTypes"
-                                ng-model="address.addressTypeId" />
+                                ng-model="address.addressTypeId"
+                                required />
+                    </div>
+                    <div ng-show="form.addressForm.addressTypeId.$dirty || form.addressForm.addressTypeId.$error.required">
+                        <div class="error" ng-show="form.addressForm.addressTypeId.$error.required">Please select an address type.</div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -99,7 +109,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="title-label col-md-3" for="city">City</label>
+                    <label class="title-label col-md-3" for="city">City<span class="asterisk"> *</span></label>
                     <div class="col-md-9">
                         <input type="search"
                                id="city"
@@ -108,23 +118,34 @@
                                typeahead-append-to-body="false"
                                placeholder="Select city..."
                                ng-model="address.city"
+                               ng-blur="view.onSelectCityBlur($event)"
                                typeahead-wait-ms="400"
                                typeahead-loading="view.isLoadingCities"
                                typeahead="city as city.name for city in view.getCities($viewValue) | filter : $viewValue | limitTo : view.searchLimit"
                                typeahead-on-select="view.onSelectCity($item, $model, $label)"
                                typeahead-template-url="selectLocationTemplate.html"
-                               typeahead-editable="false"
-                               required>
+                               typeahead-editable="false">
                         </input>
                         <i class="glyphicon glyphicon-search contextual" ng-show="!view.isLoadingCities"></i>
                         <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingCities">refresh</i>
                     </div>
+                    
+                    <div>
+                        <label class="title-label col-md-9">
+                            Autopopulate Division and Country
+                        </label>
+                        <input type="checkbox" class="col-md-3" ng-model="view.autopopulateOnCitySelect" />
+                        
+                    </div>
+                    <div ng-show="form.addressForm.city.$dirty || form.addressForm.city.$error.required">
+                        <div class="error" ng-show="form.addressForm.city.$error.required">Please select a city.</div>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label class="title-label col-md-3" for="city">Division</label>
+                    <label class="title-label col-md-3" for="division">Division</label>
                     <div class="col-md-9">
                         <input type="search"
-                               id="city"
+                               id="division"
                                class="search-contextual"
                                maxlength="100"
                                typeahead-append-to-body="false"
@@ -135,11 +156,37 @@
                                typeahead="division as division.name for division in view.getDivisions($viewValue) | filter : $viewValue | limitTo : view.searchLimit"
                                typeahead-on-select="view.onSelectDivision($item, $model, $label)"
                                typeahead-template-url="selectLocationTemplate.html"
-                               typeahead-editable="false"
-                               required>
+                               typeahead-editable="false">
                         </input>
                         <i class="glyphicon glyphicon-search contextual" ng-show="!view.isLoadingDivisions"></i>
                         <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingDivisions">refresh</i>
+                    </div>
+                    <div ng-show="form.addressForm.division.$dirty || form.addressForm.division.$error.required">
+                        <div class="error" ng-show="form.addressForm.division.$error.required">Please select a division.</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="title-label col-md-3" for="country">Country</label>
+                    <div class="col-md-9">
+                        <input type="search"
+                               id="country"
+                               class="search-contextual"
+                               maxlength="100"
+                               typeahead-append-to-body="false"
+                               placeholder="Select a country..."
+                               ng-model="address.country"
+                               typeahead-wait-ms="400"
+                               typeahead-loading="view.isLoadingCountries"
+                               typeahead="country as country.name for country in view.getCountries($viewValue) | filter : $viewValue | limitTo : view.searchLimit"
+                               typeahead-on-select="view.onSelectCountry($item, $model, $label)"
+                               typeahead-template-url="selectLocationTemplate.html"
+                               typeahead-editable="false">
+                        </input>
+                        <i class="glyphicon glyphicon-search contextual" ng-show="!view.isLoadingCountries"></i>
+                        <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingCountries">refresh</i>
+                    </div>
+                    <div ng-show="form.addressForm.country.$dirty || form.addressForm.country.$error.required">
+                        <div class="error" ng-show="form.addressForm.country.$error.required">Please select a country.</div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -156,7 +203,7 @@
                 </div>
             </form>
             <div class="row right" ng-show="view.showEditAddress">
-                <button ng-click="view.saveAddressChanges()" class="btn btn-success">Save</button>
+                <button ng-click="view.saveAddressChanges()" class="btn btn-success" ng-disabled="form.addressForm.$dirty && form.addressForm.$invalid">Save</button>
                 <button ng-click="view.cancelAddressChanges()" class="btn btn-cancel">Cancel</button>
             </div>
         </div>

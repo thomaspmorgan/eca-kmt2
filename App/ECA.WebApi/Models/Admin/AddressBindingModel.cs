@@ -69,6 +69,11 @@ namespace ECA.WebApi.Models.Admin
         where T : class, IAddressable
     {
         /// <summary>
+        /// Gets or sets the addressable entity id.
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// Returns the AdditionalAddress
         /// </summary>
         /// <param name="creator">The creator.</param>

@@ -17,6 +17,8 @@ angular.module('staticApp')
         AddressService,
         ConstantsService,
         LocationService,
+        OrganizationService,
+        PersonService,
         NotificationService) {
 
       $scope.view = {};
@@ -25,10 +27,17 @@ angular.module('staticApp')
       $scope.view.showEditAddress = false;
       $scope.view.isLoadingCities = false;
       $scope.view.isLoadingDivisions = false;
+      $scope.view.isLoadingCountries = false;
       $scope.view.isSavingChanges = false;
       $scope.view.isLoadingRequiredData = false;
       $scope.view.searchLimit = 10;
+      $scope.view.autopopulateOnCitySelect = true;
       var originalAddress = angular.copy($scope.address);
+
+      var addressableTypeToServiceMapping = {
+          'organization': OrganizationService,
+          'person': PersonService
+      };
 
       $scope.view.getCities = function ($viewValue) {
           return getCities($viewValue);
@@ -38,21 +47,29 @@ angular.module('staticApp')
           return getDivisions($viewValue);
       }
 
+      $scope.view.getCountries = function ($viewValue) {
+          return getCountries($viewValue);
+      }
+
       $scope.view.saveAddressChanges = function () {
           $scope.view.isSavingChanges = true;
-          return AddressService.update($scope.address)
-          .then(function (response) {
-              $scope.address = response.data;
-              originalAddress = angular.copy($scope.address);
-              NotificationService.showSuccessMessage("Successfully saved changes to address.");
-              $scope.view.showEditAddress = false;
-              $scope.view.isSavingChanges = false;
-          })
-          .catch(function(){
-              var message = "Failed to save address changes.";
-              NotificationService.showErrorMessage(message);
-              $log.error(message);
-          })
+
+          if (isNewAddress($scope.address)) {
+              console.assert($scope.address.addressableType, 'The addressable type must be defined.');
+              var addressableType = $scope.address.addressableType;
+              console.assert(addressableTypeToServiceMapping[addressableType], 'The mapping must contain a value for the addressable type [' + addressableType + '].');
+              var service = addressableTypeToServiceMapping[addressableType];
+              console.assert(service.addAddress, 'The service must have an addAddress method defined.');
+              console.assert(typeof service.addAddress === 'function', 'The service addAddress property must be a function.');
+              return service.addAddress($scope.address)
+                .then(onSaveAddressSuccess)
+                .catch(onSaveAddressError);
+          }
+          else {
+              return AddressService.update($scope.address)
+                  .then(onSaveAddressSuccess)
+                  .catch(onSaveAddressError);
+          }
       };
 
       $scope.view.cancelAddressChanges = function () {
@@ -65,16 +82,59 @@ angular.module('staticApp')
       $scope.view.onSelectCity = function ($item, $model, $label) {
           $scope.address.city = $item.name;
           $scope.address.cityId = $item.id;
-          if ($item.country) {
+          if ($item.country && $scope.view.autopopulateOnCitySelect) {
               $log.info('Auto populating country to address.');
               $scope.address.country = $item.country;
               $scope.address.countryId = $item.countryId;
           }
-          if ($item.division) {
+          if ($item.division && $scope.view.autopopulateOnCitySelect) {
               $log.info('Auto populating division to address.');
               $scope.address.division = $item.division;
               $scope.address.divisionId = $item.divisionId;
           }
+      }
+
+      $scope.view.onSelectDivision = function ($item, $model, $label) {
+          $scope.address.division = $item.name;
+          $scope.address.divisionId = $item.id;          
+      }
+
+      $scope.view.onSelectCountry = function ($item, $model, $label) {
+          $scope.address.country = $item.name;
+          $scope.address.countryId = $item.id;
+      }
+
+      $scope.view.onAddressClick = function (addressableType, entityAddresses, entityId) {          
+          console.assert(entityAddresses, 'The entity addresses is not defined.');
+          console.assert(entityAddresses instanceof Array, 'The entity address is defined but must be an array.');
+          var newAddress = {
+              Id: entityId,
+              addressableType: addressableType
+          };
+          entityAddresses.splice(0, 0, newAddress);          
+      }
+
+      $scope.view.onSelectCityBlur = function ($event) {
+          debugger;
+      };
+
+      function onSaveAddressSuccess(response) {
+          $scope.address = response.data;
+          originalAddress = angular.copy($scope.address);
+          NotificationService.showSuccessMessage("Successfully saved changes to address.");
+          $scope.view.showEditAddress = false;
+          $scope.view.isSavingChanges = false;
+      }
+
+      function onSaveAddressError() {
+          var message = "Failed to save address changes.";
+          NotificationService.showErrorMessage(message);
+          $log.error(message);
+          $scope.view.isSavingChanges = false;
+      }
+
+      function isNewAddress(address) {
+          return address.addressableType;
       }
 
       function getAddressTypes() {
@@ -108,6 +168,11 @@ angular.module('staticApp')
       function getCities(search) {
           $scope.view.isLoadingCities = true;
           return getLocations(search, ConstantsService.locationType.city.id, $scope.view.isLoadingCities);
+      }
+
+      function getCountries(search) {
+          $scope.view.isLoadingCountries = true;
+          return getLocations(search, ConstantsService.locationType.country.id, $scope.view.isLoadingCountries);
       }
 
       function getLocations (search, locationTypeId, loadingIndicator){

@@ -14,7 +14,6 @@ angular.module('staticApp')
           update: function (address) {
               return DragonBreath.save(address, 'addresses');
           }
-
       };
       return service;
   });

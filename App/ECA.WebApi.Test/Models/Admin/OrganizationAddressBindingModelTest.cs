@@ -20,7 +20,7 @@ namespace ECA.WebApi.Test.Models.Admin
                 CountryId = 2,
                 DivisionId = 3,
                 LocationName = "location name",
-                OrganizationId = 4,
+                Id = 4,
                 PostalCode = "12345",
                 Street1 = "street1",
                 Street2 = "street2",
@@ -38,7 +38,7 @@ namespace ECA.WebApi.Test.Models.Admin
             Assert.AreEqual(model.Street1, instance.Street1);
             Assert.AreEqual(model.Street2, instance.Street2);
             Assert.AreEqual(model.Street3, instance.Street3);
-            Assert.AreEqual(model.OrganizationId, instance.GetAddressableEntityId());
+            Assert.AreEqual(model.Id, instance.GetAddressableEntityId());
             Assert.IsTrue(Object.ReferenceEquals(user, instance.Create.User));
         }
     }

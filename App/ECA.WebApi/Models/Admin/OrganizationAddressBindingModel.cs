@@ -14,11 +14,6 @@ namespace ECA.WebApi.Models.Admin
     public class OrganizationAddressBindingModel : AddressBindingModelBase<Organization>
     {
         /// <summary>
-        /// Gets or sets the Organization Id.
-        /// </summary>
-        public int OrganizationId { get; set; }
-
-        /// <summary>
         /// Returns the business layer AdditionalOrganizationAddress to be used to add a new Address to an organization.
         /// </summary>
         /// <param name="creator">The user creating the address.</param>
@@ -37,7 +32,7 @@ namespace ECA.WebApi.Models.Admin
                 countryId: this.CountryId,
                 cityId: this.CityId,
                 divisionId: this.DivisionId,
-                organizationId: this.OrganizationId
+                organizationId: this.Id
                 );
         }
     }

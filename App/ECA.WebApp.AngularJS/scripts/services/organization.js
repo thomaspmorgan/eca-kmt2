@@ -26,6 +26,9 @@ angular.module('staticApp')
           },
           update: function (organization) {
               return DragonBreath.save(organization, 'organizations');
+          },
+          addAddress: function (address) {
+              return DragonBreath.create(address, 'organizations/address');
           }
       };
   });
