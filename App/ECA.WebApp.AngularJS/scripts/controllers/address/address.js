@@ -115,7 +115,24 @@ angular.module('staticApp')
       }
 
       $scope.view.onSelectCityBlur = function ($event) {
-          debugger;
+          if ($scope.address.city === '') {
+              delete $scope.address.cityId;
+              delete $scope.address.city;
+          }
+      };
+
+      $scope.view.onSelectDivisionBlur = function ($event) {
+          if ($scope.address.division === '') {
+              delete $scope.address.divisionId;
+              delete $scope.address.division;
+          }
+      };
+
+      $scope.view.onSelectCountryBlur = function ($event) {
+          if ($scope.address.country === '') {
+              delete $scope.address.countryId;
+              delete $scope.address.country;
+          }
       };
 
       function onSaveAddressSuccess(response) {
