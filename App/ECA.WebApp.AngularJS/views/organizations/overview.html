@@ -64,25 +64,7 @@
                     <div class="col-md-6"><a ui-sref="organizations.overview({organizationId: organization.parentOrganizationId})">{{organization.parentOrganizationName}}</a></div>
                 </div>
             </div>
-
-
-            <div class="col-md-6 title-label" ng-init="collapseAddresses = true">
-                <ng-pluralize count="organization.addresses.length" when="{'1':'Address','other':'Addresses ({{organization.addresses.length}})'}"></ng-pluralize>
-                <a ng-click="collapseAddresses = !collapseAddresses">
-                    <i class="material-icons md-dark md-24 pull-right" ng-show="collapseAddresses">expand_more</i>
-                    <i class="material-icons md-dark md-24 pull-right" ng-show="!collapseAddresses">expand_less</i>
-                </a>
-                <a ng-controller="AddressCtrl" ng-click="view.onAddressClick('organization', organization.addresses, organization.organizationId)">
-                    <i class="material-icons md-24 md-dark pull-right">add</i>
-                </a>
-            </div>
-            <div class="col-md-6" collapse="collapseAddresses">
-                <div ng-repeat="address in organization.addresses">
-                    <ng-include src="'/views/address/view.html'"></ng-include>
-                </div>
-            </div>
-
-
+            <addresses model="organization" modelid="organization.organizationId" modeltype="'organization'" />
         </div>
     </div>
 

@@ -104,7 +104,7 @@ angular.module('staticApp')
           $scope.address.countryId = $item.id;
       }
 
-      $scope.view.onAddressClick = function (addressableType, entityAddresses, entityId) {          
+      $scope.view.onAddressClick = function (addressableType, entityAddresses, entityId) {
           console.assert(entityAddresses, 'The entity addresses is not defined.');
           console.assert(entityAddresses instanceof Array, 'The entity address is defined but must be an array.');
           var newAddress = {
