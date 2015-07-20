@@ -11,6 +11,10 @@ angular.module('staticApp')
   .controller('CollaboratorCtrl', function ($scope, $q, $modalInstance, parameters, AuthService, UserService, OfficeService, ProgramService, ProjectService, ConstantsService, NotificationService, orderByFilter) {
     
       $scope.showPermissions = {};
+      
+      $scope.collaborators = [];
+
+      $scope.collaboratorsLoading = false;
 
       $scope.toggleShowPermissions = function (principalId) {
           if ($scope.showPermissions[principalId]) {
@@ -173,10 +177,12 @@ angular.module('staticApp')
      
       
       function loadCollaborators(params) {
+          $scope.collaboratorsLoading = true;
           var url = getUrl();
           return $q.when(AuthService.getPrincipalResourceAuthorizations(parameters.resourceType.value, parameters.foreignResourceId, url, params))
           .then(updateCollaborators, showLoadCollaboratorsError)
           .then(function () {
+              $scope.collaboratorsLoading = false;
           });
       }
       
