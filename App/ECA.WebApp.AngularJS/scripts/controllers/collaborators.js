@@ -174,19 +174,43 @@ angular.module('staticApp')
       $scope.addCollaborator = function () {
           var permissionModel = {
               principalId: $scope.selectedCollaborator.principalId,
-              permissionId: ConstantsService.permission.viewProgram.id
           };
+          addPermissionIdToPermissionModel(permissionModel);
           addForeignResourceIdToPermissionModel(permissionModel);
-          ProgramService.addPermission(permissionModel)
+          if (parameters.resourceType.id === ConstantsService.resourceType.office.id) {
+              OfficeService.addPermission(permissionModel)
                 .then(function () {
-                    $scope.selectedCollaborator = "";
                     loadCollaborators(params);
                 }, function () {
                     NotificationService.showErrorMessage('There was an error adding the collaborator.');
                 });
+          } else if (parameters.resourceType.id === ConstantsService.resourceType.program.id) {
+              ProgramService.addPermission(permissionModel)
+                  .then(function () {
+                      loadCollaborators(params);
+                  }, function () {
+                      NotificationService.showErrorMessage('There was an error adding the collaborator');
+                  });
+          } else if (parameters.resourceType.id === ConstantsService.resourceType.project.id) {
+              ProjectService.addPermission(permissionModel)
+                  .then(function () {
+                      loadCollaborators(params);
+                  }, function () {
+                      NotificationService.showErrorMessage('There was an error adding the collaborator');
+                  });
+          }
       }
 
-     
+
+      function addPermissionIdToPermissionModel(permissionModel) {
+          if (parameters.resourceType.id === ConstantsService.resourceType.office.id) {
+              permissionModel.permissionId = ConstantsService.permission.viewOffice.id;
+          } else if (parameters.resourceType.id === ConstantsService.resourceType.program.id) {
+              permissionModel.permissionId = ConstantsService.permission.viewProgram.id;
+          } else if (parameters.resourceType.id === ConstantsService.resourceType.project.id) {
+              permissionModel.permissionId = ConstantsService.permission.viewProject.id;
+          }
+      }
       
       function loadCollaborators(params) {
           $scope.collaboratorsLoading = true;
