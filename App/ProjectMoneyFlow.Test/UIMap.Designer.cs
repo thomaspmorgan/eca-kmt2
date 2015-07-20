@@ -31,6 +31,22 @@ namespace ProjectMoneyFlow.Test
     {
         
         /// <summary>
+        /// Verify the existence of the Sub-Programs and Projects tab/link.
+        /// </summary>
+        public void AssertBranchesandProjectsLink()
+        {
+            #region Variable Declarations
+            HtmlHyperlink uISubProgramsProjectsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument7.UITopPane.UISubProgramsProjectsHyperlink;
+            #endregion
+
+            // Verify that the 'InnerText' property of 'Sub-Programs & Projects' link contains 'Sub-Programs & Projects'
+            StringAssert.Contains(uISubProgramsProjectsHyperlink.InnerText, this.AssertBranchesandProjectsLinkExpectedValues.UISubProgramsProjectsHyperlinkInnerText, "No Sub-Program and Project tab available.");
+
+            // Verify that the 'ControlType' property of 'Sub-Programs & Projects' link contains 'Hyperlink'
+            StringAssert.Contains(uISubProgramsProjectsHyperlink.ControlType.ToString(), this.AssertBranchesandProjectsLinkExpectedValues.UISubProgramsProjectsHyperlinkControlType, "Sub-Programs and Projects Hyperlink not available.");
+        }
+        
+        /// <summary>
         /// Verify Content Menu button is available
         /// </summary>
         public void AssertContentMenuButton()
@@ -130,45 +146,6 @@ namespace ProjectMoneyFlow.Test
 
             // Verify that the 'InnerText' property of 'Programs' link equals 'Programs'
             Assert.AreEqual(this.AssertProgramsLink_ContentMenuExpectedValues.UIProgramsHyperlinkInnerText, uIProgramsHyperlink.InnerText, "No Programs section link available");
-        }
-        
-        /// <summary>
-        /// Open browser; enter login creds for ECATest; click sign in
-        /// </summary>
-        public void LogintoQA()
-        {
-            #region Variable Declarations
-            WinEdit uIAddressandsearchusinEdit = this.UINewtabInternetExplorWindow.UIAddressBarClient.UIAddressandsearchusinEdit;
-            WinEdit uIItemEdit = this.UINewtabInternetExplorWindow.UIItemWindow.UIItemEdit;
-            WinButton uIGotohttpsecakmtqaazuButton = this.UINewtabInternetExplorWindow.UIPageControlToolBar.UIGotohttpsecakmtqaazuButton;
-            HtmlEdit uIUseraccountEdit = this.UINewtabInternetExplorWindow.UISignintoAzureActiveDDocument.UIUseraccountEdit;
-            HtmlEdit uIPasswordEdit = this.UINewtabInternetExplorWindow.UISignintoAzureActiveDDocument.UIPasswordEdit;
-            HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoAzureActiveDDocument.UISigninPane;
-            #endregion
-
-            // Go to web page 'about:Tabs' using new browser instance
-            this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LogintoQAParams.UINewtabInternetExplorWindowUrl));
-
-            // Click 'Address and search using Google' text box
-            Mouse.Click(uIAddressandsearchusinEdit, new Point(26, 10));
-
-            // Type 'https://eca-kmt-qa.azurewebsites.net/' in text box
-            Keyboard.SendKeys(uIItemEdit, this.LogintoQAParams.UIItemEditSendKeys, ModifierKeys.None);
-
-            // Click 'Go to “https://eca-kmt-qa.azurewebsites.net/” (Alt...' button
-            Mouse.Click(uIGotohttpsecakmtqaazuButton, new Point(4, 11));
-
-            // Type 'ECATest1@statedept.us' in 'User account' text box
-            uIUseraccountEdit.Text = this.LogintoQAParams.UIUseraccountEditText;
-
-            // Type '{Tab}' in 'User account' text box
-            Keyboard.SendKeys(uIUseraccountEdit, this.LogintoQAParams.UIUseraccountEditSendKeys, ModifierKeys.None);
-
-            // Type '********' in 'Password' text box
-            uIPasswordEdit.Password = this.LogintoQAParams.UIPasswordEditPassword;
-
-            // Double-Click 'Sign in' pane
-            Mouse.DoubleClick(uISigninPane, new Point(30, 13));
         }
         
         /// <summary>
@@ -289,11 +266,11 @@ namespace ProjectMoneyFlow.Test
         public void SelectBranchesandProjectsLink()
         {
             #region Variable Declarations
-            HtmlHyperlink uIBranchesProjectsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UITopPane.UIBranchesProjectsHyperlink;
+            HtmlHyperlink uISubProgramsProjectsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument7.UITopPane.UISubProgramsProjectsHyperlink;
             #endregion
 
-            // Click 'Branches & Projects' link
-            Mouse.Click(uIBranchesProjectsHyperlink, new Point(76, 6));
+            // Click 'Sub-Programs & Projects' link
+            Mouse.Click(uISubProgramsProjectsHyperlink, new Point(76, 6));
         }
         
         /// <summary>
@@ -361,23 +338,19 @@ namespace ProjectMoneyFlow.Test
             Mouse.Click(uIProgramsHyperlink, new Point(65, 33));
         }
         
-        /// <summary>
-        /// Verify the existence of the Sub-Programs and Projects tab/link.
-        /// </summary>
-        public void AssertBranchesandProjectsLink()
+        #region Properties
+        public virtual AssertBranchesandProjectsLinkExpectedValues AssertBranchesandProjectsLinkExpectedValues
         {
-            #region Variable Declarations
-            HtmlHyperlink uISubProgramsProjectsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument7.UITopPane.UISubProgramsProjectsHyperlink;
-            #endregion
-
-            // Verify that the 'InnerText' property of 'Sub-Programs & Projects' link contains 'Sub-Programs & Projects'
-            StringAssert.Contains(uISubProgramsProjectsHyperlink.InnerText, this.AssertBranchesandProjectsLinkExpectedValues.UISubProgramsProjectsHyperlinkInnerText, "No Sub-Program and Project tab available.");
-
-            // Verify that the 'ControlType' property of 'Sub-Programs & Projects' link contains 'Hyperlink'
-            StringAssert.Contains(uISubProgramsProjectsHyperlink.ControlType.ToString(), this.AssertBranchesandProjectsLinkExpectedValues.UISubProgramsProjectsHyperlinkControlType, "Sub-Programs and Projects Hyperlink not available.");
+            get
+            {
+                if ((this.mAssertBranchesandProjectsLinkExpectedValues == null))
+                {
+                    this.mAssertBranchesandProjectsLinkExpectedValues = new AssertBranchesandProjectsLinkExpectedValues();
+                }
+                return this.mAssertBranchesandProjectsLinkExpectedValues;
+            }
         }
         
-        #region Properties
         public virtual AssertContentMenuButtonExpectedValues AssertContentMenuButtonExpectedValues
         {
             get
@@ -450,18 +423,6 @@ namespace ProjectMoneyFlow.Test
             }
         }
         
-        public virtual LogintoQAParams LogintoQAParams
-        {
-            get
-            {
-                if ((this.mLogintoQAParams == null))
-                {
-                    this.mLogintoQAParams = new LogintoQAParams();
-                }
-                return this.mLogintoQAParams;
-            }
-        }
-        
         public virtual RefreshAllProgramsPageParams RefreshAllProgramsPageParams
         {
             get
@@ -510,18 +471,6 @@ namespace ProjectMoneyFlow.Test
             }
         }
         
-        public virtual AssertBranchesandProjectsLinkExpectedValues AssertBranchesandProjectsLinkExpectedValues
-        {
-            get
-            {
-                if ((this.mAssertBranchesandProjectsLinkExpectedValues == null))
-                {
-                    this.mAssertBranchesandProjectsLinkExpectedValues = new AssertBranchesandProjectsLinkExpectedValues();
-                }
-                return this.mAssertBranchesandProjectsLinkExpectedValues;
-            }
-        }
-        
         public UINewtabInternetExplorWindow UINewtabInternetExplorWindow
         {
             get
@@ -536,6 +485,8 @@ namespace ProjectMoneyFlow.Test
         #endregion
         
         #region Fields
+        private AssertBranchesandProjectsLinkExpectedValues mAssertBranchesandProjectsLinkExpectedValues;
+        
         private AssertContentMenuButtonExpectedValues mAssertContentMenuButtonExpectedValues;
         
         private AssertIndividualProjectExpectedValues mAssertIndividualProjectExpectedValues;
@@ -548,8 +499,6 @@ namespace ProjectMoneyFlow.Test
         
         private AssertProgramsLink_ContentMenuExpectedValues mAssertProgramsLink_ContentMenuExpectedValues;
         
-        private LogintoQAParams mLogintoQAParams;
-        
         private RefreshAllProgramsPageParams mRefreshAllProgramsPageParams;
         
         private RefreshIndividualProgramPageParams mRefreshIndividualProgramPageParams;
@@ -558,9 +507,27 @@ namespace ProjectMoneyFlow.Test
         
         private RefreshProjectOverviewPageParams mRefreshProjectOverviewPageParams;
         
-        private AssertBranchesandProjectsLinkExpectedValues mAssertBranchesandProjectsLinkExpectedValues;
-        
         private UINewtabInternetExplorWindow mUINewtabInternetExplorWindow;
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertBranchesandProjectsLink'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertBranchesandProjectsLinkExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Sub-Programs & Projects' link contains 'Sub-Programs & Projects'
+        /// </summary>
+        public string UISubProgramsProjectsHyperlinkInnerText = "Sub-Programs & Projects";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of 'Sub-Programs & Projects' link contains 'Hyperlink'
+        /// </summary>
+        public string UISubProgramsProjectsHyperlinkControlType = "Hyperlink";
         #endregion
     }
     
@@ -700,41 +667,6 @@ Description
     }
     
     /// <summary>
-    /// Parameters to be passed into 'LogintoQA'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class LogintoQAParams
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Go to web page 'about:Tabs' using new browser instance
-        /// </summary>
-        public string UINewtabInternetExplorWindowUrl = "about:Tabs";
-        
-        /// <summary>
-        /// Type 'https://eca-kmt-qa.azurewebsites.net/' in text box
-        /// </summary>
-        public string UIItemEditSendKeys = "https://eca-kmt-qa.azurewebsites.net/";
-        
-        /// <summary>
-        /// Type 'ECATest1@statedept.us' in 'User account' text box
-        /// </summary>
-        public string UIUseraccountEditText = "ECATest1@statedept.us";
-        
-        /// <summary>
-        /// Type '{Tab}' in 'User account' text box
-        /// </summary>
-        public string UIUseraccountEditSendKeys = "{Tab}";
-        
-        /// <summary>
-        /// Type '********' in 'Password' text box
-        /// </summary>
-        public string UIPasswordEditPassword = "pnl8gvcmh7nq2IDxDyIPucvLUfiP5WCkCWyYApPZam4=";
-        #endregion
-    }
-    
-    /// <summary>
     /// Parameters to be passed into 'RefreshAllProgramsPage'
     /// </summary>
     [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
@@ -791,26 +723,6 @@ Description
         /// Type '{F5}' in 'https://eca-kmt-qa.azurewebsites.net/#/offices/103...' document
         /// </summary>
         public string UIHttpsecakmtqaazureweDocument5SendKeys = "{F5}";
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'AssertBranchesandProjectsLink'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class AssertBranchesandProjectsLinkExpectedValues
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Verify that the 'InnerText' property of 'Sub-Programs & Projects' link contains 'Sub-Programs & Projects'
-        /// </summary>
-        public string UISubProgramsProjectsHyperlinkInnerText = "Sub-Programs & Projects";
-        
-        /// <summary>
-        /// Verify that the 'ControlType' property of 'Sub-Programs & Projects' link contains 'Hyperlink'
-        /// </summary>
-        public string UISubProgramsProjectsHyperlinkControlType = "Hyperlink";
         #endregion
     }
     

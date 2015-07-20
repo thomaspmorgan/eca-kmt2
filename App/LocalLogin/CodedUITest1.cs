@@ -10,29 +10,22 @@ using Microsoft.VisualStudio.TestTools.UITest.Extension;
 using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
 
 
-namespace Login.Test
+namespace LocalLogin
 {
     /// <summary>
-    /// Simple login to the QA site with the ECAState creds
+    /// Summary description for CodedUITest1
     /// </summary>
     [CodedUITest]
-    public partial class LoginCodedUITest1
+    public class CodedUITest1
     {
-        public LoginCodedUITest1()
+        public CodedUITest1()
         {
         }
 
         [TestMethod]
-        public void LoginCodedUITestMethod1()
+        public void CodedUITestMethod1()
         {
-
-
-            // loginQA will take you to the homepage of QA. Add more depth after UIMap.LoginQA
-            var IsUsernameCached = this.UIMap.IsUsernameCached();
-            if (IsUsernameCached) {this.UIMap.LogintoQA_ExistingUser();}
-            else { this.UIMap.LoginQA(); }
-          
-
+            // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
         }
 
         #region Additional test attributes
@@ -43,21 +36,21 @@ namespace Login.Test
         //[TestInitialize()]
         //public void MyTestInitialize()
         //{        
-        //    // Add here
+        //    // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
         //}
 
         ////Use TestCleanup to run code after each test has run
         //[TestCleanup()]
         //public void MyTestCleanup()
         //{        
-        //    // Add here
+        //    // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
         //}
 
         #endregion
 
         /// <summary>
-        ///
-        ///Verify the login to QA
+        ///Gets or sets the test context which provides
+        ///information about and functionality for the current test run.
         ///</summary>
         public TestContext TestContext
         {
@@ -71,20 +64,5 @@ namespace Login.Test
             }
         }
         private TestContext testContextInstance;
-
-        public UIMap UIMap
-        {
-            get
-            {
-                if ((this.map == null))
-                {
-                    this.map = new UIMap();
-                }
-
-                return this.map;
-            }
-        }
-
-        private UIMap map;
     }
 }
