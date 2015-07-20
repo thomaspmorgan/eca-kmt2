@@ -15,6 +15,7 @@ using ECA.Business.Service.Lookup;
 using System.Diagnostics;
 using NLog;
 using ECA.Core.Exceptions;
+using ECA.Business.Validation;
 
 namespace ECA.Business.Service.Admin
 {
@@ -26,15 +27,19 @@ namespace ECA.Business.Service.Admin
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<int, object, Type> throwIfEntityNotFound;
         private readonly Action<int, Location, string> throwIfLocationNotFound;
+        private readonly IBusinessValidator<EcaAddressValidationEntity, EcaAddressValidationEntity> addressValidator;
 
         /// <summary>
         /// Creates a new location service with the context to operate against.
         /// </summary>
         /// <param name="context">The context.</param>
-        public LocationService(EcaContext context)
+        /// <param name="addressValidator">The address create and update validator.</param>
+        public LocationService(EcaContext context, IBusinessValidator<EcaAddressValidationEntity, EcaAddressValidationEntity> addressValidator)
             : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(addressValidator != null, "The address validator must not be null.");
+            this.addressValidator = addressValidator;
             throwIfEntityNotFound = (id, instance, t) =>
             {
                 if (instance == null)
@@ -171,6 +176,7 @@ namespace ECA.Business.Service.Admin
             where T : class, IAddressable
         {
             logger.Info("Adding an additional address to the [{0}] entity with id [{1}].", typeof(T).Name, additionalAddress.GetAddressableEntityId());
+            addressValidator.ValidateCreate(ToEcaAddressValidationEntity(additionalAddress));
             var address = additionalAddress.AddAddress(entity);
             Context.Addresses.Add(address);
             Context.Locations.Add(address.Location);
@@ -230,6 +236,7 @@ namespace ECA.Business.Service.Admin
             Contract.Requires(location != null, "The location must not be null.");
             Contract.Requires(address != null, "The address must not be null.");
             logger.Info("Updating the address with id [{0}].", updatedAddress.AddressId);
+            addressValidator.ValidateUpdate(ToEcaAddressValidationEntity(updatedAddress));
             location.CityId = updatedAddress.CityId;
             location.CountryId = updatedAddress.CountryId;
             location.DivisionId = updatedAddress.DivisionId;
@@ -243,6 +250,11 @@ namespace ECA.Business.Service.Admin
             address.DisplayName = updatedAddress.AddressDisplayName;
             updatedAddress.Update.SetHistory(location);
             updatedAddress.Update.SetHistory(address);
+        }
+
+        private EcaAddressValidationEntity ToEcaAddressValidationEntity(EcaAddress address)
+        {
+            return new EcaAddressValidationEntity(addressDisplayName: address.AddressDisplayName, addressTypeId: address.AddressTypeId);
         }
         #endregion
     }

@@ -143,6 +143,7 @@
     <Compile Include="Service\Admin\AdditionalPersonAddress.cs" />
     <Compile Include="Service\Admin\DraftMoneyFlow.cs" />
     <Compile Include="Service\Admin\EcaAddress.cs" />
+    <Compile Include="Service\Admin\EcaAddressValidationEntity.cs" />
     <Compile Include="Service\Admin\EcaMoneyFlow.cs" />
     <Compile Include="Service\Admin\EcaOrganization.cs" />
     <Compile Include="Service\Admin\IMaritalStatusService.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Service\Admin\IJustificationObjectiveService.cs" />
     <Compile Include="Service\Admin\IFocusCategoryService.cs" />
     <Compile Include="Service\Admin\IGenderService.cs" />
+    <Compile Include="Service\Admin\LocationServiceAddressValidator.cs" />
     <Compile Include="Service\Admin\OrganizationServiceValidator.cs" />
     <Compile Include="Service\Admin\UpdatedEcaAddress.cs" />
     <Compile Include="Service\Admin\UpdateOrganizationValidationEntity.cs" />

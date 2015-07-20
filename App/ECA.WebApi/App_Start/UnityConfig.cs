@@ -120,6 +120,9 @@ namespace ECA.WebApi
             container.RegisterType<
                 IBusinessValidator<Object, UpdateOrganizationValidationEntity>,
                 OrganizationServiceValidator>();
+            container.RegisterType<
+                IBusinessValidator<EcaAddressValidationEntity, EcaAddressValidationEntity>,
+                LocationServiceAddressValidator>();
         }
 
         public static void RegisterSecurityConcerns(IUnityContainer container)

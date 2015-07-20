@@ -17,6 +17,8 @@ using System.Collections.Generic;
 using Microsoft.QualityTools.Testing.Fakes;
 using ECA.Business.Service;
 using ECA.Core.Exceptions;
+using ECA.Business.Validation;
+using Moq;
 
 namespace ECA.Business.Test.Service.Programs
 {
@@ -25,12 +27,14 @@ namespace ECA.Business.Test.Service.Programs
     {
         private TestEcaContext context;
         private LocationService service;
+        private Mock<IBusinessValidator<EcaAddressValidationEntity, EcaAddressValidationEntity>> addressValidator;
 
         [TestInitialize]
         public void TestInit()
         {
+            addressValidator = new Mock<IBusinessValidator<EcaAddressValidationEntity, EcaAddressValidationEntity>>();
             context = new TestEcaContext();
-            service = new LocationService(context);
+            service = new LocationService(context, addressValidator.Object);
         }
 
         [TestCleanup]
@@ -560,11 +564,13 @@ namespace ECA.Business.Test.Service.Programs
                 beforeTester();
                 service.Create<Organization>(instance);
                 afterTester();
+                addressValidator.Verify(x => x.ValidateCreate(It.IsAny<EcaAddressValidationEntity>()), Times.Once());
 
                 context.Revert();
                 beforeTester();
                 await service.CreateAsync<Organization>(instance);
                 afterTester();
+                addressValidator.Verify(x => x.ValidateCreate(It.IsAny<EcaAddressValidationEntity>()), Times.Exactly(2));
             }
         }
 
@@ -831,7 +837,6 @@ namespace ECA.Business.Test.Service.Programs
             }
         }
 
-
         [TestMethod]
         public async Task TestUpdate()
         {
@@ -973,14 +978,15 @@ namespace ECA.Business.Test.Service.Programs
                 context.Locations.Add(addressLocation);
                 context.Addresses.Add(address);
             });
-            //need to make sure country, city, region, division etc all exist
             context.Revert();
             service.Update(instance);
             tester();
+            addressValidator.Verify(x => x.ValidateUpdate(It.IsAny<EcaAddressValidationEntity>()), Times.Once());
 
             context.Revert();
             await service.UpdateAsync(instance);
             tester();
+            addressValidator.Verify(x => x.ValidateUpdate(It.IsAny<EcaAddressValidationEntity>()), Times.Exactly(2));
         }
 
         [TestMethod]

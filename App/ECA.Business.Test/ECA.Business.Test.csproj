@@ -99,6 +99,7 @@
     <Compile Include="Service\Admin\AdditionalOrganizationAddressTest.cs" />
     <Compile Include="Service\Admin\EcaAddressTest.cs" />
     <Compile Include="Service\Admin\EcaOrganizationTest.cs" />
+    <Compile Include="Service\Admin\LocationServiceAddressValidatorTest.cs" />
     <Compile Include="Service\Admin\MoneyFlowServiceCreateValidationEntityTest.cs" />
     <Compile Include="Service\Admin\MoneyFlowServiceUpdateValidationEntityTest.cs" />
     <Compile Include="Service\Admin\MoneyFlowServiceValidatorTest.cs" />
