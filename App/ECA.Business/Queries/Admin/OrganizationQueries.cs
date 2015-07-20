@@ -113,7 +113,7 @@ namespace ECA.Business.Queries.Admin
                                             Street1 = location.Street1,
                                             Street2 = location.Street2,
                                             Street3 = location.Street3,                            
-                                        }),
+                                        }).OrderBy(a => a.AddressDisplayName),
                             Name = org.Name,
                             OrganizationId = org.OrganizationId,
                             OrganizationType = orgType.OrganizationTypeName,

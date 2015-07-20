@@ -13,13 +13,8 @@ angular.module('staticApp')
         $stateParams,
         $q,
         $log,
-        LookupService,
-        AddressService,
-        ConstantsService,
-        LocationService,
-        OrganizationService,
-        PersonService,
-        NotificationService) {
+        ConstantsService
+        ) {
 
       $scope.view = {};
       $scope.view.params = $stateParams;
@@ -30,10 +25,21 @@ angular.module('staticApp')
           console.assert(entityAddresses instanceof Array, 'The entity address is defined but must be an array.');
           var newAddress = {
               Id: entityId,
-              addressableType: addressableType
+              addressableType: addressableType,
+              addressDisplayName: 'New Address'
           };
           entityAddresses.splice(0, 0, newAddress);
           $scope.view.collapseAddresses = false;
       }
+
+      $scope.$on(ConstantsService.removeNewAddressEventName, function (event, newAddress) {
+          console.assert($scope.addressable, 'The scope addressable property must exist.  It should be set by the directive.');
+          console.assert($scope.addressable.addresses instanceof Array, 'The entity address is defined but must be an array.');
+
+          var addresses = $scope.addressable.addresses;
+          var index = addresses.indexOf(newAddress);          
+          var removedItems = addresses.splice(index, 1);
+          $log.info('Removed one new address at index ' + index);
+      });
 
   });

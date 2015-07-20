@@ -13,6 +13,7 @@ angular.module('staticApp')
         $stateParams,
         $q,
         $log,
+        smoothScroll,
         LookupService,
         AddressService,
         ConstantsService,
@@ -32,6 +33,7 @@ angular.module('staticApp')
       $scope.view.isLoadingRequiredData = false;
       $scope.view.searchLimit = 10;
       $scope.view.autopopulateOnCitySelect = true;
+      $scope.view.collapseAddress = true;
       var originalAddress = angular.copy($scope.address);
 
       var addressableTypeToServiceMapping = {
@@ -74,9 +76,15 @@ angular.module('staticApp')
 
       $scope.view.cancelAddressChanges = function () {
           $scope.view.showEditAddress = false;
+          $scope.view.collapseAddress = true;
           $scope.form.addressForm.$setPristine();
           $scope.form.addressForm.$setUntouched();
-          $scope.address = angular.copy(originalAddress);
+          if (isNewAddress($scope.address)) {
+              $scope.$emit(ConstantsService.removeNewAddressEventName, $scope.address);
+          }
+          else {
+              $scope.address = angular.copy(originalAddress);
+          }
       };
 
       $scope.view.onSelectCity = function ($item, $model, $label) {
@@ -104,16 +112,6 @@ angular.module('staticApp')
           $scope.address.countryId = $item.id;
       }
 
-      //$scope.view.onAddressClick = function (addressableType, entityAddresses, entityId) {
-      //    console.assert(entityAddresses, 'The entity addresses is not defined.');
-      //    console.assert(entityAddresses instanceof Array, 'The entity address is defined but must be an array.');
-      //    var newAddress = {
-      //        Id: entityId,
-      //        addressableType: addressableType
-      //    };
-      //    entityAddresses.splice(0, 0, newAddress);          
-      //}
-
       $scope.view.onSelectCityBlur = function ($event) {
           if ($scope.address.city === '') {
               delete $scope.address.cityId;
@@ -134,6 +132,22 @@ angular.module('staticApp')
               delete $scope.address.country;
           }
       };
+
+      $scope.view.onEditAddressClick = function () {
+          $scope.view.showEditAddress = true;
+          $scope.view.collapseAddress = false;
+          var id = 'addressForm' + $scope.address.addressId;
+          var options = {
+              duration: 700,
+              easing: 'easeIn',
+              offset: 150,
+              callbackBefore: function (element) {},
+              callbackAfter: function (element) { }
+          }
+          smoothScroll(document.getElementById(id), options);
+      };
+
+      
 
       function onSaveAddressSuccess(response) {
           $scope.address = response.data;

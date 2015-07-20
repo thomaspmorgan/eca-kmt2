@@ -35,18 +35,6 @@
                         <a href="{{organization.website}}" target="_blank">{{organization.website}}</a>
                     </div>
                 </div>
-
-
-                <div class="row">
-                    <div class="col-md-6 title-label">Addresses</div>
-                    <div>
-                        <addresses model="organization" modelid="organization.organizationId" modeltype="'organization'" />
-                    </div>
-                </div>
-
-
-
-
                 <div class="row">
                     <div class="col-md-6 title-label">Type</div>
                     <div class="col-md-6">{{organization.organizationType}}</div>
@@ -69,42 +57,21 @@
                         </ul>
                     </div>
                 </div>
-
-
-                <div class="row">
-                    <div class="col-md-6 title-label">Addresses</div>
-                    <div>
-                        <addresses model="organization" modelid="organization.organizationId" modeltype="'organization'" />
-                    </div>
-                </div>
-
-
-
-            </div>
-            
+            </div>            
             <div class="col-md-6">
                 <div class="row" ng-show="organization.parentOrganizationId">
                     <div class="col-md-6 title-label">Parent Organization</div>
                     <div class="col-md-6"><a ui-sref="organizations.overview({organizationId: organization.parentOrganizationId})">{{organization.parentOrganizationName}}</a></div>
                 </div>
             </div>
-
-
-
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-6 title-label">Addresses</div>
                     <div>
-                        <addresses model="organization" modelid="organization.organizationId" modeltype="'organization'" />
-                        
+                        <addresses model="organization" modelid="organization.organizationId" modeltype="'organization'" />                        
                     </div>
                 </div>
             </div>
-            
-
-
-            
-
         </div>
     </div>
 

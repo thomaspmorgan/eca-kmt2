@@ -51,16 +51,6 @@
     <PublishProfile Include="Profiles\ECAApi Prod.azurePubxml" />
     <PublishProfile Include="Profiles\ECAApi Staging.azurePubxml" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ECA.WebApi\ECA.WebApi.csproj">
-      <Name>ECA.WebApi</Name>
-      <Project>{72993aaf-4c9f-4ea3-a3cb-263d20c32de0}</Project>
-      <Private>True</Private>
-      <RoleType>Web</RoleType>
-      <RoleName>ECA.WebApi</RoleName>
-      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
-    </ProjectReference>
-  </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>
     <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>

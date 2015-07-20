@@ -24,7 +24,8 @@ angular
     'ui.select',
     'ui.date',
     'toaster',
-    'ngAnimate'
+    'ngAnimate',
+    'smoothScroll'
   ])
   .config(function ($stateProvider, $httpProvider, $urlRouterProvider, adalAuthenticationServiceProvider) {
 
