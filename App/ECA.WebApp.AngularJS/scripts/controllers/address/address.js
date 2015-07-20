@@ -61,7 +61,7 @@ angular.module('staticApp')
               var addressableType = $scope.address.addressableType;
               console.assert(addressableTypeToServiceMapping[addressableType], 'The mapping must contain a value for the addressable type [' + addressableType + '].');
               var service = addressableTypeToServiceMapping[addressableType];
-              console.assert(service.addAddress, 'The service must have an addAddress method defined.');
+              console.assert(service.addAddress, 'The service for the addressable type [' + $scope.address.addressableType + '] must have an addAddress method defined.');
               console.assert(typeof service.addAddress === 'function', 'The service addAddress property must be a function.');
 
               var tempId = angular.copy($scope.address.addressId);

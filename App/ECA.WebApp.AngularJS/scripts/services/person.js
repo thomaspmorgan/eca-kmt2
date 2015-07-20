@@ -59,7 +59,7 @@ angular.module('staticApp')
                 })
               return defer.promise;
           },
-          getPersonById: function(id) {
+          getPersonById: function (id) {
               var defer = $q.defer();
               DragonBreath.get('/person/' + id)
                 .success(function (data) {
@@ -67,7 +67,7 @@ angular.module('staticApp')
                 })
               return defer.promise;
           },
-          getPeople: function(params) {
+          getPeople: function (params) {
               return DragonBreath.get(params, 'people');
           },
           updatePii: function (pii, id) {
@@ -75,6 +75,9 @@ angular.module('staticApp')
           },
           create: function (person) {
               return DragonBreath.create(person, 'people');
+          },
+          addAddress: function (address) {
+              return DragonBreath.create(address, 'people/address');
           }
       };
   });

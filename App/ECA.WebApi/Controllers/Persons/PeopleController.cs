@@ -17,6 +17,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using ECA.Data;
+using ECA.Business.Queries.Models.Admin;
+using ECA.WebApi.Models.Admin;
 
 namespace ECA.WebApi.Controllers.Persons
 {
@@ -31,16 +33,20 @@ namespace ECA.WebApi.Controllers.Persons
 
         private IPersonService service;
         private IUserProvider userProvider;
+        private IAddressModelHandler addressHandler;
 
         /// <summary>
         /// Constructor 
         /// </summary>
         /// <param name="service">The service to inject</param>
         /// <param name="userProvider">The user provider.</param>
-        public PeopleController(IPersonService service, IUserProvider userProvider)
+        /// <param name="addressHandler">The address handler.</param>
+        public PeopleController(IPersonService service, IUserProvider userProvider, IAddressModelHandler addressHandler)
         {
             Contract.Requires(service != null, "The participant service must not be null.");
             Contract.Requires(userProvider != null, "The user provider must not be null.");
+            Contract.Requires(addressHandler != null, "The address handler must not be null.");
+            this.addressHandler = addressHandler;
             this.service = service;
             this.userProvider = userProvider;
         }
@@ -247,6 +253,18 @@ namespace ECA.WebApi.Controllers.Persons
             {
                 return BadRequest(ModelState);
             }
+        }
+
+        /// <summary>
+        /// Adds a new address to the organization.
+        /// </summary>
+        /// <param name="model">The new address.</param>
+        /// <returns>The saved address.</returns>
+        [Route("People/Address")]
+        [ResponseType(typeof(AddressDTO))]
+        public Task<IHttpActionResult> PostAddressAsync([FromBody]PersonAddressBindingModel model)
+        {
+            return addressHandler.HandleAdditionalAddress<Person>(model, this);
         }
     }
 }
