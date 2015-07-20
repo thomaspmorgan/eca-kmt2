@@ -45,6 +45,14 @@ angular.module('staticApp')
           getCountryAwards: function(programId)
           {
               return "report/CountryAwards?programId=" + programId;
+          },
+          getObjectiveAwards: function(programId, objectiveId)
+          {
+              return "report/ObjectiveAwards?programId=" + programId + "&objectiveId=" + objectiveId;
+          },
+          getYearAwards: function(programId)
+          {
+            return "report/YearAwards?programId=" + programId;
           }
       };
   });

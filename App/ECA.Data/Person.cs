@@ -12,7 +12,7 @@ namespace ECA.Data
     /// <summary>
     /// A person is someone who has applied to, is participating in, or has completed an ECA project.
     /// </summary>
-    public class Person : IHistorical
+    public class Person : IHistorical, IAddressable
     {
         /// <summary>
         /// Gets the max length of the first name.
@@ -75,12 +75,13 @@ namespace ECA.Data
             ExternalIds = new HashSet<ExternalId>();
             SocialMedias = new HashSet<SocialMedia>();
             Addresses = new HashSet<Address>();
-            Events = new HashSet<Event>();
+            Activities = new HashSet<Activity>();
             EvaluationNotes = new HashSet<PersonEvaluationNote>();
             Family = new HashSet<Person>();
             OtherFamily = new HashSet<Person>();
             Impacts = new HashSet<Impact>();
             History = new History();
+            Participations = new HashSet<Participant>();
         }
 
         [Key]
@@ -168,16 +169,22 @@ namespace ECA.Data
         public ICollection<ExternalId> ExternalIds { get; set; }
         public ICollection<SocialMedia> SocialMedias { get; set; }
         public ICollection<Address> Addresses { get; set; }
-        public ICollection<Event> Events { get; set; }
+        public ICollection<Activity> Activities { get; set; }
         public ICollection<PersonEvaluationNote> EvaluationNotes { get; set; }
         public ICollection<Person> Family { get; set; }
         public ICollection<Person> OtherFamily { get; set; }
         public ICollection<Impact> Impacts { get; set; }
+        public ICollection<Participant> Participations { get; set; }
         public int? MaritalStatusId { get; set; }
         public MaritalStatus MaritalStatus { get; set; }
 
         public History History { get; set; }
 
+
+        public int GetId()
+        {
+            return this.PersonId;
+        }
     }
 
 }

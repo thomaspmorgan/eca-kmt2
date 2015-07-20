@@ -21,6 +21,8 @@ namespace ECA.Data.Configuration
 
             HasKey(x => x.LocationId);
 
+            HasRequired(x => x.LocationType).WithMany().HasForeignKey(x => x.LocationTypeId).WillCascadeOnDelete(false);
+
             HasOptional(x => x.Country).WithMany().HasForeignKey(x => x.CountryId).WillCascadeOnDelete(false);
             Property(x => x.CountryId).HasColumnName("Country_LocationId");
 
@@ -34,6 +36,10 @@ namespace ECA.Data.Configuration
             Property(x => x.DivisionId).HasColumnName("Division_LocationId");
 
             Property(x => x.LocationIso2).HasColumnName("LocationISO-2");
+            Property(x => x.Street1).IsOptional().HasMaxLength(Location.STREET_MAX_LENGTH);
+            Property(x => x.Street2).IsOptional().HasMaxLength(Location.STREET_MAX_LENGTH);
+            Property(x => x.Street3).IsOptional().HasMaxLength(Location.STREET_MAX_LENGTH);
+            Property(x => x.PostalCode).IsOptional().HasMaxLength(Location.POSTAL_CODE_MAX_LENGTH);
         }
     }
 }

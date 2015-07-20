@@ -123,5 +123,14 @@ namespace ECA.Business.Service.Persons
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The paged, sorted, and filtered people in the system.</returns>
         Task<PagedQueryResults<SimplePersonDTO>> GetPeopleAsync(QueryableOperator<SimplePersonDTO> queryOperator);
+
+        /// <summary>
+        /// Returns a Person object
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <returns></returns>
+        Task<Person> GetPersonByIdAsync(int personId);
+
+        Task<SimplePersonDTO> GetSimplePersonAsync(int personId);
     }
 }

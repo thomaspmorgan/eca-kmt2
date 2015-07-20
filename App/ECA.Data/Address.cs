@@ -12,19 +12,26 @@ namespace ECA.Data
     /// <summary>
     /// An address is a physical address associated with an organization or person
     /// </summary>
-    public class Address
+    public class Address : IHistorical
     {
-        [Key]
+        /// <summary>
+        /// The max length of the address display name.
+        /// </summary>
+        public const int ADDRESS_DISPLAY_NAME_MAX_LENGTH = 300;
+
+        public Address()
+        {
+            this.History = new History();
+        }
+
         public int AddressId { get; set; }
-        [Required]
         public int AddressTypeId { get; set; }
-        [Required]
         public virtual AddressType AddressType { get; set; }
-        [Required]
         public int LocationId { get; set; }
-        [Required]
         public virtual Location Location { get; set; }
+
         [Required]
+        [MaxLength(ADDRESS_DISPLAY_NAME_MAX_LENGTH)]
         public string DisplayName { get; set; }
 
         // relationships

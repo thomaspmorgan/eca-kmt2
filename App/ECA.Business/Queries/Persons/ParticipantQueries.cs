@@ -150,8 +150,6 @@ namespace ECA.Business.Queries.Persons
                             ParticipantTypeId = participantType.ParticipantTypeId,
                             PersonId = person.PersonId,
                             ProjectId = participant.ProjectId,
-                            SevisId = participant.SevisId,
-                            ContactAgreement = participant.ContactAgreement,
                             Status = participant.Status.Status,
                             StatusDate = participant.StatusDate,
                             RevisedOn = participant.History.RevisedOn

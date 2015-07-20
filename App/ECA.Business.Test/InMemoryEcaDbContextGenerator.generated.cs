@@ -162,34 +162,34 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.EmailAddress>(this.SingleOrDefault(x => x.EmailAddressId.Equals(keyValues.First())));
 		}
 	}
-	public class EventTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Event>
+    public class ActivityTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Activity>
 	{
-		public override ECA.Data.Event Find(params object[] keyValues)
+        public override ECA.Data.Activity Find(params object[] keyValues)
 		{
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
 			///EventId
-			return this.SingleOrDefault(x => x.EventId.Equals(keyValues.First()));
+            return this.SingleOrDefault(x => x.ActivityId.Equals(keyValues.First()));
 		}
-		public override Task<ECA.Data.Event> FindAsync(params object[] keyValues)
+        public override Task<ECA.Data.Activity> FindAsync(params object[] keyValues)
 		{
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
 			///EventId
-			return Task.FromResult<ECA.Data.Event>(this.SingleOrDefault(x => x.EventId.Equals(keyValues.First())));
+            return Task.FromResult<ECA.Data.Activity>(this.SingleOrDefault(x => x.ActivityId.Equals(keyValues.First())));
 		}
 	}
-	public class EventTypeTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.EventType>
+    public class ActivityTypeTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ActivityType>
 	{
-		public override ECA.Data.EventType Find(params object[] keyValues)
+        public override ECA.Data.ActivityType Find(params object[] keyValues)
 		{
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
 			///EventTypeId
-			return this.SingleOrDefault(x => x.EventTypeId.Equals(keyValues.First()));
+            return this.SingleOrDefault(x => x.ActivityTypeId.Equals(keyValues.First()));
 		}
-		public override Task<ECA.Data.EventType> FindAsync(params object[] keyValues)
+        public override Task<ECA.Data.ActivityType> FindAsync(params object[] keyValues)
 		{
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
 			///EventTypeId
-			return Task.FromResult<ECA.Data.EventType>(this.SingleOrDefault(x => x.EventTypeId.Equals(keyValues.First())));
+            return Task.FromResult<ECA.Data.ActivityType>(this.SingleOrDefault(x => x.ActivityTypeId.Equals(keyValues.First())));
 		}
 	}
 	public class ExternalIdTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ExternalId>
@@ -902,8 +902,8 @@ namespace ECA.Business.Test
 			this.Contacts = new ContactTestDbSet();
 			this.Courses = new CourseTestDbSet();
 			this.EmailAddresses = new EmailAddressTestDbSet();
-			this.Events = new EventTestDbSet();
-			this.EventTypes = new EventTypeTestDbSet();
+            this.Activities = new ActivityTestDbSet();
+            this.ActivityTypes = new ActivityTypeTestDbSet();
 			this.ExternalIds = new ExternalIdTestDbSet();
 			this.Foci = new FocusTestDbSet();
 			this.Genders = new GenderTestDbSet();

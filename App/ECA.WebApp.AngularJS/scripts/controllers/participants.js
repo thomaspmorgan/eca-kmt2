@@ -97,16 +97,27 @@ angular.module('staticApp')
           return null;
       };
 
-    ParticipantService.getParticipantById($stateParams.participantId)
+    //ParticipantService.getParticipantById($stateParams.participantId)
+    //  .then(function (data) {
+    //      $scope.participant = data;
+    //      loadPii(data.personId);
+    //      $scope.personIdDeferred.resolve(data.personId);
+    //      PersonService.getContactInfoById(data.personId)
+    //        .then(function (data) {
+    //            $scope.contactInfo = data;
+    //        });
+    //  });
+
+    PersonService.getPersonById($stateParams.personId)
       .then(function (data) {
-          $scope.participant = data;
+          $scope.person = data;
           loadPii(data.personId);
           $scope.personIdDeferred.resolve(data.personId);
           PersonService.getContactInfoById(data.personId)
             .then(function (data) {
                 $scope.contactInfo = data;
-            });
-      });
+            })
+      })
 
     function loadPii(personId) {
         PersonService.getPiiById(personId)
@@ -157,16 +168,16 @@ angular.module('staticApp')
 
     $scope.cancelEditPii = function () {
         $scope.editPii = false;
-        loadPii($scope.participant.personId);
+        loadPii($scope.person.personId);
     };
 
     $scope.saveEditPii = function () {
         setupPii();
-        PersonService.updatePii($scope.pii, $scope.participant.personId)
+        PersonService.updatePii($scope.pii, $scope.person.personId)
             .then(function () {
                 NotificationService.showSuccessMessage("The edit was successful.");
                 $scope.editPii = false;
-                loadPii($scope.participant.personId);
+                loadPii($scope.person.personId);
             }, 
             function (error) {
                 if (error.status == 400) {
@@ -187,12 +198,12 @@ angular.module('staticApp')
     };
 
     function setupPii() {
-        $scope.pii.personId = $scope.participant.personId;
-        $scope.pii.participantId = $scope.participant.participantId;
+        $scope.pii.personId = $scope.person.personId;
+        //$scope.pii.participantId = $scope.participant.participantId;
         $scope.pii.countriesOfCitizenship = $scope.selectedCountriesOfCitizenship.map(function (obj) {
             return obj.id;
         });
-        $scope.pii.sevisId = $scope.participant.sevisId;
+        //$scope.pii.sevisId = $scope.participant.sevisId;
     };
 
     $scope.openDatePicker = function ($event) {

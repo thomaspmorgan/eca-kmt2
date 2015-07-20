@@ -49,16 +49,17 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="FluentAssertions, Version=3.4.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+    <Reference Include="FluentAssertions, Version=3.4.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\FluentAssertions.3.4.0\lib\net45\FluentAssertions.dll</HintPath>
+      <HintPath>..\packages\FluentAssertions.3.4.1\lib\net45\FluentAssertions.dll</HintPath>
     </Reference>
-    <Reference Include="FluentAssertions.Core, Version=3.4.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+    <Reference Include="FluentAssertions.Core, Version=3.4.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\FluentAssertions.3.4.0\lib\net45\FluentAssertions.Core.dll</HintPath>
+      <HintPath>..\packages\FluentAssertions.3.4.1\lib\net45\FluentAssertions.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Moq">
-      <HintPath>..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
+    <Reference Include="Moq, Version=4.2.1507.118, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Moq.4.2.1507.0118\lib\net40\Moq.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -94,12 +95,13 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ContextUtil.cs" />
+    <Compile Include="Controllers\Admin\AddressesControllerTest.cs" />
     <Compile Include="Controllers\Admin\FocusControllerTest.cs" />
     <Compile Include="Controllers\Admin\GendersControllerTest.cs" />
     <Compile Include="Controllers\Admin\GoalsControllerTest.cs" />
     <Compile Include="Controllers\Admin\OfficesControllerTest.cs" />
     <Compile Include="Controllers\Admin\ParticipantTypesControllerTest.cs" />
-    <Compile Include="Controllers\Admin\ThemesControllerTest.cs" />
+    <Compile Include="Controllers\Admin\LocationsControllerTest.cs" />
     <Compile Include="Controllers\Admin\MoneyFlowsControllerTest.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonsControllerTest.cs" />
     <Compile Include="Controllers\Projects\ProjectStatusControllerTest.cs" />
@@ -120,6 +122,16 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="InMemoryEcaDbContextGenerator.generated.cs">
+      <DependentUpon>InMemoryEcaDbContextGenerator.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Models\Admin\AddressModelHandlerTest.cs" />
+    <Compile Include="Models\Admin\PersonAddressBindingModelTest.cs" />
+    <Compile Include="Models\Admin\OrganizationAddressBindingModelTest.cs" />
+    <Compile Include="Models\Admin\UpdatedAddressBindingModelTest.cs" />
+    <Compile Include="Models\Admin\UpdatedOrganizationBindingModelTest.cs" />
     <Compile Include="Models\Programs\ProgramBindingModelTest.cs" />
     <Compile Include="Models\Programs\DraftProgramBindingModelTest.cs" />
     <Compile Include="Models\Programs\ProgramViewModelTest.cs" />
@@ -184,6 +196,10 @@
     <None Include="InMemoryCamModelGenerator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>InMemoryCamModelGenerator.generated.cs</LastGenOutput>
+    </None>
+    <None Include="InMemoryEcaDbContextGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>InMemoryEcaDbContextGenerator.generated.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

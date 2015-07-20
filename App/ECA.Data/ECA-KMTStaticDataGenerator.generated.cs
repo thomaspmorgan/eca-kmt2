@@ -770,9 +770,37 @@ namespace ECA.Data
 	public partial class ParticipantStatus : ECA.Core.Generation.IStaticLookup
 	{
 		/// <summary>
+		/// Returns the Alumnus lookup with id 1.
+		/// </summary>
+		public static StaticLookup Alumnus { get { return new StaticLookup("Alumnus", 1); } }
+		/// <summary>
 		/// Returns the Active lookup with id 2.
 		/// </summary>
 		public static StaticLookup Active { get { return new StaticLookup("Active", 2); } }
+		/// <summary>
+		/// Returns the Nominee lookup with id 3.
+		/// </summary>
+		public static StaticLookup Nominee { get { return new StaticLookup("Nominee", 3); } }
+		/// <summary>
+		/// Returns the Applicant lookup with id 4.
+		/// </summary>
+		public static StaticLookup Applicant { get { return new StaticLookup("Applicant", 4); } }
+		/// <summary>
+		/// Returns the Withdrawn lookup with id 5.
+		/// </summary>
+		public static StaticLookup Withdrawn { get { return new StaticLookup("Withdrawn", 5); } }
+		/// <summary>
+		/// Returns the Terminated lookup with id 6.
+		/// </summary>
+		public static StaticLookup Terminated { get { return new StaticLookup("Terminated", 6); } }
+		/// <summary>
+		/// Returns the Rejected lookup with id 7.
+		/// </summary>
+		public static StaticLookup Rejected { get { return new StaticLookup("Rejected", 7); } }
+		/// <summary>
+		/// Returns the Suspended lookup with id 8.
+		/// </summary>
+		public static StaticLookup Suspended { get { return new StaticLookup("Suspended", 8); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -780,7 +808,14 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(int id)
 		{
+			if (1 == id) return ParticipantStatus.Alumnus;
 			if (2 == id) return ParticipantStatus.Active;
+			if (3 == id) return ParticipantStatus.Nominee;
+			if (4 == id) return ParticipantStatus.Applicant;
+			if (5 == id) return ParticipantStatus.Withdrawn;
+			if (6 == id) return ParticipantStatus.Terminated;
+			if (7 == id) return ParticipantStatus.Rejected;
+			if (8 == id) return ParticipantStatus.Suspended;
 			return null;
 		}
 		///<summary>
@@ -790,7 +825,14 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
+			if ("Alumnus".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Alumnus;
 			if ("Active".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Active;
+			if ("Nominee".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Nominee;
+			if ("Applicant".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Applicant;
+			if ("Withdrawn".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Withdrawn;
+			if ("Terminated".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Terminated;
+			if ("Rejected".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Rejected;
+			if ("Suspended".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Suspended;
 			return null;
 		}
 

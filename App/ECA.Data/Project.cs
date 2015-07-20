@@ -85,8 +85,8 @@ namespace ECA.Data
         public ICollection<Project> OtherRelatedProjects { get; set; }
         public ICollection<string> TreatiesAgreementsContracts { get; set; }
         public ICollection<Impact> Impacts { get; set; }
-        public Event Event { get; set; }
-        public int? EventId { get; set; }
+        public Activity Activity { get; set; }
+        public int? ActivityId { get; set; }
         public ICollection<Contact> Contacts { get; set; }
         
         public ICollection<Objective> Objectives { get; set; }
@@ -98,16 +98,7 @@ namespace ECA.Data
         /// Gets or sets the RowVersion.
         /// </summary>
         public byte[] RowVersion { get; set; }
-
-        /// <summary>
-        /// Returns the program id.
-        /// </summary>
-        /// <returns>The program id.</returns>
-        public object GetId()
-        {
-            return this.ProjectId;
-        }
-
+        
         /// <summary>
         /// 
         /// </summary>
@@ -136,7 +127,7 @@ namespace ECA.Data
         /// Returns the project id.
         /// </summary>
         /// <returns>The project id.</returns>
-        int IPermissable.GetId()
+        public int GetId()
         {
             return this.ProjectId;
         }

@@ -24,7 +24,8 @@ angular
     'ui.select',
     'ui.date',
     'toaster',
-    'ngAnimate'
+    'ngAnimate',
+    'smoothScroll'
   ])
   .config(function ($stateProvider, $httpProvider, $urlRouterProvider, adalAuthenticationServiceProvider) {
 
@@ -60,24 +61,24 @@ angular
             requireADLogin: true
         })
 
-        .state('events', {
-            url: '/events',
-            templateUrl: 'views/events/eventList.html',
+        .state('activities', {
+            url: '/activities',
+            templateUrl: 'views/activities/activityList.html',
             requireADLogin: true
         })
-        .state('eventsCreate', {
-            url: '/events/create',
-            templateUrl: 'views/events/eventCreate.html',
+        .state('activitiesCreate', {
+            url: '/activities/create',
+            templateUrl: 'views/activities/activityCreate.html',
             requireADLogin: true
         })
-        .state('eventsTag', {
-            url: '/events/tag',
-            templateUrl: 'views/events/eventTag.html',
+        .state('activitiesTag', {
+            url: '/activities/tag',
+            templateUrl: 'views/activities/activitiyTag.html',
             requireADLogin: true
         })
-        .state('eventsOverview', {
-            url: '/events/overview',
-            templateUrl: 'views/events/eventOverview.html',
+        .state('activitiesOverview', {
+            url: '/activities/overview',
+            templateUrl: 'views/activities/activityOverview.html',
             requireADLogin: true
         })
         .state('forbidden', {
@@ -234,7 +235,7 @@ angular
             requireADLogin: true
         })
         .state('participants', {
-            url: '/participants/:participantId',
+            url: '/participants/:personId',
             templateUrl: 'views/participants.html',
             controller: 'ParticipantCtrl',
             requireADLogin: true
@@ -287,6 +288,7 @@ angular
             url: '/projects',
             templateUrl: 'views/program/projects.html'
         })
+
         .state('programs.activity', {
             url: '/activity',
             templateUrl: 'views/program/activity.html'
@@ -295,20 +297,24 @@ angular
             url: '/artifacts',
             templateUrl: 'views/program/artifacts.html'
         })
+
         .state('programs.impact', {
             url: '/impact',
             templateUrl: 'views/program/impact.html'
         })
+
         .state('programs.collaborators', {
             url: '/collaborators',
             templateUrl: 'views/program/collaborators.html',
             controller: 'ProgramCollaboratorsCtrl'
         })
+
         .state('programs.moneyflows', {
             url: '/moneyflows',
             templateUrl: 'views/program/moneyflows.html',
             controller: 'ProgramMoneyFlowsCtrl'
         })
+
         .state('projects', {
             url: '/offices/:officeId/programs/:programId/project/:projectId',
             templateUrl: 'views/project.html',
@@ -401,6 +407,12 @@ angular
             controller: 'AllParticipantsCtrl',
             requireADLogin: true
         })
+        .state('allpersons', {
+            url: '/allpersons',
+            templateUrl: 'views/participants/allpersons.html',
+            controller: 'AllPersonsCtrl',
+            requireADLogin: true
+        })
         .state('allorganizations', {
             url: '/allorganizations',
             templateUrl: 'views/organizations/allorganizations.html',
@@ -418,13 +430,7 @@ angular
             templateUrl: 'views/organizations/overview.html',
             controller: 'OrganizationOverviewCtrl',
             requireADLogin: true
-        })
-        .state('organizations.edit', {
-            url: '/edit',
-            templateUrl: 'views/organizations/edit.html',
-            controller: 'OrganizationEditCtrl',
-            requireADLogin: true
-        })
+        })        
         .state('organizations.artifacts', {
             url: '/artifacts',
             templateUrl: 'views/organizations/artifacts.html',
@@ -471,9 +477,9 @@ angular
           { name: 'Home', state: 'home.shortcuts' },
           { name: 'Offices', state: 'alloffices' },
           { name: 'Programs', state: 'allprograms' },
-          { name: 'Participants', state: 'allparticipants' },
+          { name: 'Persons', state: 'allpersons' },
           { name: 'Organizations', state: 'allorganizations' },
-          { name: 'Activities', state: 'events' },
+          { name: 'Activities', state: 'activities' },
           { name: 'Reports', state: 'reports.archive' },
           { name: 'Partners', state: 'home.notifications' }
         ];

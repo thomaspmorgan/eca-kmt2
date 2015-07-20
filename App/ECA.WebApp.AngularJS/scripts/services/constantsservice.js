@@ -44,7 +44,9 @@
 			editOffice: {id: 4, value: "Edit Office"},
 			editProgram: {id: 5, value: "Edit Program"},
 			editProject: {id: 7, value: "Edit Project"},
-			projectOwner: {id: 8, value: "Project Owner"}
+			projectOwner: {id: 8, value: "Project Owner"},
+			programOwner: {id: 9, value: "Program Owner"},
+			officeOwner: {id: 10, value: "Office Owner"}
 		},
 		programStatus: {
 			active: {id: 1, value: "Active"},
@@ -98,6 +100,7 @@
 		registeringUserEventName: 'registeringUser',
 		registerUserFailureEventName: 'registerUserFailure',
 		registerUserSuccessEventName: 'registerUserSuccess',
+		removeNewAddressEventName: 'removeNewAddress',
 		saveProjectEventName: 'saveProject',
 		searchDelimiter: ' '
 	};

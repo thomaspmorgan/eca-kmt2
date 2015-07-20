@@ -91,14 +91,14 @@ namespace ECA.Data
         public DbSet<EmailAddress> EmailAddresses { get; set; }
 
         /// <summary>
-        /// Gets or sets the events.
+        /// Gets or sets the activities.
         /// </summary>
-        public DbSet<Event> Events { get; set; }
+        public DbSet<Activity> Activities { get; set; }
 
         /// <summary>
-        /// Gets or sets the event types.
+        /// Gets or sets the acivity types.
         /// </summary>
-        public DbSet<EventType> EventTypes { get; set; }
+        public DbSet<ActivityType> ActivityTypes { get; set; }
 
         /// <summary>
         /// Gets or sets external ids.

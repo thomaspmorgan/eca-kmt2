@@ -125,9 +125,9 @@
     <Build Include="dbo\Tables\Contact.sql" />
     <Build Include="dbo\Tables\Course.sql" />
     <Build Include="dbo\Tables\EmailAddress.sql" />
-    <Build Include="dbo\Tables\Event.sql" />
-    <Build Include="dbo\Tables\EventPerson.sql" />
-    <Build Include="dbo\Tables\EventType.sql" />
+    <Build Include="dbo\Tables\Activity.sql" />
+    <Build Include="dbo\Tables\ActivityPerson.sql" />
+    <Build Include="dbo\Tables\ActivityType.sql" />
     <Build Include="dbo\Tables\ExternalId.sql" />
     <Build Include="dbo\Tables\Gender.sql" />
     <Build Include="dbo\Tables\Goal.sql" />
@@ -193,10 +193,10 @@
     <None Include="Scripts\PostDeploy\StaticData\dbo.AddressType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.ArtifactType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.Country.staticdata.sql" />
-    <None Include="Scripts\PostDeploy\StaticData\dbo.EventType.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\dbo.ActivityType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.ImpactType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.ItineraryStatus.staticdata.sql" />
-    <None Include="Scripts\PostDeploy\StaticData\dbo.LocationType.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\dbo.ParticipantStatus.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.MoneyFlowSourceRecipientType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.MoneyFlowType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.ParticipantType.staticdata.sql" />

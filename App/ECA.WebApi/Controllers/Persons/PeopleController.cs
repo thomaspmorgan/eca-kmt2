@@ -16,6 +16,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using ECA.Data;
 
 namespace ECA.WebApi.Controllers.Persons
 {
@@ -43,6 +44,27 @@ namespace ECA.WebApi.Controllers.Persons
             this.service = service;
             this.userProvider = userProvider;
         }
+
+        /// <summary>
+        /// Returns data associated with person 
+        /// </summary>
+        /// <param name="personId">The person id to find </param>
+        /// <returns>data associated to person</returns>
+        [ResponseType(typeof(SimplePersonDTO))]
+        [Route("Person/{personId:int}")]
+        public async Task<IHttpActionResult> GetPersonByIdAsync(int personId)
+        {
+            var person = await service.GetSimplePersonAsync(personId);
+            if (person != null)
+            {
+                return Ok(person);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
 
         /// <summary>
         /// Returns pii associated with person 

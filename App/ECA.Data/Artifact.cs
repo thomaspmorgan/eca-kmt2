@@ -26,8 +26,8 @@ namespace ECA.Data
         public byte[] Data { get; set; }
 
         //relationships
-        public virtual Event Event { get; set; }
-        public int? EventId { get; set; }
+        public virtual Activity Activity { get; set; }
+        public int? ActivityId { get; set; }
         public virtual Project Project { get; set; }
         public int? ProjectId { get; set; }
         public virtual Program Program { get; set; }

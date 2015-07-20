@@ -1,6 +1,8 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
+using ECA.Core.Service;
+using ECA.Data;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,7 +11,7 @@ namespace ECA.Business.Service.Admin
     /// <summary>
     /// An ILocationService is capable of performing crud operations on a location.
     /// </summary>
-    public interface ILocationService
+    public interface ILocationService : ISaveable
     {
         /// <summary>
         /// Returns a list of locations.
@@ -39,5 +41,49 @@ namespace ECA.Business.Service.Admin
         /// <param name="locationIds">The locations by id.</param>
         /// <returns>The list of location type ids.</returns>
         Task<List<int>> GetLocationTypeIdsAsync(List<int> locationIds);
+        
+        /// <summary>
+        /// Updates an existing address.
+        /// </summary>
+        /// <param name="updatedAddress">The updated address.</param>
+        void Update(UpdatedEcaAddress updatedAddress);
+
+        /// <summary>
+        /// Updates an existing address.
+        /// </summary>
+        /// <param name="updatedAddress">The updated address.</param>
+        Task UpdateAsync(UpdatedEcaAddress updatedAddress);
+
+        /// <summary>
+        /// Creates a new address in the system.
+        /// </summary>
+        /// <typeparam name="T">The type that is IAddressable, such as Organization.</typeparam>
+        /// <param name="additionalAddress">The new address.</param>
+        /// <returns>The address entity.</returns>
+        Address Create<T>(AdditionalAddress<T> additionalAddress)
+            where T : class, IAddressable;
+
+        /// <summary>
+        /// Creates a new address in the system.
+        /// </summary>
+        /// <typeparam name="T">The type that is IAddressable, such as Organization.</typeparam>
+        /// <param name="additionalAddress">The new address.</param>
+        /// <returns>The address entity.</returns>
+        Task<Address> CreateAsync<T>(AdditionalAddress<T> additionalAddress)
+            where T : class, IAddressable;
+
+        /// <summary>
+        /// Returns the address with the given id.
+        /// </summary>
+        /// <param name="addressId">The address id.</param>
+        /// <returns>The address.</returns>
+        AddressDTO GetAddressById(int addressId);
+
+        /// <summary>
+        /// Returns the address with the given id.
+        /// </summary>
+        /// <param name="addressId">The address id.</param>
+        /// <returns>The address.</returns>
+        Task<AddressDTO> GetAddressByIdAsync(int addressId);
     }
 }

@@ -75,5 +75,11 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the gender.
         /// </summary>
         public string Gender { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current status
+        /// </summary>
+        public string CurrentStatus { get; set; }
+
     }
 }

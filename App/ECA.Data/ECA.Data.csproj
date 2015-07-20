@@ -81,11 +81,11 @@
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -105,6 +105,7 @@
     <Compile Include="Artifact.cs" />
     <Compile Include="ArtifactType.cs" />
     <Compile Include="Category.cs" />
+    <Compile Include="Configuration\AddressConfiguration.cs" />
     <Compile Include="Configuration\FieldOfStudyConfiguration.cs" />
     <Compile Include="Configuration\FocusConfiguration.cs" />
     <Compile Include="Configuration\ImpactConfiguration.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="Focus.cs" />
     <Compile Include="Gender.cs" />
     <Compile Include="Goal.cs" />
+    <Compile Include="IAddressable.cs" />
     <Compile Include="IObjectivable.cs" />
     <Compile Include="IContactable.cs" />
     <Compile Include="IGoalable.cs" />
@@ -161,8 +163,8 @@
     <Compile Include="EcaInitializer.cs" />
     <Compile Include="EmailAddress.cs" />
     <Compile Include="Enums.cs" />
-    <Compile Include="Event.cs" />
-    <Compile Include="EventType.cs" />
+    <Compile Include="Activity.cs" />
+    <Compile Include="ActivityType.cs" />
     <Compile Include="ExternalId.cs" />
     <Compile Include="History.cs" />
     <Compile Include="Impact.cs" />

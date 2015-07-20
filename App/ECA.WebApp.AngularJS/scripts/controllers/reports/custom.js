@@ -17,7 +17,9 @@ angular.module('staticApp')
           { Title: "Post Awards", Published: "6/22/2015", Author: "Tom Morgan", Prompts: "Program" },
           { Title: "Focus Awards", Published: "6/23/2015", Author: "Tom Morgan", Prompts: "Program" },
           { Title: "Focus-Category Awards", Published: "6/23/2015", Author: "Tom Morgan", Prompts: "Program" },
-          { Title: "Country Awards", Published: "7/2/2015", Author: "Tom Morgan", Prompts: "Program" }
+          { Title: "Country Awards", Published: "7/2/2015", Author: "Tom Morgan", Prompts: "Program" },
+          { Title: "Objective Awards", Published: "7/6/2015", Author: "Tom Morgan", Prompts: "Program, Objective" },
+          { Title: "Year Awards", Published: "7/7/2015", Author: "Tom Morgan", Prompts: "Program" }
       ]
       $scope.parameters = [];
       $scope.currentpage = $stateParams.page || 1;
@@ -110,6 +112,14 @@ angular.module('staticApp')
           else if (title == 'Country Awards') {
               var template = "/views/reports/partials/countryAwards.html";
               var controller = "CountryAwardsCtrl";
+          }
+          else if (title == 'Objective Awards') {
+              var template = "/views/reports/partials/objectiveAwards.html";
+              var controller = "ObjectiveAwardsCtrl";
+          }
+          else if (title == 'Year Awards') {
+              var template = "/views/reports/partials/yearAwards.html";
+              var controller = "YearAwardsCtrl";
           }
           else
           {

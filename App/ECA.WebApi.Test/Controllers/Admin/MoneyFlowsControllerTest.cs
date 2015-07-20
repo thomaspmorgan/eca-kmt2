@@ -44,5 +44,24 @@ namespace ECA.WebApi.Test.Controllers.Admin
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
         #endregion
+
+        #region Get moneyflows by program
+        [TestMethod]
+        public async Task TestGetMoneyFlowsByProgramAsync()
+        {
+            mock.Setup(x => x.GetMoneyFlowsByProgramIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<MoneyFlowDTO>>()))
+                .ReturnsAsync(new PagedQueryResults<MoneyFlowDTO>(1, new List<MoneyFlowDTO>()));
+            var response = await controller.GetMoneyFlowsByProgramId(1, new PagingQueryBindingModel<MoneyFlowDTO>());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<MoneyFlowDTO>>));
+        }
+
+        [TestMethod]
+        public async Task TestGetMoneyFlowsByProgramAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetMoneyFlowsByProgramId(1, new PagingQueryBindingModel<MoneyFlowDTO>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+        #endregion
     }
 }

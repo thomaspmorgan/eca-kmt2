@@ -58,6 +58,12 @@ angular.module('staticApp')
           getParticipantTypes: function (params) {
               return DragonBreath.get(params, 'participanttypes');
           },
+          getOrganizationTypes: function (params) {
+              return DragonBreath.get(params, 'organizations/types');
+          },
+          getAddressTypes: function (params) {
+              return DragonBreath.get(params, 'addresses/types');
+          },
           getAllMoneyFlowStati: function (params) {
               var defer = $q.defer();
               DragonBreath.get(params, 'moneyflowstatuses')

@@ -19,6 +19,16 @@ namespace ECA.Data.Test
             context = new TestEcaContext();
         }
 
+        [TestMethod]
+        public void TestGetId()
+        {
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            Assert.AreEqual(program.ProgramId, program.GetId());
+        }
+
         #region Permissable
         [TestMethod]
         public void TestIsExempt()

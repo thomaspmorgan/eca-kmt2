@@ -340,12 +340,11 @@ namespace ECA.Business.Service.Persons
                 throw new EcaBusinessException("The person already exists.");
             }
             var personToUpdate = await GetPersonByIdAsync(pii.PersonId);
-            var participantToUpdate = await GetParticipantByIdAsync(pii.ParticipantId);
             var cityOfBirth = await GetLocationByIdAsync(pii.CityOfBirthId);
             var countriesOfCitizenship = await GetLocationsByIdAsync(pii.CountriesOfCitizenship);
-            var validationEntity = GetValidationEntity(pii, personToUpdate, participantToUpdate, cityOfBirth, countriesOfCitizenship);
+            var validationEntity = GetValidationEntity(pii, personToUpdate, cityOfBirth, countriesOfCitizenship);
             validator.ValidateUpdate(validationEntity);
-            DoUpdate(pii, personToUpdate, participantToUpdate, cityOfBirth, countriesOfCitizenship);
+            DoUpdate(pii, personToUpdate, cityOfBirth, countriesOfCitizenship);
             
             return personToUpdate;
         }
@@ -361,12 +360,29 @@ namespace ECA.Business.Service.Persons
             return await CreateGetPersonById(personId).FirstOrDefaultAsync();
         }
 
+        /// <summary>
+        /// Get the person by id 
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>The person as SimplePersonDTO</returns>
+        public async Task<SimplePersonDTO> GetSimplePersonAsync(int personId)
+        {
+            this.logger.Trace("Retrieving person with id {0}.", personId);
+            return await CreateGetSimplePerson(personId).FirstOrDefaultAsync();
+        }
+
         private IQueryable<Person> CreateGetPersonById(int personId)
         {
             return Context.People.Where(x => x.PersonId == personId).Include(x => x.CountriesOfCitizenship);
         }
 
-        private void DoUpdate(UpdatePii updatePii, Person person, Participant participant, Location cityOfBirth, List<Location> countriesOfCitizenship) {
+        private IQueryable<SimplePersonDTO> CreateGetSimplePerson(int personId)
+        {
+            var query = PersonQueries.CreateGetSimplePersonDTOsQuery(this.Context);
+            return query.Where(p => p.PersonId == personId);
+        }
+
+        private void DoUpdate(UpdatePii updatePii, Person person, Location cityOfBirth, List<Location> countriesOfCitizenship) {
             person.FirstName = updatePii.FirstName;
             person.LastName = updatePii.LastName;
             person.NamePrefix = updatePii.NamePrefix;
@@ -382,7 +398,6 @@ namespace ECA.Business.Service.Persons
             person.DateOfBirth = updatePii.DateOfBirth;
             person.MedicalConditions = updatePii.MedicalConditions;
             person.MaritalStatusId = updatePii.MaritalStatusId;
-            participant.SevisId = updatePii.SevisId;
 
             SetCountriesOfCitizenship(countriesOfCitizenship, person);
         }
@@ -443,9 +458,9 @@ namespace ECA.Business.Service.Persons
             return Context.Participants.Where(x => x.ParticipantId == participantId);
         }
 
-        private PersonServiceValidationEntity GetValidationEntity(UpdatePii pii, Person person, Participant participant, 
+        private PersonServiceValidationEntity GetValidationEntity(UpdatePii pii, Person person,  
                                                                   Location cityOfBirth, List<Location> countriesOfCititzenship) {
-            return new PersonServiceValidationEntity(person, participant, pii.GenderId, pii.DateOfBirth, cityOfBirth, 
+            return new PersonServiceValidationEntity(person, pii.GenderId, pii.DateOfBirth, cityOfBirth, 
                                                      countriesOfCititzenship);
         }
     }

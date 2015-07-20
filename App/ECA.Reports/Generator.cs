@@ -138,6 +138,43 @@ namespace ECA.Reports
             return GetReport(reportViewer, out bytes);
         }
 
+
+        public async Task<HttpResponseMessage> ReportObjectiveAwardsAsync(int programId, int objectiveId)
+        {
+            byte[] bytes;
+
+            var reportViewer = new ReportViewer();
+            reportViewer.ProcessingMode = ProcessingMode.Local;
+            var objectiveAwards = await reportService.GetObjectiveAwardsAsync(programId, objectiveId);
+            var rds = new ReportDataSource("ObjectiveAwardDS", objectiveAwards);
+            string programName = reportService.GetProgramName(programId);
+
+            reportViewer.Reset();
+            reportViewer.LocalReport.DataSources.Add(rds);
+            reportViewer.LocalReport.ReportEmbeddedResource = "ECA.Reports.ObjectiveAwards.rdlc";
+            reportViewer.LocalReport.SetParameters(new ReportParameter("Program", programName));
+
+            return GetReport(reportViewer, out bytes);
+        }
+
+        public async Task<HttpResponseMessage> ReportYearAwardsAsync(int programId)
+        {
+            byte[] bytes;
+
+            var reportViewer = new ReportViewer();
+            reportViewer.ProcessingMode = ProcessingMode.Local;
+            var yearAwards = await reportService.GetYearAwardsAsync(programId);
+            var rds = new ReportDataSource("YearAwardDS", yearAwards);
+            string programName = reportService.GetProgramName(programId);
+
+            reportViewer.Reset();
+            reportViewer.LocalReport.DataSources.Add(rds);
+            reportViewer.LocalReport.ReportEmbeddedResource = "ECA.Reports.YearAwards.rdlc";
+            reportViewer.LocalReport.SetParameters(new ReportParameter("Program", programName));
+
+            return GetReport(reportViewer, out bytes);
+        }
+
         private HttpResponseMessage GetReport(ReportViewer reportViewer, out byte[] bytes)
         {
             Warning[] warnings;

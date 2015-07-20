@@ -13,66 +13,69 @@
         <span ng-repeat="tag in project.tags" class="tag">#{{tag}}</span>
     </div>
     <div class="row table">
-        <h4 class="tab-subheader">Details</h4>
-        <div class="col-md-6">
-            <div class="row" ng-show="organization.website">
-                <div class="col-md-6 title-label">Website</div>
-                <div class="col-md-6">
-                    <a href="{{organization.website}}" target="_blank">{{organization.website}}</a>
-                </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="tab-subheader">Details</h4>
             </div>
-            <div class="row">
-                <div class="col-md-6 title-label">Type</div>
-                <div class="col-md-6">{{organization.organizationType}}</div>
-            </div>
-            <div class="row" ng-show="organization.contacts">
-                <div class="col-md-6 title-label"><ng-pluralize count="organization.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
-                <div class="col-md-6">
-                    <ul>
-                        <li ng-repeat="contact in organization.contacts | orderBy:'value'">&#149 {{contact.value}}</li>
-                    </ul>
+            <div class="col-md-6">
+                <div class="pull-right" ng-show="view.showEditDetails">
+                    <button ng-click="view.saveDetailsEdit()" class="btn btn-success" ng-disabled="organizationForm.$invalid || organizationForm.$pristine">Save</button>
+                    <button ng-click="view.cancelDetailsEdit()" class="btn btn-cancel">Cancel</button>
                 </div>
-            </div>
-            <div class="row" ng-show="organization.socialMedias">
-                <div class="col-md-6 title-label">Social Media</div>
-                <div class="col-md-6">
-                    <ul>
-                        <li ng-repeat="socialMedia in organization.socialMedias">
-                            <socialmedialink model="socialMedia" />
-                        </li>
-                    </ul>
-                </div>
+                <a ng-show="!view.showEditDetails" ng-click="view.showEditDetails = true">
+                    <i class="material-icons md-dark md-24 pull-right">edit</i>
+                </a>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="row" ng-show="organization.parentOrganizationId">
-                <div class="col-md-6 title-label">Parent Organization</div>
-                <div class="col-md-6"><a ui-sref="organizations.overview({organizationId: organization.parentOrganizationId})">{{organization.parentOrganizationName}}</a></div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 title-label"><ng-pluralize count="organization.locations.length" when="{'1':'Address','other':'Addresses'}"></ng-pluralize></div>
-                <div class="col-md-6">
-                    <div ng-repeat="address in organization.locations">
-                        <div ng-show="address.street1">
-                            {{address.street1}}
-                        </div>
-                        <div ng-show="address.street2">
-                            {{address.street2}}
-                        </div>
-                        <div ng-show="address.street3">
-                            {{address.street3}}
-                        </div>
-                        <div style="margin-bottom:10px;">
-                            <span ng-show="address.city">{{address.city}}</span>
-                            <span ng-show="address.city && address.country">, </span>
-                            <span ng-show="address.country">{{address.country}}</span>
-                            <span ng-show="address.postalCode">{{address.postalCode}}</span>
-                        </div>
+        <div class="row" ng-show="!view.showEditDetails">
+            <div class="col-md-6">
+                <div class="row" ng-show="organization.website">
+                    <div class="col-md-6 title-label">Website</div>
+                    <div class="col-md-6">
+                        <a href="{{organization.website}}" target="_blank">{{organization.website}}</a>
                     </div>
-
+                </div>
+                <div class="row">
+                    <div class="col-md-6 title-label">Type</div>
+                    <div class="col-md-6">{{organization.organizationType}}</div>
+                </div>
+                <div class="row" ng-show="organization.contacts">
+                    <div class="col-md-6 title-label"><ng-pluralize count="organization.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
+                    <div class="col-md-6">
+                        <ul>
+                            <li ng-repeat="contact in organization.contacts | orderBy:'value'">&#149 {{contact.value}}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row" ng-show="organization.socialMedias">
+                    <div class="col-md-6 title-label">Social Media</div>
+                    <div class="col-md-6">
+                        <ul>
+                            <li ng-repeat="socialMedia in organization.socialMedias">
+                                <socialmedialink model="socialMedia" />
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>            
+            <div class="col-md-6">
+                <div class="row" ng-show="organization.parentOrganizationId">
+                    <div class="col-md-6 title-label">Parent Organization</div>
+                    <div class="col-md-6"><a ui-sref="organizations.overview({organizationId: organization.parentOrganizationId})">{{organization.parentOrganizationName}}</a></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6 title-label">Addresses</div>
+                    <div>
+                        <addresses model="organization" modelid="organization.organizationId" modeltype="'organization'" />                        
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div ng-show="view.showEditDetails">
+        <ng-include src="'/views/organizations/partials/editdetails.html'"></ng-include>
     </div>
 </div>
 

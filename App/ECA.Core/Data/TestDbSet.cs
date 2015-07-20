@@ -41,6 +41,16 @@ namespace ECA.Core.Data
             return item;
         }
 
+        public override IEnumerable<TEntity> RemoveRange(IEnumerable<TEntity> entities)
+        {
+            foreach(var entity in entities)
+            {
+                var index = _data.IndexOf(entity);
+                _data.RemoveAt(index);
+            }
+            return _data;
+        }
+
         /// <summary>
         /// 
         /// </summary>

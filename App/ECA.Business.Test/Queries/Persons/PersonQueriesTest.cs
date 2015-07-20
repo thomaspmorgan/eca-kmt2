@@ -18,6 +18,115 @@ namespace ECA.Business.Test.Queries.Persons
         }
 
         [TestMethod]
+        public void TestCreateGetSimplePersonDTOsQuery_HasCurrentParticipation()
+        {
+            var person = new Person
+            {
+                Alias = "alias",
+                FamilyName = "family",
+                FirstName = "firstName",
+                GivenName = "givenName",
+                LastName = "lastName",
+                MiddleName = "middleName",
+                NamePrefix = "Mr.",
+                NameSuffix = "III",
+                Patronym = "patronym",
+                Gender = new Gender
+                {
+                    GenderId = Gender.Female.Id,
+                    GenderName = Gender.Female.Value
+                }
+            };
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = 1,
+                Status = "status"
+            };
+            var participant = new Participant
+            {
+                Status = status,
+                Person = person,
+            };
+            context.ParticipantStatuses.Add(status);
+            person.Participations.Add(participant);
+            context.People.Add(person);
+            context.Genders.Add(person.Gender);
+
+            var result = PersonQueries.CreateGetSimplePersonDTOsQuery(context).First();
+            Assert.AreEqual(status.Status, result.CurrentStatus);
+        }
+
+        [TestMethod]
+        public void TestCreateGetSimplePersonDTOsQuery_CurrentParticipantion_StatusNameIsNull()
+        {
+            var person = new Person
+            {
+                Alias = "alias",
+                FamilyName = "family",
+                FirstName = "firstName",
+                GivenName = "givenName",
+                LastName = "lastName",
+                MiddleName = "middleName",
+                NamePrefix = "Mr.",
+                NameSuffix = "III",
+                Patronym = "patronym",
+                Gender = new Gender
+                {
+                    GenderId = Gender.Female.Id,
+                    GenderName = Gender.Female.Value
+                }
+            };
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = 1,
+            };
+            var participant = new Participant
+            {
+                Status = status,
+                Person = person,
+            };
+            context.ParticipantStatuses.Add(status);
+            person.Participations.Add(participant);
+            context.People.Add(person);
+            context.Genders.Add(person.Gender);
+
+            var result = PersonQueries.CreateGetSimplePersonDTOsQuery(context).First();
+            Assert.AreEqual(PersonQueries.UNKNOWN_PARTICIPANT_STATUS, result.CurrentStatus);
+        }
+
+        [TestMethod]
+        public void TestCreateGetSimplePersonDTOsQuery_CurrentParticipantion_StatusIsNull()
+        {
+            var person = new Person
+            {
+                Alias = "alias",
+                FamilyName = "family",
+                FirstName = "firstName",
+                GivenName = "givenName",
+                LastName = "lastName",
+                MiddleName = "middleName",
+                NamePrefix = "Mr.",
+                NameSuffix = "III",
+                Patronym = "patronym",
+                Gender = new Gender
+                {
+                    GenderId = Gender.Female.Id,
+                    GenderName = Gender.Female.Value
+                }
+            };
+            var participant = new Participant
+            {
+                Person = person,
+            };
+            person.Participations.Add(participant);
+            context.People.Add(person);
+            context.Genders.Add(person.Gender);
+
+            var result = PersonQueries.CreateGetSimplePersonDTOsQuery(context).First();
+            Assert.AreEqual(PersonQueries.UNKNOWN_PARTICIPANT_STATUS, result.CurrentStatus);
+        }
+
+        [TestMethod]
         public void TestCreateGetSimplePersonDTOsQuery_CheckFullName_HasAllNameValuesSet()
         {
             var person = new Person

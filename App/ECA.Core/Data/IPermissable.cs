@@ -35,14 +35,8 @@ namespace ECA.Core.Data
     /// <summary>
     /// An IPermissable object is an object that must be protected via permissions.  
     /// </summary>
-    public interface IPermissable
+    public interface IPermissable : IIdentifiable
     {
-        /// <summary>
-        /// Returns the id of the IPermissable object.
-        /// </summary>
-        /// <returns>The id.</returns>
-        int GetId();
-
         /// <summary>
         /// Returns the permissable type of this permissable object.
         /// </summary>

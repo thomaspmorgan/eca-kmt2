@@ -34,5 +34,35 @@
         /// Gets or sets the country id
         /// </summary>
         public int? CountryId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Region.
+        /// </summary>
+        public string Region { get; set; }
+
+        /// <summary>
+        /// Gets or sets the country.
+        /// </summary>
+        public string Country { get; set; }
+
+        /// <summary>
+        /// Gets or sets the division id.
+        /// </summary>
+        public int? DivisionId { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the division.
+        /// </summary>
+        public string Division { get; set; }
+
+        /// <summary>
+        /// Gets or sets the city id.
+        /// </summary>
+        public int? CityId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the city.
+        /// </summary>
+        public string City { get; set; }
     }
 }

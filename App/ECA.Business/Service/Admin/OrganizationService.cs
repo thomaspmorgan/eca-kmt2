@@ -12,24 +12,45 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECA.Core.Exceptions;
+using ECA.Business.Validation;
 
 namespace ECA.Business.Service.Admin
 {
     /// <summary>
     /// Service implementation for organizations
     /// </summary>
-    public class OrganizationService : DbContextService<EcaContext>, IOrganizationService
+    public class OrganizationService : EcaService, IOrganizationService
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
-
+        private readonly Action<int, Organization> throwIfOrganizationByIdNull;
+        private readonly Action<int, OrganizationType> throwIfOrganizationTypeByIdNull;
+        private IBusinessValidator<Object, UpdateOrganizationValidationEntity> organizationValidator;
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="context">Context to query</param>
-        public OrganizationService(EcaContext context)
+        /// <param name="organizationValidator">The organization validator.</param>
+        public OrganizationService(EcaContext context, IBusinessValidator<Object, UpdateOrganizationValidationEntity> organizationValidator)
             : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(organizationValidator != null, "The validator must not be null.");
+            this.organizationValidator = organizationValidator;
+            throwIfOrganizationByIdNull = (orgId, org) =>
+            {
+                if (org == null)
+                {
+                    throw new ModelNotFoundException(String.Format("The organization with id [{0}] was not found.", orgId));
+                }
+            };
+            throwIfOrganizationTypeByIdNull = (orgTypeId, orgType) =>
+            {
+                if (orgType == null)
+                {
+                    throw new ModelNotFoundException(String.Format("The organization type with id [{0}] was not found.", orgTypeId));
+                }
+            };
         }
 
         #region Get
@@ -79,6 +100,74 @@ namespace ECA.Business.Service.Admin
             var dto = await OrganizationQueries.CreateGetOrganizationDTOByOrganizationIdQuery(this.Context, organizationId).FirstOrDefaultAsync();
             this.logger.Trace("Retreived organization by id [{0}].", organizationId);
             return dto;
+        }
+
+        #endregion
+
+        #region Update
+        /// <summary>
+        /// Updates an organization.
+        /// </summary>
+        /// <param name="organization">The updated organization.</param>
+        public void Update(EcaOrganization organization)
+        {
+            var organizationToUpdate = this.Context.Organizations.Find(organization.OrganizationId);
+            Organization parentOrg = null;
+            if (organization.ParentOrganizationId.HasValue)
+            {
+                parentOrg = this.Context.Organizations.Find(organization.ParentOrganizationId.Value);
+            }
+            var organizationType = this.Context.OrganizationTypes.Find(organization.OrganizationTypeId);
+            DoUpdate(organization, organizationToUpdate, parentOrg, organizationType);
+        }
+
+        /// <summary>
+        /// Updates an organization.
+        /// </summary>
+        /// <param name="organization">The updated organization.</param>
+        public async Task UpdateAsync(EcaOrganization organization)
+        {
+            var organizationToUpdate = await this.Context.Organizations.FindAsync(organization.OrganizationId);
+            Organization parentOrg = null;
+            if (organization.ParentOrganizationId.HasValue)
+            {
+                parentOrg = await this.Context.Organizations.FindAsync(organization.ParentOrganizationId.Value);
+            }
+            var organizationType = await this.Context.OrganizationTypes.FindAsync(organization.OrganizationTypeId);
+            DoUpdate(organization, organizationToUpdate, parentOrg, organizationType);
+        }
+
+        private void DoUpdate(EcaOrganization organization, Organization organizationToUpdate, Organization parentOrganization, OrganizationType organizationType)
+        {
+            throwIfOrganizationByIdNull(organization.OrganizationId, organizationToUpdate);
+            if (organization.ParentOrganizationId.HasValue)
+            {
+                throwIfOrganizationByIdNull(organization.ParentOrganizationId.Value, parentOrganization);
+            }
+
+            throwIfOrganizationTypeByIdNull(organization.OrganizationTypeId, organizationType);
+            organizationValidator.ValidateUpdate(GetUpdateOrganizationValidationEntity(organization, organizationToUpdate, parentOrganization));
+            organization.Update.SetHistory(organizationToUpdate);            
+            SetPointOfContacts(organization.ContactIds.ToList(), organizationToUpdate);            
+            organizationToUpdate.Name = organization.Name;
+            organizationToUpdate.Description = organization.Description;
+            if (parentOrganization != null)
+            {
+                organizationToUpdate.ParentOrganization = parentOrganization;
+                organizationToUpdate.ParentOrganizationId = parentOrganization.OrganizationId;
+            }
+            else
+            {
+                organizationToUpdate.ParentOrganization = null;
+                organizationToUpdate.ParentOrganizationId = null;
+            }
+            organizationToUpdate.OrganizationTypeId = organization.OrganizationTypeId;
+            organizationToUpdate.Website = organization.Website;
+        }
+
+        private UpdateOrganizationValidationEntity GetUpdateOrganizationValidationEntity(EcaOrganization organization, Organization organizationToUpdate, Organization parentOrganization)
+        {
+            return new UpdateOrganizationValidationEntity(name: organization.Name);
         }
 
         #endregion

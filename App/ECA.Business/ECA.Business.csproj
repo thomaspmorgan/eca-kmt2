@@ -75,11 +75,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.3.2.0.0\lib\net45\NLog.dll</HintPath>
@@ -96,12 +98,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exceptions\EcaBusinessException.cs" />
+    <Compile Include="Queries\Admin\AddressQueries.cs" />
     <Compile Include="Queries\Admin\JustificationObjectiveQueries.cs" />
     <Compile Include="Queries\Admin\FocusCategoryQueries.cs" />
     <Compile Include="Queries\Admin\FocusQueries.cs" />
     <Compile Include="Queries\Admin\MoneyFlowQueries.cs" />
     <Compile Include="Queries\Admin\OfficeQueries.cs" />
     <Compile Include="Queries\Admin\OrganizationQueries.cs" />
+    <Compile Include="Queries\Models\Admin\AddressDTO.cs" />
     <Compile Include="Queries\Models\Admin\BaseDTO.cs" />
     <Compile Include="Queries\Models\Admin\FocusCategoryDTO.cs" />
     <Compile Include="Queries\Models\Admin\FocusDTO.cs" />
@@ -129,12 +133,19 @@
     <Compile Include="Queries\Models\Persons\SimplePersonDTO.cs" />
     <Compile Include="Queries\Models\Reports\BaseAwardDTO.cs" />
     <Compile Include="Queries\Models\Reports\AwardHelpersDTO.cs" />
+    <Compile Include="Queries\Models\Reports\ObjectiveAwardDTO.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonQueries.cs" />
     <Compile Include="Queries\Persons\PersonQueries.cs" />
     <Compile Include="Queries\Reports\ReportQueries.cs" />
     <Compile Include="Queries\Models\Reports\ProjectAwardDTO.cs" />
+    <Compile Include="Service\Admin\AdditionalAddress.cs" />
+    <Compile Include="Service\Admin\AdditionalOrganizationAddress.cs" />
+    <Compile Include="Service\Admin\AdditionalPersonAddress.cs" />
     <Compile Include="Service\Admin\DraftMoneyFlow.cs" />
+    <Compile Include="Service\Admin\EcaAddress.cs" />
+    <Compile Include="Service\Admin\EcaAddressValidationEntity.cs" />
     <Compile Include="Service\Admin\EcaMoneyFlow.cs" />
+    <Compile Include="Service\Admin\EcaOrganization.cs" />
     <Compile Include="Service\Admin\IMaritalStatusService.cs" />
     <Compile Include="Service\Admin\IOrganizationService.cs" />
     <Compile Include="Service\Admin\IMoneyFlowHelpersService.cs" />
@@ -144,6 +155,13 @@
     <Compile Include="Service\Admin\IJustificationObjectiveService.cs" />
     <Compile Include="Service\Admin\IFocusCategoryService.cs" />
     <Compile Include="Service\Admin\IGenderService.cs" />
+    <Compile Include="Service\Admin\LocationServiceAddressValidator.cs" />
+    <Compile Include="Service\Admin\OrganizationServiceValidator.cs" />
+    <Compile Include="Service\Admin\UpdatedEcaAddress.cs" />
+    <Compile Include="Service\Admin\UpdateOrganizationValidationEntity.cs" />
+    <Compile Include="Service\Lookup\AddressTypeDTO.cs" />
+    <Compile Include="Service\Lookup\AddressTypeService.cs" />
+    <Compile Include="Service\Lookup\IAddressTypeService.cs" />
     <Compile Include="Service\Lookup\IParticipantTypeService.cs" />
     <Compile Include="Service\Lookup\ParticipantTypeDTO.cs" />
     <Compile Include="Service\Lookup\ParticipantTypeService.cs" />

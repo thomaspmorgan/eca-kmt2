@@ -137,6 +137,52 @@ namespace ECA.Business.Queries.Programs
                                   Projects = grp.Count(),
                                   ProgramValue = grp.Where(m => m.SourceProgramId == programId).Sum(m => m.Value),
                                   OtherValue = grp.Where(m => m.SourceProgramId == null || m.SourceProgramId != programId).Sum(m => m.Value),
+                                  
+                              });
+            return result;
+        }
+
+        public static IQueryable<ObjectiveAwardDTO> CreateGetObjectiveAward(EcaContext context, int programId, int objectiveId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var result = (from m in context.MoneyFlows
+                          from o in context.Objectives
+                          where m.RecipientProject.ProgramId == programId && m.RecipientProject.Objectives.Any(p => p.ObjectiveId == objectiveId)
+                          group m by new { Project = m.RecipientProject.Name, 
+                                           Objective = m.RecipientProject.Objectives.Where(p => p.ObjectiveId == objectiveId).FirstOrDefault().ObjectiveName,
+                                           Country = m.RecipientProject.Locations.FirstOrDefault().Country.LocationName}
+                                  into grp
+                                  orderby grp.Key.Objective, grp.Key.Country, grp.Key.Project
+                              select new ObjectiveAwardDTO
+                              {
+                                  Objective = grp.Key.Objective,
+                                  Country = grp.Key.Country,
+                                  Project =grp.Key.Project,
+                                  ProgramValue = grp.Where(m => m.SourceProgramId == programId).Sum(m => m.Value),
+                                  OtherValue = grp.Where(m => m.SourceProgramId == null || m.SourceProgramId != programId).Sum(m => m.Value),
+                                  Year = grp.FirstOrDefault().RecipientProject.StartDate.Year
+                              });
+            return result;
+        }
+
+
+        public static IQueryable<YearAwardDTO> CreateGetYearAward(EcaContext context, int programId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var result = (from m in context.MoneyFlows
+                          where m.RecipientProject.ProgramId == programId
+                          group m by new
+                          {
+                              Year = m.RecipientProject.StartDate.Year,
+                          }
+                              into grp
+                              orderby grp.Key.Year
+                              select new YearAwardDTO
+                              {
+                                  Year = grp.Key.Year,
+                                  ProgramValue = grp.Where(m => m.SourceProgramId == programId).Sum(m => m.Value),
+                                  OtherValue = grp.Where(m => m.SourceProgramId == null || m.SourceProgramId != programId).Sum(m => m.Value),
+                                  Projects = grp.Count(),
                                   Average = grp.Average(m => m.Value)
                               });
             return result;

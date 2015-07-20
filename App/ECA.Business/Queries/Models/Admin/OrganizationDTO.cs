@@ -19,7 +19,7 @@ namespace ECA.Business.Queries.Models.Admin
         {
             this.Contacts = new List<SimpleLookupDTO>();
             this.SocialMedias = new List<SimpleTypeLookupDTO>();
-            this.Locations = new List<ECA.Business.Queries.Models.Persons.LocationDTO>();
+            this.Addresses = new List<AddressDTO>();
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace ECA.Business.Queries.Models.Admin
         /// <summary>
         /// Gets or sets the locations.
         /// </summary>
-        public IEnumerable<ECA.Business.Queries.Models.Persons.LocationDTO> Locations { get; set; }
+        public IEnumerable<AddressDTO> Addresses { get; set; }
 
         /// <summary>
         /// Gets or sets the social medias.
