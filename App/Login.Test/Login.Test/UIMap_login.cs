@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UITesting.HtmlControls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,22 +9,11 @@ namespace Login.Test
 {
     public partial class UIMap
     {
-        public void Login(string username, string password)
-        {
-            if (IsUsernameCached())
-            {
-
-            }
-            else
-            {
-
-            }
-        }
-
         public bool IsUsernameCached()
         {
+            HtmlTable uIEcatest1_statedept_uTable = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIEcatest1_statedept_uTable;
             //do a check
-            return true;
+            return uIEcatest1_statedept_uTable != null;
         }
     }
 }

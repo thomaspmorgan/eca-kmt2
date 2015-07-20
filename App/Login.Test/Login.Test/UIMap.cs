@@ -22,11 +22,11 @@
         /// <summary>
         /// Open browser; navigate to QA site; select ECATest1 cred; input pw; click sign in.
         /// </summary>
+        /// 
+        
+
         public void LoginQA()
         {
-            var password = LogintoQA_ExistingUserParams.UIPasswordEditPassword;
-            Login("username", password);
-
             #region Variable Declarations
             HtmlTable uIEcatest1_statedept_uTable = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIEcatest1_statedept_uTable;
             HtmlEdit uIPasswordEdit = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIPasswordEdit;
