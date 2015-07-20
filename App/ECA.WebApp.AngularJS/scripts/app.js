@@ -359,10 +359,13 @@ angular
             url: '/partners',
             templateUrl: 'views/project/partners.html'
         })
+
         .state('projects.moneyflows', {
             url: '/moneyflows',
-            templateUrl: 'views/project/moneyflows.html'
+            templateUrl: 'views/project/moneyflows.html',
+            controller: 'ProjectMoneyFlowsCtrl'
         })
+
         .state('projects.impact', {
             url: '/impact',
             templateUrl: 'views/project/impact.html'
