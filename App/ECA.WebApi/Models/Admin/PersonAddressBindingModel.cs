@@ -27,7 +27,7 @@ namespace ECA.WebApi.Models.Admin
                 street2: this.Street2,
                 street3: this.Street3,
                 postalCode: this.PostalCode,
-                locationName: this.LocationName,
+                locationName: this.AddressDisplayName,
                 countryId: this.CountryId,
                 cityId: this.CityId,
                 divisionId: this.DivisionId,

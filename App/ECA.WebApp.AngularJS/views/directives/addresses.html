@@ -61,6 +61,7 @@
                                 <label class="title-label col-md-3" for="street1">Name<span class="asterisk"> *</span></label>
                                 <div class="col-md-9">
                                     <input name="addressDisplayName"
+                                           maxlength="300"
                                            ng-model="address.addressDisplayName"
                                            form-element guidance="This is the name of the address."
                                            type="text"
@@ -139,7 +140,8 @@
                                            typeahead="city as city.name for city in view.getCities($viewValue) | filter : $viewValue | limitTo : view.searchLimit"
                                            typeahead-on-select="view.onSelectCity($item, $model, $label)"
                                            typeahead-template-url="selectLocationTemplate.html"
-                                           typeahead-editable="false">
+                                           typeahead-editable="false"
+                                           required>
                                     </input>
                                     <i class="glyphicon glyphicon-search contextual" ng-show="!view.isLoadingCities"></i>
                                     <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingCities">refresh</i>
@@ -164,7 +166,7 @@
                                            class="search-contextual"
                                            maxlength="100"
                                            typeahead-append-to-body="false"
-                                           placeholder="Select division, state, or provience..."
+                                           placeholder="Select division or state..."
                                            ng-model="address.division"
                                            ng-blur="view.onSelectDivisionBlur($event)"
                                            typeahead-wait-ms="400"
@@ -172,7 +174,8 @@
                                            typeahead="division as division.name for division in view.getDivisions($viewValue) | filter : $viewValue | limitTo : view.searchLimit"
                                            typeahead-on-select="view.onSelectDivision($item, $model, $label)"
                                            typeahead-template-url="selectLocationTemplate.html"
-                                           typeahead-editable="false">
+                                           typeahead-editable="false"
+                                           required>
                                     </input>
                                     <i class="glyphicon glyphicon-search contextual" ng-show="!view.isLoadingDivisions"></i>
                                     <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingDivisions">refresh</i>
@@ -197,7 +200,8 @@
                                            typeahead="country as country.name for country in view.getCountries($viewValue) | filter : $viewValue | limitTo : view.searchLimit"
                                            typeahead-on-select="view.onSelectCountry($item, $model, $label)"
                                            typeahead-template-url="selectLocationTemplate.html"
-                                           typeahead-editable="false">
+                                           typeahead-editable="false"
+                                           required>
                                     </input>
                                     <i class="glyphicon glyphicon-search contextual" ng-show="!view.isLoadingCountries"></i>
                                     <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingCountries">refresh</i>
@@ -210,6 +214,7 @@
                                 <label class="title-label col-md-3" for="postalCode">Postal Code</label>
                                 <div class="col-md-9">
                                     <input name="postalCode"
+                                           maxlength="50"
                                            ng-model="address.postalCode"
                                            form-element guidance="This is the postal/zip code."
                                            type="text"
@@ -220,7 +225,7 @@
                             </div>
                         </form>
                         <div class="row right" ng-show="view.showEditAddress">
-                            <button ng-click="view.saveAddressChanges()" class="btn btn-success" ng-disabled="form.addressForm.$dirty && form.addressForm.$invalid">Save</button>
+                            <button ng-click="view.saveAddressChanges()" class="btn btn-success" ng-disabled="form.addressForm.$invalid">Save</button>
                             <button ng-click="view.cancelAddressChanges()" class="btn btn-cancel">Cancel</button>
                         </div>
                     </div>

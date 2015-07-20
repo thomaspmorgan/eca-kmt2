@@ -19,14 +19,16 @@ angular.module('staticApp')
       $scope.view = {};
       $scope.view.params = $stateParams;
       $scope.view.collapseAddresses = true;
+      var tempAddressId = 0;
 
       $scope.view.onAddAddressClick = function (addressableType, entityAddresses, entityId) {
           console.assert(entityAddresses, 'The entity addresses is not defined.');
           console.assert(entityAddresses instanceof Array, 'The entity address is defined but must be an array.');
           var newAddress = {
-              Id: entityId,
+              id: entityId,
+              addressId: --tempAddressId,
               addressableType: addressableType,
-              addressDisplayName: 'New Address'
+              addressDisplayName: 'NEW ADDRESS'
           };
           entityAddresses.splice(0, 0, newAddress);
           $scope.view.collapseAddresses = false;

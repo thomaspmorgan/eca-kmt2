@@ -63,8 +63,13 @@ angular.module('staticApp')
               var service = addressableTypeToServiceMapping[addressableType];
               console.assert(service.addAddress, 'The service must have an addAddress method defined.');
               console.assert(typeof service.addAddress === 'function', 'The service addAddress property must be a function.');
+
+              var tempId = angular.copy($scope.address.addressId);
               return service.addAddress($scope.address)
                 .then(onSaveAddressSuccess)
+                .then(function () {
+                    updateAddressFormDivId(tempId);
+                })
                 .catch(onSaveAddressError);
           }
           else {
@@ -136,18 +141,34 @@ angular.module('staticApp')
       $scope.view.onEditAddressClick = function () {
           $scope.view.showEditAddress = true;
           $scope.view.collapseAddress = false;
-          var id = 'addressForm' + $scope.address.addressId;
+          var id = getAddressFormDivId();
           var options = {
-              duration: 700,
+              duration: 500,
               easing: 'easeIn',
               offset: 150,
               callbackBefore: function (element) {},
               callbackAfter: function (element) { }
           }
-          smoothScroll(document.getElementById(id), options);
-      };
+          smoothScroll(getAddressFormDivElement(id), options);
+      };     
 
+      function getAddressFormDivIdPrefix(){
+          return 'addressForm';
+      }
+
+      function getAddressFormDivId() {
+          return getAddressFormDivIdPrefix() + $scope.address.addressId;
+      }
       
+      function updateAddressFormDivId(tempId) {          
+          var id = getAddressFormDivIdPrefix() + tempId;
+          var e = getAddressFormDivElement(id);
+          e.id = getAddressFormDivIdPrefix() + $scope.address.addressId.toString();
+      }
+
+      function getAddressFormDivElement(id) {
+          return document.getElementById(id)
+      }
 
       function onSaveAddressSuccess(response) {
           $scope.address = response.data;

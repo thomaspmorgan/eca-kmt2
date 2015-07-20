@@ -19,7 +19,6 @@ namespace ECA.WebApi.Test.Models.Admin
                 CityId = 1,
                 CountryId = 2,
                 DivisionId = 3,
-                LocationName = "location name",
                 PostalCode = "12345",
                 Street1 = "street1",
                 Street2 = "street2",
@@ -33,7 +32,7 @@ namespace ECA.WebApi.Test.Models.Admin
             Assert.AreEqual(model.CityId, instance.CityId);
             Assert.AreEqual(model.CountryId, instance.CountryId);
             Assert.AreEqual(model.DivisionId, instance.DivisionId);
-            Assert.AreEqual(model.LocationName, instance.LocationName);
+            Assert.AreEqual(model.AddressDisplayName, instance.LocationName);
             Assert.AreEqual(model.PostalCode, instance.PostalCode);
             Assert.AreEqual(model.Street1, instance.Street1);
             Assert.AreEqual(model.Street2, instance.Street2);

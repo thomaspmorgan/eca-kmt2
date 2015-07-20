@@ -14,6 +14,11 @@ namespace ECA.Data
     /// </summary>
     public class Address : IHistorical
     {
+        /// <summary>
+        /// The max length of the address display name.
+        /// </summary>
+        public const int ADDRESS_DISPLAY_NAME_MAX_LENGTH = 300;
+
         public Address()
         {
             this.History = new History();
@@ -24,6 +29,9 @@ namespace ECA.Data
         public virtual AddressType AddressType { get; set; }
         public int LocationId { get; set; }
         public virtual Location Location { get; set; }
+
+        [Required]
+        [MaxLength(ADDRESS_DISPLAY_NAME_MAX_LENGTH)]
         public string DisplayName { get; set; }
 
         // relationships

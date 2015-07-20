@@ -15,6 +15,16 @@ namespace ECA.Data
     public class Location : IHistorical
     {
         /// <summary>
+        /// The max length of an address street value.
+        /// </summary>
+        public const int STREET_MAX_LENGTH = 100;
+
+        /// <summary>
+        /// The max length of a postal code.
+        /// </summary>
+        public const int POSTAL_CODE_MAX_LENGTH = 50;
+
+        /// <summary>
         /// Creates a new instance of a Location.
         /// </summary>
         public Location()
@@ -58,21 +68,25 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the Street 1 address information.
         /// </summary>
+        [MaxLength(STREET_MAX_LENGTH)]
         public string Street1 { get; set; }
 
         /// <summary>
         /// Gets or sets the Street 2 address information.
         /// </summary>
+        [MaxLength(STREET_MAX_LENGTH)]
         public string Street2 { get; set; }
 
         /// <summary>
         /// Gets or sets the Street 3 address information.
         /// </summary>
+        [MaxLength(STREET_MAX_LENGTH)]
         public string Street3 { get; set; }
 
         /// <summary>
         /// Gets or sets the postal code.
         /// </summary>
+        [MaxLength(POSTAL_CODE_MAX_LENGTH)]
         public string PostalCode { get; set; }
 
         /// <summary>

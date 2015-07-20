@@ -3,16 +3,22 @@ using ECA.Business.Service.Admin;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
 namespace ECA.WebApi.Models.Admin
 {
+    /// <summary>
+    /// The AddressBindingModelBase represents the data needed for a client to either create or update an address.
+    /// </summary>
     public abstract class AddressBindingModelBase
     {
         /// <summary>
         /// Gets or sets the address display name.
         /// </summary>
+        [MaxLength(Address.ADDRESS_DISPLAY_NAME_MAX_LENGTH)]
+        [Required]
         public string AddressDisplayName { get; set; }
 
         /// <summary>
@@ -23,27 +29,26 @@ namespace ECA.WebApi.Models.Admin
         /// <summary>
         /// Gets or sets the Street 1 address information.
         /// </summary>
+        [MaxLength(Location.STREET_MAX_LENGTH)]
         public string Street1 { get; set; }
-
+         
         /// <summary>
         /// Gets or sets the Street 2 address information.
         /// </summary>
+        [MaxLength(Location.STREET_MAX_LENGTH)]
         public string Street2 { get; set; }
 
         /// <summary>
         /// Gets or sets the Street 3 address information.
         /// </summary>
+        [MaxLength(Location.STREET_MAX_LENGTH)]
         public string Street3 { get; set; }
 
         /// <summary>
         /// Gets or sets the postal code.
         /// </summary>
+        [MaxLength(Location.POSTAL_CODE_MAX_LENGTH)]
         public string PostalCode { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        public string LocationName { get; set; }
 
         /// <summary>
         /// Gets or sets the country id

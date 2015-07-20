@@ -24,7 +24,7 @@ namespace ECA.Data.Configuration
             HasOptional(x => x.Person).WithMany(x => x.Addresses).HasForeignKey(x => x.PersonId).WillCascadeOnDelete(false);
             HasOptional(x => x.Organization).WithMany(x => x.Addresses).HasForeignKey(x => x.OrganizationId).WillCascadeOnDelete(false);
 
-            Property(x => x.DisplayName).IsRequired();
+            Property(x => x.DisplayName).IsRequired().HasMaxLength(Address.ADDRESS_DISPLAY_NAME_MAX_LENGTH);
             Property(x => x.OrganizationId).HasColumnName("OrganizationId");
             Property(x => x.PersonId).HasColumnName("PersonId");
         }

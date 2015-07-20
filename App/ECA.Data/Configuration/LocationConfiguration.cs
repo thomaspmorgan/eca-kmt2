@@ -36,6 +36,10 @@ namespace ECA.Data.Configuration
             Property(x => x.DivisionId).HasColumnName("Division_LocationId");
 
             Property(x => x.LocationIso2).HasColumnName("LocationISO-2");
+            Property(x => x.Street1).IsOptional().HasMaxLength(Location.STREET_MAX_LENGTH);
+            Property(x => x.Street2).IsOptional().HasMaxLength(Location.STREET_MAX_LENGTH);
+            Property(x => x.Street3).IsOptional().HasMaxLength(Location.STREET_MAX_LENGTH);
+            Property(x => x.PostalCode).IsOptional().HasMaxLength(Location.POSTAL_CODE_MAX_LENGTH);
         }
     }
 }
