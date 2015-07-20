@@ -84,27 +84,33 @@ angular.module('staticApp')
           }
       }
 
+
+      var params = { start: 0, limit: 300 };
+
       function addPermission(permissionModel) {
           if (parameters.resourceType.id === ConstantsService.resourceType.office.id) {
               OfficeService.addPermission(permissionModel)
                 .then(function () {
-                    loadCollaborators({ start: 0, limit: 300 });
+
                 }, function () {
                     NotificationService.showErrorMessage('There was an error adding the permission.');
+                    loadCollaborators(params);
                 });
           } else if (parameters.resourceType.id === ConstantsService.resourceType.program.id) {
               ProgramService.addPermission(permissionModel)
                   .then(function () {
-                      loadCollaborators({ start: 0, limit: 300 });
+
                   }, function () {
                       NotificationService.showErrorMessage('There was an error adding the permission.');
+                      loadCollaborators(params);
                   });
           } else if (parameters.resourceType.id === ConstantsService.resourceType.project.id) {
               ProjectService.addPermission(permissionModel)
                   .then(function () {
-                      loadCollaborators({ start: 0, limit: 300 });
+
                   }, function () {
                       NotificationService.showErrorMessage('There was an error adding the permission.');
+                      loadCollaborators(params);
                   });
           }
       }
@@ -113,23 +119,26 @@ angular.module('staticApp')
           if (parameters.resourceType.id === ConstantsService.resourceType.office.id) {
               OfficeService.removePermission(permissionModel)
                 .then(function () {
-                    loadCollaborators({ start: 0, limit: 300 });
+                    
                 }, function () {
                     NotificationService.showErrorMessage('There was an error removing the permission.');
+                    loadCollaborators(params);
                 });
           } else if (parameters.resourceType.id === ConstantsService.resourceType.program.id) {
               ProgramService.removePermission(permissionModel)
                   .then(function () {
-                      loadCollaborators({ start: 0, limit: 300 });
+
                   }, function () {
                       NotificationService.showErrorMessage('There was an error removing the permission.');
+                      loadCollaborators(params);
                   });
           } else if (parameters.resourceType.id === ConstantsService.resourceType.project.id) {
               ProjectService.removePermission(permissionModel)
                   .then(function () {
-                      loadCollaborators({ start: 0, limit: 300 });
+
                   }, function () {
                       NotificationService.showErrorMessage('There was an error removing the permission.');
+                      loadCollaborators(params);
                   });
           }
       }
@@ -138,23 +147,26 @@ angular.module('staticApp')
           if (parameters.resourceType.id === ConstantsService.resourceType.office.id) {
               OfficeService.revokePermission(permissionModel)
                 .then(function () {
-                    loadCollaborators({ start: 0, limit: 300 });
+
                 }, function () {
                     NotificationService.showErrorMessage('There was an error revoking the permission.');
+                    loadCollaborators(params);
                 });
           } else if (parameters.resourceType.id === ConstantsService.resourceType.program.id) {
               ProgramService.revokePermission(permissionModel)
                   .then(function () {
-                      loadCollaborators({ start: 0, limit: 300 });
+
                   }, function () {
-                      NotificationService.showErrorMessage('There was an error revoking the permission.');
+                    NotificationService.showErrorMessage('There was an error revoking the permission.');
+                    loadCollaborators(params);
                   });
           } else if (parameters.resourceType.id === ConstantsService.resourceType.project.id) {
               ProjectService.revokePermission(permissionModel)
                   .then(function () {
-                      loadCollaborators({ start: 0, limit: 300 });
+
                   }, function () {
-                      NotificationService.showErrorMessage('There was an error revoking the permission.');
+                    NotificationService.showErrorMessage('There was an error revoking the permission.');
+                    loadCollaborators(params);
                   });
           }
       }
@@ -168,7 +180,7 @@ angular.module('staticApp')
           ProgramService.addPermission(permissionModel)
                 .then(function () {
                     $scope.selectedCollaborator = "";
-                    loadCollaborators({ start: 0, limit: 300 });
+                    loadCollaborators(params);
                 }, function () {
                     NotificationService.showErrorMessage('There was an error adding the collaborator.');
                 });
@@ -235,5 +247,5 @@ angular.module('staticApp')
           NotificationService.showErrorMessage('There was an error loading collaborators.');
       }
 
-      $q.all([loadCollaborators({ start: 0, limit: 300 })]);
+      $q.all([loadCollaborators(params)]);
   });
