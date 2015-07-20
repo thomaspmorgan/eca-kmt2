@@ -19,6 +19,10 @@ namespace ECA.Data.Configuration
         {
             Property(a => a.OfficeSymbol).IsOptional().HasMaxLength(Organization.OFFICE_SYMBOL_MAX_LENGTH);
             Property(a => a.ParentOrganizationId).HasColumnName("ParentOrganization_OrganizationId");
+            Property(x => x.Website).IsOptional().HasMaxLength(Organization.WEBSITE_MAX_LENGTH);
+            Property(x => x.Description).IsRequired().HasMaxLength(Organization.DESCRIPTION_MAX_LENGTH);
+            Property(x => x.Name).IsRequired().HasMaxLength(Organization.NAME_MAX_LENGTH);
+
             HasMany<Contact>(p => p.Contacts).WithMany(t => t.Organizations)
             .Map(p =>
             {

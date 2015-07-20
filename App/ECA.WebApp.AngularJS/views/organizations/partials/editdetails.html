@@ -7,6 +7,7 @@
                        ng-model="organization.name"
                        form-element guidance="This is the name of the organization."
                        type="text"
+                       maxlength="600"
                        class="form-control"
                        placeholder="Enter organization name..."
                        id="name"
@@ -23,6 +24,7 @@
                           ng-model="organization.description"
                           form-element guidance="This is the description of the organization."
                           type="text"
+                          maxlength="3000"
                           id="description"
                           class="form-control"
                           placeholder="Enter organization description..."
@@ -41,6 +43,7 @@
                 <label class="col-md-4 title-label">Website</label>
                 <div class="col-md-8">
                     <input type="text" 
+                           maxlength="2000"
                            class="form-control" 
                            ng-model="organization.website"/>
                 </div>
@@ -66,6 +69,7 @@
                            placeholder="Select parent organization..."
                            ng-model="organization.parentOrganizationName"
                            typeahead-wait-ms="400"
+                           ng-blur="view.onSelectParentOrganizationBlur($event)"
                            typeahead-loading="view.isLoadingParentOrganizations"
                            typeahead="org as org.name for org in view.getAvailableParentOrganizations($viewValue) | filter : $viewValue | limitTo : view.searchAvailableOrganizationsLimit"
                            typeahead-on-select="view.onSelectAvailableParentOrganization($item, $model, $label)"

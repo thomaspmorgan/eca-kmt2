@@ -122,6 +122,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="InMemoryEcaDbContextGenerator.generated.cs">
+      <DependentUpon>InMemoryEcaDbContextGenerator.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Models\Admin\AddressModelHandlerTest.cs" />
     <Compile Include="Models\Admin\PersonAddressBindingModelTest.cs" />
     <Compile Include="Models\Admin\OrganizationAddressBindingModelTest.cs" />
@@ -191,6 +196,10 @@
     <None Include="InMemoryCamModelGenerator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>InMemoryCamModelGenerator.generated.cs</LastGenOutput>
+    </None>
+    <None Include="InMemoryEcaDbContextGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>InMemoryEcaDbContextGenerator.generated.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

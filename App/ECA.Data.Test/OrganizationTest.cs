@@ -6,12 +6,21 @@ using ECA.Core.Data;
 using System.Collections.Generic;
 using ECA.Core.Generation;
 using System.Reflection;
+using System.ComponentModel.DataAnnotations;
 
 namespace ECA.Data.Test
 {
     [TestClass]
     public class OrganizationTest
     {
+        private TestEcaContext context;
+
+        [TestInitialize]
+        public void TestInit()
+        {
+            context = new TestEcaContext();
+        }
+
         [TestMethod]
         public void TestOrganization_OfficeTypeIds()
         {
@@ -29,6 +38,126 @@ namespace ECA.Data.Test
             Assert.AreEqual(org.OrganizationId, org.GetId());
         }
 
+        [TestMethod]
+        public void TestNameMaxLength()
+        {
+            var org = new Organization
+            {
+                Name = new String('a', Organization.NAME_MAX_LENGTH),
+                OrganizationType = new OrganizationType(),
+                Description = "desc"
+            };
+            var items = new Dictionary<object, object> { { EcaContext.VALIDATABLE_CONTEXT_KEY, context } };
+            var vc = new ValidationContext(org, null, items);
+            var results = new List<ValidationResult>();
+            var actual = Validator.TryValidateObject(org, new ValidationContext(org), results, true);
+
+            Assert.IsTrue(actual);
+            Assert.AreEqual(0, results.Count);
+            org.Name = new String('a', Organization.NAME_MAX_LENGTH + 1);
+
+            actual = Validator.TryValidateObject(org, new ValidationContext(org), results, true);
+            Assert.IsFalse(actual);
+            Assert.AreEqual(1, results.Count);
+            Assert.AreEqual("Name", results.First().MemberNames.First());
+        }
+
+        [TestMethod]
+        public void TestNameRequired()
+        {
+            var org = new Organization
+            {
+                Name = new String('a', Organization.NAME_MAX_LENGTH),
+                OrganizationType = new OrganizationType(),
+                Description = "desc"
+            };
+            var items = new Dictionary<object, object> { { EcaContext.VALIDATABLE_CONTEXT_KEY, context } };
+            var vc = new ValidationContext(org, null, items);
+            var results = new List<ValidationResult>();
+            var actual = Validator.TryValidateObject(org, new ValidationContext(org), results, true);
+
+            Assert.IsTrue(actual);
+            Assert.AreEqual(0, results.Count);
+            org.Name = null;
+
+            actual = Validator.TryValidateObject(org, new ValidationContext(org), results, true);
+            Assert.IsFalse(actual);
+            Assert.AreEqual(1, results.Count);
+            Assert.AreEqual("Name", results.First().MemberNames.First());
+        }
+
+        [TestMethod]
+        public void TestDescriptionMaxLength()
+        {
+            var org = new Organization
+            {
+                Name = "a",
+                OrganizationType = new OrganizationType(),
+                Description = "desc"
+            };
+            var items = new Dictionary<object, object> { { EcaContext.VALIDATABLE_CONTEXT_KEY, context } };
+            var vc = new ValidationContext(org, null, items);
+            var results = new List<ValidationResult>();
+            var actual = Validator.TryValidateObject(org, new ValidationContext(org), results, true);
+
+            Assert.IsTrue(actual);
+            Assert.AreEqual(0, results.Count);
+            org.Description = new String('a', Organization.DESCRIPTION_MAX_LENGTH + 1);
+
+            actual = Validator.TryValidateObject(org, new ValidationContext(org), results, true);
+            Assert.IsFalse(actual);
+            Assert.AreEqual(1, results.Count);
+            Assert.AreEqual("Description", results.First().MemberNames.First());
+        }
+
+        [TestMethod]
+        public void TestDescriptionRequired()
+        {
+            var org = new Organization
+            {
+                Name = "a",
+                OrganizationType = new OrganizationType(),
+                Description = "desc"
+            };
+            var items = new Dictionary<object, object> { { EcaContext.VALIDATABLE_CONTEXT_KEY, context } };
+            var vc = new ValidationContext(org, null, items);
+            var results = new List<ValidationResult>();
+            var actual = Validator.TryValidateObject(org, new ValidationContext(org), results, true);
+
+            Assert.IsTrue(actual);
+            Assert.AreEqual(0, results.Count);
+            org.Description = null;
+
+            actual = Validator.TryValidateObject(org, new ValidationContext(org), results, true);
+            Assert.IsFalse(actual);
+            Assert.AreEqual(1, results.Count);
+            Assert.AreEqual("Description", results.First().MemberNames.First());
+        }
+
+        [TestMethod]
+        public void TestWebsiteMaxLength()
+        {
+            var org = new Organization
+            {
+                Name = "a",
+                OrganizationType = new OrganizationType(),
+                Description = "desc",
+                Website = new String('a', Organization.WEBSITE_MAX_LENGTH)
+            };
+            var items = new Dictionary<object, object> { { EcaContext.VALIDATABLE_CONTEXT_KEY, context } };
+            var vc = new ValidationContext(org, null, items);
+            var results = new List<ValidationResult>();
+            var actual = Validator.TryValidateObject(org, new ValidationContext(org), results, true);
+
+            Assert.IsTrue(actual);
+            Assert.AreEqual(0, results.Count);
+            org.Website = new String('a', Organization.WEBSITE_MAX_LENGTH + 1);
+
+            actual = Validator.TryValidateObject(org, new ValidationContext(org), results, true);
+            Assert.IsFalse(actual);
+            Assert.AreEqual(1, results.Count);
+            Assert.AreEqual("Website", results.First().MemberNames.First());
+        }
 
         #region Permissable
         [TestMethod]

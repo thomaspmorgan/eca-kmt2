@@ -25,9 +25,24 @@ namespace ECA.Data
         public static readonly int[] OFFICE_ORGANIZATION_TYPE_IDS = new int[] { OrganizationType.Office.Id, OrganizationType.Division.Id, OrganizationType.Branch.Id };
 
         /// <summary>
+        /// The max length of the organization name.
+        /// </summary>
+        public const int NAME_MAX_LENGTH = 600;
+
+        /// <summary>
         /// The max length of the office symbol.
         /// </summary>
         public const int OFFICE_SYMBOL_MAX_LENGTH = 128;
+
+        /// <summary>
+        /// The max length of the website.
+        /// </summary>
+        public const int WEBSITE_MAX_LENGTH = 2000;
+
+        /// <summary>
+        /// The maximum length of the description.
+        /// </summary>
+        public const int DESCRIPTION_MAX_LENGTH = 3000;
 
         public Organization()
         {
@@ -47,6 +62,11 @@ namespace ECA.Data
         [Required]
         public OrganizationType OrganizationType { get; set; }
         public int OrganizationTypeId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        [MaxLength(DESCRIPTION_MAX_LENGTH)]
         [Required]
         public string Description { get; set; }
         
@@ -62,7 +82,12 @@ namespace ECA.Data
         public string Status { get; set; }
         public ICollection<Address> Addresses { get; set; }
         public ICollection<Contact> Contacts { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the organization.
+        /// </summary>
         [Required]
+        [MaxLength(NAME_MAX_LENGTH)]
         public string Name { get; set; }
 
         /// <summary>
@@ -70,10 +95,16 @@ namespace ECA.Data
         /// </summary>
         public string OfficeSymbol { get; set; }
 
+        /// <summary>
+        /// Gets or sets the website max length.
+        /// </summary>
+        [MaxLength(WEBSITE_MAX_LENGTH)]
         public string Website { get; set; }
+
+        /// <summary>
+        /// Gets or sets the social media.
+        /// </summary>
         public ICollection<SocialMedia> SocialMediaPresence { get; set; }
-        //public List<DateTimeOffset> ContactHistory { get; set; }
-        //need to add some type of contact history element, most likely off of Contact
 
         //relationships
 

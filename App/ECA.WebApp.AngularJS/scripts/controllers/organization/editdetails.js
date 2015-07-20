@@ -34,6 +34,13 @@ angular.module('staticApp')
           $scope.organization.parentOrganizationName = $item.name;
       }
 
+      $scope.view.onSelectParentOrganizationBlur = function ($event) {
+          if ($scope.organization.parentOrganizationName === '') {
+              delete $scope.organization.parentOrganizationName;
+              delete $scope.organization.parentOrganizationId;
+          }
+      }
+
       function loadAvailableOrganizations(search) {
           var params = {
               start: 0,

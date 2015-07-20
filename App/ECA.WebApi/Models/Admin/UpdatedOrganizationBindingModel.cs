@@ -1,12 +1,18 @@
 ﻿using ECA.Business.Service;
 using ECA.Business.Service.Admin;
+using ECA.Data;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Web;
 
 namespace ECA.WebApi.Models.Admin
 {
+    /// <summary>
+    /// An UpdatedOrganizationBindingModel is used to handle a client's request to update an organization.
+    /// </summary>
     public class UpdatedOrganizationBindingModel
     {
         /// <summary>
@@ -17,16 +23,21 @@ namespace ECA.WebApi.Models.Admin
         /// <summary>
         /// The name.
         /// </summary>
+        [Required]
+        [MaxLength(Organization.NAME_MAX_LENGTH)]
         public string Name { get; set; }
 
         /// <summary>
         /// The description.
         /// </summary>
+        [Required]
+        [MaxLength(Organization.DESCRIPTION_MAX_LENGTH)]
         public string Description { get; set; }
 
         /// <summary>
         /// The organization's website.
         /// </summary>
+        [MaxLength(Organization.WEBSITE_MAX_LENGTH)]
         public string Website { get; set; }
 
         /// <summary>
@@ -51,6 +62,7 @@ namespace ECA.WebApi.Models.Admin
         /// <returns>The business entity.</returns>
         public EcaOrganization ToEcaOrganization(ECA.Business.Service.User user)
         {
+            Contract.Requires(user != null, "The user must not be null.");
             return new EcaOrganization(
                 user: user,
                 organizationId: this.OrganizationId,

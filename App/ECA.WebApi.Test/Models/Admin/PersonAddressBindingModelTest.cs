@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.WebApi.Models.Admin;
 using ECA.Data;
 using ECA.Business.Service;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ECA.WebApi.Test.Models.Admin
 {
@@ -44,7 +47,7 @@ namespace ECA.WebApi.Test.Models.Admin
         [TestMethod]
         public void TestAddressDisplayNameRequired()
         {
-            var model = new OrganizationAddressBindingModel
+            var model = new PersonAddressBindingModel
             {
                 AddressDisplayName = "display",
                 AddressTypeId = AddressType.Business.Id,
