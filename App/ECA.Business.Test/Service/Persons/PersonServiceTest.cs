@@ -285,6 +285,14 @@ namespace ECA.Business.Test.Service.Persons
                 LocationTypeId = LocationType.City.Id,
                 CountryId = country.LocationId
             };
+            var division = new Location
+            {
+                LocationId = 10,
+                LocationName = "division",
+                LocationTypeId = LocationType.State.Id,
+                Country = country,
+                CountryId = country.LocationId
+            };
 
             var location = new Location
             {
@@ -295,16 +303,24 @@ namespace ECA.Business.Test.Service.Persons
                 City = city,
                 PostalCode = "postalCode",
                 CountryId = 2,
-                Country = country
+                Country = country,
+                LocationName = "location name",
+                Division = division,
+                DivisionId = division.LocationId
             };
-
+            var addressType = new AddressType
+            {
+                AddressName = AddressType.Home.Value,
+                AddressTypeId = AddressType.Home.Id
+            };
             var address = new Address
             {
                 AddressId = 1,
                 AddressTypeId = AddressType.Home.Id,
-                Location = location
+                Location = location,
+                AddressType = addressType,
+                DisplayName = "display"
             };
-
 
             var person = new Person
             {
@@ -317,25 +333,32 @@ namespace ECA.Business.Test.Service.Persons
             person.PlaceOfBirth.Country = new Location();
             
             person.Addresses.Add(address);
-
+            context.AddressTypes.Add(addressType);
             context.Locations.Add(city);
             context.Locations.Add(country);
             context.Locations.Add(location);
             context.Addresses.Add(address);
             context.People.Add(person);
-
             Action<PiiDTO> tester = (serviceResult) =>
             {
                 Assert.IsNotNull(serviceResult);
-                var homeAddresses = serviceResult.HomeAddresses;
-                Assert.AreEqual(1, homeAddresses.Count());
-                var homeAddress = homeAddresses.FirstOrDefault();
-                Assert.AreEqual(location.Street1, homeAddress.Street1);
-                Assert.AreEqual(location.Street2, homeAddress.Street2);
-                Assert.AreEqual(location.Street3, homeAddress.Street3);
-                Assert.AreEqual(city.LocationName, homeAddress.City);
-                Assert.AreEqual(location.PostalCode, homeAddress.PostalCode);
-                Assert.AreEqual(country.LocationName, homeAddress.Country);
+                var testAddresses = serviceResult.Addresses;
+                Assert.AreEqual(1, testAddresses.Count());
+                var testAddress = testAddresses.FirstOrDefault();
+                Assert.AreEqual(location.Street1, testAddress.Street1);
+                Assert.AreEqual(location.Street2, testAddress.Street2);
+                Assert.AreEqual(location.Street3, testAddress.Street3);
+                Assert.AreEqual(location.LocationName, testAddress.LocationName);
+                Assert.AreEqual(city.LocationName, testAddress.City);
+                Assert.AreEqual(address.DisplayName, testAddress.AddressDisplayName);
+                Assert.AreEqual(addressType.AddressName, testAddress.AddressType);
+                Assert.AreEqual(addressType.AddressTypeId, testAddress.AddressTypeId);
+                Assert.AreEqual(location.PostalCode, testAddress.PostalCode);
+                Assert.AreEqual(country.LocationName, testAddress.Country);
+                Assert.AreEqual(division.LocationName, testAddress.Division);
+                Assert.AreEqual(division.LocationId, testAddress.DivisionId);
+                Assert.AreEqual(location.LocationId, testAddress.LocationId);
+                Assert.AreEqual(address.AddressId, testAddress.AddressId);
             };
             var result = this.service.GetPiiById(person.PersonId);
             var resultAsync = await this.service.GetPiiByIdAsync(person.PersonId);

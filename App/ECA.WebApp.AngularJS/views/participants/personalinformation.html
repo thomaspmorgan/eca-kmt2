@@ -274,7 +274,14 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4 title-label">Residence Address</div>
+
+                    <div class="col-md-4 title-label">Addresses</div>
+                    <div>
+                        <addresses model="pii" modelid="pii.personId" modeltype="'person'" />
+                    </div>
+
+
+                    <!--<div class="col-md-4 title-label">Residence Address</div>
                     <div class="col-md-8">
                         <div ng-repeat="address in pii.homeAddresses">
                             <div class="form-group" ng-show="address.street1">
@@ -314,7 +321,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="row">
                     <div class="col-md-4 title-label">Medical Conditions</div>
