@@ -1,6 +1,5 @@
 ﻿<div ng-controller="AddressesCtrl">
-    <div class="col-md-6 title-label" ng-init="view.collapseAddresses = true">
-        <ng-pluralize count="addressable.addresses.length" when="{'1':'Address','other':'Addresses ({{addressable.addresses.length}})'}"></ng-pluralize>
+    <div>
         <a ng-click="view.collapseAddresses = !view.collapseAddresses">
             <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapseAddresses">expand_more</i>
             <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapseAddresses">expand_less</i>
@@ -8,8 +7,9 @@
         <a ng-click="view.onAddAddressClick(modelType, addressable.addresses, modelId)">
             <i class="material-icons md-24 md-dark pull-right">add</i>
         </a>
+        <div class="pull-right" style="margin-top: 3px;">({{addressable.addresses.length}})</div>
     </div>
-    <div class="col-md-6" collapse="view.collapseAddresses">
+    <div class="col-md-12" collapse="view.collapseAddresses">
         <div ng-repeat="address in addressable.addresses">
             <div ng-controller="AddressCtrl">
                 <div class="spinner" ng-show="view.isSavingChanges || view.isLoadingRequiredData">
@@ -17,8 +17,8 @@
                     <div class="bounce2"></div>
                     <div class="bounce3"></div>
                 </div>
-                <div ng-show="!view.isSavingChanges && !view.isLoadingRequiredData">
-                    <div class="row" ng-show="!view.showEditAddress">
+                <div class="row" ng-show="!view.isSavingChanges && !view.isLoadingRequiredData">
+                    <div ng-show="!view.showEditAddress">
                         <div>
                             <div ng-show="address.addressDisplayName">
                                 {{address.addressDisplayName}}
@@ -27,7 +27,7 @@
                                 Type:  {{address.addressType}}
                             </div>
                         </div>
-                        <div class="col-md-11">
+                        <div class="col-md-9">
                             <div ng-show="address.street1">
                                 {{address.street1}}
                             </div>
@@ -47,13 +47,13 @@
                                 <span ng-show="address.country">{{address.country}}</span>
                             </div>
                         </div>
-                        <div class="col-md-1">
+                        <div class="col-md-3">
                             <a ng-show="!view.showEditAddress" ng-click="view.showEditAddress = true">
                                 <i class="material-icons md-dark md-24">edit</i>
                             </a>
                         </div>
                     </div>
-                    <div in-context-form ng-show="view.showEditAddress" class="row">
+                    <div in-context-form ng-show="view.showEditAddress">
                         <form name="form.addressForm" class="row form-horizontal">
                             <div class="form-group">
                                 <label class="title-label col-md-3" for="street1">Name<span class="asterisk"> *</span></label>

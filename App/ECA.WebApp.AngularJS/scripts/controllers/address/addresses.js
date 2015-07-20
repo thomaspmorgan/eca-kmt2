@@ -23,7 +23,7 @@ angular.module('staticApp')
 
       $scope.view = {};
       $scope.view.params = $stateParams;
-      $scope.view.collapseAddresses = false;
+      $scope.view.collapseAddresses = true;
 
       $scope.view.onAddAddressClick = function (addressableType, entityAddresses, entityId) {
           console.assert(entityAddresses, 'The entity addresses is not defined.');
