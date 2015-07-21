@@ -1,6 +1,6 @@
 ﻿angular.module('staticApp')
-  .controller('ProgramMoneyFlowsCtrl',
-  function ($scope, $stateParams, $q, ProgramService,
+  .controller('ProjectMoneyFlowsCtrl',
+  function ($scope, $stateParams, $q, ProjectService,
       MoneyFlowService, ConstantsService, TableService, LookupService) {
 
       $scope.modalForm = {};
@@ -76,8 +76,6 @@
       $scope.getMoneyFlows = function (tableState) {
 
           $scope.moneyFlowsLoading = true;
-          $scope.showFullMoneyFlowDescription = [];
-          $scope.editingMoneyFlows = [];
 
           TableService.setTableState(tableState);
 
@@ -88,7 +86,7 @@
               filter: TableService.getFilter()
           };
 
-          MoneyFlowService.getMoneyFlowsByProgram($stateParams.programId, params)
+          MoneyFlowService.getMoneyFlowsByProject($stateParams.projectId, params)
              .then(function (data) {
                  $scope.moneyFlows = data.results;
                  var limit = TableService.getLimit();

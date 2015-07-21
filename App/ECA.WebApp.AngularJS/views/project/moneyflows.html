@@ -1,8 +1,10 @@
 <h2 class="project-color tab-header">Funding</h2>
 <h4 class="tab-subheader">Funding List</h4>
+
 <div class="row">
     <button class="btn btn-primary right" ng-show="!moneyFlowsLoading && !currentlyEditing" ng-click="createMoneyFlowForm()">ADD FUNDING ITEM</button>
 </div>
+
 <div st-pipe="getMoneyFlows" st-table="project.moneyFlows" id="sort-list">
     <table class="col-md-12">
         <thead>
@@ -14,9 +16,32 @@
                 <th st-sort="'direction'" class="col-md-1 sort-label medium">Direction</th>
                 <th st-sort="'amount'" class="col-md-1 sort-label medium">Amount</th>
                 <th st-sort="'fiscalYear'" class="col-md-1 sort-label medium">FY</th>
-                <th st-sort="'description'" class="col-md-2 sort-label medium">Description</th>
+                <th st-sort="'description'" ng-show="editingMoneyFlows[{{moneyFlow.id}}]" class="col-md-2 sort-label medium">Description</th>
                 <th class="col-md-1">&nbsp;</th>
                 <th class="{{moneyFlowEditColumnClass}}">&nbsp;</th>
+            </tr>
+            <tr>
+                <th>
+                    <input st-search="'status'" placeholder="" type="search" class="input-lg form-control" />
+                </th>
+                <th>
+                    <input st-search="'sourceType'" placeholder="" type="search" class="input-lg form-control" />
+                </th>
+                <th>
+                    <input st-search="'fromTo'" placeholder="" type="search" class="input-lg form-control" />
+                </th>
+                <th>
+                    <input st-search="'direction'" placeholder="" type="search" class="input-lg form-control" />
+                </th>
+                <th>
+                    <input st-search="'amount'" placeholder="" type="search" class="input-lg form-control" />
+                </th>
+                <th>
+                    <input st-search="'fiscalYear'" placeholder="" type="search" class="input-lg form-control" />
+                </th>
+                <th>
+                    <input st-search="'description'" placeholder="" type="search" class="input-lg form-control" />
+                </th>
             </tr>
         </thead>
         <tbody class="list2" ng-repeat="moneyFlow in moneyFlows">
@@ -42,7 +67,7 @@
                         </div>
                     </span>
                 </td>
-                <td>
+                <td ng-show="!moneyFlowsLoading && !currentlyEditing">
                     <div class="right" style="display:none;" showonparentrow>
                         <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy" ng-click="copyMoneyFlow(moneyFlow.id)">
                             <i class="md md-content-copy md-2x copyEditDeleteOption" ng-show="!copyMoneyFlowLoading"></i>
@@ -51,15 +76,16 @@
                         <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Edit" ng-click="editMoneyFlow(moneyFlow.id)">
                             <i class="md md-mode-edit md-2x copyEditDeleteOption" ng-show="!editMoneyFlowLoading"></i>
                         </div>
-                        <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Delete"  ng-click="deleteMoneyFlow(moneyFlow.id)">
+                        <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Delete" ng-click="deleteMoneyFlow(moneyFlow.id)">
                             <i class="md md-delete md-2x copyEditDeleteOption"></i>
                         </div>
                     </div>
                 </td>
             </tr>
             <tr class="expandedDescription" ng-show="showFullMoneyFlowDescription[{{moneyFlow.id}}]" id="description{{moneyFlow.id}}">
-                    <td colspan="8" style="padding-top:5px; padding-bottom:5px;"><div>Description: {{moneyFlow.description}}</div></td>
+                <td colspan="8" style="padding-top:5px; padding-bottom:5px;"><div>Description: {{moneyFlow.description}}</div></td>
             </tr>
+
             <!-- EDITING ROW -->
             <tr ng-show="editingMoneyFlows[{{moneyFlow.id}}]" class="editingRow">
                 <td class="">
@@ -123,6 +149,7 @@
                 </td>
             </tr>
         </tbody>
+
         <tbody ng-show="moneyFlowsLoading" id="spinner">
             <tr>
                 <td colspan="5">
@@ -242,12 +269,17 @@
     </div>
 </modal-dialog>
 
-
 <modal-dialog show="showConfirmClose" dialog-title="Confirm Close">
     <p class="strong">There is unsaved data.  Are you sure you want to cancel?</p>
     <button class="btn btn-default right" ng-click="confirmClose(true)">YES</button>
     &nbsp;
     <button class="btn btn-success right" ng-click="confirmClose(false)">NO</button>
+</modal-dialog>
+
+<modal-dialog show="confirmCopy" dialog-title="Please confirm">
+    <p class="strong">Are you sure? Copy this funding item?</p>
+    <button class="btn btn-default right" ng-click="confirmCancel()">Cancel</button>
+    <button class="btn btn-default right" ng-click="confirmCopyYes()">OK</button>
 </modal-dialog>
 
 <modal-dialog show="confirmDelete" dialog-title="Please confirm">
@@ -266,4 +298,3 @@
         display: none;
     }
 </style>
-
