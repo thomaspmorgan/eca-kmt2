@@ -1,13 +1,14 @@
-﻿using System;
-using FluentAssertions;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
-using ECA.Data;
-using ECA.Business.Service.Admin;
+﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service;
-using Microsoft.QualityTools.Testing.Fakes;
+using ECA.Business.Service.Admin;
 using ECA.Core.Exceptions;
+using ECA.Data;
+using FluentAssertions;
+using Microsoft.QualityTools.Testing.Fakes;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECA.Business.Test.Service.Admin
 {
@@ -201,6 +202,51 @@ namespace ECA.Business.Test.Service.Admin
             f.ShouldThrow<ModelNotFoundException>()
                 .WithMessage(String.Format("The social media with id [{0}] was not found.", updatedInstance.Id));
 
+        }
+        #endregion
+
+        #region Get
+        [TestMethod]
+        public async Task TestGetById_CheckProperties()
+        {
+            var facebook = new SocialMediaType
+            {
+                SocialMediaTypeId = SocialMediaType.Facebook.Id,
+                SocialMediaTypeName = SocialMediaType.Facebook.Value
+            };
+            var socialMedia = new SocialMedia
+            {
+                SocialMediaId = 1,
+                SocialMediaType = facebook,
+                SocialMediaTypeId = facebook.SocialMediaTypeId,
+                SocialMediaValue = "value"
+            };
+            context.SocialMediaTypes.Add(facebook);
+            context.SocialMedias.Add(socialMedia);
+            Action<SocialMediaDTO> tester = (dto) =>
+            {
+                Assert.AreEqual(facebook.SocialMediaTypeId, dto.SocialMediaTypeId);
+                Assert.AreEqual(facebook.SocialMediaTypeName, dto.SocialMediaType);
+                Assert.AreEqual(socialMedia.SocialMediaId, dto.Id);
+                Assert.AreEqual(socialMedia.SocialMediaValue, dto.SocialMediaValue);
+            };
+            var result = service.GetById(socialMedia.SocialMediaId);
+            var resultAsync = await service.GetByIdAsync(socialMedia.SocialMediaId);
+            tester(result);
+            tester(resultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetById_SocialMediaDoesNotExist()
+        {
+            Action<SocialMediaDTO> tester = (dto) =>
+            {
+                Assert.IsNull(dto);
+            };
+            var result = service.GetById(1);
+            var resultAsync = await service.GetByIdAsync(1);
+            tester(result);
+            tester(resultAsync);
         }
         #endregion
     }

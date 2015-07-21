@@ -27,6 +27,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
         private Mock<IPersonService> personService;
         private Mock<IUserProvider> userProvider;
         private Mock<IAddressModelHandler> addressHandler;
+        private Mock<ISocialMediaPresenceModelHandler> socialMediaHandler;
         private PeopleController controller;
         
         [TestInitialize]
@@ -35,7 +36,8 @@ namespace ECA.WebApi.Test.Controllers.Persons
             personService = new Mock<IPersonService>();
             userProvider = new Mock<IUserProvider>();
             addressHandler = new Mock<IAddressModelHandler>();
-            controller = new PeopleController(personService.Object, userProvider.Object, addressHandler.Object);
+            socialMediaHandler = new Mock<ISocialMediaPresenceModelHandler>();
+            controller = new PeopleController(personService.Object, userProvider.Object, addressHandler.Object, socialMediaHandler.Object);
         }
 
         #region Get Pii By Id
@@ -124,7 +126,15 @@ namespace ECA.WebApi.Test.Controllers.Persons
         {
             var model = new PersonAddressBindingModel();
             var response = await controller.PostAddressAsync(model);
-            addressHandler.Verify(x => x.HandleAdditionalAddress<Person>(It.IsAny<AddressBindingModelBase<Person>>(), It.IsAny<ApiController>()), Times.Once());
+            addressHandler.Verify(x => x.HandleAdditionalAddressAsync<Person>(It.IsAny<AddressBindingModelBase<Person>>(), It.IsAny<ApiController>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestPostSocialMediaASync()
+        {
+            var model = new PersonSocialMediaPresenceBindingModel();
+            var response = await controller.PostSocialMediaAsync(model);
+            socialMediaHandler.Verify(x => x.HandleSocialMediaPresenceAsync<Person>(It.IsAny<SocialMediaBindingModelBase<Person>>(), It.IsAny<ApiController>()), Times.Once());
         }
     }
 }

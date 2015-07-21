@@ -1,0 +1,92 @@
+﻿<div ng-controller="SocialMediasCtrl">
+    <div>
+        <a ng-click="view.collapseSocialMedias = !view.collapseSocialMedias">
+            <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapseSocialMedias">expand_more</i>
+            <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapseSocialMedias">expand_less</i>
+        </a>
+        <a ng-click="view.onAddSocialMediaClick(modelType, socialable.socialMedias, modelId)">
+            <i class="material-icons md-24 md-dark pull-right">add</i>
+        </a>
+        <div class="pull-right" style="margin-top: 3px;">({{socialable.socialMedias.length}})</div>
+    </div>
+    <div class="col-md-12" collapse="view.collapseSocialMedias">
+        <div ng-repeat="socialMedia in socialable.socialMedias">
+            <div ng-controller="SocialMediaCtrl">
+                <div class="spinner" ng-show="view.isSavingChanges || view.isLoadingRequiredData">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
+                <div class="row" ng-show="!view.isSavingChanges && !view.isLoadingRequiredData">
+                    <div ng-show="!view.showEditSocialMedia">
+                        <socialmedialink model="socialMedia" />
+                        <div class="pull-right" ng-show="!view.showEditSocialMedia">
+                            {{socialMedia.socialMediaType}}
+                            <a ng-show="!view.showEditSocialMedia" ng-click="view.onEditSocialMediaClick()">
+                                <i class="material-icons md-dark">edit</i>
+                            </a>
+                        </div>
+                    </div>
+                    <div in-context-form ng-show="view.showEditSocialMedia">
+                        <form name="form.socialMediaForm" class="row form-horizontal">
+                            <div class="form-group">
+                                <label class="title-label col-md-3" for="type">Type<span class="asterisk"> *</span></label>
+                                <div class="col-md-9">
+                                    <select class="form-control"
+                                            id="type"
+                                            name="socialMediaTypeId"
+                                            ng-options="t.id as t.name for t in view.socialMediaTypes"
+                                            ng-model="socialMedia.socialMediaTypeId"
+                                            required />
+                                </div>
+                                <div ng-show="form.socialMediaForm.socialMediaTypeId.$dirty || form.socialMediaTypeId.socialMediaTypeId.$error.required">
+                                    <div class="error" ng-show="form.socialMediaForm.socialMediaTypeId.$error.required">Please select a social media type.</div>
+                                </div>
+                            </div>
+                            <div class="form-group" id="socialMediaForm{{socialMedia.id}}">
+                                <label class="title-label col-md-3" for="socialMediaValue">Url/Value<span class="asterisk"> *</span></label>
+                                <div class="col-md-9">
+                                    <input name="socialMediaValue"
+                                           maxlength="100"
+                                           ng-model="socialMedia.socialMediaValue"
+                                           form-element
+                                           guidance="This is the value or url of the social media."
+                                           type="text"
+                                           class="form-control"
+                                           placeholder="Enter social media value or ulr."
+                                           id="socialMediaValue"
+                                           required />
+                                </div>
+                                <div ng-show="form.socialMediaForm.addressDisplayName.$dirty || form.socialMediaForm.addressDisplayName.$error.required">
+                                    <div class="error" ng-show="form.socialMediaForm.addressDisplayName.$error.required">Please enter an address name.</div>
+                                </div>
+                            </div>
+
+                        </form>
+                        <div class="row right" ng-show="view.showEditSocialMedia">
+                            <button ng-click="view.saveSocialMediaChanges()" class="btn btn-success" ng-disabled="form.socialMediaForm.$invalid">Save</button>
+                            <button ng-click="view.cancelSocialMediaChanges()" class="btn btn-cancel">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="selectLocationTemplate.html">
+    <a>
+        <div ng-show="match.model.name">
+            <span bind-html-unsafe="match.model.name | typeaheadHighlight:query"></span>
+        </div>
+        <div ng-show="match.model.city" style="margin-left: 30px;">
+            <span bind-html-unsafe="match.model.city"></span>
+        </div>
+        <div ng-show="match.model.division" style="margin-left: 30px;">
+            <span bind-html-unsafe="match.model.division"></span>
+        </div>
+        <div ng-show="match.model.country" style="margin-left: 30px;">
+            <span bind-html-unsafe="match.model.country"></span>
+        </div>
+    </a>
+</script>

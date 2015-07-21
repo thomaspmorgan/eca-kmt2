@@ -159,6 +159,9 @@
     <Content Include="scripts\controllers\reports\CountryAwards.js" />
     <Content Include="scripts\controllers\reports\YearAwards.js" />
     <Content Include="scripts\controllers\reports\RegionAwards.js" />
+    <Content Include="scripts\controllers\socialmedia\socialmedia.js" />
+    <Content Include="scripts\controllers\socialmedia\socialmedias.js" />
+    <Content Include="scripts\directives\socialmedias.js" />
     <Content Include="scripts\directives\addresses.js" />
     <Content Include="scripts\directives\exposetablestate.js" />
     <Content Include="scripts\directives\socialmedialink.js" />
@@ -169,6 +172,7 @@
     <Content Include="styles\main.css">
       <DependentUpon>main.scss</DependentUpon>
     </Content>
+    <Content Include="views\directives\socialmedias.html" />
     <Content Include="views\directives\addresses.html" />
     <Content Include="views\organizations\activities.html" />
     <Content Include="views\organizations\impact.html" />

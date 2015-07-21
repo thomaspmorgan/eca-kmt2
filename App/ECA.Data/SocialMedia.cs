@@ -15,6 +15,11 @@ namespace ECA.Data
     public class SocialMedia : IHistorical
     {
         /// <summary>
+        /// The max length of a social media value.
+        /// </summary>
+        public const int VALUE_MAX_LENGTH = 100;
+
+        /// <summary>
         /// Creates a new social media instance and initializes the history.
         /// </summary>
         public SocialMedia()
@@ -41,6 +46,8 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the social media value.
         /// </summary>
+        [Required]
+        [MaxLength(VALUE_MAX_LENGTH)]
         public string SocialMediaValue { get; set; }
 
         /// <summary>

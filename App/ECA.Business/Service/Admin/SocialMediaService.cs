@@ -1,11 +1,13 @@
-﻿using ECA.Core.Exceptions;
+﻿using ECA.Business.Queries.Admin;
+using ECA.Business.Queries.Models.Admin;
+using ECA.Core.Exceptions;
 using ECA.Core.Service;
 using ECA.Data;
+using NLog;
 using System;
-using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Admin
@@ -16,6 +18,7 @@ namespace ECA.Business.Service.Admin
     /// </summary>
     public class SocialMediaService : DbContextService<EcaContext>, ECA.Business.Service.Admin.ISocialMediaService
     {
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<ISocialable, int> throwIfSocialableEntityNotFound;
         private readonly Action<SocialMedia, int> throwIfSocialMediaNotFound;
 
@@ -42,6 +45,32 @@ namespace ECA.Business.Service.Admin
                 }
             };
         }
+
+        #region Get
+        /// <summary>
+        /// Retrieves the social media dto with the given id.
+        /// </summary>
+        /// <param name="id">The id of the social media.</param>
+        /// <returns>The social media dto.</returns>
+        public SocialMediaDTO GetById(int id)
+        {
+            var dto = SocialMediaQueries.CreateGetSocialMediaDTOByIdQuery(this.Context, id).FirstOrDefault();
+            logger.Info("Retrieved the social media dto with the given id [{0}].", id);
+            return dto;
+        }
+
+        /// <summary>
+        /// Retrieves the social media dto with the given id.
+        /// </summary>
+        /// <param name="id">The id of the social media.</param>
+        /// <returns>The social media dto.</returns>
+        public async Task<SocialMediaDTO> GetByIdAsync(int id)
+        {
+            var dto = await SocialMediaQueries.CreateGetSocialMediaDTOByIdQuery(this.Context, id).FirstOrDefaultAsync();
+            logger.Info("Retrieved the social media dto with the given id [{0}].", id);
+            return dto;
+        }
+        #endregion
 
         #region Create
         /// <summary>
