@@ -863,7 +863,6 @@ namespace ECA.Business.Test.Service.Persons
                                     default(int),
                                     DateTime.Now,
                                     new List<int>(),
-                                    new List<HomeAddress>(),
                                     "medicalConditions",
                                     default(int));
             var updatedPerson = await service.UpdatePiiAsync(pii);
@@ -918,7 +917,6 @@ namespace ECA.Business.Test.Service.Persons
                                     default(int),
                                     DateTime.Now,
                                     new List<int>(),
-                                    new List<HomeAddress>(),
                                     "medicalConditions",
                                     default(int));
             var updatedPerson = await service.UpdatePiiAsync(pii);
@@ -962,7 +960,6 @@ namespace ECA.Business.Test.Service.Persons
                                     placeOfBirth.LocationId,
                                     DateTime.Now,
                                     new List<int>(),
-                                    new List<HomeAddress>(),
                                     "medicalConditions",
                                     default(int));
             var updatedPerson = await service.UpdatePiiAsync(pii);
@@ -1009,7 +1006,6 @@ namespace ECA.Business.Test.Service.Persons
                                     default(int),
                                     DateTime.Now,
                                     countriesOfCitizenship,
-                                    new List<HomeAddress>(),
                                     "medicalConditions",
                                     default(int));
             var updatedPerson = await service.UpdatePiiAsync(pii);
@@ -1055,7 +1051,6 @@ namespace ECA.Business.Test.Service.Persons
                                     default(int),
                                     DateTime.Now,
                                     new List<int>(),
-                                    new List<HomeAddress>(),
                                     "medicalConditions",
                                     maritalStatus.MaritalStatusId);
             var updatedPerson = await service.UpdatePiiAsync(pii);
@@ -1098,7 +1093,6 @@ namespace ECA.Business.Test.Service.Persons
                                     default(int),
                                     DateTime.Now,
                                     new List<int>(),
-                                    new List<HomeAddress>(),
                                     "medicalConditions",
                                     default(int));
             var updatedPerson = await service.UpdatePiiAsync(pii);
@@ -1158,7 +1152,6 @@ namespace ECA.Business.Test.Service.Persons
                                     placeOfBirth.LocationId,
                                     dateOfBirth,
                                     new List<int>(),
-                                    new List<HomeAddress>(),
                                     null,
                                     default(int));
             var updatedPerson = await service.UpdatePiiAsync(pii);

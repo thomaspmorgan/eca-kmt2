@@ -96,11 +96,6 @@ namespace ECA.WebApi.Models.Person
         public List<int> CountriesOfCitizenship { get; set; }
 
         /// <summary>
-        /// Gets or sets the home addresses
-        /// </summary>
-        public List<AddressBindingModel> HomeAddresses { get; set; }
-
-        /// <summary>
         /// Gets or sets the medical conditions
         /// </summary>
         public string MedicalConditions { get; set; }
@@ -134,25 +129,9 @@ namespace ECA.WebApi.Models.Person
                 cityOfBirthId: this.CityOfBirthId,
                 dateOfBirth: this.DateOfBirth,
                 countriesOfCitizenship: this.CountriesOfCitizenship,
-                homeAddresses: ToHomeAddresses(user),
                 medicalConditions: this.MedicalConditions,
                 maritalStatusId: this.MaritalStatusId
                 );
-        }
-
-        /// <summary>
-        /// Convert binding model to business model 
-        /// </summary>
-        /// <param name="user">The user updating the pii</param>
-        /// <returns>List of home address business models</returns>
-        private List<HomeAddress> ToHomeAddresses(User user)
-        {
-            var homeAddresses = new List<HomeAddress>();
-            foreach (AddressBindingModel address in this.HomeAddresses)
-            {
-                homeAddresses.Add(address.ToHomeAddress(user));
-            }
-            return homeAddresses;
         }
     }
 }

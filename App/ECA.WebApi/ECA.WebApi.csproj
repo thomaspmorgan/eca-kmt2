@@ -399,7 +399,6 @@
     <Compile Include="Models\Admin\PersonAddressBindingModel.cs" />
     <Compile Include="Models\Admin\UpdatedAddressBindingModel.cs" />
     <Compile Include="Models\Admin\UpdatedOrganizationBindingModel.cs" />
-    <Compile Include="Models\Person\AddressBindingModel.cs" />
     <Compile Include="Models\Person\PiiBindingModel.cs" />
     <Compile Include="Models\Programs\CollaboratorBindingModel.cs" />
     <Compile Include="Models\Projects\AdditionalOrganizationProjectParticipantBindingModel.cs" />
