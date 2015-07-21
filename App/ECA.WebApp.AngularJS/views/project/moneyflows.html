@@ -20,6 +20,29 @@
                 <th class="col-md-1">&nbsp;</th>
                 <th class="{{moneyFlowEditColumnClass}}">&nbsp;</th>
             </tr>
+            <tr>
+                <th>
+                    <input st-search="'status'" placeholder="" type="search" class="input-lg form-control" />
+                </th>
+                <th>
+                    <input st-search="'sourceType'" placeholder="" type="search" class="input-lg form-control" />
+                </th>
+                <th>
+                    <input st-search="'fromTo'" placeholder="" type="search" class="input-lg form-control" />
+                </th>
+                <th>
+                    <input st-search="'direction'" placeholder="" type="search" class="input-lg form-control" />
+                </th>
+                <th>
+                    <input st-search="'amount'" placeholder="" type="search" class="input-lg form-control" />
+                </th>
+                <th>
+                    <input st-search="'fiscalYear'" placeholder="" type="search" class="input-lg form-control" />
+                </th>
+                <th>
+                    <input st-search="'description'" placeholder="" type="search" class="input-lg form-control" />
+                </th>
+            </tr>
         </thead>
         <tbody class="list2" ng-repeat="moneyFlow in moneyFlows">
             <tr ng-show="!editingMoneyFlows[{{moneyFlow.id}}]">
