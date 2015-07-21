@@ -392,6 +392,7 @@
     <Compile Include="Custom\SwaggerExtensions\ApplySchemaVendorExtensions.cs" />
     <Compile Include="Custom\SwaggerExtensions\AssignOAuth2SecurityRequirements.cs" />
     <Compile Include="Custom\SwaggerExtensions\DescendingAlphabeticComparer.cs" />
+    <Compile Include="Models\Offices\CollaboratorBindingModel.cs" />
     <Compile Include="Models\Admin\AddressBindingModel.cs" />
     <Compile Include="Models\Admin\AddressModelHandler.cs" />
     <Compile Include="Models\Admin\IAddressModelHandler.cs" />

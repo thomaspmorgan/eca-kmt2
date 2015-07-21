@@ -93,17 +93,11 @@ angular.module('staticApp')
               active: true,
               order: 5
           },
-          collaborators: {
-              title: 'Collaborators',
-              path: 'collaborators',
-              active: true,
-              order: 6
-          },
           funding: {
               title: 'Funding',
               path: 'moneyflows',
               active: true,
-              order: 7
+              order: 6
           }
       };
 
