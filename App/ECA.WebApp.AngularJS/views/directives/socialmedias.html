@@ -48,17 +48,17 @@
                                 <div class="col-md-9">
                                     <input name="socialMediaValue"
                                            maxlength="100"
-                                           ng-model="socialMedia.socialMediaValue"
+                                           ng-model="socialMedia.value"
                                            form-element
                                            guidance="This is the value or url of the social media."
                                            type="text"
                                            class="form-control"
-                                           placeholder="Enter social media value or ulr."
+                                           placeholder="Enter social media value or url."
                                            id="socialMediaValue"
                                            required />
                                 </div>
-                                <div ng-show="form.socialMediaForm.addressDisplayName.$dirty || form.socialMediaForm.addressDisplayName.$error.required">
-                                    <div class="error" ng-show="form.socialMediaForm.addressDisplayName.$error.required">Please enter an address name.</div>
+                                <div ng-show="form.socialMediaForm.socialMediaValue.$dirty || form.socialMediaForm.socialMediaValue.$error.required">
+                                    <div class="error" ng-show="form.socialMediaForm.socialMediaValue.$error.required">Please enter a social media value.</div>
                                 </div>
                             </div>
 

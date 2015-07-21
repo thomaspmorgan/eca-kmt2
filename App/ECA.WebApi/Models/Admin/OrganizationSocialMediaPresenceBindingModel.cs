@@ -21,7 +21,7 @@ namespace ECA.WebApi.Models.Admin
         public override SocialMediaPresence<Organization> ToSocialMediaPresence(Business.Service.User user)
         {
             Contract.Requires(user != null, "The user must not be null.");
-            return new OrganizationSocialMediaPresence(user, this.SocialMediaTypeId, this.Value, this.Id);
+            return new OrganizationSocialMediaPresence(user, this.SocialMediaTypeId, this.Value, this.SocialableId);
         }
     }
 }

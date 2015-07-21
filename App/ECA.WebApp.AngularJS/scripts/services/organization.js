@@ -29,6 +29,9 @@ angular.module('staticApp')
           },
           addAddress: function (address) {
               return DragonBreath.create(address, 'organizations/address');
+          },
+          addSocialMedia: function (socialMedia) {
+              return DragonBreath.create(socialMedia, 'organizations/socialmedia');
           }
       };
   });

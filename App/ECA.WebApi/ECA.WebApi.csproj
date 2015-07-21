@@ -373,6 +373,7 @@
     <Compile Include="Controllers\Admin\OrganizationsController.cs" />
     <Compile Include="Controllers\Admin\MoneyFlowStatusesController.cs" />
     <Compile Include="Controllers\Admin\ParticipantTypesController.cs" />
+    <Compile Include="Controllers\Admin\SocialMediasController.cs" />
     <Compile Include="Controllers\LogsController.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonsController.cs" />
     <Compile Include="Controllers\Security\PrincipalsController.cs" />

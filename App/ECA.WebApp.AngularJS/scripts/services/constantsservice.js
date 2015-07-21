@@ -101,6 +101,7 @@
 		registerUserFailureEventName: 'registerUserFailure',
 		registerUserSuccessEventName: 'registerUserSuccess',
 		removeNewAddressEventName: 'removeNewAddress',
+		removeNewSocialMediaEventName: 'removeNewSocialMedia',
 		saveProjectEventName: 'saveProject',
 		searchDelimiter: ' '
 	};

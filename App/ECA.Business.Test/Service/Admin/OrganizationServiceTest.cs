@@ -526,7 +526,7 @@ namespace ECA.Business.Test.Service.Admin
                 var firstMedia = testDto.SocialMedias.First();
                 Assert.AreEqual(facebookType.SocialMediaTypeId, firstMedia.SocialMediaTypeId);
                 Assert.AreEqual(facebookType.SocialMediaTypeName, firstMedia.SocialMediaType);
-                Assert.AreEqual(facebook.SocialMediaValue, firstMedia.SocialMediaValue);
+                Assert.AreEqual(facebook.SocialMediaValue, firstMedia.Value);
                 Assert.AreEqual(facebook.SocialMediaId, firstMedia.Id);
             };
 

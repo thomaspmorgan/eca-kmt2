@@ -95,6 +95,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ContextUtil.cs" />
+    <Compile Include="Controllers\Admin\SocialMediasControllerTest.cs" />
     <Compile Include="Controllers\Admin\AddressesControllerTest.cs" />
     <Compile Include="Controllers\Admin\FocusControllerTest.cs" />
     <Compile Include="Controllers\Admin\GendersControllerTest.cs" />

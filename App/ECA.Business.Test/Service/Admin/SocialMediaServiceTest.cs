@@ -228,7 +228,7 @@ namespace ECA.Business.Test.Service.Admin
                 Assert.AreEqual(facebook.SocialMediaTypeId, dto.SocialMediaTypeId);
                 Assert.AreEqual(facebook.SocialMediaTypeName, dto.SocialMediaType);
                 Assert.AreEqual(socialMedia.SocialMediaId, dto.Id);
-                Assert.AreEqual(socialMedia.SocialMediaValue, dto.SocialMediaValue);
+                Assert.AreEqual(socialMedia.SocialMediaValue, dto.Value);
             };
             var result = service.GetById(socialMedia.SocialMediaId);
             var resultAsync = await service.GetByIdAsync(socialMedia.SocialMediaId);

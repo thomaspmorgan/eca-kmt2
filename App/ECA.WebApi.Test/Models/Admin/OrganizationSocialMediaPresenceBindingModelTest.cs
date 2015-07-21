@@ -20,7 +20,7 @@ namespace ECA.WebApi.Test.Models.Admin
             var socialMediaTypeId = SocialMediaType.Facebook.Id;
             var model = new OrganizationSocialMediaPresenceBindingModel
             {
-                Id = id,
+                SocialableId = id,
                 SocialMediaTypeId = socialMediaTypeId,
                 Value = value
             };

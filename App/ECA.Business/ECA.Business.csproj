@@ -168,10 +168,13 @@
     <Compile Include="Service\Admin\UpdateOrganizationValidationEntity.cs" />
     <Compile Include="Service\Lookup\AddressTypeDTO.cs" />
     <Compile Include="Service\Lookup\AddressTypeService.cs" />
+    <Compile Include="Service\Lookup\ISocialMediaTypeService.cs" />
     <Compile Include="Service\Lookup\IAddressTypeService.cs" />
     <Compile Include="Service\Lookup\IParticipantTypeService.cs" />
     <Compile Include="Service\Lookup\ParticipantTypeDTO.cs" />
     <Compile Include="Service\Lookup\ParticipantTypeService.cs" />
+    <Compile Include="Service\Lookup\SocialMediaTypeDTO.cs" />
+    <Compile Include="Service\Lookup\SocialMediaTypeService.cs" />
     <Compile Include="Service\Projects\AdditionalOrganizationProjectParticipant.cs" />
     <Compile Include="Service\Projects\AdditionalPersonProjectParticipant.cs" />
     <Compile Include="Service\Projects\IProjectStatusService.cs" />

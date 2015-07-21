@@ -29,6 +29,6 @@ namespace ECA.Business.Queries.Models.Admin
         /// <summary>
         /// Gets or sets the social media value.
         /// </summary>
-        public string SocialMediaValue { get; set; }
+        public string Value { get; set; }
     }
 }

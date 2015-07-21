@@ -37,7 +37,7 @@ namespace ECA.WebApi.Models.Admin
         /// <summary>
         /// The socialable entity id.
         /// </summary>
-        public int Id { get; set; }
+        public int SocialableId { get; set; }
 
         /// <summary>
         /// Returns a business layer entity to create or update social medias.

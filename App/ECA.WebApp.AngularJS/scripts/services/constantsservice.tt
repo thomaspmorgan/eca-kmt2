@@ -38,6 +38,7 @@
 	otherConstants["saveProjectEventName"] = "saveProject";
 	otherConstants["cancelProjectEventName"] = "cancelProjectEdit";
 	otherConstants["removeNewAddressEventName"] = "removeNewAddress";
+	otherConstants["removeNewSocialMediaEventName"] = "removeNewSocialMedia";
 
 	otherConstants["inComparisonType"] = ComparisonType.In.Value;
 	otherConstants["notInComparisonType"] = ComparisonType.NotIn.Value;

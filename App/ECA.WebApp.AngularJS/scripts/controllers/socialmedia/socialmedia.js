@@ -15,7 +15,7 @@ angular.module('staticApp')
         $log,
         smoothScroll,
         LookupService,
-        AddressService,
+        SocialMediaService,
         ConstantsService,
         LocationService,
         OrganizationService,
@@ -37,44 +37,38 @@ angular.module('staticApp')
           'person': PersonService
       };
 
-      $scope.view.getSocialMediaTypes = function ($viewValue) {
-          return getCities($viewValue);
-      };
-
-
-
       $scope.view.saveSocialMediaChanges = function () {
           $scope.view.isSavingChanges = true;
 
-          if (isNewAddress($scope.address)) {
-              console.assert($scope.address.addressableType, 'The addressable type must be defined.');
-              var addressableType = $scope.address.addressableType;
-              console.assert(addressableTypeToServiceMapping[addressableType], 'The mapping must contain a value for the addressable type [' + addressableType + '].');
-              var service = addressableTypeToServiceMapping[addressableType];
-              console.assert(service.addAddress, 'The service for the addressable type [' + $scope.address.addressableType + '] must have an addAddress method defined.');
-              console.assert(typeof service.addAddress === 'function', 'The service addAddress property must be a function.');
+          if (isNewSocialMedia($scope.socialMedia)) {
+              console.assert($scope.socialMedia.socialableType, 'The socialable type must be defined.');
+              var socialableType = $scope.socialMedia.socialableType;
+              console.assert(socialableTypeToServiceMapping[socialableType], 'The mapping must contain a value for the socialable type [' + socialableType + '].');
+              var service = socialableTypeToServiceMapping[socialableType];
+              console.assert(service.addSocialMedia, 'The service for the socialable type [' + socialableType + '] must have an addSocialMedia method defined.');
+              console.assert(typeof service.addSocialMedia === 'function', 'The service addSocialMedia property must be a function.');
 
-              var tempId = angular.copy($scope.address.addressId);
-              return service.addAddress($scope.address)
-                .then(onSaveAddressSuccess)
+              var tempId = angular.copy($scope.socialMedia.id);
+              return service.addSocialMedia($scope.socialMedia)
+                .then(onSaveSocialMediaSuccess)
                 .then(function () {
-                    updateAddressFormDivId(tempId);
+                    updateSocialMediaFormDivId(tempId);
                 })
-                .catch(onSaveAddressError);
+                .catch(onSaveSocialMediaError);
           }
           else {
-              return AddressService.update($scope.address)
-                  .then(onSaveAddressSuccess)
-                  .catch(onSaveAddressError);
+              return SocialMediaService.update($scope.socialMedia)
+                  .then(onSaveSocialMediaSuccess)
+                  .catch(onSaveSocialMediaError);
           }
       };
 
       $scope.view.cancelSocialMediaChanges = function () {
           $scope.view.showEditSocialMedia = false;
-          $scope.form.addressForm.$setPristine();
-          $scope.form.addressForm.$setUntouched();
-          if (isNewAddress($scope.address)) {
-              $scope.$emit(ConstantsService.removeNewAddressEventName, $scope.address);
+          $scope.form.socialMediaForm.$setPristine();
+          $scope.form.socialMediaForm.$setUntouched();
+          if (isNewSocialMedia($scope.socialMedia)) {
+              $scope.$emit(ConstantsService.removeNewSocialMediaEventName, $scope.socialMedia);
           }
           else {
               $scope.socialMedia = angular.copy(originalSocialMedia);
@@ -87,7 +81,7 @@ angular.module('staticApp')
           var options = {
               duration: 500,
               easing: 'easeIn',
-              offset: 150,
+              offset: 200,
               callbackBefore: function (element) {},
               callbackAfter: function (element) { }
           }
@@ -102,7 +96,7 @@ angular.module('staticApp')
           return getSocialMediaFormDivIdPrefix() + $scope.socialMedia.id;
       }
       
-      function updateSocialMediaFormDivId(tempId) {          
+      function updateSocialMediaFormDivId(tempId) {
           var id = getSocialMediaFormDivIdPrefix() + tempId;
           var e = getSocialMediaFormDivElement(id);
           e.id = getSocialMediaFormDivIdPrefix() + $scope.socialMedia.id.toString();
@@ -112,43 +106,43 @@ angular.module('staticApp')
           return document.getElementById(id)
       }
 
-      function onSaveAddressSuccess(response) {
+      function onSaveSocialMediaSuccess(response) {
           $scope.socialMedia = response.data;
           originalSocialMedia = angular.copy($scope.socialMedia);
-          NotificationService.showSuccessMessage("Successfully saved changes to address.");
-          $scope.view.showEditAddress = false;
+          NotificationService.showSuccessMessage("Successfully saved changes to social media.");
+          $scope.view.showEditSocialMedia = false;
           $scope.view.isSavingChanges = false;
       }
 
-      function onSaveAddressError() {
-          var message = "Failed to save address changes.";
+      function onSaveSocialMediaError() {
+          var message = "Failed to save social media changes.";
           NotificationService.showErrorMessage(message);
           $log.error(message);
           $scope.view.isSavingChanges = false;
       }
 
-      function isNewAddress(address) {
-          return address.addressableType;
+      function isNewSocialMedia(socialMedia) {
+          return socialMedia.socialableId;
       }
 
-      function getAddressTypes() {
+      function getSocialMediaTypes() {
           var params = {
               start: 0,
               limit: 300
           };
-          return LookupService.getAddressTypes(params)
+          return LookupService.getSocialMediaTypes(params)
           .then(function (response) {
               if (response.data.total > params.limit) {
-                  var message = "There are more address types than could be loaded.  Not all address types will be shown.";
+                  var message = "There are more social media types than could be loaded.  Not all social media types will be shown.";
                   $log.error(message);
                   NotificationService.showErrorMessage(message);
               }
-              var addressTypes = response.data.results;
-              $scope.view.addressTypes = addressTypes;
-              return addressTypes;
+              var socialMediaTypes = response.data.results;
+              $scope.view.socialMediaTypes = socialMediaTypes;
+              return socialMediaTypes;
           })
           .catch(function () {
-              var message = 'Unable to load address types.';
+              var message = 'Unable to load social media types.';
               NotificationService.showErrorMessage(message);
               $log.error(message);
           });
@@ -156,7 +150,7 @@ angular.module('staticApp')
 
 
       $scope.view.isLoadingRequiredData = true;
-      $q.all([getAddressTypes()])
+      $q.all([getSocialMediaTypes()])
       .then(function () {
           $log.info('Loaded all resources.');
           $scope.view.isLoadingRequiredData = false;

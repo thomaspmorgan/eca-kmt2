@@ -55,6 +55,9 @@ angular.module('staticApp')
           getAllProjectStati: function (params) {
               return DragonBreath.get(params, 'projectstatuses');
           },
+          getSocialMediaTypes: function (params) {
+              return DragonBreath.get(params, 'socialmedias/types');
+          },
           getParticipantTypes: function (params) {
               return DragonBreath.get(params, 'participanttypes');
           },
