@@ -1,10 +1,16 @@
-﻿using ECA.Business.Queries.Models.Admin;
+﻿using CAM.Business.Model;
+using CAM.Business.Service;
+using CAM.Data;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Models.Office;
 using ECA.Business.Service.Admin;
 using ECA.Core.DynamicLinq;
+using ECA.Core.DynamicLinq.Filter;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
+using ECA.WebApi.Models.Offices;
 using ECA.WebApi.Models.Query;
+using ECA.WebApi.Security;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,6 +21,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.Results;
 
 namespace ECA.WebApi.Controllers.Admin
 {
@@ -43,9 +50,14 @@ namespace ECA.WebApi.Controllers.Admin
         private static readonly ExpressionSorter<JustificationObjectiveDTO> DEFAULT_JUSTIFICATION_OBJECTIVE_DTO_SORTER =
             new ExpressionSorter<JustificationObjectiveDTO>(x => x.JustificationName, SortDirection.Ascending);
 
+        private static readonly ExpressionSorter<ResourceAuthorization> DEFAULT_RESOURCE_AUTHORIZATION_SORTER = new ExpressionSorter<ResourceAuthorization>(x => x.DisplayName, SortDirection.Ascending);
+
+
         private IOfficeService service;
         private IFocusCategoryService focusCategoryService;
         private IJustificationObjectiveService justificationObjectiveService;
+        private IResourceService resourceService;
+        private IResourceAuthorizationHandler authorizationHandler;
 
         /// <summary>
         /// Creates a new controller instance.
@@ -53,14 +65,18 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="service">The service.</param>
         /// <param name="focusCategoryService">The focus category service.</param>
         /// <param name="justificationObjectiveService">The justification objective service.</param>
-        public OfficesController(IOfficeService service, IFocusCategoryService focusCategoryService, IJustificationObjectiveService justificationObjectiveService)
+        public OfficesController(IOfficeService service, IFocusCategoryService focusCategoryService, IJustificationObjectiveService justificationObjectiveService, IResourceService resourceService, IResourceAuthorizationHandler authorizationHandler)
         {
             Contract.Requires(service != null, "The office service must not be null.");
             Contract.Requires(focusCategoryService != null, "The focus category service must not be null.");
             Contract.Requires(justificationObjectiveService != null, "The justification service must not be null.");
+            Contract.Requires(resourceService != null, "The resource service must not be null.");
+            Contract.Requires(authorizationHandler != null, "The authorization handler must not be null.");
             this.service = service;
             this.focusCategoryService = focusCategoryService;
             this.justificationObjectiveService = justificationObjectiveService;
+            this.resourceService = resourceService;
+            this.authorizationHandler = authorizationHandler;
         }
 
         /// <summary>
@@ -209,6 +225,80 @@ namespace ECA.WebApi.Controllers.Admin
             {
                 return BadRequest(ModelState);
             }
+        }
+
+        /// <summary>
+        /// Adds a collaborator to an office.
+        /// </summary>
+        /// <param name="model">The add collaborator model.</param>
+        /// <returns>An ok result.</returns>
+        [Route("Offices/Collaborator/Add")]
+        [ResponseType(typeof(OkResult))]
+        [ResourceAuthorize(CAM.Data.Permission.OFFICE_OWNER_VALUE, ResourceType.OFFICE_VALUE, typeof(CollaboratorBindingModel), "OfficeId")]
+        public Task<IHttpActionResult> PostAddCollaboratorAsync(CollaboratorBindingModel model)
+        {
+            return authorizationHandler.HandleGrantedPermissionBindingModelAsync(model, this);
+        }
+
+        /// <summary>
+        /// Remove a collaborator from an office.
+        /// </summary>
+        /// <param name="model">The remove collaborator model.</param>
+        /// <returns>An ok result.</returns>
+        [Route("Offices/Collaborator/Remove")]
+        [ResponseType(typeof(OkResult))]
+        [ResourceAuthorize(CAM.Data.Permission.OFFICE_OWNER_VALUE, ResourceType.OFFICE_VALUE, typeof(CollaboratorBindingModel), "OfficeId")]
+        public Task<IHttpActionResult> PostRemoveCollaboratorAsync(CollaboratorBindingModel model)
+        {
+            return authorizationHandler.HandleDeletedPermissionBindingModelAsync(model, this);
+        }
+
+        /// <summary>
+        /// Revokes a collaborator permission from an office.
+        /// </summary>
+        /// <param name="model">The add collaborator model.</param>
+        /// <returns>An ok result.</returns>
+        [Route("Offices/Collaborator/Revoke")]
+        [ResponseType(typeof(OkResult))]
+        [ResourceAuthorize(CAM.Data.Permission.OFFICE_OWNER_VALUE, ResourceType.OFFICE_VALUE, typeof(CollaboratorBindingModel), "OfficeId")]
+        public Task<IHttpActionResult> PostRevokeCollaboratorAsync(CollaboratorBindingModel model)
+        {
+            return authorizationHandler.HandleRevokedPermissionBindingModelAsync(model, this);
+        }
+
+        /// <summary>
+        /// Returns the collaborators associated with the given office id 
+        /// </summary>
+        /// <param name="officeId">The id of the office</param>
+        /// <param name="queryModel">The query model</param>
+        /// <returns>The collaborators</returns>
+        [ResponseType(typeof(PagedQueryResults<ResourceAuthorization>))]
+        [Route("Offices/{officeId}/Collaborators")]
+        [ResourceAuthorize(CAM.Data.Permission.OFFICE_OWNER_VALUE, CAM.Data.ResourceType.OFFICE_VALUE, "officeId")]
+        public async Task<IHttpActionResult> GetCollaboratorsAsync([FromUri]int officeId, [FromUri]PagingQueryBindingModel<ResourceAuthorization> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var authorizations = await GetResourceAuthorizationsAsync(GetQueryableOperator(officeId, queryModel));
+                return Ok(authorizations);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        private QueryableOperator<ResourceAuthorization> GetQueryableOperator(int officeId, PagingQueryBindingModel<ResourceAuthorization> queryModel)
+        {
+            var queryOperator = queryModel.ToQueryableOperator(DEFAULT_RESOURCE_AUTHORIZATION_SORTER);
+            queryOperator.Filters.Add(new ExpressionFilter<ResourceAuthorization>(x => x.ForeignResourceId, ComparisonType.Equal, officeId));
+            queryOperator.Filters.Add(new ExpressionFilter<ResourceAuthorization>(x => x.ResourceTypeId, ComparisonType.Equal, ResourceType.Office.Id));
+            return queryOperator;
+        }
+
+        private Task<PagedQueryResults<ResourceAuthorization>> GetResourceAuthorizationsAsync(QueryableOperator<ResourceAuthorization> queryOperator)
+        {
+            return resourceService.GetResourceAuthorizationsAsync(queryOperator);
         }
     }
 }

@@ -44,27 +44,13 @@ angular.module('staticApp')
               var path = 'projects/' + projectId + '/collaborators';
               return DragonBreath.get(params, path);
           },
-          updatePermission: function (isAllowed, principalId, projectId, permissionId) {
-              var path = '';
-              var permissionModel = {
-                  principalId: principalId,
-                  projectId: projectId,
-                  permissionId: permissionId
-              };
-              if (isAllowed) {
-                  path = 'projects/collaborator/add';
-              }
-              else {
-                  path = 'projects/collaborator/revoke';
-              }
-              return DragonBreath.create(permissionModel, path);
+          addPermission: function (permissionModel) {
+              return DragonBreath.create(permissionModel, 'projects/collaborator/add');
           },
-          removePermission: function (principalId, projectId, permissionId) {
-              var permissionModel = {
-                  principalId: principalId,
-                  projectId: projectId,
-                  permissionId: permissionId
-              };
+          revokePermission: function (permissionModel) {
+              return DragonBreath.create(permissionModel, 'projects/collaborator/revoke');
+          },
+          removePermission: function (permissionModel) {
               return DragonBreath.create(permissionModel, 'projects/collaborator/remove');
           },
           addPersonParticipant: function (params) {
