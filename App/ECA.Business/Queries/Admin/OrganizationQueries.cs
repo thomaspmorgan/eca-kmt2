@@ -70,7 +70,7 @@ namespace ECA.Business.Queries.Admin
             Contract.Requires(context != null, "The context must not be null.");
             var query = from org in context.Organizations
                         let orgType = org.OrganizationType
-                        let socialMedias = org.SocialMediaPresence
+                        let socialMedias = org.SocialMedias
                         let contacts = org.Contacts
                         let addresses = org.Addresses
                         let parentOrg = org.ParentOrganization

@@ -514,7 +514,7 @@ namespace ECA.Business.Test.Service.Admin
                 SocialMediaValue = "someone@facebook.com"
             };
             org.History.RevisedOn = lastRevised;
-            org.SocialMediaPresence.Add(facebook);
+            org.SocialMedias.Add(facebook);
 
             context.SocialMedias.Add(facebook);
             context.SocialMediaTypes.Add(facebookType);

@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Data;
@@ -138,6 +139,10 @@ namespace ECA.Business.Test.Service.Admin
             Assert.AreEqual(street2, location.Street2);
             Assert.AreEqual(street3, location.Street3);
             Assert.AreEqual(0, location.LocationId);
+            Assert.AreEqual(1, location.History.CreatedBy);
+            Assert.AreEqual(1, location.History.RevisedBy);
+            DateTimeOffset.Now.Should().BeCloseTo(location.History.CreatedOn, 2000);
+            DateTimeOffset.Now.Should().BeCloseTo(location.History.RevisedOn, 2000);
         }
 
         [TestMethod]
@@ -176,6 +181,10 @@ namespace ECA.Business.Test.Service.Admin
             Assert.IsNotNull(address.Location);
             Assert.AreEqual(addressTypeId, address.AddressTypeId);
             Assert.AreEqual(displayName, address.DisplayName);
+            Assert.AreEqual(1, address.History.CreatedBy);
+            Assert.AreEqual(1, address.History.RevisedBy);
+            DateTimeOffset.Now.Should().BeCloseTo(address.History.CreatedOn, 2000);
+            DateTimeOffset.Now.Should().BeCloseTo(address.History.RevisedOn, 2000);
         }
 
         [TestMethod]
@@ -230,6 +239,10 @@ namespace ECA.Business.Test.Service.Admin
             Assert.AreEqual(0, location.LocationId);
             Assert.AreEqual(addressTypeId, address.AddressTypeId);
             Assert.AreEqual(displayName, address.DisplayName);
+            Assert.AreEqual(1, address.History.CreatedBy);
+            Assert.AreEqual(1, address.History.RevisedBy);
+            DateTimeOffset.Now.Should().BeCloseTo(address.History.CreatedOn, 2000);
+            DateTimeOffset.Now.Should().BeCloseTo(address.History.RevisedOn, 2000);
         }
     }
 }

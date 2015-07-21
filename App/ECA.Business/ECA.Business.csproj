@@ -148,6 +148,7 @@
     <Compile Include="Service\Admin\IMaritalStatusService.cs" />
     <Compile Include="Service\Admin\IOrganizationService.cs" />
     <Compile Include="Service\Admin\IMoneyFlowHelpersService.cs" />
+    <Compile Include="Service\Admin\ISocialMediaService.cs" />
     <Compile Include="Service\Admin\JustificationObjectiveService.cs" />
     <Compile Include="Service\Admin\FocusCategoryService.cs" />
     <Compile Include="Service\Admin\GenderService.cs" />
@@ -156,7 +157,12 @@
     <Compile Include="Service\Admin\IGenderService.cs" />
     <Compile Include="Service\Admin\LocationServiceAddressValidator.cs" />
     <Compile Include="Service\Admin\OrganizationServiceValidator.cs" />
+    <Compile Include="Service\Admin\PersonSocialMediaPresence.cs" />
+    <Compile Include="Service\Admin\OrganizationSocialMediaPresence.cs" />
+    <Compile Include="Service\Admin\SocialMediaPresence.cs" />
+    <Compile Include="Service\Admin\SocialMediaService.cs" />
     <Compile Include="Service\Admin\UpdatedEcaAddress.cs" />
+    <Compile Include="Service\Admin\UpdatedSocialMediaPresence.cs" />
     <Compile Include="Service\Admin\UpdateOrganizationValidationEntity.cs" />
     <Compile Include="Service\Lookup\AddressTypeDTO.cs" />
     <Compile Include="Service\Lookup\AddressTypeService.cs" />
