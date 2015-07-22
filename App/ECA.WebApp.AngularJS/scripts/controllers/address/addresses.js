@@ -13,12 +13,15 @@ angular.module('staticApp')
         $stateParams,
         $q,
         $log,
+        LookupService,
         ConstantsService
         ) {
 
       $scope.view = {};
       $scope.view.params = $stateParams;
       $scope.view.collapseAddresses = true;
+      $scope.data = {};
+      $scope.data.loadAddressTypesPromise = $q.defer();
       var tempAddressId = 0;
 
       $scope.view.onAddAddressClick = function (addressableType, entityAddresses, entityId) {
@@ -43,5 +46,30 @@ angular.module('staticApp')
           var removedItems = addresses.splice(index, 1);
           $log.info('Removed one new address at index ' + index);
       });
+
+      function getAddressTypes() {
+          var params = {
+              start: 0,
+              limit: 300
+          };
+          return LookupService.getAddressTypes(params)
+          .then(function (response) {
+              if (response.data.total > params.limit) {
+                  var message = "There are more address types than could be loaded.  Not all address types will be shown.";
+                  $log.error(message);
+                  NotificationService.showErrorMessage(message);
+              }
+              var addressTypes = response.data.results;
+              $log.info('Loaded all address types.');
+              $scope.data.loadAddressTypesPromise.resolve(addressTypes);
+              return addressTypes;
+          })
+          .catch(function () {
+              var message = 'Unable to load address types.';
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
+          });
+      }
+      getAddressTypes();
 
   });
