@@ -93,6 +93,9 @@ namespace ECA.WebApi
             container.RegisterType<IProjectService, ProjectService>(new HierarchicalLifetimeManager());
             container.RegisterType<IProjectStatusService, ProjectStatusService>(new HierarchicalLifetimeManager());
             container.RegisterType<IReportService, ReportService>(new HierarchicalLifetimeManager());
+            container.RegisterType<ISocialMediaService, SocialMediaService>(new HierarchicalLifetimeManager());
+            container.RegisterType<ISocialMediaTypeService, SocialMediaTypeService>(new HierarchicalLifetimeManager());
+            container.RegisterType<ISocialMediaPresenceModelHandler, SocialMediaPresenceModelHandler>(new HierarchicalLifetimeManager());
             container.RegisterType<IStaticGeneratorValidator, DbContextStaticLookupValidator>(new HierarchicalLifetimeManager());
             container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IParticipantPersonService, ParticipantPersonService>(new HierarchicalLifetimeManager());

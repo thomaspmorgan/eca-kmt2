@@ -1,4 +1,5 @@
-﻿using ECA.Business.Service.Lookup;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Service.Lookup;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace ECA.Business.Queries.Models.Persons
         public PiiDTO ()
         {
             this.CountriesOfCitizenship = new List<SimpleLookupDTO>();
-            this.HomeAddresses = new List<LocationDTO>();
+            this.Addresses = new List<AddressDTO>();
         }
 
         /// <summary>
@@ -107,9 +108,9 @@ namespace ECA.Business.Queries.Models.Persons
         public string MedicalConditions { get; set; }
 
         /// <summary>
-        /// Gets and sets home addresses
+        /// Gets and sets addresses.
         /// </summary>
-        public IEnumerable<LocationDTO> HomeAddresses { get; set; }
+        public IEnumerable<AddressDTO> Addresses { get; set; }
 
         /// <summary>
         /// Gets and sets city of birth

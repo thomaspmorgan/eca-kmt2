@@ -184,6 +184,12 @@ namespace ECA.Business.Test.Queries.Persons
                 LocationTypeId = LocationType.City.Id,
                 LocationName = "city"
             };
+            var division = new Location
+            {
+                LocationId = 10,
+                LocationTypeId = LocationType.State.Id,
+                LocationName = "state"
+            };
 
             var location = new Location
             {
@@ -193,15 +199,28 @@ namespace ECA.Business.Test.Queries.Persons
                 Street2 = "street2",
                 Street3 = "street3",
                 Country = country, 
+                CountryId = country.LocationId,
+                CityId = city.LocationId,
                 City = city,
-                PostalCode = "12345"
-            };
+                PostalCode = "12345",
+                DivisionId = division.LocationId,
+                Division = division
 
+            };
+            var addressType = new AddressType
+            {
+                AddressTypeId = AddressType.Home.Id,
+                AddressName = AddressType.Home.Value
+            };
             var address = new Address
             {
                AddressId = 1,
-               Location = location
+               Location = location,
+               AddressType = addressType,
+               AddressTypeId = addressType.AddressTypeId,
+               DisplayName = "display"
             };
+            
 
             var homeInstitution = new Organization
             {
@@ -229,12 +248,13 @@ namespace ECA.Business.Test.Queries.Persons
             participantPerson.Participant = participant;
             project.Participants.Add(participant);
 
+            context.Addresses.Add(address);
+            context.AddressTypes.Add(addressType);
             context.Projects.Add(project);
             context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
 
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
-
             Assert.AreEqual(homeInstitution.Name, participantPersonResult.HomeInstitution.Name);
 
             var addressResult = participantPersonResult.HomeInstitution.Addresses.FirstOrDefault();
@@ -246,6 +266,14 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(country.LocationId, addressResult.CountryId);
             Assert.AreEqual(location.City.LocationName, addressResult.City);
             Assert.AreEqual(location.PostalCode, addressResult.PostalCode);
+            Assert.AreEqual(location.LocationId, addressResult.LocationId);
+            Assert.AreEqual(address.AddressId, addressResult.AddressId);
+            Assert.AreEqual(addressType.AddressTypeId, addressResult.AddressTypeId);
+            Assert.AreEqual(addressType.AddressName, addressResult.AddressType);
+            Assert.AreEqual(address.DisplayName, addressResult.AddressDisplayName);
+            Assert.AreEqual(division.LocationId, addressResult.DivisionId);
+            Assert.AreEqual(division.LocationName, addressResult.Division);
+
         }
 
         [TestMethod]
@@ -264,6 +292,12 @@ namespace ECA.Business.Test.Queries.Persons
                 LocationTypeId = LocationType.City.Id,
                 LocationName = "city"
             };
+            var division = new Location
+            {
+                LocationId = 10,
+                LocationTypeId = LocationType.State.Id,
+                LocationName = "state"
+            };
 
             var location = new Location
             {
@@ -272,15 +306,26 @@ namespace ECA.Business.Test.Queries.Persons
                 Street1 = "street1",
                 Street2 = "street2",
                 Street3 = "street3",
+                CountryId = country.LocationId,
+                CityId = city.LocationId,
                 Country = country, 
                 City = city,
-                PostalCode = "12345"
+                PostalCode = "12345",
+                Division = division,
+                DivisionId = division.LocationId
             };
-
+            var addressType = new AddressType
+            {
+                AddressTypeId = AddressType.Home.Id,
+                AddressName = AddressType.Home.Value
+            };
             var address = new Address
             {
                AddressId = 1,
-               Location = location
+               Location = location,
+               AddressType = addressType,
+               AddressTypeId = addressType.AddressTypeId,
+               DisplayName = "display",
             };
 
             var hostInstitution = new Organization
@@ -313,7 +358,6 @@ namespace ECA.Business.Test.Queries.Persons
             context.Projects.Add(project);
             context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
-
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
 
             Assert.AreEqual(hostInstitution.Name, participantPersonResult.HostInstitution.Name);
@@ -327,6 +371,12 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(country.LocationId, addressResult.CountryId);
             Assert.AreEqual(city.LocationName, addressResult.City);
             Assert.AreEqual(location.PostalCode, addressResult.PostalCode);
+            Assert.AreEqual(address.AddressId, addressResult.AddressId);
+            Assert.AreEqual(addressType.AddressTypeId, addressResult.AddressTypeId);
+            Assert.AreEqual(addressType.AddressName, addressResult.AddressType);
+            Assert.AreEqual(address.DisplayName, addressResult.AddressDisplayName);
+            Assert.AreEqual(division.LocationId, addressResult.DivisionId);
+            Assert.AreEqual(division.LocationName, addressResult.Division);
         }
     }
 }

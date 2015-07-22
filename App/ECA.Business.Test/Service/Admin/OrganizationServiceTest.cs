@@ -514,7 +514,7 @@ namespace ECA.Business.Test.Service.Admin
                 SocialMediaValue = "someone@facebook.com"
             };
             org.History.RevisedOn = lastRevised;
-            org.SocialMediaPresence.Add(facebook);
+            org.SocialMedias.Add(facebook);
 
             context.SocialMedias.Add(facebook);
             context.SocialMediaTypes.Add(facebookType);
@@ -524,7 +524,8 @@ namespace ECA.Business.Test.Service.Admin
             {
                 Assert.AreEqual(1, testDto.SocialMedias.Count());
                 var firstMedia = testDto.SocialMedias.First();
-                Assert.AreEqual(facebookType.SocialMediaTypeName, firstMedia.Type);
+                Assert.AreEqual(facebookType.SocialMediaTypeId, firstMedia.SocialMediaTypeId);
+                Assert.AreEqual(facebookType.SocialMediaTypeName, firstMedia.SocialMediaType);
                 Assert.AreEqual(facebook.SocialMediaValue, firstMedia.Value);
                 Assert.AreEqual(facebook.SocialMediaId, firstMedia.Id);
             };

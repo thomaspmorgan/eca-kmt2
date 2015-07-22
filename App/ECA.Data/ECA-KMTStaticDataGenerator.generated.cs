@@ -1259,6 +1259,18 @@ namespace ECA.Data
 		/// Returns the Weibo lookup with id 4.
 		/// </summary>
 		public static StaticLookup Weibo { get { return new StaticLookup("Weibo", 4); } }
+		/// <summary>
+		/// Returns the Instagram lookup with id 5.
+		/// </summary>
+		public static StaticLookup Instagram { get { return new StaticLookup("Instagram", 5); } }
+		/// <summary>
+		/// Returns the Pinterest lookup with id 6.
+		/// </summary>
+		public static StaticLookup Pinterest { get { return new StaticLookup("Pinterest", 6); } }
+		/// <summary>
+		/// Returns the Google+ lookup with id 7.
+		/// </summary>
+		public static StaticLookup Google { get { return new StaticLookup("Google+", 7); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -1270,6 +1282,9 @@ namespace ECA.Data
 			if (2 == id) return SocialMediaType.Linkedin;
 			if (3 == id) return SocialMediaType.Twitter;
 			if (4 == id) return SocialMediaType.Weibo;
+			if (5 == id) return SocialMediaType.Instagram;
+			if (6 == id) return SocialMediaType.Pinterest;
+			if (7 == id) return SocialMediaType.Google;
 			return null;
 		}
 		///<summary>
@@ -1283,6 +1298,9 @@ namespace ECA.Data
 			if ("LinkedIn".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SocialMediaType.Linkedin;
 			if ("Twitter".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SocialMediaType.Twitter;
 			if ("Weibo".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SocialMediaType.Weibo;
+			if ("Instagram".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SocialMediaType.Instagram;
+			if ("Pinterest".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SocialMediaType.Pinterest;
+			if ("Google+".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SocialMediaType.Google;
 			return null;
 		}
 

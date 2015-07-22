@@ -35,6 +35,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// </summary>
         /// <param name="locationService">The location serivce.</param>
         /// <param name="userProvider">The user provider.</param>
+        /// <param name="addressTypeService">The address type service.</param>
         public AddressesController(ILocationService locationService, IUserProvider userProvider, IAddressTypeService addressTypeService)
         {
             Contract.Requires(locationService != null, "The location service must not be null.");
@@ -48,7 +49,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <summary>
         /// Updates the system's address with the given updated address.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The updated address.</returns>
         [ResponseType(typeof(AddressDTO))]
         public async Task<IHttpActionResult> PutUpdateAddressAsync(UpdatedAddressBindingModel updatedAddress)
         {

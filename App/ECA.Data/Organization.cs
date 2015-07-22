@@ -17,7 +17,8 @@ namespace ECA.Data
         IPermissable, 
         IHistorical, 
         IContactable,
-        IAddressable
+        IAddressable,
+        ISocialable
     {
         /// <summary>
         /// Returns all organization type ids that represent an office.
@@ -44,17 +45,19 @@ namespace ECA.Data
         /// </summary>
         public const int DESCRIPTION_MAX_LENGTH = 3000;
 
+        /// <summary>
+        /// Creates a new instances and initializes all collection properties.
+        /// </summary>
         public Organization()
         {
             this.History = new History();
-            this.SocialMediaPresence = new HashSet<SocialMedia>();
+            this.SocialMedias = new HashSet<SocialMedia>();
             this.MoneyFlowSources = new HashSet<MoneyFlow>();
             this.MoneyFlowRecipients = new HashSet<MoneyFlow>();
             this.OwnerPrograms = new HashSet<Program>();
             this.Contacts = new HashSet<Contact>();
             this.Addresses = new HashSet<Address>();
             this.OfficeSettings = new HashSet<OfficeSetting>();
-
         }
 
         [Key]
@@ -104,7 +107,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the social media.
         /// </summary>
-        public ICollection<SocialMedia> SocialMediaPresence { get; set; }
+        public ICollection<SocialMedia> SocialMedias { get; set; }
 
         //relationships
 

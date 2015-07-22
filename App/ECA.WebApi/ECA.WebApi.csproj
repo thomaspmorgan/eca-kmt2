@@ -373,6 +373,7 @@
     <Compile Include="Controllers\Admin\OrganizationsController.cs" />
     <Compile Include="Controllers\Admin\MoneyFlowStatusesController.cs" />
     <Compile Include="Controllers\Admin\ParticipantTypesController.cs" />
+    <Compile Include="Controllers\Admin\SocialMediasController.cs" />
     <Compile Include="Controllers\LogsController.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonsController.cs" />
     <Compile Include="Controllers\Security\PrincipalsController.cs" />
@@ -396,11 +397,16 @@
     <Compile Include="Models\Admin\AddressBindingModel.cs" />
     <Compile Include="Models\Admin\AddressModelHandler.cs" />
     <Compile Include="Models\Admin\IAddressModelHandler.cs" />
+    <Compile Include="Models\Admin\ISocialMediaPresenceModelHandler.cs" />
     <Compile Include="Models\Admin\OrganizationAddressBindingModel.cs" />
+    <Compile Include="Models\Admin\OrganizationSocialMediaPresenceBindingModel.cs" />
     <Compile Include="Models\Admin\PersonAddressBindingModel.cs" />
+    <Compile Include="Models\Admin\PersonSocialMediaPresenceBindingModel.cs" />
+    <Compile Include="Models\Admin\SocialMediaBindingModelBase.cs" />
+    <Compile Include="Models\Admin\SocialMediaPresenceModelHandler.cs" />
     <Compile Include="Models\Admin\UpdatedAddressBindingModel.cs" />
     <Compile Include="Models\Admin\UpdatedOrganizationBindingModel.cs" />
-    <Compile Include="Models\Person\AddressBindingModel.cs" />
+    <Compile Include="Models\Admin\UpdatedSocialMediaBindingModel.cs" />
     <Compile Include="Models\Person\PiiBindingModel.cs" />
     <Compile Include="Models\Programs\CollaboratorBindingModel.cs" />
     <Compile Include="Models\Projects\AdditionalOrganizationProjectParticipantBindingModel.cs" />

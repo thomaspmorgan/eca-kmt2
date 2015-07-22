@@ -134,6 +134,7 @@
     <Compile Include="IHistorical.cs" />
     <Compile Include="ICategorizable.cs" />
     <Compile Include="ILocationable.cs" />
+    <Compile Include="ISocialable.cs" />
     <Compile Include="IThemeable.cs" />
     <Compile Include="ItineraryStatus.cs" />
     <Compile Include="Justification.cs" />
@@ -162,7 +163,6 @@
     <Compile Include="EcaContext.cs" />
     <Compile Include="EcaInitializer.cs" />
     <Compile Include="EmailAddress.cs" />
-    <Compile Include="Enums.cs" />
     <Compile Include="Activity.cs" />
     <Compile Include="ActivityType.cs" />
     <Compile Include="ExternalId.cs" />

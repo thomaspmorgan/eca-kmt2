@@ -18,7 +18,7 @@ namespace ECA.Business.Queries.Models.Admin
         public OrganizationDTO()
         {
             this.Contacts = new List<SimpleLookupDTO>();
-            this.SocialMedias = new List<SimpleTypeLookupDTO>();
+            this.SocialMedias = new List<SocialMediaDTO>();
             this.Addresses = new List<AddressDTO>();
         }
 
@@ -55,7 +55,7 @@ namespace ECA.Business.Queries.Models.Admin
         /// <summary>
         /// Gets or sets the social medias.
         /// </summary>
-        public IEnumerable<SimpleTypeLookupDTO> SocialMedias { get; set; }
+        public IEnumerable<SocialMediaDTO> SocialMedias { get; set; }
 
         /// <summary>
         /// Gets or sets the last revised on date.

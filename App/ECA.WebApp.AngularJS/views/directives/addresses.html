@@ -63,7 +63,8 @@
                                     <input name="addressDisplayName"
                                            maxlength="300"
                                            ng-model="address.addressDisplayName"
-                                           form-element guidance="This is the name of the address."
+                                           form-element 
+                                           guidance="This is the name of the address."
                                            type="text"
                                            class="form-control"
                                            placeholder="Enter address name."
@@ -129,6 +130,7 @@
                                 <div class="col-md-9">
                                     <input type="search"
                                            id="city"
+                                           name="city"
                                            class="search-contextual"
                                            maxlength="100"
                                            typeahead-append-to-body="false"
@@ -165,6 +167,7 @@
                                            id="division"
                                            class="search-contextual"
                                            maxlength="100"
+                                           name="division"
                                            typeahead-append-to-body="false"
                                            placeholder="Select division or state..."
                                            ng-model="address.division"
@@ -191,6 +194,7 @@
                                            id="country"
                                            class="search-contextual"
                                            maxlength="100"
+                                           name="country"
                                            typeahead-append-to-body="false"
                                            placeholder="Select a country..."
                                            ng-model="address.country"

@@ -26,6 +26,7 @@ namespace ECA.WebApi.Test.Controllers.Admin
         private Mock<IOrganizationTypeService> organizationTypeService;
         private Mock<IUserProvider> userProvider;
         private Mock<IAddressModelHandler> addressHandler;
+        private Mock<ISocialMediaPresenceModelHandler> socialMediaHandler;
         private OrganizationsController controller;
 
         [TestInitialize]
@@ -35,10 +36,11 @@ namespace ECA.WebApi.Test.Controllers.Admin
             organizationTypeService = new Mock<IOrganizationTypeService>();
             userProvider = new Mock<IUserProvider>();
             addressHandler = new Mock<IAddressModelHandler>();
+            socialMediaHandler = new Mock<ISocialMediaPresenceModelHandler>();
             organizationService.Setup(x => x.GetOrganizationsAsync(It.IsAny<QueryableOperator<SimpleOrganizationDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<SimpleOrganizationDTO>(1, new List<SimpleOrganizationDTO>()));
             
-            controller = new OrganizationsController(organizationService.Object, organizationTypeService.Object, userProvider.Object, addressHandler.Object);
+            controller = new OrganizationsController(organizationService.Object, organizationTypeService.Object, userProvider.Object, addressHandler.Object, socialMediaHandler.Object);
         }
 
         [TestMethod]
@@ -119,7 +121,15 @@ namespace ECA.WebApi.Test.Controllers.Admin
         {
             var model = new OrganizationAddressBindingModel();
             var response = await controller.PostAddressAsync(model);
-            addressHandler.Verify(x => x.HandleAdditionalAddress<Organization>(It.IsAny<AddressBindingModelBase<Organization>>(), It.IsAny<ApiController>()), Times.Once());
+            addressHandler.Verify(x => x.HandleAdditionalAddressAsync<Organization>(It.IsAny<AddressBindingModelBase<Organization>>(), It.IsAny<ApiController>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestPostSocialMediaASync()
+        {
+            var model = new OrganizationSocialMediaPresenceBindingModel();
+            var response = await controller.PostSocialMediaAsync(model);
+            socialMediaHandler.Verify(x => x.HandleSocialMediaPresenceAsync<Organization>(It.IsAny<SocialMediaBindingModelBase<Organization>>(), It.IsAny<ApiController>()), Times.Once());
         }
     }
 }

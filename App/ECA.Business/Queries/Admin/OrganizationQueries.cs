@@ -32,13 +32,13 @@ namespace ECA.Business.Queries.Admin
                         let organizationType = organization.OrganizationType
                         let address = organization.Addresses.FirstOrDefault()
 
-                        let addressHasCity = address != null 
-                                            && address.Location != null 
+                        let addressHasCity = address != null
+                                            && address.Location != null
                                             && address.Location.City != null
                                             && address.Location.City.LocationName != null
 
-                        let addressHasCountry = address != null 
-                                            && address.Location != null 
+                        let addressHasCountry = address != null
+                                            && address.Location != null
                                             && address.Location.Country != null
                                             && address.Location.Country.LocationName != null
 
@@ -48,7 +48,7 @@ namespace ECA.Business.Queries.Admin
                             Location = (addressHasCity ? address.Location.City.LocationName : String.Empty)
                                         + (addressHasCity && addressHasCountry ? ", " : String.Empty)
                                         + (addressHasCountry ? address.Location.Country.LocationName : String.Empty),
-                           
+
                             Name = organization.Name,
                             OrganizationId = organization.OrganizationId,
                             OrganizationType = organizationType.OrganizationTypeName,
@@ -70,50 +70,50 @@ namespace ECA.Business.Queries.Admin
             Contract.Requires(context != null, "The context must not be null.");
             var query = from org in context.Organizations
                         let orgType = org.OrganizationType
-                        let socialMedias = org.SocialMediaPresence
+                        let socialMedias = org.SocialMedias
                         let contacts = org.Contacts
                         let addresses = org.Addresses
                         let parentOrg = org.ParentOrganization
                         where org.OrganizationId == organizationId
                         select new OrganizationDTO
                         {
-                            Contacts = contacts.Select(x => new SimpleLookupDTO { Id = x.ContactId, Value = x.FullName}),
+                            Contacts = contacts.Select(x => new SimpleLookupDTO { Id = x.ContactId, Value = x.FullName }),
                             Description = org.Description,
                             Addresses = (from address in addresses
-                                        let addressType = address.AddressType
+                                         let addressType = address.AddressType
 
-                                        let location = address.Location
+                                         let location = address.Location
 
-                                        let hasCity = location.City != null
-                                        let city = location.City
+                                         let hasCity = location.City != null
+                                         let city = location.City
 
-                                        let hasCountry = location.Country != null
-                                        let country = location.Country
+                                         let hasCountry = location.Country != null
+                                         let country = location.Country
 
-                                        let hasDivision = location.Division != null
-                                        let division = location.Division
+                                         let hasDivision = location.Division != null
+                                         let division = location.Division
 
-                                        select new AddressDTO
-                                        {
-                                            AddressDisplayName = address.DisplayName,
-                                            AddressId = address.AddressId,
-                                            AddressType = addressType.AddressName,
-                                            AddressTypeId = addressType.AddressTypeId,
-                                            City = hasCity ? city.LocationName : null,
-                                            CityId = location.CityId,
-                                            Country = hasCountry ? country.LocationName : null,
-                                            CountryId =  location.CountryId,
-                                            Division = hasDivision ? division.LocationName : null,
-                                            DivisionId = location.DivisionId,
-                                            LocationId = location.LocationId,
-                                            LocationName = location.LocationName,
-                                            OrganizationId = address.OrganizationId,
-                                            PostalCode = location.PostalCode,
-                                            PersonId = address.PersonId,
-                                            Street1 = location.Street1,
-                                            Street2 = location.Street2,
-                                            Street3 = location.Street3,                            
-                                        }).OrderBy(a => a.AddressDisplayName),
+                                         select new AddressDTO
+                                         {
+                                             AddressDisplayName = address.DisplayName,
+                                             AddressId = address.AddressId,
+                                             AddressType = addressType.AddressName,
+                                             AddressTypeId = addressType.AddressTypeId,
+                                             City = hasCity ? city.LocationName : null,
+                                             CityId = location.CityId,
+                                             Country = hasCountry ? country.LocationName : null,
+                                             CountryId = location.CountryId,
+                                             Division = hasDivision ? division.LocationName : null,
+                                             DivisionId = location.DivisionId,
+                                             LocationId = location.LocationId,
+                                             LocationName = location.LocationName,
+                                             OrganizationId = address.OrganizationId,
+                                             PostalCode = location.PostalCode,
+                                             PersonId = address.PersonId,
+                                             Street1 = location.Street1,
+                                             Street2 = location.Street2,
+                                             Street3 = location.Street3,
+                                         }).OrderBy(a => a.AddressDisplayName),
                             Name = org.Name,
                             OrganizationId = org.OrganizationId,
                             OrganizationType = orgType.OrganizationTypeName,
@@ -121,7 +121,14 @@ namespace ECA.Business.Queries.Admin
                             ParentOrganizationId = parentOrg == null ? default(int?) : parentOrg.OrganizationId,
                             ParentOrganizationName = parentOrg == null ? null : parentOrg.Name,
                             RevisedOn = org.History.RevisedOn,
-                            SocialMedias = socialMedias.Select(x => new SimpleTypeLookupDTO { Id = x.SocialMediaId, Type = x.SocialMediaType.SocialMediaTypeName, Value = x.SocialMediaValue}),
+                            SocialMedias = socialMedias.Select(x =>
+                                new SocialMediaDTO
+                                {
+                                    Id = x.SocialMediaId,
+                                    SocialMediaType = x.SocialMediaType.SocialMediaTypeName,
+                                    SocialMediaTypeId = x.SocialMediaTypeId,
+                                    Value = x.SocialMediaValue
+                                }).OrderBy(s => s.SocialMediaType),
                             Website = org.Website
                         };
             return query;

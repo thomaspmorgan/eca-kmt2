@@ -32,7 +32,6 @@ namespace ECA.Business.Service.Persons
         /// <param name="cityOfBirthId">The city of birth id</param>
         /// <param name="dateOfBirth">The date of birth</param>
         /// <param name="countriesOfCitizenship">The coutries of citizenship</param>
-        /// <param name="homeAddresses">The home addresses</param>
         /// <param name="medicalConditions">The medical conditions</param>
         /// <param name="maritalStatusId">The marital status id</param>
         public UpdatePii(
@@ -52,7 +51,6 @@ namespace ECA.Business.Service.Persons
             int cityOfBirthId,
             DateTime dateOfBirth,
             List<int> countriesOfCitizenship,
-            List<HomeAddress> homeAddresses,
             string medicalConditions,
             int maritalStatusId
             )
@@ -73,7 +71,6 @@ namespace ECA.Business.Service.Persons
             this.CityOfBirthId = cityOfBirthId;
             this.DateOfBirth = dateOfBirth;
             this.CountriesOfCitizenship = countriesOfCitizenship;
-            this.HomeAddresses = homeAddresses;
             this.MedicalConditions = medicalConditions;
             this.MaritalStatusId = maritalStatusId;
             this.Audit = new Create(updatedBy);
@@ -155,11 +152,6 @@ namespace ECA.Business.Service.Persons
         public List<int> CountriesOfCitizenship { get; private set; }
 
         /// <summary>
-        /// Gets or sets the home addresses
-        /// </summary>
-        public List<HomeAddress> HomeAddresses { get; private set; }
-
-        /// <summary>
         /// Gets or sets the medical conditions
         /// </summary>
         public string MedicalConditions { get; private set; }
@@ -168,7 +160,6 @@ namespace ECA.Business.Service.Persons
         /// Gets or sets the marital status id
         /// </summary>
         public int MaritalStatusId { get; private set; }
-
 
         /// <summary>
         /// Gets or sets the audit record

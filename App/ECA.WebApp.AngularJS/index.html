@@ -74,7 +74,9 @@
                           class="dropdown pull-right user"
                           dropdown on-toggle="currentUser.userMenuToggled(open)"
                           data-ng-model="userInfo">
-                        <i style="margin-right:10px;" class="fa fa-user"></i>
+                        <div class="pull-left">
+                            <i class="material-icons md-18" style="margin-right:10px;">account_circle</i>
+                        </div>
                         <a href class="dropdown-toggle" dropdown-toggle ng-bind-template="{{userInfo.profile.given_name}} {{userInfo.profile.family_name}}">
                         </a>
                         <ul class="dropdown-menu user">
@@ -83,7 +85,7 @@
                     </span>
                 </div>
                 <div ng-show="currentUser.isBusy" class=" pull-right" style="margin-top:14px;">
-                    <i style="margin-right:10px;" class="fa fa-spinner fa-pulse"></i>
+                    <i class="material-icons md-18 material-icons-spin">refresh</i>
                 </div>
             </div>
         </div>
@@ -162,6 +164,8 @@
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/allprograms.js"></script>
     <script src="scripts/controllers/office.js"></script>
+    <script src="scripts/controllers/socialmedia/socialmedia.js"></script>
+    <script src="scripts/controllers/socialmedia/socialmedias.js"></script>
     <script src="scripts/controllers/organization/organization.js"></script>
     <script src="scripts/controllers/organization/overview.js"></script>
     <script src="scripts/controllers/organization/editdetails.js"></script>
@@ -181,6 +185,7 @@
     <script src="scripts/controllers/collaborators.js"></script>
     <script src="scripts/services/authservice.js"></script>
     <script src="scripts/services/addressservice.js"></script>
+    <script src="scripts/services/socialmediaservice.js"></script>
     <script src="scripts/controllers/securetest.js"></script>
     <script src="scripts/controllers/logout.js"></script>
     <script src="scripts/services/schema.js"></script>
@@ -190,6 +195,7 @@
     <script src="scripts/directives/guidance.js"></script>
     <script src="scripts/directives/socialmedialink.js"></script>
     <script src="scripts/directives/addresses.js"></script>
+    <script src="scripts/directives/socialmedias.js"></script>
     <script src="scripts/controllers/formvalidation.js"></script>
     <script src="scripts/controllers/reports/custom.js"></script>
     <script src="scripts/controllers/reports/archive.js"></script>

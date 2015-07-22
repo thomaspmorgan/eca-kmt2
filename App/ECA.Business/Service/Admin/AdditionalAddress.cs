@@ -72,6 +72,7 @@ namespace ECA.Business.Service.Admin
             location.Street1 = this.Street1;
             location.Street2 = this.Street2;
             location.Street3 = this.Street3;
+            this.Create.SetHistory(location);
             return location;
         }
 
@@ -87,7 +88,8 @@ namespace ECA.Business.Service.Admin
             var address = new Address();
             address.Location = location;
             address.AddressTypeId = this.AddressTypeId;
-            address.DisplayName = this.AddressDisplayName;            
+            address.DisplayName = this.AddressDisplayName;
+            this.Create.SetHistory(address);
             return address;
         }
 

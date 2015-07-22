@@ -1,4 +1,5 @@
-﻿using ECA.Business.Queries.Models.Persons;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
 using ECA.Data;
@@ -111,23 +112,41 @@ namespace ECA.Business.Queries.Persons
                             MaritalStatusId = person.MaritalStatus.MaritalStatusId,
                             Ethnicity = person.Ethnicity,
                             MedicalConditions = person.MedicalConditions,
-                            HomeAddresses = person.Addresses.Where(x => x.AddressTypeId == AddressType.Home.Id)
-                                                        .Select(x => new LocationDTO
-                                                        {
-                                                            Id = x.LocationId,
-                                                            Street1 = x.Location.Street1,
-                                                            Street2 = x.Location.Street2,
-                                                            Street3 = x.Location.Street3,
-                                                            City = x.Location.City.LocationName,
-                                                            CityId = context.Locations.Where(y => y.CountryId == x.Location.Country.LocationId &&
-                                                                                             y.LocationName == x.Location.City.LocationName &&
-                                                                                             y.LocationTypeId == LocationType.City.Id)
-                                                                                             .FirstOrDefault().LocationId,
+                            Addresses = (from address in person.Addresses
+                                         let addressType = address.AddressType
 
-                                                            PostalCode = x.Location.PostalCode,
-                                                            Country = x.Location.Country.LocationName,
-                                                            CountryId = x.Location.Country.LocationId
-                                                        }),
+                                         let location = address.Location
+
+                                         let hasCity = location.City != null
+                                         let city = location.City
+
+                                         let hasCountry = location.Country != null
+                                         let country = location.Country
+
+                                         let hasDivision = location.Division != null
+                                         let division = location.Division
+
+                                         select new AddressDTO
+                                         {
+                                             AddressDisplayName = address.DisplayName,
+                                             AddressId = address.AddressId,
+                                             AddressType = addressType.AddressName,
+                                             AddressTypeId = addressType.AddressTypeId,
+                                             City = hasCity ? city.LocationName : null,
+                                             CityId = location.CityId,
+                                             Country = hasCountry ? country.LocationName : null,
+                                             CountryId = location.CountryId,
+                                             Division = hasDivision ? division.LocationName : null,
+                                             DivisionId = location.DivisionId,
+                                             LocationId = location.LocationId,
+                                             LocationName = location.LocationName,
+                                             OrganizationId = address.OrganizationId,
+                                             PostalCode = location.PostalCode,
+                                             PersonId = address.PersonId,
+                                             Street1 = location.Street1,
+                                             Street2 = location.Street2,
+                                             Street3 = location.Street3,
+                                         }).OrderBy(a => a.AddressDisplayName),
                             CityOfBirth = person.PlaceOfBirth.LocationName,
                             CityOfBirthId = person.PlaceOfBirthId,
                             CountryOfBirth = person.PlaceOfBirth.Country.LocationName,

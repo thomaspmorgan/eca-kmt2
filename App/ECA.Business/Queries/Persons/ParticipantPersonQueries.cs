@@ -38,32 +38,80 @@ namespace ECA.Business.Queries.Persons
                              HomeInstitution = p.HomeInstitution != null ? new InstitutionDTO
                              {
                                  Name = p.HomeInstitution.Name,
-                                 Addresses = p.HomeInstitution.Addresses.Select(x => new ECA.Business.Queries.Models.Persons.LocationDTO
-                                 {
-                                     Id = x.LocationId,
-                                     Street1 = x.Location.Street1,
-                                     Street2 = x.Location.Street2,
-                                     Street3 = x.Location.Street3,
-                                     Country = x.Location.Country.LocationName,
-                                     CountryId = x.Location.Country.LocationId,
-                                     City = x.Location.City.LocationName,
-                                     PostalCode = x.Location.PostalCode
-                                 })
+                                 Addresses = (from address in p.HomeInstitution.Addresses
+                                              let addressType = address.AddressType
+
+                                              let location = address.Location
+
+                                              let hasCity = location.City != null
+                                              let city = location.City
+
+                                              let hasCountry = location.Country != null
+                                              let country = location.Country
+
+                                              let hasDivision = location.Division != null
+                                              let division = location.Division
+
+                                              select new AddressDTO
+                                              {
+                                                  AddressDisplayName = address.DisplayName,
+                                                  AddressId = address.AddressId,
+                                                  AddressType = addressType.AddressName,
+                                                  AddressTypeId = addressType.AddressTypeId,
+                                                  City = hasCity ? city.LocationName : null,
+                                                  CityId = location.CityId,
+                                                  Country = hasCountry ? country.LocationName : null,
+                                                  CountryId = location.CountryId,
+                                                  Division = hasDivision ? division.LocationName : null,
+                                                  DivisionId = location.DivisionId,
+                                                  LocationId = location.LocationId,
+                                                  LocationName = location.LocationName,
+                                                  OrganizationId = address.OrganizationId,
+                                                  PostalCode = location.PostalCode,
+                                                  PersonId = address.PersonId,
+                                                  Street1 = location.Street1,
+                                                  Street2 = location.Street2,
+                                                  Street3 = location.Street3,
+                                              }).OrderBy(a => a.AddressDisplayName),
                              } : null,
                              HostInstitution = p.HostInstitution != null ? new InstitutionDTO
                              {
                                  Name = p.HostInstitution.Name,
-                                 Addresses = p.HostInstitution.Addresses.Select(x => new ECA.Business.Queries.Models.Persons.LocationDTO
-                                 {
-                                     Id = x.LocationId,
-                                     Street1 = x.Location.Street1,
-                                     Street2 = x.Location.Street2,
-                                     Street3 = x.Location.Street3,
-                                     Country = x.Location.Country.LocationName,
-                                     CountryId = x.Location.Country.LocationId,
-                                     City = x.Location.City.LocationName,
-                                     PostalCode = x.Location.PostalCode
-                                 })
+                                 Addresses = (from address in p.HostInstitution.Addresses
+                                              let addressType = address.AddressType
+
+                                              let location = address.Location
+
+                                              let hasCity = location.City != null
+                                              let city = location.City
+
+                                              let hasCountry = location.Country != null
+                                              let country = location.Country
+
+                                              let hasDivision = location.Division != null
+                                              let division = location.Division
+
+                                              select new AddressDTO
+                                              {
+                                                  AddressDisplayName = address.DisplayName,
+                                                  AddressId = address.AddressId,
+                                                  AddressType = addressType.AddressName,
+                                                  AddressTypeId = addressType.AddressTypeId,
+                                                  City = hasCity ? city.LocationName : null,
+                                                  CityId = location.CityId,
+                                                  Country = hasCountry ? country.LocationName : null,
+                                                  CountryId = location.CountryId,
+                                                  Division = hasDivision ? division.LocationName : null,
+                                                  DivisionId = location.DivisionId,
+                                                  LocationId = location.LocationId,
+                                                  LocationName = location.LocationName,
+                                                  OrganizationId = address.OrganizationId,
+                                                  PostalCode = location.PostalCode,
+                                                  PersonId = address.PersonId,
+                                                  Street1 = location.Street1,
+                                                  Street2 = location.Street2,
+                                                  Street3 = location.Street3,
+                                              }).OrderBy(a => a.AddressDisplayName),
                              } : null
                          });
             return query;
