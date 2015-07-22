@@ -44,5 +44,4 @@ angular.module('staticApp')
           var removedItems = socialMedias.splice(index, 1);
           $log.info('Removed one new social media at index ' + index);
       });
-
   });

@@ -28,8 +28,6 @@ angular.module('staticApp')
       $scope.view.showEditSocialMedia = false;
       $scope.view.isSavingChanges = false;
       $scope.view.isLoadingRequiredData = false;
-      $scope.view.searchLimit = 10;
-      $scope.view.autopopulateOnCitySelect = true;
       var originalSocialMedia = angular.copy($scope.socialMedia);
 
       var socialableTypeToServiceMapping = {
@@ -154,6 +152,5 @@ angular.module('staticApp')
       .then(function () {
           $log.info('Loaded all resources.');
           $scope.view.isLoadingRequiredData = false;
-      })
-
+      });
   });

@@ -11,7 +11,7 @@
     </div>
     <div class="col-md-12" collapse="view.collapseSocialMedias">
         <div ng-repeat="socialMedia in socialable.socialMedias">
-            <div ng-controller="SocialMediaCtrl">
+            <div ng-controller="SocialMediaCtrl" ng-init="view.x = -1">
                 <div class="spinner" ng-show="view.isSavingChanges || view.isLoadingRequiredData">
                     <div class="bounce1"></div>
                     <div class="bounce2"></div>
@@ -19,7 +19,7 @@
                 </div>
                 <div class="row" ng-show="!view.isSavingChanges && !view.isLoadingRequiredData">
                     <div ng-show="!view.showEditSocialMedia">
-                        <socialmedialink model="socialMedia" />
+                        <socialmedialink model="socialMedia"/>
                         <div class="pull-right" ng-show="!view.showEditSocialMedia">
                             {{socialMedia.socialMediaType}}
                             <a ng-show="!view.showEditSocialMedia" ng-click="view.onEditSocialMediaClick()">
@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                             <div class="form-group" id="socialMediaForm{{socialMedia.id}}">
-                                <label class="title-label col-md-3" for="socialMediaValue">Url/Value<span class="asterisk"> *</span></label>
+                                <label class="title-label col-md-3" for="socialMediaValue">Url<span class="asterisk"> *</span></label>
                                 <div class="col-md-9">
                                     <input name="socialMediaValue"
                                            maxlength="100"

@@ -128,7 +128,7 @@ namespace ECA.Business.Queries.Admin
                                     SocialMediaType = x.SocialMediaType.SocialMediaTypeName,
                                     SocialMediaTypeId = x.SocialMediaTypeId,
                                     Value = x.SocialMediaValue
-                                }),
+                                }).OrderBy(s => s.SocialMediaType),
                             Website = org.Website
                         };
             return query;

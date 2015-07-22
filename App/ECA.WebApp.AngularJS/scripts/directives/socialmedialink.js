@@ -9,7 +9,7 @@
 angular.module('staticApp')
   .directive('socialmedialink', function ($log, ConstantsService) {
       var directive = {
-          template: '<a href="{{url}}" target="_blank">{{url}}</a>',
+          template: '<a href="{{url}}" target="_blank">{{displayUrl}}</a>',
           scope: {
               socialMedia: '=model'
           },
@@ -33,10 +33,10 @@ angular.module('staticApp')
               }
               else {
                   $log.info('Calculating social media value.');
-                  var value = socialMedia.value;
+                  var value = socialMedia.value || '';
                   var type = socialMedia.socialMediaType || '';
                   type = type.toLowerCase().trim();
-                  
+
                   if (type === ConstantsService.socialMediaType.facebook.value.trim().toLowerCase()) {
                       return 'https://facebook.com/' + value;
                   }
@@ -53,9 +53,23 @@ angular.module('staticApp')
               }
           },
 
+          getDisplayUrl: function(url){
+              var maxLength = 35;
+              var displayUrl = url;
+              if (displayUrl.length > maxLength) {
+                  displayUrl = displayUrl.substring(0, maxLength) + '...';
+              }
+              return displayUrl;
+          },
+
           link: function postLink(scope, element, attrs) {
-              var sm = scope.socialMedia;
-              scope.url = directive.getSocialMediaUrl(scope.socialMedia);
+              var socialMediaValue = scope.socialMedia.value;
+              scope.$watch(attrs.model,
+                  function (newValue, oldValue, scope) {
+                      scope.url = directive.getSocialMediaUrl(newValue);
+                      scope.displayUrl = directive.getDisplayUrl(scope.url);
+                      
+                  });
           }
       };
       return directive;
