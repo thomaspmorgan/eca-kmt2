@@ -1,4 +1,4 @@
-﻿CREATE TABLE [CAM].[UserAccount]
+﻿CREATE TABLE [cam].[UserAccount]
 (
 	[PrincipalId] INT NOT NULL PRIMARY KEY, 
     [AdGuid] UNIQUEIDENTIFIER NOT NULL, 
@@ -18,8 +18,8 @@
     [SuspendedDate] DATETIMEOFFSET NULL, 
     [RevokedDate] DATETIMEOFFSET NULL, 
     [RestoredDate] DATETIMEOFFSET NULL, 
-    CONSTRAINT [FK_UserAccount_ToPrincipal] FOREIGN KEY ([PrincipalId]) REFERENCES [CAM].[Principal]([PrincipalId]), 
-    CONSTRAINT [FK_UserAccount_ToAccountStatus] FOREIGN KEY ([AccountStatusId]) REFERENCES [CAM].[AccountStatus]([AccountStatusId]), 
+    CONSTRAINT [FK_UserAccount_ToPrincipal] FOREIGN KEY ([PrincipalId]) REFERENCES [cam].[Principal]([PrincipalId]), 
+    CONSTRAINT [FK_UserAccount_ToAccountStatus] FOREIGN KEY ([AccountStatusId]) REFERENCES [cam].[AccountStatus]([AccountStatusId]), 
     CONSTRAINT [CK_UserAccount_UniqueAdGuid] UNIQUE([AdGuid])
 )
 

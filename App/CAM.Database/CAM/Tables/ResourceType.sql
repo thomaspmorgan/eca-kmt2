@@ -1,4 +1,4 @@
-﻿CREATE TABLE [CAM].[ResourceType]
+﻿CREATE TABLE [cam].[ResourceType]
 (
 	[ResourceTypeId] INT NOT NULL PRIMARY KEY IDENTITY(1,1), 
 	[ResourceTypeName] NVARCHAR(50) NOT NULL, 
@@ -9,5 +9,5 @@
 	[RevisedOn] DATETIMEOFFSET NOT NULL, 
 	[RevisedBy] INT NOT NULL, 
 	[IsActive] BIT NOT NULL DEFAULT 1, 
-    CONSTRAINT [FK_ResourceType_ToResourceType] FOREIGN KEY ([ParentResourceTypeId]) REFERENCES [CAM].[ResourceType]([ResourceTypeId])
+    CONSTRAINT [FK_ResourceType_ToResourceType] FOREIGN KEY ([ParentResourceTypeId]) REFERENCES [cam].[ResourceType]([ResourceTypeId])
 )

@@ -1,4 +1,4 @@
-﻿CREATE TABLE [CAM].[AccountStatus]
+﻿CREATE TABLE [cam].[AccountStatus]
 (
 	[AccountStatusId] INT NOT NULL PRIMARY KEY IDENTITY (1,1), 
     [Status] NVARCHAR(50) NOT NULL, 

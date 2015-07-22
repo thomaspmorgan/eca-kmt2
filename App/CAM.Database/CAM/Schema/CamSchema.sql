@@ -1,3 +1,3 @@
-﻿Create Schema CAM
+﻿Create Schema cam
 
 Go
