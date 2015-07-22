@@ -42,18 +42,43 @@
             <div class="form-group">
                 <label class="col-md-4 title-label">Website</label>
                 <div class="col-md-8">
-                    <input type="text" 
+                    <input type="text"
                            maxlength="2000"
-                           class="form-control" 
-                           ng-model="organization.website"/>
+                           class="form-control"
+                           ng-model="organization.website" />
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-4 title-label">Type</label>
                 <div class="col-md-8">
-                    <select class="form-control" 
-                            ng-model="organization.organizationTypeId" 
+                    <select class="form-control"
+                            ng-model="organization.organizationTypeId"
                             ng-options="organizationType.id as organizationType.name for organizationType in view.organizationTypes" />
+                </div>
+            </div>
+            <div class="row" ng-show="organization.contacts">
+                <div class="col-md-6 title-label"><ng-pluralize count="organization.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
+                <div class="col-md-6">
+                    <ui-select multiple
+                               close-on-select="true"
+                               ng-model="view.selectedPointsOfContact"
+                               theme="select2"
+                               on-select="view.onSelectPointsOfContactChange()"
+                               on-remove="view.onSelectPointsOfContactChange()"
+                               append-to-body="true"
+                               title="Choose a point of contact."
+                               style="min-width: 200px;">
+                        <ui-select-match placeholder="Select points of contact...">
+                            <div>{{$item.value}}</div>
+                        </ui-select-match>
+
+                        <ui-select-choices refresh="view.searchPointsOfContact($select.search)" 
+                                           refresh-delay="250" 
+                                           repeat="person in view.pointsOfContact | filter: select.search track by person.id">
+                            <div ng-bind-html="person.fullName | highlight: $select.search"></div>
+                            <div class="small">{{person.position}}</div>
+                        </ui-select-choices>
+                    </ui-select>
                 </div>
             </div>
         </div>
@@ -88,6 +113,6 @@
         <!--Organization search results-->
         <div ng-show="match.model.name">
             <span bind-html-unsafe="match.model.name | typeaheadHighlight:query"></span>
-        </div>     
+        </div>
     </a>
 </script>

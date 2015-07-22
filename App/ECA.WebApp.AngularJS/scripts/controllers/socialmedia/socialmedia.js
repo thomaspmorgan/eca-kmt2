@@ -123,34 +123,9 @@ angular.module('staticApp')
           return socialMedia.socialableId;
       }
 
-      function getSocialMediaTypes() {
-          var params = {
-              start: 0,
-              limit: 300
-          };
-          return LookupService.getSocialMediaTypes(params)
-          .then(function (response) {
-              if (response.data.total > params.limit) {
-                  var message = "There are more social media types than could be loaded.  Not all social media types will be shown.";
-                  $log.error(message);
-                  NotificationService.showErrorMessage(message);
-              }
-              var socialMediaTypes = response.data.results;
-              $scope.view.socialMediaTypes = socialMediaTypes;
-              return socialMediaTypes;
-          })
-          .catch(function () {
-              var message = 'Unable to load social media types.';
-              NotificationService.showErrorMessage(message);
-              $log.error(message);
-          });
-      }
-
-
       $scope.view.isLoadingRequiredData = true;
-      $q.all([getSocialMediaTypes()])
-      .then(function () {
-          $log.info('Loaded all resources.');
+      $scope.$parent.data.loadSocialMediaTypesPromise.promise.then(function (socialMediaTypes) {
+          $scope.view.socialMediaTypes = socialMediaTypes;
           $scope.view.isLoadingRequiredData = false;
       });
   });

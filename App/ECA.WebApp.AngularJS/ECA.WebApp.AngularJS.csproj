@@ -144,7 +144,6 @@
     <Content Include="scripts\controllers\person\personEvaluationNotes.js" />
     <Content Include="scripts\controllers\person\personGeneral.js" />
     <Content Include="scripts\controllers\program\moneyflows.js" />
-    <Content Include="scripts\controllers\program\collaborators.js" />
     <Content Include="scripts\controllers\project\moneyflows.js" />
     <Content Include="scripts\controllers\project\selectparticipanttype.js" />
     <Content Include="scripts\controllers\project\edit.js" />

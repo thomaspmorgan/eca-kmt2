@@ -23,7 +23,11 @@ angular.module('staticApp')
       $scope.view.organizationTypes = [];
       $scope.view.isLoadingParentOrganizations = false;
       $scope.view.searchAvailableOrganizationsLimit = 10;
-      
+      $scope.view.selectedPointsOfContact = [];
+
+      $scope.view.searchPointsOfContact = function (data) {
+          loadPointsOfContact(data);
+      }
 
       $scope.view.getAvailableParentOrganizations = function (search) {
           return loadAvailableOrganizations(search);
@@ -39,6 +43,87 @@ angular.module('staticApp')
               delete $scope.organization.parentOrganizationName;
               delete $scope.organization.parentOrganizationId;
           }
+      }
+
+      $scope.data.loadedOrganizationPromise.promise
+        .then(function (org) {
+            setSelectedPointsOfContact();
+        });
+
+      $scope.view.onSelectPointsOfContactChange = function () {
+          updatePointsOfContactIds();
+      }
+
+      function setSelectedPointsOfContact() {
+          setSelectedItems('contacts', 'selectedPointsOfContact');
+      }
+
+      function setSelectedItems(projectPropertyName, viewSelectedPropertyName) {
+          console.assert($scope.organization.hasOwnProperty(projectPropertyName), "The organization property " + projectPropertyName + " does not exist.");
+          console.assert($scope.view.hasOwnProperty(viewSelectedPropertyName), "The view " + viewSelectedPropertyName + " property does not exist.");
+          console.assert(Array.isArray($scope.view[viewSelectedPropertyName]), "The view " + viewSelectedPropertyName + " property must be an array.");
+
+          var orgItems = $scope.organization[projectPropertyName];
+          $scope.view[viewSelectedPropertyName] = $scope.view[viewSelectedPropertyName].splice(0, $scope.view[viewSelectedPropertyName].length);
+          for (var i = 0; i < orgItems.length; i++) {
+              var orgItem = orgItems[i];
+              $scope.view[viewSelectedPropertyName].push(orgItem);
+          }
+      }
+
+      function updatePointsOfContactIds() {
+          var propertyName = "pointsOfContactIds";
+          $scope.organization[propertyName] = $scope.organization[propertyName] || [];
+          updateRelationshipIds(propertyName, 'selectedPointsOfContact');
+      }
+
+      function updateRelationshipIds(idsPropertyName, viewiewSelectedPropertyName) {
+          console.assert($scope.organization.hasOwnProperty(idsPropertyName), "The organization must have the property named " + idsPropertyName);
+          console.assert($scope.view.hasOwnProperty(viewiewSelectedPropertyName), "The view must have the property named " + viewiewSelectedPropertyName);
+          $scope.organization[idsPropertyName] = [];
+          $scope.organization[idsPropertyName] = $scope.view[viewiewSelectedPropertyName].map(function (c) {
+              return c.id;
+          });
+      }
+
+      var maxLimit = 300;
+      function loadPointsOfContact(search) {
+          var params = {
+              start: 0,
+              limit: maxLimit,
+              filter: []
+          };
+          if ($scope.view.selectedPointsOfContact.length > 0) {
+              var idsToRemove = $scope.view.selectedPointsOfContact.map(function (c) { return c.id; });
+              params.filter.push({
+                  comparison: ConstantsService.notInComparisonType,
+                  property: 'id',
+                  value: idsToRemove
+              });
+          }
+          if (search) {
+              params.filter.push(
+                  {
+                      comparison: ConstantsService.likeComparisonType,
+                      property: 'fullName',
+                      value: search
+                  });
+          }
+          return LookupService.getAllContacts(params)
+              .then(function (response) {
+                  if (response.total > maxLimit) {
+                      $log.error('There are more contacts in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
+                  }
+                  for (var i = 0; i < response.results.length; i++) {
+                      var position = "";
+                      if (response.results[i].position) {
+                          position = " (" + response.results[i].position + ")";
+                      }
+                      response.results[i].value = response.results[i].fullName + position;
+                  }
+                  $scope.view.pointsOfContact = response.results;
+                  return $scope.view.pointsOfContact;
+              });
       }
 
       function loadAvailableOrganizations(search) {
@@ -75,10 +160,10 @@ angular.module('staticApp')
 
       var orgTypesParams = {
           start: 0,
-          limit: 300
+          limit: maxLimit
       };
 
-      function onOrgTypesLoad (orgTypes) {
+      function onOrgTypesLoad(orgTypes) {
           if (orgTypes.data.total > orgTypesParams.limit) {
               var message = 'There are more org types than can be loaded.  Not all org types will be visible.'
               NotificationService.showErrorMessage(message);
