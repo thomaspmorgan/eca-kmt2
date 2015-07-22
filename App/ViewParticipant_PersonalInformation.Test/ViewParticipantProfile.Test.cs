@@ -17,7 +17,7 @@ namespace ViewParticipantProfile.Test
     /// 4/13/15 -Changed to View Participant Profile to include Contact section. This test will add on the assertions for each section as developed.
     /// This test verifies the login to QA, navigation to All Participants page, All Participants page display, participants list display, participant name hyperlink available, individual participant profile available by hyperlink navigation; participant profile display; PII section display; PII section fields display; PII fields available and display data when applicable; Contact section display; Contact section fields display; Contact fields available and display data when applicable.
     /// 
-    /// Think about adding second participant with full data and access via Participant Search-- Nicole Yoo
+    /// Steve Pike is second participant for testing General, Education & Employment, and Evaluation and Notes sections in personal profile information
     /// </summary>
     [CodedUITest]
     public class ViewParticipantProfileCodedUITest1
@@ -49,6 +49,7 @@ namespace ViewParticipantProfile.Test
             this.UIMap.SelectParticipant();
             this.UIMap.AssertParticipantNameHeading();
             this.UIMap.RefreshParticipantsPage();
+            this.UIMap.ChevronExpandPIISection();
             this.UIMap.AssertPIISectionFields();
             this.UIMap.AssertContactSectionFields();
             //next participant- navigate using breadcrumb back to participants list and then search Steve Pike for General and Edu&Employ sections
@@ -57,6 +58,7 @@ namespace ViewParticipantProfile.Test
             this.UIMap.FilterParticipantName_SelectParticipant2();
             this.UIMap.AssertGeneralSection();
             this.UIMap.AssertEducation_EmploymentSection();
+            this.UIMap.AssertEvaluationandNotes();
 
             //this.UIMap.AssertParticipantsPersonalInfo(); not needed based on individual section and field assertion
             this.UIMap.CloseBrowser();

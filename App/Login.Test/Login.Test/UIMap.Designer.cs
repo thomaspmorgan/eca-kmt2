@@ -42,10 +42,24 @@ namespace Login.Test
                 return this.mUINewtabInternetExplorWindow;
             }
         }
+        
+        public UISigninInternetExplorWindow UISigninInternetExplorWindow
+        {
+            get
+            {
+                if ((this.mUISigninInternetExplorWindow == null))
+                {
+                    this.mUISigninInternetExplorWindow = new UISigninInternetExplorWindow();
+                }
+                return this.mUISigninInternetExplorWindow;
+            }
+        }
         #endregion
         
         #region Fields
         private UINewtabInternetExplorWindow mUINewtabInternetExplorWindow;
+        
+        private UISigninInternetExplorWindow mUISigninInternetExplorWindow;
         #endregion
     }
     
@@ -979,6 +993,180 @@ namespace Login.Test
         
         #region Fields
         private HtmlCell mUIECATest1statedeptusCell;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UISigninInternetExplorWindow : BrowserWindow
+    {
+        
+        public UISigninInternetExplorWindow()
+        {
+            #region Search Criteria
+            this.SearchProperties[UITestControl.PropertyNames.Name] = "Sign in";
+            this.SearchProperties[UITestControl.PropertyNames.ClassName] = "IEFrame";
+            this.WindowTitles.Add("Sign in");
+            #endregion
+        }
+        
+        public void LaunchUrl(System.Uri url)
+        {
+            this.CopyFrom(BrowserWindow.Launch(url));
+        }
+        
+        #region Properties
+        public UISigninDocument UISigninDocument
+        {
+            get
+            {
+                if ((this.mUISigninDocument == null))
+                {
+                    this.mUISigninDocument = new UISigninDocument(this);
+                }
+                return this.mUISigninDocument;
+            }
+        }
+        
+        public UISigninDocument1 UISigninDocument1
+        {
+            get
+            {
+                if ((this.mUISigninDocument1 == null))
+                {
+                    this.mUISigninDocument1 = new UISigninDocument1(this);
+                }
+                return this.mUISigninDocument1;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UISigninDocument mUISigninDocument;
+        
+        private UISigninDocument1 mUISigninDocument1;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UISigninDocument : HtmlDocument
+    {
+        
+        public UISigninDocument(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDocument.PropertyNames.Id] = null;
+            this.SearchProperties[HtmlDocument.PropertyNames.RedirectingPage] = "False";
+            this.SearchProperties[HtmlDocument.PropertyNames.FrameDocument] = "False";
+            this.FilterProperties[HtmlDocument.PropertyNames.Title] = "Sign in";
+            this.FilterProperties[HtmlDocument.PropertyNames.AbsolutePath] = "/statedept.us/oauth2/authorize";
+            this.FilterProperties[HtmlDocument.PropertyNames.PageUrl] = @"https://login.microsoftonline.com/statedept.us/oauth2/authorize?response_type=id_token&client_id=e0356e55-e124-452c-837d-aeb7504185ff&redirect_uri=http%3A%2F%2Feca-kmt-dev.azurewebsites.net%2F&state=976ad70d-f5fb-48d6-896f-1692eaeb8a45&x-client-SKU=Js&x-client-Ver=1.0.0&nonce=4bb8f636-91cf-402a-b51b-db828faa2918";
+            this.WindowTitles.Add("Sign in");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlEdit UIUseraccountEdit
+        {
+            get
+            {
+                if ((this.mUIUseraccountEdit == null))
+                {
+                    this.mUIUseraccountEdit = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIUseraccountEdit.SearchProperties[HtmlEdit.PropertyNames.Id] = "cred_userid_inputtext";
+                    this.mUIUseraccountEdit.SearchProperties[HtmlEdit.PropertyNames.Name] = "login";
+                    this.mUIUseraccountEdit.FilterProperties[HtmlEdit.PropertyNames.LabeledBy] = "User account";
+                    this.mUIUseraccountEdit.FilterProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIUseraccountEdit.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIUseraccountEdit.FilterProperties[HtmlEdit.PropertyNames.Class] = "login_textfield textfield required email field normaltext";
+                    this.mUIUseraccountEdit.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "name=\"login\" tabindex=\"1\" class=\"login_t";
+                    this.mUIUseraccountEdit.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "1";
+                    this.mUIUseraccountEdit.WindowTitles.Add("Sign in");
+                    #endregion
+                }
+                return this.mUIUseraccountEdit;
+            }
+        }
+        
+        public HtmlEdit UIPasswordEdit
+        {
+            get
+            {
+                if ((this.mUIPasswordEdit == null))
+                {
+                    this.mUIPasswordEdit = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIPasswordEdit.SearchProperties[HtmlEdit.PropertyNames.Id] = "cred_password_inputtext";
+                    this.mUIPasswordEdit.SearchProperties[HtmlEdit.PropertyNames.Name] = "passwd";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.LabeledBy] = "Password";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.Type] = "PASSWORD";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.Class] = "login_textfield textfield required field normaltext";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "name=\"passwd\" tabindex=\"2\" class=\"login_";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "2";
+                    this.mUIPasswordEdit.WindowTitles.Add("Sign in");
+                    #endregion
+                }
+                return this.mUIPasswordEdit;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlEdit mUIUseraccountEdit;
+        
+        private HtmlEdit mUIPasswordEdit;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UISigninDocument1 : HtmlDocument
+    {
+        
+        public UISigninDocument1(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDocument.PropertyNames.Id] = null;
+            this.SearchProperties[HtmlDocument.PropertyNames.RedirectingPage] = "False";
+            this.SearchProperties[HtmlDocument.PropertyNames.FrameDocument] = "False";
+            this.FilterProperties[HtmlDocument.PropertyNames.Title] = "Sign in";
+            this.FilterProperties[HtmlDocument.PropertyNames.AbsolutePath] = "/statedept.us/oauth2/authorize";
+            this.FilterProperties[HtmlDocument.PropertyNames.PageUrl] = @"https://login.microsoftonline.com/statedept.us/oauth2/authorize?response_type=id_token&client_id=e0356e55-e124-452c-837d-aeb7504185ff&redirect_uri=http%3A%2F%2Flocalhost%3A5556%2Findex.html&state=3e030d24-ef1b-4e05-b860-bc5717ce8a9d&x-client-SKU=Js&x-client-Ver=1.0.0&nonce=100eb660-ed3e-4d37-9194-d9b146af01e1";
+            this.WindowTitles.Add("Sign in");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlHyperlink UIECATest1statedeptusHyperlink
+        {
+            get
+            {
+                if ((this.mUIECATest1statedeptusHyperlink == null))
+                {
+                    this.mUIECATest1statedeptusHyperlink = new HtmlHyperlink(this);
+                    #region Search Criteria
+                    this.mUIECATest1statedeptusHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Id] = "ecatest1_statedept_us_link";
+                    this.mUIECATest1statedeptusHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Name] = null;
+                    this.mUIECATest1statedeptusHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Target] = null;
+                    this.mUIECATest1statedeptusHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.InnerText] = " \r\nECATest1@statedept.us \r\n\r\n\r\n\r\n\r\n\r\n••• ";
+                    this.mUIECATest1statedeptusHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.AbsolutePath] = null;
+                    this.mUIECATest1statedeptusHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Title] = null;
+                    this.mUIECATest1statedeptusHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Href] = "#";
+                    this.mUIECATest1statedeptusHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Class] = "tile_link tooltip";
+                    this.mUIECATest1statedeptusHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.ControlDefinition] = "tabindex=\"1\" class=\"tile_link tooltip\" i";
+                    this.mUIECATest1statedeptusHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.TagInstance] = "2";
+                    this.mUIECATest1statedeptusHyperlink.WindowTitles.Add("Sign in");
+                    #endregion
+                }
+                return this.mUIECATest1statedeptusHyperlink;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlHyperlink mUIECATest1statedeptusHyperlink;
         #endregion
     }
 }
