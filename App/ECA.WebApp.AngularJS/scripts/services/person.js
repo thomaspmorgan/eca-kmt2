@@ -78,6 +78,9 @@ angular.module('staticApp')
           },
           addAddress: function (address) {
               return DragonBreath.create(address, 'people/address');
+          },
+          addSocialMedia: function (socialMedia) {
+              return DragonBreath.create(socialMedia, 'people/socialmedia');
           }
       };
   });

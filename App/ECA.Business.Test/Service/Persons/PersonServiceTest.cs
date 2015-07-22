@@ -526,7 +526,8 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.IsNotNull(serviceResult);
                 Assert.AreEqual(person.SocialMedias.Count(), serviceResult.SocialMedias.Count());
                 CollectionAssert.AreEqual(person.SocialMedias.Select(x => x.SocialMediaId).ToList(), serviceResult.SocialMedias.Select(x => x.Id).ToList());
-                CollectionAssert.AreEqual(person.SocialMedias.Select(x => x.SocialMediaType.SocialMediaTypeName).ToList(), serviceResult.SocialMedias.Select(x => x.Type).ToList());
+                CollectionAssert.AreEqual(person.SocialMedias.Select(x => x.SocialMediaType.SocialMediaTypeName).ToList(), serviceResult.SocialMedias.Select(x => x.SocialMediaType).ToList());
+                CollectionAssert.AreEqual(person.SocialMedias.Select(x => x.SocialMediaType.SocialMediaTypeId).ToList(), serviceResult.SocialMedias.Select(x => x.SocialMediaTypeId).ToList());
                 CollectionAssert.AreEqual(person.SocialMedias.Select(x => x.SocialMediaValue).ToList(), serviceResult.SocialMedias.Select(x => x.Value).ToList());
             };
 

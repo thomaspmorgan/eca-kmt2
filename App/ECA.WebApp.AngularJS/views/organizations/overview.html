@@ -49,16 +49,7 @@
                 </div>
                 <div class="row" ng-show="organization.socialMedias">
                     <div class="col-md-6 title-label">Social Media</div>
-                    <!--<div class="col-md-6">
-                        <ul>
-                            <li ng-repeat="socialMedia in organization.socialMedias">
-                                <socialmedialink model="socialMedia" />
-                            </li>
-                        </ul>
-                    </div>-->
                     <socialmedias model="organization" modelid="organization.organizationId" modeltype="'organization'" />   
-
-
                 </div>
             </div>            
             <div class="col-md-6">

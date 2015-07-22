@@ -344,13 +344,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4 title-label">Social Media</div>
-                    <div class="col-md-8">
-                        <ul>
-                            <li ng-repeat="socialMedia in contactInfo.socialMedias">
-                                <socialmedialink model="socialMedia" />
-                            </li>
-                        </ul>
-                    </div>
+                    <socialmedias model="contactInfo" modelid="person.personId" modeltype="'person'" />   
                 </div>
             </div>
             <div class="col-md-6">
