@@ -20,6 +20,9 @@ angular.module('staticApp')
               var linkedInUrl = 'linkedin.com';
               var weiboUrl = 'weibo.com';
               var twitterUrl = 'twitter.com';
+              var pinterestUrl = 'pinterest.com';
+              var googleUrl = 'google.com';
+              var instagramUrl = 'instagram.com';
 
               var lowerCaseValue = socialMedia.value || '';
               lowerCaseValue = lowerCaseValue.toLowerCase();
@@ -27,7 +30,10 @@ angular.module('staticApp')
               var isLinkedIn = lowerCaseValue.indexOf(linkedInUrl) >= 0 && lowerCaseValue.indexOf(http) >= 0;
               var isWeibo = lowerCaseValue.indexOf(weiboUrl) >= 0 && lowerCaseValue.indexOf(http) >= 0;
               var isTwitter = lowerCaseValue.indexOf(twitterUrl) >= 0 && lowerCaseValue.indexOf(http) >= 0;
-              if (isFacebook || isLinkedIn || isWeibo || isTwitter) {
+              var isPinterest = lowerCaseValue.indexOf(pinterestUrl) >= 0 && lowerCaseValue.indexOf(http) >= 0;
+              var isGoogle = lowerCaseValue.indexOf(googleUrl) >= 0 && lowerCaseValue.indexOf(http) >= 0;
+              var isInstragram = lowerCaseValue.indexOf(instagramUrl) >= 0 && lowerCaseValue.indexOf(http) >= 0;
+              if (isFacebook || isLinkedIn || isWeibo || isTwitter || isPinterest || isGoogle || isInstragram) {
                   $log.info('Social media value has url.');
                   return socialMedia.value;
               }
@@ -48,6 +54,15 @@ angular.module('staticApp')
                   }
                   if (type === ConstantsService.socialMediaType.twitter.value.trim().toLowerCase()) {
                       return 'https://twitter.com/' + value;
+                  }
+                  if (type === ConstantsService.socialMediaType.instagram.value.trim().toLowerCase()) {
+                      return 'https://instagram.com/' + value;
+                  }
+                  if (type === ConstantsService.socialMediaType.pinterest.value.trim().toLowerCase()) {
+                      return 'https://www.pinterest.com/' + value;
+                  }
+                  if (type === ConstantsService.socialMediaType.google.value.trim().toLowerCase()) {
+                      return 'https://plus.google.com/' + value;
                   }
                   return 'google.com';
               }

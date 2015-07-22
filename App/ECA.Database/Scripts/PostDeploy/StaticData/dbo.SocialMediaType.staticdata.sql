@@ -41,6 +41,9 @@ INSERT INTO @tblTempTable ([SocialMediaTypeId], [SocialMediaTypeName], [History_
 INSERT INTO @tblTempTable ([SocialMediaTypeId], [SocialMediaTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('2', 'LinkedIn', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
 INSERT INTO @tblTempTable ([SocialMediaTypeId], [SocialMediaTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('3', 'Twitter', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
 INSERT INTO @tblTempTable ([SocialMediaTypeId], [SocialMediaTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('4', 'Weibo', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([SocialMediaTypeId], [SocialMediaTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('5', 'Instagram', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([SocialMediaTypeId], [SocialMediaTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('6', 'Pinterest', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([SocialMediaTypeId], [SocialMediaTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('7', 'Google+', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
 
 
 -- 3: Insert any new items into the table from the table variable
