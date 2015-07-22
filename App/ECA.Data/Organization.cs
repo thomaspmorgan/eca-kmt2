@@ -84,6 +84,10 @@ namespace ECA.Data
         public int? ParentOrganizationId { get; set; }
         public string Status { get; set; }
         public ICollection<Address> Addresses { get; set; }
+
+        /// <summary>
+        /// Gets or sets the points of contact.
+        /// </summary>
         public ICollection<Contact> Contacts { get; set; }
 
         /// <summary>

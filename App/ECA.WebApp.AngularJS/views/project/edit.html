@@ -165,7 +165,7 @@
                                 <div>{{$item.value}}</div>
                             </ui-select-match>
 
-                            <ui-select-choices refresh="editView.searchPointsOfContact($select.search)" refresh-delay="250" repeat="person in editView.pointsOfContact | filter: select.search track by person.value">
+                            <ui-select-choices refresh="editView.searchPointsOfContact($select.search)" refresh-delay="250" repeat="person in editView.pointsOfContact | filter: select.search track by person.id">
                                 <div ng-bind-html="person.fullName | highlight: $select.search"></div>
                                 <div class="small">{{person.position}}</div>
                             </ui-select-choices>
