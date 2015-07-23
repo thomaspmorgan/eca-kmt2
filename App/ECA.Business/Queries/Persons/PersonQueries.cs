@@ -170,7 +170,13 @@ namespace ECA.Business.Queries.Persons
                         select new ContactInfoDTO
                         {
                             Emails = person.Emails.Select(x => new SimpleLookupDTO() { Id = x.EmailAddressId, Value = x.Address }),
-                            SocialMedias = person.SocialMedias.Select(x => new SimpleTypeLookupDTO() { Id = x.SocialMediaId, Type = x.SocialMediaType.SocialMediaTypeName, Value = x.SocialMediaValue }),
+                            SocialMedias = person.SocialMedias.Select(x => new SocialMediaDTO
+                            { 
+                                Id = x.SocialMediaId, 
+                                SocialMediaType = x.SocialMediaType.SocialMediaTypeName, 
+                                SocialMediaTypeId = x.SocialMediaTypeId,
+                                Value = x.SocialMediaValue 
+                            }).OrderBy(s => s.SocialMediaType),
                             PhoneNumbers = person.PhoneNumbers.Select(x => new SimpleTypeLookupDTO() { Id = x.PhoneNumberId, Type = x.PhoneNumberType.PhoneNumberTypeName, Value = x.Number }),
                         };
             return query;

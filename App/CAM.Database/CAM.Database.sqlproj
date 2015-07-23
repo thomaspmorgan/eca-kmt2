@@ -109,7 +109,6 @@
     <None Include="ECA_Dev.publish.xml" />
     <None Include="ECA_QA.publish.xml" />
     <None Include="ECA_UAT.publish.publish.xml" />
-    <None Include="Scripts\PostDeploy\InsertAllCAMResources.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeploy\CAM.PostDeployment.sql" />
