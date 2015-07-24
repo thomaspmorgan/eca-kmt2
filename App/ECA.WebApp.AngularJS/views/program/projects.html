@@ -1,22 +1,16 @@
 <div class="row">
     <h2 class="program-color tab-header">
         {{header}}
-        
-        <button class="btn right btn-success col-sd-2" style="width:150px;" ng-click="clickCreate($event)">
-                Create New...
-        </button>
-
-        <br/>
-        <button ng-show="showCreateOptions" class="btn right col-sd-2 dropDownButtons" ng-click="createItem('subprogram')">
-            Sub-Program
-        </button>
-        <br/>
-
-        <button ng-show="showCreateOptions" class="btn right col-sd-2 dropDownButtons" ng-click="createItem('project')">
-            Project
-        </button>
-
-    </h2>
+        <div class="btn-group right dropdown" dropdown>
+            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                Create New <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href ng-click="createItem('subprogram')">Sub-Program</a></li>
+                <li><a href ng-click="createItem('project')">Project</a></li>
+            </ul>
+        </div>
+    </h2>    
 </div>
 <h4 class="tab-subheader">Sub-Programs List</h4>
 <div ng-show="!subprograms.length">

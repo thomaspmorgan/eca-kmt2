@@ -1,7 +1,7 @@
 <div class="breadcrumbs">
   <p>{{office.name}}</p>
 </div>
-<div class="jumbotron office">
+<div class="jumbotron office" ng-controller="ToolbarCtrl">
   <div class="toolbar" sticky offset="50">
     <div class="left">
       <span class="detail">Last Updated {{office.revisedOn | date}}</span>
@@ -9,8 +9,8 @@
     <div class="right">
       <img class="icon star" src="images/star.png" alt="">
       <img class="icon" src="images/exportA.png" alt="">
-      <img class="icon wide" src="images/collabA.png" alt="">
-      <img class="icon" src="images/toolCommentsA.png" alt="">
+      <img class="icon wide" src="images/collabA.png" alt="" ng-click="openCollaboratorModal()" ng-show="isOwner">
+      <img class=" icon" src="images/toolCommentsA.png" alt="">
     </div>
   </div>
   <div class="heading">

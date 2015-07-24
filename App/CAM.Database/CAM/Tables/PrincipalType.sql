@@ -1,4 +1,4 @@
-﻿CREATE TABLE [CAM].[PrincipalType]
+﻿CREATE TABLE [cam].[PrincipalType]
 (
 	[PrincipalTypeId] INT NOT NULL PRIMARY KEY IDENTITY(1,1), 
     [PrincipalTypeName] NCHAR(10) NOT NULL, 

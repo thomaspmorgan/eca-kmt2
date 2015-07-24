@@ -17,6 +17,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using ECA.Data;
+using ECA.Business.Queries.Models.Admin;
+using ECA.WebApi.Models.Admin;
 
 namespace ECA.WebApi.Controllers.Persons
 {
@@ -31,18 +33,30 @@ namespace ECA.WebApi.Controllers.Persons
 
         private IPersonService service;
         private IUserProvider userProvider;
+        private IAddressModelHandler addressHandler;
+        private ISocialMediaPresenceModelHandler socialMediaHandler;
 
         /// <summary>
         /// Constructor 
         /// </summary>
         /// <param name="service">The service to inject</param>
         /// <param name="userProvider">The user provider.</param>
-        public PeopleController(IPersonService service, IUserProvider userProvider)
+        /// <param name="addressHandler">The address handler.</param>
+        /// <param name="socialMediaHandler">The social media handler.</param>
+        public PeopleController(
+            IPersonService service, 
+            IUserProvider userProvider,
+            IAddressModelHandler addressHandler,
+            ISocialMediaPresenceModelHandler socialMediaHandler)
         {
             Contract.Requires(service != null, "The participant service must not be null.");
             Contract.Requires(userProvider != null, "The user provider must not be null.");
+            Contract.Requires(addressHandler != null, "The address handler must not be null.");
+            Contract.Requires(socialMediaHandler != null, "The social media handler must not be null.");
+            this.addressHandler = addressHandler;
             this.service = service;
             this.userProvider = userProvider;
+            this.socialMediaHandler = socialMediaHandler;
         }
 
         /// <summary>
@@ -212,7 +226,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="model">The model to create</param>
         /// <returns>Success or error</returns>
         public async Task<IHttpActionResult> PostPersonAsync(PersonBindingModel model)
-        {   
+        {
             if (ModelState.IsValid)
             {
                 var currentUser = userProvider.GetCurrentUser();
@@ -247,6 +261,30 @@ namespace ECA.WebApi.Controllers.Persons
             {
                 return BadRequest(ModelState);
             }
+        }
+
+        /// <summary>
+        /// Adds a new address to the organization.
+        /// </summary>
+        /// <param name="model">The new address.</param>
+        /// <returns>The saved address.</returns>
+        [Route("People/Address")]
+        [ResponseType(typeof(AddressDTO))]
+        public Task<IHttpActionResult> PostAddressAsync([FromBody]PersonAddressBindingModel model)
+        {
+            return addressHandler.HandleAdditionalAddressAsync<Person>(model, this);
+        }
+
+        /// <summary>
+        /// Adds a new social media to the person.
+        /// </summary>
+        /// <param name="model">The new social media.</param>
+        /// <returns>The saved social media.</returns>
+        [Route("People/SocialMedia")]
+        [ResponseType(typeof(SocialMediaDTO))]
+        public Task<IHttpActionResult> PostSocialMediaAsync([FromBody]PersonSocialMediaPresenceBindingModel model)
+        {
+            return socialMediaHandler.HandleSocialMediaPresenceAsync<Person>(model, this);
         }
     }
 }

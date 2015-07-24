@@ -95,6 +95,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ContextUtil.cs" />
+    <Compile Include="Controllers\Admin\SocialMediasControllerTest.cs" />
     <Compile Include="Controllers\Admin\AddressesControllerTest.cs" />
     <Compile Include="Controllers\Admin\FocusControllerTest.cs" />
     <Compile Include="Controllers\Admin\GendersControllerTest.cs" />
@@ -127,11 +128,16 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Models\Admin\SocialMediaPresenceModelHandlerTest.cs" />
     <Compile Include="Models\Admin\AddressModelHandlerTest.cs" />
+    <Compile Include="Models\Admin\PersonSocialMediaPresenceBindingModelTest.cs" />
+    <Compile Include="Models\Admin\OrganizationSocialMediaPresenceBindingModelTest.cs" />
     <Compile Include="Models\Admin\PersonAddressBindingModelTest.cs" />
     <Compile Include="Models\Admin\OrganizationAddressBindingModelTest.cs" />
     <Compile Include="Models\Admin\UpdatedAddressBindingModelTest.cs" />
     <Compile Include="Models\Admin\UpdatedOrganizationBindingModelTest.cs" />
+    <Compile Include="Models\Admin\UpdatedSocialMediaBindingModelTest.cs" />
+    <Compile Include="Models\Person\PiiBindingModelTest.cs" />
     <Compile Include="Models\Programs\ProgramBindingModelTest.cs" />
     <Compile Include="Models\Programs\DraftProgramBindingModelTest.cs" />
     <Compile Include="Models\Programs\ProgramViewModelTest.cs" />

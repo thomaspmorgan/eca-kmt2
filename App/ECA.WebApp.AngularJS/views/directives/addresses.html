@@ -33,7 +33,7 @@
                             </div>
                         </div>
                     </div>
-                    <div ng-show="!view.showEditAddress" collapse="view.collapseAddress">                        
+                    <div ng-show="!view.showEditAddress" collapse="view.collapseAddress">
                         <div class="col-md-12">
                             <div ng-show="address.street1">
                                 {{address.street1}}
@@ -63,7 +63,8 @@
                                     <input name="addressDisplayName"
                                            maxlength="300"
                                            ng-model="address.addressDisplayName"
-                                           form-element guidance="This is the name of the address."
+                                           form-element
+                                           guidance="This is the name of the address."
                                            type="text"
                                            class="form-control"
                                            placeholder="Enter address name."
@@ -129,6 +130,7 @@
                                 <div class="col-md-9">
                                     <input type="search"
                                            id="city"
+                                           name="city"
                                            class="search-contextual"
                                            maxlength="100"
                                            typeahead-append-to-body="false"
@@ -146,16 +148,14 @@
                                     <i class="glyphicon glyphicon-search contextual" ng-show="!view.isLoadingCities"></i>
                                     <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingCities">refresh</i>
                                 </div>
-
+                                <div ng-show="form.addressForm.city.$dirty || form.addressForm.city.$error.required">
+                                    <div class="error" ng-show="form.addressForm.city.$error.required">Please select a city.</div>
+                                </div>
                                 <div>
                                     <label class="title-label col-md-9">
                                         Autopopulate Division and Country
                                     </label>
                                     <input type="checkbox" class="col-md-3" ng-model="view.autopopulateOnCitySelect" />
-
-                                </div>
-                                <div ng-show="form.addressForm.city.$dirty || form.addressForm.city.$error.required">
-                                    <div class="error" ng-show="form.addressForm.city.$error.required">Please select a city.</div>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -165,6 +165,7 @@
                                            id="division"
                                            class="search-contextual"
                                            maxlength="100"
+                                           name="division"
                                            typeahead-append-to-body="false"
                                            placeholder="Select division or state..."
                                            ng-model="address.division"
@@ -191,6 +192,7 @@
                                            id="country"
                                            class="search-contextual"
                                            maxlength="100"
+                                           name="country"
                                            typeahead-append-to-body="false"
                                            placeholder="Select a country..."
                                            ng-model="address.country"

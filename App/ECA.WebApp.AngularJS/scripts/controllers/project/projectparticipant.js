@@ -36,7 +36,6 @@ angular.module('staticApp')
       $scope.view.isCollaboratorExpanded = false;
       $scope.view.numberOfCollaborators = -1;
       $scope.view.collaboratorsLastUpdated = null;
-      $scope.view.isCollaboratorsModalOpen = false;
 
       $scope.view.addPersonFilterValue = 'person';
       $scope.view.addOrganizationFilterValue = 'organization';
@@ -65,25 +64,6 @@ angular.module('staticApp')
           else {
               NotificationService.showErrorMessage('The participant is neither an organization nor a person.');
           }
-      };
-
-      $scope.view.addCollaborator = function ($event) {
-          $scope.view.isCollaboratorsModalOpen = true;
-          var modalInstance = $modal.open({
-              templateUrl: '/views/project/collaborators.html',
-              controller: 'ProjectCollaboratorCtrl',
-              backdrop: 'static',
-              resolve: {},
-              windowClass: 'modal-center-large'
-          });
-          modalInstance.result.then(function () {
-              $log.info('Closing...');
-          }, function () {
-              $log.info('Dismiss add collaborator dialog...');
-          })
-          .then(function () {
-              $scope.view.isCollaboratorsModalOpen = false;
-          });
       };
 
       $scope.view.onAddParticipantSelect = function ($item, $model, $label) {

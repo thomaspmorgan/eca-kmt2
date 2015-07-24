@@ -12,7 +12,7 @@ namespace ECA.Data
     /// <summary>
     /// A person is someone who has applied to, is participating in, or has completed an ECA project.
     /// </summary>
-    public class Person : IHistorical, IAddressable
+    public class Person : IHistorical, IAddressable, ISocialable
     {
         /// <summary>
         /// Gets the max length of the first name.
@@ -59,6 +59,9 @@ namespace ECA.Data
         /// </summary>
         public const int ALIAS_NAME_MAX_LENGTH = 50;
 
+        /// <summary>
+        /// Creates a new instances and initializes the collection properties.
+        /// </summary>
         public Person()
         {
             CountriesOfCitizenship = new HashSet<Location>();
@@ -84,13 +87,26 @@ namespace ECA.Data
             Participations = new HashSet<Participant>();
         }
 
+        /// <summary>
+        /// Gets or sets the person id.
+        /// </summary>
         [Key]
         public int PersonId { get; set; }
         
+        /// <summary>
+        /// Gets or sets the gender.
+        /// </summary>
         public Gender Gender { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gender id.
+        /// </summary>
         [Required]
         public int GenderId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the date of birth.
+        /// </summary>
         public DateTime? DateOfBirth { get; set; }
 
         /// <summary>

@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace ECA.Data
 {
-    public interface IAddressable : IIdentifiable
+    /// <summary>
+    /// An IAddressable entity is an entity that has zero to many addresses.
+    /// </summary>
+    public interface IAddressable
     {
+        /// <summary>
+        /// Gets or sets addresses.
+        /// </summary>
         ICollection<Address> Addresses { get; set; }
     }
 }

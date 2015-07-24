@@ -1,0 +1,67 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">({{collaborators.length}}) Collaborators</h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <input type="text" placeholder="Select Collaborator..." class="search-contextual"
+               ng-model="selectedCollaborator" typeahead="user as user.displayName for user in getUsers($viewValue) | filter : $viewValue | limitTo : 25"
+               typeahead-editable="false">
+        <button class="btn btn-success" ng-click="addCollaborator(selectedCollaborator)" ng-disabled="selectedCollaborator === undefined || selectedCollaborator === ''">Add</button>
+    </div>
+    <div class="list2">
+        <div class="row hover" ng-repeat-start="collaborator in collaborators">
+            <div class="col-md-2">
+                <i class="material-icons md-48">account_circle</i>
+            </div>
+            <div class="col-md-9">
+                <h4>{{collaborator.displayName}}<span ng-if="collaborator.isCurrentUser"> (Me)</span></h4>
+                <p>{{collaborator.emailAddress}}</p>
+            </div>
+            <div class="col-md-1">
+                <a ng-click="toggleShowPermissions(collaborator.principalId)">
+                    <i class="material-icons md-48" ng-show="showPermissions[collaborator.principalId]">expand_more</i>
+                    <i class="material-icons md-48" ng-show="!showPermissions[collaborator.principalId]">expand_less</i>
+                </a>
+            </div>
+        </div>
+        <div class="row permission-list" ng-repeat-end  ng-show="showPermissions[collaborator.principalId]">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-8 sort-label medium">Inherited Permissions</div>
+                    <div class="col-md-2 sort-label medium">Allow</div>
+                    <div class="col-md-2 sort-label medium">Deny</div>
+                </div>
+                <div class="row" ng-repeat="permission in collaborator.inheritedPermissions">
+                    <div class="col-md-8">{{permission.permissionName}}</div>
+                    <div class="col-md-2"><input type="checkbox" ng-model="permission.isAllowed" ng-disabled="true" /></div>
+                    <div class="col-md-2"><input type="checkbox" ng-model="permission.isAllowed" ng-true-value="false" ng-false-value="true" ng-disabled="true" /></div>
+                </div>
+                <div class="row" ng-show="collaborator.inheritedPermissions.length === 0">
+                    <div class="col-md-12">No inherited permissions</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-8 sort-label medium">Permissions</div>
+                    <div class="col-md-2 sort-label medium">Allow</div>
+                    <div class="col-md-2 sort-label medium">Deny</div>
+                </div>
+                <div class="row" ng-repeat="permission in collaborator.mergedPermissions">
+                    <div class="col-md-8">{{permission.permissionName}}</div>
+                    <div class="col-md-2"><input type="checkbox" ng-model="permission.isAllowed" ng-change="allowPermissionHandler(collaborator, permission)" ng-disabled="collaborator.isCurrentUser" /></div>
+                    <div class="col-md-2"><input type="checkbox" ng-model="permission.isAllowed" ng-change="denyPermissionHandler(collaborator, permission)" ng-true-value="false" ng-false-value="true" ng-disabled="collaborator.isCurrentUser" /></div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-show="collaboratorsLoading">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" ng-click="close()">Close</button>
+</div>

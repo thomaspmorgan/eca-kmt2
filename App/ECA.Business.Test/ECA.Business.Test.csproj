@@ -104,7 +104,13 @@
     <Compile Include="Service\Admin\MoneyFlowServiceUpdateValidationEntityTest.cs" />
     <Compile Include="Service\Admin\MoneyFlowServiceValidatorTest.cs" />
     <Compile Include="Service\Admin\OrganizationServiceValidatorTest.cs" />
+    <Compile Include="Service\Admin\OrganizationSocialMediaPresenceTest.cs" />
+    <Compile Include="Service\Admin\PersonSocialMediaPresenceTest.cs" />
+    <Compile Include="Service\Admin\SocialMediaPresenceTest.cs" />
+    <Compile Include="Service\Admin\SocialMediaServiceTest.cs" />
+    <Compile Include="Service\Admin\UpdatedSocialMediaPresenceTest.cs" />
     <Compile Include="Service\Admin\UpdateOrganizationValidationEntityTest.cs" />
+    <Compile Include="Service\Lookup\SocialMediaTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\AddressTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\ParticipantTypeServiceTest.cs" />
     <Compile Include="Service\Persons\ParticipantPersonServiceTest.cs" />

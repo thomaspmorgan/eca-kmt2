@@ -61,7 +61,7 @@ angular.module('staticApp')
               var addressableType = $scope.address.addressableType;
               console.assert(addressableTypeToServiceMapping[addressableType], 'The mapping must contain a value for the addressable type [' + addressableType + '].');
               var service = addressableTypeToServiceMapping[addressableType];
-              console.assert(service.addAddress, 'The service must have an addAddress method defined.');
+              console.assert(service.addAddress, 'The service for the addressable type [' + $scope.address.addressableType + '] must have an addAddress method defined.');
               console.assert(typeof service.addAddress === 'function', 'The service addAddress property must be a function.');
 
               var tempId = angular.copy($scope.address.addressId);
@@ -189,29 +189,6 @@ angular.module('staticApp')
           return address.addressableType;
       }
 
-      function getAddressTypes() {
-          var params = {
-              start: 0,
-              limit: 300
-          };
-          return LookupService.getAddressTypes(params)
-          .then(function (response) {
-              if (response.data.total > params.limit) {
-                  var message = "There are more address types than could be loaded.  Not all address types will be shown.";
-                  $log.error(message);
-                  NotificationService.showErrorMessage(message);
-              }
-              var addressTypes = response.data.results;
-              $scope.view.addressTypes = addressTypes;
-              return addressTypes;
-          })
-          .catch(function () {
-              var message = 'Unable to load address types.';
-              NotificationService.showErrorMessage(message);
-              $log.error(message);
-          });
-      }
-
       function getDivisions(search) {
           $scope.view.isLoadingDivisions = true;
           return getLocations(search, ConstantsService.locationType.state.id, $scope.view.isLoadingDivisions);
@@ -261,10 +238,8 @@ angular.module('staticApp')
       }
 
       $scope.view.isLoadingRequiredData = true;
-      $q.all([getAddressTypes()])
-      .then(function () {
-          $log.info('Loaded all resources.');
+      $scope.$parent.data.loadAddressTypesPromise.promise.then(function (addressTypes) {
+          $scope.view.addressTypes = addressTypes;
           $scope.view.isLoadingRequiredData = false;
-      })
-
+      });
   });

@@ -69,6 +69,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="SocialMediaTest.cs" />
     <Compile Include="AddressTest.cs" />
     <Compile Include="CreateModelDbTest.cs" />
     <Compile Include="DbContextHelper.cs" />

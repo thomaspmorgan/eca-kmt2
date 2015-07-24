@@ -19,7 +19,7 @@ namespace ECA.WebApi.Models.Admin
         /// <param name="additionalAddress">The additional address.</param>
         /// <param name="controller">The controller handling the request.</param>
         /// <returns>The http action result.</returns>
-        Task<IHttpActionResult> HandleAdditionalAddress<T>(AddressBindingModelBase<T> additionalAddress, ApiController controller)
+        Task<IHttpActionResult> HandleAdditionalAddressAsync<T>(AddressBindingModelBase<T> additionalAddress, ApiController controller)
             where T : class, IAddressable;
     }
 }

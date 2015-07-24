@@ -96,13 +96,13 @@
                         <div class="form-group">
                             <label class="col-md-4 title-label">First name<span class="asterisk"> *</span></label>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" ng-model="pii.firstName" required />
+                                <input type="text" name="firstName" class="form-control" ng-model="pii.firstName" required />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 title-label">Last name<span class="asterisk"> *</span></label>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" ng-model="pii.lastName" required />
+                                <input type="text" name="lastName" class="form-control" ng-model="pii.lastName" required />
                             </div>
                         </div>
                         <div class="form-group">
@@ -163,7 +163,7 @@
                         <div class="form-group">
                             <label class="col-md-4 title-label"></label>
                             <div class="col-md-8">
-                                <select class="form-control" ng-model="pii.genderId" ng-options="gender.id as gender.value for gender in genders" ng-change="updateGender()" required />
+                                <select class="form-control" name="gender" ng-model="pii.genderId" ng-options="gender.id as gender.value for gender in genders" ng-change="updateGender()" required />
                             </div>
                         </div>
                     </div>
@@ -207,14 +207,14 @@
                         <div class="form-group">
                             <label class="col-md-4 title-label">Country<span class="asterisk"> *</span></label>
                             <div class="col-md-8">
-                                <select class="form-control" ng-model="pii.countryOfBirthId" ng-options="country.id as country.name for country in countries" ng-change="updateCountryOfBirth()" required />
+                                <select class="form-control" name="countryOfBirth" ng-model="pii.countryOfBirthId" ng-options="country.id as country.name for country in countries" ng-change="updateCountryOfBirth()" required />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 title-label">City<span class="asterisk"> *</span></label>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" ng-model="pii.cityOfBirthId" typeahead="city.id as city.name for city in getCities($viewValue) | filter : $viewValue | limitTo : 25"
-                                       typeahead-editable="false" typeahead-input-formatter="formatCityOfBirth($model)" required />
+                                <input type="text" class="form-control" name="cityOfBirth" ng-model="pii.cityOfBirthId" typeahead="city.id as city.name for city in getCities($viewValue) | filter : $viewValue | limitTo : 25"
+                                       typeahead-editable="false" typeahead-input-formatter="formatCityOfBirth($model)" ng-required="editPii" />
                             </div>
                         </div>
                     </div>
@@ -233,11 +233,11 @@
                         <div class="form-group">
                             <label class="col-md-4 title-label"></label>
                             <div class="col-md-8 input-group">
-                                <input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="pii.dateOfBirth"
-                                       is-open="datePickerOpen" ng-required="true" max-date="maxDateOfBirth" close-text="Close">
+                                <input type="text" class="form-control" name="dateOfBirth" datepicker-popup="dd-MMMM-yyyy" ng-model="pii.dateOfBirth"
+                                       is-open="datePickerOpen" ng-required="editPii" max-date="maxDateOfBirth" close-text="Close">
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="openDatePicker($event)">
-                                        <i class="fa fa-calendar"></i>
+                                        <i class="material-icons md-18">event</i>
                                     </button>
                                 </span>
                             </div>
@@ -273,47 +273,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-4 title-label">Residence Address</div>
-                    <div class="col-md-8">
-                        <div ng-repeat="address in pii.homeAddresses">
-                            <div class="form-group" ng-show="address.street1">
-                                <label class="col-md-4 title-label">Street 1</label>
-                                <div class="col-md-8">
-                                    {{address.street1}}
-                                </div>
-                            </div>
-                            <div class="form-group" ng-show="address.street2">
-                                <label class="col-md-4 title-label">Street 2</label>
-                                <div class="col-md-8">
-                                    {{address.street2}}
-                                </div>
-                            </div>
-                            <div class="form-group" ng-show="address.street3">
-                                <label class="col-md-4 title-label">Street 3</label>
-                                <div class="col-md-8">
-                                    {{address.street3}}
-                                </div>
-                            </div>
-                            <div class="form-group" ng-show="address.country">
-                                <label class="col-md-4 title-label">Country</label>
-                                <div class="col-md-8">
-                                    {{address.country}}
-                                </div>
-                            </div>
-                            <div class="form-group" ng-show="address.city">
-                                <label class="col-md-4 title-label">City</label>
-                                <div class="col-md-8">
-                                    {{address.city}}
-                                </div>
-                            </div>
-                            <div class="form-group" ng-show="address.postalCode">
-                                <label class="col-md-4 title-label">Postal Code</label>
-                                <div class="col-md-8">
-                                    {{address.postalCode}}
-                                </div>
-                            </div>
-                        </div>
+                <div class="row" ng-show="!editPii">
+                    <div class="col-md-4 title-label">Addresses</div>
+                    <div>
+                        <addresses model="pii" modelid="person.personId" modeltype="'person'" />
                     </div>
                 </div>
                 <div class="row">
@@ -353,26 +316,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <!--<div class="row">
-                    <div class="col-md-4 title-label">Sevis Id</div>
-                    <div class="col-md-8" ng-show="!editPii">
-                        <div class="form-group">
-                            <label class="col-md-4 title-label"></label>
-                            <div class="col-md-8">
-                                {{participant.sevisId}}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-8" ng-show="editPii">
-                        <div class="form-group">
-                            <label class="col-md-4 title-label"></label>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" ng-model="participant.sevisId" />
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
+                </div>                
             </div>
         </form>
         <div class="row">
@@ -400,13 +344,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4 title-label">Social Media</div>
-                    <div class="col-md-8">
-                        <ul>
-                            <li ng-repeat="socialMedia in contactInfo.socialMedias">
-                                <socialmedialink model="socialMedia" />
-                            </li>
-                        </ul>
-                    </div>
+                    <socialmedias model="contactInfo" modelid="person.personId" modeltype="'person'" />   
                 </div>
             </div>
             <div class="col-md-6">

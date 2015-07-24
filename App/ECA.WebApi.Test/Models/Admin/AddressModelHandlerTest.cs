@@ -30,7 +30,7 @@ namespace ECA.WebApi.Test.Models.Admin
         }
 
         [TestMethod]
-        public async Task TestHandleAdditionalAddress()
+        public async Task TestHandleAdditionalAddressAsync()
         {
             userProvider.Setup(x => x.GetCurrentUser()).Returns(new DebugWebApiUser());
             userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(1));
@@ -39,7 +39,7 @@ namespace ECA.WebApi.Test.Models.Admin
 
             var organizationAddress = new OrganizationAddressBindingModel();
             organizationAddress.AddressTypeId = AddressType.Business.Id;
-            var response = await handler.HandleAdditionalAddress<Organization>(organizationAddress, controller);
+            var response = await handler.HandleAdditionalAddressAsync<Organization>(organizationAddress, controller);
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<AddressDTO>));
 
             userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
@@ -50,11 +50,11 @@ namespace ECA.WebApi.Test.Models.Admin
         }
 
         [TestMethod]
-        public async Task TestHandleAdditionalAddress_ModelIsInvalid()
+        public async Task TestHandleAdditionalAddressAsync_ModelIsInvalid()
         {
             controller.ModelState.AddModelError("key", "error");
             var organizationAddress = new OrganizationAddressBindingModel();
-            var response = await handler.HandleAdditionalAddress<Organization>(organizationAddress, controller);
+            var response = await handler.HandleAdditionalAddressAsync<Organization>(organizationAddress, controller);
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
 
         }

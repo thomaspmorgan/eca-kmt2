@@ -302,13 +302,6 @@ angular
             url: '/impact',
             templateUrl: 'views/program/impact.html'
         })
-
-        .state('programs.collaborators', {
-            url: '/collaborators',
-            templateUrl: 'views/program/collaborators.html',
-            controller: 'ProgramCollaboratorsCtrl'
-        })
-
         .state('programs.moneyflows', {
             url: '/moneyflows',
             templateUrl: 'views/program/moneyflows.html',
@@ -519,6 +512,8 @@ angular
                 }
             }
         };
+
+        $rootScope.constants = ConstantsService;
 
         $rootScope.currentUser = {};
         $rootScope.currentUser.userMenuToggled = function (open) { };

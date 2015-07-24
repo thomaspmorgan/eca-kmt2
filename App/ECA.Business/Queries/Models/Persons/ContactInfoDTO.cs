@@ -1,4 +1,5 @@
-﻿using ECA.Business.Service.Lookup;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Service.Lookup;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace ECA.Business.Queries.Models.Persons
         public ContactInfoDTO()
         {
             Emails = new List<SimpleLookupDTO>();
-            SocialMedias = new List<SimpleTypeLookupDTO>();
+            SocialMedias = new List<SocialMediaDTO>();
             PhoneNumbers = new List<SimpleTypeLookupDTO>();
         }
 
@@ -30,7 +31,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets and sets social medias
         /// </summary>
-        public IEnumerable<SimpleTypeLookupDTO> SocialMedias { get; set; }
+        public IEnumerable<SocialMediaDTO> SocialMedias { get; set; }
 
         /// <summary>
         /// Gets and set phone numbers

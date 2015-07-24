@@ -34,6 +34,7 @@ namespace ECA.WebApi.Controllers.Admin
         private IOrganizationTypeService organizationTypeService;
         private IUserProvider userProvider;
         private IAddressModelHandler addressHandler;
+        private ISocialMediaPresenceModelHandler socialMediaHandler;
 
         /// <summary>
         /// Constructor
@@ -42,20 +43,24 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="organizationTypeService">The organization type service.</param>
         /// <param name="addressHandler">The address handler.</param>
         /// <param name="userProvider">The user provider.</param>
+        /// <param name="socialMediaHandler">The social media handler.</param>
         public OrganizationsController(
             IOrganizationService service,
             IOrganizationTypeService organizationTypeService, 
             IUserProvider userProvider, 
-            IAddressModelHandler addressHandler)
+            IAddressModelHandler addressHandler,
+            ISocialMediaPresenceModelHandler socialMediaHandler)
         {
             Contract.Requires(service != null, "The organization service must not be null.");
             Contract.Requires(organizationTypeService != null, "The organization type service must not be null.");
             Contract.Requires(userProvider != null, "The user provider must not be null.");
             Contract.Requires(addressHandler != null, "The address handler must not be null.");
+            Contract.Requires(socialMediaHandler != null, "The social media handler must not be null.");
             this.organizationService = service;
             this.organizationTypeService = organizationTypeService;
             this.userProvider = userProvider;
             this.addressHandler = addressHandler;
+            this.socialMediaHandler = socialMediaHandler;
         }
 
         /// <summary>
@@ -150,7 +155,19 @@ namespace ECA.WebApi.Controllers.Admin
         [ResponseType(typeof(AddressDTO))]
         public Task<IHttpActionResult> PostAddressAsync([FromBody]OrganizationAddressBindingModel model)
         {
-            return addressHandler.HandleAdditionalAddress<Organization>(model, this);
+            return addressHandler.HandleAdditionalAddressAsync<Organization>(model, this);
+        }
+
+        /// <summary>
+        /// Adds a new social media to the person.
+        /// </summary>
+        /// <param name="model">The new social media.</param>
+        /// <returns>The saved social media.</returns>
+        [Route("Organizations/SocialMedia")]
+        [ResponseType(typeof(SocialMediaDTO))]
+        public Task<IHttpActionResult> PostSocialMediaAsync([FromBody]OrganizationSocialMediaPresenceBindingModel model)
+        {
+            return socialMediaHandler.HandleSocialMediaPresenceAsync<Organization>(model, this);
         }
     }
 }

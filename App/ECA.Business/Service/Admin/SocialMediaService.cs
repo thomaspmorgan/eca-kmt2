@@ -1,0 +1,140 @@
+﻿using ECA.Business.Queries.Admin;
+using ECA.Business.Queries.Models.Admin;
+using ECA.Core.Exceptions;
+using ECA.Core.Service;
+using ECA.Data;
+using NLog;
+using System;
+using System.Data.Entity;
+using System.Diagnostics.Contracts;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace ECA.Business.Service.Admin
+{
+    /// <summary>
+    /// The SocialMediaService is capable of handling crud operations on an ISocialable entity
+    /// and its social media presence.
+    /// </summary>
+    public class SocialMediaService : DbContextService<EcaContext>, ECA.Business.Service.Admin.ISocialMediaService
+    {
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private readonly Action<ISocialable, int> throwIfSocialableEntityNotFound;
+        private readonly Action<SocialMedia, int> throwIfSocialMediaNotFound;
+
+        /// <summary>
+        /// Creates a new instance and initializes the context..
+        /// </summary>
+        /// <param name="context">The context to operate against.</param>
+        public SocialMediaService(EcaContext context)
+            : base(context)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            throwIfSocialableEntityNotFound = (socialableEntity, id) =>
+            {
+                if (socialableEntity == null)
+                {
+                    throw new ModelNotFoundException(String.Format("The sociable entity with id [{0}] was not found.", id));
+                }
+            };
+            throwIfSocialMediaNotFound = (socialMedia, id) =>
+            {
+                if (socialMedia == null)
+                {
+                    throw new ModelNotFoundException(String.Format("The social media with id [{0}] was not found.", id));
+                }
+            };
+        }
+
+        #region Get
+        /// <summary>
+        /// Retrieves the social media dto with the given id.
+        /// </summary>
+        /// <param name="id">The id of the social media.</param>
+        /// <returns>The social media dto.</returns>
+        public SocialMediaDTO GetById(int id)
+        {
+            var dto = SocialMediaQueries.CreateGetSocialMediaDTOByIdQuery(this.Context, id).FirstOrDefault();
+            logger.Info("Retrieved the social media dto with the given id [{0}].", id);
+            return dto;
+        }
+
+        /// <summary>
+        /// Retrieves the social media dto with the given id.
+        /// </summary>
+        /// <param name="id">The id of the social media.</param>
+        /// <returns>The social media dto.</returns>
+        public async Task<SocialMediaDTO> GetByIdAsync(int id)
+        {
+            var dto = await SocialMediaQueries.CreateGetSocialMediaDTOByIdQuery(this.Context, id).FirstOrDefaultAsync();
+            logger.Info("Retrieved the social media dto with the given id [{0}].", id);
+            return dto;
+        }
+        #endregion
+
+        #region Create
+        /// <summary>
+        /// Creates a new social media in the ECA system.
+        /// </summary>
+        /// <typeparam name="T">The ISocialable entity type.</typeparam>
+        /// <param name="socialMedia">The social media.</param>
+        /// <returns>The created social media entity.</returns>
+        public SocialMedia Create<T>(SocialMediaPresence<T> socialMedia) where T : class, ISocialable
+        {
+            var socialable = this.Context.Set<T>().Find(socialMedia.GetSocialableEntityId());
+            return DoCreate(socialMedia, socialable);
+        }
+
+        /// <summary>
+        /// Creates a new social media in the ECA system.
+        /// </summary>
+        /// <typeparam name="T">The ISocialable entity type.</typeparam>
+        /// <param name="socialMedia">The social media.</param>
+        /// <returns>The created social media entity.</returns>
+        public async Task<SocialMedia> CreateAsync<T>(SocialMediaPresence<T> socialMedia) where T : class, ISocialable
+        {
+            var socialable = await this.Context.Set<T>().FindAsync(socialMedia.GetSocialableEntityId());
+            return DoCreate(socialMedia, socialable);
+        }
+
+        private SocialMedia DoCreate<T>(SocialMediaPresence<T> socialMedia, ISocialable socialable) where T : class, ISocialable
+        {
+            throwIfSocialableEntityNotFound(socialable, socialMedia.GetSocialableEntityId());            
+            return socialMedia.AddSocialMediaPresence(socialable);
+        }
+        #endregion
+
+        #region Update
+
+        /// <summary>
+        /// Updates the ECA system's social media data with the given updated social media.
+        /// </summary>
+        /// <param name="updatedSocialMedia">The updated social media.</param>
+        public void Update(UpdatedSocialMediaPresence updatedSocialMedia)
+        {
+            var socialMedia = Context.SocialMedias.Find(updatedSocialMedia.Id);
+            DoUpdate(updatedSocialMedia, socialMedia);
+        }
+
+        /// <summary>
+        /// Updates the ECA system's social media data with the given updated social media.
+        /// </summary>
+        /// <param name="updatedSocialMedia">The updated social media.</param>
+        public async Task UpdateAsync(UpdatedSocialMediaPresence updatedSocialMedia)
+        {
+            var socialMedia = await Context.SocialMedias.FindAsync(updatedSocialMedia.Id);
+            DoUpdate(updatedSocialMedia, socialMedia);
+        }
+
+        private void DoUpdate(UpdatedSocialMediaPresence updatedSocialMedia, SocialMedia modelToUpdate)
+        {
+            Contract.Requires(updatedSocialMedia != null, "The updatedSocialMedia must not be null.");
+            throwIfSocialMediaNotFound(modelToUpdate, updatedSocialMedia.Id);
+            modelToUpdate.SocialMediaTypeId = updatedSocialMedia.SocialMediaTypeId;
+            modelToUpdate.SocialMediaValue = updatedSocialMedia.Value;
+            updatedSocialMedia.Update.SetHistory(modelToUpdate);
+        }
+        #endregion
+
+    }
+}

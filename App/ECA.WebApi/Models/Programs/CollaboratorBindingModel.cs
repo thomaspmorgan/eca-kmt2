@@ -7,6 +7,9 @@ using System.Web;
 
 namespace ECA.WebApi.Models.Programs
 {
+    /// <summary>
+    /// Binding model for project permission
+    /// </summary>
     public class CollaboratorBindingModel : IDeletedPermissionBindingModel, IRevokedPermissionBindingModel, IGrantedPermissionBindingModel
     {
         /// <summary>

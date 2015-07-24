@@ -111,7 +111,7 @@ namespace ECA.Business.Service.Admin
         /// <param name="organization">The updated organization.</param>
         public void Update(EcaOrganization organization)
         {
-            var organizationToUpdate = this.Context.Organizations.Find(organization.OrganizationId);
+            var organizationToUpdate = CreateGetOrganizationByIdQuery(organization.OrganizationId).FirstOrDefault();
             Organization parentOrg = null;
             if (organization.ParentOrganizationId.HasValue)
             {
@@ -127,7 +127,7 @@ namespace ECA.Business.Service.Admin
         /// <param name="organization">The updated organization.</param>
         public async Task UpdateAsync(EcaOrganization organization)
         {
-            var organizationToUpdate = await this.Context.Organizations.FindAsync(organization.OrganizationId);
+            var organizationToUpdate = await CreateGetOrganizationByIdQuery(organization.OrganizationId).FirstOrDefaultAsync();
             Organization parentOrg = null;
             if (organization.ParentOrganizationId.HasValue)
             {
@@ -163,6 +163,14 @@ namespace ECA.Business.Service.Admin
             }
             organizationToUpdate.OrganizationTypeId = organization.OrganizationTypeId;
             organizationToUpdate.Website = organization.Website;
+        }
+
+        private IQueryable<Organization> CreateGetOrganizationByIdQuery(int id)
+        {
+            return Context.Organizations
+                .Include(x => x.Contacts)
+                .Include(x => x.ParentOrganization)
+                .Where(x=> x.OrganizationId == id);
         }
 
         private UpdateOrganizationValidationEntity GetUpdateOrganizationValidationEntity(EcaOrganization organization, Organization organizationToUpdate, Organization parentOrganization)

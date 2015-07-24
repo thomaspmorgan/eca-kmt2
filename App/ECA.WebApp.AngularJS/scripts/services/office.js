@@ -34,6 +34,15 @@ angular.module('staticApp')
           getSettings: function (officeId) {
               var path = 'offices/' + officeId + '/Settings';
               return DragonBreath.get(path);
+          },
+          addPermission: function (permissionModel) {
+          return DragonBreath.create(permissionModel, 'offices/collaborator/add');
+          },
+          revokePermission: function (permissionModel) {
+              return DragonBreath.create(permissionModel, 'offices/collaborator/revoke');
+          },
+          removePermission: function (permissionModel) {
+              return DragonBreath.create(permissionModel, 'offices/collaborator/remove');
           }
       };
   });

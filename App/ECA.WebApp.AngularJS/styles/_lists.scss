@@ -278,25 +278,12 @@
     float: right;
 }
 
-.table-permissions {
+.permission-list {
+    .col-md-6 {
+        width: 50%;
 
-    thead {
-        tr {
-            border-top: none;
+        .row {
+            padding: 8px;
         }
-    }
-
-    tbody {
-        tr:last-child {
-            border-bottom: none;
-        }
-    }
-
-    td {
-        padding: 8px;
-    }
-
-    td:first-child {
-        padding: 8px;
     }
 }
