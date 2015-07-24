@@ -52,16 +52,14 @@ namespace ECA.Core.DynamicLinq.Filter
             {
                 throw new NotSupportedException("The property collection type is not a numeric collection.");
             }
-
-            //if (propertyCollectionTypeIsNumeric && !collectionTypeIsNumeric)
-            //{
-            //    throw new NotSupportedException("The property type to filter is numeric and the collection of values is not.");
-            //}
-            //if (!propertyCollectionTypeIsNumeric && collectionTypeIsNumeric)
-            //{
-            //    throw new NotSupportedException("The property type to filter is not numeric and the collection of values is numeric.");
-            //}
-            
+            if (PropertyCollectionType == typeof(Int32) && ValueCollectionType == typeof(Int64))
+            {
+                ValueCollectionType = typeof(Int32);
+            }
+            if (PropertyCollectionType == typeof(Int64) && ValueCollectionType == typeof(Int32))
+            {
+                ValueCollectionType = typeof(Int64);
+            }
             this.Value = value;
         }
 
@@ -85,16 +83,6 @@ namespace ECA.Core.DynamicLinq.Filter
             var list = (IList)Activator.CreateInstance(listType);
             foreach (var v in (IEnumerable)this.Value)
             {
-                //object value = null;
-                //if (this.PropertyCollectionType == typeof(string))
-                //{
-                //    value = ((string)v).ToLower();
-                //}
-                //else
-                //{
-                //    value = v;
-                //}
-                //list.Add(Convert.ChangeType(value, this.ValueCollectionType));
                 list.Add(Convert.ChangeType(v, this.ValueCollectionType));
             }
             return list;
@@ -117,22 +105,6 @@ namespace ECA.Core.DynamicLinq.Filter
                                .Where(m => m.Name == "Contains")
                                .Single(m => m.GetParameters().Length == 2)
                                .MakeGenericMethod(this.ValueCollectionType);
-
-            //if (this.PropertyCollectionType == typeof(string))
-            //{
-                
-            //    var yParameter = Expression.Parameter(this.PropertyCollectionType, "y");
-                
-            //    var toLowerMethod = Expression.Call(yParameter, "ToLower", System.Type.EmptyTypes);
-            //    var fnType = typeof(Func<string, string>);
-            //    var selectMethod = typeof(Enumerable).GetMethods()
-            //                   .Where(m => m.Name == "Select")
-            //                   .Single(m => m.GetParameters().Length == 2)
-            //                   .MakeGenericMethod(this.ValueCollectionType);
-            //    var selectLower = Expression.Call(toLowerMethod, selectMethod);
-
-            //}
-
             Expression where = null;
             foreach (var item in valueList)
             {
@@ -147,7 +119,6 @@ namespace ECA.Core.DynamicLinq.Filter
                     where = Expression.Or(where, clause);
                 }
             }
-
             return Expression.Lambda<Func<T, bool>>(where, xParameter);
         }
     }

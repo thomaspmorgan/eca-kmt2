@@ -16,7 +16,8 @@ namespace ECA.Business.Queries.Models.Admin
         /// </summary>
         public SimpleProjectDTO()
         {
-            this.LocationNames = new List<string>();
+            this.CountryIds = new List<int>();
+            this.CountryNames = new List<string>();
         }
 
         /// <summary>
@@ -60,18 +61,13 @@ namespace ECA.Business.Queries.Models.Admin
         public string StartYearAsString { get; set; }
 
         /// <summary>
-        /// Gets or sets the location names.
+        /// Gets or sets the countries the project is operating in.
         /// </summary>
-        public IEnumerable<string> LocationNames { get; set; }
+        public IEnumerable<string> CountryNames { get; set; }
 
-        public IEnumerable<string> RegionNames { get; set; }
-
-        public IEnumerable<int> RegionIds { get; set; }
-
-        public string RegionNamesAsString {
-            get {
-                return string.Join(", ", this.RegionNames);
-            }
-        }
+        /// <summary>
+        /// Gets or sets the countries by id the project is operating in.
+        /// </summary>
+        public IEnumerable<int> CountryIds { get; set; }
     }
 }

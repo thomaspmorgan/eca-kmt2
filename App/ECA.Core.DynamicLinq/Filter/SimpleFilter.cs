@@ -74,6 +74,10 @@ namespace ECA.Core.DynamicLinq.Filter
             {
                 return new NotInFilter<T>(this.Property, this.Value);
             }
+            if (comparisonType == ComparisonType.ContainsAny)
+            {
+                return new ContainsAnyFilter<T>(this.Property, this.Value);
+            }
             throw new NotSupportedException("The client filter is not supported.");
         }
 

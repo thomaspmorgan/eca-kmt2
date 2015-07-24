@@ -10,6 +10,8 @@ namespace ECA.Core.DynamicLinq.Test.Filter
         public string S { get; set; }
 
         public int I { get; set; }
+
+        public IEnumerable<int> Ids { get; set; }
     }
 
     [TestClass]
@@ -119,6 +121,24 @@ namespace ECA.Core.DynamicLinq.Test.Filter
             Assert.IsInstanceOfType(linqFilter, typeof(InFilter<SimpleFilterTestClass>));
 
             var typedLinqFilter = (InFilter<SimpleFilterTestClass>)linqFilter;
+            Assert.AreEqual(filter.Value, typedLinqFilter.Value);
+            Assert.AreEqual(filter.Property, typedLinqFilter.PropertyInfo.Name);
+        }
+
+        [TestMethod]
+        public void TestToClientFilter_ContainsAnyComparison()
+        {
+            var filter = new SimpleFilter
+            {
+                Comparison = ComparisonType.ContainsAny.Value,
+                Property = "Ids",
+                Value = new List<int> { 1 }
+            };
+
+            var linqFilter = filter.ToLinqFilter<SimpleFilterTestClass>();
+            Assert.IsInstanceOfType(linqFilter, typeof(ContainsAnyFilter<SimpleFilterTestClass>));
+
+            var typedLinqFilter = (ContainsAnyFilter<SimpleFilterTestClass>)linqFilter;
             Assert.AreEqual(filter.Value, typedLinqFilter.Value);
             Assert.AreEqual(filter.Property, typedLinqFilter.PropertyInfo.Name);
         }

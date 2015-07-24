@@ -95,6 +95,7 @@ namespace ECA.Core.DynamicLinq.Test
             Assert.AreEqual(ComparisonType.NotNull, ComparisonType.ToComparisonType(ComparisonType.NotNull.Value));
             Assert.AreEqual(ComparisonType.Null, ComparisonType.ToComparisonType(ComparisonType.Null.Value));
             Assert.AreEqual(ComparisonType.NotIn, ComparisonType.ToComparisonType(ComparisonType.NotIn.Value));
+            Assert.AreEqual(ComparisonType.ContainsAny, ComparisonType.ToComparisonType(ComparisonType.ContainsAny.Value));
         }
 
         [TestMethod]
