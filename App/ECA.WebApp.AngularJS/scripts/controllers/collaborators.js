@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('CollaboratorCtrl', function ($scope, $q, $modalInstance, parameters, AuthService, UserService, OfficeService, ProgramService, ProjectService, ConstantsService, NotificationService, orderByFilter) {
+  .controller('CollaboratorCtrl', function ($scope, $q, $modalInstance, parameters, AuthService, UserService, OfficeService, ProgramService, ProjectService, ConstantsService, NotificationService) {
     
       $scope.showPermissions = {};
       
@@ -91,7 +91,7 @@ angular.module('staticApp')
           if (parameters.resourceType.id === ConstantsService.resourceType.office.id) {
               OfficeService.addPermission(permissionModel)
                 .then(function () {
-
+                    NotificationService.showSuccessMessage('The permission was successfully added.');
                 }, function () {
                     NotificationService.showErrorMessage('There was an error adding the permission.');
                     loadCollaborators(params);
@@ -99,7 +99,7 @@ angular.module('staticApp')
           } else if (parameters.resourceType.id === ConstantsService.resourceType.program.id) {
               ProgramService.addPermission(permissionModel)
                   .then(function () {
-
+                    NotificationService.showSuccessMessage('The permission was successfully added.');
                   }, function () {
                       NotificationService.showErrorMessage('There was an error adding the permission.');
                       loadCollaborators(params);
@@ -107,7 +107,7 @@ angular.module('staticApp')
           } else if (parameters.resourceType.id === ConstantsService.resourceType.project.id) {
               ProjectService.addPermission(permissionModel)
                   .then(function () {
-
+                    NotificationService.showSuccessMessage('The permission was successfully added.');
                   }, function () {
                       NotificationService.showErrorMessage('There was an error adding the permission.');
                       loadCollaborators(params);
@@ -119,7 +119,7 @@ angular.module('staticApp')
           if (parameters.resourceType.id === ConstantsService.resourceType.office.id) {
               OfficeService.removePermission(permissionModel)
                 .then(function () {
-                    
+                    NotificationService.showSuccessMessage('The permission was successfully removed.');
                 }, function () {
                     NotificationService.showErrorMessage('There was an error removing the permission.');
                     loadCollaborators(params);
@@ -127,7 +127,7 @@ angular.module('staticApp')
           } else if (parameters.resourceType.id === ConstantsService.resourceType.program.id) {
               ProgramService.removePermission(permissionModel)
                   .then(function () {
-
+                    NotificationService.showSuccessMessage('The permission was successfully removed.');
                   }, function () {
                       NotificationService.showErrorMessage('There was an error removing the permission.');
                       loadCollaborators(params);
@@ -135,7 +135,7 @@ angular.module('staticApp')
           } else if (parameters.resourceType.id === ConstantsService.resourceType.project.id) {
               ProjectService.removePermission(permissionModel)
                   .then(function () {
-
+                    NotificationService.showSuccessMessage('The permission was successfully removed.');
                   }, function () {
                       NotificationService.showErrorMessage('There was an error removing the permission.');
                       loadCollaborators(params);
@@ -147,7 +147,7 @@ angular.module('staticApp')
           if (parameters.resourceType.id === ConstantsService.resourceType.office.id) {
               OfficeService.revokePermission(permissionModel)
                 .then(function () {
-
+                    NotificationService.showSuccessMessage('The permission was successfully revoked.');
                 }, function () {
                     NotificationService.showErrorMessage('There was an error revoking the permission.');
                     loadCollaborators(params);
@@ -155,7 +155,7 @@ angular.module('staticApp')
           } else if (parameters.resourceType.id === ConstantsService.resourceType.program.id) {
               ProgramService.revokePermission(permissionModel)
                   .then(function () {
-
+                    NotificationService.showSuccessMessage('The permission was successfully revoked.');
                   }, function () {
                     NotificationService.showErrorMessage('There was an error revoking the permission.');
                     loadCollaborators(params);
@@ -163,7 +163,7 @@ angular.module('staticApp')
           } else if (parameters.resourceType.id === ConstantsService.resourceType.project.id) {
               ProjectService.revokePermission(permissionModel)
                   .then(function () {
-
+                    NotificationService.showSuccessMessage('The permission was successfully revoked.');
                   }, function () {
                     NotificationService.showErrorMessage('There was an error revoking the permission.');
                     loadCollaborators(params);
@@ -238,33 +238,7 @@ angular.module('staticApp')
       }
 
       function updateCollaborators(resourceAuthorizations) {
-
-          for (var i = 0; i < resourceAuthorizations.length; i++) {
-              var resourceAuthorization = resourceAuthorizations[i];
-              resourceAuthorization.mergedPermissions = mergePermissions(resourceAuthorization.assignedPermissions, resourceAuthorization.availablePermissions);
-          }
-
           $scope.collaborators = resourceAuthorizations;
-          console.log(resourceAuthorizations);
-      }
-
-      function mergePermissions(assignedPermissions, availablePermissions) {
-
-          var temp = {};
-
-          for (var i = 0; i < assignedPermissions.length; i++) {
-              temp[assignedPermissions[i].permissionId] = assignedPermissions[i];
-          }
-
-          for (var i = 0; i < availablePermissions.length; i++) {
-              if (!temp[availablePermissions[i].permissionId]) {
-                  temp[availablePermissions[i].permissionId] = availablePermissions[i];
-              }
-          }
-
-          var mergedPermissions = Object.keys(temp).map(function (k) { return temp[k] });
-
-          return orderByFilter(mergedPermissions, '+permissionName');
       }
 
       function showLoadCollaboratorsError() {

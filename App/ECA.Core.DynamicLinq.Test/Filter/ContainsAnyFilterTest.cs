@@ -32,6 +32,34 @@ namespace ECA.Core.DynamicLinq.Test.Filter
     [TestClass]
     public class ContainsAnyFilterTest
     {
+        [TestMethod]
+        public void TestPropertyCollectionType()
+        {
+            var filter = new ContainsAnyFilter<ContainsFilterTestClass>("Ids", new List<int>());
+            Assert.AreEqual(typeof(int), filter.PropertyCollectionType);
+        }
+
+        [TestMethod]
+        public void TestPropertyCollectionType_PropertyIsLong_ValueIsInt()
+        {
+            var filter = new ContainsAnyFilter<ContainsFilterTestClass>("LongIds", new List<int>());
+            Assert.AreEqual(typeof(Int64), filter.ValueCollectionType);
+        }
+
+        [TestMethod]
+        public void TestValueCollectionType()
+        {
+            var filter = new ContainsAnyFilter<ContainsFilterTestClass>("Ids", new List<int>());
+            Assert.AreEqual(typeof(int), filter.ValueCollectionType);
+        }
+
+        [TestMethod]
+        public void TestPropertyCollectionType_PropertyIsInt_ValueIsLong()
+        {
+            var filter = new ContainsAnyFilter<ContainsFilterTestClass>("Ids", new List<long>());
+            Assert.AreEqual(typeof(Int32), filter.ValueCollectionType);
+        }
+
         #region Int Property
         [TestMethod]
         public void TestToWhereExpression_IntProperty_SinglePropertyValue()
@@ -157,13 +185,44 @@ namespace ECA.Core.DynamicLinq.Test.Filter
                 LongIds = new List<long> { 1L }
             });
 
-            var testIds = new List<long> { 1L };
+            var testIds = new List<int> { 1 };
             var filter = new ContainsAnyFilter<ContainsFilterTestClass>("LongIds", testIds);
             var where = filter.ToWhereExpression();
             var results = list.Where(where.Compile()).ToList();
             Assert.AreEqual(1, results.Count);
         }
+
+        [TestMethod]
+        public void TestToWhereExpression_IntProperty_LongValues()
+        {
+            var list = new List<ContainsFilterTestClass>();
+            list.Add(new ContainsFilterTestClass
+            {
+                Ids = new List<int> { 1 }
+            });
+
+            var testIds = new List<long> { 1L };
+            var filter = new ContainsAnyFilter<ContainsFilterTestClass>("Ids", testIds);
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(1, results.Count);
+        }
         #endregion
+
+        [TestMethod]
+        public void TestToWhereExpression_ExceededMaxTerms()
+        {
+            var ints = new List<int>();
+            for (var i = 0; i <= ContainsAnyFilter<ContainsFilterTestClass>.MAX_TERMS; i++)
+            {
+                ints.Add(i);
+            }
+            var instance = new ContainsAnyFilter<ContainsFilterTestClass>("Ids", ints);
+            instance.Invoking(x => x.ToWhereExpression())
+                .ShouldThrow<NotSupportedException>()
+                .WithMessage(String.Format("The maximum number of terms to filter with is [{0}].", 
+                ContainsAnyFilter<ContainsFilterTestClass>.MAX_TERMS));
+        }
 
         [TestMethod]
         public void TestToWhereExpression_EnumerableStringProperty()

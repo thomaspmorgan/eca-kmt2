@@ -49,6 +49,7 @@
 	otherConstants["notEqualComparisonType"] = ComparisonType.NotEqual.Value;
 	otherConstants["isNullComparisonType"] = ComparisonType.Null.Value;
 	otherConstants["isNotNullComparisonType"] = ComparisonType.NotNull.Value;
+	otherConstants["containsAnyComparisonType"] = ComparisonType.ContainsAny.Value;
 
 	otherConstants["officeFocusSettingName"] = OfficeSetting.FOCUS_SETTING_KEY;
 	otherConstants["officeJustificationSettingName"] = OfficeSetting.JUSTIFICATION_SETTING_KEY;

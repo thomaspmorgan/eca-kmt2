@@ -22,28 +22,29 @@ namespace ECA.Business.Queries.Admin
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
+            var countryQuery = from country in context.Locations
+                               where country.LocationTypeId == LocationType.Country.Id
+                               select country;
 
             var query = from project in context.Projects
                         let parentProgram = project.ParentProgram
-                        let locations = project.Locations
                         let categories = project.Categories
                         let objectives = project.Objectives
                         let status = project.Status
                         let startDate = project.StartDate
-                        let regionNames = project.Regions.Select(l => l.LocationName)
-                        let regionIds = project.Regions.Select(l => l.LocationId)
-                        let locationNames = project.Locations.Select(l => l.LocationName)
+                        let regions = project.Regions
+                        let countries = countryQuery.Where(x => regions.Select(y => y.LocationId).Contains(x.Region.LocationId))
+
                         where project.ProgramId == programId
                         select new SimpleProjectDTO
                         {
+                            CountryIds = countries.Select(x => x.LocationId),
+                            CountryNames = countries.Select(x => x.LocationName),
                             ProgramId = parentProgram.ProgramId,
                             ProjectId = project.ProjectId,
                             ProjectName = project.Name,
-                            RegionNames = regionNames,
-                            RegionIds = regionIds,
                             ProjectStatusId = status.ProjectStatusId,
                             ProjectStatusName = status.Status,
-                            LocationNames = locationNames,
                             StartDate = startDate,
                             StartYear = startDate.Year,
                             StartYearAsString = startDate.Year.ToString()

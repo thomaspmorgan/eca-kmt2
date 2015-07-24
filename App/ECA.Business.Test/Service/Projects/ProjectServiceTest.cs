@@ -348,22 +348,6 @@ namespace ECA.Business.Test.Service.Projects
         public async Task TestGetProjectsByProgramId_CheckProperties()
         {
             var now = DateTimeOffset.UtcNow;
-            var location1 = new Location
-            {
-                LocationId = 1,
-                LocationName = "location1"
-            };
-            var location2 = new Location
-            {
-                LocationId = 2,
-                LocationName = "location2"
-            };
-
-            var location3 = new Location
-            {
-                LocationId = 4,
-                LocationName = "region"
-            };
 
             var program = new Program
             {
@@ -384,18 +368,8 @@ namespace ECA.Business.Test.Service.Projects
                 Status = status,
                 ProjectStatusId = status.ProjectStatusId
             };
-
-            project.Locations = new List<Location>();
-            project.Locations.Add(location1);
-            project.Locations.Add(location2);
-            project.Regions.Add(location3);
-
             context.ProjectStatuses.Add(status);
             context.Projects.Add(project);
-            context.Locations.Add(location1);
-            context.Locations.Add(location2);
-                        context.Locations.Add(location3);
-
             context.Programs.Add(program);
 
             var defaultSorter = new ExpressionSorter<SimpleProjectDTO>(x => x.ProjectId, SortDirection.Ascending);
@@ -418,10 +392,6 @@ namespace ECA.Business.Test.Service.Projects
                 Assert.AreEqual(project.StartDate.Year.ToString(), firstResult.StartYearAsString);
                 Assert.AreEqual(status.Status, firstResult.ProjectStatusName);
                 Assert.AreEqual(status.ProjectStatusId, firstResult.ProjectStatusId);
-
-                Assert.IsTrue(firstResult.RegionNames.Contains(location3.LocationName));
-                Assert.IsTrue(firstResult.LocationNames.Contains(location1.LocationName));
-                Assert.IsTrue(firstResult.LocationNames.Contains(location2.LocationName));
             };
 
             var serviceResults = service.GetProjectsByProgramId(program.ProgramId, queryOperator);
@@ -429,6 +399,95 @@ namespace ECA.Business.Test.Service.Projects
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
+
+        [TestMethod]
+        public async Task TestGetProjectsByProgramId_CheckCountries()
+        {
+            var now = DateTimeOffset.UtcNow;
+            var countryType = new LocationType
+            {
+                LocationTypeId = LocationType.Country.Id,
+                LocationTypeName = LocationType.Country.Value
+            };
+            var region = new Location
+            {
+                LocationId = 1,
+                LocationName = "region",
+                
+            };
+            var country1 = new Location
+            {
+                LocationId = 2,
+                LocationName = "country1",
+                LocationTypeId = countryType.LocationTypeId,
+                LocationType = countryType
+            };
+
+            var country2 = new Location
+            {
+                LocationId = 4,
+                LocationName = "country2",
+                LocationTypeId = countryType.LocationTypeId,
+                LocationType = countryType
+            };
+            country1.Region = region;
+            country1.RegionId = region.LocationId;
+            country2.Region = region;
+            country2.RegionId = region.LocationId;
+
+            var program = new Program
+            {
+                ProgramId = 1,
+            };
+            var status = new ProjectStatus
+            {
+                Status = "status",
+                ProjectStatusId = 1
+            };
+            var project = new Project
+            {
+                ProgramId = program.ProgramId,
+                Name = "project",
+                ParentProgram = program,
+                ProjectId = 100,
+                StartDate = now,
+                Status = status,
+                ProjectStatusId = status.ProjectStatusId
+            };
+            project.Regions.Add(region);
+            context.ProjectStatuses.Add(status);
+            context.Projects.Add(project);
+            context.Locations.Add(country1);
+            context.Locations.Add(country2);
+            context.Locations.Add(region);
+            context.Programs.Add(program);
+            context.LocationTypes.Add(countryType);
+
+            var defaultSorter = new ExpressionSorter<SimpleProjectDTO>(x => x.ProjectId, SortDirection.Ascending);
+            var start = 0;
+            var limit = 10;
+            var queryOperator = new QueryableOperator<SimpleProjectDTO>(start, limit, defaultSorter);
+
+            Action<PagedQueryResults<SimpleProjectDTO>> tester = (queryResults) =>
+            {
+                Assert.AreEqual(1, queryResults.Total);
+                var results = queryResults.Results;
+                Assert.AreEqual(1, results.Count);
+                var firstResult = results.First();
+                Assert.AreEqual(2, firstResult.CountryIds.Count());
+                Assert.AreEqual(2, firstResult.CountryNames.Count());
+                Assert.IsTrue(firstResult.CountryIds.Contains(country1.LocationId));
+                Assert.IsTrue(firstResult.CountryIds.Contains(country2.LocationId));
+                Assert.IsTrue(firstResult.CountryNames.Contains(country1.LocationName));
+                Assert.IsTrue(firstResult.CountryNames.Contains(country2.LocationName));
+            };
+
+            var serviceResults = service.GetProjectsByProgramId(program.ProgramId, queryOperator);
+            var serviceResultsAsync = await service.GetProjectsByProgramIdAsync(program.ProgramId, queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
 
         [TestMethod]
         public async Task TestGetProjectsByProgramId_NoProgramsWithGivenId()
