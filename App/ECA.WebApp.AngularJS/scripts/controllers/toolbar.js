@@ -37,7 +37,6 @@ angular.module('staticApp')
           } else if (stateName.indexOf(ConstantsService.resourceType.program.value.toLowerCase()) > -1) {
               resourceType = ConstantsService.resourceType.program;
               foreignResourceId = $stateParams.programId;
-              console.log(ConstantsService);
               ownerPermissionId = ConstantsService.permission.programOwner.id;
           } else if (stateName.indexOf(ConstantsService.resourceType.project.value.toLowerCase()) > -1) {
               resourceType = ConstantsService.resourceType.project;
