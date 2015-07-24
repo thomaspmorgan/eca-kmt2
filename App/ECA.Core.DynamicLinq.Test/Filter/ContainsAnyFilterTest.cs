@@ -210,6 +210,21 @@ namespace ECA.Core.DynamicLinq.Test.Filter
         #endregion
 
         [TestMethod]
+        public void TestToWhereExpression_ExceededMaxTerms()
+        {
+            var ints = new List<int>();
+            for (var i = 0; i <= ContainsAnyFilter<ContainsFilterTestClass>.MAX_TERMS; i++)
+            {
+                ints.Add(i);
+            }
+            var instance = new ContainsAnyFilter<ContainsFilterTestClass>("Ids", ints);
+            instance.Invoking(x => x.ToWhereExpression())
+                .ShouldThrow<NotSupportedException>()
+                .WithMessage(String.Format("The maximum number of terms to filter with is [{0}].", 
+                ContainsAnyFilter<ContainsFilterTestClass>.MAX_TERMS));
+        }
+
+        [TestMethod]
         public void TestToWhereExpression_EnumerableStringProperty()
         {
             var ids = new List<int>();

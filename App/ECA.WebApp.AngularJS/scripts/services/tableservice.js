@@ -42,11 +42,25 @@ angular.module('staticApp')
             var predicateObject = tableState.search.predicateObject;
             if (predicateObject !== undefined) {
                 for (var key in predicateObject) {
-                    if (key !== '$') { //The $ key is used for the search form fields
+                    if (predicateObject[key].comparison) {
+                        var comparisonType = predicateObject[key].comparison;
+                        var newFilter = {
+                            comparison: comparisonType,
+                            property: key.replace(/'/g, ""),
+                        };                        
+                        if (comparisonType === ConstantsService.containsAnyComparisonType) {
+                            var ids = predicateObject[key].ids;
+                            if (ids.length > 0) {
+                                newFilter.value = ids;
+                                filter.push(newFilter);
+                            }
+                        }
+                    }
+                    else if (key !== '$') { //The $ key is used for the search form fields
                         filter.push({
                             property: key.replace(/'/g, ""),
                             value: predicateObject[key],
-                            comparison: 'like'
+                            comparison: ConstantsService.likeComparisonType
                         });
                     }
                     

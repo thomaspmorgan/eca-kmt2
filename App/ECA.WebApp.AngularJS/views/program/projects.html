@@ -67,34 +67,46 @@
 
 
 <h4 class="tab-subheader">Projects List</h4>
-<div ng-show="!projects.length">
-    <p>No projects to show</p>
-</div>
-<div st-pipe="getProjects" st-table="projects" id="sort-list" ng-show="projects.length > 0">
+<div st-pipe="getProjects" st-table="projects" id="sort-list">
     <table class="col-md-12 table">
         <thead>
             <tr>
                 <th st-sort="'projectName'" st-sort-default="true" class="col-md-6 sort-label medium">Title</th>
                 <th st-sort="'projectStatusName'" class="col-md-1 sort-label medium">Status</th>
                 <th st-sort="'startYearAsString'" class="col-md-1 sort-label medium">Year</th>
-                <th class="col-md-2 sort-label medium">Region <span>(ctrl-click to select multiple)</span></th>
+                <th class="col-md-2 sort-label medium">Countries</th>
                 <th class="col-md-2">&nbsp;</th>
             </tr>
             <tr>
                 <th>
-                    <input st-search="'projectName'" placeholder="" type="search" class="input-lg form-control" />
+                    <input st-search="'projectName'" placeholder="" type="search" class="form-control" />
                 </th>
                 <th>
-                    <input st-search="'projectStatusName'" placeholder="" type="search" class="input-lg form-control" />
+                    <input st-search="'projectStatusName'" placeholder="" type="search" class="form-control" />
                 </th>
                 <th>
-                    <input st-search="'startYearAsString'" placeholder="" type="search" class="input-lg form-control" />
+                    <input st-search="'startYearAsString'" placeholder="" type="search" class="form-control" />
                 </th>
                 <th>
-                    <select style="height: 45px;" multiple class="form-control" id="regionSelect"
-                            ng-options="s.id as s.name for s in regions track by s.id"
-                            ng-model="filteredRegions"
-                            ng-change="changeRegionFilter()" />
+                    <ui-select multiple
+                               ui-select-st-search
+                               ui-select-st-search-model-id="id"
+                               ui-select-st-search-property="countryIds"
+                               close-on-select="true"
+                               ng-model="selectedFilterCountries"
+                               theme="select2"
+                               append-to-body="true"
+                               title="Choose countries to filter."
+                               style="min-width: 200px;">
+                        <ui-select-match placeholder="Select countries to filter...">
+                            <div>{{$item.name}}</div>
+                        </ui-select-match>
+                        <ui-select-choices refresh="searchCountries($select.search)"
+                                           refresh-delay="250"
+                                           repeat="country in countries | filter: select.search track by country.id">
+                            <div ng-bind-html="country.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
                 </th>
                 <th>
                     {{selectedRegions}}
@@ -102,7 +114,13 @@
             </tr>
         </thead>
         <tbody class="list2">
-            <tr ng-repeat="project in projects" class="hover" ng-show="!projectsLoading && showIncludedRegion[{{project.projectId}}]" 
+            <tr rowspan="6" ng-show="!projects.length">
+                <td>
+                    <p>No projects to show</p>
+                </td>
+            </tr>
+
+            <tr ng-repeat="project in projects" class="hover" ng-show="!projectsLoading" 
                 id="projectRow{{project.projectId}}">
                 <td class="narrowPadding">
                     <h4 class="list-title"><a style="font-size:18px; font-weight: 500;" ui-sref="projects.overview({officeId: program.ownerOrganizationId, programId: program.id, projectId: project.projectId})">{{project.projectName}}</a></h4>

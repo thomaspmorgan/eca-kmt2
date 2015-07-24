@@ -16,6 +16,11 @@ namespace ECA.Core.DynamicLinq.Filter
     public class ContainsAnyFilter<T> : BinaryFilter<T> where T : class
     {
         /// <summary>
+        /// The maximum of number of items to filter with.
+        /// </summary>
+        public const int MAX_TERMS = 10;
+
+        /// <summary>
         /// Creates a new ContainsAnyFilter that applies a filter to a numeric property checking for the existence of any of the given values
         /// in the Enumerable numeric property.
         /// </summary>
@@ -84,6 +89,10 @@ namespace ECA.Core.DynamicLinq.Filter
             foreach (var v in (IEnumerable)this.Value)
             {
                 list.Add(Convert.ChangeType(v, this.ValueCollectionType));
+            }
+            if (list.Count > MAX_TERMS)
+            {
+                throw new NotSupportedException(String.Format("The maximum number of terms to filter with is [{0}].", MAX_TERMS));
             }
             return list;
         }
