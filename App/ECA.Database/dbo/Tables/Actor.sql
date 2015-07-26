@@ -16,12 +16,12 @@
     [ProjectId] INT NULL, 
     CONSTRAINT [PK_dbo.Actor] PRIMARY KEY CLUSTERED ([ActorId] ASC),
     CONSTRAINT [FK_dbo.Actor_dbo.ActorType_ActorTypeId] FOREIGN KEY ([ActorTypeId]) REFERENCES [dbo].[ActorType] ([ActorTypeId]) ON DELETE CASCADE,
-    CONSTRAINT [FK_dbo.Actor_dbo.Activity_ActivityId] FOREIGN KEY ([ActivityId]) REFERENCES [dbo].[Activity] ([ActivityId]),
-    CONSTRAINT [FK_dbo.Actor_dbo.ItineraryStop_ItineraryStopId] FOREIGN KEY ([ItineraryStopId]) REFERENCES [dbo].[ItineraryStop] ([ItineraryStopId]),
-    CONSTRAINT [FK_dbo.Actor_dbo.Organization_OrganizationId] FOREIGN KEY ([OrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId]),
-    CONSTRAINT [FK_dbo.Actor_dbo.Person_PersonId] FOREIGN KEY ([PersonId]) REFERENCES [dbo].[Person] ([PersonId]), 
-    CONSTRAINT [FK_dbo.Actor_dbo.ItineraryAppointment_AppointmentId] FOREIGN KEY ([AppointmentId]) REFERENCES [dbo].[ItineraryAppointment]([AppointmentId]), 
-    CONSTRAINT [FK_dbo.Actor_dbo.Project_ProjectId] FOREIGN KEY ([ProjectId]) REFERENCES [dbo].[Project]([ProjectId])
+    CONSTRAINT [FK_dbo.Actor_dbo.Activity_ActivityId] FOREIGN KEY ([ActivityId]) REFERENCES [dbo].[Activity] ([ActivityId]) ON DELETE CASCADE,
+    CONSTRAINT [FK_dbo.Actor_dbo.ItineraryStop_ItineraryStopId] FOREIGN KEY ([ItineraryStopId]) REFERENCES [dbo].[ItineraryStop] ([ItineraryStopId]) ON DELETE CASCADE,
+    CONSTRAINT [FK_dbo.Actor_dbo.Organization_OrganizationId] FOREIGN KEY ([OrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId]) ON DELETE CASCADE,
+    CONSTRAINT [FK_dbo.Actor_dbo.Person_PersonId] FOREIGN KEY ([PersonId]) REFERENCES [dbo].[Person] ([PersonId]) ON DELETE CASCADE, 
+    CONSTRAINT [FK_dbo.Actor_dbo.ItineraryAppointment_AppointmentId] FOREIGN KEY ([AppointmentId]) REFERENCES [dbo].[ItineraryAppointment]([AppointmentId]) ON DELETE CASCADE, 
+    CONSTRAINT [FK_dbo.Actor_dbo.Project_ProjectId] FOREIGN KEY ([ProjectId]) REFERENCES [dbo].[Project]([ProjectId]) ON DELETE CASCADE
 );
 
 

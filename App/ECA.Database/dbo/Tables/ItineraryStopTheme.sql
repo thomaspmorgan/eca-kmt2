@@ -3,8 +3,8 @@
 	[ItineraryStopId] INT NOT NULL , 
     [ItineraryThemeId] INT NOT NULL, 
     CONSTRAINT [PK_dbo.ItineraryStopTheme] PRIMARY KEY ([ItineraryStopId] ASC, [ItineraryThemeId] ASC), 
-    CONSTRAINT [FK_dbo.ItineraryStopTheme_dbo.ItineraryStop_ItineraryStopId] FOREIGN KEY ([ItineraryStopId]) REFERENCES [dbo].[ItineraryStop]([ItineraryStopId]), 
-    CONSTRAINT [FK_dbo.ItineraryStopTheme_dbo.ItineraryTheme_ItineraryThemeId] FOREIGN KEY ([ItineraryThemeId]) REFERENCES [dbo].[ItineraryTheme]([ItineraryThemeId])
+    CONSTRAINT [FK_dbo.ItineraryStopTheme_dbo.ItineraryStop_ItineraryStopId] FOREIGN KEY ([ItineraryStopId]) REFERENCES [dbo].[ItineraryStop]([ItineraryStopId]) ON DELETE CASCADE, 
+    CONSTRAINT [FK_dbo.ItineraryStopTheme_dbo.ItineraryTheme_ItineraryThemeId] FOREIGN KEY ([ItineraryThemeId]) REFERENCES [dbo].[ItineraryTheme]([ItineraryThemeId]) ON DELETE CASCADE
 )
 
 GO

@@ -16,12 +16,12 @@
     [History_RevisedOn] DATETIMEOFFSET (7) NOT NULL,
     CONSTRAINT [PK_dbo.Artifact] PRIMARY KEY CLUSTERED ([ArtifactId] ASC),
     CONSTRAINT [FK_dbo.Artifact_dbo.ArtifactType_ArtifactTypeId] FOREIGN KEY ([ArtifactTypeId]) REFERENCES [dbo].[ArtifactType] ([ArtifactTypeId]) ON DELETE CASCADE,
-    CONSTRAINT [FK_dbo.Artifact_dbo.Activity_ActivityId] FOREIGN KEY ([ActivityId]) REFERENCES [dbo].[Activity] ([ActivityId]),
-    CONSTRAINT [FK_dbo.Artifact_dbo.Impact_ImpactId] FOREIGN KEY ([ImpactId]) REFERENCES [dbo].[Impact] ([ImpactId]),
-    CONSTRAINT [FK_dbo.Artifact_dbo.ItineraryStop_ItineraryStopId] FOREIGN KEY ([ItineraryStopId]) REFERENCES [dbo].[ItineraryStop] ([ItineraryStopId]),
-    CONSTRAINT [FK_dbo.Artifact_dbo.Program_ProgramId] FOREIGN KEY ([ProgramId]) REFERENCES [dbo].[Program] ([ProgramId]),
-    CONSTRAINT [FK_dbo.Artifact_dbo.Project_ProjectId] FOREIGN KEY ([ProjectId]) REFERENCES [dbo].[Project] ([ProjectId]),
-    CONSTRAINT [FK_dbo.Artifact_dbo.Publication_PublicationId] FOREIGN KEY ([PublicationId]) REFERENCES [dbo].[Publication] ([PublicationId])
+    CONSTRAINT [FK_dbo.Artifact_dbo.Activity_ActivityId] FOREIGN KEY ([ActivityId]) REFERENCES [dbo].[Activity] ([ActivityId]) ON DELETE CASCADE,
+    CONSTRAINT [FK_dbo.Artifact_dbo.Impact_ImpactId] FOREIGN KEY ([ImpactId]) REFERENCES [dbo].[Impact] ([ImpactId]) ON DELETE CASCADE,
+    CONSTRAINT [FK_dbo.Artifact_dbo.ItineraryStop_ItineraryStopId] FOREIGN KEY ([ItineraryStopId]) REFERENCES [dbo].[ItineraryStop] ([ItineraryStopId]) ON DELETE CASCADE,
+    CONSTRAINT [FK_dbo.Artifact_dbo.Program_ProgramId] FOREIGN KEY ([ProgramId]) REFERENCES [dbo].[Program] ([ProgramId]) ON DELETE CASCADE,
+    CONSTRAINT [FK_dbo.Artifact_dbo.Project_ProjectId] FOREIGN KEY ([ProjectId]) REFERENCES [dbo].[Project] ([ProjectId]) ON DELETE CASCADE,
+    CONSTRAINT [FK_dbo.Artifact_dbo.Publication_PublicationId] FOREIGN KEY ([PublicationId]) REFERENCES [dbo].[Publication] ([PublicationId]) ON DELETE CASCADE
 );
 
 

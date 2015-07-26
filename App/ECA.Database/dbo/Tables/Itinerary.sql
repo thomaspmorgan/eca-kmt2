@@ -11,7 +11,7 @@
     [Description] NVARCHAR(100) NOT NULL, 
     CONSTRAINT [PK_dbo.Itinerary] PRIMARY KEY CLUSTERED ([ItineraryId] ASC),
     CONSTRAINT [FK_dbo.Itinerary_dbo.ItineraryStatus_ItineraryStatusId] FOREIGN KEY ([ItineraryStatusId]) REFERENCES [dbo].[ItineraryStatus] ([ItineraryStatusId]) ON DELETE CASCADE, 
-    CONSTRAINT [FK_dbo.Itinerary_dbo.Project_ProjectId] FOREIGN KEY ([ProjectId]) REFERENCES [dbo].[Project]([ProjectId])
+    CONSTRAINT [FK_dbo.Itinerary_dbo.Project_ProjectId] FOREIGN KEY ([ProjectId]) REFERENCES [dbo].[Project]([ProjectId]) ON DELETE CASCADE
 );
 
 

@@ -8,5 +8,5 @@
     [History_RevisedBy] INT NOT NULL, 
     [History_RevisedOn] DATETIMEOFFSET NOT NULL, 
 	CONSTRAINT [PK_dbo.Objective] PRIMARY KEY CLUSTERED ([ObjectiveId] ASC), 
-    CONSTRAINT [FK_Objective_ToJustification] FOREIGN KEY ([JustificationId]) REFERENCES [Justification]([JustificationId])
+    CONSTRAINT [FK_Objective_ToJustification] FOREIGN KEY ([JustificationId]) REFERENCES [Justification]([JustificationId]) ON DELETE CASCADE
 )

@@ -114,7 +114,7 @@
 
       $scope.editMoneyFlow = function (moneyFlowId) {
 
-            $scope.moneyFlowEditColumnClass = "col-md-1 editButtons";
+            $scope.moneyFlowEditColumnClass = "col-md-2 editButtons";
             $scope.editingMoneyFlows[moneyFlowId] = true;
 
             MoneyFlowService.get(moneyFlowId)

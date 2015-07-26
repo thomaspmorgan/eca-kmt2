@@ -13,8 +13,8 @@
     [PersonOfProfession_PersonId] INT                NULL,
     CONSTRAINT [PK_dbo.ProfessionEducation] PRIMARY KEY CLUSTERED ([ProfessionEducationId] ASC),
     CONSTRAINT [FK_dbo.ProfessionEducation_dbo.Organization_OrganizationId] FOREIGN KEY ([OrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId]) ON DELETE CASCADE,
-    CONSTRAINT [FK_dbo.ProfessionEducation_dbo.Person_PersonOfEducation_PersonId] FOREIGN KEY ([PersonOfEducation_PersonId]) REFERENCES [dbo].[Person] ([PersonId]),
-    CONSTRAINT [FK_dbo.ProfessionEducation_dbo.Person_PersonOfProfession_PersonId] FOREIGN KEY ([PersonOfProfession_PersonId]) REFERENCES [dbo].[Person] ([PersonId])
+    CONSTRAINT [FK_dbo.ProfessionEducation_dbo.Person_PersonOfEducation_PersonId] FOREIGN KEY ([PersonOfEducation_PersonId]) REFERENCES [dbo].[Person] ([PersonId]) ON DELETE CASCADE,
+    CONSTRAINT [FK_dbo.ProfessionEducation_dbo.Person_PersonOfProfession_PersonId] FOREIGN KEY ([PersonOfProfession_PersonId]) REFERENCES [dbo].[Person] ([PersonId]) ON DELETE CASCADE
 );
 
 
