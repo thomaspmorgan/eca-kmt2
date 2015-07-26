@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProgramsCtrl', function ($scope, $stateParams, $state, ProgramService, 
+  .controller('ProgramsCtrl', function ($scope, $stateParams, $state, ProgramService,
       ProjectService, TableService, LocationService, ConstantsService, LookupService, orderByFilter) {
 
       $scope.listOfNewItemOptions = ['Sub-program', 'Project'];
@@ -22,17 +22,13 @@ angular.module('staticApp')
       $scope.isSavingProject = false;
       $scope.validations = [];
 
-      $scope.showIncludedRegion = [];
-
-      $scope.selectedNewItem = '';
-      $scope.filteredRegions = [];
-
       $scope.themes = [];
       $scope.categories = [];
       $scope.objectives = [];
       $scope.goals = [];
       $scope.regions = [];
       $scope.pointsOfContact = [];
+      $scope.selectedFilterCountries = [];
 
       $scope.newProject = {
           title: '',
@@ -108,7 +104,7 @@ angular.module('staticApp')
 
       $scope.sortedCategories = [];
       $scope.sortedObjectives = [];
-      
+
       $scope.lookupParams = {
           start: null,
           limit: 100,
@@ -123,20 +119,42 @@ angular.module('staticApp')
           filter: null
       };
 
-      $scope.regionsLookupParams = {
-          start: null,
-          limit: 10,
-          sort: null,
-          filter: [{ property: 'locationtypeid', comparison: 'eq', value: 2 }]
-      };
+      $scope.searchCountries = function (search) {
+          return loadCountries(search);
+      }
+
+      function loadCountries(search) {
+          var params = {
+              start: 0,
+              limit: 10,
+              filter: [
+                  {
+                      comparison: ConstantsService.equalComparisonType,
+                      value: ConstantsService.locationType.country.id,
+                      property: 'locationTypeId'
+                  }
+              ]
+          };
+          if (search && search.length > 0) {
+              params.filter.push({
+                  comparison: ConstantsService.likeComparisonType,
+                  value: search,
+                  property: 'name'
+              });
+          }
+          return LocationService.get(params)
+          .then(function (data) {
+              $scope.countries = data.results;
+          });
+      }
 
       LookupService.getAllThemes($scope.lookupParams)
-    .then(function (data) {
-        $scope.themes = data.results;
-        angular.forEach($scope.themes, function (value, key) {
-            $scope.themes[key].ticked = false;
+        .then(function (data) {
+            $scope.themes = data.results;
+            angular.forEach($scope.themes, function (value, key) {
+                $scope.themes[key].ticked = false;
+            });
         });
-    });
 
       LookupService.getAllGoals($scope.lookupParams)
         .then(function (data) {
@@ -154,13 +172,10 @@ angular.module('staticApp')
               })
           });
 
-      LookupService.getAllRegions($scope.regionsLookupParams)
-          .then(function (data) {
-              $scope.regions = data.results;
-              angular.forEach($scope.regions, function (value, key) {
-                  $scope.regions[key].ticked = false;
-              });
-          });
+      LocationService.get({ limit: 300, filter: { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.region.id } })
+            .then(function (data) {
+                $scope.regions = data.results;
+            });
 
       ProgramService.get($stateParams.programId)
           .then(function (program) {
@@ -172,11 +187,6 @@ angular.module('staticApp')
               $scope.sortedCategories = orderByFilter($scope.program.categories, '+focusName');
               $scope.sortedObjectives = orderByFilter($scope.program.objectives, '+justificationName');
           });
-
-      LocationService.get({ limit: 300, filter: { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.region.id } })
-            .then(function (data) {
-                $scope.regions = data.results;
-       });
 
       $scope.allCategoriesGrouped = [];
       function loadCategories(officeId) {
@@ -245,27 +255,22 @@ angular.module('staticApp')
               limit: TableService.getLimit(),
               sort: TableService.getSort(),
               filter: TableService.getFilter()
-
           };
-
           ProjectService.getProjectsByProgram($stateParams.programId, params)
             .then(function (response) {
                 $scope.projects = response.data.results;
                 var limit = TableService.getLimit();
                 tableState.pagination.numberOfPages = Math.ceil(response.data.total / limit);
-                
+
             })
-            .then(function(){
+            .then(function () {
                 $scope.projectsLoading = false;
-                angular.forEach($scope.projects, function (value) {
-                    $scope.showIncludedRegion[value.projectId] = true;
-                });
             });
 
       }
 
       $scope.getSubPrograms = function (tableState) { // get the subprograms (first children of this program)
-          
+
           $scope.subProgramsLoading = true;
           TableService.setTableState(tableState);
 
@@ -286,7 +291,7 @@ angular.module('staticApp')
                 $scope.subProgramsLoading = false;
             });
 
-            
+
       }
 
       $scope.saveProject = function () {
@@ -305,8 +310,7 @@ angular.module('staticApp')
             }, function (createErrorData) {
                 if (createErrorData.status === 400 && createErrorData.data && createErrorData.data.ValidationErrors) {
                     $scope.errorMessage = createErrorData.data.Message;
-                    for (var key in createErrorData.data.ValidationErrors)
-                    {
+                    for (var key in createErrorData.data.ValidationErrors) {
                         $scope.validations.push(createErrorData.data.ValidationErrors[key]);
                     }
                     $scope.confirmFail = true;
@@ -314,16 +318,16 @@ angular.module('staticApp')
                 else {
                     $scope.errorMessage = 'An Error has occurred.';
                     $scope.confirmFail = true;
-                }   
+                }
             })
-          .then(function() {
+          .then(function () {
               $scope.isSavingProject = false;
           });
       };
 
       $scope.clickCreate = function ($event) {
-        $event.preventDefault();
-        $scope.showCreateOptions = true;
+          $event.preventDefault();
+          $scope.showCreateOptions = true;
       };
 
       $scope.modalClose = function () {
@@ -397,8 +401,7 @@ angular.module('staticApp')
       };
 
       $scope.createItem = function (createdItem) {
-          switch (createdItem)
-          {
+          switch (createdItem) {
               case "subprogram":
                   $scope.createNewSubProgram();
                   break;
@@ -416,35 +419,6 @@ angular.module('staticApp')
           $scope.newProgram.parentProgram = "Ambassadors Fund For Cultural Preservation (AFCP)";
           $scope.createProgram = true;
 
-      };
-
-      $scope.changeRegionFilter = function () {
-          var regions = $('#regionSelect').val();
-
-          var items = $("#regionSelect option:selected").map(function () {
-              return $(this).text();
-          }).get();
-
-          $scope.selectedRegions = items.join();
-
-          if (regions == null) {
-              // all regions should be displayed
-              angular.forEach($scope.projects, function (value) {
-                  $scope.showIncludedRegion[value.projectId] = true;
-              });
-          }
-          else {
-              angular.forEach($scope.projects, function (value) {
-
-                  $scope.showIncludedRegion[value.projectId] = false;
-                  angular.forEach(regions, function (selectedRegion) {
-
-                      if (value.regionIds.indexOf(parseInt(selectedRegion)) > -1) {
-                          $scope.showIncludedRegion[value.projectId] = true;
-                      }
-                  });
-              });
-          };
       };
 
 

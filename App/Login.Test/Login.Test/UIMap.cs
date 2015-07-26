@@ -28,6 +28,7 @@
         public void LoginQA()
         {
             #region Variable Declarations
+            HtmlEdit uIUseraccountEdit = this.UISigninInternetExplorWindow.UISigninDocument.UIUseraccountEdit;
             HtmlTable uIEcatest1_statedept_uTable = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIEcatest1_statedept_uTable;
             HtmlEdit uIPasswordEdit = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIPasswordEdit;
             HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UISigninPane;
@@ -36,8 +37,11 @@
             // Go to web page 'http://localhost:5556/index.html#/#top' using new browser instance
             this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LoginQAParams.UINewtabInternetExplorWindowUrl));
 
+            // Type 'ECATest1@statedept.us' in Username box
+            uIUseraccountEdit.Text = this.LoginQAParams.UIUseraccountEditText;
+
             // Click 'ecatest1_statedept_us' table
-            Mouse.Click(uIEcatest1_statedept_uTable, new Point(65, 47));
+            //Mouse.Click(uIEcatest1_statedept_uTable, new Point(65, 47));
 
             // Type '********' in 'Password' text box
             uIPasswordEdit.Password = this.LoginQAParams.UIPasswordEditPassword;
@@ -72,11 +76,14 @@
             #endregion
 
             // Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
+            //this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LogintoQA_ExistingUserParams.UINewtabInternetExplorWindowUrl));
+
+            // Go to web page 'http://localhost:5556/index.html#/#top' using new browser instance
             this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LogintoQA_ExistingUserParams.UINewtabInternetExplorWindowUrl));
 
             // Click 'ECATest1@statedept.us' cell
-            Mouse.Click(uIECATest1statedeptusCell, new Point(49, 41));
-
+            Mouse.Click(uIECATest1statedeptusCell, new Point(65, 47));
+            
             // Type '********' in 'Password' text box
             uIPasswordEdit.Password = this.LogintoQA_ExistingUserParams.UIPasswordEditPassword;
 
@@ -111,6 +118,9 @@
         /// </summary>
         public string UINewtabInternetExplorWindowUrl = "http://localhost:5556/index.html#/#top";
 
+        // Type "ECATest1@statedept.us" in Username text box
+        public string UIUseraccountEditText = "ECATest1@statedept.us";
+
         /// <summary>
         /// Type '********' in 'Password' text box
         /// </summary>
@@ -128,7 +138,12 @@
         /// <summary>
         /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
         /// </summary>
-        public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa.azurewebsites.net/";
+        //public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa.azurewebsites.net/";
+
+        /// <summary>
+        /// Go to web page 'http://localhost:5556/index.html#/#top' using new browser instance
+        /// </summary>
+        public string UINewtabInternetExplorWindowUrl = "http://localhost:5556/index.html#/#top";
 
         /// <summary>
         /// Type '********' in 'Password' text box

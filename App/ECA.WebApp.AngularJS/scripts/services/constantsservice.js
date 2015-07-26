@@ -85,6 +85,7 @@
 		},
 		adalLoginSuccessEventName: 'adal:loginSuccess',
 		cancelProjectEventName: 'cancelProjectEdit',
+		containsAnyComparisonType: 'containsany',
 		emptyGuid: '00000000-0000-0000-0000-000000000000',
 		equalComparisonType: 'eq',
 		greaterComparisonType: 'gt',

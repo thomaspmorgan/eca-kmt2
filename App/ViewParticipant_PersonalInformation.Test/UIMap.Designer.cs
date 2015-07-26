@@ -122,6 +122,30 @@ namespace ViewParticipantProfile.Test
         }
         
         /// <summary>
+        /// Verify the Evaluation and Notes section is available and the Eval Note is present in the list; also verify chevron functionality for expand and collapse.
+        /// </summary>
+        public void AssertEvaluationandNotes()
+        {
+            #region Variable Declarations
+            HtmlDiv uIEvaluationNotesPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UITopPane.UIEvaluationNotesPane;
+            HtmlDiv uIStevescommunicationsPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UITopPane.UIStevescommunicationsPane;
+            HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UITopPane.UIItemCustom;
+            #endregion
+
+            // Verify that the 'InnerText' property of 'Evaluation & Notes' pane contains 'Evaluation & Notes'
+            StringAssert.Contains(uIEvaluationNotesPane.InnerText, this.AssertEvaluationandNotesExpectedValues.UIEvaluationNotesPaneInnerText, "No Evaluation and Notes section available.");
+
+            // Verify that the 'DisplayText' property of 'Steve's communications skills are excell' pane contains 'Steve's communications skills are excellent!
+            //
+            //
+            //chat_bubble Added by: ECA Test () on June 11, 2015'
+            StringAssert.Contains(uIStevescommunicationsPane.DisplayText, this.AssertEvaluationandNotesExpectedValues.UIStevescommunicationsPaneDisplayText, "Eval Note not available. Does not match.");
+
+            // Verify that the 'ControlType' property of custom control contains 'Custom'
+            StringAssert.Contains(uIItemCustom.ControlType.ToString(), this.AssertEvaluationandNotesExpectedValues.UIItemCustomControlType, "Check on Control Type for chevron expand/collapse.");
+        }
+        
+        /// <summary>
         /// Verify the fields for the General Section; Participant Origination; Status; Prominent Categories; Events Participated; Related Reports; Participant Type; Memberships; Language Proficiencies; Dependants; Impact Stories.
         /// </summary>
         public void AssertGeneralSection()
@@ -604,6 +628,19 @@ namespace ViewParticipantProfile.Test
         }
         
         /// <summary>
+        /// Click on the chevron to expand the PII Section for display.
+        /// </summary>
+        public void ChevronExpandPIISection()
+        {
+            #region Variable Declarations
+            HtmlCustom uIPIIChevronExpColl = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UITopPane2.UIPIIChevronExpColl;
+            #endregion
+
+            // Click custom control
+            Mouse.Click(uIPIIChevronExpColl, new Point(578, 16));
+        }
+        
+        /// <summary>
         /// Close browser. End test.
         /// </summary>
         public void CloseBrowser()
@@ -635,7 +672,8 @@ namespace ViewParticipantProfile.Test
             // Type 'Steve Pike' in text box
             uIItemEdit.Text = this.FilterParticipantName_SelectParticipant2Params.UIItemEditText1;
 
-            // Click custom control
+            // Wait for 5 seconds for user delay between actions; Click custom control
+            Playback.Wait(5000);
             Mouse.Click(uIStevePike, new Point(47, 11));
         }
         
@@ -798,6 +836,18 @@ namespace ViewParticipantProfile.Test
             }
         }
         
+        public virtual AssertEvaluationandNotesExpectedValues AssertEvaluationandNotesExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertEvaluationandNotesExpectedValues == null))
+                {
+                    this.mAssertEvaluationandNotesExpectedValues = new AssertEvaluationandNotesExpectedValues();
+                }
+                return this.mAssertEvaluationandNotesExpectedValues;
+            }
+        }
+        
         public virtual AssertGeneralSectionExpectedValues AssertGeneralSectionExpectedValues
         {
             get
@@ -938,6 +988,8 @@ namespace ViewParticipantProfile.Test
         
         private AssertEducation_EmploymentSectionExpectedValues mAssertEducation_EmploymentSectionExpectedValues;
         
+        private AssertEvaluationandNotesExpectedValues mAssertEvaluationandNotesExpectedValues;
+        
         private AssertGeneralSectionExpectedValues mAssertGeneralSectionExpectedValues;
         
         private AssertParticipantNameHeadingExpectedValues mAssertParticipantNameHeadingExpectedValues;
@@ -1066,6 +1118,35 @@ namespace ViewParticipantProfile.Test
         public string UIProfessionalHistoryBPaneInnerText = " \r\nProfessional History\r\n\r\n Bureau of Educational and Cultural Affairs (2005-) \r\n" +
             " Program Manager \r\n Information Resources Management, Department of State (1999-" +
             "2005) \r\n Project Manager \r\n ";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertEvaluationandNotes'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertEvaluationandNotesExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Evaluation & Notes' pane contains 'Evaluation & Notes'
+        /// </summary>
+        public string UIEvaluationNotesPaneInnerText = "Evaluation & Notes";
+        
+        /// <summary>
+        /// Verify that the 'DisplayText' property of 'Steve's communications skills are excell' pane contains 'Steve's communications skills are excellent!
+        ///
+        ///
+        ///chat_bubble Added by: ECA Test () on June 11, 2015'
+        /// </summary>
+        public string UIStevescommunicationsPaneDisplayText = "Steve\'s communications skills are excellent!\r\n\r\n\r\nchat_bubble Added by: ECA Test " +
+            "() on June 11, 2015";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of custom control contains 'Custom'
+        /// </summary>
+        public string UIItemCustomControlType = "Custom";
         #endregion
     }
     
@@ -3531,10 +3612,33 @@ Sat
                 return this.mUIParticipantsHyperlink;
             }
         }
+        
+        public HtmlCustom UIPIIChevronExpColl
+        {
+            get
+            {
+                if ((this.mUIPIIChevronExpColl == null))
+                {
+                    this.mUIPIIChevronExpColl = new HtmlCustom(this);
+                    #region Search Criteria
+                    this.mUIPIIChevronExpColl.SearchProperties["TagName"] = "A";
+                    this.mUIPIIChevronExpColl.SearchProperties["Id"] = null;
+                    this.mUIPIIChevronExpColl.SearchProperties[UITestControl.PropertyNames.Name] = null;
+                    this.mUIPIIChevronExpColl.FilterProperties["Class"] = null;
+                    this.mUIPIIChevronExpColl.FilterProperties["ControlDefinition"] = "ng-click=\"showPii = !showPii\"";
+                    this.mUIPIIChevronExpColl.FilterProperties["TagInstance"] = "11";
+                    this.mUIPIIChevronExpColl.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIPIIChevronExpColl;
+            }
+        }
         #endregion
         
         #region Fields
         private HtmlHyperlink mUIParticipantsHyperlink;
+        
+        private HtmlCustom mUIPIIChevronExpColl;
         #endregion
     }
     
@@ -3752,8 +3856,8 @@ Sat
                     this.mUIStevePike = new HtmlCustom(this);
                     #region Search Criteria
                     this.mUIStevePike.SearchProperties["TagName"] = "A";
-                    this.mUIStevePike.SearchProperties["Id"] = "";
-                    this.mUIStevePike.SearchProperties[UITestControl.PropertyNames.Name] = "";
+                    this.mUIStevePike.SearchProperties["Id"] = null;
+                    this.mUIStevePike.SearchProperties[UITestControl.PropertyNames.Name] = null;
                     this.mUIStevePike.SearchProperties["InnerText"] = "Steve Pike";
                     this.mUIStevePike.FilterProperties["Class"] = "ng-binding";
                     this.mUIStevePike.FilterProperties["ControlDefinition"] = "class=\"ng-binding\" ng-click=\"onParticipa";
@@ -4204,6 +4308,71 @@ Sat
                 return this.mUIItemGeneralInfoChevron;
             }
         }
+        
+        public HtmlDiv UIEvaluationNotesPane
+        {
+            get
+            {
+                if ((this.mUIEvaluationNotesPane == null))
+                {
+                    this.mUIEvaluationNotesPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIEvaluationNotesPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIEvaluationNotesPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIEvaluationNotesPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Evaluation & Notes";
+                    this.mUIEvaluationNotesPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIEvaluationNotesPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "col-md-6";
+                    this.mUIEvaluationNotesPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"col-md-6\"";
+                    this.mUIEvaluationNotesPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "228";
+                    this.mUIEvaluationNotesPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIEvaluationNotesPane;
+            }
+        }
+        
+        public HtmlDiv UIStevescommunicationsPane
+        {
+            get
+            {
+                if ((this.mUIStevescommunicationsPane == null))
+                {
+                    this.mUIStevescommunicationsPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIStevescommunicationsPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIStevescommunicationsPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIStevescommunicationsPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Steve\'s communications skills are excell";
+                    this.mUIStevescommunicationsPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIStevescommunicationsPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row2 ng-scope";
+                    this.mUIStevescommunicationsPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row2 ng-scope\" ng-repeat=\"evaluationNote in evaluationNotes\"";
+                    this.mUIStevescommunicationsPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "234";
+                    this.mUIStevescommunicationsPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIStevescommunicationsPane;
+            }
+        }
+        
+        public HtmlCustom UIItemCustom
+        {
+            get
+            {
+                if ((this.mUIItemCustom == null))
+                {
+                    this.mUIItemCustom = new HtmlCustom(this);
+                    #region Search Criteria
+                    this.mUIItemCustom.SearchProperties["TagName"] = "A";
+                    this.mUIItemCustom.SearchProperties["Id"] = null;
+                    this.mUIItemCustom.SearchProperties[UITestControl.PropertyNames.Name] = null;
+                    this.mUIItemCustom.FilterProperties["Class"] = null;
+                    this.mUIItemCustom.FilterProperties["ControlDefinition"] = "ng-click=\"showEvalNotes = !showEvalNotes";
+                    this.mUIItemCustom.FilterProperties["TagInstance"] = "16";
+                    this.mUIItemCustom.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemCustom;
+            }
+        }
         #endregion
         
         #region Fields
@@ -4240,6 +4409,12 @@ Sat
         private HtmlCustom mUIItemPIIChevronandEdit;
         
         private HtmlCustom mUIItemGeneralInfoChevron;
+        
+        private HtmlDiv mUIEvaluationNotesPane;
+        
+        private HtmlDiv mUIStevescommunicationsPane;
+        
+        private HtmlCustom mUIItemCustom;
         #endregion
     }
 }

@@ -40,6 +40,19 @@ namespace ECA.Core.DynamicLinq
         private const string IS_NOT_NULL = "notnull";
         private const string IS_NOT_NULL_DISPLAY = "Not Null";
 
+        private const string CONTAINS_ANY = "containsany";
+        private const string CONTAINS_ANY_DISPLAY = "Contains Any";
+
+        /// <summary>
+        /// Gets the contains any comparison type.
+        /// </summary>
+        public static ComparisonType ContainsAny
+        {
+            get
+            {
+                return new ComparisonType(CONTAINS_ANY, CONTAINS_ANY_DISPLAY);
+            }
+        }
 
         /// <summary>
         /// Gets the not in comparison type.
@@ -245,6 +258,7 @@ namespace ECA.Core.DynamicLinq
             dictionary.Add(LIKE.ToUpper(), ComparisonType.Like);
             dictionary.Add(IN.ToUpper(), ComparisonType.In);
             dictionary.Add(NOT_IN.ToUpper(), ComparisonType.NotIn);
+            dictionary.Add(CONTAINS_ANY.ToUpper(), ComparisonType.ContainsAny);
 
             var cType = comparisonType.ToUpper().Trim();
             Contract.Assert(dictionary.ContainsKey(cType), String.Format("The comparison type [{0}] is not recognized.", comparisonType));

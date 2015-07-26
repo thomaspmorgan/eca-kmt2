@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComparisonType.cs" />
+    <Compile Include="Filter\ContainsAnyFilter.cs" />
     <Compile Include="Filter\KeywordFilter.cs" />
     <Compile Include="Filter\NotEqualFilter.cs" />
     <Compile Include="Filter\NotInFilter.cs" />

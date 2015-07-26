@@ -136,6 +136,8 @@ angular.module('staticApp')
                       groupedResourceAuthorization.isEcaUser = service.isEcaUser(groupedResourceAuthorization.emailAddress);
                       groupedResourceAuthorization.availablePermissions =
                           service.createAvailablePermissions(availablePermissions, groupedResourceAuthorization, foreignResourceId, resourceType);
+                      groupedResourceAuthorization.mergedPermissions =
+                          service.mergePermissions(groupedResourceAuthorization.assignedPermissions, groupedResourceAuthorization.availablePermissions);
                   }
                   $log.info('Returning [' + groupedResourceAuthorizations.length + '] principal resource authorizations.');
                   return groupedResourceAuthorizations;
@@ -175,6 +177,20 @@ angular.module('staticApp')
                   }
               }
               return permissions;
+          },
+
+          mergePermissions: function (assignedPermissions, availablePermissions) {
+              var temp = {};
+              for (var i = 0; i < assignedPermissions.length; i++) {
+                  temp[assignedPermissions[i].permissionId] = assignedPermissions[i];
+              }
+              for (var i = 0; i < availablePermissions.length; i++) {
+                  if (!temp[availablePermissions[i].permissionId]) {
+                      temp[availablePermissions[i].permissionId] = availablePermissions[i];
+                  }
+              }
+              var mergedPermissions = Object.keys(temp).map(function (k) { return temp[k] });
+              return orderByFilter(mergedPermissions, '+permissionName');
           },
 
           /**
