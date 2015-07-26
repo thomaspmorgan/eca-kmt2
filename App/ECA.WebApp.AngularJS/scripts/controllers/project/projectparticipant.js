@@ -29,6 +29,7 @@ angular.module('staticApp')
 
       $scope.newParticipant = {};
       $scope.genders = {};
+      $scope.cities = {};
 
       $scope.view = {};
       $scope.view.params = $stateParams;
