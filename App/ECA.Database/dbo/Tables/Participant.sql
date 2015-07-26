@@ -13,8 +13,8 @@
     CONSTRAINT [PK_dbo.Participant] PRIMARY KEY CLUSTERED ([ParticipantId] ASC),
     CONSTRAINT [FK_dbo.Participant_dbo.Organization_OrganizationId] FOREIGN KEY ([OrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId]),
     CONSTRAINT [FK_dbo.Participant_dbo.ParticipantType_ParticipantTypeId] FOREIGN KEY ([ParticipantTypeId]) REFERENCES [dbo].[ParticipantType] ([ParticipantTypeId]) ON DELETE CASCADE,
-    CONSTRAINT [FK_dbo.Participant_dbo.Person_PersonId] FOREIGN KEY ([PersonId]) REFERENCES [dbo].[Person] ([PersonId]), 
-    CONSTRAINT [FK_dbo.Participant_dbo.Project_ProjectId] FOREIGN KEY ([ProjectId]) REFERENCES [dbo].[Project]([ProjectId])
+    CONSTRAINT [FK_dbo.Participant_dbo.Person_PersonId] FOREIGN KEY ([PersonId]) REFERENCES [dbo].[Person] ([PersonId]) ON DELETE CASCADE, 
+    CONSTRAINT [FK_dbo.Participant_dbo.Project_ProjectId] FOREIGN KEY ([ProjectId]) REFERENCES [dbo].[Project]([ProjectId]) ON DELETE CASCADE
 );
 
 

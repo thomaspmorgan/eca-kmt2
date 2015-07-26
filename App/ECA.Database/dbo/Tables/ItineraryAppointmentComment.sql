@@ -9,8 +9,8 @@
     [History_RevisedBy] INT NOT NULL, 
     [History_RevisedOn] DATETIMEOFFSET NOT NULL, 
     CONSTRAINT [PK_dbo.ItineraryAppointmentComment] PRIMARY KEY ([ItineraryAppointmentCommentId]), 
-    CONSTRAINT [FK_dbo.ItineraryAppointmentComment_dbo.ItineraryAppointment] FOREIGN KEY ([AppointmentId]) REFERENCES [dbo].[ItineraryAppointment]([AppointmentId]), 
-    CONSTRAINT [FK_dbo.ItineraryAppointmentComment_dbo.ItineraryCommentType] FOREIGN KEY ([ItineraryCommentTypeId]) REFERENCES [dbo].[ItineraryCommentType]([ItineraryCommentTypeId])
+    CONSTRAINT [FK_dbo.ItineraryAppointmentComment_dbo.ItineraryAppointment] FOREIGN KEY ([AppointmentId]) REFERENCES [dbo].[ItineraryAppointment]([AppointmentId]) ON DELETE CASCADE, 
+    CONSTRAINT [FK_dbo.ItineraryAppointmentComment_dbo.ItineraryCommentType] FOREIGN KEY ([ItineraryCommentTypeId]) REFERENCES [dbo].[ItineraryCommentType]([ItineraryCommentTypeId]) ON DELETE CASCADE
 )
 
 GO

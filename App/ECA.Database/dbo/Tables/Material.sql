@@ -3,7 +3,7 @@
     [ItineraryStop_ItineraryStopId] INT            NULL,
     [MaterialId]                    INT            IDENTITY (1, 1) NOT NULL,
     CONSTRAINT [PK_dbo.Material] PRIMARY KEY CLUSTERED ([MaterialId] ASC),
-    CONSTRAINT [FK_dbo.Material_dbo.ItineraryStop_ItineraryStop_ItineraryStopId] FOREIGN KEY ([ItineraryStop_ItineraryStopId]) REFERENCES [dbo].[ItineraryStop] ([ItineraryStopId])
+    CONSTRAINT [FK_dbo.Material_dbo.ItineraryStop_ItineraryStop_ItineraryStopId] FOREIGN KEY ([ItineraryStop_ItineraryStopId]) REFERENCES [dbo].[ItineraryStop] ([ItineraryStopId]) ON DELETE CASCADE
 );
 
 

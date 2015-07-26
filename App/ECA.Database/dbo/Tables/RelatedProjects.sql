@@ -2,8 +2,8 @@
     [ProjectId]        INT NOT NULL,
     [RelatedProjectId] INT NOT NULL,
     CONSTRAINT [PK_dbo.RelatedProjects] PRIMARY KEY CLUSTERED ([ProjectId] ASC, [RelatedProjectId] ASC),
-    CONSTRAINT [FK_dbo.RelatedProjects_dbo.Project_ProjectId] FOREIGN KEY ([ProjectId]) REFERENCES [dbo].[Project] ([ProjectId]),
-    CONSTRAINT [FK_dbo.RelatedProjects_dbo.Project_RelatedProjectId] FOREIGN KEY ([RelatedProjectId]) REFERENCES [dbo].[Project] ([ProjectId])
+    CONSTRAINT [FK_dbo.RelatedProjects_dbo.Project_ProjectId] FOREIGN KEY ([ProjectId]) REFERENCES [dbo].[Project] ([ProjectId]) ON DELETE CASCADE,
+    CONSTRAINT [FK_dbo.RelatedProjects_dbo.Project_RelatedProjectId] FOREIGN KEY ([RelatedProjectId]) REFERENCES [dbo].[Project] ([ProjectId]) ON DELETE CASCADE
 );
 
 

@@ -18,7 +18,7 @@
     CONSTRAINT [FK_ParticipantPerson_ToFieldOfStudy] FOREIGN KEY ([FieldOfStudyId]) REFERENCES [sevis].[FieldOfStudy]([FieldOfStudyId]), 
     CONSTRAINT [FK_ParticipantPerson_ToPosition] FOREIGN KEY ([PositionId]) REFERENCES [sevis].[Position]([PositionId]), 
     CONSTRAINT [FK_ParticipantPerson_ToProgramSubject] FOREIGN KEY ([ProgramSubjectId]) REFERENCES [sevis].[ProgramSubject]([ProgramSubjectId]), 
-    CONSTRAINT [FK_ParticipantPerson_ToParticipant] FOREIGN KEY ([ParticipantId]) REFERENCES [Participant]([ParticipantId]) 
+    CONSTRAINT [FK_ParticipantPerson_ToParticipant] FOREIGN KEY ([ParticipantId]) REFERENCES [Participant]([ParticipantId]) ON DELETE CASCADE 
 )
 
 GO

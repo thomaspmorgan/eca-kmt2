@@ -5,8 +5,8 @@
     [Contact_ContactId] INT            NULL,
     [Person_PersonId]   INT            NULL,
     CONSTRAINT [PK_dbo.PhoneNumber] PRIMARY KEY CLUSTERED ([PhoneNumberId] ASC),
-    CONSTRAINT [FK_dbo.PhoneNumber_dbo.Contact_Contact_ContactId] FOREIGN KEY ([Contact_ContactId]) REFERENCES [dbo].[Contact] ([ContactId]),
-    CONSTRAINT [FK_dbo.PhoneNumber_dbo.Person_Person_PersonId] FOREIGN KEY ([Person_PersonId]) REFERENCES [dbo].[Person] ([PersonId])
+    CONSTRAINT [FK_dbo.PhoneNumber_dbo.Contact_Contact_ContactId] FOREIGN KEY ([Contact_ContactId]) REFERENCES [dbo].[Contact] ([ContactId]) ON DELETE CASCADE,
+    CONSTRAINT [FK_dbo.PhoneNumber_dbo.Person_Person_PersonId] FOREIGN KEY ([Person_PersonId]) REFERENCES [dbo].[Person] ([PersonId]) ON DELETE CASCADE
 );
 
 

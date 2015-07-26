@@ -8,5 +8,5 @@
     [History_RevisedOn] DATETIMEOFFSET NOT NULL, 
     [OfficeId] INT NOT NULL, 
 	CONSTRAINT [PK_dbo.Justification] PRIMARY KEY CLUSTERED ([JustificationId] ASC), 
-    CONSTRAINT [FK_Justification_ToOffice] FOREIGN KEY ([OfficeId]) REFERENCES [Organization]([OrganizationId])
+    CONSTRAINT [FK_Justification_ToOffice] FOREIGN KEY ([OfficeId]) REFERENCES [Organization]([OrganizationId]) ON DELETE CASCADE
 )

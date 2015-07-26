@@ -8,7 +8,7 @@
     [History_RevisedBy] INT NOT NULL, 
     [History_RevisedOn] DATETIMEOFFSET NOT NULL, 
 	CONSTRAINT [PK_dbo.EvaluationNoteId] PRIMARY KEY CLUSTERED ([EvaluationNoteId] ASC),
-    CONSTRAINT [FK_PersonEvaluationNote_ToPerson] FOREIGN KEY ([PersonId]) REFERENCES [Person]([PersonId])
+    CONSTRAINT [FK_PersonEvaluationNote_ToPerson] FOREIGN KEY ([PersonId]) REFERENCES [Person]([PersonId]) ON DELETE CASCADE
 )
 
 GO 
