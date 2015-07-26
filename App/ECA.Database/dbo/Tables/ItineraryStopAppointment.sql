@@ -2,8 +2,8 @@
 (
 	[ItineraryStopId] INT NOT NULL , 
     [AppointmentId] INT NOT NULL, 
-    CONSTRAINT [FK_dbo.ItineraryStopAppointment_dbo.ItineraryStop_ItineraryStopId] FOREIGN KEY ([ItineraryStopId]) REFERENCES [dbo].[ItineraryStop]([ItineraryStopId]), 
-    CONSTRAINT [FK_dbo.ItineraryStopAppointment_dbo.ItineraryAppointment_AppointmentId] FOREIGN KEY ([AppointmentId]) REFERENCES [dbo].[ItineraryAppointment]([AppointmentId]), 
+    CONSTRAINT [FK_dbo.ItineraryStopAppointment_dbo.ItineraryStop_ItineraryStopId] FOREIGN KEY ([ItineraryStopId]) REFERENCES [dbo].[ItineraryStop]([ItineraryStopId]) ON DELETE CASCADE, 
+    CONSTRAINT [FK_dbo.ItineraryStopAppointment_dbo.ItineraryAppointment_AppointmentId] FOREIGN KEY ([AppointmentId]) REFERENCES [dbo].[ItineraryAppointment]([AppointmentId]) ON DELETE CASCADE, 
     CONSTRAINT [PK_dbo.ItineraryStopAppointment] PRIMARY KEY ([ItineraryStopId] ASC, [AppointmentId] ASC)
 )
 

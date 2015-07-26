@@ -9,7 +9,7 @@
     [History_RevisedBy] INT                NOT NULL,
     [History_RevisedOn] DATETIMEOFFSET (7) NOT NULL,
     CONSTRAINT [PK_dbo.Publication] PRIMARY KEY CLUSTERED ([PublicationId] ASC),
-    CONSTRAINT [FK_dbo.Publication_dbo.Person_PersonId] FOREIGN KEY ([PersonId]) REFERENCES [dbo].[Person] ([PersonId])
+    CONSTRAINT [FK_dbo.Publication_dbo.Person_PersonId] FOREIGN KEY ([PersonId]) REFERENCES [dbo].[Person] ([PersonId]) ON DELETE CASCADE
 );
 
 

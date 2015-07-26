@@ -15,7 +15,7 @@
                   return model[modelIdPropertyName];
               }
 
-              getModel = function (args) {
+              var getModel = function (args) {
                   return args[1].$item;
               }
 
@@ -31,7 +31,7 @@
                   onChange();
               }
 
-              onChange = function () {
+              var onChange = function () {
                   var predicateObject = {
                       comparison: ConstantsService.containsAnyComparisonType,
                       ids: currentIds

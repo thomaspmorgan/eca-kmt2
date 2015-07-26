@@ -3,7 +3,7 @@
     [Name]                          NVARCHAR (MAX) NULL,
     [ItineraryStop_ItineraryStopId] INT            NULL,
     CONSTRAINT [PK_dbo.Course] PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK_dbo.Course_dbo.ItineraryStop_ItineraryStop_ItineraryStopId] FOREIGN KEY ([ItineraryStop_ItineraryStopId]) REFERENCES [dbo].[ItineraryStop] ([ItineraryStopId])
+    CONSTRAINT [FK_dbo.Course_dbo.ItineraryStop_ItineraryStop_ItineraryStopId] FOREIGN KEY ([ItineraryStop_ItineraryStopId]) REFERENCES [dbo].[ItineraryStop] ([ItineraryStopId]) ON DELETE CASCADE
 );
 
 

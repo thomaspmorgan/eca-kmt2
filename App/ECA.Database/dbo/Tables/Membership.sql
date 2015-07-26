@@ -3,7 +3,7 @@
     [Name]            NVARCHAR (MAX) NOT NULL,
     [Person_PersonId] INT            NULL,
     CONSTRAINT [PK_dbo.Membership] PRIMARY KEY CLUSTERED ([MembershipId] ASC),
-    CONSTRAINT [FK_dbo.Membership_dbo.Person_Person_PersonId] FOREIGN KEY ([Person_PersonId]) REFERENCES [dbo].[Person] ([PersonId])
+    CONSTRAINT [FK_dbo.Membership_dbo.Person_Person_PersonId] FOREIGN KEY ([Person_PersonId]) REFERENCES [dbo].[Person] ([PersonId]) ON DELETE CASCADE
 );
 
 
