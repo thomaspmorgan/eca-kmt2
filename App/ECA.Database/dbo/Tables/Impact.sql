@@ -9,7 +9,7 @@
     [History_RevisedOn] DATETIMEOFFSET (7) NOT NULL,
     CONSTRAINT [PK_dbo.Impact] PRIMARY KEY CLUSTERED ([ImpactId] ASC),
     CONSTRAINT [FK_dbo.Impact_dbo.Program_ProgramId] FOREIGN KEY ([ProgramId]) REFERENCES [dbo].[Program] ([ProgramId]),
-    CONSTRAINT [FK_dbo.Impact_dbo.Project_ProjectId] FOREIGN KEY ([ProjectId]) REFERENCES [dbo].[Project] ([ProjectId]) ON DELETE CASCADE
+    CONSTRAINT [FK_dbo.Impact_dbo.Project_ProjectId] FOREIGN KEY ([ProjectId]) REFERENCES [dbo].[Project] ([ProjectId])
 );
 
 
