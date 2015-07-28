@@ -36,12 +36,12 @@
     CONSTRAINT [FK_dbo.MoneyFlow_dbo.MoneyFlowType_MoneyFlowType_MoneyFlowTypeId] FOREIGN KEY ([MoneyFlowTypeId]) REFERENCES [dbo].[MoneyFlowType] ([MoneyFlowTypeId]),
     CONSTRAINT [FK_dbo.MoneyFlow_dbo.Organization_Recipient_OrganizationId] FOREIGN KEY ([RecipientOrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId]),
     CONSTRAINT [FK_dbo.MoneyFlow_dbo.Organization_Source_OrganizationId] FOREIGN KEY ([SourceOrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId]),
-    CONSTRAINT [FK_dbo.MoneyFlow_dbo.Participant_RecipientParticipantId] FOREIGN KEY ([RecipientParticipantId]) REFERENCES [dbo].[Participant] ([ParticipantId]) ON DELETE CASCADE,
-    CONSTRAINT [FK_dbo.MoneyFlow_dbo.Participant_SourceParticipantId] FOREIGN KEY ([SourceParticipantId]) REFERENCES [dbo].[Participant] ([ParticipantId]) ON DELETE CASCADE,
-    CONSTRAINT [FK_dbo.MoneyFlow_dbo.Program_RecipientProgramId] FOREIGN KEY ([RecipientProgramId]) REFERENCES [dbo].[Program] ([ProgramId]) ON DELETE CASCADE,
-    CONSTRAINT [FK_dbo.MoneyFlow_dbo.Program_SourceProgramId] FOREIGN KEY ([SourceProgramId]) REFERENCES [dbo].[Program] ([ProgramId]) ON DELETE CASCADE,
-    CONSTRAINT [FK_dbo.MoneyFlow_dbo.Project_RecipientProjectId] FOREIGN KEY ([RecipientProjectId]) REFERENCES [dbo].[Project] ([ProjectId]) ON DELETE CASCADE,
-    CONSTRAINT [FK_dbo.MoneyFlow_dbo.Project_SourceProjectId] FOREIGN KEY ([SourceProjectId]) REFERENCES [dbo].[Project] ([ProjectId]) ON DELETE CASCADE,
+    CONSTRAINT [FK_dbo.MoneyFlow_dbo.Participant_RecipientParticipantId] FOREIGN KEY ([RecipientParticipantId]) REFERENCES [dbo].[Participant] ([ParticipantId]),
+    CONSTRAINT [FK_dbo.MoneyFlow_dbo.Participant_SourceParticipantId] FOREIGN KEY ([SourceParticipantId]) REFERENCES [dbo].[Participant] ([ParticipantId]),
+    CONSTRAINT [FK_dbo.MoneyFlow_dbo.Program_RecipientProgramId] FOREIGN KEY ([RecipientProgramId]) REFERENCES [dbo].[Program] ([ProgramId]),
+    CONSTRAINT [FK_dbo.MoneyFlow_dbo.Program_SourceProgramId] FOREIGN KEY ([SourceProgramId]) REFERENCES [dbo].[Program] ([ProgramId]),
+    CONSTRAINT [FK_dbo.MoneyFlow_dbo.Project_RecipientProjectId] FOREIGN KEY ([RecipientProjectId]) REFERENCES [dbo].[Project] ([ProjectId]),
+    CONSTRAINT [FK_dbo.MoneyFlow_dbo.Project_SourceProjectId] FOREIGN KEY ([SourceProjectId]) REFERENCES [dbo].[Project] ([ProjectId]),
     CONSTRAINT [FK_dbo.MoneyFlow_dbo.Transportation_RecipientTransportationId] FOREIGN KEY ([RecipientTransportationId]) REFERENCES [dbo].[Transportation] ([TransportationId])
 );
 
