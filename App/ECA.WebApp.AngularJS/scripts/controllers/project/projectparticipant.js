@@ -29,6 +29,7 @@ angular.module('staticApp')
 
       $scope.newParticipant = {};
       $scope.genders = {};
+      $scope.cities = {};
 
       $scope.view = {};
       $scope.view.params = $stateParams;
@@ -195,6 +196,13 @@ angular.module('staticApp')
                   delete $scope.countries[key].ticked;
               }
           });
+          angular.forEach($scope.countriesCopy, function (value, key) {
+              if ($scope.countriesCopy[key].ticked === undefined) {
+                  $scope.countriesCopy[key].ticked = false;
+              } else {
+                  delete $scope.countriesCopy[key].ticked;
+              }
+          });
           $scope.cities = [];
       };
 
@@ -220,6 +228,7 @@ angular.module('staticApp')
           return LocationService.get({ limit: 300, filter: { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country.id } })
             .then(function (data) {
                 $scope.countries = data.results;
+                $scope.countriesCopy = angular.copy(data.results);
             });
       }
 
