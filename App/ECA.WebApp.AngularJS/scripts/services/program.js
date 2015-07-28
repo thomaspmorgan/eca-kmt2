@@ -37,12 +37,12 @@ angular.module('staticApp')
                 });
               return defer.promise;
           },
-          getCategories: function (officeId, params) {
-              var path = 'offices/' + officeId + '/categories';
+          getCategories: function (programId, params) {
+              var path = 'programs/' + programId + '/categories';
               return DragonBreath.get(params, path);
           },
-          getObjectives: function (officeId, params) {
-              var path = 'offices/' + officeId + '/objectives';
+          getObjectives: function (programId, params) {
+              var path = 'programs/' + programId + '/objectives';
               return DragonBreath.get(params, path);
           },
           getSubPrograms: function (programId, params) {

@@ -8,8 +8,15 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('OfficeCtrl', function ($scope, $stateParams, $q, DragonBreath, OfficeService,
-      TableService, LookupService, ProgramService) {
+  .controller('OfficeCtrl', function ($scope,
+      $stateParams,
+      $q,
+      $log,
+      DragonBreath,
+      OfficeService,
+      TableService,
+      LookupService,
+      ProgramService) {
 
       var officeId = $stateParams.officeId;
       loadOfficeSpecificData(officeId);
@@ -146,13 +153,6 @@ angular.module('staticApp')
                 sort: null,
                 filter: [{ property: 'locationtypeid', comparison: 'eq', value: 2 }]
             };
-
-            $scope.officeSpecificLookupParams = {
-                start: 0,
-                limit: 100,
-
-            };
-
 
       // end editing and creation variables **********************************
 
@@ -326,7 +326,11 @@ angular.module('staticApp')
           });
       
       function loadOfficeSpecificData(officeId) {
-          return $q.all([loadOfficeSettings(officeId), loadCategories(officeId), loadObjectives(officeId)])
+          var params = {
+              start: 0,
+              limit: 100
+          };
+          return $q.all([loadOfficeSettings(officeId), loadCategories(officeId, params), loadObjectives(officeId, params)])
           .then(function () {
               $log.info('Loaded office specific data.');
           });
@@ -661,8 +665,8 @@ angular.module('staticApp')
 
 
       $scope.allCategoriesGrouped = [];
-      function loadCategories(officeId) {
-          return ProgramService.getCategories(officeId, $scope.officeSpecificLookupParams)
+      function loadCategories(officeId, params) {
+          return OfficeService.getCategories(officeId, params)
             .then(function (response) {
                 var focusName = '';
                 $scope.categories = response.data.results;
@@ -688,8 +692,8 @@ angular.module('staticApp')
 
       $scope.allObjectivesGrouped = [];
 
-      function loadObjectives(officeId) {
-          return ProgramService.getObjectives(officeId, $scope.officeSpecificLookupParams)
+      function loadObjectives(officeId, params) {
+          return OfficeService.getObjectives(officeId, params)
             .then(function (response) {
 
                 var justificationName = '';

@@ -188,60 +188,6 @@ angular.module('staticApp')
               $scope.sortedObjectives = orderByFilter($scope.program.objectives, '+justificationName');
           });
 
-      $scope.allCategoriesGrouped = [];
-      function loadCategories(officeId) {
-          return ProgramService.getCategories(officeId, $scope.officeSpecificLookupParams)
-            .then(function (response) {
-                var focusName = '';
-                $scope.categories = response.data.results;
-
-                angular.forEach($scope.categories, function (value, key) {
-
-                    if (value.focusName != focusName) {
-
-                        $scope.allCategoriesGrouped.push({ focusGroup: false });
-
-                        focusName = value.focusName;
-                        $scope.allCategoriesGrouped.push(
-                          { name: '<strong>Focus: ' + value.focusName + '</strong>', focusGroup: true }
-                        );
-                    }
-                    $scope.allCategoriesGrouped.push(
-                        { id: value.id, name: value.name, ticked: false }
-                    );
-                });
-            });
-      }
-
-
-      $scope.allObjectivesGrouped = [];
-      function loadObjectives(officeId) {
-          return ProgramService.getObjectives(officeId, $scope.officeSpecificLookupParams)
-            .then(function (response) {
-
-                var justificationName = '';
-                $scope.objectives = response.data.results;
-
-                angular.forEach($scope.objectives, function (value, key) {
-
-                    if (value.justificationName != justificationName) {
-
-                        $scope.allObjectivesGrouped.push({ justificationGroup: false });
-
-                        justificationName = value.justificationName;
-                        $scope.allObjectivesGrouped.push(
-                          { name: '<strong>Justification: ' + value.justificationName + '</strong>', justificationGroup: true }
-                        );
-                    }
-                    $scope.allObjectivesGrouped.push(
-                        { id: value.id, name: value.name, ticked: false }
-                    );
-                });
-
-            });
-      }
-
-
       $scope.projectsLoading = false;
 
       $scope.getProjects = function (tableState) {

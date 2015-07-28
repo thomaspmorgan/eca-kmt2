@@ -35,8 +35,16 @@ angular.module('staticApp')
               var path = 'offices/' + officeId + '/Settings';
               return DragonBreath.get(path);
           },
+          getCategories: function (officeId, params) {
+              var path = 'offices/' + officeId + '/categories';
+              return DragonBreath.get(params, path);
+          },
+          getObjectives: function (officeId, params) {
+              var path = 'offices/' + officeId + '/objectives';
+              return DragonBreath.get(params, path);
+          },
           addPermission: function (permissionModel) {
-          return DragonBreath.create(permissionModel, 'offices/collaborator/add');
+              return DragonBreath.create(permissionModel, 'offices/collaborator/add');
           },
           revokePermission: function (permissionModel) {
               return DragonBreath.create(permissionModel, 'offices/collaborator/revoke');
