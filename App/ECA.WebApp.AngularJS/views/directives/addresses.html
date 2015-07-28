@@ -145,8 +145,8 @@
                                            typeahead-editable="false"
                                            required>
                                     </input>
-                                    <i class="glyphicon glyphicon-search contextual" ng-show="!view.isLoadingCities"></i>
-                                    <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingCities">refresh</i>
+                                    <i class="material-icons md-18 contextual" ng-show="!view.isLoadingCities">search</i>
+                                    <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingCities">autorenew</i>
                                 </div>
                                 <div ng-show="form.addressForm.city.$dirty || form.addressForm.city.$error.required">
                                     <div class="error" ng-show="form.addressForm.city.$error.required">Please select a city.</div>
@@ -178,8 +178,8 @@
                                            typeahead-editable="false"
                                            required>
                                     </input>
-                                    <i class="glyphicon glyphicon-search contextual" ng-show="!view.isLoadingDivisions"></i>
-                                    <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingDivisions">refresh</i>
+                                    <i class="material-icons md-18 contextual" ng-show="!view.isLoadingDivisions">search</i>
+                                    <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingDivisions">autorenew</i>
                                 </div>
                                 <div ng-show="form.addressForm.division.$dirty || form.addressForm.division.$error.required">
                                     <div class="error" ng-show="form.addressForm.division.$error.required">Please select a division.</div>
@@ -205,8 +205,8 @@
                                            typeahead-editable="false"
                                            required>
                                     </input>
-                                    <i class="glyphicon glyphicon-search contextual" ng-show="!view.isLoadingCountries"></i>
-                                    <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingCountries">refresh</i>
+                                    <i class="material-icons md-18 contextual" ng-show="!view.isLoadingCountries">search</i>
+                                    <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingCountries">autorenew</i>
                                 </div>
                                 <div ng-show="form.addressForm.country.$dirty || form.addressForm.country.$error.required">
                                     <div class="error" ng-show="form.addressForm.country.$error.required">Please select a country.</div>

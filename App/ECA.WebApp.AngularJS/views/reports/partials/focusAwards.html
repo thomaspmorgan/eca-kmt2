@@ -8,7 +8,8 @@
             <label>Program<span class="asterisk"> *</span></label>
             <input name="program" ng-model="parameters.program" type="text" placeholder="Enter Program name..."
                    typeahead="p as p.name for p in getPrograms($viewValue)" typeahead-loading="loadingPrograms" typeahead-on-select="model=$item.id"
-                   typeahead-editable="false" class="form-control" required /><i ng-show="loadingPrograms" class="glyphicon glyphicon-refresh"></i>
+                   typeahead-editable="false" class="form-control" required />
+            <i class="material-icons md-18 material-icons-spin" ng-show="loadingPrograms">autorenew</i>
         </div>
         <div ng-show="focusAwardForm.program.$dirty">
             <div class="error" ng-show="!parameters.program">Please select a program.</div>

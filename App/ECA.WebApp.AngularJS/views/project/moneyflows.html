@@ -131,7 +131,7 @@
                 <td colspan="1">
                     <div class="datetimepicker">
                         <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar calendarButton"></span>
+                            <i class="material-icons md-dark">event</i>
                         </span>
                     </div>
                 </td>
@@ -185,7 +185,9 @@
                         <input name="start" type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="draftMoneyFlow.transactionDate"
                                is-open="transactionCalendarOpened" close-text="Close" placeholder="Enter transaction date..." required />
                         <span class="input-group-btn" style="width:0;">
-                            <button type="button" class="btn btn-default" ng-click="transactionCalendarOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                            <button type="button" class="btn btn-default" ng-click="transactionCalendarOpen($event)">
+                                <i class="material-icons md-18 md-dark">event</i>
+                            </button>
                         </span>
                     </p>
                     <div ng-show="modalForm.moneyFlowForm.transactionDate.$dirty">

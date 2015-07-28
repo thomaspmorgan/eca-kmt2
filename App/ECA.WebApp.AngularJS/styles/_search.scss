@@ -48,6 +48,13 @@
 
 .contextual {
   margin-left: -30px;
+  position:relative;
+}
+
+.material-icons.md-18.contextual {
+  /*margin-left: -30px;
+  position:relative;*/
+  top: 4px;
 }
 
 .material-icons.md-18.contextual-busy{

@@ -233,7 +233,8 @@
                     <label>Parent Program</label>
                     <input name="parentProgram" ng-model="newProgram.parentProgram" form-element guidance="This is the parent program of your new program, if needed." type="text" placeholder="Enter Parent Program name..."
                            typeahead="p as p.name for p in getParentPrograms($viewValue)" typeahead-loading="loadingPrograms" typeahead-on-select="model=$item.value"
-                           typeahead-editable="false" class="form-control" /><i ng-show="loadingPrograms" class="glyphicon glyphicon-refresh"></i>
+                           typeahead-editable="false" class="form-control" />
+                    <i class="material-icons md-18 material-icons-spin" ng-show="loadingPrograms">autorenew</i>
                 </div>
                 <div class="form-group">
                     <label>Program Inception<span class="asterisk"> *</span></label>
@@ -241,7 +242,7 @@
                         <input name="start" type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="newProgram.startDate" is-open="calOpened"
                                min-date="minDate" max-date="maxDate" close-text="Close" placeholder="Enter start date..." required />
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="calOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                            <button type="button" class="btn btn-default" ng-click="calOpen($event)"><i class="material-icons md-18">event</i></button>
                         </span>
                     </p>
                     <div ng-show="modalForm.programForm.start.$dirty">
