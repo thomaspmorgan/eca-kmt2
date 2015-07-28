@@ -12,7 +12,7 @@
     [History_CreatedOn] DATETIMEOFFSET NOT NULL, 
     [History_RevisedBy] INT NOT NULL, 
     [History_RevisedOn] DATETIMEOFFSET NOT NULL, 
-    CONSTRAINT [FK_dbo.ItineraryAppointment_dbo.Project_ProjectId] FOREIGN KEY ([ProjectId]) REFERENCES [dbo].[Project]([ProjectId]) ON DELETE CASCADE, 
+    CONSTRAINT [FK_dbo.ItineraryAppointment_dbo.Project_ProjectId] FOREIGN KEY ([ProjectId]) REFERENCES [dbo].[Project]([ProjectId]), 
     CONSTRAINT [PK_dbo.ItineraryAppointment] PRIMARY KEY ([AppointmentId]), 
     CONSTRAINT [FK_dbo.ItineraryAppointment_dbo.ItineraryAppointmentStatus] FOREIGN KEY ([AppointmentStatusId]) REFERENCES [dbo].[ItineraryAppointmentStatus]([AppointmentStatusId]) ON DELETE CASCADE, 
     CONSTRAINT [FK_dbo.ItineraryAppointment_dbo.ItineraryAppointmentType] FOREIGN KEY ([AppointmentTypeId]) REFERENCES [dbo].[ItineraryAppointmentType]([AppointmentTypeId]) ON DELETE CASCADE 

@@ -19,9 +19,9 @@
 	[RowVersion] TIMESTAMP NOT NULL, 
     [ProjectNumberIVLP] NVARCHAR(100) NULL, 
     CONSTRAINT [PK_dbo.Project] PRIMARY KEY CLUSTERED ([ProjectId] ASC),
-    CONSTRAINT [FK_dbo.Project_dbo.Activity_ActivityId] FOREIGN KEY ([ActivityId]) REFERENCES [dbo].[Activity] ([ActivityId]) ON DELETE CASCADE,
-    CONSTRAINT [FK_dbo.Project_dbo.Organization_NominationSource_OrganizationId] FOREIGN KEY ([NominationSource_OrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId]) ON DELETE CASCADE,
-    CONSTRAINT [FK_dbo.Project_dbo.ProgramId] FOREIGN KEY ([ProgramId]) REFERENCES [dbo].[Program] ([ProgramId]) ON DELETE CASCADE 
+    CONSTRAINT [FK_dbo.Project_dbo.Activity_ActivityId] FOREIGN KEY ([ActivityId]) REFERENCES [dbo].[Activity] ([ActivityId]),
+    CONSTRAINT [FK_dbo.Project_dbo.Organization_NominationSource_OrganizationId] FOREIGN KEY ([NominationSource_OrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId]),
+    CONSTRAINT [FK_dbo.Project_dbo.ProgramId] FOREIGN KEY ([ProgramId]) REFERENCES [dbo].[Program] ([ProgramId]) 
 );
 
 
