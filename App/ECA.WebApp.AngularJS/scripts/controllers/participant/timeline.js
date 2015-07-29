@@ -27,6 +27,7 @@ angular.module('staticApp')
       function loadParticipantInfo(participantId) {
           return ParticipantPersonsService.getParticipantPersonsById(participantId)
           .then(function (data) {
+              console.log(data.data);
               $scope.participantInfo[participantId] = data.data;
               $scope.participantInfo[participantId].show = true;
           }, function (error) {

@@ -35,6 +35,8 @@ namespace ECA.Business.Queries.Persons
                              FieldOfStudy = p.FieldOfStudy != null ? p.FieldOfStudy.Description : null,
                              ProgramSubject = p.ProgramSubject != null ? p.ProgramSubject.Description : null,
                              Position = p.Position != null ? p.Position.Description : null,
+                             ParticipantType = p.Participant.ParticipantType.Name,
+                             ParticipantStatus = p.Participant.Status.Status,
                              HomeInstitution = p.HomeInstitution != null ? new InstitutionDTO
                              {
                                  Name = p.HomeInstitution.Name,
