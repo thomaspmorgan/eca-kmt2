@@ -218,7 +218,7 @@ namespace ECA.Business.Test.Queries.Persons
                Location = location,
                AddressType = addressType,
                AddressTypeId = addressType.AddressTypeId,
-               DisplayName = "display"
+               IsPrimary = true
             };
             
 
@@ -270,10 +270,9 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(address.AddressId, addressResult.AddressId);
             Assert.AreEqual(addressType.AddressTypeId, addressResult.AddressTypeId);
             Assert.AreEqual(addressType.AddressName, addressResult.AddressType);
-            Assert.AreEqual(address.DisplayName, addressResult.AddressDisplayName);
+            Assert.AreEqual(address.IsPrimary, addressResult.IsPrimary);
             Assert.AreEqual(division.LocationId, addressResult.DivisionId);
             Assert.AreEqual(division.LocationName, addressResult.Division);
-
         }
 
         [TestMethod]
@@ -325,7 +324,7 @@ namespace ECA.Business.Test.Queries.Persons
                Location = location,
                AddressType = addressType,
                AddressTypeId = addressType.AddressTypeId,
-               DisplayName = "display",
+               IsPrimary = true
             };
 
             var hostInstitution = new Organization
@@ -374,7 +373,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(address.AddressId, addressResult.AddressId);
             Assert.AreEqual(addressType.AddressTypeId, addressResult.AddressTypeId);
             Assert.AreEqual(addressType.AddressName, addressResult.AddressType);
-            Assert.AreEqual(address.DisplayName, addressResult.AddressDisplayName);
+            Assert.AreEqual(address.IsPrimary, addressResult.IsPrimary);
             Assert.AreEqual(division.LocationId, addressResult.DivisionId);
             Assert.AreEqual(division.LocationName, addressResult.Division);
         }

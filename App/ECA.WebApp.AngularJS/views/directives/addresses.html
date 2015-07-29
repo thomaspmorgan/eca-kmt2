@@ -23,15 +23,23 @@
                         <i class="material-icons md-dark pull-right" ng-show="!view.collapseAddress">expand_less</i>
                     </a>
                     <div ng-show="!view.showEditAddress">
-                        <div ng-show="address.addressDisplayName">
-                            {{address.addressDisplayName}}
-                            <div class="pull-right">
-                                {{address.addressType}}
-                                <a ng-show="!view.showEditAddress" ng-click="view.onEditAddressClick()">
-                                    <i class="material-icons md-dark">edit</i>
-                                </a>
-                            </div>
+                        {{address.addressType}}
+                        <div class="pull-right">
+                            <a ng-show="!view.showEditAddress && !view.isDeletingAddress" ng-click="view.showConfirmDelete = true">
+                                <i class="material-icons md-dark">delete</i>
+                            </a>
+                            <a ng-show="view.isDeletingAddress">
+                                <i class="material-icons md-dark material-icons-spin">refresh</i>
+                            </a>
+                            <a ng-show="!view.showEditAddress && !view.isDeletingAddress" ng-click="view.onEditAddressClick()">
+                                <i class="material-icons md-dark">edit</i>
+                            </a>
                         </div>
+                    </div>
+                    <div ng-show="view.showConfirmDelete" class="text-center">
+                        Are you sure you want to delete this address?
+                        <button ng-click="view.onDeleteAddressClick()" class="btn btn-danger">Delete</button>
+                        <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
                     </div>
                     <div ng-show="!view.showEditAddress" collapse="view.collapseAddress">
                         <div class="col-md-12">
@@ -58,21 +66,12 @@
                     <div in-context-form ng-show="view.showEditAddress">
                         <form name="form.addressForm" class="row form-horizontal">
                             <div class="form-group" id="addressForm{{address.addressId}}">
-                                <label class="title-label col-md-3" for="street1">Name<span class="asterisk"> *</span></label>
+                                <label class="title-label col-md-3" for="isPrimary">Is Primary</label>
                                 <div class="col-md-9">
-                                    <input name="addressDisplayName"
-                                           maxlength="300"
-                                           ng-model="address.addressDisplayName"
-                                           form-element
-                                           guidance="This is the name of the address."
-                                           type="text"
-                                           class="form-control"
-                                           placeholder="Enter address name."
-                                           id="addressDisplayName"
-                                           required />
-                                </div>
-                                <div ng-show="form.addressForm.addressDisplayName.$dirty || form.addressForm.addressDisplayName.$error.required">
-                                    <div class="error" ng-show="form.addressForm.addressDisplayName.$error.required">Please enter an address name.</div>
+                                    <input type="checkbox" 
+                                           class="col-md-3" 
+                                           ng-change="view.onIsPrimaryChange()"
+                                           ng-model="address.isPrimary" />
                                 </div>
                             </div>
                             <div class="form-group">

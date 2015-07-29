@@ -198,7 +198,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="coverage.bat" />
     <None Include="InMemoryCamModelGenerator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>InMemoryCamModelGenerator.generated.cs</LastGenOutput>

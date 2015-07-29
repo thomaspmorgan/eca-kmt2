@@ -40,7 +40,7 @@ namespace ECA.Business.Test.Service.Persons
         #region Get General By Id
 
         [TestMethod]
-        public async Task TestGetGenerById_CheckProperties()
+        public async Task TestGetGeneralById_CheckProperties()
         {
             var gender = new Gender
             {
@@ -191,7 +191,7 @@ namespace ECA.Business.Test.Service.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
 
-            Action<PiiDTO> tester = (serviceResult) => 
+            Action<PiiDTO> tester = (serviceResult) =>
             {
                 Assert.IsNotNull(serviceResult);
                 Assert.AreEqual(gender.GenderName, serviceResult.Gender);
@@ -319,7 +319,7 @@ namespace ECA.Business.Test.Service.Persons
                 AddressTypeId = AddressType.Home.Id,
                 Location = location,
                 AddressType = addressType,
-                DisplayName = "display"
+                IsPrimary = true
             };
 
             var person = new Person
@@ -331,7 +331,7 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             person.PlaceOfBirth.Country = new Location();
-            
+
             person.Addresses.Add(address);
             context.AddressTypes.Add(addressType);
             context.Locations.Add(city);
@@ -350,7 +350,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(location.Street3, testAddress.Street3);
                 Assert.AreEqual(location.LocationName, testAddress.LocationName);
                 Assert.AreEqual(city.LocationName, testAddress.City);
-                Assert.AreEqual(address.DisplayName, testAddress.AddressDisplayName);
+                Assert.AreEqual(address.IsPrimary, testAddress.IsPrimary);
                 Assert.AreEqual(addressType.AddressName, testAddress.AddressType);
                 Assert.AreEqual(addressType.AddressTypeId, testAddress.AddressTypeId);
                 Assert.AreEqual(location.PostalCode, testAddress.PostalCode);
@@ -370,7 +370,7 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestGetPiiById_CheckMaritalStatus()
         {
-            var maritalStatus = new MaritalStatus 
+            var maritalStatus = new MaritalStatus
             {
                 MaritalStatusId = 1,
                 Description = "description"
@@ -413,10 +413,10 @@ namespace ECA.Business.Test.Service.Persons
 
             var city = new Location
             {
-               LocationId = 2, 
-               LocationTypeId = LocationType.City.Id,
-               Country = country,
-               CountryId = country.CountryId
+                LocationId = 2,
+                LocationTypeId = LocationType.City.Id,
+                Country = country,
+                CountryId = country.CountryId
             };
 
             var person = new Person
@@ -485,7 +485,7 @@ namespace ECA.Business.Test.Service.Persons
                 CollectionAssert.AreEqual(person.Emails.Select(x => x.EmailAddressId).ToList(), serviceResult.Emails.Select(x => x.Id).ToList());
                 CollectionAssert.AreEqual(person.Emails.Select(x => x.Address).ToList(), serviceResult.Emails.Select(x => x.Value).ToList());
             };
-            
+
             var result = service.GetContactInfoById(person.PersonId);
             var resultAsync = await service.GetContactInfoByIdAsync(person.PersonId);
 
@@ -550,7 +550,7 @@ namespace ECA.Business.Test.Service.Persons
             var phoneNumber = new PhoneNumber
             {
                 PhoneNumberId = 1,
-                PhoneNumberTypeId  = phoneNumberType.PhoneNumberTypeId,
+                PhoneNumberTypeId = phoneNumberType.PhoneNumberTypeId,
                 PhoneNumberType = phoneNumberType,
                 Number = "1234567890"
             };
@@ -584,14 +584,14 @@ namespace ECA.Business.Test.Service.Persons
 
         #endregion
 
-        #region Get EvaluationNotes By Id
+        #region Get Evaluation Notes By Id
 
         [TestMethod]
         public async Task TestGetEvaluationNotesById()
         {
             int principalId = 1;
             int personId = 2;
-            DateTime date1 = new DateTime(2015,6,11);
+            DateTime date1 = new DateTime(2015, 6, 11);
             DateTime date2 = new DateTime(2015, 6, 2);
             var user = new UserAccount
             {
@@ -664,6 +664,926 @@ namespace ECA.Business.Test.Service.Persons
         }
         #endregion
 
+        #region Get Educations By Person Id
+        [TestMethod]
+        public async Task TestGetEducationsByPersonId_CheckProperties()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var today = DateTimeOffset.UtcNow;
+            var person = new Person
+            {
+                PersonId = 1,
+            };
+            var city = new Location
+            {
+                LocationId = 1,
+                LocationName = "city",
+            };
+            var country = new Location
+            {
+                LocationId = 2,
+                LocationName = "country"
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 3,
+                Country = country,
+                CountryId = country.LocationId,
+                City = city,
+                CityId = city.LocationId,
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                IsPrimary = true,
+                Location = addressLocation,
+                LocationId = addressLocation.LocationId
+            };
+            var organizationType = new OrganizationType
+            {
+                OrganizationTypeId = 1,
+                OrganizationTypeName = "type"
+            };
+            var organization = new Organization
+            {
+                OrganizationId = 1,
+                Name = "name",
+                Status = "status",
+                OrganizationTypeId = organizationType.OrganizationTypeId,
+                OrganizationType = organizationType
+            };
+            organization.Addresses.Add(address);
+            address.Organization = organization;
+            address.OrganizationId = organization.OrganizationId;
+            var education = new ProfessionEducation
+            {
+                PersonOfEducation = person,
+                ProfessionEducationId = 1,
+                Title = "title",
+                Role = "role",
+                DateFrom = yesterday,
+                DateTo = today,
+                OrganizationId = organization.OrganizationId,
+                Organization = organization
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                context.People.Add(person);
+                context.Locations.Add(city);
+                context.Locations.Add(country);
+                context.Locations.Add(addressLocation);
+                context.Addresses.Add(address);
+                context.Organizations.Add(organization);
+                context.OrganizationTypes.Add(organizationType);
+                context.ProfessionEducations.Add(education);
+            });
+            context.Revert();
+            Action<List<EducationEmploymentDTO>> tester = (list) =>
+            {
+                Assert.AreEqual(1, list.Count);
+                var dto = list.First();
+                Assert.AreEqual(education.ProfessionEducationId, dto.Id);
+                Assert.AreEqual(education.Title, dto.Title);
+                Assert.AreEqual(education.Role, dto.Role);
+                Assert.AreEqual(education.DateFrom, dto.StartDate);
+                Assert.AreEqual(education.DateTo, dto.EndDate);
+                Assert.AreEqual(String.Format("{0}, {1}", city.LocationName, country.LocationName), dto.Organization.Location);
+                Assert.AreEqual(organization.OrganizationId, dto.Organization.OrganizationId);
+                Assert.AreEqual(organizationType.OrganizationTypeName, dto.Organization.OrganizationType);
+                Assert.AreEqual(organization.Status, dto.Organization.Status);
+                Assert.AreEqual(organization.Name, dto.Organization.Name);
+            };
+            var results = service.GetEducationsByPersonId(person.PersonId);
+            var resultsAsync = await service.GetEducationsByPersonIdAsync(person.PersonId);
+            tester(results.ToList());
+            tester(resultsAsync.ToList());
+        }
+
+        [TestMethod]
+        public async Task TestGetEducationsByPersonId_CheckUsesPrimaryAddress()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var today = DateTimeOffset.UtcNow;
+            var person = new Person
+            {
+                PersonId = 1,
+            };
+            var city = new Location
+            {
+                LocationId = 1,
+                LocationName = "city",
+            };
+            var country = new Location
+            {
+                LocationId = 2,
+                LocationName = "country"
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 3,
+                Country = country,
+                CountryId = country.LocationId,
+                City = city,
+                CityId = city.LocationId,
+            };
+            var primaryAddress = new Address
+            {
+                AddressId = 1,
+                IsPrimary = true,
+                Location = addressLocation,
+                LocationId = addressLocation.LocationId
+            };
+            var otherAddress = new Address
+            {
+                AddressId = 2,
+                IsPrimary = false,
+            };
+            var organizationType = new OrganizationType
+            {
+                OrganizationTypeId = 1,
+                OrganizationTypeName = "type"
+            };
+            var organization = new Organization
+            {
+                OrganizationId = 1,
+                Name = "name",
+                Status = "status",
+                OrganizationTypeId = organizationType.OrganizationTypeId,
+                OrganizationType = organizationType
+            };
+            organization.Addresses.Add(primaryAddress);
+            primaryAddress.Organization = organization;
+            primaryAddress.OrganizationId = organization.OrganizationId;
+
+            organization.Addresses.Add(otherAddress);
+            otherAddress.Organization = organization;
+            otherAddress.OrganizationId = organization.OrganizationId;
+            var education = new ProfessionEducation
+            {
+                PersonOfEducation = person,
+                ProfessionEducationId = 1,
+                Title = "title",
+                Role = "role",
+                DateFrom = yesterday,
+                DateTo = today,
+                OrganizationId = organization.OrganizationId,
+                Organization = organization
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                context.People.Add(person);
+                context.Locations.Add(city);
+                context.Locations.Add(country);
+                context.Locations.Add(addressLocation);
+                context.Addresses.Add(primaryAddress);
+                context.Addresses.Add(otherAddress);
+                context.Organizations.Add(organization);
+                context.OrganizationTypes.Add(organizationType);
+                context.ProfessionEducations.Add(education);
+            });
+            context.Revert();
+            Action<List<EducationEmploymentDTO>> tester = (list) =>
+            {
+                Assert.AreEqual(1, list.Count);
+                var dto = list.First();
+                Assert.AreEqual(String.Format("{0}, {1}", city.LocationName, country.LocationName), dto.Organization.Location);
+            };
+            var results = service.GetEducationsByPersonId(person.PersonId);
+            var resultsAsync = await service.GetEducationsByPersonIdAsync(person.PersonId);
+            tester(results.ToList());
+            tester(resultsAsync.ToList());
+        }
+
+        [TestMethod]
+        public async Task TestGetEducationsByPersonId_AddressDoesNotHaveLocation()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var today = DateTimeOffset.UtcNow;
+            var person = new Person
+            {
+                PersonId = 1,
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                IsPrimary = true,
+            };
+            var organizationType = new OrganizationType
+            {
+                OrganizationTypeId = 1,
+                OrganizationTypeName = "type"
+            };
+            var organization = new Organization
+            {
+                OrganizationId = 1,
+                Name = "name",
+                Status = "status",
+                OrganizationTypeId = organizationType.OrganizationTypeId,
+                OrganizationType = organizationType
+            };
+            organization.Addresses.Add(address);
+            address.Organization = organization;
+            address.OrganizationId = organization.OrganizationId;
+            var education = new ProfessionEducation
+            {
+                PersonOfEducation = person,
+                ProfessionEducationId = 1,
+                Title = "title",
+                Role = "role",
+                DateFrom = yesterday,
+                DateTo = today,
+                OrganizationId = organization.OrganizationId,
+                Organization = organization
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                context.People.Add(person);
+                context.Addresses.Add(address);
+                context.Organizations.Add(organization);
+                context.OrganizationTypes.Add(organizationType);
+                context.ProfessionEducations.Add(education);
+            });
+            context.Revert();
+            Action<List<EducationEmploymentDTO>> tester = (list) =>
+            {
+                Assert.AreEqual(1, list.Count);
+                var dto = list.First();              
+                Assert.IsNull(dto.Organization.Location);
+            };
+            var results = service.GetEducationsByPersonId(person.PersonId);
+            var resultsAsync = await service.GetEducationsByPersonIdAsync(person.PersonId);
+            tester(results.ToList());
+            tester(resultsAsync.ToList());
+        }
+
+        [TestMethod]
+        public async Task TestGetEducationsByPersonId_AddressDoesNotHaveCity()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var today = DateTimeOffset.UtcNow;
+            var person = new Person
+            {
+                PersonId = 1,
+            };
+            var country = new Location
+            {
+                LocationId = 2,
+                LocationName = "country"
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 3,
+                Country = country,
+                CountryId = country.LocationId,
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                IsPrimary = true,
+                Location = addressLocation,
+                LocationId = addressLocation.LocationId
+            };
+            var organizationType = new OrganizationType
+            {
+                OrganizationTypeId = 1,
+                OrganizationTypeName = "type"
+            };
+            var organization = new Organization
+            {
+                OrganizationId = 1,
+                Name = "name",
+                Status = "status",
+                OrganizationTypeId = organizationType.OrganizationTypeId,
+                OrganizationType = organizationType
+            };
+            organization.Addresses.Add(address);
+            address.Organization = organization;
+            address.OrganizationId = organization.OrganizationId;
+            var education = new ProfessionEducation
+            {
+                PersonOfEducation = person,
+                ProfessionEducationId = 1,
+                Title = "title",
+                Role = "role",
+                DateFrom = yesterday,
+                DateTo = today,
+                OrganizationId = organization.OrganizationId,
+                Organization = organization
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                context.People.Add(person);
+                context.Locations.Add(country);
+                context.Locations.Add(addressLocation);
+                context.Addresses.Add(address);
+                context.Organizations.Add(organization);
+                context.OrganizationTypes.Add(organizationType);
+                context.ProfessionEducations.Add(education);
+            });
+            context.Revert();
+            Action<List<EducationEmploymentDTO>> tester = (list) =>
+            {
+                Assert.AreEqual(1, list.Count);
+                var dto = list.First();
+                Assert.IsNull(dto.Organization.Location);
+            };
+            var results = service.GetEducationsByPersonId(person.PersonId);
+            var resultsAsync = await service.GetEducationsByPersonIdAsync(person.PersonId);
+            tester(results.ToList());
+            tester(resultsAsync.ToList());
+        }
+
+        [TestMethod]
+        public async Task TestGetEducationsByPersonId_AddressDoesNotHaveCountry()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var today = DateTimeOffset.UtcNow;
+            var person = new Person
+            {
+                PersonId = 1,
+            };
+            var city = new Location
+            {
+                LocationId = 1,
+                LocationName = "city",
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 3,
+                City = city,
+                CityId = city.LocationId,
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                IsPrimary = true,
+                Location = addressLocation,
+                LocationId = addressLocation.LocationId
+            };
+            var organizationType = new OrganizationType
+            {
+                OrganizationTypeId = 1,
+                OrganizationTypeName = "type"
+            };
+            var organization = new Organization
+            {
+                OrganizationId = 1,
+                Name = "name",
+                Status = "status",
+                OrganizationTypeId = organizationType.OrganizationTypeId,
+                OrganizationType = organizationType
+            };
+            organization.Addresses.Add(address);
+            address.Organization = organization;
+            address.OrganizationId = organization.OrganizationId;
+            var education = new ProfessionEducation
+            {
+                PersonOfEducation = person,
+                ProfessionEducationId = 1,
+                Title = "title",
+                Role = "role",
+                DateFrom = yesterday,
+                DateTo = today,
+                OrganizationId = organization.OrganizationId,
+                Organization = organization
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                context.People.Add(person);
+                context.Locations.Add(city);
+                context.Locations.Add(addressLocation);
+                context.Addresses.Add(address);
+                context.Organizations.Add(organization);
+                context.OrganizationTypes.Add(organizationType);
+                context.ProfessionEducations.Add(education);
+            });
+            context.Revert();
+            Action<List<EducationEmploymentDTO>> tester = (list) =>
+            {
+                Assert.AreEqual(1, list.Count);
+                var dto = list.First();
+                Assert.IsNull(dto.Organization.Location);
+            };
+            var results = service.GetEducationsByPersonId(person.PersonId);
+            var resultsAsync = await service.GetEducationsByPersonIdAsync(person.PersonId);
+            tester(results.ToList());
+            tester(resultsAsync.ToList());
+        }
+
+        [TestMethod]
+        public async Task TestGetEducationsByPersonId_DoesNotHaveOrganization()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var today = DateTimeOffset.UtcNow;
+            var person = new Person
+            {
+                PersonId = 1,
+            };
+            var education = new ProfessionEducation
+            {
+                PersonOfEducation = person,
+                ProfessionEducationId = 1,
+                Title = "title",
+                Role = "role",
+                DateFrom = yesterday,
+                DateTo = today,
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                context.People.Add(person);
+                context.ProfessionEducations.Add(education);
+            });
+            context.Revert();
+            Action<List<EducationEmploymentDTO>> tester = (list) =>
+            {
+                Assert.AreEqual(1, list.Count);
+            };
+            var results = service.GetEducationsByPersonId(person.PersonId);
+            var resultsAsync = await service.GetEducationsByPersonIdAsync(person.PersonId);
+            tester(results.ToList());
+            tester(resultsAsync.ToList());
+        }
+
+        [TestMethod]
+        public async Task TestGetEducationsByPersonId_PersonDoesNotExist()
+        {
+            Action<List<EducationEmploymentDTO>> tester = (list) =>
+            {
+                Assert.AreEqual(0, list.Count);
+            };
+            var results = service.GetEducationsByPersonId(1);
+            var resultsAsync = await service.GetEducationsByPersonIdAsync(1);
+            tester(results.ToList());
+            tester(resultsAsync.ToList());
+        }
+        #endregion
+
+        #region Get Employments By Person Id
+        [TestMethod]
+        public async Task TestGetEmploymentsByPersonId_CheckProperties()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var today = DateTimeOffset.UtcNow;
+            var person = new Person
+            {
+                PersonId = 1,
+            };
+            var city = new Location
+            {
+                LocationId = 1,
+                LocationName = "city",
+            };
+            var country = new Location
+            {
+                LocationId = 2,
+                LocationName = "country"
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 3,
+                Country = country,
+                CountryId = country.LocationId,
+                City = city,
+                CityId = city.LocationId,
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                IsPrimary = true,
+                Location = addressLocation,
+                LocationId = addressLocation.LocationId
+            };
+            var organizationType = new OrganizationType
+            {
+                OrganizationTypeId = 1,
+                OrganizationTypeName = "type"
+            };
+            var organization = new Organization
+            {
+                OrganizationId = 1,
+                Name = "name",
+                Status = "status",
+                OrganizationTypeId = organizationType.OrganizationTypeId,
+                OrganizationType = organizationType
+            };
+            organization.Addresses.Add(address);
+            address.Organization = organization;
+            address.OrganizationId = organization.OrganizationId;
+            var employment = new ProfessionEducation
+            {
+                PersonOfProfession = person,
+                ProfessionEducationId = 1,
+                Title = "title",
+                Role = "role",
+                DateFrom = yesterday,
+                DateTo = today,
+                OrganizationId = organization.OrganizationId,
+                Organization = organization
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                context.People.Add(person);
+                context.Locations.Add(city);
+                context.Locations.Add(country);
+                context.Locations.Add(addressLocation);
+                context.Addresses.Add(address);
+                context.Organizations.Add(organization);
+                context.OrganizationTypes.Add(organizationType);
+                context.ProfessionEducations.Add(employment);
+            });
+            context.Revert();
+            Action<List<EducationEmploymentDTO>> tester = (list) =>
+            {
+                Assert.AreEqual(1, list.Count);
+                var dto = list.First();
+                Assert.AreEqual(employment.ProfessionEducationId, dto.Id);
+                Assert.AreEqual(employment.Title, dto.Title);
+                Assert.AreEqual(employment.Role, dto.Role);
+                Assert.AreEqual(employment.DateFrom, dto.StartDate);
+                Assert.AreEqual(employment.DateTo, dto.EndDate);
+                Assert.AreEqual(String.Format("{0}, {1}", city.LocationName, country.LocationName), dto.Organization.Location);
+                Assert.AreEqual(organization.OrganizationId, dto.Organization.OrganizationId);
+                Assert.AreEqual(organizationType.OrganizationTypeName, dto.Organization.OrganizationType);
+                Assert.AreEqual(organization.Status, dto.Organization.Status);
+                Assert.AreEqual(organization.Name, dto.Organization.Name);
+            };
+            var results = service.GetEmploymentsByPersonId(person.PersonId);
+            var resultsAsync = await service.GetEmploymentsByPersonIdAsync(person.PersonId);
+            tester(results.ToList());
+            tester(resultsAsync.ToList());
+        }
+
+        [TestMethod]
+        public async Task TestGetEmploymentsByPersonId_CheckUsesPrimaryAddress()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var today = DateTimeOffset.UtcNow;
+            var person = new Person
+            {
+                PersonId = 1,
+            };
+            var city = new Location
+            {
+                LocationId = 1,
+                LocationName = "city",
+            };
+            var country = new Location
+            {
+                LocationId = 2,
+                LocationName = "country"
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 3,
+                Country = country,
+                CountryId = country.LocationId,
+                City = city,
+                CityId = city.LocationId,
+            };
+            var primaryAddress = new Address
+            {
+                AddressId = 1,
+                IsPrimary = true,
+                Location = addressLocation,
+                LocationId = addressLocation.LocationId
+            };
+            var otherAddress = new Address
+            {
+                AddressId = 2,
+                IsPrimary = false,
+            };
+            var organizationType = new OrganizationType
+            {
+                OrganizationTypeId = 1,
+                OrganizationTypeName = "type"
+            };
+            var organization = new Organization
+            {
+                OrganizationId = 1,
+                Name = "name",
+                Status = "status",
+                OrganizationTypeId = organizationType.OrganizationTypeId,
+                OrganizationType = organizationType
+            };
+            organization.Addresses.Add(primaryAddress);
+            primaryAddress.Organization = organization;
+            primaryAddress.OrganizationId = organization.OrganizationId;
+
+            organization.Addresses.Add(otherAddress);
+            otherAddress.Organization = organization;
+            otherAddress.OrganizationId = organization.OrganizationId;
+            var employment = new ProfessionEducation
+            {
+                PersonOfProfession = person,
+                ProfessionEducationId = 1,
+                Title = "title",
+                Role = "role",
+                DateFrom = yesterday,
+                DateTo = today,
+                OrganizationId = organization.OrganizationId,
+                Organization = organization
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                context.People.Add(person);
+                context.Locations.Add(city);
+                context.Locations.Add(country);
+                context.Locations.Add(addressLocation);
+                context.Addresses.Add(primaryAddress);
+                context.Addresses.Add(otherAddress);
+                context.Organizations.Add(organization);
+                context.OrganizationTypes.Add(organizationType);
+                context.ProfessionEducations.Add(employment);
+            });
+            context.Revert();
+            Action<List<EducationEmploymentDTO>> tester = (list) =>
+            {
+                Assert.AreEqual(1, list.Count);
+                var dto = list.First();
+                Assert.AreEqual(String.Format("{0}, {1}", city.LocationName, country.LocationName), dto.Organization.Location);
+            };
+            var results = service.GetEmploymentsByPersonId(person.PersonId);
+            var resultsAsync = await service.GetEmploymentsByPersonIdAsync(person.PersonId);
+            tester(results.ToList());
+            tester(resultsAsync.ToList());
+        }
+
+        [TestMethod]
+        public async Task TestGetEmploymentsByPersonId_AddressDoesNotHaveLocation()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var today = DateTimeOffset.UtcNow;
+            var person = new Person
+            {
+                PersonId = 1,
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                IsPrimary = true,
+            };
+            var organizationType = new OrganizationType
+            {
+                OrganizationTypeId = 1,
+                OrganizationTypeName = "type"
+            };
+            var organization = new Organization
+            {
+                OrganizationId = 1,
+                Name = "name",
+                Status = "status",
+                OrganizationTypeId = organizationType.OrganizationTypeId,
+                OrganizationType = organizationType
+            };
+            organization.Addresses.Add(address);
+            address.Organization = organization;
+            address.OrganizationId = organization.OrganizationId;
+            var employment = new ProfessionEducation
+            {
+                PersonOfProfession = person,
+                ProfessionEducationId = 1,
+                Title = "title",
+                Role = "role",
+                DateFrom = yesterday,
+                DateTo = today,
+                OrganizationId = organization.OrganizationId,
+                Organization = organization
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                context.People.Add(person);
+                context.Addresses.Add(address);
+                context.Organizations.Add(organization);
+                context.OrganizationTypes.Add(organizationType);
+                context.ProfessionEducations.Add(employment);
+            });
+            context.Revert();
+            Action<List<EducationEmploymentDTO>> tester = (list) =>
+            {
+                Assert.AreEqual(1, list.Count);
+                var dto = list.First();
+                Assert.IsNull(dto.Organization.Location);
+            };
+            var results = service.GetEmploymentsByPersonId(person.PersonId);
+            var resultsAsync = await service.GetEmploymentsByPersonIdAsync(person.PersonId);
+            tester(results.ToList());
+            tester(resultsAsync.ToList());
+        }
+
+        [TestMethod]
+        public async Task TestGetEmploymentsByPersonId_AddressDoesNotHaveCity()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var today = DateTimeOffset.UtcNow;
+            var person = new Person
+            {
+                PersonId = 1,
+            };
+            var country = new Location
+            {
+                LocationId = 2,
+                LocationName = "country"
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 3,
+                Country = country,
+                CountryId = country.LocationId,
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                IsPrimary = true,
+                Location = addressLocation,
+                LocationId = addressLocation.LocationId
+            };
+            var organizationType = new OrganizationType
+            {
+                OrganizationTypeId = 1,
+                OrganizationTypeName = "type"
+            };
+            var organization = new Organization
+            {
+                OrganizationId = 1,
+                Name = "name",
+                Status = "status",
+                OrganizationTypeId = organizationType.OrganizationTypeId,
+                OrganizationType = organizationType
+            };
+            organization.Addresses.Add(address);
+            address.Organization = organization;
+            address.OrganizationId = organization.OrganizationId;
+            var employment = new ProfessionEducation
+            {
+                PersonOfProfession = person,
+                ProfessionEducationId = 1,
+                Title = "title",
+                Role = "role",
+                DateFrom = yesterday,
+                DateTo = today,
+                OrganizationId = organization.OrganizationId,
+                Organization = organization
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                context.People.Add(person);
+                context.Locations.Add(country);
+                context.Locations.Add(addressLocation);
+                context.Addresses.Add(address);
+                context.Organizations.Add(organization);
+                context.OrganizationTypes.Add(organizationType);
+                context.ProfessionEducations.Add(employment);
+            });
+            context.Revert();
+            Action<List<EducationEmploymentDTO>> tester = (list) =>
+            {
+                Assert.AreEqual(1, list.Count);
+                var dto = list.First();
+                Assert.IsNull(dto.Organization.Location);
+            };
+            var results = service.GetEmploymentsByPersonId(person.PersonId);
+            var resultsAsync = await service.GetEmploymentsByPersonIdAsync(person.PersonId);
+            tester(results.ToList());
+            tester(resultsAsync.ToList());
+        }
+
+        [TestMethod]
+        public async Task TestGetEmploymentsByPersonId_AddressDoesNotHaveCountry()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var today = DateTimeOffset.UtcNow;
+            var person = new Person
+            {
+                PersonId = 1,
+            };
+            var city = new Location
+            {
+                LocationId = 1,
+                LocationName = "city",
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 3,
+                City = city,
+                CityId = city.LocationId,
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                IsPrimary = true,
+                Location = addressLocation,
+                LocationId = addressLocation.LocationId
+            };
+            var organizationType = new OrganizationType
+            {
+                OrganizationTypeId = 1,
+                OrganizationTypeName = "type"
+            };
+            var organization = new Organization
+            {
+                OrganizationId = 1,
+                Name = "name",
+                Status = "status",
+                OrganizationTypeId = organizationType.OrganizationTypeId,
+                OrganizationType = organizationType
+            };
+            organization.Addresses.Add(address);
+            address.Organization = organization;
+            address.OrganizationId = organization.OrganizationId;
+            var employment = new ProfessionEducation
+            {
+                PersonOfProfession = person,
+                ProfessionEducationId = 1,
+                Title = "title",
+                Role = "role",
+                DateFrom = yesterday,
+                DateTo = today,
+                OrganizationId = organization.OrganizationId,
+                Organization = organization
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                context.People.Add(person);
+                context.Locations.Add(city);
+                context.Locations.Add(addressLocation);
+                context.Addresses.Add(address);
+                context.Organizations.Add(organization);
+                context.OrganizationTypes.Add(organizationType);
+                context.ProfessionEducations.Add(employment);
+            });
+            context.Revert();
+            Action<List<EducationEmploymentDTO>> tester = (list) =>
+            {
+                Assert.AreEqual(1, list.Count);
+                var dto = list.First();
+                Assert.IsNull(dto.Organization.Location);
+            };
+            var results = service.GetEmploymentsByPersonId(person.PersonId);
+            var resultsAsync = await service.GetEmploymentsByPersonIdAsync(person.PersonId);
+            tester(results.ToList());
+            tester(resultsAsync.ToList());
+        }
+
+        [TestMethod]
+        public async Task TestGetEmploymentsByPersonId_DoesNotHaveOrganization()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var today = DateTimeOffset.UtcNow;
+            var person = new Person
+            {
+                PersonId = 1,
+            };
+            var employment = new ProfessionEducation
+            {
+                PersonOfProfession = person,
+                ProfessionEducationId = 1,
+                Title = "title",
+                Role = "role",
+                DateFrom = yesterday,
+                DateTo = today,
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                context.People.Add(person);
+                context.ProfessionEducations.Add(employment);
+            });
+            context.Revert();
+            Action<List<EducationEmploymentDTO>> tester = (list) =>
+            {
+                Assert.AreEqual(1, list.Count);
+            };
+            var results = service.GetEmploymentsByPersonId(person.PersonId);
+            var resultsAsync = await service.GetEmploymentsByPersonIdAsync(person.PersonId);
+            tester(results.ToList());
+            tester(resultsAsync.ToList());
+        }
+
+        [TestMethod]
+        public async Task TestGetEmploymentsByPersonId_PersonDoesNotExist()
+        {
+            Action<List<EducationEmploymentDTO>> tester = (list) =>
+            {
+                Assert.AreEqual(0, list.Count);
+            };
+            var results = service.GetEmploymentsByPersonId(1);
+            var resultsAsync = await service.GetEmploymentsByPersonIdAsync(1);
+            tester(results.ToList());
+            tester(resultsAsync.ToList());
+        }
+        #endregion
+
         #region Create
         [TestMethod]
         public async Task TestCreateAsync()
@@ -677,13 +1597,13 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreEqual(newPerson.LastName, person.LastName);
             Assert.AreEqual(newPerson.Gender, person.GenderId);
             Assert.AreEqual(newPerson.DateOfBirth, person.DateOfBirth);
-           
+
         }
 
         [TestMethod]
         public async Task TestCreateAsync_CityOfBirth()
         {
-            var city = new Location 
+            var city = new Location
             {
                 LocationId = 1
             };
@@ -758,7 +1678,7 @@ namespace ECA.Business.Test.Service.Persons
                                           new List<int>());
             var person = await service.CreateAsync(newPerson);
         }
-        
+
         [TestMethod]
         public async Task TestGetExistingPerson_DoesNotExist()
         {
@@ -845,7 +1765,7 @@ namespace ECA.Business.Test.Service.Persons
                 PlaceOfBirthId = default(int)
             };
 
-            
+
             context.People.Add(person);
 
             var pii = new UpdatePii(new User(0),
@@ -1334,4 +2254,4 @@ namespace ECA.Business.Test.Service.Persons
 
         #endregion
     }
-} 
+}

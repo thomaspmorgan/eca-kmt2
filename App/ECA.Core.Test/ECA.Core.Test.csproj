@@ -88,7 +88,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="coverage.bat" />
     <Fakes Include="Fakes\EntityFramework.fakes" />
     <None Include="packages.config" />
   </ItemGroup>

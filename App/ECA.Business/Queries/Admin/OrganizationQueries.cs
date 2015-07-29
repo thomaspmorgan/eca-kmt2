@@ -95,7 +95,6 @@ namespace ECA.Business.Queries.Admin
 
                                          select new AddressDTO
                                          {
-                                             AddressDisplayName = address.DisplayName,
                                              AddressId = address.AddressId,
                                              AddressType = addressType.AddressName,
                                              AddressTypeId = addressType.AddressTypeId,
@@ -105,6 +104,7 @@ namespace ECA.Business.Queries.Admin
                                              CountryId = location.CountryId,
                                              Division = hasDivision ? division.LocationName : null,
                                              DivisionId = location.DivisionId,
+                                             IsPrimary = address.IsPrimary,
                                              LocationId = location.LocationId,
                                              LocationName = location.LocationName,
                                              OrganizationId = address.OrganizationId,
@@ -113,7 +113,7 @@ namespace ECA.Business.Queries.Admin
                                              Street1 = location.Street1,
                                              Street2 = location.Street2,
                                              Street3 = location.Street3,
-                                         }).OrderBy(a => a.AddressDisplayName),
+                                         }).OrderByDescending(a => a.IsPrimary).ThenBy(a => a.AddressType),
                             Name = org.Name,
                             OrganizationId = org.OrganizationId,
                             OrganizationType = orgType.OrganizationTypeName,

@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Admin
 {
+    /// <summary>
+    /// An AdditionalPersonAddress is a business entity used to create an address for a person.
+    /// </summary>
     public class AdditionalPersonAddress : AdditionalAddress<Person>
     {
         private readonly int personId;
@@ -17,7 +20,7 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="creator">The user creating the address.</param>
         /// <param name="addressTypeId">The address type id.</param>
-        /// <param name="addressDisplayName">The address display name.</param>
+        /// <param name="isPrimary">True if the address is the primary address.</param>
         /// <param name="street1">The street1.</param>
         /// <param name="street2">The street2.</param>
         /// <param name="street3">The street3.</param>
@@ -30,7 +33,7 @@ namespace ECA.Business.Service.Admin
         public AdditionalPersonAddress(
             User creator,
             int addressTypeId,
-            string addressDisplayName,
+            bool isPrimary,
             string street1,
             string street2,
             string street3,
@@ -41,7 +44,7 @@ namespace ECA.Business.Service.Admin
             int divisionId,
             int personId
             )
-            : base(creator, addressTypeId, addressDisplayName, street1, street2, street3, postalCode, locationName, countryId, cityId, divisionId)
+            : base(creator, addressTypeId, isPrimary, street1, street2, street3, postalCode, locationName, countryId, cityId, divisionId)
         {
             Contract.Requires(creator != null, "The creator must not be null.");
             this.personId = personId;
@@ -54,6 +57,16 @@ namespace ECA.Business.Service.Admin
         public override int GetAddressableEntityId()
         {
             return personId;
+        }
+
+        /// <summary>
+        /// Returns a query to retrieve addresses for a person from the context.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>The query to retrieve all addresses for this person.</returns>
+        public override IQueryable<Address> CreateGetAddressesQuery(EcaContext context)
+        {
+            return context.Addresses.Where(x => x.PersonId.HasValue && x.PersonId.Value == this.personId);
         }
     }
 }

@@ -14,18 +14,11 @@ namespace ECA.Business.Service.Admin
         /// <summary>
         /// Creates a new instance of the validation entity.
         /// </summary>
-        /// <param name="addressDisplayName">The address display name.</param>
         /// <param name="addressTypeId">The address type id.</param>
-        public EcaAddressValidationEntity(string addressDisplayName, int addressTypeId)
+        public EcaAddressValidationEntity(int addressTypeId)
         {
-            this.AddressDisplayName = addressDisplayName;
             this.AddressTypeId = addressTypeId;
         }
-
-        /// <summary>
-        /// Gets or sets the address display name.
-        /// </summary>
-        public string AddressDisplayName { get; private set; }
 
         /// <summary>
         /// Gets or sets the address type id.

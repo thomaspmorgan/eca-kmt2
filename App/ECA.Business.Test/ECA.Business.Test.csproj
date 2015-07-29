@@ -161,7 +161,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="coverage.bat" />
     <Fakes Include="Fakes\EntityFramework.fakes" />
     <Fakes Include="Fakes\System.Data.Entity.fakes" />
     <Fakes Include="Fakes\System.Core.fakes" />

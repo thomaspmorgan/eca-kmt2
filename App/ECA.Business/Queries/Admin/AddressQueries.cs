@@ -38,7 +38,6 @@ namespace ECA.Business.Queries.Admin
 
                         select new AddressDTO
                         {
-                            AddressDisplayName = address.DisplayName,
                             AddressId = address.AddressId,
                             AddressType = addressType.AddressName,
                             AddressTypeId = addressType.AddressTypeId,
@@ -48,6 +47,7 @@ namespace ECA.Business.Queries.Admin
                             CountryId =  location.CountryId,
                             Division = hasDivision ? division.LocationName : null,
                             DivisionId = location.DivisionId,
+                            IsPrimary = address.IsPrimary,
                             LocationId = location.LocationId,
                             LocationName = location.LocationName,
                             OrganizationId = address.OrganizationId,

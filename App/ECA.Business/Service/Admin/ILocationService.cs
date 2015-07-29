@@ -86,6 +86,18 @@ namespace ECA.Business.Service.Admin
         /// <param name="addressId">The address id.</param>
         /// <returns>The address.</returns>
         Task<AddressDTO> GetAddressByIdAsync(int addressId);
+
+        /// <summary>
+        /// Removes the address from the context.
+        /// </summary>
+        /// <param name="addressId">The id of the address to delete.</param>
+        void Delete(int addressId);
+
+        /// <summary>
+        /// Removes the address from the context.
+        /// </summary>
+        /// <param name="addressId">The id of the address to delete.</param>
+        Task DeleteAsync(int addressId);
     }
 
     /// <summary>
@@ -220,6 +232,25 @@ namespace ECA.Business.Service.Admin
         public Task<int> SaveChangesAsync()
         {
             return Task.FromResult<int>(1);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="addressId"></param>
+        public void Delete(int addressId)
+        {
+            
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="addressId"></param>
+        /// <returns></returns>
+        public Task DeleteAsync(int addressId)
+        {
+            return Task.FromResult<object>(null);   
         }
     }
 }

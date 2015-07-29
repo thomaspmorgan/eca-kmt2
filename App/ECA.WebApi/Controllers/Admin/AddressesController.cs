@@ -15,6 +15,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.Results;
 
 namespace ECA.WebApi.Controllers.Admin
 {
@@ -66,6 +67,18 @@ namespace ECA.WebApi.Controllers.Admin
             {
                 return BadRequest(ModelState);
             }
+        }
+
+        /// <summary>
+        /// Deletes the system's address with the given id.
+        /// </summary>
+        /// <returns>The updated address.</returns>
+        [ResponseType(typeof(OkResult))]
+        public async Task<IHttpActionResult> DeleteAddressAsync(int id)
+        {
+            await this.locationService.DeleteAsync(id);
+            await this.locationService.SaveChangesAsync();
+            return Ok();
         }
 
         /// <summary>

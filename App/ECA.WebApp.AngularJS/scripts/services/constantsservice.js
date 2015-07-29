@@ -101,6 +101,7 @@
 		officeFocusSettingName: 'Focus',
 		officeJustificationSettingName: 'Justification',
 		officeObjectiveSettingName: 'Objective',
+		primaryAddressChangedEventName: 'primaryAddressChanged',
 		registeringUserEventName: 'registeringUser',
 		registerUserFailureEventName: 'registerUserFailure',
 		registerUserSuccessEventName: 'registerUserSuccess',

@@ -30,6 +30,7 @@ angular.module('staticApp')
       $scope.view.isLoadingDivisions = false;
       $scope.view.isLoadingCountries = false;
       $scope.view.isSavingChanges = false;
+      $scope.view.isDeletingAddress = false;
       $scope.view.isLoadingRequiredData = false;
       $scope.view.searchLimit = 10;
       $scope.view.autopopulateOnCitySelect = true;
@@ -85,7 +86,7 @@ angular.module('staticApp')
           $scope.form.addressForm.$setPristine();
           $scope.form.addressForm.$setUntouched();
           if (isNewAddress($scope.address)) {
-              $scope.$emit(ConstantsService.removeNewAddressEventName, $scope.address);
+              removeAddressFromView($scope.address);
           }
           else {
               $scope.address = angular.copy(originalAddress);
@@ -150,7 +151,30 @@ angular.module('staticApp')
               callbackAfter: function (element) { }
           }
           smoothScroll(getAddressFormDivElement(id), options);
-      };     
+      };
+
+      $scope.view.onDeleteAddressClick = function () {
+          $scope.view.isDeletingAddress = true;
+          return AddressService.delete($scope.address)
+          .then(function () {
+              NotificationService.showSuccessMessage("Successfully deleted address.");
+              $scope.view.isDeletingAddress = false;
+              removeAddressFromView($scope.address);
+          })
+          .catch(function () {
+              var message = "Unable to delete address.";
+              $log.error(message);
+              NotificationService.showErrorMessage(message);
+          });
+      }
+
+      $scope.view.onIsPrimaryChange = function () {
+          $scope.$emit(ConstantsService.primaryAddressChangedEventName, $scope.address);
+      }
+
+      function removeAddressFromView(address) {
+          $scope.$emit(ConstantsService.removeNewAddressEventName, $scope.address);
+      }
 
       function getAddressFormDivIdPrefix(){
           return 'addressForm';

@@ -19,7 +19,7 @@ namespace ECA.Business.Service.Admin
         /// <param name="updator">The user performing the update.</param>
         /// <param name="addressId">The address id.</param>
         /// <param name="addressTypeId">The address type id.</param>
-        /// <param name="addressDisplayName">The address display name.</param>
+        /// <param name="isPrimary">True if the address is the primary address.</param>
         /// <param name="street1">The street 1.</param>
         /// <param name="street2">The street 2.</param>
         /// <param name="street3">The street 3.</param>
@@ -32,7 +32,7 @@ namespace ECA.Business.Service.Admin
             User updator,
             int addressId,
             int addressTypeId,
-            string addressDisplayName,
+            bool isPrimary,
             string street1,
             string street2,
             string street3,
@@ -42,7 +42,7 @@ namespace ECA.Business.Service.Admin
             int cityId,
             int divisionId
             )
-            : base(addressTypeId, addressDisplayName, street1, street2, street3, postalCode, locationName, countryId, cityId, divisionId)
+            : base(addressTypeId, isPrimary, street1, street2, street3, postalCode, locationName, countryId, cityId, divisionId)
         {
             Contract.Requires(updator != null, "The updator must not be null.");
             this.Update = new Update(updator);

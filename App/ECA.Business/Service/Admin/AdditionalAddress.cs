@@ -22,7 +22,7 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="creator">The user creating a new address.</param>
         /// <param name="addressTypeId">The address type.</param>
-        /// <param name="addressDisplayName">The display name.</param>
+        /// <param name="isPrimary">True, if the address is the primary address.</param>
         /// <param name="street1">The street 1.</param>
         /// <param name="street2">The street 2.</param>
         /// <param name="street3">The street 3.</param>
@@ -34,7 +34,7 @@ namespace ECA.Business.Service.Admin
         public AdditionalAddress(
             User creator,
             int addressTypeId,
-            string addressDisplayName,
+            bool isPrimary,
             string street1,
             string street2,
             string street3,
@@ -44,7 +44,7 @@ namespace ECA.Business.Service.Admin
             int cityId,
             int divisionId
             )
-            : base(addressTypeId, addressDisplayName, street1, street2, street3, postalCode, locationName, countryId, cityId, divisionId)
+            : base(addressTypeId, isPrimary, street1, street2, street3, postalCode, locationName, countryId, cityId, divisionId)
         {
             Contract.Requires(creator != null, "The creator must not be null.");
             this.Create = new Create(creator);
@@ -88,7 +88,7 @@ namespace ECA.Business.Service.Admin
             var address = new Address();
             address.Location = location;
             address.AddressTypeId = this.AddressTypeId;
-            address.DisplayName = this.AddressDisplayName;
+            address.IsPrimary = this.IsPrimary;
             this.Create.SetHistory(address);
             return address;
         }
@@ -116,5 +116,12 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <returns>The id of the IAddressable entity.</returns>
         public abstract int GetAddressableEntityId();
+
+        /// <summary>
+        /// Returns a query that retrieves the addresses of this entity from the given context.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>The query to retrieve all addresses.</returns>
+        public abstract IQueryable<Address> CreateGetAddressesQuery(EcaContext context);
     }
 }

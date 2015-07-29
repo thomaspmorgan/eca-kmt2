@@ -26,7 +26,7 @@ namespace ECA.Business.Queries.Persons
             Contract.Requires(context != null, "The context must not be null.");
             var query = from participant in context.Participants
                         let person = participant.Person
-                        let location = person == null ? null : person.Addresses.FirstOrDefault()
+                        let location = person == null ? null : person.Addresses.OrderByDescending(x => x.IsPrimary).FirstOrDefault()
                         let participantType = participant.ParticipantType
                         where participant.PersonId.HasValue
                         select new SimpleParticipantDTO
@@ -63,7 +63,7 @@ namespace ECA.Business.Queries.Persons
             Contract.Requires(context != null, "The context must not be null.");
             var query = from participant in context.Participants
                         let org = participant.Organization
-                        let location = org == null ? null : org.Addresses.FirstOrDefault()
+                        let location = org == null ? null : org.Addresses.OrderByDescending(x => x.IsPrimary).FirstOrDefault()
                         let participantType = participant.ParticipantType
                         where participant.PersonId == null
                         select new SimpleParticipantDTO

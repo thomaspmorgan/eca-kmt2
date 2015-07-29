@@ -16,7 +16,7 @@ namespace ECA.Business.Test.Service.Admin
             var userId = 1;
             var user = new User(userId);
             var addressTypeId = AddressType.Business.Id;
-            var displayName = "display";
+            var isPrimary = true;
             var street1 = "street1";
             var street2 = "street2";
             var street3 = "street3";
@@ -28,7 +28,7 @@ namespace ECA.Business.Test.Service.Admin
 
             var instance = new EcaAddress(
                 addressTypeId,
-                displayName,
+                isPrimary,
                 street1,
                 street2,
                 street3,
@@ -39,7 +39,7 @@ namespace ECA.Business.Test.Service.Admin
                 divisionId
                 );
             Assert.AreEqual(addressTypeId, instance.AddressTypeId);
-            Assert.AreEqual(displayName, instance.AddressDisplayName);
+            Assert.AreEqual(isPrimary, instance.IsPrimary);
             Assert.AreEqual(street1, instance.Street1);
             Assert.AreEqual(street2, instance.Street2);
             Assert.AreEqual(street3, instance.Street3);
@@ -58,7 +58,7 @@ namespace ECA.Business.Test.Service.Admin
             var userId = 1;
             var user = new User(userId);
             var addressTypeId = -1;
-            var displayName = "display";
+            var isPrimary = true;
             var street1 = "street1";
             var street2 = "street2";
             var street3 = "street3";
@@ -70,7 +70,7 @@ namespace ECA.Business.Test.Service.Admin
 
             var instance = new EcaAddress(
                 addressTypeId,
-                displayName,
+                isPrimary,
                 street1,
                 street2,
                 street3,

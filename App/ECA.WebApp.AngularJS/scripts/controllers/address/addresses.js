@@ -47,6 +47,19 @@ angular.module('staticApp')
           $log.info('Removed one new address at index ' + index);
       });
 
+      $scope.$on(ConstantsService.primaryAddressChangedEventName, function (event, primaryAddress) {
+          console.assert($scope.addressable, 'The scope addressable property must exist.  It should be set by the directive.');
+          console.assert($scope.addressable.addresses instanceof Array, 'The entity address is defined but must be an array.');
+
+          var addresses = $scope.addressable.addresses;
+          var primaryAddressIndex = addresses.indexOf(primaryAddress);
+          angular.forEach(addresses, function (address, index) {
+              if (primaryAddressIndex !== index) {
+                  address.isPrimary = false;
+              }
+          });
+      });
+
       function getAddressTypes() {
           var params = {
               start: 0,

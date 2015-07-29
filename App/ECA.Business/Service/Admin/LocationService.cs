@@ -96,6 +96,43 @@ namespace ECA.Business.Service.Admin
 
         #region Addresses
 
+        private IQueryable<Address> CreateGetAddressToDeleteByIdQuery(int addressId)
+        {
+            return Context.Addresses.Where(x => x.AddressId == addressId).Include(x => x.Location);
+        }
+
+        /// <summary>
+        /// Removes the address from the context.
+        /// </summary>
+        /// <param name="addressId">The id of the address to delete.</param>
+        public void Delete(int addressId)
+        {
+            var address = CreateGetAddressToDeleteByIdQuery(addressId).FirstOrDefault();
+            DoDelete(address);
+        }
+
+        /// <summary>
+        /// Removes the address from the context.
+        /// </summary>
+        /// <param name="addressId">The id of the address to delete.</param>
+        public async Task DeleteAsync(int addressId)
+        {
+            var address = await CreateGetAddressToDeleteByIdQuery(addressId).FirstOrDefaultAsync();
+            DoDelete(address);
+        }
+
+        private void DoDelete(Address addressToDelete)
+        {
+            if (addressToDelete != null)
+            {
+                if (addressToDelete.Location != null)
+                {
+                    Context.Locations.Remove(addressToDelete.Location);
+                }
+                Context.Addresses.Remove(addressToDelete);
+            }
+        }
+
         /// <summary>
         /// Returns the address with the given id.
         /// </summary>
@@ -142,8 +179,10 @@ namespace ECA.Business.Service.Admin
 
             var division = Context.Locations.Find(additionalAddress.DivisionId);
             throwIfLocationNotFound(additionalAddress.DivisionId, division, "Division");
-            
-            return DoCreateAddress<T>(entity, additionalAddress);
+
+            var existingAddresses = additionalAddress.CreateGetAddressesQuery(this.Context).ToList();
+
+            return DoCreateAddress<T>(entity, additionalAddress, existingAddresses);
         }
 
         /// <summary>
@@ -169,10 +208,17 @@ namespace ECA.Business.Service.Admin
             var division = await Context.Locations.FindAsync(additionalAddress.DivisionId);
             throwIfLocationNotFound(additionalAddress.DivisionId, division, "Division");
 
-            return DoCreateAddress<T>(entity, additionalAddress);
+            var existingAddresses = await additionalAddress.CreateGetAddressesQuery(this.Context).ToListAsync();
+
+            return DoCreateAddress<T>(entity, additionalAddress, existingAddresses);
         }
 
-        private Address DoCreateAddress<T>(T entity, AdditionalAddress<T> additionalAddress)
+        private void SetAllAddressNotPrimary(ICollection<Address> addresses)
+        {
+            addresses.ToList().ForEach(x => x.IsPrimary = false);
+        }
+
+        private Address DoCreateAddress<T>(T entity, AdditionalAddress<T> additionalAddress, ICollection<Address> existingAddresses)
             where T : class, IAddressable
         {
             logger.Info("Adding an additional address to the [{0}] entity with id [{1}].", typeof(T).Name, additionalAddress.GetAddressableEntityId());
@@ -182,6 +228,10 @@ namespace ECA.Business.Service.Admin
             Context.Locations.Add(address.Location);
             additionalAddress.Create.SetHistory(address);
             additionalAddress.Create.SetHistory(address.Location);
+            if (additionalAddress.IsPrimary)
+            {
+                SetAllAddressNotPrimary(existingAddresses);
+            }
             return address;
         }
 
@@ -204,7 +254,9 @@ namespace ECA.Business.Service.Admin
             var division = Context.Locations.Find(updatedAddress.DivisionId);
             throwIfLocationNotFound(updatedAddress.DivisionId, division, "Division");
 
-            DoUpdate(updatedAddress, location, address);
+            var otherAddresses = CreateGetOtherEntityAddressesQuery(address).ToList();
+
+            DoUpdate(updatedAddress, location, address, otherAddresses);
         }
 
         /// <summary>
@@ -227,10 +279,20 @@ namespace ECA.Business.Service.Admin
             var division = await Context.Locations.FindAsync(updatedAddress.DivisionId);
             throwIfLocationNotFound(updatedAddress.DivisionId, division, "Division");
 
-            DoUpdate(updatedAddress, location, address);
+            var otherAddresses = await CreateGetOtherEntityAddressesQuery(address).ToListAsync();
+
+            DoUpdate(updatedAddress, location, address, otherAddresses);
         }
 
-        private void DoUpdate(UpdatedEcaAddress updatedAddress, Location location, Address address)
+        private IQueryable<Address> CreateGetOtherEntityAddressesQuery(Address address)
+        {
+            return Context.Addresses.Where(x => 
+                x.PersonId == address.PersonId 
+                && x.OrganizationId == address.OrganizationId 
+                && x.AddressId != address.AddressId);
+        }
+
+        private void DoUpdate(UpdatedEcaAddress updatedAddress, Location location, Address address, ICollection<Address> otherAddresses)
         {
             Contract.Requires(updatedAddress != null, "The updated address must not be null.");
             Contract.Requires(location != null, "The location must not be null.");
@@ -247,15 +309,21 @@ namespace ECA.Business.Service.Admin
             location.Street2 = updatedAddress.Street2;
             location.Street3 = updatedAddress.Street3;
             address.AddressTypeId = updatedAddress.AddressTypeId;
-            address.DisplayName = updatedAddress.AddressDisplayName;
+            address.IsPrimary = updatedAddress.IsPrimary;
             updatedAddress.Update.SetHistory(location);
             updatedAddress.Update.SetHistory(address);
+            if (updatedAddress.IsPrimary)
+            {
+                SetAllAddressNotPrimary(otherAddresses);
+            }
         }
 
         private EcaAddressValidationEntity ToEcaAddressValidationEntity(EcaAddress address)
         {
-            return new EcaAddressValidationEntity(addressDisplayName: address.AddressDisplayName, addressTypeId: address.AddressTypeId);
+            return new EcaAddressValidationEntity(addressTypeId: address.AddressTypeId);
         }
+
+
         #endregion
     }
 }

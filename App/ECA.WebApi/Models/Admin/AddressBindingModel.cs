@@ -15,11 +15,9 @@ namespace ECA.WebApi.Models.Admin
     public abstract class AddressBindingModelBase
     {
         /// <summary>
-        /// Gets or sets the address display name.
+        /// Gets or sets whether this address should be the primary address.
         /// </summary>
-        [MaxLength(Address.ADDRESS_DISPLAY_NAME_MAX_LENGTH)]
-        [Required]
-        public string AddressDisplayName { get; set; }
+        public bool IsPrimary { get; set; }
 
         /// <summary>
         /// Gets or sets the address type id.

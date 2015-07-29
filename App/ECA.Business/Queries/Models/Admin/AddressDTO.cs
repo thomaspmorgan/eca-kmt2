@@ -67,9 +67,9 @@ namespace ECA.Business.Queries.Models.Admin
         public string Division { get; set; }
 
         /// <summary>
-        /// Gets or sets the address display name.
+        /// Gets or sets the is primary flag.
         /// </summary>
-        public string AddressDisplayName { get; set; }
+        public bool IsPrimary { get; set; }
 
         /// <summary>
         /// Gets or sets the organization id.
