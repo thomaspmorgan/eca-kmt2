@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "IVLP", "IVLP\IVLP.dtproj", "{BADF0A2E-1053-4DE0-AC37-7E7AC8A481BD}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "Cultural Heritage", "Cultural Heritage\Cultural Heritage.dtproj", "{8895B59F-4C9D-4260-B248-14542E3E0637}"
 EndProject
 Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "LoadLanguages", "LoadLanguages\LoadLanguages.dtproj", "{3F67BE8B-DF52-4190-A49C-95A806907240}"
+EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "VisitingScholar", "VisitingScholar\VisitingScholar.dtproj", "{11D77450-12B0-4EB8-8F59-6024B118A3A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +60,12 @@ Global
 		{3F67BE8B-DF52-4190-A49C-95A806907240}.Development|Any CPU.Build.0 = Development
 		{3F67BE8B-DF52-4190-A49C-95A806907240}.Release|Any CPU.ActiveCfg = Development
 		{3F67BE8B-DF52-4190-A49C-95A806907240}.Release|Any CPU.Build.0 = Development
+		{11D77450-12B0-4EB8-8F59-6024B118A3A0}.Debug|Any CPU.ActiveCfg = Development
+		{11D77450-12B0-4EB8-8F59-6024B118A3A0}.Debug|Any CPU.Build.0 = Development
+		{11D77450-12B0-4EB8-8F59-6024B118A3A0}.Development|Any CPU.ActiveCfg = Development
+		{11D77450-12B0-4EB8-8F59-6024B118A3A0}.Development|Any CPU.Build.0 = Development
+		{11D77450-12B0-4EB8-8F59-6024B118A3A0}.Release|Any CPU.ActiveCfg = Development
+		{11D77450-12B0-4EB8-8F59-6024B118A3A0}.Release|Any CPU.Build.0 = Development
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
