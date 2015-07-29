@@ -28,7 +28,8 @@ namespace ECA.Business.Service.Lookup
             return this.Context.SocialMediaTypes.Select(x => new SocialMediaTypeDTO
             {
                 Id = x.SocialMediaTypeId,
-                Name = x.SocialMediaTypeName
+                Name = x.SocialMediaTypeName,
+                Url = x.Url
             });
         }
     }

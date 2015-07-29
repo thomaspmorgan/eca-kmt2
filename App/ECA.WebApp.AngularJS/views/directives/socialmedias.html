@@ -46,6 +46,7 @@
                                     <select class="form-control"
                                             id="type"
                                             name="socialMediaTypeId"
+                                            ng-change="view.onSocialMediaTypeChange()"
                                             ng-options="t.id as t.name for t in view.socialMediaTypes"
                                             ng-model="socialMedia.socialMediaTypeId"
                                             required />

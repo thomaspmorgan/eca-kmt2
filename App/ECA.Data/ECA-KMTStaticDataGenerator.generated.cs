@@ -1271,6 +1271,10 @@ namespace ECA.Data
 		/// Returns the Google+ lookup with id 7.
 		/// </summary>
 		public static StaticLookup Google { get { return new StaticLookup("Google+", 7); } }
+		/// <summary>
+		/// Returns the Other lookup with id 8.
+		/// </summary>
+		public static StaticLookup Other { get { return new StaticLookup("Other", 8); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -1285,6 +1289,7 @@ namespace ECA.Data
 			if (5 == id) return SocialMediaType.Instagram;
 			if (6 == id) return SocialMediaType.Pinterest;
 			if (7 == id) return SocialMediaType.Google;
+			if (8 == id) return SocialMediaType.Other;
 			return null;
 		}
 		///<summary>
@@ -1301,6 +1306,7 @@ namespace ECA.Data
 			if ("Instagram".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SocialMediaType.Instagram;
 			if ("Pinterest".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SocialMediaType.Pinterest;
 			if ("Google+".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SocialMediaType.Google;
+			if ("Other".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SocialMediaType.Other;
 			return null;
 		}
 

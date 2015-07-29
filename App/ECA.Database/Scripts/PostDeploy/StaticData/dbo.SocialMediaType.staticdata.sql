@@ -24,6 +24,7 @@ SET @DeleteMissingRecords = 0
 DECLARE @tblTempTable TABLE (
 [SocialMediaTypeId] int,
 [SocialMediaTypeName] nvarchar(20),
+[Url] nvarchar(255),
 [History_CreatedBy] int,
 [History_CreatedOn] datetimeoffset,
 [History_RevisedBy] int,
@@ -37,19 +38,20 @@ DECLARE @tblTempTable TABLE (
 -- removed entries. If you remove an entry then it will no longer
 -- be added to new databases based on your schema, but the entry
 -- will not be deleted from databases in which the value already exists.
-INSERT INTO @tblTempTable ([SocialMediaTypeId], [SocialMediaTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('1', 'Facebook', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
-INSERT INTO @tblTempTable ([SocialMediaTypeId], [SocialMediaTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('2', 'LinkedIn', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
-INSERT INTO @tblTempTable ([SocialMediaTypeId], [SocialMediaTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('3', 'Twitter', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
-INSERT INTO @tblTempTable ([SocialMediaTypeId], [SocialMediaTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('4', 'Weibo', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
-INSERT INTO @tblTempTable ([SocialMediaTypeId], [SocialMediaTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('5', 'Instagram', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
-INSERT INTO @tblTempTable ([SocialMediaTypeId], [SocialMediaTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('6', 'Pinterest', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
-INSERT INTO @tblTempTable ([SocialMediaTypeId], [SocialMediaTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('7', 'Google+', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([SocialMediaTypeId], [SocialMediaTypeName], [Url], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('1', 'Facebook', 'https://facebook.com', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([SocialMediaTypeId], [SocialMediaTypeName], [Url], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('2', 'LinkedIn', 'https://linkedin.com', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([SocialMediaTypeId], [SocialMediaTypeName], [Url], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('3', 'Twitter', 'https://twitter.com', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([SocialMediaTypeId], [SocialMediaTypeName], [Url], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('4', 'Weibo', 'http://weibo.com', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([SocialMediaTypeId], [SocialMediaTypeName], [Url], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('5', 'Instagram', 'https://instagram.com', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([SocialMediaTypeId], [SocialMediaTypeName], [Url], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('6', 'Pinterest', 'https://pinterest.com', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([SocialMediaTypeId], [SocialMediaTypeName], [Url], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('7', 'Google+', 'https://plus.google.com', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([SocialMediaTypeId], [SocialMediaTypeName], [Url], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('8', 'Other', '', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
 
 
 -- 3: Insert any new items into the table from the table variable
 SET IDENTITY_INSERT [dbo].[SocialMediaType] ON
-INSERT INTO [dbo].[SocialMediaType] ([SocialMediaTypeId], [SocialMediaTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn])
-SELECT tmp.[SocialMediaTypeId], tmp.[SocialMediaTypeName], tmp.[History_CreatedBy], tmp.[History_CreatedOn], tmp.[History_RevisedBy], tmp.[History_RevisedOn]
+INSERT INTO [dbo].[SocialMediaType] ([SocialMediaTypeId], [SocialMediaTypeName], [Url], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn])
+SELECT tmp.[SocialMediaTypeId], tmp.[SocialMediaTypeName], tmp.[Url], tmp.[History_CreatedBy], tmp.[History_CreatedOn], tmp.[History_RevisedBy], tmp.[History_RevisedOn]
 FROM @tblTempTable tmp
 LEFT JOIN [dbo].[SocialMediaType] tbl ON tbl.[SocialMediaTypeId] = tmp.[SocialMediaTypeId]
 WHERE tbl.[SocialMediaTypeId] IS NULL
@@ -58,6 +60,7 @@ SET IDENTITY_INSERT [dbo].[SocialMediaType] OFF
 -- 4: Update any modified values with the values from the table variable
 UPDATE LiveTable SET
 LiveTable.[SocialMediaTypeName] = tmp.[SocialMediaTypeName],
+LiveTable.[Url] = tmp.[Url],
 LiveTable.[History_CreatedBy] = tmp.[History_CreatedBy],
 LiveTable.[History_CreatedOn] = tmp.[History_CreatedOn],
 LiveTable.[History_RevisedBy] = tmp.[History_RevisedBy],

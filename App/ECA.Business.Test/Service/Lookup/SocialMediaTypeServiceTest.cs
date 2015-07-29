@@ -35,7 +35,8 @@ namespace ECA.Business.Test.Service.Lookup
             var facebook = new SocialMediaType
             {
                 SocialMediaTypeId = SocialMediaType.Facebook.Id,
-                SocialMediaTypeName = SocialMediaType.Facebook.Value
+                SocialMediaTypeName = SocialMediaType.Facebook.Value,
+                Url = "url"
             };
 
             context.SocialMediaTypes.Add(facebook);
@@ -47,6 +48,7 @@ namespace ECA.Business.Test.Service.Lookup
                 var firstResult = results.Results.First();
                 Assert.AreEqual(facebook.SocialMediaTypeId, firstResult.Id);
                 Assert.AreEqual(facebook.SocialMediaTypeName, firstResult.Name);
+                Assert.AreEqual(facebook.Url, firstResult.Url);
             };
             var defaultSorter = new ExpressionSorter<SocialMediaTypeDTO>(x => x.Id, SortDirection.Ascending);
             var queryOperator = new QueryableOperator<SocialMediaTypeDTO>(0, 10, defaultSorter);

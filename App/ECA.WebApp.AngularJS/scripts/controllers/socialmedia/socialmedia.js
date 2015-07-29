@@ -107,6 +107,15 @@ angular.module('staticApp')
           smoothScroll(getSocialMediaFormDivElement(id), options);
       };
 
+      $scope.view.onSocialMediaTypeChange = function () {          
+          var socialMediaTypeId = $scope.socialMedia.socialMediaTypeId;          
+          angular.forEach($scope.view.socialMediaTypes, function (type, index) {
+              if (type.id === socialMediaTypeId) {
+                  $scope.socialMedia.value = type.url;
+              }
+          });
+      }
+
       function removeSocialMediaFromView(socialMedia) {
           $scope.$emit(ConstantsService.removeNewSocialMediaEventName, socialMedia);
       }

@@ -24,16 +24,24 @@ angular.module('staticApp')
 
       $scope.data = {};
       $scope.data.loadSocialMediaTypesPromise = $q.defer();
+      $scope.data.socialMediaTypes = [];
 
       $scope.view.onAddSocialMediaClick = function (socialableType, entitySocialMedias, socialableId) {
           console.assert(entitySocialMedias, 'The entity social medias is not defined.');
           console.assert(entitySocialMedias instanceof Array, 'The entity social medias is defined but must be an array.');
+          var url = '';
+          angular.forEach($scope.data.socialMediaTypes, function (type, index) {
+              if (type.id === ConstantsService.socialMediaType.facebook.id) {
+                  url = type.url;
+              }
+          });
           var newSocialMedia = {
               id: --tempId,
               socialableId: socialableId,
               socialableType: socialableType,
               socialMediaType: ConstantsService.socialMediaType.facebook.value,
-              socialMediaTypeId: ConstantsService.socialMediaType.facebook.id
+              socialMediaTypeId: ConstantsService.socialMediaType.facebook.id,
+              value: url
           };
           entitySocialMedias.splice(0, 0, newSocialMedia);
           $scope.view.collapseSocialMedias = false;
@@ -64,6 +72,7 @@ angular.module('staticApp')
               $log.info('Loaded all social media types.');
               var socialMediaTypes = response.data.results;
               $scope.data.loadSocialMediaTypesPromise.resolve(socialMediaTypes);
+              $scope.data.socialMediaTypes = socialMediaTypes;
               return socialMediaTypes;
           })
           .catch(function () {

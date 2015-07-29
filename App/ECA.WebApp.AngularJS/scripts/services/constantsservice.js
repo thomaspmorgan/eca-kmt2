@@ -81,7 +81,8 @@
 			weibo: {id: 4, value: "Weibo"},
 			instagram: {id: 5, value: "Instagram"},
 			pinterest: {id: 6, value: "Pinterest"},
-			google: {id: 7, value: "Google+"}
+			google: {id: 7, value: "Google+"},
+			other: {id: 8, value: "Other"}
 		},
 		adalLoginSuccessEventName: 'adal:loginSuccess',
 		cancelProjectEventName: 'cancelProjectEdit',
