@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="Azure ECA_DEV">
-  <ConnectionProperties>
-    <Extension>SQL</Extension>
-    <ConnectString>Data Source=tcp:dx4ykgy2iu.database.windows.net;Initial Catalog=ECA_Dev</ConnectString>
-    <Prompt>Specify a user name and password for data source DataSource1:</Prompt>
-  </ConnectionProperties>
-  <DataSourceID>b0a14e4c-75c9-4f10-b171-d2f5857d80fe</DataSourceID>
-</RptDataSource>
