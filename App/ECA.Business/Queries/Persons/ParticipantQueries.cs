@@ -49,7 +49,7 @@ namespace ECA.Business.Queries.Persons
                             PersonId = person.PersonId,
                             ProjectId = participant.ProjectId,
                             RevisedOn = participant.History.RevisedOn,
-                            ParticipantStatus = participant.Status.Status
+                            ParticipantStatus = participant.Status == null ? null : participant.Status.Status
 
                         };
             return query;
@@ -87,7 +87,7 @@ namespace ECA.Business.Queries.Persons
                             PersonId = default(int?),
                             ProjectId = participant.ProjectId,
                             RevisedOn = participant.History.RevisedOn,
-                            ParticipantStatus = participant.Status.Status
+                            ParticipantStatus = participant.Status == null ? null : participant.Status.Status
                         };
             return query;
         }
