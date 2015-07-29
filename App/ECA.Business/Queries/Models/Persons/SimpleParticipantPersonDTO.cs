@@ -66,5 +66,15 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the ProjectId of this participant.
         /// </summary>
         public int ProjectId { get; set; }
+
+        /// <summary>
+        /// Get or sets the participant type
+        /// </summary>
+        public string ParticipantType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participant status
+        /// </summary>
+        public string ParticipantStatus { get; set; }
     }
 }

@@ -94,7 +94,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="coverage.bat" />
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>

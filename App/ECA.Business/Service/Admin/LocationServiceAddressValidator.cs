@@ -14,11 +14,6 @@ namespace ECA.Business.Service.Admin
     public class LocationServiceAddressValidator : BusinessValidatorBase<EcaAddressValidationEntity, EcaAddressValidationEntity>
     {
         /// <summary>
-        /// The error message to add when the display name is invalid.
-        /// </summary>
-        public const string INVALID_ADDRESS_DISPLAY_NAME_MESSAGE = "The address display name is invalid.";
-
-        /// <summary>
         /// The error message to add when the address type is not recognized.
         /// </summary>
         public const string INVALID_ADDRESS_TYPE_MESSAGE = "The address type is invalid.";
@@ -50,10 +45,6 @@ namespace ECA.Business.Service.Admin
         /// <returns>The validation results.</returns>
         public IEnumerable<BusinessValidationResult> DoValidate(EcaAddressValidationEntity validationEntity)
         {
-            if (String.IsNullOrWhiteSpace(validationEntity.AddressDisplayName))
-            {
-                yield return new BusinessValidationResult<EcaAddress>(x => x.AddressDisplayName, INVALID_ADDRESS_DISPLAY_NAME_MESSAGE);
-            }
             if (AddressType.GetStaticLookup(validationEntity.AddressTypeId) == null)
             {
                 yield return new BusinessValidationResult<EcaAddress>(x => x.AddressTypeId, INVALID_ADDRESS_TYPE_MESSAGE);

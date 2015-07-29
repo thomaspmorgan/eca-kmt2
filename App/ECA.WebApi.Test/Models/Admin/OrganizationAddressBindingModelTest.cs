@@ -17,7 +17,7 @@ namespace ECA.WebApi.Test.Models.Admin
         {
             var model = new OrganizationAddressBindingModel
             {
-                AddressDisplayName = "display",
+                IsPrimary = true,
                 AddressTypeId = AddressType.Business.Id,
                 CityId = 1,
                 CountryId = 2,
@@ -30,12 +30,12 @@ namespace ECA.WebApi.Test.Models.Admin
             };
             var user = new User(1);
             var instance = model.ToAdditionalAddress(user);
-            Assert.AreEqual(model.AddressDisplayName, instance.AddressDisplayName);
+            Assert.AreEqual(model.IsPrimary, instance.IsPrimary);
             Assert.AreEqual(model.AddressTypeId, instance.AddressTypeId);
             Assert.AreEqual(model.CityId, instance.CityId);
             Assert.AreEqual(model.CountryId, instance.CountryId);
             Assert.AreEqual(model.DivisionId, instance.DivisionId);
-            Assert.AreEqual(model.AddressDisplayName, instance.LocationName);
+            Assert.IsNull(instance.LocationName);
             Assert.AreEqual(model.PostalCode, instance.PostalCode);
             Assert.AreEqual(model.Street1, instance.Street1);
             Assert.AreEqual(model.Street2, instance.Street2);
@@ -45,69 +45,11 @@ namespace ECA.WebApi.Test.Models.Admin
         }
 
         [TestMethod]
-        public void TestAddressDisplayNameRequired()
-        {
-            var model = new OrganizationAddressBindingModel
-            {
-                AddressDisplayName = "display",
-                AddressTypeId = AddressType.Business.Id,
-                CityId = 1,
-                CountryId = 2,
-                DivisionId = 3,
-                Id = 4,
-                PostalCode = "12345",
-                Street1 = "street1",
-                Street2 = "street2",
-                Street3 = "street3",
-            };
-            var results = new List<ValidationResult>();
-            var actual = Validator.TryValidateObject(model, new ValidationContext(model), results, true);
-
-            Assert.IsTrue(actual);
-            Assert.AreEqual(0, results.Count);
-            model.AddressDisplayName = null;
-
-            actual = Validator.TryValidateObject(model, new ValidationContext(model), results, true);
-            Assert.IsFalse(actual);
-            Assert.AreEqual(1, results.Count);
-            Assert.AreEqual("AddressDisplayName", results.First().MemberNames.First());
-        }
-
-        [TestMethod]
-        public void TestAddressDisplayName_MaxLength()
-        {
-            var model = new OrganizationAddressBindingModel
-            {
-                AddressDisplayName = new String('a', Address.ADDRESS_DISPLAY_NAME_MAX_LENGTH),
-                AddressTypeId = AddressType.Business.Id,
-                CityId = 1,
-                CountryId = 2,
-                DivisionId = 3,
-                Id = 4,
-                PostalCode = "12345",
-                Street1 = "street1",
-                Street2 = "street2",
-                Street3 = "street3",
-            };
-            var results = new List<ValidationResult>();
-            var actual = Validator.TryValidateObject(model, new ValidationContext(model), results, true);
-
-            Assert.IsTrue(actual);
-            Assert.AreEqual(0, results.Count);
-            model.AddressDisplayName = new String('a', Address.ADDRESS_DISPLAY_NAME_MAX_LENGTH + 1);
-
-            actual = Validator.TryValidateObject(model, new ValidationContext(model), results, true);
-            Assert.IsFalse(actual);
-            Assert.AreEqual(1, results.Count);
-            Assert.AreEqual("AddressDisplayName", results.First().MemberNames.First());
-        }
-
-        [TestMethod]
         public void TestStreet1_MaxLength()
         {
             var model = new OrganizationAddressBindingModel
             {
-                AddressDisplayName = "Display",
+                IsPrimary = true,
                 AddressTypeId = AddressType.Business.Id,
                 CityId = 1,
                 CountryId = 2,
@@ -136,7 +78,7 @@ namespace ECA.WebApi.Test.Models.Admin
         {
             var model = new OrganizationAddressBindingModel
             {
-                AddressDisplayName = "Display",
+                IsPrimary = true,
                 AddressTypeId = AddressType.Business.Id,
                 CityId = 1,
                 CountryId = 2,
@@ -165,7 +107,7 @@ namespace ECA.WebApi.Test.Models.Admin
         {
             var model = new OrganizationAddressBindingModel
             {
-                AddressDisplayName = "Display",
+                IsPrimary = true,
                 AddressTypeId = AddressType.Business.Id,
                 CityId = 1,
                 CountryId = 2,

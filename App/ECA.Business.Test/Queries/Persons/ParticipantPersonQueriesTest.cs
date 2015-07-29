@@ -218,7 +218,7 @@ namespace ECA.Business.Test.Queries.Persons
                Location = location,
                AddressType = addressType,
                AddressTypeId = addressType.AddressTypeId,
-               DisplayName = "display"
+               IsPrimary = true
             };
             
 
@@ -270,10 +270,9 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(address.AddressId, addressResult.AddressId);
             Assert.AreEqual(addressType.AddressTypeId, addressResult.AddressTypeId);
             Assert.AreEqual(addressType.AddressName, addressResult.AddressType);
-            Assert.AreEqual(address.DisplayName, addressResult.AddressDisplayName);
+            Assert.AreEqual(address.IsPrimary, addressResult.IsPrimary);
             Assert.AreEqual(division.LocationId, addressResult.DivisionId);
             Assert.AreEqual(division.LocationName, addressResult.Division);
-
         }
 
         [TestMethod]
@@ -325,7 +324,7 @@ namespace ECA.Business.Test.Queries.Persons
                Location = location,
                AddressType = addressType,
                AddressTypeId = addressType.AddressTypeId,
-               DisplayName = "display",
+               IsPrimary = true
             };
 
             var hostInstitution = new Organization
@@ -374,9 +373,80 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(address.AddressId, addressResult.AddressId);
             Assert.AreEqual(addressType.AddressTypeId, addressResult.AddressTypeId);
             Assert.AreEqual(addressType.AddressName, addressResult.AddressType);
-            Assert.AreEqual(address.DisplayName, addressResult.AddressDisplayName);
+            Assert.AreEqual(address.IsPrimary, addressResult.IsPrimary);
             Assert.AreEqual(division.LocationId, addressResult.DivisionId);
             Assert.AreEqual(division.LocationName, addressResult.Division);
+        }
+
+        [TestMethod]
+        public void TestCreateGetSimpleParticipantPersonsDTOQuery_CheckParticipantType()
+        {
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = 1,
+                Name = "type"
+            };
+
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = 1
+            };
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantPerson.ParticipantId,
+                ProjectId = project.ProjectId,
+                Project = project,
+                ParticipantType = participantType
+            };
+            participantPerson.Participant = participant;
+            project.Participants.Add(participant);
+
+            context.Projects.Add(project);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
+
+            Assert.AreEqual(participantType.Name, participantPersonResult.ParticipantType);
+        }
+
+
+        [TestMethod]
+        public void TestCreateGetSimpleParticipantPersonsDTOQuery_CheckParticipantStatus()
+        {
+            var participantStatus = new ParticipantStatus
+            {
+                ParticipantStatusId = 1,
+                Status = "status"
+            };
+
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = 1
+            };
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantPerson.ParticipantId,
+                ProjectId = project.ProjectId,
+                Project = project,
+                Status = participantStatus
+            };
+            participantPerson.Participant = participant;
+            project.Participants.Add(participant);
+
+            context.Projects.Add(project);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
+
+            Assert.AreEqual(participantStatus.Status, participantPersonResult.ParticipantStatus);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace ECA.WebApi.Test.Models.Admin
         {
             var model = new UpdatedAddressBindingModel
             {
-                AddressDisplayName = "display",
+                IsPrimary = true,
                 AddressTypeId = AddressType.Business.Id,
                 CityId = 1,
                 CountryId = 2,
@@ -27,12 +27,12 @@ namespace ECA.WebApi.Test.Models.Admin
             };
             var user = new User(1);
             var instance = model.ToUpdatedEcaAddress(user);
-            Assert.AreEqual(model.AddressDisplayName, instance.AddressDisplayName);
+            Assert.AreEqual(model.IsPrimary, instance.IsPrimary);
             Assert.AreEqual(model.AddressTypeId, instance.AddressTypeId);
             Assert.AreEqual(model.CityId, instance.CityId);
             Assert.AreEqual(model.CountryId, instance.CountryId);
             Assert.AreEqual(model.DivisionId, instance.DivisionId);
-            Assert.AreEqual(model.AddressDisplayName, instance.LocationName);
+            Assert.IsNull(instance.LocationName);
             Assert.AreEqual(model.PostalCode, instance.PostalCode);
             Assert.AreEqual(model.Street1, instance.Street1);
             Assert.AreEqual(model.Street2, instance.Street2);

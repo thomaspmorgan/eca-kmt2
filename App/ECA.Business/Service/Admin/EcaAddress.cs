@@ -17,7 +17,7 @@ namespace ECA.Business.Service.Admin
         /// Creates a new instance.
         /// </summary>
         /// <param name="addressTypeId">The address type id.</param>
-        /// <param name="addressDisplayName">The address display name.</param>
+        /// <param name="isPrimary">True if the address is the primary address.</param>
         /// <param name="street1">The street 1.</param>
         /// <param name="street2">The street 2.</param>
         /// <param name="street3">The street 3.</param>
@@ -28,7 +28,7 @@ namespace ECA.Business.Service.Admin
         /// <param name="divisionId">The divison id.</param>
         public EcaAddress(
             int addressTypeId,
-            string addressDisplayName,
+            bool isPrimary,
             string street1,
             string street2,
             string street3,
@@ -43,7 +43,7 @@ namespace ECA.Business.Service.Admin
             {
                 throw new UnknownStaticLookupException(String.Format("The address type id [{0}] is not known.", addressTypeId));
             }
-            this.AddressDisplayName = addressDisplayName;
+            this.IsPrimary = isPrimary;
             this.LocationTypeId = LocationType.Address.Id;
             this.AddressTypeId = addressTypeId;
             this.Street1 = street1;
@@ -57,9 +57,9 @@ namespace ECA.Business.Service.Admin
         }
 
         /// <summary>
-        /// Gets or sets the address display name.
+        /// Gets or sets whether or not the address is the primary address.
         /// </summary>
-        public string AddressDisplayName { get; private set; }
+        public bool IsPrimary { get; private set; }
 
         /// <summary>
         /// Gets or sets the address type id.

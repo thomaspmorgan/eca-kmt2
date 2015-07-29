@@ -74,5 +74,14 @@ namespace ECA.WebApi.Test.Controllers.Admin
             var response = await controller.GetSocialMediaTypesAsync(new PagingQueryBindingModel<SocialMediaTypeDTO>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
+
+        [TestMethod]
+        public async Task TestDeleteSocialMedia()
+        {
+            var response = await controller.DeleteSocialMedia(1);
+            Assert.IsInstanceOfType(response, typeof(OkResult));
+            socialMediaService.Verify(x => x.DeleteAsync(It.IsAny<int>()), Times.Once());
+            socialMediaService.Verify(x => x.SaveChangesAsync(), Times.Once());
+        }
     }
 }

@@ -13,6 +13,9 @@ angular.module('staticApp')
       var service = {
           update: function (address) {
               return DragonBreath.save(address, 'addresses');
+          },
+          delete: function (address) {
+              return DragonBreath.delete(address, 'addresses/' + address.addressId);
           }
       };
       return service;

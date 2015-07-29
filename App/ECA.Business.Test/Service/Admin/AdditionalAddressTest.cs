@@ -17,7 +17,7 @@ namespace ECA.Business.Test.Service.Admin
         public AdditionalAddressTestClass(
             User creator,
             int addressTypeId,
-            string addressDisplayName,
+            bool isPrimary,
             string street1,
             string street2,
             string street3,
@@ -28,7 +28,7 @@ namespace ECA.Business.Test.Service.Admin
             int divisionId,
             int testId
             )
-            : base(creator, addressTypeId, addressDisplayName, street1, street2, street3, postalCode, locationName, countryId, cityId, divisionId)
+            : base(creator, addressTypeId, isPrimary, street1, street2, street3, postalCode, locationName, countryId, cityId, divisionId)
         {
             this.testId = testId;
         }
@@ -37,6 +37,11 @@ namespace ECA.Business.Test.Service.Admin
         public override int GetAddressableEntityId()
         {
             return testId;
+        }
+
+        public override IQueryable<Address> CreateGetAddressesQuery(EcaContext context)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -66,7 +71,7 @@ namespace ECA.Business.Test.Service.Admin
             var userId = 1;
             var user = new User(userId);
             var addressTypeId = AddressType.Business.Id;
-            var displayName = "display";
+            var isPrimary = true;
             var street1 = "street1";
             var street2 = "street2";
             var street3 = "street3";
@@ -79,7 +84,7 @@ namespace ECA.Business.Test.Service.Admin
             var instance = new AdditionalAddressTestClass(
                 user,
                 addressTypeId,
-                displayName,
+                isPrimary,
                 street1,
                 street2,
                 street3,
@@ -102,7 +107,7 @@ namespace ECA.Business.Test.Service.Admin
             var userId = 1;
             var user = new User(userId);
             var addressTypeId = AddressType.Business.Id;
-            var displayName = "display";
+            var isPrimary = true;
             var street1 = "street1";
             var street2 = "street2";
             var street3 = "street3";
@@ -115,7 +120,7 @@ namespace ECA.Business.Test.Service.Admin
             var instance = new AdditionalAddressTestClass(
                 user,
                 addressTypeId,
-                displayName,
+                isPrimary,
                 street1,
                 street2,
                 street3,
@@ -151,7 +156,7 @@ namespace ECA.Business.Test.Service.Admin
             var userId = 1;
             var user = new User(userId);
             var addressTypeId = AddressType.Business.Id;
-            var displayName = "display";
+            var isPrimary = true;
             var street1 = "street1";
             var street2 = "street2";
             var street3 = "street3";
@@ -164,7 +169,7 @@ namespace ECA.Business.Test.Service.Admin
             var instance = new AdditionalAddressTestClass(
                 user,
                 addressTypeId,
-                displayName,
+                isPrimary,
                 street1,
                 street2,
                 street3,
@@ -180,7 +185,7 @@ namespace ECA.Business.Test.Service.Admin
             Assert.IsNotNull(address);
             Assert.IsNotNull(address.Location);
             Assert.AreEqual(addressTypeId, address.AddressTypeId);
-            Assert.AreEqual(displayName, address.DisplayName);
+            Assert.AreEqual(isPrimary, address.IsPrimary);
             Assert.AreEqual(1, address.History.CreatedBy);
             Assert.AreEqual(1, address.History.RevisedBy);
             DateTimeOffset.Now.Should().BeCloseTo(address.History.CreatedOn, 2000);
@@ -194,7 +199,7 @@ namespace ECA.Business.Test.Service.Admin
             var userId = 1;
             var user = new User(userId);
             var addressTypeId = AddressType.Business.Id;
-            var displayName = "display";
+            var isPrimary = true;
             var street1 = "street1";
             var street2 = "street2";
             var street3 = "street3";
@@ -207,7 +212,7 @@ namespace ECA.Business.Test.Service.Admin
             var instance = new AdditionalAddressTestClass(
                 user,
                 addressTypeId,
-                displayName,
+                isPrimary,
                 street1,
                 street2,
                 street3,
@@ -238,7 +243,7 @@ namespace ECA.Business.Test.Service.Admin
             Assert.AreEqual(street3, location.Street3);
             Assert.AreEqual(0, location.LocationId);
             Assert.AreEqual(addressTypeId, address.AddressTypeId);
-            Assert.AreEqual(displayName, address.DisplayName);
+            Assert.AreEqual(isPrimary, address.IsPrimary);
             Assert.AreEqual(1, address.History.CreatedBy);
             Assert.AreEqual(1, address.History.RevisedBy);
             DateTimeOffset.Now.Should().BeCloseTo(address.History.CreatedOn, 2000);

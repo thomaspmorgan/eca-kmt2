@@ -2,7 +2,7 @@
     [AddressId]         INT                IDENTITY (1, 1) NOT NULL,
     [AddressTypeId]     INT                NOT NULL,
     [LocationId]        INT                NOT NULL,
-    [DisplayName]       NVARCHAR (300)     NOT NULL,
+	[IsPrimary]			BIT				   NOT NULL DEFAULT(0),
     [PersonId]          INT                NULL,
     [OrganizationId]    INT                NULL,
     [History_CreatedBy] INT                NOT NULL,

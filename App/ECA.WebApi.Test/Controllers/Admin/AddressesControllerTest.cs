@@ -33,6 +33,15 @@ namespace ECA.WebApi.Test.Controllers.Admin
         }
 
         [TestMethod]
+        public async Task TestDeleteAddressAsync()
+        {
+            var response = await controller.DeleteAddressAsync(1);
+            Assert.IsInstanceOfType(response, typeof(OkResult));
+            locationService.Verify(x => x.DeleteAsync(It.IsAny<int>()), Times.Once());
+            locationService.Verify(x => x.SaveChangesAsync(), Times.Once());
+        }
+
+        [TestMethod]
         public async Task TestPutUpdateAddressAsync()
         {
             var model = new UpdatedAddressBindingModel

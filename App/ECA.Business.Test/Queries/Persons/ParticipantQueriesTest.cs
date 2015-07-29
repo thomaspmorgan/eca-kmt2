@@ -68,7 +68,7 @@ namespace ECA.Business.Test.Queries.Persons
         }
 
         [TestMethod]
-        public void TestCreateGetPersonParticipantsQuery_CheckProperties_HasAddress()
+        public void TestCreateGetPersonParticipantsQuery_CheckProperties_HasPrimaryAddress()
         {
             var participantType = new ParticipantType
             {
@@ -98,6 +98,7 @@ namespace ECA.Business.Test.Queries.Persons
             };
             var address = new Address
             {
+                IsPrimary = true,
                 Location = new Location
                 {
                     City = new Location
@@ -111,6 +112,84 @@ namespace ECA.Business.Test.Queries.Persons
                 }
             };
             person.Addresses.Add(address);
+            address.Person = person;
+            context.ParticipantTypes.Add(participantType);
+            context.Genders.Add(gender);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+
+            var results = ParticipantQueries.CreateGetPersonParticipantsQuery(context);
+            Assert.AreEqual(1, results.Count());
+            var participantResult = results.First();
+
+            //Assert all org properties are null
+            Assert.IsFalse(participantResult.OrganizationId.HasValue);
+            Assert.AreEqual(address.Location.City.LocationName, participantResult.City);
+            Assert.AreEqual(address.Location.Country.LocationName, participantResult.Country);
+
+        }
+
+        [TestMethod]
+        public void TestCreateGetPersonParticipantsQuery_CheckUsesPrimaryAddress()
+        {
+            var participantType = new ParticipantType
+            {
+                Name = ParticipantType.Individual.Value,
+                ParticipantTypeId = ParticipantType.Individual.Id,
+            };
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
+            var person = new Person
+            {
+                PersonId = 1,
+                Gender = gender,
+                GenderId = gender.GenderId,
+                FirstName = "first",
+                LastName = "last",
+            };
+
+            var participant = new Participant
+            {
+                Person = person,
+                PersonId = person.PersonId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId
+            };
+            var address = new Address
+            {
+                IsPrimary = true,
+                Location = new Location
+                {
+                    City = new Location
+                    {
+                        LocationName = "city"
+                    },
+                    Country = new Location
+                    {
+                        LocationName = "country"
+                    }
+                }
+            };
+            var otherAddress = new Address
+            {
+                IsPrimary = false,
+                Location = new Location
+                {
+                    City = new Location
+                    {
+                        LocationName = "other city"
+                    },
+                    Country = new Location
+                    {
+                        LocationName = "other country"
+                    }
+                }
+            };
+            person.Addresses.Add(address);
+            person.Addresses.Add(otherAddress);
             address.Person = person;
             context.ParticipantTypes.Add(participantType);
             context.Genders.Add(gender);
@@ -290,7 +369,7 @@ namespace ECA.Business.Test.Queries.Persons
         }
 
         [TestMethod]
-        public void TestCreateGetOrganizationParticipantsQuery_HasAddress()
+        public void TestCreateGetOrganizationParticipantsQuery_HasPrimaryAddress()
         {
             var participantType = new ParticipantType
             {
@@ -312,6 +391,7 @@ namespace ECA.Business.Test.Queries.Persons
             };
             var address = new Address
             {
+                IsPrimary = true,
                 Location = new Location
                 {
                     City = new Location
@@ -332,6 +412,78 @@ namespace ECA.Business.Test.Queries.Persons
             context.Organizations.Add(organization);
             context.Participants.Add(participant);
 
+
+            var results = ParticipantQueries.CreateGetOrganizationParticipantsQuery(context);
+            Assert.AreEqual(1, results.Count());
+            var participantResult = results.First();
+            //Assert all org properties are null
+            Assert.IsFalse(participantResult.PersonId.HasValue);
+            Assert.AreEqual(participantType.ParticipantTypeId, participantResult.ParticipantTypeId);
+            Assert.AreEqual(participantType.Name, participantResult.ParticipantType);
+            Assert.AreEqual(organization.Name, participantResult.Name);
+            Assert.AreEqual(address.Location.City.LocationName, participantResult.City);
+            Assert.AreEqual(address.Location.Country.LocationName, participantResult.Country);
+        }
+
+        [TestMethod]
+        public void TestCreateGetOrganizationParticipantsQuery_CheckUsesPrimaryAddress()
+        {
+            var participantType = new ParticipantType
+            {
+                Name = ParticipantType.PublicInternationalOrganizationPio.Value,
+                ParticipantTypeId = ParticipantType.PublicInternationalOrganizationPio.Id,
+            };
+            var organization = new Organization
+            {
+                OrganizationId = 1,
+                Name = "org name"
+            };
+
+            var participant = new Participant
+            {
+                Organization = organization,
+                OrganizationId = organization.OrganizationId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId
+            };
+            var address = new Address
+            {
+                IsPrimary = true,
+                Location = new Location
+                {
+                    City = new Location
+                    {
+                        LocationName = "city"
+                    },
+                    Country = new Location
+                    {
+                        LocationName = "country"
+                    }
+                }
+            };
+            var otherAddress = new Address
+            {
+                IsPrimary = false,
+                Location = new Location
+                {
+                    City = new Location
+                    {
+                        LocationName = "other city"
+                    },
+                    Country = new Location
+                    {
+                        LocationName = "other country"
+                    }
+                }
+            };
+            organization.Addresses.Add(address);
+            organization.Addresses.Add(otherAddress);
+            context.Addresses.Add(address);
+            context.Locations.Add(address.Location);
+            context.Locations.Add(address.Location.Country);
+            context.ParticipantTypes.Add(participantType);
+            context.Organizations.Add(organization);
+            context.Participants.Add(participant);
 
             var results = ParticipantQueries.CreateGetOrganizationParticipantsQuery(context);
             Assert.AreEqual(1, results.Count());

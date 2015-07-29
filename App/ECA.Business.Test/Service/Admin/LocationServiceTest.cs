@@ -81,7 +81,7 @@ namespace ECA.Business.Test.Service.Programs
                 LocationTypeId = locationType.LocationTypeId,
                 LocationType = locationType,
             };
-            
+
             var location = new Location
             {
                 LocationId = 2,
@@ -454,6 +454,107 @@ namespace ECA.Business.Test.Service.Programs
         #endregion
 
         #region Address
+
+        [TestMethod]
+        public async Task TestDelete()
+        {
+            var location = new Location
+            {
+                LocationId = 1
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                Location = location,
+                LocationId = location.LocationId
+            };
+            context.SetupActions.Add(() =>
+            {
+                context.Locations.Add(location);
+                context.Addresses.Add(address);
+            });
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(1, context.Addresses.Count());
+                Assert.AreEqual(1, context.Locations.Count());
+            };
+            Action afterTester = () =>
+            {
+                Assert.AreEqual(0, context.Addresses.Count());
+                Assert.AreEqual(0, context.Locations.Count());
+            };
+            context.Revert();
+            beforeTester();
+            service.Delete(address.AddressId);
+            afterTester();
+
+            context.Revert();
+            beforeTester();
+            await service.DeleteAsync(address.AddressId);
+            afterTester();
+
+        }
+
+        [TestMethod]
+        public async Task TestDelete_LocationDoesNotExist()
+        {
+            var address = new Address
+            {
+                AddressId = 1,
+            };
+            context.SetupActions.Add(() =>
+            {
+                context.Addresses.Add(address);
+            });
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(1, context.Addresses.Count());
+                Assert.AreEqual(0, context.Locations.Count());
+            };
+            Action afterTester = () =>
+            {
+                Assert.AreEqual(0, context.Addresses.Count());
+                Assert.AreEqual(0, context.Locations.Count());
+            };
+            context.Revert();
+            beforeTester();
+            service.Delete(address.AddressId);
+            afterTester();
+
+            context.Revert();
+            beforeTester();
+            await service.DeleteAsync(address.AddressId);
+            afterTester();
+
+        }
+
+        [TestMethod]
+        public async Task TestDelete_AddressDoesNotExist()
+        {
+            var location = new Location
+            {
+                LocationId = 1
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                Location = location,
+                LocationId = location.LocationId
+            };
+            context.Addresses.Add(address);
+            context.Locations.Add(location);
+            Action tester = () =>
+            {
+                Assert.AreEqual(1, context.Addresses.Count());
+                Assert.AreEqual(1, context.Locations.Count());
+            };
+            service.Delete(2);
+            tester();
+
+            await service.DeleteAsync(2);
+            tester();
+        }
+
         [TestMethod]
         public async Task TestCreate_CheckProperties()
         {
@@ -484,7 +585,7 @@ namespace ECA.Business.Test.Service.Programs
                 var userId = 1;
                 var user = new User(userId);
                 var addressTypeId = AddressType.Business.Id;
-                var displayName = "display";
+                var isPrimary = true;
                 var street1 = "street1";
                 var street2 = "street2";
                 var street3 = "street3";
@@ -497,7 +598,7 @@ namespace ECA.Business.Test.Service.Programs
                 var instance = new AdditionalOrganizationAddress(
                     user,
                     addressTypeId,
-                    displayName,
+                    isPrimary,
                     street1,
                     street2,
                     street3,
@@ -539,7 +640,7 @@ namespace ECA.Business.Test.Service.Programs
                     var location = organizationAddress.Location;
 
                     Assert.AreEqual(addressTypeId, organizationAddress.AddressTypeId);
-                    Assert.AreEqual(displayName, organizationAddress.DisplayName);
+                    Assert.AreEqual(isPrimary, organizationAddress.IsPrimary);
                     Assert.AreEqual(userId, organizationAddress.History.CreatedBy);
                     Assert.AreEqual(userId, organizationAddress.History.RevisedBy);
                     DateTimeOffset.Now.Should().BeCloseTo(organizationAddress.History.CreatedOn, 2000);
@@ -575,6 +676,217 @@ namespace ECA.Business.Test.Service.Programs
         }
 
         [TestMethod]
+        public async Task TestCreate_AddressableHasPrimaryAddress()
+        {
+            using (ShimsContext.Create())
+            {
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.SetOf1<Organization>((c) =>
+                {
+                    return context.Organizations;
+                });
+
+                var organizationId = 5;
+                var organization = new Organization
+                {
+                    OrganizationId = organizationId
+                };
+                var city = new Location
+                {
+                    LocationId = 1,
+                };
+                var country = new Location
+                {
+                    LocationId = 2,
+                };
+                var division = new Location
+                {
+                    LocationId = 3,
+                };
+                var existingPrimaryAddress = new Address
+                {
+                    AddressId = 10,
+                    IsPrimary = true,
+                    Organization = organization,
+                    OrganizationId = organization.OrganizationId
+                };
+
+                var userId = 1;
+                var user = new User(userId);
+                var addressTypeId = AddressType.Business.Id;
+                var isPrimary = true;
+                var street1 = "street1";
+                var street2 = "street2";
+                var street3 = "street3";
+                var postalCode = "12345";
+                var locationName = "location name";
+                var countryId = country.LocationId;
+                var cityId = city.LocationId;
+                var divisionId = division.LocationId;
+
+                var instance = new AdditionalOrganizationAddress(
+                    user,
+                    addressTypeId,
+                    isPrimary,
+                    street1,
+                    street2,
+                    street3,
+                    postalCode,
+                    locationName,
+                    countryId,
+                    cityId,
+                    divisionId,
+                    organizationId
+                );
+
+                context.SetupActions.Add(() =>
+                {
+                    context.Organizations.Add(organization);
+                    context.Addresses.Add(existingPrimaryAddress);
+                    existingPrimaryAddress.IsPrimary = true;
+                    organization.Addresses.Clear();
+                    organization.Addresses.Add(existingPrimaryAddress);
+                    context.Locations.Add(city);
+                    context.Locations.Add(country);
+                    context.Locations.Add(division);
+
+                });
+                Action beforeTester = () =>
+                {
+
+                    Assert.AreEqual(1, context.Organizations.Count());
+                    Assert.AreEqual(1, organization.Addresses.Count);
+                    Assert.AreEqual(1, context.Addresses.Count());
+                    Assert.AreEqual(3, context.Locations.Count());
+                };
+
+                Action afterTester = () =>
+                {
+                    Assert.IsFalse(existingPrimaryAddress.IsPrimary);
+                    Assert.AreEqual(2, context.Addresses.Count());
+                    var addedAddress = context.Addresses.Where(x => x.AddressId != existingPrimaryAddress.AddressId).FirstOrDefault();
+                    Assert.IsTrue(addedAddress.IsPrimary);
+                };
+
+                context.Revert();
+                beforeTester();
+                service.Create<Organization>(instance);
+                afterTester();
+                addressValidator.Verify(x => x.ValidateCreate(It.IsAny<EcaAddressValidationEntity>()), Times.Once());
+
+                context.Revert();
+                beforeTester();
+                await service.CreateAsync<Organization>(instance);
+                afterTester();
+                addressValidator.Verify(x => x.ValidateCreate(It.IsAny<EcaAddressValidationEntity>()), Times.Exactly(2));
+            }
+        }
+
+        [TestMethod]
+        public async Task TestCreate_AddressableDoesNotHavePrimaryAddress()
+        {
+            using (ShimsContext.Create())
+            {
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.SetOf1<Organization>((c) =>
+                {
+                    return context.Organizations;
+                });
+
+                var organizationId = 5;
+                var organization = new Organization
+                {
+                    OrganizationId = organizationId
+                };
+                var city = new Location
+                {
+                    LocationId = 1,
+                };
+                var country = new Location
+                {
+                    LocationId = 2,
+                };
+                var division = new Location
+                {
+                    LocationId = 3,
+                };
+                var existingPrimaryAddress = new Address
+                {
+                    AddressId = 10,
+                    IsPrimary = false,
+                    Organization = organization,
+                    OrganizationId = organization.OrganizationId
+                };
+
+                var userId = 1;
+                var user = new User(userId);
+                var addressTypeId = AddressType.Business.Id;
+                var isPrimary = false;
+                var street1 = "street1";
+                var street2 = "street2";
+                var street3 = "street3";
+                var postalCode = "12345";
+                var locationName = "location name";
+                var countryId = country.LocationId;
+                var cityId = city.LocationId;
+                var divisionId = division.LocationId;
+
+                var instance = new AdditionalOrganizationAddress(
+                    user,
+                    addressTypeId,
+                    isPrimary,
+                    street1,
+                    street2,
+                    street3,
+                    postalCode,
+                    locationName,
+                    countryId,
+                    cityId,
+                    divisionId,
+                    organizationId
+                );
+
+                context.SetupActions.Add(() =>
+                {
+                    context.Organizations.Add(organization);
+                    context.Addresses.Add(existingPrimaryAddress);
+                    existingPrimaryAddress.IsPrimary = false;
+                    organization.Addresses.Clear();
+                    organization.Addresses.Add(existingPrimaryAddress);
+                    context.Locations.Add(city);
+                    context.Locations.Add(country);
+                    context.Locations.Add(division);
+
+                });
+                Action beforeTester = () =>
+                {
+
+                    Assert.AreEqual(1, context.Organizations.Count());
+                    Assert.AreEqual(1, organization.Addresses.Count);
+                    Assert.AreEqual(1, context.Addresses.Count());
+                    Assert.AreEqual(3, context.Locations.Count());
+                };
+
+                Action afterTester = () =>
+                {
+                    Assert.IsFalse(existingPrimaryAddress.IsPrimary);
+                    Assert.AreEqual(2, context.Addresses.Count());
+                    Assert.AreEqual(2, context.Addresses.Where(x => !x.IsPrimary).Count());
+                };
+
+                context.Revert();
+                beforeTester();
+                service.Create<Organization>(instance);
+                afterTester();
+                addressValidator.Verify(x => x.ValidateCreate(It.IsAny<EcaAddressValidationEntity>()), Times.Once());
+
+                context.Revert();
+                beforeTester();
+                await service.CreateAsync<Organization>(instance);
+                afterTester();
+                addressValidator.Verify(x => x.ValidateCreate(It.IsAny<EcaAddressValidationEntity>()), Times.Exactly(2));
+            }
+        }
+
+        [TestMethod]
         public async Task TestCreate_OrganizationDoesNotExist()
         {
             using (ShimsContext.Create())
@@ -588,7 +900,7 @@ namespace ECA.Business.Test.Service.Programs
                 var userId = 1;
                 var user = new User(userId);
                 var addressTypeId = AddressType.Business.Id;
-                var displayName = "display";
+                var isPrimary = true;
                 var street1 = "street1";
                 var street2 = "street2";
                 var street3 = "street3";
@@ -601,7 +913,7 @@ namespace ECA.Business.Test.Service.Programs
                 var instance = new AdditionalOrganizationAddress(
                     user,
                     addressTypeId,
-                    displayName,
+                    isPrimary,
                     street1,
                     street2,
                     street3,
@@ -650,7 +962,7 @@ namespace ECA.Business.Test.Service.Programs
                 var userId = 1;
                 var user = new User(userId);
                 var addressTypeId = AddressType.Business.Id;
-                var displayName = "display";
+                var isPrimary = true;
                 var street1 = "street1";
                 var street2 = "street2";
                 var street3 = "street3";
@@ -663,7 +975,7 @@ namespace ECA.Business.Test.Service.Programs
                 var instance = new AdditionalOrganizationAddress(
                     user,
                     addressTypeId,
-                    displayName,
+                    isPrimary,
                     street1,
                     street2,
                     street3,
@@ -721,7 +1033,7 @@ namespace ECA.Business.Test.Service.Programs
                 var userId = 1;
                 var user = new User(userId);
                 var addressTypeId = AddressType.Business.Id;
-                var displayName = "display";
+                var isPrimary = true;
                 var street1 = "street1";
                 var street2 = "street2";
                 var street3 = "street3";
@@ -734,7 +1046,7 @@ namespace ECA.Business.Test.Service.Programs
                 var instance = new AdditionalOrganizationAddress(
                     user,
                     addressTypeId,
-                    displayName,
+                    isPrimary,
                     street1,
                     street2,
                     street3,
@@ -792,7 +1104,7 @@ namespace ECA.Business.Test.Service.Programs
                 var userId = 1;
                 var user = new User(userId);
                 var addressTypeId = AddressType.Business.Id;
-                var displayName = "display";
+                var isPrimary = true;
                 var street1 = "street1";
                 var street2 = "street2";
                 var street3 = "street3";
@@ -805,7 +1117,7 @@ namespace ECA.Business.Test.Service.Programs
                 var instance = new AdditionalOrganizationAddress(
                     user,
                     addressTypeId,
-                    displayName,
+                    isPrimary,
                     street1,
                     street2,
                     street3,
@@ -889,7 +1201,7 @@ namespace ECA.Business.Test.Service.Programs
 
             var user = new User(updatorId);
             var addressTypeId = homeAddressType.AddressTypeId;
-            var displayName = "display";
+            var isPrimary = true;
             var street1 = "street1";
             var street2 = "street2";
             var street3 = "street3";
@@ -902,7 +1214,7 @@ namespace ECA.Business.Test.Service.Programs
                 user,
                 addressId,
                 homeAddressType.AddressTypeId,
-                displayName,
+                isPrimary,
                 street1,
                 street2,
                 street3,
@@ -917,7 +1229,7 @@ namespace ECA.Business.Test.Service.Programs
             {
                 Assert.AreEqual(1, context.Addresses.Count());
                 Assert.AreEqual(addressTypeId, address.AddressTypeId);
-                Assert.AreEqual(displayName, address.DisplayName);
+                Assert.AreEqual(isPrimary, address.IsPrimary);
                 Assert.AreEqual(creatorId, address.History.CreatedBy);
                 Assert.AreEqual(yesterday, address.History.CreatedOn);
                 Assert.AreEqual(updatorId, address.History.RevisedBy);
@@ -953,7 +1265,7 @@ namespace ECA.Business.Test.Service.Programs
                     AddressId = addressId,
                     AddressType = businessAddressType,
                     AddressTypeId = businessAddressType.AddressTypeId,
-                    DisplayName = "old display",
+                    IsPrimary = false,
                     Location = addressLocation,
                     LocationId = addressLocation.LocationId
                 };
@@ -977,6 +1289,454 @@ namespace ECA.Business.Test.Service.Programs
                 context.Locations.Add(london);
                 context.Locations.Add(addressLocation);
                 context.Addresses.Add(address);
+            });
+            context.Revert();
+            service.Update(instance);
+            tester();
+            addressValidator.Verify(x => x.ValidateUpdate(It.IsAny<EcaAddressValidationEntity>()), Times.Once());
+
+            context.Revert();
+            await service.UpdateAsync(instance);
+            tester();
+            addressValidator.Verify(x => x.ValidateUpdate(It.IsAny<EcaAddressValidationEntity>()), Times.Exactly(2));
+        }
+
+
+        [TestMethod]
+        public async Task TestUpdate_HasExistingPrimaryAddress_UpdatedAddressIsPrimary()
+        {
+            var creatorId = 1;
+            var updatorId = 2;
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var addressLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.Address.Id,
+                LocationTypeName = LocationType.Address.Value
+            };
+            var businessAddressType = new AddressType
+            {
+                AddressName = AddressType.Business.Value,
+                AddressTypeId = AddressType.Business.Id
+            };
+            var homeAddressType = new AddressType
+            {
+                AddressName = AddressType.Home.Value,
+                AddressTypeId = AddressType.Home.Id
+            };
+            var organizationId = 2;
+            var organization = new Organization
+            {
+                OrganizationId = organizationId
+            };
+            var usa = new Location
+            {
+                LocationId = 1,
+                LocationName = "USA"
+            };
+            var england = new Location
+            {
+                LocationId = 2,
+                LocationName = "England"
+            };
+            var nashville = new Location
+            {
+                LocationId = 3,
+                LocationName = "nashville",
+            };
+            var london = new Location
+            {
+                LocationId = 4,
+                LocationName = "london"
+            };
+            var addressId = 1;
+            var primaryAddressId = 2;
+            Location addressLocation = null;
+            Address address = null;
+            Address primaryAddress = null;
+
+            var user = new User(updatorId);
+            var addressTypeId = homeAddressType.AddressTypeId;
+            var isPrimary = true;
+            var street1 = "street1";
+            var street2 = "street2";
+            var street3 = "street3";
+            var postalCode = "12345";
+            var locationName = "location name";
+            var countryId = 2;
+            var cityId = 3;
+            var divisionId = 4;
+            var instance = new UpdatedEcaAddress(
+                user,
+                addressId,
+                homeAddressType.AddressTypeId,
+                isPrimary,
+                street1,
+                street2,
+                street3,
+                postalCode,
+                locationName,
+                countryId,
+                cityId,
+                divisionId
+                );
+
+            Action tester = () =>
+            {
+                Assert.IsFalse(context.Addresses.Where(x => x.AddressId == primaryAddressId).FirstOrDefault().IsPrimary);
+                Assert.IsTrue(context.Addresses.Where(x => x.AddressId == addressId).FirstOrDefault().IsPrimary);
+            };
+            context.SetupActions.Add(() =>
+            {
+                addressLocation = new Location
+                {
+                    LocationName = "old location name",
+                    LocationType = addressLocationType,
+                    LocationId = 5,
+                    LocationTypeId = addressLocationType.LocationTypeId,
+                };
+                addressLocation.History.CreatedBy = creatorId;
+                addressLocation.History.CreatedOn = yesterday;
+                addressLocation.History.RevisedBy = creatorId;
+
+                address = new Address
+                {
+                    AddressId = addressId,
+                    AddressType = businessAddressType,
+                    AddressTypeId = businessAddressType.AddressTypeId,
+                    IsPrimary = false,
+                    Location = addressLocation,
+                    LocationId = addressLocation.LocationId,
+
+                };
+                primaryAddress = new Address
+                {
+                    AddressId = primaryAddressId,
+                    AddressType = businessAddressType,
+                    AddressTypeId = businessAddressType.AddressTypeId,
+                    IsPrimary = true,
+                    Location = addressLocation,
+                    LocationId = addressLocation.LocationId
+                };
+                address.History.CreatedBy = creatorId;
+                address.History.CreatedOn = yesterday;
+                address.History.RevisedBy = creatorId;
+                address.History.RevisedOn = yesterday;
+                organization.Addresses.Add(address);
+
+                addressLocation.History.RevisedOn = yesterday;
+                organization.Addresses.Clear();
+                organization.Addresses.Add(address);
+                organization.Addresses.Add(primaryAddress);
+
+                context.LocationTypes.Add(addressLocationType);
+                context.AddressTypes.Add(businessAddressType);
+                context.AddressTypes.Add(homeAddressType);
+                context.Organizations.Add(organization);
+                context.Locations.Add(usa);
+                context.Locations.Add(england);
+                context.Locations.Add(nashville);
+                context.Locations.Add(london);
+                context.Locations.Add(addressLocation);
+                context.Addresses.Add(address);
+                context.Addresses.Add(primaryAddress);
+            });
+            context.Revert();
+            service.Update(instance);
+            tester();
+            addressValidator.Verify(x => x.ValidateUpdate(It.IsAny<EcaAddressValidationEntity>()), Times.Once());
+
+            context.Revert();
+            await service.UpdateAsync(instance);
+            tester();
+            addressValidator.Verify(x => x.ValidateUpdate(It.IsAny<EcaAddressValidationEntity>()), Times.Exactly(2));
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_HasExistingPrimaryAddress_UpdatedAddressIsNotPrimary()
+        {
+            var creatorId = 1;
+            var updatorId = 2;
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var addressLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.Address.Id,
+                LocationTypeName = LocationType.Address.Value
+            };
+            var businessAddressType = new AddressType
+            {
+                AddressName = AddressType.Business.Value,
+                AddressTypeId = AddressType.Business.Id
+            };
+            var homeAddressType = new AddressType
+            {
+                AddressName = AddressType.Home.Value,
+                AddressTypeId = AddressType.Home.Id
+            };
+            var organizationId = 2;
+            var organization = new Organization
+            {
+                OrganizationId = organizationId
+            };
+            var usa = new Location
+            {
+                LocationId = 1,
+                LocationName = "USA"
+            };
+            var england = new Location
+            {
+                LocationId = 2,
+                LocationName = "England"
+            };
+            var nashville = new Location
+            {
+                LocationId = 3,
+                LocationName = "nashville",
+            };
+            var london = new Location
+            {
+                LocationId = 4,
+                LocationName = "london"
+            };
+            var addressId = 1;
+            var primaryAddressId = 2;
+            Location addressLocation = null;
+            Address address = null;
+            Address primaryAddress = null;
+
+            var user = new User(updatorId);
+            var addressTypeId = homeAddressType.AddressTypeId;
+            var isPrimary = false;
+            var street1 = "street1";
+            var street2 = "street2";
+            var street3 = "street3";
+            var postalCode = "12345";
+            var locationName = "location name";
+            var countryId = 2;
+            var cityId = 3;
+            var divisionId = 4;
+            var instance = new UpdatedEcaAddress(
+                user,
+                addressId,
+                homeAddressType.AddressTypeId,
+                isPrimary,
+                street1,
+                street2,
+                street3,
+                postalCode,
+                locationName,
+                countryId,
+                cityId,
+                divisionId
+                );
+
+            Action tester = () =>
+            {
+                Assert.IsTrue(context.Addresses.Where(x => x.AddressId == primaryAddressId).FirstOrDefault().IsPrimary);
+                Assert.IsFalse(context.Addresses.Where(x => x.AddressId == addressId).FirstOrDefault().IsPrimary);
+            };
+            context.SetupActions.Add(() =>
+            {
+                addressLocation = new Location
+                {
+                    LocationName = "old location name",
+                    LocationType = addressLocationType,
+                    LocationId = 5,
+                    LocationTypeId = addressLocationType.LocationTypeId,
+                };
+                addressLocation.History.CreatedBy = creatorId;
+                addressLocation.History.CreatedOn = yesterday;
+                addressLocation.History.RevisedBy = creatorId;
+
+                address = new Address
+                {
+                    AddressId = addressId,
+                    AddressType = businessAddressType,
+                    AddressTypeId = businessAddressType.AddressTypeId,
+                    IsPrimary = false,
+                    Location = addressLocation,
+                    LocationId = addressLocation.LocationId,
+
+                };
+                primaryAddress = new Address
+                {
+                    AddressId = primaryAddressId,
+                    AddressType = businessAddressType,
+                    AddressTypeId = businessAddressType.AddressTypeId,
+                    IsPrimary = true,
+                    Location = addressLocation,
+                    LocationId = addressLocation.LocationId
+                };
+                address.History.CreatedBy = creatorId;
+                address.History.CreatedOn = yesterday;
+                address.History.RevisedBy = creatorId;
+                address.History.RevisedOn = yesterday;
+                organization.Addresses.Add(address);
+
+                addressLocation.History.RevisedOn = yesterday;
+                organization.Addresses.Clear();
+                organization.Addresses.Add(address);
+                organization.Addresses.Add(primaryAddress);
+
+                context.LocationTypes.Add(addressLocationType);
+                context.AddressTypes.Add(businessAddressType);
+                context.AddressTypes.Add(homeAddressType);
+                context.Organizations.Add(organization);
+                context.Locations.Add(usa);
+                context.Locations.Add(england);
+                context.Locations.Add(nashville);
+                context.Locations.Add(london);
+                context.Locations.Add(addressLocation);
+                context.Addresses.Add(address);
+                context.Addresses.Add(primaryAddress);
+            });
+            context.Revert();
+            service.Update(instance);
+            tester();
+            addressValidator.Verify(x => x.ValidateUpdate(It.IsAny<EcaAddressValidationEntity>()), Times.Once());
+
+            context.Revert();
+            await service.UpdateAsync(instance);
+            tester();
+            addressValidator.Verify(x => x.ValidateUpdate(It.IsAny<EcaAddressValidationEntity>()), Times.Exactly(2));
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_AllAddressesNotPrimary()
+        {
+            var creatorId = 1;
+            var updatorId = 2;
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var addressLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.Address.Id,
+                LocationTypeName = LocationType.Address.Value
+            };
+            var businessAddressType = new AddressType
+            {
+                AddressName = AddressType.Business.Value,
+                AddressTypeId = AddressType.Business.Id
+            };
+            var homeAddressType = new AddressType
+            {
+                AddressName = AddressType.Home.Value,
+                AddressTypeId = AddressType.Home.Id
+            };
+            var organizationId = 2;
+            var organization = new Organization
+            {
+                OrganizationId = organizationId
+            };
+            var usa = new Location
+            {
+                LocationId = 1,
+                LocationName = "USA"
+            };
+            var england = new Location
+            {
+                LocationId = 2,
+                LocationName = "England"
+            };
+            var nashville = new Location
+            {
+                LocationId = 3,
+                LocationName = "nashville",
+            };
+            var london = new Location
+            {
+                LocationId = 4,
+                LocationName = "london"
+            };
+            var addressId = 1;
+            var otherAddressId = 2;
+            Location addressLocation = null;
+            Address address = null;
+            Address otherAddress = null;
+
+            var user = new User(updatorId);
+            var addressTypeId = homeAddressType.AddressTypeId;
+            var isPrimary = false;
+            var street1 = "street1";
+            var street2 = "street2";
+            var street3 = "street3";
+            var postalCode = "12345";
+            var locationName = "location name";
+            var countryId = 2;
+            var cityId = 3;
+            var divisionId = 4;
+            var instance = new UpdatedEcaAddress(
+                user,
+                addressId,
+                homeAddressType.AddressTypeId,
+                isPrimary,
+                street1,
+                street2,
+                street3,
+                postalCode,
+                locationName,
+                countryId,
+                cityId,
+                divisionId
+                );
+
+            Action tester = () =>
+            {
+                Assert.IsFalse(context.Addresses.Where(x => x.AddressId == otherAddressId).FirstOrDefault().IsPrimary);
+                Assert.IsFalse(context.Addresses.Where(x => x.AddressId == addressId).FirstOrDefault().IsPrimary);
+            };
+            context.SetupActions.Add(() =>
+            {
+                addressLocation = new Location
+                {
+                    LocationName = "old location name",
+                    LocationType = addressLocationType,
+                    LocationId = 5,
+                    LocationTypeId = addressLocationType.LocationTypeId,
+                };
+                addressLocation.History.CreatedBy = creatorId;
+                addressLocation.History.CreatedOn = yesterday;
+                addressLocation.History.RevisedBy = creatorId;
+
+                address = new Address
+                {
+                    AddressId = addressId,
+                    AddressType = businessAddressType,
+                    AddressTypeId = businessAddressType.AddressTypeId,
+                    IsPrimary = false,
+                    Location = addressLocation,
+                    LocationId = addressLocation.LocationId,
+
+                };
+                otherAddress = new Address
+                {
+                    AddressId = otherAddressId,
+                    AddressType = businessAddressType,
+                    AddressTypeId = businessAddressType.AddressTypeId,
+                    IsPrimary = false,
+                    Location = addressLocation,
+                    LocationId = addressLocation.LocationId
+                };
+                address.History.CreatedBy = creatorId;
+                address.History.CreatedOn = yesterday;
+                address.History.RevisedBy = creatorId;
+                address.History.RevisedOn = yesterday;
+                organization.Addresses.Add(address);
+
+                addressLocation.History.RevisedOn = yesterday;
+                organization.Addresses.Clear();
+                organization.Addresses.Add(address);
+                organization.Addresses.Add(otherAddress);
+
+                context.LocationTypes.Add(addressLocationType);
+                context.AddressTypes.Add(businessAddressType);
+                context.AddressTypes.Add(homeAddressType);
+                context.Organizations.Add(organization);
+                context.Locations.Add(usa);
+                context.Locations.Add(england);
+                context.Locations.Add(nashville);
+                context.Locations.Add(london);
+                context.Locations.Add(addressLocation);
+                context.Addresses.Add(address);
+                context.Addresses.Add(otherAddress);
             });
             context.Revert();
             service.Update(instance);
@@ -1046,7 +1806,7 @@ namespace ECA.Business.Test.Service.Programs
                 AddressId = 1,
                 AddressType = businessAddressType,
                 AddressTypeId = businessAddressType.AddressTypeId,
-                DisplayName = "old display",
+                IsPrimary = false,
                 Location = addressLocation,
                 LocationId = addressLocation.LocationId
             };
@@ -1072,7 +1832,7 @@ namespace ECA.Business.Test.Service.Programs
             var addressId = address.AddressId;
             var user = new User(updatorId);
             var addressTypeId = homeAddressType.AddressTypeId;
-            var displayName = "display";
+            var isPrimary = true;
             var street1 = "street1";
             var street2 = "street2";
             var street3 = "street3";
@@ -1085,7 +1845,7 @@ namespace ECA.Business.Test.Service.Programs
                 user,
                 addressId,
                 homeAddressType.AddressTypeId,
-                displayName,
+                isPrimary,
                 street1,
                 street2,
                 street3,
@@ -1106,7 +1866,7 @@ namespace ECA.Business.Test.Service.Programs
 
             f.ShouldThrow<ModelNotFoundException>()
                 .WithMessage(String.Format("The [{0}] with id [{1}] was not found.", "City", cityId));
-            
+
         }
 
         [TestMethod]
@@ -1166,7 +1926,6 @@ namespace ECA.Business.Test.Service.Programs
                 AddressId = 1,
                 AddressType = businessAddressType,
                 AddressTypeId = businessAddressType.AddressTypeId,
-                DisplayName = "old display",
                 Location = addressLocation,
                 LocationId = addressLocation.LocationId
             };
@@ -1192,7 +1951,7 @@ namespace ECA.Business.Test.Service.Programs
             var addressId = address.AddressId;
             var user = new User(updatorId);
             var addressTypeId = homeAddressType.AddressTypeId;
-            var displayName = "display";
+            var isPrimary = true;
             var street1 = "street1";
             var street2 = "street2";
             var street3 = "street3";
@@ -1205,7 +1964,7 @@ namespace ECA.Business.Test.Service.Programs
                 user,
                 addressId,
                 homeAddressType.AddressTypeId,
-                displayName,
+                isPrimary,
                 street1,
                 street2,
                 street3,
@@ -1286,7 +2045,6 @@ namespace ECA.Business.Test.Service.Programs
                 AddressId = 1,
                 AddressType = businessAddressType,
                 AddressTypeId = businessAddressType.AddressTypeId,
-                DisplayName = "old display",
                 Location = addressLocation,
                 LocationId = addressLocation.LocationId
             };
@@ -1312,7 +2070,7 @@ namespace ECA.Business.Test.Service.Programs
             var addressId = address.AddressId;
             var user = new User(updatorId);
             var addressTypeId = homeAddressType.AddressTypeId;
-            var displayName = "display";
+            var isPrimary = true;
             var street1 = "street1";
             var street2 = "street2";
             var street3 = "street3";
@@ -1325,7 +2083,7 @@ namespace ECA.Business.Test.Service.Programs
                 user,
                 addressId,
                 homeAddressType.AddressTypeId,
-                displayName,
+                isPrimary,
                 street1,
                 street2,
                 street3,
@@ -1407,7 +2165,7 @@ namespace ECA.Business.Test.Service.Programs
                 AddressId = 1,
                 AddressType = addressType,
                 AddressTypeId = addressType.AddressTypeId,
-                DisplayName = "display Name",
+                IsPrimary = true,
                 Location = addressLocation,
                 LocationId = addressLocation.LocationId,
                 Organization = organization,
@@ -1443,7 +2201,7 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(addressLocation.Street2, dto.Street2);
                 Assert.AreEqual(addressLocation.Street3, dto.Street3);
                 Assert.AreEqual(address.AddressId, dto.AddressId);
-                Assert.AreEqual(address.DisplayName, dto.AddressDisplayName);
+                Assert.AreEqual(address.IsPrimary, dto.IsPrimary);
             };
 
             var serviceResult = service.GetAddressById(address.AddressId);
@@ -1519,7 +2277,7 @@ namespace ECA.Business.Test.Service.Programs
                 AddressId = 1,
                 AddressType = addressType,
                 AddressTypeId = addressType.AddressTypeId,
-                DisplayName = "display Name",
+                IsPrimary = true,
                 Location = addressLocation,
                 LocationId = addressLocation.LocationId,
                 Organization = organization,
@@ -1598,7 +2356,7 @@ namespace ECA.Business.Test.Service.Programs
                 AddressId = 1,
                 AddressType = addressType,
                 AddressTypeId = addressType.AddressTypeId,
-                DisplayName = "display Name",
+                IsPrimary = true,
                 Location = addressLocation,
                 LocationId = addressLocation.LocationId,
                 Organization = organization,
@@ -1677,7 +2435,7 @@ namespace ECA.Business.Test.Service.Programs
                 AddressId = 1,
                 AddressType = addressType,
                 AddressTypeId = addressType.AddressTypeId,
-                DisplayName = "display Name",
+                IsPrimary = true,
                 Location = addressLocation,
                 LocationId = addressLocation.LocationId,
                 Organization = organization,

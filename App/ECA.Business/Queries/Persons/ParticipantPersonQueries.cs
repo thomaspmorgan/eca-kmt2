@@ -35,6 +35,8 @@ namespace ECA.Business.Queries.Persons
                              FieldOfStudy = p.FieldOfStudy != null ? p.FieldOfStudy.Description : null,
                              ProgramSubject = p.ProgramSubject != null ? p.ProgramSubject.Description : null,
                              Position = p.Position != null ? p.Position.Description : null,
+                             ParticipantType = p.Participant.ParticipantType != null ? p.Participant.ParticipantType.Name : null,
+                             ParticipantStatus = p.Participant.Status != null ? p.Participant.Status.Status : null,
                              HomeInstitution = p.HomeInstitution != null ? new InstitutionDTO
                              {
                                  Name = p.HomeInstitution.Name,
@@ -54,7 +56,6 @@ namespace ECA.Business.Queries.Persons
 
                                               select new AddressDTO
                                               {
-                                                  AddressDisplayName = address.DisplayName,
                                                   AddressId = address.AddressId,
                                                   AddressType = addressType.AddressName,
                                                   AddressTypeId = addressType.AddressTypeId,
@@ -64,6 +65,7 @@ namespace ECA.Business.Queries.Persons
                                                   CountryId = location.CountryId,
                                                   Division = hasDivision ? division.LocationName : null,
                                                   DivisionId = location.DivisionId,
+                                                  IsPrimary = address.IsPrimary,
                                                   LocationId = location.LocationId,
                                                   LocationName = location.LocationName,
                                                   OrganizationId = address.OrganizationId,
@@ -72,7 +74,7 @@ namespace ECA.Business.Queries.Persons
                                                   Street1 = location.Street1,
                                                   Street2 = location.Street2,
                                                   Street3 = location.Street3,
-                                              }).OrderBy(a => a.AddressDisplayName),
+                                              }).OrderByDescending(a => a.IsPrimary).ThenBy(a => a.AddressType),
                              } : null,
                              HostInstitution = p.HostInstitution != null ? new InstitutionDTO
                              {
@@ -93,7 +95,6 @@ namespace ECA.Business.Queries.Persons
 
                                               select new AddressDTO
                                               {
-                                                  AddressDisplayName = address.DisplayName,
                                                   AddressId = address.AddressId,
                                                   AddressType = addressType.AddressName,
                                                   AddressTypeId = addressType.AddressTypeId,
@@ -103,6 +104,7 @@ namespace ECA.Business.Queries.Persons
                                                   CountryId = location.CountryId,
                                                   Division = hasDivision ? division.LocationName : null,
                                                   DivisionId = location.DivisionId,
+                                                  IsPrimary = address.IsPrimary,
                                                   LocationId = location.LocationId,
                                                   LocationName = location.LocationName,
                                                   OrganizationId = address.OrganizationId,
@@ -111,7 +113,7 @@ namespace ECA.Business.Queries.Persons
                                                   Street1 = location.Street1,
                                                   Street2 = location.Street2,
                                                   Street3 = location.Street3,
-                                              }).OrderBy(a => a.AddressDisplayName),
+                                              }).OrderByDescending(a => a.IsPrimary).ThenBy(a => a.AddressType),
                              } : null
                          });
             return query;
