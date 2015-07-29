@@ -256,6 +256,7 @@
     <None Include="Properties\PublishProfiles\ECA_QA.pubxml" />
     <None Include="Properties\PublishProfiles\ECA_Dev.pubxml" />
     <None Include="Properties\PublishProfiles\ECA_Pre.pubxml" />
+    <Content Include="RemoveBuildArtifacts.cmd" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
