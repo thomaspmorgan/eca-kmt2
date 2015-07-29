@@ -15,6 +15,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.Results;
 
 namespace ECA.WebApi.Controllers.Admin
 {
@@ -85,6 +86,19 @@ namespace ECA.WebApi.Controllers.Admin
             {
                 return BadRequest(ModelState);
             }
+        }
+
+        /// <summary>
+        /// Deletes the social media with the given id.
+        /// </summary>
+        /// <param name="id">The id of the social media.</param>
+        /// <returns>An ok response.</returns>
+        [ResponseType(typeof(OkResult))]
+        public async Task<IHttpActionResult> DeleteSocialMedia(int id)
+        {
+            await this.socialMediaService.DeleteAsync(id);
+            await this.socialMediaService.SaveChangesAsync();
+            return Ok();
         }
     }
 }

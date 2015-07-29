@@ -66,12 +66,33 @@ angular.module('staticApp')
           $scope.form.socialMediaForm.$setPristine();
           $scope.form.socialMediaForm.$setUntouched();
           if (isNewSocialMedia($scope.socialMedia)) {
-              $scope.$emit(ConstantsService.removeNewSocialMediaEventName, $scope.socialMedia);
+              removeSocialMediaFromView($scope.socialMedia);
           }
           else {
               $scope.socialMedia = angular.copy(originalSocialMedia);
           }
       };
+
+      $scope.view.onDeleteSocialMediaClick = function () {
+          if (isNewSocialMedia($scope.socialMedia)) {
+              removeSocialMediaFromView($scope.socialMedia);
+          }
+          else {
+              $scope.view.isDeletingSocialMedia = true;
+              return SocialMediaService.delete($scope.socialMedia)
+              .then(function () {
+                  NotificationService.showSuccessMessage("Successfully deleted address.");
+                  $scope.view.isDeletingSocialMedia = false;
+                  removeSocialMediaFromView($scope.socialMedia);
+              })
+              .catch(function () {
+                  var message = "Unable to delete address.";
+                  $log.error(message);
+                  NotificationService.showErrorMessage(message);
+              });
+          }
+          
+      }
 
       $scope.view.onEditSocialMediaClick = function () {
           $scope.view.showEditSocialMedia = true;
@@ -84,7 +105,11 @@ angular.module('staticApp')
               callbackAfter: function (element) { }
           }
           smoothScroll(getSocialMediaFormDivElement(id), options);
-      };     
+      };
+
+      function removeSocialMediaFromView(socialMedia) {
+          $scope.$emit(ConstantsService.removeNewSocialMediaEventName, socialMedia);
+      }
 
       function getSocialMediaFormDivIdPrefix(){
           return 'socialMediaForm';
