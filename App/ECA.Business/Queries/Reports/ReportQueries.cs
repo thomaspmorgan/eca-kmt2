@@ -146,22 +146,20 @@ namespace ECA.Business.Queries.Programs
         {
             Contract.Requires(context != null, "The context must not be null.");
             var result = (from m in context.MoneyFlows
-                          from o in context.Objectives
                           where m.RecipientProject.ProgramId == programId && m.RecipientProject.Objectives.Any(p => p.ObjectiveId == objectiveId)
-                          group m by new { Project = m.RecipientProject.Name, 
-                                           Objective = m.RecipientProject.Objectives.Where(p => p.ObjectiveId == objectiveId).FirstOrDefault().ObjectiveName,
-                                           Country = m.RecipientProject.Locations.FirstOrDefault().Country.LocationName}
+                          group m by new { Project = m.RecipientProject.Name, Objective = m.RecipientProject.Objectives.Where(p => p.ObjectiveId == objectiveId).FirstOrDefault().ObjectiveName }
                                   into grp
-                                  orderby grp.Key.Objective, grp.Key.Country, grp.Key.Project
+                                  orderby grp.Key.Project
                               select new ObjectiveAwardDTO
                               {
                                   Objective = grp.Key.Objective,
-                                  Country = grp.Key.Country,
+                                  Country = grp.FirstOrDefault().RecipientProject.Locations.FirstOrDefault().Country.LocationName,
                                   Project =grp.Key.Project,
                                   ProgramValue = grp.Where(m => m.SourceProgramId == programId).Sum(m => m.Value),
                                   OtherValue = grp.Where(m => m.SourceProgramId == null || m.SourceProgramId != programId).Sum(m => m.Value),
                                   Year = grp.FirstOrDefault().RecipientProject.StartDate.Year
                               });
+
             return result;
         }
 

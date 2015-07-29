@@ -127,13 +127,13 @@
                             <div class="form-group clearfix" ng-show="participantInfo[project.participantId].homeInstitution.addresses[0].city">
                                 <label class="col-md-4 title-label">City</label>
                                 <div class="col-md-8">
-                                    {{participantInfo[participant.participantId].homeInstitution.addresses[0].city}}
+                                    {{participantInfo[project.participantId].homeInstitution.addresses[0].city}}
                                 </div>
                             </div>
-                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].postalCode">
+                            <div class="form-group clearfix" ng-show="participantInfo[project.participantId].homeInstitution.addresses[0].postalCode">
                                 <label class="col-md-4 title-label">Postal Code</label>
                                 <div class="col-md-8">
-                                    {{participantInfo[participant.participantId].homeInstitution.addresses[0].postalCode}}
+                                    {{participantInfo[project.participantId].homeInstitution.addresses[0].postalCode}}
                                 </div>
                             </div>
                         </div>
@@ -141,27 +141,27 @@
                 </div>
             </div>
             <div class="col-md-5">
-                <div class="row" ng-show="participant.participantType">
+                <div class="row" ng-show="participantInfo[project.participantId].participantType">
                     <div class="col-md-4 title-label">Participant Type</div>
-                    <div class="col-md-8">{{participant.participantType}}</div>
+                    <div class="col-md-8">{{participantInfo[project.participantId].participantType}}</div>
                 </div>
-                <div class="row" ng-show="participantInfo[participant.participantId].sevisId">
+                <div class="row" ng-show="participantInfo[project.participantId].sevisId">
                     <div class="col-md-4 title-label">Sevis Id</div>
                     <div class="col-md-8">
-                        {{participantInfo[participant.participantId].sevisId}}
+                        {{participantInfo[project.participantId].sevisId}}
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-4 title-label">Status</div>
-                    <div class="col-md-8">Active</div>
+                <div class="row" ng-show="participantInfo[project.participantId].participantStatus">
+                    <div class=" col-md-4 title-label">Status</div>
+                    <div class="col-md-8">{{participantInfo[project.participantId].participantStatus}}</div>
                 </div>
-                <div class="row" ng-show="participantInfo[participant.participantId].fieldOfStudy">
+                <div class="row" ng-show="participantInfo[project.participantId].fieldOfStudy">
                     <div class="col-md-4 title-label">Field Of Study</div>
-                    <div class="col-md-8">{{participantInfo[participant.participantId].fieldOfStudy}}</div>
+                    <div class="col-md-8">{{participantInfo[project.participantId].fieldOfStudy}}</div>
                 </div>
-                <div class="row" ng-show="participantInfo[participant.participantId].position">
+                <div class="row" ng-show="participantInfo[project.participantId].position">
                     <div class="col-md-4 title-label">Position</div>
-                    <div class="col-md-8">{{participantInfo[participant.participantId].position}}</div>
+                    <div class="col-md-8">{{participantInfo[project.participantId].position}}</div>
                 </div>
             </div>
         </div>
