@@ -28,7 +28,7 @@ angular.module('staticApp')
       $scope.goals = [];
       $scope.regions = [];
       $scope.pointsOfContact = [];
-      $scope.selectedFilterCountries = [];
+      $scope.selectedFilterRegions = [];
 
       $scope.newProject = {
           title: '',
@@ -119,18 +119,18 @@ angular.module('staticApp')
           filter: null
       };
 
-      $scope.searchCountries = function (search) {
-          return loadCountries(search);
+      $scope.searchRegions = function (search) {
+          return loadRegions(search);
       }
 
-      function loadCountries(search) {
+      function loadRegions(search) {
           var params = {
               start: 0,
               limit: 10,
               filter: [
                   {
                       comparison: ConstantsService.equalComparisonType,
-                      value: ConstantsService.locationType.country.id,
+                      value: ConstantsService.locationType.region.id,
                       property: 'locationTypeId'
                   }
               ]

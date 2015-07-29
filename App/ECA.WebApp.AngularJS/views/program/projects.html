@@ -2,14 +2,15 @@
     <h2 class="program-color tab-header">
         {{header}}
         <div class="btn-group right dropdown" dropdown>
-            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">Create New &nbsp;&nbsp;&nbsp;<span class="caret"></span>
+            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                Create New &nbsp;&nbsp;&nbsp;<span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li><a href ng-click="createItem('subprogram')">Sub-Program</a></li>
                 <li><a href ng-click="createItem('project')">Project</a></li>
             </ul>
         </div>
-    </h2>    
+    </h2>
 </div>
 <h4 class="tab-subheader">Sub-Programs List</h4>
 <div ng-show="!subprograms.length">
@@ -73,8 +74,8 @@
                 <th st-sort="'projectName'" st-sort-default="true" class="col-md-6 sort-label medium">Title</th>
                 <th st-sort="'projectStatusName'" class="col-md-1 sort-label medium">Status</th>
                 <th st-sort="'startYearAsString'" class="col-md-1 sort-label medium">Year</th>
-                <th class="col-md-2 sort-label medium">Countries</th>
-                <th class="col-md-2">&nbsp;</th>
+                <th class="col-md-2 sort-label medium">Regions</th>
+                <th>&nbsp;</th>
             </tr>
             <tr>
                 <th>
@@ -86,29 +87,26 @@
                 <th>
                     <input st-search="'startYearAsString'" placeholder="" type="search" class="form-control" />
                 </th>
-                <th>
+                <th colspan="2">
                     <ui-select multiple
                                ui-select-st-search
                                ui-select-st-search-model-id="id"
-                               ui-select-st-search-property="countryIds"
+                               ui-select-st-search-property="regionIds"
                                close-on-select="true"
-                               ng-model="selectedFilterCountries"
+                               ng-model="selectedFilterRegions"
                                theme="select2"
                                append-to-body="true"
-                               title="Choose countries to filter."
+                               title="Choose regions to filter."
                                style="min-width: 200px;">
-                        <ui-select-match placeholder="Select countries to filter...">
+                        <ui-select-match placeholder="Select regions to filter...">
                             <div>{{$item.name}}</div>
                         </ui-select-match>
-                        <ui-select-choices refresh="searchCountries($select.search)"
+                        <ui-select-choices refresh="searchRegions($select.search)"
                                            refresh-delay="250"
-                                           repeat="country in countries | filter: select.search track by country.id">
-                            <div ng-bind-html="country.name | highlight: $select.search"></div>
+                                           repeat="region in regions | filter: select.search track by region.id">
+                            <div ng-bind-html="region.name | highlight: $select.search"></div>
                         </ui-select-choices>
                     </ui-select>
-                </th>
-                <th>
-                    {{selectedRegions}}
                 </th>
             </tr>
         </thead>
@@ -119,14 +117,18 @@
                 </td>
             </tr>
 
-            <tr ng-repeat="project in projects" class="hover" ng-show="!projectsLoading" 
+            <tr ng-repeat="project in projects" class="hover" ng-show="!projectsLoading"
                 id="projectRow{{project.projectId}}">
                 <td class="narrowPadding">
                     <h4 class="list-title"><a style="font-size:18px; font-weight: 500;" ui-sref="projects.overview({officeId: program.ownerOrganizationId, programId: program.id, projectId: project.projectId})">{{project.projectName}}</a></h4>
                 </td>
                 <td style="vertical-align:middle;">{{project.projectStatusName}}</td>
                 <td style="vertical-align:middle;">{{project.startYearAsString}}</td>
-                <td style="vertical-align:middle;">{{project.regionNamesAsString}}</td>
+                <td style="vertical-align:middle;">
+                    <ul>
+                        <li ng-repeat="region in project.regionNames | orderBy:name">&#149 {{region}}</li>
+                    </ul>
+                </td>
                 <td style="vertical-align:middle;">
                     <div class="right" style="display:none;" showonparentrow>
                         <div class="copyEditDeleteOptions">

@@ -18,6 +18,8 @@ namespace ECA.Business.Queries.Models.Admin
         {
             this.CountryIds = new List<int>();
             this.CountryNames = new List<string>();
+            this.RegionIds = new List<int>();
+            this.RegionNames = new List<string>();
         }
 
         /// <summary>
@@ -69,5 +71,15 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or sets the countries by id the project is operating in.
         /// </summary>
         public IEnumerable<int> CountryIds { get; set; }
+
+        /// <summary>
+        /// Gets or sets the regions the project is operating in.
+        /// </summary>
+        public IEnumerable<string> RegionNames { get; set; }
+
+        /// <summary>
+        /// Gets or sets the regions by id the project is operating in.
+        /// </summary>
+        public IEnumerable<int> RegionIds { get; set; }
     }
 }
