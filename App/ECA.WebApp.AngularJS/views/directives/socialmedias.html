@@ -22,10 +22,21 @@
                         <socialmedialink model="socialMedia"/>
                         <div class="pull-right" ng-show="!view.showEditSocialMedia">
                             {{socialMedia.socialMediaType}}
+                            <a ng-show="!view.showEditSocialMedia && !view.isDeletingSocialMedia" ng-click="view.showConfirmDelete = true">
+                                <i class="material-icons md-dark">delete</i>
+                            </a>
+                            <a ng-show="view.isDeletingSocialMedia">
+                                <i class="material-icons md-dark material-icons-spin">refresh</i>
+                            </a>
                             <a ng-show="!view.showEditSocialMedia" ng-click="view.onEditSocialMediaClick()">
                                 <i class="material-icons md-dark">edit</i>
                             </a>
                         </div>
+                    </div>
+                    <div ng-show="view.showConfirmDelete" class="text-center">
+                        Are you sure you want to delete this social media?
+                        <button ng-click="view.onDeleteSocialMediaClick()" class="btn btn-danger">Delete</button>
+                        <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
                     </div>
                     <div in-context-form ng-show="view.showEditSocialMedia">
                         <form name="form.socialMediaForm" class="row form-horizontal">
@@ -35,6 +46,7 @@
                                     <select class="form-control"
                                             id="type"
                                             name="socialMediaTypeId"
+                                            ng-change="view.onSocialMediaTypeChange()"
                                             ng-options="t.id as t.name for t in view.socialMediaTypes"
                                             ng-model="socialMedia.socialMediaTypeId"
                                             required />

@@ -12,7 +12,7 @@
 <#
 	
 	var nameSpace = "ECA.Data";
-	var connectionString = @"Server=tcp:dx4ykgy2iu.database.windows.net,1433;Database=ECA_Dev;Persist Security Info=True;User ID=ECA@dx4ykgy2iu;Password=wisconsin-89;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;MultipleActiveResultSets=True";
+	var connectionString = @"Data Source=(local);Integrated Security=True;Pooling=False;Database=ECA_Local";
 	var types = new List<StaticLookupConfig>();
 	types.Add(new StaticLookupConfig
 	{

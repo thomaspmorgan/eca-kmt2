@@ -52,6 +52,18 @@ namespace ECA.Business.Service.Admin
         /// <param name="id">The id of the social media.</param>
         /// <returns>The social media dto.</returns>
         Task<SocialMediaDTO> GetByIdAsync(int id);
+
+        /// <summary>
+        /// Deletes the social media entry with the given id.
+        /// </summary>
+        /// <param name="socialMediaId">The id of the social media to delete.</param>
+        void Delete(int socialMediaId);
+
+        /// <summary>
+        /// Deletes the social media entry with the given id.
+        /// </summary>
+        /// <param name="socialMediaId">The id of the social media to delete.</param>
+        Task DeleteAsync(int socialMediaId);
     }
 
     /// <summary>
@@ -142,6 +154,25 @@ namespace ECA.Business.Service.Admin
         public Task<SocialMediaDTO> GetByIdAsync(int id)
         {
             return Task.FromResult<SocialMediaDTO>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="socialMediaId"></param>
+        public void Delete(int socialMediaId)
+        {
+            
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="socialMediaId"></param>
+        /// <returns></returns>
+        public Task DeleteAsync(int socialMediaId)
+        {
+            return Task.FromResult<object>(null);
         }
     }
 }

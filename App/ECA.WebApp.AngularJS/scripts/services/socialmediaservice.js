@@ -13,6 +13,9 @@ angular.module('staticApp')
       var service = {
           update: function (socialMedia) {
               return DragonBreath.save(socialMedia, 'socialmedias');
+          },
+          delete: function (socialMedia) {
+              return DragonBreath.delete(socialMedia, 'socialmedias/' + socialMedia.id);
           }
       };
       return service;

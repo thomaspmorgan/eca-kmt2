@@ -136,5 +136,34 @@ namespace ECA.Business.Service.Admin
         }
         #endregion
 
+        #region Delete
+        /// <summary>
+        /// Deletes the social media entry with the given id.
+        /// </summary>
+        /// <param name="socialMediaId">The id of the social media to delete.</param>
+        public void Delete(int socialMediaId)
+        {
+            var socialMedia = Context.SocialMedias.Find(socialMediaId);
+            DoDelete(socialMedia);
+        }
+
+        /// <summary>
+        /// Deletes the social media entry with the given id.
+        /// </summary>
+        /// <param name="socialMediaId">The id of the social media to delete.</param>
+        public async Task DeleteAsync(int socialMediaId)
+        {
+            var socialMedia = await Context.SocialMedias.FindAsync(socialMediaId);
+            DoDelete(socialMedia);
+        }
+
+        private void DoDelete(SocialMedia socialMediaToDelete)
+        {
+            if (socialMediaToDelete != null)
+            {
+                Context.SocialMedias.Remove(socialMediaToDelete);
+            }
+        }
+        #endregion
     }
 }

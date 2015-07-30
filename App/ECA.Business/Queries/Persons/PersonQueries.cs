@@ -33,7 +33,7 @@ namespace ECA.Business.Queries.Persons
             Contract.Requires(context != null, "The context must not be null.");
             var query = from person in context.People
                         let gender = person.Gender
-                        let currentParticipation = person.Participations.OrderByDescending(p => p.Status.ParticipantStatusId).FirstOrDefault() // the ID order has default precidence, for example if there are two statues, Active(2) and Alumnus(1), Active is shown.
+                        let currentParticipation = person.Participations.OrderByDescending(p => p.ParticipantStatusId).FirstOrDefault() // the ID order has default precidence, for example if there are two statues, Active(2) and Alumnus(1), Active is shown.
                         let hasCurrentParticipation = currentParticipation != null
                             && currentParticipation.Status != null
                             && currentParticipation.Status.Status != null
@@ -187,7 +187,7 @@ namespace ECA.Business.Queries.Persons
             Contract.Requires(context != null, "The context must not be null.");
 
             var query = from person in context.People
-                        let currentParticipation = person.Participations.OrderByDescending(p => p.Status.ParticipantStatusId).FirstOrDefault() // the ID order has default precidence, for example if there are two statues, Active(2) and Alumnus(1), Active is shown.
+                        let currentParticipation = person.Participations.OrderByDescending(p => p.ParticipantStatusId).FirstOrDefault() // the ID order has default precidence, for example if there are two statues, Active(2) and Alumnus(1), Active is shown.
                         let hasCurrentParticipation = currentParticipation != null
                             && currentParticipation.Status != null
                             && currentParticipation.Status.Status != null

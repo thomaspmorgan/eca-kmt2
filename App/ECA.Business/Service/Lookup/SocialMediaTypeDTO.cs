@@ -20,5 +20,10 @@ namespace ECA.Business.Service.Lookup
         /// Gets or sets the Name.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the url of the social media.
+        /// </summary>
+        public string Url { get; set; }
     }
 }

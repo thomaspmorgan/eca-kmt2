@@ -9,6 +9,9 @@ using System.Text;
 
 namespace ECA.Business.Queries.Admin
 {
+    /// <summary>
+    /// Contains queries related to an ECA project that must query the EcaContext.
+    /// </summary>
     public static class ProjectQueries
     {
         /// <summary>
@@ -45,6 +48,8 @@ namespace ECA.Business.Queries.Admin
                             ProjectName = project.Name,
                             ProjectStatusId = status.ProjectStatusId,
                             ProjectStatusName = status.Status,
+                            RegionIds = regions.Select(x => x.LocationId),
+                            RegionNames = regions.Select(x => x.LocationName),
                             StartDate = startDate,
                             StartYear = startDate.Year,
                             StartYearAsString = startDate.Year.ToString()

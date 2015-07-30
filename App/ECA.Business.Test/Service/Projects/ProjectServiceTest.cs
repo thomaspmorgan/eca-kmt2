@@ -488,6 +488,80 @@ namespace ECA.Business.Test.Service.Projects
             tester(serviceResultsAsync);
         }
 
+        [TestMethod]
+        public async Task TestGetProjectsByProgramId_CheckRegions()
+        {
+            var now = DateTimeOffset.UtcNow;
+            var countryType = new LocationType
+            {
+                LocationTypeId = LocationType.Country.Id,
+                LocationTypeName = LocationType.Country.Value
+            };
+            var region1 = new Location
+            {
+                LocationId = 1,
+                LocationName = "region1",
+
+            };
+            var region2 = new Location
+            {
+                LocationId = 2,
+                LocationName = "region2",
+
+            };
+
+            var program = new Program
+            {
+                ProgramId = 1,
+            };
+            var status = new ProjectStatus
+            {
+                Status = "status",
+                ProjectStatusId = 1
+            };
+            var project = new Project
+            {
+                ProgramId = program.ProgramId,
+                Name = "project",
+                ParentProgram = program,
+                ProjectId = 100,
+                StartDate = now,
+                Status = status,
+                ProjectStatusId = status.ProjectStatusId
+            };
+            project.Regions.Add(region1);
+            project.Regions.Add(region2);
+            context.ProjectStatuses.Add(status);
+            context.Projects.Add(project);
+            context.Locations.Add(region1);
+            context.Locations.Add(region2);
+            context.Programs.Add(program);
+            context.LocationTypes.Add(countryType);
+
+            var defaultSorter = new ExpressionSorter<SimpleProjectDTO>(x => x.ProjectId, SortDirection.Ascending);
+            var start = 0;
+            var limit = 10;
+            var queryOperator = new QueryableOperator<SimpleProjectDTO>(start, limit, defaultSorter);
+
+            Action<PagedQueryResults<SimpleProjectDTO>> tester = (queryResults) =>
+            {
+                Assert.AreEqual(1, queryResults.Total);
+                var results = queryResults.Results;
+                Assert.AreEqual(1, results.Count);
+                var firstResult = results.First();
+                Assert.AreEqual(2, firstResult.RegionIds.Count());
+                Assert.AreEqual(2, firstResult.RegionNames.Count());
+                Assert.IsTrue(firstResult.RegionIds.Contains(region1.LocationId));
+                Assert.IsTrue(firstResult.RegionIds.Contains(region2.LocationId));
+                Assert.IsTrue(firstResult.RegionNames.Contains(region1.LocationName));
+                Assert.IsTrue(firstResult.RegionNames.Contains(region2.LocationName));
+            };
+
+            var serviceResults = service.GetProjectsByProgramId(program.ProgramId, queryOperator);
+            var serviceResultsAsync = await service.GetProjectsByProgramIdAsync(program.ProgramId, queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
 
         [TestMethod]
         public async Task TestGetProjectsByProgramId_NoProgramsWithGivenId()

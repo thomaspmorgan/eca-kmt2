@@ -249,5 +249,77 @@ namespace ECA.Business.Test.Service.Admin
             tester(resultAsync);
         }
         #endregion
+
+        #region Delete
+        [TestMethod]
+        public async Task TestDelete()
+        {
+            var socialMediaToDelete = new SocialMedia
+            {
+                SocialMediaId = 1
+            };
+
+            var otherSocialMedia = new SocialMedia
+            {
+                SocialMediaId = 2
+            };
+            context.SetupActions.Add(() =>
+            {
+                context.SocialMedias.Add(socialMediaToDelete);
+                context.SocialMedias.Add(otherSocialMedia);
+            });
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(2, context.SocialMedias.Count());
+            };
+            Action afterTester = () =>
+            {
+                Assert.AreEqual(1, context.SocialMedias.Count());
+                Assert.IsNotNull(context.SocialMedias.FirstOrDefault(x => x.SocialMediaId == otherSocialMedia.SocialMediaId));
+            };
+            context.Revert();
+            beforeTester();
+            service.Delete(socialMediaToDelete.SocialMediaId);
+            afterTester();
+
+            context.Revert();
+            beforeTester();
+            await service.DeleteAsync(socialMediaToDelete.SocialMediaId);
+            afterTester();
+
+        }
+
+        [TestMethod]
+        public async Task TestDelete_SocialMediaDoesNotExist()
+        {
+            var otherSocialMedia = new SocialMedia
+            {
+                SocialMediaId = 2
+            };
+            context.SetupActions.Add(() =>
+            {
+                context.SocialMedias.Add(otherSocialMedia);
+            });
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(1, context.SocialMedias.Count());
+            };
+            Action afterTester = () =>
+            {
+                Assert.AreEqual(1, context.SocialMedias.Count());
+                Assert.IsNotNull(context.SocialMedias.FirstOrDefault(x => x.SocialMediaId == otherSocialMedia.SocialMediaId));
+            };
+            context.Revert();
+            beforeTester();
+            service.Delete(0);
+            afterTester();
+
+            context.Revert();
+            beforeTester();
+            await service.DeleteAsync(0);
+            afterTester();
+
+        }
+        #endregion
     }
 }
