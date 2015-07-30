@@ -238,11 +238,11 @@
     <Content Include=".bowerrc" />
     <Content Include="ApplicationInsights.config" />
     <Content Include="package.json" />
-    <Content Include=".bin\bower.cmd" />
+    <Content Include="build.cmd" />
+    <None Include=".bin\bower.cmd" />
     <None Include=".bin\git.cmd" />
     <None Include=".bin\node.cmd" />
     <None Include=".bin\npm.cmd" />
-    <Content Include="build.cmd" />
     <None Include="ECA.WebApp.AngularJS.wpp.targets" />
     <None Include="Properties\PublishProfiles\brian.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev %282%29.pubxml" />
