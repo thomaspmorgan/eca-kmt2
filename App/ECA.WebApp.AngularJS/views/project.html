@@ -2,7 +2,7 @@
     <p><a ui-sref="offices.overview({officeId: program.ownerOrganizationId})">{{program.ownerName}}</a> &bull; <a ui-sref="programs.overview({programId: program.id})">{{program.name}}</a> &bull; {{project.name}}</p>
 </div>
 <div class="jumbotron project" ng-controller="ToolbarCtrl">
-    <div class="toolbar" sticky offset="50">
+    <div class="toolbar" sticky offset="49">
         <div class="left2">
             <div class="btn-group" dropdown>
                 <button type="button" ng-class="{modified: isInEditViewState}" class="btn project" ng-disabled="!isProjectStatusButtonEnabled" ng-click="onProjectStatusButtonClick($event)">
