@@ -125,9 +125,9 @@
                 <td style="vertical-align:middle;">{{project.projectStatusName}}</td>
                 <td style="vertical-align:middle;">{{project.startYearAsString}}</td>
                 <td style="vertical-align:middle;">
-                    <ul>
-                        <li ng-repeat="region in project.regionNames | orderBy:name">&#149 {{region}}</li>
-                    </ul>
+                    <span ng-repeat="region in project.regionNames | orderBy:name">
+                        {{region}}{{$last ? '' : ', '}}
+                    </span>
                 </td>
                 <td style="vertical-align:middle;">
                     <div class="right" style="display:none;" showonparentrow>
