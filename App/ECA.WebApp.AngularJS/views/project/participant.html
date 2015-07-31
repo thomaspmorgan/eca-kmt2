@@ -395,6 +395,10 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">DATE OF BIRTH<span class="asterisk"> *</span></label>
+                                    <input type="text" class="form-control" ng-model="newParticipant.dateOfBirth" form-element guidance="Date of birth of the participant." datepicker-popup="yyyy/MM/dd" is-open="opened" ng-required="true" close-text="Close" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="material-icons md-24">calendar</i></button>
+                                        </span>
                                     <input ng-model="newParticipant.dateOfBirth" form-element guidance="Date of birth of the participant." type="date" max="2014-12-31" class="form-control" required>
                                 </div>
                                 <div class="form-group">
