@@ -163,3 +163,8 @@ label {
         }
     }
 }
+
+// allows datepicker control to have a small grid of dates
+div.input-group td:first-child {
+    padding: 0;
+}

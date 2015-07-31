@@ -47,6 +47,8 @@ angular.module('staticApp')
       $scope.view.totalAvailableParticipants = 0;
       $scope.view.displayedAvailableParticipantsCount = 0;
       $scope.view.isAddingParticipant = false;
+      $scope.view.isDobDatePickerOpen = false;
+      $scope.view.dateFormat = 'dd-MMMM-yyyy';
 
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;
@@ -155,6 +157,12 @@ angular.module('staticApp')
           }).then(function (data) {
               $scope.cities = data.results;
           });
+      }
+
+      $scope.view.openDobDatePicker = function ($event) {
+          $event.preventDefault();
+          $event.stopPropagation();
+          $scope.view.isDobDatePickerOpen = true;
       }
 
       $scope.addParticipant = function () {
