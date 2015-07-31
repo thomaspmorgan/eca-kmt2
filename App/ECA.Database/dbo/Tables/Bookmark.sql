@@ -14,4 +14,4 @@
     CONSTRAINT [FK_Bookmark_Project] FOREIGN KEY ([ProjectId]) REFERENCES [Project]([ProjectId]), 
     CONSTRAINT [FK_Bookmark_Person] FOREIGN KEY ([PersonId]) REFERENCES [Person]([PersonId]), 
     CONSTRAINT [FK_Bookmark_Organization] FOREIGN KEY ([OrganizationId]) REFERENCES [Organization]([OrganizationId]), 
-)
+) 
