@@ -16,6 +16,11 @@ namespace ECA.Data
     /// </summary>
     public class MoneyFlow : IHistorical
     {
+        public MoneyFlow()
+        {
+            this.History = new History();
+        }
+
         [Key]
         public int MoneyFlowId {get; set;}
 

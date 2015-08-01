@@ -9,6 +9,11 @@ namespace ECA.Business.Queries.Models.Admin
     public class MoneyFlowDTO
     {
         public int Id { get; set; }
+
+        public int EntityId { get; set; }
+
+        public int EntityTypeId { get; set; }
+
         public DateTimeOffset TransactionDate { get; set; }
 
         public string SourceType { get; set; }

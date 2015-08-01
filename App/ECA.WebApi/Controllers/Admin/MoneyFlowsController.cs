@@ -3,8 +3,8 @@ using CAM.Business.Queries.Models;
 using CAM.Business.Service;
 using CAM.Data;
 using ECA.Business.Queries.Models.Admin;
-using ECA.Business.Models.Admin;
 using ECA.Business.Service.Admin;
+using ECA.Business.Service.Fundings;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Filter;
 using ECA.Core.DynamicLinq.Sorter;
@@ -63,19 +63,19 @@ namespace ECA.WebApi.Controllers.Admin
             this.authorizationHandler = authorizationHandler;
             this.userProvider = userProvider;
         }
-        [ResponseType(typeof(MoneyFlowDTO))]
-        public async Task<IHttpActionResult> GetMoneyFlowByIdAsync(int id)
-        {
-            var moneyFlow = await this.moneyFlowService.GetMoneyFlowByIdAsync(id);
-            if (moneyFlow != null)
-            {
-                return Ok(moneyFlow);
-            }
-            else
-            {
-                return NotFound();
-            }
-        }
+        //[ResponseType(typeof(MoneyFlowDTO))]
+        //public async Task<IHttpActionResult> GetMoneyFlowByIdAsync(int id)
+        //{
+        //    var moneyFlow = await this.moneyFlowService.GetMoneyFlowByIdAsync(id);
+        //    if (moneyFlow != null)
+        //    {
+        //        return Ok(moneyFlow);
+        //    }
+        //    else
+        //    {
+        //        return NotFound();
+        //    }
+        //}
         /// <summary>
         /// Gets moneyflows by the project id
         /// </summary>
@@ -110,56 +110,6 @@ namespace ECA.WebApi.Controllers.Admin
             {
                 return BadRequest(ModelState);
             }
-        }
-        
-        [ResponseType(typeof(MoneyFlowDTO))]
-        public async Task<IHttpActionResult> PostMoneyFlowAsync(DraftMoneyFlow moneyFlow)
-        {
-            if (ModelState.IsValid)
-            {
-                var currentUser = userProvider.GetCurrentUser();
-                var businessUser = userProvider.GetBusinessUser(currentUser);
-                var newMoneyFlow = await moneyFlowService.CreateAsync(moneyFlow, businessUser);
-                await moneyFlowService.SaveChangesAsync();
-                var moneyFlowDTO = await moneyFlowService.GetMoneyFlowByIdAsync(newMoneyFlow.MoneyFlowId);
-                return Ok(moneyFlowDTO);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-        }
-
-        /// <summary>
-        /// Updates and returns the system's project given the client's updated project.
-        /// </summary>
-        /// <param name="model">The updated project.</param>
-        /// <returns>The saved and updated project.</returns>
-        [ResponseType(typeof(MoneyFlowDTO))]
-        public async Task<IHttpActionResult> PutMoneyFlowAsync(DraftMoneyFlow model)
-        {
-            if (ModelState.IsValid)
-            {
-                var currentUser = userProvider.GetCurrentUser();
-                var businessUser = userProvider.GetBusinessUser(currentUser);
-                await moneyFlowService.UpdateAsync(model);
-                await moneyFlowService.SaveChangesAsync();
-                return null;
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-        }
-        
-        public async Task<IHttpActionResult> DeleteMoneyFlowAsync(int moneyFlowId)
-        {
-            // TODO - add audit trail? Scheme for making items 'inactive' but not deleting from DB?
-            var currentUser = userProvider.GetCurrentUser();
-            var businessUser = userProvider.GetBusinessUser(currentUser);
-            await moneyFlowService.DeleteAsync(moneyFlowId, businessUser);
-
-            return null;
         }
     }
 }

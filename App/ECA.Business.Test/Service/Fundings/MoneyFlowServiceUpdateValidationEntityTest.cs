@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ECA.Business.Test.Service.Admin
+namespace ECA.Business.Test.Service.Fundings
 {
     [TestClass]
     public class MoneyFlowServiceUpdateValidationEntityTest

@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECA.Business.Service.Admin
+namespace ECA.Business.Service.Fundings
 {
     /// <summary>
     /// The ProjectStatusService is used to retrieve project stati from the db context.
