@@ -175,12 +175,6 @@
     <Content Include="scripts\services\addressservice.js" />
     <Content Include="scripts\services\participantperson.js" />
     <Content Include="scripts\services\userservice.js" />
-    <Content Include="styles\main.css">
-      <DependentUpon>main.scss</DependentUpon>
-    </Content>
-    <Content Include="styles\main.min.css">
-      <DependentUpon>main.css</DependentUpon>
-    </Content>
     <Content Include="views\directives\socialmedias.html" />
     <Content Include="views\directives\addresses.html" />
     <Content Include="views\organizations\activities.html" />
@@ -262,9 +256,6 @@
     <None Include="Properties\PublishProfiles\ECA_QA.pubxml" />
     <None Include="Properties\PublishProfiles\ECA_Dev.pubxml" />
     <None Include="Properties\PublishProfiles\ECA_Pre.pubxml" />
-    <Content Include="styles\main.css.map">
-      <DependentUpon>main.css</DependentUpon>
-    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
