@@ -48,126 +48,78 @@ namespace ECA.Business.Test.Service.Fundings
 
         #region Get MoneyFlows By Project Id
         [TestMethod]
-        public async Task TestGetMoneyFlowsByProjectId_CheckProperties()
+        public async Task TestGetMoneyFlowsByProjectId()
         {
-            var active = new ProgramStatus
+            var outgoing = new MoneyFlowType
             {
-                ProgramStatusId = ProgramStatus.Active.Id,
-                Status = ProgramStatus.Active.Value
+                MoneyFlowTypeId = MoneyFlowType.Outgoing.Id,
+                MoneyFlowTypeName = MoneyFlowType.Outgoing.Value
             };
-            var owner1 = new Organization
+            var projectType = new MoneyFlowSourceRecipientType
             {
-                OrganizationId = 1,
-                Name = "owner 1",
-                OfficeSymbol = "owner 1 symbol",
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Project.Id,
+                TypeName = MoneyFlowSourceRecipientType.Project.Value
             };
-
-            var program = new Program
+            var budgeted = new MoneyFlowStatus
             {
-                ProgramId = 5,
-                Description = "desc1",
-                History = new History
-                {
-                    CreatedBy = 1,
-                },
-                Name = "program 1",
-                Owner = owner1,
-                OwnerId = owner1.OrganizationId,
-                ProgramStatus = active,
-                ProgramStatusId = active.ProgramStatusId,
+                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Budgeted.Value
             };
 
-            var project = new Project
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceProject = new Project
             {
-                ProjectId = 1,
-                Name = "project",
-                Description = "description",
-                ProjectStatusId = 1,
-                StartDate = DateTimeOffset.Now,
-                ProgramId = 2,
-                ParentProgram = program
-
+                ProjectId = sourceId,
+                Name = "Outgoing"
             };
 
-            var sourceType = new MoneyFlowSourceRecipientType
+            var recipientProject = new Project
             {
-                MoneyFlowSourceRecipientTypeId = 1,
-                TypeName = "program"
+                ProjectId = recipientId,
+                Name = "Incoming"
             };
 
-            var recipientType = new MoneyFlowSourceRecipientType
+            var moneyFlow = new MoneyFlow
             {
+                SourceProjectId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceProject = sourceProject,
+                RecipientProject = recipientProject,
+                SourceType = projectType,
+                SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = projectType,
+                RecipientTypeId = projectType.MoneyFlowSourceRecipientTypeId,
 
-                MoneyFlowSourceRecipientTypeId = 2,
-                TypeName = "project"
+                MoneyFlowStatus = budgeted,
+                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            context.Projects.Add(sourceProject);
+            context.Projects.Add(recipientProject);
+            context.MoneyFlowTypes.Add(outgoing);
+            context.MoneyFlowSourceRecipientTypes.Add(projectType);
+            context.MoneyFlowStatuses.Add(budgeted);
+
+            Action<PagedQueryResults<MoneyFlowDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                Assert.IsNotNull(results.Results.First());
+                Assert.AreEqual(moneyFlow.MoneyFlowId, results.Results.First().Id);
             };
 
-            var moneyFlowType = new MoneyFlowType
-            {
-                MoneyFlowTypeId = 1,
-                MoneyFlowTypeName = "program",
-            };
-
-            var moneyFlowStatus = new MoneyFlowStatus
-            {
-                MoneyFlowStatusId = 1,
-                MoneyFlowStatusName = "test status",
-            };
-            var moneyFlow1 = new MoneyFlow
-            {
-                MoneyFlowId = 1,
-                Value = 50,
-                RecipientProjectId = 1,
-                TransactionDate = new DateTimeOffset(),
-                MoneyFlowStatus = moneyFlowStatus,
-                MoneyFlowStatusId = 1,
-                RecipientProject = project,
-                SourceProgramId = 5,
-                SourceProgram = program,
-                SourceType = sourceType,
-                RecipientType = recipientType,
-                SourceTypeId = 1,
-                RecipientTypeId = 2,
-                Description = "moneyFlow",
-                MoneyFlowType = moneyFlowType,
-                MoneyFlowTypeId = 1
-            };
-
-            program.Projects.Add(project);
-
-            context.Projects.Add(project);
-            context.Programs.Add(program);
-            context.MoneyFlowSourceRecipientTypes.Add(sourceType);
-            context.MoneyFlowSourceRecipientTypes.Add(recipientType);
-            context.MoneyFlowTypes.Add(moneyFlowType);
-            context.MoneyFlowStatuses.Add(moneyFlowStatus);
-            context.MoneyFlows.Add(moneyFlow1);
-
-            var defaultSorter = new ExpressionSorter<MoneyFlowDTO>(x => x.TransactionDate, SortDirection.Ascending);
-            var start = 0;
-            var limit = 10;
-            var queryOperator = new QueryableOperator<MoneyFlowDTO>(start, limit, defaultSorter);
-
-            Action<PagedQueryResults<MoneyFlowDTO>> tester = (serviceResult) =>
-            {
-                Assert.AreEqual(1, serviceResult.Total);
-                var results = serviceResult.Results;
-                Assert.AreEqual(1, results.Count);
-                var firstResult = results.First();
-
-                Assert.AreEqual(moneyFlow1.TransactionDate, firstResult.TransactionDate);
-                Assert.AreEqual(moneyFlow1.SourceType.TypeName, firstResult.Type);
-                Assert.AreEqual(program.Name, firstResult.FromTo);
-                Assert.AreEqual(moneyFlow1.Value, firstResult.Amount);
-                Assert.AreEqual(moneyFlow1.Description, firstResult.Description);
-            };
-
-            var result = service.GetMoneyFlowsByProjectId(project.ProjectId, queryOperator);
-            var resultAsync = await service.GetMoneyFlowsByProjectIdAsync(project.ProjectId, queryOperator);
-
-            tester(result);
-            tester(resultAsync);
-
+            var defaultSorter = new ExpressionSorter<MoneyFlowDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<MoneyFlowDTO>(0, 10, defaultSorter);
+            var serviceResults = service.GetMoneyFlowsByProjectId(sourceProject.ProjectId, queryOperator);
+            var serviceResultsAsync = await service.GetMoneyFlowsByProjectIdAsync(sourceProject.ProjectId, queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
         }
         #endregion
 
@@ -175,123 +127,77 @@ namespace ECA.Business.Test.Service.Fundings
         [TestMethod]
         public async Task TestGetMoneyFlowsByProgramId_CheckProperties()
         {
-            var active = new ProgramStatus
+            var outgoing = new MoneyFlowType
             {
-                ProgramStatusId = ProgramStatus.Active.Id,
-                Status = ProgramStatus.Active.Value
+                MoneyFlowTypeId = MoneyFlowType.Outgoing.Id,
+                MoneyFlowTypeName = MoneyFlowType.Outgoing.Value
             };
-            var owner1 = new Organization
+            var programType = new MoneyFlowSourceRecipientType
             {
-                OrganizationId = 1,
-                Name = "owner 1",
-                OfficeSymbol = "owner 1 symbol",
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Program.Id,
+                TypeName = MoneyFlowSourceRecipientType.Program.Value
             };
-
-            var program = new Program
+            var budgeted = new MoneyFlowStatus
             {
-                ProgramId = 5,
-                Description = "desc1",
-                History = new History
-                {
-                    CreatedBy = 1,
-                },
-                Name = "program 1",
-                Owner = owner1,
-                OwnerId = owner1.OrganizationId,
-                ProgramStatus = active,
-                ProgramStatusId = active.ProgramStatusId,
+                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Budgeted.Value
             };
 
-            var project = new Project
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceProgram = new Program
             {
-                ProjectId = 1,
-                Name = "project",
-                Description = "description",
-                ProjectStatusId = 1,
-                StartDate = DateTimeOffset.Now,
-                ProgramId = 2,
-                ParentProgram = program
+                ProgramId = sourceId,
+                Name = "Outgoing"
+            };
+
+            var recipientProgram = new Program
+            {
+                ProgramId = recipientId,
+                Name = "Incoming"
 
             };
 
-            var sourceType = new MoneyFlowSourceRecipientType
+            var moneyFlow = new MoneyFlow
             {
-                MoneyFlowSourceRecipientTypeId = 1,
-                TypeName = "program"
+                SourceProgramId = sourceId,
+                RecipientProgramId = recipientId,
+                SourceProgram = sourceProgram,
+                RecipientProgram = recipientProgram,
+                SourceType = programType,
+                SourceTypeId = programType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = programType,
+                RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
+
+                MoneyFlowStatus = budgeted,
+                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            context.Programs.Add(sourceProgram);
+            context.Programs.Add(recipientProgram);
+            context.MoneyFlowTypes.Add(outgoing);
+            context.MoneyFlowSourceRecipientTypes.Add(programType);
+            context.MoneyFlowStatuses.Add(budgeted);
+
+            Action<PagedQueryResults<MoneyFlowDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                Assert.IsNotNull(results.Results.First());
+                Assert.AreEqual(moneyFlow.MoneyFlowId, results.Results.First().Id);
             };
 
-            var recipientType = new MoneyFlowSourceRecipientType
-            {
-
-                MoneyFlowSourceRecipientTypeId = 2,
-                TypeName = "project"
-            };
-
-            var moneyFlowType = new MoneyFlowType
-            {
-                MoneyFlowTypeId = 1,
-                MoneyFlowTypeName = "program",
-            };
-
-            var moneyFlowStatus = new MoneyFlowStatus
-            {
-                MoneyFlowStatusId = 1,
-                MoneyFlowStatusName = "test status",
-            };
-            var moneyFlow1 = new MoneyFlow
-            {
-                MoneyFlowId = 1,
-                Value = 50,
-                RecipientProjectId = 1,
-                TransactionDate = new DateTimeOffset(),
-                MoneyFlowStatus = moneyFlowStatus,
-                MoneyFlowStatusId = 1,
-                RecipientProject = project,
-                SourceProgramId = 5,
-                SourceProgram = program,
-                SourceType = sourceType,
-                RecipientType = recipientType,
-                SourceTypeId = 1,
-                RecipientTypeId = 2,
-                Description = "moneyFlow",
-                MoneyFlowType = moneyFlowType,
-                MoneyFlowTypeId = 1
-            };
-
-            program.Projects.Add(project);
-
-            context.Projects.Add(project);
-            context.Programs.Add(program);
-            context.MoneyFlowSourceRecipientTypes.Add(sourceType);
-            context.MoneyFlowSourceRecipientTypes.Add(recipientType);
-            context.MoneyFlowTypes.Add(moneyFlowType);
-            context.MoneyFlowStatuses.Add(moneyFlowStatus);
-            context.MoneyFlows.Add(moneyFlow1);
-
-            var defaultSorter = new ExpressionSorter<MoneyFlowDTO>(x => x.TransactionDate, SortDirection.Ascending);
-            var start = 0;
-            var limit = 10;
-            var queryOperator = new QueryableOperator<MoneyFlowDTO>(start, limit, defaultSorter);
-
-            Action<PagedQueryResults<MoneyFlowDTO>> tester = (serviceResult) =>
-            {
-                Assert.AreEqual(1, serviceResult.Total);
-                var results = serviceResult.Results;
-                Assert.AreEqual(1, results.Count);
-                var firstResult = results.First();
-
-                Assert.AreEqual(moneyFlow1.TransactionDate, firstResult.TransactionDate);
-                Assert.AreEqual(moneyFlow1.SourceType.TypeName, firstResult.Type);
-                Assert.AreEqual(project.Name, firstResult.FromTo);
-                Assert.AreEqual(moneyFlow1.Value, firstResult.Amount);
-                Assert.AreEqual(moneyFlow1.Description, firstResult.Description);
-            };
-
-            var result = service.GetMoneyFlowsByProgramId(program.ProgramId, queryOperator);
-            var resultAsync = await service.GetMoneyFlowsByProgramIdAsync(program.ProgramId, queryOperator);
-
-            tester(result);
-            tester(resultAsync);
+            var defaultSorter = new ExpressionSorter<MoneyFlowDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<MoneyFlowDTO>(0, 10, defaultSorter);
+            var serviceResults = service.GetMoneyFlowsByProgramId(sourceProgram.ProgramId, queryOperator);
+            var serviceResultsAsync = await service.GetMoneyFlowsByProgramIdAsync(sourceProgram.ProgramId, queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
 
         }
         #endregion

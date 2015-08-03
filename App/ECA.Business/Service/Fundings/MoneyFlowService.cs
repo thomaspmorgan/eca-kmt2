@@ -46,8 +46,6 @@ namespace ECA.Business.Service.Fundings
             };
         }
 
-
-
         /// <summary>
         /// Gets moneyflows by the project id 
         /// </summary>
@@ -56,14 +54,14 @@ namespace ECA.Business.Service.Fundings
         /// <returns>List of moneyflows that are paged, sorted, and filtered</returns>
         public PagedQueryResults<MoneyFlowDTO> GetMoneyFlowsByProjectId(int projectId, QueryableOperator<MoneyFlowDTO> queryOperator)
         {
-            var moneyFlows = MoneyFlowQueries.CreateGetMoneyFlowsByProjectIdQuery(this.Context, projectId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            var moneyFlows = MoneyFlowQueries.CreateGetMoneyFlowDTOsByProjectId(this.Context, projectId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
             this.logger.Trace("Retrieved money flows by id {0} with query operator {1}.", projectId, queryOperator);
             return moneyFlows;
         }
 
         public PagedQueryResults<MoneyFlowDTO> GetMoneyFlowsByProgramId(int programId, QueryableOperator<MoneyFlowDTO> queryOperator)
         {
-            var moneyFlows = MoneyFlowQueries.CreateGetMoneyFlowsByProgramIdQuery(this.Context, programId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            var moneyFlows = MoneyFlowQueries.CreateGetMoneyFlowDTOsByProgramId(this.Context, programId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
             this.logger.Trace("Retrieved money flows by program id {0} with query operator {1}.", programId, queryOperator);
             return moneyFlows;
         }
@@ -75,7 +73,6 @@ namespace ECA.Business.Service.Fundings
         /// <returns>List of moneyflows that are paged, sorted, and filtered</returns>
         public async Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByProjectIdAsync(int projectId, QueryableOperator<MoneyFlowDTO> queryOperator)
         {
-            //var moneyFlows = await MoneyFlowQueries.CreateGetMoneyFlowsByProjectIdQuery(this.Context, projectId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
             var moneyFlows = await MoneyFlowQueries.CreateGetMoneyFlowDTOsByProjectId(this.Context, projectId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
             this.logger.Trace("Retrieved money flows by id {0} with query operator {1}.", projectId, queryOperator);
             return moneyFlows;
@@ -83,7 +80,7 @@ namespace ECA.Business.Service.Fundings
 
         public async Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByProgramIdAsync(int programId, QueryableOperator<MoneyFlowDTO> queryOperator)
         {
-            var moneyFlows = await MoneyFlowQueries.CreateGetMoneyFlowsByProgramIdQuery(this.Context, programId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            var moneyFlows = await MoneyFlowQueries.CreateGetMoneyFlowDTOsByProgramId(this.Context, programId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
             this.logger.Trace("Retrieved money flows by program id {0} with query operator {1}.", programId, queryOperator);
             return moneyFlows;
         }
