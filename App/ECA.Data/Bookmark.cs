@@ -23,7 +23,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the OfficeId - foreign key to OrganizationId
         /// </summary>
-        public int OfficeId { get; set; }
+        public int? OfficeId { get; set; }
 
         /// <summary>
         /// Gets or sets the Office
@@ -33,7 +33,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the ProgramId foreign key
         /// </summary>
-        public int ProgramId { get; set; }
+        public int? ProgramId { get; set; }
 
         /// <summary>
         /// Gets or sets the Program
@@ -43,7 +43,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the Project Id foreign key
         /// </summary>
-        public int ProjectId { get; set; }
+        public int? ProjectId { get; set; }
 
         /// <summary>
         /// gets or sets the Project
@@ -53,7 +53,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the OrganizationId foreign key
         /// </summary>
-        public int OrganizationId { get; set; }
+        public int? OrganizationId { get; set; }
 
         /// <summary>
         /// Gets or sets the Organization
@@ -63,7 +63,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the user that owns the bookmark
         /// </summary>
-        public int PrincipalId { get; set; }
+        public int? PrincipalId { get; set; }
 
         /// <summary>
         /// The user who owns the bookmark
