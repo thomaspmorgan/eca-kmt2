@@ -367,6 +367,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Common\AdGraph.cs" />
     <Compile Include="Controllers\Admin\AddressesController.cs" />
+    <Compile Include="Controllers\Admin\BookmarksController.cs" />
     <Compile Include="Controllers\Admin\GendersController.cs" />
     <Compile Include="Controllers\Admin\MaritalStatusesController.cs" />
     <Compile Include="Controllers\Admin\MoneyFlowSourceRecipientTypesController.cs" />
@@ -394,6 +395,7 @@
     <Compile Include="Custom\SwaggerExtensions\ApplySchemaVendorExtensions.cs" />
     <Compile Include="Custom\SwaggerExtensions\AssignOAuth2SecurityRequirements.cs" />
     <Compile Include="Custom\SwaggerExtensions\DescendingAlphabeticComparer.cs" />
+    <Compile Include="Models\Admin\BookmarkBindingModel.cs" />
     <Compile Include="Models\Offices\CollaboratorBindingModel.cs" />
     <Compile Include="Models\Admin\AddressBindingModel.cs" />
     <Compile Include="Models\Admin\AddressModelHandler.cs" />

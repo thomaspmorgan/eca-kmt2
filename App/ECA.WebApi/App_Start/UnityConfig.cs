@@ -99,7 +99,7 @@ namespace ECA.WebApi
             container.RegisterType<IStaticGeneratorValidator, DbContextStaticLookupValidator>(new HierarchicalLifetimeManager());
             container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IParticipantPersonService, ParticipantPersonService>(new HierarchicalLifetimeManager());
-            
+            container.RegisterType<IBookmarkService, BookmarkService>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>

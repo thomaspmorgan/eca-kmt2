@@ -142,11 +142,13 @@
     <Compile Include="Service\Admin\AdditionalAddress.cs" />
     <Compile Include="Service\Admin\AdditionalOrganizationAddress.cs" />
     <Compile Include="Service\Admin\AdditionalPersonAddress.cs" />
+    <Compile Include="Service\Admin\BookmarkService.cs" />
     <Compile Include="Service\Admin\DraftMoneyFlow.cs" />
     <Compile Include="Service\Admin\EcaAddress.cs" />
     <Compile Include="Service\Admin\EcaAddressValidationEntity.cs" />
     <Compile Include="Service\Admin\EcaMoneyFlow.cs" />
     <Compile Include="Service\Admin\EcaOrganization.cs" />
+    <Compile Include="Service\Admin\IBookmarkService.cs" />
     <Compile Include="Service\Admin\IMaritalStatusService.cs" />
     <Compile Include="Service\Admin\IOrganizationService.cs" />
     <Compile Include="Service\Admin\IMoneyFlowHelpersService.cs" />
@@ -158,6 +160,7 @@
     <Compile Include="Service\Admin\IFocusCategoryService.cs" />
     <Compile Include="Service\Admin\IGenderService.cs" />
     <Compile Include="Service\Admin\LocationServiceAddressValidator.cs" />
+    <Compile Include="Service\Admin\NewBookmark.cs" />
     <Compile Include="Service\Admin\OrganizationServiceValidator.cs" />
     <Compile Include="Service\Admin\PersonSocialMediaPresence.cs" />
     <Compile Include="Service\Admin\OrganizationSocialMediaPresence.cs" />
