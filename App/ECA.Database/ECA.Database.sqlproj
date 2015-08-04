@@ -289,6 +289,7 @@
     <Build Include="dbo\Tables\PersonEvaluationNote.sql" />
     <Build Include="dbo\Views\UserView.sql" />
     <None Include="Scripts\PostDeploy\CAM.InsertResources.sql" />
+    <Build Include="dbo\Tables\Bookmark.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ECA.Database.refactorlog" />

@@ -16,7 +16,7 @@
     "datamaps": "0.3.6",
     "bower": "*",
     "ngSticky": "1.7.9",
-    "adal-angular": "1.0.1",
+    "adal-angular": "1.0.4",
     "angular-smart-table": "2.0.3",
     "angular-ui-date": "0.0.7",
     "angular-ui-select": "0.11.2",
