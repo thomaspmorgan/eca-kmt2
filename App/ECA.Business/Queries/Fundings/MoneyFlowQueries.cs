@@ -23,7 +23,10 @@ namespace ECA.Business.Queries.Fundings
 
 
         /// <summary>
-        /// Returns a query to get all outgoing money flows currently in the system.
+        /// Returns a query to get all outgoing money flows currently in the system.  This would be
+        /// money flow's with the entity from the source perspective.  In other words, supposed I'm interested
+        /// in outgoing money flows from a project, then I need to find money flows whose sourceProjectId and source type id
+        /// belong to a project.
         /// </summary>
         /// <param name="context">The context to query.</param>
         /// <returns>The query to get outgoing money flows in the system.</returns>
@@ -36,11 +39,13 @@ namespace ECA.Business.Queries.Fundings
 
             var query = from moneyFlow in context.MoneyFlows
                         let isExpense = moneyFlow.RecipientTypeId == expenseMoneyFlowSourceRecipientTypeId
-                        let sourceType = isExpense ? expenseMoneyFlowSourceRecipientTypeValue : moneyFlow.SourceType.TypeName
+                        let recipientTypeName = isExpense ? expenseMoneyFlowSourceRecipientTypeValue : moneyFlow.RecipientType.TypeName
+                        let recipientTypeId = isExpense ? expenseMoneyFlowSourceRecipientTypeId : moneyFlow.RecipientTypeId
                         let status = moneyFlow.MoneyFlowStatus.MoneyFlowStatusName
+                        let statusId = moneyFlow.MoneyFlowStatusId
                         let amount = moneyFlow.Value
                         
-                        let entityTypeId = moneyFlow.SourceTypeId
+                        let sourceEntityTypeId = moneyFlow.SourceTypeId
 
                         let sourceEntityId = moneyFlow.SourceItineraryStopId.HasValue ? moneyFlow.SourceItineraryStopId.Value
                             : moneyFlow.SourceOrganizationId.HasValue ? moneyFlow.SourceOrganizationId.Value
@@ -86,22 +91,28 @@ namespace ECA.Business.Queries.Fundings
                         {
                             Id = moneyFlow.MoneyFlowId,
                             EntityId = sourceEntityId,
-                            EntityTypeId = entityTypeId,
+                            EntityTypeId = sourceEntityTypeId,
                             Amount = -moneyFlow.Value,
                             Description = moneyFlow.Description,
-                            FiscalYear = moneyFlow.FiscalYear,
-                            SourceType = sourceType,
-                            Status = status,
+                            FiscalYear = moneyFlow.FiscalYear,                            
+                            MoneyFlowStatus = status,
+                            MoneyFlowStatusId = statusId,
                             TransactionDate = moneyFlow.TransactionDate,
-                            Type = outgoingMoneyFlowType,
-                            FromTo = isExpense ? null : recipientEntityName
+                            MoneyFlowType = outgoingMoneyFlowType,
+
+                            SourceRecipientTypeName = recipientTypeName,
+                            SourceRecipientEntityTypeId = recipientTypeId,
+                            SourceRecipientEntityId = isExpense ? default(int?) : recipientEntityId,
+                            SourceRecipientName = isExpense ? null : recipientEntityName
                         };
             return query;
 
         }
 
         /// <summary>
-        /// Returns a query to get all incoming money flows as a dto.
+        /// Returns a query to get all incoming money flows as a dto.  This would be money flows from the perspective
+        /// of the entity as the recipient.  For example, supposed I am concerned about incoming money to a project, then
+        /// I need to find all money flows whose recipient project id and recipient type id belong to a project.
         /// </summary>
         /// <param name="context">The context to query.</param>
         /// <returns>The query to get all incoming money flows.</returns>
@@ -110,13 +121,15 @@ namespace ECA.Business.Queries.Fundings
             Contract.Requires(context != null, "The context must not be null.");
             var incomingMoneyFlowType = MoneyFlowType.Incoming.Value;
             var query = from moneyFlow in context.MoneyFlows
-                        let sourceType = moneyFlow.SourceType.TypeName
+                        let sourceTypeName = moneyFlow.SourceType.TypeName
+                        let sourceTypeId = moneyFlow.SourceTypeId
                         let status = moneyFlow.MoneyFlowStatus.MoneyFlowStatusName
+                        let statusId = moneyFlow.MoneyFlowStatusId
                         let amount = moneyFlow.Value
 
-                        let entityTypeId = moneyFlow.RecipientTypeId
+                        let recipientEntityTypeId = moneyFlow.RecipientTypeId
 
-                        let sourceEntityId = moneyFlow.RecipientAccommodationId.HasValue ? moneyFlow.RecipientAccommodationId.Value
+                        let recipientEntityId = moneyFlow.RecipientAccommodationId.HasValue ? moneyFlow.RecipientAccommodationId.Value
                             : moneyFlow.RecipientItineraryStopId.HasValue ? moneyFlow.RecipientItineraryStopId.Value
                             : moneyFlow.RecipientOrganizationId.HasValue ? moneyFlow.RecipientOrganizationId.Value
                             : moneyFlow.RecipientParticipantId.HasValue ? moneyFlow.RecipientParticipantId.Value
@@ -125,24 +138,24 @@ namespace ECA.Business.Queries.Fundings
                             : moneyFlow.RecipientTransportationId.HasValue ? moneyFlow.RecipientTransportationId.Value
                             : -1
 
-                        let recipientEntityId = moneyFlow.SourceItineraryStopId.HasValue ? moneyFlow.SourceItineraryStopId.Value
+                        let sourceEntityId = moneyFlow.SourceItineraryStopId.HasValue ? moneyFlow.SourceItineraryStopId.Value
                             : moneyFlow.SourceOrganizationId.HasValue ? moneyFlow.SourceOrganizationId.Value
                             : moneyFlow.SourceParticipantId.HasValue ? moneyFlow.SourceParticipantId.Value
                             : moneyFlow.SourceProgramId.HasValue ? moneyFlow.SourceProgramId.Value
                             : moneyFlow.SourceProjectId.HasValue ? moneyFlow.SourceProjectId.Value
                             : -1
 
-                        let organization = context.Organizations.Where(x => x.OrganizationId == recipientEntityId).FirstOrDefault()
+                        let organization = context.Organizations.Where(x => x.OrganizationId == sourceEntityId).FirstOrDefault()
                         let itinerary = ITINERARY_NAME
-                        let project = context.Projects.Where(x => x.ProjectId == recipientEntityId).FirstOrDefault()
-                        let program = context.Programs.Where(x => x.ProgramId == recipientEntityId).FirstOrDefault()
-                        let participant = context.Participants.Where(x => x.ParticipantId == recipientEntityId).FirstOrDefault()
+                        let project = context.Projects.Where(x => x.ProjectId == sourceEntityId).FirstOrDefault()
+                        let program = context.Programs.Where(x => x.ProgramId == sourceEntityId).FirstOrDefault()
+                        let participant = context.Participants.Where(x => x.ParticipantId == sourceEntityId).FirstOrDefault()
                         let isOrgParticipant = participant == null ? false : participant.OrganizationId.HasValue
                         let isPersonParticipant = participant == null ? false : participant.PersonId.HasValue
                         let orgParticipant = isOrgParticipant ? participant.Organization : null
                         let personParticipant = isPersonParticipant ? participant.Person : null
 
-                        let fromEntityName = moneyFlow.SourceItineraryStopId.HasValue ? itinerary
+                        let sourceEntityName = moneyFlow.SourceItineraryStopId.HasValue ? itinerary
                             : moneyFlow.SourceOrganizationId.HasValue ? organization.Name
                             : moneyFlow.SourceParticipantId.HasValue ?
                                 (isOrgParticipant ? orgParticipant.Name :
@@ -154,16 +167,20 @@ namespace ECA.Business.Queries.Fundings
                         select new MoneyFlowDTO
                         {
                             Id = moneyFlow.MoneyFlowId,
-                            EntityId = sourceEntityId,
-                            EntityTypeId = entityTypeId,
+                            EntityId = recipientEntityId,
+                            EntityTypeId = recipientEntityTypeId,
                             Amount = moneyFlow.Value,
                             Description = moneyFlow.Description,
-                            FiscalYear = moneyFlow.FiscalYear,
-                            SourceType = sourceType,
-                            Status = status,
+                            FiscalYear = moneyFlow.FiscalYear,                            
+                            MoneyFlowStatus = status,
+                            MoneyFlowStatusId = statusId,
                             TransactionDate = moneyFlow.TransactionDate,
-                            Type = incomingMoneyFlowType,
-                            FromTo = fromEntityName
+                            MoneyFlowType = incomingMoneyFlowType,
+
+                            SourceRecipientTypeName = sourceTypeName,
+                            SourceRecipientEntityTypeId = sourceTypeId,
+                            SourceRecipientEntityId = sourceEntityId,
+                            SourceRecipientName = sourceEntityName
                         };
             return query;
 

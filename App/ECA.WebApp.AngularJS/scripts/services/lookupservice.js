@@ -69,28 +69,13 @@ angular.module('staticApp')
               return DragonBreath.get(params, 'addresses/types');
           },
           getAllMoneyFlowStati: function (params) {
-              var defer = $q.defer();
-              DragonBreath.get(params, 'moneyflowstatuses')
-                .success(function (data) {
-                    defer.resolve(data);
-                });
-              return defer.promise;
+              return DragonBreath.get(params, 'moneyflowstatuses');
           },
           getAllMoneyFlowTypes: function (params) {
-              var defer = $q.defer();
-              DragonBreath.get(params, 'moneyflowtypes')
-                .success(function (data) {
-                    defer.resolve(data);
-                });
-              return defer.promise;
+              return DragonBreath.get(params, 'moneyflowtypes');
           },
           getAllMoneyFlowSourceRecipientTypes: function (params) {
-              var defer = $q.defer();
-              DragonBreath.get(params, 'moneyflowsourcerecipienttypes')
-                .success(function (data) {
-                    defer.resolve(data);
-                });
-              return defer.promise;
+              return DragonBreath.get(params, 'moneyflowsourcerecipienttypes');
           },
           getAllGenders: function (params) {
               var defer = $q.defer();

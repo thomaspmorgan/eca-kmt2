@@ -23,6 +23,7 @@
 	types.Add(typeof(OrganizationType));
 	types.Add(typeof(SocialMediaType));
 	types.Add(typeof(ProgramStatus));
+	types.Add(typeof(MoneyFlowSourceRecipientType));
 	types.Add(typeof(CAM.Data.Permission));
 	types.Add(typeof(CAM.Data.ResourceType));
 
