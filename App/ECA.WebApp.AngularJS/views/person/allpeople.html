@@ -1,13 +1,13 @@
 <div class="jumbotron person">
     <div class="heading">
-        <h1>Persons</h1>
+        <h1>People</h1>
     </div>
 </div>
 
 <div class="container">
 
-    <h4 class="tab-subheader">Persons List</h4>
-    <p class="subheader listCount">Showing {{start}} - {{end}} of {{total}} persons</p>
+    <h4 class="tab-subheader">People List</h4>
+    <p class="subheader listCount">Showing {{start}} - {{end}} of {{total}} people</p>
 
     <div st-pipe="getPersons" st-table="persons" id="sort-list">
         <table class="col-md-12 alt">
@@ -36,7 +36,7 @@
             <tbody class="list2">
                 <tr class="hover" ng-repeat="person in persons" ng-show="!personsLoading">
                     <td>
-                        <h5 class="list-title"><a ng-click="onPersonClick(person)">{{person.fullName}}</a></h5>
+                        <h5><a ng-bind-html="person.fullName" ui-sref="people.personalinformation({personId: person.personId})">{{person.fullName}}</a></h5>
                     </td>
                     <td>{{person.gender}}</td>
                     <td>{{person.currentStatus}}</td>

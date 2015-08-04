@@ -4,7 +4,7 @@
  * Controller for participant timeline
  */
 angular.module('staticApp')
-  .controller('ParticipantTimelineCtrl', function ($scope, ProjectService, ParticipantPersonsService) {
+  .controller('PersonTimelineCtrl', function ($scope, ProjectService, ParticipantPersonsService) {
 
       $scope.projectsLoading = false;
 

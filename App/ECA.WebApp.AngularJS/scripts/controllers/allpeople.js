@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('AllPersonsCtrl', function ($scope, $stateParams, $state, $log, PersonService, TableService) {
+  .controller('AllPeopleCtrl', function ($scope, $stateParams, $state, $log, PersonService, TableService) {
 
       $scope.persons = [];
       $scope.start = 0;
