@@ -137,6 +137,10 @@
     <Compile Include="Models\Admin\UpdatedAddressBindingModelTest.cs" />
     <Compile Include="Models\Admin\UpdatedOrganizationBindingModelTest.cs" />
     <Compile Include="Models\Admin\UpdatedSocialMediaBindingModelTest.cs" />
+    <Compile Include="Models\Fundings\AdditionalProgramMoneyFlowBindingModelTest.cs" />
+    <Compile Include="Models\Fundings\AdditionalProjectMoneyFlowBindingModelTest.cs" />
+    <Compile Include="Models\Fundings\AdditionalMoneyFlowBindingModelTest.cs" />
+    <Compile Include="Models\Fundings\UpdatedMoneyFlowBindingModelTest.cs" />
     <Compile Include="Models\Person\PiiBindingModelTest.cs" />
     <Compile Include="Models\Programs\ProgramBindingModelTest.cs" />
     <Compile Include="Models\Programs\DraftProgramBindingModelTest.cs" />

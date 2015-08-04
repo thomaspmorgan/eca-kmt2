@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ECA.Core.DynamicLinq;
 using System.Diagnostics.Contracts;
+using NLog;
 
 namespace ECA.Business.Queries.Fundings
 {

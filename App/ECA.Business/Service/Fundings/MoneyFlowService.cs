@@ -47,11 +47,11 @@ namespace ECA.Business.Service.Fundings
         }
 
         /// <summary>
-        /// Gets moneyflows by the project id 
+        /// Returns the money flows for the project with the given id.
         /// </summary>
-        /// <param name="projectId">The project id to find associated moneyflows</param>
-        /// <param name="queryOperator"></param>
-        /// <returns>List of moneyflows that are paged, sorted, and filtered</returns>
+        /// <param name="projectId">The project id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The project's money flows.</returns>
         public PagedQueryResults<MoneyFlowDTO> GetMoneyFlowsByProjectId(int projectId, QueryableOperator<MoneyFlowDTO> queryOperator)
         {
             var moneyFlows = MoneyFlowQueries.CreateGetMoneyFlowDTOsByProjectId(this.Context, projectId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
@@ -59,18 +59,12 @@ namespace ECA.Business.Service.Fundings
             return moneyFlows;
         }
 
-        public PagedQueryResults<MoneyFlowDTO> GetMoneyFlowsByProgramId(int programId, QueryableOperator<MoneyFlowDTO> queryOperator)
-        {
-            var moneyFlows = MoneyFlowQueries.CreateGetMoneyFlowDTOsByProgramId(this.Context, programId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
-            this.logger.Trace("Retrieved money flows by program id {0} with query operator {1}.", programId, queryOperator);
-            return moneyFlows;
-        }
         /// <summary>
-        /// Gets moneyflows by the project id asynchronously
+        /// Returns the money flows for the project with the given id.
         /// </summary>
-        /// <param name="projectId">The project id to find associated moneyflows</param>
-        /// <param name="queryOperator"></param>
-        /// <returns>List of moneyflows that are paged, sorted, and filtered</returns>
+        /// <param name="projectId">The project id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The project's money flows.</returns>
         public async Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByProjectIdAsync(int projectId, QueryableOperator<MoneyFlowDTO> queryOperator)
         {
             var moneyFlows = await MoneyFlowQueries.CreateGetMoneyFlowDTOsByProjectId(this.Context, projectId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
@@ -78,6 +72,25 @@ namespace ECA.Business.Service.Fundings
             return moneyFlows;
         }
 
+        /// <summary>
+        /// Returns the money flows for the program with the given id.
+        /// </summary>
+        /// <param name="programId">The program id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The programs's money flows.</returns>
+        public PagedQueryResults<MoneyFlowDTO> GetMoneyFlowsByProgramId(int programId, QueryableOperator<MoneyFlowDTO> queryOperator)
+        {
+            var moneyFlows = MoneyFlowQueries.CreateGetMoneyFlowDTOsByProgramId(this.Context, programId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved money flows by program id {0} with query operator {1}.", programId, queryOperator);
+            return moneyFlows;
+        }
+
+        /// <summary>
+        /// Returns the money flows for the program with the given id.
+        /// </summary>
+        /// <param name="programId">The program id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The programs's money flows.</returns>
         public async Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByProgramIdAsync(int programId, QueryableOperator<MoneyFlowDTO> queryOperator)
         {
             var moneyFlows = await MoneyFlowQueries.CreateGetMoneyFlowDTOsByProgramId(this.Context, programId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);

@@ -9,6 +9,7 @@ using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Filter;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
+using ECA.WebApi.Models.Fundings;
 using ECA.WebApi.Models.Projects;
 using ECA.WebApi.Models.Query;
 using ECA.WebApi.Models.Security;
@@ -31,60 +32,37 @@ namespace ECA.WebApi.Controllers.Admin
     public class MoneyFlowsController : ApiController
     {
         /// <summary>
-        /// The default sorter
+        /// The default sorter of money flows.
         /// </summary>
         private static readonly ExpressionSorter<MoneyFlowDTO> DEFAULT_MONEY_FLOW_DTO_SORTER = new ExpressionSorter<MoneyFlowDTO>(x => x.TransactionDate, SortDirection.Descending);
         
-        private IMoneyFlowService moneyFlowService;
-        private IResourceAuthorizationHandler authorizationHandler;
-        private IUserProvider userProvider;
-        private IResourceService resourceService;
+        private readonly IMoneyFlowService moneyFlowService;
+        private readonly IUserProvider userProvider;
 
         /// <summary>
-        /// Constructor
+        /// Creates a new money flows controller instance.
         /// </summary>
-        /// <param name="moneyFlowService">The moneyflow service</param>
-        public MoneyFlowsController(IMoneyFlowService moneyFlowService)
-        {
-            Contract.Requires(moneyFlowService != null, "The money flow service must not be null.");
-            this.moneyFlowService = moneyFlowService;
-        }
-        public MoneyFlowsController(IMoneyFlowService moneyFlowService, 
-            IResourceAuthorizationHandler authorizationHandler, IUserProvider userProvider, 
-            IResourceService resourceService)
+        /// <param name="moneyFlowService">The money flow service.</param>
+        /// <param name="userProvider">The user provider.</param>
+        public MoneyFlowsController(IMoneyFlowService moneyFlowService, IUserProvider userProvider)
         {
             Contract.Requires(moneyFlowService != null, "The money flow service must not be null.");
             Contract.Requires(userProvider != null, "The user provider must not be null.");
-            Contract.Requires(authorizationHandler != null, "The authorization handler must not be null.");
-            Contract.Requires(resourceService != null, "The resource service must not be null.");
-
-            this.moneyFlowService = moneyFlowService;
-            this.resourceService = resourceService;
-            this.authorizationHandler = authorizationHandler;
             this.userProvider = userProvider;
+            this.moneyFlowService = moneyFlowService;
         }
-        //[ResponseType(typeof(MoneyFlowDTO))]
-        //public async Task<IHttpActionResult> GetMoneyFlowByIdAsync(int id)
-        //{
-        //    var moneyFlow = await this.moneyFlowService.GetMoneyFlowByIdAsync(id);
-        //    if (moneyFlow != null)
-        //    {
-        //        return Ok(moneyFlow);
-        //    }
-        //    else
-        //    {
-        //        return NotFound();
-        //    }
-        //}
+
+        #region Project
         /// <summary>
-        /// Gets moneyflows by the project id
+        /// Returns the money for the project with the given id.
         /// </summary>
-        /// <param name="projectId">The project id to query for associated moneyflows</param>
-        /// <param name="queryModel">The page, sort, and filter info</param>
-        /// <returns>Returns a list of moneyflows that are paged, filtered, and sorted</returns>
+        /// <param name="projectId"></param>
+        /// <param name="queryModel"></param>
+        /// <returns></returns>
         [ResponseType(typeof(PagedQueryResults<MoneyFlowDTO>))]
         [Route("Projects/{projectId:int}/MoneyFlows")]
-        public async Task<IHttpActionResult> GetMoneyFlowsByProjectId(int projectId, [FromUri]PagingQueryBindingModel<MoneyFlowDTO> queryModel)
+        [ResourceAuthorize(Permission.VIEW_PROJECT_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
+        public async Task<IHttpActionResult> GetMoneyFlowsByProjectIdAsync(int projectId, [FromUri]PagingQueryBindingModel<MoneyFlowDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
@@ -97,14 +75,109 @@ namespace ECA.WebApi.Controllers.Admin
             }
         }
 
+        /// <summary>
+        /// Creates a new project money flow.
+        /// </summary>
+        /// <param name="model">The new project money flow.</param>
+        /// <returns>An ok result.</returns>    
+        [Route("Project/MoneyFlows")]
+        [ResourceAuthorize(Permission.EDIT_PROJECT_VALUE, ResourceType.PROJECT_VALUE, typeof(AdditionalProjectMoneyFlowBindingModel), "projectId")]
+        public Task<IHttpActionResult> PostCreateProjectMoneyFlowAsync([FromBody]AdditionalProjectMoneyFlowBindingModel model)
+        {
+            return DoCreateAsync(model);
+        }
+
+        /// <summary>
+        /// Updates the given project's money flow.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <param name="model">The updated money flow.</param>
+        /// <returns>An Ok result.</returns>
+        [ResourceAuthorize(Permission.EDIT_PROJECT_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
+        [Route("Projects/{projectId:int}/MoneyFlows")]
+        public Task<IHttpActionResult> PutUpdateProjectMoneyFlowAsync([FromBody]UpdatedMoneyFlowBindingModel model, int projectId)
+        {
+            return DoUpdateAsync(model, projectId);
+        }
+
+        #endregion
+
+        #region Program
+
+        /// <summary>
+        /// Returns the money flows for the program with the given id.
+        /// </summary>
+        /// <param name="programId">The program id.</param>
+        /// <param name="queryModel">The query model.</param>
+        /// <returns>The money flows for the program.</returns>
         [ResponseType(typeof(PagedQueryResults<MoneyFlowDTO>))]
         [Route("Programs/{programId:int}/MoneyFlows")]
-        public async Task<IHttpActionResult> GetMoneyFlowsByProgramId(int programId, [FromUri]PagingQueryBindingModel<MoneyFlowDTO> queryModel)
+        [ResourceAuthorize(Permission.VIEW_PROGRAM_VALUE, ResourceType.PROGRAM_VALUE, "programId")]
+        public async Task<IHttpActionResult> GetMoneyFlowsByProgramIdAsync(int programId, [FromUri]PagingQueryBindingModel<MoneyFlowDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
                 var results = await this.moneyFlowService.GetMoneyFlowsByProgramIdAsync(programId, queryModel.ToQueryableOperator(DEFAULT_MONEY_FLOW_DTO_SORTER));
                 return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Updates the given project's money flow.
+        /// </summary>
+        /// <param name="programId">The program id.</param>
+        /// <param name="model">The updated money flow.</param>
+        /// <returns>An Ok result.</returns>
+        [ResourceAuthorize(Permission.EDIT_PROGRAM_VALUE, ResourceType.PROGRAM_VALUE, "programId")]
+        [Route("Programs/{programId:int}/MoneyFlows")]
+        public Task<IHttpActionResult> PutUpdateProgramMoneyFlowAsync([FromBody]UpdatedMoneyFlowBindingModel model, int programId)
+        {
+            return DoUpdateAsync(model, programId);
+        }
+
+        /// <summary>
+        /// Creates a new project money flow.
+        /// </summary>
+        /// <param name="model">The new program money flow.</param>
+        /// <returns>An ok result.</returns>        
+        [Route("Program/MoneyFlows")]
+        [ResourceAuthorize(Permission.EDIT_PROJECT_VALUE, ResourceType.PROJECT_VALUE, typeof(AdditionalProgramMoneyFlowBindingModel), "programId")]
+        public Task<IHttpActionResult> PostCreateProgramMoneyFlowAsync([FromBody]AdditionalProgramMoneyFlowBindingModel model)
+        {
+            return DoCreateAsync(model);
+        }
+        #endregion
+
+        private async Task<IHttpActionResult> DoUpdateAsync(UpdatedMoneyFlowBindingModel model, int sourceEntityId)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = this.userProvider.GetCurrentUser();
+                var businessUser = this.userProvider.GetBusinessUser(currentUser);
+                await this.moneyFlowService.UpdateAsync(model.ToUpdatedMoneyFlow(businessUser, sourceEntityId));
+                await this.moneyFlowService.SaveChangesAsync();
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        private async Task<IHttpActionResult> DoCreateAsync<T>(AdditionalMoneyFlowBindingModel<T> additionalMoneyFlow) where T : class
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = this.userProvider.GetCurrentUser();
+                var businessUser = this.userProvider.GetBusinessUser(currentUser);
+                var instance = additionalMoneyFlow.ToAdditionalMoneyFlow(businessUser);
+                var addedMoneyFlow = await this.moneyFlowService.CreateAsync(instance);
+                await this.moneyFlowService.SaveChangesAsync();
+                return Ok();
             }
             else
             {
