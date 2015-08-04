@@ -369,10 +369,10 @@
     <Compile Include="Controllers\Admin\AddressesController.cs" />
     <Compile Include="Controllers\Admin\GendersController.cs" />
     <Compile Include="Controllers\Admin\MaritalStatusesController.cs" />
-    <Compile Include="Controllers\Admin\MoneyFlowSourceRecipientTypesController.cs" />
-    <Compile Include="Controllers\Admin\MoneyFlowTypesController.cs" />
+    <Compile Include="Controllers\Fundings\MoneyFlowSourceRecipientTypesController.cs" />
+    <Compile Include="Controllers\Fundings\MoneyFlowTypesController.cs" />
     <Compile Include="Controllers\Admin\OrganizationsController.cs" />
-    <Compile Include="Controllers\Admin\MoneyFlowStatusesController.cs" />
+    <Compile Include="Controllers\Fundings\MoneyFlowStatusesController.cs" />
     <Compile Include="Controllers\Admin\ParticipantTypesController.cs" />
     <Compile Include="Controllers\Admin\SocialMediasController.cs" />
     <Compile Include="Controllers\LogsController.cs" />
@@ -450,7 +450,7 @@
     <Compile Include="Controllers\Admin\OfficesController.cs" />
     <Compile Include="Controllers\Admin\ProjectStatusesController.cs" />
     <Compile Include="Controllers\Security\AuthController.cs" />
-    <Compile Include="Controllers\Admin\MoneyFlowsController.cs" />
+    <Compile Include="Controllers\Fundings\MoneyFlowsController.cs" />
     <Compile Include="Controllers\Projects\ProjectsController.cs" />
     <Compile Include="Controllers\Persons\ParticipantsController.cs" />
     <Compile Include="Controllers\Persons\ContactsController.cs" />

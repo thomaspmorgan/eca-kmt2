@@ -22,7 +22,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Results;
 
-namespace ECA.WebApi.Controllers.Admin
+namespace ECA.WebApi.Controllers.Fundings
 {
     /// <summary>
     /// Controller for managing moneyflows

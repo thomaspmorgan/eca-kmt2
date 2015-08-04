@@ -15,8 +15,9 @@ using ECA.WebApi.Security;
 using ECA.WebApi.Models.Fundings;
 using ECA.Data;
 using ECA.Business.Models.Fundings;
+using ECA.WebApi.Controllers.Fundings;
 
-namespace ECA.WebApi.Test.Controllers.Admin
+namespace ECA.WebApi.Test.Controllers.Fundings
 {
     [TestClass]
     public class MoneyFlowsControllerTest

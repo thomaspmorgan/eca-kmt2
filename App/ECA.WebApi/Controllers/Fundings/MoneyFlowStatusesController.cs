@@ -9,36 +9,38 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 
-namespace ECA.WebApi.Controllers.Admin
+namespace ECA.WebApi.Controllers.Fundings
 {
     /// <summary>
-    /// The Project Type controller handles crud operations on project stati.
+    /// The money flow statuses controller contains the crud operations for money flow statuses.
     /// </summary>
     [Authorize]
-    public class MoneyFlowSourceRecipientTypesController : ApiController
+    public class MoneyFlowStatusesController : ApiController
     {
-
-        private static readonly ExpressionSorter<MoneyFlowSourceRecipientTypeDTO> DEFAULT_PROJECT_STATUS_DTO_SORTER =
-            new ExpressionSorter<MoneyFlowSourceRecipientTypeDTO>(x => x.Name, SortDirection.Ascending);
-        private IMoneyFlowSourceRecipientTypeService service;
+        /// <summary>
+        /// The default sorter for a list of money flow status.
+        /// </summary>
+        private static readonly ExpressionSorter<MoneyFlowStatusDTO> DEFAULT_PROJECT_STATUS_DTO_SORTER = 
+            new ExpressionSorter<MoneyFlowStatusDTO>(x => x.Name, SortDirection.Ascending);
+        private IMoneyFlowStatusService service;
 
         /// <summary>
-        /// Creates a new instance with the project Type service.
+        /// Creates a new instance with the project status service.
         /// </summary>
         /// <param name="service">The service.</param>
-        public MoneyFlowSourceRecipientTypesController(IMoneyFlowSourceRecipientTypeService service)
+        public MoneyFlowStatusesController(IMoneyFlowStatusService service)
         {
             Contract.Requires(service != null, "The service must not be null.");
             this.service = service;
         }
 
         /// <summary>
-        /// Returns the project stati currently in the system.
+        /// Returns the money flow statuses in the system.
         /// </summary>
         /// <param name="queryModel">The query model.</param>
-        /// <returns>The project stati currently in the system.</returns>
-        [ResponseType(typeof(PagedQueryResults<MoneyFlowSourceRecipientTypeDTO>))]
-        public async Task<IHttpActionResult> GetMoneyFlowSourceRecipientTypes([FromUri]PagingQueryBindingModel<MoneyFlowSourceRecipientTypeDTO> queryModel)
+        /// <returns>The money flow statuses currently in the system.</returns>
+        [ResponseType(typeof(PagedQueryResults<MoneyFlowStatusDTO>))]
+        public async Task<IHttpActionResult> GetMoneyFlowStatusesAsync([FromUri]PagingQueryBindingModel<MoneyFlowStatusDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
