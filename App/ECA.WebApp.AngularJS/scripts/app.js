@@ -231,40 +231,31 @@ angular
             controller: 'SettingsCtrl',
             requireADLogin: true
         })
-        .state('participants', {
-            url: '/participants/:personId',
-            templateUrl: 'views/participants.html',
-            controller: 'ParticipantCtrl',
+        .state('people', {
+            url: '/people/:personId',
+            templateUrl: 'views/person.html',
+            controller: 'PeopleCtrl',
             requireADLogin: true
         })
-        .state('participants.overview', {
-            url: '/overview',
-            templateUrl: 'views/participants/overview.html',
-            controller: 'ParticipantCtrl',
-            requireADLogin: true
-        })
-        .state('participants.timeline', {
+        .state('people.timeline', {
             url: '/timeline',
-            templateUrl: 'views/participants/timeline.html',
-            controller: 'ParticipantTimelineCtrl',
+            templateUrl: 'views/person/timeline.html',
+            controller: 'PersonTimelineCtrl',
             requireADLogin: true
         })
-        .state('participants.personalinformation', {
+        .state('people.personalinformation', {
             url: '/personalinformation',
-            templateUrl: 'views/participants/personalinformation.html',
-            controller: 'ParticipantCtrl',
+            templateUrl: 'views/person/personalinformation.html',
             requireADLogin: true
         })
-        .state('participants.relatedreports', {
+        .state('people.relatedreports', {
             url: '/relatedreports',
-            templateUrl: 'views/participants/relatedreports.html',
-            controller: 'ParticipantCtrl',
+            templateUrl: 'views/person/relatedreports.html',
             requireADLogin: true
         })
-        .state('participants.impact', {
+        .state('people.impact', {
             url: '/impact',
-            templateUrl: 'views/participants/impact.html',
-            controller: 'ParticipantCtrl',
+            templateUrl: 'views/person/impact.html',
             requireADLogin: true
         })
 
@@ -415,16 +406,10 @@ angular
             controller: 'AllOfficesCtrl',
             requireADLogin: true
         })
-        .state('allparticipants', {
-            url: '/allparticipants',
-            templateUrl: 'views/participants/allparticipants.html',
-            controller: 'AllParticipantsCtrl',
-            requireADLogin: true
-        })
-        .state('allpersons', {
-            url: '/allpersons',
-            templateUrl: 'views/participants/allpersons.html',
-            controller: 'AllPersonsCtrl',
+        .state('allpeople', {
+            url: '/allpeople',
+            templateUrl: 'views/person/allpeople.html',
+            controller: 'AllPeopleCtrl',
             requireADLogin: true
         })
         .state('allorganizations', {
@@ -491,7 +476,7 @@ angular
           { name: 'Home', state: 'home.shortcuts' },
           { name: 'Offices', state: 'alloffices' },
           { name: 'Programs', state: 'allprograms' },
-          { name: 'Persons', state: 'allpersons' },
+          { name: 'People', state: 'allpeople' },
           { name: 'Organizations', state: 'allorganizations' },
           { name: 'Activities', state: 'activities' },
           { name: 'Reports', state: 'reports.archive' },
