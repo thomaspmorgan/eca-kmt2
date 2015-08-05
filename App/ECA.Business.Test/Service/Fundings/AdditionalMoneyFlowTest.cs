@@ -32,7 +32,7 @@ namespace ECA.Business.Test.Service.Fundings
         {
             var sourceEntityId = 1;
             var recipientEntityId = 2;
-            var sourceEntityTypeId = MoneyFlowSourceRecipientType.Itinerarystop.Id;
+            var sourceEntityTypeId = MoneyFlowSourceRecipientType.ItineraryStop.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Organization.Id;
             var userId = 1;
             var user = new User(userId);
@@ -60,7 +60,7 @@ namespace ECA.Business.Test.Service.Fundings
         {
             var sourceEntityId = 1;
             var recipientEntityId = 2;
-            var sourceEntityTypeId = MoneyFlowSourceRecipientType.Itinerarystop.Id;
+            var sourceEntityTypeId = MoneyFlowSourceRecipientType.ItineraryStop.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Organization.Id;
             var userId = 1;
             var user = new User(userId);
@@ -114,7 +114,7 @@ namespace ECA.Business.Test.Service.Fundings
         {
             var sourceEntityId = 1;
             var recipientEntityId = 2;
-            var sourceEntityTypeId = MoneyFlowSourceRecipientType.Itinerarystop.Id;
+            var sourceEntityTypeId = MoneyFlowSourceRecipientType.ItineraryStop.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Organization.Id;
             var userId = 1;
             var user = new User(userId);
@@ -145,8 +145,8 @@ namespace ECA.Business.Test.Service.Fundings
         {
             var sourceEntityId = 1;
             var recipientEntityId = 2;
-            var sourceEntityTypeId = MoneyFlowSourceRecipientType.Itinerarystop.Id;
-            var recipientEntityTypeId = MoneyFlowSourceRecipientType.Itinerarystop.Id;
+            var sourceEntityTypeId = MoneyFlowSourceRecipientType.ItineraryStop.Id;
+            var recipientEntityTypeId = MoneyFlowSourceRecipientType.ItineraryStop.Id;
             var userId = 1;
             var user = new User(userId);
             var description = "description";

@@ -42,7 +42,7 @@ INSERT INTO @tblTempTable ([ParticipantStatusId], [Status], [History_CreatedBy],
 INSERT INTO @tblTempTable ([ParticipantStatusId], [Status], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('3', 'Nominee', '0', '7/8/2015 3:20:21 PM +00:00', '0', '7/8/2015 3:20:21 PM +00:00')
 INSERT INTO @tblTempTable ([ParticipantStatusId], [Status], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('4', 'Applicant', '0', '7/8/2015 3:20:21 PM +00:00', '0', '7/8/2015 3:20:21 PM +00:00')
 INSERT INTO @tblTempTable ([ParticipantStatusId], [Status], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('5', 'Withdrawn', '0', '7/8/2015 3:20:21 PM +00:00', '0', '7/8/2015 3:20:21 PM +00:00')
-INSERT INTO @tblTempTable ([ParticipantStatusId], [Status, [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('6', 'Terminated', '0', '7/8/2015 3:20:21 PM +00:00', '0', '7/8/2015 3:20:21 PM +00:00')
+INSERT INTO @tblTempTable ([ParticipantStatusId], [Status], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('6', 'Terminated', '0', '7/8/2015 3:20:21 PM +00:00', '0', '7/8/2015 3:20:21 PM +00:00')
 INSERT INTO @tblTempTable ([ParticipantStatusId], [Status], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('7', 'Rejected', '0', '7/8/2015 3:20:21 PM +00:00', '0', '7/8/2015 3:20:21 PM +00:00')
 INSERT INTO @tblTempTable ([ParticipantStatusId], [Status], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('8', 'Suspended', '0', '7/8/2015 3:20:21 PM +00:00', '0', '7/8/2015 3:20:21 PM +00:00')
 

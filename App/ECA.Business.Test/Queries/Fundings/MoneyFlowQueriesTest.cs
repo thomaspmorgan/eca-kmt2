@@ -37,8 +37,8 @@ namespace ECA.Business.Test.Queries.Fundings
             context = new TestEcaContext();
             itineraryStopType = new MoneyFlowSourceRecipientType
             {
-                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Itinerarystop.Id,
-                TypeName = MoneyFlowSourceRecipientType.Itinerarystop.Value
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.ItineraryStop.Id,
+                TypeName = MoneyFlowSourceRecipientType.ItineraryStop.Value
             };
             organizationType = new MoneyFlowSourceRecipientType
             {
@@ -223,7 +223,7 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(1, results.Count);
             var dto = results.First();
             Assert.AreEqual(sourceId, dto.EntityId);
-            Assert.AreEqual(MoneyFlowSourceRecipientType.Itinerarystop.Id, dto.EntityTypeId);
+            Assert.AreEqual(MoneyFlowSourceRecipientType.ItineraryStop.Id, dto.EntityTypeId);
 
             Assert.AreEqual(MoneyFlowQueries.ITINERARY_NAME, dto.SourceRecipientName);
             Assert.AreEqual(recipientId, dto.SourceRecipientEntityId);
@@ -769,7 +769,7 @@ namespace ECA.Business.Test.Queries.Fundings
             var dto = results.First();
             
             Assert.AreEqual(recipientItineraryStop.ItineraryStopId, dto.EntityId);
-            Assert.AreEqual(MoneyFlowSourceRecipientType.Itinerarystop.Id, dto.EntityTypeId);
+            Assert.AreEqual(MoneyFlowSourceRecipientType.ItineraryStop.Id, dto.EntityTypeId);
 
             Assert.AreEqual(MoneyFlowQueries.ITINERARY_NAME, dto.SourceRecipientName);
             Assert.AreEqual(sourceId, dto.SourceRecipientEntityId);

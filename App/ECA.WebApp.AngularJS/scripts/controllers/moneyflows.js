@@ -13,6 +13,7 @@ angular.module('staticApp')
         $stateParams,
         $q,
         $log,
+        $modal,
         smoothScroll,
         AuthService,
         MoneyFlowService,
@@ -39,7 +40,7 @@ angular.module('staticApp')
       $scope.view.maxDescriptionLength = 255;
 
       //the program id, project id, etc...
-      $scope.view.sourceEntityId = $stateParams[$scope.$parent.stateParamName];
+      $scope.view.entityId = $stateParams[$scope.$parent.stateParamName];
 
       $scope.view.getMoneyFlows = function (tableState) {
           TableService.setTableState(tableState);
@@ -55,6 +56,29 @@ angular.module('staticApp')
       $scope.view.onToggleExpandClick = function (moneyFlow) {
           moneyFlow.showDescription = !moneyFlow.showDescription;
       }
+
+      $scope.view.onAddFundingItemClick = function () {
+          var modalInstance = $modal.open({
+              animation: true,
+              templateUrl: 'views/directives/moneyflow.html',
+              controller: 'MoneyFlowCtrl',
+              size: 'lg',
+              resolve: {
+                  entity: function () {
+                      return {
+                          entityId: $scope.view.entityId,
+                          entityTypeId: $scope.sourceEntityTypeId
+                      };
+                  }
+              }
+          });
+
+          modalInstance.result.then(function (selectedItem) {
+              $scope.selected = selectedItem;
+          }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+          });
+      };
 
       $scope.view.onEditClick = function (moneyFlow) {
           moneyFlow.original = angular.copy(moneyFlow);
@@ -76,7 +100,7 @@ angular.module('staticApp')
           moneyFlow.moneyFlowStatus = getLookupValueById($scope.view.moneyFlowStatii, moneyFlow.moneyFlowStatusId);
           moneyFlow.amount = moneyFlow.amount < 0 ? -moneyFlow.amount : moneyFlow.amount;
 
-          return MoneyFlowService.update(moneyFlow, $scope.view.sourceEntityId)
+          return MoneyFlowService.update(moneyFlow, $scope.view.entityId)
           .then(function (response) {
               NotificationService.showSuccessMessage("Successfully updated funding line item.");
               if (moneyFlow.isOutgoing) {
@@ -160,9 +184,9 @@ angular.module('staticApp')
 
       function loadMoneyFlows(params, tableState) {
           $scope.view.isLoadingMoneyFlows = true;
-          var sourceEntityId = $scope.view.sourceEntityId;
+          var entityId = $scope.view.entityId;
           var fn = getMoneyFlowServiceFunctionByTypeId($scope.sourceEntityTypeId);
-          return fn(sourceEntityId, params)
+          return fn(entityId, params)
           .then(function (response) {
               $log.info('Loading money flows...');
               var pagedMoneyFlows = response.data.results;
@@ -197,7 +221,7 @@ angular.module('staticApp')
 
           })
           .catch(function (response) {
-              var message = "Unable to load money flows for source entity with id " + sourceEntityId;
+              var message = "Unable to load money flows for source entity with id " + entityId;
               $log.error(message);
               NotificationService.showErrorMessage(message);
               $scope.view.isLoadingMoneyFlows = false;
@@ -220,7 +244,7 @@ angular.module('staticApp')
       function loadPermissions() {
           var resourceTypeId = $scope.resourceTypeId;
           var resourceType = AuthService.getResourceTypeNameById(resourceTypeId);
-          var foreignResourceId = $scope.view.sourceEntityId;
+          var foreignResourceId = $scope.view.entityId;
           var hasEditPermissionCallback = function () {
               $log.info('User has edit money flow permission moneyflow.js controller.');
               $scope.view.canEditMoneyFlows = true;
@@ -229,7 +253,7 @@ angular.module('staticApp')
               $log.info("Not authorized.");
           }
           var config = getPermissionsConfig(resourceTypeId, hasEditPermissionCallback, notAuthorizedCallback);
-          
+
           return AuthService.getResourcePermissions(resourceType, foreignResourceId, config)
             .then(function (result) {
 
@@ -268,7 +292,7 @@ angular.module('staticApp')
           return config;
       }
 
-      
+
 
       $scope.view.isLoadingRequiredData = true;
       loadPermissions()
@@ -285,6 +309,6 @@ angular.module('staticApp')
           $log.error(message);
           NotificationService.showErrorMessage(message);
       })
-      
+
 
   });

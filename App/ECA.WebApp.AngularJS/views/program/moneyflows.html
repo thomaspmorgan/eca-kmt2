@@ -1,9 +1,6 @@
 <h2 class="program-color tab-header">Funding</h2>
-<h4 class="tab-subheader">
-    Funding List
-    <button class="btn btn-primary right" ng-show="!moneyFlowsLoading && !currentlyEditing" ng-click="createMoneyFlowForm()">ADD FUNDING ITEM</button>
-</h4>
 <moneyflows stateparamname="'programId'" sourceentitytypeid="constants.moneyFlowSourceRecipientType.program.id" resourcetypeid="constants.resourceType.program.id" />
+
 
 <modal-dialog show="showCreateMoneyFlow" dialog-title="{{moneyFlowCreationType}} Funding Item">
     <div class="tip">
