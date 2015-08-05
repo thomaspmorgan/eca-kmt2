@@ -20,7 +20,7 @@ namespace ECA.WebApi.Models.Fundings
         /// Returns the project money flow source type id.
         /// </summary>
         /// <returns>Returns the project money flow source recipient type.</returns>
-        public override int GetSourceTypeId()
+        public override int GetEntityTypeId()
         {
             return MoneyFlowSourceRecipientType.Project.Id;
         }
@@ -29,7 +29,7 @@ namespace ECA.WebApi.Models.Fundings
         /// Returns the project id.
         /// </summary>
         /// <returns>The project id.</returns>
-        public override int GetSourceEntityId()
+        public override int GetEntityId()
         {
             return this.ProjectId;
         }

@@ -12,7 +12,7 @@ namespace ECA.WebApi.Test.Models.Fundings
         public void TestGetSourceTypeId()
         {
             var instance = new AdditionalProjectMoneyFlowBindingModel();
-            Assert.AreEqual(MoneyFlowSourceRecipientType.Project.Id, instance.GetSourceTypeId());
+            Assert.AreEqual(MoneyFlowSourceRecipientType.Project.Id, instance.GetEntityTypeId());
         }
 
         [TestMethod]
@@ -20,7 +20,7 @@ namespace ECA.WebApi.Test.Models.Fundings
         {
             var instance = new AdditionalProjectMoneyFlowBindingModel();
             instance.ProjectId = 1;
-            Assert.AreEqual(instance.ProjectId, instance.GetSourceEntityId());
+            Assert.AreEqual(instance.ProjectId, instance.GetEntityId());
         }
     }
 }

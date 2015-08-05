@@ -79,7 +79,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             var model = new AdditionalProjectMoneyFlowBindingModel
             {
                 MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
-                RecipientTypeId = MoneyFlowSourceRecipientType.Project.Id,
+                PeerEntityTypeId = MoneyFlowSourceRecipientType.Project.Id,
             };
             var response = await controller.PostCreateProjectMoneyFlowAsync(model);
             Assert.IsInstanceOfType(response, typeof(OkResult));
@@ -96,7 +96,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             var model = new AdditionalProjectMoneyFlowBindingModel
             {
                 MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
-                RecipientTypeId = MoneyFlowSourceRecipientType.Project.Id,
+                PeerEntityTypeId = MoneyFlowSourceRecipientType.Project.Id,
             };
             var response = await controller.PostCreateProjectMoneyFlowAsync(model);
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
@@ -108,7 +108,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             var model = new AdditionalProgramMoneyFlowBindingModel
             {
                 MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
-                RecipientTypeId = MoneyFlowSourceRecipientType.Project.Id,
+                PeerEntityTypeId = MoneyFlowSourceRecipientType.Project.Id,
             };
             var response = await controller.PostCreateProgramMoneyFlowAsync(model);
             Assert.IsInstanceOfType(response, typeof(OkResult));
@@ -125,7 +125,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             var model = new AdditionalProgramMoneyFlowBindingModel
             {
                 MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
-                RecipientTypeId = MoneyFlowSourceRecipientType.Project.Id,
+                PeerEntityTypeId = MoneyFlowSourceRecipientType.Project.Id,
             };
             var response = await controller.PostCreateProgramMoneyFlowAsync(model);
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));

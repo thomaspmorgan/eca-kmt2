@@ -69,9 +69,9 @@ angular.module('staticApp')
               description: 'The ',
               transactionDate: new Date(),
               fiscalYear: new Date().getYear(),
-              recipientTypeId: 0,
+              peerEntityTypeId: 0,
               moneyFlowStatusId: 0,
-              recipientEntityId: null
+              peerEntityId: null
           };
           if (entityTypeId === ConstantsService.moneyFlowSourceRecipientType.project.id) {
               moneyFlow.projectId = entityId;
