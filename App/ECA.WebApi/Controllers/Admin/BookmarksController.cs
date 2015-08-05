@@ -62,7 +62,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <returns>OkResult</returns>
         [ResponseType(typeof(OkResult))]
         public async Task<IHttpActionResult> DeleteBookmarkAsync(int id) {
-            await service.DeleteBookmark(id);
+            await service.DeleteBookmarkAsync(id);
             await service.SaveChangesAsync();
             return Ok();
         }

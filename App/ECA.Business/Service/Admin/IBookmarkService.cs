@@ -25,6 +25,6 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="id">The id to delete</param>
         /// <returns></returns>
-        Task DeleteBookmark(int id);
+        Task DeleteBookmarkAsync(int id);
     }
 }
