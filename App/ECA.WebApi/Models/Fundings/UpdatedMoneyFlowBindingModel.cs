@@ -1,7 +1,9 @@
 ﻿using ECA.Business.Service;
 using ECA.Business.Service.Fundings;
+using ECA.Data;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Web;
@@ -21,12 +23,14 @@ namespace ECA.WebApi.Models.Fundings
         /// <summary>
         /// Gets or sets the description.
         /// </summary>
+        [Required]
+        [MaxLength(MoneyFlow.DESCRIPTION_MAX_LENGTH)]
         public string Description { get; set; }
 
         /// <summary>
         /// Gets or sets the value.
         /// </summary>
-        public decimal Value { get; set; }
+        public decimal Amount { get; set; }
 
         /// <summary>
         /// Gets or sets the money flow status id.
@@ -57,7 +61,7 @@ namespace ECA.WebApi.Models.Fundings
                 id: this.Id, 
                 sourceEntityId: sourceEntityId, 
                 description: this.Description, 
-                value: this.Value, 
+                value: this.Amount, 
                 moneyFlowStatusId: this.MoneyFlowStatusId, 
                 transactionDate: this.TransactionDate, 
                 fiscalYear: this.FiscalYear);

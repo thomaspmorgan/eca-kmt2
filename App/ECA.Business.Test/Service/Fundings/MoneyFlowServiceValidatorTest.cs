@@ -17,6 +17,80 @@ namespace ECA.Business.Test.Service.Fundings
             validator = new MoneyFlowServiceValidator();
         }
         #region Create
+        [TestMethod]
+        public void TestDoCreate_FiscalYearIsZero()
+        {
+            var value = 1.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            var hasSourceEntityType = true;
+            var hasRecipientEntityType = true;
+            int? sourceEntityId = 1;
+            int? recipientEntityId = 2;
+            var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            int fiscalYear = 2000;
+
+            Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceCreateValidationEntity(
+                value: value,
+                description: description,
+                transactionDate: transactionDate,
+                hasRecipientEntityType: hasRecipientEntityType,
+                hasSourceEntityType: hasSourceEntityType,
+                sourceEntityId: sourceEntityId,
+                recipientEntityId: recipientEntityId,
+                sourceEntityTypeId: sourceEntityTypeId,
+                fiscalYear: fiscalYear
+                );
+            };
+            Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
+
+            fiscalYear = 0;
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateCreate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(MoneyFlowServiceValidator.FISCAL_YEAR_LESS_THAN_ZERO_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("FiscalYear", validationErrors.First().Property);
+        }
+
+        [TestMethod]
+        public void TestDoCreate_FiscalYearLessThanZero()
+        {
+            var value = 1.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            var hasSourceEntityType = true;
+            var hasRecipientEntityType = true;
+            int? sourceEntityId = 1;
+            int? recipientEntityId = 2;
+            var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            int fiscalYear = 2000;
+
+            Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceCreateValidationEntity(
+                value: value,
+                description: description,
+                transactionDate: transactionDate,
+                hasRecipientEntityType: hasRecipientEntityType,
+                hasSourceEntityType: hasSourceEntityType,
+                sourceEntityId: sourceEntityId,
+                recipientEntityId: recipientEntityId,
+                sourceEntityTypeId: sourceEntityTypeId,
+                fiscalYear: fiscalYear
+                );
+            };
+            Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
+
+            fiscalYear = -1;
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateCreate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(MoneyFlowServiceValidator.FISCAL_YEAR_LESS_THAN_ZERO_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("FiscalYear", validationErrors.First().Property);
+        }
+
 
         [TestMethod]
         public void TestDoCreate_ValueIsLessThanZero()
@@ -29,6 +103,7 @@ namespace ECA.Business.Test.Service.Fundings
             int? sourceEntityId = 1;
             int? recipientEntityId = 2;
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            int fiscalYear = 2000;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -40,47 +115,13 @@ namespace ECA.Business.Test.Service.Fundings
                 hasSourceEntityType: hasSourceEntityType,
                 sourceEntityId: sourceEntityId,
                 recipientEntityId: recipientEntityId,
-                sourceEntityTypeId: sourceEntityTypeId
+                sourceEntityTypeId: sourceEntityTypeId,
+                fiscalYear: fiscalYear
                 );
             };
             Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
 
             value = -1;
-            var entity = createEntity();
-            var validationErrors = validator.DoValidateCreate(entity).ToList();
-            Assert.AreEqual(1, validationErrors.Count);
-            Assert.AreEqual(MoneyFlowServiceValidator.INVALID_AMOUNT_MESSAGE, validationErrors.First().ErrorMessage);
-            Assert.AreEqual("Value", validationErrors.First().Property);
-        }
-
-        [TestMethod]
-        public void TestDoCreate_ValueIsZero()
-        {
-            var value = 1.00m;
-            var description = "description";
-            var transactionDate = DateTimeOffset.UtcNow;
-            var hasSourceEntityType = true;
-            var hasRecipientEntityType = true;
-            int? sourceEntityId = 1;
-            int? recipientEntityId = 2;
-            var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
-
-            Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
-            {
-                return new MoneyFlowServiceCreateValidationEntity(
-                value: value,
-                description: description,
-                transactionDate: transactionDate,
-                hasRecipientEntityType: hasRecipientEntityType,
-                hasSourceEntityType: hasSourceEntityType,
-                sourceEntityId: sourceEntityId,
-                recipientEntityId: recipientEntityId,
-                sourceEntityTypeId: sourceEntityTypeId
-                );
-            };
-            Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
-
-            value = 0;
             var entity = createEntity();
             var validationErrors = validator.DoValidateCreate(entity).ToList();
             Assert.AreEqual(1, validationErrors.Count);
@@ -99,6 +140,7 @@ namespace ECA.Business.Test.Service.Fundings
             int? sourceEntityId = 1;
             int? recipientEntityId = 2;
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            int fiscalYear = 2000;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -110,7 +152,8 @@ namespace ECA.Business.Test.Service.Fundings
                 hasSourceEntityType: hasSourceEntityType,
                 sourceEntityId: sourceEntityId,
                 recipientEntityId: recipientEntityId,
-                sourceEntityTypeId: sourceEntityTypeId
+                sourceEntityTypeId: sourceEntityTypeId,
+                fiscalYear: fiscalYear
                 );
             };
             Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
@@ -134,6 +177,7 @@ namespace ECA.Business.Test.Service.Fundings
             int? sourceEntityId = 1;
             int? recipientEntityId = 2;
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            int fiscalYear = 2000;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -145,7 +189,8 @@ namespace ECA.Business.Test.Service.Fundings
                 hasSourceEntityType: hasSourceEntityType,
                 sourceEntityId: sourceEntityId,
                 recipientEntityId: recipientEntityId,
-                sourceEntityTypeId: sourceEntityTypeId
+                sourceEntityTypeId: sourceEntityTypeId,
+                fiscalYear: fiscalYear
                 );
             };
             Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
@@ -169,6 +214,7 @@ namespace ECA.Business.Test.Service.Fundings
             int? sourceEntityId = 1;
             int? recipientEntityId = 2;
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            int fiscalYear = 2000;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -180,7 +226,8 @@ namespace ECA.Business.Test.Service.Fundings
                 hasSourceEntityType: hasSourceEntityType,
                 sourceEntityId: sourceEntityId,
                 recipientEntityId: recipientEntityId,
-                sourceEntityTypeId: sourceEntityTypeId
+                sourceEntityTypeId: sourceEntityTypeId,
+                fiscalYear: fiscalYear
                 );
             };
             Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
@@ -190,6 +237,43 @@ namespace ECA.Business.Test.Service.Fundings
             var validationErrors = validator.DoValidateCreate(entity).ToList();
             Assert.AreEqual(1, validationErrors.Count);
             Assert.AreEqual(MoneyFlowServiceValidator.INVALID_DESCRIPTION_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("Description", validationErrors.First().Property);
+        }
+
+        [TestMethod]
+        public void TestDoCreate_DescriptionExceedsMaxLength()
+        {
+            var value = 1.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            var hasSourceEntityType = true;
+            var hasRecipientEntityType = true;
+            int? sourceEntityId = 1;
+            int? recipientEntityId = 2;
+            var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            int fiscalYear = 2000;
+
+            Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceCreateValidationEntity(
+                value: value,
+                description: description,
+                transactionDate: transactionDate,
+                hasRecipientEntityType: hasRecipientEntityType,
+                hasSourceEntityType: hasSourceEntityType,
+                sourceEntityId: sourceEntityId,
+                recipientEntityId: recipientEntityId,
+                sourceEntityTypeId: sourceEntityTypeId,
+                fiscalYear: fiscalYear
+                );
+            };
+            Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
+
+            description = new String('s', MoneyFlow.DESCRIPTION_MAX_LENGTH + 1);
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateCreate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(String.Format(MoneyFlowServiceValidator.DESCRIPTION_EXCEEDS_MAX_LENGTH_FORMAT, MoneyFlow.DESCRIPTION_MAX_LENGTH), validationErrors.First().ErrorMessage);
             Assert.AreEqual("Description", validationErrors.First().Property);
         }
 
@@ -204,6 +288,7 @@ namespace ECA.Business.Test.Service.Fundings
             int? sourceEntityId = 1;
             int? recipientEntityId = 2;
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            int fiscalYear = 2000;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -215,7 +300,8 @@ namespace ECA.Business.Test.Service.Fundings
                 hasSourceEntityType: hasSourceEntityType,
                 sourceEntityId: sourceEntityId,
                 recipientEntityId: recipientEntityId,
-                sourceEntityTypeId: sourceEntityTypeId
+                sourceEntityTypeId: sourceEntityTypeId,
+                fiscalYear: fiscalYear
                 );
             };
             Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
@@ -238,6 +324,7 @@ namespace ECA.Business.Test.Service.Fundings
             int? sourceEntityId = 1;
             int? recipientEntityId = 2;
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            int fiscalYear = 2000;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -249,7 +336,8 @@ namespace ECA.Business.Test.Service.Fundings
                 hasSourceEntityType: hasSourceEntityType,
                 sourceEntityId: sourceEntityId,
                 recipientEntityId: recipientEntityId,
-                sourceEntityTypeId: sourceEntityTypeId
+                sourceEntityTypeId: sourceEntityTypeId,
+                fiscalYear: fiscalYear
                 );
             };
             Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
@@ -273,6 +361,7 @@ namespace ECA.Business.Test.Service.Fundings
             int? sourceEntityId = 1;
             int? recipientEntityId = 2;
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            int fiscalYear = 2000;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -284,7 +373,8 @@ namespace ECA.Business.Test.Service.Fundings
                 hasSourceEntityType: hasSourceEntityType,
                 sourceEntityId: sourceEntityId,
                 recipientEntityId: recipientEntityId,
-                sourceEntityTypeId: sourceEntityTypeId
+                sourceEntityTypeId: sourceEntityTypeId,
+                fiscalYear: fiscalYear
                 );
             };
             Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
@@ -308,6 +398,7 @@ namespace ECA.Business.Test.Service.Fundings
             int? sourceEntityId = 1;
             int? recipientEntityId = 2;
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            int fiscalYear = 2000;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -319,7 +410,8 @@ namespace ECA.Business.Test.Service.Fundings
                 hasSourceEntityType: hasSourceEntityType,
                 sourceEntityId: sourceEntityId,
                 recipientEntityId: recipientEntityId,
-                sourceEntityTypeId: sourceEntityTypeId
+                sourceEntityTypeId: sourceEntityTypeId,
+                fiscalYear: fiscalYear
                 );
             };
             Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
@@ -333,5 +425,188 @@ namespace ECA.Business.Test.Service.Fundings
         }
         #endregion
 
+        #region Update
+        [TestMethod]
+        public void TestDoUpdate_FiscalYearLessThanZero()
+        {
+            var value = 1.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            int fiscalYear = 2000;
+
+            Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceUpdateValidationEntity(
+                value: value,
+                description: description,
+                fiscalYear: fiscalYear
+                );
+            };
+            Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
+
+            fiscalYear = -1;
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(MoneyFlowServiceValidator.FISCAL_YEAR_LESS_THAN_ZERO_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("FiscalYear", validationErrors.First().Property);
+        }
+
+        [TestMethod]
+        public void TestDoUpdate_FiscalYearIsZero()
+        {
+            var value = 1.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            int fiscalYear = 2000;
+
+            Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceUpdateValidationEntity(
+                value: value,
+                description: description,
+                fiscalYear: fiscalYear
+                );
+            };
+            Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
+
+            fiscalYear = 0;
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(MoneyFlowServiceValidator.FISCAL_YEAR_LESS_THAN_ZERO_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("FiscalYear", validationErrors.First().Property);
+        }
+
+        [TestMethod]
+        public void TestDoUpdate_ValueIsLessThanZero()
+        {
+            var value = 1.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            int fiscalYear = 2000;
+
+            Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceUpdateValidationEntity(
+                value: value,
+                description: description,
+                fiscalYear: fiscalYear              
+                );
+            };
+            Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
+
+            value = -1;
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(MoneyFlowServiceValidator.INVALID_AMOUNT_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("Value", validationErrors.First().Property);
+        }
+
+        [TestMethod]
+        public void TestDoUpdate_EmptyDescription()
+        {
+            var value = 1.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            int fiscalYear = 2000;
+
+            Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceUpdateValidationEntity(
+                value: value,
+                description: description,
+                fiscalYear: fiscalYear
+                );
+            };
+            Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
+
+            description = String.Empty;
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(MoneyFlowServiceValidator.INVALID_DESCRIPTION_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("Description", validationErrors.First().Property);
+        }
+
+        [TestMethod]
+        public void TestDoUpdate_NullDescription()
+        {
+            var value = 1.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            int fiscalYear = 2000;
+
+            Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceUpdateValidationEntity(
+                value: value,
+                description: description,
+                fiscalYear: fiscalYear
+                );
+            };
+            Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
+
+            description = null;
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(MoneyFlowServiceValidator.INVALID_DESCRIPTION_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("Description", validationErrors.First().Property);
+        }
+
+        [TestMethod]
+        public void TestDoUpdate_WhitespaceDescription()
+        {
+            var value = 1.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            int fiscalYear = 2000;
+
+            Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceUpdateValidationEntity(
+                value: value,
+                description: description,
+                fiscalYear: fiscalYear
+                );
+            };
+            Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
+
+            description = " ";
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(MoneyFlowServiceValidator.INVALID_DESCRIPTION_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("Description", validationErrors.First().Property);
+        }
+
+        [TestMethod]
+        public void TestDoUpdate_DescriptionExceedsLength()
+        {
+            var value = 1.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            int fiscalYear = 2000;
+
+            Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceUpdateValidationEntity(
+                value: value,
+                description: description,
+                fiscalYear: fiscalYear
+                );
+            };
+            Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
+
+            description = new String('s', MoneyFlow.DESCRIPTION_MAX_LENGTH + 1);
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(String.Format(MoneyFlowServiceValidator.DESCRIPTION_EXCEEDS_MAX_LENGTH_FORMAT, MoneyFlow.DESCRIPTION_MAX_LENGTH), validationErrors.First().ErrorMessage);
+            Assert.AreEqual("Description", validationErrors.First().Property);
+        }
+        #endregion
     }
 }

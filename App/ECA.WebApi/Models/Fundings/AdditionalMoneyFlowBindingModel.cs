@@ -1,7 +1,9 @@
 ﻿using ECA.Business.Models.Fundings;
 using ECA.Business.Service;
+using ECA.Data;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Web;
@@ -23,6 +25,8 @@ namespace ECA.WebApi.Models.Fundings
         /// <summary>
         /// Gets or sets the description.
         /// </summary>
+        [Required]
+        [MaxLength(MoneyFlow.DESCRIPTION_MAX_LENGTH)]
         public string Description { get; set; }
 
         /// <summary>

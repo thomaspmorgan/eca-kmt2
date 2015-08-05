@@ -107,6 +107,7 @@
 		lessThanComparisonType: 'lt',
 		likeComparisonType: 'like',
 		logoutEventName: 'logout',
+		maxNumericValue: '2147483647',
 		notEqualComparisonType: 'not_eq',
 		notInComparisonType: 'notin',
 		officeCategorySettingName: 'Category',

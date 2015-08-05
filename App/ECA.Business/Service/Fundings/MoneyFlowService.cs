@@ -210,7 +210,8 @@ namespace ECA.Business.Service.Fundings
                 hasRecipientEntityType: hasRecipientEntityType,
                 hasSourceEntityType: hasSourceEntityType,
                 sourceEntityId: moneyFlow.SourceEntityId,
-                recipientEntityId: moneyFlow.RecipientEntityId);
+                recipientEntityId: moneyFlow.RecipientEntityId,
+                fiscalYear: moneyFlow.FiscalYear);
         }
 
         /// <summary>
@@ -266,6 +267,7 @@ namespace ECA.Business.Service.Fundings
                     updatedMoneyFlow.Id, 
                     updatedMoneyFlow.SourceEntityId));
             }
+            validator.ValidateUpdate(GetUpdateValidationEntity(updatedMoneyFlow));
             moneyFlowToUpdate.Description = updatedMoneyFlow.Description;
             moneyFlowToUpdate.FiscalYear = updatedMoneyFlow.FiscalYear;
             moneyFlowToUpdate.MoneyFlowStatusId = updatedMoneyFlow.MoneyFlowStatusId;
@@ -273,6 +275,14 @@ namespace ECA.Business.Service.Fundings
             moneyFlowToUpdate.TransactionDate = updatedMoneyFlow.TransactionDate;
             moneyFlowToUpdate.Value = updatedMoneyFlow.Value;
             updatedMoneyFlow.Audit.SetHistory(moneyFlowToUpdate);
+        }
+
+        private MoneyFlowServiceUpdateValidationEntity GetUpdateValidationEntity(UpdatedMoneyFlow moneyFlow)
+        {
+            return new MoneyFlowServiceUpdateValidationEntity(
+                description: moneyFlow.Description, 
+                value: moneyFlow.Value, 
+                fiscalYear: moneyFlow.FiscalYear);
         }
     }
 }

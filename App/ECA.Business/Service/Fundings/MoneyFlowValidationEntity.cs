@@ -23,6 +23,7 @@ namespace ECA.Business.Service.Fundings
         /// <param name="hasSourceEntityType">True, if the source entity has a mapped eca data entity.</param>
         /// <param name="hasRecipientEntityType">True, if the recipient entity has a mapped eca data entity.</param>
         /// <param name="transactionDate">The transaction date.</param>
+        /// <param name="fiscalYear">The fiscal year.</param>
         public MoneyFlowServiceCreateValidationEntity(
             string description,
             decimal value,
@@ -31,7 +32,8 @@ namespace ECA.Business.Service.Fundings
             int? recipientEntityId,
             bool hasSourceEntityType,
             bool hasRecipientEntityType,
-            DateTimeOffset transactionDate)
+            DateTimeOffset transactionDate,
+            int fiscalYear)
         {
             this.Description = description;
             this.Value = value;
@@ -41,7 +43,13 @@ namespace ECA.Business.Service.Fundings
             this.SourceEntityId = sourceEntityId;
             this.RecipientEntityId = recipientEntityId;
             this.SourceEntityTypeId = sourceEntityTypeId;
+            this.FiscalYear = fiscalYear;
         }
+
+        /// <summary>
+        /// Gets the fiscal year.
+        /// </summary>
+        public int FiscalYear { get; private set; }
 
         /// <summary>
         /// Gets the flag indicating the source entity has a mapped ECA.Data entity type.
@@ -84,23 +92,41 @@ namespace ECA.Business.Service.Fundings
         public DateTimeOffset TransactionDate { get; private set; }
     }
 
+    /// <summary>
+    /// The MoneyFlowServiceUpdateValidationEntity is used to perform validation when updating a money flow entity.
+    /// </summary>
     public class MoneyFlowServiceUpdateValidationEntity
     {
-
-        public MoneyFlowServiceUpdateValidationEntity(string description, decimal value,
-            DateTimeOffset transactionDate)
+        /// <summary>
+        /// Creates a new instance.
+        /// </summary>
+        /// <param name="description">The description of the money flow.</param>
+        /// <param name="value">The value of the money flow.</param>
+        /// <param name="fiscalYear">The fiscal year.</param>
+        public MoneyFlowServiceUpdateValidationEntity(
+            string description, 
+            decimal value,
+            int fiscalYear)
         {
             this.Description = description;
             this.Value = value;
-            this.TransactionDate = transactionDate;
+            this.FiscalYear = fiscalYear;
         }
 
+        /// <summary>
+        /// Gets the fiscal year.
+        /// </summary>
+        public int FiscalYear { get; private set; }
+
+        /// <summary>
+        /// Gets the description.
+        /// </summary>
         public string Description { get; private set; }
 
+        /// <summary>
+        /// Gets the value.
+        /// </summary>
         public decimal Value { get; private set; }
-
-        public DateTimeOffset TransactionDate { get; private set; }
-
     }
 }
 

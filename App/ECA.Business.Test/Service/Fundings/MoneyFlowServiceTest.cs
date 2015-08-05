@@ -537,10 +537,13 @@ namespace ECA.Business.Test.Service.Fundings
             context.Revert();
             service.Update(updatedMoneyFlow);
             tester();
+            validator.Verify(x => x.ValidateUpdate(It.IsAny<MoneyFlowServiceUpdateValidationEntity>()), Times.Once());
+
 
             context.Revert();
             await service.UpdateAsync(updatedMoneyFlow);
             tester();
+            validator.Verify(x => x.ValidateUpdate(It.IsAny<MoneyFlowServiceUpdateValidationEntity>()), Times.Exactly(2));
         }
 
         [TestMethod]

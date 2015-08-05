@@ -58,6 +58,7 @@
 	otherConstants["officeCategorySettingName"] = OfficeSetting.CATEGORY_SETTING_KEY;
 	otherConstants["officeObjectiveSettingName"] = OfficeSetting.OBJECTIVE_SETTING_KEY;
 
+	otherConstants["maxNumericValue"] = (Int32.MaxValue).ToString();
 	WriteTypes(types, otherConstants);
 #>
 

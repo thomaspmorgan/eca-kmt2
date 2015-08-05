@@ -11,6 +11,17 @@ angular.module('staticApp')
   .factory('AuthService', function ($rootScope, $log, $http, $q, $window, DragonBreath, ConstantsService, adalAuthenticationService, orderByFilter) {
 
       var service = {
+
+          getResourceTypeNameById: function (resourceTypeId) {
+              for (var key in ConstantsService.resourceType) {
+                  if (ConstantsService.resourceType[key].id === resourceTypeId) {
+                      return ConstantsService.resourceType[key].value;
+                  }
+              }
+              $log.info("Resource Type with id [" + resourceTypeId + "] was not found.");
+              return '';
+          },
+
           getResourcePermissions: function (resourceType, resourceId, config) {
               var hasPermissionCallbackName = "hasPermission";
               var notAuthorizedCallbackName = "notAuthorized";

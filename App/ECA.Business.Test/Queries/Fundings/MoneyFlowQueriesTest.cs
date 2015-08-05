@@ -1481,5 +1481,6 @@ namespace ECA.Business.Test.Queries.Fundings
         }
 
         #endregion
+
     }
 }

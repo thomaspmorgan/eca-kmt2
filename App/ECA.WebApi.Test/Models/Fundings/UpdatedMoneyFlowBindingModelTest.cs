@@ -20,7 +20,7 @@ namespace ECA.WebApi.Test.Models.Fundings
                 Id = 1,
                 MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
                 TransactionDate = DateTimeOffset.UtcNow,
-                Value = 1.00m
+                Amount = 1.00m
             };
             var user = new User(1);
             var instance = model.ToUpdatedMoneyFlow(user, sourceEntityId);
@@ -30,7 +30,7 @@ namespace ECA.WebApi.Test.Models.Fundings
             Assert.AreEqual(model.Id, instance.Id);
             Assert.AreEqual(model.MoneyFlowStatusId, instance.MoneyFlowStatusId);
             Assert.AreEqual(model.TransactionDate, instance.TransactionDate);
-            Assert.AreEqual(model.Value, instance.Value);
+            Assert.AreEqual(model.Amount, instance.Value);
             Assert.AreEqual(sourceEntityId, instance.SourceEntityId);
         }
     }

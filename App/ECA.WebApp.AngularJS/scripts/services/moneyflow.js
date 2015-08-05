@@ -8,7 +8,7 @@
  * Factory in the staticApp.
  */
 angular.module('staticApp')
-  .factory('MoneyFlowService', function (DragonBreath, $q) {
+  .factory('MoneyFlowService', function (DragonBreath, ConstantsService, $q) {
       return {          
           getMoneyFlowsByProgram: function (id, params) {
               var path = 'programs/' + id + '/moneyFlows'
@@ -18,8 +18,18 @@ angular.module('staticApp')
               var path = 'projects/' + id + '/moneyFlows'
               return DragonBreath.get(params, path);
           },
-          update: function (moneyFlow, id) {
-              return DragonBreath.save(moneyFlow, 'moneyFlows', id);
+          update: function (moneyFlow, entityId) {
+              var path = '';
+              if (moneyFlow.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.project.id) {
+                  path = 'projects/' + entityId + '/moneyflows';
+              }
+              else if (moneyFlow.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id) {
+                  path = 'programs/' + entityId + '/moneyflows';
+              }
+              else {
+                  throw Error('The money flow source recipient type is not yet recognized.');
+              }
+              return DragonBreath.save(moneyFlow, path);
           },
           create: function (moneyFlow) {
               return DragonBreath.create(moneyFlow, 'moneyFlows');
