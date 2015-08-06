@@ -78,6 +78,7 @@ angular.module('staticApp')
 
           modalInstance.result.then(function (newMoneyFlow) {
               $log.info('Finished adding new money flow.');
+              reloadMoneyFlowTable();
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });
@@ -138,6 +139,11 @@ angular.module('staticApp')
           $event.preventDefault();
           $event.stopPropagation();
           moneyFlow.isTransactionDatePickerOpen = true;
+      }
+
+      function reloadMoneyFlowTable() {
+          console.assert($scope.getMoneyFlowsTableState, "The table state function must exist.");
+          $scope.view.getMoneyFlows($scope.getMoneyFlowsTableState());
       }
 
       function getLookupValueById(values, id) {

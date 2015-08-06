@@ -9,7 +9,7 @@
             <span class="moneyFlowDirection" ng-class="{directionSelected: view.moneyFlow.isOutgoing}" ng-click="view.toggleIncomingOutgoing(view.outgoingDirectionKey)">Outgoing</span>
         </div>
         <div class="row">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-6">
                 <label>Transaction Date<span class="asterisk"> *</span></label>
                 <p class="input-group">
                     <input name="transactionDate"
@@ -30,9 +30,7 @@
                     <div class="error" ng-show="form.newMoneyFlow.transactionDate.$error.required">Please select a transaction date.</div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-6">
                 <label>Status<span class="asterisk"> *</span></label>
                 <div>
                     <select class="form-control"
@@ -105,6 +103,7 @@
                                class="search-contextual"
                                maxlength="100"
                                typeahead-append-to-body="false"
+                               ng-disabled="!view.moneyFlow.peerEntityTypeId"
                                placeholder="Select source..."
                                ng-model="view.moneyFlow.peerEntity"
                                typeahead-wait-ms="400"
@@ -120,8 +119,8 @@
                         <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingSources">autorenew</i>
                     </div>
                     <div ng-show="form.newMoneyFlow.source.$dirty || form.newMoneyFlow.source.$error.required">
-                        <div class="error" ng-show="form.newMoneyFlow.source.$error.required && !view.moneyFlow.isOutgoing">Please select a source type.</div>
-                        <div class="error" ng-show="form.newMoneyFlow.source.$error.required && view.moneyFlow.isOutgoing">Please select a recipient type.</div>
+                        <div class="error" ng-show="form.newMoneyFlow.source.$error.required && !view.moneyFlow.isOutgoing">Please select a source.</div>
+                        <div class="error" ng-show="form.newMoneyFlow.source.$error.required && view.moneyFlow.isOutgoing">Please select a recipient.</div>
                     </div>
                 </div>
             </div>

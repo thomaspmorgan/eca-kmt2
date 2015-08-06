@@ -4,14 +4,14 @@
         <button class="btn btn-primary right" ng-show="!view.isLoadingRequiredData && !view.isLoadingMoneyFlows" ng-click="view.onAddFundingItemClick()">ADD FUNDING ITEM</button>
     </h4>
     <p class="subheader listCount">Showing {{view.start}} - {{view.end}} of {{view.total}} funding items.</p>
-    <div st-pipe="view.getMoneyFlows" st-table="view.moneyFlows" id="sort-list">
+    <div st-pipe="view.getMoneyFlows" st-table="view.moneyFlows" exposetablestate="getMoneyFlowsTableState" id="sort-list">
         <table class="col-md-12">
             <thead>
                 <tr class="row">
                     <th st-sort="'transactionDate'" st-sort-default="reverse" class="col-md-1 sort-label medium">Transaction Date</th>
                     <th st-sort="'moneyFlowStatus'" class="col-md-1 sort-label medium">Status</th>
-                    <th st-sort="'sourceRecipientTypeName'" class="col-md-1 sort-label medium">Source/Recipient Type</th>
-                    <th st-sort="'sourceRecipientName'" class="col-md-2 sort-label medium">Source / Recipient</th>
+                    <th st-sort="'sourceRecipientTypeName'" class="col-md-1 sort-label medium">Type</th>
+                    <th st-sort="'sourceRecipientName'" class="col-md-2 sort-label medium">From/To</th>
                     <th st-sort="'amount'" class="col-md-1 sort-label medium">Amount</th>
                     <th st-sort="'fiscalYear'" class="col-md-1 sort-label medium">FY</th>
                     <th st-sort="'description'" class="col-md-2 sort-label medium">Description</th>
@@ -39,7 +39,7 @@
                             </ui-select-choices>
                         </ui-select>
                     </th>
-                    <th>                        
+                    <th>
                         <ui-select multiple
                                    ui-select-st-search
                                    ui-select-st-search-model-id="id"
@@ -84,7 +84,7 @@
                     <td>{{moneyFlow.sourceRecipientTypeName}}</td>
                     <td>{{moneyFlow.sourceRecipientName}}</td>
                     <td>
-                        <span class="{{moneyFlow.amount < 0 ? 'text-danger' : ''}}">{{moneyFlow.amount | currency}}</span>
+                        <span class="{{moneyFlow.amount < 0 ? 'text-danger' : ''}}">{{moneyFlow.amount < 0 ? '-' : '+'}}{{moneyFlow.amount | currency}}</span>
                     </td>
                     <td style="text-align: center">
                         {{moneyFlow.fiscalYear}}
@@ -103,7 +103,6 @@
                         <div class="right" style="display:none;" showonparentrow>
                             <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy">
                                 <i class="md md-content-copy md-2x copyEditDeleteOption" ng-show="!copyMoneyFlowLoading"></i>
-                                <!--<i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="copyMoneyFlowLoading"></i>-->
                             </div>
                             <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Edit" ng-click="view.onEditClick(moneyFlow)">
                                 <i class="md md-mode-edit md-2x copyEditDeleteOption" ng-show="!editMoneyFlowLoading"></i>
