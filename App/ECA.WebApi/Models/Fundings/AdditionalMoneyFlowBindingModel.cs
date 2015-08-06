@@ -29,7 +29,6 @@ namespace ECA.WebApi.Models.Fundings
         /// <summary>
         /// Gets or sets the description.
         /// </summary>
-        [Required]
         [MaxLength(MoneyFlow.DESCRIPTION_MAX_LENGTH)]
         public string Description { get; set; }
 

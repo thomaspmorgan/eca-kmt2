@@ -3,7 +3,7 @@
 </div>
 
 <div class="modal-body" in-context-form>
-    <form name="view.newMoneyFlow">
+    <form name="form.newMoneyFlow" ng-show="!view.isSaving">
         <div class="form-group" id="transactionType">
             <span class="moneyFlowDirection" ng-class="{directionSelected: !view.moneyFlow.isOutgoing}" ng-click="view.toggleIncomingOutgoing(view.incomingDirectionKey)">Incoming</span>
             <span class="moneyFlowDirection" ng-class="{directionSelected: view.moneyFlow.isOutgoing}" ng-click="view.toggleIncomingOutgoing(view.outgoingDirectionKey)">Outgoing</span>
@@ -12,24 +12,26 @@
             <div class="form-group col-md-12">
                 <label>Transaction Date<span class="asterisk"> *</span></label>
                 <p class="input-group">
-                    <input name="start"
+                    <input name="transactionDate"
                            type="text"
                            class="form-control"
                            datepicker-popup="dd-MMMM-yyyy"
-                           ng-model="draftMoneyFlow.transactionDate"
-                           is-open="transactionCalendarOpened"
+                           show-weeks="false"
+                           ng-model="view.moneyFlow.transactionDate"
+                           is-open="view.isTransactionDatePickerOpen"
                            close-text="Close"
                            placeholder="Enter transaction date..."
-                           required />
+                           ng-required="true" />
                     <span class="input-group-btn" style="width:0;">
-                        <button type="button" class="btn btn-default" ng-click="transactionCalendarOpen($event)"><i class="material-icons md-18">event</i></button>
+                        <button type="button" class="btn btn-default" ng-click="view.openTransactionDatePicker($event)"><i class="material-icons md-18">event</i></button>
                     </span>
                 </p>
-                <div ng-show="modalForm.moneyFlowForm.transactionDate.$dirty">
-                    <div class="error" ng-show="modalForm.moneyFlowForm.transactionDate.$error.required">Please enter a transaction date.</div>
+                <div ng-show="form.newMoneyFlow.transactionDate.$dirty || form.newMoneyFlow.transactionDate.$error.required">
+                    <div class="error" ng-show="form.newMoneyFlow.transactionDate.$error.required">Please select a transaction date.</div>
                 </div>
             </div>
-
+        </div>
+        <div class="row">
             <div class="form-group col-md-12">
                 <label>Status<span class="asterisk"> *</span></label>
                 <div>
@@ -37,15 +39,14 @@
                             id="moneyFlowStatus"
                             name="moneyFlowStatusId"
                             ng-options="t.id as t.name for t in view.moneyFlowStatii"
-                            ng-model="moneyFlow.moneyFlowStatusId"
+                            ng-model="view.moneyFlow.moneyFlowStatusId"
                             required />
                 </div>
-                <div ng-show="form.moneyFlowForm.moneyFlowStatusId.$dirty || form.addressForm.moneyFlowStatusId.$error.required">
-                    <div class="error" ng-show="form.moneyFlowForm.moneyFlowStatusId.$error.required">Please select a funding status.</div>
+                <div ng-show="form.newMoneyFlow.moneyFlowStatusId.$dirty || form.newMoneyFlow.moneyFlowStatusId.$error.required">
+                    <div class="error" ng-show="form.newMoneyFlow.moneyFlowStatusId.$error.required">Please select a status.</div>
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="form-group col-md-6">
                 <label>Amount<span class="asterisk"> *</span></label>
@@ -54,102 +55,116 @@
                        name="amount"
                        max="{{view.maxAmount}}"
                        class="form-control"
-                       ng-model="moneyFlow.amount"
+                       ng-model="view.moneyFlow.value"
                        placeholder="Enter amount."
                        ng-required="true"
                        form-element guidance="The USD amount of the transaction." />
+                <div ng-show="form.newMoneyFlow.amount.$dirty || form.newMoneyFlow.amount.$error.required">
+                    <div class="error" ng-show="form.newMoneyFlow.amount.$error.required">Please enter a transaction amount.</div>
+                </div>
             </div>
             <div class="form-group col-md-6">
                 <label>Fiscal Year<span class="asterisk"> *</span></label>
                 <input name="fiscalYear"
-                       ng-model="moneyFlow.fiscalYear"
+                       id="fiscalYear"
+                       ng-model="view.moneyFlow.fiscalYear"
                        type="number"
                        placeholder="Enter the fiscal year..."
                        class="form-control"
                        required />
-            </div>
-            
-            <div class="form-group col-md-6">
-                <label ng-show="!view.moneyFlow.isOutgoing">Source Type<span class="asterisk"> *</span></label>
-                <label ng-show="view.moneyFlow.isOutgoing">Recipient Type <span class="asterisk"> *</span></label>
-                <div>
-                    <select class="form-control"
-                            id="moneyFlowSourceRecipient"
-                            name="moneyFlowSourceRecipientTypeId"
-                            ng-options="t.id as t.name for t in view.moneyFlowSourceRecipientTypes"
-                            ng-model="moneyFlow.peerEntityTypeId"
-                            required />
+                <div ng-show="form.newMoneyFlow.fiscalYear.$dirty || form.newMoneyFlow.fiscalYear.$error.required">
+                    <div class="error" ng-show="form.newMoneyFlow.fiscalYear.$error.required">Please enter a fiscal year.</div>
                 </div>
             </div>
-            
-            <div class="form-group col-md-6">
-                <label ng-show="!view.moneyFlow.isOutgoing">Source<span class="asterisk"> *</span></label>
-                <label ng-show="view.moneyFlow.isOutgoing">Recipient<span class="asterisk"> *</span></label>
-                <div>
-                    <input type="search"
-                           id="source"
-                           name="source"
-                           class="search-contextual"
-                           maxlength="100"
-                           typeahead-append-to-body="false"
-                           placeholder="Select source..."
-                           ng-model="view.moneyFlow.peerEntityId"
-                           typeahead-wait-ms="400"
-                           typeahead-loading="view.isLoadingSources"
-                           typeahead="source as source.name for source in view.getSources($viewValue) | filter : $viewValue | limitTo : view.searchLimit"
-                           typeahead-on-select="view.onSelectSource($item, $model, $label)"
-                           typeahead-template-url="selectSourceTemplate.html"
-                           typeahead-editable="false"
-                           required>
-                    </input>
-                    <i class="material-icons md-18 contextual" ng-show="!view.isLoadingSources">search</i>
-                    <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingSources">autorenew</i>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label ng-show="!view.moneyFlow.isOutgoing">Source Type<span class="asterisk"> *</span></label>
+                    <label ng-show="view.moneyFlow.isOutgoing">Recipient Type <span class="asterisk"> *</span></label>
+                    <div>
+                        <select class="form-control"
+                                id="peerEntityTypeId"
+                                name="peerEntityTypeId"
+                                ng-options="t.id as t.name for t in view.moneyFlowSourceRecipientTypes"
+                                ng-model="view.moneyFlow.peerEntityTypeId"
+                                ng-change="view.onSelectSourceType()"
+                                required />
+                    </div>
+                    <div ng-show="form.newMoneyFlow.peerEntityTypeId.$dirty || form.newMoneyFlow.peerEntityTypeId.$error.required">
+                        <div class="error" ng-show="form.newMoneyFlow.peerEntityTypeId.$error.required && !view.moneyFlow.isOutgoing">Please select a source type.</div>
+                        <div class="error" ng-show="form.newMoneyFlow.peerEntityTypeId.$error.required && view.moneyFlow.isOutgoing">Please select a recipient type.</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group col-md-12">
-                <label>Description<span class="asterisk"> *</span></label>
-                <div>
-                    <textarea name="description"
-                              maxlength="{{view.maxDescriptionLength}}"
-                              class="largerArea"
-                              ng-model="moneyFlow.description"
-                              form-element guidance="This is the description of the funding."
-                              id="description"
-                              required
-                              placeholder="Enter description..." />
-                    <p class="subheader" style="margin-top:5px;">{{moneyFlow.description.length}} of {{view.maxDescriptionLength}} characters remaining.</p>
+                <div class="form-group col-md-6">
+                    <label ng-show="!view.moneyFlow.isOutgoing">Source<span class="asterisk"> *</span></label>
+                    <label ng-show="view.moneyFlow.isOutgoing">Recipient<span class="asterisk"> *</span></label>
+                    <div>
+                        <input type="search"
+                               id="source"
+                               name="source"
+                               class="search-contextual"
+                               maxlength="100"
+                               typeahead-append-to-body="false"
+                               placeholder="Select source..."
+                               ng-model="view.moneyFlow.peerEntity"
+                               typeahead-wait-ms="400"
+                               typeahead-loading="view.isLoadingSources"
+                               typeahead="peer as peer.primaryText for peer in view.getPeers($viewValue) | filter : $viewValue | limitTo : view.searchLimit"
+                               typeahead-on-select="view.onSelectPeer($item, $model, $label)"
+                               typeahead-template-url="selectSourceTemplate.html"
+                               typeahead-editable="false"
+                               typeahead-input-formatter="view.formatPeerEntity($item, $model, $label)"
+                               required>
+                        </input>
+                        <i class="material-icons md-18 contextual" ng-show="!view.isLoadingSources">search</i>
+                        <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingSources">autorenew</i>
+                    </div>
+                    <div ng-show="form.newMoneyFlow.source.$dirty || form.newMoneyFlow.source.$error.required">
+                        <div class="error" ng-show="form.newMoneyFlow.source.$error.required && !view.moneyFlow.isOutgoing">Please select a source type.</div>
+                        <div class="error" ng-show="form.newMoneyFlow.source.$error.required && view.moneyFlow.isOutgoing">Please select a recipient type.</div>
+                    </div>
                 </div>
             </div>
-            <div class="spinner col-md-12" ng-show="view.isLoadingRequiredData">
-                <div class="bounce1"></div>
-                <div class="bounce2"></div>
-                <div class="bounce3"></div>
-            </div>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label>Description<span class="asterisk"> *</span></label>
+                    <div>
+                        <textarea name="description"
+                                  maxlength="{{view.maxDescriptionLength}}"
+                                  class="largerArea"
+                                  ng-model="view.moneyFlow.description"
+                                  form-element guidance="This is the description of the funding."
+                                  id="description"
+                                  required
+                                  placeholder="Enter description..." />
+                        <p class="subheader" style="margin-top:5px;">{{moneyFlow.description.length}} of {{view.maxDescriptionLength}} characters remaining.</p>
+                    </div>
+                </div>
+            </div>            
         </div>
-       
-        <!--<div class="form-group">
-            <label>Fiscal Year<span class="asterisk"> *</span></label>
-            <input name="program" ng-model="parameters.program" type="text" placeholder="Enter Program name..."
-                   typeahead="p as p.name for p in getPrograms($viewValue)" typeahead-loading="loadingPrograms" typeahead-on-select="model=$item.id"
-                   typeahead-editable="false" class="form-control" required />
-            <i class="material-icons md-18 material-icons-spin" ng-show="loadingPrograms">autorenew</i>
-        </div>-->
-
-        
     </form>
+    <div class="row" ng-show="view.isLoadingRequiredData || view.isSaving">
+        <div class="spinner col-md-12">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
 </div>
 
 <div class="modal-footer">
-    <button ng-disabled="!parameters.program || isRunning" class="btn btn-primary" ng-click="view.save()">Save</button>
+    <button ng-disabled="form.newMoneyFlow.$invalid" class="btn btn-primary" ng-click="view.save()">Save</button>
     <button class="btn btn-warning" ng-click="view.cancel()">Cancel</button>
 </div>
 
 
 <script type="text/ng-template" id="selectSourceTemplate.html">
     <a>
-        <div ng-show="match.model.name">
-            <span bind-html-unsafe="match.model.name | typeaheadHighlight:query"></span>
+        <div ng-show="match.model.primaryText">
+            <span bind-html-unsafe="match.model.primaryText | typeaheadHighlight:query"></span>
+        </div>
+        <div ng-show="match.model.secondaryText" style="margin-left: 30px;">
+            <span bind-html-unsafe="match.model.secondaryText | typeaheadHighlight:query"></span>
         </div>
     </a>
 </script>

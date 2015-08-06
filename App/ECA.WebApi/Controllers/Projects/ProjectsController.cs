@@ -104,6 +104,26 @@ namespace ECA.WebApi.Controllers.Projects
         }
 
         /// <summary>
+        /// Returns a list of projects.
+        /// </summary>
+        /// <param name="queryModel">The query model</param>
+        /// <returns>A list of projects.</returns>
+        [ResponseType(typeof(PagedQueryResults<SimpleProjectDTO>))]
+        [Route("Projects")]
+        public async Task<IHttpActionResult> GetProjectsAsync([FromUri]PagingQueryBindingModel<SimpleProjectDTO> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var results = await projectService.GetProjectsAsync(queryModel.ToQueryableOperator(DEFAULT_SIMPLE_PROJECT_DTO_SORTER));
+                return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
         /// Returns a project by id
         /// </summary>
         /// <param name="id">The project id to fetch</param>
@@ -277,9 +297,9 @@ namespace ECA.WebApi.Controllers.Projects
         }
 
         /// <summary>
-        /// Adds collaborators to a project.
+        /// Returns collaborator details in relation to the project.
         /// </summary>
-        /// <param name="projectId">The id of the project to get collaborators for.</param>
+        /// <param name="projectId">The id of the project to get collaborator details for.</param>
         /// <returns>An ok result.</returns>
         [ResponseType(typeof(ResourceAuthorizationInfoDTO))]
         [Route("Projects/{projectId}/Collaborators/Details")]

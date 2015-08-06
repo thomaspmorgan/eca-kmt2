@@ -32,7 +32,20 @@ angular.module('staticApp')
               return DragonBreath.save(moneyFlow, path);
           },
           create: function (moneyFlow) {
-              return DragonBreath.create(moneyFlow, 'moneyFlows');
+              console.assert(moneyFlow.entityTypeId, 'The money flow to create must have an entity type id assigned.');
+              var entityTypeId = moneyFlow.entityTypeId;
+              var path = '';
+              if (entityTypeId === ConstantsService.moneyFlowSourceRecipientType.project.id) {
+                  path += 'project';
+              }
+              else if (entityTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id) {
+                  path += 'program';
+              }
+              else {
+                  throw Error('The money flow source recipient type is not yet supported.');
+              }
+              path += '/MoneyFlows';
+              return DragonBreath.create(moneyFlow, path);
           }
       };
   });

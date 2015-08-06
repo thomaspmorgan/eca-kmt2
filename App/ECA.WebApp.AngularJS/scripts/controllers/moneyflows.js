@@ -39,6 +39,7 @@ angular.module('staticApp')
       $scope.view.maxAmount = ConstantsService.maxNumericValue;
       $scope.view.maxDescriptionLength = 255;
 
+
       //the program id, project id, etc...
       $scope.view.entityId = $stateParams[$scope.$parent.stateParamName];
 
@@ -131,6 +132,12 @@ angular.module('staticApp')
           return 'editMoneyFlow' + moneyFlow.id;
       };
 
+      $scope.view.openTransactionDatePicker = function ($event, moneyFlow, form) {
+          $event.preventDefault();
+          $event.stopPropagation();
+          moneyFlow.isTransactionDatePickerOpen = true;
+      }
+
       function getLookupValueById(values, id) {
           var value = '';
           angular.forEach(values, function (v, index) {
@@ -196,7 +203,7 @@ angular.module('staticApp')
                   moneyFlow.isOutgoing = moneyFlow.amount < 0;
                   moneyFlow.isSavingUpdate = false;
                   moneyFlow.editableAmount = moneyFlow.amount < 0 ? -moneyFlow.amount : moneyFlow.amount;
-
+                  moneyFlow.isTransactionDatePickerOpen = true;
                   $scope.$watch(function () {
                       return moneyFlow.editableAmount;
                   },
