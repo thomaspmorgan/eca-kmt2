@@ -8,10 +8,10 @@
         <table class="col-md-12">
             <thead>
                 <tr class="row">
-                    <th st-sort="'transactionDate'" st-sort-default="true" class="col-md-1 sort-label medium">Transaction Date</th>
-                    <th st-sort="'status'" class="col-md-1 sort-label medium">Status</th>
-                    <th st-sort="'sourceType'" class="col-md-1 sort-label medium">Source/Recipient Type</th>
-                    <th st-sort="'fromTo'" class="col-md-2 sort-label medium">Source / Recipient</th>
+                    <th st-sort="'transactionDate'" st-sort-default="reverse" class="col-md-1 sort-label medium">Transaction Date</th>
+                    <th st-sort="'moneyFlowStatus'" class="col-md-1 sort-label medium">Status</th>
+                    <th st-sort="'sourceRecipientTypeName'" class="col-md-1 sort-label medium">Source/Recipient Type</th>
+                    <th st-sort="'sourceRecipientName'" class="col-md-2 sort-label medium">Source / Recipient</th>
                     <th st-sort="'amount'" class="col-md-1 sort-label medium">Amount</th>
                     <th st-sort="'fiscalYear'" class="col-md-1 sort-label medium">FY</th>
                     <th st-sort="'description'" class="col-md-2 sort-label medium">Description</th>
@@ -20,22 +20,55 @@
                 <tr class="row">
                     <th>&nbsp;</th>
                     <th>
-                        <input st-search="'status'" placeholder="" type="search" class="input-lg form-control" />
+                        <ui-select multiple
+                                   ui-select-st-search
+                                   ui-select-st-search-model-id="id"
+                                   ui-select-st-search-property="moneyFlowStatusId"
+                                   ui-select-st-search-comparison-type="in"
+                                   close-on-select="false"
+                                   ng-model="view.selectedFilterMoneyFlowStatii"
+                                   theme="select2"
+                                   append-to-body="true"
+                                   title="Choose money flow statii to filter."
+                                   style="min-width: 200px;">
+                            <ui-select-match placeholder="Filter statuses...">
+                                <div>{{$item.name}}</div>
+                            </ui-select-match>
+                            <ui-select-choices repeat="status in view.moneyFlowStatii | filter: select.search track by status.id">
+                                <div ng-bind-html="status.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </th>
+                    <th>                        
+                        <ui-select multiple
+                                   ui-select-st-search
+                                   ui-select-st-search-model-id="id"
+                                   ui-select-st-search-property="sourceRecipientEntityTypeId"
+                                   ui-select-st-search-comparison-type="in"
+                                   close-on-select="false"
+                                   ng-model="view.selectedFilterSourceRecipientTypes"
+                                   theme="select2"
+                                   append-to-body="true"
+                                   style="min-width: 200px;">
+                            <ui-select-match placeholder="Filter types...">
+                                <div>{{$item.name}}</div>
+                            </ui-select-match>
+                            <ui-select-choices repeat="t in view.moneyFlowSourceRecipientTypes | filter: select.search track by t.id">
+                                <div ng-bind-html="t.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
                     </th>
                     <th>
-                        <input st-search="'sourceType'" placeholder="" type="search" class="input-lg form-control" />
+                        <input st-search="'sourceRecipientName'" placeholder="" type="search" class="form-control" />
                     </th>
                     <th>
-                        <input st-search="'fromTo'" placeholder="" type="search" class="input-lg form-control" />
+                        <input st-search="'amount'" placeholder="" type="search" class="form-control" />
                     </th>
                     <th>
-                        <input st-search="'amount'" placeholder="" type="search" class="input-lg form-control" />
+                        <input st-search="'fiscalYear'" placeholder="" type="search" class="form-control" />
                     </th>
                     <th>
-                        <input st-search="'fiscalYear'" placeholder="" type="search" class="input-lg form-control" />
-                    </th>
-                    <th>
-                        <input st-search="'description'" placeholder="" type="search" class="input-lg form-control" />
+                        <input st-search="'description'" maxlength="100" placeholder="" type="search" class="form-control" />
                     </th>
                     <th>&nbsp;</th>
                 </tr>
@@ -83,7 +116,7 @@
 
                 </tr>
                 <tr class="expandedDescription" ng-show="moneyFlow.showDescription">
-                    <td colspan="9" style="padding-top:5px; padding-bottom:5px;"><div>Description: {{moneyFlow.description}}</div></td>
+                    <td colspan="8" style="padding-top:5px; padding-bottom:5px;"><div>Description: {{moneyFlow.description}}</div></td>
                 </tr>
                 <tr class="expandedDescription" ng-show="moneyFlow.isSavingUpdate">
                     <td colspan="9">
@@ -96,7 +129,7 @@
                 </tr>
 
                 <tr class="expandedDescription" ng-show="moneyFlow.currentlyEditing">
-                    <td colspan="9">
+                    <td colspan="8">
                         <div in-context-form style="padding:5px;" id="{{view.getMoneyFlowDivId(moneyFlow)}}">
                             <form name="form.moneyFlowForm" class="form-horizontal">
                                 <div class="form-group">

@@ -101,7 +101,6 @@ angular.module('staticApp')
       $scope.view.onSelectSourceType = function () {
           var peerEntityTypeId = $scope.view.moneyFlow.peerEntityTypeId;
           $scope.view.moneyFlow.peerEntityId = null;
-
       }
 
       $scope.view.onSelectPeer = function ($item, $model, $label) {
@@ -109,8 +108,7 @@ angular.module('staticApp')
           $scope.view.moneyFlow.peerEntityId = $model.peerEntityId;
       }
 
-      $scope.view.formatPeerEntity = function ($item, $model, $label) {
-          
+      $scope.view.formatPeerEntity = function ($item, $model, $label) {          
           if (!$model) {
               $log.info("return empty string");
               return '';
@@ -134,7 +132,18 @@ angular.module('staticApp')
       }
 
       function handleProgramsSearchResponse(response) {
+          var programs = response.results;
+          var maxLength = 20;
+          angular.forEach(programs, function (program, index) {
+              var owner = '';
+              if (program.officeSymbol && program.officeSymbol.length > 0) {
+                  owner += program.officeSymbol + " - ";
+              }
+              owner += program.orgName;
 
+              setDataForResultTemplate(program, 'programId', program.name, owner);
+          });
+          return programs;
       }
 
       function handleProjectsSearchResponse(response) {
@@ -170,7 +179,7 @@ angular.module('staticApp')
               propertyName = 'projectName';
           }
           else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id) {
-              return ProjectService.get;
+              propertyName = 'name'
           }
           else {
               throw Error("The peer entity type id [" + peerEntityTypeId + "] is not yet supported.");

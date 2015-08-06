@@ -145,7 +145,7 @@ namespace ECA.WebApi.Controllers.Fundings
         /// <param name="model">The new program money flow.</param>
         /// <returns>An ok result.</returns>        
         [Route("Program/MoneyFlows")]
-        //[ResourceAuthorize(Permission.EDIT_PROGRAM_VALUE, ResourceType.PROGRAM_VALUE, typeof(AdditionalProgramMoneyFlowBindingModel), "programId")]
+        [ResourceAuthorize(Permission.EDIT_PROGRAM_VALUE, ResourceType.PROGRAM_VALUE, typeof(AdditionalProgramMoneyFlowBindingModel), "programId")]
         public Task<IHttpActionResult> PostCreateProgramMoneyFlowAsync([FromBody]AdditionalProgramMoneyFlowBindingModel model)
         {
             return DoCreateAsync(model);

@@ -39,6 +39,8 @@ angular.module('staticApp')
       $scope.view.maxAmount = ConstantsService.maxNumericValue;
       $scope.view.maxDescriptionLength = 255;
 
+      $scope.view.selectedFilterMoneyFlowStatii = [];
+      $scope.view.selectedFilterSourceRecipientTypes = [];
 
       //the program id, project id, etc...
       $scope.view.entityId = $stateParams[$scope.$parent.stateParamName];
@@ -74,8 +76,8 @@ angular.module('staticApp')
               }
           });
 
-          modalInstance.result.then(function (selectedItem) {
-              $scope.selected = selectedItem;
+          modalInstance.result.then(function (newMoneyFlow) {
+              $log.info('Finished adding new money flow.');
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });

@@ -14,6 +14,7 @@ using System.Data.Entity;
 using System.Collections.Generic;
 using ECA.Business.Models.Fundings;
 using ECA.Core.Exceptions;
+using ECA.Business.Exceptions;
 
 namespace ECA.Business.Service.Fundings
 {
@@ -25,6 +26,7 @@ namespace ECA.Business.Service.Fundings
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity> validator;
         private Action<object, int, Type> throwIfEntityNotFound;
+        private Action<int, MoneyFlow, MoneyFlow> throwSecurityViolationIfNull;
 
         /// <summary>
         /// Creates a new instance with the context to operate against and the validator.
@@ -42,6 +44,16 @@ namespace ECA.Business.Service.Fundings
                 if (instance == null)
                 {
                     throw new ModelNotFoundException(String.Format("The entity of type [{0}] with id [{1}] was not found.", type.Name, id));
+                }
+            };
+            throwSecurityViolationIfNull = (userId, instance, actualMoneyFlow) =>
+            {
+                if (instance == null && actualMoneyFlow != null)
+                {
+                    throw new BusinessSecurityException(
+                        String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.", 
+                        userId, 
+                        actualMoneyFlow.MoneyFlowId));
                 }
             };
         }
@@ -220,7 +232,9 @@ namespace ECA.Business.Service.Fundings
         /// <param name="updatedMoneyFlow">The updated money flow.</param>
         public void Update(UpdatedMoneyFlow updatedMoneyFlow)
         {
-            var moneyFlowToUpdate = CreateGetMoneyFlowToUpdateQuery(updatedMoneyFlow.Id, updatedMoneyFlow.SourceEntityId).FirstOrDefault();
+            var moneyFlowToUpdate = Context.MoneyFlows.Find(updatedMoneyFlow.Id);
+            var permissableMoneyFlow = CreateGetMoneyFlowToUpdateQuery(updatedMoneyFlow.Id, updatedMoneyFlow.SourceOrRecipientEntityId).FirstOrDefault();
+            throwSecurityViolationIfNull(updatedMoneyFlow.Audit.User.Id, permissableMoneyFlow, moneyFlowToUpdate);
             DoUpdate(updatedMoneyFlow, moneyFlowToUpdate);
         }
 
@@ -231,18 +245,21 @@ namespace ECA.Business.Service.Fundings
         /// <returns>The task.</returns>
         public async Task UpdateAsync(UpdatedMoneyFlow updatedMoneyFlow)
         {
-            var moneyFlowToUpdate = await CreateGetMoneyFlowToUpdateQuery(updatedMoneyFlow.Id, updatedMoneyFlow.SourceEntityId).FirstOrDefaultAsync();
+            var moneyFlowToUpdate = await Context.MoneyFlows.FindAsync(updatedMoneyFlow.Id);
+            var permissableMoneyFlow = await CreateGetMoneyFlowToUpdateQuery(updatedMoneyFlow.Id, updatedMoneyFlow.SourceOrRecipientEntityId).FirstOrDefaultAsync();
+            throwSecurityViolationIfNull(updatedMoneyFlow.Audit.User.Id, permissableMoneyFlow, moneyFlowToUpdate);
             DoUpdate(updatedMoneyFlow, moneyFlowToUpdate);
         }
 
         /// <summary>
         /// We need a query to make sure that the money flow you are updating is the one with the Id
-        /// and the source entity id, for security.
+        /// and the source or recipient entity id.  This is an additional security measure to ensure that user who
+        /// was granted access to edit a certain entities money flow does not then try to go an edit a seperate money flow.
         /// </summary>
         /// <param name="moneyFlowId">The money flow id.</param>
-        /// <param name="sourceEntityId">The source entity id.</param>
+        /// <param name="entityId">The permissable entity id, i.e. the entity by which a user has been granted access to modify.</param>
         /// <returns>The money flow with the given money flow id and source entity id.</returns>
-        private IQueryable<MoneyFlow> CreateGetMoneyFlowToUpdateQuery(int moneyFlowId, int sourceEntityId)
+        private IQueryable<MoneyFlow> CreateGetMoneyFlowToUpdateQuery(int moneyFlowId, int entityId)
         {
             //In order to make sure the money flow that the client wants to update is one they have permission
             //to we need to make sure the money flow they wish to update is the one with the given id
@@ -250,11 +267,18 @@ namespace ECA.Business.Service.Fundings
             return Context.MoneyFlows
                 .Where(x => x.MoneyFlowId == moneyFlowId
                 && (
-                x.SourceItineraryStopId == sourceEntityId
-                || x.SourceOrganizationId == sourceEntityId
-                || x.SourceParticipantId == sourceEntityId
-                || x.SourceProgramId == sourceEntityId
-                || x.SourceProjectId == sourceEntityId
+                x.SourceItineraryStopId == entityId
+                || x.SourceOrganizationId == entityId
+                || x.SourceParticipantId == entityId
+                || x.SourceProgramId == entityId
+                || x.SourceProjectId == entityId
+                || x.RecipientAccommodationId == entityId
+                || x.RecipientItineraryStopId == entityId
+                || x.RecipientOrganizationId == entityId
+                || x.RecipientParticipantId == entityId
+                || x.RecipientProgramId == entityId
+                || x.RecipientProjectId == entityId
+                || x.RecipientTransportationId == entityId
                 ));
         }
 
@@ -265,7 +289,7 @@ namespace ECA.Business.Service.Fundings
                 throw new ModelNotFoundException(String.Format(
                     "The money flow with id [{0}] and source entity id [{1}] was not found.", 
                     updatedMoneyFlow.Id, 
-                    updatedMoneyFlow.SourceEntityId));
+                    updatedMoneyFlow.SourceOrRecipientEntityId));
             }
             validator.ValidateUpdate(GetUpdateValidationEntity(updatedMoneyFlow));
             moneyFlowToUpdate.Description = updatedMoneyFlow.Description;

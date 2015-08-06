@@ -24,11 +24,11 @@ namespace ECA.Business.Service.Fundings
         /// <param name="transactionDate">The transaction date.</param>
         /// <param name="fiscalYear">The fiscal year.</param>
         /// <param name="id">The id of the money flow.</param>
-        /// <param name="sourceEntityId">The source entity id.</param>
+        /// <param name="sourceOrRecipientEntityId">The source or recipient entity id, useful for security.</param>
         public UpdatedMoneyFlow(
             User updator,
             int id,
-            int sourceEntityId,
+            int sourceOrRecipientEntityId,
             string description,
             decimal value,
             int moneyFlowStatusId,
@@ -41,7 +41,7 @@ namespace ECA.Business.Service.Fundings
             {
                 throw new UnknownStaticLookupException(String.Format("The money flow status [{0}] is not supported.", moneyFlowStatusId));
             }
-            this.SourceEntityId = sourceEntityId;
+            this.SourceOrRecipientEntityId = sourceOrRecipientEntityId;
             this.Id = id;
             this.Audit = new Update(updator);
             this.Description = description;
@@ -55,7 +55,7 @@ namespace ECA.Business.Service.Fundings
         /// <summary>
         /// Gets the source entity id.
         /// </summary>
-        public int SourceEntityId { get; private set; }
+        public int SourceOrRecipientEntityId { get; private set; }
 
         /// <summary>
         /// Gets the audit.
