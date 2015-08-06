@@ -104,8 +104,10 @@
     <Compile Include="AddressType.cs" />
     <Compile Include="Artifact.cs" />
     <Compile Include="ArtifactType.cs" />
+    <Compile Include="Bookmark.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="Configuration\AddressConfiguration.cs" />
+    <Compile Include="Configuration\BookmarkConfiguration.cs" />
     <Compile Include="Configuration\FieldOfStudyConfiguration.cs" />
     <Compile Include="Configuration\FocusConfiguration.cs" />
     <Compile Include="Configuration\ImpactConfiguration.cs" />
@@ -128,6 +130,7 @@
     <Compile Include="Gender.cs" />
     <Compile Include="Goal.cs" />
     <Compile Include="IAddressable.cs" />
+    <None Include="IFundable.csold" />
     <Compile Include="IObjectivable.cs" />
     <Compile Include="IContactable.cs" />
     <Compile Include="IGoalable.cs" />

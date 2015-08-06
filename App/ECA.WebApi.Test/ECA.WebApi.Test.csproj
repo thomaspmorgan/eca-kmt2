@@ -61,9 +61,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Moq.4.2.1507.0118\lib\net40\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -103,7 +103,10 @@
     <Compile Include="Controllers\Admin\OfficesControllerTest.cs" />
     <Compile Include="Controllers\Admin\ParticipantTypesControllerTest.cs" />
     <Compile Include="Controllers\Admin\LocationsControllerTest.cs" />
-    <Compile Include="Controllers\Admin\MoneyFlowsControllerTest.cs" />
+    <Compile Include="Controllers\Fundings\MoneyFlowsControllerTest.cs" />
+    <Compile Include="Controllers\Fundings\MoneyFlowStatusesControllerTest.cs" />
+    <Compile Include="Controllers\Fundings\MoneyFlowSourceRecipientTypesControllerTest.cs" />
+    <Compile Include="Controllers\Fundings\MoneyFlowTypesControllerTest.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonsControllerTest.cs" />
     <Compile Include="Controllers\Projects\ProjectStatusControllerTest.cs" />
     <Compile Include="Controllers\Admin\MaritalStatusesControllerTest.cs" />
@@ -137,6 +140,10 @@
     <Compile Include="Models\Admin\UpdatedAddressBindingModelTest.cs" />
     <Compile Include="Models\Admin\UpdatedOrganizationBindingModelTest.cs" />
     <Compile Include="Models\Admin\UpdatedSocialMediaBindingModelTest.cs" />
+    <Compile Include="Models\Fundings\AdditionalProgramMoneyFlowBindingModelTest.cs" />
+    <Compile Include="Models\Fundings\AdditionalProjectMoneyFlowBindingModelTest.cs" />
+    <Compile Include="Models\Fundings\AdditionalMoneyFlowBindingModelTest.cs" />
+    <Compile Include="Models\Fundings\UpdatedMoneyFlowBindingModelTest.cs" />
     <Compile Include="Models\Person\PiiBindingModelTest.cs" />
     <Compile Include="Models\Programs\ProgramBindingModelTest.cs" />
     <Compile Include="Models\Programs\DraftProgramBindingModelTest.cs" />

@@ -98,9 +98,6 @@ angular
             controller: 'AboutCtrl',
             requireADLogin: true
         })
-        // .state('list', {
-        //   url: 
-        // })
 
         .state('secureTest', {
             url: '/secureTest',
@@ -234,37 +231,32 @@ angular
             controller: 'SettingsCtrl',
             requireADLogin: true
         })
-        .state('participants', {
-            url: '/participants/:personId',
-            templateUrl: 'views/participants.html',
-            controller: 'ParticipantCtrl',
+        .state('people', {
+            url: '/people/:personId',
+            templateUrl: 'views/person.html',
+            controller: 'PeopleCtrl',
             requireADLogin: true
         })
-        .state('participants.overview', {
-            url: '/overview',
-            templateUrl: 'views/participants/overview.html',
-            controller: 'ParticipantCtrl',
-            requireADLogin: true
-        })
-        .state('participants.timeline', {
+        .state('people.timeline', {
             url: '/timeline',
-            templateUrl: 'views/participants/timeline.html',
-            controller: 'ParticipantTimelineCtrl'
+            templateUrl: 'views/person/timeline.html',
+            controller: 'PersonTimelineCtrl',
+            requireADLogin: true
         })
-        .state('participants.personalinformation', {
+        .state('people.personalinformation', {
             url: '/personalinformation',
-            templateUrl: 'views/participants/personalinformation.html',
-            controller: 'ParticipantCtrl'
+            templateUrl: 'views/person/personalinformation.html',
+            requireADLogin: true
         })
-        .state('participants.relatedreports', {
+        .state('people.relatedreports', {
             url: '/relatedreports',
-            templateUrl: 'views/participants/relatedreports.html',
-            controller: 'ParticipantCtrl'
+            templateUrl: 'views/person/relatedreports.html',
+            requireADLogin: true
         })
-        .state('participants.impact', {
+        .state('people.impact', {
             url: '/impact',
-            templateUrl: 'views/participants/impact.html',
-            controller: 'ParticipantCtrl'
+            templateUrl: 'views/person/impact.html',
+            requireADLogin: true
         })
 
         .state('allprograms', {
@@ -282,30 +274,35 @@ angular
         })
         .state('programs.overview', {
             url: '/overview',
-            templateUrl: 'views/program/overview.html'
+            templateUrl: 'views/program/overview.html',
+            requireADLogin: true
         })
         .state('programs.projects', {
             url: '/projects',
-            templateUrl: 'views/program/projects.html'
+            templateUrl: 'views/program/projects.html',
+            requireADLogin: true
         })
 
         .state('programs.activity', {
             url: '/activity',
-            templateUrl: 'views/program/activity.html'
+            templateUrl: 'views/program/activity.html',
+            requireADLogin: true
         })
         .state('programs.artifacts', {
             url: '/artifacts',
-            templateUrl: 'views/program/artifacts.html'
+            templateUrl: 'views/program/artifacts.html',
+            requireADLogin: true
         })
 
         .state('programs.impact', {
             url: '/impact',
-            templateUrl: 'views/program/impact.html'
+            templateUrl: 'views/program/impact.html',
+            requireADLogin: true
         })
         .state('programs.moneyflows', {
             url: '/moneyflows',
             templateUrl: 'views/program/moneyflows.html',
-            controller: 'ProgramMoneyFlowsCtrl'
+            requireADLogin: true
         })
 
         .state('projects', {
@@ -334,34 +331,41 @@ angular
         })
         .state('projects.artifacts', {
             url: '/artifact',
-            templateUrl: 'views/project/artifact.html'
+            templateUrl: 'views/project/artifact.html',
+            requireADLogin: true
         })
         .state('projects.activity', {
             url: '/activity',
-            templateUrl: 'views/project/activity.html'
+            templateUrl: 'views/project/activity.html',
+            requireADLogin: true
         })
         .state('projects.itineraries', {
             url: '/itinerary',
-            templateUrl: 'views/project/itinerary.html'
+            templateUrl: 'views/project/itinerary.html',
+            requireADLogin: true
         })
         .state('projects.implementers', {
             url: '/implementers',
-            templateUrl: 'views/project/implementer.html'
+            templateUrl: 'views/project/implementer.html',
+            requireADLogin: true
         })
         .state('projects.partners', {
             url: '/partners',
-            templateUrl: 'views/project/partners.html'
+            templateUrl: 'views/project/partners.html',
+            requireADLogin: true
         })
 
         .state('projects.moneyflows', {
             url: '/moneyflows',
             templateUrl: 'views/project/moneyflows.html',
-            controller: 'ProjectMoneyFlowsCtrl'
+            controller: 'ProjectMoneyFlowsCtrl',
+            requireADLogin: true
         })
 
         .state('projects.impact', {
             url: '/impact',
-            templateUrl: 'views/project/impact.html'
+            templateUrl: 'views/project/impact.html',
+            requireADLogin: true
         })
 
         .state('offices', {
@@ -372,23 +376,28 @@ angular
         })
         .state('offices.overview', {
             url: '/overview',
-            templateUrl: 'views/office/overview.html'
+            templateUrl: 'views/office/overview.html',
+            requireADLogin: true
         })
         .state('offices.branches', {
             url: '/branches',
-            templateUrl: 'views/office/branches.html'
+            templateUrl: 'views/office/branches.html',
+            requireADLogin: true
         })
         .state('offices.activity', {
             url: '/activity',
-            templateUrl: 'views/office/activity.html'
+            templateUrl: 'views/office/activity.html',
+            requireADLogin: true
         })
         .state('offices.artifacts', {
             url: '/artifacts',
-            templateUrl: 'views/office/artifacts.html'
+            templateUrl: 'views/office/artifacts.html',
+            requireADLogin: true
         })
         .state('offices.moneyflows', {
             url: '/moneyflows',
-            templateUrl: 'views/office/moneyflows.html'
+            templateUrl: 'views/office/moneyflows.html',
+            requireADLogin: true
         })
 
         .state('alloffices', {
@@ -397,16 +406,10 @@ angular
             controller: 'AllOfficesCtrl',
             requireADLogin: true
         })
-        .state('allparticipants', {
-            url: '/allparticipants',
-            templateUrl: 'views/participants/allparticipants.html',
-            controller: 'AllParticipantsCtrl',
-            requireADLogin: true
-        })
-        .state('allpersons', {
-            url: '/allpersons',
-            templateUrl: 'views/participants/allpersons.html',
-            controller: 'AllPersonsCtrl',
+        .state('allpeople', {
+            url: '/allpeople',
+            templateUrl: 'views/person/allpeople.html',
+            controller: 'AllPeopleCtrl',
             requireADLogin: true
         })
         .state('allorganizations', {
@@ -473,7 +476,7 @@ angular
           { name: 'Home', state: 'home.shortcuts' },
           { name: 'Offices', state: 'alloffices' },
           { name: 'Programs', state: 'allprograms' },
-          { name: 'Persons', state: 'allpersons' },
+          { name: 'People', state: 'allpeople' },
           { name: 'Organizations', state: 'allorganizations' },
           { name: 'Activities', state: 'activities' },
           { name: 'Reports', state: 'reports.archive' },

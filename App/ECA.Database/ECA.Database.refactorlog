@@ -574,4 +574,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ActivityTypeName" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="f604c6bb-b73a-44db-bc3b-cbde603c4a3b" ChangeDateTime="07/31/2015 20:32:56">
+    <Property Name="ElementName" Value="[dbo].[Bookmark].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Bookmark]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="BookmarkId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="60344571-ad56-42a1-8f15-2cac934d7efb" ChangeDateTime="07/31/2015 20:43:51">
+    <Property Name="ElementName" Value="[dbo].[Bookmark].[UserId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Bookmark]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PrincipalId" />
+  </Operation>
 </Operations>

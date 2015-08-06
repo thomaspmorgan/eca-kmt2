@@ -71,6 +71,11 @@ namespace ECA.Data
         public DbSet<ArtifactType> ArtifactTypes { get; set; }
 
         /// <summary>
+        /// Gets or sets the Bookmarks
+        /// </summary>
+        public DbSet<Bookmark> Bookmarks { get; set; }
+
+        /// <summary>
         /// Gets or sets the categories for a focus
         /// </summary>
         public DbSet<Category> Categories { get; set; }

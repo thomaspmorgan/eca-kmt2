@@ -38,10 +38,12 @@
                     </div>
                     <div ng-show="view.showConfirmDelete" class="text-center">
                         Are you sure you want to delete this address?
+                    </div>
+                    <div ng-show="view.showConfirmDelete" style="margin-top:10px;" class="text-center">
                         <button ng-click="view.onDeleteAddressClick()" class="btn btn-danger">Delete</button>
                         <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
                     </div>
-                    <div ng-show="!view.showEditAddress" collapse="view.collapseAddress">
+                    <div ng-show="!view.showEditAddress && !view.showConfirmDelete" collapse="view.collapseAddress">
                         <div class="col-md-12">
                             <div ng-show="address.street1">
                                 {{address.street1}}

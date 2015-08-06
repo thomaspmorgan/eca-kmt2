@@ -64,6 +64,20 @@ namespace ECA.WebApi.Test.Security
         }
 
         [TestMethod]
+        public void TestGetResourceId_CaseInsensitive()
+        {
+            var resourceType = "project";
+            var permissionName = "edit";
+            var value = 1;
+            var instance = new ABindingModel();
+            instance.Id = value;
+            var permission = new ModelPermission("model.iD", typeof(ABindingModel), permissionName, resourceType);
+            var dictionary = GetActionArgumentsDictionary(instance, "model");
+
+            Assert.AreEqual(value, permission.GetResourceId(dictionary));
+        }
+
+        [TestMethod]
         public void TestGetResourceId_ArgumentIsFirstLevelNode_MultipleDictionaryKeys()
         {
             var resourceType = "project";

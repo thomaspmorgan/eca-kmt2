@@ -59,7 +59,7 @@ angular.module('staticApp')
               }
           });
       });
-
+      
       function getAddressTypes() {
           var params = {
               start: 0,
@@ -84,5 +84,4 @@ angular.module('staticApp')
           });
       }
       getAddressTypes();
-
   });

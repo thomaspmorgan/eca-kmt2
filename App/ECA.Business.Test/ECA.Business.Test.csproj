@@ -90,6 +90,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Queries\Fundings\MoneyFlowQueriesTest.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonQueriesTest.cs" />
     <Compile Include="Queries\Persons\ParticipantQueriesTest.cs" />
     <Compile Include="Queries\Persons\PersonQueriesTest.cs" />
@@ -100,9 +101,10 @@
     <Compile Include="Service\Admin\EcaAddressTest.cs" />
     <Compile Include="Service\Admin\EcaOrganizationTest.cs" />
     <Compile Include="Service\Admin\LocationServiceAddressValidatorTest.cs" />
-    <Compile Include="Service\Admin\MoneyFlowServiceCreateValidationEntityTest.cs" />
-    <Compile Include="Service\Admin\MoneyFlowServiceUpdateValidationEntityTest.cs" />
-    <Compile Include="Service\Admin\MoneyFlowServiceValidatorTest.cs" />
+    <Compile Include="Service\Fundings\AdditionalMoneyFlowTest.cs" />
+    <Compile Include="Service\Fundings\MoneyFlowServiceCreateValidationEntityTest.cs" />
+    <Compile Include="Service\Fundings\MoneyFlowServiceUpdateValidationEntityTest.cs" />
+    <Compile Include="Service\Fundings\MoneyFlowServiceValidatorTest.cs" />
     <Compile Include="Service\Admin\OrganizationServiceValidatorTest.cs" />
     <Compile Include="Service\Admin\OrganizationSocialMediaPresenceTest.cs" />
     <Compile Include="Service\Admin\PersonSocialMediaPresenceTest.cs" />
@@ -110,6 +112,7 @@
     <Compile Include="Service\Admin\SocialMediaServiceTest.cs" />
     <Compile Include="Service\Admin\UpdatedSocialMediaPresenceTest.cs" />
     <Compile Include="Service\Admin\UpdateOrganizationValidationEntityTest.cs" />
+    <Compile Include="Service\Fundings\UpdatedMoneyFlowTest.cs" />
     <Compile Include="Service\Lookup\SocialMediaTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\AddressTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\ParticipantTypeServiceTest.cs" />
@@ -122,7 +125,7 @@
     <Compile Include="Service\Admin\FocusCategoryServiceTest.cs" />
     <Compile Include="Service\Admin\FocusServiceTest.cs" />
     <Compile Include="Service\Admin\MaritalStatusServiceTest.cs" />
-    <Compile Include="Service\Admin\MoneyFlowServiceTest.cs" />
+    <Compile Include="Service\Fundings\MoneyFlowServiceTest.cs" />
     <Compile Include="Service\Admin\OfficeServiceTest.cs" />
     <Compile Include="Service\Admin\OfficeSettingsTest.cs" />
     <Compile Include="Service\Admin\OrganizationServiceTest.cs" />

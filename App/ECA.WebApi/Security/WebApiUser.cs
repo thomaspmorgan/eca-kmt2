@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Text.RegularExpressions;
+﻿using CAM.Business.Model;
 using Microsoft.Azure.ActiveDirectory.GraphClient;
-using System.Security.Claims;
-using System.Threading;
-using System.Security.Principal;
-using System.Linq.Expressions;
-using System.Diagnostics.Contracts;
-using CAM.Business.Service;
 using NLog;
-using CAM.Business.Model;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Linq;
+using System.Security.Claims;
+using System.Security.Principal;
 
 namespace ECA.WebApi.Security
 {
@@ -117,7 +112,7 @@ namespace ECA.WebApi.Security
         internal WebApiUser(ClaimsPrincipal principal)
             : this(principal.Claims)
         {
-            Contract.Requires(principal != null, "The principal must not be null.");
+            System.Diagnostics.Contracts.Contract.Requires(principal != null, "The principal must not be null.");
         }
 
         /// <summary>
@@ -128,7 +123,7 @@ namespace ECA.WebApi.Security
         public WebApiUser(IPrincipal principal)
             : this((principal as ClaimsPrincipal))
         {
-            Contract.Requires(principal is ClaimsPrincipal, "The IPrincipal instance must be a ClaimsPrincipal.");
+            System.Diagnostics.Contracts.Contract.Requires(principal is ClaimsPrincipal, "The IPrincipal instance must be a ClaimsPrincipal.");
         }
 
         /// <summary>
@@ -201,7 +196,7 @@ namespace ECA.WebApi.Security
         /// <param name="claims">The user claims.</param>
         public void SetUserId(IEnumerable<Claim> claims)
         {
-            Contract.Requires(claims != null, "The claims must not be null.");
+            System.Diagnostics.Contracts.Contract.Requires(claims != null, "The claims must not be null.");
             var key = USER_ID_KEY;
             var claim = GetClaimByType(claims, key);
             if (claim != null)
@@ -228,7 +223,7 @@ namespace ECA.WebApi.Security
         /// <param name="claims">The user's claims.</param>
         public void SetUserEmail(IEnumerable<Claim> claims)
         {
-            Contract.Requires(claims != null, "The claims must not be null.");
+            System.Diagnostics.Contracts.Contract.Requires(claims != null, "The claims must not be null.");
             var key = EMAIL_KEY;
             var claim = GetClaimByType(claims, key);
             if (claim != null)
@@ -247,7 +242,7 @@ namespace ECA.WebApi.Security
         /// <param name="claims">The user claims.</param>
         public void SetGivenName(IEnumerable<Claim> claims)
         {
-            Contract.Requires(claims != null, "The claims must not be null.");
+            System.Diagnostics.Contracts.Contract.Requires(claims != null, "The claims must not be null.");
             var key = GIVEN_NAME_KEY;
             var claim = GetClaimByType(claims, key);
             if (claim != null)
@@ -266,7 +261,7 @@ namespace ECA.WebApi.Security
         /// <param name="claims">The user claims.</param>
         public void SetSurname(IEnumerable<Claim> claims)
         {
-            Contract.Requires(claims != null, "The claims must not be null.");
+            System.Diagnostics.Contracts.Contract.Requires(claims != null, "The claims must not be null.");
             var key = SURNAME_KEY;
             var claim = GetClaimByType(claims, key);
             if (claim != null)
@@ -285,7 +280,7 @@ namespace ECA.WebApi.Security
         /// <param name="claims">The user claims.</param>
         public void SetFullName(IEnumerable<Claim> claims)
         {
-            Contract.Requires(claims != null, "The claims must not be null.");
+            System.Diagnostics.Contracts.Contract.Requires(claims != null, "The claims must not be null.");
             var key = FULL_NAME_KEY;
             var claim = GetClaimByType(claims, key);
             if (claim != null)
@@ -304,7 +299,7 @@ namespace ECA.WebApi.Security
         /// <param name="claims">The user claims.</param>
         public void SetTokenIssueDate(IEnumerable<Claim> claims)
         {
-            Contract.Requires(claims != null, "The claims must not be null.");
+            System.Diagnostics.Contracts.Contract.Requires(claims != null, "The claims must not be null.");
             var key = ISSUED_AT_TIME_KEY;
             var claim = GetClaimByType(claims, key);
             if (claim != null)
@@ -331,7 +326,7 @@ namespace ECA.WebApi.Security
         /// <param name="claims">The user claims.</param>
         public void SetTokenExpirationDate(IEnumerable<Claim> claims)
         {
-            Contract.Requires(claims != null, "The claims must not be null.");
+            System.Diagnostics.Contracts.Contract.Requires(claims != null, "The claims must not be null.");
             var key = EXPIRATION_DATE_KEY;
             var claim = GetClaimByType(claims, key);
             if (claim != null)
@@ -358,7 +353,7 @@ namespace ECA.WebApi.Security
         /// <param name="claims">The user token.</param>
         public void SetTokenValidAfterDate(IEnumerable<Claim> claims)
         {
-            Contract.Requires(claims != null, "The claims must not be null.");
+            System.Diagnostics.Contracts.Contract.Requires(claims != null, "The claims must not be null.");
             var key = VALID_NOT_BEFORE_DATE_KEY;
             var claim = GetClaimByType(claims, key);
             if (claim != null)

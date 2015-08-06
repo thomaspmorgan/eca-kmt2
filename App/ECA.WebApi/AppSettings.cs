@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Microsoft.WindowsAzure;
+﻿using Microsoft.Azure;
+using System;
 
 namespace ECA.WebApi
 {

@@ -144,7 +144,7 @@ angular.module('staticApp')
           }
           return LocationService.get(params)
           .then(function (data) {
-              $scope.countries = data.results;
+              $scope.regions = data.results;
           });
       }
 

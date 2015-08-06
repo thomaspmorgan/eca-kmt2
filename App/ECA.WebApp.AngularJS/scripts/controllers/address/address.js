@@ -34,13 +34,18 @@ angular.module('staticApp')
       $scope.view.isLoadingRequiredData = false;
       $scope.view.searchLimit = 10;
       $scope.view.autopopulateOnCitySelect = true;
-      $scope.view.collapseAddress = true;
-      var originalAddress = angular.copy($scope.address);
+      $scope.view.collapseAddress = true;      
 
+      var originalAddress = angular.copy($scope.address);
       var addressableTypeToServiceMapping = {
           'organization': OrganizationService,
           'person': PersonService
       };
+
+      if (!isNewAddress($scope.address) && $scope.address.isPrimary) {
+          $scope.$parent.view.collapseAddresses = false;
+          $scope.view.collapseAddress = false;
+      }
 
       $scope.view.getCities = function ($viewValue) {
           return getCities($viewValue);
@@ -110,7 +115,7 @@ angular.module('staticApp')
 
       $scope.view.onSelectDivision = function ($item, $model, $label) {
           $scope.address.division = $item.name;
-          $scope.address.divisionId = $item.id;          
+          $scope.address.divisionId = $item.id;
       }
 
       $scope.view.onSelectCountry = function ($item, $model, $label) {
@@ -147,7 +152,7 @@ angular.module('staticApp')
               duration: 500,
               easing: 'easeIn',
               offset: 150,
-              callbackBefore: function (element) {},
+              callbackBefore: function (element) { },
               callbackAfter: function (element) { }
           }
           smoothScroll(getAddressFormDivElement(id), options);
@@ -176,15 +181,15 @@ angular.module('staticApp')
           $scope.$emit(ConstantsService.removeNewAddressEventName, $scope.address);
       }
 
-      function getAddressFormDivIdPrefix(){
+      function getAddressFormDivIdPrefix() {
           return 'addressForm';
       }
 
       function getAddressFormDivId() {
           return getAddressFormDivIdPrefix() + $scope.address.addressId;
       }
-      
-      function updateAddressFormDivId(tempId) {          
+
+      function updateAddressFormDivId(tempId) {
           var id = getAddressFormDivIdPrefix() + tempId;
           var e = getAddressFormDivElement(id);
           e.id = getAddressFormDivIdPrefix() + $scope.address.addressId.toString();
@@ -228,7 +233,7 @@ angular.module('staticApp')
           return getLocations(search, ConstantsService.locationType.country.id, $scope.view.isLoadingCountries);
       }
 
-      function getLocations (search, locationTypeId, loadingIndicator){
+      function getLocations(search, locationTypeId, loadingIndicator) {
           var params = {
               start: 0,
               limit: $scope.view.searchLimit,

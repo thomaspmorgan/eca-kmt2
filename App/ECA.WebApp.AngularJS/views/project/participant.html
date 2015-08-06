@@ -362,7 +362,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="">FIRST / GIVEN NAME<span class="asterisk">ss *sp</span></label>
+                                    <label for="">FIRST / GIVEN NAME<span class="asterisk"> *</span></label>
                                     <input ng-model="newParticipant.firstName" form-element guidance="First or given name of the participant." type="text" class="form-control" required>
                                 </div>
                                 <div class="form-group">
@@ -393,9 +393,27 @@
                                     <label for="">SURNAME / PRIMARY NAME<span class="asterisk"> *</span></label>
                                     <input ng-model="newParticipant.lastName" form-element guidance="Surname or primary name of the participant." type="text" class="form-control" required>
                                 </div>
-                                <div class="form-group">
-                                    <label for="">DATE OF BIRTH<span class="asterisk"> *</span></label>
-                                    <input ng-model="newParticipant.dateOfBirth" form-element guidance="Date of birth of the participant." type="date" max="2014-12-31" class="form-control" required>
+                                <style>
+                                    td:first-child {
+                                        padding: 0;
+                                    }
+                                </style>
+                                <div class="form-group" style="#td">
+                                    <label for="dobDate">DATE OF BIRTH<span class="asterisk"> *</span></label>
+                                    <div class="input-group">
+                                        <input type="text"
+                                                id="dobDate"
+                                                class="form-control"
+                                                datepicker-popup="{{view.dateFormat}}"
+                                                ng-model="newParticipant.dateOfBirth"
+                                                is-open="view.isDobDatePickerOpen"
+                                                ng-required="true"
+                                                close-text="Close"
+                                                form-element guidance="Date of birth of the participant." />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="view.openDobDatePicker($event)"><i class="material-icons md-18">event</i></button>
+                                        </span>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="">PLACE OF BIRTH - CITY<span class="asterisk"> *</span></label>
