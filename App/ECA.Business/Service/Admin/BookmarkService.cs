@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Exceptions;
+using ECA.Core.Exceptions;
 using ECA.Core.Service;
 using ECA.Data;
 using System;
@@ -16,10 +17,26 @@ namespace ECA.Business.Service.Admin
     /// </summary>
     public class BookmarkService : DbContextService<EcaContext>, IBookmarkService
     {
-
+        
+        /// <summary>
+        /// Model has less than or more than one resource error
+        /// </summary>
         public const string MODEL_HAS_LESS_THAN_OR_MORE_THAN_ONE_RESOURCE_ID_ERROR = "The model must contain exactly one resource id.";
+
+        /// <summary>
+        /// Bookmark already exists error
+        /// </summary>
         public const string BOOKMARK_ALREADY_EXISTS_ERROR = "The bookmark cannot be created, it already exists.";
+
+        /// <summary>
+        /// Resource does not exist error
+        /// </summary>
         public const string RESOURCE_DOES_NOT_EXIST_ERROR = "The specified resource id does not exist.";
+
+        /// <summary>
+        /// Bookmark not found error
+        /// </summary>
+        public const string BOOKMARK_NOT_FOUND_ERROR = "The bookmark could not be found.";
 
         /// <summary>
         /// Constructor
@@ -48,14 +65,14 @@ namespace ECA.Business.Service.Admin
 
             if (bookmarkAlreadyExists)
             {
-                throw new EcaBusinessException();
+                throw new EcaBusinessException(BOOKMARK_ALREADY_EXISTS_ERROR);
             }
 
             var resourceExists = await ResourceExists(newBookmark);
 
             if (!resourceExists)
             {
-                throw new EcaBusinessException(BOOKMARK_ALREADY_EXISTS_ERROR);
+                throw new ModelNotFoundException(RESOURCE_DOES_NOT_EXIST_ERROR); 
             }
             
             var bookmark = DoCreate(newBookmark);
@@ -144,10 +161,15 @@ namespace ECA.Business.Service.Admin
         /// <returns></returns>
         public async Task DeleteBookmarkAsync(int id)
         {
-            var bookmark = Context.Bookmarks.Find(id);
+            var bookmark = await Context.Bookmarks.FindAsync(id);
+
             if (bookmark != null)
             {
                 Context.Bookmarks.Remove(bookmark);
+            }
+            else
+            {
+                throw new ModelNotFoundException(BOOKMARK_NOT_FOUND_ERROR);
             }
         }
     }
