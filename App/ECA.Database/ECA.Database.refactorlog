@@ -588,4 +588,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="PrincipalId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="21bd8f9b-143b-44c7-8385-b3b89f60cfd4" ChangeDateTime="08/04/2015 15:06:24">
+    <Property Name="ElementName" Value="[dbo].[PersonProminentCategory].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PersonProminentCategory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PersonId" />
+  </Operation>
 </Operations>

@@ -175,6 +175,7 @@
     <Compile Include="Service\Lookup\ParticipantTypeService.cs" />
     <Compile Include="Service\Lookup\SocialMediaTypeDTO.cs" />
     <Compile Include="Service\Lookup\SocialMediaTypeService.cs" />
+    <Compile Include="Service\Persons\UpdateGeneral.cs" />
     <Compile Include="Service\Projects\AdditionalOrganizationProjectParticipant.cs" />
     <Compile Include="Service\Projects\AdditionalPersonProjectParticipant.cs" />
     <Compile Include="Service\Projects\IProjectStatusService.cs" />

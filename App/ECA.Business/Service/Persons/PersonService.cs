@@ -350,6 +350,22 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
+        /// Update pii
+        /// </summary>
+        /// <param name="general">The general business model</param>
+        /// <returns>The person updated</returns>
+        public async Task<Person> UpdateGeneralAsync(UpdateGeneral general)
+        {
+            var personToUpdate = await GetPersonByIdAsync(general.PersonId);
+            var prominentCategories = await GetProminentCategoriesByIdAsync(general.ProminentCategories);
+            var validationEntity = GetValidationEntity(general, personToUpdate, prominentCategories);
+            validator.ValidateUpdate(validationEntity);
+            DoUpdate(general, personToUpdate, prominentCategories);
+
+            return personToUpdate;
+        }
+
+        /// <summary>
         /// Get the person by id 
         /// </summary>
         /// <param name="personId">The person id to lookup</param>
@@ -413,6 +429,24 @@ namespace ECA.Business.Service.Persons
             });
         }
 
+        // Update General (list of prominent categories
+
+        private void DoUpdate(UpdateGeneral general, Person person, List<ProminentCategory> prominentCategories)
+        {
+            SetProminentCategories(person, prominentCategories);
+        }
+
+        private void SetProminentCategories(Person person, List<ProminentCategory> prominentCategories)
+        {
+            Contract.Requires(prominentCategories != null, "The promiment ids must not be null.");
+            Contract.Requires(person != null, "The person entity must not be null.");
+            person.ProminentCategories.Clear();
+            prominentCategories.ForEach(x =>
+                {
+                    person.ProminentCategories.Add(x);
+                });
+        }
+
         #endregion
 
         #region Get People
@@ -458,10 +492,39 @@ namespace ECA.Business.Service.Persons
             return Context.Participants.Where(x => x.ParticipantId == participantId);
         }
 
+        private PersonServiceValidationEntity GetValidationEntity(UpdateGeneral general, Person person, List<ProminentCategory> prominentCategories)
+        {
+            return new PersonServiceValidationEntity(person, prominentCategories);
+        }
+
         private PersonServiceValidationEntity GetValidationEntity(UpdatePii pii, Person person,  
                                                                   Location cityOfBirth, List<Location> countriesOfCititzenship) {
             return new PersonServiceValidationEntity(person, pii.GenderId, pii.DateOfBirth, cityOfBirth, 
                                                      countriesOfCititzenship);
+        }
+
+        /// <summary>
+        /// Get a list of prominent categories
+        /// </summary>
+        /// <param name="prominentCategoryIds">Ids to lookup</param>
+        /// <returns>A list of prominent categories</returns>
+        protected async Task<List<ProminentCategory>> GetProminentCategoriesByIdAsync(List<int> prominentCategoryIds)
+        {
+            var prominentCategories = await CreateGetProminentCategoriesById(prominentCategoryIds).ToListAsync();
+            logger.Trace("Retrieved prominent categories by ids {0}.", String.Join(", ", prominentCategoryIds));
+            return prominentCategories;
+        }
+
+        /// <summary>
+        /// Creates query for looking up a list of prominent categories
+        /// </summary>
+        /// <param name="locationIds">Ids to lookup</param>
+        /// <returns>Queryable list of prominent categories</returns>
+        private IQueryable<ProminentCategory> CreateGetProminentCategoriesById(List<int> prominentCategoryIds)
+        {
+            var prominentCategories = Context.ProminentCategories.Where(x => prominentCategoryIds.Contains(x.ProminentCategoryId));
+            logger.Trace("Retrieved prominent categories by ids {0}.", String.Join(", ", prominentCategoryIds));
+            return prominentCategories;
         }
     }
 }

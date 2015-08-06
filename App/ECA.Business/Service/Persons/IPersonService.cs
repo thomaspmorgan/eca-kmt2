@@ -110,6 +110,8 @@ namespace ECA.Business.Service.Persons
 
         Task<Person> UpdatePiiAsync(UpdatePii pii);
 
+        Task<Person> UpdateGeneralAsync(UpdateGeneral general);
+
         /// <summary>
         /// Returns the paged, sorted, and filtered people in the system.
         /// </summary>
