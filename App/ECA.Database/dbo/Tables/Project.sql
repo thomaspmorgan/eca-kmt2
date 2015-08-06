@@ -49,3 +49,7 @@ GO
 CREATE NONCLUSTERED INDEX [IX_ProjectTypeId]
     ON [dbo].[Project]([ProjectTypeId] ASC);
 
+GO
+CREATE NONCLUSTERED INDEX [IX_ProjectNumberIVLP]
+    ON [dbo].[Project]([ProjectNumberIVLP]) WHERE [ProjectNumberIVLP] IS NOT NULL;
+
