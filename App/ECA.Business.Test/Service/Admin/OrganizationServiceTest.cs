@@ -106,6 +106,88 @@ namespace ECA.Business.Test.Service.Admin
         }
 
         [TestMethod]
+        public async Task TestGetOrganizations_CheckPrimaryAddress()
+        {
+            var country = new Location
+            {
+                LocationId = 1,
+                LocationName = "Country",
+            };
+            var city = new Location
+            {
+                LocationId = 2,
+                LocationName = "City"
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 3,
+                City = city,
+                Country = country
+            };
+            var primaryAddress = new Address
+            {
+                AddressId = 1,
+                Location = addressLocation,
+                IsPrimary = true
+            };
+            var secondaryAddress = new Address
+            {
+                Location = new Location
+                {
+                    City = new Location
+                    {
+                        LocationName = "other City"
+                    },
+                    Country = new Location
+                    {
+                        LocationName = "other country"
+                    }
+                }
+            };
+            var organizationType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.ForeignEducationalInstitution.Id,
+                OrganizationTypeName = OrganizationType.ForeignEducationalInstitution.Value
+            };
+
+            var organization = new Organization
+            {
+                OrganizationId = 1,
+                OrganizationTypeId = organizationType.OrganizationTypeId,
+                OrganizationType = organizationType,
+                Name = "name",
+                Description = "test",
+                Status = "status",
+                ParentOrganization = new Organization()
+            };
+            organization.Addresses.Add(secondaryAddress);
+            secondaryAddress.Organization = organization;
+            organization.Addresses.Add(primaryAddress);
+            primaryAddress.Organization = organization;
+
+            context.Addresses.Add(secondaryAddress);
+            context.Addresses.Add(primaryAddress);            
+            context.Locations.Add(addressLocation);
+            context.Locations.Add(country);
+            context.Locations.Add(city);
+            context.OrganizationTypes.Add(organizationType);
+            context.Organizations.Add(organization);
+            Action<PagedQueryResults<SimpleOrganizationDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                var org = results.Results.First();
+                Assert.AreEqual(city.LocationName + ", " + country.LocationName, org.Location);
+            };
+            var defaultSorter = new ExpressionSorter<SimpleOrganizationDTO>(x => x.Name, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<SimpleOrganizationDTO>(0, 10, defaultSorter);
+            var serviceResults = service.GetOrganizations(queryOperator);
+            var serviceResultsAsync = await service.GetOrganizationsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
         public async Task TestGetOrganizations_AddressHasCountryOnly()
         {
             var country = new Location
