@@ -29,7 +29,7 @@ namespace ECA.Business.Test.Service.Fundings
             Assert.AreEqual(fiscalYear, instance.FiscalYear);
             Assert.AreEqual(moneyFlowStatusId, instance.MoneyFlowStatusId);
             Assert.AreEqual(MoneyFlowType.Incoming.Id, instance.MoneyFlowTypeId);
-            Assert.AreEqual(sourceEntityId, instance.SourceEntityId);
+            Assert.AreEqual(sourceEntityId, instance.SourceOrRecipientEntityId);
             Assert.AreEqual(transactionDate, instance.TransactionDate);
             Assert.AreEqual(value, instance.Value);
         }

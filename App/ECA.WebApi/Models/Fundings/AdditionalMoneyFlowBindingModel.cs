@@ -12,7 +12,11 @@ namespace ECA.WebApi.Models.Fundings
 {
     /// <summary>
     /// An AdditionalMoneyFlowBindingModel is used to represent a client's request
-    /// to add a new money flow to the eca system.
+    /// to add a new money flow to the eca system.  The PeerEntityId and PeerEntityTypeId detail
+    /// the primary key id and money flow source recipient type id for where the money flow is going
+    /// to or coming from.  The GetEntityId() and GetEntityTypeId() methods must be overridden by a base class
+    /// to details the entity for whom a user has permission to add a money flow, i.e. the edit project permission
+    /// for a project with entity id x.
     /// </summary>
     /// <typeparam name="T">The money flow entity type.</typeparam>
     public abstract class AdditionalMoneyFlowBindingModel<T> where T : class
@@ -25,7 +29,6 @@ namespace ECA.WebApi.Models.Fundings
         /// <summary>
         /// Gets or sets the description.
         /// </summary>
-        [Required]
         [MaxLength(MoneyFlow.DESCRIPTION_MAX_LENGTH)]
         public string Description { get; set; }
 
@@ -40,31 +43,37 @@ namespace ECA.WebApi.Models.Fundings
         public int FiscalYear { get; set; } 
 
         /// <summary>
-        /// Gets or sets the recipient type by id, i.e. Post, Expense, etc.
-        /// </summary>
-        public int RecipientTypeId { get; set; }
-
-        /// <summary>
         /// Gets or sets the money flow status id.
         /// </summary>
         public int MoneyFlowStatusId { get; set; }
 
         /// <summary>
-        /// Gets or sets the recipient entity id, i.e. the project id, program id, etc.
+        /// Gets or sets the peer entity type by id, i.e. Post, Expense, etc where the money flow is going to or coming from.
         /// </summary>
-        public int? RecipientEntityId { get; set; }
-        
-        /// <summary>
-        /// Returns the source entity type id.
-        /// </summary>
-        /// <returns>The source entity type id, i.e. Project, Post, Organization, etc.</returns>
-        public abstract int GetSourceTypeId();
+        public int PeerEntityTypeId { get; set; }
 
         /// <summary>
-        /// Returns the source entity id, i.e. the project id, program id, etc.
+        /// Gets or sets the peer entity id, i.e. the project id, program id, etc where the money flow is going to or coming from.
         /// </summary>
-        /// <returns>The source entity id, i.e. the project id, program id, etc.</returns>
-        public abstract int GetSourceEntityId();
+        public int? PeerEntityId { get; set; }
+
+        /// <summary>
+        /// If true, the money flow is outgoing from the entity to the peer entity, i.e. money is leaving from the permissable
+        /// entity and going to the peer entity.  If false, money is outgoing from the peer entity and incoming to this entity.
+        /// </summary>
+        public bool IsOutgoing { get; set; }
+
+        /// <summary>
+        /// Returns the permissable entity type id.
+        /// </summary>
+        /// <returns>The permissable entity type id, i.e. Project, Post, Organization, etc.</returns>
+        public abstract int GetEntityTypeId();
+
+        /// <summary>
+        /// Returns the permissable entity id, i.e. the project id, program id, etc from where the money flow is coming from or to.
+        /// </summary>
+        /// <returns>The permissable entity id, i.e. the project id, program id, etc. from where the money flow is coming from or to.</returns>
+        public abstract int GetEntityId();
 
         /// <summary>
         /// Returns an AdditionalMoneyFlow business object instance to add a new money flow.
@@ -74,18 +83,36 @@ namespace ECA.WebApi.Models.Fundings
         public AdditionalMoneyFlow ToAdditionalMoneyFlow(User user)
         {
             Contract.Requires(user != null, "The user must not be null.");
-            return new AdditionalMoneyFlow(
+            if (IsOutgoing)
+            {
+                return new AdditionalMoneyFlow(
                 createdBy: user,
                 description: this.Description,
                 value: this.Value,
                 moneyFlowStatusId: this.MoneyFlowStatusId,
                 transactionDate: this.TransactionDate,
                 fiscalYear: this.FiscalYear,
-                sourceEntityId: this.GetSourceEntityId(),
-                recipientEntityId: this.RecipientEntityId,
-                sourceEntityTypeId: this.GetSourceTypeId(),
-                recipientEntityTypeId: this.RecipientTypeId
+                sourceEntityId: this.GetEntityId(),
+                recipientEntityId: this.PeerEntityId,
+                sourceEntityTypeId: this.GetEntityTypeId(),
+                recipientEntityTypeId: this.PeerEntityTypeId
                 );
+            }
+            else
+            {
+                return new AdditionalMoneyFlow(
+                    createdBy: user,
+                    description: this.Description,
+                    value: this.Value,
+                    moneyFlowStatusId: this.MoneyFlowStatusId,
+                    transactionDate: this.TransactionDate,
+                    fiscalYear: this.FiscalYear,
+                    recipientEntityId: this.GetEntityId(),
+                    sourceEntityId: this.PeerEntityId,
+                    recipientEntityTypeId: this.GetEntityTypeId(),
+                    sourceEntityTypeId: this.PeerEntityTypeId
+                    );
+            }
         }
     }
 }

@@ -90,6 +90,26 @@ namespace ECA.WebApi.Test.Controllers.Projects
         }
         #endregion
 
+        #region Get Projects
+        [TestMethod]
+        public async Task TestGetProjectsAsync()
+        {
+            service.Setup(x => x.GetProjectsAsync(It.IsAny<QueryableOperator<SimpleProjectDTO>>()))
+               .ReturnsAsync(new PagedQueryResults<SimpleProjectDTO>(1, new List<SimpleProjectDTO>()));
+            var response = await controller.GetProjectsAsync(new PagingQueryBindingModel<SimpleProjectDTO>());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<SimpleProjectDTO>>));
+            service.Verify(x => x.GetProjectsAsync(It.IsAny<QueryableOperator<SimpleProjectDTO>>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestGetProjectsAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetProjectsAsync(new PagingQueryBindingModel<SimpleProjectDTO>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+        #endregion
+
         #region Get Projects By Person Id
         [TestMethod]
         public async Task TestGetProjectsByPersonIdAsync()

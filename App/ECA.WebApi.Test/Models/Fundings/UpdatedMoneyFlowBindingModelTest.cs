@@ -31,7 +31,7 @@ namespace ECA.WebApi.Test.Models.Fundings
             Assert.AreEqual(model.MoneyFlowStatusId, instance.MoneyFlowStatusId);
             Assert.AreEqual(model.TransactionDate, instance.TransactionDate);
             Assert.AreEqual(model.Amount, instance.Value);
-            Assert.AreEqual(sourceEntityId, instance.SourceEntityId);
+            Assert.AreEqual(sourceEntityId, instance.SourceOrRecipientEntityId);
         }
     }
 }

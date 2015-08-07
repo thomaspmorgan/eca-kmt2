@@ -20,7 +20,7 @@ namespace ECA.WebApi.Models.Fundings
         /// Returns the program source recipient type.
         /// </summary>
         /// <returns>The program source recipient type.</returns>
-        public override int GetSourceTypeId()
+        public override int GetEntityTypeId()
         {
             return MoneyFlowSourceRecipientType.Program.Id;
         }
@@ -29,7 +29,7 @@ namespace ECA.WebApi.Models.Fundings
         /// Returns the program id.
         /// </summary>
         /// <returns>The program id.</returns>
-        public override int GetSourceEntityId()
+        public override int GetEntityId()
         {
             return this.ProgramId;
         }

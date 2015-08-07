@@ -478,6 +478,481 @@ namespace ECA.Business.Test.Service.Fundings
             }
         }
 
+        #region Delete
+        [TestMethod]
+        public async Task TestDelete()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var userId = 1;
+            var moneyFlowId = 1;
+            var sourceEntityId = 3;
+            MoneyFlow moneyFlowToDelete = null;
+
+            context.SetupActions.Add(() =>
+            {
+                moneyFlowToDelete = new MoneyFlow
+                {
+                    MoneyFlowId = moneyFlowId,
+                    Description = "old desc",
+                    FiscalYear = 1900,
+                    MoneyFlowStatusId = -1,
+                    MoneyFlowTypeId = -1,
+                    TransactionDate = lastWeek,
+                    Value = -1.0m,
+                    SourceProjectId = sourceEntityId
+                };
+                moneyFlowToDelete.History.CreatedBy = userId;
+                moneyFlowToDelete.History.RevisedBy = userId;
+                moneyFlowToDelete.History.CreatedOn = yesterday;
+                moneyFlowToDelete.History.RevisedOn = yesterday;
+                context.MoneyFlows.Add(moneyFlowToDelete);
+            });
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(1, context.MoneyFlows.Count());
+            };
+            Action afterTester = () =>
+            {
+                Assert.AreEqual(0, context.MoneyFlows.Count());
+            };
+            var instance = new DeletedMoneyFlow(new User(userId), moneyFlowId, sourceEntityId);
+
+            context.Revert();
+            beforeTester();
+            service.Delete(instance);
+            afterTester();
+
+            context.Revert();
+            beforeTester();
+            await service.DeleteAsync(instance);
+            afterTester();
+        }
+
+        [TestMethod]
+        public async Task TestDelete_DifferentMoneyFlowId()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var userId = 1;
+            var moneyFlowId = 1;
+            var sourceEntityId = 3;
+            MoneyFlow moneyFlowToDelete = null;
+            MoneyFlow otherMoneyFlow = null;
+
+            context.SetupActions.Add(() =>
+            {
+                moneyFlowToDelete = new MoneyFlow
+                {
+                    MoneyFlowId = moneyFlowId,
+                    Description = "old desc",
+                    FiscalYear = 1900,
+                    MoneyFlowStatusId = -1,
+                    MoneyFlowTypeId = -1,
+                    TransactionDate = lastWeek,
+                    Value = -1.0m,
+                    SourceProjectId = sourceEntityId
+                };
+                otherMoneyFlow = new MoneyFlow
+                {
+                    MoneyFlowId = moneyFlowId + 1,
+                    Description = "old desc",
+                    FiscalYear = 1900,
+                    MoneyFlowStatusId = -1,
+                    MoneyFlowTypeId = -1,
+                    TransactionDate = lastWeek,
+                    Value = -1.0m,
+                    SourceProjectId = sourceEntityId + 1
+                };
+                moneyFlowToDelete.History.CreatedBy = userId;
+                moneyFlowToDelete.History.RevisedBy = userId;
+                moneyFlowToDelete.History.CreatedOn = yesterday;
+                moneyFlowToDelete.History.RevisedOn = yesterday;
+
+                otherMoneyFlow.History.CreatedBy = userId;
+                otherMoneyFlow.History.RevisedBy = userId;
+                otherMoneyFlow.History.CreatedOn = yesterday;
+                otherMoneyFlow.History.RevisedOn = yesterday;
+                context.MoneyFlows.Add(moneyFlowToDelete);
+                context.MoneyFlows.Add(otherMoneyFlow);
+            });
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(2, context.MoneyFlows.Count());
+            };
+            Action afterTester = () =>
+            {
+                Assert.AreEqual(1, context.MoneyFlows.Count());
+                Assert.IsTrue(Object.ReferenceEquals(otherMoneyFlow, context.MoneyFlows.First()));
+            };
+            var instance = new DeletedMoneyFlow(new User(userId), moneyFlowId, sourceEntityId);
+
+            context.Revert();
+            beforeTester();
+            service.Delete(instance);
+            afterTester();
+
+            context.Revert();
+            beforeTester();
+            await service.DeleteAsync(instance);
+            afterTester();
+        }
+
+        [TestMethod]
+        public async Task TestDelete_MoneyFlowWithSourceProjectIdDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var revisorId = 2;
+            var moneyFlowId = 1;
+            var sourceEntityId = 3;
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = moneyFlowId,
+                SourceProjectId = -1
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, sourceEntityId);
+
+            Func<Task> f = () =>
+            {
+                return service.DeleteAsync(deletedMoneyFlow);
+            };
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Delete(deletedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestDelete_MoneyFlowWithSourceProgramIdDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var revisorId = 2;
+            var moneyFlowId = 1;
+            var sourceEntityId = 3;
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = moneyFlowId,
+                SourceProgramId = -1
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, sourceEntityId);
+
+            Func<Task> f = () =>
+            {
+                return service.DeleteAsync(deletedMoneyFlow);
+            };
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Delete(deletedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestDelete_MoneyFlowWithSourceItineraryDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var revisorId = 2;
+            var moneyFlowId = 1;
+            var sourceEntityId = 3;
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = moneyFlowId,
+                SourceItineraryStopId = -1
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, sourceEntityId);
+
+            Func<Task> f = () =>
+            {
+                return service.DeleteAsync(deletedMoneyFlow);
+            };
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Delete(deletedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestDelete_MoneyFlowWithSourceOrganizationDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var revisorId = 2;
+            var moneyFlowId = 1;
+            var sourceEntityId = 3;
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = moneyFlowId,
+                SourceOrganizationId = -1
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, sourceEntityId);
+
+            Func<Task> f = () =>
+            {
+                return service.DeleteAsync(deletedMoneyFlow);
+            };
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Delete(deletedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestDelete_MoneyFlowWithSourceParticipantDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var revisorId = 2;
+            var moneyFlowId = 1;
+            var sourceEntityId = 3;
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = moneyFlowId,
+                SourceParticipantId = -1
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, sourceEntityId);
+
+            Func<Task> f = () =>
+            {
+                return service.DeleteAsync(deletedMoneyFlow);
+            };
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Delete(deletedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestDelete_MoneyFlowWithRecipientAccommodationDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var revisorId = 2;
+            var moneyFlowId = 1;
+            var recipientEntityId = 3;
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = moneyFlowId,
+                RecipientAccommodationId = -1
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, recipientEntityId);
+
+            Func<Task> f = () =>
+            {
+                return service.DeleteAsync(deletedMoneyFlow);
+            };
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Delete(deletedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestDelete_MoneyFlowWithRecipientItineraryStopDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var revisorId = 2;
+            var moneyFlowId = 1;
+            var recipientEntityId = 3;
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = moneyFlowId,
+                RecipientItineraryStopId = -1
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, recipientEntityId);
+
+            Func<Task> f = () =>
+            {
+                return service.DeleteAsync(deletedMoneyFlow);
+            };
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Delete(deletedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestDelete_MoneyFlowWithRecipientOrganizationDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var revisorId = 2;
+            var moneyFlowId = 1;
+            var recipientEntityId = 3;
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = moneyFlowId,
+                RecipientOrganizationId = -1
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, recipientEntityId);
+
+            Func<Task> f = () =>
+            {
+                return service.DeleteAsync(deletedMoneyFlow);
+            };
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Delete(deletedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestDelete_MoneyFlowWithRecipientParticipantDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var revisorId = 2;
+            var moneyFlowId = 1;
+            var recipientEntityId = 3;
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = moneyFlowId,
+                RecipientParticipantId = -1
+            };
+            context.MoneyFlows.Add(moneyFlow);
+
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, recipientEntityId);
+
+            Func<Task> f = () =>
+            {
+                return service.DeleteAsync(deletedMoneyFlow);
+            };
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Delete(deletedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestDelete_MoneyFlowWithRecipientProgramDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var revisorId = 2;
+            var moneyFlowId = 1;
+            var recipientEntityId = 3;
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = moneyFlowId,
+                RecipientProgramId = -1
+            };
+            context.MoneyFlows.Add(moneyFlow);
+
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, recipientEntityId);
+
+            Func<Task> f = () =>
+            {
+                return service.DeleteAsync(deletedMoneyFlow);
+            };
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Delete(deletedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestDelete_MoneyFlowWithRecipientProjectDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var revisorId = 2;
+            var moneyFlowId = 1;
+            var recipientEntityId = 3;
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = moneyFlowId,
+                RecipientProjectId = -1
+            };
+            context.MoneyFlows.Add(moneyFlow);
+
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, recipientEntityId);
+
+            Func<Task> f = () =>
+            {
+                return service.DeleteAsync(deletedMoneyFlow);
+            };
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Delete(deletedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestDelete_MoneyFlowWithRecipientTransportationDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var revisorId = 2;
+            var moneyFlowId = 1;
+            var recipientEntityId = 3;
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = moneyFlowId,
+                RecipientTransportationId = -1
+            };
+            context.MoneyFlows.Add(moneyFlow);
+
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, recipientEntityId);
+
+            Func<Task> f = () =>
+            {
+                return service.DeleteAsync(deletedMoneyFlow);
+            };
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Delete(deletedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+        }
+
+
+        #endregion
+
         #region Update
         [TestMethod]
         public async Task TestUpdate()
@@ -518,7 +993,7 @@ namespace ECA.Business.Test.Service.Fundings
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
                 fiscalYear: 2015,
-                sourceEntityId: sourceEntityId
+                sourceOrRecipientEntityId: sourceEntityId
                 );
 
             Action tester = () =>
@@ -556,7 +1031,7 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityId = 3;
             var updatedMoneyFlow = new UpdatedMoneyFlow(
                 updator: new User(revisorId),
-                sourceEntityId: sourceEntityId,
+                sourceOrRecipientEntityId: sourceEntityId,
                 id: moneyFlowId,
                 description: "new description",
                 value: 10.00m,
@@ -570,9 +1045,9 @@ namespace ECA.Business.Test.Service.Fundings
                 return service.UpdateAsync(updatedMoneyFlow);
             };
             service.Invoking(x => x.Update(updatedMoneyFlow)).ShouldThrow<ModelNotFoundException>()
-                .WithMessage(String.Format("The money flow with id [{0}] and source entity id [{1}] was not found.", updatedMoneyFlow.Id, updatedMoneyFlow.SourceEntityId));
+                .WithMessage(String.Format("The money flow with id [{0}] and source entity id [{1}] was not found.", updatedMoneyFlow.Id, updatedMoneyFlow.SourceOrRecipientEntityId));
             f.ShouldThrow<ModelNotFoundException>()
-                .WithMessage(String.Format("The money flow with id [{0}] and source entity id [{1}] was not found.", updatedMoneyFlow.Id, updatedMoneyFlow.SourceEntityId));
+                .WithMessage(String.Format("The money flow with id [{0}] and source entity id [{1}] was not found.", updatedMoneyFlow.Id, updatedMoneyFlow.SourceOrRecipientEntityId));
         }
 
         [TestMethod]
@@ -592,7 +1067,7 @@ namespace ECA.Business.Test.Service.Fundings
 
             var updatedMoneyFlow = new UpdatedMoneyFlow(
                 updator: new User(revisorId),
-                sourceEntityId: sourceEntityId,
+                sourceOrRecipientEntityId: sourceEntityId,
                 id: moneyFlowId,
                 description: "new description",
                 value: 10.00m,
@@ -605,10 +1080,13 @@ namespace ECA.Business.Test.Service.Fundings
             {
                 return service.UpdateAsync(updatedMoneyFlow);
             };
-            service.Invoking(x => x.Update(updatedMoneyFlow)).ShouldThrow<ModelNotFoundException>()
-                .WithMessage(String.Format("The money flow with id [{0}] and source entity id [{1}] was not found.", updatedMoneyFlow.Id, updatedMoneyFlow.SourceEntityId));
-            f.ShouldThrow<ModelNotFoundException>()
-                .WithMessage(String.Format("The money flow with id [{0}] and source entity id [{1}] was not found.", updatedMoneyFlow.Id, updatedMoneyFlow.SourceEntityId));
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Update(updatedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
         }
 
         [TestMethod]
@@ -628,7 +1106,7 @@ namespace ECA.Business.Test.Service.Fundings
 
             var updatedMoneyFlow = new UpdatedMoneyFlow(
                 updator: new User(revisorId),
-                sourceEntityId: sourceEntityId,
+                sourceOrRecipientEntityId: sourceEntityId,
                 id: moneyFlowId,
                 description: "new description",
                 value: 10.00m,
@@ -641,10 +1119,13 @@ namespace ECA.Business.Test.Service.Fundings
             {
                 return service.UpdateAsync(updatedMoneyFlow);
             };
-            service.Invoking(x => x.Update(updatedMoneyFlow)).ShouldThrow<ModelNotFoundException>()
-                .WithMessage(String.Format("The money flow with id [{0}] and source entity id [{1}] was not found.", updatedMoneyFlow.Id, updatedMoneyFlow.SourceEntityId));
-            f.ShouldThrow<ModelNotFoundException>()
-                .WithMessage(String.Format("The money flow with id [{0}] and source entity id [{1}] was not found.", updatedMoneyFlow.Id, updatedMoneyFlow.SourceEntityId));
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Update(updatedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
         }
 
         [TestMethod]
@@ -664,7 +1145,7 @@ namespace ECA.Business.Test.Service.Fundings
 
             var updatedMoneyFlow = new UpdatedMoneyFlow(
                 updator: new User(revisorId),
-                sourceEntityId: sourceEntityId,
+                sourceOrRecipientEntityId: sourceEntityId,
                 id: moneyFlowId,
                 description: "new description",
                 value: 10.00m,
@@ -677,10 +1158,13 @@ namespace ECA.Business.Test.Service.Fundings
             {
                 return service.UpdateAsync(updatedMoneyFlow);
             };
-            service.Invoking(x => x.Update(updatedMoneyFlow)).ShouldThrow<ModelNotFoundException>()
-                .WithMessage(String.Format("The money flow with id [{0}] and source entity id [{1}] was not found.", updatedMoneyFlow.Id, updatedMoneyFlow.SourceEntityId));
-            f.ShouldThrow<ModelNotFoundException>()
-                .WithMessage(String.Format("The money flow with id [{0}] and source entity id [{1}] was not found.", updatedMoneyFlow.Id, updatedMoneyFlow.SourceEntityId));
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Update(updatedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
         }
 
         [TestMethod]
@@ -700,7 +1184,7 @@ namespace ECA.Business.Test.Service.Fundings
 
             var updatedMoneyFlow = new UpdatedMoneyFlow(
                 updator: new User(revisorId),
-                sourceEntityId: sourceEntityId,
+                sourceOrRecipientEntityId: sourceEntityId,
                 id: moneyFlowId,
                 description: "new description",
                 value: 10.00m,
@@ -713,10 +1197,13 @@ namespace ECA.Business.Test.Service.Fundings
             {
                 return service.UpdateAsync(updatedMoneyFlow);
             };
-            service.Invoking(x => x.Update(updatedMoneyFlow)).ShouldThrow<ModelNotFoundException>()
-                .WithMessage(String.Format("The money flow with id [{0}] and source entity id [{1}] was not found.", updatedMoneyFlow.Id, updatedMoneyFlow.SourceEntityId));
-            f.ShouldThrow<ModelNotFoundException>()
-                .WithMessage(String.Format("The money flow with id [{0}] and source entity id [{1}] was not found.", updatedMoneyFlow.Id, updatedMoneyFlow.SourceEntityId));
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Update(updatedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
         }
 
         [TestMethod]
@@ -736,7 +1223,7 @@ namespace ECA.Business.Test.Service.Fundings
 
             var updatedMoneyFlow = new UpdatedMoneyFlow(
                 updator: new User(revisorId),
-                sourceEntityId: sourceEntityId,
+                sourceOrRecipientEntityId: sourceEntityId,
                 id: moneyFlowId,
                 description: "new description",
                 value: 10.00m,
@@ -749,10 +1236,286 @@ namespace ECA.Business.Test.Service.Fundings
             {
                 return service.UpdateAsync(updatedMoneyFlow);
             };
-            service.Invoking(x => x.Update(updatedMoneyFlow)).ShouldThrow<ModelNotFoundException>()
-                .WithMessage(String.Format("The money flow with id [{0}] and source entity id [{1}] was not found.", updatedMoneyFlow.Id, updatedMoneyFlow.SourceEntityId));
-            f.ShouldThrow<ModelNotFoundException>()
-                .WithMessage(String.Format("The money flow with id [{0}] and source entity id [{1}] was not found.", updatedMoneyFlow.Id, updatedMoneyFlow.SourceEntityId));
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Update(updatedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_MoneyFlowWithRecipientAccommodationDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var revisorId = 2;
+            var moneyFlowId = 1;
+            var recipientEntityId = 3;
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = moneyFlowId,
+                RecipientAccommodationId = -1
+            };
+            context.MoneyFlows.Add(moneyFlow);
+
+            var updatedMoneyFlow = new UpdatedMoneyFlow(
+                updator: new User(revisorId),
+                sourceOrRecipientEntityId: recipientEntityId,
+                id: moneyFlowId,
+                description: "new description",
+                value: 10.00m,
+                moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
+                transactionDate: DateTimeOffset.UtcNow,
+                fiscalYear: 2015
+                );
+
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(updatedMoneyFlow);
+            };
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Update(updatedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_MoneyFlowWithRecipientItineraryStopDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var revisorId = 2;
+            var moneyFlowId = 1;
+            var recipientEntityId = 3;
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = moneyFlowId,
+                RecipientItineraryStopId = -1
+            };
+            context.MoneyFlows.Add(moneyFlow);
+
+            var updatedMoneyFlow = new UpdatedMoneyFlow(
+                updator: new User(revisorId),
+                sourceOrRecipientEntityId: recipientEntityId,
+                id: moneyFlowId,
+                description: "new description",
+                value: 10.00m,
+                moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
+                transactionDate: DateTimeOffset.UtcNow,
+                fiscalYear: 2015
+                );
+
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(updatedMoneyFlow);
+            };
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Update(updatedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_MoneyFlowWithRecipientOrganizationDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var revisorId = 2;
+            var moneyFlowId = 1;
+            var recipientEntityId = 3;
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = moneyFlowId,
+                RecipientOrganizationId = -1
+            };
+            context.MoneyFlows.Add(moneyFlow);
+
+            var updatedMoneyFlow = new UpdatedMoneyFlow(
+                updator: new User(revisorId),
+                sourceOrRecipientEntityId: recipientEntityId,
+                id: moneyFlowId,
+                description: "new description",
+                value: 10.00m,
+                moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
+                transactionDate: DateTimeOffset.UtcNow,
+                fiscalYear: 2015
+                );
+
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(updatedMoneyFlow);
+            };
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Update(updatedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_MoneyFlowWithRecipientParticipantDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var revisorId = 2;
+            var moneyFlowId = 1;
+            var recipientEntityId = 3;
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = moneyFlowId,
+                RecipientParticipantId = -1
+            };
+            context.MoneyFlows.Add(moneyFlow);
+
+            var updatedMoneyFlow = new UpdatedMoneyFlow(
+                updator: new User(revisorId),
+                sourceOrRecipientEntityId: recipientEntityId,
+                id: moneyFlowId,
+                description: "new description",
+                value: 10.00m,
+                moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
+                transactionDate: DateTimeOffset.UtcNow,
+                fiscalYear: 2015
+                );
+
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(updatedMoneyFlow);
+            };
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Update(updatedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_MoneyFlowWithRecipientProgramDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var revisorId = 2;
+            var moneyFlowId = 1;
+            var recipientEntityId = 3;
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = moneyFlowId,
+                RecipientProgramId = -1
+            };
+            context.MoneyFlows.Add(moneyFlow);
+
+            var updatedMoneyFlow = new UpdatedMoneyFlow(
+                updator: new User(revisorId),
+                sourceOrRecipientEntityId: recipientEntityId,
+                id: moneyFlowId,
+                description: "new description",
+                value: 10.00m,
+                moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
+                transactionDate: DateTimeOffset.UtcNow,
+                fiscalYear: 2015
+                );
+
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(updatedMoneyFlow);
+            };
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Update(updatedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_MoneyFlowWithRecipientProjectDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var revisorId = 2;
+            var moneyFlowId = 1;
+            var recipientEntityId = 3;
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = moneyFlowId,
+                RecipientProjectId = -1
+            };
+            context.MoneyFlows.Add(moneyFlow);
+
+            var updatedMoneyFlow = new UpdatedMoneyFlow(
+                updator: new User(revisorId),
+                sourceOrRecipientEntityId: recipientEntityId,
+                id: moneyFlowId,
+                description: "new description",
+                value: 10.00m,
+                moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
+                transactionDate: DateTimeOffset.UtcNow,
+                fiscalYear: 2015
+                );
+
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(updatedMoneyFlow);
+            };
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Update(updatedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_MoneyFlowWithRecipientTransportationDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var revisorId = 2;
+            var moneyFlowId = 1;
+            var recipientEntityId = 3;
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = moneyFlowId,
+                RecipientTransportationId = -1
+            };
+            context.MoneyFlows.Add(moneyFlow);
+
+            var updatedMoneyFlow = new UpdatedMoneyFlow(
+                updator: new User(revisorId),
+                sourceOrRecipientEntityId: recipientEntityId,
+                id: moneyFlowId,
+                description: "new description",
+                value: 10.00m,
+                moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
+                transactionDate: DateTimeOffset.UtcNow,
+                fiscalYear: 2015
+                );
+
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(updatedMoneyFlow);
+            };
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Update(updatedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
         }
         #endregion
 

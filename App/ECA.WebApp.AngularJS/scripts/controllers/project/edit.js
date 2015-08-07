@@ -303,7 +303,7 @@ angular.module('staticApp')
 
       function loadProject() {
           var projectId = $stateParams.projectId;
-          return ProjectService.get(projectId)
+          return ProjectService.getById(projectId)
             .then(function (data) {
                 $scope.$parent.project = data.data;
                 $scope.$parent.project.countryIsos = $scope.$parent.project.countryIsos || [];

@@ -55,6 +55,20 @@ angular.module('staticApp')
                                 filter.push(newFilter);
                             }
                         }
+                        else if (comparisonType === ConstantsService.inComparisonType) {
+                            var ids = predicateObject[key].ids;
+                            if (ids.length > 0) {
+                                newFilter.value = ids;
+                                filter.push(newFilter);
+                            }
+                        }
+                        else if (comparisonType === ConstantsService.lessThanComparisonType
+                            || comparisonType === ConstantsService.greaterThanComparisonType
+                            || comparisonType === ConstantsService.equalComparisonType) {
+                            var value = predicateObject[key].value;
+                            newFilter.value = value;
+                            filter.push(newFilter);
+                        }
                     }
                     else if (key !== '$') { //The $ key is used for the search form fields
                         filter.push({
@@ -63,7 +77,6 @@ angular.module('staticApp')
                             comparison: ConstantsService.likeComparisonType
                         });
                     }
-                    
                 }
             }
             return filter;

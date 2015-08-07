@@ -148,6 +148,7 @@
     <Compile Include="Service\Programs\ProgramServiceValidatorTest.cs" />
     <Compile Include="Service\EcaServiceTest.cs" />
     <Compile Include="Service\Reports\ReportServiceTest.cs" />
+    <Compile Include="Service\DeleteTest.cs" />
     <Compile Include="Service\UserTest.cs" />
     <Compile Include="Service\UpdateTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

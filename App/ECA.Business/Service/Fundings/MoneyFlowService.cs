@@ -14,6 +14,7 @@ using System.Data.Entity;
 using System.Collections.Generic;
 using ECA.Business.Models.Fundings;
 using ECA.Core.Exceptions;
+using ECA.Business.Exceptions;
 
 namespace ECA.Business.Service.Fundings
 {
@@ -25,6 +26,7 @@ namespace ECA.Business.Service.Fundings
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity> validator;
         private Action<object, int, Type> throwIfEntityNotFound;
+        private Action<int, MoneyFlow, MoneyFlow> throwSecurityViolationIfNull;
 
         /// <summary>
         /// Creates a new instance with the context to operate against and the validator.
@@ -44,8 +46,19 @@ namespace ECA.Business.Service.Fundings
                     throw new ModelNotFoundException(String.Format("The entity of type [{0}] with id [{1}] was not found.", type.Name, id));
                 }
             };
+            throwSecurityViolationIfNull = (userId, instance, actualMoneyFlow) =>
+            {
+                if (instance == null && actualMoneyFlow != null)
+                {
+                    throw new BusinessSecurityException(
+                        String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.", 
+                        userId, 
+                        actualMoneyFlow.MoneyFlowId));
+                }
+            };
         }
 
+        #region Get
         /// <summary>
         /// Returns the money flows for the project with the given id.
         /// </summary>
@@ -97,6 +110,7 @@ namespace ECA.Business.Service.Fundings
             this.logger.Trace("Retrieved money flows by program id {0} with query operator {1}.", programId, queryOperator);
             return moneyFlows;
         }
+        #endregion
 
         /// <summary>
         /// Returns the eca.data entity type mapping for the given MoneyFlowSourceRecipientType id.
@@ -133,7 +147,8 @@ namespace ECA.Business.Service.Fundings
         {
             return GetMoneyFlowType(moneyFlowSourceRecipientTypeId) != null;
         }
-        
+
+        #region Create
         /// <summary>
         /// Adds the given money flow object to the ECA System.
         /// </summary>
@@ -204,6 +219,7 @@ namespace ECA.Business.Service.Fundings
         {
             return new MoneyFlowServiceCreateValidationEntity(
                 sourceEntityTypeId: moneyFlow.SourceEntityTypeId,
+                recipientEntityTypeId: moneyFlow.RecipientEntityTypeId,
                 description: moneyFlow.Description, 
                 transactionDate: moneyFlow.TransactionDate, 
                 value: moneyFlow.Value,
@@ -213,6 +229,9 @@ namespace ECA.Business.Service.Fundings
                 recipientEntityId: moneyFlow.RecipientEntityId,
                 fiscalYear: moneyFlow.FiscalYear);
         }
+        #endregion
+
+        #region Update
 
         /// <summary>
         /// Updates the system's money flow entry with the given updated money flow.
@@ -220,7 +239,9 @@ namespace ECA.Business.Service.Fundings
         /// <param name="updatedMoneyFlow">The updated money flow.</param>
         public void Update(UpdatedMoneyFlow updatedMoneyFlow)
         {
-            var moneyFlowToUpdate = CreateGetMoneyFlowToUpdateQuery(updatedMoneyFlow.Id, updatedMoneyFlow.SourceEntityId).FirstOrDefault();
+            var moneyFlowToUpdate = Context.MoneyFlows.Find(updatedMoneyFlow.Id);
+            var permissableMoneyFlow = CreateGetMoneyFlowByIdAndEntityIdQuery(updatedMoneyFlow.Id, updatedMoneyFlow.SourceOrRecipientEntityId).FirstOrDefault();
+            throwSecurityViolationIfNull(updatedMoneyFlow.Audit.User.Id, permissableMoneyFlow, moneyFlowToUpdate);
             DoUpdate(updatedMoneyFlow, moneyFlowToUpdate);
         }
 
@@ -231,31 +252,10 @@ namespace ECA.Business.Service.Fundings
         /// <returns>The task.</returns>
         public async Task UpdateAsync(UpdatedMoneyFlow updatedMoneyFlow)
         {
-            var moneyFlowToUpdate = await CreateGetMoneyFlowToUpdateQuery(updatedMoneyFlow.Id, updatedMoneyFlow.SourceEntityId).FirstOrDefaultAsync();
+            var moneyFlowToUpdate = await Context.MoneyFlows.FindAsync(updatedMoneyFlow.Id);
+            var permissableMoneyFlow = await CreateGetMoneyFlowByIdAndEntityIdQuery(updatedMoneyFlow.Id, updatedMoneyFlow.SourceOrRecipientEntityId).FirstOrDefaultAsync();
+            throwSecurityViolationIfNull(updatedMoneyFlow.Audit.User.Id, permissableMoneyFlow, moneyFlowToUpdate);
             DoUpdate(updatedMoneyFlow, moneyFlowToUpdate);
-        }
-
-        /// <summary>
-        /// We need a query to make sure that the money flow you are updating is the one with the Id
-        /// and the source entity id, for security.
-        /// </summary>
-        /// <param name="moneyFlowId">The money flow id.</param>
-        /// <param name="sourceEntityId">The source entity id.</param>
-        /// <returns>The money flow with the given money flow id and source entity id.</returns>
-        private IQueryable<MoneyFlow> CreateGetMoneyFlowToUpdateQuery(int moneyFlowId, int sourceEntityId)
-        {
-            //In order to make sure the money flow that the client wants to update is one they have permission
-            //to we need to make sure the money flow they wish to update is the one with the given id
-            //and the source entity they have access to.
-            return Context.MoneyFlows
-                .Where(x => x.MoneyFlowId == moneyFlowId
-                && (
-                x.SourceItineraryStopId == sourceEntityId
-                || x.SourceOrganizationId == sourceEntityId
-                || x.SourceParticipantId == sourceEntityId
-                || x.SourceProgramId == sourceEntityId
-                || x.SourceProjectId == sourceEntityId
-                ));
         }
 
         private void DoUpdate(UpdatedMoneyFlow updatedMoneyFlow, MoneyFlow moneyFlowToUpdate)
@@ -265,7 +265,7 @@ namespace ECA.Business.Service.Fundings
                 throw new ModelNotFoundException(String.Format(
                     "The money flow with id [{0}] and source entity id [{1}] was not found.", 
                     updatedMoneyFlow.Id, 
-                    updatedMoneyFlow.SourceEntityId));
+                    updatedMoneyFlow.SourceOrRecipientEntityId));
             }
             validator.ValidateUpdate(GetUpdateValidationEntity(updatedMoneyFlow));
             moneyFlowToUpdate.Description = updatedMoneyFlow.Description;
@@ -283,6 +283,71 @@ namespace ECA.Business.Service.Fundings
                 description: moneyFlow.Description, 
                 value: moneyFlow.Value, 
                 fiscalYear: moneyFlow.FiscalYear);
+        }
+        #endregion
+
+        #region Delete
+
+        /// <summary>
+        /// Deletes the money from the system.
+        /// </summary>
+        /// <param name="deletedMoneyFlow">The money flow to delete.</param>
+        public void Delete(DeletedMoneyFlow deletedMoneyFlow)
+        {
+            var moneyFlowToDelete = Context.MoneyFlows.Find(deletedMoneyFlow.Id);
+            var permissableMoneyFlow = CreateGetMoneyFlowByIdAndEntityIdQuery(deletedMoneyFlow.Id, deletedMoneyFlow.SourceOrRecipientEntityId).FirstOrDefault();
+            throwSecurityViolationIfNull(deletedMoneyFlow.Audit.User.Id, permissableMoneyFlow, moneyFlowToDelete);
+            DoDelete(moneyFlowToDelete);
+        }
+
+        /// <summary>
+        /// Deletes the money from the system.
+        /// </summary>
+        /// <param name="deletedMoneyFlow">The money flow to delete.</param>
+        public async Task DeleteAsync(DeletedMoneyFlow deletedMoneyFlow)
+        {
+            var moneyFlowToDelete = await Context.MoneyFlows.FindAsync(deletedMoneyFlow.Id);
+            var permissableMoneyFlow = await CreateGetMoneyFlowByIdAndEntityIdQuery(deletedMoneyFlow.Id, deletedMoneyFlow.SourceOrRecipientEntityId).FirstOrDefaultAsync();
+            throwSecurityViolationIfNull(deletedMoneyFlow.Audit.User.Id, permissableMoneyFlow, moneyFlowToDelete);
+            DoDelete(moneyFlowToDelete);
+        }
+
+        private void DoDelete(MoneyFlow moneyFlowToDelete)
+        {
+            Contract.Requires(moneyFlowToDelete != null, "The money flow to delete must not be null.");
+            Context.MoneyFlows.Remove(moneyFlowToDelete);
+        }
+        #endregion
+
+        /// <summary>
+        /// We need a query to make sure that the money flow you are updating is the one with the Id
+        /// and the source or recipient entity id.  This is an additional security measure to ensure that user who
+        /// was granted access to edit a certain entities money flow does not then try to go an edit a seperate money flow.
+        /// </summary>
+        /// <param name="moneyFlowId">The money flow id.</param>
+        /// <param name="entityId">The permissable entity id, i.e. the entity by which a user has been granted access to modify.</param>
+        /// <returns>The money flow with the given money flow id and source entity id.</returns>
+        private IQueryable<MoneyFlow> CreateGetMoneyFlowByIdAndEntityIdQuery(int moneyFlowId, int entityId)
+        {
+            //In order to make sure the money flow that the client wants to update is one they have permission
+            //to we need to make sure the money flow they wish to update is the one with the given id
+            //and the source entity they have access to.
+            return Context.MoneyFlows
+                .Where(x => x.MoneyFlowId == moneyFlowId
+                && (
+                x.SourceItineraryStopId == entityId
+                || x.SourceOrganizationId == entityId
+                || x.SourceParticipantId == entityId
+                || x.SourceProgramId == entityId
+                || x.SourceProjectId == entityId
+                || x.RecipientAccommodationId == entityId
+                || x.RecipientItineraryStopId == entityId
+                || x.RecipientOrganizationId == entityId
+                || x.RecipientParticipantId == entityId
+                || x.RecipientProgramId == entityId
+                || x.RecipientProjectId == entityId
+                || x.RecipientTransportationId == entityId
+                ));
         }
     }
 }

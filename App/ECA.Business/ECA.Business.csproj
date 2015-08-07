@@ -97,6 +97,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Service\Delete.cs" />
     <Compile Include="Exceptions\EcaBusinessException.cs" />
     <Compile Include="Queries\Admin\AddressQueries.cs" />
     <Compile Include="Queries\Admin\JustificationObjectiveQueries.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Service\Admin\EcaOrganization.cs" />
     <Compile Include="Service\Admin\IMaritalStatusService.cs" />
     <Compile Include="Service\Admin\IOrganizationService.cs" />
+    <Compile Include="Service\Fundings\DeletedMoneyFlow.cs" />
     <Compile Include="Service\Fundings\IMoneyFlowHelpersService.cs" />
     <Compile Include="Service\Admin\ISocialMediaService.cs" />
     <Compile Include="Service\Admin\JustificationObjectiveService.cs" />

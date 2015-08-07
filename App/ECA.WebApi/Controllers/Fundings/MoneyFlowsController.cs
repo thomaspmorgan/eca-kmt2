@@ -100,6 +100,19 @@ namespace ECA.WebApi.Controllers.Fundings
             return DoUpdateAsync(model, projectId);
         }
 
+        /// <summary>
+        /// Deletes the given project's money flow.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <param name="id">The id of the money flow.</param>
+        /// <returns>An Ok result.</returns>
+        [ResourceAuthorize(Permission.EDIT_PROJECT_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
+        [Route("Projects/{projectId:int}/MoneyFlows/{id:int}")]
+        public Task<IHttpActionResult> DeleteProjectMoneyFlowAsync(int id, int projectId)
+        {
+            return DoDeleteAsync(id, projectId);
+        }
+
         #endregion
 
         #region Program
@@ -127,7 +140,7 @@ namespace ECA.WebApi.Controllers.Fundings
         }
 
         /// <summary>
-        /// Updates the given project's money flow.
+        /// Updates the given program's money flow.
         /// </summary>
         /// <param name="programId">The program id.</param>
         /// <param name="model">The updated money flow.</param>
@@ -140,17 +153,41 @@ namespace ECA.WebApi.Controllers.Fundings
         }
 
         /// <summary>
-        /// Creates a new project money flow.
+        /// Creates a new program money flow.
         /// </summary>
         /// <param name="model">The new program money flow.</param>
         /// <returns>An ok result.</returns>        
         [Route("Program/MoneyFlows")]
-        [ResourceAuthorize(Permission.EDIT_PROJECT_VALUE, ResourceType.PROJECT_VALUE, typeof(AdditionalProgramMoneyFlowBindingModel), "programId")]
+        [ResourceAuthorize(Permission.EDIT_PROGRAM_VALUE, ResourceType.PROGRAM_VALUE, typeof(AdditionalProgramMoneyFlowBindingModel), "programId")]
         public Task<IHttpActionResult> PostCreateProgramMoneyFlowAsync([FromBody]AdditionalProgramMoneyFlowBindingModel model)
         {
             return DoCreateAsync(model);
         }
+
+        /// <summary>
+        /// Deletes the given program's money flow.
+        /// </summary>
+        /// <param name="programId">The program id.</param>
+        /// <param name="id">The id of the money flow.</param>
+        /// <returns>An Ok result.</returns>
+        [ResourceAuthorize(Permission.EDIT_PROGRAM_VALUE, ResourceType.PROGRAM_VALUE, "programId")]
+        [Route("Programs/{programId:int}/MoneyFlows/{id:int}")]
+        public Task<IHttpActionResult> DeleteProgramMoneyFlowAsync(int id, int programId)
+        {
+            return DoDeleteAsync(id, programId);
+        }
+
         #endregion
+
+        private async Task<IHttpActionResult> DoDeleteAsync(int moneyFlowId, int sourceEntityId)
+        {
+            var currentUser = this.userProvider.GetCurrentUser();
+            var businessUser = this.userProvider.GetBusinessUser(currentUser);
+            var model = new DeletedMoneyFlow(businessUser, moneyFlowId, sourceEntityId);
+            await this.moneyFlowService.DeleteAsync(model);
+            await this.moneyFlowService.SaveChangesAsync();
+            return Ok();
+        }
 
         private async Task<IHttpActionResult> DoUpdateAsync(UpdatedMoneyFlowBindingModel model, int sourceEntityId)
         {

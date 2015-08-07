@@ -73,6 +73,18 @@ namespace ECA.Business.Service.Fundings
         /// <param name="updatedMoneyFlow">The updated money flow.</param>
         /// <returns>The task.</returns>
         Task UpdateAsync(UpdatedMoneyFlow updatedMoneyFlow);
+
+        /// <summary>
+        /// Deletes the money from the system.
+        /// </summary>
+        /// <param name="deletedMoneyFlow">The money flow to delete.</param>
+        void Delete(DeletedMoneyFlow deletedMoneyFlow);
+
+        /// <summary>
+        /// Deletes the money from the system.
+        /// </summary>
+        /// <param name="deletedMoneyFlow">The money flow to delete.</param>
+        Task DeleteAsync(DeletedMoneyFlow deletedMoneyFlow);
     }
 
     /// <summary>
@@ -189,5 +201,24 @@ namespace ECA.Business.Service.Fundings
             return Task.FromResult<int>(1);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="deletedMoneyFlow"></param>
+        public void Delete(DeletedMoneyFlow deletedMoneyFlow)
+        {
+            Contract.Requires(deletedMoneyFlow != null, "The deletedMoneyFlow must not be null.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="deletedMoneyFlow"></param>
+        /// <returns></returns>
+        public Task DeleteAsync(DeletedMoneyFlow deletedMoneyFlow)
+        {
+            Contract.Requires(deletedMoneyFlow != null, "The deletedMoneyFlow must not be null.");
+            return Task.FromResult<object>(null);
+        }
     }
 }

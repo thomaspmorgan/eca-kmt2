@@ -20,12 +20,14 @@ namespace ECA.Business.Test.Service.Fundings
             int? sourceEntityId = 1;
             int? recipientEntityId = 2;
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             var fiscalYear = 2000;
 
             var instance = new MoneyFlowServiceCreateValidationEntity(
                 description, 
                 value, 
-                sourceEntityTypeId, 
+                sourceEntityTypeId,
+                recipientEntityTypeId,
                 sourceEntityId, 
                 recipientEntityId, 
                 hasSourceEntityType, 
@@ -40,6 +42,7 @@ namespace ECA.Business.Test.Service.Fundings
             Assert.AreEqual(sourceEntityId, instance.SourceEntityId);
             Assert.AreEqual(recipientEntityId, instance.RecipientEntityId);
             Assert.AreEqual(sourceEntityTypeId, instance.SourceEntityTypeId);
+            Assert.AreEqual(recipientEntityTypeId, instance.RecipientEntityTypeId);
             Assert.AreEqual(fiscalYear, instance.FiscalYear);
         }
     }

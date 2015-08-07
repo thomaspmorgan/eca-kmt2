@@ -39,6 +39,9 @@ angular.module('staticApp')
       $scope.view.maxAmount = ConstantsService.maxNumericValue;
       $scope.view.maxDescriptionLength = 255;
 
+      $scope.view.selectedFilterMoneyFlowStatii = [];
+      $scope.view.selectedFilterSourceRecipientTypes = [];
+
       //the program id, project id, etc...
       $scope.view.entityId = $stateParams[$scope.$parent.stateParamName];
 
@@ -58,26 +61,11 @@ angular.module('staticApp')
       }
 
       $scope.view.onAddFundingItemClick = function () {
-          var modalInstance = $modal.open({
-              animation: true,
-              templateUrl: 'views/directives/moneyflow.html',
-              controller: 'MoneyFlowCtrl',
-              size: 'lg',
-              resolve: {
-                  entity: function () {
-                      return {
-                          entityId: $scope.view.entityId,
-                          entityTypeId: $scope.sourceEntityTypeId
-                      };
-                  }
-              }
-          });
-
-          modalInstance.result.then(function (selectedItem) {
-              $scope.selected = selectedItem;
-          }, function () {
-              $log.info('Modal dismissed at: ' + new Date());
-          });
+          var newMoneyFlow = {
+              entityId: $scope.view.entityId,
+              entityTypeId: $scope.sourceEntityTypeId
+          };
+          showEditMoneyFlow(newMoneyFlow);
       };
 
       $scope.view.onEditClick = function (moneyFlow) {
@@ -87,7 +75,8 @@ angular.module('staticApp')
               duration: 500,
               easing: 'easeIn',
               offset: 225,
-              callbackBefore: function (element) { },
+              callbackBefore: function (element) {
+              },
               callbackAfter: function (element) { }
           }
           var id = $scope.view.getMoneyFlowDivId(moneyFlow)
@@ -130,6 +119,104 @@ angular.module('staticApp')
       $scope.view.getMoneyFlowDivId = function (moneyFlow) {
           return 'editMoneyFlow' + moneyFlow.id;
       };
+
+      $scope.view.openTransactionDatePicker = function ($event, moneyFlow, form) {
+          $event.preventDefault();
+          $event.stopPropagation();
+          moneyFlow.isTransactionDatePickerOpen = true;
+      }
+
+      $scope.view.onDeleteClick = function (moneyFlow) {
+          var modalInstance = $modal.open({
+              animation: true,
+              templateUrl: 'views/directives/confirmdialog.html',
+              controller: 'ConfirmCtrl',
+              resolve: {
+                  options: function () {
+                      return {
+                          title: 'Confirm',
+                          message: 'Are you sure you wish to delete the funding line item?',
+                          okText: 'Yes',
+                          cancelText: 'No'
+                      };
+                  }
+              }
+          });
+          modalInstance.result.then(function () {
+              $log.info('User confirmed delete of money flow...');
+              deleteMoneyFlow(moneyFlow);
+
+          }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+          });
+      }
+
+      $scope.view.onCopyClick = function (moneyFlow) {
+          var copiedMoneyFlow = getCopiedMoneyFlow(moneyFlow);
+          showEditMoneyFlow(copiedMoneyFlow);
+      }
+
+      function showEditMoneyFlow(moneyFlow) {
+          var modalInstance = $modal.open({
+              animation: true,
+              templateUrl: 'views/directives/moneyflow.html',
+              controller: 'MoneyFlowCtrl',
+              size: 'lg',
+              resolve: {
+                  entity: function () {
+                      return moneyFlow;
+                  }
+              }
+          });
+
+          modalInstance.result.then(function (newMoneyFlow) {
+              $log.info('Finished adding new money flow.');
+              reloadMoneyFlowTable();
+          }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+          });
+      }
+
+      function getCopiedMoneyFlow(moneyFlow) {
+          var copiedMoneyFlow = angular.copy(moneyFlow);
+          delete copiedMoneyFlow.id;
+
+          copiedMoneyFlow.description = 'COPY:  ' + copiedMoneyFlow.description;
+          copiedMoneyFlow.isExpense = moneyFlow.sourceRecipientEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.expense.id;
+          copiedMoneyFlow.isOutoing = copiedMoneyFlow.amount < 0;
+          copiedMoneyFlow.entityId = $scope.view.entityId,
+          copiedMoneyFlow.entityTypeId = $scope.sourceEntityTypeId;
+          copiedMoneyFlow.isCopy = true;
+          copiedMoneyFlow.peerEntityTypeId = moneyFlow.sourceRecipientEntityTypeId;
+          copiedMoneyFlow.peerEntityId = moneyFlow.sourceRecipientEntityId;
+          copiedMoneyFlow.value = moneyFlow.amount < 0 ? -moneyFlow.amount : moneyFlow.amount;
+          copiedMoneyFlow.peerEntity = {
+              primaryText: moneyFlow.sourceRecipientName
+          };
+          return copiedMoneyFlow;
+      }
+
+      function deleteMoneyFlow(moneyFlow) {
+          moneyFlow.isDeleting = true;
+          return MoneyFlowService.remove(moneyFlow, $scope.view.entityId)
+          .then(function (response) {
+              moneyFlow.isDeleting = false;
+              var index = $scope.view.moneyFlows.indexOf(moneyFlow);
+              $scope.view.moneyFlows.splice(index, 1);
+              NotificationService.showSuccessMessage('Successfully deleted the funding line item.');
+          })
+          .catch(function (response) {
+              moneyFlow.isDeleting = false;
+              var message = 'Unable to remove the money flow.';
+              $log.error(message);
+              NotificationService.showErrorMessage(message);
+          });
+      }
+
+      function reloadMoneyFlowTable() {
+          console.assert($scope.getMoneyFlowsTableState, "The table state function must exist.");
+          $scope.view.getMoneyFlows($scope.getMoneyFlowsTableState());
+      }
 
       function getLookupValueById(values, id) {
           var value = '';
@@ -195,8 +282,9 @@ angular.module('staticApp')
                   moneyFlow.currentlyEditing = false;
                   moneyFlow.isOutgoing = moneyFlow.amount < 0;
                   moneyFlow.isSavingUpdate = false;
+                  moneyFlow.isDeleting = false;
                   moneyFlow.editableAmount = moneyFlow.amount < 0 ? -moneyFlow.amount : moneyFlow.amount;
-
+                  moneyFlow.isTransactionDatePickerOpen = true;
                   $scope.$watch(function () {
                       return moneyFlow.editableAmount;
                   },
@@ -206,6 +294,13 @@ angular.module('staticApp')
                       }
                       if (newValue < 0) {
                           moneyFlow.editableAmount = -moneyFlow.editableAmount;
+                      }
+                  });
+                  $scope.$watch(function () {
+                      return moneyFlow.fiscalYear;
+                  }, function (newValue, oldValue) {
+                      if (newValue !== oldValue) {
+                          moneyFlow.fiscalYear = newValue < 0 ? -newValue : newValue;
                       }
                   });
               });
@@ -275,7 +370,8 @@ angular.module('staticApp')
       }
 
       function getProjectPermissionsConfig(hasEditPermissionCallback, notAuthorizedCallback) {
-          var config = {};
+          var config = {
+          };
           config[ConstantsService.permission.editProject.value] = {
               hasPermission: hasEditPermissionCallback,
               notAuthorized: notAuthorizedCallback
@@ -284,7 +380,8 @@ angular.module('staticApp')
       }
 
       function getProgramPermissionsConfig(hasEditPermissionCallback, notAuthorizedCallback) {
-          var config = {};
+          var config = {
+          };
           config[ConstantsService.permission.editProgram.value] = {
               hasPermission: hasEditPermissionCallback,
               notAuthorized: notAuthorizedCallback

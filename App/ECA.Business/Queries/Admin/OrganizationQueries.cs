@@ -30,7 +30,7 @@ namespace ECA.Business.Queries.Admin
 
             var query = from organization in context.Organizations
                         let organizationType = organization.OrganizationType
-                        let address = organization.Addresses.FirstOrDefault()
+                        let address = organization.Addresses.OrderByDescending(x => x.IsPrimary).FirstOrDefault()
 
                         let addressHasCity = address != null
                                             && address.Location != null
