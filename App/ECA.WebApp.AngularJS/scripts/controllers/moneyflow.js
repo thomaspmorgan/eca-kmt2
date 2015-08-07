@@ -37,6 +37,8 @@ angular.module('staticApp')
       $scope.view.outgoingDirectionKey = "outgoing";
       $scope.view.isLoadingSources = false;
       $scope.view.isSaving = false;
+      $scope.view.isSourceRecipientFieldEnabled = false;
+      $scope.view.isSourceRecipientFieldRequired = true;
 
       $scope.view.openTransactionDatePicker = function ($event) {
           $event.preventDefault();
@@ -70,13 +72,15 @@ angular.module('staticApp')
           }
           else if (directionKey === $scope.view.incomingDirectionKey) {
               $scope.view.moneyFlow.isOutgoing = false;
+              onModelChange($scope.view.moneyFlow);
           }
           else {
               $log.error('Direction key ]' + directionKey + '] is not recognized.');
           }
       }
 
-      $scope.view.moneyFlow = getMoneyFlow(entity.entityId, entity.entityTypeId);
+      $scope.view.moneyFlow = toMoneyFlow(entity);
+      onModelChange($scope.view.moneyFlow);
 
       $scope.view.getPeers = function ($viewValue) {
           var peerEntityTypeId = $scope.view.moneyFlow.peerEntityTypeId;
@@ -103,8 +107,7 @@ angular.module('staticApp')
       }
 
       $scope.view.onSelectSourceType = function () {
-          var peerEntityTypeId = $scope.view.moneyFlow.peerEntityTypeId;
-          $scope.view.moneyFlow.peerEntityId = null;
+          onModelChange($scope.view.moneyFlow);
       }
 
       $scope.view.onSelectPeer = function ($item, $model, $label) {
@@ -120,6 +123,24 @@ angular.module('staticApp')
           else {
               $log.info("return primary text");
               return $model.primaryText;
+          }
+      }
+
+      function onModelChange(moneyFlow) {
+          var peerEntityTypeId = moneyFlow.peerEntityTypeId;
+          var isExpense = peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.expense.id;
+          if (isExpense) {
+              $scope.view.isSourceRecipientFieldEnabled = false;
+              $scope.view.isSourceRecipientFieldRequired = false;
+              moneyFlow.peerEntityId = null;
+              moneyFlow.isOutgoing = true;
+              moneyFlow.isExpense = true;
+              delete moneyFlow.peerEntity;
+          }
+          else {
+              moneyFlow.isExpense = false;
+              $scope.view.isSourceRecipientFieldEnabled = true;
+              $scope.view.isSourceRecipientFieldRequired = true;
           }
       }
 
@@ -232,28 +253,56 @@ angular.module('staticApp')
           return params;
       }
 
-      function getMoneyFlow(entityId, entityTypeId) {
-          var moneyFlow = {
-              value: 0,
-              isOutgoing: false,
-              description: '',
-              transactionDate: null,
-              fiscalYear: null,
-              peerEntityTypeId: null,
-              moneyFlowStatusId: null,
-              peerEntityId: null,
-              peerEntity: {},
-              entityTypeId: entityTypeId
-          };
-          if (entityTypeId === ConstantsService.moneyFlowSourceRecipientType.project.id) {
-              moneyFlow.projectId = entityId;
+      function toMoneyFlow(entity) {
+          var moneyFlow = null;
+          console.assert(entity.entityTypeId, 'The entity must have at the entityTypeId defined.');
+          console.assert(entity.entityId, 'The entity must have at the entityId defined.');
+
+          if (entity.isCopy) {
+              moneyFlow = entity;
           }
-          else if (entityTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id) {
-              moneyFlow.programId = entityId;
+          else {
+              moneyFlow = {
+                  value: 0,
+                  isOutgoing: false,
+                  isExpense: false,
+                  description: '',
+                  transactionDate: null,
+                  fiscalYear: null,
+                  peerEntityTypeId: null,
+                  moneyFlowStatusId: null,
+                  peerEntityId: null,
+                  peerEntity: {},
+                  entityTypeId: entity.entityTypeId
+              };
+          }
+
+          if (entity.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.project.id) {
+              moneyFlow.projectId = entity.entityId;
+          }
+          else if (entity.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id) {
+              moneyFlow.programId = entity.entityId;
           }
           else {
               throw Error('The money flow source recipient type is not yet supported.');
           }
+
+          $scope.$watch(function () {
+              return moneyFlow.value;
+          }, function (newValue, oldValue) {              
+              if (newValue !== oldValue) {
+                  moneyFlow.value = newValue < 0 ? -newValue : newValue;
+              }
+          });
+
+          $scope.$watch(function () {
+              return moneyFlow.fiscalYear;
+          }, function (newValue, oldValue) {
+              if (newValue !== oldValue) {
+                  moneyFlow.fiscalYear = newValue < 0 ? -newValue : newValue;
+              }
+          });
+
           return moneyFlow;
       }
 
@@ -283,7 +332,8 @@ angular.module('staticApp')
                       value: [
                           ConstantsService.moneyFlowSourceRecipientType.project.id,
                           ConstantsService.moneyFlowSourceRecipientType.program.id,
-                          ConstantsService.moneyFlowSourceRecipientType.organization.id
+                          ConstantsService.moneyFlowSourceRecipientType.organization.id,
+                          ConstantsService.moneyFlowSourceRecipientType.expense.id,
                       ]
                   }
               ]

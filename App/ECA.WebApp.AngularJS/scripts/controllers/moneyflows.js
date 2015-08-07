@@ -61,27 +61,11 @@ angular.module('staticApp')
       }
 
       $scope.view.onAddFundingItemClick = function () {
-          var modalInstance = $modal.open({
-              animation: true,
-              templateUrl: 'views/directives/moneyflow.html',
-              controller: 'MoneyFlowCtrl',
-              size: 'lg',
-              resolve: {
-                  entity: function () {
-                      return {
-                          entityId: $scope.view.entityId,
-                          entityTypeId: $scope.sourceEntityTypeId
-                      };
-                  }
-              }
-          });
-
-          modalInstance.result.then(function (newMoneyFlow) {
-              $log.info('Finished adding new money flow.');
-              reloadMoneyFlowTable();
-          }, function () {
-              $log.info('Modal dismissed at: ' + new Date());
-          });
+          var newMoneyFlow = {
+              entityId: $scope.view.entityId,
+              entityTypeId: $scope.sourceEntityTypeId
+          };
+          showEditMoneyFlow(newMoneyFlow);
       };
 
       $scope.view.onEditClick = function (moneyFlow) {
@@ -91,7 +75,8 @@ angular.module('staticApp')
               duration: 500,
               easing: 'easeIn',
               offset: 225,
-              callbackBefore: function (element) { },
+              callbackBefore: function (element) {
+              },
               callbackAfter: function (element) { }
           }
           var id = $scope.view.getMoneyFlowDivId(moneyFlow)
@@ -164,6 +149,51 @@ angular.module('staticApp')
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });
+      }
+
+      $scope.view.onCopyClick = function (moneyFlow) {
+          var copiedMoneyFlow = getCopiedMoneyFlow(moneyFlow);
+          showEditMoneyFlow(copiedMoneyFlow);
+      }
+
+      function showEditMoneyFlow(moneyFlow) {
+          var modalInstance = $modal.open({
+              animation: true,
+              templateUrl: 'views/directives/moneyflow.html',
+              controller: 'MoneyFlowCtrl',
+              size: 'lg',
+              resolve: {
+                  entity: function () {
+                      return moneyFlow;
+                  }
+              }
+          });
+
+          modalInstance.result.then(function (newMoneyFlow) {
+              $log.info('Finished adding new money flow.');
+              reloadMoneyFlowTable();
+          }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+          });
+      }
+
+      function getCopiedMoneyFlow(moneyFlow) {
+          var copiedMoneyFlow = angular.copy(moneyFlow);
+          delete copiedMoneyFlow.id;
+
+          copiedMoneyFlow.description = 'COPY:  ' + copiedMoneyFlow.description;
+          copiedMoneyFlow.isExpense = moneyFlow.sourceRecipientEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.expense.id;
+          copiedMoneyFlow.isOutoing = copiedMoneyFlow.amount < 0;
+          copiedMoneyFlow.entityId = $scope.view.entityId,
+          copiedMoneyFlow.entityTypeId = $scope.sourceEntityTypeId;
+          copiedMoneyFlow.isCopy = true;
+          copiedMoneyFlow.peerEntityTypeId = moneyFlow.sourceRecipientEntityTypeId;
+          copiedMoneyFlow.peerEntityId = moneyFlow.sourceRecipientEntityId;
+          copiedMoneyFlow.value = moneyFlow.amount < 0 ? -moneyFlow.amount : moneyFlow.amount;
+          copiedMoneyFlow.peerEntity = {
+              primaryText: moneyFlow.sourceRecipientName
+          };
+          return copiedMoneyFlow;
       }
 
       function deleteMoneyFlow(moneyFlow) {
@@ -266,6 +296,13 @@ angular.module('staticApp')
                           moneyFlow.editableAmount = -moneyFlow.editableAmount;
                       }
                   });
+                  $scope.$watch(function () {
+                      return moneyFlow.fiscalYear;
+                  }, function (newValue, oldValue) {
+                      if (newValue !== oldValue) {
+                          moneyFlow.fiscalYear = newValue < 0 ? -newValue : newValue;
+                      }
+                  });
               });
               var total = response.data.total;
               var limit = TableService.getLimit();
@@ -333,7 +370,8 @@ angular.module('staticApp')
       }
 
       function getProjectPermissionsConfig(hasEditPermissionCallback, notAuthorizedCallback) {
-          var config = {};
+          var config = {
+          };
           config[ConstantsService.permission.editProject.value] = {
               hasPermission: hasEditPermissionCallback,
               notAuthorized: notAuthorizedCallback
@@ -342,7 +380,8 @@ angular.module('staticApp')
       }
 
       function getProgramPermissionsConfig(hasEditPermissionCallback, notAuthorizedCallback) {
-          var config = {};
+          var config = {
+          };
           config[ConstantsService.permission.editProgram.value] = {
               hasPermission: hasEditPermissionCallback,
               notAuthorized: notAuthorizedCallback
