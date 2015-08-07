@@ -84,11 +84,18 @@ namespace ECA.WebApi.Controllers.Admin
         [ResponseType(typeof(PagedQueryResults<BookmarkDTO>))]
         public async Task<IHttpActionResult> GetBookmarksAsync([FromUri]PagingQueryBindingModel<BookmarkDTO> queryModel)
         {
-            var currentUser = userProvider.GetCurrentUser();
-            var businessUser = userProvider.GetBusinessUser(currentUser);
-            var queryableOperator = GetQueryableOperator(businessUser.Id, queryModel);
-            var bookmarks = await service.GetBookmarksAsync(queryableOperator);
-            return Ok(bookmarks);
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var queryableOperator = GetQueryableOperator(businessUser.Id, queryModel);
+                var bookmarks = await service.GetBookmarksAsync(queryableOperator);
+                return Ok(bookmarks);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
         private QueryableOperator<BookmarkDTO> GetQueryableOperator(int principalId, PagingQueryBindingModel<BookmarkDTO> queryModel)

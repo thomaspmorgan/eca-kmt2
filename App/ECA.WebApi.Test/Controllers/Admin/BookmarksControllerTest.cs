@@ -9,6 +9,10 @@ using ECA.WebApi.Models.Admin;
 using System.Web.Http.Results;
 using System.Security.Claims;
 using ECA.Business.Service;
+using ECA.WebApi.Models.Query;
+using ECA.Business.Queries.Models.Admin;
+using ECA.Core.Query;
+using ECA.Core.DynamicLinq;
 
 namespace ECA.WebApi.Test.Controllers.Admin
 {
@@ -63,6 +67,26 @@ namespace ECA.WebApi.Test.Controllers.Admin
                 ProgramId = 1
             };
             var response = await controller.PostBookmarkAsync(model);
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
+        [TestMethod]
+        public async Task TestGetBookmarks()
+        {
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(1));
+            var response = await controller.GetBookmarksAsync(new PagingQueryBindingModel<BookmarkDTO>());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<BookmarkDTO>>));
+            userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
+            userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
+            service.Verify(x => x.GetBookmarksAsync(It.IsAny<QueryableOperator<BookmarkDTO>>()));
+        }
+
+        [TestMethod]
+        public async Task TestGetBookmarks_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(1));
+            var response = await controller.GetBookmarksAsync(new PagingQueryBindingModel<BookmarkDTO>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
     }
