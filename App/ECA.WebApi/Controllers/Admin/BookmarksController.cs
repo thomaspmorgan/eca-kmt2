@@ -1,5 +1,11 @@
-﻿using ECA.Business.Service.Admin;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Service.Admin;
+using ECA.Core.DynamicLinq;
+using ECA.Core.DynamicLinq.Filter;
+using ECA.Core.DynamicLinq.Sorter;
+using ECA.Core.Query;
 using ECA.WebApi.Models.Admin;
+using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
 using System;
 using System.Collections.Generic;
@@ -20,6 +26,8 @@ namespace ECA.WebApi.Controllers.Admin
     [RoutePrefix("api/bookmarks")]
     public class BookmarksController : ApiController
     {
+        private static readonly ExpressionSorter<BookmarkDTO> DEFAULT_BOOKMARK_SORTER =
+            new ExpressionSorter<BookmarkDTO>(x => x.AddedOn, SortDirection.Ascending);
 
         private IUserProvider userProvider;
         private IBookmarkService service;
@@ -67,5 +75,27 @@ namespace ECA.WebApi.Controllers.Admin
             return Ok();
         }
 
+        /// <summary>
+        /// Gets bookmarks asyncronously
+        /// </summary>
+        /// <param name="queryModel">The query model to apply</param>
+        /// Note: The principal id is applied to the query operator directly
+        /// <returns></returns>
+        [ResponseType(typeof(PagedQueryResults<BookmarkDTO>))]
+        public async Task<IHttpActionResult> GetBookmarksAsync([FromUri]PagingQueryBindingModel<BookmarkDTO> queryModel)
+        {
+            var currentUser = userProvider.GetCurrentUser();
+            var businessUser = userProvider.GetBusinessUser(currentUser);
+            var queryableOperator = GetQueryableOperator(businessUser.Id, queryModel);
+            var bookmarks = await service.GetBookmarksAsync(queryableOperator);
+            return Ok(bookmarks);
+        }
+
+        private QueryableOperator<BookmarkDTO> GetQueryableOperator(int principalId, PagingQueryBindingModel<BookmarkDTO> queryModel)
+        {
+            var queryOperator = queryModel.ToQueryableOperator(DEFAULT_BOOKMARK_SORTER);
+            queryOperator.Filters.Add(new ExpressionFilter<BookmarkDTO>(x => x.PrincipalId, ComparisonType.Equal, principalId));
+            return queryOperator;
+        }
     }
 }

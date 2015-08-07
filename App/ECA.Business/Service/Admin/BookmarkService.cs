@@ -1,5 +1,8 @@
 ﻿using ECA.Business.Exceptions;
+using ECA.Business.Queries.Models.Admin;
+using ECA.Core.DynamicLinq;
 using ECA.Core.Exceptions;
+using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
 using System;
@@ -172,5 +175,29 @@ namespace ECA.Business.Service.Admin
                 throw new ModelNotFoundException(BOOKMARK_NOT_FOUND_ERROR);
             }
         }
+
+        /// <summary>
+        /// Get bookmarks asyncronously
+        /// </summary>
+        /// <param name="queryOperator">The query operator to apply</param>
+        /// <returns>List of bookmarks</returns>
+        public Task<PagedQueryResults<BookmarkDTO>> GetBookmarksAsync(QueryableOperator<BookmarkDTO> queryOperator)
+        {
+            var query = Context.Bookmarks.Select(x => new BookmarkDTO
+            {
+                BookmarkId = x.BookmarkId,
+                OfficeId = x.OfficeId,
+                ProgramId = x.ProgramId,
+                ProjectId = x.ProjectId,
+                PersonId = x.PersonId,
+                OrganizationId = x.OrganizationId,
+                PrincipalId = x.PrincipalId,
+                AddedOn = x.AddedOn,
+                Automatic = x.Automatic
+            });
+            query = query.Apply(queryOperator);
+            return query.ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+        }
+
     }
 }

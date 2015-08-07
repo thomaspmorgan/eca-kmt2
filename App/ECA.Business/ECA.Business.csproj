@@ -106,6 +106,7 @@
     <Compile Include="Queries\Admin\OfficeQueries.cs" />
     <Compile Include="Queries\Admin\OrganizationQueries.cs" />
     <Compile Include="Queries\Admin\SocialMediaQueries.cs" />
+    <Compile Include="Queries\Models\Admin\BookmarkDTO.cs" />
     <Compile Include="Queries\Models\Admin\SocialMediaDTO.cs" />
     <Compile Include="Queries\Models\Admin\AddressDTO.cs" />
     <Compile Include="Queries\Models\Admin\BaseDTO.cs" />
