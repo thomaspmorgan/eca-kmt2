@@ -8,6 +8,9 @@ using ECA.Data;
 using FluentAssertions;
 using ECA.Business.Exceptions;
 using ECA.Core.Exceptions;
+using ECA.Business.Queries.Models.Admin;
+using ECA.Core.DynamicLinq.Sorter;
+using ECA.Core.DynamicLinq;
 
 namespace ECA.Business.Test.Service.Admin
 {
@@ -129,6 +132,34 @@ namespace ECA.Business.Test.Service.Admin
             Func<Task> act = async () => { await service.DeleteBookmarkAsync(1); };
             act.ShouldThrow<ModelNotFoundException>()
                 .WithMessage(BookmarkService.BOOKMARK_NOT_FOUND_ERROR);
+        }
+
+        [TestMethod]
+        public async Task TestGetBookmarksAsync()
+        {
+            var bookmark = new Bookmark
+            {
+                BookmarkId = 1,
+                OfficeId = 1,
+                PrincipalId = 1,
+                Automatic = false
+            };
+
+            context.Bookmarks.Add(bookmark);
+
+            var defaultSorter = new ExpressionSorter<BookmarkDTO>(x => x.AddedOn, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<BookmarkDTO>(0, 10, defaultSorter);
+
+            var response = await service.GetBookmarksAsync(queryOperator);
+
+            Assert.AreEqual(1, response.Total);
+            Assert.AreEqual(1, response.Results.Count);
+
+            var firstResult = response.Results.First();
+            Assert.AreEqual(bookmark.BookmarkId, firstResult.BookmarkId);
+            Assert.AreEqual(bookmark.OfficeId, firstResult.OfficeId);
+            Assert.AreEqual(bookmark.PrincipalId, firstResult.PrincipalId);
+            Assert.AreEqual(bookmark.Automatic, firstResult.Automatic);
         }
     }
 }
