@@ -17,9 +17,10 @@ namespace ECA.Business.Service.Fundings
         /// </summary>
         /// <param name="description">The description.</param>
         /// <param name="value">The value.</param>
-        /// <param name="sourceEntityTypeId">The MoneyFlowSourceRecipientType id.</param>
+        /// <param name="sourceEntityTypeId">The MoneyFlowSourceRecipientType id for the source entity.</param>
         /// <param name="sourceEntityId">The id of the source entity.</param>
         /// <param name="recipientEntityId">The id of the recipient entity.</param>
+        /// <param name="recipientEntityTypeId">The MoneyFlowSourceRecipientType id for the recipient entity.</param>
         /// <param name="hasSourceEntityType">True, if the source entity has a mapped eca data entity.</param>
         /// <param name="hasRecipientEntityType">True, if the recipient entity has a mapped eca data entity.</param>
         /// <param name="transactionDate">The transaction date.</param>
@@ -28,6 +29,7 @@ namespace ECA.Business.Service.Fundings
             string description,
             decimal value,
             int sourceEntityTypeId,
+            int recipientEntityTypeId,
             int? sourceEntityId,
             int? recipientEntityId,
             bool hasSourceEntityType,
@@ -42,6 +44,7 @@ namespace ECA.Business.Service.Fundings
             this.HasSourceEntityType = hasSourceEntityType;
             this.SourceEntityId = sourceEntityId;
             this.RecipientEntityId = recipientEntityId;
+            this.RecipientEntityTypeId = recipientEntityTypeId;
             this.SourceEntityTypeId = sourceEntityTypeId;
             this.FiscalYear = fiscalYear;
         }
@@ -75,6 +78,11 @@ namespace ECA.Business.Service.Fundings
         /// Gets the source entity type (MoneyFlowSourceRecipientType) id.
         /// </summary>
         public int SourceEntityTypeId { get; private set; }
+
+        /// <summary>
+        /// Gets the recipient entity type (MoneyFlowSourceRecipientType) id.
+        /// </summary>
+        public int RecipientEntityTypeId { get; private set; }
 
         /// <summary>
         /// Gets the description.

@@ -62,6 +62,13 @@ angular.module('staticApp')
                                 filter.push(newFilter);
                             }
                         }
+                        else if (comparisonType === ConstantsService.lessThanComparisonType
+                            || comparisonType === ConstantsService.greaterThanComparisonType
+                            || comparisonType === ConstantsService.equalComparisonType) {
+                            var value = predicateObject[key].value;
+                            newFilter.value = value;
+                            filter.push(newFilter);
+                        }
                     }
                     else if (key !== '$') { //The $ key is used for the search form fields
                         filter.push({

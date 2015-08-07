@@ -1,0 +1,26 @@
+﻿<div class="input-group">
+    <div class="row">
+        <div class="col-sm-6">
+            <span ng-bind-html="operation"></span>
+        </div>
+        <div class="col-sm-8">
+            <input type="text" ng-model="value" ng-change="onChange()" class="form-control" name="x" placeholder="{{placeholder}}" />
+        </div>
+    </div>
+    
+    
+    <div class="input-group-btn search-panel">
+        <span dropdown on-toggle="toggled(open)">
+            <a href id="simple-dropdown" dropdown-toggle>
+                <i class="material-icons">arrow_drop_down</i>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="simple-dropdown">
+                <li>
+                    <a href ng-click="onLessThanClick()">Less Than </a>
+                    <a href ng-click="onGreaterThanClick()">Greater Than</a>
+                    <a href ng-click="onEqualClick()">Equal</a>
+                </li>
+            </ul>
+        </span>
+    </div>
+</div>

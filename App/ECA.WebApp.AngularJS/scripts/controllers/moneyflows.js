@@ -141,6 +141,48 @@ angular.module('staticApp')
           moneyFlow.isTransactionDatePickerOpen = true;
       }
 
+      $scope.view.onDeleteClick = function (moneyFlow) {
+          var modalInstance = $modal.open({
+              animation: true,
+              templateUrl: 'views/directives/confirmdialog.html',
+              controller: 'ConfirmCtrl',
+              resolve: {
+                  options: function () {
+                      return {
+                          title: 'Confirm',
+                          message: 'Are you sure you wish to delete the funding line item?',
+                          okText: 'Yes',
+                          cancelText: 'No'
+                      };
+                  }
+              }
+          });
+          modalInstance.result.then(function () {
+              $log.info('User confirmed delete of money flow...');
+              deleteMoneyFlow(moneyFlow);
+
+          }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+          });
+      }
+
+      function deleteMoneyFlow(moneyFlow) {
+          moneyFlow.isDeleting = true;
+          return MoneyFlowService.remove(moneyFlow, $scope.view.entityId)
+          .then(function (response) {
+              moneyFlow.isDeleting = false;
+              var index = $scope.view.moneyFlows.indexOf(moneyFlow);
+              $scope.view.moneyFlows.splice(index, 1);
+              NotificationService.showSuccessMessage('Successfully deleted the funding line item.');
+          })
+          .catch(function (response) {
+              moneyFlow.isDeleting = false;
+              var message = 'Unable to remove the money flow.';
+              $log.error(message);
+              NotificationService.showErrorMessage(message);
+          });
+      }
+
       function reloadMoneyFlowTable() {
           console.assert($scope.getMoneyFlowsTableState, "The table state function must exist.");
           $scope.view.getMoneyFlows($scope.getMoneyFlowsTableState());
@@ -210,6 +252,7 @@ angular.module('staticApp')
                   moneyFlow.currentlyEditing = false;
                   moneyFlow.isOutgoing = moneyFlow.amount < 0;
                   moneyFlow.isSavingUpdate = false;
+                  moneyFlow.isDeleting = false;
                   moneyFlow.editableAmount = moneyFlow.amount < 0 ? -moneyFlow.amount : moneyFlow.amount;
                   moneyFlow.isTransactionDatePickerOpen = true;
                   $scope.$watch(function () {

@@ -136,6 +136,7 @@
     <Content Include="scripts\controllers\allpeople.js" />
     <Content Include="scripts\controllers\allorganizations.js" />
     <Content Include="scripts\controllers\collaborators.js" />
+    <Content Include="scripts\controllers\confirm.js" />
     <Content Include="scripts\controllers\moneyflow.js" />
     <Content Include="scripts\controllers\moneyflows.js" />
     <Content Include="scripts\controllers\organization\activities.js" />
@@ -166,6 +167,7 @@
     <Content Include="scripts\controllers\reports\RegionAwards.js" />
     <Content Include="scripts\controllers\socialmedia\socialmedia.js" />
     <Content Include="scripts\controllers\socialmedia\socialmedias.js" />
+    <Content Include="scripts\directives\equalityfilter.js" />
     <Content Include="scripts\directives\moneyflows.js" />
     <Content Include="scripts\directives\socialmedias.js" />
     <Content Include="scripts\directives\addresses.js" />
@@ -178,6 +180,8 @@
     <Content Include="scripts\services\addressservice.js" />
     <Content Include="scripts\services\participantperson.js" />
     <Content Include="scripts\services\userservice.js" />
+    <Content Include="views\directives\confirmdialog.html" />
+    <Content Include="views\directives\equalityfilter.html" />
     <Content Include="views\directives\moneyflow.html" />
     <Content Include="views\directives\moneyflows.html" />
     <Content Include="views\directives\socialmedias.html" />
