@@ -87,7 +87,7 @@
                     <td>{{moneyFlow.sourceRecipientTypeName}}</td>
                     <td>{{moneyFlow.sourceRecipientName}}</td>
                     <td>
-                        <span class="{{moneyFlow.amount < 0 ? 'text-danger' : ''}}">{{moneyFlow.amount < 0 ? '-' : '+'}}{{moneyFlow.amount | currency}}</span>
+                        <span class="{{moneyFlow.amount < 0 ? 'outgoingMoneyFlow' : 'incomingMoneyFlow'}}">{{moneyFlow.amount < 0 ? '-' : '+'}}{{moneyFlow.amount | currency}}</span>
                     </td>
                     <td style="text-align: center">
                         {{moneyFlow.fiscalYear}}
