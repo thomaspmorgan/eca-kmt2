@@ -18,6 +18,10 @@ namespace ECA.Core.DynamicLinq.Test.Filter
         public DateTime? NullableDate { get; set; }
 
         public string S { get; set; }
+
+        public DateTimeOffset DTOffset { get; set; }
+
+        public DateTimeOffset? NullableDTOffset { get; set; }
     }
 
     /// <summary>
@@ -212,6 +216,74 @@ namespace ECA.Core.DynamicLinq.Test.Filter
             list.Add(instance);
 
             var filter = new EqualFilter<EqualFilterTestClass>("NullableDate", instance.NullableDate.Value.AddDays(1.0));
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+        #endregion
+
+        #region DateTimeOffset
+        [TestMethod]
+        public void TestEqualFilter_NonNullableDateTimeOffset_EqualValue()
+        {
+            var instance = new EqualFilterTestClass
+            {
+                DTOffset = DateTimeOffset.Now
+            };
+            var list = new List<EqualFilterTestClass>();
+            list.Add(instance);
+
+            var filter = new EqualFilter<EqualFilterTestClass>("DTOffset", instance.DTOffset);
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(1, results.Count);
+
+        }
+
+        [TestMethod]
+        public void TestEqualFilter_NonNullableDateTimeOffset_NotEqualValue()
+        {
+            var instance = new EqualFilterTestClass
+            {
+                DTOffset = DateTimeOffset.Now
+            };
+            var list = new List<EqualFilterTestClass>();
+            list.Add(instance);
+
+            var filter = new EqualFilter<EqualFilterTestClass>("DTOffset", instance.DTOffset.AddDays(1.0));
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(0, results.Count);
+
+        }
+
+        [TestMethod]
+        public void TestEqualFilter_NullableDateTimeOffset_EqualValue()
+        {
+            var instance = new EqualFilterTestClass
+            {
+                NullableDTOffset = DateTimeOffset.Now
+            };
+            var list = new List<EqualFilterTestClass>();
+            list.Add(instance);
+
+            var filter = new EqualFilter<EqualFilterTestClass>("NullableDTOffset", instance.NullableDTOffset);
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(1, results.Count);
+        }
+
+        [TestMethod]
+        public void TestEqualFilter_NullableDateTimeOffset_NotEqualValue()
+        {
+            var instance = new EqualFilterTestClass
+            {
+                NullableDTOffset = DateTimeOffset.Now
+            };
+            var list = new List<EqualFilterTestClass>();
+            list.Add(instance);
+
+            var filter = new EqualFilter<EqualFilterTestClass>("NullableDTOffset", instance.NullableDTOffset.Value.AddDays(1.0));
             var where = filter.ToWhereExpression();
             var results = list.Where(where.Compile()).ToList();
             Assert.AreEqual(0, results.Count);

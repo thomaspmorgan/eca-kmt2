@@ -1,10 +1,13 @@
 ﻿<div class="input-group">
-    <div class="row">
-        <ul ng-repeat="displayValue in displayValues">
-            <li>
-                {{displayValue}}
-            </li>
-        </ul>
+    <div class="row" style="margin-top:10px;">
+        <div class="right">
+            <ul ng-repeat="displayValue in displayValues">
+                <li>
+                    {{displayValue}}
+                </li>
+            </ul>
+        </div>
+        
     </div>
     <div class="input-group-btn">
         <span dropdown on-toggle="toggled(open)">
@@ -15,7 +18,7 @@
                 <li>
                     <div class="row">
                         <label class="title-label col-sm-2" style="margin-top:8px;"><</label>
-                        <div class="col-sm-10">
+                        <div class="col-sm-10" ng-show="propertyType !== 'date'">
                             <input id="LessThan"
                                    type="text"
                                    class="form-control"
@@ -23,10 +26,30 @@
                                    ng-click="stopEvents($event)"
                                    placeholder="Less Than">
                         </div>
+
+
+                        <div class="col-sm-10" ng-show="propertyType === 'date'">
+                            <p class="input-group">
+                                <input type="text"
+                                       class="form-control"
+                                       datepicker-popup="dd-MMM-yyyy"
+                                       ng-model="lessThanFilter.value"
+                                       is-open="isLessThanDatePickerOpen"
+                                       close-text="Close"
+                                       show-weeks="false"
+                                       ng-blur="onLessThanDatePickerBlur()"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="onLessThanDatePickerOpen($event)">
+                                        <i class="material-icons">event</i>
+                                    </button>
+                                </span>
+                            </p>
+                        </div>
+
                     </div>
                     <div class="row">
                         <label class="title-label col-sm-2" style="margin-top:8px;">></label>
-                        <div class="col-sm-10">
+                        <div class="col-sm-10" ng-show="propertyType !== 'date'">
                             <input type="text"
                                    id="GreaterThan"
                                    class="form-control"
@@ -37,7 +60,7 @@
                     </div>
                     <div class="row">
                         <label class="title-label col-sm-2" style="margin-top:8px;">=</label>
-                        <div class="col-sm-10">
+                        <div class="col-sm-10" ng-show="propertyType !== 'date'">
                             <input type="text"
                                    id="Equal"
                                    class="form-control"

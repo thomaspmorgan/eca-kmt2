@@ -109,7 +109,7 @@ angular.module('staticApp')
             else if (comparisonType === ConstantsService.lessThanComparisonType
                 || comparisonType === ConstantsService.greaterThanComparisonType
                 || comparisonType === ConstantsService.equalComparisonType) {
-                if (!predicateObjectFilter.value) {
+                if (!predicateObjectFilter.hasOwnProperty('value')) {
                     throw Error("The equality filters require a property named 'value' with a single numeric value.");
                 }
                 var value = predicateObjectFilter.value;

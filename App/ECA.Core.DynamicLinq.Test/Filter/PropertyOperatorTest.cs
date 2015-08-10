@@ -4,36 +4,6 @@ using ECA.Core.DynamicLinq.Filter;
 
 namespace ECA.Core.DynamicLinq.Test.Filter
 {
-    //public class PropertyOperatorTestClass
-    //{
-    //    public DateTime? NullableDate { get; set; }
-
-    //    public string S { get; set; }
-
-    //    public int Id { get; set; }
-
-    //    public float F { get; set; }
-
-    //    public double D { get; set; }
-
-    //    public long L { get; set; }
-
-    //    public decimal Dec { get; set; }
-
-    //    public long? NullableL { get; set; }
-    //    public int? NullableId { get; set; }
-    //    public float? NullableF { get; set; }
-    //    public double? NullableD { get; set; }
-    //    public decimal? NullableDec { get; set; }
-
-    //    public object O { get; set; }
-
-    //    public string MethodName()
-    //    {
-    //        return null;
-    //    }
-    //}
-
     public class SimplePropertyOperator<T> : PropertyOperator<T> where T : class
     {
         public SimplePropertyOperator(string property) : base(property) { }

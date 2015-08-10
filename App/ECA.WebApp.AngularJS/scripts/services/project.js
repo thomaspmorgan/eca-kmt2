@@ -16,7 +16,7 @@ angular.module('staticApp')
               return DragonBreath.get(params, '/projects');
           },
           getById: function (id) {
-              return DragonBreath.get('projects', id)
+              return DragonBreath.get('projects', id);
           },
           getProjectsByProgram: function (id, params) {
               var path = 'programs/' + id + '/projects';

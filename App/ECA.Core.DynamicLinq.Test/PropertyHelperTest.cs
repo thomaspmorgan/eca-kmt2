@@ -63,8 +63,6 @@ namespace ECA.Core.DynamicLinq.Test
             Assert.AreEqual("Id", propertyName);
         }
 
-        
-
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void TestGetPropertyName_MethodReturnsAnObject()

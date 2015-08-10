@@ -4,7 +4,8 @@
           require: '^stTable',
           templateUrl: '../views/directives/equalityfilter.html',
           scope: {
-              property: '=property'
+              property: '=property',
+              propertyType: '=propertytype'
           },
           link: function (scope, element, attr, ctrl) {
               var tableCtrl = ctrl;
@@ -12,6 +13,12 @@
               var throttle = attr.stDelay || stConfig.search.delay;
               var event = attr.stInputEvent || stConfig.search.inputEvent;
               scope.displayValues = [];
+              scope.isLessThanDatePickerOpen = false;
+              if (scope.propertyType !== 'date'
+                  && scope.propertyType !== 'int'
+                  && scope.propertyType !== 'float') {
+                  throw Error('The property type [' + scope.propertyType + '] is not supported.');
+              }
 
               scope.lessThanFilter = {
                   comparison: ConstantsService.lessThanComparisonType,
@@ -32,6 +39,16 @@
                   $event.preventDefault();
                   $event.stopPropagation();
               };
+
+              scope.onLessThanDatePickerOpen = function ($event) {
+                  scope.stopEvents($event);
+                  scope.isLessThanDatePickerOpen = true;
+              }
+
+              scope.onLessThanDatePickerBlur = function () {
+                  updateDisplayValue();
+                  doFilter();
+              }
 
               scope.getInputElement = function (suffix) {
                   var target = null;
@@ -78,64 +95,88 @@
                   if (scope.equalFilter.value) {
                       scope.displayValues.push("= " + scope.equalFilter.value);
                   }
+                  if (scope.displayValues.length === 0) {
+                      scope.displayValues.push('None');
+                  }
+              }
+              updateDisplayValue();
+
+              function parseValue(value) {
+                  if (!scope.propertyType) {
+                      throw Error('The property type is not defined.');
+                  }
+                  if (scope.propertyType === 'float') {
+                      return parseFloat(value);
+                  }
+                  else if (scope.propertyType === 'int') {
+                      return parseInt(value, 10);
+                  }
+                  else if (scope.propertyType === 'date') {
+                      return value;
+                  }
+                  else {
+                      throw Error('The propertyType [' + scope.propertyType + '] is not supported.');
+                  }
               }
 
               function doFilter() {
                   var predicateObjects = [];
-                  if (scope.lessThanFilter.value) {
-                      predicateObjects.push({
-                          comparison: scope.lessThanFilter.comparison,
-                          value: parseFloat(scope.lessThanFilter.value)
-                      });
-                  }
-                  if (scope.greaterThanFilter.value) {
-                      predicateObjects.push({
-                          comparison: scope.greaterThanFilter.comparison,
-                          value: parseFloat(scope.greaterThanFilter.value)
-                      });
-                  }
-                  if (scope.equalFilter.value) {
-                      predicateObjects.push({
-                          comparison: scope.equalFilter.comparison,
-                          value: parseFloat(scope.equalFilter.value)
-                      });
-                  }
-                  tableCtrl.search(predicateObjects, scope.property);
-                  //promise = $timeout(function () {
-                  //    //tableCtrl.search(evt.target.value, attr.stSearch || '');
-                  //    tableCtrl.search(predicateObjects, scope.property);
-                  //    promise = null;
-                  //}, throttle);
 
+                  if (scope.propertyType === 'date') {
+                      if (scope.lessThanFilter.value) {
+                          predicateObjects.push({
+                              comparison: scope.lessThanFilter.comparison,
+                              value: parseValue(scope.lessThanFilter.value)
+                          });
+                      }
+                      if (scope.greaterThanFilter.value) {
+                          predicateObjects.push({
+                              comparison: scope.greaterThanFilter.comparison,
+                              value: parseValue(scope.greaterThanFilter.value)
+                          });
+                      }
+                      if (scope.equalFilter.value) {
+                          predicateObjects.push({
+                              comparison: scope.equalFilter.comparison,
+                              value: parseValue(scope.equalFilter.value)
+                          });
+                      }
+                  }
+                  else {
+                      if (scope.lessThanFilter.value && scope.lessThanFilter.value.trim() !== '-') {
+                          predicateObjects.push({
+                              comparison: scope.lessThanFilter.comparison,
+                              value: parseValue(scope.lessThanFilter.value)
+                          });
+                      }
+                      if (scope.greaterThanFilter.value && scope.greaterThanFilter.value.trim() !== '-') {
+                          predicateObjects.push({
+                              comparison: scope.greaterThanFilter.comparison,
+                              value: parseValue(scope.greaterThanFilter.value)
+                          });
+                      }
+                      if (scope.equalFilter.value && scope.equalFilter.value.trim() !== '-') {
+                          predicateObjects.push({
+                              comparison: scope.equalFilter.comparison,
+                              value: parseValue(scope.equalFilter.value)
+                          });
+                      }
+                  }
+
+                  
+                  promise = $timeout(function () {
+                      tableCtrl.search(predicateObjects, scope.property);
+                      promise = null;
+                  }, throttle);
 
                   // view -> table state
-                  //element.bind(event, function (evt) {
-                  //    evt = evt.originalEvent || evt;
-                  //    if (promise !== null) {
-                  //        $timeout.cancel(promise);
-                  //    }
-
-                      
-                  //});
-
+                  element.bind(event, function (evt) {
+                      evt = evt.originalEvent || evt;
+                      if (promise !== null) {
+                          $timeout.cancel(promise);
+                      }
+                  });
               }
-
-              //element.bind(event, function (evt) {
-              //    evt = evt.originalEvent || evt;
-              //    if (promise !== null) {
-              //        $timeout.cancel(promise);
-              //    }
-
-              //    promise = $timeout(function () {
-              //        tableCtrl.search(evt.target.value, attr.stSearch || '');
-              //        promise = null;
-              //    }, throttle);
-              //});
-
-
-
-
-
           }
       };
   }]);
