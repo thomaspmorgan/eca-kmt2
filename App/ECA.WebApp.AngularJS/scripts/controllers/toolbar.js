@@ -8,11 +8,13 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ToolbarCtrl', function ($scope, $state, $stateParams, $modal, ConstantsService, AuthService) {
-
-      var params = getParamsFromState();
+  .controller('ToolbarCtrl', function ($scope, $state, $stateParams, $modal, ConstantsService, AuthService, BookmarkService) {
 
       $scope.isOwner = false;
+      $scope.isBookmarked = false;
+
+      var params = getParamsFromState();
+      isBookmarked();
 
       AuthService.getResourcePermissions(params.resourceType.value, params.foreignResourceId)
         .then(function (result) {
@@ -50,11 +52,39 @@ angular.module('staticApp')
               foreignResourceId = $stateParams.organizationId;
           }
 
-          return { resourceType: resourceType, foreignResourceId: foreignResourceId, ownerPermissionId: ownerPermissionId};
+          return { resourceType: resourceType, foreignResourceId: parseInt(foreignResourceId), ownerPermissionId: ownerPermissionId};
       }
 
-      function getBookmarks() {
+      function isBookmarked() {
 
+          var params = { limit: 300, filter: getFilter() };
+
+          BookmarkService.getBookmarks(params)
+            .then(function (data) {
+                if (data.data.total === 1) {
+                    $scope.isBookmarked = true;
+                }
+            });
+
+      }
+
+      function getFilter() {
+
+          var filter = { comparison: 'eq', value: params.foreignResourceId };
+
+          if (params.resourceType.value === ConstantsService.resourceType.office.value) {
+              filter.property = 'officeId';
+          } else if (params.resourceType.value === ConstantsService.resourceType.program.value) {
+              filter.property = 'programId';
+          } else if (params.resourceType.value === ConstantsService.resourceType.project.value) {
+              filter.property = 'projectId';
+          } else if (params.resourceType.value === "Person") {
+              filter.property = 'personId';
+          } else if (params.resourceType.value === "Organization") {
+              filter.property = 'organizationId';
+          }
+
+          return filter;
       }
 
       $scope.openCollaboratorModal = function() {
