@@ -4,32 +4,35 @@ using ECA.Core.DynamicLinq.Filter;
 
 namespace ECA.Core.DynamicLinq.Test.Filter
 {
-    public class PropertyOperatorTestClass
-    {
-        public DateTime? NullableDate { get; set; }
+    //public class PropertyOperatorTestClass
+    //{
+    //    public DateTime? NullableDate { get; set; }
 
-        public string S { get; set; }
+    //    public string S { get; set; }
 
-        public int Id { get; set; }
+    //    public int Id { get; set; }
 
-        public float F { get; set; }
+    //    public float F { get; set; }
 
-        public double D { get; set; }
+    //    public double D { get; set; }
 
-        public long L { get; set; }
+    //    public long L { get; set; }
 
-        public long? NullableL { get; set; }
-        public int? NullableId { get; set; }
-        public float? NullableF { get; set; }
-        public double? NullableD { get; set; }
+    //    public decimal Dec { get; set; }
 
-        public object O { get; set; }
+    //    public long? NullableL { get; set; }
+    //    public int? NullableId { get; set; }
+    //    public float? NullableF { get; set; }
+    //    public double? NullableD { get; set; }
+    //    public decimal? NullableDec { get; set; }
 
-        public string MethodName()
-        {
-            return null;
-        }
-    }
+    //    public object O { get; set; }
+
+    //    public string MethodName()
+    //    {
+    //        return null;
+    //    }
+    //}
 
     public class SimplePropertyOperator<T> : PropertyOperator<T> where T : class
     {
@@ -94,10 +97,12 @@ namespace ECA.Core.DynamicLinq.Test.Filter
             Assert.IsTrue(new SimplePropertyOperator<PropertyHelperTestClass>("D").IsNumeric);
             Assert.IsTrue(new SimplePropertyOperator<PropertyHelperTestClass>("L").IsNumeric);
             Assert.IsTrue(new SimplePropertyOperator<PropertyHelperTestClass>("Id").IsNumeric);
+            Assert.IsTrue(new SimplePropertyOperator<PropertyHelperTestClass>("Dec").IsNumeric);
             Assert.IsTrue(new SimplePropertyOperator<PropertyHelperTestClass>("NullableL").IsNumeric);
             Assert.IsTrue(new SimplePropertyOperator<PropertyHelperTestClass>("NullableId").IsNumeric);
             Assert.IsTrue(new SimplePropertyOperator<PropertyHelperTestClass>("NullableF").IsNumeric);
             Assert.IsTrue(new SimplePropertyOperator<PropertyHelperTestClass>("NullableD").IsNumeric);
+            Assert.IsTrue(new SimplePropertyOperator<PropertyHelperTestClass>("NullableDec").IsNumeric);
 
             Assert.IsFalse(new SimplePropertyOperator<PropertyHelperTestClass>("S").IsNumeric);
 

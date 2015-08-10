@@ -38,40 +38,28 @@ angular.module('staticApp')
         }
 
         function getFilter() {
-            var filter = [];
+            var filters = [];
             var predicateObject = tableState.search.predicateObject;
             if (predicateObject !== undefined) {
                 for (var key in predicateObject) {
-                    if (predicateObject[key].comparison) {
-                        var comparisonType = predicateObject[key].comparison;
-                        var newFilter = {
-                            comparison: comparisonType,
-                            property: key.replace(/'/g, ""),
-                        };                        
-                        if (comparisonType === ConstantsService.containsAnyComparisonType) {
-                            var ids = predicateObject[key].ids;
-                            if (ids.length > 0) {
-                                newFilter.value = ids;
-                                filter.push(newFilter);
+                    if (Array.isArray(predicateObject[key])) {
+                        var property = key;
+                        angular.forEach(predicateObject[key], function (predicateObjectFilter, index) {
+                            var newFilter = getSingleFilter(predicateObjectFilter, property);
+                            if (newFilter.isValid) {
+                                filters.push(newFilter);
                             }
-                        }
-                        else if (comparisonType === ConstantsService.inComparisonType) {
-                            var ids = predicateObject[key].ids;
-                            if (ids.length > 0) {
-                                newFilter.value = ids;
-                                filter.push(newFilter);
-                            }
-                        }
-                        else if (comparisonType === ConstantsService.lessThanComparisonType
-                            || comparisonType === ConstantsService.greaterThanComparisonType
-                            || comparisonType === ConstantsService.equalComparisonType) {
-                            var value = predicateObject[key].value;
-                            newFilter.value = value;
-                            filter.push(newFilter);
+                        });
+                    }
+                    else if (predicateObject[key].comparison) {
+                        var property = key;
+                        var newFilter = getSingleFilter(predicateObject[key], property);
+                        if (newFilter.isValid) {
+                            filters.push(newFilter);
                         }
                     }
                     else if (key !== '$') { //The $ key is used for the search form fields
-                        filter.push({
+                        filters.push({
                             property: key.replace(/'/g, ""),
                             value: predicateObject[key],
                             comparison: ConstantsService.likeComparisonType
@@ -79,7 +67,59 @@ angular.module('staticApp')
                     }
                 }
             }
-            return filter;
+            angular.forEach(filters, function (filter, index) {
+                delete filter.isValid;
+            });
+            return filters;
+        }
+
+        function getSingleFilter(predicateObjectFilter, property) {
+            if (!predicateObjectFilter.comparison) {
+                throw Error('The comparison must be defined.');
+            }
+            if (!property) {
+                throw Error('The property is not defined.');
+            }
+            var comparisonType = predicateObjectFilter.comparison;
+            var newFilter = {
+                comparison: comparisonType,
+                property: property.replace(/'/g, ""),
+                isValid: false
+            };
+            if (comparisonType === ConstantsService.containsAnyComparisonType) {
+                if (!predicateObjectFilter.ids) {
+                    throw Error("The contains any comparison type requires a property named 'ids' with an array of numeric values.");
+                }
+                var ids = predicateObjectFilter.ids;
+                if (ids.length > 0) {
+                    newFilter.value = ids;
+                    newFilter.isValid = true;
+                }
+            }
+            else if (comparisonType === ConstantsService.inComparisonType) {                
+                if (!predicateObjectFilter.ids) {
+                    throw Error("The contains any comparison type requires a property named 'ids' with an array of numeric values.");
+                }
+                var ids = predicateObjectFilter.ids;
+                if (ids.length > 0) {
+                    newFilter.value = ids;
+                    newFilter.isValid = true;
+                }
+            }
+            else if (comparisonType === ConstantsService.lessThanComparisonType
+                || comparisonType === ConstantsService.greaterThanComparisonType
+                || comparisonType === ConstantsService.equalComparisonType) {
+                if (!predicateObjectFilter.value) {
+                    throw Error("The equality filters require a property named 'value' with a single numeric value.");
+                }
+                var value = predicateObjectFilter.value;
+                newFilter.value = value;
+                newFilter.isValid = true;
+            }
+            else {
+                throw Error('The comparison type [' + comparisonType + '] is not yet supported.');
+            }
+            return newFilter;
         }
 
         function getKeywords() {

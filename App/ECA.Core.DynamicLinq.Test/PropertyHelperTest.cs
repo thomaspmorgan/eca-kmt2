@@ -17,10 +17,13 @@ namespace ECA.Core.DynamicLinq.Test
 
         public long L { get; set; }
 
+        public decimal Dec { get; set; }
+
         public long? NullableL { get; set; }
         public int? NullableId { get; set; }
         public float? NullableF { get; set; }
         public double? NullableD { get; set; }
+        public decimal? NullableDec { get; set; }
 
         public object O { get; set; }
 
