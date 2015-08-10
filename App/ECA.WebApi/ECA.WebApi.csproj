@@ -373,6 +373,7 @@
     <Compile Include="Controllers\Fundings\MoneyFlowTypesController.cs" />
     <Compile Include="Controllers\Admin\OrganizationsController.cs" />
     <Compile Include="Controllers\Fundings\MoneyFlowStatusesController.cs" />
+    <Compile Include="Controllers\Admin\ProminentCategoriesController.cs" />
     <Compile Include="Controllers\Admin\ParticipantTypesController.cs" />
     <Compile Include="Controllers\Admin\SocialMediasController.cs" />
     <Compile Include="Controllers\LogsController.cs" />
@@ -412,6 +413,7 @@
     <Compile Include="Models\Admin\UpdatedAddressBindingModel.cs" />
     <Compile Include="Models\Admin\UpdatedOrganizationBindingModel.cs" />
     <Compile Include="Models\Admin\UpdatedSocialMediaBindingModel.cs" />
+    <Compile Include="Models\Person\GeneralBindingModel.cs" />
     <Compile Include="Models\Person\PiiBindingModel.cs" />
     <Compile Include="Models\Programs\CollaboratorBindingModel.cs" />
     <Compile Include="Models\Projects\AdditionalOrganizationProjectParticipantBindingModel.cs" />

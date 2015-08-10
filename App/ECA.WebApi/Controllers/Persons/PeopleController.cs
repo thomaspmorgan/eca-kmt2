@@ -263,6 +263,29 @@ namespace ECA.WebApi.Controllers.Persons
             }
         }
 
+
+        /// <summary>
+        /// Put method to update a person's General Info
+        /// </summary>
+        /// <param name="model">The model to update</param>
+        /// <returns></returns>
+        [Route("People/General")]
+        public async Task<IHttpActionResult> PutGeneralAsync(GeneralBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var person = await service.UpdateGeneralAsync(model.ToUpdateGeneral(businessUser));
+                await service.SaveChangesAsync();
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
         /// <summary>
         /// Adds a new address to the organization.
         /// </summary>

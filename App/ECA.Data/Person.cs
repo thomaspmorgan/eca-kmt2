@@ -176,6 +176,7 @@ namespace ECA.Data
         public ICollection<SpecialStatus> SpecialStatuses { get; set; }
         public ICollection<Membership> Memberships { get; set; }
         public ICollection<InterestSpecialization> InterestsAndSpecializations { get; set; }
+        [InverseProperty("ProminentPeople")]
         public ICollection<ProminentCategory> ProminentCategories { get; set; }
         public ICollection<ProfessionEducation> ProfessionalHistory { get; set; }
         public ICollection<ProfessionEducation> EducationalHistory { get; set; }
