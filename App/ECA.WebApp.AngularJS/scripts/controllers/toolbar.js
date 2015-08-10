@@ -42,7 +42,16 @@ angular.module('staticApp')
               resourceType = ConstantsService.resourceType.project;
               foreignResourceId = $stateParams.projectId;
               ownerPermissionId = ConstantsService.permission.projectOwner.id;
+          } else if (stateName.indexOf("people") > -1) {
+              resourceType = { value: "Person" };
+              foreignResourceId = $stateParams.personId;
+          } else if (stateName.indexOf("organization") > -1) {
+              resourceType = { value: "Organization" };
+              foreignResourceId = $stateParams.organizationId;
           }
+
+          console.log(resourceType);
+          console.log(foreignResourceId);
 
           return { resourceType: resourceType, foreignResourceId: foreignResourceId, ownerPermissionId: ownerPermissionId};
       }
