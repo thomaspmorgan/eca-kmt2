@@ -43,6 +43,8 @@ angular.module('staticApp')
       $scope.showPii = false;
       $scope.showContact = true;
       $scope.editPii = false;
+      $scope.edit = [];
+      $scope.edit.General = false;
       $scope.datePickerOpen = false;
 
       $scope.maxDateOfBirth = new Date();
@@ -212,4 +214,7 @@ angular.module('staticApp')
         $scope.datePickerOpen = true;
     };
 
+    $scope.toggleEditGeneral = function () {
+        $scope.edit.General = !$scope.edit.General;
+    }
   });

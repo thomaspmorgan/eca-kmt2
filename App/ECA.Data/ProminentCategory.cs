@@ -49,6 +49,6 @@ namespace ECA.Data
         /// <summary>
         /// Persons that have this category (many to many)
         /// </summary>
-        public ICollection<Person> People { get; set; }
+        public ICollection<Person> ProminentPeople { get; set; }
     }
 }

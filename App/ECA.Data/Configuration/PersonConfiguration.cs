@@ -38,7 +38,7 @@ namespace ECA.Data.Configuration
             Property(x => x.PlaceOfBirthId).HasColumnName("PlaceOfBirth_LocationId");
 
             HasMany(x => x.ProminentCategories)
-                .WithMany(x => x.People)
+                .WithMany(x => x.ProminentPeople)
                 .Map(x =>
                 {
                     x.ToTable("PersonProminentCategory");

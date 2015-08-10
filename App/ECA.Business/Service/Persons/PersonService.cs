@@ -356,13 +356,22 @@ namespace ECA.Business.Service.Persons
         /// <returns>The person updated</returns>
         public async Task<Person> UpdateGeneralAsync(UpdateGeneral general)
         {
-            var personToUpdate = await GetPersonByIdAsync(general.PersonId);
+            var personToUpdate = await GetPersonWithProminentCategoriesByIdAsync(general.PersonId);
             var prominentCategories = await GetProminentCategoriesByIdAsync(general.ProminentCategories);
-            var validationEntity = GetValidationEntity(general, personToUpdate, prominentCategories);
-            validator.ValidateUpdate(validationEntity);
             DoUpdate(general, personToUpdate, prominentCategories);
 
             return personToUpdate;
+        }
+
+        /// <summary>
+        /// Get the person by id 
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>The person</returns>
+        public async Task<Person> GetPersonWithProminentCategoriesByIdAsync(int personId)
+        {
+            this.logger.Trace("Retrieving person with prominent categories id {0}.", personId);
+            return await CreateGetPersonWithProminentCategoriesById(personId).FirstOrDefaultAsync();
         }
 
         /// <summary>
@@ -392,6 +401,10 @@ namespace ECA.Business.Service.Persons
             return Context.People.Where(x => x.PersonId == personId).Include(x => x.CountriesOfCitizenship);
         }
 
+        private IQueryable<Person> CreateGetPersonWithProminentCategoriesById(int personId)
+        {
+            return Context.People.Where(x => x.PersonId == personId).Include(x => x.ProminentCategories);
+        }
         private IQueryable<SimplePersonDTO> CreateGetSimplePerson(int personId)
         {
             var query = PersonQueries.CreateGetSimplePersonDTOsQuery(this.Context);
@@ -440,11 +453,7 @@ namespace ECA.Business.Service.Persons
         {
             Contract.Requires(prominentCategories != null, "The promiment ids must not be null.");
             Contract.Requires(person != null, "The person entity must not be null.");
-            person.ProminentCategories.Clear();
-            prominentCategories.ForEach(x =>
-                {
-                    person.ProminentCategories.Add(x);
-                });
+            person.ProminentCategories = prominentCategories;
         }
 
         #endregion
