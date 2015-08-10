@@ -100,6 +100,9 @@ angular.module('staticApp')
                     defer.resolve(data);
                 });
               return defer.promise;
+          },
+          getAllProminentCategories: function (params) {
+              return DragonBreath.get(params, 'prominentCategories');
           }
-  };
-});
+      };
+  });

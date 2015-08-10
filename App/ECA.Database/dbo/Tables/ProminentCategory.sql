@@ -1,8 +1,12 @@
 ﻿CREATE TABLE [dbo].[ProminentCategory] (
-    [ProminentCategoryId] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](200) NOT NULL,
-	[Person_PersonId] [int] NULL,
-    CONSTRAINT [PK_dbo.ProminentCategoryId] PRIMARY KEY CLUSTERED ([ProminentCategoryId] ASC), 
-    CONSTRAINT [FK_dbo.ProminentCategory_dbo.Person_PersonId] FOREIGN KEY ([Person_PersonID]) REFERENCES [dbo].[Person]([PersonID])
+    [ProminentCategoryId] INT            IDENTITY (1, 1) NOT NULL,
+    [Name]                NVARCHAR (255) NOT NULL,
+	[History_CreatedBy] INT                NOT NULL,
+    [History_CreatedOn] DATETIMEOFFSET (7) NOT NULL,
+    [History_RevisedBy] INT                NOT NULL,
+    [History_RevisedOn] DATETIMEOFFSET (7) NOT NULL,
+    CONSTRAINT [PK_dbo.ProminentCategory] PRIMARY KEY CLUSTERED ([ProminentCategoryId] ASC)
 );
 
+
+GO

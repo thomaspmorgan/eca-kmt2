@@ -569,6 +569,14 @@ div.modal-center-large .modal-content .modal-body {
     cursor:pointer;
 }
 
+.incomingMoneyFlow{
+    color: #00CCFF;
+}
+
+.outgoingMoneyFlow{
+    color: red;
+}
+
 .directionSelected {
     border-bottom: 4px solid black;
     font-weight:bold;

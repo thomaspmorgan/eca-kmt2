@@ -1,0 +1,81 @@
+﻿<div ng-controller="personGeneralEditCtrl">
+        <div class="row">
+            <div class="pull-right">
+                <button ng-click="saveEditGeneral()" class="btn btn-success" ng-disabled="generalForm.$invalid || generalForm.$pristine">Save</button>
+                <button ng-click="cancelEditGeneral()" class="btn btn-cancel">Cancel</button>
+            </div>
+        </div>
+    <form name="generalForm" class="form-horizontal">
+        <div class="col-md-6">
+            <div class="row">
+                <label class="col-md-4 title-label">Current Status</label>
+                <div class="col-md-6">
+                    {{general.currentStatus}}
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-md-4 title-label">Prominent Categories</label>
+                <div class="col-md-6">
+                    <ui-select multiple ng-model="editView.selectedProminentCategories" theme="select2" title="Choose a prominent" style="min-width: 200px;">
+                        <ui-select-match placeholder="Select prominent categories...">
+                            <div>{{$item.name}}</div>
+                        </ui-select-match>
+                        <ui-select-choices repeat="prominentCategory in editView.prominentCategories | filter: $select.search track by prominentCategory.id">
+                            <div ng-bind-html="prominentCategory.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-md-4 title-label">Activities Participated</label>
+                <div class="col-md-6">
+                    <ul>
+                        <li ng-repeat="event in general.events">{{event.value}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-md-4 title-label">Related Reports</label>
+                <div class="col-md-6">
+                    <ul>
+                        <li ng-repeat="report in general.relatedReports">{{report.value}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <label class="col-md-4 title-label">Memberships</label>
+                <div class="col-md-6">
+                    <ul>
+                        <li ng-repeat="membership in general.memberships">{{membership.name}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-md-4 title-label">Language Proficiencies</label>
+                <div class="col-md-6">
+                    <ul>
+                        <li ng-repeat="language in general.languageProficiencies">{{language.value}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-md-4 title-label">Dependants</label>
+                <div class="col-md-6">
+                    <ul>
+                        <li ng-repeat="dependant in general.dependants">{{dependant.value}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-md-4 title-label">Impact Stories</label>
+                <div class="col-md-6">
+                    <ul>
+                        <li ng-repeat="impact in general.impactStories">{{impact.value}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

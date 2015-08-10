@@ -43,7 +43,7 @@
         <tbody class="list2">
             <tr ng-repeat="program in programs" class="hover" ng-show="!isLoadingPrograms">
                 <td>
-                    <div ng-style="{marginLeft: (program.programLevel - 1) * 60}">
+                    <div ng-style="{marginLeft: (program.programLevel) * 60}">
                         <span class="owner-office" ng-bind-html="program.officeSymbol | highlight:programFilter">{{office.officeSymbol}}</span>
                         <h4>
                             <a ng-bind-html="program.name | highlight:programFilter" ui-sref="programs.overview({officeId: program.owner_OrganizationId, programId: program.programId})">{{program.name}}</a>

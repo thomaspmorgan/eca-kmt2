@@ -33,6 +33,11 @@ namespace ECA.Business.Service.Persons
             this.CountriesOfCitizenship = countriesOfCitizenship;
         }
 
+        public PersonServiceValidationEntity(Person person, List<ProminentCategory> prominentCategories)
+        {
+            this.Person = person;
+            this.ProminentCategories = prominentCategories;
+        }
         /// <summary>
         /// Gets or sets person
         /// </summary>
@@ -57,6 +62,9 @@ namespace ECA.Business.Service.Persons
         /// Gets or sets countries of citizenship
         /// </summary>
         public List<Location> CountriesOfCitizenship { get; private set; }
+
+        public List<ProminentCategory> ProminentCategories { get; private set; }
+
     }
 
 }

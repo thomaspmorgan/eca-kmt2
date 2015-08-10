@@ -3,5 +3,6 @@
   <PropertyGroup>
     <RemoteDesktopMoreOptions>False</RemoteDesktopMoreOptions>
     <ActivePublishProfile>ECAApi Prod</ActivePublishProfile>
+    <LocalProfile>Local</LocalProfile>
   </PropertyGroup>
 </Project>
