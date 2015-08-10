@@ -346,7 +346,7 @@ angular.module('staticApp')
           };
           var notAuthorizedCallback = function () {
               $log.info("Not authorized.");
-          }
+          };
           var config = getPermissionsConfig(resourceTypeId, hasEditPermissionCallback, notAuthorizedCallback);
 
           return AuthService.getResourcePermissions(resourceType, foreignResourceId, config)
@@ -357,7 +357,7 @@ angular.module('staticApp')
             });
       }
 
-      function getPermissionsConfig(resourceTypeId, hasEditPermissionCallback, hasViewPermissionCallback, notAuthorizedCallback) {
+      function getPermissionsConfig(resourceTypeId, hasEditPermissionCallback, notAuthorizedCallback) {
           if (resourceTypeId === ConstantsService.resourceType.project.id) {
               return getProjectPermissionsConfig(hasEditPermissionCallback, notAuthorizedCallback);
           }
@@ -370,8 +370,7 @@ angular.module('staticApp')
       }
 
       function getProjectPermissionsConfig(hasEditPermissionCallback, notAuthorizedCallback) {
-          var config = {
-          };
+          var config = {};
           config[ConstantsService.permission.editProject.value] = {
               hasPermission: hasEditPermissionCallback,
               notAuthorized: notAuthorizedCallback

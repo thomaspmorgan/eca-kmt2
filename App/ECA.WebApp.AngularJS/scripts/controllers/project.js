@@ -45,8 +45,8 @@ angular.module('staticApp')
           $scope.isProjectStatusButtonEnabled = false;
       }
 
-      ProjectService.get($stateParams.projectId)
-        .then(function (data) {
+      ProjectService.getById($stateParams.projectId)
+        .then(function (data) {            
             $scope.project = data.data;
             if (angular.isArray($scope.project.participants)) {
                 $scope.tabs.participants.active = true;

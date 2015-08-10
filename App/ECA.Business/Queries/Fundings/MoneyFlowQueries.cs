@@ -99,7 +99,6 @@ namespace ECA.Business.Queries.Fundings
                             MoneyFlowStatusId = statusId,
                             TransactionDate = moneyFlow.TransactionDate,
                             MoneyFlowType = outgoingMoneyFlowType,
-
                             SourceRecipientTypeName = recipientTypeName,
                             SourceRecipientEntityTypeId = recipientTypeId,
                             SourceRecipientEntityId = isExpense ? default(int?) : recipientEntityId,
@@ -176,7 +175,6 @@ namespace ECA.Business.Queries.Fundings
                             MoneyFlowStatusId = statusId,
                             TransactionDate = moneyFlow.TransactionDate,
                             MoneyFlowType = incomingMoneyFlowType,
-
                             SourceRecipientTypeName = sourceTypeName,
                             SourceRecipientEntityTypeId = sourceTypeId,
                             SourceRecipientEntityId = sourceEntityId,

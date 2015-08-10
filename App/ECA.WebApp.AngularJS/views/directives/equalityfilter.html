@@ -1,24 +1,74 @@
 ﻿<div class="input-group">
-    <div class="row">
-        <div class="col-sm-6">
-            <span ng-bind-html="operation"></span>
+    <div class="row" style="margin-top:10px;">
+        <div class="right">
+            <ul ng-repeat="displayValue in displayValues">
+                <li>
+                    {{displayValue}}
+                </li>
+            </ul>
         </div>
-        <div class="col-sm-8">
-            <input type="text" ng-model="value" ng-change="onChange()" class="form-control" name="x" placeholder="{{placeholder}}" />
-        </div>
+        
     </div>
-    
-    
-    <div class="input-group-btn search-panel">
+    <div class="input-group-btn">
         <span dropdown on-toggle="toggled(open)">
             <a href id="simple-dropdown" dropdown-toggle>
                 <i class="material-icons">arrow_drop_down</i>
             </a>
-            <ul class="dropdown-menu" aria-labelledby="simple-dropdown">
+            <ul class="dropdown-menu" style="width: 200px;" aria-labelledby="simple-dropdown">
                 <li>
-                    <a href ng-click="onLessThanClick()">Less Than </a>
-                    <a href ng-click="onGreaterThanClick()">Greater Than</a>
-                    <a href ng-click="onEqualClick()">Equal</a>
+                    <div class="row">
+                        <label class="title-label col-sm-2" style="margin-top:8px;"><</label>
+                        <div class="col-sm-10" ng-show="propertyType !== 'date'">
+                            <input id="LessThan"
+                                   type="text"
+                                   class="form-control"
+                                   ng-model="lessThanFilter.value"
+                                   ng-click="stopEvents($event)"
+                                   placeholder="Less Than">
+                        </div>
+
+
+                        <div class="col-sm-10" ng-show="propertyType === 'date'">
+                            <p class="input-group">
+                                <input type="text"
+                                       class="form-control"
+                                       datepicker-popup="dd-MMM-yyyy"
+                                       ng-model="lessThanFilter.value"
+                                       is-open="isLessThanDatePickerOpen"
+                                       close-text="Close"
+                                       show-weeks="false"
+                                       ng-blur="onLessThanDatePickerBlur()"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="onLessThanDatePickerOpen($event)">
+                                        <i class="material-icons">event</i>
+                                    </button>
+                                </span>
+                            </p>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <label class="title-label col-sm-2" style="margin-top:8px;">></label>
+                        <div class="col-sm-10" ng-show="propertyType !== 'date'">
+                            <input type="text"
+                                   id="GreaterThan"
+                                   class="form-control"
+                                   ng-model="greaterThanFilter.value"
+                                   ng-click="stopEvents($event)"
+                                   placeholder="Greater Than">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="title-label col-sm-2" style="margin-top:8px;">=</label>
+                        <div class="col-sm-10" ng-show="propertyType !== 'date'">
+                            <input type="text"
+                                   id="Equal"
+                                   class="form-control"
+                                   ng-model="equalFilter.value"
+                                   ng-click="stopEvents($event)"
+                                   placeholder="Equal To">
+                        </div>
+                    </div>
                 </li>
             </ul>
         </span>

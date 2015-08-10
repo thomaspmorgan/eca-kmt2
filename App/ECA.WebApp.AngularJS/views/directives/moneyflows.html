@@ -18,7 +18,10 @@
                     <th class="col-md-2">&nbsp;</th>
                 </tr>
                 <tr class="row">
-                    <th>&nbsp;</th>
+                    <th>
+                        <!--<div equality-filter property="'transactionDate'" propertytype="'date'" />-->
+                        &nbsp;
+                    </th>
                     <th>
                         <ui-select multiple
                                    ui-select-st-search
@@ -62,13 +65,10 @@
                         <input st-search="'sourceRecipientName'" placeholder="" type="search" class="form-control" />
                     </th>
                     <th>
-                        <!--<input st-search="'amount'" placeholder="" type="search" class="form-control" />-->
-                        &nbsp;
+                        <div equality-filter property="'amount'" propertytype="'float'" />
                     </th>
                     <th>
-                        <!--<input st-search="'fiscalYear'" placeholder="" type="search" class="form-control" />-->
-                        <!--<div equality-filter st-search-property="'fiscalYear'" placeholder-text="'My placeholder'" />-->
-                        &nbsp;
+                        <div equality-filter property="'fiscalYear'" propertytype="'int'" />
                     </th>
                     <th>
                         <input st-search="'description'" maxlength="100" placeholder="" type="search" class="form-control" />
