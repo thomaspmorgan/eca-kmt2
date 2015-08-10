@@ -1,5 +1,5 @@
 ﻿angular.module('staticApp')
-  .directive('equalityFilter', ['stConfig', '$timeout', '$parse', 'ConstantsService', function (stConfig, $timeout, $parse, ConstantsService) {
+  .directive('equalityFilter', ['stConfig', '$timeout', '$filter', '$parse', 'ConstantsService', function (stConfig, $timeout, $filter, $parse, ConstantsService) {
       return {
           require: '^stTable',
           templateUrl: '../views/directives/equalityfilter.html',
@@ -14,6 +14,7 @@
               var event = attr.stInputEvent || stConfig.search.inputEvent;
               scope.displayValues = [];
               scope.isLessThanDatePickerOpen = false;
+              scope.isGreaterThanDatePickerOpen = false;
               if (scope.propertyType !== 'date'
                   && scope.propertyType !== 'int'
                   && scope.propertyType !== 'float') {
@@ -45,7 +46,17 @@
                   scope.isLessThanDatePickerOpen = true;
               }
 
-              scope.onLessThanDatePickerBlur = function () {
+              scope.onGreaterThanDatePickerOpen = function ($event) {
+                  scope.stopEvents($event);
+                  scope.isGreaterThanDatePickerOpen = true;
+              }
+
+              scope.onLessThanDatePickerChange = function () {
+                  updateDisplayValue();
+                  doFilter();
+              }
+
+              scope.onGreaterThanDatePickerChange = function () {
                   updateDisplayValue();
                   doFilter();
               }
@@ -73,6 +84,14 @@
                   return scope.getInputElement('Equal');
               }
 
+              scope.onClearClick = function () {
+                  scope.lessThanFilter.value = '';
+                  scope.greaterThanFilter.value = '';
+                  scope.equalFilter.value = '';
+                  updateDisplayValue();
+                  doFilter();
+              }
+
               function bindEnterToElement(element) {
                   var inputElement = angular.element(element);
                   inputElement.bind("keyup", function (event) {
@@ -84,19 +103,28 @@
               bindEnterToElement(scope.getGreaterThanInputElement());
               bindEnterToElement(scope.getEqualInputElement());
 
+              function getFilterValueAsString(filterValue) {
+                  if (angular.isDate(filterValue)) {
+                      return $filter('date')(filterValue, 'mediumDate');
+                  }
+                  else {
+                      return filterValue;
+                  }
+              }
+
               function updateDisplayValue() {
                   scope.displayValues = [];
                   if (scope.lessThanFilter.value) {
-                      scope.displayValues.push("< " + scope.lessThanFilter.value);
+                      scope.displayValues.push("< " + getFilterValueAsString(scope.lessThanFilter.value));
                   }
                   if (scope.greaterThanFilter.value) {
-                      scope.displayValues.push("> " + scope.greaterThanFilter.value);
+                      scope.displayValues.push("> " + getFilterValueAsString(scope.greaterThanFilter.value));
                   }
                   if (scope.equalFilter.value) {
-                      scope.displayValues.push("= " + scope.equalFilter.value);
+                      scope.displayValues.push("= " + getFilterValueAsString(scope.equalFilter.value));
                   }
                   if (scope.displayValues.length === 0) {
-                      scope.displayValues.push('None');
+                      scope.displayValues.push('Add filters...');
                   }
               }
               updateDisplayValue();
@@ -111,9 +139,6 @@
                   else if (scope.propertyType === 'int') {
                       return parseInt(value, 10);
                   }
-                  else if (scope.propertyType === 'date') {
-                      return value;
-                  }
                   else {
                       throw Error('The propertyType [' + scope.propertyType + '] is not supported.');
                   }
@@ -121,24 +146,17 @@
 
               function doFilter() {
                   var predicateObjects = [];
-
                   if (scope.propertyType === 'date') {
                       if (scope.lessThanFilter.value) {
                           predicateObjects.push({
                               comparison: scope.lessThanFilter.comparison,
-                              value: parseValue(scope.lessThanFilter.value)
+                              value: scope.lessThanFilter.value
                           });
                       }
                       if (scope.greaterThanFilter.value) {
                           predicateObjects.push({
                               comparison: scope.greaterThanFilter.comparison,
-                              value: parseValue(scope.greaterThanFilter.value)
-                          });
-                      }
-                      if (scope.equalFilter.value) {
-                          predicateObjects.push({
-                              comparison: scope.equalFilter.comparison,
-                              value: parseValue(scope.equalFilter.value)
+                              value: scope.greaterThanFilter.value
                           });
                       }
                   }
@@ -162,7 +180,6 @@
                           });
                       }
                   }
-
                   
                   promise = $timeout(function () {
                       tableCtrl.search(predicateObjects, scope.property);
