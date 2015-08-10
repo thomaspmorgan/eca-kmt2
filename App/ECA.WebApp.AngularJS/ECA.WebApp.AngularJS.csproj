@@ -171,6 +171,7 @@
     <Content Include="scripts\directives\socialmedialink.js" />
     <Content Include="scripts\directives\uiselectstsearch.js" />
     <Content Include="scripts\filters\groupby.js" />
+    <Content Include="scripts\services\bookmark.js" />
     <Content Include="scripts\services\socialmediaservice.js" />
     <Content Include="scripts\services\addressservice.js" />
     <Content Include="scripts\services\participantperson.js" />

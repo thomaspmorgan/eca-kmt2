@@ -50,10 +50,11 @@ angular.module('staticApp')
               foreignResourceId = $stateParams.organizationId;
           }
 
-          console.log(resourceType);
-          console.log(foreignResourceId);
-
           return { resourceType: resourceType, foreignResourceId: foreignResourceId, ownerPermissionId: ownerPermissionId};
+      }
+
+      function getBookmarks() {
+
       }
 
       $scope.openCollaboratorModal = function() {
