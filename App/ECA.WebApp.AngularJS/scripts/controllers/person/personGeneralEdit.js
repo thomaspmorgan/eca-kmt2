@@ -27,7 +27,12 @@ angular.module('staticApp')
           PersonService.getGeneralById(personId)
           .then(function (data) {
               $scope.general = data;
-              $scope.editView.selectedProminentCategories = $scope.general.prominentCategories;
+              $scope.editView.selectedProminentCategories = $scope.general.prominentCategories.map(function (obj) {
+                  var prominentCategory = {};
+                  prominentCategory.id = obj.id;
+                  prominentCategory.name = obj.value;
+                  return prominentCategory;
+              });
           });
       };
 
