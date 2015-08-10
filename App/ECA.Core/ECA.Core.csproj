@@ -136,6 +136,7 @@
     </Compile>
     <Compile Include="Data\IPermissable.cs" />
     <Compile Include="Data\TestDbSet.cs" />
+    <Compile Include="Exceptions\BusinessSecurityException.cs" />
     <Compile Include="Exceptions\EcaDbUpdateConcurrencyException.cs" />
     <Compile Include="Exceptions\ModelNotFoundException.cs" />
     <Compile Include="Exceptions\UnknownStaticLookupException.cs" />

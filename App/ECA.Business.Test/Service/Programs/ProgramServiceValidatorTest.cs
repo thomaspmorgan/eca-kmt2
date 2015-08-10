@@ -215,7 +215,7 @@ namespace ECA.Business.Test.Service.Programs
             var results = validator.Validate(entity).ToList();
             Assert.AreEqual(0, results.Count);
 
-            locationTypeIds.Add(LocationType.State.Id);
+            locationTypeIds.Add(LocationType.Division.Id);
             results = validator.Validate(entity).ToList();
             Assert.AreEqual(1, results.Count);
 
@@ -246,7 +246,7 @@ namespace ECA.Business.Test.Service.Programs
             var results = validator.Validate(entity).ToList();
             Assert.AreEqual(0, results.Count);
 
-            locationTypeIds.Add(LocationType.State.Id);
+            locationTypeIds.Add(LocationType.Division.Id);
             locationTypeIds.Add(LocationType.Region.Id);
             results = validator.Validate(entity).ToList();
             Assert.AreEqual(1, results.Count);

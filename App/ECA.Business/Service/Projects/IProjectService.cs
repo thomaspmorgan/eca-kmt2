@@ -60,6 +60,20 @@ namespace ECA.Business.Service.Projects
         Task<PagedQueryResults<ParticipantTimelineDTO>> GetProjectsByPersonIdAsync(int personId, QueryableOperator<ParticipantTimelineDTO> queryOperator);
 
         /// <summary>
+        /// Returns all projects, sorted, filtered, and paged within the eca system.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged, filtered, and sorted projects.</returns>
+        PagedQueryResults<SimpleProjectDTO> GetProjects(QueryableOperator<SimpleProjectDTO> queryOperator);
+
+        /// <summary>
+        /// Returns all projects, sorted, filtered, and paged within the eca system.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged, filtered, and sorted projects.</returns>
+        Task<PagedQueryResults<SimpleProjectDTO>> GetProjectsAsync(QueryableOperator<SimpleProjectDTO> queryOperator);
+
+        /// <summary>
         /// Returns a project by id asynchronously
         /// </summary>
         /// <param name="projectId">The project id</param>
@@ -217,7 +231,6 @@ namespace ECA.Business.Service.Projects
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="saveActions"></param>
         /// <returns></returns>
         public int SaveChanges()
         {
@@ -227,7 +240,6 @@ namespace ECA.Business.Service.Projects
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="saveActions"></param>
         /// <returns></returns>
         public Task<int> SaveChangesAsync()
         {
@@ -252,6 +264,28 @@ namespace ECA.Business.Service.Projects
         {
             Contract.Requires(additionalParticipant != null, "The additional participant must not be null.");
             return Task.FromResult<object>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="queryOperator"></param>
+        /// <returns></returns>
+        public PagedQueryResults<SimpleProjectDTO> GetProjects(QueryableOperator<SimpleProjectDTO> queryOperator)
+        {
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="queryOperator"></param>
+        /// <returns></returns>
+        public Task<PagedQueryResults<SimpleProjectDTO>> GetProjectsAsync(QueryableOperator<SimpleProjectDTO> queryOperator)
+        {
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+            return Task.FromResult<PagedQueryResults<SimpleProjectDTO>>(null);
         }
     }
 }

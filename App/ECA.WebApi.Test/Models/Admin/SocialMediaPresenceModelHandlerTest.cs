@@ -9,7 +9,6 @@ using ECA.Data;
 using ECA.WebApi.Test.Security;
 using System.Web.Http.Results;
 using ECA.Business.Queries.Models.Admin;
-using ECA.Business.Models.Admin;
 
 namespace ECA.WebApi.Test.Models.Admin
 {

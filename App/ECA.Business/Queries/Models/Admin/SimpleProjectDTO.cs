@@ -38,6 +38,11 @@ namespace ECA.Business.Queries.Models.Admin
         public string ProjectName { get; set; }
 
         /// <summary>
+        /// Gets or sets the name of the program.
+        /// </summary>
+        public string ProgramName { get; set; }
+
+        /// <summary>
         /// Gets or sets the project status id.
         /// </summary>
         public int ProjectStatusId { get; set; }

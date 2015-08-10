@@ -84,19 +84,4 @@ angular.module('staticApp')
           });
       }
       getAddressTypes();
-      //$scope.addressable = { addresses: [] };
-      //$scope.$watch($scope.addressable.addresses, function (newValue, oldValue) {
-      //    debugger;
-      //  for (var i = 0; i < $scope.addressable.addresses.length; i++) {
-      //      var address = $scope.addressable.addresses[i];
-      //      debugger;
-      //      if (address.isPrimary) {
-      //          $scope.view.collapseAddresses = false;
-      //          break;
-      //      }
-      //  }
-          
-      //});
-      
-
   });

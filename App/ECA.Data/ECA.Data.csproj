@@ -160,6 +160,7 @@
     <Compile Include="Gender.cs" />
     <Compile Include="Goal.cs" />
     <Compile Include="IAddressable.cs" />
+    <None Include="IFundable.csold" />
     <Compile Include="IObjectivable.cs" />
     <Compile Include="IContactable.cs" />
     <Compile Include="IGoalable.cs" />

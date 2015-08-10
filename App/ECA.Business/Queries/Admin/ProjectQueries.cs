@@ -15,16 +15,14 @@ namespace ECA.Business.Queries.Admin
     public static class ProjectQueries
     {
         /// <summary>
-        /// Returns a query to retrieve filtered and sorted simple project dtos for the given program id.
+        /// Returns a query to retrieve simple projects.
         /// </summary>
         /// <param name="context">The context to query.</param>
-        /// <param name="programId">The project's parent program id.</param>
         /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The query to retrieved filtered and sorted simple project dtos for the given program id.</returns>
-        public static IQueryable<SimpleProjectDTO> CreateGetProjectsByProgramQuery(EcaContext context, int programId, QueryableOperator<SimpleProjectDTO> queryOperator)
+        /// <returns>The query to retrieve the projects.</returns>
+        private static IQueryable<SimpleProjectDTO> CreateGetProjectsQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(queryOperator != null, "The query operator must not be null.");
             var countryQuery = from country in context.Locations
                                where country.LocationTypeId == LocationType.Country.Id
                                select country;
@@ -38,12 +36,12 @@ namespace ECA.Business.Queries.Admin
                         let regions = project.Regions
                         let countries = countryQuery.Where(x => regions.Select(y => y.LocationId).Contains(x.Region.LocationId))
 
-                        where project.ProgramId == programId
                         select new SimpleProjectDTO
                         {
                             CountryIds = countries.Select(x => x.LocationId),
                             CountryNames = countries.Select(x => x.LocationName),
                             ProgramId = parentProgram.ProgramId,
+                            ProgramName = parentProgram.Name,
                             ProjectId = project.ProjectId,
                             ProjectName = project.Name,
                             ProjectStatusId = status.ProjectStatusId,
@@ -55,8 +53,37 @@ namespace ECA.Business.Queries.Admin
                             StartYearAsString = startDate.Year.ToString()
                         };
 
+            return query;
+        }
+
+        /// <summary>
+        /// Returns a query to retrieve simple projects that have been filtered and sorted.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The query to retrieve the filtered and sorted projects.</returns>
+        public static IQueryable<SimpleProjectDTO> CreateGetProjectsQuery(EcaContext context, QueryableOperator<SimpleProjectDTO> queryOperator)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+            var query = CreateGetProjectsQuery(context);
             query = query.Apply(queryOperator);
-            
+            return query;
+        }
+
+        /// <summary>
+        /// Returns a query to retrieve filtered and sorted simple project dtos for the given program id.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="programId">The project's parent program id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The query to retrieved filtered and sorted simple project dtos for the given program id.</returns>
+        public static IQueryable<SimpleProjectDTO> CreateGetProjectsByProgramQuery(EcaContext context, int programId, QueryableOperator<SimpleProjectDTO> queryOperator)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+            var query = CreateGetProjectsQuery(context).Where(x => x.ProgramId == programId);
+            query = query.Apply(queryOperator);
             return query;
         }
 

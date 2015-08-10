@@ -343,15 +343,16 @@ namespace ECA.Business.Test.Service.Projects
         }
         #endregion
 
-        #region Get Projects By Program Id
+        #region Get Projects
         [TestMethod]
-        public async Task TestGetProjectsByProgramId_CheckProperties()
+        public async Task TestGetProjects_CheckProperties()
         {
             var now = DateTimeOffset.UtcNow;
 
             var program = new Program
             {
                 ProgramId = 1,
+                Name = "program"
             };
             var status = new ProjectStatus
             {
@@ -384,6 +385,506 @@ namespace ECA.Business.Test.Service.Projects
                 Assert.AreEqual(1, results.Count);
                 var firstResult = results.First();
 
+                Assert.AreEqual(program.Name, firstResult.ProgramName);
+                Assert.AreEqual(program.ProgramId, firstResult.ProgramId);
+                Assert.AreEqual(project.Name, firstResult.ProjectName);
+                Assert.AreEqual(project.ProjectId, firstResult.ProjectId);
+                Assert.AreEqual(project.StartDate, firstResult.StartDate);
+                Assert.AreEqual(project.StartDate.Year, firstResult.StartYear);
+                Assert.AreEqual(project.StartDate.Year.ToString(), firstResult.StartYearAsString);
+                Assert.AreEqual(status.Status, firstResult.ProjectStatusName);
+                Assert.AreEqual(status.ProjectStatusId, firstResult.ProjectStatusId);
+            };
+
+            var serviceResults = service.GetProjects(queryOperator);
+            var serviceResultsAsync = await service.GetProjectsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetProjects_CheckCountries()
+        {
+            var now = DateTimeOffset.UtcNow;
+            var countryType = new LocationType
+            {
+                LocationTypeId = LocationType.Country.Id,
+                LocationTypeName = LocationType.Country.Value
+            };
+            var region = new Location
+            {
+                LocationId = 1,
+                LocationName = "region",
+
+            };
+            var country1 = new Location
+            {
+                LocationId = 2,
+                LocationName = "country1",
+                LocationTypeId = countryType.LocationTypeId,
+                LocationType = countryType
+            };
+
+            var country2 = new Location
+            {
+                LocationId = 4,
+                LocationName = "country2",
+                LocationTypeId = countryType.LocationTypeId,
+                LocationType = countryType
+            };
+            country1.Region = region;
+            country1.RegionId = region.LocationId;
+            country2.Region = region;
+            country2.RegionId = region.LocationId;
+
+            var program = new Program
+            {
+                ProgramId = 1,
+            };
+            var status = new ProjectStatus
+            {
+                Status = "status",
+                ProjectStatusId = 1
+            };
+            var project = new Project
+            {
+                ProgramId = program.ProgramId,
+                Name = "project",
+                ParentProgram = program,
+                ProjectId = 100,
+                StartDate = now,
+                Status = status,
+                ProjectStatusId = status.ProjectStatusId
+            };
+            project.Regions.Add(region);
+            context.ProjectStatuses.Add(status);
+            context.Projects.Add(project);
+            context.Locations.Add(country1);
+            context.Locations.Add(country2);
+            context.Locations.Add(region);
+            context.Programs.Add(program);
+            context.LocationTypes.Add(countryType);
+
+            var defaultSorter = new ExpressionSorter<SimpleProjectDTO>(x => x.ProjectId, SortDirection.Ascending);
+            var start = 0;
+            var limit = 10;
+            var queryOperator = new QueryableOperator<SimpleProjectDTO>(start, limit, defaultSorter);
+
+            Action<PagedQueryResults<SimpleProjectDTO>> tester = (queryResults) =>
+            {
+                Assert.AreEqual(1, queryResults.Total);
+                var results = queryResults.Results;
+                Assert.AreEqual(1, results.Count);
+                var firstResult = results.First();
+                Assert.AreEqual(2, firstResult.CountryIds.Count());
+                Assert.AreEqual(2, firstResult.CountryNames.Count());
+                Assert.IsTrue(firstResult.CountryIds.Contains(country1.LocationId));
+                Assert.IsTrue(firstResult.CountryIds.Contains(country2.LocationId));
+                Assert.IsTrue(firstResult.CountryNames.Contains(country1.LocationName));
+                Assert.IsTrue(firstResult.CountryNames.Contains(country2.LocationName));
+            };
+
+            var serviceResults = service.GetProjects(queryOperator);
+            var serviceResultsAsync = await service.GetProjectsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetProjects_CheckRegions()
+        {
+            var now = DateTimeOffset.UtcNow;
+            var countryType = new LocationType
+            {
+                LocationTypeId = LocationType.Country.Id,
+                LocationTypeName = LocationType.Country.Value
+            };
+            var region1 = new Location
+            {
+                LocationId = 1,
+                LocationName = "region1",
+
+            };
+            var region2 = new Location
+            {
+                LocationId = 2,
+                LocationName = "region2",
+
+            };
+
+            var program = new Program
+            {
+                ProgramId = 1,
+            };
+            var status = new ProjectStatus
+            {
+                Status = "status",
+                ProjectStatusId = 1
+            };
+            var project = new Project
+            {
+                ProgramId = program.ProgramId,
+                Name = "project",
+                ParentProgram = program,
+                ProjectId = 100,
+                StartDate = now,
+                Status = status,
+                ProjectStatusId = status.ProjectStatusId
+            };
+            project.Regions.Add(region1);
+            project.Regions.Add(region2);
+            context.ProjectStatuses.Add(status);
+            context.Projects.Add(project);
+            context.Locations.Add(region1);
+            context.Locations.Add(region2);
+            context.Programs.Add(program);
+            context.LocationTypes.Add(countryType);
+
+            var defaultSorter = new ExpressionSorter<SimpleProjectDTO>(x => x.ProjectId, SortDirection.Ascending);
+            var start = 0;
+            var limit = 10;
+            var queryOperator = new QueryableOperator<SimpleProjectDTO>(start, limit, defaultSorter);
+
+            Action<PagedQueryResults<SimpleProjectDTO>> tester = (queryResults) =>
+            {
+                Assert.AreEqual(1, queryResults.Total);
+                var results = queryResults.Results;
+                Assert.AreEqual(1, results.Count);
+                var firstResult = results.First();
+                Assert.AreEqual(2, firstResult.RegionIds.Count());
+                Assert.AreEqual(2, firstResult.RegionNames.Count());
+                Assert.IsTrue(firstResult.RegionIds.Contains(region1.LocationId));
+                Assert.IsTrue(firstResult.RegionIds.Contains(region2.LocationId));
+                Assert.IsTrue(firstResult.RegionNames.Contains(region1.LocationName));
+                Assert.IsTrue(firstResult.RegionNames.Contains(region2.LocationName));
+            };
+
+            var serviceResults = service.GetProjects(queryOperator);
+            var serviceResultsAsync = await service.GetProjectsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetProjects_DefaultSorterOnly()
+        {
+            var location1 = new Location
+            {
+                LocationId = 1,
+                LocationName = "location1"
+            };
+            var location2 = new Location
+            {
+                LocationId = 2,
+                LocationName = "location2"
+            };
+            var program = new Program
+            {
+                ProgramId = 1,
+            };
+            var status = new ProjectStatus
+            {
+                Status = "status",
+                ProjectStatusId = 1
+            };
+            var project = new Project
+            {
+                ProgramId = program.ProgramId,
+                Name = "project",
+                ParentProgram = program,
+                ProjectId = 100,
+                Status = status,
+                ProjectStatusId = status.ProjectStatusId
+            };
+
+            project.Locations = new List<Location>();
+            project.Locations.Add(location1);
+            project.Locations.Add(location2);
+
+            context.ProjectStatuses.Add(status);
+            context.Projects.Add(project);
+            context.Locations.Add(location1);
+            context.Locations.Add(location2);
+            context.Programs.Add(program);
+
+            var defaultSorter = new ExpressionSorter<SimpleProjectDTO>(x => x.ProjectId, SortDirection.Ascending);
+            var start = 0;
+            var limit = 10;
+            var queryOperator = new QueryableOperator<SimpleProjectDTO>(start, limit, defaultSorter);
+
+            Action<PagedQueryResults<SimpleProjectDTO>> tester = (queryResults) =>
+            {
+                Assert.AreEqual(1, queryResults.Total);
+                var results = queryResults.Results;
+                Assert.AreEqual(1, results.Count);
+                var firstResult = results.First();
+                Assert.AreEqual(project.ProjectId, firstResult.ProjectId);
+            };
+
+            var serviceResults = service.GetProjects(queryOperator);
+            var serviceResultsAsync = await service.GetProjectsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetProjects_Paging()
+        {
+            var location1 = new Location
+            {
+                LocationId = 1,
+                LocationName = "location1"
+            };
+            var location2 = new Location
+            {
+                LocationId = 2,
+                LocationName = "location2"
+            };
+            var program = new Program
+            {
+                ProgramId = 1,
+            };
+            var status = new ProjectStatus
+            {
+                Status = "status",
+                ProjectStatusId = 1
+            };
+            var project1 = new Project
+            {
+                ProgramId = program.ProgramId,
+                Name = "project1",
+                ParentProgram = program,
+                ProjectId = 100,
+                Status = status,
+                ProjectStatusId = status.ProjectStatusId
+            };
+            project1.Locations = new List<Location>();
+            project1.Locations.Add(location1);
+            project1.Locations.Add(location2);
+
+
+            var project2 = new Project
+            {
+                ProgramId = program.ProgramId,
+                Name = "project2",
+                ParentProgram = program,
+                ProjectId = 200,
+                Status = status,
+                ProjectStatusId = status.ProjectStatusId
+            };
+            project2.Locations = new List<Location>();
+
+            context.ProjectStatuses.Add(status);
+            context.Projects.Add(project1);
+            context.Projects.Add(project2);
+            context.Locations.Add(location1);
+            context.Locations.Add(location2);
+            context.Programs.Add(program);
+
+            var defaultSorter = new ExpressionSorter<SimpleProjectDTO>(x => x.ProjectId, SortDirection.Ascending);
+            var start = 0;
+            var limit = 1;
+            var queryOperator = new QueryableOperator<SimpleProjectDTO>(start, limit, defaultSorter);
+
+            Action<PagedQueryResults<SimpleProjectDTO>> tester = (queryResults) =>
+            {
+                Assert.AreEqual(2, queryResults.Total);
+                var results = queryResults.Results;
+                Assert.AreEqual(1, results.Count);
+                var firstResult = results.First();
+                Assert.AreEqual(project1.ProjectId, firstResult.ProjectId);
+            };
+
+            var serviceResults = service.GetProjects(queryOperator);
+            var serviceResultsAsync = await service.GetProjectsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetProjects_Filter()
+        {
+            var location1 = new Location
+            {
+                LocationId = 1,
+                LocationName = "location1"
+            };
+            var location2 = new Location
+            {
+                LocationId = 2,
+                LocationName = "location2"
+            };
+            var program = new Program
+            {
+                ProgramId = 1,
+            };
+            var status = new ProjectStatus
+            {
+                Status = "status",
+                ProjectStatusId = 1
+            };
+            var project1 = new Project
+            {
+                ProgramId = program.ProgramId,
+                Name = "project1",
+                ParentProgram = program,
+                ProjectId = 100,
+                Status = status,
+                ProjectStatusId = status.ProjectStatusId
+            };
+            project1.Locations = new List<Location>();
+            project1.Locations.Add(location1);
+            project1.Locations.Add(location2);
+
+            context.ProjectStatuses.Add(status);
+            context.Projects.Add(project1);
+            context.Locations.Add(location1);
+            context.Locations.Add(location2);
+            context.Programs.Add(program);
+
+            var defaultSorter = new ExpressionSorter<SimpleProjectDTO>(x => x.ProjectId, SortDirection.Ascending);
+            var start = 0;
+            var limit = 1;
+            var queryOperator = new QueryableOperator<SimpleProjectDTO>(start, limit, defaultSorter);
+            queryOperator.Filters.Add(new ExpressionFilter<SimpleProjectDTO>(x => x.ProjectName, ComparisonType.Like, project1.Name));
+
+            Action<PagedQueryResults<SimpleProjectDTO>> tester = (queryResults) =>
+            {
+                Assert.AreEqual(1, queryResults.Total);
+                var results = queryResults.Results;
+                Assert.AreEqual(1, results.Count);
+                var firstResult = results.First();
+                Assert.AreEqual(project1.ProjectId, firstResult.ProjectId);
+            };
+
+            var serviceResults = service.GetProjects(queryOperator);
+            var serviceResultsAsync = await service.GetProjectsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetProjects_Sorted()
+        {
+            var location1 = new Location
+            {
+                LocationId = 1,
+                LocationName = "location1"
+            };
+            var location2 = new Location
+            {
+                LocationId = 2,
+                LocationName = "location2"
+            };
+            var program = new Program
+            {
+                ProgramId = 1,
+            };
+            var status = new ProjectStatus
+            {
+                Status = "status",
+                ProjectStatusId = 1
+            };
+            var project1 = new Project
+            {
+                ProgramId = program.ProgramId,
+                Name = "project1",
+                ParentProgram = program,
+                ProjectId = 100,
+                Status = status,
+                ProjectStatusId = status.ProjectStatusId
+            };
+            project1.Locations = new List<Location>();
+            project1.Locations.Add(location1);
+            project1.Locations.Add(location2);
+
+
+            var project2 = new Project
+            {
+                ProgramId = program.ProgramId,
+                Name = "project2",
+                ParentProgram = program,
+                ProjectId = 200,
+                Status = status,
+                ProjectStatusId = status.ProjectStatusId
+            };
+            project2.Locations = new List<Location>();
+
+            context.ProjectStatuses.Add(status);
+            context.Projects.Add(project1);
+            context.Projects.Add(project2);
+            context.Locations.Add(location1);
+            context.Locations.Add(location2);
+            context.Programs.Add(program);
+
+            var defaultSorter = new ExpressionSorter<SimpleProjectDTO>(x => x.ProjectId, SortDirection.Ascending);
+            var start = 0;
+            var limit = 1;
+            var queryOperator = new QueryableOperator<SimpleProjectDTO>(start, limit, defaultSorter);
+            queryOperator.Sorters.Add(new ExpressionSorter<SimpleProjectDTO>(x => x.ProjectId, SortDirection.Descending));
+
+            Action<PagedQueryResults<SimpleProjectDTO>> tester = (queryResults) =>
+            {
+                Assert.AreEqual(2, queryResults.Total);
+                var results = queryResults.Results;
+                Assert.AreEqual(1, results.Count);
+                var firstResult = results.First();
+                Assert.AreEqual(project2.ProjectId, firstResult.ProjectId);
+            };
+
+            var serviceResults = service.GetProjects(queryOperator);
+            var serviceResultsAsync = await service.GetProjectsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+
+
+        #endregion
+
+        #region Get Projects By Program Id
+        [TestMethod]
+        public async Task TestGetProjectsByProgramId_CheckProperties()
+        {
+            var now = DateTimeOffset.UtcNow;
+
+            var program = new Program
+            {
+                ProgramId = 1,
+                Name = "program"
+            };
+            var status = new ProjectStatus
+            {
+                Status = "status",
+                ProjectStatusId = 1
+            };
+            var project = new Project
+            {
+                ProgramId = program.ProgramId,
+                Name = "project",
+                ParentProgram = program,
+                ProjectId = 100,
+                StartDate = now,
+                Status = status,
+                ProjectStatusId = status.ProjectStatusId
+            };
+            context.ProjectStatuses.Add(status);
+            context.Projects.Add(project);
+            context.Programs.Add(program);
+
+            var defaultSorter = new ExpressionSorter<SimpleProjectDTO>(x => x.ProjectId, SortDirection.Ascending);
+            var start = 0;
+            var limit = 10;
+            var queryOperator = new QueryableOperator<SimpleProjectDTO>(start, limit, defaultSorter);
+
+            Action<PagedQueryResults<SimpleProjectDTO>> tester = (queryResults) =>
+            {
+                Assert.AreEqual(1, queryResults.Total);
+                var results = queryResults.Results;
+                Assert.AreEqual(1, results.Count);
+                var firstResult = results.First();
+
+                Assert.AreEqual(program.Name, firstResult.ProgramName);
                 Assert.AreEqual(program.ProgramId, firstResult.ProgramId);
                 Assert.AreEqual(project.Name, firstResult.ProjectName);
                 Assert.AreEqual(project.ProjectId, firstResult.ProjectId);

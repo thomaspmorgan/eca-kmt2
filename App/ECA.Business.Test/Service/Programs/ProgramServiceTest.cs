@@ -1,6 +1,5 @@
 ﻿using ECA.Business.Exceptions;
 using ECA.Business.Models.Programs;
-using ECA.Business.Models.Admin;
 using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service;

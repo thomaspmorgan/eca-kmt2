@@ -187,7 +187,7 @@ namespace ECA.Business.Test.Queries.Persons
             var division = new Location
             {
                 LocationId = 10,
-                LocationTypeId = LocationType.State.Id,
+                LocationTypeId = LocationType.Division.Id,
                 LocationName = "state"
             };
 
@@ -294,7 +294,7 @@ namespace ECA.Business.Test.Queries.Persons
             var division = new Location
             {
                 LocationId = 10,
-                LocationTypeId = LocationType.State.Id,
+                LocationTypeId = LocationType.Division.Id,
                 LocationName = "state"
             };
 

@@ -12,7 +12,10 @@ angular.module('staticApp')
 
 
       return {
-          get: function (id) {
+          get: function(params){
+              return DragonBreath.get(params, '/projects');
+          },
+          getById: function (id) {
               return DragonBreath.get('projects', id)
           },
           getProjectsByProgram: function (id, params) {

@@ -8,9 +8,9 @@
               var throttle = attr.stDelay || stConfig.search.delay;
               var event = attr.stInputEvent || stConfig.search.inputEvent;
               var propertyName = attr.uiSelectStSearchProperty;
+              var mode = attr.uiSelectStSearchComparisonType;
               var modelIdPropertyName = attr.uiSelectStSearchModelId || "id";
               var currentIds = [];
-              
               var getModelId = function(model){
                   return model[modelIdPropertyName];
               }
@@ -32,8 +32,12 @@
               }
 
               var onChange = function () {
+                  if (mode !== ConstantsService.inComparisonType
+                      && mode !== ConstantsService.containsAnyComparisonType) {
+                      throw Error("The comparison type [" + mode + "] is not recognized.  It must be either 'in' or 'containsany'.");
+                  }
                   var predicateObject = {
-                      comparison: ConstantsService.containsAnyComparisonType,
+                      comparison: mode,
                       ids: currentIds
                   };
                   tableCtrl.search(predicateObject, propertyName);

@@ -23,6 +23,7 @@
 	types.Add(typeof(OrganizationType));
 	types.Add(typeof(SocialMediaType));
 	types.Add(typeof(ProgramStatus));
+	types.Add(typeof(MoneyFlowSourceRecipientType));
 	types.Add(typeof(CAM.Data.Permission));
 	types.Add(typeof(CAM.Data.ResourceType));
 
@@ -45,7 +46,7 @@
 	otherConstants["notInComparisonType"] = ComparisonType.NotIn.Value;
 	otherConstants["likeComparisonType"] = ComparisonType.Like.Value;
 	otherConstants["lessThanComparisonType"] = ComparisonType.LessThan.Value;
-	otherConstants["greaterComparisonType"] = ComparisonType.GreaterThan.Value;
+	otherConstants["greaterThanComparisonType"] = ComparisonType.GreaterThan.Value;
 	otherConstants["equalComparisonType"] = ComparisonType.Equal.Value;
 	otherConstants["notEqualComparisonType"] = ComparisonType.NotEqual.Value;
 	otherConstants["isNullComparisonType"] = ComparisonType.Null.Value;
@@ -57,6 +58,7 @@
 	otherConstants["officeCategorySettingName"] = OfficeSetting.CATEGORY_SETTING_KEY;
 	otherConstants["officeObjectiveSettingName"] = OfficeSetting.OBJECTIVE_SETTING_KEY;
 
+	otherConstants["maxNumericValue"] = (Int32.MaxValue).ToString();
 	WriteTypes(types, otherConstants);
 #>
 

@@ -1,0 +1,1195 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="7/29/2015 11:24:09 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{E2D7E31D-12D0-4475-8876-9B2D2CC2B08A}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Import MRD Cities Locations"
+  DTS:PackageType="5"
+  DTS:VersionBuild="4"
+  DTS:VersionGUID="{EB943AAF-8668-48DB-BB04-2DFF49258ACE}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[(localdb)\v11.0.Sample_Data]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{25F3790B-D7BA-4ACD-91B1-D435A3924B15}"
+      DTS:ObjectName="(localdb)\v11.0.Sample_Data">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=(localdb)\v11.0;Initial Catalog=Sample_Data;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Data_Migration.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{D24C1EBF-A115-440D-B865-CCBF8B22DE6F}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.ECA_Data_Migration.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=ECA_Data_Migration;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABkhgojwRfRHUsJWgpiXVOqbjZG07QxZrrng7lH5Ls31AAAAAAOgAAAAAIAACAAAADX73eVZfnFFeiY57I/x213b5VwfRW/zm9XOAO02R33tyAAAAAa4VXwBc+hRRkIDBUjriEBTKwJavaGO9JRsuh3fiB0hUAAAADhBhtpxQuzwan5HokVWQVkJUn1ESNGXGOrQKbygF2PvqCiakUq4NDcei7Vgo463zvfBmRChyszL/3Kx9SMHHLi</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{E2020443-E5BE-4408-99D5-EC43B9685924}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\ECA\MRD City Locations 2015-04-21.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Load MRD City Data"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{BF85D54A-EB78-453A-BC9C-F3D48E9765CF}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load MRD City Data"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load MRD City Data\MRCCityLocations"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="MRCCityLocations"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[MRDCityLocationsData]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load MRD City Data\MRCCityLocations.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Data_Migration.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Data_Migration.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[Location Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Location Name"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Location Name]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Location Name]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[Domestic or Foreign IND]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Domestic or Foreign IND"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Domestic or Foreign IND]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Domestic or Foreign IND]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[US Territory IND]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="US Territory IND"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[US Territory IND]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[US Territory IND]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[Location Type Code]"
+                      cachedDataType="r8"
+                      cachedName="Location Type Code"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Location Type Code]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Location Type Code]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[Location Type Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Location Type Name"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Location Type Name]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Location Type Name]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[Country or Area ID]"
+                      cachedDataType="r8"
+                      cachedName="Country or Area ID"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Country or Area ID]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Country or Area ID]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[Country or Area Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Country or Area Name"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Country or Area Name]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Country or Area Name]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[US State ID or  US Territory ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="US State ID or  US Territory ID"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[US State ID or  US Territory ID]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[US State ID or  US Territory ID]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[US State Abbrev]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="US State Abbrev"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[US State Abbrev]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[US State Abbrev]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[US State Name or US Territory Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="US State Name or US Territory Name"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[US State Name or US Territory Name]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[US State Name or US Territory Name]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[OPM Duty Station State Code]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="OPM Duty Station State Code"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[OPM Duty Station State Code]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[OPM Duty Station State Code]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[US County Code]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="US County Code"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[US County Code]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[US County Code]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[US County Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="US County Name"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[US County Name]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[US County Name]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[OPM Duty Station County Code]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="OPM Duty Station County Code"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[OPM Duty Station County Code]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[OPM Duty Station County Code]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[OPM Duty Station Code]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="OPM Duty Station Code"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[OPM Duty Station Code]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[OPM Duty Station Code]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[OPM Duty Station City Code]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="OPM Duty Station City Code"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[OPM Duty Station City Code]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[OPM Duty Station City Code]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[GSA Locator Code]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="GSA Locator Code"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[GSA Locator Code]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[GSA Locator Code]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[GSA GeoLocator Code]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="GSA GeoLocator Code"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[GSA GeoLocator Code]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[GSA GeoLocator Code]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[Work-sheet Seq]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Work-sheet Seq"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Work-sheet Seq]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Work-sheet Seq]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[Location Is Now ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Location Is Now ID"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Location Is Now ID]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Location Is Now ID]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[Location Is Now Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Location Is Now Name"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Location Is Now Name]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Location Is Now Name]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[Record Current Status Code]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Record Current Status Code"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Record Current Status Code]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Record Current Status Code]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[Record Current Status Effective Date]"
+                      cachedDataType="date"
+                      cachedName="Record Current Status Effective Date"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Record Current Status Effective Date]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Record Current Status Effective Date]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[Record Creation Date]"
+                      cachedDataType="date"
+                      cachedName="Record Creation Date"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Record Creation Date]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Record Creation Date]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[Record Update Date]"
+                      cachedDataType="date"
+                      cachedName="Record Update Date"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Record Update Date]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Record Update Date]" />
+                    <inputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].Columns[Record Steward ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Record Steward ID"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Record Steward ID]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Record Steward ID]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Location Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Location Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Domestic or Foreign IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="Domestic or Foreign IND" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[US Territory IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="US Territory IND" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Location Type Code]"
+                      dataType="r8"
+                      name="Location Type Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Location Type Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Location Type Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Country or Area ID]"
+                      dataType="r8"
+                      name="Country or Area ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Country or Area Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[US State ID or  US Territory ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="US State ID or  US Territory ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[US State Abbrev]"
+                      dataType="wstr"
+                      length="255"
+                      name="US State Abbrev" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[US State Name or US Territory Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="US State Name or US Territory Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[OPM Duty Station State Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="OPM Duty Station State Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[US County Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="US County Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[US County Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="US County Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[OPM Duty Station County Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="OPM Duty Station County Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[OPM Duty Station Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="OPM Duty Station Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[OPM Duty Station City Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="OPM Duty Station City Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[GSA Locator Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="GSA Locator Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[GSA GeoLocator Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="GSA GeoLocator Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Work-sheet Seq]"
+                      dataType="wstr"
+                      length="255"
+                      name="Work-sheet Seq" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Location Is Now ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Location Is Now ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Location Is Now Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Location Is Now Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Record Current Status Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Record Current Status Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Record Current Status Effective Date]"
+                      dataType="dbTimeStamp"
+                      name="Record Current Status Effective Date" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Record Creation Date]"
+                      dataType="dbTimeStamp"
+                      name="Record Creation Date" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Record Update Date]"
+                      dataType="dbTimeStamp"
+                      name="Record Update Date" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input].ExternalColumns[Record Steward ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Record Steward ID" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load MRD City Data\MRCCityLocations.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load MRD City Data\MRCCityLocations.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRCCityLocations.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load MRD City Data\MRCCityLocations.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load MRD City Data\MRD City Locations Excel"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="MRD City Locations Excel"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">'Export_Location_20150421(1)$'</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load MRD City Data\MRD City Locations Excel.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Location Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Location Name]"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Location Name]"
+                      name="Location Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Domestic or Foreign IND]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Domestic or Foreign IND]"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Domestic or Foreign IND]"
+                      name="Domestic or Foreign IND"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[US Territory IND]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[U#S# Territory IND]"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[US Territory IND]"
+                      name="US Territory IND"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Location Type Code]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Location Type Code]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Location Type Code]"
+                      name="Location Type Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Location Type Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Location Type Name]"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Location Type Name]"
+                      name="Location Type Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Country or Area ID]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Country or Area ID]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Country or Area ID]"
+                      name="Country or Area ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Country or Area Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Country or Area Name]"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Country or Area Name]"
+                      name="Country or Area Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[US State ID or  US Territory ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[U#S# State ID or  U#S# Territory ID]"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[US State ID or  US Territory ID]"
+                      name="US State ID or  US Territory ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[US State Abbrev]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[U#S# State Abbrev]"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[US State Abbrev]"
+                      name="US State Abbrev"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[US State Name or US Territory Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[U#S# State Name or U#S# Territory Name]"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[US State Name or US Territory Name]"
+                      name="US State Name or US Territory Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[OPM Duty Station State Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[OPM Duty Station State Code]"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[OPM Duty Station State Code]"
+                      name="OPM Duty Station State Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[US County Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[U#S# County Code]"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[US County Code]"
+                      name="US County Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[US County Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[U#S# County Name]"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[US County Name]"
+                      name="US County Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[OPM Duty Station County Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[OPM Duty Station County Code]"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[OPM Duty Station County Code]"
+                      name="OPM Duty Station County Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[OPM Duty Station Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[OPM Duty Station Code]"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[OPM Duty Station Code]"
+                      name="OPM Duty Station Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[OPM Duty Station City Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[OPM Duty Station City Code]"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[OPM Duty Station City Code]"
+                      name="OPM Duty Station City Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[GSA Locator Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[GSA Locator Code]"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[GSA Locator Code]"
+                      name="GSA Locator Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[GSA GeoLocator Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[GSA GeoLocator Code (Prefix+City+County)]"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[GSA GeoLocator Code]"
+                      name="GSA GeoLocator Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Work-sheet Seq]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Work-sheet Seq]"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Work-sheet Seq]"
+                      name="Work-sheet Seq"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Location Is Now ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Location Is Now ID]"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Location Is Now ID]"
+                      name="Location Is Now ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Location Is Now Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Location Is Now Name]"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Location Is Now Name]"
+                      name="Location Is Now Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Record Current Status Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Record Current Status Code]"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Record Current Status Code]"
+                      name="Record Current Status Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Record Current Status Effective Date]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Record Current Status Effective Date]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Record Current Status Effective Date]"
+                      name="Record Current Status Effective Date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Record Creation Date]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Record Creation Date]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Record Creation Date]"
+                      name="Record Creation Date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Record Update Date]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Record Update Date]"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Record Update Date]"
+                      name="Record Update Date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Record Steward ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Record Steward ID]"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].Columns[Record Steward ID]"
+                      name="Record Steward ID"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Location Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Location Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Domestic or Foreign IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="Domestic or Foreign IND" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[U#S# Territory IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="U#S# Territory IND" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Location Type Code]"
+                      dataType="r8"
+                      name="Location Type Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Location Type Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Location Type Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Country or Area ID]"
+                      dataType="r8"
+                      name="Country or Area ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Country or Area Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[U#S# State ID or  U#S# Territory ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="U#S# State ID or  U#S# Territory ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[U#S# State Abbrev]"
+                      dataType="wstr"
+                      length="255"
+                      name="U#S# State Abbrev" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[U#S# State Name or U#S# Territory Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="U#S# State Name or U#S# Territory Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[OPM Duty Station State Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="OPM Duty Station State Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[U#S# County Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="U#S# County Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[U#S# County Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="U#S# County Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[OPM Duty Station County Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="OPM Duty Station County Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[OPM Duty Station Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="OPM Duty Station Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[OPM Duty Station City Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="OPM Duty Station City Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[GSA Locator Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="GSA Locator Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[GSA GeoLocator Code (Prefix+City+County)]"
+                      dataType="wstr"
+                      length="255"
+                      name="GSA GeoLocator Code (Prefix+City+County)" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Work-sheet Seq]"
+                      dataType="wstr"
+                      length="255"
+                      name="Work-sheet Seq" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Location Is Now ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Location Is Now ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Location Is Now Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Location Is Now Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Record Current Status Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Record Current Status Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Record Current Status Effective Date]"
+                      dataType="date"
+                      name="Record Current Status Effective Date" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Record Creation Date]"
+                      dataType="date"
+                      name="Record Creation Date" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Record Update Date]"
+                      dataType="date"
+                      name="Record Update Date" />
+                    <externalMetadataColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output].ExternalColumns[Record Steward ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Record Steward ID" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Location Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Location Name]"
+                      name="Location Name" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Domestic or Foreign IND]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Domestic or Foreign IND]"
+                      name="Domestic or Foreign IND" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[U#S# Territory IND]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[U#S# Territory IND]"
+                      name="U#S# Territory IND" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Location Type Code]"
+                      dataType="r8"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Location Type Code]"
+                      name="Location Type Code" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Location Type Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Location Type Name]"
+                      name="Location Type Name" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Country or Area ID]"
+                      dataType="r8"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Country or Area ID]"
+                      name="Country or Area ID" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Country or Area Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Country or Area Name]"
+                      name="Country or Area Name" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[U#S# State ID or  U#S# Territory ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[U#S# State ID or  U#S# Territory ID]"
+                      name="U#S# State ID or  U#S# Territory ID" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[U#S# State Abbrev]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[U#S# State Abbrev]"
+                      name="U#S# State Abbrev" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[U#S# State Name or U#S# Territory Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[U#S# State Name or U#S# Territory Name]"
+                      name="U#S# State Name or U#S# Territory Name" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[OPM Duty Station State Code]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[OPM Duty Station State Code]"
+                      name="OPM Duty Station State Code" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[U#S# County Code]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[U#S# County Code]"
+                      name="U#S# County Code" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[U#S# County Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[U#S# County Name]"
+                      name="U#S# County Name" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[OPM Duty Station County Code]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[OPM Duty Station County Code]"
+                      name="OPM Duty Station County Code" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[OPM Duty Station Code]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[OPM Duty Station Code]"
+                      name="OPM Duty Station Code" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[OPM Duty Station City Code]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[OPM Duty Station City Code]"
+                      name="OPM Duty Station City Code" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[GSA Locator Code]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[GSA Locator Code]"
+                      name="GSA Locator Code" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[GSA GeoLocator Code (Prefix+City+County)]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[GSA GeoLocator Code (Prefix+City+County)]"
+                      name="GSA GeoLocator Code (Prefix+City+County)" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Work-sheet Seq]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Work-sheet Seq]"
+                      name="Work-sheet Seq" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Location Is Now ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Location Is Now ID]"
+                      name="Location Is Now ID" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Location Is Now Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Location Is Now Name]"
+                      name="Location Is Now Name" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Record Current Status Code]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Record Current Status Code]"
+                      name="Record Current Status Code" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Record Current Status Effective Date]"
+                      dataType="date"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Record Current Status Effective Date]"
+                      name="Record Current Status Effective Date" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Record Creation Date]"
+                      dataType="date"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Record Creation Date]"
+                      name="Record Creation Date" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Record Update Date]"
+                      dataType="date"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Record Update Date]"
+                      name="Record Update Date" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Record Steward ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[Record Steward ID]"
+                      name="Record Steward ID" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load MRD City Data.Paths[Excel Source Output]"
+              endId="Package\Load MRD City Data\MRCCityLocations.Inputs[OLE DB Destination Input]"
+              name="Excel Source Output"
+              startId="Package\Load MRD City Data\MRD City Locations Excel.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Load MRD City Data"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load MRD City Data">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="162,42"
+          Id="Package\Load MRD City Data\MRCCityLocations"
+          TopLeft="51.5,205.5" />
+        <NodeLayout
+          Size="197,42"
+          Id="Package\Load MRD City Data\MRD City Locations Excel"
+          TopLeft="5.5,5.5" />
+        <EdgeLayout
+          Id="Package\Load MRD City Data.Paths[Excel Source Output]"
+          TopLeft="104,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="28.5,158"
+              Start="0,0"
+              End="28.5,150.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,75" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,75"
+                    Point2="0,79"
+                    Point3="4,79" />
+                  <mssgle:LineSegment
+                    End="24.5,79" />
+                  <mssgle:CubicBezierSegment
+                    Point1="24.5,79"
+                    Point2="28.5,79"
+                    Point3="28.5,83" />
+                  <mssgle:LineSegment
+                    End="28.5,150.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load MRD City Data\MRCCityLocations">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load MRD City Data\MRD City Locations Excel">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
