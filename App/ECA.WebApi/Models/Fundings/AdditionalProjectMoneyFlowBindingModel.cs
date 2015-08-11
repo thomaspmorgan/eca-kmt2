@@ -9,7 +9,7 @@ namespace ECA.WebApi.Models.Fundings
     /// <summary>
     /// An AdditionalProjectMoneyFlowBindingModel is used when a client is adding a new money flow and the source is a project.
     /// </summary>
-    public class AdditionalProjectMoneyFlowBindingModel : AdditionalMoneyFlowBindingModel<Project>
+    public class AdditionalProjectMoneyFlowBindingModel : AdditionalMoneyFlowBindingModel
     {
         /// <summary>
         /// The project id the money flow is for.

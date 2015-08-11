@@ -286,23 +286,6 @@ angular.module('staticApp')
           else {
               throw Error('The money flow source recipient type is not yet supported.');
           }
-
-          $scope.$watch(function () {
-              return moneyFlow.value;
-          }, function (newValue, oldValue) {              
-              if (newValue !== oldValue) {
-                  moneyFlow.value = newValue < 0 ? -newValue : newValue;
-              }
-          });
-
-          $scope.$watch(function () {
-              return moneyFlow.fiscalYear;
-          }, function (newValue, oldValue) {
-              if (newValue !== oldValue) {
-                  moneyFlow.fiscalYear = newValue < 0 ? -newValue : newValue;
-              }
-          });
-
           return moneyFlow;
       }
 

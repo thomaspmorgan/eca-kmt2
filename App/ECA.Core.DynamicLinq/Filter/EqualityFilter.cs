@@ -74,6 +74,12 @@ namespace ECA.Core.DynamicLinq.Filter
                 }
                 this.Value = Convert.ChangeType(value, typeToConvertTo);
             }
+            else if(value.GetType() == typeof(DateTime)
+                && this.PropertyInfo.PropertyType == typeof(DateTimeOffset))
+            {
+                var dateTimeValue = (DateTime)value;
+                this.Value = new DateTimeOffset(dateTimeValue);
+            }
             else
             {
                 this.Value = value;

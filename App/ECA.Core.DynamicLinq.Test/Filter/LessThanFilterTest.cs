@@ -19,6 +19,14 @@ namespace ECA.Core.DynamicLinq.Test.Filter
         public double D { get; set; }
 
         public double? NullableD { get; set; }
+
+        public decimal Dec { get; set; }
+
+        public decimal? NullableDec { get; set; }
+
+        public DateTimeOffset DTOffset { get; set; }
+
+        public DateTimeOffset? NullableDTOffset { get; set; }
     }
 
 
@@ -327,6 +335,205 @@ namespace ECA.Core.DynamicLinq.Test.Filter
             Assert.AreEqual(1, results.Count);
         }
 
+        #endregion
+
+        #region Decimal
+        [TestMethod]
+        public void TestLessThanFilter_NonNullableDecimal_ValueIsLessThan()
+        {
+            var instance = new LessThanFilterTestClass
+            {
+                Dec = 1.0m
+            };
+            var list = new List<LessThanFilterTestClass>();
+            list.Add(instance);
+
+            var filter = new LessThanFilter<LessThanFilterTestClass>("Dec", instance.Dec - 1.0m);
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestLessThanFilter_NonNullableDecimal_ValueIsEqual()
+        {
+            var instance = new LessThanFilterTestClass
+            {
+                Dec = 1.0m
+            };
+            var list = new List<LessThanFilterTestClass>();
+            list.Add(instance);
+
+            var filter = new LessThanFilter<LessThanFilterTestClass>("Dec", instance.Dec);
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestLessThanFilter_NonNullableDecimal_ValueIsGreater()
+        {
+            var instance = new LessThanFilterTestClass
+            {
+                Dec = 1.0m
+            };
+            var list = new List<LessThanFilterTestClass>();
+            list.Add(instance);
+
+            var filter = new LessThanFilter<LessThanFilterTestClass>("Dec", instance.Dec+ 1.0m);
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(1, results.Count);
+        }
+
+
+
+        [TestMethod]
+        public void TestLessThanFilter_NullableDecimal_ValueIsLessThan()
+        {
+            var instance = new LessThanFilterTestClass
+            {
+                NullableDec = 1.0m
+            };
+            var list = new List<LessThanFilterTestClass>();
+            list.Add(instance);
+
+            var filter = new LessThanFilter<LessThanFilterTestClass>("NullableDec", instance.NullableDec.Value - 1.0m);
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestLessThanFilter_NullableDecimal_ValueIsEqual()
+        {
+            var instance = new LessThanFilterTestClass
+            {
+                NullableDec = 1.0m
+            };
+            var list = new List<LessThanFilterTestClass>();
+            list.Add(instance);
+
+            var filter = new LessThanFilter<LessThanFilterTestClass>("NullableDec", instance.NullableDec);
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestLessThanFilter_NullableDecimal_ValueIsGreater()
+        {
+            var instance = new LessThanFilterTestClass
+            {
+                NullableDec = 1.0m
+            };
+            var list = new List<LessThanFilterTestClass>();
+            list.Add(instance);
+
+            var filter = new LessThanFilter<LessThanFilterTestClass>("NullableDec", instance.NullableDec.Value + 1.0m);
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(1, results.Count);
+        }
+
+        #endregion
+
+        #region DateTimeOffset
+        [TestMethod]
+        public void TestLessThanFilter_NonNullableDateTimeOffset_ValueIsLessThan()
+        {
+            var instance = new LessThanFilterTestClass
+            {
+                DTOffset = DateTimeOffset.Now
+            };
+            var list = new List<LessThanFilterTestClass>();
+            list.Add(instance);
+
+            var filter = new LessThanFilter<LessThanFilterTestClass>("DTOffset", instance.DTOffset.AddDays(-1.0));
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestLessThanFilter_NonNullableDateTimeOffset_ValueIsEqual()
+        {
+            var instance = new LessThanFilterTestClass
+            {
+                DTOffset = DateTimeOffset.Now
+            };
+            var list = new List<LessThanFilterTestClass>();
+            list.Add(instance);
+
+            var filter = new LessThanFilter<LessThanFilterTestClass>("DTOffset", instance.DTOffset);
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestLessThanFilter_NonNullableDateTimeOffset_ValueIsGreater()
+        {
+            var instance = new LessThanFilterTestClass
+            {
+                DTOffset = DateTimeOffset.Now
+            };
+            var list = new List<LessThanFilterTestClass>();
+            list.Add(instance);
+
+            var filter = new LessThanFilter<LessThanFilterTestClass>("DTOffset", instance.DTOffset.AddDays(1.0));
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(1, results.Count);
+        }
+
+        [TestMethod]
+        public void TestLessThanFilter_NullableDateTimeOffset_ValueIsLessThan()
+        {
+            var instance = new LessThanFilterTestClass
+            {
+                NullableDTOffset = DateTimeOffset.Now
+            };
+            var list = new List<LessThanFilterTestClass>();
+            list.Add(instance);
+
+            var filter = new LessThanFilter<LessThanFilterTestClass>("NullableDTOffset", instance.NullableDTOffset.Value.AddDays(-1.0));
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestLessThanFilter_NullableDateTimeOffset_ValueIsEqual()
+        {
+            var instance = new LessThanFilterTestClass
+            {
+                NullableDTOffset = DateTimeOffset.Now
+            };
+            var list = new List<LessThanFilterTestClass>();
+            list.Add(instance);
+
+            var filter = new LessThanFilter<LessThanFilterTestClass>("NullableDTOffset", instance.NullableDTOffset);
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestLessThanFilter_NullableDateTimeOffset_ValueIsGreater()
+        {
+            var instance = new LessThanFilterTestClass
+            {
+                NullableDTOffset = DateTimeOffset.Now
+            };
+            var list = new List<LessThanFilterTestClass>();
+            list.Add(instance);
+
+            var filter = new LessThanFilter<LessThanFilterTestClass>("NullableDTOffset", instance.NullableDTOffset.Value.AddDays(1.0));
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(1, results.Count);
+        }
         #endregion
     }
 }

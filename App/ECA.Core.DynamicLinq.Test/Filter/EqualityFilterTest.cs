@@ -21,12 +21,29 @@ namespace ECA.Core.DynamicLinq.Test.Filter
         public long NullableL { get; set; }
 
         public string S { get; set; }
+
+        public DateTimeOffset DTOffset { get; set; }
     }
 
 
     [TestClass]
     public class EqualityFilterTest
     {
+
+
+        [TestMethod]
+        public void TestConstructor_PropertyIsDateTimeOffset_ValueIsDateTime()
+        {
+            var instance = new GreaterThanFilterTestClass
+            {
+                DTOffset = DateTimeOffset.Now
+            };
+            var date = DateTime.UtcNow;
+            var filter = new SampleEqualityFilter<EqualityFilterTestClass>("DTOffset", date);
+            Assert.IsInstanceOfType(filter.Value, typeof(DateTimeOffset));
+        }
+
+
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
         public void TestConstructor_PropertyTypeIsNumeric_ValueIsNotNumeric()

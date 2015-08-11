@@ -6,7 +6,7 @@ using ECA.Business.Service;
 
 namespace ECA.WebApi.Test.Models.Fundings
 {
-    public class AdditionalMoneyFlowBindingModelTestClass : AdditionalMoneyFlowBindingModel<Project>
+    public class AdditionalMoneyFlowBindingModelTestClass : AdditionalMoneyFlowBindingModel
     {
 
         public int SourceEntityId { get; set; }

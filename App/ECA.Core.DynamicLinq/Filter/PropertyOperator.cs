@@ -77,6 +77,7 @@ namespace ECA.Core.DynamicLinq.Filter
         {
             return t == typeof(int)
                 || t == typeof(double)
+                || t == typeof(decimal)
                 || t == typeof(float) 
                 || t == typeof(long);
         }
