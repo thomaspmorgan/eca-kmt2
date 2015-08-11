@@ -20,8 +20,8 @@ angular.module('staticApp')
               return DragonBreath.create(bookmark, 'bookmarks');
           },
 
-          deleteBookmark: function (id) {
-              return DragonBreath.delete(id, 'bookmarks');
+          deleteBookmark: function (bookmark) {
+              return DragonBreath.delete(bookmark, 'bookmarks/' + bookmark.bookmarkId);
           }
       };
   });

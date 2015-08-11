@@ -8,25 +8,26 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ToolbarIconsCtrl', function ($scope, $state, $stateParams, $modal, ConstantsService, AuthService, BookmarkService) {
+  .controller('ToolbarIconsCtrl', function ($scope, $state, $stateParams, $modal, ConstantsService, AuthService, BookmarkService, NotificationService) {
 
       $scope.isOwner = false;
       $scope.isBookmarked = false;
 
-      var params = getParamsFromState();
+      var stateParams = getStateParams();
+      var bookmark;
       isBookmarked();
 
-      AuthService.getResourcePermissions(params.resourceType.value, params.foreignResourceId)
+      AuthService.getResourcePermissions(stateParams.resourceType.value, stateParams.foreignResourceId)
         .then(function (result) {
             var permissions = result.data;
             for (var i = 0; i < permissions.length; i++) {
-                if (permissions[i].permissionId === params.ownerPermissionId) {
+                if (permissions[i].permissionId === stateParams.ownerPermissionId) {
                     $scope.isOwner = true;
                 }
             }
         });
 
-      function getParamsFromState() {
+      function getStateParams() {
           var resourceType;
           var foreignResourceId;
           var ownerPermissionId;
@@ -57,34 +58,46 @@ angular.module('staticApp')
 
       function isBookmarked() {
 
-          var params = { limit: 300, filter: getFilter() };
+          var params = {
+              limit: 300,
+              filter: {
+                  comparison: 'eq',
+                  value: stateParams.foreignResourceId,
+                  property: getProperty()
+              }
+          };
 
           BookmarkService.getBookmarks(params)
             .then(function (data) {
                 if (data.data.total === 1) {
+                    bookmark = data.data.results[0];
                     $scope.isBookmarked = true;
+                } else {
+                    $scope.isBookmarked = false;
                 }
+            }, function () {
+                NotificationService.showErrorMessage('There was an error loading bookmarks.');
             });
 
       }
 
-      function getFilter() {
+      function getProperty() {
 
-          var filter = { comparison: 'eq', value: params.foreignResourceId };
+          var property;
 
-          if (params.resourceType.value === ConstantsService.resourceType.office.value) {
-              filter.property = 'officeId';
-          } else if (params.resourceType.value === ConstantsService.resourceType.program.value) {
-              filter.property = 'programId';
-          } else if (params.resourceType.value === ConstantsService.resourceType.project.value) {
-              filter.property = 'projectId';
-          } else if (params.resourceType.value === "Person") {
-              filter.property = 'personId';
-          } else if (params.resourceType.value === "Organization") {
-              filter.property = 'organizationId';
+          if (stateParams.resourceType.value === ConstantsService.resourceType.office.value) {
+              property = 'officeId';
+          } else if (stateParams.resourceType.value === ConstantsService.resourceType.program.value) {
+              property = 'programId';
+          } else if (stateParams.resourceType.value === ConstantsService.resourceType.project.value) {
+              property = 'projectId';
+          } else if (stateParams.resourceType.value === "Person") {
+              property = 'personId';
+          } else if (stateParams.resourceType.value === "Organization") {
+              property = 'organizationId';
           }
 
-          return filter;
+          return property;
       }
 
       $scope.openCollaboratorModal = function() {
@@ -96,12 +109,39 @@ angular.module('staticApp')
               resolve: {
                   parameters: function () {
                       return {
-                          resourceType: params.resourceType,
-                          foreignResourceId: params.foreignResourceId
+                          resourceType: stateParams.resourceType,
+                          foreignResourceId: stateParams.foreignResourceId
                       }
                   }
               }
           });
+      }
+
+      $scope.toggleBookmark = function () {
+          if ($scope.isBookmarked) {
+              BookmarkService.deleteBookmark(bookmark)
+                .then(function () {
+                    NotificationService.showSuccessMessage('The bookmark was successfully removed.');
+                    isBookmarked();
+                }, function () {
+                    NotificationService.showErrorMessage('There was an error removing the bookmark.');
+                    isBookmarked();
+                });
+          } else {
+              var params = {
+                  automatic: false
+              };
+              var property = getProperty();
+              params[property] = stateParams.foreignResourceId;
+              BookmarkService.createBookmark(params)
+                .then(function () {
+                    NotificationService.showSuccessMessage('The bookmark was successfully added.');
+                    isBookmarked();
+                }, function () {
+                    NotificationService.showErrorMessage('There was an error adding the bookmark.');
+                    isBookmarked();
+                });
+          }
       }
 
   });
