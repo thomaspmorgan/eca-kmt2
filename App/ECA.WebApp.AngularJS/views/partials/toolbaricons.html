@@ -1,0 +1,15 @@
+﻿<div class="right" ng-controller="ToolbarIconsCtrl">
+
+    <a ng-click="toggleBookmark()">
+        <i class="icon star material-icons md-24" ng-class="{starred: isBookmarked}">star</i>
+    </a>
+    <a>
+        <i class="icon material-icons md-24">file_upload</i>
+    </a>
+    <a ng-click="openCollaboratorModal()" ng-show="isOwner">
+        <i class="icon wide material-icons md-24">group</i>
+    </a>
+    <a>
+        <i class="icon material-icons md-24">comment</i>
+    </a>
+</div>

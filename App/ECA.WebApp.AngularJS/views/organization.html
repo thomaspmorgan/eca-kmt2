@@ -8,16 +8,12 @@
         <a ui-sref="organizations.overview({organizationId: organization.organizationId})">{{organization.name}}</a>
     </p>
 </div>
-<div class="jumbotron organization" ng-controller="ToolbarCtrl">
+<div class="jumbotron organization">
     <div class="toolbar" sticky offset="49">
         <div class="left">
             <span class="detail">Last Updated {{(organization.revisedOn | date:"MMM dd, yyyy") || 'No revised on date.'}}</span>
         </div>
-        <div class="right">
-            <img class="icon star" src="images/star.png" alt="">
-            <img class="icon" src="images/exportA.png" alt="">
-            <img class="icon" src="images/toolCommentsA.png" alt="">
-        </div>
+        <ng-include src="'/views/partials/toolbaricons.html'"></ng-include>
     </div>
     <div class="heading">
         <h5>ORGANIZATION</h5>

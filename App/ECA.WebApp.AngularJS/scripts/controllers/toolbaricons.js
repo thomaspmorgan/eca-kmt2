@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ToolbarCtrl', function ($scope, $state, $stateParams, $modal, ConstantsService, AuthService, BookmarkService) {
+  .controller('ToolbarIconsCtrl', function ($scope, $state, $stateParams, $modal, ConstantsService, AuthService, BookmarkService) {
 
       $scope.isOwner = false;
       $scope.isBookmarked = false;
@@ -102,5 +102,6 @@ angular.module('staticApp')
                   }
               }
           });
-      };
+      }
+
   });

@@ -166,7 +166,7 @@
     <Content Include="scripts\controllers\socialmedia\socialmedias.js" />
     <Content Include="scripts\directives\socialmedias.js" />
     <Content Include="scripts\directives\addresses.js" />
-    <Content Include="scripts\controllers\toolbar.js" />
+    <Content Include="scripts\controllers\toolbaricons.js" />
     <Content Include="scripts\directives\exposetablestate.js" />
     <Content Include="scripts\directives\socialmedialink.js" />
     <Content Include="scripts\directives\uiselectstsearch.js" />
@@ -176,6 +176,12 @@
     <Content Include="scripts\services\addressservice.js" />
     <Content Include="scripts\services\participantperson.js" />
     <Content Include="scripts\services\userservice.js" />
+    <Content Include="styles\main.css">
+      <DependentUpon>main.scss</DependentUpon>
+    </Content>
+    <Content Include="styles\main.min.css">
+      <DependentUpon>main.css</DependentUpon>
+    </Content>
     <Content Include="views\directives\socialmedias.html" />
     <Content Include="views\directives\addresses.html" />
     <Content Include="views\organizations\activities.html" />
@@ -185,6 +191,7 @@
     <Content Include="views\organizations\partials\editdetails.html" />
     <Content Include="views\partials\collaborators.html" />
     <Content Include="views\partials\pagination.html" />
+    <Content Include="views\partials\toolbaricons.html" />
     <Content Include="views\person\allpeople.html" />
     <Content Include="views\person\partials\evaluationNotesView.html" />
     <Content Include="views\person\partials\eduempView.html" />
@@ -257,6 +264,9 @@
     <None Include="Properties\PublishProfiles\ECA_QA.pubxml" />
     <None Include="Properties\PublishProfiles\ECA_Dev.pubxml" />
     <None Include="Properties\PublishProfiles\ECA_Pre.pubxml" />
+    <Content Include="styles\main.css.map">
+      <DependentUpon>main.css</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

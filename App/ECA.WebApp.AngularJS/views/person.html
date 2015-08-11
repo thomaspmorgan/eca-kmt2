@@ -1,16 +1,12 @@
 <div class="breadcrumbs">
     <p><a ui-sref="allpeople({page: 1})">People </a> &bull; {{person.fullName}}</p>
 </div>
-<div class="jumbotron person" ng-controller="ToolbarCtrl">
+<div class="jumbotron person">
     <div class="toolbar" sticky offset="49">
         <div class="left">
             <span class="detail">Last Updated {{person.revisedOn | date}}</span>
         </div>
-        <div class="right">
-            <img class="icon star" src="images/star.png" alt="">
-            <img class="icon" src="images/exportA.png" alt="">
-            <img ng-click="pushMenu2($event)" class="icon" src="images/toolCommentsA.png" alt="">
-        </div>
+        <ng-include src="'/views/partials/toolbaricons.html'"></ng-include>
     </div>
     <div class="heading">
         <h5>Person</h5>
