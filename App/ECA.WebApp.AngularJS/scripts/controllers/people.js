@@ -42,9 +42,9 @@ angular.module('staticApp')
       $scope.showGeneral = true;
       $scope.showPii = false;
       $scope.showContact = true;
-      $scope.editPii = false;
       $scope.edit = [];
       $scope.edit.General = false;
+      $scope.edit.Pii = false;
       $scope.datePickerOpen = false;
 
       $scope.maxDateOfBirth = new Date();
@@ -169,7 +169,7 @@ angular.module('staticApp')
       });
 
     $scope.cancelEditPii = function () {
-        $scope.editPii = false;
+        $scope.edit.Pii = false;
         loadPii($scope.person.personId);
     };
 
@@ -178,7 +178,7 @@ angular.module('staticApp')
         PersonService.updatePii($scope.pii, $scope.person.personId)
             .then(function () {
                 NotificationService.showSuccessMessage("The edit was successful.");
-                $scope.editPii = false;
+                $scope.edit.Pii = false;
                 loadPii($scope.person.personId);
             }, 
             function (error) {
