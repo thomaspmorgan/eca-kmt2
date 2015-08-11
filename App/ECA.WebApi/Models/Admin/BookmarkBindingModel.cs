@@ -50,7 +50,7 @@ namespace ECA.WebApi.Models.Admin
         /// <returns></returns>
         public NewBookmark ToNewBookmark(User user)
         {
-            return new NewBookmark(this.OfficeId, this.ProgramId, this.PersonId, this.ProjectId, this.OrganizationId, user.Id, this.Automatic);
+            return new NewBookmark(this.OfficeId, this.ProgramId, this.ProjectId, this.PersonId, this.OrganizationId, user.Id, this.Automatic);
         }
     }
 }
