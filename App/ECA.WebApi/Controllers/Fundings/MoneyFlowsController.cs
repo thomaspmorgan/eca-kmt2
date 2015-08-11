@@ -205,7 +205,7 @@ namespace ECA.WebApi.Controllers.Fundings
             }
         }
 
-        private async Task<IHttpActionResult> DoCreateAsync<T>(AdditionalMoneyFlowBindingModel<T> additionalMoneyFlow) where T : class
+        private async Task<IHttpActionResult> DoCreateAsync(AdditionalMoneyFlowBindingModel additionalMoneyFlow)
         {
             if (ModelState.IsValid)
             {
