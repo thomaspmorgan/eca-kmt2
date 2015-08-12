@@ -725,3 +725,30 @@ div.tip:hover span {
     top: 50px;
     text-decoration: none
 }
+
+.bookmark {
+    
+    .bookmark-type {
+        margin-top: 15px;
+        color: #fff;
+        text-transform: uppercase;
+    }      
+    
+    .bookmark-content {
+        height: 200px;
+        padding-top: 15px;
+        border-left: solid 3px #efefef;
+        border-right: solid 3px #efefef;
+        border-bottom: solid 3px #efefef;
+        font-weight: 500;
+
+        .bookmark-title {
+            text-transform: uppercase;
+        }
+    }
+
+    .bookmark-footer {
+        padding-top: 15px;
+        color: #a0a9ab;
+    }
+}
