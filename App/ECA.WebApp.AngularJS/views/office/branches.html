@@ -241,7 +241,7 @@
         </div>
     </div>
     <div class="modalFormButtons">
-        <button class="btn btn-default" ng-click="editModalCancel(this)">CANCEL</button>
+        <button class="btn btn-cancel" ng-click="editModalCancel(this)">CANCEL</button>
         <button class="btn btn-success right" ng-disabled="modalForm.editProgramForm.$invalid" ng-click="saveEditedProgram()">SAVE AND CLOSE</button>
     </div>
 
@@ -406,7 +406,7 @@
         </div>
     </div>
     <div class="modalFormButtons">
-        <button class="btn btn-default" ng-click="createModalCancel(this)">CANCEL</button>
+        <button class="btn btn-cancel" ng-click="createModalCancel(this)">CANCEL</button>
         <button ng-disabled="modalForm.programForm.$invalid" class="btn btn-success right" ng-click="saveCreatedProgram()">CREATE</button>
     </div>
 </modal-dialog>
