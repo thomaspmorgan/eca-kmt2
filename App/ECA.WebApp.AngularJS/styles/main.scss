@@ -753,6 +753,14 @@ div.tip:hover span {
         border-bottom: solid 3px #efefef;
         font-weight: 500;
 
+        a {
+            color: #415358;
+        }
+
+        a:hover {
+            color: #297cb4;
+        }
+
         .bookmark-title {
             text-transform: uppercase;
         }
