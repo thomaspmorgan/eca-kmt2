@@ -302,7 +302,6 @@ angular
         .state('programs.moneyflows', {
             url: '/moneyflows',
             templateUrl: 'views/program/moneyflows.html',
-            controller: 'ProgramMoneyFlowsCtrl',
             requireADLogin: true
         })
 

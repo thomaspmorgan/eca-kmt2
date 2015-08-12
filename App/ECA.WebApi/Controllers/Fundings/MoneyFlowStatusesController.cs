@@ -1,30 +1,24 @@
 ﻿using ECA.Business.Queries.Models.Admin;
-using ECA.Business.Service.Admin;
+using ECA.Business.Service.Fundings;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
 using ECA.WebApi.Models.Query;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 
-namespace ECA.WebApi.Controllers.Admin
+namespace ECA.WebApi.Controllers.Fundings
 {
     /// <summary>
-    /// The Project Status controller handles crud operations on project stati.
+    /// The money flow statuses controller contains the crud operations for money flow statuses.
     /// </summary>
     [Authorize]
     public class MoneyFlowStatusesController : ApiController
     {
         /// <summary>
-        /// The default sorter for a list of foci.
+        /// The default sorter for a list of money flow status.
         /// </summary>
         private static readonly ExpressionSorter<MoneyFlowStatusDTO> DEFAULT_PROJECT_STATUS_DTO_SORTER = 
             new ExpressionSorter<MoneyFlowStatusDTO>(x => x.Name, SortDirection.Ascending);
@@ -41,12 +35,12 @@ namespace ECA.WebApi.Controllers.Admin
         }
 
         /// <summary>
-        /// Returns the project stati currently in the system.
+        /// Returns the money flow statuses in the system.
         /// </summary>
         /// <param name="queryModel">The query model.</param>
-        /// <returns>The project stati currently in the system.</returns>
+        /// <returns>The money flow statuses currently in the system.</returns>
         [ResponseType(typeof(PagedQueryResults<MoneyFlowStatusDTO>))]
-        public async Task<IHttpActionResult> GetMoneyFlowStatuses([FromUri]PagingQueryBindingModel<MoneyFlowStatusDTO> queryModel)
+        public async Task<IHttpActionResult> GetMoneyFlowStatusesAsync([FromUri]PagingQueryBindingModel<MoneyFlowStatusDTO> queryModel)
         {
             if (ModelState.IsValid)
             {

@@ -8,82 +8,44 @@
  * Factory in the staticApp.
  */
 angular.module('staticApp')
-  .factory('MoneyFlowService', function (DragonBreath, $q) {
-
-      var moneyFlow;
-
-      function getMoneyFlow(data) {
-          if (data.results) {
-              moneyFlow = data.results[0];
-          } else {
-              moneyFlow = data;
-          }
-      }
-
-      return {
-          get: function (id) {
-              var defer = $q.defer();
-              DragonBreath.get('moneyFlows', id)
-                .success(function (data) {
-                    getMoneyFlow(data);
-                    defer.resolve(data);
-                });
-              return defer.promise;
-          },
+  .factory('MoneyFlowService', function (DragonBreath, ConstantsService, $q) {
+      return {          
           getMoneyFlowsByProgram: function (id, params) {
-              var defer = $q.defer();
               var path = 'programs/' + id + '/moneyFlows'
-              DragonBreath.get(params, path)
-                .success(function (data) {
-                    defer.resolve(data);
-                });
-
-              return defer.promise;
+              return DragonBreath.get(params, path);
           },
           getMoneyFlowsByProject: function (id, params) {
-              var defer = $q.defer();
               var path = 'projects/' + id + '/moneyFlows'
-              DragonBreath.get(params, path)
-                .success(function (data) {
-                    defer.resolve(data);
-                });
-
-              return defer.promise;
+              return DragonBreath.get(params, path);
           },
-          update: function (moneyFlow, id) {
-              var defer = $q.defer();
-              DragonBreath.save(moneyFlow, 'moneyFlows', id)
-                .success(function (data) {
-                    getProject(data);
-                    defer.resolve(moneyFlow);
-                });
-              return defer.promise;
+          update: function (moneyFlow, entityId) {
+              var path = '';
+              if (moneyFlow.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.project.id) {
+                  path = 'projects/' + entityId + '/moneyflows';
+              }
+              else if (moneyFlow.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id) {
+                  path = 'programs/' + entityId + '/moneyflows';
+              }
+              else {
+                  throw Error('The money flow source recipient type is not yet recognized.');
+              }
+              return DragonBreath.save(moneyFlow, path);
           },
           create: function (moneyFlow) {
-              var defer = $q.defer();
-              DragonBreath.create(moneyFlow, 'moneyFlows')
-                .success(function (data) {
-                    defer.resolve(data);
-                });
-              return defer.promise;
-          },
-          copy: function (id) {
-              var defer = $q.defer();
-              DragonBreath.copy(id, 'moneyFlows')
-                .success(function (data) {
-                    defer.resolve(data);
-                });
-
-              return defer.promise;
-          },
-          delete: function (id) {
-              var defer = $q.defer();
-              DragonBreath.delete(id, 'moneyFlows')
-               .success(function (data) {
-                   defer.resolve(data);
-               });
-              return defer.promise;
+              console.assert(moneyFlow.entityTypeId, 'The money flow to create must have an entity type id assigned.');
+              var entityTypeId = moneyFlow.entityTypeId;
+              var path = '';
+              if (entityTypeId === ConstantsService.moneyFlowSourceRecipientType.project.id) {
+                  path += 'project';
+              }
+              else if (entityTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id) {
+                  path += 'program';
+              }
+              else {
+                  throw Error('The money flow source recipient type is not yet supported.');
+              }
+              path += '/MoneyFlows';
+              return DragonBreath.create(moneyFlow, path);
           }
-
       };
   });

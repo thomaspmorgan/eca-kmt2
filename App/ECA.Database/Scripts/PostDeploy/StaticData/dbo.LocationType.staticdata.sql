@@ -39,11 +39,12 @@ DECLARE @tblTempTable TABLE (
 -- will not be deleted from databases in which the value already exists.
 INSERT INTO @tblTempTable ([LocationTypeId], [LocationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('2', 'Region', '0', '1/19/2015 3:20:21 PM +00:00', '0', '1/19/2015 3:20:21 PM +00:00')
 INSERT INTO @tblTempTable ([LocationTypeId], [LocationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('3', 'Country', '0', '1/19/2015 3:20:21 PM +00:00', '0', '1/19/2015 3:20:21 PM +00:00')
-INSERT INTO @tblTempTable ([LocationTypeId], [LocationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('4', 'State', '0', '1/19/2015 3:20:21 PM +00:00', '0', '1/19/2015 3:20:21 PM +00:00')
+INSERT INTO @tblTempTable ([LocationTypeId], [LocationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('4', 'Division', '0', '1/19/2015 3:20:21 PM +00:00', '0', '1/19/2015 3:20:21 PM +00:00')
 INSERT INTO @tblTempTable ([LocationTypeId], [LocationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('5', 'City', '0', '1/19/2015 3:20:21 PM +00:00', '0', '1/19/2015 3:20:21 PM +00:00')
 INSERT INTO @tblTempTable ([LocationTypeId], [LocationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('6', 'Building', '0', '1/19/2015 3:20:21 PM +00:00', '0', '1/19/2015 3:20:21 PM +00:00')
 INSERT INTO @tblTempTable ([LocationTypeId], [LocationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('7', 'Post', '0', '1/28/2015 7:39:36 PM +00:00', '0', '1/28/2015 7:39:36 PM +00:00')
 INSERT INTO @tblTempTable ([LocationTypeId], [LocationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('8', 'Place', '0', '1/30/2015 3:34:32 PM +00:00', '0', '1/30/2015 3:34:32 PM +00:00')
+INSERT INTO @tblTempTable ([LocationTypeId], [LocationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('9', 'Address', '0', '1/30/2015 3:34:32 PM +00:00', '0', '1/30/2015 3:34:32 PM +00:00')
 
 
 -- 3: Insert any new items into the table from the table variable

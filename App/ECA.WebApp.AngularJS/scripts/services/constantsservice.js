@@ -10,6 +10,17 @@
 			place: {id: 8, value: "Place"},
 			address: {id: 9, value: "Address"}
 		},
+		moneyFlowSourceRecipientType: {
+			organization: {id: 1, value: "Organization"},
+			program: {id: 2, value: "Program"},
+			project: {id: 3, value: "Project"},
+			participant: {id: 4, value: "Participant"},
+			itinerarystop: {id: 5, value: "ItineraryStop"},
+			accomodation: {id: 6, value: "Accomodation"},
+			transportation: {id: 7, value: "Transportation"},
+			expense: {id: 8, value: "Expense"},
+			post: {id: 9, value: "Post"}
+		},
 		organizationType: {
 			office: {id: 1, value: "Office"},
 			branch: {id: 2, value: "Branch"},
@@ -96,6 +107,7 @@
 		lessThanComparisonType: 'lt',
 		likeComparisonType: 'like',
 		logoutEventName: 'logout',
+		maxNumericValue: '2147483647',
 		notEqualComparisonType: 'not_eq',
 		notInComparisonType: 'notin',
 		officeCategorySettingName: 'Category',

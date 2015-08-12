@@ -1,24 +1,18 @@
 ﻿using ECA.Business.Queries.Models.Admin;
-using ECA.Business.Service.Admin;
+using ECA.Business.Service.Fundings;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
 using ECA.WebApi.Models.Query;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 
-namespace ECA.WebApi.Controllers.Admin
+namespace ECA.WebApi.Controllers.Fundings
 {
     /// <summary>
-    /// The Project Type controller handles crud operations on project stati.
+    /// The money flow source recipient types controller handles crud operations on money flow source recipient types.
     /// </summary>
     [Authorize]
     public class MoneyFlowSourceRecipientTypesController : ApiController
@@ -39,12 +33,12 @@ namespace ECA.WebApi.Controllers.Admin
         }
 
         /// <summary>
-        /// Returns the project stati currently in the system.
+        /// Returns the money flow source recipient types currently in the system.
         /// </summary>
         /// <param name="queryModel">The query model.</param>
-        /// <returns>The project stati currently in the system.</returns>
+        /// <returns>The money flow source recipient types currently in the system.</returns>
         [ResponseType(typeof(PagedQueryResults<MoneyFlowSourceRecipientTypeDTO>))]
-        public async Task<IHttpActionResult> GetMoneyFlowSourceRecipientTypes([FromUri]PagingQueryBindingModel<MoneyFlowSourceRecipientTypeDTO> queryModel)
+        public async Task<IHttpActionResult> GetMoneyFlowSourceRecipientTypesAsync([FromUri]PagingQueryBindingModel<MoneyFlowSourceRecipientTypeDTO> queryModel)
         {
             if (ModelState.IsValid)
             {

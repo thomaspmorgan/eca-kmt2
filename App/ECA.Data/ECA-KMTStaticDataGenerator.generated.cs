@@ -257,9 +257,9 @@ namespace ECA.Data
 		/// </summary>
 		public static StaticLookup Planned { get { return new StaticLookup("Planned", 1); } }
 		/// <summary>
-		/// Returns the InProgress lookup with id 2.
+		/// Returns the In Progress lookup with id 2.
 		/// </summary>
-		public static StaticLookup Inprogress { get { return new StaticLookup("InProgress", 2); } }
+		public static StaticLookup InProgress { get { return new StaticLookup("In Progress", 2); } }
 		/// <summary>
 		/// Returns the Completed lookup with id 3.
 		/// </summary>
@@ -272,7 +272,7 @@ namespace ECA.Data
 		public static StaticLookup GetStaticLookup(int id)
 		{
 			if (1 == id) return ItineraryStatus.Planned;
-			if (2 == id) return ItineraryStatus.Inprogress;
+			if (2 == id) return ItineraryStatus.InProgress;
 			if (3 == id) return ItineraryStatus.Completed;
 			return null;
 		}
@@ -284,7 +284,7 @@ namespace ECA.Data
 		public static StaticLookup GetStaticLookup(string value)
 		{
 			if ("Planned".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ItineraryStatus.Planned;
-			if ("InProgress".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ItineraryStatus.Inprogress;
+			if ("In Progress".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ItineraryStatus.InProgress;
 			if ("Completed".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ItineraryStatus.Completed;
 			return null;
 		}
@@ -316,9 +316,9 @@ namespace ECA.Data
 		/// </summary>
 		public static StaticLookup Country { get { return new StaticLookup("Country", 3); } }
 		/// <summary>
-		/// Returns the State lookup with id 4.
+		/// Returns the Division lookup with id 4.
 		/// </summary>
-		public static StaticLookup State { get { return new StaticLookup("State", 4); } }
+		public static StaticLookup Division { get { return new StaticLookup("Division", 4); } }
 		/// <summary>
 		/// Returns the City lookup with id 5.
 		/// </summary>
@@ -348,7 +348,7 @@ namespace ECA.Data
 		{
 			if (2 == id) return LocationType.Region;
 			if (3 == id) return LocationType.Country;
-			if (4 == id) return LocationType.State;
+			if (4 == id) return LocationType.Division;
 			if (5 == id) return LocationType.City;
 			if (6 == id) return LocationType.Building;
 			if (7 == id) return LocationType.Post;
@@ -365,7 +365,7 @@ namespace ECA.Data
 		{
 			if ("Region".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return LocationType.Region;
 			if ("Country".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return LocationType.Country;
-			if ("State".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return LocationType.State;
+			if ("Division".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return LocationType.Division;
 			if ("City".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return LocationType.City;
 			if ("Building".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return LocationType.Building;
 			if ("Post".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return LocationType.Post;
@@ -488,9 +488,9 @@ namespace ECA.Data
 		/// </summary>
 		public static StaticLookup Participant { get { return new StaticLookup("Participant", 4); } }
 		/// <summary>
-		/// Returns the ItineraryStop lookup with id 5.
+		/// Returns the Itinerary Stop lookup with id 5.
 		/// </summary>
-		public static StaticLookup Itinerarystop { get { return new StaticLookup("ItineraryStop", 5); } }
+		public static StaticLookup ItineraryStop { get { return new StaticLookup("Itinerary Stop", 5); } }
 		/// <summary>
 		/// Returns the Accomodation lookup with id 6.
 		/// </summary>
@@ -518,7 +518,7 @@ namespace ECA.Data
 			if (2 == id) return MoneyFlowSourceRecipientType.Program;
 			if (3 == id) return MoneyFlowSourceRecipientType.Project;
 			if (4 == id) return MoneyFlowSourceRecipientType.Participant;
-			if (5 == id) return MoneyFlowSourceRecipientType.Itinerarystop;
+			if (5 == id) return MoneyFlowSourceRecipientType.ItineraryStop;
 			if (6 == id) return MoneyFlowSourceRecipientType.Accomodation;
 			if (7 == id) return MoneyFlowSourceRecipientType.Transportation;
 			if (8 == id) return MoneyFlowSourceRecipientType.Expense;
@@ -536,7 +536,7 @@ namespace ECA.Data
 			if ("Program".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Program;
 			if ("Project".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Project;
 			if ("Participant".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Participant;
-			if ("ItineraryStop".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Itinerarystop;
+			if ("Itinerary Stop".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.ItineraryStop;
 			if ("Accomodation".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Accomodation;
 			if ("Transportation".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Transportation;
 			if ("Expense".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Expense;

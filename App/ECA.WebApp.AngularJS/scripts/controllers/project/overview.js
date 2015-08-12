@@ -55,7 +55,7 @@ angular.module('staticApp')
 
       function loadProject() {
           var projectId = $stateParams.projectId;
-          return ProjectService.get(projectId)
+          return ProjectService.getById(projectId)
             .then(function (data) {
                 $log.info('Successfully loaded project.');
                 $scope.$parent.project = data.data;

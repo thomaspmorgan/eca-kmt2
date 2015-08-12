@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -123,7 +124,7 @@ namespace ECA.WebApi.Security
             }
             else
             {
-                var propertyInfo = model.GetType().GetProperty(propertyName);
+                var propertyInfo = model.GetType().GetProperties().Where(x => String.Equals(x.Name, propertyName, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
                 if (propertyInfo == null)
                 {
                     throw new NotSupportedException(String.Format("The property [{0}] does not exist in the model of type [{1}].", propertyName, model.GetType().Name));

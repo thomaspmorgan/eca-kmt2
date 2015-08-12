@@ -602,6 +602,30 @@ namespace ECA.Business.Service.Projects
             this.logger.Trace("Retrieved project by id {0}.", projectId);
             return project;
         }
+
+        /// <summary>
+        /// Returns all projects, sorted, filtered, and paged within the eca system.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged, filtered, and sorted projects.</returns>
+        public PagedQueryResults<SimpleProjectDTO> GetProjects(QueryableOperator<SimpleProjectDTO> queryOperator)
+        {
+            var projects = ProjectQueries.CreateGetProjectsQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved projects by query operator {0}.", queryOperator);
+            return projects;
+        }
+
+        /// <summary>
+        /// Returns all projects, sorted, filtered, and paged within the eca system.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged, filtered, and sorted projects.</returns>
+        public async Task<PagedQueryResults<SimpleProjectDTO>> GetProjectsAsync(QueryableOperator<SimpleProjectDTO> queryOperator)
+        {
+            var projects = await ProjectQueries.CreateGetProjectsQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved projects by query operator {0}.", queryOperator);
+            return projects;
+        }
         #endregion
     }
 }

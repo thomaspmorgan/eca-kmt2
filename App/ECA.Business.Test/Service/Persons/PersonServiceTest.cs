@@ -289,7 +289,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 LocationId = 10,
                 LocationName = "division",
-                LocationTypeId = LocationType.State.Id,
+                LocationTypeId = LocationType.Division.Id,
                 Country = country,
                 CountryId = country.LocationId
             };
