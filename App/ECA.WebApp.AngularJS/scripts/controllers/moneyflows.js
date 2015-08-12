@@ -337,7 +337,7 @@ angular.module('staticApp')
               $scope.view.canEditMoneyFlows = true;
           };
           var notAuthorizedCallback = function () {
-              $log.info("Not authorized.");
+              $scope.view.canEditMoneyFlows = false;
           };
           var config = getPermissionsConfig(resourceTypeId, hasEditPermissionCallback, notAuthorizedCallback);
 
