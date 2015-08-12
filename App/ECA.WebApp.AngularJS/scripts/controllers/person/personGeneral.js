@@ -3,21 +3,17 @@
 /**
  * @ngdoc function
  * @name staticApp.controller: personGeneralCtrl
- * # personGeneralCtrl
+ * # personGeneralEditCtrl
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personGeneralCtrl', function ($scope, ParticipantService, PersonService, $stateParams) {
+  .controller('personGeneralCtrl', function ($scope, PersonService, $stateParams) {
 
-      //ParticipantService.getParticipantById($stateParams.participantId)
-      //  .then(function (data) {
-      //  $scope.participant = data;
-      //  loadGeneral(data.personId);
-      //});
+
 
       $scope.personIdDeferred.promise
         .then(function (personId) {
-        loadGeneral(personId);
+            loadGeneral(personId);
       });
 
       function loadGeneral(personId) {

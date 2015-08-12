@@ -73,6 +73,9 @@ angular.module('staticApp')
           updatePii: function (pii, id) {
               return DragonBreath.save(pii, 'people/pii')
           },
+          updateGeneral: function (general, id) {
+              return DragonBreath.save(general, 'people/general')
+          },
           create: function (person) {
               return DragonBreath.create(person, 'people');
           },

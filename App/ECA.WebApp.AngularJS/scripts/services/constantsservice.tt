@@ -46,7 +46,7 @@
 	otherConstants["notInComparisonType"] = ComparisonType.NotIn.Value;
 	otherConstants["likeComparisonType"] = ComparisonType.Like.Value;
 	otherConstants["lessThanComparisonType"] = ComparisonType.LessThan.Value;
-	otherConstants["greaterComparisonType"] = ComparisonType.GreaterThan.Value;
+	otherConstants["greaterThanComparisonType"] = ComparisonType.GreaterThan.Value;
 	otherConstants["equalComparisonType"] = ComparisonType.Equal.Value;
 	otherConstants["notEqualComparisonType"] = ComparisonType.NotEqual.Value;
 	otherConstants["isNullComparisonType"] = ComparisonType.Null.Value;

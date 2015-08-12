@@ -202,7 +202,7 @@
         <div class="bounce2"></div>
         <div class="bounce3"></div>
     </div>
-    <button class="btn btn-default" ng-show="!isSavingProject" ng-click="createProject = !modalClose()">CANCEL</button>
+    <button class="btn btn-cancel" ng-show="!isSavingProject" ng-click="createProject = !modalClose()">CANCEL</button>
     <button type="submit" form="projectForm" ng-show="!isSavingProject" ng-disabled="projectForm.projectDescription.$error.required" class="btn btn-success right" ng-click="saveProject()">CREATE</button>
 </modal-dialog>
 
@@ -364,7 +364,7 @@
         </div>
     </div>
     <div class="modalFormButtons">
-        <button class="btn btn-default" ng-click="createProgram = !modalClose()">CANCEL</button>
+        <button class="btn btn-cancel" ng-click="createProgram = !modalClose()">CANCEL</button>
         <button ng-disabled="modalForm.programForm.$invalid" class="btn btn-success right" ng-click="saveCreatedProgram()">CREATE</button>
     </div>
 </modal-dialog>

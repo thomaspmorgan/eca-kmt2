@@ -5,8 +5,17 @@
 <div class="modal-body" in-context-form>
     <form name="form.newMoneyFlow" ng-show="!view.isSaving">
         <div class="form-group" id="transactionType">
-            <span class="moneyFlowDirection" ng-class="{directionSelected: !view.moneyFlow.isOutgoing}" ng-click="view.toggleIncomingOutgoing(view.incomingDirectionKey)">Incoming</span>
-            <span class="moneyFlowDirection" ng-class="{directionSelected: view.moneyFlow.isOutgoing}" ng-click="view.toggleIncomingOutgoing(view.outgoingDirectionKey)">Outgoing</span>
+            <span class="moneyFlowDirection"
+                  ng-class="{directionSelected: !view.moneyFlow.isOutgoing}"
+                  ng-disabled="view.moneyFlow.isExpense"
+                  ng-click="view.toggleIncomingOutgoing(view.incomingDirectionKey)">
+                Incoming
+            </span>
+            <span class="moneyFlowDirection"
+                  ng-class="{directionSelected: view.moneyFlow.isOutgoing}"
+                  ng-click="view.toggleIncomingOutgoing(view.outgoingDirectionKey)">
+                Outgoing
+            </span>
         </div>
         <div class="row">
             <div class="form-group col-md-6">
@@ -52,6 +61,7 @@
                        id="amount"
                        name="amount"
                        max="{{view.maxAmount}}"
+                       min="0"
                        class="form-control"
                        ng-model="view.moneyFlow.value"
                        placeholder="Enter amount."
@@ -67,6 +77,7 @@
                        id="fiscalYear"
                        ng-model="view.moneyFlow.fiscalYear"
                        type="number"
+                       min="1"
                        placeholder="Enter the fiscal year..."
                        class="form-control"
                        required />
@@ -92,35 +103,32 @@
                         <div class="error" ng-show="form.newMoneyFlow.peerEntityTypeId.$error.required && view.moneyFlow.isOutgoing">Please select a recipient type.</div>
                     </div>
                 </div>
-
                 <div class="form-group col-md-6">
-                    <label ng-show="!view.moneyFlow.isOutgoing">Source<span class="asterisk"> *</span></label>
-                    <label ng-show="view.moneyFlow.isOutgoing">Recipient<span class="asterisk"> *</span></label>
+                    <label>{{view.moneyFlow.isOutgoing ? 'Recipient' : 'Source'}}<span ng-show="view.isSourceRecipientFieldRequired" class="asterisk"> *</span></label>
                     <div>
                         <input type="search"
-                               id="source"
-                               name="source"
-                               class="search-contextual"
-                               maxlength="100"
-                               typeahead-append-to-body="false"
-                               ng-disabled="!view.moneyFlow.peerEntityTypeId"
-                               placeholder="Select source..."
-                               ng-model="view.moneyFlow.peerEntity"
-                               typeahead-wait-ms="400"
-                               typeahead-loading="view.isLoadingSources"
-                               typeahead="peer as peer.primaryText for peer in view.getPeers($viewValue) | filter : $viewValue | limitTo : view.searchLimit"
-                               typeahead-on-select="view.onSelectPeer($item, $model, $label)"
-                               typeahead-template-url="selectSourceTemplate.html"
-                               typeahead-editable="false"
-                               typeahead-input-formatter="view.formatPeerEntity($item, $model, $label)"
-                               required>
+                        id="source"
+                        name="source"
+                        class="search-contextual"
+                        maxlength="100"
+                        typeahead-append-to-body="false"
+                        ng-disabled="!view.isSourceRecipientFieldEnabled"
+                        placeholder="{{view.moneyFlow.isOutgoing ? 'Select recipient...' : 'Select source...'}}"
+                        ng-model="view.moneyFlow.peerEntity"
+                        typeahead-wait-ms="400"
+                        typeahead-loading="view.isLoadingSources"
+                        typeahead="peer as peer.primaryText for peer in view.getPeers($viewValue) | filter : $viewValue | limitTo : view.searchLimit"
+                        typeahead-on-select="view.onSelectPeer($item, $model, $label)"
+                        typeahead-template-url="selectSourceTemplate.html"
+                        typeahead-editable="false"
+                        typeahead-input-formatter="view.formatPeerEntity($item, $model, $label)"
+                        ng-required="view.isSourceRecipientFieldRequired">
                         </input>
                         <i class="material-icons md-18 contextual" ng-show="!view.isLoadingSources">search</i>
                         <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingSources">autorenew</i>
                     </div>
                     <div ng-show="form.newMoneyFlow.source.$dirty || form.newMoneyFlow.source.$error.required">
-                        <div class="error" ng-show="form.newMoneyFlow.source.$error.required && !view.moneyFlow.isOutgoing">Please select a source.</div>
-                        <div class="error" ng-show="form.newMoneyFlow.source.$error.required && view.moneyFlow.isOutgoing">Please select a recipient.</div>
+                        <div class="error" ng-show="form.newMoneyFlow.source.$error.required ">Please select a {{view.moneyFlow.isOutgoing ? 'recipient' : 'source'}}.</div>
                     </div>
                 </div>
             </div>
@@ -139,7 +147,7 @@
                         <p class="subheader" style="margin-top:5px;">{{view.moneyFlow.description.length}} of {{view.maxDescriptionLength}} characters remaining.</p>
                     </div>
                 </div>
-            </div>            
+            </div>
         </div>
     </form>
     <div class="row" ng-show="view.isLoadingRequiredData || view.isSaving">
@@ -153,10 +161,8 @@
 
 <div class="modal-footer">
     <button ng-disabled="form.newMoneyFlow.$invalid" class="btn btn-primary" ng-click="view.save()">Save</button>
-    <button class="btn btn-warning" ng-click="view.cancel()">Cancel</button>
+    <button class="btn btn-cancel" ng-click="view.cancel()">Cancel</button>
 </div>
-
-
 <script type="text/ng-template" id="selectSourceTemplate.html">
     <a>
         <div ng-show="match.model.primaryText">

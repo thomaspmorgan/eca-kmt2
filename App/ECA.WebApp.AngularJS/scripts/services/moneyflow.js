@@ -18,6 +18,20 @@ angular.module('staticApp')
               var path = 'projects/' + id + '/moneyFlows'
               return DragonBreath.get(params, path);
           },
+          remove: function(moneyFlow, entityId) {
+              var path = '';
+              if (moneyFlow.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.project.id) {
+                  path = 'projects/' + entityId + '/moneyflows';
+              }
+              else if (moneyFlow.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id) {
+                  path = 'programs/' + entityId + '/moneyflows';
+              }
+              else {
+                  throw Error('The money flow source recipient type is not yet recognized.');
+              }
+              path += '/' + moneyFlow.id;
+              return DragonBreath.delete(moneyFlow, path);
+          },
           update: function (moneyFlow, entityId) {
               var path = '';
               if (moneyFlow.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.project.id) {

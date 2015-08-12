@@ -192,5 +192,33 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
         #endregion
+
+        #region Delete
+        [TestMethod]
+        public async Task TestDeleteProjectMoneyFlowAsync()
+        {
+            var moneyFlowId = 1;
+            var entityId = 2;
+            var response = await controller.DeleteProjectMoneyFlowAsync(moneyFlowId, entityId);
+            Assert.IsInstanceOfType(response, typeof(OkResult));
+            userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
+            userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
+            moneyFlowService.Verify(x => x.DeleteAsync(It.IsAny<DeletedMoneyFlow>()), Times.Once());
+            moneyFlowService.Verify(x => x.SaveChangesAsync(), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestDeleteProgramMoneyFlowAsync()
+        {
+            var moneyFlowId = 1;
+            var entityId = 2;
+            var response = await controller.DeleteProgramMoneyFlowAsync(moneyFlowId, entityId);
+            Assert.IsInstanceOfType(response, typeof(OkResult));
+            userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
+            userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
+            moneyFlowService.Verify(x => x.DeleteAsync(It.IsAny<DeletedMoneyFlow>()), Times.Once());
+            moneyFlowService.Verify(x => x.SaveChangesAsync(), Times.Once());
+        }
+        #endregion
     }
 }

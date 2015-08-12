@@ -31,6 +31,7 @@ Post-Deployment Script Template
 :r .\StaticData\dbo.ProgramStatus.staticdata.sql
 :r .\StaticData\dbo.ProgramType.staticdata.sql
 :r .\StaticData\dbo.ProjectType.staticdata.sql
+:r .\StaticData\dbo.ProminentCategory.staticdata.sql
 :r .\StaticData\dbo.SocialMediaType.staticdata.sql
 
 --:r .\CAM.InsertResources.sql

@@ -51,6 +51,11 @@ namespace ECA.Business.Service.Fundings
         public const string DESCRIPTION_EXCEEDS_MAX_LENGTH_FORMAT = "The description exceeds the max length of [{0}].";
 
         /// <summary>
+        /// The source and recipient entities are equal error message.
+        /// </summary>
+        public const string SOURCE_AND_RECIPIENT_ENTITIES_EQUAL_ERROR_MESSAGE = "The source and recipient must not be the same.";
+
+        /// <summary>
         /// Returns enumerated validation results for a MoneyFlow create.
         /// </summary>
         /// <param name="validationEntity">The create entity.</param>
@@ -90,6 +95,11 @@ namespace ECA.Business.Service.Fundings
             if (validationEntity.FiscalYear <= 0)
             {
                 yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.FiscalYear, FISCAL_YEAR_LESS_THAN_ZERO_MESSAGE);
+            }
+            if(validationEntity.SourceEntityTypeId == validationEntity.RecipientEntityTypeId
+                && validationEntity.RecipientEntityId == validationEntity.SourceEntityId)
+            {
+                yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.SourceEntityId, SOURCE_AND_RECIPIENT_ENTITIES_EQUAL_ERROR_MESSAGE);
             }
         }
         /// <summary>

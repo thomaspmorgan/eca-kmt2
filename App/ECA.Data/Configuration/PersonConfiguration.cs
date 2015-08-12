@@ -36,6 +36,15 @@ namespace ECA.Data.Configuration
 
             HasOptional(x => x.PlaceOfBirth).WithMany().HasForeignKey(x => x.PlaceOfBirthId).WillCascadeOnDelete(false);
             Property(x => x.PlaceOfBirthId).HasColumnName("PlaceOfBirth_LocationId");
+
+            HasMany(x => x.ProminentCategories)
+                .WithMany(x => x.ProminentPeople)
+                .Map(x =>
+                {
+                    x.ToTable("PersonProminentCategory");
+                    x.MapLeftKey("PersonId");
+                    x.MapRightKey("ProminentCategoryId");
+                });
         }
     }
 }

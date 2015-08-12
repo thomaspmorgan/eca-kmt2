@@ -43,7 +43,7 @@
         <tbody class="list2">
             <tr ng-repeat="program in programs" class="hover" ng-show="!isLoadingPrograms">
                 <td>
-                    <div ng-style="{marginLeft: (program.programLevel - 1) * 60}">
+                    <div ng-style="{marginLeft: (program.programLevel) * 60}">
                         <span class="owner-office" ng-bind-html="program.officeSymbol | highlight:programFilter">{{office.officeSymbol}}</span>
                         <h4>
                             <a ng-bind-html="program.name | highlight:programFilter" ui-sref="programs.overview({officeId: program.owner_OrganizationId, programId: program.programId})">{{program.name}}</a>
@@ -241,7 +241,7 @@
         </div>
     </div>
     <div class="modalFormButtons">
-        <button class="btn btn-default" ng-click="editModalCancel(this)">CANCEL</button>
+        <button class="btn btn-cancel" ng-click="editModalCancel(this)">CANCEL</button>
         <button class="btn btn-success right" ng-disabled="modalForm.editProgramForm.$invalid" ng-click="saveEditedProgram()">SAVE AND CLOSE</button>
     </div>
 
@@ -406,7 +406,7 @@
         </div>
     </div>
     <div class="modalFormButtons">
-        <button class="btn btn-default" ng-click="createModalCancel(this)">CANCEL</button>
+        <button class="btn btn-cancel" ng-click="createModalCancel(this)">CANCEL</button>
         <button ng-disabled="modalForm.programForm.$invalid" class="btn btn-success right" ng-click="saveCreatedProgram()">CREATE</button>
     </div>
 </modal-dialog>

@@ -9,7 +9,7 @@ namespace ECA.WebApi.Models.Fundings
     /// <summary>
     /// The AdditionalProgramMoneyFlowBindingModel is used by a web api client to add a money flow to a program.
     /// </summary>
-    public class AdditionalProgramMoneyFlowBindingModel : AdditionalMoneyFlowBindingModel<Program>
+    public class AdditionalProgramMoneyFlowBindingModel : AdditionalMoneyFlowBindingModel
     {
         /// <summary>
         /// Gets or sets the program id.
