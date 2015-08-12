@@ -1,12 +1,12 @@
 ﻿CREATE TABLE [dbo].[Bookmark]
 (
-	[BookmarkId] INT NOT NULL PRIMARY KEY, 
+	[BookmarkId] INT NOT NULL IDENTITY (1, 1) PRIMARY KEY, 
     [OfficeId] INT NULL, 
     [ProgramId] INT NULL, 
     [ProjectId] INT NULL, 
     [PersonId] INT NULL, 
     [OrganizationId] INT NULL, 
-    [PrincipalId] INT NULL, 
+    [PrincipalId] INT NOT NULL, 
     [AddedOn] DATETIMEOFFSET NOT NULL DEFAULT getdate(), 
     [Automatic] BIT NOT NULL DEFAULT 0, 
     CONSTRAINT [FK_Bookmark_Office] FOREIGN KEY ([OfficeId]) REFERENCES [Organization]([OrganizationId]), 

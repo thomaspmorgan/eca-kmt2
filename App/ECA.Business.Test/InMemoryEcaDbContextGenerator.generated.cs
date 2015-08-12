@@ -27,6 +27,36 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.Accommodation>(this.SingleOrDefault(x => x.AccommodationId.Equals(keyValues.First())));
 		}
 	}
+	public class ActivityTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Activity>
+	{
+		public override ECA.Data.Activity Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ActivityId
+			return this.SingleOrDefault(x => x.ActivityId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.Activity> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ActivityId
+			return Task.FromResult<ECA.Data.Activity>(this.SingleOrDefault(x => x.ActivityId.Equals(keyValues.First())));
+		}
+	}
+	public class ActivityTypeTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ActivityType>
+	{
+		public override ECA.Data.ActivityType Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ActivityTypeId
+			return this.SingleOrDefault(x => x.ActivityTypeId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.ActivityType> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ActivityTypeId
+			return Task.FromResult<ECA.Data.ActivityType>(this.SingleOrDefault(x => x.ActivityTypeId.Equals(keyValues.First())));
+		}
+	}
 	public class ActorTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Actor>
 	{
 		public override ECA.Data.Actor Find(params object[] keyValues)
@@ -102,6 +132,21 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.ArtifactType>(this.SingleOrDefault(x => x.ArtifactTypeId.Equals(keyValues.First())));
 		}
 	}
+	public class BookmarkTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Bookmark>
+	{
+		public override ECA.Data.Bookmark Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///BookmarkId
+			return this.SingleOrDefault(x => x.BookmarkId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.Bookmark> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///BookmarkId
+			return Task.FromResult<ECA.Data.Bookmark>(this.SingleOrDefault(x => x.BookmarkId.Equals(keyValues.First())));
+		}
+	}
 	public class CategoryTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Category>
 	{
 		public override ECA.Data.Category Find(params object[] keyValues)
@@ -160,36 +205,6 @@ namespace ECA.Business.Test
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
 			///EmailAddressId
 			return Task.FromResult<ECA.Data.EmailAddress>(this.SingleOrDefault(x => x.EmailAddressId.Equals(keyValues.First())));
-		}
-	}
-    public class ActivityTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Activity>
-	{
-        public override ECA.Data.Activity Find(params object[] keyValues)
-		{
-			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///EventId
-            return this.SingleOrDefault(x => x.ActivityId.Equals(keyValues.First()));
-		}
-        public override Task<ECA.Data.Activity> FindAsync(params object[] keyValues)
-		{
-			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///EventId
-            return Task.FromResult<ECA.Data.Activity>(this.SingleOrDefault(x => x.ActivityId.Equals(keyValues.First())));
-		}
-	}
-    public class ActivityTypeTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ActivityType>
-	{
-        public override ECA.Data.ActivityType Find(params object[] keyValues)
-		{
-			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///EventTypeId
-            return this.SingleOrDefault(x => x.ActivityTypeId.Equals(keyValues.First()));
-		}
-        public override Task<ECA.Data.ActivityType> FindAsync(params object[] keyValues)
-		{
-			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///EventTypeId
-            return Task.FromResult<ECA.Data.ActivityType>(this.SingleOrDefault(x => x.ActivityTypeId.Equals(keyValues.First())));
 		}
 	}
 	public class ExternalIdTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ExternalId>
@@ -893,17 +908,18 @@ namespace ECA.Business.Test
 		public void InitializeDbSets()
 		{
 			this.Accommodations = new AccommodationTestDbSet();
+			this.Activities = new ActivityTestDbSet();
+			this.ActivityTypes = new ActivityTypeTestDbSet();
 			this.Actors = new ActorTestDbSet();
 			this.Addresses = new AddressTestDbSet();
 			this.AddressTypes = new AddressTypeTestDbSet();
 			this.Artifacts = new ArtifactTestDbSet();
 			this.ArtifactTypes = new ArtifactTypeTestDbSet();
+			this.Bookmarks = new BookmarkTestDbSet();
 			this.Categories = new CategoryTestDbSet();
 			this.Contacts = new ContactTestDbSet();
 			this.Courses = new CourseTestDbSet();
 			this.EmailAddresses = new EmailAddressTestDbSet();
-            this.Activities = new ActivityTestDbSet();
-            this.ActivityTypes = new ActivityTypeTestDbSet();
 			this.ExternalIds = new ExternalIdTestDbSet();
 			this.Foci = new FocusTestDbSet();
 			this.Genders = new GenderTestDbSet();

@@ -1,7 +1,7 @@
 <div class="breadcrumbs">
     <p><a ui-sref="offices.overview({officeId: program.ownerOrganizationId})">{{program.ownerName}}</a> &bull; <a ui-sref="programs.overview({programId: program.id})">{{program.name}}</a> &bull; {{project.name}}</p>
 </div>
-<div class="jumbotron project" ng-controller="ToolbarCtrl">
+<div class="jumbotron project">
     <div class="toolbar" sticky offset="49">
         <div class="left2">
             <div class="btn-group" dropdown>
@@ -24,12 +24,7 @@
             </div>
             <span class="detail">Last Updated {{(project.revisedOn | date:"MMM dd, yyyy") || 'No revised on date.'}}</span>
         </div>
-        <div class="right">
-            <img class="icon star" src="images/star.png" alt="">
-            <img class="icon" src="images/exportA.png" alt="">
-            <img class="icon wide" src="images/collabA.png" alt="" ng-click="openCollaboratorModal()" ng-show="isOwner">
-            <img class=" icon" src="images/toolCommentsA.png" alt="">
-        </div>
+        <ng-include src="'/views/partials/toolbaricons.html'"></ng-include>
     </div>
     <div class="heading">
         <h5>PROJECT</h5>

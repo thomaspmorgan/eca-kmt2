@@ -420,6 +420,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Common\AdGraph.cs" />
     <Compile Include="Controllers\Admin\AddressesController.cs" />
+    <Compile Include="Controllers\Admin\BookmarksController.cs" />
     <Compile Include="Controllers\Admin\GendersController.cs" />
     <Compile Include="Controllers\Admin\MaritalStatusesController.cs" />
     <Compile Include="Controllers\Fundings\MoneyFlowSourceRecipientTypesController.cs" />
@@ -452,6 +453,7 @@
     <Compile Include="Models\Fundings\AdditionalProgramMoneyFlowBindingModel.cs" />
     <Compile Include="Models\Fundings\AdditionalProjectMoneyFlowBindingModel.cs" />
     <Compile Include="Models\Fundings\UpdatedMoneyFlowBindingModel.cs" />
+    <Compile Include="Models\Admin\BookmarkBindingModel.cs" />
     <Compile Include="Models\Offices\CollaboratorBindingModel.cs" />
     <Compile Include="Models\Admin\AddressBindingModel.cs" />
     <Compile Include="Models\Admin\AddressModelHandler.cs" />

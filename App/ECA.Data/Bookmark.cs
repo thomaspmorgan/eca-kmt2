@@ -17,7 +17,6 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the BookmarkId
         /// </summary>
-        [Key]
         public int BookmarkId { get; set; }
 
         /// <summary>
@@ -51,6 +50,16 @@ namespace ECA.Data
         public Project Project { get; set; }
 
         /// <summary>
+        /// Gets or sets the person id
+        /// </summary>
+        public int? PersonId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the person
+        /// </summary>
+        public Person Person { get; set; }
+
+        /// <summary>
         /// Gets or sets the OrganizationId foreign key
         /// </summary>
         public int? OrganizationId { get; set; }
@@ -63,7 +72,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the user that owns the bookmark
         /// </summary>
-        public int? PrincipalId { get; set; }
+        public int PrincipalId { get; set; }
 
         /// <summary>
         /// The user who owns the bookmark
