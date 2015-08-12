@@ -155,6 +155,10 @@ namespace CAM.Data
 		/// Returns the Office Owner lookup with id 10.
 		/// </summary>
 		public static StaticLookup OfficeOwner { get { return new StaticLookup("Office Owner", 10); } }
+		/// <summary>
+		/// Returns the Administrator lookup with id 11.
+		/// </summary>
+		public static StaticLookup Administrator { get { return new StaticLookup("Administrator", 11); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -171,6 +175,7 @@ namespace CAM.Data
 			if (8 == id) return Permission.ProjectOwner;
 			if (9 == id) return Permission.ProgramOwner;
 			if (10 == id) return Permission.OfficeOwner;
+			if (11 == id) return Permission.Administrator;
 			return null;
 		}
 		///<summary>
@@ -189,6 +194,7 @@ namespace CAM.Data
 			if ("Project Owner".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.ProjectOwner;
 			if ("Program Owner".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.ProgramOwner;
 			if ("Office Owner".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.OfficeOwner;
+			if ("Administrator".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Administrator;
 			return null;
 		}
 
@@ -300,6 +306,18 @@ namespace CAM.Data
 		/// </summary>
 		///Office Owner
 		public const int OFFICE_OWNER_ID = 10;
+
+		/// <summary>
+		/// Returns the Administrator string value.
+		/// </summary>
+		///Administrator
+		public const string ADMINISTRATOR_VALUE = "Administrator";
+
+		/// <summary>
+		/// Returns the 11 integer id value.
+		/// </summary>
+		///Administrator
+		public const int ADMINISTRATOR_ID = 11;
 
 		/// <summary>
 		/// Returns the static lookup config used to generate this type's static lookups.

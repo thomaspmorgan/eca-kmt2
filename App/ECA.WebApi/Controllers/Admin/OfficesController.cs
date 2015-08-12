@@ -85,6 +85,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="id">The id of the office.</param>
         /// <returns>The office.</returns>
         [ResponseType(typeof(OfficeDTO))]
+        [Route("Offices/{id}")]
         public async Task<IHttpActionResult> GetOfficeByIdAsync(int id)
         {
             var dto = await this.service.GetOfficeByIdAsync(id);
@@ -210,6 +211,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="queryModel">The query model</param>
         /// <returns>The offices</returns>
         [ResponseType(typeof(PagedQueryResults<SimpleOfficeDTO>))]
+        [Route("Offices")]
         public async Task<IHttpActionResult> GetOfficesAsync([FromUri]PagingQueryBindingModel<SimpleOfficeDTO> queryModel)
         {
             if (ModelState.IsValid)
@@ -234,8 +236,8 @@ namespace ECA.WebApi.Controllers.Admin
         /// <returns>An ok result.</returns>
         [Route("Offices/Collaborator/Add")]
         [ResponseType(typeof(OkResult))]
-        [ResourceAuthorize(CAM.Data.Permission.OFFICE_OWNER_VALUE, ResourceType.OFFICE_VALUE, typeof(CollaboratorBindingModel), "OfficeId")]
-        public Task<IHttpActionResult> PostAddCollaboratorAsync(CollaboratorBindingModel model)
+        [ResourceAuthorize(CAM.Data.Permission.OFFICE_OWNER_VALUE, ResourceType.OFFICE_VALUE, typeof(OfficeCollaboratorBindingModel), "OfficeId")]
+        public Task<IHttpActionResult> PostAddCollaboratorAsync(OfficeCollaboratorBindingModel model)
         {
             return authorizationHandler.HandleGrantedPermissionBindingModelAsync(model, this);
         }
@@ -247,8 +249,8 @@ namespace ECA.WebApi.Controllers.Admin
         /// <returns>An ok result.</returns>
         [Route("Offices/Collaborator/Remove")]
         [ResponseType(typeof(OkResult))]
-        [ResourceAuthorize(CAM.Data.Permission.OFFICE_OWNER_VALUE, ResourceType.OFFICE_VALUE, typeof(CollaboratorBindingModel), "OfficeId")]
-        public Task<IHttpActionResult> PostRemoveCollaboratorAsync(CollaboratorBindingModel model)
+        [ResourceAuthorize(CAM.Data.Permission.OFFICE_OWNER_VALUE, ResourceType.OFFICE_VALUE, typeof(OfficeCollaboratorBindingModel), "OfficeId")]
+        public Task<IHttpActionResult> PostRemoveCollaboratorAsync(OfficeCollaboratorBindingModel model)
         {
             return authorizationHandler.HandleDeletedPermissionBindingModelAsync(model, this);
         }
@@ -260,8 +262,8 @@ namespace ECA.WebApi.Controllers.Admin
         /// <returns>An ok result.</returns>
         [Route("Offices/Collaborator/Revoke")]
         [ResponseType(typeof(OkResult))]
-        [ResourceAuthorize(CAM.Data.Permission.OFFICE_OWNER_VALUE, ResourceType.OFFICE_VALUE, typeof(CollaboratorBindingModel), "OfficeId")]
-        public Task<IHttpActionResult> PostRevokeCollaboratorAsync(CollaboratorBindingModel model)
+        [ResourceAuthorize(CAM.Data.Permission.OFFICE_OWNER_VALUE, ResourceType.OFFICE_VALUE, typeof(OfficeCollaboratorBindingModel), "OfficeId")]
+        public Task<IHttpActionResult> PostRevokeCollaboratorAsync(OfficeCollaboratorBindingModel model)
         {
             return authorizationHandler.HandleRevokedPermissionBindingModelAsync(model, this);
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECA.WebApi.Security;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
@@ -17,7 +18,7 @@ namespace ECA.WebApi.Controllers
     /// The Logs controller will return current logging information for the web api.
     /// </summary>
     [RoutePrefix("api/Logs")]
-    //[Authorize]
+    [Authorize]
     public class LogsController : ApiController
     {
         private const string CURRENT_LOG_FILE_NAME_PATTERN = @"log*resources";
@@ -25,9 +26,11 @@ namespace ECA.WebApi.Controllers
         /// <summary>
         /// Returns the system logs.
         /// </summary>
+        /// <param name="id">The id of the application.  KMT is 1.</param>
         /// <returns>The system logs.</returns>
-        [Route("All")]
-        public HttpResponseMessage GetAllLogs()
+        [Route("All/{id}")]
+        [ResourceAuthorize(CAM.Data.Permission.ADMINISTRATOR_VALUE, CAM.Data.ResourceType.APPLICATION_VALUE)]
+        public HttpResponseMessage GetAllLogs(int id)
         {
             var logFiles = new List<String>();
             var currentLog = GetCurrentLogFile();
@@ -66,9 +69,11 @@ namespace ECA.WebApi.Controllers
         /// <summary>
         /// Returns the system logs.
         /// </summary>
+        /// <param name="id">The id of the application.  The KMT is 1.</param>
         /// <returns>The system logs.</returns>
-        [Route("Recent")]
-        public HttpResponseMessage GetMostRecentLog()
+        [Route("Recent/{id}")]
+        [ResourceAuthorize(CAM.Data.Permission.ADMINISTRATOR_VALUE, CAM.Data.ResourceType.APPLICATION_VALUE)]
+        public HttpResponseMessage GetMostRecentLog(int id)
         {
             string logContent = String.Empty;
             var currentLogFile = GetCurrentLogFile();

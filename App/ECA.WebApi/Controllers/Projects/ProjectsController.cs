@@ -103,6 +103,8 @@ namespace ECA.WebApi.Controllers.Projects
             }
         }
 
+        //ME
+
         /// <summary>
         /// Returns a list of projects.
         /// </summary>
@@ -130,6 +132,7 @@ namespace ECA.WebApi.Controllers.Projects
         /// <returns>Project</returns>
         [ResponseType(typeof(ProjectDTO))]
         [ResourceAuthorize(CAM.Data.Permission.VIEW_PROJECT_VALUE, CAM.Data.ResourceType.PROJECT_VALUE)]
+        [Route("Projects/{id:int}")]
         public async Task<IHttpActionResult> GetProjectByIdAsync(int id)
         {
             var project = await this.projectService.GetProjectByIdAsync(id);
@@ -149,9 +152,10 @@ namespace ECA.WebApi.Controllers.Projects
         /// <param name="model">The new project to create</param>
         /// <returns>The created project</returns>
         [ResponseType(typeof(ProjectDTO))]
+        [Route("Projects")]
         public async Task<IHttpActionResult> PostProjectAsync(DraftProjectBindingModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var currentUser = userProvider.GetCurrentUser();
                 var businessUser = userProvider.GetBusinessUser(currentUser);
@@ -172,6 +176,7 @@ namespace ECA.WebApi.Controllers.Projects
         /// <param name="model">The updated project.</param>
         /// <returns>The saved and updated project.</returns>
         [ResponseType(typeof(ProjectDTO))]
+        [Route("Projects")]
         public async Task<IHttpActionResult> PutProjectAsync(PublishedProjectBindingModel model)
         {
             if (ModelState.IsValid)
@@ -188,14 +193,14 @@ namespace ECA.WebApi.Controllers.Projects
                 return BadRequest(ModelState);
             }
         }
-        
+
         /// <summary>
         /// Adds the person as a participant to the project.
         /// </summary>
         /// <returns>An Ok Result.</returns>
         [Route("Projects/Participants/Person/Add")]
         [ResponseType(typeof(OkResult))]
-        [ResourceAuthorize(CAM.Data.Permission.PROJECT_OWNER_VALUE, ResourceType.PROJECT_VALUE, typeof(CollaboratorBindingModel), "ProjectId")]
+        [ResourceAuthorize(CAM.Data.Permission.PROJECT_OWNER_VALUE, ResourceType.PROJECT_VALUE, typeof(ProjectCollaboratorBindingModel), "ProjectId")]
         public async Task<IHttpActionResult> PostAddPersonParticipantAsync(AdditionalPersonProjectParticipantBindingModel model)
         {
             if (ModelState.IsValid)
@@ -218,7 +223,7 @@ namespace ECA.WebApi.Controllers.Projects
         /// <returns>An Ok Result.</returns>
         [Route("Projects/Participants/Organization/Add")]
         [ResponseType(typeof(OkResult))]
-        [ResourceAuthorize(CAM.Data.Permission.PROJECT_OWNER_VALUE, ResourceType.PROJECT_VALUE, typeof(CollaboratorBindingModel), "ProjectId")]
+        [ResourceAuthorize(CAM.Data.Permission.PROJECT_OWNER_VALUE, ResourceType.PROJECT_VALUE, typeof(ProjectCollaboratorBindingModel), "ProjectId")]
         public async Task<IHttpActionResult> PostAddOrganizationParticipantAsync(AdditionalOrganizationProjectPariticipantBindingModel model)
         {
             if (ModelState.IsValid)
@@ -242,8 +247,8 @@ namespace ECA.WebApi.Controllers.Projects
         /// <returns>An ok result.</returns>
         [Route("Projects/Collaborator/Add")]
         [ResponseType(typeof(OkResult))]
-        [ResourceAuthorize(CAM.Data.Permission.PROJECT_OWNER_VALUE, ResourceType.PROJECT_VALUE, typeof(CollaboratorBindingModel), "ProjectId")]
-        public Task<IHttpActionResult> PostAddCollaboratorAsync(CollaboratorBindingModel model)
+        [ResourceAuthorize(CAM.Data.Permission.PROJECT_OWNER_VALUE, ResourceType.PROJECT_VALUE, typeof(ProjectCollaboratorBindingModel), "ProjectId")]
+        public Task<IHttpActionResult> PostAddCollaboratorAsync(ProjectCollaboratorBindingModel model)
         {
             return authorizationHandler.HandleGrantedPermissionBindingModelAsync(model, this);
         }
@@ -255,8 +260,8 @@ namespace ECA.WebApi.Controllers.Projects
         /// <returns>An ok result.</returns>
         [Route("Projects/Collaborator/Remove")]
         [ResponseType(typeof(OkResult))]
-        [ResourceAuthorize(CAM.Data.Permission.PROJECT_OWNER_VALUE, ResourceType.PROJECT_VALUE, typeof(CollaboratorBindingModel), "ProjectId")]
-        public Task<IHttpActionResult> PostRemoveCollaboratorAsync(CollaboratorBindingModel model)
+        [ResourceAuthorize(CAM.Data.Permission.PROJECT_OWNER_VALUE, ResourceType.PROJECT_VALUE, typeof(ProjectCollaboratorBindingModel), "ProjectId")]
+        public Task<IHttpActionResult> PostRemoveCollaboratorAsync(ProjectCollaboratorBindingModel model)
         {
             return authorizationHandler.HandleDeletedPermissionBindingModelAsync(model, this);
         }
@@ -268,8 +273,8 @@ namespace ECA.WebApi.Controllers.Projects
         /// <returns>An ok result.</returns>
         [Route("Projects/Collaborator/Revoke")]
         [ResponseType(typeof(OkResult))]
-        [ResourceAuthorize(CAM.Data.Permission.PROJECT_OWNER_VALUE, ResourceType.PROJECT_VALUE, typeof(CollaboratorBindingModel), "ProjectId")]
-        public Task<IHttpActionResult> PostRevokeCollaboratorAsync(CollaboratorBindingModel model)
+        [ResourceAuthorize(CAM.Data.Permission.PROJECT_OWNER_VALUE, ResourceType.PROJECT_VALUE, typeof(ProjectCollaboratorBindingModel), "ProjectId")]
+        public Task<IHttpActionResult> PostRevokeCollaboratorAsync(ProjectCollaboratorBindingModel model)
         {
             return authorizationHandler.HandleRevokedPermissionBindingModelAsync(model, this);
         }

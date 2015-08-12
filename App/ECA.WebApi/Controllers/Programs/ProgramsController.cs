@@ -107,6 +107,11 @@ namespace ECA.WebApi.Controllers.Programs
             }
         }
 
+        /// <summary>
+        /// Returns a listing of programs with their heirarchical information.
+        /// </summary>
+        /// <param name="queryModel">The query model.</param>
+        /// <returns>The programs.</returns>
         [ResponseType(typeof(PagedQueryResults<OrganizationProgramDTO>))]
         [Route("Programs/Hierarchy")]
         public async Task<IHttpActionResult> GetProgramsHierarchyAsync([FromUri]PagingQueryBindingModel<OrganizationProgramDTO> queryModel)
@@ -129,7 +134,8 @@ namespace ECA.WebApi.Controllers.Programs
         /// <summary>
         /// Returns the subprograms of a program with the given id
         /// </summary>
-        /// <param name="id">The program id.</param>
+        /// <param name="programId">The program id.</param>
+        /// <param name="queryModel">The query model.</param>
         /// <returns>The subprograms</returns>
         [Route("Programs/{programId}/Subprograms")]
         [ResponseType(typeof(PagedQueryResults<OrganizationProgramDTO>))]
@@ -152,6 +158,7 @@ namespace ECA.WebApi.Controllers.Programs
         /// <returns>The program with the given id.</returns>
         [ResponseType(typeof(ProgramViewModel))]
         [ResourceAuthorize(CAM.Data.Permission.VIEW_PROGRAM_VALUE, CAM.Data.ResourceType.PROGRAM_VALUE)]
+        [Route("Programs/{id:int}")]
         public async Task<IHttpActionResult> GetProgramByIdAsync(int id)
         {
             var program = await this.programService.GetProgramByIdAsync(id);
@@ -171,6 +178,7 @@ namespace ECA.WebApi.Controllers.Programs
         /// <param name="model">The new draft program.</param>
         /// <returns>The saved program.</returns>
         [ResponseType(typeof(ProgramDTO))]
+        [Route("Programs")]
         public async Task<IHttpActionResult> PostProgramAsync(DraftProgramBindingModel model)
         {
             if (ModelState.IsValid)
@@ -195,6 +203,7 @@ namespace ECA.WebApi.Controllers.Programs
         /// <param name="model">The updated program.</param>
         /// <returns>The system's updated program.</returns>
         [ResponseType(typeof(ProgramDTO))]
+        [Route("Programs")]
         public async Task<IHttpActionResult> PutProgramAsync(ProgramBindingModel model)
         {
             if (ModelState.IsValid)
@@ -265,8 +274,8 @@ namespace ECA.WebApi.Controllers.Programs
         /// <returns>An ok result.</returns>
         [Route("Programs/Collaborator/Add")]
         [ResponseType(typeof(OkResult))]
-        [ResourceAuthorize(CAM.Data.Permission.PROGRAM_OWNER_VALUE, ResourceType.PROGRAM_VALUE, typeof(CollaboratorBindingModel), "ProgramId")]
-        public Task<IHttpActionResult> PostAddCollaboratorAsync(CollaboratorBindingModel model)
+        [ResourceAuthorize(CAM.Data.Permission.PROGRAM_OWNER_VALUE, ResourceType.PROGRAM_VALUE, typeof(ProgramCollaboratorBindingModel), "ProgramId")]
+        public Task<IHttpActionResult> PostAddCollaboratorAsync(ProgramCollaboratorBindingModel model)
         {
             return authorizationHandler.HandleGrantedPermissionBindingModelAsync(model, this);
         }
@@ -278,8 +287,8 @@ namespace ECA.WebApi.Controllers.Programs
         /// <returns>An ok result.</returns>
         [Route("Programs/Collaborator/Remove")]
         [ResponseType(typeof(OkResult))]
-        [ResourceAuthorize(CAM.Data.Permission.PROGRAM_OWNER_VALUE, ResourceType.PROGRAM_VALUE, typeof(CollaboratorBindingModel), "ProgramId")]
-        public Task<IHttpActionResult> PostRemoveCollaboratorAsync(CollaboratorBindingModel model)
+        [ResourceAuthorize(CAM.Data.Permission.PROGRAM_OWNER_VALUE, ResourceType.PROGRAM_VALUE, typeof(ProgramCollaboratorBindingModel), "ProgramId")]
+        public Task<IHttpActionResult> PostRemoveCollaboratorAsync(ProgramCollaboratorBindingModel model)
         {
             return authorizationHandler.HandleDeletedPermissionBindingModelAsync(model, this);
         }
@@ -291,8 +300,8 @@ namespace ECA.WebApi.Controllers.Programs
         /// <returns>An ok result.</returns>
         [Route("Programs/Collaborator/Revoke")]
         [ResponseType(typeof(OkResult))]
-        [ResourceAuthorize(CAM.Data.Permission.PROGRAM_OWNER_VALUE, ResourceType.PROGRAM_VALUE, typeof(CollaboratorBindingModel), "ProgramId")]
-        public Task<IHttpActionResult> PostRevokeCollaboratorAsync(CollaboratorBindingModel model)
+        [ResourceAuthorize(CAM.Data.Permission.PROGRAM_OWNER_VALUE, ResourceType.PROGRAM_VALUE, typeof(ProgramCollaboratorBindingModel), "ProgramId")]
+        public Task<IHttpActionResult> PostRevokeCollaboratorAsync(ProgramCollaboratorBindingModel model)
         {
             return authorizationHandler.HandleRevokedPermissionBindingModelAsync(model, this);
         }

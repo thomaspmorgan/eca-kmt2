@@ -137,7 +137,7 @@ namespace ECA.WebApi.Test.Security
             var permissionName = "edit";
             var permission = new ModelPermission("B.OtherId", typeof(ABindingModel), permissionName, resourceType);
             permission.Invoking(x => x.GetResourceId(dictionary)).ShouldThrow<NotSupportedException>()
-                .WithMessage("There more than one action arguments for the web api.  You must specify the name of the variable in the property path.");
+                .WithMessage("There are more than one action arguments for the web api.  You must specify the name of the variable in the property path.");
         }
 
         [TestMethod]

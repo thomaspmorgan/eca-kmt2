@@ -47,6 +47,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="queryModel">The paging, filtering, and sorting model.</param>
         /// <returns>The list of participantPersons.</returns>
         [ResponseType(typeof(PagedQueryResults<SimpleParticipantPersonDTO>))]
+        [Route("ParticipantPersons")]
         public async Task<IHttpActionResult> GetParticipantPersonsAsync([FromUri]PagingQueryBindingModel<SimpleParticipantPersonDTO> queryModel)
         {
             if (ModelState.IsValid)
