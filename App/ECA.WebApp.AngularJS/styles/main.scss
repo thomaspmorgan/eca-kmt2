@@ -728,11 +728,22 @@ div.tip:hover span {
 
 .bookmark {
     
-    .bookmark-type {
-        margin-top: 15px;
+    .bookmark-header {
+
+        padding-top: 15px;
         color: #fff;
         text-transform: uppercase;
-    }      
+
+        a {
+            color: #fff;
+            opacity: 0.5;
+        }
+        
+        a:hover {
+            opacity: 1;
+        }
+
+    }
     
     .bookmark-content {
         height: 200px;
