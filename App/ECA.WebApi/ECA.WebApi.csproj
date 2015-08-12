@@ -78,7 +78,7 @@
     <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Dev|AnyCPU' ">
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Dev|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -420,6 +420,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Common\AdGraph.cs" />
     <Compile Include="Controllers\Admin\AddressesController.cs" />
+    <Compile Include="Controllers\Admin\BookmarksController.cs" />
     <Compile Include="Controllers\Admin\GendersController.cs" />
     <Compile Include="Controllers\Admin\MaritalStatusesController.cs" />
     <Compile Include="Controllers\Fundings\MoneyFlowSourceRecipientTypesController.cs" />
@@ -453,6 +454,7 @@
     <Compile Include="Models\Fundings\AdditionalProjectMoneyFlowBindingModel.cs" />
     <Compile Include="Models\Fundings\UpdatedMoneyFlowBindingModel.cs" />
     <Compile Include="Models\Offices\OfficeCollaboratorBindingModel.cs" />
+    <Compile Include="Models\Admin\BookmarkBindingModel.cs" />
     <Compile Include="Models\Admin\AddressBindingModel.cs" />
     <Compile Include="Models\Admin\AddressModelHandler.cs" />
     <Compile Include="Models\Admin\IAddressModelHandler.cs" />
@@ -576,9 +578,9 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
-    <None Include="Web.Dev.config">
+	<None Include="Web.Dev.config">
       <DependentUpon>Web.config</DependentUpon>
-    </None>
+	</None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

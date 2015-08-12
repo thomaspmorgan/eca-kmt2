@@ -49,6 +49,7 @@ angular.module('staticApp')
       $scope.view.isAddingParticipant = false;
       $scope.view.isDobDatePickerOpen = false;
       $scope.view.dateFormat = 'dd-MMMM-yyyy';
+      $scope.view.totalParticipants = 0;
 
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;
@@ -58,7 +59,7 @@ angular.module('staticApp')
 
           if (participant.personId) {
               $log.info('Navigating the individual state.');
-              $state.go('participants.personalinformation', { personId: participant.personId });
+              $state.go('people.personalinformation', { personId: participant.personId });
           }
           else if (participant.organizationId) {
               $log.info('Navigating to organization overview state.');
@@ -375,6 +376,7 @@ angular.module('staticApp')
                 $scope.participants = data.results;
                 var limit = TableService.getLimit();
                 tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
+                $scope.view.totalParticipants = data.total;
                 $scope.participantsLoading = false;
             }, function (error) {
                 $log.error('Unable to load project participants.');

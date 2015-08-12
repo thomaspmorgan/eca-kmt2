@@ -68,7 +68,12 @@
         .right {
             margin: 19px -30px 0 0;
 
+            a {
+                color: transparent;
+            }
+
             .icon {
+                color: #fff;
                 margin: 0 30px 0 0;
                 opacity: .5;
             }
@@ -78,6 +83,15 @@
             }
 
             .star {
+                color: #000;
+            }
+
+            .star:hover {
+                opacity: .5;
+            }
+
+            .star.starred {
+                color: #FFDE00;
                 opacity: 1;
             }
         }

@@ -137,6 +137,7 @@
     <Compile Include="Service\Admin\PersonSocialMediaPresenceTest.cs" />
     <Compile Include="Service\Admin\SocialMediaPresenceTest.cs" />
     <Compile Include="Service\Admin\SocialMediaServiceTest.cs" />
+    <Compile Include="Service\Admin\BookmarkServiceTest.cs" />
     <Compile Include="Service\Admin\UpdatedSocialMediaPresenceTest.cs" />
     <Compile Include="Service\Admin\UpdateOrganizationValidationEntityTest.cs" />
     <Compile Include="Service\Fundings\UpdatedMoneyFlowTest.cs" />
