@@ -58,7 +58,7 @@ angular.module('staticApp')
 
           if (participant.personId) {
               $log.info('Navigating the individual state.');
-              $state.go('participants.personalinformation', { personId: participant.personId });
+              $state.go('people.personalinformation', { personId: participant.personId });
           }
           else if (participant.organizationId) {
               $log.info('Navigating to organization overview state.');
