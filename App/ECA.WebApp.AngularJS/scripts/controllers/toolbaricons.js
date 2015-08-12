@@ -118,14 +118,17 @@ angular.module('staticApp')
       }
 
       $scope.toggleBookmark = function () {
+          $scope.togglingBookmark = true;
           if ($scope.isBookmarked) {
               BookmarkService.deleteBookmark(bookmark)
                 .then(function () {
                     NotificationService.showSuccessMessage('The bookmark was successfully removed.');
-                    isBookmarked();
                 }, function () {
                     NotificationService.showErrorMessage('There was an error removing the bookmark.');
+                })
+                .finally(function () {
                     isBookmarked();
+                    $scope.togglingBookmark = false;
                 });
           } else {
               var params = {
@@ -136,10 +139,12 @@ angular.module('staticApp')
               BookmarkService.createBookmark(params)
                 .then(function () {
                     NotificationService.showSuccessMessage('The bookmark was successfully added.');
-                    isBookmarked();
                 }, function () {
                     NotificationService.showErrorMessage('There was an error adding the bookmark.');
+                })
+                .finally(function () {
                     isBookmarked();
+                    $scope.togglingBookmark = false;
                 });
           }
       }

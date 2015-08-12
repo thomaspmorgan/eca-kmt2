@@ -1,6 +1,6 @@
 ﻿<div class="right" ng-controller="ToolbarIconsCtrl">
 
-    <a ng-click="toggleBookmark()">
+    <a ng-click="toggleBookmark()" ng-disabled="togglingBookmark">
         <i class="icon star material-icons md-24" ng-class="{starred: isBookmarked}">star</i>
     </a>
     <a>
