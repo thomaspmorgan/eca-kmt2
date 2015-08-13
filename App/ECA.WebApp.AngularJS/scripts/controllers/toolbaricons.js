@@ -60,12 +60,9 @@ angular.module('staticApp')
 
           var params = {
               limit: 300,
-              filter: {
-                  comparison: 'eq',
-                  value: stateParams.foreignResourceId,
-                  property: getProperty()
-              }
+              filter: getFilter()
           };
+
 
           BookmarkService.getBookmarks(params)
             .then(function (data) {
@@ -79,6 +76,39 @@ angular.module('staticApp')
                 NotificationService.showErrorMessage('There was an error loading bookmarks.');
             });
 
+      }
+
+      function getFilter() {
+
+          var property = getProperty();
+
+          var filter = [{
+              comparison: 'eq',
+              value: stateParams.foreignResourceId,
+              property: property
+          }];
+
+          if (property === "officeId") {
+              filter.push({
+                  comparison: 'null',
+                  property: 'programId'
+              });
+              filter.push({
+                  comparison: 'null',
+                  property: 'projectId'
+              })
+          } else if (property == "programId") {
+              filter.push({
+                  comparison: 'null',
+                  property: 'officeId'
+              });
+              filter.push({
+                  comparison: 'null',
+                  property: 'projectId'
+              })
+          }
+
+          return filter;
       }
 
       function getProperty() {

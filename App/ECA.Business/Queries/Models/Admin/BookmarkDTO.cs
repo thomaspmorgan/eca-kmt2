@@ -55,5 +55,20 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or sets automatic
         /// </summary>
         public bool Automatic { get; set; }
+
+        /// <summary>
+        /// Gets or sets type
+        /// </summary>
+        public string Type { get; set; }
+
+        /// <summary>
+        /// Gets or sets office symbol or status
+        /// </summary>
+        public string OfficeSymbolOrStatus { get; set; }
+
+        /// <summary>
+        /// Gets or sets name
+        /// </summary>
+        public string Name { get; set; }
     }
 }

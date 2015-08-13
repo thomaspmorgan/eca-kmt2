@@ -186,14 +186,37 @@ namespace ECA.Business.Service.Admin
             var query = Context.Bookmarks.Select(x => new BookmarkDTO
             {
                 BookmarkId = x.BookmarkId,
-                OfficeId = x.OfficeId,
-                ProgramId = x.ProgramId,
+                OfficeId = x.ProjectId != null ? x.Project.ParentProgram.OwnerId : x.OfficeId,
+                ProgramId = x.ProjectId != null ? x.Project.ProgramId : x.ProgramId,
                 ProjectId = x.ProjectId,
                 PersonId = x.PersonId,
                 OrganizationId = x.OrganizationId,
                 PrincipalId = x.PrincipalId,
                 AddedOn = x.AddedOn,
-                Automatic = x.Automatic
+                Automatic = x.Automatic,
+                Type = x.OfficeId != null ? "Office" :
+                       x.ProgramId != null ? "Program" :
+                       x.ProjectId != null ? "Project" :
+                       x.PersonId != null ? "Person" : 
+                                            "Organization",
+                OfficeSymbolOrStatus = x.OfficeId != null ? x.Office.OfficeSymbol :
+                                       x.ProgramId != null ? x.Program.Owner.OfficeSymbol :
+                                       x.ProjectId != null ? x.Project.ParentProgram.Owner.OfficeSymbol :
+                                       x.PersonId != null ? x.Person.Participations.OrderByDescending(p => p.ParticipantStatusId).FirstOrDefault().Status.Status :
+                                                            x.Organization.Status,
+                                        
+                Name = x.OfficeId != null ? x.Office.Name :
+                       x.ProgramId != null ? x.Program.Name :
+                       x.ProjectId != null ? x.Project.Name :
+                       x.PersonId != null ? (((x.Person.NamePrefix != null && x.Person.NamePrefix.Trim().Length > 0) ? (x.Person.NamePrefix.Trim() + " ") : String.Empty)
+                                        + ((x.Person.FirstName != null && x.Person.FirstName.Trim().Length > 0) ? (x.Person.FirstName.Trim() + " ") : String.Empty)
+                                        + ((x.Person.MiddleName != null && x.Person.MiddleName.Trim().Length > 0) ? (x.Person.MiddleName.Trim() + " ") : String.Empty)
+                                        + ((x.Person.LastName != null && x.Person.LastName.Trim().Length > 0) ? (x.Person.LastName.Trim() + " ") : String.Empty)
+                                        + ((x.Person.Patronym != null && x.Person.Patronym.Trim().Length > 0) ? (x.Person.Patronym.Trim() + " ") : String.Empty)
+                                        + ((x.Person.NameSuffix != null && x.Person.NameSuffix.Trim().Length > 0) ? (x.Person.NameSuffix.Trim() + " ") : String.Empty)
+                                        + ((x.Person.Alias != null && x.Person.Alias.Trim().Length > 0) ? ("(" + x.Person.Alias.Trim() + ")") : String.Empty)
+                                        ).Trim() :
+                                             x.Organization.Name 
             });
             query = query.Apply(queryOperator);
             return query.ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
