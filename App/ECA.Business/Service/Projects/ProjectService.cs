@@ -28,6 +28,8 @@ namespace ECA.Business.Service.Projects
 
         private readonly Action<int, Project> throwIfProjectDoesNotExist;
         private readonly Action<ParticipantType> throwIfParticipantTypeDoesNotExist;
+        private readonly Action<int?, Location> throwIfLocationDoesNotExist;
+        private readonly Action<int, LocationType> throwIfLocationTypeDoesNotExist;
 
         /// <summary>
         /// Constructor
@@ -35,9 +37,10 @@ namespace ECA.Business.Service.Projects
         /// <param name="context">The db context</param>
         /// <param name="officeService">The office service.</param>
         /// <param name="validator">The project business validator.</param>
+        /// <param name="saveActions">The context save actions.</param>
         public ProjectService(
-            EcaContext context, 
-            IOfficeService officeService, 
+            EcaContext context,
+            IOfficeService officeService,
             IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity> validator,
             List<ISaveAction> saveActions = null)
             : base(context, saveActions)
@@ -58,6 +61,20 @@ namespace ECA.Business.Service.Projects
                 if (participantType == null)
                 {
                     throw new ModelNotFoundException("The participant type does not exist.");
+                }
+            };
+            throwIfLocationDoesNotExist = (locationId, location) =>
+            {
+                if (location == null)
+                {
+                    throw new ModelNotFoundException(String.Format("The location with id [{0}] does not exist.", locationId));
+                }
+            };
+            throwIfLocationTypeDoesNotExist = (locationTypeId, locationType) =>
+            {
+                if (locationType == null)
+                {
+                    throw new ModelNotFoundException(String.Format("The location type with id [{0}] does not exist.", locationTypeId));
                 }
             };
         }
@@ -237,7 +254,7 @@ namespace ECA.Business.Service.Projects
         /// <param name="draftProject">The project to create</param>
         /// <returns>The project that was created</returns>
         public Project Create(DraftProject draftProject)
-        {   
+        {
             var program = GetProgramById(draftProject.ProgramId);
             this.logger.Trace("Retrieved program by id {0}.", draftProject.ProgramId);
             validator.ValidateCreate(GetCreateValidationEntity(draftProject, program));
@@ -323,7 +340,7 @@ namespace ECA.Business.Service.Projects
         public void Update(PublishedProject updatedProject)
         {
             var projectToUpdate = GetProjectEntityById(updatedProject.ProjectId);
-            if(projectToUpdate == null)
+            if (projectToUpdate == null)
             {
                 throw new ModelNotFoundException(String.Format("The project with id [{0}] was not found.", updatedProject.ProjectId));
             }
@@ -337,7 +354,7 @@ namespace ECA.Business.Service.Projects
 
             var contactsExist = CheckAllContactsExist(updatedProject.PointsOfContactIds);
             this.logger.Trace("Check all contacts with ids {0} existed.", String.Join(", ", updatedProject.PointsOfContactIds));
-            
+
             var categoriesExist = CheckAllCategoriesExist(updatedProject.CategoryIds);
             this.logger.Trace("Check all goals with ids {0} existed.", String.Join(", ", updatedProject.GoalIds));
 
@@ -367,7 +384,7 @@ namespace ECA.Business.Service.Projects
                 objectivesExist: objectivesExist,
                 numberOfCategories: updatedProject.CategoryIds.Count(),
                 numberOfObjectives: updatedProject.ObjectiveIds.Count()));
-            DoUpdate(updatedProject, projectToUpdate);            
+            DoUpdate(updatedProject, projectToUpdate);
         }
 
         /// <summary>
@@ -391,7 +408,7 @@ namespace ECA.Business.Service.Projects
 
             var contactsExist = await CheckAllContactsExistAsync(updatedProject.PointsOfContactIds);
             this.logger.Trace("Check all contacts with ids {0} existed.", String.Join(", ", updatedProject.PointsOfContactIds));
-            
+
             var categoriesExist = await CheckAllCategoriesExistAsync(updatedProject.CategoryIds);
             this.logger.Trace("Check all goals with ids {0} existed.", String.Join(", ", updatedProject.GoalIds));
 
@@ -474,56 +491,6 @@ namespace ECA.Business.Service.Projects
                 );
         }
         #endregion
-
-        private Project GetProjectEntityById(int projectId)
-        {
-            return CreateGetProjectByIdQuery(projectId).FirstOrDefault();
-        }
-
-        private Task<Project> GetProjectEntityByIdAsync(int projectId)
-        {
-            return CreateGetProjectByIdQuery(projectId).FirstOrDefaultAsync();
-        }
-
-        private IQueryable<Project> CreateGetProjectByIdQuery(int projectId)
-        {
-            return Context.Projects       
-                .Include(x => x.Themes)
-                .Include(x => x.Goals)
-                .Include(x => x.Contacts)
-                .Include(x => x.Regions)
-                .Include(x => x.Categories)
-                .Include(x => x.Objectives)
-                .Where(x => x.ProjectId == projectId);
-        }
-
-        private IQueryable<Program> CreateGetProgramByIdQuery(int programId)
-        {
-            return this.Context.Programs
-                .Include(x => x.Themes)
-                .Include(x => x.Goals)
-                .Include(x => x.Contacts)
-                .Include(x => x.Regions)
-                .Include(x => x.Categories)
-                .Include(x => x.Objectives)
-                .Where(x => x.ProgramId == programId);
-        }
-
-        private IQueryable<Organization> CreateGetOrganizationByProjectIdQuery(int projectId)
-        {
-            var query = Context.Projects.Where(x => x.ProjectId == projectId).Select(x => x.ParentProgram.Owner);
-            return query;
-        }
-
-        private IQueryable<int> CreateGetAllowedCategoryIdsQuery(int programId)
-        {
-            return FocusCategoryQueries.CreateGetFocusCategoryDTOByProgramIdQuery(this.Context, programId).Select(x => x.Id);
-        }
-
-        private IQueryable<int> CreateGetAllowedObjectiveIdsQuery(int programId)
-        {
-            return JustificationObjectiveQueries.CreateGetJustificationObjectiveDTOByProgramIdQuery(this.Context, programId).Select(x => x.Id);
-        }
 
         #region Get
 
@@ -627,5 +594,206 @@ namespace ECA.Business.Service.Projects
             return projects;
         }
         #endregion
+
+        #region Locations
+        /// <summary>
+        /// Adds a new project location to the system.
+        /// </summary>
+        /// <param name="projectLocation">The location to add to the project.</param>
+        /// <returns>The location entity added to the datastore.</returns>
+        public Location CreateLocation(AdditionalProjectLocation projectLocation)
+        {
+            var project = Context.Projects.Find(projectLocation.ProjectId);
+            throwIfProjectDoesNotExist(projectLocation.ProjectId, project);
+
+            Location city = null;
+            if (projectLocation.CityId.HasValue)
+            {
+                city = Context.Locations.Find(projectLocation.CityId);
+                throwIfLocationDoesNotExist(projectLocation.CityId, city);
+            }
+
+            var country = Context.Locations.Find(projectLocation.CountryId);
+            throwIfLocationDoesNotExist(projectLocation.CountryId, country);
+
+            var locationType = Context.LocationTypes.Find(projectLocation.LocationTypeId);
+            throwIfLocationTypeDoesNotExist(projectLocation.LocationTypeId, locationType);
+
+            return DoCreateLocation(project, country, city, locationType, projectLocation);
+        }
+
+        /// <summary>
+        /// Adds a new project location to the system.
+        /// </summary>
+        /// <param name="projectLocation">The location to add to the project.</param>
+        /// <returns>The location entity added to the datastore.</returns>
+        public async Task<Location> CreateLocationAsync(AdditionalProjectLocation projectLocation)
+        {
+            var project = await Context.Projects.FindAsync(projectLocation.ProjectId);
+            throwIfProjectDoesNotExist(projectLocation.ProjectId, project);
+
+            Location city = null;
+            if (projectLocation.CityId.HasValue)
+            {
+                city = await Context.Locations.FindAsync(projectLocation.CityId);
+                throwIfLocationDoesNotExist(projectLocation.CityId, city);
+            }
+
+            var country = await Context.Locations.FindAsync(projectLocation.CountryId);
+            throwIfLocationDoesNotExist(projectLocation.CountryId, country);
+
+            var locationType = await Context.LocationTypes.FindAsync(projectLocation.LocationTypeId);
+            throwIfLocationTypeDoesNotExist(projectLocation.LocationTypeId, locationType);
+
+            return DoCreateLocation(project, country, city, locationType, projectLocation);
+        }
+
+        private Location DoCreateLocation(Project project, Location country, Location city, LocationType locationType, AdditionalProjectLocation additionalProjectLocation)
+        {
+            var projectLocation = new Location
+            {
+                City = city,
+                Country = country,
+                Latitude = additionalProjectLocation.Latitude,
+                Longitude = additionalProjectLocation.Longitude,
+                LocationName = additionalProjectLocation.LocationName,
+                LocationType = locationType,
+            };
+            project.Locations.Add(projectLocation);
+            Context.Locations.Add(projectLocation);
+            additionalProjectLocation.Audit.SetHistory(projectLocation);
+            var update = new Update(additionalProjectLocation.Audit.User);
+            update.SetHistory(project);
+            return projectLocation;
+        }
+
+        /// <summary>
+        /// Updates the project's location with the updated values.
+        /// </summary>
+        /// <param name="projectLocation">The updated project location details.</param>
+        public void UpdateLocation(UpdatedProjectLocation projectLocation)
+        {
+            var location = Context.Locations.Find(projectLocation.LocationId);
+            throwIfLocationDoesNotExist(projectLocation.LocationId, location);
+
+            var project = Context.Projects.Find(projectLocation.ProjectId);
+            throwIfProjectDoesNotExist(projectLocation.ProjectId, project);
+
+            Location city = null;
+            if (projectLocation.CityId.HasValue)
+            {
+                city = Context.Locations.Find(projectLocation.CityId);
+                throwIfLocationDoesNotExist(projectLocation.CityId, city);
+            }
+
+            var country = Context.Locations.Find(projectLocation.CountryId);
+            throwIfLocationDoesNotExist(projectLocation.CountryId, country);
+
+            var locationType = Context.LocationTypes.Find(projectLocation.LocationTypeId);
+            throwIfLocationTypeDoesNotExist(projectLocation.LocationTypeId, locationType);
+
+            DoUpdateLocation(project, location, country, city, locationType, projectLocation);
+        }
+
+        /// <summary>
+        /// Updates the project's location with the updated values.
+        /// </summary>
+        /// <param name="projectLocation">The updated project location details.</param>
+        /// <returns>The task.</returns>
+        public async Task UpdateLocationAsync(UpdatedProjectLocation projectLocation)
+        {
+            var location = Context.Locations.Find(projectLocation.LocationId);
+            throwIfLocationDoesNotExist(projectLocation.LocationId, location);
+
+            var project = await Context.Projects.FindAsync(projectLocation.ProjectId);
+            throwIfProjectDoesNotExist(projectLocation.ProjectId, project);
+
+            Location city = null;
+            if (projectLocation.CityId.HasValue)
+            {
+                city = await Context.Locations.FindAsync(projectLocation.CityId);
+                throwIfLocationDoesNotExist(projectLocation.CityId, city);
+            }
+
+            var country = await Context.Locations.FindAsync(projectLocation.CountryId);
+            throwIfLocationDoesNotExist(projectLocation.CountryId, country);
+
+            var locationType = await Context.LocationTypes.FindAsync(projectLocation.LocationTypeId);
+            throwIfLocationTypeDoesNotExist(projectLocation.LocationTypeId, locationType);
+
+            DoUpdateLocation(project, location, country, city, locationType, projectLocation);
+        }
+
+        private void DoUpdateLocation(
+            Project project,
+            Location projectLocation,
+            Location country,
+            Location city,
+            LocationType locationType,
+            UpdatedProjectLocation updatedProjectLocation)
+        {
+            projectLocation.City = city;
+            projectLocation.Country = country;
+            projectLocation.Latitude = updatedProjectLocation.Latitude;
+            projectLocation.Longitude = updatedProjectLocation.Longitude;
+            projectLocation.LocationName = updatedProjectLocation.LocationName;
+            projectLocation.LocationType = locationType;
+            updatedProjectLocation.Audit.SetHistory(project);
+            updatedProjectLocation.Audit.SetHistory(projectLocation);
+        }
+
+
+        #endregion
+
+        private Project GetProjectEntityById(int projectId)
+        {
+            return CreateGetProjectByIdQuery(projectId).FirstOrDefault();
+        }
+
+        private Task<Project> GetProjectEntityByIdAsync(int projectId)
+        {
+            return CreateGetProjectByIdQuery(projectId).FirstOrDefaultAsync();
+        }
+
+        private IQueryable<Project> CreateGetProjectByIdQuery(int projectId)
+        {
+            return Context.Projects
+                .Include(x => x.Themes)
+                .Include(x => x.Goals)
+                .Include(x => x.Contacts)
+                .Include(x => x.Regions)
+                .Include(x => x.Categories)
+                .Include(x => x.Objectives)
+                .Where(x => x.ProjectId == projectId);
+        }
+
+        private IQueryable<Program> CreateGetProgramByIdQuery(int programId)
+        {
+            return this.Context.Programs
+                .Include(x => x.Themes)
+                .Include(x => x.Goals)
+                .Include(x => x.Contacts)
+                .Include(x => x.Regions)
+                .Include(x => x.Categories)
+                .Include(x => x.Objectives)
+                .Where(x => x.ProgramId == programId);
+        }
+
+        private IQueryable<Organization> CreateGetOrganizationByProjectIdQuery(int projectId)
+        {
+            var query = Context.Projects.Where(x => x.ProjectId == projectId).Select(x => x.ParentProgram.Owner);
+            return query;
+        }
+
+        private IQueryable<int> CreateGetAllowedCategoryIdsQuery(int programId)
+        {
+            return FocusCategoryQueries.CreateGetFocusCategoryDTOByProgramIdQuery(this.Context, programId).Select(x => x.Id);
+        }
+
+        private IQueryable<int> CreateGetAllowedObjectiveIdsQuery(int programId)
+        {
+            return JustificationObjectiveQueries.CreateGetJustificationObjectiveDTOByProgramIdQuery(this.Context, programId).Select(x => x.Id);
+        }
+
     }
 }

@@ -98,6 +98,20 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="addressId">The id of the address to delete.</param>
         Task DeleteAsync(int addressId);
+
+        /// <summary>
+        /// Returns the location with the given id, or null if it is not found.
+        /// </summary>
+        /// <param name="locationId">The id of the location.</param>
+        /// <returns>The location, or null if it does not exist.</returns>
+        LocationDTO GetLocationById(int locationId);
+
+        /// <summary>
+        /// Returns the location with the given id, or null if it is not found.
+        /// </summary>
+        /// <param name="locationId">The id of the location.</param>
+        /// <returns>The location, or null if it does not exist.</returns>
+        Task<LocationDTO> GetLocationByIdAsync(int locationId);
     }
 
     /// <summary>
@@ -251,6 +265,26 @@ namespace ECA.Business.Service.Admin
         public Task DeleteAsync(int addressId)
         {
             return Task.FromResult<object>(null);   
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="locationId"></param>
+        /// <returns></returns>
+        public LocationDTO GetLocationById(int locationId)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="locationId"></param>
+        /// <returns></returns>
+        public Task<LocationDTO> GetLocationByIdAsync(int locationId)
+        {
+            return Task.FromResult<LocationDTO>(null);
         }
     }
 }

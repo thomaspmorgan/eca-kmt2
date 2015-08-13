@@ -67,6 +67,33 @@ namespace ECA.Business.Service.Admin
         }
         #endregion
 
+        #region Get By Id
+
+        /// <summary>
+        /// Returns the location with the given id, or null if it is not found.
+        /// </summary>
+        /// <param name="locationId">The id of the location.</param>
+        /// <returns>The location, or null if it does not exist.</returns>
+        public LocationDTO GetLocationById(int locationId)
+        {
+            var location = LocationQueries.CreateGetLocationsQuery(this.Context).Where(x => x.Id == locationId).FirstOrDefault();
+            logger.Debug("Retrieved location = [{0}] by id [{1}].", location, locationId);
+            return location;
+        }
+
+        /// <summary>
+        /// Returns the location with the given id, or null if it is not found.
+        /// </summary>
+        /// <param name="locationId">The id of the location.</param>
+        /// <returns>The location, or null if it does not exist.</returns>
+        public async Task<LocationDTO> GetLocationByIdAsync(int locationId)
+        {
+            var location = await LocationQueries.CreateGetLocationsQuery(this.Context).Where(x => x.Id == locationId).FirstOrDefaultAsync();
+            logger.Debug("Retrieved location = [{0}] by id [{1}].", location, locationId);
+            return location;
+        }
+        #endregion
+
         #region Validation
 
         /// <summary>

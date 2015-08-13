@@ -49,7 +49,11 @@ namespace ECA.Business.Queries.Admin
                             Region = hasRegion ? region.LocationName : null,
                             RegionId = location.RegionId,
                             City = hasCity ? city.LocationName : null,
-                            CityId = location.CityId
+                            CityId = location.CityId,
+                            Longitude = location.Longitude,
+                            Latitude = location.Latitude,
+                            LocationIso = location.LocationIso,
+                            LocationIso2 = location.LocationIso2
                         };
 
             return query;

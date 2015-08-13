@@ -78,7 +78,7 @@
     <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Dev|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Dev|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -474,6 +474,7 @@
     <Compile Include="Models\Projects\AdditionalOrganizationProjectParticipantBindingModel.cs" />
     <Compile Include="Models\Projects\AdditionalPersonProjectParticipantBindingModel.cs" />
     <Compile Include="Models\Projects\ProjectCollaboratorBindingModel.cs" />
+    <Compile Include="Models\Projects\ProjectLocationBindingModel.cs" />
     <Compile Include="Models\Security\PermissionBindingModel.cs" />
     <Compile Include="Models\Security\IDeletedPermissionBindingModel.cs" />
     <Compile Include="Models\Security\IGrantedPermissionBindingModel.cs" />
@@ -578,9 +579,9 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
-	<None Include="Web.Dev.config">
+    <None Include="Web.Dev.config">
       <DependentUpon>Web.config</DependentUpon>
-	</None>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

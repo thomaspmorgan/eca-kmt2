@@ -43,9 +43,455 @@ namespace ECA.Business.Test.Service.Programs
 
         }
 
+        #region GetLocationById
+
+        [TestMethod]
+        public async Task TestGetLocationById_CheckProperties()
+        {
+            var locationType = new LocationType
+            {
+                LocationTypeId = 1,
+                LocationTypeName = "type"
+            };
+            var city = new Location
+            {
+                LocationId = 100,
+                LocationName = "city",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var country = new Location
+            {
+                LocationId = 101,
+                LocationName = "country",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var region = new Location
+            {
+                LocationId = 102,
+                LocationName = "region",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var division = new Location
+            {
+                LocationId = 103,
+                LocationName = "division",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+
+            var location = new Location
+            {
+                LocationId = 2,
+                LocationName = "abc",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+                City = city,
+                CityId = city.LocationId,
+                Country = country,
+                CountryId = country.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
+                Region = region,
+                RegionId = region.LocationId,
+                Longitude = 1.0f,
+                Latitude = 2.0f,
+                LocationIso = "iso",
+                LocationIso2 = "iso2"
+            };
+            context.Locations.Add(region);
+            context.Locations.Add(city);
+            context.Locations.Add(country);
+            context.Locations.Add(division);
+            context.Locations.Add(location);
+            context.LocationTypes.Add(locationType);
+            Action<LocationDTO> tester = (result) =>
+            {
+                Assert.IsNotNull(result);
+                Assert.AreEqual(location.LocationId, result.Id);
+                Assert.AreEqual(location.LocationName, result.Name);
+                Assert.AreEqual(location.LocationTypeId, result.LocationTypeId);
+                Assert.AreEqual(locationType.LocationTypeName, result.LocationTypeName);
+                Assert.AreEqual(country.LocationId, result.CountryId);
+                Assert.AreEqual(country.LocationName, result.Country);
+                Assert.AreEqual(region.LocationId, result.RegionId);
+                Assert.AreEqual(region.LocationName, result.Region);
+                Assert.AreEqual(city.LocationId, result.CityId);
+                Assert.AreEqual(city.LocationName, result.City);
+                Assert.AreEqual(division.LocationId, result.DivisionId);
+                Assert.AreEqual(division.LocationName, result.Division);
+                Assert.AreEqual(location.Longitude, result.Longitude);
+                Assert.AreEqual(location.Latitude, result.Latitude);
+                Assert.AreEqual(location.LocationIso, result.LocationIso);
+                Assert.AreEqual(location.LocationIso2, result.LocationIso2);
+            };
+            var serviceResults = service.GetLocationById(location.LocationId);
+            var serviceResultsAsync = await service.GetLocationByIdAsync(location.LocationId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetLocationById_DoesNotHaveCity()
+        {
+            var locationType = new LocationType
+            {
+                LocationTypeId = 1,
+                LocationTypeName = "type"
+            };
+            var country = new Location
+            {
+                LocationId = 101,
+                LocationName = "country",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var region = new Location
+            {
+                LocationId = 102,
+                LocationName = "region",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var division = new Location
+            {
+                LocationId = 103,
+                LocationName = "division",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+
+            var location = new Location
+            {
+                LocationId = 2,
+                LocationName = "abc",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+                Country = country,
+                CountryId = country.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
+                Region = region,
+                RegionId = region.LocationId,
+                Longitude = 1.0f,
+                Latitude = 2.0f,
+                LocationIso = "iso",
+                LocationIso2 = "iso2"
+            };
+            context.Locations.Add(region);
+            context.Locations.Add(country);
+            context.Locations.Add(division);
+            context.Locations.Add(location);
+            context.LocationTypes.Add(locationType);
+            Action<LocationDTO> tester = (result) =>
+            {
+                Assert.IsNotNull(result);
+            };
+            var serviceResults = service.GetLocationById(location.LocationId);
+            var serviceResultsAsync = await service.GetLocationByIdAsync(location.LocationId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetLocationById_DoesNotHaveCountry()
+        {
+            var locationType = new LocationType
+            {
+                LocationTypeId = 1,
+                LocationTypeName = "type"
+            };
+            var city = new Location
+            {
+                LocationId = 100,
+                LocationName = "city",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var region = new Location
+            {
+                LocationId = 102,
+                LocationName = "region",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var division = new Location
+            {
+                LocationId = 103,
+                LocationName = "division",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+
+            var location = new Location
+            {
+                LocationId = 2,
+                LocationName = "abc",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+                City = city,
+                CityId = city.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
+                Region = region,
+                RegionId = region.LocationId,
+                Longitude = 1.0f,
+                Latitude = 2.0f,
+                LocationIso = "iso",
+                LocationIso2 = "iso2"
+            };
+            context.Locations.Add(region);
+            context.Locations.Add(city);
+            context.Locations.Add(division);
+            context.Locations.Add(location);
+            context.LocationTypes.Add(locationType);
+            Action<LocationDTO> tester = (result) =>
+            {
+                Assert.IsNotNull(result);
+            };
+            var serviceResults = service.GetLocationById(location.LocationId);
+            var serviceResultsAsync = await service.GetLocationByIdAsync(location.LocationId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetLocationById_DoesNotHaveRegion()
+        {
+            var locationType = new LocationType
+            {
+                LocationTypeId = 1,
+                LocationTypeName = "type"
+            };
+            var city = new Location
+            {
+                LocationId = 100,
+                LocationName = "city",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var country = new Location
+            {
+                LocationId = 101,
+                LocationName = "country",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var division = new Location
+            {
+                LocationId = 103,
+                LocationName = "division",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+
+            var location = new Location
+            {
+                LocationId = 2,
+                LocationName = "abc",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+                City = city,
+                CityId = city.LocationId,
+                Country = country,
+                CountryId = country.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
+                Longitude = 1.0f,
+                Latitude = 2.0f,
+                LocationIso = "iso",
+                LocationIso2 = "iso2"
+            };
+            context.Locations.Add(city);
+            context.Locations.Add(country);
+            context.Locations.Add(division);
+            context.Locations.Add(location);
+            context.LocationTypes.Add(locationType);
+            Action<LocationDTO> tester = (result) =>
+            {
+                Assert.IsNotNull(result);
+            };
+            var serviceResults = service.GetLocationById(location.LocationId);
+            var serviceResultsAsync = await service.GetLocationByIdAsync(location.LocationId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetLocationById_DoesNotHaveDivision()
+        {
+            var locationType = new LocationType
+            {
+                LocationTypeId = 1,
+                LocationTypeName = "type"
+            };
+            var city = new Location
+            {
+                LocationId = 100,
+                LocationName = "city",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var country = new Location
+            {
+                LocationId = 101,
+                LocationName = "country",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var region = new Location
+            {
+                LocationId = 102,
+                LocationName = "region",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var location = new Location
+            {
+                LocationId = 2,
+                LocationName = "abc",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+                City = city,
+                CityId = city.LocationId,
+                Country = country,
+                CountryId = country.LocationId,
+                Region = region,
+                RegionId = region.LocationId,
+                Longitude = 1.0f,
+                Latitude = 2.0f,
+                LocationIso = "iso",
+                LocationIso2 = "iso2"
+            };
+            context.Locations.Add(region);
+            context.Locations.Add(city);
+            context.Locations.Add(country);
+            context.Locations.Add(location);
+            context.LocationTypes.Add(locationType);
+            Action<LocationDTO> tester = (result) =>
+            {
+                Assert.IsNotNull(result);
+            };
+            var serviceResults = service.GetLocationById(location.LocationId);
+            var serviceResultsAsync = await service.GetLocationByIdAsync(location.LocationId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetLocationById_LocationDoesNotExist()
+        {
+            Action<LocationDTO> tester = (result) =>
+            {
+                Assert.IsNull(result);
+            };
+            var serviceResults = service.GetLocationById(1);
+            var serviceResultsAsync = await service.GetLocationByIdAsync(1);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+        #endregion
+
         #region Get
         [TestMethod]
         public async Task TestGetLocations_CheckProperties()
+        {
+
+            var locationType = new LocationType
+            {
+                LocationTypeId = 1,
+                LocationTypeName = "type"
+            };
+            var city = new Location
+            {
+                LocationId = 100,
+                LocationName = "city",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var country = new Location
+            {
+                LocationId = 101,
+                LocationName = "country",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var region = new Location
+            {
+                LocationId = 102,
+                LocationName = "region",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var division = new Location
+            {
+                LocationId = 103,
+                LocationName = "division",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+
+            var location = new Location
+            {
+                LocationId = 2,
+                LocationName = "abc",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+                City = city,
+                CityId = city.LocationId,
+                Country = country,
+                CountryId = country.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
+                Region = region,
+                RegionId = region.LocationId,
+                Longitude = 1.0f,
+                Latitude = 2.0f,
+                LocationIso = "iso",
+                LocationIso2 = "iso2"
+            };
+            context.Locations.Add(region);
+            context.Locations.Add(city);
+            context.Locations.Add(country);
+            context.Locations.Add(division);
+            context.Locations.Add(location);
+            context.LocationTypes.Add(locationType);
+            Action<PagedQueryResults<LocationDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+
+                var firstResult = results.Results.First();
+                Assert.AreEqual(location.LocationId, firstResult.Id);
+                Assert.AreEqual(location.LocationName, firstResult.Name);
+                Assert.AreEqual(location.LocationTypeId, firstResult.LocationTypeId);
+                Assert.AreEqual(locationType.LocationTypeName, firstResult.LocationTypeName);
+                Assert.AreEqual(country.LocationId, firstResult.CountryId);
+                Assert.AreEqual(country.LocationName, firstResult.Country);
+                Assert.AreEqual(region.LocationId, firstResult.RegionId);
+                Assert.AreEqual(region.LocationName, firstResult.Region);
+                Assert.AreEqual(city.LocationId, firstResult.CityId);
+                Assert.AreEqual(city.LocationName, firstResult.City);
+                Assert.AreEqual(division.LocationId, firstResult.DivisionId);
+                Assert.AreEqual(division.LocationName, firstResult.Division);
+                Assert.AreEqual(location.Longitude, firstResult.Longitude);
+                Assert.AreEqual(location.Latitude, firstResult.Latitude);
+                Assert.AreEqual(location.LocationIso, firstResult.LocationIso);
+                Assert.AreEqual(location.LocationIso2, firstResult.LocationIso2);
+            };
+            var defaultSorter = new ExpressionSorter<LocationDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<LocationDTO>(0, 10, defaultSorter);
+            queryOperator.Filters.Add(new ExpressionFilter<LocationDTO>(x => x.Id, ComparisonType.Equal, location.LocationId));
+            var serviceResults = service.Get(queryOperator);
+            var serviceResultsAsync = await service.GetAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetLocations_DoesNotHaveLatitudeLongitude()
         {
 
             var locationType = new LocationType
@@ -121,6 +567,8 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(city.LocationName, firstResult.City);
                 Assert.AreEqual(division.LocationId, firstResult.DivisionId);
                 Assert.AreEqual(division.LocationName, firstResult.Division);
+                Assert.IsFalse(firstResult.Longitude.HasValue);
+                Assert.IsFalse(firstResult.Latitude.HasValue);
             };
             var defaultSorter = new ExpressionSorter<LocationDTO>(x => x.Id, SortDirection.Ascending);
             var queryOperator = new QueryableOperator<LocationDTO>(0, 10, defaultSorter);
@@ -398,7 +846,6 @@ namespace ECA.Business.Test.Service.Programs
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
-
 
         #endregion
 

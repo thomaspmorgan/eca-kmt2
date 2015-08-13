@@ -56,6 +56,16 @@
         public string Division { get; set; }
 
         /// <summary>
+        /// Gets or sets the location iso
+        /// </summary>
+        public string LocationIso { get; set; }
+
+        /// <summary>
+        /// Gets or sets the location iso 2.
+        /// </summary>
+        public string LocationIso2 { get; set; }
+
+        /// <summary>
         /// Gets or sets the city id.
         /// </summary>
         public int? CityId { get; set; }
@@ -64,5 +74,15 @@
         /// Gets or sets the city.
         /// </summary>
         public string City { get; set; }
+
+        /// <summary>
+        /// Gets or sets the latitude.
+        /// </summary>
+        public float? Latitude { get; set; }
+
+        /// <summary>
+        /// Gets or sets the longitude.
+        /// </summary>
+        public float? Longitude { get; set; }
     }
 }

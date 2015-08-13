@@ -217,6 +217,7 @@
     <Compile Include="Service\Persons\UpdateGeneral.cs" />
     <Compile Include="Service\Projects\AdditionalOrganizationProjectParticipant.cs" />
     <Compile Include="Service\Projects\AdditionalPersonProjectParticipant.cs" />
+    <Compile Include="Service\Projects\AdditionalProjectLocation.cs" />
     <Compile Include="Service\Projects\IProjectStatusService.cs" />
     <Compile Include="Service\Admin\MaritalStatusService.cs" />
     <Compile Include="Service\Fundings\MoneyFlowValidationEntity.cs" />
@@ -224,6 +225,7 @@
     <Compile Include="Service\Admin\OrganizationService.cs" />
     <Compile Include="Service\Fundings\MoneyFlowServiceValidator.cs" />
     <Compile Include="Service\Projects\AdditionalProjectParticipant.cs" />
+    <Compile Include="Service\Projects\ProjectLocation.cs" />
     <Compile Include="Service\Projects\ProjectServiceCreateValidationEntity.cs" />
     <Compile Include="Service\Projects\ProjectServiceUpdateValidationEntity.cs" />
     <Compile Include="Service\Projects\ProjectServiceValidator.cs" />
@@ -289,6 +291,7 @@
     <Compile Include="Service\Lookup\IThemeService.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Service\Programs\ProgramServiceValidationEntity.cs" />
+    <Compile Include="Service\Projects\UpdatedProjectLocation.cs" />
     <Compile Include="Service\Reports\IReportService.cs" />
     <Compile Include="Service\Reports\ReportService.cs" />
     <Compile Include="Validation\BusinessValidatorBase.cs" />

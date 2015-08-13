@@ -3,6 +3,7 @@ using CAM.Business.Queries.Models;
 using CAM.Business.Service;
 using CAM.Data;
 using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Service.Admin;
 using ECA.Business.Service.Projects;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Filter;
@@ -41,6 +42,7 @@ namespace ECA.WebApi.Controllers.Projects
         private IResourceAuthorizationHandler authorizationHandler;
         private IUserProvider userProvider;
         private IResourceService resourceService;
+        private ILocationService locationService;
 
         /// <summary>
         /// Creates a new ProjectsController with the given project service.
@@ -49,18 +51,27 @@ namespace ECA.WebApi.Controllers.Projects
         /// <param name="userProvider">The user provider.</param>
         /// <param name="authorizationHandler">The authorization handler.</param>
         /// <param name="resourceService">The resource service.</param>
-        public ProjectsController(IProjectService projectService, IResourceAuthorizationHandler authorizationHandler, IUserProvider userProvider, IResourceService resourceService)
+        /// <param name="locationService">The location service.</param>
+        public ProjectsController(
+            IProjectService projectService, 
+            IResourceAuthorizationHandler authorizationHandler, 
+            IUserProvider userProvider, 
+            IResourceService resourceService, 
+            ILocationService locationService)
         {
             Contract.Requires(projectService != null, "The project service must not be null.");
             Contract.Requires(userProvider != null, "The user provider must not be null.");
             Contract.Requires(authorizationHandler != null, "The authorization handler must not be null.");
             Contract.Requires(resourceService != null, "The resource service must not be null.");
+            Contract.Requires(locationService != null, "The location service must not be null.");
             this.projectService = projectService;
             this.resourceService = resourceService;
             this.authorizationHandler = authorizationHandler;
             this.userProvider = userProvider;
+            this.locationService = locationService;
         }
 
+        #region Get
         /// <summary>
         /// Returns a listing of the projects by program.
         /// </summary>
@@ -146,6 +157,9 @@ namespace ECA.WebApi.Controllers.Projects
             }
         }
 
+        #endregion
+
+        #region Post
         /// <summary>
         /// Creates and return a new draft project 
         /// </summary>
@@ -153,6 +167,7 @@ namespace ECA.WebApi.Controllers.Projects
         /// <returns>The created project</returns>
         [ResponseType(typeof(ProjectDTO))]
         [Route("Projects")]
+        [ResourceAuthorize(Permission.EDIT_PROGRAM_VALUE, ResourceType.PROGRAM_VALUE, typeof(DraftProjectBindingModel), "ProgramId")]
         public async Task<IHttpActionResult> PostProjectAsync(DraftProjectBindingModel model)
         {
             if (ModelState.IsValid)
@@ -169,6 +184,9 @@ namespace ECA.WebApi.Controllers.Projects
                 return BadRequest(ModelState);
             }
         }
+        #endregion
+
+        #region Put
 
         /// <summary>
         /// Updates and returns the system's project given the client's updated project.
@@ -177,6 +195,7 @@ namespace ECA.WebApi.Controllers.Projects
         /// <returns>The saved and updated project.</returns>
         [ResponseType(typeof(ProjectDTO))]
         [Route("Projects")]
+        [ResourceAuthorize(Permission.EDIT_PROJECT_VALUE, ResourceType.PROJECT_VALUE, typeof(PublishedProjectBindingModel), "Id")]
         public async Task<IHttpActionResult> PutProjectAsync(PublishedProjectBindingModel model)
         {
             if (ModelState.IsValid)
@@ -193,7 +212,9 @@ namespace ECA.WebApi.Controllers.Projects
                 return BadRequest(ModelState);
             }
         }
+        #endregion
 
+        #region Participants
         /// <summary>
         /// Adds the person as a participant to the project.
         /// </summary>
@@ -239,7 +260,9 @@ namespace ECA.WebApi.Controllers.Projects
                 return BadRequest(ModelState);
             }
         }
+        #endregion
 
+        #region Collaborators
         /// <summary>
         /// Adds a collaborator to a project.
         /// </summary>
@@ -334,5 +357,33 @@ namespace ECA.WebApi.Controllers.Projects
         {
             return resourceService.GetResourceAuthorizationsAsync(queryOperator);
         }
+        #endregion
+
+        #region Locations
+
+        /// <summary>
+        /// Adds the given location to the project.
+        /// </summary>
+        /// <param name="model">The project location.</param>
+        /// <returns>The added location.</returns>
+        [Route("Projects/Location")]
+        [ResourceAuthorize(Permission.EDIT_PROJECT_VALUE, ResourceType.PROJECT_VALUE, typeof(ProjectLocationBindingModel), "ProjectId")]
+        public async Task<IHttpActionResult> PostCreateProjectLocation(ProjectLocationBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var location = await projectService.CreateLocationAsync(model.ToAdditionalProjectLocation(businessUser));
+                await projectService.SaveChangesAsync();
+                var dto = await locationService.GetLocationByIdAsync(location.LocationId);
+                return Ok(dto);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+        #endregion
     }
 }
