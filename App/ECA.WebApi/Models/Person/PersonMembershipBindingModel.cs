@@ -1,17 +1,19 @@
-﻿using ECA.Business.Service;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using ECA.Business.Service.Persons;
+using ECA.Business.Service;
 
 namespace ECA.WebApi.Models.Person
 {
     /// <summary>
     /// Binding model for editing pii
     /// </summary>
-    public class GeneralBindingModel
+    public class PersonMembershipBindingModel
     {
         /// <summary>
         /// Gets and sets the person id
@@ -22,19 +24,19 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Gets and sets the prominent categories for the user
         /// </summary>
-        public List<int> ProminentCategories { get; set; }
+        public List<string> Memberships { get; set; }
 
         /// <summary>
         /// Convert binding model to business model 
         /// </summary>
-        /// <param name="user">The user updating the pii</param>
-        /// <returns>Update pii business model</returns>
-        public UpdateGeneral ToUpdateGeneral(User user)
+        /// <param name="user">The user updating the membership</param>
+        /// <returns>Update membership business model</returns>
+        public UpdateMembership ToUpdateMembership(User user)
         {
-            return new UpdateGeneral(
+            return new UpdateMembership(
                 updatedBy: user,
                 personId: this.PersonId,
-                prominentCategories: this.ProminentCategories
+                memberships: this.Memberships
                 );
         }
     }

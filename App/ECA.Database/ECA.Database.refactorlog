@@ -595,4 +595,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="PersonId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="822bc7fd-73fb-4a6b-8335-63572f630f93" ChangeDateTime="08/12/2015 22:45:05">
+    <Property Name="ElementName" Value="[dbo].[Membership].[History_Create]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Membership]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="History_CreatedBy" />
+  </Operation>
 </Operations>

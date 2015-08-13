@@ -287,7 +287,7 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
-        /// Adds a new address to the organization.
+        /// Adds a new address to the person.
         /// </summary>
         /// <param name="model">The new address.</param>
         /// <returns>The saved address.</returns>
@@ -308,6 +308,18 @@ namespace ECA.WebApi.Controllers.Persons
         public Task<IHttpActionResult> PostSocialMediaAsync([FromBody]PersonSocialMediaPresenceBindingModel model)
         {
             return socialMediaHandler.HandleSocialMediaPresenceAsync<Person>(model, this);
+        }
+
+        /// <summary>
+        /// Adds a new membership to the person.
+        /// </summary>
+        /// <param name="model">The new membership.</param>
+        /// <returns>The saved membership.</returns>
+        [Route("People/Membership")]
+        [ResponseType(typeof(MembershipDTO))]
+        public Task<IHttpActionResult> PostMembershipAsync([FromBody]PersonMembershipBindingModel model)
+        {
+            return membershipHandler.HandleMembershipAsync<Person>(model, this);
         }
     }
 }
