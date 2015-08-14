@@ -23,6 +23,7 @@ namespace ECA.WebApi.Controllers.Admin
     /// <summary>
     /// Bookmarks controllerC:\Workspace\ECA-KMT\App\ECA.WebApp.AngularJS\scripts\controllers\program\
     /// </summary>
+    [Authorize]
     [RoutePrefix("api/bookmarks")]
     public class BookmarksController : ApiController
     {
