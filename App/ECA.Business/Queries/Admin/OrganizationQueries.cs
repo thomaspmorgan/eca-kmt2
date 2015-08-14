@@ -18,16 +18,13 @@ namespace ECA.Business.Queries.Admin
     public static class OrganizationQueries
     {
         /// <summary>
-        /// Query to get a list of organizations
+        /// Query to get list of organizations
         /// </summary>
         /// <param name="context">The context to query</param>
-        /// <param name="queryOperator">The query operator to apply</param>
         /// <returns>List of organizations</returns>
-        public static IQueryable<SimpleOrganizationDTO> CreateGetSimpleOrganizationsDTOQuery(EcaContext context, QueryableOperator<SimpleOrganizationDTO> queryOperator)
+        public static IQueryable<SimpleOrganizationDTO> CreateGetSimpleOrganizationsDTOQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(queryOperator != null, "The query operator must not be null.");
-
             var query = from organization in context.Organizations
                         let organizationType = organization.OrganizationType
                         let address = organization.Addresses.OrderByDescending(x => x.IsPrimary).FirstOrDefault()
@@ -54,7 +51,20 @@ namespace ECA.Business.Queries.Admin
                             OrganizationType = organizationType.OrganizationTypeName,
                             Status = organization.Status
                         };
+            return query;
+        }
+        /// <summary>
+        /// Query to get a list of organizations
+        /// </summary>
+        /// <param name="context">The context to query</param>
+        /// <param name="queryOperator">The query operator to apply</param>
+        /// <returns>List of organizations</returns>
+        public static IQueryable<SimpleOrganizationDTO> CreateGetSimpleOrganizationsDTOQuery(EcaContext context, QueryableOperator<SimpleOrganizationDTO> queryOperator)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
 
+            var query = CreateGetSimpleOrganizationsDTOQuery(context);
             query = query.Apply(queryOperator);
             return query;
         }

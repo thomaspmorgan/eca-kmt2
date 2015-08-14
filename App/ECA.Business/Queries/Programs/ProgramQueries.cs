@@ -71,7 +71,7 @@ namespace ECA.Business.Queries.Programs
         /// </summary>
         /// <param name="context">The context to query.</param>
         /// <returns>The EcaProgram query.</returns>
-        private static IQueryable<ProgramDTO> CreateGetPublishedProgramsQuery(EcaContext context)
+        public static IQueryable<ProgramDTO> CreateGetPublishedProgramsQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
 
