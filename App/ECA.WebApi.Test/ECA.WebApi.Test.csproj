@@ -182,7 +182,6 @@
     <Compile Include="Models\Projects\AdditionalOrganizationProjectParticipantBindingModelTest.cs" />
     <Compile Include="Models\Projects\DraftProjectBindingModelTest.cs" />
     <Compile Include="Models\Projects\PublishedProjectBindingModelTest.cs" />
-    <Compile Include="Models\Projects\ProjectLocationBindingModelTest.cs" />
     <Compile Include="Models\Query\FilterBindingModelConvertTest.cs" />
     <Compile Include="Models\Query\FilterBindingModelTest.cs" />
     <Compile Include="Models\Query\KeywordAttributeTest.cs" />

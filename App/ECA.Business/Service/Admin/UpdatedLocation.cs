@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECA.Business.Service.Projects
+namespace ECA.Business.Service.Admin
 {
     /// <summary>
-    /// An UpdatedProjectLocation represents a business layer's client's request to update an existing project location.
+    /// An UpdatedLocation represents a business layer's client's request to update an existing location.
     /// </summary>
-    public class UpdatedProjectLocation : ProjectLocation
+    public class UpdatedLocation : EcaLocation
     {
         /// <summary>
-        /// A ProjectLocation is a "Place" location that contains an optional city, a country and optional longitude and latitude.
+        /// Creates a new UpdatedLocation and initializes the location properties.
         /// </summary>
         /// <param name="locationName">The name of the location.</param>
         /// <param name="cityId">The id of the city.</param>
@@ -21,26 +21,28 @@ namespace ECA.Business.Service.Projects
         /// <param name="longitude">The longitude.</param>
         /// <param name="projectId">The project the location belongs to.</param>
         /// <param name="locationId">The existing location id.</param>
-        public UpdatedProjectLocation(
+        public UpdatedLocation(
             User updator,
             string locationName,
             int? cityId,
-            int countryId,
+            int? countryId,
+            int? divisionId,
             float? latitude,
             float? longitude,
-            int projectId,
+            int locationTypeId,
             int locationId
             )
             : base(
                 locationName: locationName,
                 cityId: cityId,
                 countryId: countryId,
+                divisionId: divisionId,
                 longitude: longitude,
-                latitude: latitude
+                latitude: latitude,
+                locationTypeId: locationTypeId
                 )
         {
             this.LocationId = locationId;
-            this.ProjectId = projectId;
             this.Audit = new Update(updator);
         }
 
@@ -48,11 +50,5 @@ namespace ECA.Business.Service.Projects
         /// Gets the location id.
         /// </summary>
         public int LocationId { get; private set; }
-
-        /// <summary>
-        /// Gets the project id.
-        /// </summary>
-        public int ProjectId { get; private set; }
-
     }
 }

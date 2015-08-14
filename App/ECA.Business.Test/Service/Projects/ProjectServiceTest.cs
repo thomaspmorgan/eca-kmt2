@@ -2132,6 +2132,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -2154,6 +2155,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -2216,6 +2218,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -2290,6 +2293,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -2345,6 +2349,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: contactIds,
                 categoryIds: null,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -2389,6 +2394,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: contactIds,
                 categoryIds: null,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -2432,6 +2438,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -2475,6 +2482,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -2519,6 +2527,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -2562,6 +2571,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -2605,6 +2615,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: null,
                 categoryIds: categoryIds,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -2648,6 +2659,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: null,
                 categoryIds: categoryIds,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -2690,6 +2702,7 @@ namespace ECA.Business.Test.Service.Projects
                 themeIds: null,
                 pointsOfContactIds: null,
                 categoryIds: null,
+                locationIds: null,
                 objectiveIds: objectiveIds,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
@@ -2733,6 +2746,7 @@ namespace ECA.Business.Test.Service.Projects
                 themeIds: null,
                 pointsOfContactIds: null,
                 categoryIds: null,
+                locationIds: null,
                 objectiveIds: objectiveIds,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
@@ -2740,6 +2754,94 @@ namespace ECA.Business.Test.Service.Projects
             await service.UpdateAsync(updatedProject);
             Assert.AreEqual(1, projectToUpdate.Objectives.Count);
             Assert.AreEqual(objectiveIds.First(), projectToUpdate.Objectives.First().ObjectiveId);
+        }
+
+        [TestMethod]
+        public void TestUpdate_CheckLocations()
+        {
+            var projectToUpdate = new Project
+            {
+                ProjectId = 1,
+                ProjectStatusId = ProjectStatus.Other.Id
+            };
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            var office = new Organization();
+            office.OwnerPrograms.Add(program);
+            program.Owner = office;
+            context.Organizations.Add(office);
+            projectToUpdate.ProgramId = program.ProgramId;
+            projectToUpdate.ParentProgram = program;
+            program.Projects.Add(projectToUpdate);
+            context.Programs.Add(program);
+            context.Projects.Add(projectToUpdate);
+
+            var locationIds = new List<int> { 1 };
+            var updater = new User(1);
+            var updatedProject = new PublishedProject(
+                updatedBy: updater,
+                projectId: projectToUpdate.ProjectId,
+                name: "new name",
+                description: "new description",
+                projectStatusId: ProjectStatus.Pending.Id,
+                goalIds: null,
+                themeIds: null,
+                pointsOfContactIds: null,
+                categoryIds: null,
+                locationIds: locationIds,
+                objectiveIds: null,
+                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                );
+            service.Update(updatedProject);
+            Assert.AreEqual(1, projectToUpdate.Locations.Count);
+            Assert.AreEqual(locationIds.First(), projectToUpdate.Locations.First().LocationId);
+        }
+
+        [TestMethod]
+        public async Task TestUpdateAsync_CheckLocations()
+        {
+            var projectToUpdate = new Project
+            {
+                ProjectId = 1,
+                ProjectStatusId = ProjectStatus.Other.Id
+            };
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            var office = new Organization();
+            office.OwnerPrograms.Add(program);
+            program.Owner = office;
+            context.Organizations.Add(office);
+            projectToUpdate.ProgramId = program.ProgramId;
+            projectToUpdate.ParentProgram = program;
+            program.Projects.Add(projectToUpdate);
+            context.Programs.Add(program);
+            context.Projects.Add(projectToUpdate);
+
+            var locationIds = new List<int> { 1 };
+            var updater = new User(1);
+            var updatedProject = new PublishedProject(
+                updatedBy: updater,
+                projectId: projectToUpdate.ProjectId,
+                name: "new name",
+                description: "new description",
+                projectStatusId: ProjectStatus.Pending.Id,
+                goalIds: null,
+                themeIds: null,
+                pointsOfContactIds: null,
+                categoryIds: null,
+                locationIds: locationIds,
+                objectiveIds: null,
+                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                );
+            await service.UpdateAsync(updatedProject);
+            Assert.AreEqual(1, projectToUpdate.Locations.Count);
+            Assert.AreEqual(locationIds.First(), projectToUpdate.Locations.First().LocationId);
         }
 
         #endregion
@@ -3121,791 +3223,6 @@ namespace ECA.Business.Test.Service.Projects
         }
         #endregion
 
-        #region Locations
-        [TestMethod]
-        public async Task TestCreateLocation_CheckProperties()
-        {
-            var creatorId = 1;
-            var revisorId = 2;
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            Project project = new Project
-            {
-                ProjectId = 1,
-            };
-            Location city = new Location
-            {
-                LocationName = "city",
-                LocationId = 1,
-            };
-            Location country = new Location
-            {
-                LocationName = "country",
-                LocationId = 2
-            };
-            var place = new LocationType
-            {
-                LocationTypeId = LocationType.Place.Id,
-                LocationTypeName = "place"
-            };
-
-            context.SetupActions.Add(() =>
-            {
-                project.History.CreatedBy = creatorId;
-                project.History.RevisedBy = creatorId;
-                project.History.CreatedOn = yesterday;
-                project.History.RevisedOn = yesterday;
-                project.Locations.Clear();
-
-                context.Projects.Add(project);
-                context.Locations.Add(city);
-                context.Locations.Add(country);
-                context.LocationTypes.Add(place);
-            });
-            Action beforeTester = () =>
-            {
-                Assert.AreEqual(2, context.Locations.Count());
-                Assert.AreEqual(1, context.Projects.Count());
-            };
-
-            var creator = new User(revisorId);
-            var additionalProjectLocation = new AdditionalProjectLocation(
-                creator: creator,
-                locationName: "location name",
-                cityId: city.LocationId,
-                countryId: country.LocationId,
-                latitude: 2.35f,
-                longitude: 5.0f,
-                projectId: project.ProjectId
-                );
-
-            Action<Location> afterTester = (serviceLocation) =>
-            {
-                Assert.AreEqual(3, context.Locations.Count());
-                Assert.AreEqual(1, project.Locations.Count);
-                var addedLocation = context.Locations.Where(x => x.LocationId != city.LocationId && x.LocationId != country.LocationId).First();
-
-                Assert.IsTrue(Object.ReferenceEquals(serviceLocation, project.Locations.First()));
-                Assert.IsTrue(Object.ReferenceEquals(addedLocation, project.Locations.First()));
-                Assert.AreEqual(additionalProjectLocation.LocationName, addedLocation.LocationName);
-                Assert.IsTrue(Object.ReferenceEquals(city, addedLocation.City));
-                Assert.IsTrue(Object.ReferenceEquals(country, addedLocation.Country));
-                Assert.AreEqual(additionalProjectLocation.LocationName, addedLocation.LocationName);
-                float delta = .01f;
-                Assert.AreEqual(additionalProjectLocation.Latitude.Value, addedLocation.Latitude.Value, delta, "The Latitude value is invalid.");
-                Assert.AreEqual(additionalProjectLocation.Longitude.Value, addedLocation.Longitude.Value, delta, "The Longitude value is invalid.");
-                Assert.AreEqual(LocationType.Place.Id, additionalProjectLocation.LocationTypeId);
-
-                Assert.AreEqual(creatorId, project.History.CreatedBy);
-                Assert.AreEqual(yesterday, project.History.CreatedOn);
-                Assert.AreEqual(revisorId, project.History.RevisedBy);
-                DateTimeOffset.UtcNow.Should().BeCloseTo(project.History.RevisedOn, 2000);
-
-                Assert.AreEqual(revisorId, addedLocation.History.CreatedBy);
-                Assert.AreEqual(revisorId, addedLocation.History.RevisedBy);
-                DateTimeOffset.UtcNow.Should().BeCloseTo(addedLocation.History.CreatedOn, 2000);
-                DateTimeOffset.UtcNow.Should().BeCloseTo(addedLocation.History.RevisedOn, 2000);
-
-            };
-            context.Revert();
-            beforeTester();
-            var serviceResult = service.CreateLocation(additionalProjectLocation);
-            afterTester(serviceResult);
-
-            context.Revert();
-            beforeTester();
-            serviceResult = await service.CreateLocationAsync(additionalProjectLocation);
-            afterTester(serviceResult);
-        }
-
-        [TestMethod]
-        public async Task TestCreateLocation_CityIsNotProvided()
-        {
-            var creatorId = 1;
-            var revisorId = 2;
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            Project project = new Project
-            {
-                ProjectId = 1,
-            };
-            Location country = new Location
-            {
-                LocationName = "country",
-                LocationId = 2
-            };
-            var place = new LocationType
-            {
-                LocationTypeId = LocationType.Place.Id,
-                LocationTypeName = "place"
-            };
-
-            context.SetupActions.Add(() =>
-            {
-                project.History.CreatedBy = creatorId;
-                project.History.RevisedBy = creatorId;
-                project.History.CreatedOn = yesterday;
-                project.History.RevisedOn = yesterday;
-                project.Locations.Clear();
-
-                context.Projects.Add(project);
-                context.Locations.Add(country);
-                context.LocationTypes.Add(place);
-            });
-            Action beforeTester = () =>
-            {
-                Assert.AreEqual(1, context.Locations.Count());
-                Assert.AreEqual(1, context.Projects.Count());
-            };
-
-            var creator = new User(revisorId);
-            var additionalProjectLocation = new AdditionalProjectLocation(
-                creator: creator,
-                locationName: "location name",
-                cityId: null,
-                countryId: country.LocationId,
-                latitude: 2.35f,
-                longitude: 5.0f,
-                projectId: project.ProjectId
-                );
-
-            Action<Location> afterTester = (serviceLocation) =>
-            {
-                Assert.AreEqual(2, context.Locations.Count());
-                Assert.AreEqual(1, project.Locations.Count);
-                var addedLocation = context.Locations.Where(x => x.LocationId != country.LocationId).First();
-
-                Assert.IsTrue(Object.ReferenceEquals(serviceLocation, project.Locations.First()));
-                Assert.IsTrue(Object.ReferenceEquals(addedLocation, project.Locations.First()));
-            };
-            context.Revert();
-            beforeTester();
-            var serviceResult = service.CreateLocation(additionalProjectLocation);
-            afterTester(serviceResult);
-
-            context.Revert();
-            beforeTester();
-            serviceResult = await service.CreateLocationAsync(additionalProjectLocation);
-            afterTester(serviceResult);
-        }
-
-        [TestMethod]
-        public async Task TestCreateLocation_CityDoesNotExist()
-        {
-            var creatorId = 1;
-            var revisorId = 2;
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            Project project = new Project
-            {
-                ProjectId = 1,
-            };
-            Location country = new Location
-            {
-                LocationName = "country",
-                LocationId = 2
-            };
-            var place = new LocationType
-            {
-                LocationTypeId = LocationType.Place.Id,
-                LocationTypeName = "place"
-            };
-
-            context.SetupActions.Add(() =>
-            {
-                context.Projects.Add(project);
-                context.Locations.Add(country);
-                context.LocationTypes.Add(place);
-            });
-
-            var creator = new User(revisorId);
-            var additionalProjectLocation = new AdditionalProjectLocation(
-                creator: creator,
-                locationName: "location name",
-                cityId: -1,
-                countryId: country.LocationId,
-                latitude: 2.35f,
-                longitude: 5.0f,
-                projectId: project.ProjectId
-                );
-            context.Revert();
-            var message = String.Format("The location with id [{0}] does not exist.", additionalProjectLocation.CityId);
-            Func<Task> f = () =>
-            {
-                return service.CreateLocationAsync(additionalProjectLocation);
-            };
-            service.Invoking(x => x.CreateLocation(additionalProjectLocation)).ShouldThrow<ModelNotFoundException>().WithMessage(message);
-            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-        }
-
-        [TestMethod]
-        public async Task TestCreateLocation_CountryDoesNotExist()
-        {
-            var creatorId = 1;
-            var revisorId = 2;
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            Project project = new Project
-            {
-                ProjectId = 1,
-            };
-            Location city = new Location
-            {
-                LocationName = "city",
-                LocationId = 2
-            };
-            var place = new LocationType
-            {
-                LocationTypeId = LocationType.Place.Id,
-                LocationTypeName = "place"
-            };
-
-            context.SetupActions.Add(() =>
-            {
-                context.Projects.Add(project);
-                context.Locations.Add(city);
-                context.LocationTypes.Add(place);
-            });
-
-            var creator = new User(revisorId);
-            var additionalProjectLocation = new AdditionalProjectLocation(
-                creator: creator,
-                locationName: "location name",
-                cityId: city.LocationId,
-                countryId: -1,
-                latitude: 2.35f,
-                longitude: 5.0f,
-                projectId: project.ProjectId
-                );
-            context.Revert();
-            var message = String.Format("The location with id [{0}] does not exist.", additionalProjectLocation.CountryId);
-            Func<Task> f = () =>
-            {
-                return service.CreateLocationAsync(additionalProjectLocation);
-            };
-            service.Invoking(x => x.CreateLocation(additionalProjectLocation)).ShouldThrow<ModelNotFoundException>().WithMessage(message);
-            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-        }
-
-        [TestMethod]
-        public async Task TestCreateLocation_LocationTypeDoesNotExist()
-        {
-            var creatorId = 1;
-            var revisorId = 2;
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            Project project = new Project
-            {
-                ProjectId = 1,
-            };
-            Location country = new Location
-            {
-                LocationName = "country",
-                LocationId = 2
-            };
-
-            context.SetupActions.Add(() =>
-            {
-                context.Projects.Add(project);
-                context.Locations.Add(country);
-            });
-
-            var creator = new User(revisorId);
-            var additionalProjectLocation = new AdditionalProjectLocation(
-                creator: creator,
-                locationName: "location name",
-                cityId: null,
-                countryId: country.LocationId,
-                latitude: 2.35f,
-                longitude: 5.0f,
-                projectId: project.ProjectId
-                );
-            context.Revert();
-            var message = String.Format("The location type with id [{0}] does not exist.", additionalProjectLocation.LocationTypeId);
-            Func<Task> f = () =>
-            {
-                return service.CreateLocationAsync(additionalProjectLocation);
-            };
-            service.Invoking(x => x.CreateLocation(additionalProjectLocation)).ShouldThrow<ModelNotFoundException>().WithMessage(message);
-            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-        }
-
-        [TestMethod]
-        public async Task TestCreateLocation_ProjectDoesNotExist()
-        {
-            var creatorId = 1;
-            var revisorId = 2;
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            Location country = new Location
-            {
-                LocationName = "country",
-                LocationId = 2
-            };
-            var place = new LocationType
-            {
-                LocationTypeId = LocationType.Place.Id,
-                LocationTypeName = "place"
-            };
-
-            context.SetupActions.Add(() =>
-            {
-                context.Locations.Add(country);
-                context.LocationTypes.Add(place);
-            });
-
-            var creator = new User(revisorId);
-            var additionalProjectLocation = new AdditionalProjectLocation(
-                creator: creator,
-                locationName: "location name",
-                cityId: null,
-                countryId: country.LocationId,
-                latitude: 2.35f,
-                longitude: 5.0f,
-                projectId: -1
-                );
-            context.Revert();
-            var message = String.Format("The project with id [{0}] does not exist.", additionalProjectLocation.ProjectId);
-            Func<Task> f = () =>
-            {
-                return service.CreateLocationAsync(additionalProjectLocation);
-            };
-            service.Invoking(x => x.CreateLocation(additionalProjectLocation)).ShouldThrow<ModelNotFoundException>().WithMessage(message);
-            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-        }
-
-        [TestMethod]
-        public async Task TestUpdateLocation_CheckProperties()
-        {
-            var creatorId = 1;
-            var revisorId = 2;
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            Project project = new Project
-            {
-                ProjectId = 1,
-            };
-            var place = new LocationType
-            {
-                LocationTypeId = LocationType.Place.Id,
-                LocationTypeName = "place"
-            };
-
-            Location city = new Location
-            {
-                LocationName = "city",
-                LocationId = 1,
-            };
-            Location country = new Location
-            {
-                LocationName = "country",
-                LocationId = 2
-            };
-            var projectLocationId = 3;
-            Location projectLocation = null;
-
-
-            context.SetupActions.Add(() =>
-            {
-                projectLocation = new Location
-                {
-                    LocationId = projectLocationId
-                };
-                projectLocation.History.CreatedBy = creatorId;
-                projectLocation.History.RevisedBy = creatorId;
-                projectLocation.History.CreatedOn = yesterday;
-                projectLocation.History.RevisedOn = yesterday;
-
-                project.History.CreatedBy = creatorId;
-                project.History.RevisedBy = creatorId;
-                project.History.CreatedOn = yesterday;
-                project.History.RevisedOn = yesterday;
-
-                project.Locations.Clear();
-                project.Locations.Add(projectLocation);
-                context.Projects.Add(project);
-                context.Locations.Add(city);
-                context.Locations.Add(country);
-                context.Locations.Add(projectLocation);
-                context.LocationTypes.Add(place);
-            });
-            Action beforeTester = () =>
-            {
-                Assert.AreEqual(3, context.Locations.Count());
-                Assert.AreEqual(1, context.Projects.Count());
-                Assert.IsTrue(Object.ReferenceEquals(projectLocation, project.Locations.First()));
-            };
-
-            var updator = new User(revisorId);
-            var updatedProjectLocation = new UpdatedProjectLocation(
-                updator: updator,
-                locationName: "updated name",
-                cityId: city.LocationId,
-                countryId: country.LocationId,
-                latitude: 1.0f,
-                longitude: 2.0f,
-                projectId: project.ProjectId,
-                locationId: projectLocationId);
-
-            Action afterTester = () =>
-            {
-                Assert.AreEqual(3, context.Locations.Count());
-                Assert.AreEqual(1, project.Locations.Count);
-
-                Assert.AreEqual(updatedProjectLocation.LocationName, projectLocation.LocationName);
-                Assert.IsTrue(Object.ReferenceEquals(city, projectLocation.City));
-                Assert.IsTrue(Object.ReferenceEquals(country, projectLocation.Country));
-                float delta = .01f;
-                Assert.AreEqual(updatedProjectLocation.Latitude.Value, projectLocation.Latitude.Value, delta, "The Latitude value is invalid.");
-                Assert.AreEqual(updatedProjectLocation.Longitude.Value, projectLocation.Longitude.Value, delta, "The Longitude value is invalid.");
-                Assert.IsTrue(Object.ReferenceEquals(place, projectLocation.LocationType));
-
-                Assert.AreEqual(creatorId, project.History.CreatedBy);
-                Assert.AreEqual(yesterday, project.History.CreatedOn);
-                Assert.AreEqual(revisorId, project.History.RevisedBy);
-                DateTimeOffset.UtcNow.Should().BeCloseTo(project.History.RevisedOn, 2000);
-
-                Assert.AreEqual(creatorId, projectLocation.History.CreatedBy);
-                Assert.AreEqual(revisorId, projectLocation.History.RevisedBy);
-                Assert.AreEqual(yesterday, projectLocation.History.CreatedOn);
-                DateTimeOffset.UtcNow.Should().BeCloseTo(projectLocation.History.RevisedOn, 2000);
-
-            };
-            context.Revert();
-            beforeTester();
-            service.UpdateLocation(updatedProjectLocation);
-            afterTester();
-
-            context.Revert();
-            beforeTester();
-            await service.UpdateLocationAsync(updatedProjectLocation);
-            afterTester();
-        }
-
-        [TestMethod]
-        public async Task TestUpdateLocation_ProjectLocationDoesNotExist()
-        {
-            var creatorId = 1;
-            var revisorId = 2;
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            Project project = new Project
-            {
-                ProjectId = 1,
-            };
-            var place = new LocationType
-            {
-                LocationTypeId = LocationType.Place.Id,
-                LocationTypeName = "place"
-            };
-
-            Location city = new Location
-            {
-                LocationName = "city",
-                LocationId = 1,
-            };
-            Location country = new Location
-            {
-                LocationName = "country",
-                LocationId = 2
-            };
-            context.SetupActions.Add(() =>
-            {
-                project.History.CreatedBy = creatorId;
-                project.History.RevisedBy = creatorId;
-                project.History.CreatedOn = yesterday;
-                project.History.RevisedOn = yesterday;
-
-                project.Locations.Clear();
-                context.Projects.Add(project);
-                context.Locations.Add(city);
-                context.Locations.Add(country);
-                context.LocationTypes.Add(place);
-            });
-
-            var updator = new User(revisorId);
-            var updatedProjectLocation = new UpdatedProjectLocation(
-                updator: updator,
-                locationName: "updated name",
-                cityId: city.LocationId,
-                countryId: country.LocationId,
-                latitude: 1.0f,
-                longitude: 2.0f,
-                projectId: project.ProjectId,
-                locationId: -1);
-            context.Revert();
-            var message = String.Format("The location with id [{0}] does not exist.", updatedProjectLocation.LocationId);
-            Func<Task> f = () =>
-            {
-                return service.UpdateLocationAsync(updatedProjectLocation);
-            };
-            service.Invoking(x => x.UpdateLocation(updatedProjectLocation)).ShouldThrow<ModelNotFoundException>().WithMessage(message);
-            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-
-        }
-
-        [TestMethod]
-        public async Task TestUpdateLocation_ProjectDoesNotExist()
-        {
-            var creatorId = 1;
-            var revisorId = 2;
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var place = new LocationType
-            {
-                LocationTypeId = LocationType.Place.Id,
-                LocationTypeName = "place"
-            };
-
-            Location city = new Location
-            {
-                LocationName = "city",
-                LocationId = 1,
-            };
-            Location country = new Location
-            {
-                LocationName = "country",
-                LocationId = 2
-            };
-            var projectLocationId = 3;
-            Location projectLocation = null;
-
-
-            context.SetupActions.Add(() =>
-            {
-                projectLocation = new Location
-                {
-                    LocationId = projectLocationId
-                };
-                projectLocation.History.CreatedBy = creatorId;
-                projectLocation.History.RevisedBy = creatorId;
-                projectLocation.History.CreatedOn = yesterday;
-                projectLocation.History.RevisedOn = yesterday;
-
-                context.Locations.Add(city);
-                context.Locations.Add(country);
-                context.Locations.Add(projectLocation);
-                context.LocationTypes.Add(place);
-            });
-
-            var updator = new User(revisorId);
-            var updatedProjectLocation = new UpdatedProjectLocation(
-                updator: updator,
-                locationName: "updated name",
-                cityId: city.LocationId,
-                countryId: country.LocationId,
-                latitude: 1.0f,
-                longitude: 2.0f,
-                projectId: -1,
-                locationId: projectLocationId);
-            context.Revert();
-            var message = String.Format("The project with id [{0}] does not exist.", updatedProjectLocation.ProjectId);
-            Func<Task> f = () =>
-            {
-                return service.UpdateLocationAsync(updatedProjectLocation);
-            };
-            service.Invoking(x => x.UpdateLocation(updatedProjectLocation)).ShouldThrow<ModelNotFoundException>().WithMessage(message);
-            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-        }
-
-        [TestMethod]
-        public async Task TestUpdateLocation_LocationTypeDoesNotExist()
-        {
-            var creatorId = 1;
-            var revisorId = 2;
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            Project project = new Project
-            {
-                ProjectId = 1,
-            };
-
-            Location city = new Location
-            {
-                LocationName = "city",
-                LocationId = 1,
-            };
-            Location country = new Location
-            {
-                LocationName = "country",
-                LocationId = 2
-            };
-            var projectLocationId = 3;
-            Location projectLocation = null;
-
-
-            context.SetupActions.Add(() =>
-            {
-                projectLocation = new Location
-                {
-                    LocationId = projectLocationId
-                };
-                projectLocation.History.CreatedBy = creatorId;
-                projectLocation.History.RevisedBy = creatorId;
-                projectLocation.History.CreatedOn = yesterday;
-                projectLocation.History.RevisedOn = yesterday;
-
-                project.History.CreatedBy = creatorId;
-                project.History.RevisedBy = creatorId;
-                project.History.CreatedOn = yesterday;
-                project.History.RevisedOn = yesterday;
-
-                project.Locations.Clear();
-                project.Locations.Add(projectLocation);
-                context.Projects.Add(project);
-                context.Locations.Add(city);
-                context.Locations.Add(country);
-                context.Locations.Add(projectLocation);
-            });
-
-            var updator = new User(revisorId);
-            var updatedProjectLocation = new UpdatedProjectLocation(
-                updator: updator,
-                locationName: "updated name",
-                cityId: city.LocationId,
-                countryId: country.LocationId,
-                latitude: 1.0f,
-                longitude: 2.0f,
-                projectId: project.ProjectId,
-                locationId: projectLocationId);
-            context.Revert();
-            var message = String.Format("The location type with id [{0}] does not exist.", LocationType.Place.Id);
-            Func<Task> f = () =>
-            {
-                return service.UpdateLocationAsync(updatedProjectLocation);
-            };
-            service.Invoking(x => x.UpdateLocation(updatedProjectLocation)).ShouldThrow<ModelNotFoundException>().WithMessage(message);
-            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-        }
-
-        [TestMethod]
-        public async Task TestUpdateLocation_CountryDoesNotExist()
-        {
-            var creatorId = 1;
-            var revisorId = 2;
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            Project project = new Project
-            {
-                ProjectId = 1,
-            };
-            var place = new LocationType
-            {
-                LocationTypeId = LocationType.Place.Id,
-                LocationTypeName = "place"
-            };
-
-            Location city = new Location
-            {
-                LocationName = "city",
-                LocationId = 1,
-            };
-            var projectLocationId = 3;
-            Location projectLocation = null;
-
-
-            context.SetupActions.Add(() =>
-            {
-                projectLocation = new Location
-                {
-                    LocationId = projectLocationId
-                };
-                projectLocation.History.CreatedBy = creatorId;
-                projectLocation.History.RevisedBy = creatorId;
-                projectLocation.History.CreatedOn = yesterday;
-                projectLocation.History.RevisedOn = yesterday;
-
-                project.History.CreatedBy = creatorId;
-                project.History.RevisedBy = creatorId;
-                project.History.CreatedOn = yesterday;
-                project.History.RevisedOn = yesterday;
-
-                project.Locations.Clear();
-                project.Locations.Add(projectLocation);
-                context.Projects.Add(project);
-                context.Locations.Add(city);
-                context.Locations.Add(projectLocation);
-                context.LocationTypes.Add(place);
-            });
-
-            var updator = new User(revisorId);
-            var updatedProjectLocation = new UpdatedProjectLocation(
-                updator: updator,
-                locationName: "updated name",
-                cityId: city.LocationId,
-                countryId: -1,
-                latitude: 1.0f,
-                longitude: 2.0f,
-                projectId: project.ProjectId,
-                locationId: projectLocationId);
-            context.Revert();
-            var message = String.Format("The location with id [{0}] does not exist.", updatedProjectLocation.CountryId);
-            Func<Task> f = () =>
-            {
-                return service.UpdateLocationAsync(updatedProjectLocation);
-            };
-            service.Invoking(x => x.UpdateLocation(updatedProjectLocation)).ShouldThrow<ModelNotFoundException>().WithMessage(message);
-            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-        }
-
-        [TestMethod]
-        public async Task TestUpdateLocation_CityDoesNotExist()
-        {
-            var creatorId = 1;
-            var revisorId = 2;
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            Project project = new Project
-            {
-                ProjectId = 1,
-            };
-            var place = new LocationType
-            {
-                LocationTypeId = LocationType.Place.Id,
-                LocationTypeName = "place"
-            };
-
-            Location country = new Location
-            {
-                LocationName = "country",
-                LocationId = 2
-            };
-            var projectLocationId = 3;
-            Location projectLocation = null;
-
-
-            context.SetupActions.Add(() =>
-            {
-                projectLocation = new Location
-                {
-                    LocationId = projectLocationId
-                };
-                projectLocation.History.CreatedBy = creatorId;
-                projectLocation.History.RevisedBy = creatorId;
-                projectLocation.History.CreatedOn = yesterday;
-                projectLocation.History.RevisedOn = yesterday;
-
-                project.History.CreatedBy = creatorId;
-                project.History.RevisedBy = creatorId;
-                project.History.CreatedOn = yesterday;
-                project.History.RevisedOn = yesterday;
-
-                project.Locations.Clear();
-                project.Locations.Add(projectLocation);
-                context.Projects.Add(project);
-                context.Locations.Add(country);
-                context.Locations.Add(projectLocation);
-                context.LocationTypes.Add(place);
-            });
-
-            var updator = new User(revisorId);
-            var updatedProjectLocation = new UpdatedProjectLocation(
-                updator: updator,
-                locationName: "updated name",
-                cityId: -1,
-                countryId: country.LocationId,
-                latitude: 1.0f,
-                longitude: 2.0f,
-                projectId: project.ProjectId,
-                locationId: projectLocationId);
-            context.Revert();
-            var message = String.Format("The location with id [{0}] does not exist.", updatedProjectLocation.CityId);
-            Func<Task> f = () =>
-            {
-                return service.UpdateLocationAsync(updatedProjectLocation);
-            };
-            service.Invoking(x => x.UpdateLocation(updatedProjectLocation)).ShouldThrow<ModelNotFoundException>().WithMessage(message);
-            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-        }
-        #endregion
     }
 }
 

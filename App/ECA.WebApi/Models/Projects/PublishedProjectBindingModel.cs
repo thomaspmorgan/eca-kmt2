@@ -67,6 +67,12 @@ namespace ECA.WebApi.Models.Projects
         public IEnumerable<int> ObjectiveIds { get; set; }
 
         /// <summary>
+        /// The location ids.
+        /// </summary>
+        [Required]
+        public IEnumerable<int> LocationIds { get; set; }
+
+        /// <summary>
         /// The start date of the project.
         /// </summary>
         public DateTimeOffset StartDate { get; set; }
@@ -94,6 +100,7 @@ namespace ECA.WebApi.Models.Projects
                 pointsOfContactIds: this.PointsOfContactIds,
                 categoryIds: this.CategoryIds,
                 objectiveIds: this.ObjectiveIds,
+                locationIds: this.LocationIds,
                 startDate: this.StartDate,
                 endDate: this.EndDate);
         }

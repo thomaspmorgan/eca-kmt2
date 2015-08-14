@@ -111,33 +111,6 @@ namespace ECA.Business.Service.Projects
         /// </summary>
         /// <param name="additionalParticipant">The additional participant.</param>
         Task AddParticipantAsync(AdditionalProjectParticipant additionalParticipant);
-
-        /// <summary>
-        /// Adds a new project location to the system.
-        /// </summary>
-        /// <param name="projectLocation">The location to add to the project.</param>
-        /// <returns>The location entity added to the datastore.</returns>
-        Location CreateLocation(AdditionalProjectLocation projectLocation);
-
-        /// <summary>
-        /// Adds a new project location to the system.
-        /// </summary>
-        /// <param name="projectLocation">The location to add to the project.</param>
-        /// <returns>The location entity added to the datastore.</returns>
-        Task<Location> CreateLocationAsync(AdditionalProjectLocation projectLocation);
-
-        /// <summary>
-        /// Updates the project's location with the updated values.
-        /// </summary>
-        /// <param name="projectLocation">The updated project location details.</param>
-        void UpdateLocation(UpdatedProjectLocation projectLocation);
-
-        /// <summary>
-        /// Updates the project's location with the updated values.
-        /// </summary>
-        /// <param name="projectLocation">The updated project location details.</param>
-        /// <returns>The task.</returns>
-        Task UpdateLocationAsync(UpdatedProjectLocation projectLocation);
     }
 
     /// <summary>
@@ -316,46 +289,5 @@ namespace ECA.Business.Service.Projects
             return Task.FromResult<PagedQueryResults<SimpleProjectDTO>>(null);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="projectLocation"></param>
-        /// <returns></returns>
-        public Location CreateLocation(AdditionalProjectLocation projectLocation)
-        {
-            Contract.Requires(projectLocation != null, "The project location must not be null.");
-            return null;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="projectLocation"></param>
-        /// <returns></returns>
-        public Task<Location> CreateLocationAsync(AdditionalProjectLocation projectLocation)
-        {
-            Contract.Requires(projectLocation != null, "The project location must not be null.");
-            return Task.FromResult<Location>(null);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="projectLocation"></param>
-        public void UpdateLocation(UpdatedProjectLocation projectLocation)
-        {
-            Contract.Requires(projectLocation != null, "The project location must not be null.");
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="projectLocation"></param>
-        /// <returns></returns>
-        public Task UpdateLocationAsync(UpdatedProjectLocation projectLocation)
-        {
-            Contract.Requires(projectLocation != null, "The project location must not be null.");
-            return Task.FromResult<Object>(null);
-        }
     }
 }

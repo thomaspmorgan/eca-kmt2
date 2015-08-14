@@ -24,23 +24,24 @@ namespace ECA.Business.Test.Service.Projects
             var themeIds = new List<int> { 3 };
             var categoryIds = new List<int> { 4 };
             var objectiveIds = new List<int> { 5 };
+            var locationIds = new List<int> { 6 };
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow.AddDays(1.0);
             var user = new User(1);
             var instance = new PublishedProject(
-                updatedBy: user,
-                projectId: projectId,
-                name: name,
-                description: description,
-                projectStatusId: projectStatusId,
-                goalIds: goalIds,
-                themeIds: themeIds,
-                pointsOfContactIds: pocIds,
-                categoryIds: categoryIds,
-                objectiveIds: objectiveIds,
-                startDate: startDate,
-                endDate: endDate
-                );
+                user,
+                projectId,
+                name,
+                description,
+                projectStatusId,
+                goalIds,
+                themeIds,
+                pocIds,
+                categoryIds,
+                objectiveIds,
+                locationIds,
+                startDate,
+                endDate);
 
             Assert.AreEqual(projectId, instance.ProjectId);
             Assert.AreEqual(projectStatusId, instance.ProjectStatusId);
@@ -50,6 +51,7 @@ namespace ECA.Business.Test.Service.Projects
             Assert.AreEqual(endDate, instance.EndDate);
             Assert.IsInstanceOfType(instance.Audit, typeof(Update));
 
+            CollectionAssert.AreEqual(locationIds.ToList(), instance.LocationIds.ToList());
             CollectionAssert.AreEqual(goalIds.ToList(), instance.GoalIds.ToList());
             CollectionAssert.AreEqual(pocIds.ToList(), instance.PointsOfContactIds.ToList());
             CollectionAssert.AreEqual(themeIds.ToList(), instance.ThemeIds.ToList());
@@ -73,6 +75,7 @@ namespace ECA.Business.Test.Service.Projects
             var themeIds = new List<int> { 3, 3 };
             var categoryIds = new List<int> { 4, 4 };
             var objectiveIds = new List<int> { 5 , 5 };
+            var locationIds = new List<int> { 6, 6 };
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow.AddDays(1.0);
             var user = new User(1);
@@ -85,12 +88,14 @@ namespace ECA.Business.Test.Service.Projects
                 goalIds: goalIds,
                 themeIds: themeIds,
                 pointsOfContactIds: pocIds,
+                locationIds: locationIds,
                 categoryIds: categoryIds,
                 objectiveIds: objectiveIds,
                 startDate: startDate,
                 endDate: endDate
                 );
 
+            CollectionAssert.AreEqual(locationIds.Distinct().ToList(), instance.LocationIds.ToList());
             CollectionAssert.AreEqual(goalIds.Distinct().ToList(), instance.GoalIds.ToList());
             CollectionAssert.AreEqual(pocIds.Distinct().ToList(), instance.PointsOfContactIds.ToList());
             CollectionAssert.AreEqual(themeIds.Distinct().ToList(), instance.ThemeIds.ToList());
@@ -119,9 +124,11 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: startDate,
                 endDate: endDate
                 );
+            Assert.IsNotNull(instance.LocationIds);
             Assert.IsNotNull(instance.ThemeIds);
             Assert.IsNotNull(instance.GoalIds);
             Assert.IsNotNull(instance.PointsOfContactIds);

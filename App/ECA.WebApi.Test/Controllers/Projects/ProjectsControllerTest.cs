@@ -33,7 +33,6 @@ namespace ECA.WebApi.Test.Controllers.Projects
         private Mock<IUserProvider> userProvider;
         private Mock<IPrincipalService> principalService;
         private Mock<IResourceService> resourceService;
-        private Mock<ILocationService> locationService;
         
         private Mock<IResourceAuthorizationHandler> handler;
         private ProjectsController controller;
@@ -45,12 +44,11 @@ namespace ECA.WebApi.Test.Controllers.Projects
             service = new Mock<IProjectService>();
             principalService = new Mock<IPrincipalService>();
             resourceService = new Mock<IResourceService>();
-            locationService = new Mock<ILocationService>();
             handler = new Mock<IResourceAuthorizationHandler>();
 
             service.Setup(x => x.GetProjectsByProgramIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<SimpleProjectDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<SimpleProjectDTO>(1, new List<SimpleProjectDTO>()));
-            controller = new ProjectsController(service.Object, handler.Object, userProvider.Object, resourceService.Object, locationService.Object);
+            controller = new ProjectsController(service.Object, handler.Object, userProvider.Object, resourceService.Object);
         }
 
         #region Get
@@ -306,32 +304,6 @@ namespace ECA.WebApi.Test.Controllers.Projects
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
 
-        #endregion
-
-        #region Locations
-        [TestMethod]
-        public async Task TestPostCreateProjectLocationAsync()
-        {
-            locationService.Setup(x => x.GetLocationByIdAsync(It.IsAny<int>())).ReturnsAsync(new LocationDTO());
-            service.Setup(x => x.CreateLocationAsync(It.IsAny<AdditionalProjectLocation>())).ReturnsAsync(new Location());
-            var model = new ProjectLocationBindingModel();
-            var result = await controller.PostCreateProjectLocation(model);
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(OkNegotiatedContentResult<LocationDTO>));
-            service.Verify(x => x.CreateLocationAsync(It.IsAny<AdditionalProjectLocation>()), Times.Once());
-            service.Verify(x => x.SaveChangesAsync(), Times.Once());
-            locationService.Verify(x => x.GetLocationByIdAsync(It.IsAny<int>()), Times.Once());
-        }
-
-        [TestMethod]
-        public async Task TestPostCreateProjectLocationAsync_InvalidModel()
-        {
-            controller.ModelState.AddModelError("key", "error");
-            var model = new ProjectLocationBindingModel();
-            var result = await controller.PostCreateProjectLocation(model);
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(InvalidModelStateResult));
-        }
         #endregion
     }
 }

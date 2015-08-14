@@ -4,47 +4,45 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECA.Business.Service.Projects
+namespace ECA.Business.Service.Admin
 {
     /// <summary>
-    /// An AdditionalProjectLocation represents a business layer's client's request to add a location to project.
+    /// An AdditionalLocation represents a business layer's client's request to add a location to the eca system.
     /// </summary>
-    public class AdditionalProjectLocation : ProjectLocation
+    public class AdditionalLocation : EcaLocation
     {
         /// <summary>
-        /// A ProjectLocation is a "Place" location that contains an optional city, a country and optional longitude and latitude.
+        /// Creates a new AdditionalLocation instance and initializes the properties.
         /// </summary>
         /// <param name="locationName">The name of the location.</param>
         /// <param name="cityId">The id of the city.</param>
+        /// <param name="creator">The user creating the location.</param>
+        /// <param name="divisionId">The id of the division.</param>
+        /// <param name="locationTypeId">The location type id.</param>
         /// <param name="countryId">The id of the country.</param>
         /// <param name="latitude">The latitude.</param>
         /// <param name="longitude">The longitude.</param>
-        /// <param name="projectId">The project id.</param>
-        public AdditionalProjectLocation(
+        public AdditionalLocation(
             User creator,
             string locationName,
             int? cityId,
-            int countryId,
+            int? countryId,
+            int? divisionId,
             float? latitude,
             float? longitude,
-            int projectId
+            int locationTypeId
             )
-            :
-            base(
+            : base(
                 locationName: locationName,
                 cityId: cityId,
                 countryId: countryId,
+                divisionId: divisionId,
                 longitude: longitude,
-                latitude: latitude
+                latitude: latitude,
+                locationTypeId: locationTypeId
                 )
         {
-            this.ProjectId = projectId;
             this.Audit = new Create(creator);
         }
-
-        /// <summary>
-        /// Gets the project id.
-        /// </summary>
-        public int ProjectId { get; private set; }
     }
 }

@@ -61,6 +61,11 @@ namespace ECA.Business.Service.Projects
         /// <summary>
         /// The error message when at least one theme does not exist.
         /// </summary>
+        public const string LOCATIONS_DO_NOT_EXIST_ERROR_MESSAGE = "At least one of the given locations does not exist in the system.";
+
+        /// <summary>
+        /// The error message when at least one theme does not exist.
+        /// </summary>
         public const string THEMES_DO_NOT_EXIST_ERROR_MESSAGE = "At least one of the given themes does not exist in the system.";
 
         /// <summary>
@@ -118,6 +123,10 @@ namespace ECA.Business.Service.Projects
         public override IEnumerable<BusinessValidationResult> DoValidateUpdate(ProjectServiceUpdateValidationEntity validationEntity)
         {
             Contract.Requires(validationEntity.OfficeSettings != null, "The office settings must not be null.");
+            if (!validationEntity.LocationsExist)
+            {
+                yield return new BusinessValidationResult<PublishedProject>(x => x.LocationIds, LOCATIONS_DO_NOT_EXIST_ERROR_MESSAGE);
+            }
             if (!validationEntity.ThemesExist)
             {
                 yield return new BusinessValidationResult<PublishedProject>(x => x.ThemeIds, THEMES_DO_NOT_EXIST_ERROR_MESSAGE);

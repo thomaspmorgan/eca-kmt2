@@ -128,6 +128,8 @@
     <Compile Include="Service\Admin\EcaAddressTest.cs" />
     <Compile Include="Service\Admin\EcaOrganizationTest.cs" />
     <Compile Include="Service\Admin\LocationServiceAddressValidatorTest.cs" />
+    <Compile Include="Service\Admin\LocationServiceValidatorTest.cs" />
+    <Compile Include="Service\Admin\LocationValidationEntityTest.cs" />
     <Compile Include="Service\Fundings\AdditionalMoneyFlowTest.cs" />
     <Compile Include="Service\Fundings\MoneyFlowServiceCreateValidationEntityTest.cs" />
     <Compile Include="Service\Fundings\MoneyFlowServiceUpdateValidationEntityTest.cs" />
@@ -175,9 +177,9 @@
     <Compile Include="Service\Programs\ProgramServiceValidationEntityTest.cs" />
     <Compile Include="Service\Programs\ProgramServiceValidatorTest.cs" />
     <Compile Include="Service\EcaServiceTest.cs" />
-    <Compile Include="Service\Projects\AdditionalProjectLocationTest.cs" />
-    <Compile Include="Service\Projects\ProjectLocationTest.cs" />
-    <Compile Include="Service\Projects\UpdatedProjectLocationTest.cs" />
+    <Compile Include="Service\Admin\AdditionalLocationTest.cs" />
+    <Compile Include="Service\Admin\EcaLocationTest.cs" />
+    <Compile Include="Service\Admin\UpdatedLocationTest.cs" />
     <Compile Include="Service\Reports\ReportServiceTest.cs" />
     <Compile Include="Service\DeleteTest.cs" />
     <Compile Include="Service\UserTest.cs" />

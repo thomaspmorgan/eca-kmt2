@@ -29,7 +29,7 @@ namespace ECA.Business.Service.Projects
         private readonly Action<int, Project> throwIfProjectDoesNotExist;
         private readonly Action<ParticipantType> throwIfParticipantTypeDoesNotExist;
         private readonly Action<int?, Location> throwIfLocationDoesNotExist;
-        private readonly Action<int, LocationType> throwIfLocationTypeDoesNotExist;
+
 
         /// <summary>
         /// Constructor
@@ -68,13 +68,6 @@ namespace ECA.Business.Service.Projects
                 if (location == null)
                 {
                     throw new ModelNotFoundException(String.Format("The location with id [{0}] does not exist.", locationId));
-                }
-            };
-            throwIfLocationTypeDoesNotExist = (locationTypeId, locationType) =>
-            {
-                if (locationType == null)
-                {
-                    throw new ModelNotFoundException(String.Format("The location type with id [{0}] does not exist.", locationTypeId));
                 }
             };
         }
@@ -346,6 +339,9 @@ namespace ECA.Business.Service.Projects
             }
             this.logger.Trace("Retrieved project by id {0}.", updatedProject.ProjectId);
 
+            var locationsExist = CheckAllLocationsExist(updatedProject.LocationIds);
+            this.logger.Trace("Checked all locations with id {0} existed.", String.Join(", ", updatedProject.LocationIds));
+
             var themesExist = CheckAllThemesExist(updatedProject.ThemeIds);
             this.logger.Trace("Check all themes with ids {0} existed.", String.Join(", ", updatedProject.ThemeIds));
 
@@ -376,6 +372,7 @@ namespace ECA.Business.Service.Projects
                 projectToUpdate: projectToUpdate,
                 goalsExist: goalsExist,
                 themesExist: themesExist,
+                locationsExist: locationsExist,
                 pointsOfContactExist: contactsExist,
                 settings: officeSettings,
                 allowedCategoryIds: allowedCategoryIds,
@@ -399,6 +396,9 @@ namespace ECA.Business.Service.Projects
                 throw new ModelNotFoundException(String.Format("The project with id [{0}] was not found.", updatedProject.ProjectId));
             }
             this.logger.Trace("Retrieved project by id {0}.", updatedProject.ProjectId);
+
+            var locationsExist = await CheckAllLocationsExistAsync(updatedProject.LocationIds);
+            this.logger.Trace("Checked all locations with id {0} existed.", String.Join(", ", updatedProject.LocationIds));
 
             var themesExist = await CheckAllThemesExistAsync(updatedProject.ThemeIds);
             this.logger.Trace("Check all themes with ids {0} existed.", String.Join(", ", updatedProject.ThemeIds));
@@ -426,18 +426,19 @@ namespace ECA.Business.Service.Projects
             this.logger.Trace("Loaded allowed objective ids [{0}] for program with id [{1}].", String.Join(", ", allowedCategoryIds), projectToUpdate.ProgramId);
 
             validator.ValidateUpdate(GetUpdateValidationEntity(
-               publishedProject: updatedProject,
-               projectToUpdate: projectToUpdate,
-               goalsExist: goalsExist,
-               themesExist: themesExist,
-               pointsOfContactExist: contactsExist,
-               settings: officeSettings,
-               allowedCategoryIds: allowedCategoryIds,
-               allowedObjectiveIds: allowedObjectiveIds,
-               categoriesExist: categoriesExist,
-               objectivesExist: objectivesExist,
-               numberOfCategories: updatedProject.CategoryIds.Count(),
-               numberOfObjectives: updatedProject.ObjectiveIds.Count()));
+                publishedProject: updatedProject,
+                projectToUpdate: projectToUpdate,
+                goalsExist: goalsExist,
+                themesExist: themesExist,
+                locationsExist: locationsExist,
+                pointsOfContactExist: contactsExist,
+                settings: officeSettings,
+                allowedCategoryIds: allowedCategoryIds,
+                allowedObjectiveIds: allowedObjectiveIds,
+                categoriesExist: categoriesExist,
+                objectivesExist: objectivesExist,
+                numberOfCategories: updatedProject.CategoryIds.Count(),
+                numberOfObjectives: updatedProject.ObjectiveIds.Count()));
             DoUpdate(updatedProject, projectToUpdate);
         }
 
@@ -450,6 +451,7 @@ namespace ECA.Business.Service.Projects
             SetGoals(updatedProject.GoalIds.ToList(), projectToUpdate);
             SetCategories(updatedProject.CategoryIds.ToList(), projectToUpdate);
             SetObjectives(updatedProject.ObjectiveIds.ToList(), projectToUpdate);
+            SetLocations<Project>(updatedProject.LocationIds.ToList(), x => x.Locations, projectToUpdate);
             projectToUpdate.Name = updatedProject.Name;
             projectToUpdate.Description = updatedProject.Description;
             projectToUpdate.EndDate = updatedProject.EndDate;
@@ -469,6 +471,7 @@ namespace ECA.Business.Service.Projects
             bool pointsOfContactExist,
             bool categoriesExist,
             bool objectivesExist,
+            bool locationsExist,
             int numberOfCategories,
             int numberOfObjectives,
             List<int> allowedCategoryIds,
@@ -480,6 +483,7 @@ namespace ECA.Business.Service.Projects
                 projectToUpdate: projectToUpdate,
                 goalsExist: goalsExist,
                 themesExist: themesExist,
+                locationsExist: locationsExist,
                 pointsOfContactExist: pointsOfContactExist,
                 categoriesExist: categoriesExist,
                 objectivesExist: objectivesExist,
@@ -595,155 +599,6 @@ namespace ECA.Business.Service.Projects
         }
         #endregion
 
-        #region Locations
-        /// <summary>
-        /// Adds a new project location to the system.
-        /// </summary>
-        /// <param name="projectLocation">The location to add to the project.</param>
-        /// <returns>The location entity added to the datastore.</returns>
-        public Location CreateLocation(AdditionalProjectLocation projectLocation)
-        {
-            var project = Context.Projects.Find(projectLocation.ProjectId);
-            throwIfProjectDoesNotExist(projectLocation.ProjectId, project);
-
-            Location city = null;
-            if (projectLocation.CityId.HasValue)
-            {
-                city = Context.Locations.Find(projectLocation.CityId);
-                throwIfLocationDoesNotExist(projectLocation.CityId, city);
-            }
-
-            var country = Context.Locations.Find(projectLocation.CountryId);
-            throwIfLocationDoesNotExist(projectLocation.CountryId, country);
-
-            var locationType = Context.LocationTypes.Find(projectLocation.LocationTypeId);
-            throwIfLocationTypeDoesNotExist(projectLocation.LocationTypeId, locationType);
-
-            return DoCreateLocation(project, country, city, locationType, projectLocation);
-        }
-
-        /// <summary>
-        /// Adds a new project location to the system.
-        /// </summary>
-        /// <param name="projectLocation">The location to add to the project.</param>
-        /// <returns>The location entity added to the datastore.</returns>
-        public async Task<Location> CreateLocationAsync(AdditionalProjectLocation projectLocation)
-        {
-            var project = await Context.Projects.FindAsync(projectLocation.ProjectId);
-            throwIfProjectDoesNotExist(projectLocation.ProjectId, project);
-
-            Location city = null;
-            if (projectLocation.CityId.HasValue)
-            {
-                city = await Context.Locations.FindAsync(projectLocation.CityId);
-                throwIfLocationDoesNotExist(projectLocation.CityId, city);
-            }
-
-            var country = await Context.Locations.FindAsync(projectLocation.CountryId);
-            throwIfLocationDoesNotExist(projectLocation.CountryId, country);
-
-            var locationType = await Context.LocationTypes.FindAsync(projectLocation.LocationTypeId);
-            throwIfLocationTypeDoesNotExist(projectLocation.LocationTypeId, locationType);
-
-            return DoCreateLocation(project, country, city, locationType, projectLocation);
-        }
-
-        private Location DoCreateLocation(Project project, Location country, Location city, LocationType locationType, AdditionalProjectLocation additionalProjectLocation)
-        {
-            var projectLocation = new Location
-            {
-                City = city,
-                Country = country,
-                Latitude = additionalProjectLocation.Latitude,
-                Longitude = additionalProjectLocation.Longitude,
-                LocationName = additionalProjectLocation.LocationName,
-                LocationType = locationType,
-            };
-            project.Locations.Add(projectLocation);
-            Context.Locations.Add(projectLocation);
-            additionalProjectLocation.Audit.SetHistory(projectLocation);
-            var update = new Update(additionalProjectLocation.Audit.User);
-            update.SetHistory(project);
-            return projectLocation;
-        }
-
-        /// <summary>
-        /// Updates the project's location with the updated values.
-        /// </summary>
-        /// <param name="projectLocation">The updated project location details.</param>
-        public void UpdateLocation(UpdatedProjectLocation projectLocation)
-        {
-            var location = Context.Locations.Find(projectLocation.LocationId);
-            throwIfLocationDoesNotExist(projectLocation.LocationId, location);
-
-            var project = Context.Projects.Find(projectLocation.ProjectId);
-            throwIfProjectDoesNotExist(projectLocation.ProjectId, project);
-
-            Location city = null;
-            if (projectLocation.CityId.HasValue)
-            {
-                city = Context.Locations.Find(projectLocation.CityId);
-                throwIfLocationDoesNotExist(projectLocation.CityId, city);
-            }
-
-            var country = Context.Locations.Find(projectLocation.CountryId);
-            throwIfLocationDoesNotExist(projectLocation.CountryId, country);
-
-            var locationType = Context.LocationTypes.Find(projectLocation.LocationTypeId);
-            throwIfLocationTypeDoesNotExist(projectLocation.LocationTypeId, locationType);
-
-            DoUpdateLocation(project, location, country, city, locationType, projectLocation);
-        }
-
-        /// <summary>
-        /// Updates the project's location with the updated values.
-        /// </summary>
-        /// <param name="projectLocation">The updated project location details.</param>
-        /// <returns>The task.</returns>
-        public async Task UpdateLocationAsync(UpdatedProjectLocation projectLocation)
-        {
-            var location = Context.Locations.Find(projectLocation.LocationId);
-            throwIfLocationDoesNotExist(projectLocation.LocationId, location);
-
-            var project = await Context.Projects.FindAsync(projectLocation.ProjectId);
-            throwIfProjectDoesNotExist(projectLocation.ProjectId, project);
-
-            Location city = null;
-            if (projectLocation.CityId.HasValue)
-            {
-                city = await Context.Locations.FindAsync(projectLocation.CityId);
-                throwIfLocationDoesNotExist(projectLocation.CityId, city);
-            }
-
-            var country = await Context.Locations.FindAsync(projectLocation.CountryId);
-            throwIfLocationDoesNotExist(projectLocation.CountryId, country);
-
-            var locationType = await Context.LocationTypes.FindAsync(projectLocation.LocationTypeId);
-            throwIfLocationTypeDoesNotExist(projectLocation.LocationTypeId, locationType);
-
-            DoUpdateLocation(project, location, country, city, locationType, projectLocation);
-        }
-
-        private void DoUpdateLocation(
-            Project project,
-            Location projectLocation,
-            Location country,
-            Location city,
-            LocationType locationType,
-            UpdatedProjectLocation updatedProjectLocation)
-        {
-            projectLocation.City = city;
-            projectLocation.Country = country;
-            projectLocation.Latitude = updatedProjectLocation.Latitude;
-            projectLocation.Longitude = updatedProjectLocation.Longitude;
-            projectLocation.LocationName = updatedProjectLocation.LocationName;
-            projectLocation.LocationType = locationType;
-            updatedProjectLocation.Audit.SetHistory(project);
-            updatedProjectLocation.Audit.SetHistory(projectLocation);
-        }
-
-
-        #endregion
 
         private Project GetProjectEntityById(int projectId)
         {
@@ -794,6 +649,5 @@ namespace ECA.Business.Service.Projects
         {
             return JustificationObjectiveQueries.CreateGetJustificationObjectiveDTOByProgramIdQuery(this.Context, programId).Select(x => x.Id);
         }
-
     }
 }

@@ -42,7 +42,6 @@ namespace ECA.WebApi.Controllers.Projects
         private IResourceAuthorizationHandler authorizationHandler;
         private IUserProvider userProvider;
         private IResourceService resourceService;
-        private ILocationService locationService;
 
         /// <summary>
         /// Creates a new ProjectsController with the given project service.
@@ -56,19 +55,16 @@ namespace ECA.WebApi.Controllers.Projects
             IProjectService projectService, 
             IResourceAuthorizationHandler authorizationHandler, 
             IUserProvider userProvider, 
-            IResourceService resourceService, 
-            ILocationService locationService)
+            IResourceService resourceService)
         {
             Contract.Requires(projectService != null, "The project service must not be null.");
             Contract.Requires(userProvider != null, "The user provider must not be null.");
             Contract.Requires(authorizationHandler != null, "The authorization handler must not be null.");
             Contract.Requires(resourceService != null, "The resource service must not be null.");
-            Contract.Requires(locationService != null, "The location service must not be null.");
             this.projectService = projectService;
             this.resourceService = resourceService;
             this.authorizationHandler = authorizationHandler;
             this.userProvider = userProvider;
-            this.locationService = locationService;
         }
 
         #region Get
@@ -356,33 +352,6 @@ namespace ECA.WebApi.Controllers.Projects
         private Task<PagedQueryResults<ResourceAuthorization>> GetResourceAuthorizationsAsync(QueryableOperator<ResourceAuthorization> queryOperator)
         {
             return resourceService.GetResourceAuthorizationsAsync(queryOperator);
-        }
-        #endregion
-
-        #region Locations
-
-        /// <summary>
-        /// Adds the given location to the project.
-        /// </summary>
-        /// <param name="model">The project location.</param>
-        /// <returns>The added location.</returns>
-        [Route("Projects/Location")]
-        [ResourceAuthorize(Permission.EDIT_PROJECT_VALUE, ResourceType.PROJECT_VALUE, typeof(ProjectLocationBindingModel), "ProjectId")]
-        public async Task<IHttpActionResult> PostCreateProjectLocation(ProjectLocationBindingModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var currentUser = userProvider.GetCurrentUser();
-                var businessUser = userProvider.GetBusinessUser(currentUser);
-                var location = await projectService.CreateLocationAsync(model.ToAdditionalProjectLocation(businessUser));
-                await projectService.SaveChangesAsync();
-                var dto = await locationService.GetLocationByIdAsync(location.LocationId);
-                return Ok(dto);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
         }
         #endregion
     }
