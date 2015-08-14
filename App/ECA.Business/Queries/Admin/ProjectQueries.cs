@@ -52,7 +52,7 @@ namespace ECA.Business.Queries.Admin
                             StartYear = startDate.Year,
                             StartYearAsString = startDate.Year.ToString(),
                             OwnerId = parentProgram.OwnerId,
-                            OwnerOfficeSymbol = parentProgram.Owner.OfficeSymbol
+                            OwnerOfficeSymbol = parentProgram.Owner != null ? parentProgram.Owner.OfficeSymbol : null
                         };
 
             return query;
