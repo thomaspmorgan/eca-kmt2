@@ -13,43 +13,6 @@
         z-index: $toolbarZIndex;
         transition: all 0.3s ease;
 
-        .btn-group {
-
-            .btn {
-                background: $blue;
-                border: 0;
-                font-size: 1em;
-                min-width: 147px;
-                color: white;
-                border-bottom-left-radius: 4px;
-                border-top-left-radius: 4px;
-
-                &.dropdown-toggle {
-                    border-left: 1px solid rgba(0, 0, 0, .15);
-                    border-bottom-left-radius: 0;
-                    border-top-left-radius: 0;
-                    margin-right: 20px;
-                    min-width:40px;
-                    width: 40px;
-                    max-width: 40px;
-                }
-            }
-
-            .modified {
-                background: $green;
-            }
-
-            .cancel {
-                background: $gray;
-                color: black;
-            }
-
-            .cancel:hover {
-                background: $mediumgray;
-                color: white;
-            }
-        }
-
         .detail {
             color: #fff;
         }
@@ -128,9 +91,10 @@
 
         .permalink {
             margin: 60px 0 -30px 0;
-            opacity: .75;            
+            opacity: .75;
+
             a {
-                color:white;
+                color: white;
             }
         }
     }
@@ -147,6 +111,40 @@
 
     .toolbar {
         background-color: #4a94b2;
+
+        .btn {
+            background: $blue;
+            border: 0;
+            font-size: 1em;
+            min-width: 147px;
+            color: white;
+            border-bottom-left-radius: 4px;
+            border-top-left-radius: 4px;
+
+            &.dropdown-toggle {
+                border-left: 1px solid rgba(0, 0, 0, .15);
+                border-bottom-left-radius: 0;
+                border-top-left-radius: 0;
+                margin-right: 20px;
+                min-width: 40px;
+                width: 40px;
+                max-width: 40px;
+            }
+        }
+
+        .modified {
+            background: $green;
+        }
+
+        .cancel {
+            background: $gray;
+            color: black;
+        }
+
+        .cancel:hover {
+            background: $mediumgray;
+            color: white;
+        }
     }
 }
 

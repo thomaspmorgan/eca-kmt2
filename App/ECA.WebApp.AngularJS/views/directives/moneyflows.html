@@ -101,7 +101,7 @@
 
                         </div>
                     </td>
-                    <td ng-show="!view.moneyFlowsLoading && !moneyFlow.currentlyEditing">
+                    <td ng-show="!view.moneyFlowsLoading && !moneyFlow.currentlyEditing && view.canEditMoneyFlows">
                         <div class="right" style="display:none;" showonparentrow>
                             <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy" ng-click="view.onCopyClick(moneyFlow)">
                                 <i class="md md-content-copy md-2x copyEditDeleteOption"></i>

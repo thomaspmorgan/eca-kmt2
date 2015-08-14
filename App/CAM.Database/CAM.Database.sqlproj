@@ -77,7 +77,6 @@
     <None Include="Scripts\PostDeploy\StaticData\CAM.Permission.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\CAM.Application.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\CAM.Resource.staticdata.sql" />
-    <None Include="Scripts\PostDeploy\StaticData\CAM.UserAccount.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\CAM.Principal.staticdata.sql" />
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +109,7 @@
     <None Include="ECA_QA.publish.xml" />
     <None Include="ECA_UAT.publish.publish.xml" />
     <None Include="ECA_PRE.publish.xml" />
+    <None Include="Scripts\PostDeploy\AdditionalUsersAndPermissionAssignments.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeploy\CAM.PostDeployment.sql" />

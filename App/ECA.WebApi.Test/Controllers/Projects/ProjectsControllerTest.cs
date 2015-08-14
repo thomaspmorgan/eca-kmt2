@@ -244,7 +244,7 @@ namespace ECA.WebApi.Test.Controllers.Projects
         {
             userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(1));
 
-            var response = await controller.PostAddCollaboratorAsync(new CollaboratorBindingModel());
+            var response = await controller.PostAddCollaboratorAsync(new ProjectCollaboratorBindingModel());
             handler.Verify(x => x.HandleGrantedPermissionBindingModelAsync(It.IsAny<IGrantedPermissionBindingModel>(), It.IsAny<ApiController>()), Times.Once());
         }
 
@@ -252,7 +252,7 @@ namespace ECA.WebApi.Test.Controllers.Projects
         public async Task TestPostRevokeCollaboratorAsync()
         {
             userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(1));
-            var response = await controller.PostRevokeCollaboratorAsync(new CollaboratorBindingModel());
+            var response = await controller.PostRevokeCollaboratorAsync(new ProjectCollaboratorBindingModel());
             handler.Verify(x => x.HandleRevokedPermissionBindingModelAsync(It.IsAny<IRevokedPermissionBindingModel>(), It.IsAny<ApiController>()), Times.Once());
         }
 
@@ -260,7 +260,7 @@ namespace ECA.WebApi.Test.Controllers.Projects
         public async Task TestPostRemoveCollaboratorAsync()
         {
             userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(1));
-            var response = await controller.PostRemoveCollaboratorAsync(new CollaboratorBindingModel());
+            var response = await controller.PostRemoveCollaboratorAsync(new ProjectCollaboratorBindingModel());
             handler.Verify(x => x.HandleDeletedPermissionBindingModelAsync(It.IsAny<IDeletedPermissionBindingModel>(), It.IsAny<ApiController>()), Times.Once());
         }
 

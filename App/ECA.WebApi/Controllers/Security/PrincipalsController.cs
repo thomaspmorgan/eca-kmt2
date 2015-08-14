@@ -50,10 +50,13 @@ namespace ECA.WebApi.Controllers.Security
         /// <summary>
         /// Grants the given permission to the user.
         /// </summary>
+        /// <param name="id">The application id.  KMT is 1.</param>
+        /// <param name="model">The permission model.</param>
         /// <returns>An ok result.</returns>
-        [Route("Grant/Permission")]
+        [Route("Application/{id}/Grant/Permission")]
         [ResponseType(typeof(OkResult))]
-        public Task<IHttpActionResult> PostGrantPermissionAsync(PermissionBindingModel model)
+        [ResourceAuthorize(CAM.Data.Permission.ADMINISTRATOR_VALUE, CAM.Data.ResourceType.APPLICATION_VALUE)]
+        public Task<IHttpActionResult> PostGrantPermissionAsync(int id, PermissionBindingModel model)
         {
             return this.handler.HandleGrantedPermissionBindingModelAsync(model, this);
         }
@@ -61,10 +64,12 @@ namespace ECA.WebApi.Controllers.Security
         /// <summary>
         /// Revokes the given permission to the user.
         /// </summary>
+        /// <param name="id">The application id.  KMT is 1.</param>
         /// <returns>An ok result.</returns>
-        [Route("Revoke/Permission")]
+        [Route("Application/{id}/Revoke/Permission")]
         [ResponseType(typeof(OkResult))]
-        public Task<IHttpActionResult> PostRevokePermissionAsync(PermissionBindingModel model)
+        [ResourceAuthorize(CAM.Data.Permission.ADMINISTRATOR_VALUE, CAM.Data.ResourceType.APPLICATION_VALUE)]
+        public Task<IHttpActionResult> PostRevokePermissionAsync(int id, PermissionBindingModel model)
         {
             return this.handler.HandleRevokedPermissionBindingModelAsync(model, this);
         }
@@ -72,10 +77,13 @@ namespace ECA.WebApi.Controllers.Security
         /// <summary>
         /// Removes the given permissions to the user.
         /// </summary>
+        /// <param name="id">The application id.  KMT is 1.</param>
+        /// <param name="model">The permission model.</param>
         /// <returns>An ok result.</returns>
-        [Route("Remove/Permission")]
+        [Route("Application/{id}/Remove/Permission")]
         [ResponseType(typeof(OkResult))]
-        public Task<IHttpActionResult> PostDeletePermissionAsync(PermissionBindingModel model)
+        [ResourceAuthorize(CAM.Data.Permission.ADMINISTRATOR_VALUE, CAM.Data.ResourceType.APPLICATION_VALUE)]
+        public Task<IHttpActionResult> PostDeletePermissionAsync(int id, PermissionBindingModel model)
         {
             return this.handler.HandleDeletedPermissionBindingModelAsync(model, this);
         }
@@ -84,10 +92,12 @@ namespace ECA.WebApi.Controllers.Security
         /// Returns a list of all resource authorizations in the system.
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>
+        /// <param name="id">The id of the application id.  KMT is 1.</param>
         /// <returns>The list of authorizations.</returns>
-        [Route("Authorizations")]
+        [Route("Application/{id}/Authorizations")]
         [ResponseType(typeof(PagedQueryResults<ResourceAuthorization>))]
-        public async Task<IHttpActionResult> GetResourceAuthorizationsAsync([FromUri]PagingQueryBindingModel<ResourceAuthorization> queryOperator)
+        [ResourceAuthorize(CAM.Data.Permission.ADMINISTRATOR_VALUE, CAM.Data.ResourceType.APPLICATION_VALUE)]
+        public async Task<IHttpActionResult> GetResourceAuthorizationsAsync(int id, [FromUri]PagingQueryBindingModel<ResourceAuthorization> queryOperator)
         {
             if (ModelState.IsValid)
             {

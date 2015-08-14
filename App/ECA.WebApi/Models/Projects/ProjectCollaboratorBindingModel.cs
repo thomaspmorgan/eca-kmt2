@@ -5,12 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ECA.WebApi.Models.Programs
+namespace ECA.WebApi.Models.Projects
 {
-    /// <summary>
-    /// Binding model for project permission
-    /// </summary>
-    public class CollaboratorBindingModel : IDeletedPermissionBindingModel, IRevokedPermissionBindingModel, IGrantedPermissionBindingModel
+    public class ProjectCollaboratorBindingModel : IDeletedPermissionBindingModel, IRevokedPermissionBindingModel, IGrantedPermissionBindingModel
     {
         /// <summary>
         /// The principal id of the user to add as a collaborator.
@@ -20,7 +17,7 @@ namespace ECA.WebApi.Models.Programs
         /// <summary>
         /// The id of the project to add a collaborator to.
         /// </summary>
-        public int ProgramId { get; set; }
+        public int ProjectId { get; set; }
 
         /// <summary>
         /// The id of the permission to grant.
@@ -34,7 +31,7 @@ namespace ECA.WebApi.Models.Programs
         /// <returns>The deleted permission.</returns>
         public CAM.Business.Model.DeletedPermission ToDeletedPermission(int grantorUserId)
         {
-            return new CAM.Business.Model.DeletedPermission(this.PrincipalId, this.ProgramId, this.PermissionId, ResourceType.Program.Value);
+            return new CAM.Business.Model.DeletedPermission(this.PrincipalId, this.ProjectId, this.PermissionId, ResourceType.Project.Value);
         }
 
         /// <summary>
@@ -44,7 +41,7 @@ namespace ECA.WebApi.Models.Programs
         /// <returns>The revoked permission.</returns>
         public CAM.Business.Model.RevokedPermission ToRevokedPermission(int grantorUserId)
         {
-            return new CAM.Business.Model.RevokedPermission(this.PrincipalId, this.PermissionId, this.ProgramId, ResourceType.Program.Value, grantorUserId);
+            return new CAM.Business.Model.RevokedPermission(this.PrincipalId, this.PermissionId, this.ProjectId, ResourceType.Project.Value, grantorUserId);
         }
 
         /// <summary>
@@ -54,7 +51,7 @@ namespace ECA.WebApi.Models.Programs
         /// <returns>The granted permission.</returns>
         public CAM.Business.Model.GrantedPermission ToGrantedPermission(int grantorUserId)
         {
-            return new CAM.Business.Model.GrantedPermission(this.PrincipalId, this.PermissionId, this.ProgramId, ResourceType.Program.Value, grantorUserId);
+            return new CAM.Business.Model.GrantedPermission(this.PrincipalId, this.PermissionId, this.ProjectId, ResourceType.Project.Value, grantorUserId);
         }
     }
 }

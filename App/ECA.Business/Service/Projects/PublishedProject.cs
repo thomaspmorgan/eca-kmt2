@@ -121,10 +121,6 @@ namespace ECA.Business.Service.Projects
         /// <summary>
         /// Gets the Audit.
         /// </summary>
-        public Audit Audit
-        {
-            get;
-            private set;
-        }
+        public Audit Audit { get; private set; }
     }
 }

@@ -207,6 +207,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="model">The filters, paging, and sorting details.</param>
         /// <returns>The people in the ssytem.</returns>
         [ResponseType(typeof(PagedQueryResults<SimplePersonDTO>))]
+        [Route("People")]
         public async Task<IHttpActionResult> GetPeopleAsync([FromUri]PagingQueryBindingModel<SimplePersonDTO> model)
         {
             if (ModelState.IsValid)
@@ -225,6 +226,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <param name="model">The model to create</param>
         /// <returns>Success or error</returns>
+        [Route("People")]
         public async Task<IHttpActionResult> PostPersonAsync(PersonBindingModel model)
         {
             if (ModelState.IsValid)
