@@ -21,13 +21,13 @@ using System.Web.Http.Results;
 namespace ECA.WebApi.Controllers.Admin
 { 
     /// <summary>
-    /// Bookmarks controller
+    /// Bookmarks controllerC:\Workspace\ECA-KMT\App\ECA.WebApp.AngularJS\scripts\controllers\program\
     /// </summary>
     [RoutePrefix("api/bookmarks")]
     public class BookmarksController : ApiController
     {
         private static readonly ExpressionSorter<BookmarkDTO> DEFAULT_BOOKMARK_SORTER =
-            new ExpressionSorter<BookmarkDTO>(x => x.AddedOn, SortDirection.Ascending);
+            new ExpressionSorter<BookmarkDTO>(x => x.AddedOn, SortDirection.Descending);
 
         private IUserProvider userProvider;
         private IBookmarkService service;

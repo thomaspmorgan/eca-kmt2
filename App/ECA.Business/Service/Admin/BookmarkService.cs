@@ -148,7 +148,7 @@ namespace ECA.Business.Service.Admin
                 PersonId = newBookmark.PersonId,
                 OrganizationId = newBookmark.OrganizationId,
                 PrincipalId = newBookmark.PrincipalId,
-                AddedOn = new DateTimeOffset(),
+                AddedOn = DateTimeOffset.Now,
                 Automatic = newBookmark.Automatic
             };
 

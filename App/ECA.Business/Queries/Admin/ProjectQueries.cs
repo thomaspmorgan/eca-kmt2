@@ -155,6 +155,7 @@ namespace ECA.Business.Queries.Admin
                             ProgramName = program.Name,
                             OwnerId = owner.OrganizationId,
                             OwnerName = owner.Name,
+                            OwnerOfficeSymbol = owner.OfficeSymbol,
                             Themes = themes.Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName }),
                             CountryIsos = countries.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationIso }),
                             Goals = goals.Select(x => new SimpleLookupDTO {Id = x.GoalId, Value = x.GoalName}),
