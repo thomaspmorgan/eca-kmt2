@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace ECA.Business.Queries.Models.Admin
+namespace ECA.Business.Queries.Models.Persons
 {
     /// <summary>
     /// A MembershipDTO is used to represent a membership entity in the ECA System.

@@ -127,10 +127,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Queries\Models\Admin\MembershipDTO.cs" />
-    <Compile Include="Service\Admin\IMembershipService.cs" />
-    <Compile Include="Service\Admin\PersonMembership.cs" />
-    <Compile Include="Service\Admin\UpdatedPersonMembership.cs" />
+    <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
+    <Compile Include="Queries\Persons\MembershipQueries.cs" />
+    <Compile Include="Service\Persons\IMembershipService.cs" />
+    <Compile Include="Service\Persons\MembershipService.cs" />
+    <Compile Include="Service\Persons\PersonMembership.cs" />
+    <Compile Include="Service\Persons\UpdatedPersonMembership.cs" />
     <Compile Include="Service\Delete.cs" />
     <Compile Include="Exceptions\EcaBusinessException.cs" />
     <Compile Include="Queries\Admin\AddressQueries.cs" />
@@ -208,13 +210,10 @@
     <Compile Include="Service\Fundings\UpdatedMoneyFlow.cs" />
     <Compile Include="Service\Lookup\AddressTypeDTO.cs" />
     <Compile Include="Service\Lookup\AddressTypeService.cs" />
-    <Compile Include="Service\Lookup\IMembershipService.cs" />
     <Compile Include="Service\Lookup\IProminentCategoryService.cs" />
     <Compile Include="Service\Lookup\ISocialMediaTypeService.cs" />
     <Compile Include="Service\Lookup\IAddressTypeService.cs" />
     <Compile Include="Service\Lookup\IParticipantTypeService.cs" />
-    <Compile Include="Service\Lookup\MembershipDTO.cs" />
-    <Compile Include="Service\Lookup\MembershipService.cs" />
     <Compile Include="Service\Lookup\ProminentCategoryService.cs" />
     <Compile Include="Service\Lookup\ProminentCategoryDTO.cs" />
     <Compile Include="Service\Lookup\ParticipantTypeDTO.cs" />

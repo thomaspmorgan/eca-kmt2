@@ -39,6 +39,7 @@ namespace ECA.Business.Service.Persons
             this.validator = validator;
         }
         #region Pii
+
         /// <summary>
         /// Returns personally identifiable information for a user 
         /// </summary>
@@ -62,9 +63,55 @@ namespace ECA.Business.Service.Persons
             this.logger.Trace("Retrieved person by id {0}.", personId);
             return pii;
         }
+
+        /// <summary>
+        /// Update pii
+        /// </summary>
+        /// <param name="pii">The pii business model</param>
+        /// <returns>The person updated</returns>
+        public async Task<Person> UpdatePiiAsync(UpdatePii pii)
+        {
+            var existingPerson = await GetExistingPerson(pii);
+            if (existingPerson != null && pii.PersonId != existingPerson.PersonId)
+            {
+                this.logger.Trace("Found existing person {0}.", existingPerson);
+                throw new EcaBusinessException("The person already exists.");
+            }
+            var personToUpdate = await GetPersonByIdAsync(pii.PersonId);
+            var cityOfBirth = await GetLocationByIdAsync(pii.CityOfBirthId);
+            var countriesOfCitizenship = await GetLocationsByIdAsync(pii.CountriesOfCitizenship);
+            var validationEntity = GetValidationEntity(pii, personToUpdate, cityOfBirth, countriesOfCitizenship);
+            validator.ValidateUpdate(validationEntity);
+            DoUpdate(pii, personToUpdate, cityOfBirth, countriesOfCitizenship);
+
+            return personToUpdate;
+        }
+
+        private void DoUpdate(UpdatePii updatePii, Person person, Location cityOfBirth, List<Location> countriesOfCitizenship)
+        {
+            person.FirstName = updatePii.FirstName;
+            person.LastName = updatePii.LastName;
+            person.NamePrefix = updatePii.NamePrefix;
+            person.NameSuffix = updatePii.NameSuffix;
+            person.GivenName = updatePii.GivenName;
+            person.FamilyName = updatePii.FamilyName;
+            person.MiddleName = updatePii.MiddleName;
+            person.Patronym = updatePii.Patronym;
+            person.Alias = updatePii.Alias;
+            person.GenderId = updatePii.GenderId;
+            person.Ethnicity = updatePii.Ethnicity;
+            person.PlaceOfBirthId = updatePii.CityOfBirthId;
+            person.DateOfBirth = updatePii.DateOfBirth;
+            person.MedicalConditions = updatePii.MedicalConditions;
+            person.MaritalStatusId = updatePii.MaritalStatusId;
+
+            SetCountriesOfCitizenship(countriesOfCitizenship, person);
+        }
+
         #endregion
 
-        #region Get General Person Info
+        #region General
+
         /// <summary>
         /// Returns general information for a user 
         /// </summary>
@@ -88,6 +135,29 @@ namespace ECA.Business.Service.Persons
             this.logger.Trace("Retrieved general person info by id {0}.", personId);
             return general;
         }
+
+
+        /// <summary>
+        /// Update general
+        /// </summary>
+        /// <param name="general">The general business model</param>
+        /// <returns>The person updated</returns>
+        public async Task<Person> UpdateGeneralAsync(UpdateGeneral general)
+        {
+            var personToUpdate = await GetPersonWithProminentCategoriesByIdAsync(general.PersonId);
+            var prominentCategories = await GetProminentCategoriesByIdAsync(general.ProminentCategories);
+            DoUpdate(general, personToUpdate, prominentCategories);
+
+            return personToUpdate;
+        }
+
+        // Update General (list of prominent categories
+
+        private void DoUpdate(UpdateGeneral general, Person person, List<ProminentCategory> prominentCategories)
+        {
+            SetProminentCategories(person, prominentCategories);
+        }
+
         #endregion
 
         #region Contact
@@ -193,6 +263,57 @@ namespace ECA.Business.Service.Persons
             return evaluationNotes;
         }
         #endregion
+
+        #region ProminentCategories
+
+        /// <summary>
+        /// Get the person with prominent categories by id 
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>The person</returns>
+        public async Task<Person> GetPersonWithProminentCategoriesByIdAsync(int personId)
+        {
+            this.logger.Trace("Retrieving person with prominent categories id {0}.", personId);
+            return await CreateGetPersonWithProminentCategoriesById(personId).FirstOrDefaultAsync();
+        }
+
+        private IQueryable<Person> CreateGetPersonWithProminentCategoriesById(int personId)
+        {
+            return Context.People.Where(x => x.PersonId == personId).Include(x => x.ProminentCategories);
+        }
+
+        /// <summary>
+        /// Get a list of prominent categories
+        /// </summary>
+        /// <param name="prominentCategoryIds">Ids to lookup</param>
+        /// <returns>A list of prominent categories</returns>
+        protected async Task<List<ProminentCategory>> GetProminentCategoriesByIdAsync(List<int> prominentCategoryIds)
+        {
+            var prominentCategories = await CreateGetProminentCategoriesById(prominentCategoryIds).ToListAsync();
+            logger.Trace("Retrieved prominent categories by ids {0}.", String.Join(", ", prominentCategoryIds));
+            return prominentCategories;
+        }
+
+        /// <summary>
+        /// Creates query for looking up a list of prominent categories
+        /// </summary>
+        /// <param name="locationIds">Ids to lookup</param>
+        /// <returns>Queryable list of prominent categories</returns>
+        private IQueryable<ProminentCategory> CreateGetProminentCategoriesById(List<int> prominentCategoryIds)
+        {
+            var prominentCategories = Context.ProminentCategories.Where(x => prominentCategoryIds.Contains(x.ProminentCategoryId));
+            logger.Trace("Retrieved prominent categories by ids {0}.", String.Join(", ", prominentCategoryIds));
+            return prominentCategories;
+        }
+
+        private void SetProminentCategories(Person person, List<ProminentCategory> prominentCategories)
+        {
+            Contract.Requires(prominentCategories != null, "The promiment ids must not be null.");
+            Contract.Requires(person != null, "The person entity must not be null.");
+            person.ProminentCategories = prominentCategories;
+        }
+
+        #endregion ProminentCategories
 
         #region Create
         /// <summary>
@@ -328,53 +449,6 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
-        /// Update pii
-        /// </summary>
-        /// <param name="pii">The pii business model</param>
-        /// <returns>The person updated</returns>
-        public async Task<Person> UpdatePiiAsync(UpdatePii pii) {
-            var existingPerson = await GetExistingPerson(pii);
-            if (existingPerson != null && pii.PersonId != existingPerson.PersonId)
-            {
-                this.logger.Trace("Found existing person {0}.", existingPerson);
-                throw new EcaBusinessException("The person already exists.");
-            }
-            var personToUpdate = await GetPersonByIdAsync(pii.PersonId);
-            var cityOfBirth = await GetLocationByIdAsync(pii.CityOfBirthId);
-            var countriesOfCitizenship = await GetLocationsByIdAsync(pii.CountriesOfCitizenship);
-            var validationEntity = GetValidationEntity(pii, personToUpdate, cityOfBirth, countriesOfCitizenship);
-            validator.ValidateUpdate(validationEntity);
-            DoUpdate(pii, personToUpdate, cityOfBirth, countriesOfCitizenship);
-            
-            return personToUpdate;
-        }
-
-        /// <summary>
-        /// Update pii
-        /// </summary>
-        /// <param name="general">The general business model</param>
-        /// <returns>The person updated</returns>
-        public async Task<Person> UpdateGeneralAsync(UpdateGeneral general)
-        {
-            var personToUpdate = await GetPersonWithProminentCategoriesByIdAsync(general.PersonId);
-            var prominentCategories = await GetProminentCategoriesByIdAsync(general.ProminentCategories);
-            DoUpdate(general, personToUpdate, prominentCategories);
-
-            return personToUpdate;
-        }
-
-        /// <summary>
-        /// Get the person by id 
-        /// </summary>
-        /// <param name="personId">The person id to lookup</param>
-        /// <returns>The person</returns>
-        public async Task<Person> GetPersonWithProminentCategoriesByIdAsync(int personId)
-        {
-            this.logger.Trace("Retrieving person with prominent categories id {0}.", personId);
-            return await CreateGetPersonWithProminentCategoriesById(personId).FirstOrDefaultAsync();
-        }
-
-        /// <summary>
         /// Get the person by id 
         /// </summary>
         /// <param name="personId">The person id to lookup</param>
@@ -401,35 +475,14 @@ namespace ECA.Business.Service.Persons
             return Context.People.Where(x => x.PersonId == personId).Include(x => x.CountriesOfCitizenship);
         }
 
-        private IQueryable<Person> CreateGetPersonWithProminentCategoriesById(int personId)
-        {
-            return Context.People.Where(x => x.PersonId == personId).Include(x => x.ProminentCategories);
-        }
+
         private IQueryable<SimplePersonDTO> CreateGetSimplePerson(int personId)
         {
             var query = PersonQueries.CreateGetSimplePersonDTOsQuery(this.Context);
             return query.Where(p => p.PersonId == personId);
         }
 
-        private void DoUpdate(UpdatePii updatePii, Person person, Location cityOfBirth, List<Location> countriesOfCitizenship) {
-            person.FirstName = updatePii.FirstName;
-            person.LastName = updatePii.LastName;
-            person.NamePrefix = updatePii.NamePrefix;
-            person.NameSuffix = updatePii.NameSuffix;
-            person.GivenName = updatePii.GivenName;
-            person.FamilyName = updatePii.FamilyName;
-            person.MiddleName = updatePii.MiddleName;
-            person.Patronym = updatePii.Patronym;
-            person.Alias = updatePii.Alias;
-            person.GenderId = updatePii.GenderId;
-            person.Ethnicity = updatePii.Ethnicity;
-            person.PlaceOfBirthId = updatePii.CityOfBirthId;
-            person.DateOfBirth = updatePii.DateOfBirth;
-            person.MedicalConditions = updatePii.MedicalConditions;
-            person.MaritalStatusId = updatePii.MaritalStatusId;
 
-            SetCountriesOfCitizenship(countriesOfCitizenship, person);
-        }
 
         private void SetCountriesOfCitizenship(List<Location> countriesOfCitizenship, Person person)
         {
@@ -442,19 +495,9 @@ namespace ECA.Business.Service.Persons
             });
         }
 
-        // Update General (list of prominent categories
 
-        private void DoUpdate(UpdateGeneral general, Person person, List<ProminentCategory> prominentCategories)
-        {
-            SetProminentCategories(person, prominentCategories);
-        }
 
-        private void SetProminentCategories(Person person, List<ProminentCategory> prominentCategories)
-        {
-            Contract.Requires(prominentCategories != null, "The promiment ids must not be null.");
-            Contract.Requires(person != null, "The person entity must not be null.");
-            person.ProminentCategories = prominentCategories;
-        }
+
 
         #endregion
 
@@ -512,28 +555,6 @@ namespace ECA.Business.Service.Persons
                                                      countriesOfCititzenship);
         }
 
-        /// <summary>
-        /// Get a list of prominent categories
-        /// </summary>
-        /// <param name="prominentCategoryIds">Ids to lookup</param>
-        /// <returns>A list of prominent categories</returns>
-        protected async Task<List<ProminentCategory>> GetProminentCategoriesByIdAsync(List<int> prominentCategoryIds)
-        {
-            var prominentCategories = await CreateGetProminentCategoriesById(prominentCategoryIds).ToListAsync();
-            logger.Trace("Retrieved prominent categories by ids {0}.", String.Join(", ", prominentCategoryIds));
-            return prominentCategories;
-        }
 
-        /// <summary>
-        /// Creates query for looking up a list of prominent categories
-        /// </summary>
-        /// <param name="locationIds">Ids to lookup</param>
-        /// <returns>Queryable list of prominent categories</returns>
-        private IQueryable<ProminentCategory> CreateGetProminentCategoriesById(List<int> prominentCategoryIds)
-        {
-            var prominentCategories = Context.ProminentCategories.Where(x => prominentCategoryIds.Contains(x.ProminentCategoryId));
-            logger.Trace("Retrieved prominent categories by ids {0}.", String.Join(", ", prominentCategoryIds));
-            return prominentCategories;
-        }
     }
 }

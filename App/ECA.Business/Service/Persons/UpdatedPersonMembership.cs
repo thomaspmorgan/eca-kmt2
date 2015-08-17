@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics.Contracts;
 
-namespace ECA.Business.Service.Admin
+namespace ECA.Business.Service.Persons
 {
     /// <summary>
     /// An UpdatedPersonMembership is used by a business layer client to update a membership.

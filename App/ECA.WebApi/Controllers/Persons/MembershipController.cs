@@ -1,4 +1,5 @@
-﻿using ECA.Business.Service.Lookup;
+﻿using ECA.Business.Service.Persons;
+using ECA.Business.Queries.Models.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 
-namespace ECA.WebApi.Controllers.Admin
+namespace ECA.WebApi.Controllers.Persons
 {
     /// <summary>
     /// The ProminentCategoryController provides clients with the Prominent Categories in the eca system.

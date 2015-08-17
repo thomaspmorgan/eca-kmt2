@@ -423,7 +423,7 @@
     <Compile Include="Controllers\Admin\BookmarksController.cs" />
     <Compile Include="Controllers\Admin\GendersController.cs" />
     <Compile Include="Controllers\Admin\MaritalStatusesController.cs" />
-    <Compile Include="Controllers\Admin\MembershipController.cs" />
+    <Compile Include="Controllers\Persons\MembershipController.cs" />
     <Compile Include="Controllers\Fundings\MoneyFlowSourceRecipientTypesController.cs" />
     <Compile Include="Controllers\Fundings\MoneyFlowTypesController.cs" />
     <Compile Include="Controllers\Admin\OrganizationsController.cs" />
@@ -470,6 +470,7 @@
     <Compile Include="Models\Admin\UpdatedOrganizationBindingModel.cs" />
     <Compile Include="Models\Admin\UpdatedSocialMediaBindingModel.cs" />
     <Compile Include="Models\Person\GeneralBindingModel.cs" />
+    <Compile Include="Models\Person\UpdatedPersonMembershipBindingModel.cs" />
     <Compile Include="Models\Person\PersonMembershipBindingModel.cs" />
     <Compile Include="Models\Person\PiiBindingModel.cs" />
     <Compile Include="Models\Programs\ProgramCollaboratorBindingModel.cs" />

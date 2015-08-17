@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics.Contracts;
 
-namespace ECA.Business.Service.Admin
+namespace ECA.Business.Service.Persons
 {
     /// <summary>
     /// Allows a business layer client to add a Membership to a person.
