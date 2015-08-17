@@ -117,6 +117,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Queries\Admin\BookmarkQueriesTest.cs" />
     <Compile Include="Queries\Fundings\MoneyFlowQueriesTest.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonQueriesTest.cs" />
     <Compile Include="Queries\Persons\ParticipantQueriesTest.cs" />

@@ -127,6 +127,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Queries\Admin\BookmarkQueries.cs" />
     <Compile Include="Service\Admin\AdditionalLocation.cs" />
     <Compile Include="Service\Admin\EcaLocation.cs" />
     <Compile Include="Service\Admin\LocationServiceValidator.cs" />

@@ -20,7 +20,7 @@ namespace ECA.Business.Queries.Admin
         /// <param name="context">The context to query.</param>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The query to retrieve the projects.</returns>
-        private static IQueryable<SimpleProjectDTO> CreateGetProjectsQuery(EcaContext context)
+        public static IQueryable<SimpleProjectDTO> CreateGetProjectsQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var countryQuery = from country in context.Locations
@@ -50,7 +50,9 @@ namespace ECA.Business.Queries.Admin
                             RegionNames = regions.Select(x => x.LocationName),
                             StartDate = startDate,
                             StartYear = startDate.Year,
-                            StartYearAsString = startDate.Year.ToString()
+                            StartYearAsString = startDate.Year.ToString(),
+                            OwnerId = parentProgram.OwnerId,
+                            OwnerOfficeSymbol = parentProgram.Owner != null ? parentProgram.Owner.OfficeSymbol : null
                         };
 
             return query;
@@ -173,6 +175,7 @@ namespace ECA.Business.Queries.Admin
                             ProgramName = program.Name,
                             OwnerId = owner.OrganizationId,
                             OwnerName = owner.Name,
+                            OwnerOfficeSymbol = owner.OfficeSymbol,
                             Themes = themes.Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName }),
                             CountryIsos = countries.Select(x => new SimpleLookupDTO { Id = x.Id, Value = x.LocationIso }),
                             Locations = locations,

@@ -77,6 +77,8 @@ namespace ECA.Business.Queries.Models.Admin
         /// </summary>
         public DateTimeOffset? StartDate { get; set; }
 
+        public string OwnerOfficeSymbol { get; set; }
+
         /// <summary>
         /// Gets or sets the end date.
         /// </summary>

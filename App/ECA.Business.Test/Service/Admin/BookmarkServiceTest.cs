@@ -60,7 +60,7 @@ namespace ECA.Business.Test.Service.Admin
             Assert.AreEqual(newBookmark.OrganizationId, bookmark.OrganizationId);
             Assert.AreEqual(newBookmark.PrincipalId, bookmark.PrincipalId);
             Assert.AreEqual(newBookmark.Automatic, bookmark.Automatic);
-            bookmark.AddedOn.Should().BeCloseTo(new DateTimeOffset());
+            bookmark.AddedOn.Should().BeCloseTo(DateTimeOffset.Now);
         }
 
         [TestMethod]
@@ -137,14 +137,30 @@ namespace ECA.Business.Test.Service.Admin
         [TestMethod]
         public async Task TestGetBookmarksAsync()
         {
+            var organizationType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.Office.Id,
+                OrganizationTypeName = OrganizationType.Office.Value
+            };
+
+            var office = new Organization {
+                OrganizationId = 1,
+                OrganizationTypeId = organizationType.OrganizationTypeId,
+                OfficeSymbol = "officeSymbol",
+                Name = "name"
+            };
+
             var bookmark = new Bookmark
             {
                 BookmarkId = 1,
-                OfficeId = 1,
+                OfficeId = office.OrganizationId,
                 PrincipalId = 1,
+                AddedOn = DateTimeOffset.Now,
                 Automatic = false
             };
 
+            context.OrganizationTypes.Add(organizationType);
+            context.Organizations.Add(office);
             context.Bookmarks.Add(bookmark);
 
             var defaultSorter = new ExpressionSorter<BookmarkDTO>(x => x.AddedOn, SortDirection.Ascending);
@@ -160,6 +176,10 @@ namespace ECA.Business.Test.Service.Admin
             Assert.AreEqual(bookmark.OfficeId, firstResult.OfficeId);
             Assert.AreEqual(bookmark.PrincipalId, firstResult.PrincipalId);
             Assert.AreEqual(bookmark.Automatic, firstResult.Automatic);
+            bookmark.AddedOn.Should().BeCloseTo(DateTimeOffset.Now, 3000);
+            Assert.AreEqual("Office", firstResult.Type);
+            Assert.AreEqual(office.OfficeSymbol, firstResult.OfficeSymbolOrStatus);
+            Assert.AreEqual(office.Name, firstResult.Name);
         }
     }
 }
