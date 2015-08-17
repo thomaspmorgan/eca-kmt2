@@ -1487,7 +1487,8 @@ namespace ECA.Business.Test.Service.Projects
             var owner = new Organization
             {
                 OrganizationId = 20,
-                Name = "owner"
+                Name = "owner",
+                OfficeSymbol = "xyz"
             };
             var program = new Program
             {
@@ -1525,13 +1526,16 @@ namespace ECA.Business.Test.Service.Projects
 
             Action<ProjectDTO> tester = (serviceResult) =>
             {
+                Assert.AreEqual(project.ProjectId, serviceResult.Id);
                 Assert.AreEqual(owner.Name, serviceResult.OwnerName);
                 Assert.AreEqual(owner.OrganizationId, serviceResult.OwnerId);
+                Assert.AreEqual(owner.OfficeSymbol, serviceResult.OwnerOfficeSymbol);
                 Assert.AreEqual(program.Name, serviceResult.ProgramName);
                 Assert.AreEqual(program.ProgramId, serviceResult.ProgramId);
                 Assert.AreEqual(project.Name, serviceResult.Name);
                 Assert.AreEqual(project.Description, serviceResult.Description);
                 Assert.AreEqual(status.ProjectStatusId, serviceResult.ProjectStatusId);
+                Assert.AreEqual(status.Status, serviceResult.Status);
                 Assert.AreEqual(yesterday, serviceResult.StartDate);
                 Assert.AreEqual(now, serviceResult.EndDate);
                 Assert.AreEqual(revisedOn, serviceResult.RevisedOn);
