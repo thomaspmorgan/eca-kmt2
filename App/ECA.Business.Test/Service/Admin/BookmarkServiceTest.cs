@@ -153,7 +153,7 @@ namespace ECA.Business.Test.Service.Admin
             var bookmark = new Bookmark
             {
                 BookmarkId = 1,
-                OfficeId = 1,
+                OfficeId = office.OrganizationId,
                 PrincipalId = 1,
                 AddedOn = DateTimeOffset.Now,
                 Automatic = false
@@ -177,6 +177,9 @@ namespace ECA.Business.Test.Service.Admin
             Assert.AreEqual(bookmark.PrincipalId, firstResult.PrincipalId);
             Assert.AreEqual(bookmark.Automatic, firstResult.Automatic);
             bookmark.AddedOn.Should().BeCloseTo(DateTimeOffset.Now, 3000);
+            Assert.AreEqual("Office", firstResult.Type);
+            Assert.AreEqual(office.OfficeSymbol, firstResult.OfficeSymbolOrStatus);
+            Assert.AreEqual(office.Name, firstResult.Name);
         }
     }
 }

@@ -52,19 +52,19 @@ namespace ECA.Business.Queries.Admin
                             PrincipalId = bookmark.PrincipalId,
                             AddedOn = bookmark.AddedOn,
                             Automatic = bookmark.Automatic,
-                            Type = hasOffice ? "Office" :
+                            Type = hasProject ? "Project" :
+                                   hasOffice ? "Office" :
                                    hasProgram ? "Program" :
-                                   hasProject ? "Project" :
                                    hasPerson ? "Person" :
                                    hasOrganization ? "Organization" : "Unknown",
-                            OfficeSymbolOrStatus = hasOffice ? office.OfficeSymbol :
+                            OfficeSymbolOrStatus = hasProject ? project.OwnerOfficeSymbol :
+                                                   hasOffice ? office.OfficeSymbol :
                                                    hasProgram ? program.OwnerOfficeSymbol :
-                                                   hasProject ? project.OwnerOfficeSymbol :
                                                    hasPerson ? person.CurrentStatus :
                                                    hasOrganization ? organization.Status : "",
-                            Name = hasOffice ? office.Name : 
+                            Name = hasProject ? project.ProjectName :
+                                   hasOffice ? office.Name : 
                                    hasProgram ? program.Name :
-                                   hasProject ? project.ProjectName :
                                    hasPerson ? person.FullName :
                                    hasOrganization ? organization.Name : ""
                         };
