@@ -19,12 +19,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -42,8 +50,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -67,12 +75,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -90,8 +106,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -115,12 +131,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -138,8 +162,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -163,12 +187,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -186,8 +218,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -211,12 +243,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -234,8 +274,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -259,12 +299,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -282,8 +330,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -308,12 +356,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -331,8 +387,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -357,12 +413,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -380,8 +444,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -406,12 +470,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -429,8 +501,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -455,12 +527,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -478,8 +558,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -501,12 +581,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -524,8 +612,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -547,12 +635,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -570,8 +666,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -593,12 +689,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -616,8 +720,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -639,12 +743,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -662,8 +774,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -687,12 +799,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -710,8 +830,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -727,23 +847,28 @@ namespace ECA.Business.Test.Service.Admin
             Assert.AreEqual(LocationServiceValidator.DIVISION_MUST_BELONG_COUNTRY, error.ErrorMessage);
         }
 
-        #endregion
-
-        #region DoValidateUpdate
         [TestMethod]
-        public void TestDoValidateUpdate_NullLocationName()
+        public void TestDoValidateCreate_CountryAndRegionNotEqual()
         {
             var locationName = "location name";
             var locationTypeId = LocationType.City.Id;
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -761,8 +886,67 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
+            };
+
+            var locationValidator = new LocationServiceValidator();
+
+            var errors = locationValidator.DoValidateUpdate(createEntity());
+            Assert.AreEqual(0, errors.Count());
+
+            country.RegionId = -1;
+            errors = locationValidator.DoValidateCreate(createEntity());
+            Assert.AreEqual(1, errors.Count());
+            var error = errors.First();
+            Assert.AreEqual("CountryId", error.Property);
+            Assert.AreEqual(LocationServiceValidator.COUNTRY_MUST_BELONG_TO_REGION, error.ErrorMessage);
+        }
+
+        #endregion
+
+        #region DoValidateUpdate
+        [TestMethod]
+        public void TestDoValidateUpdate_NullLocationName()
+        {
+            var locationName = "location name";
+            var locationTypeId = LocationType.City.Id;
+            var cityId = 1;
+            var countryId = 2;
+            var divisionId = 3;
+            var regionId = 5;
+            float? latitude = null;
+            float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
+            var country = new Location
+            {
+                LocationId = countryId,
+                LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
+            };
+            var division = new Location
+            {
+                LocationId = divisionId,
+                LocationTypeId = LocationType.Division.Id,
+                Country = country,
+                CountryId = country.LocationId
+            };
+            var city = new Location
+            {
+                Division = division,
+                DivisionId = division.LocationId,
+                LocationId = cityId,
+                LocationTypeId = LocationType.City.Id,
+            };
+            Func<LocationValidationEntity> createEntity = () =>
+            {
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -786,12 +970,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -809,8 +1001,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -834,12 +1026,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -857,8 +1057,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -882,12 +1082,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -905,8 +1113,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -930,12 +1138,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -953,8 +1169,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -978,12 +1194,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -1001,8 +1225,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -1027,12 +1251,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -1050,8 +1282,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -1076,12 +1308,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -1099,8 +1339,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -1125,12 +1365,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -1148,8 +1396,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -1174,12 +1422,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -1197,8 +1453,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -1220,12 +1476,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -1243,8 +1507,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -1266,12 +1530,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -1289,8 +1561,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -1312,12 +1584,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -1335,8 +1615,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -1358,12 +1638,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -1381,8 +1669,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -1406,12 +1694,20 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 1;
             var countryId = 2;
             var divisionId = 3;
+            var regionId = 5;
             float? latitude = null;
             float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
             var country = new Location
             {
                 LocationId = countryId,
                 LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
             };
             var division = new Location
             {
@@ -1429,8 +1725,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             Func<LocationValidationEntity> createEntity = () =>
             {
-                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
-                return new LocationValidationEntity(ecaLocation, country, division, city);
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
             };
 
             var locationValidator = new LocationServiceValidator();
@@ -1444,6 +1740,62 @@ namespace ECA.Business.Test.Service.Admin
             var error = errors.First();
             Assert.AreEqual("DivisionId", error.Property);
             Assert.AreEqual(LocationServiceValidator.DIVISION_MUST_BELONG_COUNTRY, error.ErrorMessage);
+        }
+
+        [TestMethod]
+        public void TestDoValidateUpdate_CountryAndRegionNotEqual()
+        {
+            var locationName = "location name";
+            var locationTypeId = LocationType.City.Id;
+            var cityId = 1;
+            var countryId = 2;
+            var divisionId = 3;
+            var regionId = 5;
+            float? latitude = null;
+            float? longitude = null;
+            var region = new Location
+            {
+                LocationId = regionId,
+                LocationTypeId = LocationType.Region.Id
+            };
+            var country = new Location
+            {
+                LocationId = countryId,
+                LocationTypeId = LocationType.Country.Id,
+                Region = region,
+                RegionId = region.LocationId
+            };
+            var division = new Location
+            {
+                LocationId = divisionId,
+                LocationTypeId = LocationType.Division.Id,
+                Country = country,
+                CountryId = country.LocationId
+            };
+            var city = new Location
+            {
+                Division = division,
+                DivisionId = division.LocationId,
+                LocationId = cityId,
+                LocationTypeId = LocationType.City.Id,
+            };
+            Func<LocationValidationEntity> createEntity = () =>
+            {
+                var ecaLocation = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
+                return new LocationValidationEntity(ecaLocation, region, country, division, city);
+            };
+
+            var locationValidator = new LocationServiceValidator();
+
+            var errors = locationValidator.DoValidateUpdate(createEntity());
+            Assert.AreEqual(0, errors.Count());
+
+            country.RegionId = -1;
+            errors = locationValidator.DoValidateUpdate(createEntity());
+            Assert.AreEqual(1, errors.Count());
+            var error = errors.First();
+            Assert.AreEqual("CountryId", error.Property);
+            Assert.AreEqual(LocationServiceValidator.COUNTRY_MUST_BELONG_TO_REGION, error.ErrorMessage);
         }
 
         #endregion

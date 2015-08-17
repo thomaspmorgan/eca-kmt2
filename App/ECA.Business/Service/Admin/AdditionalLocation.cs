@@ -17,6 +17,7 @@ namespace ECA.Business.Service.Admin
         /// <param name="locationName">The name of the location.</param>
         /// <param name="cityId">The id of the city.</param>
         /// <param name="creator">The user creating the location.</param>
+        /// <param name="regionId">The id of the region.</param>
         /// <param name="divisionId">The id of the division.</param>
         /// <param name="locationTypeId">The location type id.</param>
         /// <param name="countryId">The id of the country.</param>
@@ -28,6 +29,7 @@ namespace ECA.Business.Service.Admin
             int? cityId,
             int? countryId,
             int? divisionId,
+            int? regionId,
             float? latitude,
             float? longitude,
             int locationTypeId
@@ -37,6 +39,7 @@ namespace ECA.Business.Service.Admin
                 cityId: cityId,
                 countryId: countryId,
                 divisionId: divisionId,
+                regionId: regionId,
                 longitude: longitude,
                 latitude: latitude,
                 locationTypeId: locationTypeId

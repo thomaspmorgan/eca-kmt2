@@ -2931,9 +2931,15 @@ namespace ECA.Business.Test.Service.Programs
                 LocationName = "country",
                 LocationId = 2
             };
-            var division = new Location{
+            var division = new Location
+            {
                 LocationName = "division",
-                LocationId=3
+                LocationId = 3
+            };
+            var region = new Location
+            {
+                LocationName = "region",
+                LocationId = 4
             };
             var place = new LocationType
             {
@@ -2946,11 +2952,12 @@ namespace ECA.Business.Test.Service.Programs
                 context.Locations.Add(city);
                 context.Locations.Add(country);
                 context.Locations.Add(division);
+                context.Locations.Add(region);
                 context.LocationTypes.Add(place);
             });
             Action beforeTester = () =>
             {
-                Assert.AreEqual(3, context.Locations.Count());
+                Assert.AreEqual(4, context.Locations.Count());
             };
 
             var creator = new User(userId);
@@ -2960,20 +2967,22 @@ namespace ECA.Business.Test.Service.Programs
                 cityId: city.LocationId,
                 countryId: country.LocationId,
                 divisionId: division.LocationId,
+                regionId: region.LocationId,
                 latitude: 2.35f,
                 longitude: 5.0f,
-                locationTypeId: place.LocationTypeId                
+                locationTypeId: place.LocationTypeId
                 );
 
             Action<Location> afterTester = (serviceLocation) =>
             {
-                Assert.AreEqual(4, context.Locations.Count());
+                Assert.AreEqual(5, context.Locations.Count());
                 var addedLocation = context.Locations.Where(x => x.LocationName == additionalLocation.LocationName).First();
 
                 Assert.AreEqual(additionalLocation.LocationName, addedLocation.LocationName);
                 Assert.IsTrue(Object.ReferenceEquals(city, addedLocation.City));
                 Assert.IsTrue(Object.ReferenceEquals(country, addedLocation.Country));
                 Assert.IsTrue(Object.ReferenceEquals(division, addedLocation.Division));
+                Assert.IsTrue(Object.ReferenceEquals(region, addedLocation.Region));
                 Assert.AreEqual(additionalLocation.LocationName, addedLocation.LocationName);
                 float delta = .01f;
                 Assert.AreEqual(additionalLocation.Latitude.Value, addedLocation.Latitude.Value, delta, "The Latitude value is invalid.");
@@ -3018,12 +3027,17 @@ namespace ECA.Business.Test.Service.Programs
                 LocationName = "division",
                 LocationId = 3
             };
-            
+            var region = new Location
+            {
+                LocationName = "region",
+                LocationId = 4
+            };
             context.SetupActions.Add(() =>
             {
                 context.Locations.Add(city);
                 context.Locations.Add(country);
                 context.Locations.Add(division);
+                context.Locations.Add(region);
             });
             var creator = new User(userId);
             var additionalLocation = new AdditionalLocation(
@@ -3032,6 +3046,7 @@ namespace ECA.Business.Test.Service.Programs
                 cityId: city.LocationId,
                 countryId: country.LocationId,
                 divisionId: division.LocationId,
+                regionId: region.LocationId,
                 latitude: 2.35f,
                 longitude: 5.0f,
                 locationTypeId: LocationType.Place.Id
@@ -3063,16 +3078,21 @@ namespace ECA.Business.Test.Service.Programs
                 LocationName = "division",
                 LocationId = 3
             };
+            var region = new Location
+            {
+                LocationName = "region",
+                LocationId = 4,
+            };
             var place = new LocationType
             {
                 LocationTypeId = LocationType.Place.Id,
                 LocationTypeName = "place"
             };
-
             context.SetupActions.Add(() =>
             {
                 context.Locations.Add(city);
                 context.Locations.Add(division);
+                context.Locations.Add(region);
                 context.LocationTypes.Add(place);
             });
 
@@ -3083,11 +3103,12 @@ namespace ECA.Business.Test.Service.Programs
                 cityId: city.LocationId,
                 countryId: -1,
                 divisionId: division.LocationId,
+                regionId: region.LocationId,
                 latitude: 2.35f,
                 longitude: 5.0f,
                 locationTypeId: place.LocationTypeId
                 );
-            
+
             context.Revert();
             var locationTypeName = "Country";
             var message = String.Format("The [{0}] with id [{1}] was not found.", locationTypeName, additionalLocation.CountryId.Value);
@@ -3114,6 +3135,11 @@ namespace ECA.Business.Test.Service.Programs
                 LocationName = "country",
                 LocationId = 2
             };
+            var region = new Location
+            {
+                LocationName = "region",
+                LocationId = 4,
+            };
             var place = new LocationType
             {
                 LocationTypeId = LocationType.Place.Id,
@@ -3124,6 +3150,7 @@ namespace ECA.Business.Test.Service.Programs
             {
                 context.Locations.Add(city);
                 context.Locations.Add(country);
+                context.Locations.Add(region);
                 context.LocationTypes.Add(place);
             });
 
@@ -3133,6 +3160,7 @@ namespace ECA.Business.Test.Service.Programs
                 locationName: "location name",
                 cityId: city.LocationId,
                 countryId: country.LocationId,
+                regionId: region.LocationId,
                 divisionId: -1,
                 latitude: 2.35f,
                 longitude: 5.0f,
@@ -3166,6 +3194,11 @@ namespace ECA.Business.Test.Service.Programs
                 LocationName = "division",
                 LocationId = 3
             };
+            var region = new Location
+            {
+                LocationName = "region",
+                LocationId = 4,
+            };
             var place = new LocationType
             {
                 LocationTypeId = LocationType.Place.Id,
@@ -3175,6 +3208,7 @@ namespace ECA.Business.Test.Service.Programs
             context.SetupActions.Add(() =>
             {
                 context.Locations.Add(country);
+                context.Locations.Add(region);
                 context.Locations.Add(division);
                 context.LocationTypes.Add(place);
             });
@@ -3186,6 +3220,7 @@ namespace ECA.Business.Test.Service.Programs
                 cityId: -1,
                 countryId: country.LocationId,
                 divisionId: division.LocationId,
+                regionId: region.LocationId,
                 latitude: 2.35f,
                 longitude: 5.0f,
                 locationTypeId: place.LocationTypeId
@@ -3195,6 +3230,65 @@ namespace ECA.Business.Test.Service.Programs
             context.Revert();
             var locationTypeName = "City";
             var message = String.Format("The [{0}] with id [{1}] was not found.", locationTypeName, additionalLocation.CityId.Value);
+            Func<Task> f = () =>
+            {
+                return service.CreateAsync(additionalLocation);
+            };
+            service.Invoking(x => x.Create(additionalLocation)).ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestCreate_Location_RegionDoesNotExist()
+        {
+            var userId = 2;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var country = new Location
+            {
+                LocationName = "country",
+                LocationId = 2
+            };
+            var division = new Location
+            {
+                LocationName = "division",
+                LocationId = 3
+            };
+            var city = new Location
+            {
+                LocationName = "region",
+                LocationId = 4,
+            };
+            var place = new LocationType
+            {
+                LocationTypeId = LocationType.Place.Id,
+                LocationTypeName = "place"
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                context.Locations.Add(country);
+                context.Locations.Add(city);
+                context.Locations.Add(division);
+                context.LocationTypes.Add(place);
+            });
+
+            var creator = new User(userId);
+            var additionalLocation = new AdditionalLocation(
+                creator: creator,
+                locationName: "location name",
+                cityId: city.LocationId,
+                countryId: country.LocationId,
+                divisionId: division.LocationId,
+                regionId: -1,
+                latitude: 2.35f,
+                longitude: 5.0f,
+                locationTypeId: place.LocationTypeId
+                );
+
+
+            context.Revert();
+            var locationTypeName = "Region";
+            var message = String.Format("The [{0}] with id [{1}] was not found.", locationTypeName, additionalLocation.RegionId.Value);
             Func<Task> f = () =>
             {
                 return service.CreateAsync(additionalLocation);
@@ -3227,12 +3321,17 @@ namespace ECA.Business.Test.Service.Programs
                 LocationName = "division",
                 LocationId = 3
             };
+            var region = new Location
+            {
+                LocationName = "region",
+                LocationId = 4
+            };
             var place = new LocationType
             {
                 LocationTypeId = LocationType.Place.Id,
                 LocationTypeName = "place"
             };
-            var locationToUpdateId = 4;
+            var locationToUpdateId = 5;
             Location locationToUpdate = null;
 
 
@@ -3249,12 +3348,13 @@ namespace ECA.Business.Test.Service.Programs
                 context.Locations.Add(city);
                 context.Locations.Add(country);
                 context.Locations.Add(division);
+                context.Locations.Add(region);
                 context.Locations.Add(locationToUpdate);
                 context.LocationTypes.Add(place);
             });
             Action beforeTester = () =>
             {
-                Assert.AreEqual(4, context.Locations.Count());
+                Assert.AreEqual(5, context.Locations.Count());
             };
 
             var updator = new User(revisorId);
@@ -3264,6 +3364,7 @@ namespace ECA.Business.Test.Service.Programs
                 locationName: "location name",
                 cityId: city.LocationId,
                 countryId: country.LocationId,
+                regionId: region.LocationId,
                 divisionId: division.LocationId,
                 latitude: 2.35f,
                 longitude: 5.0f,
@@ -3272,14 +3373,14 @@ namespace ECA.Business.Test.Service.Programs
 
             Action afterTester = () =>
             {
-                Assert.AreEqual(4, context.Locations.Count());
-                
+                Assert.AreEqual(5, context.Locations.Count());
 
                 Assert.AreEqual(updatedLocation.LocationName, locationToUpdate.LocationName);
                 Assert.IsTrue(Object.ReferenceEquals(city, locationToUpdate.City));
                 Assert.IsTrue(Object.ReferenceEquals(country, locationToUpdate.Country));
                 Assert.IsTrue(Object.ReferenceEquals(division, locationToUpdate.Division));
                 Assert.IsTrue(Object.ReferenceEquals(place, locationToUpdate.LocationType));
+                Assert.IsTrue(Object.ReferenceEquals(region, locationToUpdate.Region));
                 Assert.AreEqual(updatedLocation.LocationName, locationToUpdate.LocationName);
                 float delta = .01f;
                 Assert.AreEqual(updatedLocation.Latitude.Value, locationToUpdate.Latitude.Value, delta, "The Latitude value is invalid.");
@@ -3319,12 +3420,17 @@ namespace ECA.Business.Test.Service.Programs
                 LocationName = "division",
                 LocationId = 3
             };
+            var region = new Location
+            {
+                LocationName = "region",
+                LocationId = 4
+            };
             var place = new LocationType
             {
                 LocationTypeId = LocationType.Place.Id,
                 LocationTypeName = "place"
             };
-            var locationToUpdateId = 4;
+            var locationToUpdateId = 5;
             Location locationToUpdate = null;
 
 
@@ -3341,6 +3447,7 @@ namespace ECA.Business.Test.Service.Programs
                 context.Locations.Add(city);
                 context.Locations.Add(division);
                 context.Locations.Add(locationToUpdate);
+                context.Locations.Add(region);
                 context.LocationTypes.Add(place);
             });
 
@@ -3352,12 +3459,13 @@ namespace ECA.Business.Test.Service.Programs
                 cityId: city.LocationId,
                 countryId: -1,
                 divisionId: division.LocationId,
+                regionId: region.LocationId,
                 latitude: 2.35f,
                 longitude: 5.0f,
                 locationTypeId: place.LocationTypeId
                 );
             context.Revert();
-            
+
             var locationTypeName = "Country";
             var message = String.Format("The [{0}] with id [{1}] was not found.", locationTypeName, updatedLocation.CountryId);
             Func<Task> f = () =>
@@ -3365,7 +3473,7 @@ namespace ECA.Business.Test.Service.Programs
                 return service.UpdateAsync(updatedLocation);
             };
             service.Invoking(x => x.Update(updatedLocation)).ShouldThrow<ModelNotFoundException>().WithMessage(message);
-            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);            
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
         }
 
         [TestMethod]
@@ -3384,12 +3492,17 @@ namespace ECA.Business.Test.Service.Programs
                 LocationName = "country",
                 LocationId = 2
             };
+            var region = new Location
+            {
+                LocationName = "region",
+                LocationId = 4
+            };
             var place = new LocationType
             {
                 LocationTypeId = LocationType.Place.Id,
                 LocationTypeName = "place"
             };
-            var locationToUpdateId = 4;
+            var locationToUpdateId = 5;
             Location locationToUpdate = null;
 
 
@@ -3406,6 +3519,7 @@ namespace ECA.Business.Test.Service.Programs
                 context.Locations.Add(city);
                 context.Locations.Add(country);
                 context.Locations.Add(locationToUpdate);
+                context.Locations.Add(region);
                 context.LocationTypes.Add(place);
             });
             var updator = new User(revisorId);
@@ -3416,6 +3530,7 @@ namespace ECA.Business.Test.Service.Programs
                 cityId: city.LocationId,
                 countryId: country.LocationId,
                 divisionId: -1,
+                regionId: region.LocationId,
                 latitude: 2.35f,
                 longitude: 5.0f,
                 locationTypeId: place.LocationTypeId
@@ -3448,12 +3563,17 @@ namespace ECA.Business.Test.Service.Programs
                 LocationName = "division",
                 LocationId = 3
             };
+            var region = new Location
+            {
+                LocationName = "region",
+                LocationId = 4
+            };
             var place = new LocationType
             {
                 LocationTypeId = LocationType.Place.Id,
                 LocationTypeName = "place"
             };
-            var locationToUpdateId = 4;
+            var locationToUpdateId = 5;
             Location locationToUpdate = null;
 
 
@@ -3470,9 +3590,10 @@ namespace ECA.Business.Test.Service.Programs
                 context.Locations.Add(country);
                 context.Locations.Add(division);
                 context.Locations.Add(locationToUpdate);
+                context.Locations.Add(region);
                 context.LocationTypes.Add(place);
             });
- 
+
 
             var updator = new User(revisorId);
             var updatedLocation = new UpdatedLocation(
@@ -3482,6 +3603,7 @@ namespace ECA.Business.Test.Service.Programs
                 cityId: -1,
                 countryId: country.LocationId,
                 divisionId: division.LocationId,
+                regionId: region.LocationId,
                 latitude: 2.35f,
                 longitude: 5.0f,
                 locationTypeId: place.LocationTypeId
@@ -3490,6 +3612,78 @@ namespace ECA.Business.Test.Service.Programs
 
             var locationTypeName = "City";
             var message = String.Format("The [{0}] with id [{1}] was not found.", locationTypeName, updatedLocation.CityId);
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(updatedLocation);
+            };
+            service.Invoking(x => x.Update(updatedLocation)).ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_Location_RegionDoesNotExist()
+        {
+            var creatorId = 1;
+            var revisorId = 2;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var country = new Location
+            {
+                LocationName = "country",
+                LocationId = 2
+            };
+            var division = new Location
+            {
+                LocationName = "division",
+                LocationId = 3
+            };
+            var city = new Location
+            {
+                LocationName = "region",
+                LocationId = 4
+            };
+            var place = new LocationType
+            {
+                LocationTypeId = LocationType.Place.Id,
+                LocationTypeName = "place"
+            };
+            var locationToUpdateId = 5;
+            Location locationToUpdate = null;
+
+            context.SetupActions.Add(() =>
+            {
+                locationToUpdate = new Location
+                {
+                    LocationId = locationToUpdateId
+                };
+                locationToUpdate.History.CreatedBy = creatorId;
+                locationToUpdate.History.RevisedBy = creatorId;
+                locationToUpdate.History.CreatedOn = yesterday;
+                locationToUpdate.History.RevisedOn = yesterday;
+                context.Locations.Add(country);
+                context.Locations.Add(division);
+                context.Locations.Add(locationToUpdate);
+                context.Locations.Add(city);
+                context.LocationTypes.Add(place);
+            });
+
+
+            var updator = new User(revisorId);
+            var updatedLocation = new UpdatedLocation(
+                updator: updator,
+                locationId: locationToUpdateId,
+                locationName: "location name",
+                cityId: city.LocationId,
+                countryId: country.LocationId,
+                divisionId: division.LocationId,
+                regionId: -1,
+                latitude: 2.35f,
+                longitude: 5.0f,
+                locationTypeId: place.LocationTypeId
+                );
+            context.Revert();
+
+            var locationTypeName = "Region";
+            var message = String.Format("The [{0}] with id [{1}] was not found.", locationTypeName, updatedLocation.RegionId);
             Func<Task> f = () =>
             {
                 return service.UpdateAsync(updatedLocation);
@@ -3519,7 +3713,12 @@ namespace ECA.Business.Test.Service.Programs
                 LocationName = "division",
                 LocationId = 3
             };
-            var locationToUpdateId = 4;
+            var region = new Location
+            {
+                LocationName = "region",
+                LocationId = 4
+            };
+            var locationToUpdateId = 5;
             Location locationToUpdate = null;
 
 
@@ -3536,13 +3735,9 @@ namespace ECA.Business.Test.Service.Programs
                 context.Locations.Add(city);
                 context.Locations.Add(country);
                 context.Locations.Add(division);
+                context.Locations.Add(region);
                 context.Locations.Add(locationToUpdate);
             });
-            Action beforeTester = () =>
-            {
-                Assert.AreEqual(4, context.Locations.Count());
-            };
-
             var updator = new User(revisorId);
             var updatedLocation = new UpdatedLocation(
                 updator: updator,
@@ -3551,6 +3746,7 @@ namespace ECA.Business.Test.Service.Programs
                 cityId: city.LocationId,
                 countryId: country.LocationId,
                 divisionId: division.LocationId,
+                regionId: region.LocationId,
                 latitude: 2.35f,
                 longitude: 5.0f,
                 locationTypeId: LocationType.Place.Id

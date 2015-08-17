@@ -19,7 +19,8 @@ namespace ECA.Business.Service.Admin
         /// <param name="contextCountry">The country the location belongs to.</param>
         /// <param name="contextDivision">The division the location belongs to.</param>
         /// <param name="contextCity">The city the location belongs to.</param>
-        public LocationValidationEntity(EcaLocation location, Location contextCountry, Location contextDivision, Location contextCity)
+        /// <param name="contextRegion">The region the location belongs to.</param>
+        public LocationValidationEntity(EcaLocation location, Location contextRegion, Location contextCountry, Location contextDivision, Location contextCity)
         {
             this.LocationName = location.LocationName;
             this.LocationTypeId = location.LocationTypeId;
@@ -28,6 +29,7 @@ namespace ECA.Business.Service.Admin
             this.Country = contextCountry;
             this.Division = contextDivision;
             this.City = contextCity;
+            this.Region = contextRegion;
         }
 
         /// <summary>
@@ -49,6 +51,11 @@ namespace ECA.Business.Service.Admin
         /// Gets the longitude.
         /// </summary>
         public float? Longitude { get; private set; }
+
+        /// <summary>
+        /// Gets the region.
+        /// </summary>
+        public Location Region {get; private set;}
 
         /// <summary>
         /// Gets the country.

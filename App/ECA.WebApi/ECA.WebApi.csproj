@@ -449,6 +449,8 @@
     <Compile Include="Custom\SwaggerExtensions\ApplySchemaVendorExtensions.cs" />
     <Compile Include="Custom\SwaggerExtensions\AssignOAuth2SecurityRequirements.cs" />
     <Compile Include="Custom\SwaggerExtensions\DescendingAlphabeticComparer.cs" />
+    <Compile Include="Models\Admin\LocationBindingModel.cs" />
+    <Compile Include="Models\Admin\UpdatedLocationBindingModel.cs" />
     <Compile Include="Models\Fundings\AdditionalMoneyFlowBindingModel.cs" />
     <Compile Include="Models\Fundings\AdditionalProgramMoneyFlowBindingModel.cs" />
     <Compile Include="Models\Fundings\AdditionalProjectMoneyFlowBindingModel.cs" />

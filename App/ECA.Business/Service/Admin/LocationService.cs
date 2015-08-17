@@ -378,6 +378,7 @@ namespace ECA.Business.Service.Admin
             Location city = null;
             Location country = null;
             Location division = null;
+            Location region = null;
             if (additionalLocation.CityId.HasValue)
             {
                 city = Context.Locations.Find(additionalLocation.CityId);
@@ -393,6 +394,11 @@ namespace ECA.Business.Service.Admin
                 division = Context.Locations.Find(additionalLocation.DivisionId.Value);
                 throwIfLocationNotFound(additionalLocation.DivisionId.Value, division, "Division");
             }
+            if (additionalLocation.RegionId.HasValue)
+            {
+                region = Context.Locations.Find(additionalLocation.RegionId.Value);
+                throwIfLocationNotFound(additionalLocation.RegionId.Value, region, "Region");
+            }
             
             var locationType = Context.LocationTypes.Find(additionalLocation.LocationTypeId);
             throwIfLocationTypeDoesNotExist(additionalLocation.LocationTypeId, locationType);
@@ -401,6 +407,7 @@ namespace ECA.Business.Service.Admin
                 country: country,
                 division: division,
                 city: city,
+                region: region,
                 locationType: locationType,
                 additionalLocation: additionalLocation);
         }
@@ -415,6 +422,7 @@ namespace ECA.Business.Service.Admin
             Location city = null;
             Location country = null;
             Location division = null;
+            Location region = null;
             if (additionalLocation.CityId.HasValue)
             {
                 city = await Context.Locations.FindAsync(additionalLocation.CityId);
@@ -430,6 +438,11 @@ namespace ECA.Business.Service.Admin
                 division = await Context.Locations.FindAsync(additionalLocation.DivisionId.Value);
                 throwIfLocationNotFound(additionalLocation.DivisionId.Value, division, "Division");
             }
+            if (additionalLocation.RegionId.HasValue)
+            {
+                region = await Context.Locations.FindAsync(additionalLocation.RegionId.Value);
+                throwIfLocationNotFound(additionalLocation.RegionId.Value, region, "Region");
+            }
 
             var locationType = await Context.LocationTypes.FindAsync(additionalLocation.LocationTypeId);
             throwIfLocationTypeDoesNotExist(additionalLocation.LocationTypeId, locationType);
@@ -438,19 +451,21 @@ namespace ECA.Business.Service.Admin
                 country: country,
                 division: division,
                 city: city,
+                region: region,
                 locationType: locationType,
                 additionalLocation: additionalLocation);
         }
 
-        private Location DoCreate(Location country, Location division, Location city, LocationType locationType, AdditionalLocation additionalLocation)
+        private Location DoCreate(Location region, Location country, Location division, Location city, LocationType locationType, AdditionalLocation additionalLocation)
         {
-            var validationEntity = GetLocationValidationEntity(additionalLocation, country, division, city);
+            var validationEntity = GetLocationValidationEntity(additionalLocation, region, country, division, city);
             locationValidator.ValidateCreate(validationEntity);
             var newLocation = new Location
             {
                 City = city,
                 Country = country,
                 Division = division,
+                Region = region,
                 Latitude = additionalLocation.Latitude,
                 Longitude = additionalLocation.Longitude,
                 LocationName = additionalLocation.LocationName,
@@ -462,9 +477,9 @@ namespace ECA.Business.Service.Admin
         }
         #endregion
 
-        private LocationValidationEntity GetLocationValidationEntity(EcaLocation location, Location country, Location division, Location city)
+        private LocationValidationEntity GetLocationValidationEntity(EcaLocation location, Location region, Location country, Location division, Location city)
         {
-            return new LocationValidationEntity(location, country, division, city);
+            return new LocationValidationEntity(location, region, country, division, city);
         }
 
         #region Update
@@ -481,6 +496,7 @@ namespace ECA.Business.Service.Admin
             Location city = null;
             Location country = null;
             Location division = null;
+            Location region = null;
             if (updatedLocation.CityId.HasValue)
             {
                 city = Context.Locations.Find(updatedLocation.CityId);
@@ -496,11 +512,16 @@ namespace ECA.Business.Service.Admin
                 division = Context.Locations.Find(updatedLocation.DivisionId.Value);
                 throwIfLocationNotFound(updatedLocation.DivisionId.Value, division, "Division");
             }
+            if (updatedLocation.RegionId.HasValue)
+            {
+                region = Context.Locations.Find(updatedLocation.RegionId.Value);
+                throwIfLocationNotFound(updatedLocation.RegionId.Value, region, "Region");
+            }
 
             var locationType = Context.LocationTypes.Find(updatedLocation.LocationTypeId);
             throwIfLocationTypeDoesNotExist(updatedLocation.LocationTypeId, locationType);
 
-            DoUpdate(updatedLocation, locationToUpdated, country, division, city, locationType);
+            DoUpdate(updatedLocation, locationToUpdated, country, division, city, region, locationType);
         }
 
         /// <summary>
@@ -515,6 +536,7 @@ namespace ECA.Business.Service.Admin
             Location city = null;
             Location country = null;
             Location division = null;
+            Location region = null;
             if (updatedLocation.CityId.HasValue)
             {
                 city = await Context.Locations.FindAsync(updatedLocation.CityId);
@@ -530,11 +552,16 @@ namespace ECA.Business.Service.Admin
                 division = await Context.Locations.FindAsync(updatedLocation.DivisionId.Value);
                 throwIfLocationNotFound(updatedLocation.DivisionId.Value, division, "Division");
             }
+            if (updatedLocation.RegionId.HasValue)
+            {
+                region = await Context.Locations.FindAsync(updatedLocation.RegionId.Value);
+                throwIfLocationNotFound(updatedLocation.RegionId.Value, region, "Region");
+            }
 
             var locationType = await Context.LocationTypes.FindAsync(updatedLocation.LocationTypeId);
             throwIfLocationTypeDoesNotExist(updatedLocation.LocationTypeId, locationType);
 
-            DoUpdate(updatedLocation, locationToUpdated, country, division, city, locationType);
+            DoUpdate(updatedLocation, locationToUpdated, country, division, city, region, locationType);
         }
 
         private void DoUpdate(
@@ -543,14 +570,22 @@ namespace ECA.Business.Service.Admin
             Location country,
             Location division,
             Location city,
+            Location region,
             LocationType locationType)
         {
-            var validationEntity = GetLocationValidationEntity(updatedLocation, country, division, city);
+            var validationEntity = GetLocationValidationEntity(
+                region: region,
+                location: updatedLocation,
+                country: country,
+                division: division,
+                city: city
+                );
             locationValidator.ValidateUpdate(validationEntity);
 
             locationToUpdate.City = city;
             locationToUpdate.Country = country;
             locationToUpdate.Division = division;
+            locationToUpdate.Region = region;
             locationToUpdate.Latitude = updatedLocation.Latitude;
             locationToUpdate.Longitude = updatedLocation.Longitude;
             locationToUpdate.LocationName = updatedLocation.LocationName;

@@ -20,8 +20,9 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 2;
             var countryId = 3;
             var divisionId = 4;
+            var regionId = 5;
             var locationTypeId = LocationType.Place.Id;
-            var model = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
+            var model = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
             Assert.AreEqual(locationName, model.LocationName);
             Assert.AreEqual(latitude, model.Latitude);
             Assert.AreEqual(longitude, model.Longitude);
@@ -41,8 +42,9 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 2;
             var countryId = 3;
             var divisionId = 4;
+            var regionId = 5;
             var locationTypeId = -1;
-            var model = new EcaLocation(locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
+            var model = new EcaLocation(locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
         }
     }
 }

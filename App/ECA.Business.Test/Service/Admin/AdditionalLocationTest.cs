@@ -19,10 +19,11 @@ namespace ECA.Business.Test.Service.Admin
             var cityId = 2;
             var countryId = 3;
             var divisionId = 5;
+            var regionId = 10;
             var creatorId = 1;
             var creator = new User(creatorId);
             var locationTypeId = LocationType.Place.Id;
-            var model = new AdditionalLocation(creator, locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId);
+            var model = new AdditionalLocation(creator, locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId);
             Assert.AreEqual(locationName, model.LocationName);
             Assert.AreEqual(latitude, model.Latitude);
             Assert.AreEqual(longitude, model.Longitude);

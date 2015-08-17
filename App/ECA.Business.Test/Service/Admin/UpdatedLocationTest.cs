@@ -27,7 +27,8 @@ namespace ECA.Business.Test.Service.Admin
             var locationTypeId = LocationType.Place.Id;
             var locationId = 5;
             var divisionId = 6;
-            var model = new UpdatedLocation(creator, locationName, cityId, countryId, divisionId, latitude, longitude, locationTypeId, locationId);
+            var regionId = 7;
+            var model = new UpdatedLocation(creator, locationName, cityId, countryId, divisionId, regionId, latitude, longitude, locationTypeId, locationId);
             Assert.AreEqual(locationName, model.LocationName);
             Assert.AreEqual(latitude, model.Latitude);
             Assert.AreEqual(longitude, model.Longitude);

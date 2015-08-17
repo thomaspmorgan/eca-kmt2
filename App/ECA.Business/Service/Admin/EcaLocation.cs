@@ -20,6 +20,7 @@ namespace ECA.Business.Service.Admin
         /// <param name="cityId">The id of the city.</param>
         /// <param name="countryId">The id of the country.</param>
         /// <param name="divisionId">The id of the division.</param>
+        /// <param name="regionId">The id of the region.</param>
         /// <param name="locationTypeId">The location type id.</param>
         /// <param name="latitude">The latitude.</param>
         /// <param name="longitude">The longitude.</param>
@@ -28,6 +29,7 @@ namespace ECA.Business.Service.Admin
             int? cityId,
             int? countryId,
             int? divisionId,
+            int? regionId,
             float? latitude,
             float? longitude,
             int locationTypeId
@@ -44,6 +46,7 @@ namespace ECA.Business.Service.Admin
             this.Latitude = latitude;
             this.Longitude = longitude;
             this.LocationTypeId = locationTypeId;
+            this.RegionId = regionId;
         }
 
         /// <summary>
@@ -65,6 +68,11 @@ namespace ECA.Business.Service.Admin
         /// Gets or sets the division id.
         /// </summary>
         public int? DivisionId { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the region id.
+        /// </summary>
+        public int? RegionId { get; private set; }
 
         /// <summary>
         /// Gets the latitude.
