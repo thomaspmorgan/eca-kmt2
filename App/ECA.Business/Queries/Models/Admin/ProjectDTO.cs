@@ -29,6 +29,7 @@ namespace ECA.Business.Queries.Models.Admin
         public string ProgramName { get; set; }
         public int OwnerId { get; set; }
         public string OwnerName { get; set; }
+        public string OwnerOfficeSymbol { get; set; }
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
         public DateTimeOffset RevisedOn { get; set; }

@@ -81,5 +81,10 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or sets the organization type id.
         /// </summary>
         public int OrganizationTypeId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the organization status
+        /// </summary>
+        public string Status { get; set; }
     }
 }

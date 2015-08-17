@@ -86,5 +86,14 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or sets the regions by id the project is operating in.
         /// </summary>
         public IEnumerable<int> RegionIds { get; set; }
+
+        /// <summary>
+        /// Gets or set the owner id
+        /// </summary>
+        public int OwnerId { get; set; }
+        /// <summary>
+        /// Gets or sets the owner office symbol
+        /// </summary>
+        public string OwnerOfficeSymbol { get; set; }
     }
 }

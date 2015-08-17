@@ -17,6 +17,7 @@ namespace ECA.Business.Queries.Admin
     /// </summary>
     public static class OfficeQueries
     {
+
         /// <summary>
         /// Returns a query to locate the office with the given id.
         /// </summary>
@@ -26,13 +27,19 @@ namespace ECA.Business.Queries.Admin
         public static IQueryable<OfficeDTO> CreateGetOfficeByIdQuery(EcaContext context, int officeId)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            return CreateGetOfficesQuery(context).Where(x => x.Id == officeId);
+        }
+
+        public static IQueryable<OfficeDTO> CreateGetOfficesQuery(EcaContext context)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
             var query = from office in context.Organizations
                         let contacts = office.Contacts
                         let programs = office.OwnerPrograms
                         let goals = programs.SelectMany(x => x.Goals).Distinct()
                         let themes = programs.SelectMany(x => x.Themes).Distinct()
 
-                        where Organization.OFFICE_ORGANIZATION_TYPE_IDS.Contains(office.OrganizationTypeId) && office.OrganizationId == officeId
+                        where Organization.OFFICE_ORGANIZATION_TYPE_IDS.Contains(office.OrganizationTypeId)
                         select new OfficeDTO
                         {
                             Contacts = contacts.OrderBy(x => x.FullName).Select(x => new SimpleLookupDTO { Id = x.ContactId, Value = x.FullName }),
@@ -46,7 +53,6 @@ namespace ECA.Business.Queries.Admin
                         };
             return query;
         }
-
         private static IQueryable<SimpleOfficeDTO> CreateGetSimpleOfficeDTO(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
