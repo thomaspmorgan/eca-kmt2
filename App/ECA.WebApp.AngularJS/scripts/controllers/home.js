@@ -11,6 +11,7 @@ angular.module('staticApp')
   .controller('HomeCtrl', function ($rootScope, $scope, $state, AuthService, BookmarkService, NotificationService) {
 
       $scope.limit = 4;
+      $scope.loadingBookmarks = false;
 
       $scope.tabs = {
           shortcuts: {
@@ -66,11 +67,18 @@ angular.module('staticApp')
 
       function getBookmarks() {
 
+          $scope.loadingBookmarks = true;
+
           var params = { limit: 300 };
 
           BookmarkService.getBookmarks(params)
             .then(function (data) {
                 $scope.bookmarks = data.data.results;
+            }, function () {
+                NotificationService.showErrorMessage('There was an error loading the bookmarks.');
+            })
+            .finally(function () {
+                $scope.loadingBookmarks = false;
             });
       }
 
