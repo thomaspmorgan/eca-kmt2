@@ -41,9 +41,29 @@
         public string Region { get; set; }
 
         /// <summary>
+        /// Gets or sets the region iso.
+        /// </summary>
+        public string RegionIso { get; set; }
+
+        /// <summary>
+        /// Gets or sets the region iso2.
+        /// </summary>
+        public string RegionIso2 { get; set; }
+
+        /// <summary>
         /// Gets or sets the country.
         /// </summary>
         public string Country { get; set; }
+
+        /// <summary>
+        /// Gets or sets the country iso.
+        /// </summary>
+        public string CountryIso { get; set; }
+
+        /// <summary>
+        /// Gets or sets the country iso2.
+        /// </summary>
+        public string CountryIso2 { get; set; }
 
         /// <summary>
         /// Gets or sets the division id.
@@ -54,6 +74,16 @@
         /// Gets or sets the division.
         /// </summary>
         public string Division { get; set; }
+
+        /// <summary>
+        /// Gets or sets the division iso.
+        /// </summary>
+        public string DivisionIso { get; set; }
+
+        /// <summary>
+        /// Gets or sets the division iso2.
+        /// </summary>
+        public string DivisionIso2 { get; set; }
 
         /// <summary>
         /// Gets or sets the location iso

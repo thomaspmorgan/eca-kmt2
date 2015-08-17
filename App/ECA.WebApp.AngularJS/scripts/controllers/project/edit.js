@@ -19,6 +19,7 @@ angular.module('staticApp')
         ProjectService,
         ProgramService,
         TableService,
+        LocationService,
         LookupService,
         ConstantsService,
         AuthService,
@@ -48,12 +49,14 @@ angular.module('staticApp')
       $scope.editView.goals = [];
       $scope.editView.categories = [];
       $scope.editView.objectives = [];
+      $scope.editView.locations = [];
 
       $scope.editView.selectedPointsOfContact = [];
       $scope.editView.selectedGoals = [];
       $scope.editView.selectedThemes = [];
       $scope.editView.selectedCategories = [];
       $scope.editView.selectedObjectives = [];
+      $scope.editView.selectedLocations = [];
 
       $scope.editView.categoryLabel = "...";
       $scope.editView.objectiveLabel = "...";
@@ -102,6 +105,14 @@ angular.module('staticApp')
           $scope.$parent.project.ObjectiveIds = [];
       }
 
+      $scope.editView.searchLocations = function (data) {
+          loadLocations(data);
+      }
+
+      $scope.editView.removeLocations = function () {
+          $scope.$parent.project.locationIds = [];
+      }
+
       $scope.editView.confirmFailOk = function () {
           $scope.editView.saveFailed = false;
       }
@@ -141,6 +152,27 @@ angular.module('staticApp')
           $event.stopPropagation();
           $scope.$parent.hideProjectEditCancelButton();
           $scope.editView.isEndDatePickerOpen = true;
+      }
+
+      $scope.editView.onAddLocationClick = function () {
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: 'views/locations/locationmodal.html',
+                //controller: 'MoneyFlowCtrl',
+                size: 'lg',
+                resolve: {
+                    //entity: function () {
+                    //    return moneyFlow;
+                    //}
+                }
+            });
+
+            modalInstance.result.then(function (newMoneyFlow) {
+                $log.info('Finished adding locations.');
+                //reloadMoneyFlowTable();
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
       }
 
       function cancelEdit() {
@@ -244,6 +276,12 @@ angular.module('staticApp')
           updateRelationshipIds(propertyName, 'selectedGoals');
       }
 
+      function updateLocations() {
+          var propertyName = "locationIds";
+          $scope.$parent.project[propertyName] = $scope.$parent.project[propertyName] || [];
+          updateRelationshipIds(propertyName, 'selectedLocations');
+      }
+
       function saveProject($event) {
           $scope.editView.isSaving = true;
           $scope.editView.saveFailed = false;
@@ -254,6 +292,7 @@ angular.module('staticApp')
           updateGoals();
           updateCategories();
           updateObjectives();
+          updateLocations();
           disableProjectStatusButton();
           $scope.$parent.hideProjectEditCancelButton();
           ProjectService.update($scope.$parent.project, $stateParams.projectId)
@@ -320,6 +359,7 @@ angular.module('staticApp')
                 setSelectedThemes();
                 setSelectedCategories();
                 setSelectedObjectives();
+                setSelectedLocations();
 
             }, function (errorResponse) {
                 $log.error('Failed to load project with id ' + projectId);
@@ -364,6 +404,12 @@ angular.module('staticApp')
           var objectivesName = 'objectives';
           normalizeLookupProperties($scope.$parent.project[objectivesName]);
           setSelectedItems(objectivesName, 'selectedObjectives');
+      }
+
+      function setSelectedLocations() {
+          var locationsName = 'locations';
+          normalizeLookupProperties($scope.$parent.project[locationsName]);
+          setSelectedItems(locationsName, 'selectedLocations');
       }
 
       function normalizeLookupProperties(lookups) {
@@ -501,6 +547,39 @@ angular.module('staticApp')
               .catch(function () {
                   $log.error('Unable to load objectives.');
                   NotificationService.showErrorMessage('Unable to load objectives.');
+              });
+      }
+
+      function loadLocations(search) {
+          var params = {
+              start: 0,
+              limit: 10,
+              filter: [{
+                  comparison: ConstantsService.notEqualComparisonType,
+                  property: 'locationTypeId',
+                  value: ConstantsService.locationType.address.id
+              }]
+          };
+          if (search) {
+              params.filter.push({
+                  comparison: ConstantsService.likeComparisonType,
+                  property: 'name',
+                  value: search
+              })
+          }
+          return LocationService.get(params)
+              .then(function (response) {
+                  angular.forEach(response.results, function (result, index) {
+                      if (!result.name) {
+                          result.name = 'UNKNOWN';
+                      }
+                  });
+                  normalizeLookupProperties(response.results);
+                  $scope.editView.locations = response.results;
+              })
+              .catch(function () {
+                  $log.error('Unable to load locations.');
+                  NotificationService.showErrorMessage('Unable to load locations.');
               });
       }
 

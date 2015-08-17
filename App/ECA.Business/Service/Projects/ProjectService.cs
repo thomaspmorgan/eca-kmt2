@@ -613,6 +613,7 @@ namespace ECA.Business.Service.Projects
         private IQueryable<Project> CreateGetProjectByIdQuery(int projectId)
         {
             return Context.Projects
+                .Include(x => x.Locations)
                 .Include(x => x.Themes)
                 .Include(x => x.Goals)
                 .Include(x => x.Contacts)

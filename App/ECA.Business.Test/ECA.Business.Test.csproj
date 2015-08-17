@@ -143,6 +143,7 @@
     <Compile Include="Service\Admin\UpdatedSocialMediaPresenceTest.cs" />
     <Compile Include="Service\Admin\UpdateOrganizationValidationEntityTest.cs" />
     <Compile Include="Service\Fundings\UpdatedMoneyFlowTest.cs" />
+    <Compile Include="Service\Lookup\LocationTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\SocialMediaTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\AddressTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\ParticipantTypeServiceTest.cs" />

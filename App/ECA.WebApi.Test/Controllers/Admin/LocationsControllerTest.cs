@@ -1,6 +1,7 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Service.Admin;
+using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Programs;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
@@ -23,6 +24,7 @@ namespace ECA.WebApi.Test.Controllers.Admin
     {
         private Mock<ILocationService> serviceMock;
         private Mock<IUserProvider> userProvider;
+        private Mock<ILocationTypeService> locationTypeService;
         private LocationsController controller;        
 
         [TestInitialize]
@@ -30,9 +32,10 @@ namespace ECA.WebApi.Test.Controllers.Admin
         {
             userProvider = new Mock<IUserProvider>();
             serviceMock = new Mock<ILocationService>();
+            locationTypeService = new Mock<ILocationTypeService>();
             serviceMock.Setup(x => x.GetAsync(It.IsAny<QueryableOperator<LocationDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<LocationDTO>(1, new List<LocationDTO>()));
-            controller = new LocationsController(serviceMock.Object, userProvider.Object);
+            controller = new LocationsController(serviceMock.Object, locationTypeService.Object, userProvider.Object);
         }
 
         #region Get
@@ -48,6 +51,25 @@ namespace ECA.WebApi.Test.Controllers.Admin
         {
             controller.ModelState.AddModelError("key", "error");
             var response = await controller.GetLocationsAsync(new PagingQueryBindingModel<LocationDTO>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
+        [TestMethod]
+        public async Task TestGetLocationTypesAsync()
+        {
+            
+            var model = new PagingQueryBindingModel<SimpleLookupDTO>();
+            var response = await controller.GetLocationTypesAsync(model);
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<SimpleLookupDTO>>));
+            locationTypeService.Verify(x => x.GetAsync(It.IsAny<QueryableOperator<SimpleLookupDTO>>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestGetLocationTypesAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var model = new PagingQueryBindingModel<SimpleLookupDTO>();
+            var response = await controller.GetLocationTypesAsync(model);
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
         #endregion

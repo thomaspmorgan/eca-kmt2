@@ -57,7 +57,9 @@ angular.module('staticApp')
           },
           getSocialMediaTypes: function (params) {
               return DragonBreath.get(params, 'socialmedias/types');
-
+          },
+          getLocationTypes: function(params){
+              return DragonBreath.get(params, 'locations/types');
           },
           getParticipantTypes: function (params) {
               return DragonBreath.get(params, 'participanttypes');

@@ -68,6 +68,8 @@ namespace ECA.Business.Test.Service.Programs
                 LocationName = "country",
                 LocationTypeId = locationType.LocationTypeId,
                 LocationType = locationType,
+                LocationIso = "countryIso",
+                LocationIso2 = "countryIso2"
             };
             var region = new Location
             {
@@ -75,6 +77,8 @@ namespace ECA.Business.Test.Service.Programs
                 LocationName = "region",
                 LocationTypeId = locationType.LocationTypeId,
                 LocationType = locationType,
+                LocationIso = "regionIso",
+                LocationIso2 = "regionIso2"
             };
             var division = new Location
             {
@@ -82,6 +86,8 @@ namespace ECA.Business.Test.Service.Programs
                 LocationName = "division",
                 LocationTypeId = locationType.LocationTypeId,
                 LocationType = locationType,
+                LocationIso = "divisionIso",
+                LocationIso2 = "divisionIso2"
             };
 
             var location = new Location
@@ -118,12 +124,18 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(locationType.LocationTypeName, result.LocationTypeName);
                 Assert.AreEqual(country.LocationId, result.CountryId);
                 Assert.AreEqual(country.LocationName, result.Country);
+                Assert.AreEqual(country.LocationIso, result.CountryIso);
+                Assert.AreEqual(country.LocationIso2, result.CountryIso2);
                 Assert.AreEqual(region.LocationId, result.RegionId);
                 Assert.AreEqual(region.LocationName, result.Region);
+                Assert.AreEqual(region.LocationIso, result.RegionIso);
+                Assert.AreEqual(region.LocationIso2, result.RegionIso2);
                 Assert.AreEqual(city.LocationId, result.CityId);
                 Assert.AreEqual(city.LocationName, result.City);
                 Assert.AreEqual(division.LocationId, result.DivisionId);
                 Assert.AreEqual(division.LocationName, result.Division);
+                Assert.AreEqual(division.LocationIso, result.DivisionIso);
+                Assert.AreEqual(division.LocationIso2, result.DivisionIso2);
                 Assert.AreEqual(location.Longitude, result.Longitude);
                 Assert.AreEqual(location.Latitude, result.Latitude);
                 Assert.AreEqual(location.LocationIso, result.LocationIso);
@@ -419,6 +431,8 @@ namespace ECA.Business.Test.Service.Programs
                 LocationName = "country",
                 LocationTypeId = locationType.LocationTypeId,
                 LocationType = locationType,
+                LocationIso = "countryIso",
+                LocationIso2 = "countryIso2"
             };
             var region = new Location
             {
@@ -426,6 +440,8 @@ namespace ECA.Business.Test.Service.Programs
                 LocationName = "region",
                 LocationTypeId = locationType.LocationTypeId,
                 LocationType = locationType,
+                LocationIso = "regionIso",
+                LocationIso2 = "regionIso2"
             };
             var division = new Location
             {
@@ -433,6 +449,8 @@ namespace ECA.Business.Test.Service.Programs
                 LocationName = "division",
                 LocationTypeId = locationType.LocationTypeId,
                 LocationType = locationType,
+                LocationIso = "divisionIso",
+                LocationIso2 = "divisionIso2"
             };
 
             var location = new Location
@@ -472,12 +490,18 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(locationType.LocationTypeName, firstResult.LocationTypeName);
                 Assert.AreEqual(country.LocationId, firstResult.CountryId);
                 Assert.AreEqual(country.LocationName, firstResult.Country);
+                Assert.AreEqual(country.LocationIso, firstResult.CountryIso);
+                Assert.AreEqual(country.LocationIso2, firstResult.CountryIso2);
                 Assert.AreEqual(region.LocationId, firstResult.RegionId);
                 Assert.AreEqual(region.LocationName, firstResult.Region);
+                Assert.AreEqual(region.LocationIso, firstResult.RegionIso);
+                Assert.AreEqual(region.LocationIso2, firstResult.RegionIso2);
                 Assert.AreEqual(city.LocationId, firstResult.CityId);
                 Assert.AreEqual(city.LocationName, firstResult.City);
                 Assert.AreEqual(division.LocationId, firstResult.DivisionId);
                 Assert.AreEqual(division.LocationName, firstResult.Division);
+                Assert.AreEqual(division.LocationIso, firstResult.DivisionIso);
+                Assert.AreEqual(division.LocationIso2, firstResult.DivisionIso2);
                 Assert.AreEqual(location.Longitude, firstResult.Longitude);
                 Assert.AreEqual(location.Latitude, firstResult.Latitude);
                 Assert.AreEqual(location.LocationIso, firstResult.LocationIso);
@@ -2913,7 +2937,6 @@ namespace ECA.Business.Test.Service.Programs
         }
 
         #endregion
-
 
         #region Create
         [TestMethod]
