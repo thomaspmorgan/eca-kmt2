@@ -111,6 +111,7 @@ angular.module('staticApp')
           moneyFlow.moneyFlowStatus = getLookupValueById($scope.view.moneyFlowStatii, moneyFlow.moneyFlowStatusId);
           moneyFlow.description = moneyFlow.original.description;
           moneyFlow.amount = moneyFlow.original.amount;
+          moneyFlow.editableAmount = moneyFlow.original.amount;
           moneyFlow.fiscalYear = moneyFlow.original.fiscalYear;
           delete moneyFlow.original;
           moneyFlow.currentlyEditing = false;
@@ -290,17 +291,8 @@ angular.module('staticApp')
                   },
                   function (newValue, oldValue) {
                       if (newValue !== oldValue) {
-                          moneyFlow.amount = newValue < 0 ? -newValue : newValue;
-                      }
-                      if (newValue < 0) {
-                          moneyFlow.editableAmount = -moneyFlow.editableAmount;
-                      }
-                  });
-                  $scope.$watch(function () {
-                      return moneyFlow.fiscalYear;
-                  }, function (newValue, oldValue) {
-                      if (newValue !== oldValue) {
-                          moneyFlow.fiscalYear = newValue < 0 ? -newValue : newValue;
+                          console.assert(newValue >= 0, 'The amount value should never be negative.');
+                          moneyFlow.amount = newValue;
                       }
                   });
               });
@@ -345,7 +337,7 @@ angular.module('staticApp')
               $scope.view.canEditMoneyFlows = true;
           };
           var notAuthorizedCallback = function () {
-              $log.info("Not authorized.");
+              $scope.view.canEditMoneyFlows = false;
           };
           var config = getPermissionsConfig(resourceTypeId, hasEditPermissionCallback, notAuthorizedCallback);
 

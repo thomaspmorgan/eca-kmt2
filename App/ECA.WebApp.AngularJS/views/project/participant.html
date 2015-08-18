@@ -7,91 +7,12 @@
 <div class="list2" ng-show="!view.isLoading">
     <div class="row">
         <div class="col-md-10">
-            <h4 class="tab-subheader">Required Data</h4>
-            <h5 class="subheader2">Setup the required data that you'll need to track, and add collaborators.</h5>
-            <p class="mute" ng-if="view.numberOfCollaborators <= 0">No collaborators yet | Last updated {{view.collaboratorsLastUpdated | date}}</p>
-            <p class="mute" ng-if="view.numberOfCollaborators > 0">{{view.numberOfCollaborators}} Collaborators | Last updated {{view.collaboratorsLastUpdated | date}}</p>
-        </div>
-        <div class="col-sd-2">
-            <a ng-click="view.isCollaboratorExpanded = !view.isCollaboratorExpanded">
-                <i class="material-icons md-dark md-36 pull-right" ng-show="view.isCollaboratorExpanded">expand_more</i>
-                <i class="material-icons md-dark md-36 pull-right" ng-show="!view.isCollaboratorExpanded">expand_less</i>
-            </a>
-        </div>
-    </div>
-    <div class="row recess" ng-show="view.isCollaboratorExpanded && permissions.isProjectOwner">
-        <div class="col-md-9">Do you want to add a collaborator?</div>
-        <div class="col-md-3"><button class="btn btn-primary right" ng-click="view.addCollaborator($event)" ng-disabled="view.isCollaboratorsModalOpen">ADD COLLABORATOR</button></div>
-    </div>
-    <div class="row expand" ng-show="view.isCollaboratorExpanded">
-        <div class="col-md-12 expand">
-            <h5><span class="strong">Participant Data</span> - Currently tracking 14 data points</h5>
-            <div class="tip">Missing something?<a href=""> + Add another data point</a></div>
-        </div>
-        <div class="col-md-12">
-            <div class="tip"><img src="images/tip.png"><span class="strong">Did you know?</span> These fields are required by ECA &amp; your office</div>
-        </div>
-        <div class="table">
-            <div class="col-md-6">
-                <div class="row2"><span class="left title-label medium">SURNAME / PRIMARY NAME</span><span class="right">ECA</span></div>
-                <div class="row2"><span class="left title-label medium">FIRST / GIVEN NAME</span><span class="right">ECA</span></div>
-                <div class="row2"><span class="left title-label medium">GENDER</span><span class="right">ECA</span></div>
-                <div class="row2"><span class="left title-label medium">COUNTRY OF RESIDENCE</span><span class="right">ECA</span></div>
-                <div class="row2"><span class="left title-label medium">ORIGINATION (COUNTRY)</span><span class="right">ECA</span></div>
-                <div class="row2"><span class="left title-label medium">ADDRESS</span><span class="right">ECA</span></div>
-                <div class="row2">
-                    <span class="left title-label medium">EMAIL</span>
-                    <span class="right">{{program.owner.shortName}}</span>
-                </div>
-                <!-- 				<div class="row2"><span class="left title-label medium">SOCIAL MEDIA</span><span class="right"><input type="checkbox"></span></div> -->
-            </div>
-            <div class="col-md-6">
-                <div class="row2">
-                    <span class="left title-label medium">PLACE OF BIRTH</span>
-                    <span class="right">{{program.owner.shortName}}</span>
-                </div>
-                <div class="row2">
-                    <span class="left title-label medium">DATE OF BIRTH</span>
-                    <span class="right">{{program.owner.shortName}}</span>
-                </div>
-                <div class="row2">
-                    <span class="left title-label medium">COUNTRY OF CITIZENSHIP</span>
-                    <span class="right">{{program.owner.shortName}}</span>
-                </div>
-                <div class="row2">
-                    <span class="left title-label medium">DESTINATION (COUNTRY)</span>
-                    <span class="right">{{program.owner.shortName}}</span>
-                </div>
-                <div class="row2">
-                    <span class="left title-label medium">LANGUAGE PROFICIENCIES</span>
-                    <span class="right">{{program.owner.shortName}}</span>
-                </div>
-                <div class="row2">
-                    <span class="left title-label medium">PHONE NUMBER</span>
-                    <span class="right">{{program.owner.shortName}}</span>
-                </div>
-                <div class="row2">
-                    <span class="left title-label medium">INTERESTS</span>
-                    <span class="right">{{program.owner.shortName}}</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-10">
             <h4 class="tab-subheader">Participant Data</h4>
             <h5 class="subheader2">Keep track of participant data that has been added to this project.</h5>
-            <p class="mute">Participants: {{participants.length}} | Last updated {{project.updated | date}}</p>
-        </div>
-        <div class="col-sd-2">
-            <a ng-click="dataExpanded2 = !dataExpanded2">
-                <i class="material-icons md-dark md-36 pull-right" ng-show="dataExpanded2">expand_more</i>
-                <i class="material-icons md-dark md-36 pull-right" ng-show="!dataExpanded2">expand_less</i>
-            </a>
+            <p class="mute">Participants: {{view.totalParticipants}} | Last updated {{project.updated | date}}</p>
         </div>
     </div>
-    <div class="row" ng-show="dataExpanded2">
+    <div class="row">
         <h4 class="tab-subheader">Add a Participant to this Project</h4>
         <div class="col-md-12" ng-show="view.isAddingParticipant">
             <div class="spinner">
@@ -127,7 +48,7 @@
                        typeahead-loading="view.isLoadingAvailableParticipants"
                        typeahead="participant as participant.name for participant in view.getAvailableParticipants($viewValue) | filter : $viewValue | limitTo : view.addParticipantsLimit"
                        typeahead-on-select="view.onAddParticipantSelect($item, $model, $label)"
-                       typeahead-template-url="addCollaboratorTemplate.html"
+                       typeahead-template-url="addParticipantTemplate.html"
                        typeahead-editable="false">
                 </input>
                 <i class="material-icons md-18 contextual" ng-show="!view.isLoadingAvailableParticipants">search</i>
@@ -141,7 +62,7 @@
             <button class="btn btn-primary" ng-click=" modal.addParticipant=true">ADD NEW PARTICIPANT</button>
         </div>
     </div>
-    <div class="row expand" ng-show="dataExpanded2">
+    <div class="row expand">
         <div class="dashed col-md-12" ng-show="participants.length === 0">
             <h4>No participants yet.<span class="light"> Drop files here, <a>upload</a> or <a ng-click="modal.addParticipant = true">add manually</a>.</span></h4>
         </div>
@@ -435,7 +356,7 @@
                     <guidance></guidance>
                 </div>
             </div>
-            <button class="btn btn-default" ng-click="modal.addParticipant = false">CANCEL</button>
+            <button class="btn btn-cancel" ng-click="modal.addParticipant = false">CANCEL</button>
             <button class="btn btn-success right" ng-disabled="participantForm.$invalid" ng-click="addParticipant()">ADD</button>
         </modal-dialog>
     </div>
@@ -445,7 +366,7 @@
         <button class="btn btn-default right" ng-click="modal.addParticipantResult = false">OK</button>
     </modal-dialog>
 
-    <script type="text/ng-template" id="addCollaboratorTemplate.html">
+    <script type="text/ng-template" id="addParticipantTemplate.html">
         <a>
             <!--Organization search results-->
             <div ng-show="match.model.name">
@@ -468,4 +389,5 @@
             </div>
         </a>
     </script>
+
 </div>

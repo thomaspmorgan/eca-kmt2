@@ -86,7 +86,7 @@ namespace ECA.WebApi.Security
                 }
                 if (!propertyContainsDictionaryKey)
                 {
-                    throw new NotSupportedException("There more than one action arguments for the web api.  You must specify the name of the variable in the property path.");
+                    throw new NotSupportedException("There are more than one action arguments for the web api.  You must specify the name of the variable in the property path.");
                 }
             }
             //otherwise lets append the key to the property if the developer didn't specify it.

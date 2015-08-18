@@ -61,6 +61,7 @@
                        id="amount"
                        name="amount"
                        max="{{view.maxAmount}}"
+                       min="0"
                        class="form-control"
                        ng-model="view.moneyFlow.value"
                        placeholder="Enter amount."
@@ -76,6 +77,7 @@
                        id="fiscalYear"
                        ng-model="view.moneyFlow.fiscalYear"
                        type="number"
+                       min="1"
                        placeholder="Enter the fiscal year..."
                        class="form-control"
                        required />
@@ -159,7 +161,7 @@
 
 <div class="modal-footer">
     <button ng-disabled="form.newMoneyFlow.$invalid" class="btn btn-primary" ng-click="view.save()">Save</button>
-    <button class="btn btn-warning" ng-click="view.cancel()">Cancel</button>
+    <button class="btn btn-cancel" ng-click="view.cancel()">Cancel</button>
 </div>
 <script type="text/ng-template" id="selectSourceTemplate.html">
     <a>

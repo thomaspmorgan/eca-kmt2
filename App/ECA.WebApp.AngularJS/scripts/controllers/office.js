@@ -13,6 +13,7 @@ angular.module('staticApp')
       $q,
       $log,
       DragonBreath,
+      NotificationService,
       OfficeService,
       TableService,
       LookupService,
@@ -717,6 +718,10 @@ angular.module('staticApp')
 
             });
       }
+
+      function getIds(element) {
+          return element.id;
+      };
 
       LookupService.getAllThemes($scope.lookupParams)
         .then(function (data) {

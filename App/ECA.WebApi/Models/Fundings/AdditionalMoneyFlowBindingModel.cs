@@ -19,7 +19,7 @@ namespace ECA.WebApi.Models.Fundings
     /// for a project with entity id x.
     /// </summary>
     /// <typeparam name="T">The money flow entity type.</typeparam>
-    public abstract class AdditionalMoneyFlowBindingModel<T> where T : class
+    public abstract class AdditionalMoneyFlowBindingModel
     {
         /// <summary>
         /// Gets or sets the value.
