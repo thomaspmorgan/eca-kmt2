@@ -11,7 +11,7 @@ angular.module('staticApp')
   .controller('HomeCtrl', function ($rootScope, $scope, $state, AuthService, BookmarkService, NotificationService) {
 
       $scope.limit = 4;
-      $scope.loadingBookmarks = false;
+      $scope.loadingBookmarks = true;
 
       $scope.tabs = {
           shortcuts: {
@@ -66,8 +66,6 @@ angular.module('staticApp')
       }
 
       function getBookmarks() {
-
-          $scope.loadingBookmarks = true;
 
           var params = { limit: 300 };
 
