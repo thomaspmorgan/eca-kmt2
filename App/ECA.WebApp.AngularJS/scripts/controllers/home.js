@@ -34,6 +34,14 @@ angular.module('staticApp')
           }
       };
 
+      $scope.showAll = function () {
+          $scope.limit = $scope.bookmarks.length;
+      }
+
+      $scope.showLess = function () {
+          $scope.limit = 4;
+      }
+
       $scope.getHref = function (bookmark) {
 
           var href;
@@ -72,6 +80,9 @@ angular.module('staticApp')
           BookmarkService.getBookmarks(params)
             .then(function (data) {
                 $scope.bookmarks = data.data.results;
+                if ($scope.limit > 4) {
+                    $scope.limit = $scope.bookmarks.length;
+                }
             }, function () {
                 NotificationService.showErrorMessage('There was an error loading the bookmarks.');
             })

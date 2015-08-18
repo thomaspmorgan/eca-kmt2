@@ -1,9 +1,9 @@
 <div class="row">
     <div class="col-md-12">
-        <button class="btn btn-default pull-right" ng-click="limit = bookmarks.length" ng-show="bookmarks.length > 4 && bookmarks.length != limit">Show All</button>
-        <button class="btn btn-default pull-right" ng-click="limit = 4" ng-show="bookmarks.length > 4 && bookmarks.length == limit">Show Less</button>
+        <button class="btn btn-default pull-right" ng-click="showAll()" ng-show="bookmarks.length > 4 && bookmarks.length != limit">Show All</button>
+        <button class="btn btn-default pull-right" ng-click="showLess()" ng-show="bookmarks.length > 4 && bookmarks.length == limit">Show Less</button>
         <h2 class="tab-subheader"><i class="material-icons md-36">star</i> Bookmarks </h2>
-        <p class="subheader listCount" ng-show="bookmarks.length > 0">Showing 1 of {{bookmarks.length}} bookmarks</p>
+        <p class="subheader listCount" ng-show="bookmarks.length > 0">Showing {{limit}} of {{bookmarks.length}} bookmarks</p>
     </div>
 </div>
 
