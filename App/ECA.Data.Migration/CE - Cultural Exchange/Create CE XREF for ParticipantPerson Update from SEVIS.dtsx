@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Create CE XREF for ParticipantPerson Update from SEVIS"
   DTS:PackageType="5"
-  DTS:VersionBuild="17"
-  DTS:VersionGUID="{A2FB231A-B83E-4D4F-9521-61CC4D4C9297}">
+  DTS:VersionBuild="19"
+  DTS:VersionGUID="{2A22B3EA-34DD-4A5C-B00D-6C1798BC805B}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -37,7 +37,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABtU+Fj5C/C/8GyLSOA+Py9EebFbdo5DsHS+0b0Ad8vkAAAAAAOgAAAAAIAACAAAAAhZMorye2FrsGsRmDlbHkCHERCV8Z8sskOJuwCCZlCGiAAAAA4SneEPeWmIYKGJgu+7caepO6nARUV0apc1lkvwxcKu0AAAAA+uqxlkYrIQZwZdgBdwYV7F3lMNbWBTCYVIT1UJM3avg8CjNm4t78j1gcTnrcNvhaGHjFnSa2mLVS98f9wtcAv</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACsbS3HYxj5+i5m0E05oUdaHXbZKXaSH8qnEag6g4pOBwAAAAAOgAAAAAIAACAAAABpaERqiVM7mzwhERY+Jw+I82iLKpAoF3Evy6CuY1/NoCAAAAD6Pa1R2yN5/5HhD/Qc166+ZnTOPs2GamArdgMX9OBO90AAAAB6qnv6R1Eo9+zFTv1zOsJxZC1w1MtfPhHUA+ZD4JfICbd8Gevpj6W8S5qyfvr4olODepCiZfkmOWWVK9OadMbp</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -62,7 +62,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACuItFbn1t7eLIqG0QwChbj8prjpkhKU9+8RoaARNsqgAAAAAAOgAAAAAIAACAAAACk1Qag7F6D0Vmy4i+QDnRUX1JX0Dn+D87hmLAWu31UHyAAAACjgnTELgOHye4B1INEJpCKAQfvQENlB9yPPuDnGjt+kUAAAAAUACw2XBRtJpE0JU3OHEl2JbHSuWN/NnvYQ2jyQsdzMsmBVuEWvIdP//M/nJfIlhlBlw3PgYUrfc3Hbg/Zcpjk</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABfW6QO0ep5ZUJ9Mh3nTk2/1jPGzCubc8ua1xfJNrfqjAAAAAAOgAAAAAIAACAAAABxcx1bnE3+6/+HxZhWZDh1wgy2r+r1MV/Cp9LxCxSSGCAAAACwxPqkpDRc/Hk0goXEJ7cVUhQ3AuZtrIb6Jn08Vtt5yEAAAADziGZ7TqA/fwSmrHQXjygQYP3b2tsMLMyl5q1TbO0U7U/WFba+pyg8Lf6Zb9bNIPLmmddzUFBAZtNJoGDhmMjw</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -73,7 +73,6 @@
       DTS:refId="Package\Create XREF for ParticipantPerson Update from SEVIS"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
-      DTS:Disabled="True"
       DTS:DTSID="{3314FEB8-5133-4F22-83E1-565A7CBCA398}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -3465,6 +3464,10 @@ where UPPER([refTable].[Description]) = UPPER(?)</property>
           Id="Package\Create XREF for ParticipantPerson Update from SEVIS\Lookup FieldOfStudyId"
           TopLeft="229.5,7.5" />
         <NodeLayout
+          Size="216,42"
+          Id="Package\Create XREF for ParticipantPerson Update from SEVIS\Lookup ECA KMT Project info"
+          TopLeft="306.5,300.5" />
+        <NodeLayout
           Size="153,42"
           Id="Package\Create XREF for ParticipantPerson Update from SEVIS\Lookup Position"
           TopLeft="467.5,6.5" />
@@ -3485,21 +3488,13 @@ where UPPER([refTable].[Description]) = UPPER(?)</property>
           Id="Package\Create XREF for ParticipantPerson Update from SEVIS\Get CE_Participant Info"
           TopLeft="24.5,108.5" />
         <NodeLayout
-          Size="230,42"
-          Id="Package\Create XREF for ParticipantPerson Update from SEVIS\XREF_ParticipantPerson_Update"
-          TopLeft="637.5,241.5" />
-        <NodeLayout
           Size="235,42"
           Id="Package\Create XREF for ParticipantPerson Update from SEVIS\Lookup ECA KMT Participant Info"
           TopLeft="649.5,129.5" />
         <NodeLayout
-          Size="156,42"
-          Id="Package\Create XREF for ParticipantPerson Update from SEVIS\Data Conversion"
-          TopLeft="333.5,215.5" />
-        <NodeLayout
-          Size="216,42"
-          Id="Package\Create XREF for ParticipantPerson Update from SEVIS\Lookup ECA KMT Project info"
-          TopLeft="306.5,300.5" />
+          Size="230,42"
+          Id="Package\Create XREF for ParticipantPerson Update from SEVIS\XREF_ParticipantPerson_Update"
+          TopLeft="637.5,241.5" />
         <NodeLayout
           Size="177,42"
           Id="Package\Create XREF for ParticipantPerson Update from SEVIS\Get CE_PERSON info"
@@ -3508,6 +3503,10 @@ where UPPER([refTable].[Description]) = UPPER(?)</property>
           Size="217,42"
           Id="Package\Create XREF for ParticipantPerson Update from SEVIS\Lookup ECA KMT Person Info"
           TopLeft="308.5,133.5" />
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Create XREF for ParticipantPerson Update from SEVIS\Data Conversion"
+          TopLeft="333.5,215.5" />
         <NodeLayout
           Size="177,42"
           Id="Package\Create XREF for ParticipantPerson Update from SEVIS\CE_Participant_Sevis"
@@ -3535,182 +3534,86 @@ where UPPER([refTable].[Description]) = UPPER(?)</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create XREF for ParticipantPerson Update from SEVIS.Paths[Lookup Match Output]"
-          TopLeft="415.5,28">
+          Id="Package\Create XREF for ParticipantPerson Update from SEVIS.Paths[Lookup Match Output9]"
+          TopLeft="767,171.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="52,0"
+              EndConnector="-14.5,70"
               Start="0,0"
-              End="44.5,0">
+              End="-14.5,62.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="44.5,0" />
+                    End="0,31" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31"
+                    Point2="0,35"
+                    Point3="-4,35" />
+                  <mssgle:LineSegment
+                    End="-10.5,35" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-10.5,35"
+                    Point2="-14.5,35"
+                    Point3="-14.5,39" />
+                  <mssgle:LineSegment
+                    End="-14.5,62.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-25.94138671875,5,96.3827734375,11.609375"
+              BoundingBox="-55.44138671875,40,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create XREF for ParticipantPerson Update from SEVIS.Paths[Lookup Match Output1]"
-          TopLeft="620.5,28">
+          Id="Package\Create XREF for ParticipantPerson Update from SEVIS.Paths[Lookup Match Output8]"
+          TopLeft="525.5,152.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="80,0"
+              EndConnector="124,0"
               Start="0,0"
-              End="72.5,0">
+              End="116.5,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="72.5,0" />
+                    End="116.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-11.94138671875,5,96.3827734375,11.609375"
+              BoundingBox="10.05861328125,5,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create XREF for ParticipantPerson Update from SEVIS.Paths[Lookup Match Output2]"
-          TopLeft="801.5,49.5">
+          Id="Package\Create XREF for ParticipantPerson Update from SEVIS.Paths[Lookup Match Output7]"
+          TopLeft="413,300.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-682.5,59"
+              EndConnector="0,-43"
               Start="0,0"
-              End="-682.5,51.5">
+              End="0,-35.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,25.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,25.5"
-                    Point2="0,29.5"
-                    Point3="-4,29.5" />
-                  <mssgle:LineSegment
-                    End="-678.5,29.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-678.5,29.5"
-                    Point2="-682.5,29.5"
-                    Point3="-682.5,33.5" />
-                  <mssgle:LineSegment
-                    End="-682.5,51.5" />
+                    End="0,-35.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-389.44138671875,34.5,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Create XREF for ParticipantPerson Update from SEVIS.Paths[Lookup Match Output3]"
-          TopLeft="122.5,150.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,38"
-              Start="0,0"
-              End="0,30.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,30.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-48.19138671875,9.4453125,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Create XREF for ParticipantPerson Update from SEVIS.Paths[Lookup Match Output4]"
-          TopLeft="126,230.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="14,33.628140703518"
-              Start="0,0"
-              End="14,26.128140703518">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,12.814070351759" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,12.814070351759"
-                    Point2="0,16.814070351759"
-                    Point3="4,16.814070351759" />
-                  <mssgle:LineSegment
-                    End="10,16.814070351759" />
-                  <mssgle:CubicBezierSegment
-                    Point1="10,16.814070351759"
-                    Point2="14,16.814070351759"
-                    Point3="14,20.814070351759" />
-                  <mssgle:LineSegment
-                    End="14,26.128140703518" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-41.19138671875,21.814070351759,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Create XREF for ParticipantPerson Update from SEVIS.Paths[Lookup Match Output5]"
-          TopLeft="140,306.128140703518">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-32.5,45.371859296482"
-              Start="0,0"
-              End="-32.5,37.871859296482">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,18.685929648241" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,18.685929648241"
-                    Point2="0,22.685929648241"
-                    Point3="-4,22.685929648241" />
-                  <mssgle:LineSegment
-                    End="-28.5,22.685929648241" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-28.5,22.685929648241"
-                    Point2="-32.5,22.685929648241"
-                    Point3="-32.5,26.685929648241" />
-                  <mssgle:LineSegment
-                    End="-32.5,37.871859296482" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-64.44138671875,27.685929648241,96.3827734375,11.609375"
+              BoundingBox="-48.19138671875,-23.5546875,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -3751,26 +3654,182 @@ where UPPER([refTable].[Description]) = UPPER(?)</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create XREF for ParticipantPerson Update from SEVIS.Paths[Lookup Match Output7]"
-          TopLeft="413,300.5">
+          Id="Package\Create XREF for ParticipantPerson Update from SEVIS.Paths[Lookup Match Output5]"
+          TopLeft="140,306.128140703518">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,-43"
+              EndConnector="-32.5,45.371859296482"
               Start="0,0"
-              End="0,-35.5">
+              End="-32.5,37.871859296482">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,-35.5" />
+                    End="0,18.685929648241" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18.685929648241"
+                    Point2="0,22.685929648241"
+                    Point3="-4,22.685929648241" />
+                  <mssgle:LineSegment
+                    End="-28.5,22.685929648241" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-28.5,22.685929648241"
+                    Point2="-32.5,22.685929648241"
+                    Point3="-32.5,26.685929648241" />
+                  <mssgle:LineSegment
+                    End="-32.5,37.871859296482" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-48.19138671875,-23.5546875,96.3827734375,11.609375"
+              BoundingBox="-64.44138671875,27.685929648241,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create XREF for ParticipantPerson Update from SEVIS.Paths[Lookup Match Output4]"
+          TopLeft="126,230.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="14,33.628140703518"
+              Start="0,0"
+              End="14,26.128140703518">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,12.814070351759" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,12.814070351759"
+                    Point2="0,16.814070351759"
+                    Point3="4,16.814070351759" />
+                  <mssgle:LineSegment
+                    End="10,16.814070351759" />
+                  <mssgle:CubicBezierSegment
+                    Point1="10,16.814070351759"
+                    Point2="14,16.814070351759"
+                    Point3="14,20.814070351759" />
+                  <mssgle:LineSegment
+                    End="14,26.128140703518" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-41.19138671875,21.814070351759,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create XREF for ParticipantPerson Update from SEVIS.Paths[Lookup Match Output3]"
+          TopLeft="122.5,150.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38"
+              Start="0,0"
+              End="0,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,9.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create XREF for ParticipantPerson Update from SEVIS.Paths[Lookup Match Output2]"
+          TopLeft="801.5,49.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-682.5,59"
+              Start="0,0"
+              End="-682.5,51.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,25.5"
+                    Point2="0,29.5"
+                    Point3="-4,29.5" />
+                  <mssgle:LineSegment
+                    End="-678.5,29.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-678.5,29.5"
+                    Point2="-682.5,29.5"
+                    Point3="-682.5,33.5" />
+                  <mssgle:LineSegment
+                    End="-682.5,51.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-389.44138671875,34.5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create XREF for ParticipantPerson Update from SEVIS.Paths[Lookup Match Output1]"
+          TopLeft="620.5,28">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="80,0"
+              Start="0,0"
+              End="72.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="72.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-11.94138671875,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create XREF for ParticipantPerson Update from SEVIS.Paths[Lookup Match Output]"
+          TopLeft="415.5,28">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="52,0"
+              Start="0,0"
+              End="44.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="44.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-25.94138671875,5,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -3794,66 +3853,6 @@ where UPPER([refTable].[Description]) = UPPER(?)</property>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Create XREF for ParticipantPerson Update from SEVIS.Paths[Lookup Match Output8]"
-          TopLeft="525.5,152.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="124,0"
-              Start="0,0"
-              End="116.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="116.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="10.05861328125,5,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Create XREF for ParticipantPerson Update from SEVIS.Paths[Lookup Match Output9]"
-          TopLeft="767,171.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-14.5,70"
-              Start="0,0"
-              End="-14.5,62.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,31" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,31"
-                    Point2="0,35"
-                    Point3="-4,35" />
-                  <mssgle:LineSegment
-                    End="-10.5,35" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-10.5,35"
-                    Point2="-14.5,35"
-                    Point3="-14.5,39" />
-                  <mssgle:LineSegment
-                    End="-14.5,62.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-55.44138671875,40,96.3827734375,11.609375"
-              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -3883,6 +3882,29 @@ where UPPER([refTable].[Description]) = UPPER(?)</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
+    design-time-name="Package\Create XREF for ParticipantPerson Update from SEVIS\Lookup ECA KMT Project info">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Project]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
     design-time-name="Package\Create XREF for ParticipantPerson Update from SEVIS\Lookup Position">
     <Properties>
       <Property>
@@ -3898,7 +3920,7 @@ where UPPER([refTable].[Description]) = UPPER(?)</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -3921,7 +3943,7 @@ where UPPER([refTable].[Description]) = UPPER(?)</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -3934,7 +3956,7 @@ where UPPER([refTable].[Description]) = UPPER(?)</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">false</Value>
+          type="q2:string">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -3944,7 +3966,7 @@ where UPPER([refTable].[Description]) = UPPER(?)</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -3957,7 +3979,7 @@ where UPPER([refTable].[Description]) = UPPER(?)</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">false</Value>
+          type="q2:string">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -3967,7 +3989,7 @@ where UPPER([refTable].[Description]) = UPPER(?)</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -3980,7 +4002,7 @@ where UPPER([refTable].[Description]) = UPPER(?)</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">false</Value>
+          type="q2:string">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -3990,7 +4012,30 @@ where UPPER([refTable].[Description]) = UPPER(?)</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create XREF for ParticipantPerson Update from SEVIS\Lookup ECA KMT Participant Info">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Participant]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -4007,52 +4052,6 @@ where UPPER([refTable].[Description]) = UPPER(?)</property>
         <Name>TableInfoObjectType</Name>
         <Value
           type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Create XREF for ParticipantPerson Update from SEVIS\Lookup ECA KMT Participant Info">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[Participant]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:int">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Create XREF for ParticipantPerson Update from SEVIS\Lookup ECA KMT Project info">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[Project]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:int">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
@@ -4085,7 +4084,7 @@ where UPPER([refTable].[Description]) = UPPER(?)</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">true</Value>
+          type="q2:string">true</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -4095,7 +4094,7 @@ where UPPER([refTable].[Description]) = UPPER(?)</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
