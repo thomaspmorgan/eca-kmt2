@@ -726,6 +726,54 @@ div.tip:hover span {
     text-decoration: none
 }
 
+.bookmark {
+    
+    padding-bottom: 30px;
+
+    .bookmark-header {
+
+        padding-top: 15px;
+        color: #fff;
+        text-transform: uppercase;
+
+        a {
+            color: #fff;
+            opacity: 0.5;
+        }
+        
+        a:hover {
+            opacity: 1;
+        }
+
+    }
+    
+    .bookmark-content {
+        height: 200px;
+        padding-top: 15px;
+        border-left: solid 3px #efefef;
+        border-right: solid 3px #efefef;
+        border-bottom: solid 3px #efefef;
+        font-weight: 500;
+
+        a {
+            color: #415358;
+        }
+
+        a:hover {
+            color: #297cb4;
+        }
+
+        .bookmark-title {
+            text-transform: uppercase;
+        }
+    }
+
+    .bookmark-footer {
+        padding-top: 15px;
+        color: #a0a9ab;
+    }
+}
+
 /* used to indent expandable directives */ 
 .expandIndent {
     padding-left: 10px;

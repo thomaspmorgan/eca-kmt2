@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Exceptions;
+using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Exceptions;
@@ -148,7 +149,7 @@ namespace ECA.Business.Service.Admin
                 PersonId = newBookmark.PersonId,
                 OrganizationId = newBookmark.OrganizationId,
                 PrincipalId = newBookmark.PrincipalId,
-                AddedOn = new DateTimeOffset(),
+                AddedOn = DateTimeOffset.Now,
                 Automatic = newBookmark.Automatic
             };
 
@@ -183,18 +184,7 @@ namespace ECA.Business.Service.Admin
         /// <returns>List of bookmarks</returns>
         public Task<PagedQueryResults<BookmarkDTO>> GetBookmarksAsync(QueryableOperator<BookmarkDTO> queryOperator)
         {
-            var query = Context.Bookmarks.Select(x => new BookmarkDTO
-            {
-                BookmarkId = x.BookmarkId,
-                OfficeId = x.OfficeId,
-                ProgramId = x.ProgramId,
-                ProjectId = x.ProjectId,
-                PersonId = x.PersonId,
-                OrganizationId = x.OrganizationId,
-                PrincipalId = x.PrincipalId,
-                AddedOn = x.AddedOn,
-                Automatic = x.Automatic
-            });
+            var query = BookmarkQueries.CreateGetBookmarksQuery(Context);
             query = query.Apply(queryOperator);
             return query.ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
         }

@@ -67,6 +67,17 @@ namespace ECA.Business.Queries.Persons
         }
 
         /// <summary>
+        /// Get a simple person dto by person id
+        /// </summary>
+        /// <param name="context">The context to query</param>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>Simple person dto</returns>
+        public static IQueryable<SimplePersonDTO> CreateGetSimplePersonDTOByPersonIdQuery(EcaContext context, int personId)
+        {
+            return CreateGetSimplePersonDTOsQuery(context).Where(x => x.PersonId == personId);
+        }
+
+        /// <summary>
         /// Returns a query capable of retrieving filtered and sorted simple person dtos in the given context.
         /// </summary>
         /// <param name="context">The context to query.</param>

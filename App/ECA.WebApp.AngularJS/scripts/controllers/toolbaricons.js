@@ -60,12 +60,9 @@ angular.module('staticApp')
 
           var params = {
               limit: 300,
-              filter: {
-                  comparison: 'eq',
-                  value: stateParams.foreignResourceId,
-                  property: getProperty()
-              }
+              filter: getFilter()
           };
+
 
           BookmarkService.getBookmarks(params)
             .then(function (data) {
@@ -79,6 +76,39 @@ angular.module('staticApp')
                 NotificationService.showErrorMessage('There was an error loading bookmarks.');
             });
 
+      }
+
+      function getFilter() {
+
+          var property = getProperty();
+
+          var filter = [{
+              comparison: 'eq',
+              value: stateParams.foreignResourceId,
+              property: property
+          }];
+
+          if (property === "officeId") {
+              filter.push({
+                  comparison: 'null',
+                  property: 'programId'
+              });
+              filter.push({
+                  comparison: 'null',
+                  property: 'projectId'
+              })
+          } else if (property == "programId") {
+              filter.push({
+                  comparison: 'null',
+                  property: 'officeId'
+              });
+              filter.push({
+                  comparison: 'null',
+                  property: 'projectId'
+              })
+          }
+
+          return filter;
       }
 
       function getProperty() {
@@ -120,6 +150,7 @@ angular.module('staticApp')
       $scope.toggleBookmark = function () {
           $scope.togglingBookmark = true;
           if ($scope.isBookmarked) {
+              $scope.isBookmarked = false;
               BookmarkService.deleteBookmark(bookmark)
                 .then(function () {
                     NotificationService.showSuccessMessage('The bookmark was successfully removed.');
@@ -131,6 +162,7 @@ angular.module('staticApp')
                     $scope.togglingBookmark = false;
                 });
           } else {
+              $scope.isBookmarked = true;
               var params = {
                   automatic: false
               };
