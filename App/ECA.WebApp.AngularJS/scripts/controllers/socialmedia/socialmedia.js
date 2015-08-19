@@ -91,8 +91,8 @@ angular.module('staticApp')
                   NotificationService.showErrorMessage(message);
               });
           }
-          
-      }
+
+      };
 
       $scope.view.onEditSocialMediaClick = function () {
           $scope.view.showEditSocialMedia = true;
@@ -101,26 +101,26 @@ angular.module('staticApp')
               duration: 500,
               easing: 'easeIn',
               offset: 200,
-              callbackBefore: function (element) {},
+              callbackBefore: function (element) { },
               callbackAfter: function (element) { }
-          }
+          };
           smoothScroll(getSocialMediaFormDivElement(id), options);
       };
 
-      $scope.view.onSocialMediaTypeChange = function () {          
-          var socialMediaTypeId = $scope.socialMedia.socialMediaTypeId;          
+      $scope.view.onSocialMediaTypeChange = function () {
+          var socialMediaTypeId = $scope.socialMedia.socialMediaTypeId;
           angular.forEach($scope.view.socialMediaTypes, function (type, index) {
               if (type.id === socialMediaTypeId) {
                   $scope.socialMedia.value = type.url;
               }
           });
-      }
+      };
 
       function removeSocialMediaFromView(socialMedia) {
           $scope.$emit(ConstantsService.removeNewSocialMediaEventName, socialMedia);
       }
 
-      function getSocialMediaFormDivIdPrefix(){
+      function getSocialMediaFormDivIdPrefix() {
           return 'socialMediaForm';
       }
 
@@ -135,7 +135,7 @@ angular.module('staticApp')
       }
 
       function getSocialMediaFormDivElement(id) {
-          return document.getElementById(id)
+          return document.getElementById(id);
       }
 
       function onSaveSocialMediaSuccess(response) {

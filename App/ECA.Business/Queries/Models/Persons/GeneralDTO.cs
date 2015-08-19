@@ -19,7 +19,7 @@ namespace ECA.Business.Queries.Models.Persons
         {
             ProminentCategories = new List<SimpleLookupDTO>();
             Activities = new List<SimpleLookupDTO>();
-            Memberships = new List<SimpleOrganizationDTO>();
+            Memberships = new List<MembershipDTO>();
             LanguageProficiencies = new List<SimpleLookupDTO>();
             Dependants = new List<SimpleLookupDTO>();
             RelatedReports = new List<SimpleLookupDTO>();
@@ -37,7 +37,7 @@ namespace ECA.Business.Queries.Models.Persons
 
         public IEnumerable<SimpleLookupDTO> Activities { get; set; }
 
-        public IEnumerable<SimpleOrganizationDTO> Memberships { get; set; }
+        public IEnumerable<MembershipDTO> Memberships { get; set; }
 
         public IEnumerable<SimpleLookupDTO> LanguageProficiencies { get; set; }
 

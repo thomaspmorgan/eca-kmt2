@@ -45,24 +45,21 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="userProvider">The user provider.</param>
         /// <param name="addressHandler">The address handler.</param>
         /// <param name="socialMediaHandler">The social media handler.</param>
-        /// <param name="membershipService"> The membership service</param>
+
         public PeopleController(
             IPersonService service, 
             IUserProvider userProvider,
             IAddressModelHandler addressHandler,
-            ISocialMediaPresenceModelHandler socialMediaHandler,
-            IMembershipService membershipService)
+            ISocialMediaPresenceModelHandler socialMediaHandler)
         {
             Contract.Requires(service != null, "The participant service must not be null.");
             Contract.Requires(userProvider != null, "The user provider must not be null.");
             Contract.Requires(addressHandler != null, "The address handler must not be null.");
             Contract.Requires(socialMediaHandler != null, "The social media handler must not be null.");
-            Contract.Requires(membershipService != null, "The membership service must not be null.");
             this.addressHandler = addressHandler;
             this.service = service;
             this.userProvider = userProvider;
             this.socialMediaHandler = socialMediaHandler;
-            this.membershipService = membershipService;
         }
 
         /// <summary>
@@ -277,7 +274,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <param name="model">The model to update</param>
         /// <returns></returns>
-        [Route("People/General")]
+        [Route("People/{personId:int}/General")]
         public async Task<IHttpActionResult> PutGeneralAsync(GeneralBindingModel model)
         {
             if (ModelState.IsValid)
@@ -317,70 +314,6 @@ namespace ECA.WebApi.Controllers.Persons
         {
             return socialMediaHandler.HandleSocialMediaPresenceAsync<Person>(model, this);
         }
-
-        #region Membership
-
-        /// <summary>
-        /// Adds a new membership to the person.
-        /// </summary>
-        /// <param name="model">The new membership.</param>
-        /// <returns>The saved membership.</returns>
-        [Route("People/Membership")]
-        public async Task<IHttpActionResult> PostMembershipAsync(PersonMembershipBindingModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var currentUser = userProvider.GetCurrentUser();
-                var businessUser = userProvider.GetBusinessUser(currentUser);
-                var person = await membershipService.CreateAsync(model.ToPersonMembership(businessUser));
-                await membershipService.SaveChangesAsync();
-                return Ok();
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-        }
-
-
-        /// <summary>
-        /// Updates a membership to the person.
-        /// </summary>
-        /// <param name="model">The updated membership.</param>
-        /// <returns>void</returns>
-        [ResponseType(typeof(MembershipDTO))]
-        [Route("People/Membership")]
-        public async Task<IHttpActionResult> PutMembershipAsync(UpdatedPersonMembershipBindingModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var currentUser = userProvider.GetCurrentUser();
-                var businessUser = userProvider.GetBusinessUser(currentUser);
-                await membershipService.UpdateAsync(model.ToUpdatedPersonMembership(businessUser));
-                await membershipService.SaveChangesAsync();
-                var dto = await membershipService.GetByIdAsync(model.Id);
-                return Ok(dto);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-        }
-
-        /// <summary>
-        /// Deletes the membership with the given id.
-        /// </summary>
-        /// <param name="id">The id of the membership.</param>
-        /// <returns>An ok response.</returns>
-        [ResponseType(typeof(OkResult))]
-        public async Task<IHttpActionResult> DeleteMembership(int id)
-        {
-            await membershipService.DeleteAsync(id);
-            await membershipService.SaveChangesAsync();
-            return Ok();
-        }
-
-        #endregion Membership
 
     }
 }

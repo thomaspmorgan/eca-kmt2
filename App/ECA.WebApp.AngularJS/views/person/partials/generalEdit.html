@@ -45,12 +45,8 @@
         </div>
         <div class="col-md-6">
             <div class="row">
-                <label class="col-md-4 title-label">Memberships</label>
-                <div class="col-md-6">
-                    <ul>
-                        <li ng-repeat="membership in general.memberships">{{membership.name}}</li>
-                    </ul>
-                </div>
+                <div class="col-md-3 title-label">Memberships</div>
+                <memberships model="general" personid="general.personId" editmode="edit"></memberships>
             </div>
             <div class="row">
                 <label class="col-md-4 title-label">Language Proficiencies</label>

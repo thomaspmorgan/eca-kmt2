@@ -28,7 +28,6 @@ namespace ECA.WebApi.Test.Controllers.Persons
         private Mock<IUserProvider> userProvider;
         private Mock<IAddressModelHandler> addressHandler;
         private Mock<ISocialMediaPresenceModelHandler> socialMediaHandler;
-        private Mock<IMembershipService> membershipService;
         private PeopleController controller;
         
         [TestInitialize]
@@ -38,8 +37,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
             userProvider = new Mock<IUserProvider>();
             addressHandler = new Mock<IAddressModelHandler>();
             socialMediaHandler = new Mock<ISocialMediaPresenceModelHandler>();
-            membershipService = new Mock<IMembershipService>();
-            controller = new PeopleController(personService.Object, userProvider.Object, addressHandler.Object, socialMediaHandler.Object, membershipService.Object);
+            controller = new PeopleController(personService.Object, userProvider.Object, addressHandler.Object, socialMediaHandler.Object);
         }
 
         #region Get Pii By Id
