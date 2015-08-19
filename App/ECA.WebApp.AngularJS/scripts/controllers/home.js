@@ -8,9 +8,8 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('HomeCtrl', function ($rootScope, $scope, $state, AuthService, BookmarkService, NotificationService) {
+  .controller('HomeCtrl', function ($rootScope, $scope, $state, $window, AuthService, BookmarkService, NotificationService) {
 
-      $scope.limit = 4;
       $scope.loadingBookmarks = true;
 
       $scope.tabs = {
@@ -39,7 +38,7 @@ angular.module('staticApp')
       }
 
       $scope.showLess = function () {
-          $scope.limit = 4;
+          $scope.limit = calculateLimit($window.innerWidth);;
       }
 
       $scope.getHref = function (bookmark) {
@@ -80,9 +79,7 @@ angular.module('staticApp')
           BookmarkService.getBookmarks(params)
             .then(function (data) {
                 $scope.bookmarks = data.data.results;
-                if ($scope.limit > 4) {
-                    $scope.limit = $scope.bookmarks.length;
-                }
+                $scope.limit = calculateLimit($window.innerWidth);
             }, function () {
                 NotificationService.showErrorMessage('There was an error loading the bookmarks.');
             })
@@ -90,6 +87,34 @@ angular.module('staticApp')
                 $scope.loadingBookmarks = false;
             });
       }
+
+      function calculateLimit(width) {
+
+          var bookmarkCount;
+          if ($scope.bookmarks) {
+              bookmarkCount = $scope.bookmarks.length;
+          }
+
+          var containerWidth = getContainerWidth();
+          var limit = Math.floor(containerWidth / 250);
+
+          if (limit > bookmarkCount) {
+              limit = bookmarkCount;
+          }
+
+          return limit;
+      }
+
+      function getContainerWidth() {
+          return $('.container').width();
+      }
+
+      $scope.limit = calculateLimit($window.innerWidth);
+
+      angular.element($window).bind('resize', function () {
+          $scope.limit = calculateLimit($window.innerWidth);
+          $scope.$apply();
+      })
 
       getBookmarks();
       
