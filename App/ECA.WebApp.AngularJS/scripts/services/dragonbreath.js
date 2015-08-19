@@ -45,6 +45,15 @@ angular.module('staticApp')
               dPath = new DragonPath(arguments, 1);
               return $http.get(dPath.path, { params: filter });
           },
+          getCached: function (filter) {
+              var dPath;
+              if (typeof filter === 'string') {
+                  dPath = new DragonPath(arguments);
+                  return $http.get(dPath.path, { cache: true });
+              }
+              dPath = new DragonPath(arguments, 1);
+              return $http.get(dPath.path, { params: filter, cache:true });
+          },
           save: function (object) {
               var dPath = new DragonPath(arguments, 1);
               return $http.put(dPath.path, object);
