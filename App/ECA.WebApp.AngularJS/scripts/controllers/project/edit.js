@@ -24,6 +24,7 @@ angular.module('staticApp')
         ConstantsService,
         AuthService,
         OfficeService,
+        FilterService,
         NotificationService) {
 
       console.assert(typeof ($scope.$parent.isInEditViewState) !== 'undefined', 'The isInEditViewState property on the parent scope must be defined.');
@@ -155,24 +156,24 @@ angular.module('staticApp')
       }
 
       $scope.editView.onAddLocationClick = function () {
-            var modalInstance = $modal.open({
-                animation: true,
-                templateUrl: 'views/locations/locationmodal.html',
-                //controller: 'MoneyFlowCtrl',
-                size: 'lg',
-                resolve: {
-                    //entity: function () {
-                    //    return moneyFlow;
-                    //}
-                }
-            });
+          var modalInstance = $modal.open({
+              animation: true,
+              templateUrl: 'views/locations/locationmodal.html',
+              //controller: 'MoneyFlowCtrl',
+              size: 'lg',
+              resolve: {
+                  //entity: function () {
+                  //    return moneyFlow;
+                  //}
+              }
+          });
 
-            modalInstance.result.then(function (newMoneyFlow) {
-                $log.info('Finished adding locations.');
-                //reloadMoneyFlowTable();
-            }, function () {
-                $log.info('Modal dismissed at: ' + new Date());
-            });
+          modalInstance.result.then(function (newMoneyFlow) {
+              $log.info('Finished adding locations.');
+              //reloadMoneyFlowTable();
+          }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+          });
       }
 
       function cancelEdit() {
@@ -550,24 +551,18 @@ angular.module('staticApp')
               });
       }
 
+      var locationsFilter = FilterService.add('projectedit_locations');
       function loadLocations(search) {
-          var params = {
-              start: 0,
-              limit: 10,
-              filter: [{
-                  comparison: ConstantsService.notEqualComparisonType,
-                  property: 'locationTypeId',
-                  value: ConstantsService.locationType.address.id
-              }]
-          };
+          locationsFilter.reset();
+          locationsFilter = locationsFilter.skip(0).take(10)
+            .notEqual('locationTypeId', ConstantsService.locationType.address.id)
+            .isNotNull('name')
+            .sortBy('name');
+
           if (search) {
-              params.filter.push({
-                  comparison: ConstantsService.likeComparisonType,
-                  property: 'name',
-                  value: search
-              })
+              locationsFilter = locationsFilter.like('name', search);
           }
-          return LocationService.get(params)
+          return LocationService.get(locationsFilter.toParams())
               .then(function (response) {
                   angular.forEach(response.results, function (result, index) {
                       if (!result.name) {
@@ -643,6 +638,7 @@ angular.module('staticApp')
       $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(), loadCategories(), loadProjectStati(), loadGoals(null), loadProject(), loadOfficeSettings()])
       .then(function (results) {
           //results is an array
+          $scope.editView.onAddLocationClick();
 
       }, function (errorResponse) {
           $log.error('Failed initial loading of project view.');

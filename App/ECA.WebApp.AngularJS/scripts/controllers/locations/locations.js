@@ -42,10 +42,6 @@ angular.module('staticApp')
           return loadLocations(tableState);
       };
 
-      
-      
-
-
       function loadLocations(tableState) {
           TableService.setTableState(tableState);
           var params = {
@@ -123,7 +119,7 @@ angular.module('staticApp')
         })
         .catch(function () {
             $scope.view.isLoadingRequiredData = false;
-        })
+        });
 
 
 

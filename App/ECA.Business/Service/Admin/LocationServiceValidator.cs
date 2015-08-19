@@ -50,11 +50,6 @@ namespace ECA.Business.Service.Admin
         public const string COUNTRY_MUST_BELONG_TO_REGION = "The given country must belong to the given region.";
 
         /// <summary>
-        /// The error message to return when a division does not belong to the given country.
-        /// </summary>
-        public const string LATITUDE_LONGITUDE_SPECIFIED_BUT_INVALID_LOCATION_TYPE = "If the location is specified by longitude and/or latitude it must be a place, or building.";
-
-        /// <summary>
         /// The location name is invalid.
         /// </summary>
         public const string INVALID_LOCATION_NAME = "The location name is invalid.";
@@ -120,12 +115,6 @@ namespace ECA.Business.Service.Admin
                 && validationEntity.Country == null)
             {
                 yield return new BusinessValidationResult<EcaLocation>(x => x.CountryId, PLACE_MUST_HAVE_COUNTRY);
-            }
-            if((validationEntity.Longitude.HasValue || validationEntity.Latitude.HasValue)
-                && locationType != LocationType.Building 
-                && locationType != LocationType.Place)
-            {
-                yield return new BusinessValidationResult<EcaLocation>(x => x.LocationTypeId, LATITUDE_LONGITUDE_SPECIFIED_BUT_INVALID_LOCATION_TYPE);
             }
         }
 

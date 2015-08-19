@@ -26,19 +26,27 @@ angular.module('staticApp')
       $scope.view.newLocationTabKey = 'new';
       $scope.view.locationListTabKey = 'list';
 
-      setActiveTab($scope.view.locationListTabKey);
+      setAddLocationTabActive();
       $scope.view.params = $stateParams;
       $scope.view.start = 0;
       $scope.view.limit = 10;
       $scope.view.total = 0;
 
       $scope.view.onLocationsTabClick = function () {
-          setActiveTab($scope.view.locationListTabKey);
+          setLocationTabActive();
       };
 
       $scope.view.onAddLocationTabClick = function () {
-          setActiveTab($scope.view.newLocationTabKey);
+          setAddLocationTabActive();
       };
+
+      function setLocationTabActive() {
+          setActiveTab($scope.view.locationListTabKey);
+      }
+
+      function setAddLocationTabActive() {
+          setActiveTab($scope.view.newLocationTabKey);
+      }
 
       function setActiveTab(key) {
           $scope.view.activeTab = key;

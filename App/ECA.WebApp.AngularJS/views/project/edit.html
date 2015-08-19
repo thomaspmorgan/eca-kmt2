@@ -188,15 +188,14 @@
                                    title="Choose a location." 
                                    style="min-width: 200px;">
                             <ui-select-match placeholder="Select locations...">
-                                <div>{{$item.value}}</div>
+                                <div>{{$item.value}}({{$item.locationTypeName}})</div>
                             </ui-select-match>
-
                             <ui-select-choices refresh="editView.searchLocations($select.search)" refresh-delay="250" repeat="location in editView.locations | filter: select.search track by location.id">
                                 <div ng-bind-html="location.name | highlight: $select.search"></div>
+                                <div style="margin-left:10px;" class="small" ng-show="location.locationTypeName">{{location.locationTypeName}}</div>
                                 <div style="margin-left:10px;" class="small" ng-show="location.city">{{location.city}}</div>
                                 <div style="margin-left:10px;" class="small" ng-show="location.division">{{location.division}}</div>
                                 <div style="margin-left:10px;" class="small" ng-show="location.country">{{location.country}}</div>
-                                <!--<map width="150" height="200" countries="[location.locationIso]"></map>-->
                             </ui-select-choices>
                         </ui-select>
 

@@ -15,6 +15,8 @@ angular
     'ngSanitize',
     'ui.router',
     'ui.bootstrap',
+    'ui.map',
+    'ui.event',
     'ngModal',
     'isteven-multi-select',
     'xeditable',

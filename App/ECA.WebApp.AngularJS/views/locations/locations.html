@@ -52,7 +52,7 @@
                             <ui-select-match placeholder="Filter countries...">
                                 <div>{{$item.name}}</div>
                             </ui-select-match>
-                            <ui-select-choices repeat="c in view.countries | filter: select.search track by c.id">
+                            <ui-select-choices repeat="c in view.countries | propsFilter: {name: $select.search} track by c.id">
                                 <div ng-bind-html="c.name | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
@@ -71,11 +71,12 @@
                             <ui-select-match placeholder="Filter regions...">
                                 <div>{{$item.name}}</div>
                             </ui-select-match>
-                            <ui-select-choices repeat="r in view.regions | filter: select.search track by r.id">
+                            <ui-select-choices repeat="r in view.regions | propsFilter: {name: $select.search} track by r.id">
                                 <div ng-bind-html="r.name | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
                     </th>
+                    <th>&nbsp;</th>
                 </tr>
             </thead>
             <tbody class="list2" ng-repeat="location in view.locations" ng-show="!view.isLoadingRequiredData && !view.isLoadingLocations">
@@ -96,7 +97,7 @@
                         {{location.region}}
                     </td>
                     <td>
-                        <map ng-show="location.locationIso" width="200" height="200" countries="[location.locationIso, location.divisionIso, location.countryIso]"></map>
+                        <map width="200" height="200" countries="[location.countryIso ? location.countryIso : '']"></map>
                     </td>
                 </tr>
             </tbody>
