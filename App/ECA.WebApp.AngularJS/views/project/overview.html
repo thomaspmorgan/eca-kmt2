@@ -87,6 +87,14 @@
                     </ul>
                 </div>                
             </div>
+            <div class="row" ng-show="project.locations">
+                <div class="col-md-6 title-label"><ng-pluralize count="project.locations.length" when="{'1':'Location','other':'Locations'}"></ng-pluralize></div>
+                <div class="col-md-6">
+                    <ul>
+                        <li ng-repeat="location in project.locations | orderBy:'value'">&#149 {{location.name}} ({{location.locationTypeName}})</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">

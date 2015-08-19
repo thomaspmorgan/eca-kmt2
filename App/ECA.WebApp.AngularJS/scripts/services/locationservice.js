@@ -32,22 +32,22 @@ angular.module('staticApp')
               return DragonBreath.create(location, 'locations');
           },
 
-          geocode: function (address, map) {
+          geocode: function (address) {
               var deferred = $q.defer();
               var geocoder = new google.maps.Geocoder();
               geocoder.geocode({ address: address }, function (results, status) {
                   var serviceResult = {
                       success: false,
-                      transformedLocation: null
+                      transformedLocation: null,
+                      geocodeResponse: null
                   };
-                  if (status === google.maps.GeocoderStatus.OK) {
-                      var latLong = results[0].geometry.location;
-                      map.setCenter(latLong);
+                  if (status === google.maps.GeocoderStatus.OK) {                      
                       $q.when(service.handleGeocodeResponse(results[0]))
                       .then(function (transformedLocation) {
                           $log.info('Successfully geocoded a location.');
                           serviceResult.success = true;
                           serviceResult.transformedLocation = transformedLocation;
+                          serviceResult.geocodeResponse = results[0];
                           deferred.resolve(serviceResult);
                       });
                   }

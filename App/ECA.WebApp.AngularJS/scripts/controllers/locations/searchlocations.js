@@ -8,12 +8,13 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('LocationsCtrl', function (
+  .controller('SearchLocationsCtrl', function (
         $scope,
         $stateParams,
         $q,
         $log,
         $modal,
+        $modalInstance,
         smoothScroll,
         LookupService,
         LocationService,
@@ -26,7 +27,7 @@ angular.module('staticApp')
       $scope.view = {};
       $scope.view.params = $stateParams;
       $scope.view.start = 0;
-      $scope.view.limit = 10;
+      $scope.view.limit = 4;
       $scope.view.total = 0;
       $scope.view.locations = [];
       $scope.view.locationTypes = [];
@@ -37,6 +38,36 @@ angular.module('staticApp')
       $scope.view.selectedRegions = [];
       $scope.view.isLoadingLocations = false;
       $scope.view.isLoadingRequiredData = false;
+
+      $scope.view.onSelectClick = function () {
+          var selectedLocations = [];
+          angular.forEach($scope.view.locations, function (location, index) {
+              if (location.isSelected) {
+                  selectedLocations.push(location);
+                  delete location.isSelected;
+              }
+          });
+          $modalInstance.close(selectedLocations);
+      }
+      $scope.view.onCancelClick = function () {
+          $modalInstance.dismiss('cancel');
+      }
+
+      $scope.view.onAddClick = function () {
+          var modalInstance = $modal.open({
+              animation: true,
+              templateUrl: 'views/locations/addlocationmodal.html',
+              controller: 'AddLocationCtrl',
+              size: 'lg',
+              resolve: {}
+          });
+          modalInstance.result.then(function (selectedLocations) {
+              $log.info('Finished adding locations.');
+              
+          }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+          });
+      };
 
       $scope.view.getLocations = function (tableState) {
           return loadLocations(tableState);
@@ -120,7 +151,4 @@ angular.module('staticApp')
         .catch(function () {
             $scope.view.isLoadingRequiredData = false;
         });
-
-
-
   });

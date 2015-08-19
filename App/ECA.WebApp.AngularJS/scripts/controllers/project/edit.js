@@ -155,22 +155,29 @@ angular.module('staticApp')
           $scope.editView.isEndDatePickerOpen = true;
       }
 
-      $scope.editView.onAddLocationClick = function () {
+      $scope.editView.onAdvancedSearchClick = function () {
           var modalInstance = $modal.open({
               animation: true,
-              templateUrl: 'views/locations/locationmodal.html',
-              //controller: 'MoneyFlowCtrl',
+              templateUrl: 'views/locations/searchlocations.html',
+              controller: 'SearchLocationsCtrl',
               size: 'lg',
-              resolve: {
-                  //entity: function () {
-                  //    return moneyFlow;
-                  //}
-              }
+              resolve: {}
           });
 
-          modalInstance.result.then(function (newMoneyFlow) {
-              $log.info('Finished adding locations.');
-              //reloadMoneyFlowTable();
+          modalInstance.result.then(function (selectedLocations) {
+              $log.info('Finished searching locations.');
+              normalizeLookupProperties(selectedLocations)
+              angular.forEach(selectedLocations, function (selectedLocation, index) {
+                  var addLocation = true;
+                  angular.forEach($scope.editView.selectedLocations, function (l, jIndex) {
+                      if (selectedLocation.id === l.id) {
+                          addLocation = false;
+                      }
+                  });
+                  if (addLocation) {
+                      $scope.editView.selectedLocations.push(selectedLocation);
+                  }
+              });
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });
@@ -638,7 +645,6 @@ angular.module('staticApp')
       $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(), loadCategories(), loadProjectStati(), loadGoals(null), loadProject(), loadOfficeSettings()])
       .then(function (results) {
           //results is an array
-          $scope.editView.onAddLocationClick();
 
       }, function (errorResponse) {
           $log.error('Failed initial loading of project view.');

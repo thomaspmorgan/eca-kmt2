@@ -22,7 +22,6 @@ angular.module('staticApp')
       $scope.view.participantTypes = [];
       $scope.view.clientModel = clientModel;
       $scope.view.onCancelClick = function () {
-          
           $modalInstance.dismiss('cancel');
       }
      

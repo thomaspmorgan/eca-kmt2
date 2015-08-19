@@ -15,7 +15,7 @@ angular.module('staticApp')
         $stateParams,
         $q,
         $log,
-        $modal,
+        $modalInstance,
         smoothScroll,
         LookupService,
         LocationService,
@@ -36,7 +36,8 @@ angular.module('staticApp')
       $scope.view.isLoadingRequiredData = false;
       $scope.view.isSavingNewLocation = false;
       $scope.view.isMapIdle = false;
-      $scope.view.search = 'lincoln memorial';//'311 cobblestone landing mount juliet';
+      $scope.view.search = 'lincoln memorial';
+      $scope.view.locationExists = false;
       $scope.view.mapOptions = {
           center: new google.maps.LatLng(38.9071, -77.0368),
           zoom: 5,
@@ -47,10 +48,12 @@ angular.module('staticApp')
       $scope.view.onCountryChange = function () {
           loadDivisions();
           loadCities();
+          return checkNewLocationExistence();
       }
 
       $scope.view.onDivisionChange = function () {
-          return loadCities();
+          loadCities();
+          return checkNewLocationExistence();
       }
 
       $scope.view.onLongitudeChange = function () {
@@ -58,15 +61,23 @@ angular.module('staticApp')
       };
 
       $scope.view.onLatitudeChange = function () {
-          centerLongitudeAndLatitude();
+          return centerLongitudeAndLatitude();
       };
 
-      $scope.onMapIdle = function(){
+      $scope.view.onNameChange = function () {
+          return checkNewLocationExistence();
+      }
+
+      $scope.onMapIdle = function () {
           $scope.view.isMapIdle = true;
       }
 
       $scope.view.onSaveClick = function () {
           return saveNewLocation();
+      }
+
+      $scope.view.onCloseClick = function () {
+          $modalInstance.dismiss('cancel');
       }
 
       $scope.view.onLocationTypeChange = function () {
@@ -77,7 +88,7 @@ angular.module('staticApp')
 
       $scope.view.onSearchCityClick = function () {
           $scope.view.isGeocoding = true;
-          return LocationService.geocode($scope.view.search, getNewLocationMap())
+          return LocationService.geocode($scope.view.search)
           .then(function (result) {
               $scope.view.isGeocoding = false;
               if (result.success && result.transformedLocation) {
@@ -85,6 +96,13 @@ angular.module('staticApp')
                       $scope.view.divisions = result.transformedLocation.divisions;
                   }
                   $scope.view.newLocation = angular.copy(result.transformedLocation);
+                  var map = getNewLocationMap();
+                  var bounds = new google.maps.LatLngBounds(
+                        result.geocodeResponse.geometry.viewport.getSouthWest(),
+                        result.geocodeResponse.geometry.viewport.getNorthEast()
+                    );
+                  map.fitBounds(bounds);
+                  return checkNewLocationExistence();
               }
               else {
                   NotificationService.showWarningMessage('No results for found the search.');
@@ -97,11 +115,16 @@ angular.module('staticApp')
           });
       }
 
-      
+      $scope.view.onLatitudeMapClick = function () {
+          var map = getNewLocationMap();
+          var center = map.getCenter();
+          $scope.view.newLocation.latitude = center.lat();
+          $scope.view.newLocation.longitude = center.lng();
+      }
+
       function getNewLocationMap() {
           return $scope.view.newLocationMap;
       }
-      
 
       function centerLongitudeAndLatitude() {
           if ($scope.view.newLocation.longitude && $scope.view.newLocation.latitude) {
@@ -172,7 +195,6 @@ angular.module('staticApp')
 
       var citiesFilter = FilterService.add('addlocation_cities');
       function loadCities() {
-          
           citiesFilter.reset();
           citiesFilter = citiesFilter
               .skip(0)
@@ -224,7 +246,6 @@ angular.module('staticApp')
       }
 
       function saveNewLocation() {
-          debugger;
           $scope.view.isSavingNewLocation = true;
           return LocationService.create($scope.view.newLocation)
           .then(function (response) {
@@ -239,63 +260,45 @@ angular.module('staticApp')
           });
       }
 
+      var existenceFilter = FilterService.add('addlocation_existencefilter');
+      function checkNewLocationExistence() {
+          $scope.view.locationExists = false;
+          existenceFilter.reset();
+          existenceFilter = existenceFilter
+              .skip(0)
+              .take(1)
+              .sortBy('name');
 
+          
+          if ($scope.view.newLocation.locationTypeId === ConstantsService.locationType.city.id) {
+              existenceFilter = existenceFilter.equal('locationTypeId', ConstantsService.locationType.city.id);
+          }
 
-      //var map = new google.maps.Map(d3.select("#googlemap").node(), {
-      //    zoom: 8,
-      //    center: new google.maps.LatLng(37.76487, -122.41948),
-      //    mapTypeId: google.maps.MapTypeId.TERRAIN
-      //});
-
-      //// Load the station data. When the data comes back, create an overlay.
-      //d3.json("stations.json", function (data) {
-      //    var overlay = new google.maps.OverlayView();
-
-      //    // Add the container when the overlay is added to the map.
-      //    overlay.onAdd = function () {
-      //        var layer = d3.select(this.getPanes().overlayLayer).append("div")
-      //            .attr("class", "stations");
-
-      //        // Draw each marker as a separate SVG element.
-      //        // We could use a single SVG, but what size would it have?
-      //        overlay.draw = function () {
-      //            var projection = this.getProjection(),
-      //                padding = 10;
-
-      //            var marker = layer.selectAll("svg")
-      //                .data(d3.entries(data))
-      //                .each(transform) // update existing markers
-      //              .enter().append("svg:svg")
-      //                .each(transform)
-      //                .attr("class", "marker");
-
-      //            // Add a circle.
-      //            marker.append("svg:circle")
-      //                .attr("r", 4.5)
-      //                .attr("cx", padding)
-      //                .attr("cy", padding);
-
-      //            // Add a label.
-      //            marker.append("svg:text")
-      //                .attr("x", padding + 7)
-      //                .attr("y", padding)
-      //                .attr("dy", ".31em")
-      //                .text(function (d) { return d.key; });
-
-      //            function transform(d) {
-      //                d = new google.maps.LatLng(d.value[1], d.value[0]);
-      //                d = projection.fromLatLngToDivPixel(d);
-      //                return d3.select(this)
-      //                    .style("left", (d.x - padding) + "px")
-      //                    .style("top", (d.y - padding) + "px");
-      //            }
-      //        };
-      //    };
-
-      //    // Bind our overlay to the map…
-      //    overlay.setMap(map);
-      //});
-
+          if ($scope.view.newLocation.name && $scope.view.newLocation.name.length > 0) {
+              existenceFilter = existenceFilter.like('name', $scope.view.newLocation.name)
+          }
+          if ($scope.view.newLocation.countryId) {
+              existenceFilter = existenceFilter.equal('countryId', $scope.view.newLocation.countryId);
+          }
+          if ($scope.view.newLocation.divisionId) {
+              existenceFilter = existenceFilter.equal('divisionId', $scope.view.newLocation.divisionId);
+          }
+          return LocationService.get(existenceFilter.toParams())
+          .then(function (response) {
+              if (response.total > 0) {
+                  NotificationService.showWarningMessage('This location may already exist.');
+                  $scope.view.locationExists = true;
+              }
+              else {
+                  $scope.view.locationExists = false;
+              }
+          })
+          .catch(function (response) {
+              var message = "Unable to validate location.";
+              $log.error(message);
+              NotificationService.showErrorMessage(message);
+          });
+      }
 
 
       $scope.view.isLoadingRequiredData = true;

@@ -175,9 +175,6 @@
                 <div class="row" ng-show="project.locations">
                     <div class="col-md-6 title-label">
                         <ng-pluralize count="project.locations.length" when="{'1':'Location','other':'Locations'}"></ng-pluralize>
-                        <a ng-click="editView.onAddLocationClick()">
-                            <i class="material-icons md-dark md-18">add</i>
-                        </a>
                     </div>
                     <div class="col-md-6">
                         <ui-select multiple 
@@ -198,7 +195,9 @@
                                 <div style="margin-left:10px;" class="small" ng-show="location.country">{{location.country}}</div>
                             </ui-select-choices>
                         </ui-select>
-
+                        <div style="margin-top:5px;">
+                            <button class="btn btn-default" ng-click="editView.onAdvancedSearchClick()">Advanced <i class="material-icons md-dark">search</i></button>
+                        </div>                        
                     </div>
                 </div>
             </div>
