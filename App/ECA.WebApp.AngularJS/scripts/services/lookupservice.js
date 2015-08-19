@@ -13,7 +13,7 @@ angular.module('staticApp')
       return {
           getAllThemes: function (params) {
               var defer = $q.defer();
-              DragonBreath.get(params, 'themes')
+              DragonBreath.getCached(params, 'themes')
                 .success(function (data) {
                     defer.resolve(data);
                 });
@@ -22,7 +22,7 @@ angular.module('staticApp')
 
           getAllGoals: function (params) {
               var defer = $q.defer();
-              DragonBreath.get(params, 'goals')
+              DragonBreath.getCached(params, 'goals')
                 .success(function (data) {
                     defer.resolve(data);
                 });
@@ -30,7 +30,7 @@ angular.module('staticApp')
           },
           getAllRegions: function (params) {
               var defer = $q.defer();
-              DragonBreath.get(params, 'locations')
+              DragonBreath.getCached(params, 'locations')
                 .success(function (data) {
                     defer.resolve(data);
                 });
@@ -53,35 +53,36 @@ angular.module('staticApp')
               return defer.promise;
           },
           getAllProjectStati: function (params) {
-              return DragonBreath.get(params, 'projectstatuses');
+              return DragonBreath.getCached(params, 'projectstatuses');
           },
           getSocialMediaTypes: function (params) {
-              return DragonBreath.get(params, 'socialmedias/types');
+              return DragonBreath.getCached(params, 'socialmedias/types');
+
           },
-          getLocationTypes: function(params){
-              return DragonBreath.get(params, 'locations/types');
+          getLocationTypes: function (params) {
+              return DragonBreath.getCached(params, 'locations/types');
           },
           getParticipantTypes: function (params) {
-              return DragonBreath.get(params, 'participanttypes');
+              return DragonBreath.getCached(params, 'participanttypes');
           },
           getOrganizationTypes: function (params) {
-              return DragonBreath.get(params, 'organizations/types');
+              return DragonBreath.getCached(params, 'organizations/types');
           },
           getAddressTypes: function (params) {
-              return DragonBreath.get(params, 'addresses/types');
+              return DragonBreath.getCached(params, 'addresses/types');
           },
           getAllMoneyFlowStati: function (params) {
-              return DragonBreath.get(params, 'moneyflowstatuses');
+              return DragonBreath.getCached(params, 'moneyflowstatuses');
           },
           getAllMoneyFlowTypes: function (params) {
-              return DragonBreath.get(params, 'moneyflowtypes');
+              return DragonBreath.getCached(params, 'moneyflowtypes');
           },
           getAllMoneyFlowSourceRecipientTypes: function (params) {
-              return DragonBreath.get(params, 'moneyflowsourcerecipienttypes');
+              return DragonBreath.getCached(params, 'moneyflowsourcerecipienttypes');
           },
           getAllGenders: function (params) {
               var defer = $q.defer();
-              DragonBreath.get(params, 'genders')
+              DragonBreath.getCached(params, 'genders')
                 .success(function (data) {
                     defer.resolve(data);
                 });
@@ -89,7 +90,7 @@ angular.module('staticApp')
           },
           getAllMaritalStatuses: function (params) {
               var defer = $q.defer();
-              DragonBreath.get(params, 'maritalStatuses')
+              DragonBreath.getCached(params, 'maritalStatuses')
                 .success(function (data) {
                     defer.resolve(data);
                 });
@@ -104,7 +105,7 @@ angular.module('staticApp')
               return defer.promise;
           },
           getAllProminentCategories: function (params) {
-              return DragonBreath.get(params, 'prominentCategories');
+              return DragonBreath.getCached(params, 'prominentCategories');
           }
       };
   });

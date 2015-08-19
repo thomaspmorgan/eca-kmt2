@@ -150,6 +150,7 @@ angular.module('staticApp')
       $scope.toggleBookmark = function () {
           $scope.togglingBookmark = true;
           if ($scope.isBookmarked) {
+              $scope.isBookmarked = false;
               BookmarkService.deleteBookmark(bookmark)
                 .then(function () {
                     NotificationService.showSuccessMessage('The bookmark was successfully removed.');
@@ -161,6 +162,7 @@ angular.module('staticApp')
                     $scope.togglingBookmark = false;
                 });
           } else {
+              $scope.isBookmarked = true;
               var params = {
                   automatic: false
               };

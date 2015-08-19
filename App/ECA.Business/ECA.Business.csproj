@@ -128,6 +128,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Queries\Admin\BookmarkQueries.cs" />
+    <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
+    <Compile Include="Queries\Persons\MembershipQueries.cs" />
+    <Compile Include="Service\Persons\IMembershipService.cs" />
+    <Compile Include="Service\Persons\MembershipService.cs" />
+    <Compile Include="Service\Persons\PersonMembership.cs" />
+    <Compile Include="Service\Persons\UpdatedPersonMembership.cs" />
     <Compile Include="Service\Admin\AdditionalLocation.cs" />
     <Compile Include="Service\Admin\EcaLocation.cs" />
     <Compile Include="Service\Admin\LocationServiceValidator.cs" />

@@ -57,7 +57,8 @@
 			editProject: {id: 7, value: "Edit Project"},
 			projectOwner: {id: 8, value: "Project Owner"},
 			programOwner: {id: 9, value: "Program Owner"},
-			officeOwner: {id: 10, value: "Office Owner"}
+			officeOwner: {id: 10, value: "Office Owner"},
+			administrator: {id: 11, value: "Administrator"}
 		},
 		programStatus: {
 			active: {id: 1, value: "Active"},
@@ -119,6 +120,7 @@
 		registerUserFailureEventName: 'registerUserFailure',
 		registerUserSuccessEventName: 'registerUserSuccess',
 		removeNewAddressEventName: 'removeNewAddress',
+		removeNewMembershipEventName: 'removeNewMembership',
 		removeNewSocialMediaEventName: 'removeNewSocialMedia',
 		saveProjectEventName: 'saveProject',
 		searchDelimiter: ' '

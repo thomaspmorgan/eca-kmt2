@@ -141,6 +141,8 @@
     <Content Include="scripts\controllers\locations\addlocation.js" />
     <Content Include="scripts\controllers\locations\locationmodal.js" />
     <Content Include="scripts\controllers\locations\locations.js" />
+    <Content Include="scripts\controllers\membership\memberships.js" />
+    <Content Include="scripts\controllers\membership\membership.js" />
     <Content Include="scripts\controllers\moneyflow.js" />
     <Content Include="scripts\controllers\moneyflows.js" />
     <Content Include="scripts\controllers\organization\activities.js" />
@@ -171,6 +173,7 @@
     <Content Include="scripts\controllers\socialmedia\socialmedia.js" />
     <Content Include="scripts\controllers\socialmedia\socialmedias.js" />
     <Content Include="scripts\directives\equalityfilter.js" />
+    <Content Include="scripts\directives\memberships.js" />
     <Content Include="scripts\directives\moneyflows.js" />
     <Content Include="scripts\directives\socialmedias.js" />
     <Content Include="scripts\directives\addresses.js" />
@@ -181,6 +184,7 @@
     <Content Include="scripts\filters\groupby.js" />
     <Content Include="scripts\filters\propFilter.js" />
     <Content Include="scripts\services\bookmark.js" />
+    <Content Include="scripts\services\membership.js" />
     <Content Include="scripts\services\filterservice.js" />
     <Content Include="scripts\services\socialmediaservice.js" />
     <Content Include="scripts\services\addressservice.js" />
@@ -189,6 +193,7 @@
     <Content Include="views\directives\confirmdialog.html" />
     <Content Include="views\directives\equalityfilter.html" />
     <Content Include="views\directives\moneyflows.html" />
+    <Content Include="views\directives\memberships.html" />
     <Content Include="views\directives\socialmedias.html" />
     <Content Include="views\directives\addresses.html" />
     <Content Include="views\locations\addlocation.html" />
