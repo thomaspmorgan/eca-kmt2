@@ -33,14 +33,6 @@ angular.module('staticApp')
           }
       };
 
-      $scope.showAll = function () {
-          $scope.limit = $scope.bookmarks.length;
-      }
-
-      $scope.showLess = function () {
-          $scope.limit = calculateLimit($window.innerWidth);;
-      }
-
       $scope.getHref = function (bookmark) {
 
           var href;
@@ -79,7 +71,6 @@ angular.module('staticApp')
           BookmarkService.getBookmarks(params)
             .then(function (data) {
                 $scope.bookmarks = data.data.results;
-                $scope.limit = calculateLimit($window.innerWidth);
             }, function () {
                 NotificationService.showErrorMessage('There was an error loading the bookmarks.');
             })
@@ -87,34 +78,6 @@ angular.module('staticApp')
                 $scope.loadingBookmarks = false;
             });
       }
-
-      function calculateLimit(width) {
-
-          var bookmarkCount;
-          if ($scope.bookmarks) {
-              bookmarkCount = $scope.bookmarks.length;
-          }
-
-          var containerWidth = getContainerWidth();
-          var limit = Math.floor(containerWidth / 250);
-
-          if (limit > bookmarkCount) {
-              limit = bookmarkCount;
-          }
-
-          return limit;
-      }
-
-      function getContainerWidth() {
-          return $('.container').width();
-      }
-
-      $scope.limit = calculateLimit($window.innerWidth);
-
-      angular.element($window).bind('resize', function () {
-          $scope.limit = calculateLimit($window.innerWidth);
-          $scope.$apply();
-      })
 
       getBookmarks();
       

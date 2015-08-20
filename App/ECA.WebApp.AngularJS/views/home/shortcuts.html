@@ -1,9 +1,6 @@
 <div class="row">
     <div class="col-md-12">
-        <button class="btn btn-default pull-right" ng-click="showAll()" ng-show="bookmarks.length > 4 && bookmarks.length != limit">Show All</button>
-        <button class="btn btn-default pull-right" ng-click="showLess()" ng-show="bookmarks.length > 4 && bookmarks.length == limit">Show Less</button>
-        <h2 class="tab-subheader"><i class="material-icons md-36">star</i> Bookmarks </h2>
-        <p class="subheader listCount" ng-show="bookmarks.length > 0">Showing {{limit}} of {{bookmarks.length}} bookmarks</p>
+        <h2 class="tab-header"><i class="material-icons md-36">star</i> Bookmarks </h2>
     </div>
 </div>
 
@@ -11,14 +8,14 @@
     <div class="col-md-12" ng-show="bookmarks.length === 0">
         <p class="lead">No bookmarks have been created.</p>
     </div>
-    <div class="col-md-3 bookmark" ng-repeat="bookmark in bookmarks | limitTo: limit">
+    <div class="col-md-3 bookmark" ng-repeat="bookmark in bookmarks">
         <div class="col-md-12 bookmark-header {{bookmark.type | lowercase}}">
-            <p class="pull-right"><a ng-click="deleteBookmark(bookmark)"><i class="material-icons">close</i></a></p>
+            <p class="pull-right"><a ng-click="deleteBookmark(bookmark)"><i class="material-icons">trash</i></a></p>
             <p>{{bookmark.type}}</p>
         </div>
         <div class="col-md-12 bookmark-content">
+            <h5><a href="{{getHref(bookmark) + '#top'}}">{{bookmark.name | limitTo: 75}}{{bookmark.name.length > 75 ? '...' : ''}}</a></h5>
             <p class="bookmark-title">{{bookmark.officeSymbolOrStatus}}</p>
-            <p><a href="{{getHref(bookmark) + '#top'}}">{{bookmark.name}}</a></p>
         </div>
         <div class="col-md-12 bookmark-footer">
             <p class="pull-right">{{bookmark.addedOn | date: 'MM/dd/yyyy'}}</p>
