@@ -292,10 +292,7 @@ namespace ECA.Business.Service.Projects
                 ProgramId = draftProject.ProgramId,
                 Themes = program.Themes,
                 Goals = program.Goals,
-                Contacts = program.Contacts,
                 Regions = program.Regions,
-                Categories = program.Categories,
-                Objectives = program.Objectives
             };
             draftProject.Audit.SetHistory(project);
             this.Context.Projects.Add(project);
