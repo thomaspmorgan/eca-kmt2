@@ -81,7 +81,7 @@ angular.module('staticApp')
               sort: TableService.getSort(),
               filter: TableService.getFilter()
           };
-
+          $scope.view.isLoadingLocations = true;
           return LocationService.get(params, tableState)
           .then(function (response) {
               var data = response.results;
@@ -93,9 +93,11 @@ angular.module('staticApp')
               $scope.view.end = start + data.length;
               $scope.view.total = total;
               $scope.view.locations = data;
+              $scope.view.isLoadingLocations = false;
 
           })
           .catch(function () {
+              $scope.view.isLoadingLocations = false;
               var message = "Unable to load locations.";
               NotificationService.showErrorMessage(message);
               $log.error(message);
