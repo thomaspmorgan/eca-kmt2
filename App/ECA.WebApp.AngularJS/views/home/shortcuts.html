@@ -14,12 +14,9 @@
             <p>{{bookmark.type}}</p>
         </div>
         <div class="col-md-12 bookmark-content">
-            <h5><a href="{{getHref(bookmark) + '#top'}}">{{bookmark.name | limitTo: 75}}{{bookmark.name.length > 75 ? '...' : ''}}</a></h5>
+            <h5 class="bookmark-name"><a href="{{getHref(bookmark) + '#top'}}">{{bookmark.name | limitTo: 75}}{{bookmark.name.length > 75 ? '...' : ''}}</a></h5>
             <p class="bookmark-title">{{bookmark.officeSymbolOrStatus}}</p>
-        </div>
-        <div class="col-md-12 bookmark-footer">
-            <p class="pull-right">{{bookmark.addedOn | date: 'MM/dd/yyyy'}}</p>
-            <p>Added:</p>
+            <p>Added: {{bookmark.addedOn | date: 'MM/dd/yyyy'}}</p>
         </div>
     </div>
 </div>
