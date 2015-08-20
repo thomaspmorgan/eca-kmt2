@@ -39,6 +39,8 @@ angular.module('staticApp')
       $scope.view.search = '';
       $scope.view.locationExists = false;
       $scope.view.isTransformingLocation = false;
+      $scope.view.isLongitudeRequired = false;
+      $scope.view.isLatitudeRequired = false;
       $scope.view.mapOptions = {
           center: new google.maps.LatLng(38.9071, -77.0368),
           zoom: 5,
@@ -93,6 +95,15 @@ angular.module('staticApp')
       $scope.view.onLocationTypeChange = function () {
           if ($scope.view.newLocation.locationTypeId === ConstantsService.locationType.city.id) {
               delete $scope.view.newLocation.cityId;
+          }
+          if($scope.view.newLocation.locationTypeId === ConstantsService.locationType.place.id
+              || $scope.view.newLocation.locationTypeId === ConstantsService.locationType.building.id) {
+              $scope.view.isLatitudeRequired = true;
+              $scope.view.isLongitudeRequired = true;
+          }
+          else {
+              $scope.view.isLatitudeRequired = false;
+              $scope.view.isLongitudeRequired = false;
           }
       }
 
