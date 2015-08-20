@@ -348,35 +348,6 @@ angular.module('staticApp')
             });
       }
 
-      function loadProject() {
-          var projectId = $stateParams.projectId;
-          return ProjectService.getById(projectId)
-            .then(function (data) {
-                $scope.$parent.project = data.data;
-                $scope.$parent.project.countryIsos = $scope.$parent.project.countryIsos || [];
-                var startDate = new Date($scope.$parent.project.startDate);
-                if (!isNaN(startDate.getTime())) {
-                    $scope.$parent.project.startDate = startDate;
-                }
-                var endDate = new Date($scope.$parent.project.endDate);
-                if (!isNaN(endDate.getTime())) {
-                    $scope.$parent.project.endDate = endDate;
-                }
-                setSelectedPointsOfContact();
-                setSelectedGoals();
-                setSelectedThemes();
-                setSelectedCategories();
-                setSelectedObjectives();
-                setSelectedLocations();
-
-            }, function (errorResponse) {
-                $log.error('Failed to load project with id ' + projectId);
-            })
-            .then(function () {
-                showProjectEditCancelButton();
-            });
-      }
-
       function setSelectedItems(projectPropertyName, editViewSelectedPropertyName) {
           console.assert($scope.$parent.project.hasOwnProperty(projectPropertyName), "The project property " + projectPropertyName + " does not exist.");
           console.assert($scope.editView.hasOwnProperty(editViewSelectedPropertyName), "The edit view " + editViewSelectedPropertyName + " property does not exist.");
@@ -427,19 +398,14 @@ angular.module('staticApp')
           }
       }
 
+      var pocFilter = FilterService.add('projectedit_pocfilter');
       function loadPointsOfContact(search) {
-          var params = {
-              start: 0,
-              limit: maxLimit
-          };
+          pocFilter.reset();
+          pocFilter = pocFilter.skip(0).take(maxLimit);
           if (search) {
-              params.filter = [{
-                  comparison: ConstantsService.likeComparisonType,
-                  property: 'fullName',
-                  value: search
-              }]
+              pocFilter = pocFilter.like('fullName', search);
           }
-          return LookupService.getAllContacts(params)
+          return LookupService.getAllContacts(pocFilter.toParams())
               .then(function (response) {
                   if (response.total > maxLimit) {
                       $log.error('There are more contacts in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
@@ -455,19 +421,14 @@ angular.module('staticApp')
               });
       }
 
+      var themesFilter = FilterService.add('projectedit_themesfilter');
       function loadThemes(search) {
-          var params = {
-              start: 0,
-              limit: maxLimit
-          };
+          themesFilter.reset();
+          themesFilter = themesFilter.skip(0).take(maxLimit);
           if (search) {
-              params.filter = [{
-                  comparison: ConstantsService.likeComparisonType,
-                  property: 'name',
-                  value: search
-              }];
+              themesFilter = themesFilter.like('name', search);
           }
-          return LookupService.getAllThemes(params)
+          return LookupService.getAllThemes(themesFilter.toParams())
               .then(function (response) {
                   if (response.total > maxLimit) {
                       $log.error('There are more themes in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
@@ -477,19 +438,14 @@ angular.module('staticApp')
               });
       }
 
+      var goalsFilter = FilterService.add('projectedit_goalsfilter');
       function loadGoals(search) {
-          var params = {
-              start: 0,
-              limit: maxLimit
-          };
+          goalsFilter.reset();
+          goalsFilter = goalsFilter.skip(0).take(maxLimit);
           if (search) {
-              params.filter = [{
-                  comparison: ConstantsService.likeComparisonType,
-                  property: 'name',
-                  value: search
-              }]
+              goalsFilter = goalsFilter.like('name', search);
           }
-          return LookupService.getAllGoals(params)
+          return LookupService.getAllGoals(goalsFilter.toParams())
               .then(function (response) {
                   if (response.total > maxLimit) {
                       $log.error('There are more goals in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
@@ -499,23 +455,15 @@ angular.module('staticApp')
               });
       }
 
+      var categoriesFilter = FilterService.add('projectedit_categoriesfilter');
       function loadCategories(search) {
-          var programId = $stateParams.programId;
-          console.assert($stateParams.officeId, "The office id must be defined.");
-          var params = {
-              start: 0,
-              limit: maxLimit,
-              officeId: $stateParams.officeId
-          };
-
+          categoriesFilter.reset();
+          categoriesFilter = categoriesFilter.skip(0).take(maxLimit);          
           if (search) {
-              params.filter = [{
-                  comparison: ConstantsService.likeComparisonType,
-                  property: 'name',
-                  value: search
-              }]
+              categoriesFilter = categoriesFilter.like('name', search);
           }
-          return ProjectService.getCategories(programId, params)
+          var officeId = $scope.$parent.project.ownerId;
+          return OfficeService.getCategories(officeId, categoriesFilter.toParams())
               .then(function (response) {
                   if (response.total > maxLimit) {
                       $log.error('There are more categories in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
@@ -529,22 +477,15 @@ angular.module('staticApp')
             });
       }
 
+      var objectivesFilter = FilterService.add('projectedit_objectivesfilter');
       function loadObjectives(search) {
-          var programId = $stateParams.programId;
-          console.assert($stateParams.officeId, "The office id must be defined.");
-          var params = {
-              start: 0,
-              limit: maxLimit,
-              officeId: $stateParams.officeId
-          };
+          objectivesFilter.reset();
+          objectivesFilter = objectivesFilter.skip(0).take(maxLimit);          
           if (search) {
-              params.filter = [{
-                  comparison: ConstantsService.likeComparisonType,
-                  property: 'name',
-                  value: search
-              }]
+              objectivesFilter = objectivesFilter.like('name', search);
           }
-          return ProjectService.getObjectives(programId, params)
+          var officeId = $scope.$parent.project.ownerId;
+          return OfficeService.getObjectives(officeId, objectivesFilter.toParams())
               .then(function (response) {
                   if (response.total > maxLimit) {
                       $log.error('There are more objectives in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
@@ -587,8 +528,7 @@ angular.module('staticApp')
               });
       }
 
-      function loadOfficeSettings() {
-          var officeId = $stateParams.officeId;
+      function loadOfficeSettings(officeId) {
           return OfficeService.getSettings(officeId)
               .then(function (response) {
                   $log.info('Loading office settings for office with id ' + officeId);
@@ -644,14 +584,28 @@ angular.module('staticApp')
       }
 
       $scope.editView.isLoading = true;
-      $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(), loadCategories(), loadProjectStati(), loadGoals(null), loadProject(), loadOfficeSettings()])
-      .then(function (results) {
-          //results is an array
-
-      }, function (errorResponse) {
-          $log.error('Failed initial loading of project view.');
+      $scope.$parent.data.loadProjectByIdPromise.promise.then(function (project) {
+          $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(), loadCategories(), loadProjectStati(), loadGoals(null), loadOfficeSettings(project.ownerId)])
+          .then(function (results) {
+              //results is an array
+              setSelectedPointsOfContact();
+              setSelectedGoals();
+              setSelectedThemes();
+              setSelectedCategories();
+              setSelectedObjectives();
+              setSelectedLocations();
+              showProjectEditCancelButton();
+              $scope.editView.isLoading = false;
+          })
+          .catch(function () {
+              $log.error('Unable to project edit data.');
+              $scope.editView.isLoading = false;
+          });
       })
-      .then(function () {
+      .catch(function () {
+          $log.error('Failed to load project in edit.js project controller.');
           $scope.editView.isLoading = false;
-      });
+      })
+
+      
   });

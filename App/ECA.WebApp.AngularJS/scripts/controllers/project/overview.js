@@ -28,8 +28,7 @@ angular.module('staticApp')
       $scope.sortedObjectives = [];
       
       
-      function loadOfficeSettings() {
-          var officeId = $stateParams.officeId;
+      function loadOfficeSettings(officeId) {
           return OfficeService.getSettings(officeId)
               .then(function (response) {
                   $log.info('Loading office settings for office with id ' + officeId);
@@ -53,21 +52,22 @@ angular.module('staticApp')
               });
       }
 
-
+      $scope.view.isLoading = true;
       $scope.$parent.data.loadProjectByIdPromise.promise.then(function (project) {
           $scope.sortedCategories = orderByFilter($scope.$parent.project.categories, '+focusName');
           $scope.sortedObjectives = orderByFilter($scope.$parent.project.objectives, '+justificationName');
+          $q.all([loadOfficeSettings(project.ownerId)])
+              .then(function (results) {
+                  //results is an array
+
+              }, function (errorResponse) {
+                  $log.error('Failed initial loading of project view.');
+              })
+              .then(function () {
+                  $scope.view.isLoading = false;
+              });
       });
 
-      $scope.view.isLoading = true;
-      $q.all([loadOfficeSettings()])
-      .then(function (results) {
-          //results is an array
-
-      }, function (errorResponse) {
-          $log.error('Failed initial loading of project view.');
-      })
-      .then(function () {
-          $scope.view.isLoading = false;
-      });
+      
+      
   });

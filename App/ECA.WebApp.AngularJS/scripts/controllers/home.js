@@ -50,7 +50,7 @@ angular.module('staticApp')
           } else if (bookmark.type === 'Program') {
               href = $state.href('programs.overview', { programId: bookmark.programId });
           } else if (bookmark.type === 'Project') {
-              href = $state.href('projects.overview', { officeId: bookmark.officeId, programId: bookmark.programId, projectId: bookmark.projectId });
+              href = $state.href('projects.overview', { projectId: bookmark.projectId });
           } else if (bookmark.type === 'Person') {
               href = $state.href('people.personalinformation', { personId: bookmark.personId });
           } else if (bookmark.type === 'Organization') {

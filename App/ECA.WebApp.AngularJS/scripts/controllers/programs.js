@@ -338,7 +338,7 @@ angular.module('staticApp')
 
       $scope.confirmSaveYes = function () {
           $scope.confirmSave = false;
-          $state.go('projects.overview', { officeId: $scope.program.ownerOrganizationId, programId: $scope.program.id, projectId: $scope.newProjectId });
+          $state.go('projects.overview', { projectId: $scope.newProjectId });
           $scope.createProject = false;
       };
 
