@@ -204,7 +204,7 @@ namespace ECA.Business.Test.Service.Projects
             Action<Project> tester = (project) =>
             {
                 Assert.IsNotNull(project);
-                CollectionAssert.AreEqual(context.Contacts.Select(x => x.ContactId).ToList(), project.Contacts.Select(x => x.ContactId).ToList());
+                Assert.AreEqual(0, project.Contacts.Count);
             };
 
             var createdProject = service.Create(draftProject);
@@ -272,7 +272,7 @@ namespace ECA.Business.Test.Service.Projects
             Action<Project> tester = (project) =>
             {
                 Assert.IsNotNull(project);
-                CollectionAssert.AreEqual(context.Categories.Select(x => x.CategoryId).ToList(), project.Categories.Select(x => x.CategoryId).ToList());
+                Assert.AreEqual(0, project.Categories.Count);
             };
 
             var createdProject = service.Create(draftProject);
@@ -305,7 +305,7 @@ namespace ECA.Business.Test.Service.Projects
             Action<Project> tester = (project) =>
             {
                 Assert.IsNotNull(project);
-                CollectionAssert.AreEqual(context.Objectives.Select(x => x.ObjectiveId).ToList(), project.Objectives.Select(x => x.ObjectiveId).ToList());
+                Assert.AreEqual(0, project.Objectives.Count);
             };
 
             var createdProject = service.Create(draftProject);

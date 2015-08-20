@@ -328,18 +328,18 @@ angular.module('staticApp')
 
       $scope.confirmCloseYes = function () {
           $scope.confirmClose = false;
-          this.modal.createProject = false;
+          $scope.createProject = false;
       };
 
       $scope.confirmCloseNo = function () {
-          this.modal.createProject = true;
+          $scope.createProject = true;
           $scope.confirmClose = false;
       };
 
       $scope.confirmSaveYes = function () {
           $scope.confirmSave = false;
           $state.go('projects.overview', { officeId: $scope.program.ownerOrganizationId, programId: $scope.program.id, projectId: $scope.newProjectId });
-          this.modal.createProject = false;
+          $scope.createProject = false;
       };
 
       $scope.confirmFailOk = function () {
