@@ -81,11 +81,9 @@ angular.module('staticApp')
                       transformedLocation.cityLongName = comp.long_name;
                       transformedLocation.cityShortName = comp.short_name;
                   }
-
                   if (comp.types.indexOf(countryKey) >= 0) {
                       transformedLocation.countryLongName = comp.long_name;
                       transformedLocation.countryShortName = comp.short_name;
-
                   }
                   if (comp.types.indexOf(divisionKey) >= 0) {
                       transformedLocation.divisionLongName = comp.long_name;
@@ -131,8 +129,12 @@ angular.module('staticApp')
               .then(function (resultCountries) {
                   if (resultCountries.total === 1) {
                       var countryId = resultCountries.results[0].id;
+                      var regionId = resultCountries.results[0].regionId;
+                      var region = resultCountries.results[0].region;
                       $log.info('Successfully located country id [' + countryId + '] for geocoded country short name + [' + transformedLocation.countryShortName + '].');
                       transformedLocation.countryId = countryId;
+                      transformedLocation.regionId = regionId;
+                      transformedLocation.region = region;
                       var divisionsParams = divisionsFilter
                           .skip(0)
                           .take(300)
@@ -154,6 +156,7 @@ angular.module('staticApp')
                                   .take(300)
                                   .equal('locationTypeId', ConstantsService.locationType.city.id)
                                   .equal('countryId', countryId)
+                                  .equal('divisionId', divisionId)
                                   .like('name', transformedLocation.cityShortName)
                                   .sortBy('name')
                                   .toParams();

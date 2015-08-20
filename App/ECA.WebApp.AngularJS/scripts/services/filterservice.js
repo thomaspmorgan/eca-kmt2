@@ -90,6 +90,10 @@ angular.module('staticApp')
                   return this._addFilter(ConstantsService.inComparisonType, propertyName, value);
               },
 
+              notIn: function (propertyName, value) {
+                  return this._addFilter(ConstantsService.notInComparisonType, propertyName, value);
+              },
+
               like: function (propertyName, value) {
                   return this._addFilter(ConstantsService.likeComparisonType, propertyName, value);
               },

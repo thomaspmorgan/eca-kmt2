@@ -49,7 +49,16 @@ angular.module('staticApp')
       $scope.view.onCountryChange = function () {
           loadDivisions();
           loadCities();
+          setRegionByCountryId($scope.view.newLocation.regionId);
           return checkNewLocationExistence();
+      }
+
+      function setRegionByCountryId(countryId) {
+          angular.forEach($scope.view.countries, function (country, index) {
+              if (country.id === countryId) {
+                  $scope.view.newLocation.regionId = country.regionId;
+              }
+          });
       }
 
       $scope.view.onDivisionChange = function () {

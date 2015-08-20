@@ -565,7 +565,9 @@ angular.module('staticApp')
             .notEqual('locationTypeId', ConstantsService.locationType.address.id)
             .isNotNull('name')
             .sortBy('name');
-
+          if ($scope.editView.selectedLocations.length > 0) {
+              locationsFilter = locationsFilter.notIn('id', $scope.editView.selectedLocations.map(function (l) { return l.id; }));
+          }
           if (search) {
               locationsFilter = locationsFilter.like('name', search);
           }
@@ -645,7 +647,6 @@ angular.module('staticApp')
       $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(), loadCategories(), loadProjectStati(), loadGoals(null), loadProject(), loadOfficeSettings()])
       .then(function (results) {
           //results is an array
-          $scope.editView.onAdvancedSearchClick();
 
       }, function (errorResponse) {
           $log.error('Failed initial loading of project view.');
