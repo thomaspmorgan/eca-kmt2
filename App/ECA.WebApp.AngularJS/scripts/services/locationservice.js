@@ -41,18 +41,8 @@ angular.module('staticApp')
                       transformedLocation: null,
                       geocodeResponse: null
                   };
-                  if (status === google.maps.GeocoderStatus.OK) {                      
-                      //$q.when(service.handleGeocodeResponse(results[0]))
-                      //.then(function (transformedLocation) {
-                      //    $log.info('Successfully geocoded a location.');
-                      //    serviceResult.success = true;
-                      //    serviceResult.transformedLocation = transformedLocation;
-                      //    serviceResult.geocodeResponse = results[0];
-                      //    deferred.resolve(serviceResult);
-                      //});
-
+                  if (status === google.maps.GeocoderStatus.OK) { 
                       deferred.resolve(results);
-
                   }
                   else if (status === google.maps.GeocoderStatus.ZERO_RESULTS) {
                       deferred.resolve(serviceResult);

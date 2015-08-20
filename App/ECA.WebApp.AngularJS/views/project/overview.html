@@ -91,7 +91,11 @@
                 <div class="col-md-6 title-label"><ng-pluralize count="project.locations.length" when="{'1':'Location','other':'Locations'}"></ng-pluralize></div>
                 <div class="col-md-6">
                     <ul>
-                        <li ng-repeat="location in project.locations | orderBy:'value'">&#149 {{location.name}} ({{location.locationTypeName}})</li>
+                        <li ng-repeat="location in project.locations | orderBy:'name'">&#149 
+                        {{location.name}}
+                        <!--A couple of things can happen here, what we are trying to show is something like name (locationTypeName:  division, country)
+                            but the division may not be known.  Another possibility is that a location is a country itself and therefore it's own iso must be shown.-->
+                        ({{location.locationTypeName}}:  {{location.divisionIso ? location.divisionIso + ', ' : ''}}{{location.countryIso ? location.countryIso : location.locationIso}})</li>
                     </ul>
                 </div>
             </div>

@@ -76,7 +76,7 @@
                                         ng-options="t.id as t.name for t in view.cities" />
                             </div>
                             <div class="form-group">
-                                <label for="latitude">Latitude</label>
+                                <label for="latitude">Latitude<span class="asterisk" ng-show="view.isLatitudeRequired"> *</span></label>
                                 <p class="input-group">                                    
                                     <input name="latitude"
                                            ng-model="view.newLocation.latitude"
@@ -86,7 +86,7 @@
                                            placeholder="Enter location latitude."
                                            ng-change="view.onLatitudeChange()"
                                            id="latitude"
-                                           required />
+                                           ng-required="view.isLatitudeRequired" />
                                     <span class="input-group-btn">
                                         <button type="button"
                                                 tooltip="Set longitude and latitude to map's center."
@@ -103,7 +103,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="longitude">Longitude</label>
+                                <label for="longitude">Longitude<span class="asterisk" ng-show="view.isLongitudeRequired"> *</span></label>
                                 <input name="longitude"
                                        ng-model="view.newLocation.longitude"
                                        form-element guidance="The longitude of the location."
@@ -113,16 +113,13 @@
                                        placeholder="Enter location longitude."
                                        id="longitude"
                                        ng-change="view.onLongitudeChange()"
-                                       required />
+                                       ng-required="view.isLongitudeRequired"/>
                                 <div ng-show="form.addLocationForm.longitude.$dirty || form.addLocationForm.longitude.$error.required">
                                     <div class="error" ng-show="form.addLocationForm.longitude.$error.required">Please enter a longitude.</div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="title-label">
-                                Perform a search.
-                            </div>
                             <div class="form-group">
                                 <p class="input-group">
                                     <input name="search"
