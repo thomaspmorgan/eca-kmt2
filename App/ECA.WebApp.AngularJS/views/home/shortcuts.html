@@ -10,7 +10,7 @@
     </div>
     <div class="col-md-3 bookmark" ng-repeat="bookmark in bookmarks">
         <div class="col-md-12 bookmark-header {{bookmark.type | lowercase}}">
-            <p class="pull-right"><a ng-click="deleteBookmark(bookmark)"><i class="material-icons">trash</i></a></p>
+            <p class="pull-right"><a ng-click="deleteBookmark(bookmark)"><i class="material-icons md-18">delete</i></a></p>
             <p>{{bookmark.type}}</p>
         </div>
         <div class="col-md-12 bookmark-content">
