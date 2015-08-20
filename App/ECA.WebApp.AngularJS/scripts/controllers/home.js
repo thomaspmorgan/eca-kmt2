@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('HomeCtrl', function ($rootScope, $scope, $state, $window, AuthService, BookmarkService, NotificationService) {
+  .controller('HomeCtrl', function ($rootScope, $scope, $state, $modal, AuthService, BookmarkService, NotificationService) {
 
       $scope.loadingBookmarks = true;
 
@@ -53,6 +53,29 @@ angular.module('staticApp')
       }
 
       $scope.deleteBookmark = function (bookmark) {
+          var modalInstance = $modal.open({
+              animation: true,
+              templateUrl: 'views/directives/confirmdialog.html',
+              controller: 'ConfirmCtrl',
+              resolve: {
+                  options: function () {
+                      return {
+                          title: 'Confirm',
+                          message: 'Are you sure you wish to delete the bookmark?',
+                          okText: 'Yes',
+                          cancelText: 'No'
+                      };
+                  }
+              }
+          });
+          modalInstance.result.then(function () {
+              deleteBookmark(bookmark);
+
+          }, function () {
+          });
+      }
+
+      function deleteBookmark(bookmark) {
           BookmarkService.deleteBookmark(bookmark)
           .then(function () {
             NotificationService.showSuccessMessage('The bookmark was successfully removed.');
