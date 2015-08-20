@@ -36,8 +36,9 @@ angular.module('staticApp')
       $scope.view.isLoadingRequiredData = false;
       $scope.view.isSavingNewLocation = false;
       $scope.view.isMapIdle = false;
-      $scope.view.search = 'lincoln memorial';
+      $scope.view.search = '';
       $scope.view.locationExists = false;
+      $scope.view.isTransformingLocation = false;
       $scope.view.mapOptions = {
           center: new google.maps.LatLng(38.9071, -77.0368),
           zoom: 5,
@@ -86,26 +87,31 @@ angular.module('staticApp')
           }
       }
 
+      var markers = [];
       $scope.view.onSearchCityClick = function () {
           $scope.view.isGeocoding = true;
+          clearMapMarkers();
           return LocationService.geocode($scope.view.search)
-          .then(function (result) {
+          .then(function (results) {
               $scope.view.isGeocoding = false;
-              if (result.success && result.transformedLocation) {
-                  if (result.transformedLocation.divisions && result.transformedLocation.divisions.length > 0) {
-                      $scope.view.divisions = result.transformedLocation.divisions;
-                  }
-                  $scope.view.newLocation = angular.copy(result.transformedLocation);
+              if (results.length > 0) {
                   var map = getNewLocationMap();
-                  var bounds = new google.maps.LatLngBounds(
-                        result.geocodeResponse.geometry.viewport.getSouthWest(),
-                        result.geocodeResponse.geometry.viewport.getNorthEast()
-                    );
+                  var bounds = new google.maps.LatLngBounds();
+                  angular.forEach(results, function (result, index) {
+                      var marker = new google.maps.Marker({
+                          position: result.geometry.location,
+                          map: map
+                      });
+                      marker.addListener('click', function () {
+                          onMapMarkerClickHandler(marker, result);
+                      });
+                      markers.push(marker);
+                      bounds.extend(result.geometry.location);
+                  });
                   map.fitBounds(bounds);
-                  return checkNewLocationExistence();
               }
               else {
-                  NotificationService.showWarningMessage('No results for found the search.');
+                  NotificationService.showWarningMessage('No results found for the search.');
               }
           })
           .catch(function (response) {
@@ -120,6 +126,37 @@ angular.module('staticApp')
           var center = map.getCenter();
           $scope.view.newLocation.latitude = center.lat();
           $scope.view.newLocation.longitude = center.lng();
+      }
+
+      function clearMapMarkers() {
+          angular.forEach(markers, function (marker, index) {
+              marker.setMap(null);
+          });
+          markers = [];
+      }
+
+      function onMapMarkerClickHandler(marker, geocodeResult) {
+          $scope.view.isTransformingLocation = true;
+          var map = getNewLocationMap();
+          var infoWindow = new google.maps.InfoWindow({
+              content: geocodeResult.formatted_address
+          });
+          infoWindow.open(map, marker);
+          return LocationService.transformGeocodedLocation(geocodeResult)
+          .then(function (transformedLocation) {
+              if (transformedLocation.divisions && transformedLocation.divisions.length > 0) {
+                  $scope.view.divisions = transformedLocation.divisions;
+              }
+              $scope.view.newLocation = transformedLocation;
+              $scope.view.isTransformingLocation = false;
+              return checkNewLocationExistence();
+          })
+          .catch(function () {
+              var message = "Unable to transform google geocoded location.";
+              $log.error(message);
+              NotificationService.showErrorMessage(message);
+              $scope.view.isTransformingLocation = false;
+          });
       }
 
       function getNewLocationMap() {
@@ -268,8 +305,6 @@ angular.module('staticApp')
               .skip(0)
               .take(1)
               .sortBy('name');
-
-          
           if ($scope.view.newLocation.locationTypeId === ConstantsService.locationType.city.id) {
               existenceFilter = existenceFilter.equal('locationTypeId', ConstantsService.locationType.city.id);
           }
@@ -299,7 +334,6 @@ angular.module('staticApp')
               NotificationService.showErrorMessage(message);
           });
       }
-
 
       $scope.view.isLoadingRequiredData = true;
       $q.all([getLocationTypes(), loadContries(), loadRegions()])

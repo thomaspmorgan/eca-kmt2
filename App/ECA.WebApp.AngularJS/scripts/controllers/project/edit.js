@@ -645,6 +645,7 @@ angular.module('staticApp')
       $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(), loadCategories(), loadProjectStati(), loadGoals(null), loadProject(), loadOfficeSettings()])
       .then(function (results) {
           //results is an array
+          $scope.editView.onAdvancedSearchClick();
 
       }, function (errorResponse) {
           $log.error('Failed initial loading of project view.');

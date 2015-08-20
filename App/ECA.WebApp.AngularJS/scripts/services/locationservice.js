@@ -42,14 +42,17 @@ angular.module('staticApp')
                       geocodeResponse: null
                   };
                   if (status === google.maps.GeocoderStatus.OK) {                      
-                      $q.when(service.handleGeocodeResponse(results[0]))
-                      .then(function (transformedLocation) {
-                          $log.info('Successfully geocoded a location.');
-                          serviceResult.success = true;
-                          serviceResult.transformedLocation = transformedLocation;
-                          serviceResult.geocodeResponse = results[0];
-                          deferred.resolve(serviceResult);
-                      });
+                      //$q.when(service.handleGeocodeResponse(results[0]))
+                      //.then(function (transformedLocation) {
+                      //    $log.info('Successfully geocoded a location.');
+                      //    serviceResult.success = true;
+                      //    serviceResult.transformedLocation = transformedLocation;
+                      //    serviceResult.geocodeResponse = results[0];
+                      //    deferred.resolve(serviceResult);
+                      //});
+
+                      deferred.resolve(results);
+
                   }
                   else if (status === google.maps.GeocoderStatus.ZERO_RESULTS) {
                       deferred.resolve(serviceResult);
@@ -63,7 +66,7 @@ angular.module('staticApp')
 
           },
 
-          handleGeocodeResponse: function (result) {
+          transformGeocodedLocation: function (result) {
               console.assert(result, 'The result must defined.');
               var transformedLocation = {};
               var divisionKey = 'administrative_area_level_1';

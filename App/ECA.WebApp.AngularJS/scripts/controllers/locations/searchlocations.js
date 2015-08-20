@@ -147,6 +147,7 @@ angular.module('staticApp')
       $q.all([getLocationTypes(), loadContries(), loadRegions()])
         .then(function () {
             $scope.view.isLoadingRequiredData = false;
+            $scope.view.onAddClick();
         })
         .catch(function () {
             $scope.view.isLoadingRequiredData = false;
