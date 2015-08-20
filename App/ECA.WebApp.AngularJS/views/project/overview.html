@@ -91,7 +91,7 @@
                 <div class="col-md-6 title-label"><ng-pluralize count="project.locations.length" when="{'1':'Location','other':'Locations'}"></ng-pluralize></div>
                 <div class="col-md-6">
                     <ul>
-                        <li ng-repeat="location in project.locations | orderBy:'value'">&#149 {{location.name}} ({{location.locationTypeName}})</li>
+                        <li ng-repeat="location in project.locations | orderBy:'name'">&#149 {{location.name}} ({{location.divisionIso ? location.divisionIso + ', ' : ''}}{{location.countryIso}})</li>
                     </ul>
                 </div>
             </div>

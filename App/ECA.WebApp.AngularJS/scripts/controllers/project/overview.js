@@ -53,31 +53,14 @@ angular.module('staticApp')
               });
       }
 
-      function loadProject() {
-          var projectId = $stateParams.projectId;
-          return ProjectService.getById(projectId)
-            .then(function (data) {
-                $log.info('Successfully loaded project.');
-                $scope.$parent.project = data.data;
-                $scope.$parent.project.countryIsos = $scope.$parent.project.countryIsos || [];
-                var startDate = new Date($scope.$parent.project.startDate);
-                if (!isNaN(startDate.getTime())) {
-                    $scope.$parent.project.startDate = startDate;
-                }
-                var endDate = new Date($scope.$parent.project.endDate);
-                if (!isNaN(endDate.getTime())) {
-                    $scope.$parent.project.endDate = endDate;
-                }
-                $scope.sortedCategories = orderByFilter($scope.$parent.project.categories, '+focusName');
-                $scope.sortedObjectives = orderByFilter($scope.$parent.project.objectives, '+justificationName');
 
-            }, function (errorResponse) {
-                $log.error('Failed to load project with id ' + projectId);
-            });
-      }
+      $scope.$parent.data.loadProjectByIdPromise.promise.then(function (project) {
+          $scope.sortedCategories = orderByFilter($scope.$parent.project.categories, '+focusName');
+          $scope.sortedObjectives = orderByFilter($scope.$parent.project.objectives, '+justificationName');
+      });
 
       $scope.view.isLoading = true;
-      $q.all([loadProject(), loadOfficeSettings()])
+      $q.all([loadOfficeSettings()])
       .then(function (results) {
           //results is an array
 
