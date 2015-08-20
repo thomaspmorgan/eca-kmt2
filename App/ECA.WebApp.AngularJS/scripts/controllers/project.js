@@ -8,9 +8,11 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProjectCtrl', function ($scope, $state, $stateParams, $log, $q, ProjectService, PersonService,
-      ProgramService, ParticipantService, LocationService, AuthService, OrganizationService,
-      TableService, ConstantsService, LookupService, orderByFilter) {
+  .controller('ProjectCtrl', function ($scope, $state, $stateParams, $log, $q,
+      ProjectService,
+      AuthService,
+      ConstantsService,
+      orderByFilter) {
 
       $scope.project = {};
       $scope.modalForm = {};
@@ -104,11 +106,6 @@ angular.module('staticApp')
 
       $scope.params = $stateParams;
 
-      ProgramService.get($stateParams.programId)
-        .then(function (data) {
-            $scope.program = data;
-        });
-
       $scope.updateProject = function () {
           saveProject();
       };
@@ -152,7 +149,7 @@ angular.module('staticApp')
           ProjectService.create(project)
               .then(function (project) {
                   console.log($scope.program.id);
-                  $state.go('projects.overview', { officeId: $scope.program.owner.organizationId, projectId: project.id, programId: $scope.program.id });
+                  $state.go('projects.overview', { projectId: project.id});
               });
 
           if (!$scope.program.projectReferences) {

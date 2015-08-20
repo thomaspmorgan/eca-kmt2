@@ -308,7 +308,7 @@ angular
         })
 
         .state('projects', {
-            url: '/offices/:officeId/programs/:programId/project/:projectId',
+            url: '/projects/:projectId',
             templateUrl: 'views/project.html',
             controller: 'ProjectCtrl',
             requireADLogin: true

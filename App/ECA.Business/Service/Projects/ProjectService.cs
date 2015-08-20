@@ -358,10 +358,10 @@ namespace ECA.Business.Service.Projects
             Contract.Assert(office != null, "The project must have an office.");
             var officeSettings = officeService.GetOfficeSettings(office.OrganizationId);
 
-            var allowedCategoryIds = CreateGetAllowedCategoryIdsQuery(projectToUpdate.ProgramId).ToList();
+            var allowedCategoryIds = CreateGetAllowedCategoryIdsQuery(office.OrganizationId).ToList();
             this.logger.Trace("Loaded allowed category ids [{0}] for program with id [{1}].", String.Join(", ", allowedCategoryIds), projectToUpdate.ProgramId);
 
-            var allowedObjectiveIds = CreateGetAllowedObjectiveIdsQuery(projectToUpdate.ProgramId).ToList();
+            var allowedObjectiveIds = CreateGetAllowedObjectiveIdsQuery(office.OrganizationId).ToList();
             this.logger.Trace("Loaded allowed objective ids [{0}] for program with id [{1}].", String.Join(", ", allowedCategoryIds), projectToUpdate.ProgramId);
 
             validator.ValidateUpdate(GetUpdateValidationEntity(
@@ -416,10 +416,10 @@ namespace ECA.Business.Service.Projects
             Contract.Assert(office != null, "The project must have an office.");
             var officeSettings = await officeService.GetOfficeSettingsAsync(office.OrganizationId);
 
-            var allowedCategoryIds = await CreateGetAllowedCategoryIdsQuery(projectToUpdate.ProgramId).ToListAsync();
+            var allowedCategoryIds = await CreateGetAllowedCategoryIdsQuery(office.OrganizationId).ToListAsync();
             this.logger.Trace("Loaded allowed category ids [{0}] for program with id [{1}].", String.Join(", ", allowedCategoryIds), projectToUpdate.ProgramId);
 
-            var allowedObjectiveIds = await CreateGetAllowedObjectiveIdsQuery(projectToUpdate.ProgramId).ToListAsync();
+            var allowedObjectiveIds = await CreateGetAllowedObjectiveIdsQuery(office.OrganizationId).ToListAsync();
             this.logger.Trace("Loaded allowed objective ids [{0}] for program with id [{1}].", String.Join(", ", allowedCategoryIds), projectToUpdate.ProgramId);
 
             validator.ValidateUpdate(GetUpdateValidationEntity(
@@ -596,7 +596,6 @@ namespace ECA.Business.Service.Projects
         }
         #endregion
 
-
         private Project GetProjectEntityById(int projectId)
         {
             return CreateGetProjectByIdQuery(projectId).FirstOrDefault();
@@ -638,14 +637,14 @@ namespace ECA.Business.Service.Projects
             return query;
         }
 
-        private IQueryable<int> CreateGetAllowedCategoryIdsQuery(int programId)
+        private IQueryable<int> CreateGetAllowedCategoryIdsQuery(int officeId)
         {
-            return FocusCategoryQueries.CreateGetFocusCategoryDTOByProgramIdQuery(this.Context, programId).Select(x => x.Id);
+            return FocusCategoryQueries.CreateGetFocusCategoryDTOByOfficeIdQuery(this.Context, officeId).Select(x => x.Id);
         }
 
-        private IQueryable<int> CreateGetAllowedObjectiveIdsQuery(int programId)
+        private IQueryable<int> CreateGetAllowedObjectiveIdsQuery(int officeId)
         {
-            return JustificationObjectiveQueries.CreateGetJustificationObjectiveDTOByProgramIdQuery(this.Context, programId).Select(x => x.Id);
+            return JustificationObjectiveQueries.CreateGetJustificationObjectiveDTByOfficeIdOQuery(this.Context, officeId).Select(x => x.Id);
         }
     }
 }
