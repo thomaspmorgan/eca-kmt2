@@ -728,7 +728,7 @@ div.tip:hover span {
 
 .bookmark {
     
-    width: 250px;
+    width: 330px;
     padding-bottom: 30px;
 
     .bookmark-header {
@@ -749,12 +749,17 @@ div.tip:hover span {
     }
     
     .bookmark-content {
-        height: 200px;
+        height: 175px;
         padding-top: 15px;
         border-left: solid 3px #efefef;
         border-right: solid 3px #efefef;
         border-bottom: solid 3px #efefef;
         font-weight: 500;
+
+        h5 {
+            font-weight: 500;
+            padding-bottom: 15px;
+        }
 
         a {
             color: #415358;
@@ -766,6 +771,7 @@ div.tip:hover span {
 
         .bookmark-title {
             text-transform: uppercase;
+            color: #a0a9ab;
         }
     }
 
