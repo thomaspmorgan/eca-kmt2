@@ -50,11 +50,7 @@ angular.module('staticApp')
                       else if(country.value && typeof country.value === 'string'){
                           countries[country.value] = style;
                       }
-                      else{
-                          throw Error('Unable to determine the location iso.');
-                      }
                   });
-
                   map.updateChoropleth(countries);
               };
 
