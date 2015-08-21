@@ -18,14 +18,14 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="membership">The membership.</param>
         /// <returns>The created membership entity.</returns>
-        Membership Create(PersonMembership membership);
+        Membership Create(NewPersonMembership membership);
 
         /// <summary>
         /// Creates a new membership in the ECA system.
         /// </summary>
         /// <param name="membership">The membership.</param>
         /// <returns>The created membership entity.</returns>
-        Task<Membership> CreateAsync(PersonMembership membership);
+        Task<Membership> CreateAsync(NewPersonMembership membership);
 
         /// <summary>
         /// Updates the ECA system's membership data with the given updated membership.
@@ -91,7 +91,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="membership"></param>
         /// <returns></returns>
-        public Membership Create(PersonMembership membership) {
+        public Membership Create(NewPersonMembership membership) {
             Contract.Requires(membership != null, "The membership entity must not be null.");
             Contract.Ensures(Contract.Result<Membership>() != null, "The membership entity returned must not be null.");
             return null;
@@ -102,7 +102,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="membership"></param>
         /// <returns></returns>
-        public Task<Membership> CreateAsync(PersonMembership membership)
+        public Task<Membership> CreateAsync(NewPersonMembership membership)
         {
             Contract.Requires(membership != null, "The membership entity must not be null.");
             Contract.Ensures(Contract.Result<Task<Membership>>() != null, "The membership entity returned must not be null.");

@@ -31,9 +31,9 @@ namespace ECA.WebApi.Models.Person
         /// </summary>
         /// <param name="user">The user creating the membership</param>
         /// <returns>Create membership business model</returns>
-        public PersonMembership ToPersonMembership(User user)
+        public NewPersonMembership ToPersonMembership(User user)
         {
-            return new PersonMembership(
+            return new NewPersonMembership(
                 user: user,
                 personId: this.PersonId,
                 name: this.Name

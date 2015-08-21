@@ -153,7 +153,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets language proficiences.
         /// </summary>
-        public DbSet<LanguageProficiency> LanguangeProficiencies { get; set; }
+        public DbSet<Language> Languages { get; set; }
 
         /// <summary>
         /// Gets or sets locations.
@@ -229,6 +229,11 @@ namespace ECA.Data
         /// Gets or sets EvaluationNotes for a Person
         /// </summary>
         public DbSet<PersonEvaluationNote> PersonEvaluationNotes { get; set; }
+
+        /// <summary>
+        /// Gets or sets Language Proficiencies for a Person
+        /// </summary>
+        public DbSet<PersonLanguageProficiency> PersonLanguageProficiencies { get; set; }
         
         /// <summary>
         /// Gets or sets phone numbers.

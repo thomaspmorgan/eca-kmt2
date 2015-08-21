@@ -616,4 +616,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="PersonId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="870d9ea3-7976-4475-9432-c9b5003094c0" ChangeDateTime="08/20/2015 15:44:50">
+    <Property Name="ElementName" Value="[dbo].[LanguageProficiency].[LanguageProficiencyId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[LanguageProficiency]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LanguageId" />
+  </Operation>
 </Operations>
