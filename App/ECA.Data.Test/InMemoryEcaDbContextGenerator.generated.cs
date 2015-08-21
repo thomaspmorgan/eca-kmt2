@@ -5,8 +5,18 @@
 
 
 
+
+
+
+
+
+
+
+
 namespace ECA.Data.Test
 {
+	using System;
+	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
 	#region EcaContext
@@ -23,6 +33,36 @@ namespace ECA.Data.Test
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
 			///AccommodationId
 			return Task.FromResult<ECA.Data.Accommodation>(this.SingleOrDefault(x => x.AccommodationId.Equals(keyValues.First())));
+		}
+	}
+	public class ActivityTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Activity>
+	{
+		public override ECA.Data.Activity Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ActivityId
+			return this.SingleOrDefault(x => x.ActivityId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.Activity> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ActivityId
+			return Task.FromResult<ECA.Data.Activity>(this.SingleOrDefault(x => x.ActivityId.Equals(keyValues.First())));
+		}
+	}
+	public class ActivityTypeTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ActivityType>
+	{
+		public override ECA.Data.ActivityType Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ActivityTypeId
+			return this.SingleOrDefault(x => x.ActivityTypeId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.ActivityType> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ActivityTypeId
+			return Task.FromResult<ECA.Data.ActivityType>(this.SingleOrDefault(x => x.ActivityTypeId.Equals(keyValues.First())));
 		}
 	}
 	public class ActorTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Actor>
@@ -100,6 +140,21 @@ namespace ECA.Data.Test
 			return Task.FromResult<ECA.Data.ArtifactType>(this.SingleOrDefault(x => x.ArtifactTypeId.Equals(keyValues.First())));
 		}
 	}
+	public class BookmarkTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Bookmark>
+	{
+		public override ECA.Data.Bookmark Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///BookmarkId
+			return this.SingleOrDefault(x => x.BookmarkId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.Bookmark> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///BookmarkId
+			return Task.FromResult<ECA.Data.Bookmark>(this.SingleOrDefault(x => x.BookmarkId.Equals(keyValues.First())));
+		}
+	}
 	public class CategoryTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Category>
 	{
 		public override ECA.Data.Category Find(params object[] keyValues)
@@ -158,36 +213,6 @@ namespace ECA.Data.Test
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
 			///EmailAddressId
 			return Task.FromResult<ECA.Data.EmailAddress>(this.SingleOrDefault(x => x.EmailAddressId.Equals(keyValues.First())));
-		}
-	}
-	public class ActivityTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Activity>
-	{
-        public override ECA.Data.Activity Find(params object[] keyValues)
-		{
-			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///EventId
-            return this.SingleOrDefault(x => x.ActivityId.Equals(keyValues.First()));
-		}
-        public override Task<ECA.Data.Activity> FindAsync(params object[] keyValues)
-		{
-			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///EventId
-            return Task.FromResult<ECA.Data.Activity>(this.SingleOrDefault(x => x.ActivityId.Equals(keyValues.First())));
-		}
-	}
-    public class ActivityTypeTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ActivityType>
-	{
-        public override ECA.Data.ActivityType Find(params object[] keyValues)
-		{
-			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///EventTypeId
-            return this.SingleOrDefault(x => x.ActivityTypeId.Equals(keyValues.First()));
-		}
-        public override Task<ECA.Data.ActivityType> FindAsync(params object[] keyValues)
-		{
-			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///EventTypeId
-            return Task.FromResult<ECA.Data.ActivityType>(this.SingleOrDefault(x => x.ActivityTypeId.Equals(keyValues.First())));
 		}
 	}
 	public class ExternalIdTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ExternalId>
@@ -340,19 +365,19 @@ namespace ECA.Data.Test
 			return Task.FromResult<ECA.Data.Justification>(this.SingleOrDefault(x => x.JustificationId.Equals(keyValues.First())));
 		}
 	}
-	public class LanguageProficiencyTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.LanguageProficiency>
+	public class LanguageTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Language>
 	{
-		public override ECA.Data.LanguageProficiency Find(params object[] keyValues)
+		public override ECA.Data.Language Find(params object[] keyValues)
 		{
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///LanguageProficiencyId
-			return this.SingleOrDefault(x => x.LanguageProficiencyId.Equals(keyValues.First()));
+			///LanguageId
+			return this.SingleOrDefault(x => x.LanguageId.Equals(keyValues.First()));
 		}
-		public override Task<ECA.Data.LanguageProficiency> FindAsync(params object[] keyValues)
+		public override Task<ECA.Data.Language> FindAsync(params object[] keyValues)
 		{
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///LanguageProficiencyId
-			return Task.FromResult<ECA.Data.LanguageProficiency>(this.SingleOrDefault(x => x.LanguageProficiencyId.Equals(keyValues.First())));
+			///LanguageId
+			return Task.FromResult<ECA.Data.Language>(this.SingleOrDefault(x => x.LanguageId.Equals(keyValues.First())));
 		}
 	}
 	public class LocationTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Location>
@@ -550,6 +575,21 @@ namespace ECA.Data.Test
 			return Task.FromResult<ECA.Data.OrganizationType>(this.SingleOrDefault(x => x.OrganizationTypeId.Equals(keyValues.First())));
 		}
 	}
+	public class ParticipantPersonTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ParticipantPerson>
+	{
+		public override ECA.Data.ParticipantPerson Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ParticipantId
+			return this.SingleOrDefault(x => x.ParticipantId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.ParticipantPerson> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ParticipantId
+			return Task.FromResult<ECA.Data.ParticipantPerson>(this.SingleOrDefault(x => x.ParticipantId.Equals(keyValues.First())));
+		}
+	}
 	public class ParticipantTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Participant>
 	{
 		public override ECA.Data.Participant Find(params object[] keyValues)
@@ -610,6 +650,36 @@ namespace ECA.Data.Test
 			return Task.FromResult<ECA.Data.Person>(this.SingleOrDefault(x => x.PersonId.Equals(keyValues.First())));
 		}
 	}
+	public class PersonEvaluationNoteTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.PersonEvaluationNote>
+	{
+		public override ECA.Data.PersonEvaluationNote Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///EvaluationNoteId
+			return this.SingleOrDefault(x => x.EvaluationNoteId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.PersonEvaluationNote> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///EvaluationNoteId
+			return Task.FromResult<ECA.Data.PersonEvaluationNote>(this.SingleOrDefault(x => x.EvaluationNoteId.Equals(keyValues.First())));
+		}
+	}
+	public class PersonLanguageProficiencyTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.PersonLanguageProficiency>
+	{
+		public override ECA.Data.PersonLanguageProficiency Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///LanguageId
+			return this.SingleOrDefault(x => x.LanguageId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.PersonLanguageProficiency> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///LanguageId
+			return Task.FromResult<ECA.Data.PersonLanguageProficiency>(this.SingleOrDefault(x => x.LanguageId.Equals(keyValues.First())));
+		}
+	}
 	public class PhoneNumberTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.PhoneNumber>
 	{
 		public override ECA.Data.PhoneNumber Find(params object[] keyValues)
@@ -668,6 +738,21 @@ namespace ECA.Data.Test
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
 			///ProgramId
 			return Task.FromResult<ECA.Data.Program>(this.SingleOrDefault(x => x.ProgramId.Equals(keyValues.First())));
+		}
+	}
+	public class ProgramStatusTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ProgramStatus>
+	{
+		public override ECA.Data.ProgramStatus Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ProgramStatusId
+			return this.SingleOrDefault(x => x.ProgramStatusId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.ProgramStatus> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ProgramStatusId
+			return Task.FromResult<ECA.Data.ProgramStatus>(this.SingleOrDefault(x => x.ProgramStatusId.Equals(keyValues.First())));
 		}
 	}
 	public class ProgramTypeTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ProgramType>
@@ -820,22 +905,44 @@ namespace ECA.Data.Test
 			return Task.FromResult<ECA.Data.Transportation>(this.SingleOrDefault(x => x.TransportationId.Equals(keyValues.First())));
 		}
 	}
+	public class UserAccountTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.UserAccount>
+	{
+		public override ECA.Data.UserAccount Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///PrincipalId
+			return this.SingleOrDefault(x => x.PrincipalId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.UserAccount> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///PrincipalId
+			return Task.FromResult<ECA.Data.UserAccount>(this.SingleOrDefault(x => x.PrincipalId.Equals(keyValues.First())));
+		}
+	}
 	public class InMemoryEcaContext : ECA.Data.EcaContext
 	{
 		public InMemoryEcaContext()
 		{
+			InitializeDbSets();
+			this.SetupActions = new List<Action>();
+		}
+
+		public void InitializeDbSets()
+		{
 			this.Accommodations = new AccommodationTestDbSet();
+			this.Activities = new ActivityTestDbSet();
+			this.ActivityTypes = new ActivityTypeTestDbSet();
 			this.Actors = new ActorTestDbSet();
 			this.Addresses = new AddressTestDbSet();
 			this.AddressTypes = new AddressTypeTestDbSet();
 			this.Artifacts = new ArtifactTestDbSet();
 			this.ArtifactTypes = new ArtifactTypeTestDbSet();
+			this.Bookmarks = new BookmarkTestDbSet();
 			this.Categories = new CategoryTestDbSet();
 			this.Contacts = new ContactTestDbSet();
 			this.Courses = new CourseTestDbSet();
 			this.EmailAddresses = new EmailAddressTestDbSet();
-			this.Activities = new ActivityTestDbSet();
-			this.ActivityTypes = new ActivityTypeTestDbSet();
 			this.ExternalIds = new ExternalIdTestDbSet();
 			this.Foci = new FocusTestDbSet();
 			this.Genders = new GenderTestDbSet();
@@ -846,7 +953,7 @@ namespace ECA.Data.Test
 			this.Itineraries = new ItineraryTestDbSet();
 			this.ItineraryStops = new ItineraryStopTestDbSet();
 			this.Justifications = new JustificationTestDbSet();
-			this.LanguangeProficiencies = new LanguageProficiencyTestDbSet();
+			this.Languages = new LanguageTestDbSet();
 			this.Locations = new LocationTestDbSet();
 			this.LocationTypes = new LocationTypeTestDbSet();
 			this.MaritalStatuses = new MaritalStatusTestDbSet();
@@ -860,14 +967,18 @@ namespace ECA.Data.Test
 			this.OfficeSettings = new OfficeSettingTestDbSet();
 			this.Organizations = new OrganizationTestDbSet();
 			this.OrganizationTypes = new OrganizationTypeTestDbSet();
+			this.ParticipantPersons = new ParticipantPersonTestDbSet();
 			this.Participants = new ParticipantTestDbSet();
 			this.ParticipantStatuses = new ParticipantStatusTestDbSet();
 			this.ParticipantTypes = new ParticipantTypeTestDbSet();
 			this.People = new PersonTestDbSet();
+			this.PersonEvaluationNotes = new PersonEvaluationNoteTestDbSet();
+			this.PersonLanguageProficiencies = new PersonLanguageProficiencyTestDbSet();
 			this.PhoneNumbers = new PhoneNumberTestDbSet();
 			this.PhoneNumberTypes = new PhoneNumberTypeTestDbSet();
 			this.ProfessionEducations = new ProfessionEducationTestDbSet();
 			this.Programs = new ProgramTestDbSet();
+			this.ProgramStatuses = new ProgramStatusTestDbSet();
 			this.ProgramTypes = new ProgramTypeTestDbSet();
 			this.Projects = new ProjectTestDbSet();
 			this.ProjectStatuses = new ProjectStatusTestDbSet();
@@ -878,6 +989,15 @@ namespace ECA.Data.Test
 			this.SpecialStatuses = new SpecialStatusTestDbSet();
 			this.Themes = new ThemeTestDbSet();
 			this.Transportations = new TransportationTestDbSet();
+			this.UserAccounts = new UserAccountTestDbSet();
+		}
+
+		public List<Action> SetupActions { get; set; }
+
+		public void Revert()
+		{
+			InitializeDbSets();
+			this.SetupActions.ForEach(x => x());
 		}
 	}
 	#endregion
