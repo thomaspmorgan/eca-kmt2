@@ -33,34 +33,6 @@ namespace ECA.WebApi.Test.Controllers.Admin
         }
 
         [TestMethod]
-        public async Task TestPutSocialMediaAsync()
-        {
-            var model = new UpdatedSocialMediaBindingModel
-            {
-                SocialMediaTypeId = SocialMediaType.Facebook.Id
-            };
-            var response = await controller.PutSocialMediaAsync(model);
-            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<SocialMediaDTO>));
-            userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
-            userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
-            socialMediaService.Verify(x => x.UpdateAsync(It.IsAny<UpdatedSocialMediaPresence>()), Times.Once());
-            socialMediaService.Verify(x => x.SaveChangesAsync(), Times.Once());
-            socialMediaService.Verify(x => x.GetByIdAsync(It.IsAny<int>()), Times.Once());
-        }
-
-        [TestMethod]
-        public async Task TestPutSocialMediaAsync_InvalidModel()
-        {
-            controller.ModelState.AddModelError("key", "error");
-            var model = new UpdatedSocialMediaBindingModel
-            {
-                
-            };
-            var response = await controller.PutSocialMediaAsync(model);
-            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
-        }
-
-        [TestMethod]
         public async Task TestGetSocialMediaTypesAsync()
         {
             var response = await controller.GetSocialMediaTypesAsync(new PagingQueryBindingModel<SocialMediaTypeDTO>());
@@ -73,15 +45,6 @@ namespace ECA.WebApi.Test.Controllers.Admin
             controller.ModelState.AddModelError("key", "error");
             var response = await controller.GetSocialMediaTypesAsync(new PagingQueryBindingModel<SocialMediaTypeDTO>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
-        }
-
-        [TestMethod]
-        public async Task TestDeleteSocialMedia()
-        {
-            var response = await controller.DeleteSocialMedia(1);
-            Assert.IsInstanceOfType(response, typeof(OkResult));
-            socialMediaService.Verify(x => x.DeleteAsync(It.IsAny<int>()), Times.Once());
-            socialMediaService.Verify(x => x.SaveChangesAsync(), Times.Once());
         }
     }
 }

@@ -14,12 +14,11 @@ angular.module('staticApp')
         $q,
         $log,
         smoothScroll,
+        FilterService,
         LookupService,
         AddressService,
         ConstantsService,
         LocationService,
-        OrganizationService,
-        PersonService,
         NotificationService) {
 
       $scope.view = {};
@@ -37,10 +36,7 @@ angular.module('staticApp')
       $scope.view.collapseAddress = true;      
 
       var originalAddress = angular.copy($scope.address);
-      var addressableTypeToServiceMapping = {
-          'organization': OrganizationService,
-          'person': PersonService
-      };
+      
 
       if (!isNewAddress($scope.address) && $scope.address.isPrimary) {
           $scope.$parent.view.collapseAddresses = false;
@@ -61,17 +57,13 @@ angular.module('staticApp')
 
       $scope.view.saveAddressChanges = function () {
           $scope.view.isSavingChanges = true;
-
+          console.assert($scope.modelType, 'The addressable type must be defined.');
+          console.assert($scope.modelId, 'The entity model id must be defined.');
+          var addressableType = $scope.modelType;
+          var modelId = $scope.modelId;
           if (isNewAddress($scope.address)) {
-              console.assert($scope.address.addressableType, 'The addressable type must be defined.');
-              var addressableType = $scope.address.addressableType;
-              console.assert(addressableTypeToServiceMapping[addressableType], 'The mapping must contain a value for the addressable type [' + addressableType + '].');
-              var service = addressableTypeToServiceMapping[addressableType];
-              console.assert(service.addAddress, 'The service for the addressable type [' + $scope.address.addressableType + '] must have an addAddress method defined.');
-              console.assert(typeof service.addAddress === 'function', 'The service addAddress property must be a function.');
-
               var tempId = angular.copy($scope.address.addressId);
-              return service.addAddress($scope.address)
+              return AddressService.add($scope.address, addressableType, modelId)
                 .then(onSaveAddressSuccess)
                 .then(function () {
                     updateAddressFormDivId(tempId);
@@ -79,7 +71,7 @@ angular.module('staticApp')
                 .catch(onSaveAddressError);
           }
           else {
-              return AddressService.update($scope.address)
+              return AddressService.update($scope.address, addressableType, modelId)
                   .then(onSaveAddressSuccess)
                   .catch(onSaveAddressError);
           }
@@ -159,8 +151,12 @@ angular.module('staticApp')
       };
 
       $scope.view.onDeleteAddressClick = function () {
+          console.assert($scope.modelType, 'The addressable type must be defined.');
+          console.assert($scope.modelId, 'The entity model id must be defined.');
+          var addressableType = $scope.modelType;
+          var modelId = $scope.modelId;
           $scope.view.isDeletingAddress = true;
-          return AddressService.delete($scope.address)
+          return AddressService.delete($scope.address, addressableType, modelId)
           .then(function () {
               NotificationService.showSuccessMessage("Successfully deleted address.");
               $scope.view.isDeletingAddress = false;
@@ -215,44 +211,30 @@ angular.module('staticApp')
       }
 
       function isNewAddress(address) {
-          return address.addressableType;
+          return address.isNew;
       }
 
       function getDivisions(search) {
-          $scope.view.isLoadingDivisions = true;
-          return getLocations(search, ConstantsService.locationType.state.id, $scope.view.isLoadingDivisions);
+          return getLocations(search, ConstantsService.locationType.division.id, $scope.view.isLoadingDivisions);
       }
 
       function getCities(search) {
-          $scope.view.isLoadingCities = true;
           return getLocations(search, ConstantsService.locationType.city.id, $scope.view.isLoadingCities);
       }
 
       function getCountries(search) {
-          $scope.view.isLoadingCountries = true;
           return getLocations(search, ConstantsService.locationType.country.id, $scope.view.isLoadingCountries);
       }
 
+      var locationsFilter = FilterService.add('address_locationsfilter');
       function getLocations(search, locationTypeId, loadingIndicator) {
-          var params = {
-              start: 0,
-              limit: $scope.view.searchLimit,
-              filter: [
-                  {
-                      comparison: ConstantsService.equalComparisonType,
-                      value: locationTypeId,
-                      property: 'locationTypeId'
-                  }
-              ]
-          };
+          loadingIndicator = true;
+          locationsFilter.reset();
+          locationsFilter = locationsFilter.skip(0).take($scope.view.searchLimit).equal('locationTypeId', locationTypeId);
           if (search) {
-              params.filter.push({
-                  comparison: ConstantsService.likeComparisonType,
-                  value: search,
-                  property: 'name'
-              });
+              locationsFilter = locationsFilter.like('name', search);
           }
-          return LocationService.get(params)
+          return LocationService.get(locationsFilter.toParams())
           .then(function (response) {
               var data = response.results;
               var total = response.total;

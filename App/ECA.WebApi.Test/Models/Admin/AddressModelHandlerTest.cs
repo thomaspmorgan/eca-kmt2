@@ -56,7 +56,43 @@ namespace ECA.WebApi.Test.Models.Admin
             var organizationAddress = new OrganizationAddressBindingModel();
             var response = await handler.HandleAdditionalAddressAsync<Organization>(organizationAddress, controller);
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
 
+        [TestMethod]
+        public async Task TestHandleDeleteAddressAsync()
+        {
+            var response = await handler.HandleDeleteAddressAsync(1, controller);
+            Assert.IsInstanceOfType(response, typeof(OkResult));
+            locationService.Verify(x => x.DeleteAsync(It.IsAny<int>()), Times.Once());
+            locationService.Verify(x => x.SaveChangesAsync(), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestPutUpdateAddressAsync()
+        {
+            var model = new UpdatedAddressBindingModel
+            {
+                AddressTypeId = AddressType.Business.Id,
+            };
+            var response = await handler.HandleUpdateAddressAsync(model, controller);
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<AddressDTO>));
+            userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
+            userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
+            locationService.Verify(x => x.UpdateAsync(It.IsAny<UpdatedEcaAddress>()), Times.Once());
+            locationService.Verify(x => x.SaveChangesAsync(), Times.Once());
+            locationService.Verify(x => x.GetAddressByIdAsync(It.IsAny<int>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestHandleUpdateAddressAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var model = new UpdatedAddressBindingModel
+            {
+                AddressTypeId = AddressType.Business.Id,
+            };
+            var response = await handler.HandleUpdateAddressAsync(model, controller);
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
     }
 }

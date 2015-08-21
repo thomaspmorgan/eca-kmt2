@@ -1549,7 +1549,7 @@ namespace ECA.Business.Test.Service.Projects
         }
 
         [TestMethod]
-        public async Task TestGetProjectById_CheckCountries()
+        public async Task TestGetProjectById_CheckCountryIsos_LocationsAreNotCountries()
         {
             var now = DateTimeOffset.UtcNow;
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
@@ -1647,6 +1647,339 @@ namespace ECA.Business.Test.Service.Projects
                 Assert.IsNotNull(serviceResult);
                 Assert.AreEqual(1, serviceResult.CountryIsos.Count());
                 Assert.AreEqual(country.LocationIso, serviceResult.CountryIsos.First().Value);
+                Assert.AreEqual(country.LocationId, serviceResult.CountryIsos.First().Id);
+            };
+
+            var result = service.GetProjectById(project.ProjectId);
+            var resultAsync = await service.GetProjectByIdAsync(project.ProjectId);
+
+            tester(result);
+            tester(resultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetProjectById_CheckCountryIsos_LocationsAreCountries()
+        {
+            var now = DateTimeOffset.UtcNow;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var revisedOn = DateTimeOffset.UtcNow.AddDays(-2.0);
+            var createdOn = DateTimeOffset.UtcNow.AddDays(-3.0);
+
+            var countryType = new LocationType
+            {
+                LocationTypeId = LocationType.Country.Id
+            };
+            var placeType = new LocationType
+            {
+                LocationTypeId = LocationType.Place.Id
+            };
+            var country1 = new Location
+            {
+                LocationId = 1,
+                LocationName = "country1",
+                LocationIso = "countryIso1",
+                LocationIso2 = "iso2-1",
+                LocationTypeId = countryType.LocationTypeId,
+                LocationType = countryType
+            };
+            var country2 = new Location
+            {
+                LocationId = 2,
+                LocationName = "country2",
+                LocationIso = "countryIso2",
+                LocationIso2 = "iso2-2",
+                LocationTypeId = countryType.LocationTypeId,
+                LocationType = countryType
+            };
+            
+            var status = new ProjectStatus
+            {
+                ProjectStatusId = 1,
+                Status = "status"
+            };
+            var owner = new Organization
+            {
+                OrganizationId = 20,
+                Name = "owner"
+            };
+            var program = new Program
+            {
+                ProgramId = 10,
+                Name = "program",
+                Owner = owner,
+                OwnerId = owner.OrganizationId
+            };
+            owner.OwnerPrograms.Add(program);
+            var project = new Project
+            {
+                ProjectId = 1,
+                Name = "name",
+                Description = "description",
+                Themes = new HashSet<Theme>(),
+                StartDate = yesterday,
+                EndDate = now,
+                Locations = new HashSet<Location>(),
+                Regions = new HashSet<Location>(),
+                Goals = new HashSet<Goal>(),
+                Status = status,
+                Contacts = new HashSet<Contact>(),
+                History = new History
+                {
+                    RevisedOn = revisedOn,
+                    CreatedOn = createdOn
+                },
+                ProgramId = program.ProgramId,
+                ParentProgram = program
+            };
+            project.Locations.Add(country1);
+            project.Locations.Add(country2);            
+
+            context.Organizations.Add(owner);
+            context.Locations.Add(country1);
+            context.Locations.Add(country2);
+            context.Projects.Add(project);
+            context.LocationTypes.Add(countryType);
+            context.LocationTypes.Add(placeType);
+            context.ProjectStatuses.Add(status);
+            context.Programs.Add(program);
+
+            Action<ProjectDTO> tester = (serviceResult) =>
+            {
+                Assert.IsNotNull(serviceResult);
+                Assert.AreEqual(2, serviceResult.CountryIsos.Count());
+                Assert.AreEqual(country1.LocationIso, serviceResult.CountryIsos.First().Value);
+                Assert.AreEqual(country1.LocationId, serviceResult.CountryIsos.First().Id);
+                Assert.AreEqual(country2.LocationIso, serviceResult.CountryIsos.Last().Value);
+                Assert.AreEqual(country2.LocationId, serviceResult.CountryIsos.Last().Id);
+            };
+
+            var result = service.GetProjectById(project.ProjectId);
+            var resultAsync = await service.GetProjectByIdAsync(project.ProjectId);
+
+            tester(result);
+            tester(resultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetProjectById_CheckCountryIsos_CheckRegions()
+        {
+            var now = DateTimeOffset.UtcNow;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var revisedOn = DateTimeOffset.UtcNow.AddDays(-2.0);
+            var createdOn = DateTimeOffset.UtcNow.AddDays(-3.0);
+
+            var countryType = new LocationType
+            {
+                LocationTypeId = LocationType.Country.Id
+            };
+            var regionType = new LocationType
+            {
+                LocationTypeId = LocationType.Region.Id
+            };
+            var region = new Location
+            {
+                LocationId = 1,
+                LocationName = "region",
+                LocationIso = "regionIso",
+                LocationIso2 = "regionIso2",
+                LocationType = regionType,
+                LocationTypeId = regionType.LocationTypeId
+
+            };
+            var country1 = new Location
+            {
+                LocationId = 2,
+                LocationName = "country1",
+                LocationIso = "countryIso1",
+                LocationIso2 = "iso2-1",
+                LocationTypeId = countryType.LocationTypeId,
+                LocationType = countryType,
+                Region = region,
+                RegionId = region.LocationId
+            };
+
+            var status = new ProjectStatus
+            {
+                ProjectStatusId = 1,
+                Status = "status"
+            };
+            var owner = new Organization
+            {
+                OrganizationId = 20,
+                Name = "owner"
+            };
+            var program = new Program
+            {
+                ProgramId = 10,
+                Name = "program",
+                Owner = owner,
+                OwnerId = owner.OrganizationId
+            };
+            owner.OwnerPrograms.Add(program);
+            var project = new Project
+            {
+                ProjectId = 1,
+                Name = "name",
+                Description = "description",
+                Themes = new HashSet<Theme>(),
+                StartDate = yesterday,
+                EndDate = now,
+                Locations = new HashSet<Location>(),
+                Regions = new HashSet<Location>(),
+                Goals = new HashSet<Goal>(),
+                Status = status,
+                Contacts = new HashSet<Contact>(),
+                History = new History
+                {
+                    RevisedOn = revisedOn,
+                    CreatedOn = createdOn
+                },
+                ProgramId = program.ProgramId,
+                ParentProgram = program
+            };
+            project.Locations.Add(region);
+
+            context.Organizations.Add(owner);
+            context.Locations.Add(country1);
+            context.Locations.Add(region);
+            context.Projects.Add(project);
+            context.LocationTypes.Add(countryType);
+            context.LocationTypes.Add(regionType);
+            context.ProjectStatuses.Add(status);
+            context.Programs.Add(program);
+
+            Action<ProjectDTO> tester = (serviceResult) =>
+            {
+                Assert.IsNotNull(serviceResult);
+                Assert.AreEqual(1, serviceResult.CountryIsos.Count());
+                Assert.AreEqual(country1.LocationIso, serviceResult.CountryIsos.First().Value);
+                Assert.AreEqual(country1.LocationId, serviceResult.CountryIsos.First().Id);
+            };
+
+            var result = service.GetProjectById(project.ProjectId);
+            var resultAsync = await service.GetProjectByIdAsync(project.ProjectId);
+
+            tester(result);
+            tester(resultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetProjectById_CheckCountries_CheckDistinctCountriesOnly()
+        {
+            var now = DateTimeOffset.UtcNow;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var revisedOn = DateTimeOffset.UtcNow.AddDays(-2.0);
+            var createdOn = DateTimeOffset.UtcNow.AddDays(-3.0);
+
+            var countryType = new LocationType
+            {
+                LocationTypeId = LocationType.Country.Id
+            };
+            var cityType = new LocationType
+            {
+                LocationTypeId = LocationType.City.Id
+            };
+            var place = new LocationType
+            {
+                LocationTypeId = LocationType.Place.Id
+            };
+            var regionType = new LocationType
+            {
+                LocationTypeId = LocationType.Region.Id
+            };
+            var region = new Location
+            {
+                LocationId = 1,
+                LocationName = "region",
+                LocationIso = "regionIso",
+                LocationIso2 = "regioniso2",
+                LocationTypeId = regionType.LocationTypeId,
+                LocationType = regionType
+            };
+            var country = new Location
+            {
+                LocationId = 2,
+                LocationName = "country",
+                LocationIso = "countryIso",
+                LocationIso2 = "iso2",
+                LocationTypeId = countryType.LocationTypeId,
+                LocationType = countryType,
+                RegionId = region.LocationId,
+                Region = region,
+            };
+            var city = new Location
+            {
+                LocationId = 3,
+                LocationName = "city",
+                LocationTypeId = cityType.LocationTypeId,
+                LocationType = cityType,
+                Country = country,
+                CountryId = country.LocationId,
+                Region = region,
+                RegionId = region.LocationId
+            };
+            
+            var status = new ProjectStatus
+            {
+                ProjectStatusId = 1,
+                Status = "status"
+            };
+            var owner = new Organization
+            {
+                OrganizationId = 20,
+                Name = "owner"
+            };
+            var program = new Program
+            {
+                ProgramId = 10,
+                Name = "program",
+                Owner = owner,
+                OwnerId = owner.OrganizationId
+            };
+            owner.OwnerPrograms.Add(program);
+            var project = new Project
+            {
+                ProjectId = 1,
+                Name = "name",
+                Description = "description",
+                Themes = new HashSet<Theme>(),
+                StartDate = yesterday,
+                EndDate = now,
+                Locations = new HashSet<Location>(),
+                Regions = new HashSet<Location>(),
+                Goals = new HashSet<Goal>(),
+                Status = status,
+                Contacts = new HashSet<Contact>(),
+                History = new History
+                {
+                    RevisedOn = revisedOn,
+                    CreatedOn = createdOn
+                },
+                ProgramId = program.ProgramId,
+                ParentProgram = program
+            };
+            project.Locations.Add(region);
+            project.Locations.Add(country);
+            project.Locations.Add(city);
+
+            context.Organizations.Add(owner);
+            context.Locations.Add(region);
+            context.Locations.Add(country);
+            context.Locations.Add(city);
+            context.Projects.Add(project);
+            context.LocationTypes.Add(countryType);
+            context.LocationTypes.Add(cityType);
+            context.LocationTypes.Add(regionType);
+            context.LocationTypes.Add(place);
+            context.ProjectStatuses.Add(status);
+            context.Programs.Add(program);
+
+            Action<ProjectDTO> tester = (serviceResult) =>
+            {
+                Assert.IsNotNull(serviceResult);
+                Assert.AreEqual(1, serviceResult.CountryIsos.Count());
+                Assert.AreEqual(country.LocationIso, serviceResult.CountryIsos.First().Value);
+                Assert.AreEqual(country.LocationId, serviceResult.CountryIsos.First().Id);
             };
 
             var result = service.GetProjectById(project.ProjectId);
@@ -1779,6 +2112,7 @@ namespace ECA.Business.Test.Service.Projects
             tester(result);
             tester(resultAsync);
         }
+
 
         [TestMethod]
         public async Task TestGetProjectById_CheckContacts()

@@ -65,40 +65,5 @@ namespace ECA.WebApi.Controllers.Admin
                 return BadRequest(ModelState);
             }
         }
-
-        /// <summary>
-        /// Updates the system's social media with the given updated social media.
-        /// </summary>
-        /// <returns>The updated social media.</returns>
-        [ResponseType(typeof(SocialMediaDTO))]
-        public async Task<IHttpActionResult> PutSocialMediaAsync(UpdatedSocialMediaBindingModel updatedSocialMedia)
-        {
-            if (ModelState.IsValid)
-            {
-                var currentUser = this.userProvider.GetCurrentUser();
-                var businessUser = this.userProvider.GetBusinessUser(currentUser);
-                await this.socialMediaService.UpdateAsync(updatedSocialMedia.ToUpdatedSocialMediaPresence(businessUser));
-                await this.socialMediaService.SaveChangesAsync();
-                var dto = await this.socialMediaService.GetByIdAsync(updatedSocialMedia.Id);
-                return Ok(dto);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-        }
-
-        /// <summary>
-        /// Deletes the social media with the given id.
-        /// </summary>
-        /// <param name="id">The id of the social media.</param>
-        /// <returns>An ok response.</returns>
-        [ResponseType(typeof(OkResult))]
-        public async Task<IHttpActionResult> DeleteSocialMedia(int id)
-        {
-            await this.socialMediaService.DeleteAsync(id);
-            await this.socialMediaService.SaveChangesAsync();
-            return Ok();
-        }
     }
 }

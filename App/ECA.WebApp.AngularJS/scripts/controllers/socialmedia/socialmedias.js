@@ -42,6 +42,7 @@ angular.module('staticApp')
               socialableType: socialableType,
               socialMediaType: ConstantsService.socialMediaType.facebook.value,
               socialMediaTypeId: ConstantsService.socialMediaType.facebook.id,
+              isNew: true,
               value: url
           };
           entitySocialMedias.splice(0, 0, newSocialMedia);

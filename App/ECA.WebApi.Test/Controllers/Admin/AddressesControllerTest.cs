@@ -33,43 +33,6 @@ namespace ECA.WebApi.Test.Controllers.Admin
         }
 
         [TestMethod]
-        public async Task TestDeleteAddressAsync()
-        {
-            var response = await controller.DeleteAddressAsync(1);
-            Assert.IsInstanceOfType(response, typeof(OkResult));
-            locationService.Verify(x => x.DeleteAsync(It.IsAny<int>()), Times.Once());
-            locationService.Verify(x => x.SaveChangesAsync(), Times.Once());
-        }
-
-        [TestMethod]
-        public async Task TestPutUpdateAddressAsync()
-        {
-            var model = new UpdatedAddressBindingModel
-            {
-                AddressTypeId = AddressType.Business.Id,
-            };
-            var response = await controller.PutUpdateAddressAsync(model);
-            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<AddressDTO>));
-            userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
-            userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
-            locationService.Verify(x => x.UpdateAsync(It.IsAny<UpdatedEcaAddress>()), Times.Once());
-            locationService.Verify(x => x.SaveChangesAsync(), Times.Once());
-            locationService.Verify(x => x.GetAddressByIdAsync(It.IsAny<int>()), Times.Once());
-        }
-
-        [TestMethod]
-        public async Task TestPutUpdateAddressAsync_InvalidModel()
-        {
-            controller.ModelState.AddModelError("key", "error");
-            var model = new UpdatedAddressBindingModel
-            {
-                AddressTypeId = AddressType.Business.Id,
-            };
-            var response = await controller.PutUpdateAddressAsync(model);
-            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
-        }
-
-        [TestMethod]
         public async Task TestGetAddressTypesAsync()
         {
             var response = await controller.GetAddressTypesAsync(new PagingQueryBindingModel<AddressTypeDTO>());

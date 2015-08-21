@@ -58,5 +58,42 @@ namespace ECA.WebApi.Test.Models.Admin
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
 
         }
+
+        [TestMethod]
+        public async Task TestHandleUpdateSocialMediaAsync()
+        {
+            var model = new UpdatedSocialMediaBindingModel
+            {
+                SocialMediaTypeId = SocialMediaType.Facebook.Id
+            };
+            var response = await handler.HandleUpdateSocialMediaAsync(model, controller);
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<SocialMediaDTO>));
+            userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
+            userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
+            socialMediaService.Verify(x => x.UpdateAsync(It.IsAny<UpdatedSocialMediaPresence>()), Times.Once());
+            socialMediaService.Verify(x => x.SaveChangesAsync(), Times.Once());
+            socialMediaService.Verify(x => x.GetByIdAsync(It.IsAny<int>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestHandleUpdateSocialMediaAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var model = new UpdatedSocialMediaBindingModel
+            {
+
+            };
+            var response = await handler.HandleUpdateSocialMediaAsync(model, controller);
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
+        [TestMethod]
+        public async Task TestHandleDeleteSocialMediaAsync()
+        {
+            var response = await handler.HandleDeleteSocialMediaAsync(1, controller);
+            Assert.IsInstanceOfType(response, typeof(OkResult));
+            socialMediaService.Verify(x => x.DeleteAsync(It.IsAny<int>()), Times.Once());
+            socialMediaService.Verify(x => x.SaveChangesAsync(), Times.Once());
+        }
     }
 }
