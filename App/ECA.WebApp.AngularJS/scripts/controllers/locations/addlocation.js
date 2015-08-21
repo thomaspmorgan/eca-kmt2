@@ -75,6 +75,10 @@ angular.module('staticApp')
       $scope.view.onSelectCity = function ($item, $model, $label) {
           $scope.view.newLocation.city = $item.name;
           $scope.view.newLocation.cityId = $item.id;
+          if ($item.region && !$scope.view.newLocation.regionId) {
+              $log.info('Auto populating region to location.');
+              $scope.view.newLocation.regionId = $item.regionId;
+          }
           if ($item.country && !$scope.view.newLocation.countryId) {
               $log.info('Auto populating country to location.');
               $scope.view.newLocation.countryId = $item.countryId;
