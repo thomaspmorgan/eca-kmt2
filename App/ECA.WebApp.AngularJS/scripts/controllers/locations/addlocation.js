@@ -41,12 +41,38 @@ angular.module('staticApp')
       $scope.view.isTransformingLocation = false;
       $scope.view.isLongitudeRequired = false;
       $scope.view.isLatitudeRequired = false;
+
       $scope.view.mapOptions = {
           center: new google.maps.LatLng(38.9071, -77.0368),
           zoom: 5,
           mapTypeId: google.maps.MapTypeId.ROADMAP
       };
       $scope.view.newLocation = getNewLocation();
+
+      //$modalInstance.opened.then(function () {
+
+      //    debugger;
+
+      //    var modal;
+      //    var getModalInterval = function () {
+      //        debugger;
+      //        modal = document.getElementsByClassName('modal')[0];
+      //        if (modal) {
+                  
+      //            clearInterval(getModal);
+      //            var map = getNewLocationMap();
+      //            google.maps.event.trigger(map, 'resize');
+      //            map.setCenter($scope.view.mapOptions.center);
+      //        }
+      //    };
+      //    modal = document.getElementsByClassName('modal')[0];
+      //    if (!modal) {
+      //        debugger;
+      //        var getModal = setInterval(getModalInterval, 2000);
+      //    }
+
+
+      //});
 
       $scope.view.onCountryChange = function () {
           loadDivisions();
@@ -81,6 +107,11 @@ angular.module('staticApp')
       }
 
       $scope.onMapIdle = function () {
+          var map = getNewLocationMap();
+          //this fixes a google map issue when this modal is closed and then reopened
+          //the map would just show a grey box
+          google.maps.event.trigger(map, 'resize');
+          map.setCenter($scope.view.mapOptions.center);
           $scope.view.isMapIdle = true;
       }
 

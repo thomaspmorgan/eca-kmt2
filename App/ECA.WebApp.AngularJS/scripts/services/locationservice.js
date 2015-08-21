@@ -1,6 +1,8 @@
 'use strict';
-var onGoogleReady = function() {
-    console.log('Google maps api initialized.');
+var onGoogleReady = function () {
+    if (console && console.log) {
+        console.log('Google maps api initialized.');
+    }
     angular.bootstrap(document.getElementById('map'), ['staticApp']);
 }
 
