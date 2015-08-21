@@ -128,11 +128,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Queries\Admin\BookmarkQueries.cs" />
+    <Compile Include="Queries\Models\Persons\LanguageProficiencyDTO.cs" />
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
     <Compile Include="Queries\Persons\MembershipQueries.cs" />
+    <Compile Include="Service\Lookup\ILanguageService.cs" />
+    <Compile Include="Service\Lookup\LanguageDTO.cs" />
+    <Compile Include="Service\Lookup\LanguageService.cs" />
+    <Compile Include="Service\Persons\ILanguageProficiencyService.cs" />
     <Compile Include="Service\Persons\IMembershipService.cs" />
     <Compile Include="Service\Persons\MembershipService.cs" />
-    <Compile Include="Service\Persons\PersonMembership.cs" />
+    <Compile Include="Service\Persons\UpdatedPersonLanguageProficiency.cs" />
+    <Compile Include="Service\Persons\NewPersonLanguageProficiency.cs" />
+    <Compile Include="Service\Persons\NewPersonMembership.cs" />
     <Compile Include="Service\Persons\UpdatedPersonMembership.cs" />
     <Compile Include="Service\Delete.cs" />
     <Compile Include="Exceptions\EcaBusinessException.cs" />
