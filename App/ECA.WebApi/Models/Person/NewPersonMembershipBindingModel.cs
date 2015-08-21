@@ -13,7 +13,7 @@ namespace ECA.WebApi.Models.Person
     /// <summary>
     /// Binding model for editing pii
     /// </summary>
-    public class PersonMembershipBindingModel
+    public class NewPersonMembershipBindingModel
     {
         /// <summary>
         /// Gets and sets the person id

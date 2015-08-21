@@ -126,6 +126,8 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             context.Genders.Add(gender);
+            context.Languages.Add(language1);
+            languageProficiency1.Language = language1;
             context.PersonLanguageProficiencies.Add(languageProficiency1);
             context.ProminentCategories.Add(prominentCat1);
             context.Activities.Add(activity1);

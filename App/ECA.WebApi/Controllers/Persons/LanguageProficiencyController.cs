@@ -24,18 +24,19 @@ namespace ECA.WebApi.Controllers.Persons
     /// </summary>
     [RoutePrefix("api")]
     [Authorize]
-    public class MembershipController : ApiController
+    public class LanguageProficiencyController : ApiController
     {
-        private static readonly ExpressionSorter<MembershipDTO> DEFAULT_SORTER = new ExpressionSorter<MembershipDTO>(x => x.Name, SortDirection.Ascending);
+        private static readonly ExpressionSorter<LanguageProficiencyDTO> DEFAULT_SORTER = new ExpressionSorter<LanguageProficiencyDTO>(x => x.LanguageName, SortDirection.Ascending);
 
-        private readonly IMembershipService service;
+        private readonly ILanguageProficiencyService service;
         private IUserProvider userProvider;
 
         /// <summary>
-        /// Creates a new MembershipController with the given service.
+        /// Creates a new LanguageProficiencyController with the given service.
         /// </summary>
         /// <param name="service">The service.</param>
-        public MembershipController(IMembershipService service, IUserProvider userProvider)
+        /// <param name="userProvider">The user provider service.</param>
+        public LanguageProficiencyController(ILanguageProficiencyService service, IUserProvider userProvider)
         {
             Contract.Requires(service != null, "The service must not be null.");
             Contract.Requires(userProvider != null, "The userProvider must not be null.");
@@ -44,12 +45,12 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
-        /// Returns the Memberships in the system.
+        /// Returns the LanguageProficiencies in the system.
         /// </summary>
         /// <param name="queryModel">The query model.</param>
-        /// <returns>The Memberships.</returns>
-        [ResponseType(typeof(PagedQueryResults<MembershipDTO>))]
-        public async Task<IHttpActionResult> GetAsync([FromUri]PagingQueryBindingModel<MembershipDTO> queryModel)
+        /// <returns>The LanguageProficiencies.</returns>
+        [ResponseType(typeof(PagedQueryResults<LanguageProficiencyDTO>))]
+        public async Task<IHttpActionResult> GetAsync([FromUri]PagingQueryBindingModel<LanguageProficiencyDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
@@ -63,21 +64,21 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
-        /// Adds a new membership to the person.
+        /// Adds a new LanguageProficiency to the person.
         /// </summary>
-        /// <param name="model">The new membership.</param>
-        /// <returns>The saved membership.</returns>
-        [ResponseType(typeof(MembershipDTO))]
-        [Route("People/{personId:int}/Membership")]
-        public async Task<IHttpActionResult> PostMembershipAsync(NewPersonMembershipBindingModel model)
+        /// <param name="model">The new languageProficiency.</param>
+        /// <returns>The saved LanguageProficiency.</returns>
+        [ResponseType(typeof(LanguageProficiencyDTO))]
+        [Route("People/{personId:int}/LanguageProficiency")]
+        public async Task<IHttpActionResult> PostLanguageProficiencyAsync(NewPersonLanguageProficiencyBindingModel model)
         {
             if (ModelState.IsValid)
             {
                 var currentUser = userProvider.GetCurrentUser();
                 var businessUser = userProvider.GetBusinessUser(currentUser);
-                var membership = await service.CreateAsync(model.ToPersonMembership(businessUser));
+                var languageProficiency = await service.CreateAsync(model.ToNewPersonLanguageProficiency(businessUser));
                 await service.SaveChangesAsync();
-                var dto = await service.GetByIdAsync(membership.MembershipId);
+                var dto = await service.GetByIdAsync(languageProficiency.LanguageId, languageProficiency.PersonId);
                 return Ok(dto);
             }
             else
@@ -88,21 +89,21 @@ namespace ECA.WebApi.Controllers.Persons
 
 
         /// <summary>
-        /// Updates a membership to the person.
+        /// Updates a LanguageProficiency to the person.
         /// </summary>
-        /// <param name="model">The updated membership.</param>
+        /// <param name="model">The updated LanguageProficiency.</param>
         /// <returns>void</returns>
-        [ResponseType(typeof(MembershipDTO))]
-        [Route("People/{personId:int}/Membership")]
-        public async Task<IHttpActionResult> PutMembershipAsync(UpdatedPersonMembershipBindingModel model)
+        [ResponseType(typeof(LanguageProficiencyDTO))]
+        [Route("People/{personId:int}/LanguageProficiency")]
+        public async Task<IHttpActionResult> PutLanguageProficiencyAsync(UpdatedPersonLanguageProficiencyBindingModel model)
         {
             if (ModelState.IsValid)
             {
                 var currentUser = userProvider.GetCurrentUser();
                 var businessUser = userProvider.GetBusinessUser(currentUser);
-                await service.UpdateAsync(model.ToUpdatedPersonMembership(businessUser));
+                await service.UpdateAsync(model.ToUpdatedPersonLanguageProficiency(businessUser));
                 await service.SaveChangesAsync();
-                var dto = await service.GetByIdAsync(model.Id);
+                var dto = await service.GetByIdAsync(model.LanguageId, model.PersonId);
                 return Ok(dto);
             }
             else
@@ -112,15 +113,16 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
-        /// Deletes the membership with the given id.
+        /// Deletes the LanguageProficiency with the given id.
         /// </summary>
-        /// <param name="id">The id of the membership.</param>
+        /// <param name="languageId">The id of the person.</param>
+        /// <param name="personId">The id of the person.</param>
         /// <returns>An ok response.</returns>
         [ResponseType(typeof(OkResult))]
-        [Route("People/{personId:int}/Membership/{id:int}")]
-        public async Task<IHttpActionResult> DeleteMembership(int id)
+        [Route("People/{personId:int}/LanguageProficiency/{id:int}")]
+        public async Task<IHttpActionResult> DeleteMembership(int languageId, int personId)
         {
-            await service.DeleteAsync(id);
+            await service.DeleteAsync(languageId,personId);
             await service.SaveChangesAsync();
             return Ok();
         }

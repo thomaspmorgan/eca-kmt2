@@ -105,6 +105,10 @@ angular.module('staticApp')
           },
           getAllProminentCategories: function (params) {
               return DragonBreath.getCached(params, 'prominentCategories');
+          },
+          getAllLanguages: function (params) {
+              return DragonBreath.getCached(params, 'languages');
           }
+
       };
   });
