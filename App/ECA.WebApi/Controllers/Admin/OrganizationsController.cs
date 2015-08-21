@@ -18,6 +18,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.Results;
 
 namespace ECA.WebApi.Controllers.Admin
 {
@@ -46,8 +47,8 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="socialMediaHandler">The social media handler.</param>
         public OrganizationsController(
             IOrganizationService service,
-            IOrganizationTypeService organizationTypeService, 
-            IUserProvider userProvider, 
+            IOrganizationTypeService organizationTypeService,
+            IUserProvider userProvider,
             IAddressModelHandler addressHandler,
             ISocialMediaPresenceModelHandler socialMediaHandler)
         {
@@ -70,7 +71,8 @@ namespace ECA.WebApi.Controllers.Admin
         /// <returns>The organizations in the system.</returns>
         [ResponseType(typeof(PagedQueryResults<SimpleOrganizationDTO>))]
         [Route("Organizations")]
-        public async Task<IHttpActionResult> GetOrganizationsAsync([FromUri]PagingQueryBindingModel<SimpleOrganizationDTO> queryModel) {
+        public async Task<IHttpActionResult> GetOrganizationsAsync([FromUri]PagingQueryBindingModel<SimpleOrganizationDTO> queryModel)
+        {
             if (ModelState.IsValid)
             {
                 var results = await organizationService.GetOrganizationsAsync(
@@ -145,29 +147,89 @@ namespace ECA.WebApi.Controllers.Admin
                 return BadRequest(ModelState);
             }
         }
-
+        #region Addresses
         /// <summary>
         /// Adds a new address to the organization.
         /// </summary>
         /// <param name="model">The new address.</param>
+        /// <param name="organizationId">The organization id.</param>
         /// <returns>The saved address.</returns>
-        [Route("Organizations/Address")]
+        [Route("Organizations/{organizationId:int}/Address")]
         [ResponseType(typeof(AddressDTO))]
-        public Task<IHttpActionResult> PostAddressAsync([FromBody]OrganizationAddressBindingModel model)
+        public Task<IHttpActionResult> PostAddressAsync(int organizationId, [FromBody]OrganizationAddressBindingModel model)
         {
             return addressHandler.HandleAdditionalAddressAsync<Organization>(model, this);
         }
 
         /// <summary>
+        /// Updates the address for the organization.
+        /// </summary>
+        /// <param name="organizationId">The organization id.</param>
+        /// <param name="model">The updated address.</param>
+        /// <returns>The saved address.</returns>
+        [Route("Organizations/{organizationId:int}/Address")]
+        [ResponseType(typeof(AddressDTO))]
+        public Task<IHttpActionResult> PutAddressAsync(int organizationId, [FromBody]UpdatedAddressBindingModel model)
+        {
+            return addressHandler.HandleUpdateAddressAsync(model, this);
+        }
+
+        /// <summary>
+        /// Deletes the address from the organization.
+        /// </summary>
+        /// <param name="organizationId">The organization id.</param>
+        /// <param name="addressId">The address id.</param>
+        /// <returns>An Ok result.</returns>
+        [Route("Organizations/{organizationId:int}/Address/{addressId:int}")]
+        [ResponseType(typeof(OkResult))]
+        public Task<IHttpActionResult> DeleteAddressAsync(int organizationId, int addressId)
+        {
+            return addressHandler.HandleDeleteAddressAsync(addressId, this);
+        }
+
+        #endregion
+
+        #region Social Media
+
+        /// <summary>
         /// Adds a new social media to the person.
         /// </summary>
         /// <param name="model">The new social media.</param>
+        /// <param name="organizationId">The organization id.</param>
         /// <returns>The saved social media.</returns>
-        [Route("Organizations/SocialMedia")]
+        [Route("Organizations/{organizationId:int}/SocialMedia")]
         [ResponseType(typeof(SocialMediaDTO))]
-        public Task<IHttpActionResult> PostSocialMediaAsync([FromBody]OrganizationSocialMediaPresenceBindingModel model)
+        public Task<IHttpActionResult> PostSocialMediaAsync(int organizationId, [FromBody]OrganizationSocialMediaPresenceBindingModel model)
         {
             return socialMediaHandler.HandleSocialMediaPresenceAsync<Organization>(model, this);
         }
+
+        /// <summary>
+        /// Updates the new social media presence of the organization.
+        /// </summary>
+        /// <param name="model">The new social media.</param>
+        /// <param name="organizationId">The organization id.</param>
+        /// <returns>The saved social media.</returns>
+        [Route("Organizations/{organizationId:int}/SocialMedia")]
+        [ResponseType(typeof(SocialMediaDTO))]
+        public Task<IHttpActionResult> PutUpdateSocialMediaAsync(int organizationId, [FromBody]UpdatedSocialMediaBindingModel model)
+        {
+            return socialMediaHandler.HandleUpdateSocialMediaAsync(model, this);
+        }
+
+        /// <summary>
+        /// Deletes the social media presence from the organization.
+        /// </summary>
+        /// <param name="socialMediaId">The socialMediaId id.</param>
+        /// <param name="organizationId">The person id.</param>
+        /// <returns>An ok result.</returns>
+        [Route("Organizations/{organizationId:int}/SocialMedia/{socialMediaId:int}")]
+        [ResponseType(typeof(OkResult))]
+        public Task<IHttpActionResult> DeleteSocialMediaAsync(int organizationId, int socialMediaId)
+        {
+            return socialMediaHandler.HandleDeleteSocialMediaAsync(socialMediaId, this);
+        }
+
+        #endregion
     }
 }

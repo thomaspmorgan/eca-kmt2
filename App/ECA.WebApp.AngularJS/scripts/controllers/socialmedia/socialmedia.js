@@ -30,24 +30,16 @@ angular.module('staticApp')
       $scope.view.isLoadingRequiredData = false;
       var originalSocialMedia = angular.copy($scope.socialMedia);
 
-      var socialableTypeToServiceMapping = {
-          'organization': OrganizationService,
-          'person': PersonService
-      };
-
       $scope.view.saveSocialMediaChanges = function () {
           $scope.view.isSavingChanges = true;
+          console.assert($scope.modelType, 'The socialable type must be defined.');
+          console.assert($scope.modelId, 'The entity model id must be defined.');
+          var sociableType = $scope.modelType;
+          var modelId = $scope.modelId;
 
           if (isNewSocialMedia($scope.socialMedia)) {
-              console.assert($scope.socialMedia.socialableType, 'The socialable type must be defined.');
-              var socialableType = $scope.socialMedia.socialableType;
-              console.assert(socialableTypeToServiceMapping[socialableType], 'The mapping must contain a value for the socialable type [' + socialableType + '].');
-              var service = socialableTypeToServiceMapping[socialableType];
-              console.assert(service.addSocialMedia, 'The service for the socialable type [' + socialableType + '] must have an addSocialMedia method defined.');
-              console.assert(typeof service.addSocialMedia === 'function', 'The service addSocialMedia property must be a function.');
-
               var tempId = angular.copy($scope.socialMedia.id);
-              return service.addSocialMedia($scope.socialMedia)
+              return SocialMediaService.add($scope.socialMedia, sociableType, modelId)
                 .then(onSaveSocialMediaSuccess)
                 .then(function () {
                     updateSocialMediaFormDivId(tempId);
@@ -55,7 +47,7 @@ angular.module('staticApp')
                 .catch(onSaveSocialMediaError);
           }
           else {
-              return SocialMediaService.update($scope.socialMedia)
+              return SocialMediaService.update($scope.socialMedia, sociableType, modelId)
                   .then(onSaveSocialMediaSuccess)
                   .catch(onSaveSocialMediaError);
           }
@@ -79,7 +71,11 @@ angular.module('staticApp')
           }
           else {
               $scope.view.isDeletingSocialMedia = true;
-              return SocialMediaService.delete($scope.socialMedia)
+              console.assert($scope.modelType, 'The socialable type must be defined.');
+              console.assert($scope.modelId, 'The entity model id must be defined.');
+              var sociableType = $scope.modelType;
+              var modelId = $scope.modelId;
+              return SocialMediaService.delete($scope.socialMedia, sociableType, modelId)
               .then(function () {
                   NotificationService.showSuccessMessage("Successfully deleted address.");
                   $scope.view.isDeletingSocialMedia = false;
@@ -154,7 +150,7 @@ angular.module('staticApp')
       }
 
       function isNewSocialMedia(socialMedia) {
-          return socialMedia.socialableId;
+          return socialMedia.isNew;
       }
 
       $scope.view.isLoadingRequiredData = true;

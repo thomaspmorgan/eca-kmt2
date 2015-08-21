@@ -130,11 +130,41 @@ namespace ECA.WebApi.Test.Controllers.Persons
         }
 
         [TestMethod]
-        public async Task TestPostSocialMediaASync()
+        public async Task TestPutAddressAsync()
+        {
+            var model = new UpdatedAddressBindingModel();
+            var response = await controller.PutAddressAsync(1, model);
+            addressHandler.Verify(x => x.HandleUpdateAddressAsync(It.IsAny<UpdatedAddressBindingModel>(), It.IsAny<ApiController>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestDeleteAddressAsync()
+        {
+            var response = await controller.DeleteAddressAsync(1, 2);
+            addressHandler.Verify(x => x.HandleDeleteAddressAsync(It.IsAny<int>(), It.IsAny<ApiController>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestPostSocialMediaAsync()
         {
             var model = new PersonSocialMediaPresenceBindingModel();
             var response = await controller.PostSocialMediaAsync(model);
             socialMediaHandler.Verify(x => x.HandleSocialMediaPresenceAsync<Person>(It.IsAny<SocialMediaBindingModelBase<Person>>(), It.IsAny<ApiController>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestPutSocialMediaAsync()
+        {
+            var model = new UpdatedSocialMediaBindingModel();
+            var response = await controller.PutUpdateSocialMediaAsync(1, model);
+            socialMediaHandler.Verify(x => x.HandleUpdateSocialMediaAsync(It.IsAny<UpdatedSocialMediaBindingModel>(), It.IsAny<ApiController>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestDeleteSocialMediaAsync()
+        {
+            var response = await controller.DeleteSocialMediaAsync(1, 1);
+            socialMediaHandler.Verify(x => x.HandleDeleteSocialMediaAsync(It.IsAny<int>(), It.IsAny<ApiController>()), Times.Once());
         }
     }
 }
