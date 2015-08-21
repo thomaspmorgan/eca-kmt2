@@ -119,7 +119,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="membership">The membership.</param>
         /// <returns>The created membership entity.</returns>
-        public Membership Create(PersonMembership personMembership)
+        public Membership Create(NewPersonMembership personMembership)
         {
             var person = this.Context.People.Find(personMembership.PersonId);
             return DoCreate(personMembership, person);
@@ -130,13 +130,13 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="personMembership">The membership.</param>
         /// <returns>The created membership entity.</returns>
-        public async Task<Membership> CreateAsync(PersonMembership personMembership) 
+        public async Task<Membership> CreateAsync(NewPersonMembership personMembership) 
         {
             var person = await this.Context.People.FindAsync(personMembership.PersonId);
             return DoCreate(personMembership, person);
         }
 
-        private Membership DoCreate(PersonMembership personMembership, Person person) 
+        private Membership DoCreate(NewPersonMembership personMembership, Person person) 
         {
             throwIfPersonEntityNotFound(person, personMembership.PersonId);
             return personMembership.AddPersonMembership(person);

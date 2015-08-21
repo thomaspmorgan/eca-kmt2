@@ -11,7 +11,7 @@ namespace ECA.Business.Service.Persons
     /// <summary>
     /// Allows a business layer client to add a Membership to a person.
     /// </summary>
-    public class PersonMembership
+    public class NewPersonMembership
     {
         /// <summary>
         /// Creates a new membership with the user, and name.
@@ -19,7 +19,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="user">The user creating the membership.</param>
         /// <param name="name">The name of the membership.</param>
         /// <param name="personId">The person id.</param>
-        public PersonMembership(User user, string name, int personId)
+        public NewPersonMembership(User user, string name, int personId)
         {
             this.PersonId = personId;
             this.Name = name;
