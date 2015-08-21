@@ -8,10 +8,9 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('HomeCtrl', function ($rootScope, $scope, $state, AuthService, BookmarkService, NotificationService) {
+  .controller('HomeCtrl', function ($rootScope, $scope, $state, $modal, AuthService, BookmarkService, NotificationService) {
 
-      $scope.limit = 4;
-      $scope.loadingBookmarks = false;
+      $scope.loadingBookmarks = true;
 
       $scope.tabs = {
           shortcuts: {
@@ -43,7 +42,7 @@ angular.module('staticApp')
           } else if (bookmark.type === 'Program') {
               href = $state.href('programs.overview', { programId: bookmark.programId });
           } else if (bookmark.type === 'Project') {
-              href = $state.href('projects.overview', { officeId: bookmark.officeId, programId: bookmark.programId, projectId: bookmark.projectId });
+              href = $state.href('projects.overview', { projectId: bookmark.projectId });
           } else if (bookmark.type === 'Person') {
               href = $state.href('people.personalinformation', { personId: bookmark.personId });
           } else if (bookmark.type === 'Organization') {
@@ -54,6 +53,29 @@ angular.module('staticApp')
       }
 
       $scope.deleteBookmark = function (bookmark) {
+          var modalInstance = $modal.open({
+              animation: true,
+              templateUrl: 'views/directives/confirmdialog.html',
+              controller: 'ConfirmCtrl',
+              resolve: {
+                  options: function () {
+                      return {
+                          title: 'Confirm',
+                          message: 'Are you sure you wish to delete the bookmark?',
+                          okText: 'Yes',
+                          cancelText: 'No'
+                      };
+                  }
+              }
+          });
+          modalInstance.result.then(function () {
+              deleteBookmark(bookmark);
+
+          }, function () {
+          });
+      }
+
+      function deleteBookmark(bookmark) {
           BookmarkService.deleteBookmark(bookmark)
           .then(function () {
             NotificationService.showSuccessMessage('The bookmark was successfully removed.');
@@ -66,8 +88,6 @@ angular.module('staticApp')
       }
 
       function getBookmarks() {
-
-          $scope.loadingBookmarks = true;
 
           var params = { limit: 300 };
 

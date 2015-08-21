@@ -3,6 +3,7 @@ using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
+using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 namespace ECA.Business.Service.Projects
@@ -287,5 +288,6 @@ namespace ECA.Business.Service.Projects
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
             return Task.FromResult<PagedQueryResults<SimpleProjectDTO>>(null);
         }
+
     }
 }

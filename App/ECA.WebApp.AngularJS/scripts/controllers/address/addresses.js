@@ -14,6 +14,7 @@ angular.module('staticApp')
         $q,
         $log,
         LookupService,
+        NotificationService,
         ConstantsService
         ) {
 
@@ -35,7 +36,7 @@ angular.module('staticApp')
           };
           entityAddresses.splice(0, 0, newAddress);
           $scope.view.collapseAddresses = false;
-      }
+      };
 
       $scope.$on(ConstantsService.removeNewAddressEventName, function (event, newAddress) {
           console.assert($scope.addressable, 'The scope addressable property must exist.  It should be set by the directive.');

@@ -23,11 +23,11 @@ angular.module('staticApp')
 
       $scope.view.saveDetailsEdit = function () {
           saveOrganization();
-      }
+      };
 
       $scope.view.cancelDetailsEdit = function () {
           $scope.view.showEditDetails = false;
-      }
+      };
 
       isOrganizationLoading(true);
       $scope.data.loadedOrganizationPromise.promise
@@ -54,6 +54,6 @@ angular.module('staticApp')
               var message = 'Unable to save organization changes.';
               NotificationService.showErrorMessage(message);
               $log.error(message);
-          })
+          });
       }
   });

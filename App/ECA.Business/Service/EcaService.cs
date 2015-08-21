@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using ECA.Business.Queries.Admin;
 using NLog;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace ECA.Business.Service
 {
@@ -80,6 +82,53 @@ namespace ECA.Business.Service
                 response = CreateGetContactsByIdsQuery(contactIds).Count() == distinctIds.Count();
             }
             logger.Trace("Checked all contacts with ids {0} exist.", String.Join(", ", contactIds));
+            return response;
+        }
+        #endregion
+
+        #region Location Existence Validation
+
+        /// <summary>
+        /// A method to verify all locations with the given ids exist in the system.
+        /// </summary>
+        /// <param name="locationIds">The locations by Id to validate existence.</param>
+        /// <returns>True, if all locations exist, otherwise false.</returns>
+        public async Task<bool> CheckAllLocationsExistAsync(IEnumerable<int> locationIds)
+        {
+            Contract.Requires(locationIds != null, "The location ids must not be null.");
+            bool response = false;
+            if (locationIds.Count() == 0)
+            {
+                response = true;
+            }
+            else
+            {
+                var distinctIds = locationIds.Distinct().ToList();
+                response = await CreateGetLocationsById(locationIds.ToList()).CountAsync() == distinctIds.Count();
+            }
+            logger.Trace("Checked all locations with ids {0} exist.", String.Join(", ", locationIds));
+            return response;
+        }
+
+        /// <summary>
+        /// A method to verify all locations with the given ids exist in the system.
+        /// </summary>
+        /// <param name="locationIds">The locations by Id to validate existence.</param>
+        /// <returns>True, if all locations exist, otherwise false.</returns>
+        public bool CheckAllLocationsExist(IEnumerable<int> locationIds)
+        {
+            Contract.Requires(locationIds != null, "The location ids must not be null.");
+            bool response = false;
+            if (locationIds.Count() == 0)
+            {
+                response = true;
+            }
+            else
+            {
+                var distinctIds = locationIds.Distinct().ToList();
+                response = CreateGetLocationsById(locationIds.ToList()).Count() == distinctIds.Count();
+            }
+            logger.Trace("Checked all locations with ids {0} exist.", String.Join(", ", locationIds));
             return response;
         }
         #endregion
@@ -479,6 +528,68 @@ namespace ECA.Business.Service
             {
                 objectivable.Objectives.Remove(x);
             });
+        }
+
+        /// <summary>
+        /// Sets locations on the given instance with the given locaiton ids.
+        /// </summary>
+        /// <typeparam name="T">The class type with an ICollection<Location> property.</typeparam>
+        /// <param name="locationIds">The locations by id.</param>
+        /// <param name="locationPropertySelector">The lambda to select a property typed to a collection of locations.</param>
+        /// <param name="instance">The instance that contains a collection of locations to be set.</param>
+        public void SetLocations<T>(List<int> locationIds, Expression<Func<T, ICollection<Location>>> locationPropertySelector, T instance)
+        {
+            Contract.Requires(locationIds != null, "The objective ids must not be null.");
+            Contract.Requires(locationPropertySelector != null, "The expression must not be null.");
+            Contract.Requires(instance != null, "The instance must not be null.");
+
+            var locations = GetPropertyValue<T, ICollection<Location>>(instance, locationPropertySelector);
+
+            var locationsToRemove = locations.Where(x => !locationIds.Contains(x.LocationId)).ToList();
+            var locationsToAdd = new List<Location>();
+            locationIds.Where(x => !locations.Select(o => o.LocationId).ToList().Contains(x)).ToList()
+                .Select(x => new Location { LocationId = x }).ToList()
+                .ForEach(x => locationsToAdd.Add(x));
+
+            locationsToAdd.ForEach(x =>
+            {
+                var localEntity = Context.GetLocalEntity<Location>(y => y.LocationId == x.LocationId);
+                if (localEntity == null)
+                {
+                    if (Context.GetEntityState(x) == EntityState.Detached)
+                    {
+                        Context.Locations.Attach(x);
+                    }
+                    locations.Add(x);
+                }
+                else
+                {
+                    locations.Add(localEntity);
+                }
+            });
+            locationsToRemove.ForEach(x =>
+            {
+                locations.Remove(x);
+            });
+            SetPropertyValue<T, ICollection<Location>>(instance, locationPropertySelector, locations);
+        }
+
+        private TProperty GetPropertyValue<TInstance, TProperty>(TInstance instance, Expression<Func<TInstance, TProperty>> propertySelector)
+        {
+            var memberSelectorExpression = propertySelector.Body as MemberExpression;
+            Contract.Assert(memberSelectorExpression != null, "The member must not be null.");
+            var property = memberSelectorExpression.Member as PropertyInfo;
+            Contract.Assert(property != null, "The property must not be null.");
+            return (TProperty)property.GetValue(instance);
+        }
+
+        private void SetPropertyValue<TInstance, TProperty>(TInstance instance, Expression<Func<TInstance, TProperty>> propertySelector, TProperty value)
+        {
+            var memberSelectorExpression = propertySelector.Body as MemberExpression;
+            Contract.Assert(memberSelectorExpression != null, "The member must not be null.");
+            var property = memberSelectorExpression.Member as PropertyInfo;
+            Contract.Assert(property != null, "The property must not be null.");
+            property.SetValue(instance, value);
         }
 
         /// <summary>

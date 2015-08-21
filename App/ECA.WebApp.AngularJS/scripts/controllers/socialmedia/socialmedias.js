@@ -14,6 +14,7 @@ angular.module('staticApp')
         $q,
         $log,
         ConstantsService,
+        NotificationService,
         LookupService
         ) {
 
@@ -45,7 +46,7 @@ angular.module('staticApp')
           };
           entitySocialMedias.splice(0, 0, newSocialMedia);
           $scope.view.collapseSocialMedias = false;
-      }
+      };
 
       $scope.$on(ConstantsService.removeNewSocialMediaEventName, function (event, newSocialMedia) {
           console.assert($scope.socialable, 'The scope socialable property must exist.  It should be set by the directive.');

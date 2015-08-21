@@ -172,6 +172,36 @@
                         </ui-select>
                     </div>
                 </div>
+                <div class="row" ng-show="project.locations">
+                    <div class="col-md-6 title-label">
+                        <ng-pluralize count="project.locations.length" when="{'1':'Location','other':'Locations'}"></ng-pluralize>
+                    </div>
+                    <div class="col-md-6">
+                        <ui-select multiple
+                                   close-on-select="true"
+                                   ng-model="editView.selectedLocations"
+                                   theme="select2"
+                                   search-enabled="false"
+                                   title="Choose a location."
+                                   style="min-width: 200px;">
+                            <ui-select-match placeholder="Select locations...">
+                                <div>
+                                    {{$item.value}} ({{$item.locationTypeName}}:  {{$item.divisionIso ? $item.divisionIso + ', ' : ''}}{{$item.countryIso ? $item.countryIso : $item.locationIso}})
+                                </div>
+                            </ui-select-match>
+                            <ui-select-choices refresh="editView.searchLocations($select.search)" refresh-delay="250" repeat="location in editView.locations | filter: select.search track by location.id">
+                                <div ng-bind-html="location.name | highlight: $select.search"></div>
+                                <div style="margin-left:10px;" class="small" ng-show="location.locationTypeName">{{location.locationTypeName}}</div>
+                                <div style="margin-left:10px;" class="small" ng-show="location.city">{{location.city}}</div>
+                                <div style="margin-left:10px;" class="small" ng-show="location.division">{{location.division}}</div>
+                                <div style="margin-left:10px;" class="small" ng-show="location.country">{{location.country}}</div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <div style="margin-top:5px;">
+                            <button class="btn btn-default" ng-click="editView.onAdvancedSearchClick()">Advanced <i class="material-icons md-dark">search</i></button>
+                        </div>
+                    </div>
+                </div>
             </div>
     </form>
 </div>

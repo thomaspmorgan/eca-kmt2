@@ -595,11 +595,25 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="PersonId" />
   </Operation>
-  <Operation Name="Rename Refactor" Key="3f495e32-9c8f-4f36-9a0c-0555fb986594" ChangeDateTime="08/20/2015 14:10:23">
-    <Property Name="ElementName" Value="[dbo].[Gender].[GenderCode]" />
+  <Operation Name="Rename Refactor" Key="822bc7fd-73fb-4a6b-8335-63572f630f93" ChangeDateTime="08/12/2015 22:45:05">
+    <Property Name="ElementName" Value="[dbo].[Membership].[History_Create]" />
     <Property Name="ElementType" Value="SqlSimpleColumn" />
-    <Property Name="ParentElementName" Value="[dbo].[Gender]" />
+    <Property Name="ParentElementName" Value="[dbo].[Membership]" />
     <Property Name="ParentElementType" Value="SqlTable" />
-    <Property Name="NewName" Value="SevisGenderCode" />
+    <Property Name="NewName" Value="History_CreatedBy" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ea4cb5e6-fc40-4f51-a4c2-c06a05890e00" ChangeDateTime="08/17/2015 17:04:18">
+    <Property Name="ElementName" Value="[dbo].[Membership].[Person_PersonId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Membership]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PersonId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c7e809bd-a809-40f1-bd33-6a25910d68e8" ChangeDateTime="08/17/2015 17:10:43">
+    <Property Name="ElementName" Value="[dbo].[Membership].[Person_PersonId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Membership]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PersonId" />
   </Operation>
 </Operations>

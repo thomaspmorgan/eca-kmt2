@@ -208,7 +208,7 @@ namespace ECA.Business.Queries.Persons
                             PersonId = person.PersonId,
                             ProminentCategories = person.ProminentCategories.Select(x => new SimpleLookupDTO() { Id = x.ProminentCategoryId, Value = x.Name }),
                             Activities = person.Activities.Select(x => new SimpleLookupDTO() { Id = x.ActivityId, Value = x.Title }),
-                            Memberships = person.Memberships.Select(x => new ECA.Business.Queries.Models.Admin.SimpleOrganizationDTO() { OrganizationId = x.MembershipId, Name = x.Name }),
+                            Memberships = person.Memberships.Select(x => new ECA.Business.Queries.Models.Persons.MembershipDTO() { Id = x.MembershipId, Name = x.Name }),
                             LanguageProficiencies = person.LanguageProficiencies.Select(x => new SimpleLookupDTO() { Id = x.LanguageProficiencyId, Value = x.LanguageName }),
                             Dependants = person.Family.Select(x => new SimpleLookupDTO() { Id = x.PersonId, Value = (x.LastName + ", " + x.FirstName) }),
                             // RelatedReports TBD

@@ -129,6 +129,8 @@
     <Compile Include="Service\Admin\EcaAddressTest.cs" />
     <Compile Include="Service\Admin\EcaOrganizationTest.cs" />
     <Compile Include="Service\Admin\LocationServiceAddressValidatorTest.cs" />
+    <Compile Include="Service\Admin\LocationServiceValidatorTest.cs" />
+    <Compile Include="Service\Admin\LocationValidationEntityTest.cs" />
     <Compile Include="Service\Fundings\AdditionalMoneyFlowTest.cs" />
     <Compile Include="Service\Fundings\MoneyFlowServiceCreateValidationEntityTest.cs" />
     <Compile Include="Service\Fundings\MoneyFlowServiceUpdateValidationEntityTest.cs" />
@@ -142,9 +144,11 @@
     <Compile Include="Service\Admin\UpdatedSocialMediaPresenceTest.cs" />
     <Compile Include="Service\Admin\UpdateOrganizationValidationEntityTest.cs" />
     <Compile Include="Service\Fundings\UpdatedMoneyFlowTest.cs" />
+    <Compile Include="Service\Lookup\LocationTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\SocialMediaTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\AddressTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\ParticipantTypeServiceTest.cs" />
+    <Compile Include="Service\Persons\MembershipServiceTest.cs" />
     <Compile Include="Service\Persons\ParticipantPersonServiceTest.cs" />
     <Compile Include="Service\Projects\AdditionalOrganizationProjectParticipantTest.cs" />
     <Compile Include="Service\Projects\AdditionalPersonProjectParticipantTest.cs" />
@@ -176,6 +180,9 @@
     <Compile Include="Service\Programs\ProgramServiceValidationEntityTest.cs" />
     <Compile Include="Service\Programs\ProgramServiceValidatorTest.cs" />
     <Compile Include="Service\EcaServiceTest.cs" />
+    <Compile Include="Service\Admin\AdditionalLocationTest.cs" />
+    <Compile Include="Service\Admin\EcaLocationTest.cs" />
+    <Compile Include="Service\Admin\UpdatedLocationTest.cs" />
     <Compile Include="Service\Reports\ReportServiceTest.cs" />
     <Compile Include="Service\DeleteTest.cs" />
     <Compile Include="Service\UserTest.cs" />

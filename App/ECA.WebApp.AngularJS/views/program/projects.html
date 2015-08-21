@@ -121,7 +121,7 @@
             <tr ng-repeat="project in projects" class="hover" ng-show="!projectsLoading"
                 id="projectRow{{project.projectId}}">
                 <td class="narrowPadding">
-                    <h4 class="list-title"><a style="font-size:18px; font-weight: 500;" ui-sref="projects.overview({officeId: program.ownerOrganizationId, programId: program.id, projectId: project.projectId})">{{project.projectName}}</a></h4>
+                    <h4 class="list-title"><a style="font-size:18px; font-weight: 500;" ui-sref="projects.overview({projectId: project.projectId})">{{project.projectName}}</a></h4>
                 </td>
                 <td style="vertical-align:middle;">{{project.projectStatusName}}</td>
                 <td style="vertical-align:middle;">{{project.startYearAsString}}</td>

@@ -19,6 +19,9 @@ namespace ECA.WebApi.Models.Person
         [Required]
         public int PersonId { get; set; }
 
+        /// <summary>
+        /// Gets and sets the prominent categories for the user
+        /// </summary>
         public List<int> ProminentCategories { get; set; }
 
         /// <summary>

@@ -19,6 +19,7 @@ using System.Web.Http.Description;
 using ECA.Data;
 using ECA.Business.Queries.Models.Admin;
 using ECA.WebApi.Models.Admin;
+using System.Web.Http.Results;
 
 namespace ECA.WebApi.Controllers.Persons
 {
@@ -35,6 +36,7 @@ namespace ECA.WebApi.Controllers.Persons
         private IUserProvider userProvider;
         private IAddressModelHandler addressHandler;
         private ISocialMediaPresenceModelHandler socialMediaHandler;
+        private IMembershipService membershipService;
 
         /// <summary>
         /// Constructor 
@@ -43,6 +45,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="userProvider">The user provider.</param>
         /// <param name="addressHandler">The address handler.</param>
         /// <param name="socialMediaHandler">The social media handler.</param>
+
         public PeopleController(
             IPersonService service, 
             IUserProvider userProvider,
@@ -271,7 +274,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <param name="model">The model to update</param>
         /// <returns></returns>
-        [Route("People/General")]
+        [Route("People/{personId:int}/General")]
         public async Task<IHttpActionResult> PutGeneralAsync(GeneralBindingModel model)
         {
             if (ModelState.IsValid)
@@ -289,7 +292,7 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
-        /// Adds a new address to the organization.
+        /// Adds a new address to the person.
         /// </summary>
         /// <param name="model">The new address.</param>
         /// <returns>The saved address.</returns>
@@ -311,5 +314,6 @@ namespace ECA.WebApi.Controllers.Persons
         {
             return socialMediaHandler.HandleSocialMediaPresenceAsync<Person>(model, this);
         }
+
     }
 }

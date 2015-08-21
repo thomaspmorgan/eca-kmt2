@@ -728,48 +728,58 @@ div.tip:hover span {
 
 .bookmark {
     
+    width: 330px;
     padding-bottom: 30px;
+}
 
-    .bookmark-header {
+.bookmark-header {
 
-        padding-top: 15px;
+    padding-top: 15px;
+    color: #fff;
+    text-transform: uppercase;
+
+    a {
         color: #fff;
-        text-transform: uppercase;
-
-        a {
-            color: #fff;
-            opacity: 0.5;
-        }
-        
-        a:hover {
-            opacity: 1;
-        }
-
+        opacity: 0.5;
     }
     
-    .bookmark-content {
-        height: 200px;
-        padding-top: 15px;
-        border-left: solid 3px #efefef;
-        border-right: solid 3px #efefef;
-        border-bottom: solid 3px #efefef;
-        font-weight: 500;
-
-        a {
-            color: #415358;
-        }
-
-        a:hover {
-            color: #297cb4;
-        }
-
-        .bookmark-title {
-            text-transform: uppercase;
-        }
+    a:hover {
+        opacity: 1;
     }
 
-    .bookmark-footer {
-        padding-top: 15px;
-        color: #a0a9ab;
+}
+    
+.bookmark-content {
+    padding-top: 15px;
+    border-left: solid 3px #efefef;
+    border-right: solid 3px #efefef;
+    border-bottom: solid 3px #efefef;
+    font-weight: 500;
+    color: #a0a9ab;
+}
+
+.bookmark-name {
+    font-weight: 500;
+    padding-bottom: 15px;
+
+    a {
+        color: #415358;
     }
+
+    a:hover {
+        color: #297cb4;
+    }
+}
+
+.bookmark-title {
+    text-transform: uppercase;
+}
+
+.bookmark-name {
+    height: 107px;
+}
+
+/* used to indent expandable directives */ 
+.expandIndent {
+    padding-left: 10px;
 }

@@ -165,6 +165,8 @@
     <Compile Include="Models\Admin\OrganizationSocialMediaPresenceBindingModelTest.cs" />
     <Compile Include="Models\Admin\PersonAddressBindingModelTest.cs" />
     <Compile Include="Models\Admin\OrganizationAddressBindingModelTest.cs" />
+    <Compile Include="Models\Admin\LocationBindingModelTest.cs" />
+    <Compile Include="Models\Admin\UpdatedLocationBindingModelTest.cs" />
     <Compile Include="Models\Admin\UpdatedAddressBindingModelTest.cs" />
     <Compile Include="Models\Admin\UpdatedOrganizationBindingModelTest.cs" />
     <Compile Include="Models\Admin\UpdatedSocialMediaBindingModelTest.cs" />

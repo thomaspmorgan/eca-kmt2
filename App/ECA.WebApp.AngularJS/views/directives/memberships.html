@@ -1,0 +1,75 @@
+﻿<div ng-controller="MembershipsCtrl">
+    <div>
+        <a ng-click="view.collapseMemberships = !view.collapseMemberships">
+            <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapseMemberships">expand_more</i>
+            <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapseMemberships">expand_less</i>
+        </a>
+        <a ng-click="view.onAddMembershipClick(model.memberships, personId)" ng-show="editMode == 'edit'">
+            <i class="material-icons md-24 md-dark pull-right">add</i>
+        </a>
+        <div class="pull-right" style="margin-top: 3px;" ng-show="view.collapseMemberships">({{model.memberships.length}})</div>
+    </div>
+    <div class="col-md-12" collapse="view.collapseMemberships">
+        <div ng-repeat="membership in model.memberships">
+            <div ng-controller="MembershipCtrl" class="expandIndent">
+                <div class="spinner" ng-show="view.isSavingChanges">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
+                <div ng-class="{true: 'row', false: 'row2'}[editMode == 'edit']" ng-show="!view.isSavingChanges">
+                    <div ng-show="!view.showEditMembership">
+                        <span>{{membership.name}}</span>
+                        <div class="pull-right" ng-show="!view.showEditMembership && editMode == 'edit'">
+                            <a ng-show="!view.showEditMembership && !view.isDeletingMembership" ng-click="view.showConfirmDelete = true">
+                                <i class="material-icons md-dark">delete</i>
+                            </a>
+                            <a ng-show="view.isDeletingMembership">
+                                <i class="material-icons md-dark material-icons-spin">refresh</i>
+                            </a>
+                            <a ng-show="!view.showEditMembership" ng-click="view.onEditMembershipClick()">
+                                <i class="material-icons md-dark">edit</i>
+                            </a>
+                        </div>
+                    </div>
+                    <div ng-show="view.showConfirmDelete" class="text-center">
+                        Are you sure you want to delete this membership?
+                    </div>
+                    <div ng-show="view.showConfirmDelete" style="margin-top:10px;" class="text-center">
+                        <button ng-click="view.onDeleteMembershipClick()" class="btn btn-danger">Delete</button>
+                        <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
+                    </div>
+                    <div in-context-form ng-show="view.showEditMembership">
+                        <form name="form.membershipForm" class="form-horizontal">
+                            <div class="form-group" id="membershipForm{{membership.id}}">
+                                <label class=" title-label col-md-3" for="membershipName">Name<span class="asterisk"> *</span></label>
+                                <div class="col-md-6">
+                                    <input name="membershipName"
+                                           maxlength="100"
+                                           ng-model="membership.name"
+                                           form-element
+                                           guidance="This is the name of the membership."
+                                           type="text"
+                                           class="form-control"
+                                           placeholder="Enter membership name."
+                                           id="membershipName"
+                                           required />
+                                </div>
+                                <div class="col-md-3">
+                                    <guidance></guidance>
+                                </div>
+                                <div ng-show="form.membershipForm.membershipName.$dirty || form.membershipForm.membershipName.$error.required">
+                                    <div class="error" ng-show="form.membershipForm.membershipName.$error.required">Please enter a membership name.</div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row right" ng-show="view.showEditMembership">
+                            <button ng-click="view.saveMembershipChanges()" class="btn btn-success" ng-disabled="form.membershipForm.$invalid">Save</button>
+                            <button ng-click="view.cancelMembershipChanges()" class="btn btn-cancel">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

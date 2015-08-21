@@ -1,69 +1,63 @@
 ﻿<div ng-controller="personGeneralCtrl">
-    <div ng-show="!editGeneral">
-        <div class="col-md-6">
-            <div class="row">
-                <label class="col-md-4 title-label">Current Status</label>
-                <div class="col-md-6">
-                    {{general.currentStatus}}
-                </div>
-            </div>
-            <div class="row">
-                <label class="col-md-4 title-label">Prominent Categories</label>
-                <div class="col-md-6">
-                    <ul>
-                        <li ng-repeat="category in general.prominentCategories">{{category.value}}</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row">
-                <label class="col-md-4 title-label">Activities Participated</label>
-                <div class="col-md-6">
-                    <ul>
-                        <li ng-repeat="event in general.events">{{event.value}}</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row">
-                <label class="col-md-4 title-label">Related Reports</label>
-                <div class="col-md-6">
-                    <ul>
-                        <li ng-repeat="report in general.relatedReports">{{report.value}}</li>
-                    </ul>
-                </div>
+    <div class="col-md-6">
+        <div class="row">
+            <label class="col-md-3 title-label">Current Status</label>
+            <div class="col-md-9">
+                {{general.currentStatus}}
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="row">
-                <label class="col-md-4 title-label">Memberships</label>
-                <div class="col-md-6">
-                    <ul>
-                        <li ng-repeat="membership in general.memberships">{{membership.name}}</li>
-                    </ul>
-                </div>
+        <div class="row">
+            <label class="col-md-3 title-label">Prominent Categories</label>
+            <div class="col-md-9">
+                <ul>
+                    <li ng-repeat="category in general.prominentCategories">{{category.value}}</li>
+                </ul>
             </div>
-            <div class="row">
-                <label class="col-md-4 title-label">Language Proficiencies</label>
-                <div class="col-md-6">
-                    <ul>
-                        <li ng-repeat="language in general.languageProficiencies">{{language.value}}</li>
-                    </ul>
-                </div>
+        </div>
+        <div class="row">
+            <label class="col-md-3 title-label">Activities Participated</label>
+            <div class="col-md-9">
+                <ul>
+                    <li ng-repeat="event in general.events">{{event.value}}</li>
+                </ul>
             </div>
-            <div class="row">
-                <label class="col-md-4 title-label">Dependants</label>
-                <div class="col-md-6">
-                    <ul>
-                        <li ng-repeat="dependant in general.dependants">{{dependant.value}}</li>
-                    </ul>
-                </div>
+        </div>
+        <div class="row">
+            <label class="col-md-3 title-label">Related Reports</label>
+            <div class="col-md-9">
+                <ul>
+                    <li ng-repeat="report in general.relatedReports">{{report.value}}</li>
+                </ul>
             </div>
-            <div class="row">
-                <label class="col-md-4 title-label">Impact Stories</label>
-                <div class="col-md-6">
-                    <ul>
-                        <li ng-repeat="impact in general.impactStories">{{impact.value}}</li>
-                    </ul>
-                </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-3 title-label">Memberships</div>
+            <memberships model="general" personId="general.personId" editmode="view"></memberships>
+        </div>
+        <div class="row">
+            <label class="col-md-3 title-label">Language Proficiencies</label>
+            <div class="col-md-9">
+                <ul>
+                    <li ng-repeat="language in general.languageProficiencies">{{language.value}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-md-3 title-label">Dependants</label>
+            <div class="col-md-9">
+                <ul>
+                    <li ng-repeat="dependant in general.dependants">{{dependant.value}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-md-3 title-label">Impact Stories</label>
+            <div class="col-md-9">
+                <ul>
+                    <li ng-repeat="impact in general.impactStories">{{impact.value}}</li>
+                </ul>
             </div>
         </div>
     </div>

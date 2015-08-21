@@ -2,7 +2,7 @@
 namespace ECA.Data
 {
     /// <summary>
-    /// An IThemeable entity is an entity that has themes.
+    /// An ILocationable entity is an entity that has locations.
     /// </summary>
     public interface ILocationable
     {

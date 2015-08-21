@@ -41,6 +41,7 @@
 	otherConstants["removeNewAddressEventName"] = "removeNewAddress";
 	otherConstants["primaryAddressChangedEventName"] = "primaryAddressChanged";
 	otherConstants["removeNewSocialMediaEventName"] = "removeNewSocialMedia";
+	otherConstants["removeNewMembershipsEventName"] = "removeNewMembership";
 
 	otherConstants["inComparisonType"] = ComparisonType.In.Value;
 	otherConstants["notInComparisonType"] = ComparisonType.NotIn.Value;

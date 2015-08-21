@@ -15,6 +15,8 @@ angular
     'ngSanitize',
     'ui.router',
     'ui.bootstrap',
+    'ui.map',
+    'ui.event',
     'ngModal',
     'isteven-multi-select',
     'xeditable',
@@ -306,7 +308,7 @@ angular
         })
 
         .state('projects', {
-            url: '/offices/:officeId/programs/:programId/project/:projectId',
+            url: '/projects/:projectId',
             templateUrl: 'views/project.html',
             controller: 'ProjectCtrl',
             requireADLogin: true

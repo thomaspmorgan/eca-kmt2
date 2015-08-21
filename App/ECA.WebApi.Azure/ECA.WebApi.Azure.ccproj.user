@@ -4,5 +4,7 @@
     <RemoteDesktopMoreOptions>False</RemoteDesktopMoreOptions>
     <ActivePublishProfile>ECAApi Prod</ActivePublishProfile>
     <LocalProfile>Local</LocalProfile>
+    <WebRoleSkipLaunchInBrowser>
+    </WebRoleSkipLaunchInBrowser>
   </PropertyGroup>
 </Project>

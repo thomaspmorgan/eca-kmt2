@@ -98,6 +98,46 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="addressId">The id of the address to delete.</param>
         Task DeleteAsync(int addressId);
+
+        /// <summary>
+        /// Returns the location with the given id, or null if it is not found.
+        /// </summary>
+        /// <param name="locationId">The id of the location.</param>
+        /// <returns>The location, or null if it does not exist.</returns>
+        LocationDTO GetLocationById(int locationId);
+
+        /// <summary>
+        /// Returns the location with the given id, or null if it is not found.
+        /// </summary>
+        /// <param name="locationId">The id of the location.</param>
+        /// <returns>The location, or null if it does not exist.</returns>
+        Task<LocationDTO> GetLocationByIdAsync(int locationId);
+
+        /// <summary>
+        /// Updates the system's location with the given updated location.
+        /// </summary>
+        /// <param name="updatedLocation">The updated location.</param>
+        void Update(UpdatedLocation updatedLocation);
+
+        /// <summary>
+        /// Updates the system's location with the given updated location.
+        /// </summary>
+        /// <param name="updatedLocation">The updated location.</param>
+        Task UpdateAsync(UpdatedLocation updatedLocation);
+
+        /// <summary>
+        /// Adds the given location to the eca system.
+        /// </summary>
+        /// <param name="additionalLocation">The new location.</param>
+        /// <returns>The task.</returns>
+        Location Create(AdditionalLocation additionalLocation);
+
+        /// <summary>
+        /// Adds the given location to the eca system.
+        /// </summary>
+        /// <param name="additionalLocation">The new location.</param>
+        /// <returns>The task.</returns>
+        Task<Location> CreateAsync(AdditionalLocation additionalLocation);
     }
 
     /// <summary>
@@ -251,6 +291,68 @@ namespace ECA.Business.Service.Admin
         public Task DeleteAsync(int addressId)
         {
             return Task.FromResult<object>(null);   
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="locationId"></param>
+        /// <returns></returns>
+        public LocationDTO GetLocationById(int locationId)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="locationId"></param>
+        /// <returns></returns>
+        public Task<LocationDTO> GetLocationByIdAsync(int locationId)
+        {
+            return Task.FromResult<LocationDTO>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="updatedLocation"></param>
+        public void Update(UpdatedLocation updatedLocation)
+        {
+            Contract.Requires(updatedLocation != null, "The updated location must not be null.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="updatedLocation"></param>
+        /// <returns></returns>
+        public Task UpdateAsync(UpdatedLocation updatedLocation)
+        {
+            Contract.Requires(updatedLocation != null, "The updated location must not be null.");
+            return Task.FromResult<object>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="additionalLocation"></param>
+        /// <returns></returns>
+        public Location Create(AdditionalLocation additionalLocation)
+        {
+            Contract.Requires(additionalLocation != null, "The additional location must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="additionalLocation"></param>
+        /// <returns></returns>
+        public Task<Location> CreateAsync(AdditionalLocation additionalLocation)
+        {
+            Contract.Requires(additionalLocation != null, "The additional location must not be null.");
+            return Task.FromResult<Location>(null);
         }
     }
 }

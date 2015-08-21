@@ -6,7 +6,8 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <link href='https://fonts.googleapis.com/css?family=Raleway:400,100,300,200,500,600,700,800,900' rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">    
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
@@ -112,8 +113,7 @@
                 <p>Promoting Mutual Understanding</p>
             </div>
         </div>
-    </div>
-
+    </div>    
     <!-- build:js(.) scripts/oldieshim.js -->
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -137,6 +137,8 @@
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/modal.js"></script>
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip.js"></script>
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/popover.js"></script>
+    <script src="bower_components/angular-ui-utils/ui-utils.min.js"></script>
+    <script src="bower_components/angular-ui-map/ui-map.min.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
@@ -186,9 +188,12 @@
     <script src="scripts/controllers/about.js"></script>
     <script src="scripts/controllers/toolbaricons.js"></script>
     <script src="scripts/controllers/collaborators.js"></script>
+    <script src="scripts/controllers/locations/searchlocations.js"></script>
+    <script src="scripts/controllers/locations/addlocation.js"></script>
     <script src="scripts/services/authservice.js"></script>
     <script src="scripts/services/addressservice.js"></script>
     <script src="scripts/services/socialmediaservice.js"></script>
+    <script src="scripts/services/filterservice.js"></script>
     <script src="scripts/controllers/securetest.js"></script>
     <script src="scripts/controllers/logout.js"></script>
     <script src="scripts/services/schema.js"></script>
@@ -217,6 +222,7 @@
     <script src="scripts/filters/tabfilter.js"></script>
     <script src="scripts/filters/highlight.js"></script>
     <script src="scripts/filters/groupby.js"></script>
+    <script src="scripts/filters/propFilter.js"></script>
     <script src="scripts/directives/map.js"></script>
     <script src="scripts/services/project.js"></script>
     <script src="scripts/services/userservice.js"></script>
@@ -259,10 +265,11 @@
     <script src="scripts/controllers/person/personEduEmp.js"></script>
     <script src="scripts/controllers/person/personEvaluationNotes.js"></script>
     <script src="scripts/controllers/person/personGeneralEdit.js"></script>
+    <script src="scripts/controllers/membership/membership.js"></script>
+    <script src="scripts/controllers/membership/memberships.js"></script>
+    <script src="scripts/directives/memberships.js"></script>
+    <script src="scripts/services/membership.js"></script>
     <!-- endbuild -->
-    <!--<script src="http://d3js.org/d3.v3.min.js"></script>
-    <script src="http://d3js.org/topojson.v1.min.js"></script>
-    <script src="bower_components/datamaps/dist/datamaps.world.min.js"></script>!-->
-
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=onGoogleReady"></script>
 </body>
 </html>

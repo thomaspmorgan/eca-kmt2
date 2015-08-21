@@ -108,8 +108,18 @@ namespace ECA.Business.Service.Persons
         /// <returns>The person that was created</returns>
         Task<Person> CreateAsync(NewPerson person);
 
+        /// <summary>
+        /// Updates the PII section of a person
+        /// </summary>
+        /// <param name="pii"></param>
+        /// <returns></returns>
         Task<Person> UpdatePiiAsync(UpdatePii pii);
-
+        
+        /// <summary>
+        /// Update general section of a person
+        /// </summary>
+        /// <param name="general"></param>
+        /// <returns></returns>
         Task<Person> UpdateGeneralAsync(UpdateGeneral general);
 
         /// <summary>
@@ -133,6 +143,11 @@ namespace ECA.Business.Service.Persons
         /// <returns></returns>
         Task<Person> GetPersonByIdAsync(int personId);
 
+        /// <summary>
+        /// Gets a person as a simple DTO record
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <returns></returns>
         Task<SimplePersonDTO> GetSimplePersonAsync(int personId);
     }
 }

@@ -204,7 +204,7 @@ namespace ECA.Business.Test.Service.Projects
             Action<Project> tester = (project) =>
             {
                 Assert.IsNotNull(project);
-                CollectionAssert.AreEqual(context.Contacts.Select(x => x.ContactId).ToList(), project.Contacts.Select(x => x.ContactId).ToList());
+                Assert.AreEqual(0, project.Contacts.Count);
             };
 
             var createdProject = service.Create(draftProject);
@@ -272,7 +272,7 @@ namespace ECA.Business.Test.Service.Projects
             Action<Project> tester = (project) =>
             {
                 Assert.IsNotNull(project);
-                CollectionAssert.AreEqual(context.Categories.Select(x => x.CategoryId).ToList(), project.Categories.Select(x => x.CategoryId).ToList());
+                Assert.AreEqual(0, project.Categories.Count);
             };
 
             var createdProject = service.Create(draftProject);
@@ -305,7 +305,7 @@ namespace ECA.Business.Test.Service.Projects
             Action<Project> tester = (project) =>
             {
                 Assert.IsNotNull(project);
-                CollectionAssert.AreEqual(context.Objectives.Select(x => x.ObjectiveId).ToList(), project.Objectives.Select(x => x.ObjectiveId).ToList());
+                Assert.AreEqual(0, project.Objectives.Count);
             };
 
             var createdProject = service.Create(draftProject);
@@ -914,7 +914,7 @@ namespace ECA.Business.Test.Service.Projects
             {
                 LocationId = 1,
                 LocationName = "region",
-                
+
             };
             var country1 = new Location
             {
@@ -1478,28 +1478,474 @@ namespace ECA.Business.Test.Service.Projects
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var revisedOn = DateTimeOffset.UtcNow.AddDays(-2.0);
             var createdOn = DateTimeOffset.UtcNow.AddDays(-3.0);
+
+            var status = new ProjectStatus
+            {
+                ProjectStatusId = 1,
+                Status = "status"
+            };
+            var owner = new Organization
+            {
+                OrganizationId = 20,
+                Name = "owner",
+                OfficeSymbol = "xyz"
+            };
+            var program = new Program
+            {
+                ProgramId = 10,
+                Name = "program",
+                Owner = owner,
+                OwnerId = owner.OrganizationId
+            };
+            owner.OwnerPrograms.Add(program);
+            var project = new Project
+            {
+                ProjectId = 1,
+                Name = "name",
+                Description = "description",
+                Themes = new HashSet<Theme>(),
+                StartDate = yesterday,
+                EndDate = now,
+                Locations = new HashSet<Location>(),
+                Regions = new HashSet<Location>(),
+                Goals = new HashSet<Goal>(),
+                Status = status,
+                Contacts = new HashSet<Contact>(),
+                History = new History
+                {
+                    RevisedOn = revisedOn,
+                    CreatedOn = createdOn
+                },
+                ProgramId = program.ProgramId,
+                ParentProgram = program
+            };
+            context.Organizations.Add(owner);
+            context.Projects.Add(project);
+            context.ProjectStatuses.Add(status);
+            context.Programs.Add(program);
+
+            Action<ProjectDTO> tester = (serviceResult) =>
+            {
+                Assert.AreEqual(project.ProjectId, serviceResult.Id);
+                Assert.AreEqual(owner.Name, serviceResult.OwnerName);
+                Assert.AreEqual(owner.OrganizationId, serviceResult.OwnerId);
+                Assert.AreEqual(owner.OfficeSymbol, serviceResult.OwnerOfficeSymbol);
+                Assert.AreEqual(program.Name, serviceResult.ProgramName);
+                Assert.AreEqual(program.ProgramId, serviceResult.ProgramId);
+                Assert.AreEqual(project.Name, serviceResult.Name);
+                Assert.AreEqual(project.Description, serviceResult.Description);
+                Assert.AreEqual(status.ProjectStatusId, serviceResult.ProjectStatusId);
+                Assert.AreEqual(status.Status, serviceResult.Status);
+                Assert.AreEqual(yesterday, serviceResult.StartDate);
+                Assert.AreEqual(now, serviceResult.EndDate);
+                Assert.AreEqual(revisedOn, serviceResult.RevisedOn);
+            };
+
+            var result = service.GetProjectById(project.ProjectId);
+            var resultAsync = await service.GetProjectByIdAsync(project.ProjectId);
+
+            tester(result);
+            tester(resultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetProjectById_CheckCountries()
+        {
+            var now = DateTimeOffset.UtcNow;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var revisedOn = DateTimeOffset.UtcNow.AddDays(-2.0);
+            var createdOn = DateTimeOffset.UtcNow.AddDays(-3.0);
+
+            var countryType = new LocationType
+            {
+                LocationTypeId = LocationType.Country.Id
+            };
+            var placeType = new LocationType
+            {
+                LocationTypeId = LocationType.Place.Id
+            };
+            var country = new Location
+            {
+                LocationId = 1,
+                LocationName = "country",
+                LocationIso = "countryIso",
+                LocationIso2 = "iso2",
+                LocationTypeId = countryType.LocationTypeId,
+                LocationType = countryType
+            };
+            var projectLocation1 = new Location
+            {
+                LocationId = 2,
+                Country = country,
+                CountryId = country.LocationId,
+                LocationName = "project location1",
+                LocationType = placeType,
+                LocationTypeId = placeType.LocationTypeId
+            };
+            var projectLocation2 = new Location
+            {
+                LocationId = 3,
+                Country = country,
+                CountryId = country.LocationId,
+                LocationName = "project location2",
+                LocationType = placeType,
+                LocationTypeId = placeType.LocationTypeId
+            };
+            var status = new ProjectStatus
+            {
+                ProjectStatusId = 1,
+                Status = "status"
+            };
+            var owner = new Organization
+            {
+                OrganizationId = 20,
+                Name = "owner"
+            };
+            var program = new Program
+            {
+                ProgramId = 10,
+                Name = "program",
+                Owner = owner,
+                OwnerId = owner.OrganizationId
+            };
+            owner.OwnerPrograms.Add(program);
+            var project = new Project
+            {
+                ProjectId = 1,
+                Name = "name",
+                Description = "description",
+                Themes = new HashSet<Theme>(),
+                StartDate = yesterday,
+                EndDate = now,
+                Locations = new HashSet<Location>(),
+                Regions = new HashSet<Location>(),
+                Goals = new HashSet<Goal>(),
+                Status = status,
+                Contacts = new HashSet<Contact>(),
+                History = new History
+                {
+                    RevisedOn = revisedOn,
+                    CreatedOn = createdOn
+                },
+                ProgramId = program.ProgramId,
+                ParentProgram = program
+            };
+            project.Locations.Add(projectLocation1);
+            project.Locations.Add(projectLocation2);
+
+            context.Organizations.Add(owner);
+            context.Locations.Add(country);
+            context.Locations.Add(projectLocation1);
+            context.Projects.Add(project);
+            context.LocationTypes.Add(countryType);
+            context.LocationTypes.Add(placeType);
+            context.ProjectStatuses.Add(status);
+            context.Programs.Add(program);
+
+            Action<ProjectDTO> tester = (serviceResult) =>
+            {
+                Assert.IsNotNull(serviceResult);
+                Assert.AreEqual(1, serviceResult.CountryIsos.Count());
+                Assert.AreEqual(country.LocationIso, serviceResult.CountryIsos.First().Value);
+            };
+
+            var result = service.GetProjectById(project.ProjectId);
+            var resultAsync = await service.GetProjectByIdAsync(project.ProjectId);
+
+            tester(result);
+            tester(resultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetProjectById_CheckLocations()
+        {
+            var now = DateTimeOffset.UtcNow;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var revisedOn = DateTimeOffset.UtcNow.AddDays(-2.0);
+            var createdOn = DateTimeOffset.UtcNow.AddDays(-3.0);
+
+            var countryType = new LocationType
+            {
+                LocationTypeId = LocationType.Country.Id
+            };
+            var cityType = new LocationType
+            {
+                LocationTypeId = LocationType.City.Id
+            };
+            var place = new LocationType
+            {
+                LocationTypeId = LocationType.Place.Id
+            };
+            var country = new Location
+            {
+                LocationId = 1,
+                LocationName = "country",
+                LocationIso = "countryIso",
+                LocationIso2 = "iso2",
+                LocationTypeId = countryType.LocationTypeId,
+                LocationType = countryType
+            };
+            var city = new Location
+            {
+                LocationId = 2,
+                LocationName = "city",
+                LocationTypeId = cityType.LocationTypeId,
+                LocationType = cityType
+            };
+            var projectLocation = new Location
+            {
+                LocationId = 2,
+                Country = country,
+                CountryId = country.LocationId,
+                City = city,
+                CityId = city.LocationId,
+                LocationName = "project location",
+                Longitude = 2.0f,
+                Latitude = 1.0f,
+                LocationType = place,
+                LocationTypeId = place.LocationTypeId
+            };
+            var status = new ProjectStatus
+            {
+                ProjectStatusId = 1,
+                Status = "status"
+            };
+            var owner = new Organization
+            {
+                OrganizationId = 20,
+                Name = "owner"
+            };
+            var program = new Program
+            {
+                ProgramId = 10,
+                Name = "program",
+                Owner = owner,
+                OwnerId = owner.OrganizationId
+            };
+            owner.OwnerPrograms.Add(program);
+            var project = new Project
+            {
+                ProjectId = 1,
+                Name = "name",
+                Description = "description",
+                Themes = new HashSet<Theme>(),
+                StartDate = yesterday,
+                EndDate = now,
+                Locations = new HashSet<Location>(),
+                Regions = new HashSet<Location>(),
+                Goals = new HashSet<Goal>(),
+                Status = status,
+                Contacts = new HashSet<Contact>(),
+                History = new History
+                {
+                    RevisedOn = revisedOn,
+                    CreatedOn = createdOn
+                },
+                ProgramId = program.ProgramId,
+                ParentProgram = program
+            };
+            project.Locations.Add(projectLocation);
+
+            context.Organizations.Add(owner);
+            context.Locations.Add(country);
+            context.Projects.Add(project);
+            context.Locations.Add(projectLocation);
+            context.LocationTypes.Add(countryType);
+            context.LocationTypes.Add(cityType);
+            context.LocationTypes.Add(place);
+            context.ProjectStatuses.Add(status);
+            context.Programs.Add(program);
+
+            Action<ProjectDTO> tester = (serviceResult) =>
+            {
+                Assert.IsNotNull(serviceResult);
+                Assert.AreEqual(1, serviceResult.Locations.Count());
+                var testProjectLocation = serviceResult.Locations.First();
+                Assert.AreEqual(projectLocation.LocationId, testProjectLocation.Id);
+                Assert.AreEqual(projectLocation.LocationName, testProjectLocation.Name);
+                Assert.AreEqual(country.LocationId, testProjectLocation.CountryId);
+                Assert.AreEqual(country.LocationName, testProjectLocation.Country);
+                Assert.AreEqual(city.LocationId, testProjectLocation.CityId);
+                Assert.AreEqual(city.LocationName, testProjectLocation.City);
+                Assert.AreEqual(projectLocation.Longitude, testProjectLocation.Longitude);
+                Assert.AreEqual(projectLocation.Latitude, projectLocation.Latitude);
+                Assert.AreEqual(place.LocationTypeId, testProjectLocation.LocationTypeId);
+                Assert.AreEqual(place.LocationTypeName, testProjectLocation.LocationTypeName);
+            };
+
+            var result = service.GetProjectById(project.ProjectId);
+            var resultAsync = await service.GetProjectByIdAsync(project.ProjectId);
+
+            tester(result);
+            tester(resultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetProjectById_CheckContacts()
+        {
+            var now = DateTimeOffset.UtcNow;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var revisedOn = DateTimeOffset.UtcNow.AddDays(-2.0);
+            var createdOn = DateTimeOffset.UtcNow.AddDays(-3.0);
+
+            var status = new ProjectStatus
+            {
+                ProjectStatusId = 1,
+                Status = "status"
+            };
+
+            var contact = new Contact
+            {
+                ContactId = 1,
+                FullName = "fullName",
+                Position = "Position"
+            };
+            var owner = new Organization
+            {
+                OrganizationId = 20,
+                Name = "owner"
+            };
+            var program = new Program
+            {
+                ProgramId = 10,
+                Name = "program",
+                Owner = owner,
+                OwnerId = owner.OrganizationId
+            };
+            owner.OwnerPrograms.Add(program);
+            var project = new Project
+            {
+                ProjectId = 1,
+                Name = "name",
+                Description = "description",
+                Themes = new HashSet<Theme>(),
+                StartDate = yesterday,
+                EndDate = now,
+                Locations = new HashSet<Location>(),
+                Regions = new HashSet<Location>(),
+                Goals = new HashSet<Goal>(),
+                Status = status,
+                Contacts = new HashSet<Contact>(),
+                History = new History
+                {
+                    RevisedOn = revisedOn,
+                    CreatedOn = createdOn
+                },
+                ProgramId = program.ProgramId,
+                ParentProgram = program
+            };
+
+            project.Contacts.Add(contact);
+
+            context.Organizations.Add(owner);
+            context.Projects.Add(project);
+            context.ProjectStatuses.Add(status);
+            context.Contacts.Add(contact);
+            context.Programs.Add(program);
+
+            Action<ProjectDTO> tester = (serviceResult) =>
+            {
+                CollectionAssert.AreEqual(context.Contacts.Select(x => x.ContactId).ToList(), serviceResult.Contacts.Select(x => x.Id).ToList());
+                CollectionAssert.AreEqual(context.Contacts.Select(x => x.FullName + " (" + x.Position + ")").ToList(), serviceResult.Contacts.Select(x => x.Value).ToList());
+            };
+
+            var result = service.GetProjectById(project.ProjectId);
+            var resultAsync = await service.GetProjectByIdAsync(project.ProjectId);
+
+            tester(result);
+            tester(resultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetProjectById_CheckThemes()
+        {
+            var now = DateTimeOffset.UtcNow;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var revisedOn = DateTimeOffset.UtcNow.AddDays(-2.0);
+            var createdOn = DateTimeOffset.UtcNow.AddDays(-3.0);
             var theme = new Theme
             {
                 ThemeId = 1,
                 ThemeName = "theme"
             };
 
-            var location = new Location
+            var status = new ProjectStatus
             {
-                LocationId = 1,
-                LocationName = "country",
-                LocationIso = "countryIso",
-                LocationTypeId = LocationType.Country.Id
+                ProjectStatusId = 1,
+                Status = "status"
             };
 
-            var region = new Location
+            var contact = new Contact
             {
-                LocationName = "region",
-                LocationId = 3,
-                LocationIso = "locationIso",
-                LocationTypeId = LocationType.Region.Id
+                ContactId = 1,
+                FullName = "fullName",
+                Position = "Position"
             };
-            location.Region = region;
+            var owner = new Organization
+            {
+                OrganizationId = 20,
+                Name = "owner"
+            };
+            var program = new Program
+            {
+                ProgramId = 10,
+                Name = "program",
+                Owner = owner,
+                OwnerId = owner.OrganizationId
+            };
+            owner.OwnerPrograms.Add(program);
+            var project = new Project
+            {
+                ProjectId = 1,
+                Name = "name",
+                Description = "description",
+                Themes = new HashSet<Theme>(),
+                StartDate = yesterday,
+                EndDate = now,
+                Locations = new HashSet<Location>(),
+                Regions = new HashSet<Location>(),
+                Goals = new HashSet<Goal>(),
+                Status = status,
+                Contacts = new HashSet<Contact>(),
+                History = new History
+                {
+                    RevisedOn = revisedOn,
+                    CreatedOn = createdOn
+                },
+                ProgramId = program.ProgramId,
+                ParentProgram = program
+            };
+
+            project.Themes.Add(theme);
+            project.Contacts.Add(contact);
+
+            context.Organizations.Add(owner);
+            context.Themes.Add(theme);
+            context.Projects.Add(project);
+            context.ProjectStatuses.Add(status);
+            context.Contacts.Add(contact);
+            context.Programs.Add(program);
+
+            Action<ProjectDTO> tester = (serviceResult) =>
+            {
+                CollectionAssert.AreEqual(context.Themes.Select(x => x.ThemeName).ToList(),
+                    serviceResult.Themes.Select(x => x.Value).ToList());
+            };
+
+            var result = service.GetProjectById(project.ProjectId);
+            var resultAsync = await service.GetProjectByIdAsync(project.ProjectId);
+
+            tester(result);
+            tester(resultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetProjectById_CheckGoals()
+        {
+            var now = DateTimeOffset.UtcNow;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var revisedOn = DateTimeOffset.UtcNow.AddDays(-2.0);
+            var createdOn = DateTimeOffset.UtcNow.AddDays(-3.0);
 
             var goal = new Goal
             {
@@ -1552,19 +1998,13 @@ namespace ECA.Business.Test.Service.Projects
                 },
                 ProgramId = program.ProgramId,
                 ParentProgram = program
-            };           
+            };
 
-            project.Themes.Add(theme);
-            project.Locations.Add(location);
-            project.Regions.Add(region);
             project.Goals.Add(goal);
             project.Contacts.Add(contact);
 
             context.Organizations.Add(owner);
-            context.Themes.Add(theme);
-            context.Locations.Add(location);
             context.Projects.Add(project);
-            context.Locations.Add(region);
             context.Goals.Add(goal);
             context.ProjectStatuses.Add(status);
             context.Contacts.Add(contact);
@@ -1572,27 +2012,9 @@ namespace ECA.Business.Test.Service.Projects
 
             Action<ProjectDTO> tester = (serviceResult) =>
             {
-                Assert.AreEqual(owner.Name, serviceResult.OwnerName);
-                Assert.AreEqual(owner.OrganizationId, serviceResult.OwnerId);
-                Assert.AreEqual(program.Name, serviceResult.ProgramName);
-                Assert.AreEqual(program.ProgramId, serviceResult.ProgramId);
-                Assert.AreEqual(project.Name, serviceResult.Name);
-                Assert.AreEqual(project.Description, serviceResult.Description);
-                Assert.AreEqual(status.ProjectStatusId, serviceResult.ProjectStatusId);
-                Assert.AreEqual(yesterday, serviceResult.StartDate);
-                Assert.AreEqual(now, serviceResult.EndDate);
-                Assert.AreEqual(revisedOn, serviceResult.RevisedOn);
-
-                CollectionAssert.AreEqual(context.Themes.Select(x => x.ThemeName).ToList(),
-                    serviceResult.Themes.Select(x => x.Value).ToList());
-                CollectionAssert.AreEqual(context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationIso).ToList(),
-                    serviceResult.CountryIsos.Select(x => x.Value).ToList());
                 CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalName).ToList(),
                     serviceResult.Goals.Select(x => x.Value).ToList());
                 Assert.AreEqual(context.ProjectStatuses.Select(x => x.Status).FirstOrDefault(), serviceResult.Status);
-
-                CollectionAssert.AreEqual(context.Contacts.Select(x => x.ContactId).ToList(), serviceResult.Contacts.Select(x => x.Id).ToList());
-                CollectionAssert.AreEqual(context.Contacts.Select(x => x.FullName + " (" + x.Position + ")").ToList(), serviceResult.Contacts.Select(x => x.Value).ToList());
             };
 
             var result = service.GetProjectById(project.ProjectId);
@@ -1676,7 +2098,7 @@ namespace ECA.Business.Test.Service.Projects
                 ProjectId = 1,
                 Name = "name",
                 Description = "description",
-                ProgramId= program.ProgramId,
+                ProgramId = program.ProgramId,
                 ParentProgram = program
             };
             program.Projects.Add(project);
@@ -1714,6 +2136,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -1736,6 +2159,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -1798,6 +2222,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -1872,6 +2297,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -1927,6 +2353,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: contactIds,
                 categoryIds: null,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -1971,6 +2398,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: contactIds,
                 categoryIds: null,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -2014,6 +2442,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -2057,6 +2486,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -2101,6 +2531,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -2144,6 +2575,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -2187,6 +2619,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: null,
                 categoryIds: categoryIds,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -2230,6 +2663,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: null,
                 categoryIds: categoryIds,
                 objectiveIds: null,
+                locationIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -2272,6 +2706,7 @@ namespace ECA.Business.Test.Service.Projects
                 themeIds: null,
                 pointsOfContactIds: null,
                 categoryIds: null,
+                locationIds: null,
                 objectiveIds: objectiveIds,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
@@ -2315,6 +2750,7 @@ namespace ECA.Business.Test.Service.Projects
                 themeIds: null,
                 pointsOfContactIds: null,
                 categoryIds: null,
+                locationIds: null,
                 objectiveIds: objectiveIds,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
@@ -2324,6 +2760,94 @@ namespace ECA.Business.Test.Service.Projects
             Assert.AreEqual(objectiveIds.First(), projectToUpdate.Objectives.First().ObjectiveId);
         }
 
+        [TestMethod]
+        public void TestUpdate_CheckLocations()
+        {
+            var projectToUpdate = new Project
+            {
+                ProjectId = 1,
+                ProjectStatusId = ProjectStatus.Other.Id
+            };
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            var office = new Organization();
+            office.OwnerPrograms.Add(program);
+            program.Owner = office;
+            context.Organizations.Add(office);
+            projectToUpdate.ProgramId = program.ProgramId;
+            projectToUpdate.ParentProgram = program;
+            program.Projects.Add(projectToUpdate);
+            context.Programs.Add(program);
+            context.Projects.Add(projectToUpdate);
+
+            var locationIds = new List<int> { 1 };
+            var updater = new User(1);
+            var updatedProject = new PublishedProject(
+                updatedBy: updater,
+                projectId: projectToUpdate.ProjectId,
+                name: "new name",
+                description: "new description",
+                projectStatusId: ProjectStatus.Pending.Id,
+                goalIds: null,
+                themeIds: null,
+                pointsOfContactIds: null,
+                categoryIds: null,
+                locationIds: locationIds,
+                objectiveIds: null,
+                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                );
+            service.Update(updatedProject);
+            Assert.AreEqual(1, projectToUpdate.Locations.Count);
+            Assert.AreEqual(locationIds.First(), projectToUpdate.Locations.First().LocationId);
+        }
+
+        [TestMethod]
+        public async Task TestUpdateAsync_CheckLocations()
+        {
+            var projectToUpdate = new Project
+            {
+                ProjectId = 1,
+                ProjectStatusId = ProjectStatus.Other.Id
+            };
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            var office = new Organization();
+            office.OwnerPrograms.Add(program);
+            program.Owner = office;
+            context.Organizations.Add(office);
+            projectToUpdate.ProgramId = program.ProgramId;
+            projectToUpdate.ParentProgram = program;
+            program.Projects.Add(projectToUpdate);
+            context.Programs.Add(program);
+            context.Projects.Add(projectToUpdate);
+
+            var locationIds = new List<int> { 1 };
+            var updater = new User(1);
+            var updatedProject = new PublishedProject(
+                updatedBy: updater,
+                projectId: projectToUpdate.ProjectId,
+                name: "new name",
+                description: "new description",
+                projectStatusId: ProjectStatus.Pending.Id,
+                goalIds: null,
+                themeIds: null,
+                pointsOfContactIds: null,
+                categoryIds: null,
+                locationIds: locationIds,
+                objectiveIds: null,
+                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                );
+            await service.UpdateAsync(updatedProject);
+            Assert.AreEqual(1, projectToUpdate.Locations.Count);
+            Assert.AreEqual(locationIds.First(), projectToUpdate.Locations.First().LocationId);
+        }
+
         #endregion
 
         #region Participants
@@ -2331,7 +2855,7 @@ namespace ECA.Business.Test.Service.Projects
         public async Task TestAddParticipant_ParticipantBusinessEntityNotSupported()
         {
             var user = new User(1);
-            var projectId = 1;            
+            var projectId = 1;
             var participantTypeId = ParticipantType.Individual.Id;
 
             var notSupportedParticipant = new NotSupportedAdditonalProjectParticipant(user, projectId, participantTypeId);
@@ -2702,6 +3226,7 @@ namespace ECA.Business.Test.Service.Projects
             tester(additionalParticipant);
         }
         #endregion
+
     }
 }
 

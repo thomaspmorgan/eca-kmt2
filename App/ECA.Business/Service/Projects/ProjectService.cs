@@ -28,6 +28,8 @@ namespace ECA.Business.Service.Projects
 
         private readonly Action<int, Project> throwIfProjectDoesNotExist;
         private readonly Action<ParticipantType> throwIfParticipantTypeDoesNotExist;
+        private readonly Action<int?, Location> throwIfLocationDoesNotExist;
+
 
         /// <summary>
         /// Constructor
@@ -35,9 +37,10 @@ namespace ECA.Business.Service.Projects
         /// <param name="context">The db context</param>
         /// <param name="officeService">The office service.</param>
         /// <param name="validator">The project business validator.</param>
+        /// <param name="saveActions">The context save actions.</param>
         public ProjectService(
-            EcaContext context, 
-            IOfficeService officeService, 
+            EcaContext context,
+            IOfficeService officeService,
             IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity> validator,
             List<ISaveAction> saveActions = null)
             : base(context, saveActions)
@@ -58,6 +61,13 @@ namespace ECA.Business.Service.Projects
                 if (participantType == null)
                 {
                     throw new ModelNotFoundException("The participant type does not exist.");
+                }
+            };
+            throwIfLocationDoesNotExist = (locationId, location) =>
+            {
+                if (location == null)
+                {
+                    throw new ModelNotFoundException(String.Format("The location with id [{0}] does not exist.", locationId));
                 }
             };
         }
@@ -237,7 +247,7 @@ namespace ECA.Business.Service.Projects
         /// <param name="draftProject">The project to create</param>
         /// <returns>The project that was created</returns>
         public Project Create(DraftProject draftProject)
-        {   
+        {
             var program = GetProgramById(draftProject.ProgramId);
             this.logger.Trace("Retrieved program by id {0}.", draftProject.ProgramId);
             validator.ValidateCreate(GetCreateValidationEntity(draftProject, program));
@@ -282,10 +292,7 @@ namespace ECA.Business.Service.Projects
                 ProgramId = draftProject.ProgramId,
                 Themes = program.Themes,
                 Goals = program.Goals,
-                Contacts = program.Contacts,
                 Regions = program.Regions,
-                Categories = program.Categories,
-                Objectives = program.Objectives
             };
             draftProject.Audit.SetHistory(project);
             this.Context.Projects.Add(project);
@@ -323,11 +330,14 @@ namespace ECA.Business.Service.Projects
         public void Update(PublishedProject updatedProject)
         {
             var projectToUpdate = GetProjectEntityById(updatedProject.ProjectId);
-            if(projectToUpdate == null)
+            if (projectToUpdate == null)
             {
                 throw new ModelNotFoundException(String.Format("The project with id [{0}] was not found.", updatedProject.ProjectId));
             }
             this.logger.Trace("Retrieved project by id {0}.", updatedProject.ProjectId);
+
+            var locationsExist = CheckAllLocationsExist(updatedProject.LocationIds);
+            this.logger.Trace("Checked all locations with id {0} existed.", String.Join(", ", updatedProject.LocationIds));
 
             var themesExist = CheckAllThemesExist(updatedProject.ThemeIds);
             this.logger.Trace("Check all themes with ids {0} existed.", String.Join(", ", updatedProject.ThemeIds));
@@ -337,7 +347,7 @@ namespace ECA.Business.Service.Projects
 
             var contactsExist = CheckAllContactsExist(updatedProject.PointsOfContactIds);
             this.logger.Trace("Check all contacts with ids {0} existed.", String.Join(", ", updatedProject.PointsOfContactIds));
-            
+
             var categoriesExist = CheckAllCategoriesExist(updatedProject.CategoryIds);
             this.logger.Trace("Check all goals with ids {0} existed.", String.Join(", ", updatedProject.GoalIds));
 
@@ -348,10 +358,10 @@ namespace ECA.Business.Service.Projects
             Contract.Assert(office != null, "The project must have an office.");
             var officeSettings = officeService.GetOfficeSettings(office.OrganizationId);
 
-            var allowedCategoryIds = CreateGetAllowedCategoryIdsQuery(projectToUpdate.ProgramId).ToList();
+            var allowedCategoryIds = CreateGetAllowedCategoryIdsQuery(office.OrganizationId).ToList();
             this.logger.Trace("Loaded allowed category ids [{0}] for program with id [{1}].", String.Join(", ", allowedCategoryIds), projectToUpdate.ProgramId);
 
-            var allowedObjectiveIds = CreateGetAllowedObjectiveIdsQuery(projectToUpdate.ProgramId).ToList();
+            var allowedObjectiveIds = CreateGetAllowedObjectiveIdsQuery(office.OrganizationId).ToList();
             this.logger.Trace("Loaded allowed objective ids [{0}] for program with id [{1}].", String.Join(", ", allowedCategoryIds), projectToUpdate.ProgramId);
 
             validator.ValidateUpdate(GetUpdateValidationEntity(
@@ -359,6 +369,7 @@ namespace ECA.Business.Service.Projects
                 projectToUpdate: projectToUpdate,
                 goalsExist: goalsExist,
                 themesExist: themesExist,
+                locationsExist: locationsExist,
                 pointsOfContactExist: contactsExist,
                 settings: officeSettings,
                 allowedCategoryIds: allowedCategoryIds,
@@ -367,7 +378,7 @@ namespace ECA.Business.Service.Projects
                 objectivesExist: objectivesExist,
                 numberOfCategories: updatedProject.CategoryIds.Count(),
                 numberOfObjectives: updatedProject.ObjectiveIds.Count()));
-            DoUpdate(updatedProject, projectToUpdate);            
+            DoUpdate(updatedProject, projectToUpdate);
         }
 
         /// <summary>
@@ -383,6 +394,9 @@ namespace ECA.Business.Service.Projects
             }
             this.logger.Trace("Retrieved project by id {0}.", updatedProject.ProjectId);
 
+            var locationsExist = await CheckAllLocationsExistAsync(updatedProject.LocationIds);
+            this.logger.Trace("Checked all locations with id {0} existed.", String.Join(", ", updatedProject.LocationIds));
+
             var themesExist = await CheckAllThemesExistAsync(updatedProject.ThemeIds);
             this.logger.Trace("Check all themes with ids {0} existed.", String.Join(", ", updatedProject.ThemeIds));
 
@@ -391,7 +405,7 @@ namespace ECA.Business.Service.Projects
 
             var contactsExist = await CheckAllContactsExistAsync(updatedProject.PointsOfContactIds);
             this.logger.Trace("Check all contacts with ids {0} existed.", String.Join(", ", updatedProject.PointsOfContactIds));
-            
+
             var categoriesExist = await CheckAllCategoriesExistAsync(updatedProject.CategoryIds);
             this.logger.Trace("Check all goals with ids {0} existed.", String.Join(", ", updatedProject.GoalIds));
 
@@ -402,25 +416,26 @@ namespace ECA.Business.Service.Projects
             Contract.Assert(office != null, "The project must have an office.");
             var officeSettings = await officeService.GetOfficeSettingsAsync(office.OrganizationId);
 
-            var allowedCategoryIds = await CreateGetAllowedCategoryIdsQuery(projectToUpdate.ProgramId).ToListAsync();
+            var allowedCategoryIds = await CreateGetAllowedCategoryIdsQuery(office.OrganizationId).ToListAsync();
             this.logger.Trace("Loaded allowed category ids [{0}] for program with id [{1}].", String.Join(", ", allowedCategoryIds), projectToUpdate.ProgramId);
 
-            var allowedObjectiveIds = await CreateGetAllowedObjectiveIdsQuery(projectToUpdate.ProgramId).ToListAsync();
+            var allowedObjectiveIds = await CreateGetAllowedObjectiveIdsQuery(office.OrganizationId).ToListAsync();
             this.logger.Trace("Loaded allowed objective ids [{0}] for program with id [{1}].", String.Join(", ", allowedCategoryIds), projectToUpdate.ProgramId);
 
             validator.ValidateUpdate(GetUpdateValidationEntity(
-               publishedProject: updatedProject,
-               projectToUpdate: projectToUpdate,
-               goalsExist: goalsExist,
-               themesExist: themesExist,
-               pointsOfContactExist: contactsExist,
-               settings: officeSettings,
-               allowedCategoryIds: allowedCategoryIds,
-               allowedObjectiveIds: allowedObjectiveIds,
-               categoriesExist: categoriesExist,
-               objectivesExist: objectivesExist,
-               numberOfCategories: updatedProject.CategoryIds.Count(),
-               numberOfObjectives: updatedProject.ObjectiveIds.Count()));
+                publishedProject: updatedProject,
+                projectToUpdate: projectToUpdate,
+                goalsExist: goalsExist,
+                themesExist: themesExist,
+                locationsExist: locationsExist,
+                pointsOfContactExist: contactsExist,
+                settings: officeSettings,
+                allowedCategoryIds: allowedCategoryIds,
+                allowedObjectiveIds: allowedObjectiveIds,
+                categoriesExist: categoriesExist,
+                objectivesExist: objectivesExist,
+                numberOfCategories: updatedProject.CategoryIds.Count(),
+                numberOfObjectives: updatedProject.ObjectiveIds.Count()));
             DoUpdate(updatedProject, projectToUpdate);
         }
 
@@ -433,6 +448,7 @@ namespace ECA.Business.Service.Projects
             SetGoals(updatedProject.GoalIds.ToList(), projectToUpdate);
             SetCategories(updatedProject.CategoryIds.ToList(), projectToUpdate);
             SetObjectives(updatedProject.ObjectiveIds.ToList(), projectToUpdate);
+            SetLocations<Project>(updatedProject.LocationIds.ToList(), x => x.Locations, projectToUpdate);
             projectToUpdate.Name = updatedProject.Name;
             projectToUpdate.Description = updatedProject.Description;
             projectToUpdate.EndDate = updatedProject.EndDate;
@@ -452,6 +468,7 @@ namespace ECA.Business.Service.Projects
             bool pointsOfContactExist,
             bool categoriesExist,
             bool objectivesExist,
+            bool locationsExist,
             int numberOfCategories,
             int numberOfObjectives,
             List<int> allowedCategoryIds,
@@ -463,6 +480,7 @@ namespace ECA.Business.Service.Projects
                 projectToUpdate: projectToUpdate,
                 goalsExist: goalsExist,
                 themesExist: themesExist,
+                locationsExist: locationsExist,
                 pointsOfContactExist: pointsOfContactExist,
                 categoriesExist: categoriesExist,
                 objectivesExist: objectivesExist,
@@ -474,56 +492,6 @@ namespace ECA.Business.Service.Projects
                 );
         }
         #endregion
-
-        private Project GetProjectEntityById(int projectId)
-        {
-            return CreateGetProjectByIdQuery(projectId).FirstOrDefault();
-        }
-
-        private Task<Project> GetProjectEntityByIdAsync(int projectId)
-        {
-            return CreateGetProjectByIdQuery(projectId).FirstOrDefaultAsync();
-        }
-
-        private IQueryable<Project> CreateGetProjectByIdQuery(int projectId)
-        {
-            return Context.Projects       
-                .Include(x => x.Themes)
-                .Include(x => x.Goals)
-                .Include(x => x.Contacts)
-                .Include(x => x.Regions)
-                .Include(x => x.Categories)
-                .Include(x => x.Objectives)
-                .Where(x => x.ProjectId == projectId);
-        }
-
-        private IQueryable<Program> CreateGetProgramByIdQuery(int programId)
-        {
-            return this.Context.Programs
-                .Include(x => x.Themes)
-                .Include(x => x.Goals)
-                .Include(x => x.Contacts)
-                .Include(x => x.Regions)
-                .Include(x => x.Categories)
-                .Include(x => x.Objectives)
-                .Where(x => x.ProgramId == programId);
-        }
-
-        private IQueryable<Organization> CreateGetOrganizationByProjectIdQuery(int projectId)
-        {
-            var query = Context.Projects.Where(x => x.ProjectId == projectId).Select(x => x.ParentProgram.Owner);
-            return query;
-        }
-
-        private IQueryable<int> CreateGetAllowedCategoryIdsQuery(int programId)
-        {
-            return FocusCategoryQueries.CreateGetFocusCategoryDTOByProgramIdQuery(this.Context, programId).Select(x => x.Id);
-        }
-
-        private IQueryable<int> CreateGetAllowedObjectiveIdsQuery(int programId)
-        {
-            return JustificationObjectiveQueries.CreateGetJustificationObjectiveDTOByProgramIdQuery(this.Context, programId).Select(x => x.Id);
-        }
 
         #region Get
 
@@ -627,5 +595,56 @@ namespace ECA.Business.Service.Projects
             return projects;
         }
         #endregion
+
+        private Project GetProjectEntityById(int projectId)
+        {
+            return CreateGetProjectByIdQuery(projectId).FirstOrDefault();
+        }
+
+        private Task<Project> GetProjectEntityByIdAsync(int projectId)
+        {
+            return CreateGetProjectByIdQuery(projectId).FirstOrDefaultAsync();
+        }
+
+        private IQueryable<Project> CreateGetProjectByIdQuery(int projectId)
+        {
+            return Context.Projects
+                .Include(x => x.Locations)
+                .Include(x => x.Themes)
+                .Include(x => x.Goals)
+                .Include(x => x.Contacts)
+                .Include(x => x.Regions)
+                .Include(x => x.Categories)
+                .Include(x => x.Objectives)
+                .Where(x => x.ProjectId == projectId);
+        }
+
+        private IQueryable<Program> CreateGetProgramByIdQuery(int programId)
+        {
+            return this.Context.Programs
+                .Include(x => x.Themes)
+                .Include(x => x.Goals)
+                .Include(x => x.Contacts)
+                .Include(x => x.Regions)
+                .Include(x => x.Categories)
+                .Include(x => x.Objectives)
+                .Where(x => x.ProgramId == programId);
+        }
+
+        private IQueryable<Organization> CreateGetOrganizationByProjectIdQuery(int projectId)
+        {
+            var query = Context.Projects.Where(x => x.ProjectId == projectId).Select(x => x.ParentProgram.Owner);
+            return query;
+        }
+
+        private IQueryable<int> CreateGetAllowedCategoryIdsQuery(int officeId)
+        {
+            return FocusCategoryQueries.CreateGetFocusCategoryDTOByOfficeIdQuery(this.Context, officeId).Select(x => x.Id);
+        }
+
+        private IQueryable<int> CreateGetAllowedObjectiveIdsQuery(int officeId)
+        {
+            return JustificationObjectiveQueries.CreateGetJustificationObjectiveDTByOfficeIdOQuery(this.Context, officeId).Select(x => x.Id);
+        }
     }
 }

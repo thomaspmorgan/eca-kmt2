@@ -17,20 +17,20 @@ angular.module('staticApp')
   .factory('DragonBreath', function ($http, API_ENDPOINT_CLOUDAPP_QA, API_ENDPOINT_CLOUDAPP_DEV, API_ENDPOINT_CLOUDAPP_PRE, API_ENDPOINT_LOCALHOST, API_ENDPOINT_CLOUDAPP_UAT, API_PREFIX) {
 
       function DragonPath(args, slicePos) {
-          if (location.hostname == 'localhost') {
+          if (location.hostname === 'localhost') {
               this.path = API_ENDPOINT_LOCALHOST + API_PREFIX + Array.prototype.slice.call(args, slicePos).join('/');
           }
-          else if (location.hostname.indexOf('qa') != -1) {
+          else if (location.hostname.indexOf('qa') !== -1) {
               this.path = API_ENDPOINT_CLOUDAPP_QA + API_PREFIX + Array.prototype.slice.call(args, slicePos).join('/');
           }
-          else if (location.hostname.indexOf('dev') != -1) {
+          else if (location.hostname.indexOf('dev') !== -1) {
               this.path = API_ENDPOINT_CLOUDAPP_DEV+ API_PREFIX + Array.prototype.slice.call(args, slicePos).join('/');
           }
-          else if (location.hostname.indexOf('pre') != -1) {
+          else if (location.hostname.indexOf('pre') !== -1) {
               this.path = API_ENDPOINT_CLOUDAPP_PRE + API_PREFIX + Array.prototype.slice.call(args, slicePos).join('/');
           }
           else {
-              this.path = API_ENDPOINT_CLOUDAPP_UAT + API_PREFIX + Array.prototype.slice.call(args, slicePos).join('/');
+              this.path = API_ENDPOINT_CLOUDAPP_PRE + API_PREFIX + Array.prototype.slice.call(args, slicePos).join('/');
           }
 
       }
@@ -44,6 +44,15 @@ angular.module('staticApp')
               }
               dPath = new DragonPath(arguments, 1);
               return $http.get(dPath.path, { params: filter });
+          },
+          getCached: function (filter) {
+              var dPath;
+              if (typeof filter === 'string') {
+                  dPath = new DragonPath(arguments);
+                  return $http.get(dPath.path, { cache: true });
+              }
+              dPath = new DragonPath(arguments, 1);
+              return $http.get(dPath.path, { params: filter, cache:true });
           },
           save: function (object) {
               var dPath = new DragonPath(arguments, 1);

@@ -77,6 +77,7 @@ namespace ECA.WebApi
             container.RegisterType<IGoalService, GoalService>(new HierarchicalLifetimeManager());
             container.RegisterType<IJustificationObjectiveService, JustificationObjectiveService>(new HierarchicalLifetimeManager());
             container.RegisterType<ILocationService, LocationService>(new HierarchicalLifetimeManager());
+            container.RegisterType<ILocationTypeService, LocationTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IMaritalStatusService, MaritalStatusService>(new HierarchicalLifetimeManager());
             container.RegisterType<IMoneyFlowService, MoneyFlowService>(new HierarchicalLifetimeManager());
             container.RegisterType<IMoneyFlowStatusService, MoneyFlowStatusService>(new HierarchicalLifetimeManager());
@@ -100,6 +101,7 @@ namespace ECA.WebApi
             container.RegisterType<IParticipantPersonService, ParticipantPersonService>(new HierarchicalLifetimeManager());
             container.RegisterType<IProminentCategoryService, ProminentCategoryService>(new HierarchicalLifetimeManager());
             container.RegisterType<IBookmarkService, BookmarkService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IMembershipService, MembershipService>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>
@@ -126,6 +128,9 @@ namespace ECA.WebApi
             container.RegisterType<
                 IBusinessValidator<EcaAddressValidationEntity, EcaAddressValidationEntity>,
                 LocationServiceAddressValidator>();
+            container.RegisterType<
+                IBusinessValidator<LocationValidationEntity, LocationValidationEntity>,
+                LocationServiceValidator>();
         }
 
         public static void RegisterSecurityConcerns(IUnityContainer container)
