@@ -98,7 +98,6 @@ namespace ECA.Business.Test.Service.Persons
                 SpeakingProficiency = 5,
                 ReadingProficiency = 5,
                 ComprehensionProficiency = 5,
-                Language = language1,
             };
 
             var dependant1 = new Person
