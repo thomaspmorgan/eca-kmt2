@@ -34,6 +34,7 @@ angular.module('staticApp')
       $scope.view.googledLocation = {};
       $scope.view.isGeocoding = false;
       $scope.view.isLoadingRequiredData = false;
+      $scope.view.isLoadingCities = false;
       $scope.view.isSavingNewLocation = false;
       $scope.view.isMapIdle = false;
       $scope.view.search = '';
@@ -52,8 +53,8 @@ angular.module('staticApp')
 
       $scope.view.onCountryChange = function () {
           loadDivisions();
-          loadCities();
-          setRegionByCountryId($scope.view.newLocation.regionId);
+          setRegionByCountryId($scope.view.newLocation.countryId);
+          clearCity();
           return checkNewLocationExistence();
       }
 
@@ -65,8 +66,35 @@ angular.module('staticApp')
           });
       }
 
+      $scope.view.onSelectCityBlur = function ($event) {
+          if ($scope.view.newLocation.city === '') {
+              clearCity();
+          }
+      };
+
+      $scope.view.onSelectCity = function ($item, $model, $label) {
+          $scope.view.newLocation.city = $item.name;
+          $scope.view.newLocation.cityId = $item.id;
+          if ($item.country && !$scope.view.newLocation.countryId) {
+              $log.info('Auto populating country to location.');
+              $scope.view.newLocation.countryId = $item.countryId;
+          }
+          if ($item.division && !$scope.view.newLocation.divisionId) {
+              $log.info('Auto populating division to location.');
+              $scope.view.newLocation.divisionId = $item.divisionId;
+              
+              return $q.all(loadDivisions(), checkNewLocationExistence())
+              .then(function () {
+
+              })
+              .catch(function () {
+                  $log.error('Error when selecting city.');
+              });
+          }
+      }
+
       $scope.view.onDivisionChange = function () {
-          loadCities();
+          clearCity();
           return checkNewLocationExistence();
       }
 
@@ -95,6 +123,10 @@ angular.module('staticApp')
           $scope.view.isMapIdle = true;
       }
 
+      $scope.view.loadCities = function (search) {
+          return loadCities(search);
+      }
+
       $scope.view.onSaveClick = function () {
           return saveNewLocation();
       }
@@ -105,6 +137,7 @@ angular.module('staticApp')
 
       $scope.view.onLocationTypeChange = function () {
           if ($scope.view.newLocation.locationTypeId === ConstantsService.locationType.city.id) {
+              delete $scope.view.newLocation.city;
               delete $scope.view.newLocation.cityId;
           }
           if($scope.view.newLocation.locationTypeId === ConstantsService.locationType.place.id
@@ -159,6 +192,11 @@ angular.module('staticApp')
           $scope.view.newLocation.longitude = center.lng();
       }
 
+      function clearCity() {
+          delete $scope.view.newLocation.cityId;
+          delete $scope.view.newLocation.city;
+      }
+
       function clearMapMarkers() {
           angular.forEach(markers, function (marker, index) {
               marker.setMap(null);
@@ -175,12 +213,20 @@ angular.module('staticApp')
           infoWindow.open(map, marker);
           return LocationService.transformGeocodedLocation(geocodeResult)
           .then(function (transformedLocation) {
-              if (transformedLocation.divisions && transformedLocation.divisions.length > 0) {
-                  $scope.view.divisions = transformedLocation.divisions;
+              if (transformedLocation.cityId && transformedLocation.locationTypeId !== ConstantsService.locationType.city.id) {
+                  transformedLocation.city = transformedLocation.cityShortName;
               }
               $scope.view.newLocation = transformedLocation;
-              $scope.view.isTransformingLocation = false;
-              return checkNewLocationExistence();
+              return $q.all(loadCountries(), loadDivisions(), checkNewLocationExistence())
+              .then(function () {
+                  $scope.view.isTransformingLocation = false;
+              })
+              .catch(function () {
+                  var message = 'Unable to perform lookups necessary for selecting a google location.';
+                  $log.error(message);
+                  NotificationService.showErrorMessage(message);
+                  $scope.view.isTransformingLocation = false;
+              });
           })
           .catch(function () {
               var message = "Unable to transform google geocoded location.";
@@ -208,7 +254,7 @@ angular.module('staticApp')
           .equal('locationTypeId', ConstantsService.locationType.country.id)
           .sortBy('name')
           .toParams();
-      function loadContries() {
+      function loadCountries() {
           return LocationService.get(countriesParams)
           .then(function (response) {
               $scope.view.countries = response.results;
@@ -262,7 +308,7 @@ angular.module('staticApp')
       }
 
       var citiesFilter = FilterService.add('addlocation_cities');
-      function loadCities() {
+      function loadCities(search) {
           citiesFilter.reset();
           citiesFilter = citiesFilter
               .skip(0)
@@ -276,14 +322,20 @@ angular.module('staticApp')
           if ($scope.view.newLocation.countryId) {
               citiesFilter = citiesFilter.equal('countryId', $scope.view.newLocation.countryId);
           }
-
+          if (search) {
+              citiesFilter = citiesFilter.like('name', search);
+          }
           var cityParams = citiesFilter.toParams();
+          $scope.view.isLoadingCities = true;
           return LocationService.get(cityParams)
           .then(function (response) {
               $scope.view.cities = response.results;
+              $scope.view.isLoadingCities = false;
+              return response.results;
           })
           .catch(function () {
               var message = "Unable to load cities.";
+              $scope.view.isLoadingCities = false;
               NotificationService.showErrorMessage(message);
               $log.error(message);
           });
@@ -366,10 +418,11 @@ angular.module('staticApp')
                   NotificationService.showErrorMessage(message);
               });
           }
+          return;
       }
 
       $scope.view.isLoadingRequiredData = true;
-      $q.all([getLocationTypes(), loadContries(), loadRegions()])
+      $q.all([getLocationTypes(), loadCountries(), loadRegions()])
         .then(function () {
             $scope.view.isLoadingRequiredData = false;
         })

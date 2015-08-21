@@ -168,7 +168,6 @@ angular.module('staticApp')
 
                       return service.get(service.getDivisionLocationParams(transformedLocation))
                       .then(function (resultDivisions) {
-                          transformedLocation.divisions = resultDivisions.results;
                           if (resultDivisions.total === 1) {
                               var divisionId = resultDivisions.results[0].id
                               $log.info('Successfully located division id [' + divisionId + '] for geocoded division short name + [' + transformedLocation.divisionShortName + '].');
@@ -179,7 +178,7 @@ angular.module('staticApp')
                                   if (resultCities.total === 1) {
                                       var cityId = resultCities.results[0].id;
                                       transformedLocation.cityId = cityId;
-                                      $log.info('Successfully located city id [' + cityId + '] for geocoded city short name + [' + transformedLocation.divisionShortName + '].');
+                                      $log.info('Successfully located city id [' + cityId + '] for geocoded city short name + [' + transformedLocation.cityShortName + '].');
                                   }
                                   return transformedLocation;
                               })
