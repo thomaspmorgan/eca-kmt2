@@ -72,7 +72,7 @@ namespace ECA.Data
             ProminentCategories = new HashSet<ProminentCategory>();
             ProfessionalHistory = new HashSet<ProfessionEducation>();
             EducationalHistory = new HashSet<ProfessionEducation>();
-            LanguageProficiencies = new HashSet<LanguageProficiency>();
+            LanguageProficiencies = new HashSet<PersonLanguageProficiency>();
             PhoneNumbers = new HashSet<PhoneNumber>();
             Emails = new HashSet<EmailAddress>();
             ExternalIds = new HashSet<ExternalId>();
@@ -180,7 +180,7 @@ namespace ECA.Data
         public ICollection<ProminentCategory> ProminentCategories { get; set; }
         public ICollection<ProfessionEducation> ProfessionalHistory { get; set; }
         public ICollection<ProfessionEducation> EducationalHistory { get; set; }
-        public ICollection<LanguageProficiency> LanguageProficiencies { get; set; }
+        public ICollection<PersonLanguageProficiency> LanguageProficiencies { get; set; }
         public ICollection<PhoneNumber> PhoneNumbers { get; set; }
         public ICollection<EmailAddress> Emails { get; set; }
         public ICollection<ExternalId> ExternalIds { get; set; }

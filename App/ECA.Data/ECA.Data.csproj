@@ -145,6 +145,7 @@
     <Compile Include="Configuration\LocationConfiguration.cs" />
     <Compile Include="Configuration\OrganizationConfiguration.cs" />
     <Compile Include="Configuration\ParticipantConfiguration.cs" />
+    <Compile Include="Configuration\PersonLanguageProficienciesConfiguration.cs" />
     <Compile Include="Configuration\ParticipantPersonConfiguration.cs" />
     <Compile Include="Configuration\PersonConfiguration.cs" />
     <Compile Include="Configuration\PositionConfiguration.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="IThemeable.cs" />
     <Compile Include="ItineraryStatus.cs" />
     <Compile Include="Justification.cs" />
+    <Compile Include="PersonLanguageProficiency.cs" />
     <Compile Include="MaritalStatus.cs" />
     <Compile Include="Method.cs" />
     <Compile Include="MoneyFlowSourceRecipientType.cs" />
@@ -205,7 +207,7 @@
     <Compile Include="InterestSpecialization.cs" />
     <Compile Include="Itinerary.cs" />
     <Compile Include="ItineraryStop.cs" />
-    <Compile Include="LanguageProficiency.cs" />
+    <Compile Include="Language.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="LocationType.cs" />
     <Compile Include="Material.cs" />

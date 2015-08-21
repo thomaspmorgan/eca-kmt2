@@ -17,11 +17,9 @@ namespace ECA.Business.Queries.Admin
         /// </summary>
         /// <param name="context">The context to query.</param>
         /// <param name="officeId">The office id.</param>
-        /// <param name="queryOperator">The query operator.</param>
         /// <returns>The query.</returns>
-        public static IQueryable<FocusCategoryDTO> CreateGetFocusCategoryDTOByOfficeIdQuery(EcaContext context, int officeId, QueryableOperator<FocusCategoryDTO> queryOperator)
+        public static IQueryable<FocusCategoryDTO> CreateGetFocusCategoryDTOByOfficeIdQuery(EcaContext context, int officeId)
         {
-            Contract.Requires(queryOperator != null, "The query operator must not be null.");
             Contract.Requires(context != null, "The context must not be null.");
             var query = context.Categories
                 .Where(x => x.Focus.OfficeId == officeId)
@@ -31,6 +29,21 @@ namespace ECA.Business.Queries.Admin
                     Name = x.CategoryName,
                     FocusName = x.Focus.FocusName
                 });
+            return query;
+        }
+
+        /// <summary>
+        /// Returns a query to select focus dtos.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="officeId">The office id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The query.</returns>
+        public static IQueryable<FocusCategoryDTO> CreateGetFocusCategoryDTOByOfficeIdQuery(EcaContext context, int officeId, QueryableOperator<FocusCategoryDTO> queryOperator)
+        {
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+            Contract.Requires(context != null, "The context must not be null.");
+            var query = CreateGetFocusCategoryDTOByOfficeIdQuery(context, officeId);
             query = query.Apply(queryOperator);
             return query;
         }

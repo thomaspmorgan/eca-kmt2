@@ -10,7 +10,7 @@
         <div class="col-md-11">
             <div class="col-md-12">
                 <div class="col-md-11">
-                    <h4><a ng-bind-html="project.name" ui-sref="projects.overview({officeId: project.officeId, programId: project.programId, projectId: project.projectId})">{{project.name}}</a></h4>
+                    <h4><a ng-bind-html="project.name" ui-sref="projects.overview({projectId: project.projectId})">{{project.name}}</a></h4>
                     <h5><strong>{{project.startDate | date : 'yyyy' }}-{{project.endDate | date : 'yyyy'}}</strong> <small>{{project.officeSymbol}}</small></h5>
                 </div>
                 <div class="col-md-1">
