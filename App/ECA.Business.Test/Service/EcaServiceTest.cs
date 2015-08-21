@@ -26,6 +26,76 @@ namespace ECA.Business.Test.Service
             service = new EcaService(context);
         }
 
+        #region Location Existence Validation Tests
+        [TestMethod]
+        public async Task TestCheckAllLocationsExist_NoIdsGiven()
+        {
+            var ids = new List<int>();
+            Action<bool> tester = (results) =>
+            {
+                Assert.IsTrue(results);
+            };
+            var serviceResults = service.CheckAllLocationsExist(ids);
+            var serviceResultsAsync = await service.CheckAllLocationsExistAsync(ids);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestCheckAllLocationsExist_NoLocationInContext()
+        {
+            var ids = new List<int> { 1 };
+            Action<bool> tester = (results) =>
+            {
+                Assert.IsFalse(results);
+            };
+            var serviceResults = service.CheckAllLocationsExist(ids);
+            var serviceResultsAsync = await service.CheckAllLocationsExistAsync(ids);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestCheckAllLocationsExist_NoLocationsByIdInContext()
+        {
+            var ids = new List<int> { 1 };
+            context.Locations.Add(new Location
+            {
+                LocationId = 0
+            });
+            Action<bool> tester = (results) =>
+            {
+                Assert.IsFalse(results);
+            };
+            var serviceResults = service.CheckAllLocationsExist(ids);
+            var serviceResultsAsync = await service.CheckAllLocationsExistAsync(ids);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestCheckAllLocationsExist_AllLocationsExist()
+        {
+            var ids = new List<int> { 1, 2 };
+            context.Locations.Add(new Location
+            {
+                LocationId = 1
+            });
+            context.Locations.Add(new Location
+            {
+                LocationId = 2
+            });
+            Action<bool> tester = (results) =>
+            {
+                Assert.IsTrue(results);
+            };
+            var serviceResults = service.CheckAllLocationsExist(ids);
+            var serviceResultsAsync = await service.CheckAllLocationsExistAsync(ids);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+        #endregion
+
         #region Contact Existence Validation Tests
         [TestMethod]
         public async Task TestCheckAllContactsExist_NoIdsGiven()
@@ -379,6 +449,79 @@ namespace ECA.Business.Test.Service
 
         #endregion
 
+
+        [TestMethod]
+        public void TestSetLocations_IsDetached()
+        {
+            var state = System.Data.Entity.EntityState.Detached;
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() =>
+            {
+                return state;
+            });
+            contextMock.Setup(x => x.GetEntityState<Location>(It.IsAny<Location>())).Returns(() =>
+            {
+                return state;
+            });
+            var original = new Location { LocationId = 1 };
+
+            var project = new Project();
+            project.Locations.Add(original);
+
+            var newLocation = new Location { LocationId = 2 };
+            var newLocationIds = new List<int> { newLocation.LocationId };
+            service.SetLocations<Project>(newLocationIds, x => x.Locations, project);
+            Assert.AreEqual(1, project.Locations.Count);
+            Assert.AreEqual(newLocation.LocationId, project.Locations.First().LocationId);
+
+        }
+
+        [TestMethod]
+        public void TestSetLocations_IsAdded()
+        {
+            var state = System.Data.Entity.EntityState.Added;
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() =>
+            {
+                return state;
+            });
+            contextMock.Setup(x => x.GetEntityState<Location>(It.IsAny<Location>())).Returns(() =>
+            {
+                return state;
+            });
+            var original = new Location { LocationId = 1 };
+
+            var project = new Project();
+            project.Locations.Add(original);
+
+            var newLocation = new Location { LocationId = 2 };
+            var newLocationIds = new List<int> { newLocation.LocationId };
+            service.SetLocations<Project>(newLocationIds, x => x.Locations, project);
+            Assert.AreEqual(1, project.Locations.Count);
+            Assert.AreEqual(newLocation.LocationId, project.Locations.First().LocationId);
+
+        }
+
+        [TestMethod]
+        public void TestSetLocations_IsLocal()
+        {
+            var state = System.Data.Entity.EntityState.Added;
+
+            contextMock.Setup(x => x.GetEntityState<Location>(It.IsAny<Location>())).Returns(() =>
+            {
+                return state;
+            });
+            var original = new Location { LocationId = 1 };
+
+            var project = new Project();
+            project.Locations.Add(original);
+
+            var newLocation = new Location { LocationId = 2 };
+            var newLocationIds = new List<int> { newLocation.LocationId };
+            contextMock.Setup(x => x.GetLocalEntity<Location>(It.IsAny<Func<Location, bool>>())).Returns(newLocation);
+            service.SetLocations<Project>(newLocationIds, x => x.Locations, project);
+            Assert.AreEqual(1, project.Locations.Count);
+            Assert.AreEqual(newLocation.LocationId, project.Locations.First().LocationId);
+        }
+
         [TestMethod]
         public void TestSetObjectives_IsDetached()
         {
@@ -439,7 +582,7 @@ namespace ECA.Business.Test.Service
                 return state;
             });
             var original = new Objective { ObjectiveId = 1 };
-            
+
             var program = new Program();
             program.Objectives.Add(original);
 
@@ -743,10 +886,10 @@ namespace ECA.Business.Test.Service
 
             var newContact = new Contact { ContactId = 2 };
             var newContactIds = new List<int> { newContact.ContactId };
-            Action<Func<Contact, bool>> callbackTester = (f) => 
+            Action<Func<Contact, bool>> callbackTester = (f) =>
             {
                 var testContacts = new List<Contact> { newContact };
-                
+
                 Assert.IsTrue(Object.ReferenceEquals(newContact, testContacts.Where(f).First()));
                 testContacts.Clear();
                 testContacts.Add(new Contact

@@ -127,22 +127,40 @@ namespace ECA.Business.Queries.Admin
         public static IQueryable<ProjectDTO> CreateGetProjectByIdQuery(EcaContext context, int projectId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var countryQuery = from country in context.Locations
-                               where country.LocationTypeId == LocationType.Country.Id
-                               select country;
+            var countryTypeId = LocationType.Country.Id;
+            var allLocations = LocationQueries.CreateGetLocationsQuery(context);
 
             var query = from project in context.Projects
                         let program = project.ParentProgram
                         let owner = program.Owner
                         let status = project.Status
                         let themes = project.Themes
-                        let regions = project.Regions
-                        let countries = countryQuery.Where(x => regions.Select(y => y.LocationId).Contains(x.Region.LocationId))
+                        let regions = project.Regions                        
                         let goals = project.Goals
                         let contacts = project.Contacts
                         let categories = project.Categories
                         let objectives = project.Objectives
+
+                        
+                        let locations = from location in allLocations
+                                        join projectLocation in project.Locations
+                                        on location.Id equals projectLocation.LocationId
+                                        select location
+
+
+                        let countries = (from location in allLocations
+
+                                        join projectLocation in project.Locations
+                                        on location.Id equals projectLocation.LocationId
+
+                                        join countryLocation in allLocations
+                                        on projectLocation.CountryId equals countryLocation.Id
+
+                                        select countryLocation).Distinct()
+
                         where project.ProjectId == projectId
+
+
                         select new ProjectDTO
                         {
                             Id = project.ProjectId,
@@ -159,12 +177,12 @@ namespace ECA.Business.Queries.Admin
                             OwnerName = owner.Name,
                             OwnerOfficeSymbol = owner.OfficeSymbol,
                             Themes = themes.Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName }),
-                            CountryIsos = countries.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationIso }),
+                            CountryIsos = countries.Select(x => new SimpleLookupDTO { Id = x.Id, Value = x.LocationIso }),
+                            Locations = locations,
                             Goals = goals.Select(x => new SimpleLookupDTO {Id = x.GoalId, Value = x.GoalName}),
                             Contacts = contacts.Select(x => new SimpleLookupDTO {Id = x.ContactId, Value = x.FullName + " (" + x.Position + ")"}),
                             Objectives = objectives.Select(o => new JustificationObjectiveDTO { Id = o.ObjectiveId, Name = o.ObjectiveName, JustificationName = o.Justification.JustificationName }),
                             Categories = categories.Select(c => new FocusCategoryDTO { Id = c.CategoryId, Name = c.CategoryName, FocusName = c.Focus.FocusName }),
-
                         };
                 return query;
 

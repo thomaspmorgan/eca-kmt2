@@ -19,6 +19,7 @@ namespace ECA.Business.Service.Projects
         /// </summary>
         /// <param name="updatedProject">The updated project.</param>
         /// <param name="projectToUpdate">The project to be updated.</param>
+        /// <param name="locationsExist">The boolean value indicating whether all locations exist in the system.</param>
         /// <param name="categoriesExist">The boolean value indicating whether all categories exist in the system.</param>
         /// <param name="objectivesExist">The boolean value indicating whether all objectives exist in the system.</param>
         /// <param name="goalsExist">The boolean value indicating whether all goals exist in the system.</param>
@@ -37,6 +38,7 @@ namespace ECA.Business.Service.Projects
             bool pointsOfContactExist,
             bool categoriesExist,
             bool objectivesExist,
+            bool locationsExist,
             int numberOfObjectives,
             int numberOfCategories,
             IEnumerable<int> allowedCategoryIds,
@@ -56,6 +58,7 @@ namespace ECA.Business.Service.Projects
             this.Description = updatedProject.Description;
             this.GoalsExist = goalsExist;
             this.ThemesExist = themesExist;
+            this.LocationsExist = locationsExist;
             this.PointsOfContactExist = pointsOfContactExist;
             this.CategoriesExist = categoriesExist;
             this.ObjectivesExist = objectivesExist;
@@ -161,5 +164,10 @@ namespace ECA.Business.Service.Projects
         /// Gets the value indicating all objectives exist.
         /// </summary>
         public bool ObjectivesExist { get; private set; }
+
+        /// <summary>
+        /// Gets the value indicating all locations exist.
+        /// </summary>
+        public bool LocationsExist { get; private set; }
     }
 }

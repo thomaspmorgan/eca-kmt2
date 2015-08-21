@@ -26,7 +26,8 @@ namespace ECA.WebApi.Test.Models.Projects
                 StartDate = DateTimeOffset.UtcNow.AddDays(-1.0),
                 ThemeIds = new List<int> { 4 },
                 ObjectiveIds = new List<int> { 5 },
-                CategoryIds = new List<int> { 6 }
+                CategoryIds = new List<int> { 6 },
+                LocationIds = new List<int> { 7 }
             };
             var user = new User(1);
             var publishedProject = model.ToPublishedProject(user);
@@ -43,6 +44,7 @@ namespace ECA.WebApi.Test.Models.Projects
             CollectionAssert.AreEqual(model.ThemeIds.ToList(), publishedProject.ThemeIds.ToList());
             CollectionAssert.AreEqual(model.ObjectiveIds.ToList(), publishedProject.ObjectiveIds.ToList());
             CollectionAssert.AreEqual(model.CategoryIds.ToList(), publishedProject.CategoryIds.ToList());
+            CollectionAssert.AreEqual(model.LocationIds.ToList(), publishedProject.LocationIds.ToList());
         }
     }
 }

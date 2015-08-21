@@ -27,6 +27,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: null,
                 categoryIds: new List<int> { 1 },
                 objectiveIds: new List<int> { 2 },
+                locationIds: new List<int> { 3 },
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow);
             var project = new Project
@@ -38,6 +39,7 @@ namespace ECA.Business.Test.Service.Projects
             var pointsOfContactExist = true;
             var categoriesExist = true;
             var objectivesExist = true;
+            var locationsExist = true;
             var numberOfCategories = 10;
             var numberOfObjectives = 20;
             var officeSettings = new OfficeSettings();
@@ -52,6 +54,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactExist,
                 categoriesExist,
                 objectivesExist,
+                locationsExist,
                 numberOfObjectives,
                 numberOfCategories,
                 allowedCategoryIds,
@@ -87,6 +90,7 @@ namespace ECA.Business.Test.Service.Projects
                 themeIds: null,
                 goalIds: null,
                 pointsOfContactIds: null,
+                locationIds: null,
                 categoryIds: null,
                 objectiveIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
@@ -100,6 +104,7 @@ namespace ECA.Business.Test.Service.Projects
             var pointsOfContactExist = true;
             var categoriesExist = true;
             var objectivesExist = true;
+            var locationsExist = true;
             var numberOfCategories = 10;
             var numberOfObjectives = 20;
             var officeSettings = new OfficeSettings();
@@ -114,6 +119,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactExist,
                 categoriesExist,
                 objectivesExist,
+                locationsExist,
                 numberOfObjectives,
                 numberOfCategories,
                 allowedCategoryIds,
@@ -134,6 +140,7 @@ namespace ECA.Business.Test.Service.Projects
                 themeIds: null,
                 goalIds: null,
                 pointsOfContactIds: null,
+                locationIds: null,
                 categoryIds: null,
                 objectiveIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
@@ -147,6 +154,7 @@ namespace ECA.Business.Test.Service.Projects
             var pointsOfContactExist = true;
             var categoriesExist = true;
             var objectivesExist = true;
+            var locationsExist = true;
             var numberOfCategories = 10;
             var numberOfObjectives = 20;
             var officeSettings = new OfficeSettings();
@@ -161,6 +169,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactExist,
                 categoriesExist,
                 objectivesExist,
+                locationsExist,
                 numberOfObjectives,
                 numberOfCategories,
                 allowedCategoryIds,
@@ -182,6 +191,7 @@ namespace ECA.Business.Test.Service.Projects
                 themeIds: null,
                 goalIds: null,
                 pointsOfContactIds: null,
+                locationIds: null,
                 categoryIds: null,
                 objectiveIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
@@ -195,6 +205,7 @@ namespace ECA.Business.Test.Service.Projects
             var pointsOfContactExist = true;
             var categoriesExist = true;
             var objectivesExist = true;
+            var locationsExist = true;
             var numberOfCategories = 10;
             var numberOfObjectives = 20;
             var officeSettings = new OfficeSettings();
@@ -209,6 +220,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactExist,
                 categoriesExist,
                 objectivesExist,
+                locationsExist,
                 numberOfObjectives,
                 numberOfCategories,
                 allowedCategoryIds,
@@ -229,6 +241,7 @@ namespace ECA.Business.Test.Service.Projects
                 themeIds: null,
                 goalIds: null,
                 pointsOfContactIds: null,
+                locationIds: null,
                 categoryIds: null,
                 objectiveIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
@@ -242,6 +255,7 @@ namespace ECA.Business.Test.Service.Projects
             var pointsOfContactExist = true;
             var categoriesExist = true;
             var objectivesExist = true;
+            var locationsExist = true;
             var numberOfCategories = 10;
             var numberOfObjectives = 20;
             var officeSettings = new OfficeSettings();
@@ -256,6 +270,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactExist,
                 categoriesExist,
                 objectivesExist,
+                locationsExist,
                 numberOfObjectives,
                 numberOfCategories,
                 allowedCategoryIds,
@@ -278,6 +293,7 @@ namespace ECA.Business.Test.Service.Projects
                 null,
                 null,
                 null,
+                null,
                 DateTimeOffset.UtcNow,
                 DateTimeOffset.UtcNow);
             var project = new Project
@@ -289,6 +305,7 @@ namespace ECA.Business.Test.Service.Projects
             var pointsOfContactExist = true;
             var categoriesExist = true;
             var objectivesExist = true;
+            var locationsExist = true;
             var numberOfCategories = 10;
             var numberOfObjectives = 20;
 
@@ -300,6 +317,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactExist,
                 categoriesExist,
                 objectivesExist,
+                locationsExist,
                 numberOfObjectives,
                 numberOfCategories,
                 new List<int>(),
@@ -308,6 +326,7 @@ namespace ECA.Business.Test.Service.Projects
             Assert.AreEqual(pointsOfContactExist, instance.PointsOfContactExist);
             Assert.AreEqual(themesExist, instance.ThemesExist);
             Assert.AreEqual(goalsExist, instance.GoalsExist);
+            Assert.AreEqual(locationsExist, instance.LocationsExist);
         }
 
         [TestMethod]
@@ -324,6 +343,7 @@ namespace ECA.Business.Test.Service.Projects
                 null,
                 null,
                 null,
+                null,
                 DateTimeOffset.UtcNow,
                 DateTimeOffset.UtcNow);
             var project = new Project
@@ -335,6 +355,7 @@ namespace ECA.Business.Test.Service.Projects
             var pointsOfContactExist = true;
             var categoriesExist = true;
             var objectivesExist = true;
+            var locationsExist = true;
             var numberOfCategories = 10;
             var numberOfObjectives = 20;
 
@@ -346,6 +367,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactExist,
                 categoriesExist,
                 objectivesExist,
+                locationsExist,
                 numberOfObjectives,
                 numberOfCategories,
                 new List<int>(),
@@ -354,6 +376,7 @@ namespace ECA.Business.Test.Service.Projects
             Assert.AreEqual(pointsOfContactExist, instance.PointsOfContactExist);
             Assert.AreEqual(themesExist, instance.ThemesExist);
             Assert.AreEqual(goalsExist, instance.GoalsExist);
+            Assert.AreEqual(locationsExist, instance.LocationsExist);
         }
 
         [TestMethod]
@@ -370,6 +393,7 @@ namespace ECA.Business.Test.Service.Projects
                 null,
                 null,
                 null,
+                null,
                 DateTimeOffset.UtcNow,
                 DateTimeOffset.UtcNow);
             var project = new Project
@@ -381,6 +405,7 @@ namespace ECA.Business.Test.Service.Projects
             var pointsOfContactExist = false;
             var categoriesExist = true;
             var objectivesExist = true;
+            var locationsExist = true;
             var numberOfCategories = 10;
             var numberOfObjectives = 20;
 
@@ -392,6 +417,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactExist,
                 categoriesExist,
                 objectivesExist,
+                locationsExist,
                 numberOfObjectives,
                 numberOfCategories,
                 new List<int>(),
@@ -400,6 +426,57 @@ namespace ECA.Business.Test.Service.Projects
             Assert.AreEqual(pointsOfContactExist, instance.PointsOfContactExist);
             Assert.AreEqual(themesExist, instance.ThemesExist);
             Assert.AreEqual(goalsExist, instance.GoalsExist);
+            Assert.AreEqual(locationsExist, instance.LocationsExist);
+        }
+
+        [TestMethod]
+        public void TestConstructor_CheckLocationsExistBool()
+        {
+            var updatedProject = new PublishedProject(
+                new User(1),
+                1,
+                "name",
+                "description",
+                1,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                DateTimeOffset.UtcNow,
+                DateTimeOffset.UtcNow);
+            var project = new Project
+            {
+                ProjectStatusId = ProjectStatus.Other.Id
+            };
+            var goalsExist = true;
+            var themesExist = true;
+            var pointsOfContactExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
+            var locationsExist = false;
+            var numberOfCategories = 10;
+            var numberOfObjectives = 20;
+
+            var instance = new ProjectServiceUpdateValidationEntity(
+                updatedProject,
+                project,
+                goalsExist,
+                themesExist,
+                pointsOfContactExist,
+                categoriesExist,
+                objectivesExist,
+                locationsExist,
+                numberOfObjectives,
+                numberOfCategories,
+                new List<int>(),
+                new List<int>(),
+                new OfficeSettings());
+            Assert.AreEqual(pointsOfContactExist, instance.PointsOfContactExist);
+            Assert.AreEqual(themesExist, instance.ThemesExist);
+            Assert.AreEqual(goalsExist, instance.GoalsExist);
+            Assert.AreEqual(locationsExist, instance.LocationsExist);
         }
 
         [TestMethod]
@@ -415,6 +492,7 @@ namespace ECA.Business.Test.Service.Projects
                  themeIds: null,
                  goalIds: null,
                  pointsOfContactIds: null,
+                 locationIds: null,
                  categoryIds: null,
                  objectiveIds: null,
                  startDate: DateTimeOffset.UtcNow.AddDays(1.0),
@@ -428,6 +506,7 @@ namespace ECA.Business.Test.Service.Projects
             var pointsOfContactExist = false;
             var categoriesExist = true;
             var objectivesExist = true;
+            var locationsExist = true;
             var numberOfCategories = 10;
             var numberOfObjectives = 20;
 
@@ -439,6 +518,7 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactExist,
                 categoriesExist,
                 objectivesExist,
+                locationsExist,
                 numberOfObjectives,
                 numberOfCategories,
                 new List<int>(),

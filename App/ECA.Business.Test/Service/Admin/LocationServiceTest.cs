@@ -28,13 +28,15 @@ namespace ECA.Business.Test.Service.Programs
         private TestEcaContext context;
         private LocationService service;
         private Mock<IBusinessValidator<EcaAddressValidationEntity, EcaAddressValidationEntity>> addressValidator;
+        private Mock<IBusinessValidator<LocationValidationEntity, LocationValidationEntity>> locationValidator;
 
         [TestInitialize]
         public void TestInit()
         {
             addressValidator = new Mock<IBusinessValidator<EcaAddressValidationEntity, EcaAddressValidationEntity>>();
+            locationValidator = new Mock<IBusinessValidator<LocationValidationEntity, LocationValidationEntity>>();
             context = new TestEcaContext();
-            service = new LocationService(context, addressValidator.Object);
+            service = new LocationService(context, locationValidator.Object, addressValidator.Object);
         }
 
         [TestCleanup]
@@ -43,9 +45,479 @@ namespace ECA.Business.Test.Service.Programs
 
         }
 
+        #region GetLocationById
+
+        [TestMethod]
+        public async Task TestGetLocationById_CheckProperties()
+        {
+            var locationType = new LocationType
+            {
+                LocationTypeId = 1,
+                LocationTypeName = "type"
+            };
+            var city = new Location
+            {
+                LocationId = 100,
+                LocationName = "city",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var country = new Location
+            {
+                LocationId = 101,
+                LocationName = "country",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+                LocationIso = "countryIso",
+                LocationIso2 = "countryIso2"
+            };
+            var region = new Location
+            {
+                LocationId = 102,
+                LocationName = "region",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+                LocationIso = "regionIso",
+                LocationIso2 = "regionIso2"
+            };
+            var division = new Location
+            {
+                LocationId = 103,
+                LocationName = "division",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+                LocationIso = "divisionIso",
+                LocationIso2 = "divisionIso2"
+            };
+
+            var location = new Location
+            {
+                LocationId = 2,
+                LocationName = "abc",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+                City = city,
+                CityId = city.LocationId,
+                Country = country,
+                CountryId = country.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
+                Region = region,
+                RegionId = region.LocationId,
+                Longitude = 1.0f,
+                Latitude = 2.0f,
+                LocationIso = "iso",
+                LocationIso2 = "iso2"
+            };
+            context.Locations.Add(region);
+            context.Locations.Add(city);
+            context.Locations.Add(country);
+            context.Locations.Add(division);
+            context.Locations.Add(location);
+            context.LocationTypes.Add(locationType);
+            Action<LocationDTO> tester = (result) =>
+            {
+                Assert.IsNotNull(result);
+                Assert.AreEqual(location.LocationId, result.Id);
+                Assert.AreEqual(location.LocationName, result.Name);
+                Assert.AreEqual(location.LocationTypeId, result.LocationTypeId);
+                Assert.AreEqual(locationType.LocationTypeName, result.LocationTypeName);
+                Assert.AreEqual(country.LocationId, result.CountryId);
+                Assert.AreEqual(country.LocationName, result.Country);
+                Assert.AreEqual(country.LocationIso, result.CountryIso);
+                Assert.AreEqual(country.LocationIso2, result.CountryIso2);
+                Assert.AreEqual(region.LocationId, result.RegionId);
+                Assert.AreEqual(region.LocationName, result.Region);
+                Assert.AreEqual(region.LocationIso, result.RegionIso);
+                Assert.AreEqual(region.LocationIso2, result.RegionIso2);
+                Assert.AreEqual(city.LocationId, result.CityId);
+                Assert.AreEqual(city.LocationName, result.City);
+                Assert.AreEqual(division.LocationId, result.DivisionId);
+                Assert.AreEqual(division.LocationName, result.Division);
+                Assert.AreEqual(division.LocationIso, result.DivisionIso);
+                Assert.AreEqual(division.LocationIso2, result.DivisionIso2);
+                Assert.AreEqual(location.Longitude, result.Longitude);
+                Assert.AreEqual(location.Latitude, result.Latitude);
+                Assert.AreEqual(location.LocationIso, result.LocationIso);
+                Assert.AreEqual(location.LocationIso2, result.LocationIso2);
+            };
+            var serviceResults = service.GetLocationById(location.LocationId);
+            var serviceResultsAsync = await service.GetLocationByIdAsync(location.LocationId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetLocationById_DoesNotHaveCity()
+        {
+            var locationType = new LocationType
+            {
+                LocationTypeId = 1,
+                LocationTypeName = "type"
+            };
+            var country = new Location
+            {
+                LocationId = 101,
+                LocationName = "country",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var region = new Location
+            {
+                LocationId = 102,
+                LocationName = "region",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var division = new Location
+            {
+                LocationId = 103,
+                LocationName = "division",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+
+            var location = new Location
+            {
+                LocationId = 2,
+                LocationName = "abc",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+                Country = country,
+                CountryId = country.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
+                Region = region,
+                RegionId = region.LocationId,
+                Longitude = 1.0f,
+                Latitude = 2.0f,
+                LocationIso = "iso",
+                LocationIso2 = "iso2"
+            };
+            context.Locations.Add(region);
+            context.Locations.Add(country);
+            context.Locations.Add(division);
+            context.Locations.Add(location);
+            context.LocationTypes.Add(locationType);
+            Action<LocationDTO> tester = (result) =>
+            {
+                Assert.IsNotNull(result);
+            };
+            var serviceResults = service.GetLocationById(location.LocationId);
+            var serviceResultsAsync = await service.GetLocationByIdAsync(location.LocationId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetLocationById_DoesNotHaveCountry()
+        {
+            var locationType = new LocationType
+            {
+                LocationTypeId = 1,
+                LocationTypeName = "type"
+            };
+            var city = new Location
+            {
+                LocationId = 100,
+                LocationName = "city",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var region = new Location
+            {
+                LocationId = 102,
+                LocationName = "region",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var division = new Location
+            {
+                LocationId = 103,
+                LocationName = "division",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+
+            var location = new Location
+            {
+                LocationId = 2,
+                LocationName = "abc",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+                City = city,
+                CityId = city.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
+                Region = region,
+                RegionId = region.LocationId,
+                Longitude = 1.0f,
+                Latitude = 2.0f,
+                LocationIso = "iso",
+                LocationIso2 = "iso2"
+            };
+            context.Locations.Add(region);
+            context.Locations.Add(city);
+            context.Locations.Add(division);
+            context.Locations.Add(location);
+            context.LocationTypes.Add(locationType);
+            Action<LocationDTO> tester = (result) =>
+            {
+                Assert.IsNotNull(result);
+            };
+            var serviceResults = service.GetLocationById(location.LocationId);
+            var serviceResultsAsync = await service.GetLocationByIdAsync(location.LocationId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetLocationById_DoesNotHaveRegion()
+        {
+            var locationType = new LocationType
+            {
+                LocationTypeId = 1,
+                LocationTypeName = "type"
+            };
+            var city = new Location
+            {
+                LocationId = 100,
+                LocationName = "city",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var country = new Location
+            {
+                LocationId = 101,
+                LocationName = "country",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var division = new Location
+            {
+                LocationId = 103,
+                LocationName = "division",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+
+            var location = new Location
+            {
+                LocationId = 2,
+                LocationName = "abc",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+                City = city,
+                CityId = city.LocationId,
+                Country = country,
+                CountryId = country.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
+                Longitude = 1.0f,
+                Latitude = 2.0f,
+                LocationIso = "iso",
+                LocationIso2 = "iso2"
+            };
+            context.Locations.Add(city);
+            context.Locations.Add(country);
+            context.Locations.Add(division);
+            context.Locations.Add(location);
+            context.LocationTypes.Add(locationType);
+            Action<LocationDTO> tester = (result) =>
+            {
+                Assert.IsNotNull(result);
+            };
+            var serviceResults = service.GetLocationById(location.LocationId);
+            var serviceResultsAsync = await service.GetLocationByIdAsync(location.LocationId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetLocationById_DoesNotHaveDivision()
+        {
+            var locationType = new LocationType
+            {
+                LocationTypeId = 1,
+                LocationTypeName = "type"
+            };
+            var city = new Location
+            {
+                LocationId = 100,
+                LocationName = "city",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var country = new Location
+            {
+                LocationId = 101,
+                LocationName = "country",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var region = new Location
+            {
+                LocationId = 102,
+                LocationName = "region",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var location = new Location
+            {
+                LocationId = 2,
+                LocationName = "abc",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+                City = city,
+                CityId = city.LocationId,
+                Country = country,
+                CountryId = country.LocationId,
+                Region = region,
+                RegionId = region.LocationId,
+                Longitude = 1.0f,
+                Latitude = 2.0f,
+                LocationIso = "iso",
+                LocationIso2 = "iso2"
+            };
+            context.Locations.Add(region);
+            context.Locations.Add(city);
+            context.Locations.Add(country);
+            context.Locations.Add(location);
+            context.LocationTypes.Add(locationType);
+            Action<LocationDTO> tester = (result) =>
+            {
+                Assert.IsNotNull(result);
+            };
+            var serviceResults = service.GetLocationById(location.LocationId);
+            var serviceResultsAsync = await service.GetLocationByIdAsync(location.LocationId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetLocationById_LocationDoesNotExist()
+        {
+            Action<LocationDTO> tester = (result) =>
+            {
+                Assert.IsNull(result);
+            };
+            var serviceResults = service.GetLocationById(1);
+            var serviceResultsAsync = await service.GetLocationByIdAsync(1);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+        #endregion
+
         #region Get
         [TestMethod]
         public async Task TestGetLocations_CheckProperties()
+        {
+
+            var locationType = new LocationType
+            {
+                LocationTypeId = 1,
+                LocationTypeName = "type"
+            };
+            var city = new Location
+            {
+                LocationId = 100,
+                LocationName = "city",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+            };
+            var country = new Location
+            {
+                LocationId = 101,
+                LocationName = "country",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+                LocationIso = "countryIso",
+                LocationIso2 = "countryIso2"
+            };
+            var region = new Location
+            {
+                LocationId = 102,
+                LocationName = "region",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+                LocationIso = "regionIso",
+                LocationIso2 = "regionIso2"
+            };
+            var division = new Location
+            {
+                LocationId = 103,
+                LocationName = "division",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+                LocationIso = "divisionIso",
+                LocationIso2 = "divisionIso2"
+            };
+
+            var location = new Location
+            {
+                LocationId = 2,
+                LocationName = "abc",
+                LocationTypeId = locationType.LocationTypeId,
+                LocationType = locationType,
+                City = city,
+                CityId = city.LocationId,
+                Country = country,
+                CountryId = country.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
+                Region = region,
+                RegionId = region.LocationId,
+                Longitude = 1.0f,
+                Latitude = 2.0f,
+                LocationIso = "iso",
+                LocationIso2 = "iso2"
+            };
+            context.Locations.Add(region);
+            context.Locations.Add(city);
+            context.Locations.Add(country);
+            context.Locations.Add(division);
+            context.Locations.Add(location);
+            context.LocationTypes.Add(locationType);
+            Action<PagedQueryResults<LocationDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+
+                var firstResult = results.Results.First();
+                Assert.AreEqual(location.LocationId, firstResult.Id);
+                Assert.AreEqual(location.LocationName, firstResult.Name);
+                Assert.AreEqual(location.LocationTypeId, firstResult.LocationTypeId);
+                Assert.AreEqual(locationType.LocationTypeName, firstResult.LocationTypeName);
+                Assert.AreEqual(country.LocationId, firstResult.CountryId);
+                Assert.AreEqual(country.LocationName, firstResult.Country);
+                Assert.AreEqual(country.LocationIso, firstResult.CountryIso);
+                Assert.AreEqual(country.LocationIso2, firstResult.CountryIso2);
+                Assert.AreEqual(region.LocationId, firstResult.RegionId);
+                Assert.AreEqual(region.LocationName, firstResult.Region);
+                Assert.AreEqual(region.LocationIso, firstResult.RegionIso);
+                Assert.AreEqual(region.LocationIso2, firstResult.RegionIso2);
+                Assert.AreEqual(city.LocationId, firstResult.CityId);
+                Assert.AreEqual(city.LocationName, firstResult.City);
+                Assert.AreEqual(division.LocationId, firstResult.DivisionId);
+                Assert.AreEqual(division.LocationName, firstResult.Division);
+                Assert.AreEqual(division.LocationIso, firstResult.DivisionIso);
+                Assert.AreEqual(division.LocationIso2, firstResult.DivisionIso2);
+                Assert.AreEqual(location.Longitude, firstResult.Longitude);
+                Assert.AreEqual(location.Latitude, firstResult.Latitude);
+                Assert.AreEqual(location.LocationIso, firstResult.LocationIso);
+                Assert.AreEqual(location.LocationIso2, firstResult.LocationIso2);
+            };
+            var defaultSorter = new ExpressionSorter<LocationDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<LocationDTO>(0, 10, defaultSorter);
+            queryOperator.Filters.Add(new ExpressionFilter<LocationDTO>(x => x.Id, ComparisonType.Equal, location.LocationId));
+            var serviceResults = service.Get(queryOperator);
+            var serviceResultsAsync = await service.GetAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetLocations_DoesNotHaveLatitudeLongitude()
         {
 
             var locationType = new LocationType
@@ -121,6 +593,8 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(city.LocationName, firstResult.City);
                 Assert.AreEqual(division.LocationId, firstResult.DivisionId);
                 Assert.AreEqual(division.LocationName, firstResult.Division);
+                Assert.IsFalse(firstResult.Longitude.HasValue);
+                Assert.IsFalse(firstResult.Latitude.HasValue);
             };
             var defaultSorter = new ExpressionSorter<LocationDTO>(x => x.Id, SortDirection.Ascending);
             var queryOperator = new QueryableOperator<LocationDTO>(0, 10, defaultSorter);
@@ -399,7 +873,6 @@ namespace ECA.Business.Test.Service.Programs
             tester(serviceResultsAsync);
         }
 
-
         #endregion
 
         #region Validation
@@ -556,7 +1029,7 @@ namespace ECA.Business.Test.Service.Programs
         }
 
         [TestMethod]
-        public async Task TestCreate_CheckProperties()
+        public async Task TestCreate_Address_CheckProperties()
         {
             using (ShimsContext.Create())
             {
@@ -2463,6 +2936,854 @@ namespace ECA.Business.Test.Service.Programs
             tester(serviceResultAsync);
         }
 
+        #endregion
+
+        #region Create
+        [TestMethod]
+        public async Task TestCreate_Location_CheckProperties()
+        {
+            var userId = 2;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var city = new Location
+            {
+                LocationName = "city",
+                LocationId = 1,
+            };
+            var country = new Location
+            {
+                LocationName = "country",
+                LocationId = 2
+            };
+            var division = new Location
+            {
+                LocationName = "division",
+                LocationId = 3
+            };
+            var region = new Location
+            {
+                LocationName = "region",
+                LocationId = 4
+            };
+            var place = new LocationType
+            {
+                LocationTypeId = LocationType.Place.Id,
+                LocationTypeName = "place"
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                context.Locations.Add(city);
+                context.Locations.Add(country);
+                context.Locations.Add(division);
+                context.Locations.Add(region);
+                context.LocationTypes.Add(place);
+            });
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(4, context.Locations.Count());
+            };
+
+            var creator = new User(userId);
+            var additionalLocation = new AdditionalLocation(
+                creator: creator,
+                locationName: "location name",
+                cityId: city.LocationId,
+                countryId: country.LocationId,
+                divisionId: division.LocationId,
+                regionId: region.LocationId,
+                latitude: 2.35f,
+                longitude: 5.0f,
+                locationTypeId: place.LocationTypeId
+                );
+
+            Action<Location> afterTester = (serviceLocation) =>
+            {
+                Assert.AreEqual(5, context.Locations.Count());
+                var addedLocation = context.Locations.Where(x => x.LocationName == additionalLocation.LocationName).First();
+
+                Assert.AreEqual(additionalLocation.LocationName, addedLocation.LocationName);
+                Assert.IsTrue(Object.ReferenceEquals(city, addedLocation.City));
+                Assert.IsTrue(Object.ReferenceEquals(country, addedLocation.Country));
+                Assert.IsTrue(Object.ReferenceEquals(division, addedLocation.Division));
+                Assert.IsTrue(Object.ReferenceEquals(region, addedLocation.Region));
+                Assert.AreEqual(additionalLocation.LocationName, addedLocation.LocationName);
+                float delta = .01f;
+                Assert.AreEqual(additionalLocation.Latitude.Value, addedLocation.Latitude.Value, delta, "The Latitude value is invalid.");
+                Assert.AreEqual(additionalLocation.Longitude.Value, addedLocation.Longitude.Value, delta, "The Longitude value is invalid.");
+                Assert.AreEqual(place.LocationTypeId, additionalLocation.LocationTypeId);
+
+                Assert.AreEqual(userId, addedLocation.History.CreatedBy);
+                Assert.AreEqual(userId, addedLocation.History.RevisedBy);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(addedLocation.History.CreatedOn, 2000);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(addedLocation.History.RevisedOn, 2000);
+            };
+            context.Revert();
+            beforeTester();
+            var serviceResult = service.Create(additionalLocation);
+            locationValidator.Verify(x => x.ValidateCreate(It.IsAny<LocationValidationEntity>()), Times.Once());
+            afterTester(serviceResult);
+
+            context.Revert();
+            beforeTester();
+            serviceResult = await service.CreateAsync(additionalLocation);
+            locationValidator.Verify(x => x.ValidateCreate(It.IsAny<LocationValidationEntity>()), Times.Exactly(2));
+            afterTester(serviceResult);
+        }
+
+        [TestMethod]
+        public async Task TestCreate_Location_LocationTypeDoesNotExist()
+        {
+            var userId = 2;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var city = new Location
+            {
+                LocationName = "city",
+                LocationId = 1,
+            };
+            var country = new Location
+            {
+                LocationName = "country",
+                LocationId = 2
+            };
+            var division = new Location
+            {
+                LocationName = "division",
+                LocationId = 3
+            };
+            var region = new Location
+            {
+                LocationName = "region",
+                LocationId = 4
+            };
+            context.SetupActions.Add(() =>
+            {
+                context.Locations.Add(city);
+                context.Locations.Add(country);
+                context.Locations.Add(division);
+                context.Locations.Add(region);
+            });
+            var creator = new User(userId);
+            var additionalLocation = new AdditionalLocation(
+                creator: creator,
+                locationName: "location name",
+                cityId: city.LocationId,
+                countryId: country.LocationId,
+                divisionId: division.LocationId,
+                regionId: region.LocationId,
+                latitude: 2.35f,
+                longitude: 5.0f,
+                locationTypeId: LocationType.Place.Id
+                );
+            context.Revert();
+
+            var message = String.Format("The location type with id [{0}] does not exist.", additionalLocation.LocationTypeId);
+            Func<Task> f = () =>
+            {
+                return service.CreateAsync(additionalLocation);
+            };
+            service.Invoking(x => x.Create(additionalLocation)).ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+
+        }
+
+        [TestMethod]
+        public async Task TestCreate_Location_CountryDoesNotExist()
+        {
+            var userId = 2;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var city = new Location
+            {
+                LocationName = "city",
+                LocationId = 1,
+            };
+            var division = new Location
+            {
+                LocationName = "division",
+                LocationId = 3
+            };
+            var region = new Location
+            {
+                LocationName = "region",
+                LocationId = 4,
+            };
+            var place = new LocationType
+            {
+                LocationTypeId = LocationType.Place.Id,
+                LocationTypeName = "place"
+            };
+            context.SetupActions.Add(() =>
+            {
+                context.Locations.Add(city);
+                context.Locations.Add(division);
+                context.Locations.Add(region);
+                context.LocationTypes.Add(place);
+            });
+
+            var creator = new User(userId);
+            var additionalLocation = new AdditionalLocation(
+                creator: creator,
+                locationName: "location name",
+                cityId: city.LocationId,
+                countryId: -1,
+                divisionId: division.LocationId,
+                regionId: region.LocationId,
+                latitude: 2.35f,
+                longitude: 5.0f,
+                locationTypeId: place.LocationTypeId
+                );
+
+            context.Revert();
+            var locationTypeName = "Country";
+            var message = String.Format("The [{0}] with id [{1}] was not found.", locationTypeName, additionalLocation.CountryId.Value);
+            Func<Task> f = () =>
+            {
+                return service.CreateAsync(additionalLocation);
+            };
+            service.Invoking(x => x.Create(additionalLocation)).ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestCreate_Location_DivisionDoesNotExist()
+        {
+            var userId = 2;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var city = new Location
+            {
+                LocationName = "city",
+                LocationId = 1,
+            };
+            var country = new Location
+            {
+                LocationName = "country",
+                LocationId = 2
+            };
+            var region = new Location
+            {
+                LocationName = "region",
+                LocationId = 4,
+            };
+            var place = new LocationType
+            {
+                LocationTypeId = LocationType.Place.Id,
+                LocationTypeName = "place"
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                context.Locations.Add(city);
+                context.Locations.Add(country);
+                context.Locations.Add(region);
+                context.LocationTypes.Add(place);
+            });
+
+            var creator = new User(userId);
+            var additionalLocation = new AdditionalLocation(
+                creator: creator,
+                locationName: "location name",
+                cityId: city.LocationId,
+                countryId: country.LocationId,
+                regionId: region.LocationId,
+                divisionId: -1,
+                latitude: 2.35f,
+                longitude: 5.0f,
+                locationTypeId: place.LocationTypeId
+                );
+
+
+            context.Revert();
+            var locationTypeName = "Division";
+            var message = String.Format("The [{0}] with id [{1}] was not found.", locationTypeName, additionalLocation.DivisionId.Value);
+            Func<Task> f = () =>
+            {
+                return service.CreateAsync(additionalLocation);
+            };
+            service.Invoking(x => x.Create(additionalLocation)).ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestCreate_Location_CityDoesNotExist()
+        {
+            var userId = 2;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var country = new Location
+            {
+                LocationName = "country",
+                LocationId = 2
+            };
+            var division = new Location
+            {
+                LocationName = "division",
+                LocationId = 3
+            };
+            var region = new Location
+            {
+                LocationName = "region",
+                LocationId = 4,
+            };
+            var place = new LocationType
+            {
+                LocationTypeId = LocationType.Place.Id,
+                LocationTypeName = "place"
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                context.Locations.Add(country);
+                context.Locations.Add(region);
+                context.Locations.Add(division);
+                context.LocationTypes.Add(place);
+            });
+
+            var creator = new User(userId);
+            var additionalLocation = new AdditionalLocation(
+                creator: creator,
+                locationName: "location name",
+                cityId: -1,
+                countryId: country.LocationId,
+                divisionId: division.LocationId,
+                regionId: region.LocationId,
+                latitude: 2.35f,
+                longitude: 5.0f,
+                locationTypeId: place.LocationTypeId
+                );
+
+
+            context.Revert();
+            var locationTypeName = "City";
+            var message = String.Format("The [{0}] with id [{1}] was not found.", locationTypeName, additionalLocation.CityId.Value);
+            Func<Task> f = () =>
+            {
+                return service.CreateAsync(additionalLocation);
+            };
+            service.Invoking(x => x.Create(additionalLocation)).ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestCreate_Location_RegionDoesNotExist()
+        {
+            var userId = 2;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var country = new Location
+            {
+                LocationName = "country",
+                LocationId = 2
+            };
+            var division = new Location
+            {
+                LocationName = "division",
+                LocationId = 3
+            };
+            var city = new Location
+            {
+                LocationName = "region",
+                LocationId = 4,
+            };
+            var place = new LocationType
+            {
+                LocationTypeId = LocationType.Place.Id,
+                LocationTypeName = "place"
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                context.Locations.Add(country);
+                context.Locations.Add(city);
+                context.Locations.Add(division);
+                context.LocationTypes.Add(place);
+            });
+
+            var creator = new User(userId);
+            var additionalLocation = new AdditionalLocation(
+                creator: creator,
+                locationName: "location name",
+                cityId: city.LocationId,
+                countryId: country.LocationId,
+                divisionId: division.LocationId,
+                regionId: -1,
+                latitude: 2.35f,
+                longitude: 5.0f,
+                locationTypeId: place.LocationTypeId
+                );
+
+
+            context.Revert();
+            var locationTypeName = "Region";
+            var message = String.Format("The [{0}] with id [{1}] was not found.", locationTypeName, additionalLocation.RegionId.Value);
+            Func<Task> f = () =>
+            {
+                return service.CreateAsync(additionalLocation);
+            };
+            service.Invoking(x => x.Create(additionalLocation)).ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        #endregion
+
+        #region Update
+        [TestMethod]
+        public async Task TestUpdate_Location_CheckProperties()
+        {
+            var creatorId = 1;
+            var revisorId = 2;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var city = new Location
+            {
+                LocationName = "city",
+                LocationId = 1,
+            };
+            var country = new Location
+            {
+                LocationName = "country",
+                LocationId = 2
+            };
+            var division = new Location
+            {
+                LocationName = "division",
+                LocationId = 3
+            };
+            var region = new Location
+            {
+                LocationName = "region",
+                LocationId = 4
+            };
+            var place = new LocationType
+            {
+                LocationTypeId = LocationType.Place.Id,
+                LocationTypeName = "place"
+            };
+            var locationToUpdateId = 5;
+            Location locationToUpdate = null;
+
+
+            context.SetupActions.Add(() =>
+            {
+                locationToUpdate = new Location
+                {
+                    LocationId = locationToUpdateId
+                };
+                locationToUpdate.History.CreatedBy = creatorId;
+                locationToUpdate.History.RevisedBy = creatorId;
+                locationToUpdate.History.CreatedOn = yesterday;
+                locationToUpdate.History.RevisedOn = yesterday;
+                context.Locations.Add(city);
+                context.Locations.Add(country);
+                context.Locations.Add(division);
+                context.Locations.Add(region);
+                context.Locations.Add(locationToUpdate);
+                context.LocationTypes.Add(place);
+            });
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(5, context.Locations.Count());
+            };
+
+            var updator = new User(revisorId);
+            var updatedLocation = new UpdatedLocation(
+                updator: updator,
+                locationId: locationToUpdateId,
+                locationName: "location name",
+                cityId: city.LocationId,
+                countryId: country.LocationId,
+                regionId: region.LocationId,
+                divisionId: division.LocationId,
+                latitude: 2.35f,
+                longitude: 5.0f,
+                locationTypeId: place.LocationTypeId
+                );
+
+            Action afterTester = () =>
+            {
+                Assert.AreEqual(5, context.Locations.Count());
+
+                Assert.AreEqual(updatedLocation.LocationName, locationToUpdate.LocationName);
+                Assert.IsTrue(Object.ReferenceEquals(city, locationToUpdate.City));
+                Assert.IsTrue(Object.ReferenceEquals(country, locationToUpdate.Country));
+                Assert.IsTrue(Object.ReferenceEquals(division, locationToUpdate.Division));
+                Assert.IsTrue(Object.ReferenceEquals(place, locationToUpdate.LocationType));
+                Assert.IsTrue(Object.ReferenceEquals(region, locationToUpdate.Region));
+                Assert.AreEqual(updatedLocation.LocationName, locationToUpdate.LocationName);
+                float delta = .01f;
+                Assert.AreEqual(updatedLocation.Latitude.Value, locationToUpdate.Latitude.Value, delta, "The Latitude value is invalid.");
+                Assert.AreEqual(updatedLocation.Longitude.Value, locationToUpdate.Longitude.Value, delta, "The Longitude value is invalid.");
+
+                Assert.AreEqual(creatorId, locationToUpdate.History.CreatedBy);
+                Assert.AreEqual(yesterday, locationToUpdate.History.CreatedOn);
+                Assert.AreEqual(revisorId, locationToUpdate.History.RevisedBy);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(locationToUpdate.History.RevisedOn, 2000);
+            };
+            context.Revert();
+            beforeTester();
+            service.Update(updatedLocation);
+            locationValidator.Verify(x => x.ValidateUpdate(It.IsAny<LocationValidationEntity>()), Times.Once());
+            afterTester();
+
+            context.Revert();
+            beforeTester();
+            await service.UpdateAsync(updatedLocation);
+            locationValidator.Verify(x => x.ValidateUpdate(It.IsAny<LocationValidationEntity>()), Times.Exactly(2));
+            afterTester();
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_Location_CountryDoesNotExist()
+        {
+            var creatorId = 1;
+            var revisorId = 2;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var city = new Location
+            {
+                LocationName = "city",
+                LocationId = 1,
+            };
+            var division = new Location
+            {
+                LocationName = "division",
+                LocationId = 3
+            };
+            var region = new Location
+            {
+                LocationName = "region",
+                LocationId = 4
+            };
+            var place = new LocationType
+            {
+                LocationTypeId = LocationType.Place.Id,
+                LocationTypeName = "place"
+            };
+            var locationToUpdateId = 5;
+            Location locationToUpdate = null;
+
+
+            context.SetupActions.Add(() =>
+            {
+                locationToUpdate = new Location
+                {
+                    LocationId = locationToUpdateId
+                };
+                locationToUpdate.History.CreatedBy = creatorId;
+                locationToUpdate.History.RevisedBy = creatorId;
+                locationToUpdate.History.CreatedOn = yesterday;
+                locationToUpdate.History.RevisedOn = yesterday;
+                context.Locations.Add(city);
+                context.Locations.Add(division);
+                context.Locations.Add(locationToUpdate);
+                context.Locations.Add(region);
+                context.LocationTypes.Add(place);
+            });
+
+            var updator = new User(revisorId);
+            var updatedLocation = new UpdatedLocation(
+                updator: updator,
+                locationId: locationToUpdateId,
+                locationName: "location name",
+                cityId: city.LocationId,
+                countryId: -1,
+                divisionId: division.LocationId,
+                regionId: region.LocationId,
+                latitude: 2.35f,
+                longitude: 5.0f,
+                locationTypeId: place.LocationTypeId
+                );
+            context.Revert();
+
+            var locationTypeName = "Country";
+            var message = String.Format("The [{0}] with id [{1}] was not found.", locationTypeName, updatedLocation.CountryId);
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(updatedLocation);
+            };
+            service.Invoking(x => x.Update(updatedLocation)).ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_Location_DivisionDoesNotExist()
+        {
+            var creatorId = 1;
+            var revisorId = 2;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var city = new Location
+            {
+                LocationName = "city",
+                LocationId = 1,
+            };
+            var country = new Location
+            {
+                LocationName = "country",
+                LocationId = 2
+            };
+            var region = new Location
+            {
+                LocationName = "region",
+                LocationId = 4
+            };
+            var place = new LocationType
+            {
+                LocationTypeId = LocationType.Place.Id,
+                LocationTypeName = "place"
+            };
+            var locationToUpdateId = 5;
+            Location locationToUpdate = null;
+
+
+            context.SetupActions.Add(() =>
+            {
+                locationToUpdate = new Location
+                {
+                    LocationId = locationToUpdateId
+                };
+                locationToUpdate.History.CreatedBy = creatorId;
+                locationToUpdate.History.RevisedBy = creatorId;
+                locationToUpdate.History.CreatedOn = yesterday;
+                locationToUpdate.History.RevisedOn = yesterday;
+                context.Locations.Add(city);
+                context.Locations.Add(country);
+                context.Locations.Add(locationToUpdate);
+                context.Locations.Add(region);
+                context.LocationTypes.Add(place);
+            });
+            var updator = new User(revisorId);
+            var updatedLocation = new UpdatedLocation(
+                updator: updator,
+                locationId: locationToUpdateId,
+                locationName: "location name",
+                cityId: city.LocationId,
+                countryId: country.LocationId,
+                divisionId: -1,
+                regionId: region.LocationId,
+                latitude: 2.35f,
+                longitude: 5.0f,
+                locationTypeId: place.LocationTypeId
+                );
+            context.Revert();
+
+            var locationTypeName = "Division";
+            var message = String.Format("The [{0}] with id [{1}] was not found.", locationTypeName, updatedLocation.DivisionId);
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(updatedLocation);
+            };
+            service.Invoking(x => x.Update(updatedLocation)).ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_Location_CityDoesNotExist()
+        {
+            var creatorId = 1;
+            var revisorId = 2;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var country = new Location
+            {
+                LocationName = "country",
+                LocationId = 2
+            };
+            var division = new Location
+            {
+                LocationName = "division",
+                LocationId = 3
+            };
+            var region = new Location
+            {
+                LocationName = "region",
+                LocationId = 4
+            };
+            var place = new LocationType
+            {
+                LocationTypeId = LocationType.Place.Id,
+                LocationTypeName = "place"
+            };
+            var locationToUpdateId = 5;
+            Location locationToUpdate = null;
+
+
+            context.SetupActions.Add(() =>
+            {
+                locationToUpdate = new Location
+                {
+                    LocationId = locationToUpdateId
+                };
+                locationToUpdate.History.CreatedBy = creatorId;
+                locationToUpdate.History.RevisedBy = creatorId;
+                locationToUpdate.History.CreatedOn = yesterday;
+                locationToUpdate.History.RevisedOn = yesterday;
+                context.Locations.Add(country);
+                context.Locations.Add(division);
+                context.Locations.Add(locationToUpdate);
+                context.Locations.Add(region);
+                context.LocationTypes.Add(place);
+            });
+
+
+            var updator = new User(revisorId);
+            var updatedLocation = new UpdatedLocation(
+                updator: updator,
+                locationId: locationToUpdateId,
+                locationName: "location name",
+                cityId: -1,
+                countryId: country.LocationId,
+                divisionId: division.LocationId,
+                regionId: region.LocationId,
+                latitude: 2.35f,
+                longitude: 5.0f,
+                locationTypeId: place.LocationTypeId
+                );
+            context.Revert();
+
+            var locationTypeName = "City";
+            var message = String.Format("The [{0}] with id [{1}] was not found.", locationTypeName, updatedLocation.CityId);
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(updatedLocation);
+            };
+            service.Invoking(x => x.Update(updatedLocation)).ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_Location_RegionDoesNotExist()
+        {
+            var creatorId = 1;
+            var revisorId = 2;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var country = new Location
+            {
+                LocationName = "country",
+                LocationId = 2
+            };
+            var division = new Location
+            {
+                LocationName = "division",
+                LocationId = 3
+            };
+            var city = new Location
+            {
+                LocationName = "region",
+                LocationId = 4
+            };
+            var place = new LocationType
+            {
+                LocationTypeId = LocationType.Place.Id,
+                LocationTypeName = "place"
+            };
+            var locationToUpdateId = 5;
+            Location locationToUpdate = null;
+
+            context.SetupActions.Add(() =>
+            {
+                locationToUpdate = new Location
+                {
+                    LocationId = locationToUpdateId
+                };
+                locationToUpdate.History.CreatedBy = creatorId;
+                locationToUpdate.History.RevisedBy = creatorId;
+                locationToUpdate.History.CreatedOn = yesterday;
+                locationToUpdate.History.RevisedOn = yesterday;
+                context.Locations.Add(country);
+                context.Locations.Add(division);
+                context.Locations.Add(locationToUpdate);
+                context.Locations.Add(city);
+                context.LocationTypes.Add(place);
+            });
+
+
+            var updator = new User(revisorId);
+            var updatedLocation = new UpdatedLocation(
+                updator: updator,
+                locationId: locationToUpdateId,
+                locationName: "location name",
+                cityId: city.LocationId,
+                countryId: country.LocationId,
+                divisionId: division.LocationId,
+                regionId: -1,
+                latitude: 2.35f,
+                longitude: 5.0f,
+                locationTypeId: place.LocationTypeId
+                );
+            context.Revert();
+
+            var locationTypeName = "Region";
+            var message = String.Format("The [{0}] with id [{1}] was not found.", locationTypeName, updatedLocation.RegionId);
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(updatedLocation);
+            };
+            service.Invoking(x => x.Update(updatedLocation)).ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_Location_LocationTypeDoesNotExist()
+        {
+            var creatorId = 1;
+            var revisorId = 2;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var city = new Location
+            {
+                LocationName = "city",
+                LocationId = 1,
+            };
+            var country = new Location
+            {
+                LocationName = "country",
+                LocationId = 2
+            };
+            var division = new Location
+            {
+                LocationName = "division",
+                LocationId = 3
+            };
+            var region = new Location
+            {
+                LocationName = "region",
+                LocationId = 4
+            };
+            var locationToUpdateId = 5;
+            Location locationToUpdate = null;
+
+
+            context.SetupActions.Add(() =>
+            {
+                locationToUpdate = new Location
+                {
+                    LocationId = locationToUpdateId
+                };
+                locationToUpdate.History.CreatedBy = creatorId;
+                locationToUpdate.History.RevisedBy = creatorId;
+                locationToUpdate.History.CreatedOn = yesterday;
+                locationToUpdate.History.RevisedOn = yesterday;
+                context.Locations.Add(city);
+                context.Locations.Add(country);
+                context.Locations.Add(division);
+                context.Locations.Add(region);
+                context.Locations.Add(locationToUpdate);
+            });
+            var updator = new User(revisorId);
+            var updatedLocation = new UpdatedLocation(
+                updator: updator,
+                locationId: locationToUpdateId,
+                locationName: "location name",
+                cityId: city.LocationId,
+                countryId: country.LocationId,
+                divisionId: division.LocationId,
+                regionId: region.LocationId,
+                latitude: 2.35f,
+                longitude: 5.0f,
+                locationTypeId: LocationType.Place.Id
+                );
+            context.Revert();
+
+            var message = String.Format("The location type with id [{0}] does not exist.", updatedLocation.LocationTypeId);
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(updatedLocation);
+            };
+            service.Invoking(x => x.Update(updatedLocation)).ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
         #endregion
 
     }

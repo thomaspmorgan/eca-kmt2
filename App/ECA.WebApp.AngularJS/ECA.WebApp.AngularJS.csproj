@@ -138,6 +138,8 @@
     <Content Include="scripts\controllers\allorganizations.js" />
     <Content Include="scripts\controllers\collaborators.js" />
     <Content Include="scripts\controllers\confirm.js" />
+    <Content Include="scripts\controllers\locations\addlocation.js" />
+    <Content Include="scripts\controllers\locations\searchlocations.js" />
     <Content Include="scripts\controllers\membership\memberships.js" />
     <Content Include="scripts\controllers\membership\membership.js" />
     <Content Include="scripts\controllers\moneyflow.js" />
@@ -179,8 +181,10 @@
     <Content Include="scripts\directives\socialmedialink.js" />
     <Content Include="scripts\directives\uiselectstsearch.js" />
     <Content Include="scripts\filters\groupby.js" />
+    <Content Include="scripts\filters\propFilter.js" />
     <Content Include="scripts\services\bookmark.js" />
     <Content Include="scripts\services\membership.js" />
+    <Content Include="scripts\services\filterservice.js" />
     <Content Include="scripts\services\socialmediaservice.js" />
     <Content Include="scripts\services\addressservice.js" />
     <Content Include="scripts\services\participantperson.js" />
@@ -191,6 +195,8 @@
     <Content Include="views\directives\memberships.html" />
     <Content Include="views\directives\socialmedias.html" />
     <Content Include="views\directives\addresses.html" />
+    <Content Include="views\locations\addlocationmodal.html" />
+    <Content Include="views\locations\searchlocations.html" />
     <Content Include="views\organizations\activities.html" />
     <Content Include="views\organizations\impact.html" />
     <Content Include="views\organizations\artifacts.html" />

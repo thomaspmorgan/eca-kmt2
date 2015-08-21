@@ -39,17 +39,27 @@ namespace ECA.Business.Queries.Admin
                         select new LocationDTO
                         {
                             Country = hasCountry ? country.LocationName : null,
+                            CountryIso = hasCountry ? country.LocationIso : null,
+                            CountryIso2 = hasCountry ? country.LocationIso2 : null,
                             CountryId = location.CountryId,
                             Division = hasDivision ? division.LocationName : null,
+                            DivisionIso = hasDivision ? division.LocationIso : null,
+                            DivisionIso2 = hasDivision ? division.LocationIso2 : null,
                             DivisionId = location.DivisionId,
                             Id = location.LocationId,
                             LocationTypeId = locationType.LocationTypeId,
                             LocationTypeName = locationType.LocationTypeName,
                             Name = location.LocationName,
                             Region = hasRegion ? region.LocationName : null,
+                            RegionIso = hasRegion ? region.LocationIso : null,
+                            RegionIso2 = hasRegion ? region.LocationIso2 : null,
                             RegionId = location.RegionId,
                             City = hasCity ? city.LocationName : null,
-                            CityId = location.CityId
+                            CityId = location.CityId,
+                            Longitude = location.Longitude,
+                            Latitude = location.Latitude,
+                            LocationIso = location.LocationIso,
+                            LocationIso2 = location.LocationIso2
                         };
 
             return query;

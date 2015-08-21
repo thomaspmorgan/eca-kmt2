@@ -25,6 +25,11 @@ namespace ECA.Data
         public const int POSTAL_CODE_MAX_LENGTH = 50;
 
         /// <summary>
+        /// The max length of the location name.
+        /// </summary>
+        public const int NAME_MAX_LENGTH = 200;
+
+        /// <summary>
         /// Creates a new instance of a Location.
         /// </summary>
         public Location()
@@ -92,6 +97,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
+        [MaxLength(NAME_MAX_LENGTH)]
         public string LocationName { get; set; }
 
         /// <summary>

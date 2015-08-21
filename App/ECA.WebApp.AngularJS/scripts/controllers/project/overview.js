@@ -28,8 +28,7 @@ angular.module('staticApp')
       $scope.sortedObjectives = [];
       
       
-      function loadOfficeSettings() {
-          var officeId = $stateParams.officeId;
+      function loadOfficeSettings(officeId) {
           return OfficeService.getSettings(officeId)
               .then(function (response) {
                   $log.info('Loading office settings for office with id ' + officeId);
@@ -53,38 +52,22 @@ angular.module('staticApp')
               });
       }
 
-      function loadProject() {
-          var projectId = $stateParams.projectId;
-          return ProjectService.getById(projectId)
-            .then(function (data) {
-                $log.info('Successfully loaded project.');
-                $scope.$parent.project = data.data;
-                $scope.$parent.project.countryIsos = $scope.$parent.project.countryIsos || [];
-                var startDate = new Date($scope.$parent.project.startDate);
-                if (!isNaN(startDate.getTime())) {
-                    $scope.$parent.project.startDate = startDate;
-                }
-                var endDate = new Date($scope.$parent.project.endDate);
-                if (!isNaN(endDate.getTime())) {
-                    $scope.$parent.project.endDate = endDate;
-                }
-                $scope.sortedCategories = orderByFilter($scope.$parent.project.categories, '+focusName');
-                $scope.sortedObjectives = orderByFilter($scope.$parent.project.objectives, '+justificationName');
-
-            }, function (errorResponse) {
-                $log.error('Failed to load project with id ' + projectId);
-            });
-      }
-
       $scope.view.isLoading = true;
-      $q.all([loadProject(), loadOfficeSettings()])
-      .then(function (results) {
-          //results is an array
+      $scope.$parent.data.loadProjectByIdPromise.promise.then(function (project) {
+          $scope.sortedCategories = orderByFilter($scope.$parent.project.categories, '+focusName');
+          $scope.sortedObjectives = orderByFilter($scope.$parent.project.objectives, '+justificationName');
+          $q.all([loadOfficeSettings(project.ownerId)])
+              .then(function (results) {
+                  //results is an array
 
-      }, function (errorResponse) {
-          $log.error('Failed initial loading of project view.');
-      })
-      .then(function () {
-          $scope.view.isLoading = false;
+              }, function (errorResponse) {
+                  $log.error('Failed initial loading of project view.');
+              })
+              .then(function () {
+                  $scope.view.isLoading = false;
+              });
       });
+
+      
+      
   });

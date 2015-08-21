@@ -8,9 +8,11 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProjectCtrl', function ($scope, $state, $stateParams, $log, $q, ProjectService, PersonService,
-      ProgramService, ParticipantService, LocationService, AuthService,OrganizationService,
-      TableService, ConstantsService, LookupService, orderByFilter) {
+  .controller('ProjectCtrl', function ($scope, $state, $stateParams, $log, $q,
+      ProjectService,
+      AuthService,
+      ConstantsService,
+      orderByFilter) {
 
       $scope.project = {};
       $scope.modalForm = {};
@@ -25,16 +27,18 @@ angular.module('staticApp')
       $scope.isInEditViewState = false;
       $scope.projectStatusButtonText = "...";
       $scope.isTransactionDatePickerOpen = false;
+      $scope.data = {};
+      $scope.data.loadProjectByIdPromise = $q.defer();
 
       $scope.tabs = {
-          overview: {title: 'Overview', path: 'overview', active: true, order: 1 },
-          partners: {title: 'Partners', path: 'partners', active: false,order: 3 },
-          participants: {title: 'Participants',path: 'participants',active: true,order: 2 },
-          artifacts: {title: 'Attachments',path: 'artifacts',active: true,order: 4 },
-          moneyflows: {title: 'Funding',path: 'moneyflows',active: true,order: 5},
-          impact: {title: 'Impact',path: 'impact',active: false,order: 6},
-          activity: {title: 'Timeline',path: 'activity',active: true,order: 7},
-          itinerary: {title: 'Travel',path: 'itineraries',active: true,order: 8}
+          overview: { title: 'Overview', path: 'overview', active: true, order: 1 },
+          partners: { title: 'Partners', path: 'partners', active: false, order: 3 },
+          participants: { title: 'Participants', path: 'participants', active: true, order: 2 },
+          artifacts: { title: 'Attachments', path: 'artifacts', active: true, order: 4 },
+          moneyflows: { title: 'Funding', path: 'moneyflows', active: true, order: 5 },
+          impact: { title: 'Impact', path: 'impact', active: false, order: 6 },
+          activity: { title: 'Timeline', path: 'activity', active: true, order: 7 },
+          itinerary: { title: 'Travel', path: 'itineraries', active: true, order: 8 }
       };
 
       function enabledProjectStatusButton() {
@@ -46,8 +50,9 @@ angular.module('staticApp')
       }
 
       ProjectService.getById($stateParams.projectId)
-        .then(function (data) {            
+        .then(function (data) {
             $scope.project = data.data;
+            $log.info('Successfully loaded project.');
             if (angular.isArray($scope.project.participants)) {
                 $scope.tabs.participants.active = true;
             }
@@ -57,15 +62,25 @@ angular.module('staticApp')
             if (angular.isArray($scope.project.moneyFlows)) {
                 $scope.tabs.moneyflows.active = true;
             }
+            $scope.project.countryIsos = $scope.project.countryIsos || [];
+            var startDate = new Date($scope.project.startDate);
+            if (!isNaN(startDate.getTime())) {
+                $scope.project.startDate = startDate;
+            }
+            var endDate = new Date($scope.project.endDate);
+            if (!isNaN(endDate.getTime())) {
+                $scope.project.endDate = endDate;
+            }
+            $scope.data.loadProjectByIdPromise.resolve($scope.project);
         });
 
       var editStateName = 'projects.edit';
 
-      $scope.showProjectEditCancelButton = function() {
+      $scope.showProjectEditCancelButton = function () {
           $scope.isProjectEditCancelButtonVisible = true;
       }
 
-      $scope.hideProjectEditCancelButton = function() {
+      $scope.hideProjectEditCancelButton = function () {
           $scope.isProjectEditCancelButtonVisible = false;
       }
       $scope.isInEditViewState = $state.current.name === editStateName;
@@ -79,7 +94,7 @@ angular.module('staticApp')
           if ($state.current.name === editStateName) {
               $scope.$broadcast(ConstantsService.saveProjectEventName);
           }
-          else {              
+          else {
               $state.go(editStateName);
               $scope.showProjectEditCancelButton();
           }
@@ -90,11 +105,6 @@ angular.module('staticApp')
       }
 
       $scope.params = $stateParams;
-
-      ProgramService.get($stateParams.programId)
-        .then(function (data) {
-            $scope.program = data;
-        });
 
       $scope.updateProject = function () {
           saveProject();
@@ -139,7 +149,7 @@ angular.module('staticApp')
           ProjectService.create(project)
               .then(function (project) {
                   console.log($scope.program.id);
-                  $state.go('projects.overview', { officeId: $scope.program.owner.organizationId, projectId: project.id, programId: $scope.program.id });
+                  $state.go('projects.overview', { projectId: project.id});
               });
 
           if (!$scope.program.projectReferences) {
@@ -149,14 +159,13 @@ angular.module('staticApp')
           saveProgram();
       };
 
-
       function saveProject() {
           ProjectService.update($scope.project, $stateParams.projectId)
             .then(function (project) {
                 $scope.project = project;
             });
       }
-      
+
       function loadPermissions() {
           console.assert(ConstantsService.resourceType.project.value, 'The constants service must have the project resource type value.');
           var projectId = $stateParams.projectId;
@@ -192,7 +201,7 @@ angular.module('staticApp')
       $scope.closeConfirm = function () {
           $scope.confirmSuccess = false;
       }
-      
+
       // calendar popup for startDate
       $scope.transactionCalendarOpen = function ($event) {
           $event.preventDefault();
@@ -209,8 +218,7 @@ angular.module('staticApp')
       $scope.confirmClose = function (closeModal) {
           $scope.showConfirmClose = false;
 
-          if (closeModal)
-          {
+          if (closeModal) {
               $scope.showCreateMoneyFlow = false;
               $scope.modalClear();
           }

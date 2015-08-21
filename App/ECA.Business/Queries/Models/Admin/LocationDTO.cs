@@ -41,9 +41,29 @@
         public string Region { get; set; }
 
         /// <summary>
+        /// Gets or sets the region iso.
+        /// </summary>
+        public string RegionIso { get; set; }
+
+        /// <summary>
+        /// Gets or sets the region iso2.
+        /// </summary>
+        public string RegionIso2 { get; set; }
+
+        /// <summary>
         /// Gets or sets the country.
         /// </summary>
         public string Country { get; set; }
+
+        /// <summary>
+        /// Gets or sets the country iso.
+        /// </summary>
+        public string CountryIso { get; set; }
+
+        /// <summary>
+        /// Gets or sets the country iso2.
+        /// </summary>
+        public string CountryIso2 { get; set; }
 
         /// <summary>
         /// Gets or sets the division id.
@@ -56,6 +76,26 @@
         public string Division { get; set; }
 
         /// <summary>
+        /// Gets or sets the division iso.
+        /// </summary>
+        public string DivisionIso { get; set; }
+
+        /// <summary>
+        /// Gets or sets the division iso2.
+        /// </summary>
+        public string DivisionIso2 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the location iso
+        /// </summary>
+        public string LocationIso { get; set; }
+
+        /// <summary>
+        /// Gets or sets the location iso 2.
+        /// </summary>
+        public string LocationIso2 { get; set; }
+
+        /// <summary>
         /// Gets or sets the city id.
         /// </summary>
         public int? CityId { get; set; }
@@ -64,5 +104,15 @@
         /// Gets or sets the city.
         /// </summary>
         public string City { get; set; }
+
+        /// <summary>
+        /// Gets or sets the latitude.
+        /// </summary>
+        public float? Latitude { get; set; }
+
+        /// <summary>
+        /// Gets or sets the longitude.
+        /// </summary>
+        public float? Longitude { get; set; }
     }
 }

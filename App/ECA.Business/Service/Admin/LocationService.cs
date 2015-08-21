@@ -27,18 +27,25 @@ namespace ECA.Business.Service.Admin
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<int, object, Type> throwIfEntityNotFound;
         private readonly Action<int, Location, string> throwIfLocationNotFound;
+        private readonly Action<int, LocationType> throwIfLocationTypeDoesNotExist;
         private readonly IBusinessValidator<EcaAddressValidationEntity, EcaAddressValidationEntity> addressValidator;
+        private readonly IBusinessValidator<LocationValidationEntity, LocationValidationEntity> locationValidator;
 
         /// <summary>
         /// Creates a new location service with the context to operate against.
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="addressValidator">The address create and update validator.</param>
-        public LocationService(EcaContext context, IBusinessValidator<EcaAddressValidationEntity, EcaAddressValidationEntity> addressValidator)
+        public LocationService(
+            EcaContext context,
+            IBusinessValidator<LocationValidationEntity, LocationValidationEntity> locationValidator,
+            IBusinessValidator<EcaAddressValidationEntity, EcaAddressValidationEntity> addressValidator)
             : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(addressValidator != null, "The address validator must not be null.");
+            Contract.Requires(locationValidator != null, "The location validator must not be null.");
+            this.locationValidator = locationValidator;
             this.addressValidator = addressValidator;
             throwIfEntityNotFound = (id, instance, t) =>
             {
@@ -54,6 +61,13 @@ namespace ECA.Business.Service.Admin
                     throw new ModelNotFoundException(String.Format("The [{0}] with id [{1}] was not found.", locationTypeName, id));
                 }
             };
+            throwIfLocationTypeDoesNotExist = (locationTypeId, locationType) =>
+            {
+                if (locationType == null)
+                {
+                    throw new ModelNotFoundException(String.Format("The location type with id [{0}] does not exist.", locationTypeId));
+                }
+            };
         }
 
         #region Get
@@ -64,6 +78,33 @@ namespace ECA.Business.Service.Admin
         protected override IQueryable<LocationDTO> GetSelectDTOQuery()
         {
             return LocationQueries.CreateGetLocationsQuery(this.Context);
+        }
+        #endregion
+
+        #region Get By Id
+
+        /// <summary>
+        /// Returns the location with the given id, or null if it is not found.
+        /// </summary>
+        /// <param name="locationId">The id of the location.</param>
+        /// <returns>The location, or null if it does not exist.</returns>
+        public LocationDTO GetLocationById(int locationId)
+        {
+            var location = LocationQueries.CreateGetLocationsQuery(this.Context).Where(x => x.Id == locationId).FirstOrDefault();
+            logger.Debug("Retrieved location = [{0}] by id [{1}].", location, locationId);
+            return location;
+        }
+
+        /// <summary>
+        /// Returns the location with the given id, or null if it is not found.
+        /// </summary>
+        /// <param name="locationId">The id of the location.</param>
+        /// <returns>The location, or null if it does not exist.</returns>
+        public async Task<LocationDTO> GetLocationByIdAsync(int locationId)
+        {
+            var location = await LocationQueries.CreateGetLocationsQuery(this.Context).Where(x => x.Id == locationId).FirstOrDefaultAsync();
+            logger.Debug("Retrieved location = [{0}] by id [{1}].", location, locationId);
+            return location;
         }
         #endregion
 
@@ -164,7 +205,7 @@ namespace ECA.Business.Service.Admin
         /// <param name="additionalAddress">The new address.</param>
         /// <returns>The address entity.</returns>
         public Address Create<T>(AdditionalAddress<T> additionalAddress)
-            where T : class, IAddressable 
+            where T : class, IAddressable
         {
             var dbSet = Context.Set<T>();
             var id = additionalAddress.GetAddressableEntityId();
@@ -286,9 +327,9 @@ namespace ECA.Business.Service.Admin
 
         private IQueryable<Address> CreateGetOtherEntityAddressesQuery(Address address)
         {
-            return Context.Addresses.Where(x => 
-                x.PersonId == address.PersonId 
-                && x.OrganizationId == address.OrganizationId 
+            return Context.Addresses.Where(x =>
+                x.PersonId == address.PersonId
+                && x.OrganizationId == address.OrganizationId
                 && x.AddressId != address.AddressId);
         }
 
@@ -324,6 +365,233 @@ namespace ECA.Business.Service.Admin
         }
 
 
+        #endregion
+
+        #region Create
+        /// <summary>
+        /// Adds the given location to the eca system.
+        /// </summary>
+        /// <param name="additionalLocation">The new location.</param>
+        /// <returns>The task.</returns>
+        public Location Create(AdditionalLocation additionalLocation)
+        {
+            Location city = null;
+            Location country = null;
+            Location division = null;
+            Location region = null;
+            if (additionalLocation.CityId.HasValue)
+            {
+                city = Context.Locations.Find(additionalLocation.CityId);
+                throwIfLocationNotFound(additionalLocation.CityId.Value, city, "City");
+            }
+            if (additionalLocation.CountryId.HasValue)
+            {
+                country = Context.Locations.Find(additionalLocation.CountryId.Value);
+                throwIfLocationNotFound(additionalLocation.CountryId.Value, country, "Country");
+            }
+            if (additionalLocation.DivisionId.HasValue)
+            {
+                division = Context.Locations.Find(additionalLocation.DivisionId.Value);
+                throwIfLocationNotFound(additionalLocation.DivisionId.Value, division, "Division");
+            }
+            if (additionalLocation.RegionId.HasValue)
+            {
+                region = Context.Locations.Find(additionalLocation.RegionId.Value);
+                throwIfLocationNotFound(additionalLocation.RegionId.Value, region, "Region");
+            }
+            
+            var locationType = Context.LocationTypes.Find(additionalLocation.LocationTypeId);
+            throwIfLocationTypeDoesNotExist(additionalLocation.LocationTypeId, locationType);
+
+            return DoCreate(
+                country: country,
+                division: division,
+                city: city,
+                region: region,
+                locationType: locationType,
+                additionalLocation: additionalLocation);
+        }
+
+        /// <summary>
+        /// Adds the given location to the eca system.
+        /// </summary>
+        /// <param name="additionalLocation">The new location.</param>
+        /// <returns>The task.</returns>
+        public async Task<Location> CreateAsync(AdditionalLocation additionalLocation)
+        {
+            Location city = null;
+            Location country = null;
+            Location division = null;
+            Location region = null;
+            if (additionalLocation.CityId.HasValue)
+            {
+                city = await Context.Locations.FindAsync(additionalLocation.CityId);
+                throwIfLocationNotFound(additionalLocation.CityId.Value, city, "City");
+            }
+            if (additionalLocation.CountryId.HasValue)
+            {
+                country = await Context.Locations.FindAsync(additionalLocation.CountryId.Value);
+                throwIfLocationNotFound(additionalLocation.CountryId.Value, country, "Country");
+            }
+            if (additionalLocation.DivisionId.HasValue)
+            {
+                division = await Context.Locations.FindAsync(additionalLocation.DivisionId.Value);
+                throwIfLocationNotFound(additionalLocation.DivisionId.Value, division, "Division");
+            }
+            if (additionalLocation.RegionId.HasValue)
+            {
+                region = await Context.Locations.FindAsync(additionalLocation.RegionId.Value);
+                throwIfLocationNotFound(additionalLocation.RegionId.Value, region, "Region");
+            }
+
+            var locationType = await Context.LocationTypes.FindAsync(additionalLocation.LocationTypeId);
+            throwIfLocationTypeDoesNotExist(additionalLocation.LocationTypeId, locationType);
+
+            return DoCreate(
+                country: country,
+                division: division,
+                city: city,
+                region: region,
+                locationType: locationType,
+                additionalLocation: additionalLocation);
+        }
+
+        private Location DoCreate(Location region, Location country, Location division, Location city, LocationType locationType, AdditionalLocation additionalLocation)
+        {
+            var validationEntity = GetLocationValidationEntity(additionalLocation, region, country, division, city);
+            locationValidator.ValidateCreate(validationEntity);
+            var newLocation = new Location
+            {
+                City = city,
+                Country = country,
+                Division = division,
+                Region = region,
+                Latitude = additionalLocation.Latitude,
+                Longitude = additionalLocation.Longitude,
+                LocationName = additionalLocation.LocationName,
+                LocationType = locationType,                
+            };
+            Context.Locations.Add(newLocation);
+            additionalLocation.Audit.SetHistory(newLocation);
+            return newLocation;
+        }
+        #endregion
+
+        private LocationValidationEntity GetLocationValidationEntity(EcaLocation location, Location region, Location country, Location division, Location city)
+        {
+            return new LocationValidationEntity(location, region, country, division, city);
+        }
+
+        #region Update
+
+        /// <summary>
+        /// Updates the system's location with the given updated location.
+        /// </summary>
+        /// <param name="updatedLocation">The updated location.</param>
+        public void Update(UpdatedLocation updatedLocation)
+        {
+            var locationToUpdated = Context.Locations.Find(updatedLocation.LocationId);
+            throwIfLocationNotFound(locationToUpdated.LocationId, locationToUpdated, "Location");
+
+            Location city = null;
+            Location country = null;
+            Location division = null;
+            Location region = null;
+            if (updatedLocation.CityId.HasValue)
+            {
+                city = Context.Locations.Find(updatedLocation.CityId);
+                throwIfLocationNotFound(updatedLocation.CityId.Value, city, "City");
+            }
+            if (updatedLocation.CountryId.HasValue)
+            {
+                country = Context.Locations.Find(updatedLocation.CountryId.Value);
+                throwIfLocationNotFound(updatedLocation.CountryId.Value, country, "Country");
+            }
+            if (updatedLocation.DivisionId.HasValue)
+            {
+                division = Context.Locations.Find(updatedLocation.DivisionId.Value);
+                throwIfLocationNotFound(updatedLocation.DivisionId.Value, division, "Division");
+            }
+            if (updatedLocation.RegionId.HasValue)
+            {
+                region = Context.Locations.Find(updatedLocation.RegionId.Value);
+                throwIfLocationNotFound(updatedLocation.RegionId.Value, region, "Region");
+            }
+
+            var locationType = Context.LocationTypes.Find(updatedLocation.LocationTypeId);
+            throwIfLocationTypeDoesNotExist(updatedLocation.LocationTypeId, locationType);
+
+            DoUpdate(updatedLocation, locationToUpdated, country, division, city, region, locationType);
+        }
+
+        /// <summary>
+        /// Updates the system's location with the given updated location.
+        /// </summary>
+        /// <param name="updatedLocation">The updated location.</param>
+        public async Task UpdateAsync(UpdatedLocation updatedLocation)
+        {
+            var locationToUpdated = await Context.Locations.FindAsync(updatedLocation.LocationId);
+            throwIfLocationNotFound(locationToUpdated.LocationId, locationToUpdated, "Location");
+
+            Location city = null;
+            Location country = null;
+            Location division = null;
+            Location region = null;
+            if (updatedLocation.CityId.HasValue)
+            {
+                city = await Context.Locations.FindAsync(updatedLocation.CityId);
+                throwIfLocationNotFound(updatedLocation.CityId.Value, city, "City");
+            }
+            if (updatedLocation.CountryId.HasValue)
+            {
+                country = await Context.Locations.FindAsync(updatedLocation.CountryId.Value);
+                throwIfLocationNotFound(updatedLocation.CountryId.Value, country, "Country");
+            }
+            if (updatedLocation.DivisionId.HasValue)
+            {
+                division = await Context.Locations.FindAsync(updatedLocation.DivisionId.Value);
+                throwIfLocationNotFound(updatedLocation.DivisionId.Value, division, "Division");
+            }
+            if (updatedLocation.RegionId.HasValue)
+            {
+                region = await Context.Locations.FindAsync(updatedLocation.RegionId.Value);
+                throwIfLocationNotFound(updatedLocation.RegionId.Value, region, "Region");
+            }
+
+            var locationType = await Context.LocationTypes.FindAsync(updatedLocation.LocationTypeId);
+            throwIfLocationTypeDoesNotExist(updatedLocation.LocationTypeId, locationType);
+
+            DoUpdate(updatedLocation, locationToUpdated, country, division, city, region, locationType);
+        }
+
+        private void DoUpdate(
+            UpdatedLocation updatedLocation,
+            Location locationToUpdate,
+            Location country,
+            Location division,
+            Location city,
+            Location region,
+            LocationType locationType)
+        {
+            var validationEntity = GetLocationValidationEntity(
+                region: region,
+                location: updatedLocation,
+                country: country,
+                division: division,
+                city: city
+                );
+            locationValidator.ValidateUpdate(validationEntity);
+
+            locationToUpdate.City = city;
+            locationToUpdate.Country = country;
+            locationToUpdate.Division = division;
+            locationToUpdate.Region = region;
+            locationToUpdate.Latitude = updatedLocation.Latitude;
+            locationToUpdate.Longitude = updatedLocation.Longitude;
+            locationToUpdate.LocationName = updatedLocation.LocationName;
+            locationToUpdate.LocationType = locationType;
+            updatedLocation.Audit.SetHistory(locationToUpdate);
+        }
         #endregion
     }
 }

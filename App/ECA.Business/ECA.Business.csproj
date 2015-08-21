@@ -141,6 +141,13 @@
     <Compile Include="Service\Persons\NewPersonLanguageProficiency.cs" />
     <Compile Include="Service\Persons\NewPersonMembership.cs" />
     <Compile Include="Service\Persons\UpdatedPersonMembership.cs" />
+    <Compile Include="Service\Admin\AdditionalLocation.cs" />
+    <Compile Include="Service\Admin\EcaLocation.cs" />
+    <Compile Include="Service\Admin\LocationServiceValidator.cs" />
+    <Compile Include="Service\Lookup\ILocationTypeService.cs" />
+    <Compile Include="Service\Lookup\LocationTypeService.cs" />
+    <Compile Include="Service\Admin\LocationValidationEntity.cs" />
+    <Compile Include="Service\Admin\UpdatedLocation.cs" />
     <Compile Include="Service\Delete.cs" />
     <Compile Include="Exceptions\EcaBusinessException.cs" />
     <Compile Include="Queries\Admin\AddressQueries.cs" />
