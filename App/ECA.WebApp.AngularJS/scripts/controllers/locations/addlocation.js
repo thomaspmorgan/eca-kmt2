@@ -36,11 +36,12 @@ angular.module('staticApp')
       $scope.view.isLoadingRequiredData = false;
       $scope.view.isSavingNewLocation = false;
       $scope.view.isMapIdle = false;
-      $scope.view.search = '';
+      $scope.view.search = '41410 monteigne drive pensacola';
       $scope.view.locationExists = false;
       $scope.view.isTransformingLocation = false;
       $scope.view.isLongitudeRequired = false;
       $scope.view.isLatitudeRequired = false;
+      
 
       $scope.view.mapOptions = {
           center: new google.maps.LatLng(38.9071, -77.0368),
@@ -48,31 +49,6 @@ angular.module('staticApp')
           mapTypeId: google.maps.MapTypeId.ROADMAP
       };
       $scope.view.newLocation = getNewLocation();
-
-      //$modalInstance.opened.then(function () {
-
-      //    debugger;
-
-      //    var modal;
-      //    var getModalInterval = function () {
-      //        debugger;
-      //        modal = document.getElementsByClassName('modal')[0];
-      //        if (modal) {
-                  
-      //            clearInterval(getModal);
-      //            var map = getNewLocationMap();
-      //            google.maps.event.trigger(map, 'resize');
-      //            map.setCenter($scope.view.mapOptions.center);
-      //        }
-      //    };
-      //    modal = document.getElementsByClassName('modal')[0];
-      //    if (!modal) {
-      //        debugger;
-      //        var getModal = setInterval(getModalInterval, 2000);
-      //    }
-
-
-      //});
 
       $scope.view.onCountryChange = function () {
           loadDivisions();
@@ -106,12 +82,16 @@ angular.module('staticApp')
           return checkNewLocationExistence();
       }
 
+      var fixedRedrawIssue = false;
       $scope.onMapIdle = function () {
-          var map = getNewLocationMap();
           //this fixes a google map issue when this modal is closed and then reopened
           //the map would just show a grey box
-          google.maps.event.trigger(map, 'resize');
-          map.setCenter($scope.view.mapOptions.center);
+          if (!fixedRedrawIssue) {
+              var map = getNewLocationMap();
+              google.maps.event.trigger(map, 'resize');
+              map.setCenter($scope.view.mapOptions.center);
+              fixedRedrawIssue = true;
+          }
           $scope.view.isMapIdle = true;
       }
 
@@ -351,39 +331,41 @@ angular.module('staticApp')
       var existenceFilter = FilterService.add('addlocation_existencefilter');
       function checkNewLocationExistence() {
           $scope.view.locationExists = false;
-          existenceFilter.reset();
-          existenceFilter = existenceFilter
-              .skip(0)
-              .take(1)
-              .sortBy('name');
-          if ($scope.view.newLocation.locationTypeId === ConstantsService.locationType.city.id) {
-              existenceFilter = existenceFilter.equal('locationTypeId', ConstantsService.locationType.city.id);
-          }
-
-          if ($scope.view.newLocation.name && $scope.view.newLocation.name.length > 0) {
-              existenceFilter = existenceFilter.like('name', $scope.view.newLocation.name)
-          }
-          if ($scope.view.newLocation.countryId) {
-              existenceFilter = existenceFilter.equal('countryId', $scope.view.newLocation.countryId);
-          }
-          if ($scope.view.newLocation.divisionId) {
-              existenceFilter = existenceFilter.equal('divisionId', $scope.view.newLocation.divisionId);
-          }
-          return LocationService.get(existenceFilter.toParams())
-          .then(function (response) {
-              if (response.total > 0) {
-                  NotificationService.showWarningMessage('This location may already exist.');
-                  $scope.view.locationExists = true;
+          if ($scope.view.newLocation.locationTypeId !== ConstantsService.locationType.building.id
+              && $scope.view.newLocation.locationTypeId !== ConstantsService.locationType.place.id) {              
+              existenceFilter.reset();
+              existenceFilter = existenceFilter
+                  .skip(0)
+                  .take(1)
+                  .sortBy('name');
+              if ($scope.view.newLocation.locationTypeId === ConstantsService.locationType.city.id) {
+                  existenceFilter = existenceFilter.equal('locationTypeId', ConstantsService.locationType.city.id);
               }
-              else {
-                  $scope.view.locationExists = false;
+              if ($scope.view.newLocation.name && $scope.view.newLocation.name.length > 0) {
+                  existenceFilter = existenceFilter.like('name', $scope.view.newLocation.name)
               }
-          })
-          .catch(function (response) {
-              var message = "Unable to validate location.";
-              $log.error(message);
-              NotificationService.showErrorMessage(message);
-          });
+              if ($scope.view.newLocation.countryId) {
+                  existenceFilter = existenceFilter.equal('countryId', $scope.view.newLocation.countryId);
+              }
+              if ($scope.view.newLocation.divisionId) {
+                  existenceFilter = existenceFilter.equal('divisionId', $scope.view.newLocation.divisionId);
+              }
+              return LocationService.get(existenceFilter.toParams())
+              .then(function (response) {
+                  if (response.total > 0) {
+                      NotificationService.showWarningMessage('This location may already exist.');
+                      $scope.view.locationExists = true;
+                  }
+                  else {
+                      $scope.view.locationExists = false;
+                  }
+              })
+              .catch(function (response) {
+                  var message = "Unable to validate location.";
+                  $log.error(message);
+                  NotificationService.showErrorMessage(message);
+              });
+          }
       }
 
       $scope.view.isLoadingRequiredData = true;
