@@ -84,10 +84,19 @@ namespace ECA.Business.Test.Service.Persons
                 Name = "member1"
             };
 
-            var language1 = new LanguageProficiency
+            var language1 = new Language
             {
-                LanguageProficiencyId = 1,
+                LanguageId = 1,
                 LanguageName = "lang1"
+            };
+
+            var languageProficiency1 = new PersonLanguageProficiency
+            {
+                LanguageId = 1,
+                IsNativeLanguage = false,
+                SpeakingProficiency = 5,
+                ReadingProficiency = 5,
+                ComprehensionProficiency = 5
             };
 
             var dependant1 = new Person
@@ -117,7 +126,7 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             context.Genders.Add(gender);
-            context.LanguangeProficiencies.Add(language1);
+            context.PersonLanguageProficiencies.Add(languageProficiency1);
             context.ProminentCategories.Add(prominentCat1);
             context.Activities.Add(activity1);
             context.Memberships.Add(membership1);
@@ -127,7 +136,7 @@ namespace ECA.Business.Test.Service.Persons
             person.ProminentCategories.Add(prominentCat1);
             person.Activities.Add(activity1);
             person.Memberships.Add(membership1);
-            person.LanguageProficiencies.Add(language1);
+            person.LanguageProficiencies.Add(languageProficiency1);
             person.Family.Add(dependant1);
             person.Impacts.Add(impact1);
 
@@ -140,7 +149,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(person.ProminentCategories.FirstOrDefault().Name, serviceResult.ProminentCategories.FirstOrDefault().Value);
                 Assert.AreEqual(person.Activities.FirstOrDefault().Title, serviceResult.Activities.FirstOrDefault().Value);
                 Assert.AreEqual(person.Memberships.FirstOrDefault().Name, serviceResult.Memberships.FirstOrDefault().Name);
-                Assert.AreEqual(person.LanguageProficiencies.FirstOrDefault().LanguageName, serviceResult.LanguageProficiencies.FirstOrDefault().Value);
+                Assert.AreEqual(person.LanguageProficiencies.FirstOrDefault().Language.LanguageName, serviceResult.LanguageProficiencies.FirstOrDefault().LanguageName);
                 Assert.AreEqual(person.Family.FirstOrDefault().LastName + ", " + person.Family.FirstOrDefault().FirstName, serviceResult.Dependants.FirstOrDefault().Value);
                 Assert.AreEqual(person.Impacts.FirstOrDefault().Description, serviceResult.ImpactStories.FirstOrDefault().Value);
             };
