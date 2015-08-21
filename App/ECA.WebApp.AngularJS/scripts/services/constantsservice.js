@@ -120,7 +120,8 @@
 		registerUserFailureEventName: 'registerUserFailure',
 		registerUserSuccessEventName: 'registerUserSuccess',
 		removeNewAddressEventName: 'removeNewAddress',
-		removeNewMembershipEventName: 'removeNewMembership',
+		removeNewLanguageProficiencyEventName: 'removeNewLanguageProficiency',
+		removeNewMembershipsEventName: 'removeNewMembership',
 		removeNewSocialMediaEventName: 'removeNewSocialMedia',
 		saveProjectEventName: 'saveProject',
 		searchDelimiter: ' '
