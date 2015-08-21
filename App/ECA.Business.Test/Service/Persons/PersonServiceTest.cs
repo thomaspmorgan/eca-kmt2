@@ -63,7 +63,8 @@ namespace ECA.Business.Test.Service.Persons
             var participantOrigination = new Organization
             {
                 OrganizationId = 1,
-                Name = "partOrg"
+                Name = "partOrg",
+                
             };
 
             var prominentCat1 = new ProminentCategory
@@ -96,7 +97,8 @@ namespace ECA.Business.Test.Service.Persons
                 IsNativeLanguage = false,
                 SpeakingProficiency = 5,
                 ReadingProficiency = 5,
-                ComprehensionProficiency = 5
+                ComprehensionProficiency = 5,
+                Language = language1,
             };
 
             var dependant1 = new Person
@@ -113,7 +115,6 @@ namespace ECA.Business.Test.Service.Persons
                 ImpactId = 1,
                 Description = "desc1"
             };
-
             var person = new Person
             {
                 PersonId = 1,
