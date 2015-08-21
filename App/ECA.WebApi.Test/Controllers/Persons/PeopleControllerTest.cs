@@ -125,7 +125,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
         public async Task TestPostAddressAsync()
         {
             var model = new PersonAddressBindingModel();
-            var response = await controller.PostAddressAsync(model);
+            var response = await controller.PostAddressAsync(1, model);
             addressHandler.Verify(x => x.HandleAdditionalAddressAsync<Person>(It.IsAny<AddressBindingModelBase<Person>>(), It.IsAny<ApiController>()), Times.Once());
         }
 
@@ -148,7 +148,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
         public async Task TestPostSocialMediaAsync()
         {
             var model = new PersonSocialMediaPresenceBindingModel();
-            var response = await controller.PostSocialMediaAsync(model);
+            var response = await controller.PostSocialMediaAsync(1, model);
             socialMediaHandler.Verify(x => x.HandleSocialMediaPresenceAsync<Person>(It.IsAny<SocialMediaBindingModelBase<Person>>(), It.IsAny<ApiController>()), Times.Once());
         }
 
