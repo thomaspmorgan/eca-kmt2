@@ -1,0 +1,117 @@
+﻿<div ng-controller="LanguageProficienciesCtrl">
+    <div>
+        <a ng-click="view.collapseLanguageProficiencies = !view.collapseLanguageProficiencies">
+            <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapseLanguageProficiencies">expand_more</i>
+            <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapseLanguageProficiencies">expand_less</i>
+        </a>
+        <a ng-click="view.onAddLanguageProficiencyClick(model.languageProficiencies, personId)" ng-show="editMode == 'edit'">
+            <i class="material-icons md-24 md-dark pull-right">add</i>
+        </a>
+        <div class="pull-right" style="margin-top: 3px;" ng-show="view.collapseLanguageProficiencies">({{model.languageProficiencies.length}})</div>
+    </div>
+    <div class="col-md-12" collapse="view.collapseLanguageProficiencies">
+        <div class="row">
+            <div class="col-md-2">Languange</div>
+            <div class="col-md-2">Speak</div>
+            <div class="col-md-2">Read</div>
+            <div class="col-md-2">Comp.</div>
+            <div class="col-md-4">Native</div>
+        </div>
+        <div ng-repeat="languageProficiency in model.languageProficiencies">
+            <div ng-controller="LanguageProficiencyCtrl" class="expandIndent">
+                <div class="spinner" ng-show="view.isSavingChanges">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
+                <div ng-show="!view.isSavingChanges">
+                    <div ng-class ="{true: 'row', false: 'row2'}[editMode == 'edit']" ng-show="!view.showEditLanguageProficiency">
+                        <div class="col-md-2">{{languageProficiency.languageName}}</div>
+                        <div class="col-md-2">{{languageProficiency.speakingProficiency}}</div>
+                        <div class="col-md-2">{{languageProficiency.readingProficiency}}</div>
+                        <div class="col-md-2">{{languageProficiency.comprehensionProficiency}}</div>
+                        <div ng-class="{true: 'col-md-2', false: 'col-md-4'}[editMode == 'edit']"><input type="checkbox" ng-model="languageProficiency.isNativeLanguage" disabled></input></div>
+                        <div class="col-md-2" ng-show="!view.showEditLanguageProficiency && editMode=='edit'">
+                            <a ng-show="!view.showEditLanguageProficiency && editMode == 'edit' && !view.isDeletingLanguageProficiency" ng-click="view.showConfirmDelete = true">
+                            <i class="material-icons md-dark">delete</i>
+                            </a>
+                            <a ng-show="view.isDeletingLanguageProficiency">
+                                <i class="material-icons md-dark material-icons-spin">refresh</i>
+                            </a>
+                            <a ng-show="!view.showEditLanguageProficiency && editMode == 'edit'" ng-click="view.onEditLanguageProficiencyClick()">
+                                <i class="material-icons md-dark">edit</i>
+                            </a>
+                        </div>
+                    </div>
+                    <div ng-show="view.showConfirmDelete" class="text-center">
+                        Are you sure you want to delete this language proficiency?
+                    </div>
+                    <div ng-show="view.showConfirmDelete" style="margin-top:10px;" class="text-center">
+                        <button ng-click="view.onDeleteLanguageProficiencyClick()" class="btn btn-danger">Delete</button>
+                        <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
+                    </div>
+                    <div in-context-form ng-show="view.showEditLanguageProficiency">
+                            <form name="form.languageProficiencyForm" class="row form-horizontal">
+                                <div class="form-group row" id="languageProficiencyForm{{languageProficiency.languageId}}">
+                                    <label class="title-label col-md-4" for="type">Language<span class="asterisk"> *</span></label>
+                                    <div class="col-md-8">
+                                        <select class="form-control" id="language" ng-model="languageProficiency.languageId" placeholder="Select a language..." 
+                                                ng-options="language.id as language.name for language in data.languages"></select>
+                                    </div>
+                                    <div ng-show="form.languageProficiencyForm.languageId.$dirty || form.languageProficiencyForm.languageId.$error.required">
+                                        <div class="error" ng-show="form.languageProficiencyForm.languageId.$error.required">Please select a language.</div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="title-label col-md-4" for="type">Native Language?<span class="asterisk"> *</span></label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" id="isNativeLanguage" type="checkbox" ng-model="languageProficiency.isNativeLanguage" />
+                                      </div>
+                                    <div ng-show="form.languageProficiencyForm.isNativeLanguage.$dirty || form.languageProficiencyForm.isNativeLanguage.$error.required">
+                                        <div class="error" ng-show="form.languageProficiencyForm.isNativeLanguage.$error.required">Please select native languange or not.</div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="title-label col-md-4" for="speaking">Speaking<span class="asterisk"> *</span></label>
+                                    <div class="col-md-8">
+                                        <select class="form-control" id="speaking" ng-model="languageProficiency.speakingProficiency" placeholder="Select a speaking proficiency..."
+                                                ng-options="option.id as option.name for option in view.proficiencyOptions"></select>
+                                    </div>
+                                    <div ng-show="form.languageProficiencyForm.speaking.$dirty || form.languageProficiencyForm.speaking.$error.required">
+                                        <div class="error" ng-show="form.languageProficiencyForm.speaking.$error.required">Please select a language.</div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="title-label col-md-4" for="type">Reading<span class="asterisk"> *</span></label>
+                                    <div class="col-md-8">
+                                        <select class="form-control" id="reading" ng-model="languageProficiency.readingProficiency" placeholder="SSelect a reading proficiency..."
+                                                ng-options="option.id as option.name for option in view.proficiencyOptions"></select>
+                                    </div>
+                                    <div ng-show="form.languageProficiencyForm.reading.$dirty || form.languageProficiencyForm.reading.$error.required">
+                                        <div class="error" ng-show="form.languageProficiencyForm.reading.$error.required">Please select a language.</div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="title-label col-md-4" for="type">Comprehension<span class="asterisk"> *</span></label>
+                                    <div class="col-md-8">
+                                        <select class="form-control" id="comprehension" ng-model="languageProficiency.comprehensionProficiency" placeholder="Select a conprehension proficiency..."
+                                                ng-options="option.id as option.name for option in view.proficiencyOptions"></select>
+                                    </div>
+                                    <div ng-show="form.languageProficiencyForm.comprehension.$dirty || form.languageProficiencyForm.comprehension.$error.required">
+                                        <div class="error" ng-show="form.languageProficiencyForm.comprehension.$error.required">Please select a language.</div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="row">
+                                <div class="pull-right" ng-show="view.showEditLanguageProficiency">
+                                    <button ng-click="view.saveLanguageProficiencyChanges()" class="btn btn-success" ng-disabled="form.languageProficiencyForm.$invalid">Save</button>
+                                    <button ng-click="view.cancelLanguageProficiencyChanges($parent.form.languageProficiencyForm)" class="btn btn-cancel">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

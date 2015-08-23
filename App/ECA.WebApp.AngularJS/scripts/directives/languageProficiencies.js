@@ -2,14 +2,14 @@
 
 /**
  * @ngdoc directive
- * @name staticApp.directive:memberships
+ * @name staticApp.directive:languageProficiencies
  * @description
- * # memberships
+ * # languageProficiencies
  */
 angular.module('staticApp')
-  .directive('language', function ($log) {
+  .directive('languageproficiencies', function ($log) {
       var directive = {
-          templateUrl: '../views/directives/languangeProficiencies.html',
+          templateUrl: '../views/directives/languageProficiencies.html',
           scope: {
               model: '=model',
               personId: '=personid',

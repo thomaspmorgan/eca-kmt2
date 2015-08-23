@@ -174,7 +174,7 @@
     <Content Include="scripts\controllers\socialmedia\socialmedia.js" />
     <Content Include="scripts\controllers\socialmedia\socialmedias.js" />
     <Content Include="scripts\directives\equalityfilter.js" />
-    <Content Include="scripts\directives\languageProficiency.js" />
+    <Content Include="scripts\directives\languageProficiencies.js" />
     <Content Include="scripts\directives\memberships.js" />
     <Content Include="scripts\directives\moneyflows.js" />
     <Content Include="scripts\directives\socialmedias.js" />
@@ -195,6 +195,7 @@
     <Content Include="scripts\services\userservice.js" />
     <Content Include="views\directives\confirmdialog.html" />
     <Content Include="views\directives\equalityfilter.html" />
+    <Content Include="views\directives\languageProficiencies.html" />
     <Content Include="views\directives\moneyflows.html" />
     <Content Include="views\directives\memberships.html" />
     <Content Include="views\directives\socialmedias.html" />

@@ -21,66 +21,75 @@ angular.module('staticApp')
 
       $scope.view = {};
       $scope.view.params = $stateParams;
-      $scope.view.showEditMembership = false;
+      $scope.view.showEditLanguageProficiency = false;
       $scope.view.isSavingChanges = false;
 
-      var originalMembership = angular.copy($scope.membership);
+      $scope.view.proficiencyOptions = [
+          { id: 0, name: '0'},
+          { id: 1, name: '1' },
+          { id: 2, name: '2' },
+          { id: 3, name: '3' },
+          { id: 4, name: '4' },
+          { id: 5, name: '5' }
+      ];
+
+      var originalLanguageProficiency = angular.copy($scope.languageProficiency);
 
 
-      $scope.view.saveMembershipChanges = function () {
+      $scope.view.saveLanguageProficiencyChanges = function () {
           $scope.view.isSavingChanges = true;
 
-          if (isNewMembership($scope.membership)) {
-              var tempId = angular.copy($scope.membership.id);
-              return MembershipService.addMembership($scope.membership, $scope.view.params.personId)
-                .then(onSaveMembershipSuccess)
+          if (isNewLanguageProficiency($scope.languageProficiency)) {
+              var tempId = angular.copy($scope.languageProficiency.languageId);
+              return LanguageProficiencyService.addLanguageProficiency($scope.languageProficiency, $scope.view.params.personId)
+                .then(onSaveLanguageProficiencySuccess)
                 .then(function () {
-                    updateMembershipFormDivId(tempId);
+                    updateLanguageProficiencyFormDivId(tempId);
                 })
-                .catch(onSaveMembershipError);
+                .catch(onSaveLanguageProficiencyError);
           }
           else {
-              return MembershipService.updateMembership($scope.membership, $scope.view.params.personId)
-                  .then(onSaveMembershipSuccess)
-                  .catch(onSaveMembershipError);
+              return LanguageProficiencyService.updateLanguageProficiency($scope.languageProficiency, $scope.view.params.personId)
+                  .then(onSaveLanguageProficiencySuccess)
+                  .catch(onSaveLanguageProficiencyError);
           }
       };
 
-      $scope.view.cancelMembershipChanges = function () {
-          $scope.view.showEditMembership = false;
-          $scope.form.membershipForm.$setPristine();
-          $scope.form.membershipForm.$setUntouched();
-          if (isNewMembership($scope.membership)) {
-              removeMembershipFromView($scope.membership);
+      $scope.view.cancelLanguageProficiencyChanges = function (form) {
+          $scope.view.showEditLanguageProficiency = false;
+          // form.languageProficiencyForm.$setPristine();
+          // form.languageProficiencyForm.$setUntouched();
+          if (isNewLanguageProficiency($scope.languageProficiency)) {
+              removeLanguageProficiencyFromView($scope.languageProficiency);
           }
           else {
-              $scope.membership = angular.copy(originalMembership);
+              $scope.languageProficiency = angular.copy(originalLanguageProficiency);
           }
       };
 
-      $scope.view.onDeleteMembershipClick = function () {
-          if (isNewMembership($scope.membership)) {
-              removeMembershipFromView($scope.membership);
+      $scope.view.onDeleteLanguageProficiencyClick = function () {
+          if (isNewLanguageProficiency($scope.languageProficiency)) {
+              removeLanguageProficiencyFromView($scope.languageProficiency);
           }
           else {
-              $scope.view.isDeletingMembership = true;
-              return MembershipService.deleteMembership($scope.membership, $scope.view.params.personId)
+              $scope.view.isDeletingLanguageProficiency = true;
+              return LanguageProficiencyService.deleteLanguageProficiency($scope.languageProficiency, $scope.view.params.personId)
               .then(function () {
-                  NotificationService.showSuccessMessage("Successfully deleted membership.");
-                  $scope.view.isDeletingMembership = false;
-                  removeMembershipFromView($scope.membership);
+                  NotificationService.showSuccessMessage("Successfully deleted languageProficiency.");
+                  $scope.view.isDeletingLanguageProficiency = false;
+                  removeLanguageProficiencyFromView($scope.languageProficiency);
               })
               .catch(function () {
-                  var message = "Unable to delete membership.";
+                  var message = "Unable to delete languageProficiency.";
                   $log.error(message);
                   NotificationService.showErrorMessage(message);
               });
           }
       }
 
-      $scope.view.onEditMembershipClick = function () {
-          $scope.view.showEditMembership = true;
-          var id = getMembershipFormDivId();
+      $scope.view.onEditLanguageProficiencyClick = function () {
+          $scope.view.showEditLanguageProficiency = true;
+          var id = getLanguageProficiencyFormDivId();
           var options = {
               duration: 500,
               easing: 'easeIn',
@@ -88,47 +97,52 @@ angular.module('staticApp')
               callbackBefore: function (element) {},
               callbackAfter: function (element) { }
           }
-          smoothScroll(getMembershipFormDivElement(id), options);
+          smoothScroll(getLanguageProficiencyFormDivElement(id), options);
       };
 
-      function removeMembershipFromView(membership) {
-          $scope.$emit(ConstantsService.removeNewMembershipEventName, membership);
+      function removeLanguageProficiencyFromView(languageProficiency) {
+          $scope.$emit(ConstantsService.removeNewLanguageProficiencyEventName, languageProficiency);
       }
 
-      function getMembershipFormDivIdPrefix(){
-          return 'membershipForm';
+      function getLanguageProficiencyFormDivIdPrefix() {
+          return 'languageProficiencyForm';
       }
 
-      function getMembershipFormDivId() {
-          return getMembershipFormDivIdPrefix() + $scope.membership.id;
+      function getLanguageProficiencyFormDivId() {
+          return getLanguageProficiencyFormDivIdPrefix() + $scope.languageProficiency.languageId;
       }
       
-      function updateMembershipFormDivId(tempId) {
-          var id = getMembershipFormDivIdPrefix() + tempId;
-          var e = getMembershipFormDivElement(id);
-          e.id = getMembershipFormDivIdPrefix() + $scope.membership.id;
+      function updateLanguageProficiencyFormDivId(tempId) {
+          var id = getLanguageProficiencyFormDivIdPrefix() + tempId;
+          var e = getLanguageProficiencyFormDivElement(id);
+          e.id = getLanguageProficiencyFormDivIdPrefix() + $scope.languageProficiency.languageId;
       }
 
-      function getMembershipFormDivElement(id) {
+      function getLanguageProficiencyFormDivElement(id) {
           return document.getElementById(id)
       }
 
-      function onSaveMembershipSuccess(response) {
-          $scope.membership = response.data;
-          originalMembership = angular.copy($scope.membership);
-          NotificationService.showSuccessMessage("Successfully saved changes to social media.");
-          $scope.view.showEditMembership = false;
+      function onSaveLanguageProficiencySuccess(response) {
+          $scope.languageProficiency = response.data;
+          originalLanguageProficiency = angular.copy($scope.languageProficiency);
+          NotificationService.showSuccessMessage("Successfully saved changes to languageProficiency.");
+          $scope.view.showEditLanguageProficiency = false;
           $scope.view.isSavingChanges = false;
       }
 
-      function onSaveMembershipError() {
-          var message = "Failed to save membership changes.";
+      function onSaveLanguageProficiencyError() {
+          var message = "Failed to save languageProficiency changes.";
           NotificationService.showErrorMessage(message);
           $log.error(message);
           $scope.view.isSavingChanges = false;
       }
 
-      function isNewMembership(membership) {
-          return membership.personId;
+      function isNewLanguageProficiency(languageProficiency) {
+          if (languageProficiency.isNew) {
+              return languageProficiency.isNew == true;
+          }
+          else {
+              return false;
+          }
       }
   });

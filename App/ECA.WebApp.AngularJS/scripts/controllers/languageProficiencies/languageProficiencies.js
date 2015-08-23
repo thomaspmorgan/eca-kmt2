@@ -14,7 +14,8 @@ angular.module('staticApp')
         $q,
         $log,
         LookupService,
-        ConstantsService
+        ConstantsService,
+        NotificationService
         ) {
 
       $scope.view = {};
@@ -26,7 +27,7 @@ angular.module('staticApp')
       $scope.data.loadLanguagesPromise = $q.defer();
       $scope.data.languages = [];
 
-      $scope.view.onAddLanguageProficienciesClick = function (entityLanguageProficiencies, personId) {
+      $scope.view.onAddLanguageProficiencyClick = function (entityLanguageProficiencies, personId) {
           console.assert(entityLanguageProficiencies, 'The entity languageProficiencies is not defined.');
           console.assert(entityLanguageProficiencies instanceof Array, 'The entity languageProficiencies is defined but must be an array.');
           var name = "";
@@ -36,7 +37,8 @@ angular.module('staticApp')
               isNativeLanguage: false,
               speakingProficiency: 0,
               readingProficiency: 0,
-              comprehensionProficiency: 0
+              comprehensionProficiency: 0,
+              isNew: true
           };
           entityLanguageProficiencies.splice(0, 0, newLanguageProficiency);
           $scope.view.collapseLanguageProficiencies = false;
@@ -57,7 +59,7 @@ angular.module('staticApp')
               start: 0,
               limit: 300
           };
-          return LookupService.getLanguages(params)
+          return LookupService.getAllLanguages(params)
           .then(function (response) {
               if (response.data.total > params.limit) {
                   var message = "There are more languages than could be loaded.  Not all languages types will be shown.";
