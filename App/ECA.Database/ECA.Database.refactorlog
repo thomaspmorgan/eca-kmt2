@@ -623,4 +623,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="LanguageId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="2eb16f07-b1ce-4f65-a1e1-44874ab3ab07" ChangeDateTime="08/24/2015 00:28:39">
+    <Property Name="ElementName" Value="[dbo].[PersonLanguageProficiency].[NativeLanguageInd]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PersonLanguageProficiency]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IsNativeLanguange" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="80365adf-e961-45e5-94a2-42cc2553c31d" ChangeDateTime="08/24/2015 00:35:42">
+    <Property Name="ElementName" Value="[dbo].[PersonLanguageProficiency].[IsNativeLanguange]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PersonLanguageProficiency]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IsNativeLanguage" />
+  </Operation>
 </Operations>
