@@ -14,8 +14,11 @@ gulp.task('styles', ['clean'], function () {
 
 gulp.task('localstyles', ['clean'], function () {
     var sass = require('gulp-sass');
+    var sourcemaps = require('gulp-sourcemaps');
     gulp.src('styles/main.scss')
+        .pipe(sourcemaps.init())
         .pipe(sass())
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest('styles'));
 });
 
