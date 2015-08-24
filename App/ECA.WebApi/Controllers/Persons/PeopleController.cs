@@ -274,7 +274,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <param name="model">The model to update</param>
         /// <returns></returns>
-        [Route("People/{personId:int}/General")]
+        [Route("People/General")]
         public async Task<IHttpActionResult> PutGeneralAsync(GeneralBindingModel model)
         {
             if (ModelState.IsValid)

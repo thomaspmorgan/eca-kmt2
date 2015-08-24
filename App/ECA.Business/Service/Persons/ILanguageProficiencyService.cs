@@ -16,21 +16,21 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Creates a new languageProficiency in the ECA system.
         /// </summary>
-        /// <param name="newLanguageProficiency">The membership.</param>
+        /// <param name="newLanguageProficiency">The languageProficiency.</param>
         /// <returns>The created languageProficiency entity.</returns>
         PersonLanguageProficiency Create(NewPersonLanguageProficiency newLanguageProficiency);
 
         /// <summary>
         /// Creates a new languageProficiency in the ECA system.
         /// </summary>
-        /// <param name="newLanguageProficiency">The membership.</param>
+        /// <param name="newLanguageProficiency">The languageProficiency.</param>
         /// <returns>The created languageProficiency entity.</returns>
         Task<PersonLanguageProficiency> CreateAsync(NewPersonLanguageProficiency newLanguageProficiency);
 
         /// <summary>
         /// Updates the ECA system's PersonLanguageProficiency data with the given updated PersonLanguageProficiency.
         /// </summary>
-        /// <param name="updatedmembership">The updated languageProficiency.</param>
+        /// <param name="updatedLanguageProficiency">The updated languageProficiency.</param>
         void Update(UpdatedPersonLanguageProficiency updatedLanguageProficiency);
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="updatedmembership"></param>
+        /// <param name="updatedLanguageProficiency"></param>
         /// <returns></returns>
         public Task UpdateAsync(UpdatedPersonLanguageProficiency updatedLanguageProficiency)
         {

@@ -38,11 +38,7 @@
         </div>
         <div class="row">
             <label class="col-md-3 title-label">Language Proficiencies</label>
-            <div class="col-md-9">
-                <ul>
-                    <li ng-repeat="language in general.languageProficiencies">{{language.value}}</li>
-                </ul>
-            </div>
+            <languageproficiencies model="general" personid="general.personId" editmode="view"></languageproficiencies>
         </div>
         <div class="row">
             <label class="col-md-3 title-label">Dependants</label>

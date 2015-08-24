@@ -11,14 +11,14 @@ angular.module('staticApp')
   .factory('LanguageProficiencyService', function ($q, DragonBreath) {
 
       return {
-          addMembership: function (languageProficiency, personId) {
-              return DragonBreath.create(membership, 'people/' + personId + '/languageProficiency');
+          addLanguageProficiency: function (languageProficiency, personId) {
+              return DragonBreath.create(languageProficiency, 'people/' + personId + '/languageProficiency');
           },
-          updateMembership: function (languageProficiency, personId) {
-              return DragonBreath.save(membership, 'people/' + personId + '/languageProficiency');
+          updateLanguageProficiency: function (languageProficiency, personId) {
+              return DragonBreath.save(languageProficiency, 'people/' + personId + '/languageProficiency');
           },
-          deleteMembership: function (languageProficiency, personId) {
-              return DragonBreath.delete(membership, 'people/' + personId + '/languageProficiency/' + languageProficiency.languageId);
+          deleteLanguageProficiency: function (languageProficiency, personId) {
+              return DragonBreath.delete(languageProficiency, 'people/' + personId + '/languageProficiency/' + languageProficiency.languageId);
           }
       };
   });

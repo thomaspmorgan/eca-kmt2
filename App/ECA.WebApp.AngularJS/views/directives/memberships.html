@@ -11,7 +11,7 @@
     </div>
     <div class="col-md-12" collapse="view.collapseMemberships">
         <div ng-repeat="membership in model.memberships">
-            <div ng-controller="MembershipCtrl" class="expandIndent">
+            <div ng-controller="MembershipCtrl as ctrl" class="expandIndent">
                 <div class="spinner" ng-show="view.isSavingChanges">
                     <div class="bounce1"></div>
                     <div class="bounce2"></div>
@@ -40,7 +40,7 @@
                         <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
                     </div>
                     <div in-context-form ng-show="view.showEditMembership">
-                        <form name="form.membershipForm" class="form-horizontal">
+                        <form name="form.membershipForm" class="row form-horizontal">
                             <div class="form-group" id="membershipForm{{membership.id}}">
                                 <label class=" title-label col-md-3" for="membershipName">Name<span class="asterisk"> *</span></label>
                                 <div class="col-md-6">
@@ -55,17 +55,14 @@
                                            id="membershipName"
                                            required />
                                 </div>
-                                <div class="col-md-3">
-                                    <guidance></guidance>
-                                </div>
-                                <div ng-show="form.membershipForm.membershipName.$dirty || form.membershipForm.membershipName.$error.required">
-                                    <div class="error" ng-show="form.membershipForm.membershipName.$error.required">Please enter a membership name.</div>
+                                <div ng-show="form.membershipForm.membershipName.$dirty || forms.membershipForm.membershipName.$error.required">
+                                    <div class="error" ng-show="forms.membershipForm.membershipName.$error.required">Please enter a membership name.</div>
                                 </div>
                             </div>
                         </form>
                         <div class="row right" ng-show="view.showEditMembership">
-                            <button ng-click="view.saveMembershipChanges()" class="btn btn-success" ng-disabled="form.membershipForm.$invalid">Save</button>
-                            <button ng-click="view.cancelMembershipChanges()" class="btn btn-cancel">Cancel</button>
+                            <button ng-click="view.saveMembershipChanges()" class="btn btn-success" ng-disabled="forms.membershipForm.$invalid">Save</button>
+                            <button ng-click="view.cancelMembershipChanges(form.membershipForm)" class="btn btn-cancel">Cancel</button>
                         </div>
                     </div>
                 </div>

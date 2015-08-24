@@ -119,8 +119,8 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="personId">The id of the person.</param>
         /// <returns>An ok response.</returns>
         [ResponseType(typeof(OkResult))]
-        [Route("People/{personId:int}/LanguageProficiency/{id:int}")]
-        public async Task<IHttpActionResult> DeleteMembership(int languageId, int personId)
+        [Route("People/{personId:int}/LanguageProficiency/{languageId:int}")]
+        public async Task<IHttpActionResult> DeleteLanguageProficiency(int languageId, int personId)
         {
             await service.DeleteAsync(languageId,personId);
             await service.SaveChangesAsync();
