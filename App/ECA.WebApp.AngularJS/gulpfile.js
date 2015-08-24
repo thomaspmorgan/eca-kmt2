@@ -1,4 +1,8 @@
+'use strict';
+
 var gulp = require('gulp');
+var browserSync = require('browser-sync');
+var reload = browserSync.reload;
 
 gulp.task('clean', function (cb) {
     var del = require('del');
@@ -12,14 +16,15 @@ gulp.task('styles', ['clean'], function () {
         .pipe(gulp.dest('dist/styles'));
 });
 
-gulp.task('localstyles', ['clean'], function () {
+gulp.task('localStyles', ['clean'], function () {
     var sass = require('gulp-sass');
     var sourcemaps = require('gulp-sourcemaps');
     gulp.src('styles/main.scss')
         .pipe(sourcemaps.init())
         .pipe(sass())
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('styles'));
+        .pipe(gulp.dest('styles'))
+        .pipe(reload({stream: true}));
 });
 
 gulp.task('html', ['styles'], function () {
@@ -52,6 +57,27 @@ gulp.task('copy', ['clean'], function () {
         .pipe(gulp.dest('dist/images'));
 });
 
-gulp.task('default', ['clean', 'styles', 'html', 'copy', 'localstyles'], function () {
+gulp.task('serve', ['styles'], function () {
+    browserSync({
+        notify: false,
+        port: 5556,
+        server: {
+            routes: {
+                '/bower_components': 'bower_components'
+            }
+        }
+    });
+
+    // watch for changes
+    gulp.watch([
+      '*.html',
+      'scripts/**/*.js',
+      'images/**/*'
+    ]).on('change', reload);
+
+    gulp.watch('styles/**/*.scss', ['localStyles']);
+});
+
+gulp.task('default', ['clean', 'styles', 'html', 'copy', 'localStyles'], function () {
 
 });
