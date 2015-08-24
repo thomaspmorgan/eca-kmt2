@@ -1,7 +1,7 @@
 ﻿<div ng-controller="MoneyFlowsCtrl">
     <h4 class="tab-subheader">
         Funding List
-        <button class="btn btn-primary right" ng-show="!view.isLoadingRequiredData && !view.isLoadingMoneyFlows" ng-click="view.onAddFundingItemClick()">ADD FUNDING ITEM</button>
+        <button class="btn btn-primary right" ng-show="!view.isLoadingRequiredData && !view.isLoadingMoneyFlows && view.canEditMoneyFlows" ng-click="view.onAddFundingItemClick()">ADD FUNDING ITEM</button>
     </h4>
     <p class="subheader listCount">Showing {{view.start}} - {{view.end}} of {{view.total}} funding items.</p>
     <div st-pipe="view.getMoneyFlows" st-table="view.moneyFlows" exposetablestate="getMoneyFlowsTableState" id="sort-list">
