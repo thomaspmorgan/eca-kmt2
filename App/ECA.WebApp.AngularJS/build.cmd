@@ -1,4 +1,4 @@
 MKDIR C:\Users\buildguest\AppData\Roaming\npm
-call .bin\npm install
+call npm install
 call .bin\bower install
-call .bin\node node_modules\gulp\bin\gulp.js
+call node node_modules\gulp\bin\gulp.js
