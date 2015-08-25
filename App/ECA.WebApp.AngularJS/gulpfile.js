@@ -78,6 +78,6 @@ gulp.task('serve', ['styles'], function () {
     gulp.watch('styles/**/*.scss', ['localStyles']);
 });
 
-gulp.task('default', ['clean', 'styles', 'html', 'copy', 'localStyles'], function () {
+gulp.task('default', ['clean', 'styles', 'html', 'copy'], function () {
 
 });
