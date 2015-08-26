@@ -1,5 +1,5 @@
 $icon-font-path: '../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/';
- 
+
 // section-specific colors
 $project: #5cb9dd;
 $program: #3f4d8f;
@@ -47,43 +47,61 @@ $navBarZIndex: 1001;
 @import 'footer';
 
 .material-icons {
-  font-family: 'Material Icons';
-  font-weight: normal;
-  font-style: normal;
-  font-size: 14px;  /* Preferred icon size */
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  line-height: 1;
-  text-transform: none;
-  letter-spacing: normal;
-  word-wrap: normal;
-
-  /* Support for all WebKit browsers. */
-  -webkit-font-smoothing: antialiased;
-  /* Support for Safari and Chrome. */
-  text-rendering: optimizeLegibility;
-
-  /* Support for Firefox. */
-  -moz-osx-font-smoothing: grayscale;
-
-  /* Support for IE. */
-  font-feature-settings: 'liga';
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 14px; /* Preferred icon size */
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+    /* Support for IE. */
+    font-feature-settings: 'liga';
 }
 
 // Rules for sizing the icon.
-.material-icons.md-18 { font-size: 18px; }
-.material-icons.md-24 { font-size: 24px; }
-.material-icons.md-36 { font-size: 36px; }
-.material-icons.md-48 { font-size: 48px; }
+.material-icons.md-18 {
+    font-size: 18px;
+}
+
+.material-icons.md-24 {
+    font-size: 24px;
+}
+
+.material-icons.md-36 {
+    font-size: 36px;
+}
+
+.material-icons.md-48 {
+    font-size: 48px;
+}
 
 // Rules for using icons as black on a light background.
-.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
-.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+.material-icons.md-dark {
+    color: rgba(0, 0, 0, 0.54);
+}
+
+.material-icons.md-dark.md-inactive {
+    color: rgba(0, 0, 0, 0.26);
+}
 
 // Rules for using icons as white on a dark background.
-.material-icons.md-light { color: rgba(255, 255, 255, 1); }
-.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+.material-icons.md-light {
+    color: rgba(255, 255, 255, 1);
+}
+
+.material-icons.md-light.md-inactive {
+    color: rgba(255, 255, 255, 0.3);
+}
 
 body {
     color: $primarytext;
@@ -417,6 +435,7 @@ h5.canEdit {
             text-decoration: none;
         }
     }
+
     .dropdown-menu a {
         font-weight: normal;
     }
@@ -462,20 +481,21 @@ h5.canEdit {
 
 .editingRow input {
     height: 34px;
-
 }
 
 .calendarButton {
-    color:black;
+    color: black;
 }
 
 .datetimepicker {
     cursor: pointer;
 }
+
 .shortRow td {
-    height:20px !important;
-    padding-top:0;
+    height: 20px !important;
+    padding-top: 0;
 }
+
 .modal-center-small .modal-dialog {
     width: 400px;
     height: 400px;
@@ -535,9 +555,9 @@ div.modal-center-large .modal-content .modal-body {
     border-radius: 3px;
 }
 
- .projectListItem {
-     vertical-align: middle;
- }
+.projectListItem {
+    vertical-align: middle;
+}
 
 #toast-container > div {
     opacity: 1;
@@ -559,27 +579,27 @@ div.modal-center-large .modal-content .modal-body {
 }
 
 .moneyFlowEdit {
-    width:100px;
+    width: 100px;
 }
 
 .moneyFlowDirection {
-    font-weight:normal;
+    font-weight: normal;
     margin-right: 15px;
     padding: 10px 0 5px 0;
-    cursor:pointer;
+    cursor: pointer;
 }
 
-.incomingMoneyFlow{
+.incomingMoneyFlow {
     color: #00CCFF;
 }
 
-.outgoingMoneyFlow{
+.outgoingMoneyFlow {
     color: red;
 }
 
 .directionSelected {
     border-bottom: 4px solid black;
-    font-weight:bold;
+    font-weight: bold;
 }
 
 .narrow {
@@ -588,7 +608,7 @@ div.modal-center-large .modal-content .modal-body {
 
 .multiLineInput {
     width: 90%;
-    height:75%;
+    height: 75%;
 }
 
 .inlineEditCalendar {
@@ -597,7 +617,7 @@ div.modal-center-large .modal-content .modal-body {
     height: 25px;
 }
 
-.inlineEditControls button{
+.inlineEditControls button {
     font-size: 10px;
     width: 60px;
     height: 34px;
@@ -606,11 +626,11 @@ div.modal-center-large .modal-content .modal-body {
 
 
 .currency {
-    padding-left:15px;
+    padding-left: 15px;
 }
 
 .currency-symbol {
-    position:absolute;
+    position: absolute;
     padding: 5px 5px;
 }
 
@@ -629,7 +649,7 @@ div.modal-center-large .modal-content .modal-body {
 .pagination > li > a:hover, .pagination > li > a:focus, .pagination > li > span:hover, .pagination > li > span:focus {
     color: $primarytext;
     background-color: transparent;
-    border: none;    
+    border: none;
 }
 
 .list2 .row .pagination a:hover {
@@ -639,7 +659,7 @@ div.modal-center-large .modal-content .modal-body {
 }
 
 .editButtons {
-    width:10%;
+    width: 10%;
 }
 
 .verticalTop {
@@ -647,69 +667,69 @@ div.modal-center-large .modal-content .modal-body {
 }
 
 .modalLabel {
-    padding-left:0;
-
+    padding-left: 0;
 }
 
 .modalTable {
-     margin-bottom:20px;
+    margin-bottom: 20px;
 }
 
 .modalTable tr {
-    border:none;
+    border: none;
 }
 
 .expandChevron {
     position: absolute;
-    right:70px;
-    cursor:pointer;
-    margin-top:-15px;
-
-
+    right: 70px;
+    cursor: pointer;
+    margin-top: -15px;
 }
+
 tr#participantInfo {
     .row {
         padding-left: 0;
         padding-right: 0;
     }
+
     .row:first-child {
         border: none;
     }
 }
 
-label.radio-inline{
-    font-size:12pt;
-    text-transform:none;
+label.radio-inline {
+    font-size: 12pt;
+    text-transform: none;
 }
 
-.radio-inline input[type=radio]{
-    margin-top:0;
+.radio-inline input[type=radio] {
+    margin-top: 0;
 }
 
 .expandedDescription {
-    background-color:#DEDEDC;
+    background-color: #DEDEDC;
 }
 
 .narrowPadding {
-    padding:20px 0 20px 60px !important;
+    padding: 20px 0 20px 60px !important;
 }
 
 .dropDownButtons {
-    width:150px;
-    background-color:darkgrey;
-    display:block;
+    width: 150px;
+    background-color: darkgrey;
+    display: block;
     padding: 2px 20px;
 }
 
 
 /* tooltip styling */
 div.tip:hover {
-    position: relative
+    position: relative;
 }
 
 div.tip span {
-    display: none
+    display: none;
 }
+
 div.tip:hover span {
     border: #c0c0c0 1px dotted;
     border-radius: 4px;
@@ -723,17 +743,15 @@ div.tip:hover span {
     width: 55px;
     position: absolute;
     top: 50px;
-    text-decoration: none
+    text-decoration: none;
 }
 
 .bookmark {
-    
     width: 330px;
     padding-bottom: 30px;
 }
 
 .bookmark-header {
-
     padding-top: 15px;
     color: #fff;
     text-transform: uppercase;
@@ -742,13 +760,12 @@ div.tip:hover span {
         color: #fff;
         opacity: 0.5;
     }
-    
+
     a:hover {
         opacity: 1;
     }
-
 }
-    
+
 .bookmark-content {
     padding-top: 15px;
     border-left: solid 3px #efefef;
@@ -779,7 +796,12 @@ div.tip:hover span {
     height: 107px;
 }
 
-/* used to indent expandable directives */ 
+/* used to indent expandable directives */
 .expandIndent {
     padding-left: 10px;
+}
+
+.has-feedback label ~ .form-control-feedback {
+   top: 32px;  
+   right: 6px;
 }

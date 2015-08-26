@@ -141,6 +141,7 @@
     <Content Include="scripts\controllers\languageProficiencies\languageProficiency.js" />
     <Content Include="scripts\controllers\languageProficiencies\languageProficiencies.js" />
     <Content Include="scripts\controllers\locations\addlocation.js" />
+    <Content Include="scripts\controllers\locations\marker.js" />
     <Content Include="scripts\controllers\locations\searchlocations.js" />
     <Content Include="scripts\controllers\membership\memberships.js" />
     <Content Include="scripts\controllers\membership\membership.js" />
@@ -201,6 +202,7 @@
     <Content Include="views\directives\socialmedias.html" />
     <Content Include="views\directives\addresses.html" />
     <Content Include="views\locations\addlocationmodal.html" />
+    <Content Include="views\locations\marker.html" />
     <Content Include="views\locations\searchlocations.html" />
     <Content Include="views\organizations\activities.html" />
     <Content Include="views\organizations\impact.html" />

@@ -139,6 +139,7 @@
     <Compile Include="Exceptions\BusinessSecurityException.cs" />
     <Compile Include="Exceptions\EcaDbUpdateConcurrencyException.cs" />
     <Compile Include="Exceptions\ModelNotFoundException.cs" />
+    <Compile Include="Exceptions\UniqueModelException.cs" />
     <Compile Include="Exceptions\UnknownStaticLookupException.cs" />
     <Compile Include="Generation\DbContextStaticLookupValidator.cs" />
     <Compile Include="Generation\IStaticGeneratorValidator.cs" />

@@ -16,6 +16,8 @@ using System.Diagnostics;
 using NLog;
 using ECA.Core.Exceptions;
 using ECA.Business.Validation;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace ECA.Business.Service.Admin
 {
@@ -28,6 +30,7 @@ namespace ECA.Business.Service.Admin
         private readonly Action<int, object, Type> throwIfEntityNotFound;
         private readonly Action<int, Location, string> throwIfLocationNotFound;
         private readonly Action<int, LocationType> throwIfLocationTypeDoesNotExist;
+        private readonly Action<EcaLocation, ICollection<Location>> throwIfLocationsAlreadyExist;
         private readonly IBusinessValidator<EcaAddressValidationEntity, EcaAddressValidationEntity> addressValidator;
         private readonly IBusinessValidator<LocationValidationEntity, LocationValidationEntity> locationValidator;
 
@@ -36,6 +39,7 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="addressValidator">The address create and update validator.</param>
+        /// <param name="locationValidator">The location validator.</param>
         public LocationService(
             EcaContext context,
             IBusinessValidator<LocationValidationEntity, LocationValidationEntity> locationValidator,
@@ -47,6 +51,13 @@ namespace ECA.Business.Service.Admin
             Contract.Requires(locationValidator != null, "The location validator must not be null.");
             this.locationValidator = locationValidator;
             this.addressValidator = addressValidator;
+            throwIfLocationsAlreadyExist = (ecaLocation, locations) =>
+            {
+                if(locations.Count() > 0)
+                {
+                    throw new UniqueModelException(String.Format("The given location [{0}] already exists in the system.", ecaLocation.LocationName));
+                }
+            };
             throwIfEntityNotFound = (id, instance, t) =>
             {
                 if (instance == null)
@@ -381,25 +392,27 @@ namespace ECA.Business.Service.Admin
             Location region = null;
             if (additionalLocation.CityId.HasValue)
             {
-                city = Context.Locations.Find(additionalLocation.CityId);
+                city = CreateGetLocationByIdQuery(additionalLocation.CityId).FirstOrDefault();
                 throwIfLocationNotFound(additionalLocation.CityId.Value, city, "City");
-            }
-            if (additionalLocation.CountryId.HasValue)
-            {
-                country = Context.Locations.Find(additionalLocation.CountryId.Value);
-                throwIfLocationNotFound(additionalLocation.CountryId.Value, country, "Country");
             }
             if (additionalLocation.DivisionId.HasValue)
             {
-                division = Context.Locations.Find(additionalLocation.DivisionId.Value);
+                division = CreateGetLocationByIdQuery(additionalLocation.DivisionId).FirstOrDefault();
                 throwIfLocationNotFound(additionalLocation.DivisionId.Value, division, "Division");
+            }
+            if (additionalLocation.CountryId.HasValue)
+            {
+                country = CreateGetLocationByIdQuery(additionalLocation.CountryId).FirstOrDefault();
+                throwIfLocationNotFound(additionalLocation.CountryId.Value, country, "Country");
             }
             if (additionalLocation.RegionId.HasValue)
             {
-                region = Context.Locations.Find(additionalLocation.RegionId.Value);
+                region = CreateGetLocationByIdQuery(additionalLocation.RegionId).FirstOrDefault();
                 throwIfLocationNotFound(additionalLocation.RegionId.Value, region, "Region");
             }
-            
+            var existingLocations = CreateGetLikeLocationsQuery(additionalLocation).ToList();
+            throwIfLocationsAlreadyExist(additionalLocation, existingLocations);
+
             var locationType = Context.LocationTypes.Find(additionalLocation.LocationTypeId);
             throwIfLocationTypeDoesNotExist(additionalLocation.LocationTypeId, locationType);
 
@@ -425,24 +438,26 @@ namespace ECA.Business.Service.Admin
             Location region = null;
             if (additionalLocation.CityId.HasValue)
             {
-                city = await Context.Locations.FindAsync(additionalLocation.CityId);
+                city = await CreateGetLocationByIdQuery(additionalLocation.CityId).FirstOrDefaultAsync();
                 throwIfLocationNotFound(additionalLocation.CityId.Value, city, "City");
-            }
-            if (additionalLocation.CountryId.HasValue)
-            {
-                country = await Context.Locations.FindAsync(additionalLocation.CountryId.Value);
-                throwIfLocationNotFound(additionalLocation.CountryId.Value, country, "Country");
             }
             if (additionalLocation.DivisionId.HasValue)
             {
-                division = await Context.Locations.FindAsync(additionalLocation.DivisionId.Value);
+                division = await CreateGetLocationByIdQuery(additionalLocation.DivisionId).FirstOrDefaultAsync();
                 throwIfLocationNotFound(additionalLocation.DivisionId.Value, division, "Division");
+            }
+            if (additionalLocation.CountryId.HasValue)
+            {
+                country = await CreateGetLocationByIdQuery(additionalLocation.CountryId).FirstOrDefaultAsync();
+                throwIfLocationNotFound(additionalLocation.CountryId.Value, country, "Country");
             }
             if (additionalLocation.RegionId.HasValue)
             {
-                region = await Context.Locations.FindAsync(additionalLocation.RegionId.Value);
+                region = await CreateGetLocationByIdQuery(additionalLocation.RegionId).FirstOrDefaultAsync();
                 throwIfLocationNotFound(additionalLocation.RegionId.Value, region, "Region");
             }
+            var existingLocations = await CreateGetLikeLocationsQuery(additionalLocation).ToListAsync();
+            throwIfLocationsAlreadyExist(additionalLocation, existingLocations);
 
             var locationType = await Context.LocationTypes.FindAsync(additionalLocation.LocationTypeId);
             throwIfLocationTypeDoesNotExist(additionalLocation.LocationTypeId, locationType);
@@ -460,6 +475,18 @@ namespace ECA.Business.Service.Admin
         {
             var validationEntity = GetLocationValidationEntity(additionalLocation, region, country, division, city);
             locationValidator.ValidateCreate(validationEntity);
+            if (division == null && city != null && city.Division != null)
+            {
+                division = city.Division;
+            }
+            if (country == null && division != null && division.Country != null)
+            {
+                country = division.Country;
+            }
+            if (region == null && country != null && country.Region != null)
+            {
+                region = country.Region;
+            }
             var newLocation = new Location
             {
                 City = city,
@@ -469,13 +496,54 @@ namespace ECA.Business.Service.Admin
                 Latitude = additionalLocation.Latitude,
                 Longitude = additionalLocation.Longitude,
                 LocationName = additionalLocation.LocationName,
-                LocationType = locationType,                
+                LocationType = locationType,
             };
+
             Context.Locations.Add(newLocation);
             additionalLocation.Audit.SetHistory(newLocation);
             return newLocation;
         }
+
+        private IQueryable<Location> CreateGetLikeLocationsQuery(EcaLocation location)
+        {
+            //A note here, you can't simply look for locations by name and type i.e. a city named franklin,
+            //there are already over 30 cities named frankling; therefore, you have to look for a location with
+            //its parent locations if they are known also, so the city Franklin, in Tennessee, in the US.
+            var query = this.Context.Locations.Select(x => x);
+
+            var locationType = LocationType.GetStaticLookup(location.LocationTypeId);
+            Contract.Assert(locationType != LocationType.Address, "An address should only be created through the address location methods.");
+            if(locationType == LocationType.Building || locationType == LocationType.Place)
+            {
+                if (location.CityId.HasValue)
+                {
+                    query = query.Where(x => x.CityId == location.CityId);
+                }
+            }
+            if (location.DivisionId.HasValue)
+            {
+                query = query.Where(x => x.DivisionId == location.DivisionId);
+            }
+            if (location.CountryId.HasValue)
+            {
+                query = query.Where(x => x.CountryId == location.CountryId);
+            }
+            query = query.Where(x => x.LocationName != null && x.LocationName.Trim().ToLower() == location.LocationName.Trim().ToLower());
+            return query;
+        }
+
+        private IQueryable<Location> CreateGetLocationByIdQuery(int? id)
+        {
+            return Context.Locations
+                .Include(x => x.City)
+                .Include(x => x.Division)
+                .Include(x => x.Country)
+                .Include(x => x.Region)
+                .Where(x => x.LocationId == id);
+        }
+
         #endregion
+        
 
         private LocationValidationEntity GetLocationValidationEntity(EcaLocation location, Location region, Location country, Location division, Location city)
         {
@@ -499,29 +567,32 @@ namespace ECA.Business.Service.Admin
             Location region = null;
             if (updatedLocation.CityId.HasValue)
             {
-                city = Context.Locations.Find(updatedLocation.CityId);
+                city = CreateGetLocationByIdQuery(updatedLocation.CityId).FirstOrDefault();
                 throwIfLocationNotFound(updatedLocation.CityId.Value, city, "City");
-            }
-            if (updatedLocation.CountryId.HasValue)
-            {
-                country = Context.Locations.Find(updatedLocation.CountryId.Value);
-                throwIfLocationNotFound(updatedLocation.CountryId.Value, country, "Country");
             }
             if (updatedLocation.DivisionId.HasValue)
             {
-                division = Context.Locations.Find(updatedLocation.DivisionId.Value);
+                division = CreateGetLocationByIdQuery(updatedLocation.DivisionId).FirstOrDefault();
                 throwIfLocationNotFound(updatedLocation.DivisionId.Value, division, "Division");
+            }
+            if (updatedLocation.CountryId.HasValue)
+            {
+                country = CreateGetLocationByIdQuery(updatedLocation.CountryId).FirstOrDefault();
+                throwIfLocationNotFound(updatedLocation.CountryId.Value, country, "Country");
             }
             if (updatedLocation.RegionId.HasValue)
             {
-                region = Context.Locations.Find(updatedLocation.RegionId.Value);
+                region = CreateGetLocationByIdQuery(updatedLocation.RegionId).FirstOrDefault();
                 throwIfLocationNotFound(updatedLocation.RegionId.Value, region, "Region");
             }
+
+            var existingLocations = CreateGetLikeLocationsQuery(updatedLocation).Where(x => x.LocationId != updatedLocation.LocationId).ToList();
+            throwIfLocationsAlreadyExist(updatedLocation, existingLocations);
 
             var locationType = Context.LocationTypes.Find(updatedLocation.LocationTypeId);
             throwIfLocationTypeDoesNotExist(updatedLocation.LocationTypeId, locationType);
 
-            DoUpdate(updatedLocation, locationToUpdated, country, division, city, region, locationType);
+            DoUpdate(updatedLocation, locationToUpdated, region, country, division, city, locationType);
         }
 
         /// <summary>
@@ -539,38 +610,41 @@ namespace ECA.Business.Service.Admin
             Location region = null;
             if (updatedLocation.CityId.HasValue)
             {
-                city = await Context.Locations.FindAsync(updatedLocation.CityId);
+                city = await CreateGetLocationByIdQuery(updatedLocation.CityId).FirstOrDefaultAsync();
                 throwIfLocationNotFound(updatedLocation.CityId.Value, city, "City");
-            }
-            if (updatedLocation.CountryId.HasValue)
-            {
-                country = await Context.Locations.FindAsync(updatedLocation.CountryId.Value);
-                throwIfLocationNotFound(updatedLocation.CountryId.Value, country, "Country");
             }
             if (updatedLocation.DivisionId.HasValue)
             {
-                division = await Context.Locations.FindAsync(updatedLocation.DivisionId.Value);
+                division = await CreateGetLocationByIdQuery(updatedLocation.DivisionId).FirstOrDefaultAsync();
                 throwIfLocationNotFound(updatedLocation.DivisionId.Value, division, "Division");
+            }
+            if (updatedLocation.CountryId.HasValue)
+            {
+                country = await CreateGetLocationByIdQuery(updatedLocation.CountryId).FirstOrDefaultAsync();
+                throwIfLocationNotFound(updatedLocation.CountryId.Value, country, "Country");
             }
             if (updatedLocation.RegionId.HasValue)
             {
-                region = await Context.Locations.FindAsync(updatedLocation.RegionId.Value);
+                region = await CreateGetLocationByIdQuery(updatedLocation.RegionId).FirstOrDefaultAsync();
                 throwIfLocationNotFound(updatedLocation.RegionId.Value, region, "Region");
             }
+
+            var existingLocations = CreateGetLikeLocationsQuery(updatedLocation).Where(x => x.LocationId != updatedLocation.LocationId).ToList();
+            throwIfLocationsAlreadyExist(updatedLocation, existingLocations);
 
             var locationType = await Context.LocationTypes.FindAsync(updatedLocation.LocationTypeId);
             throwIfLocationTypeDoesNotExist(updatedLocation.LocationTypeId, locationType);
 
-            DoUpdate(updatedLocation, locationToUpdated, country, division, city, region, locationType);
+            DoUpdate(updatedLocation, locationToUpdated, region, country, division, city, locationType);
         }
 
         private void DoUpdate(
             UpdatedLocation updatedLocation,
             Location locationToUpdate,
+            Location region,
             Location country,
             Location division,
-            Location city,
-            Location region,
+            Location city,            
             LocationType locationType)
         {
             var validationEntity = GetLocationValidationEntity(
@@ -581,7 +655,18 @@ namespace ECA.Business.Service.Admin
                 city: city
                 );
             locationValidator.ValidateUpdate(validationEntity);
-
+            if (division == null && city != null && city.Division != null)
+            {
+                division = city.Division;
+            }
+            if (country == null && division != null && division.Country != null)
+            {
+                country = division.Country;
+            }
+            if (region == null && country != null && country.Region != null)
+            {
+                region = country.Region;
+            }
             locationToUpdate.City = city;
             locationToUpdate.Country = country;
             locationToUpdate.Division = division;
