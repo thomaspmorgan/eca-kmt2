@@ -38,7 +38,7 @@ angular.module('staticApp')
       $scope.view.isLoadingCities = false;
       $scope.view.isSavingNewLocation = false;
       $scope.view.isMapIdle = false;
-      $scope.view.search = 'nashville';
+      $scope.view.search = '';
       $scope.view.locationExists = false;
       $scope.view.isTransformingLocation = false;
       $scope.view.isLongitudeRequired = false;
