@@ -40,14 +40,12 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Gets or sets the date of birth
         /// </summary>
-        [Required]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         /// <summary>
         /// Gets or sets the city of birth
         /// </summary>
-        [Required]
-        public int CityOfBirth { get; set; }
+        public int? CityOfBirth { get; set; }
 
         /// <summary>
         /// Gets or sets the countries of citizenship

@@ -245,11 +245,16 @@ angular.module('staticApp')
           delete $scope.newParticipant.countryOfBirth;
           $scope.newParticipant.projectId = $scope.project.id;
           $scope.newParticipant.gender = $scope.newParticipant.gender[0].id;
-          $scope.newParticipant.cityOfBirth = $scope.newParticipant.cityOfBirth[0].id;
+          if ($scope.newParticipant.cityOfBirth.length > 0) {
+              $scope.newParticipant.cityOfBirth = $scope.newParticipant.cityOfBirth[0].id;
+          } else {
+              delete $scope.newParticipant.cityOfBirth;
+          }
           $scope.newParticipant.countriesOfCitizenship =
                $scope.newParticipant.countriesOfCitizenship.map(function (obj) {
                    return obj.id;
                });
+          console.log($scope.newParticipant);
       };
 
       function displaySuccess() {
