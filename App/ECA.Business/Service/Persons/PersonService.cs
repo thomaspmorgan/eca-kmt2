@@ -78,10 +78,12 @@ namespace ECA.Business.Service.Persons
                 throw new EcaBusinessException("The person already exists.");
             }
             var personToUpdate = await GetPersonByIdAsync(pii.PersonId);
-            var cityOfBirth = await GetLocationByIdAsync(pii.CityOfBirthId);
+            var cityOfBirth = await GetLocationByIdAsync(pii.CityOfBirthId.GetValueOrDefault());
             var countriesOfCitizenship = await GetLocationsByIdAsync(pii.CountriesOfCitizenship);
+            /*
             var validationEntity = GetValidationEntity(pii, personToUpdate, cityOfBirth, countriesOfCitizenship);
             validator.ValidateUpdate(validationEntity);
+            */
             DoUpdate(pii, personToUpdate, cityOfBirth, countriesOfCitizenship);
 
             return personToUpdate;
@@ -552,8 +554,7 @@ namespace ECA.Business.Service.Persons
 
         private PersonServiceValidationEntity GetValidationEntity(UpdatePii pii, Person person,  
                                                                   Location cityOfBirth, List<Location> countriesOfCititzenship) {
-            return new PersonServiceValidationEntity(person, pii.GenderId, pii.DateOfBirth, cityOfBirth, 
-                                                     countriesOfCititzenship);
+            return new PersonServiceValidationEntity(person, pii.GenderId, countriesOfCititzenship);
         }
 
 

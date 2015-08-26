@@ -99,17 +99,6 @@ angular.module('staticApp')
           return null;
       };
 
-    //ParticipantService.getParticipantById($stateParams.participantId)
-    //  .then(function (data) {
-    //      $scope.participant = data;
-    //      loadPii(data.personId);
-    //      $scope.personIdDeferred.resolve(data.personId);
-    //      PersonService.getContactInfoById(data.personId)
-    //        .then(function (data) {
-    //            $scope.contactInfo = data;
-    //        });
-    //  });
-
     PersonService.getPersonById($stateParams.personId)
       .then(function (data) {
           $scope.person = data;
@@ -175,6 +164,7 @@ angular.module('staticApp')
 
     $scope.saveEditPii = function () {
         setupPii();
+
         PersonService.updatePii($scope.pii, $scope.person.personId)
             .then(function () {
                 NotificationService.showSuccessMessage("The edit was successful.");
@@ -201,11 +191,9 @@ angular.module('staticApp')
 
     function setupPii() {
         $scope.pii.personId = $scope.person.personId;
-        //$scope.pii.participantId = $scope.participant.participantId;
         $scope.pii.countriesOfCitizenship = $scope.selectedCountriesOfCitizenship.map(function (obj) {
             return obj.id;
         });
-        //$scope.pii.sevisId = $scope.participant.sevisId;
     };
 
     $scope.openDatePicker = function ($event) {

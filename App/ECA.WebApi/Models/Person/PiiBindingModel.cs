@@ -80,14 +80,12 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Gets or sets the city of birth
         /// </summary>
-        [Required]
-        public int CityOfBirthId { get; set; }
+        public int? CityOfBirthId { get; set; }
 
         /// <summary>
         /// Gets or sets the date of birth
         /// </summary>
-        [Required]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         /// <summary>
         /// Gets or sets the countries of citizenship
@@ -103,7 +101,7 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Gets or sets the marital status id
         /// </summary>
-        public int MaritalStatusId { get; set; }
+        public int? MaritalStatusId { get; set; }
 
         /// <summary>
         /// Convert binding model to business model 

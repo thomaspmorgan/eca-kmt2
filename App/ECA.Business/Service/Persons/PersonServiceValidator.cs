@@ -75,21 +75,6 @@ namespace ECA.Business.Service.Persons
                 yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.GenderId, GENDER_NOT_FOUND);
             }
 
-            if (validationEntity.DateOfBirth > DateTime.Now)
-            {
-                yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.DateOfBirth, DATE_OF_BIRTH_GREATER_THAN_TODAY);
-            }
-
-            if (validationEntity.DateOfBirth == DateTime.MinValue)
-            {
-                yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.DateOfBirth, DATE_OF_BIRTH_REQUIRED);
-            }
-
-            if (validationEntity.CityOfBirth == null)
-            {
-                yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.CityOfBirth, CITY_OF_BIRTH_NOT_FOUND);
-            }
-
             if (validationEntity.CountriesOfCitizenship == null) 
             {
                 yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.CountriesOfCitizenship, COUNTRIES_OF_CITIZENSHIP_NOT_FOUND);
