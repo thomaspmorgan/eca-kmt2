@@ -596,6 +596,8 @@ angular.module('staticApp')
               setSelectedLocations();
               showProjectEditCancelButton();
               $scope.editView.isLoading = false;
+
+              $scope.editView.onAdvancedSearchClick();
           })
           .catch(function () {
               $log.error('Unable to project edit data.');
