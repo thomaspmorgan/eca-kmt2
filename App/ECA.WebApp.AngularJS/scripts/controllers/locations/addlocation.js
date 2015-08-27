@@ -237,9 +237,7 @@ angular.module('staticApp')
 
           $scope.geocodeResult = geocodeResult;
           var content = '<div><ng-include src="\'views/locations/marker.html\'"></ng-include></div>';
-
           var compiled = $compile(content)($scope);
-          debugger;
           if (infoWindow) {
               infoWindow.close();
           }
