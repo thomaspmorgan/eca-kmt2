@@ -166,8 +166,8 @@
                                  ng-disabled="view.isSavingNewLocation || view.isTransformingLocation"
                                  ui-map="view.newLocationMap"
                                  ui-options="view.mapOptions"
-                                 style="height: 450px; width: 400px;"
-                                 ui-event="{'map-idle' : 'onMapIdle()'}">
+                                 style="height: 500px; width: 400px;"
+                                 ui-event="{'map-idle' : 'view.onMapIdle()'}">
                             </div>
                             <div class="spinner" ng-show="view.isTransformingLocation">
                                 <div class="bounce1"></div>

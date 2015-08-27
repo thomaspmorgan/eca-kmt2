@@ -120,7 +120,7 @@ angular.module('staticApp')
       }
 
       var fixedRedrawIssue = false;
-      $scope.onMapIdle = function () {
+      $scope.view.onMapIdle = function () {
           //this fixes a google map issue when this modal is closed and then reopened
           //the map would just show a grey box
           if (!fixedRedrawIssue) {
@@ -188,16 +188,19 @@ angular.module('staticApp')
                   var map = getNewLocationMap();
                   var bounds = new google.maps.LatLngBounds();
                   angular.forEach(results, function (result, index) {
-                      var marker = new google.maps.Marker({
-                          position: result.geometry.location,
-                          map: map,
-                          animation: google.maps.Animation.DROP,
-                      });
-                      marker.addListener('click', function () {
-                          onMapMarkerClickHandler(marker, result);
-                      });
-                      markers.push(marker);
                       bounds.extend(result.geometry.location);
+                      window.setTimeout(function () {
+                          var marker = new google.maps.Marker({
+                              position: result.geometry.location,
+                              map: map,
+                              animation: google.maps.Animation.DROP,
+                          });
+                          marker.addListener('click', function () {
+                              onMapMarkerClick(marker, result)
+                          });
+                          markers.push(marker);
+                      }, index * 100);
+                      console.log(index);
                   });
                   map.fitBounds(bounds);
               }
@@ -231,7 +234,7 @@ angular.module('staticApp')
       }
 
       var infoWindow = null;
-      function onMapMarkerClickHandler(marker, geocodeResult) {
+      function onMapMarkerClick(marker, geocodeResult) {
           $scope.view.isTransformingLocation = true;
           var map = getNewLocationMap();
 
