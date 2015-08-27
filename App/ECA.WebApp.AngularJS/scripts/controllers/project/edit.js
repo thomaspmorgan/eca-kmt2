@@ -181,6 +181,7 @@ angular.module('staticApp')
                       $scope.editView.selectedLocations.push(selectedLocation);
                   }
               });
+              
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });
@@ -611,8 +612,6 @@ angular.module('staticApp')
               setSelectedLocations();
               showProjectEditCancelButton();
               $scope.editView.isLoading = false;
-
-              $scope.editView.onAdvancedSearchClick();
           })
           .catch(function () {
               $log.error('Unable to project edit data.');
@@ -623,6 +622,4 @@ angular.module('staticApp')
           $log.error('Failed to load project in edit.js project controller.');
           $scope.editView.isLoading = false;
       })
-
-
   });
