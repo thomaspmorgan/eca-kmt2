@@ -18,6 +18,10 @@ angular.module('staticApp')
               var path = 'projects/' + id + '/moneyFlows'
               return DragonBreath.get(params, path);
           },
+          getMoneyFlowsByOffice: function (id, params) {
+              var path = 'offices/' + id + '/moneyFlows'
+              return DragonBreath.get(params, path);
+          },
           remove: function(moneyFlow, entityId) {
               var path = '';
               if (moneyFlow.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.project.id) {
@@ -40,6 +44,12 @@ angular.module('staticApp')
               else if (moneyFlow.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id) {
                   path = 'programs/' + entityId + '/moneyflows';
               }
+              else if (moneyFlow.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.office.id) {
+                  path = 'offices/' + entityId + '/moneyflows';
+              }
+              else if (moneyFlow.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id) {
+                  path = 'organizations/' + entityId + '/moneyflows';
+              }
               else {
                   throw Error('The money flow source recipient type is not yet recognized.');
               }
@@ -54,6 +64,12 @@ angular.module('staticApp')
               }
               else if (entityTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id) {
                   path += 'program';
+              }
+              else if (entityTypeId === ConstantsService.moneyFlowSourceRecipientType.office.id) {
+                  path += 'office';
+              }
+              else if (entityTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id) {
+                  path += 'organization';
               }
               else {
                   throw Error('The money flow source recipient type is not yet supported.');

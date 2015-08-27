@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using ECA.Business.Models.Fundings;
 using ECA.Core.Exceptions;
 using ECA.Business.Exceptions;
+using ECA.Business.Queries.Admin;
 
 namespace ECA.Business.Service.Fundings
 {
@@ -27,6 +28,7 @@ namespace ECA.Business.Service.Fundings
         private readonly IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity> validator;
         private Action<object, int, Type> throwIfEntityNotFound;
         private Action<int, MoneyFlow, MoneyFlow> throwSecurityViolationIfNull;
+        private Action<int, OfficeDTO> throwSecurityViolationIfOrgIsOffice;
 
         /// <summary>
         /// Creates a new instance with the context to operate against and the validator.
@@ -54,6 +56,16 @@ namespace ECA.Business.Service.Fundings
                         String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.", 
                         userId, 
                         actualMoneyFlow.MoneyFlowId));
+                }
+            };
+            throwSecurityViolationIfOrgIsOffice = (organizationId, officeDto) =>
+            {
+                if(officeDto != null)
+                {
+                    throw new BusinessSecurityException(
+                        String.Format("The organization with the given id [{0}] is an office named [{1}].  This office must be accessed using office related methods only.",
+                        organizationId,
+                        officeDto.Name));
                 }
             };
         }
@@ -110,6 +122,68 @@ namespace ECA.Business.Service.Fundings
             this.logger.Trace("Retrieved money flows by program id {0} with query operator {1}.", programId, queryOperator);
             return moneyFlows;
         }
+
+        /// <summary>
+        /// Returns the money flows for the organization with the given id.
+        /// </summary>
+        /// <param name="organizationId">The organization id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The organization's money flows.</returns>
+        public PagedQueryResults<MoneyFlowDTO> GetMoneyFlowsByOrganizationId(int organizationId, QueryableOperator<MoneyFlowDTO> queryOperator)
+        {
+            var office = CreateGetOfficeByOrganizationIdQuery(organizationId).FirstOrDefault();
+            throwSecurityViolationIfOrgIsOffice(organizationId, office);
+            var moneyFlows = MoneyFlowQueries.CreateGetMoneyFlowDTOsByOrganizationId(this.Context, organizationId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved money flows by organization id {0} with query operator {1}.", organizationId, queryOperator);
+            return moneyFlows;
+        }
+
+        /// <summary>
+        /// Returns the money flows for the organization with the given id.
+        /// </summary>
+        /// <param name="organizationId">The organization id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The organization's money flows.</returns>
+        public async Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByOrganizationIdAsync(int organizationId, QueryableOperator<MoneyFlowDTO> queryOperator)
+        {
+            var office = await CreateGetOfficeByOrganizationIdQuery(organizationId).FirstOrDefaultAsync();
+            throwSecurityViolationIfOrgIsOffice(organizationId, office);
+            var moneyFlows = await MoneyFlowQueries.CreateGetMoneyFlowDTOsByOrganizationId(this.Context, organizationId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved money flows by organization id {0} with query operator {1}.", organizationId, queryOperator);
+            return moneyFlows;
+        }
+
+        /// <summary>
+        /// Returns the money flows for the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The office id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The office's money flows.</returns>
+        public PagedQueryResults<MoneyFlowDTO> GetMoneyFlowsByOfficeId(int officeId, QueryableOperator<MoneyFlowDTO> queryOperator)
+        {
+            var office = CreateGetOfficeByOrganizationIdQuery(officeId).FirstOrDefault();
+            var moneyFlows = MoneyFlowQueries.CreateGetMoneyFlowDTOsByOfficeId(this.Context, officeId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved money flows by organization id {0} with query operator {1}.", officeId, queryOperator);
+            return moneyFlows;
+        }
+
+        /// <summary>
+        /// Returns the money flows for the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The office id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The office's money flows.</returns>
+        public async Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByOfficeIdAsync(int officeId, QueryableOperator<MoneyFlowDTO> queryOperator)
+        {
+            var moneyFlows = await MoneyFlowQueries.CreateGetMoneyFlowDTOsByOfficeId(this.Context, officeId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved money flows by organization id {0} with query operator {1}.", officeId, queryOperator);
+            return moneyFlows;
+        }
+
+        private IQueryable<OfficeDTO> CreateGetOfficeByOrganizationIdQuery(int organizationId)
+        {
+            return OfficeQueries.CreateGetOfficeByIdQuery(this.Context, organizationId);
+        }
         #endregion
 
         /// <summary>
@@ -121,6 +195,7 @@ namespace ECA.Business.Service.Fundings
         {
             var expectedMapping = new Dictionary<int, Type>();
             expectedMapping.Add(MoneyFlowSourceRecipientType.ItineraryStop.Id, typeof(ItineraryStop));
+            expectedMapping.Add(MoneyFlowSourceRecipientType.Office.Id, typeof(Organization));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Organization.Id, typeof(Organization));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Participant.Id, typeof(Participant));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Program.Id, typeof(Program));

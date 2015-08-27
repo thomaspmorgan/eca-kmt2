@@ -171,39 +171,44 @@ namespace ECA.Business.Service.Persons
             return Task.FromResult<PagedQueryResults<LanguageProficiencyDTO>>(null);
         }
 
+
         /// <summary>
-        /// Gets a languageProficiency by Id
+        /// 
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns>LanguageProficiencyDTO</returns>
+        /// <param name="languageId"></param>
+        /// <param name="personId"></param>
+        /// <returns></returns>
         public LanguageProficiencyDTO GetById(int languageId, int personId)
         {
             return null;
         }
 
         /// <summary>
-        /// Gets a languageProficiency by Id
+        /// 
         /// </summary>
-        /// <param name="id"></param>
-        /// <returnsLanguageProficiencyDTOreturns>
+        /// <param name="languageId"></param>
+        /// <param name="personId"></param>
+        /// <returns></returns>
         public Task<LanguageProficiencyDTO> GetByIdAsync(int languageId, int personId)
         {
             return Task.FromResult<LanguageProficiencyDTO>(null);
         }
 
         /// <summary>
-        /// Deletes a LanguageProficiency by Id
+        /// 
         /// </summary>
-        /// <param name="languageProficiencyId"></param>
+        /// <param name="languageId"></param>
+        /// <param name="personId"></param>
         public void Delete(int languageId, int personId)
         {
 
         }
 
         /// <summary>
-        /// Deletes a LanguageProficiency by Id
+        /// 
         /// </summary>
-        /// <param name="languageProficiencyId"></param>
+        /// <param name="languageId"></param>
+        /// <param name="personId"></param>
         /// <returns></returns>
         public Task DeleteAsync(int languageId, int personId)
         {

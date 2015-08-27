@@ -45,6 +45,409 @@ namespace ECA.Business.Test.Service.Fundings
         {
 
         }
+        #region Get MoneyFlows By Office Id
+        [TestMethod]
+        public async Task TestGetMoneyFlowsByOfficeId_CheckProperties()
+        {
+            var outgoing = new MoneyFlowType
+            {
+                MoneyFlowTypeId = MoneyFlowType.Outgoing.Id,
+                MoneyFlowTypeName = MoneyFlowType.Outgoing.Value
+            };
+            var officeType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Office.Id,
+                TypeName = MoneyFlowSourceRecipientType.Office.Value
+            };
+            var budgeted = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Budgeted.Value
+            };
+
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceOrg = new Organization
+            {
+                OrganizationId = sourceId,
+                Name = "Outgoing"
+            };
+
+            var recipientOrg = new Organization
+            {
+                OrganizationId = recipientId,
+                Name = "Incoming"
+
+            };
+
+            var moneyFlow = new MoneyFlow
+            {
+                SourceOrganizationId = sourceId,
+                RecipientOrganizationId = recipientId,
+                SourceOrganization = sourceOrg,
+                RecipientOrganization = recipientOrg,
+                SourceType = officeType,
+                SourceTypeId = officeType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = officeType,
+                RecipientTypeId = officeType.MoneyFlowSourceRecipientTypeId,
+
+                MoneyFlowStatus = budgeted,
+                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            context.Organizations.Add(sourceOrg);
+            context.Organizations.Add(recipientOrg);
+            context.MoneyFlowTypes.Add(outgoing);
+            context.MoneyFlowSourceRecipientTypes.Add(officeType);
+            context.MoneyFlowStatuses.Add(budgeted);
+
+            Action<PagedQueryResults<MoneyFlowDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                Assert.IsNotNull(results.Results.First());
+                Assert.AreEqual(moneyFlow.MoneyFlowId, results.Results.First().Id);
+            };
+
+            var defaultSorter = new ExpressionSorter<MoneyFlowDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<MoneyFlowDTO>(0, 10, defaultSorter);
+            var serviceResults = service.GetMoneyFlowsByOfficeId(sourceOrg.OrganizationId, queryOperator);
+            var serviceResultsAsync = await service.GetMoneyFlowsByOfficeIdAsync(sourceOrg.OrganizationId, queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+        #endregion
+
+
+        #region Get MoneyFlows By Organization Id
+        [TestMethod]
+        public async Task TestGetMoneyFlowsByOrganizationId_CheckProperties()
+        {
+            var outgoing = new MoneyFlowType
+            {
+                MoneyFlowTypeId = MoneyFlowType.Outgoing.Id,
+                MoneyFlowTypeName = MoneyFlowType.Outgoing.Value
+            };
+            var organizationType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Organization.Id,
+                TypeName = MoneyFlowSourceRecipientType.Organization.Value
+            };
+            var budgeted = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Budgeted.Value
+            };
+
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceOrg = new Organization
+            {
+                OrganizationId = sourceId,
+                Name = "Outgoing"
+            };
+
+            var recipientOrg = new Organization
+            {
+                OrganizationId = recipientId,
+                Name = "Incoming"
+
+            };
+
+            var moneyFlow = new MoneyFlow
+            {
+                SourceOrganizationId = sourceId,
+                RecipientOrganizationId = recipientId,
+                SourceOrganization = sourceOrg,
+                RecipientOrganization = recipientOrg,
+                SourceType = organizationType,
+                SourceTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = organizationType,
+                RecipientTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
+
+                MoneyFlowStatus = budgeted,
+                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            context.Organizations.Add(sourceOrg);
+            context.Organizations.Add(recipientOrg);
+            context.MoneyFlowTypes.Add(outgoing);
+            context.MoneyFlowSourceRecipientTypes.Add(organizationType);
+            context.MoneyFlowStatuses.Add(budgeted);
+
+            Action<PagedQueryResults<MoneyFlowDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                Assert.IsNotNull(results.Results.First());
+                Assert.AreEqual(moneyFlow.MoneyFlowId, results.Results.First().Id);
+            };
+
+            var defaultSorter = new ExpressionSorter<MoneyFlowDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<MoneyFlowDTO>(0, 10, defaultSorter);
+            var serviceResults = service.GetMoneyFlowsByOrganizationId(sourceOrg.OrganizationId, queryOperator);
+            var serviceResultsAsync = await service.GetMoneyFlowsByOrganizationIdAsync(sourceOrg.OrganizationId, queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+
+        }
+
+        [TestMethod]
+        public async Task TestGetMoneyFlowsByOrganizationId_OrganizationIsOffice()
+        {
+            var outgoing = new MoneyFlowType
+            {
+                MoneyFlowTypeId = MoneyFlowType.Outgoing.Id,
+                MoneyFlowTypeName = MoneyFlowType.Outgoing.Value
+            };
+            var organizationType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Organization.Id,
+                TypeName = MoneyFlowSourceRecipientType.Organization.Value
+            };
+            var budgeted = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Budgeted.Value
+            };
+
+            var sourceId = 1;
+            var recipientId = 2;
+
+            var officeType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.Office.Id
+            };
+            var sourceOrg = new Organization
+            {
+                OrganizationId = sourceId,
+                Name = "Outgoing",
+                OrganizationType = officeType,
+                OrganizationTypeId = officeType.OrganizationTypeId
+            };
+
+            var recipientOrg = new Organization
+            {
+                OrganizationId = recipientId,
+                Name = "Incoming",
+                OrganizationType = officeType,
+                OrganizationTypeId = officeType.OrganizationTypeId
+
+            };
+
+            var moneyFlow = new MoneyFlow
+            {
+                SourceOrganizationId = sourceId,
+                RecipientOrganizationId = recipientId,
+                SourceOrganization = sourceOrg,
+                RecipientOrganization = recipientOrg,
+                SourceType = organizationType,
+                SourceTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = organizationType,
+                RecipientTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
+
+                MoneyFlowStatus = budgeted,
+                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            context.Organizations.Add(sourceOrg);
+            context.Organizations.Add(recipientOrg);
+            context.MoneyFlowTypes.Add(outgoing);
+            context.MoneyFlowSourceRecipientTypes.Add(organizationType);
+            context.MoneyFlowStatuses.Add(budgeted);
+            
+            var defaultSorter = new ExpressionSorter<MoneyFlowDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<MoneyFlowDTO>(0, 10, defaultSorter);
+            var message = String.Format("The organization with the given id [{0}] is an office named [{1}].  This office must be accessed using office related methods only.",
+                        sourceId,
+                        sourceOrg.Name);
+            Func<Task> f = () =>
+            {
+                return service.GetMoneyFlowsByOrganizationIdAsync(sourceOrg.OrganizationId, queryOperator);
+            };
+            service.Invoking(x => x.GetMoneyFlowsByOrganizationId(sourceOrg.OrganizationId, queryOperator)).ShouldThrow<BusinessSecurityException>().WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestGetMoneyFlowsByOrganizationId_OrganizationIsBranch()
+        {
+            var outgoing = new MoneyFlowType
+            {
+                MoneyFlowTypeId = MoneyFlowType.Outgoing.Id,
+                MoneyFlowTypeName = MoneyFlowType.Outgoing.Value
+            };
+            var organizationType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Organization.Id,
+                TypeName = MoneyFlowSourceRecipientType.Organization.Value
+            };
+            var budgeted = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Budgeted.Value
+            };
+
+            var sourceId = 1;
+            var recipientId = 2;
+
+            var branchType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.Branch.Id
+            };
+            var sourceOrg = new Organization
+            {
+                OrganizationId = sourceId,
+                Name = "Outgoing",
+                OrganizationType = branchType,
+                OrganizationTypeId = branchType.OrganizationTypeId
+            };
+
+            var recipientOrg = new Organization
+            {
+                OrganizationId = recipientId,
+                Name = "Incoming",
+                OrganizationType = branchType,
+                OrganizationTypeId = branchType.OrganizationTypeId
+
+            };
+
+            var moneyFlow = new MoneyFlow
+            {
+                SourceOrganizationId = sourceId,
+                RecipientOrganizationId = recipientId,
+                SourceOrganization = sourceOrg,
+                RecipientOrganization = recipientOrg,
+                SourceType = organizationType,
+                SourceTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = organizationType,
+                RecipientTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
+
+                MoneyFlowStatus = budgeted,
+                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            context.Organizations.Add(sourceOrg);
+            context.Organizations.Add(recipientOrg);
+            context.MoneyFlowTypes.Add(outgoing);
+            context.MoneyFlowSourceRecipientTypes.Add(organizationType);
+            context.MoneyFlowStatuses.Add(budgeted);
+
+            var defaultSorter = new ExpressionSorter<MoneyFlowDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<MoneyFlowDTO>(0, 10, defaultSorter);
+            var message = String.Format("The organization with the given id [{0}] is an office named [{1}].  This office must be accessed using office related methods only.",
+                        sourceId,
+                        sourceOrg.Name);
+            Func<Task> f = () =>
+            {
+                return service.GetMoneyFlowsByOrganizationIdAsync(sourceOrg.OrganizationId, queryOperator);
+            };
+            service.Invoking(x => x.GetMoneyFlowsByOrganizationId(sourceOrg.OrganizationId, queryOperator)).ShouldThrow<BusinessSecurityException>().WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestGetMoneyFlowsByOrganizationId_OrganizationIsDivision()
+        {
+            var outgoing = new MoneyFlowType
+            {
+                MoneyFlowTypeId = MoneyFlowType.Outgoing.Id,
+                MoneyFlowTypeName = MoneyFlowType.Outgoing.Value
+            };
+            var organizationType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Organization.Id,
+                TypeName = MoneyFlowSourceRecipientType.Organization.Value
+            };
+            var budgeted = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Budgeted.Value
+            };
+
+            var sourceId = 1;
+            var recipientId = 2;
+
+            var divisonType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.Division.Id
+            };
+            var sourceOrg = new Organization
+            {
+                OrganizationId = sourceId,
+                Name = "Outgoing",
+                OrganizationType = divisonType,
+                OrganizationTypeId = divisonType.OrganizationTypeId
+            };
+
+            var recipientOrg = new Organization
+            {
+                OrganizationId = recipientId,
+                Name = "Incoming",
+                OrganizationType = divisonType,
+                OrganizationTypeId = divisonType.OrganizationTypeId
+
+            };
+
+            var moneyFlow = new MoneyFlow
+            {
+                SourceOrganizationId = sourceId,
+                RecipientOrganizationId = recipientId,
+                SourceOrganization = sourceOrg,
+                RecipientOrganization = recipientOrg,
+                SourceType = organizationType,
+                SourceTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = organizationType,
+                RecipientTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
+
+                MoneyFlowStatus = budgeted,
+                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            context.Organizations.Add(sourceOrg);
+            context.Organizations.Add(recipientOrg);
+            context.MoneyFlowTypes.Add(outgoing);
+            context.MoneyFlowSourceRecipientTypes.Add(organizationType);
+            context.MoneyFlowStatuses.Add(budgeted);
+
+            var defaultSorter = new ExpressionSorter<MoneyFlowDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<MoneyFlowDTO>(0, 10, defaultSorter);
+            var message = String.Format("The organization with the given id [{0}] is an office named [{1}].  This office must be accessed using office related methods only.",
+                        sourceId,
+                        sourceOrg.Name);
+            Func<Task> f = () =>
+            {
+                return service.GetMoneyFlowsByOrganizationIdAsync(sourceOrg.OrganizationId, queryOperator);
+            };
+            service.Invoking(x => x.GetMoneyFlowsByOrganizationId(sourceOrg.OrganizationId, queryOperator)).ShouldThrow<BusinessSecurityException>().WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+        }
+        #endregion
 
         #region Get MoneyFlows By Project Id
         [TestMethod]
@@ -425,6 +828,7 @@ namespace ECA.Business.Test.Service.Fundings
         {
             var expectedMapping = new Dictionary<int, Type>();
             expectedMapping.Add(MoneyFlowSourceRecipientType.ItineraryStop.Id, typeof(ItineraryStop));
+            expectedMapping.Add(MoneyFlowSourceRecipientType.Office.Id, typeof(Organization));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Organization.Id, typeof(Organization));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Participant.Id, typeof(Participant));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Program.Id, typeof(Program));
@@ -453,6 +857,7 @@ namespace ECA.Business.Test.Service.Fundings
         {
             var expectedMapping = new Dictionary<int, Type>();
             expectedMapping.Add(MoneyFlowSourceRecipientType.ItineraryStop.Id, typeof(ItineraryStop));
+            expectedMapping.Add(MoneyFlowSourceRecipientType.Office.Id, typeof(Organization));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Organization.Id, typeof(Organization));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Participant.Id, typeof(Participant));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Program.Id, typeof(Program));

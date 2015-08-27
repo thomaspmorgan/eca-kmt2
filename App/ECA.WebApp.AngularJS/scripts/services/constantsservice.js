@@ -19,7 +19,8 @@
 			accomodation: {id: 6, value: "Accomodation"},
 			transportation: {id: 7, value: "Transportation"},
 			expense: {id: 8, value: "Expense"},
-			post: {id: 9, value: "Post"}
+			post: {id: 9, value: "Post"},
+			office: {id: 10, value: "Office"}
 		},
 		organizationType: {
 			office: {id: 1, value: "Office"},

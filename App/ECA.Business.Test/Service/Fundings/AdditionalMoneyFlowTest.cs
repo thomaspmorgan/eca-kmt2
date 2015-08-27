@@ -207,6 +207,39 @@ namespace ECA.Business.Test.Service.Fundings
         }
 
         [TestMethod]
+        public void TestGetMoneyFlow_CheckSourceAndRecipientEntityId_Office()
+        {
+            var sourceEntityId = 1;
+            var recipientEntityId = 2;
+            var sourceEntityTypeId = MoneyFlowSourceRecipientType.Office.Id;
+            var recipientEntityTypeId = MoneyFlowSourceRecipientType.Office.Id;
+            var userId = 1;
+            var user = new User(userId);
+            var description = "description";
+            var value = 1.00m;
+            var fiscalYear = 2015;
+            var transactionDate = DateTimeOffset.UtcNow;
+            var moneyFlowStatusId = MoneyFlowStatus.Appropriated.Id;
+            var instance = new AdditionalMoneyFlow(user, description, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId);
+
+            var moneyFlow = instance.GetMoneyFlow();
+            Assert.AreEqual(sourceEntityId, moneyFlow.SourceOrganizationId);
+            Assert.AreEqual(recipientEntityId, moneyFlow.RecipientOrganizationId);
+
+            nullablePropertyTester(x => x.SourceParticipantId, moneyFlow);
+            nullablePropertyTester(x => x.SourceProgramId, moneyFlow);
+            nullablePropertyTester(x => x.SourceProjectId, moneyFlow);
+            nullablePropertyTester(x => x.SourceItineraryStopId, moneyFlow);
+
+            nullablePropertyTester(x => x.RecipientItineraryStopId, moneyFlow);
+            nullablePropertyTester(x => x.RecipientProgramId, moneyFlow);
+            nullablePropertyTester(x => x.RecipientProjectId, moneyFlow);
+            nullablePropertyTester(x => x.RecipientParticipantId, moneyFlow);
+            nullablePropertyTester(x => x.RecipientTransportationId, moneyFlow);
+            nullablePropertyTester(x => x.RecipientAccommodationId, moneyFlow);
+        }
+
+        [TestMethod]
         public void TestGetMoneyFlow_CheckSourceAndRecipientEntityId_Participant()
         {
             var sourceEntityId = 1;

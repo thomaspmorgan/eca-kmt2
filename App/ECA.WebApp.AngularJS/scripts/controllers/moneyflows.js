@@ -305,7 +305,6 @@ angular.module('staticApp')
               $scope.view.total = total;
               $scope.view.isLoadingMoneyFlows = false;
               $scope.view.moneyFlows = pagedMoneyFlows;
-
           })
           .catch(function (response) {
               var message = "Unable to load money flows for source entity with id " + entityId;
@@ -321,6 +320,9 @@ angular.module('staticApp')
           }
           else if (moneyFlowSourceRecipientTypeId === ConstantsService.moneyFlowSourceRecipientType.project.id) {
               return MoneyFlowService.getMoneyFlowsByProject;
+          }
+          else if (moneyFlowSourceRecipientTypeId === ConstantsService.moneyFlowSourceRecipientType.office.id) {
+              return MoneyFlowService.getMoneyFlowsByOffice;
           }
           else {
               throw Error('A mapping to a money flow service function for the money flow source recipient type id [' + moneyFlowSourceRecipientTypeId + '] does not exist.');
@@ -356,30 +358,34 @@ angular.module('staticApp')
           else if (resourceTypeId === ConstantsService.resourceType.program.id) {
               return getProgramPermissionsConfig(hasEditPermissionCallback, notAuthorizedCallback);
           }
+          else if (resourceTypeId === ConstantsService.resourceType.office.id) {
+              return getOfficePermissionsConfig(hasEditPermissionCallback, notAuthorizedCallback);
+          }
           else {
               throw Error("The resource type id is not yet supported for money flows.");
           }
       }
 
-      function getProjectPermissionsConfig(hasEditPermissionCallback, notAuthorizedCallback) {
+      function getGenericPermissionsConfig(permissionName, hasEditPermissionCallback, notAuthorizedCallback) {
           var config = {};
-          config[ConstantsService.permission.editProject.value] = {
+          config[permissionName] = {
               hasPermission: hasEditPermissionCallback,
               notAuthorized: notAuthorizedCallback
           };
           return config;
+      }
+
+      function getProjectPermissionsConfig(hasEditPermissionCallback, notAuthorizedCallback) {
+          return getGenericPermissionsConfig(ConstantsService.permission.editProject.value, hasEditPermissionCallback, notAuthorizedCallback);
       }
 
       function getProgramPermissionsConfig(hasEditPermissionCallback, notAuthorizedCallback) {
-          var config = {
-          };
-          config[ConstantsService.permission.editProgram.value] = {
-              hasPermission: hasEditPermissionCallback,
-              notAuthorized: notAuthorizedCallback
-          };
-          return config;
+          return getGenericPermissionsConfig(ConstantsService.permission.editProgram.value, hasEditPermissionCallback, notAuthorizedCallback);
       }
 
+      function getOfficePermissionsConfig(hasEditPermissionCallback, notAuthorizedCallback) {
+          return getGenericPermissionsConfig(ConstantsService.permission.editOffice.value, hasEditPermissionCallback, notAuthorizedCallback);
+      }
 
 
       $scope.view.isLoadingRequiredData = true;

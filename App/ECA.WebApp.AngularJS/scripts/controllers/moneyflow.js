@@ -15,9 +15,11 @@ angular.module('staticApp')
         $log,
         $modalInstance,
         entity,
+        FilterService,
         MoneyFlowService,
         LookupService,
         ConstantsService,
+        OfficeService,
         ProjectService,
         ProgramService,
         OrganizationService,
@@ -154,9 +156,20 @@ angular.module('staticApp')
           else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id) {
               return handleOrganizationsSearchResponse(response);
           }
+          else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.office.id) {
+              return handleOfficesSearchResponse(response);
+          }
           else {
               throw Error("The peer entity type id [" + peerEntityTypeId + "] is not yet supported.");
           }
+      }
+
+      function handleOfficesSearchResponse(response) {
+          var offices = response.data.results;
+          angular.forEach(offices, function (office, index) {
+              setDataForResultTemplate(office, 'organizationId', office.name, office.officeSymbol);
+          });
+          return offices;
       }
 
       function handleOrganizationsSearchResponse(response) {
@@ -206,11 +219,18 @@ angular.module('staticApp')
           else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id) {
               return OrganizationService.getOrganizations(searchParams).then(thenCallback).catch(catchCallback);
           }
+          else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id) {
+              return OrganizationService.getOrganizations(searchParams).then(thenCallback).catch(catchCallback);
+          }
+          else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.office.id) {
+              return OfficeService.getAll(searchParams).then(thenCallback).catch(catchCallback);
+          }
           else {
               throw Error("The peer entity type id [" + peerEntityTypeId + "] is not yet supported.");
           }
       }
 
+      var searchFilter = FilterService.add('moneyflow_searchpeerentityfilter');
       function getSearchParams(peerEntityTypeId, search) {
           var namePropertyName = '';
           var idPropertyName = '';
@@ -226,31 +246,29 @@ angular.module('staticApp')
               namePropertyName = 'name';
               idPropertyName = 'organizationId';
           }
+          else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.office.id) {
+              namePropertyName = 'name';
+              idPropertyName = 'organizationId';
+          }
           else {
               throw Error("The peer entity type id [" + peerEntityTypeId + "] is not yet supported.");
           }
-          var params = {
-              start: 0,
-              limit: $scope.view.searchLimit,
-              filter: [{
-                  comparison: ConstantsService.likeComparisonType,
-                  value: search,
-                  property: namePropertyName
-              }]
-          };
+
+          searchFilter.reset();
+          searchFilter = searchFilter
+            .skip(0)
+            .take($scope.view.searchLimit)
+            .like(namePropertyName, search);
           if (peerEntityTypeId === entity.entityTypeId) {
               $log.info('Including identical entity id not equal filter.');
               var id = entity.entityId;
               if (!angular.isNumber(id)) {
                   id = parseInt(entity.entityId, 10);
               }
-              params.filter.push({
-                  comparison: ConstantsService.notEqualComparisonType,
-                  value: id,
-                  property: idPropertyName
-              });
+              
+              searchFilter = searchFilter.notEqual(idPropertyName, id);
           }
-          return params;
+          return searchFilter.toParams();
       }
 
       function toMoneyFlow(entity) {
@@ -283,6 +301,12 @@ angular.module('staticApp')
           else if (entity.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id) {
               moneyFlow.programId = entity.entityId;
           }
+          else if (entity.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.office.id) {
+              moneyFlow.officeId = entity.entityId;
+          }
+          else if (entity.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id) {
+              moneyFlow.organization = entity.entityId;
+          }
           else {
               throw Error('The money flow source recipient type is not yet supported.');
           }
@@ -304,26 +328,22 @@ angular.module('staticApp')
           limit: 300
       };
 
+      var moneyFlowSourceRecipientTypeFilter = FilterService.add('moneyflow_moneyflowsourcerecipienttypefilter');
       function getMoneyFlowSourceRecipientTypes() {
-          var sourceRecipientTypesParams = {
-              start: lookupParams.start,
-              limit: lookupParams.limit,
-              filter: [
-                  {
-                      comparison: ConstantsService.inComparisonType,
-                      property: 'id',
-                      value: [
-                          ConstantsService.moneyFlowSourceRecipientType.project.id,
-                          ConstantsService.moneyFlowSourceRecipientType.program.id,
-                          ConstantsService.moneyFlowSourceRecipientType.organization.id,
-                          ConstantsService.moneyFlowSourceRecipientType.expense.id,
-                      ]
-                  }
-              ]
-          };
-          $log.info("Artifically limiting source and recipient types for the type being.");
+          moneyFlowSourceRecipientTypeFilter.reset();
+          moneyFlowSourceRecipientTypeFilter = moneyFlowSourceRecipientTypeFilter
+              .skip(lookupParams.start)
+              .take(lookupParams.limit)
+              .in('id', [
+                    ConstantsService.moneyFlowSourceRecipientType.project.id,
+                    ConstantsService.moneyFlowSourceRecipientType.program.id,
+                    ConstantsService.moneyFlowSourceRecipientType.organization.id,
+                    ConstantsService.moneyFlowSourceRecipientType.office.id,
+                    ConstantsService.moneyFlowSourceRecipientType.expense.id,
+              ]);
+          $log.info("Artifically limiting source and recipient types for the time being.");
 
-          return LookupService.getAllMoneyFlowSourceRecipientTypes(sourceRecipientTypesParams)
+          return LookupService.getAllMoneyFlowSourceRecipientTypes(moneyFlowSourceRecipientTypeFilter.toParams())
           .then(function (response) {
               $scope.view.moneyFlowSourceRecipientTypes = response.data.results;
           })

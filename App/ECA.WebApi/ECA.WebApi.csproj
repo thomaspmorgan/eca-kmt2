@@ -24,6 +24,7 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
     <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -455,6 +456,8 @@
     <Compile Include="Models\Admin\LocationBindingModel.cs" />
     <Compile Include="Models\Admin\UpdatedLocationBindingModel.cs" />
     <Compile Include="Models\Fundings\AdditionalMoneyFlowBindingModel.cs" />
+    <Compile Include="Models\Fundings\AdditionalOrganizationMoneyFlowBindingModel.cs" />
+    <Compile Include="Models\Fundings\AdditionalOfficeMoneyFlowBindingModel.cs" />
     <Compile Include="Models\Fundings\AdditionalProgramMoneyFlowBindingModel.cs" />
     <Compile Include="Models\Fundings\AdditionalProjectMoneyFlowBindingModel.cs" />
     <Compile Include="Models\Fundings\UpdatedMoneyFlowBindingModel.cs" />

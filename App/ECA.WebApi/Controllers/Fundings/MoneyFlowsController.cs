@@ -51,14 +51,135 @@ namespace ECA.WebApi.Controllers.Fundings
             this.userProvider = userProvider;
             this.moneyFlowService = moneyFlowService;
         }
+        #region Organization
+        /// <summary>
+        /// Returns the money flows for the organization with the given id.
+        /// </summary>
+        /// <param name="organizationId">The id of the organization.</param>
+        /// <param name="queryModel">The query model.</param>
+        /// <returns>The money flows.</returns>
+        [ResponseType(typeof(PagedQueryResults<MoneyFlowDTO>))]
+        [Route("Organizations/{organizationId:int}/MoneyFlows")]
+        public async Task<IHttpActionResult> GetMoneyFlowsByOrganizationIdAsync(int organizationId, [FromUri]PagingQueryBindingModel<MoneyFlowDTO> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var results = await this.moneyFlowService.GetMoneyFlowsByOrganizationIdAsync(organizationId, queryModel.ToQueryableOperator(DEFAULT_MONEY_FLOW_DTO_SORTER));
+                return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Creates a new organization money flow.
+        /// </summary>
+        /// <param name="model">The new organization money flow.</param>
+        /// <returns>An ok result.</returns>    
+        [Route("Organization/MoneyFlows")]
+        public Task<IHttpActionResult> PostCreateOrganizationMoneyFlowAsync([FromBody]AdditionalOrganizationMoneyFlowBindingModel model)
+        {
+            return DoCreateAsync(model);
+        }
+
+        /// <summary>
+        /// Updates the given organization's money flow.
+        /// </summary>
+        /// <param name="organizationId">The organization id.</param>
+        /// <param name="model">The updated money flow.</param>
+        /// <returns>An Ok result.</returns>
+        [Route("Organizations/{organizationId:int}/MoneyFlows")]
+        public Task<IHttpActionResult> PutUpdateOrganizationMoneyFlowAsync([FromBody]UpdatedMoneyFlowBindingModel model, int organizationId)
+        {
+            return DoUpdateAsync(model, organizationId);
+        }
+
+        /// <summary>
+        /// Deletes the given offices's money flow.
+        /// </summary>
+        /// <param name="organizationId">The organization id.</param>
+        /// <param name="id">The id of the money flow.</param>
+        /// <returns>An Ok result.</returns>
+        [Route("Organizations/{organizationId:int}/MoneyFlows/{id:int}")]
+        public Task<IHttpActionResult> DeleteOrganizationMoneyFlowAsync(int id, int organizationId)
+        {
+            return DoDeleteAsync(id, organizationId);
+        }
+
+        #endregion
+
+        #region Office
+        /// <summary>
+        /// Returns the money for the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The id of the office.</param>
+        /// <param name="queryModel">The query model.</param>
+        /// <returns>The money flows.</returns>
+        [ResponseType(typeof(PagedQueryResults<MoneyFlowDTO>))]
+        [Route("Offices/{officeId:int}/MoneyFlows")]
+        [ResourceAuthorize(Permission.VIEW_OFFICE_VALUE, ResourceType.OFFICE_VALUE, "officeId")]
+        public async Task<IHttpActionResult> GetMoneyFlowsByOfficeIdAsync(int officeId, [FromUri]PagingQueryBindingModel<MoneyFlowDTO> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var results = await this.moneyFlowService.GetMoneyFlowsByOfficeIdAsync(officeId, queryModel.ToQueryableOperator(DEFAULT_MONEY_FLOW_DTO_SORTER));
+                return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Creates a new office money flow.
+        /// </summary>
+        /// <param name="model">The new project money flow.</param>
+        /// <returns>An ok result.</returns>    
+        [Route("Office/MoneyFlows")]
+        [ResourceAuthorize(Permission.EDIT_OFFICE_VALUE, ResourceType.OFFICE_VALUE, typeof(AdditionalOfficeMoneyFlowBindingModel), "projectId")]
+        public Task<IHttpActionResult> PostCreateOfficeMoneyFlowAsync([FromBody]AdditionalOfficeMoneyFlowBindingModel model)
+        {
+            return DoCreateAsync(model);
+        }
+
+        /// <summary>
+        /// Updates the given office's money flow.
+        /// </summary>
+        /// <param name="officeId">The office id.</param>
+        /// <param name="model">The updated money flow.</param>
+        /// <returns>An Ok result.</returns>
+        [ResourceAuthorize(Permission.EDIT_OFFICE_VALUE, ResourceType.OFFICE_VALUE, "officeId")]
+        [Route("Offices/{officeId:int}/MoneyFlows")]
+        public Task<IHttpActionResult> PutUpdateOfficeMoneyFlowAsync([FromBody]UpdatedMoneyFlowBindingModel model, int officeId)
+        {
+            return DoUpdateAsync(model, officeId);
+        }
+
+        /// <summary>
+        /// Deletes the given office's money flow.
+        /// </summary>
+        /// <param name="officeId">The office id.</param>
+        /// <param name="id">The id of the money flow.</param>
+        /// <returns>An Ok result.</returns>
+        [ResourceAuthorize(Permission.EDIT_OFFICE_VALUE, ResourceType.OFFICE_VALUE, "officeId")]
+        [Route("Offices/{projectId:int}/MoneyFlows/{id:int}")]
+        public Task<IHttpActionResult> DeleteOfficeMoneyFlowAsync(int id, int officeId)
+        {
+            return DoDeleteAsync(id, officeId);
+        }
+
+        #endregion
 
         #region Project
         /// <summary>
         /// Returns the money for the project with the given id.
         /// </summary>
-        /// <param name="projectId"></param>
-        /// <param name="queryModel"></param>
-        /// <returns></returns>
+        /// <param name="projectId">The project id.</param>
+        /// <param name="queryModel">The query model.</param>
+        /// <returns>The money flows.</returns>
         [ResponseType(typeof(PagedQueryResults<MoneyFlowDTO>))]
         [Route("Projects/{projectId:int}/MoneyFlows")]
         [ResourceAuthorize(Permission.VIEW_PROJECT_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
