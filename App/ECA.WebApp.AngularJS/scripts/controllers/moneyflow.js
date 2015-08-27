@@ -259,6 +259,14 @@ angular.module('staticApp')
             .skip(0)
             .take($scope.view.searchLimit)
             .like(namePropertyName, search);
+
+
+          var x = [1, 2, 3];
+          angular.forEach(x, function (y, index) {
+              searchFilter = searchFilter.contains('countryId', 1);
+          })
+
+
           if (peerEntityTypeId === entity.entityTypeId) {
               $log.info('Including identical entity id not equal filter.');
               var id = entity.entityId;

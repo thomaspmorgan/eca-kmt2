@@ -104,9 +104,6 @@ angular.module('staticApp')
               isNull: function (propertyName) {
                   return this._addFilter(ConstantsService.isNullComparisonType, propertyName);
               },
-
-
-
               toParams: function () {
                   return {
                       start: this.start,

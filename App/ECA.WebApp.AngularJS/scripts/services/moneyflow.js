@@ -25,34 +25,41 @@ angular.module('staticApp')
           remove: function(moneyFlow, entityId) {
               var path = '';
               if (moneyFlow.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.project.id) {
-                  path = 'projects/' + entityId + '/moneyflows';
+                  path = 'projects';
               }
               else if (moneyFlow.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id) {
-                  path = 'programs/' + entityId + '/moneyflows';
+                  path = 'programs';
+              }
+              else if (moneyFlow.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.office.id) {
+                  path = 'offices';
+              }
+              else if (moneyFlow.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id) {
+                  path = 'organizations';
               }
               else {
                   throw Error('The money flow source recipient type is not yet recognized.');
               }
-              path += '/' + moneyFlow.id;
+              path += '/' + entityId + '/moneyflows/' + moneyFlow.id;
               return DragonBreath.delete(moneyFlow, path);
           },
           update: function (moneyFlow, entityId) {
               var path = '';
               if (moneyFlow.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.project.id) {
-                  path = 'projects/' + entityId + '/moneyflows';
+                  path = 'projects';
               }
               else if (moneyFlow.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id) {
-                  path = 'programs/' + entityId + '/moneyflows';
+                  path = 'programs';
               }
               else if (moneyFlow.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.office.id) {
-                  path = 'offices/' + entityId + '/moneyflows';
+                  path = 'offices';
               }
               else if (moneyFlow.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id) {
-                  path = 'organizations/' + entityId + '/moneyflows';
+                  path = 'organizations';
               }
               else {
                   throw Error('The money flow source recipient type is not yet recognized.');
               }
+              path += '/' + entityId + '/moneyflows';
               return DragonBreath.save(moneyFlow, path);
           },
           create: function (moneyFlow) {
