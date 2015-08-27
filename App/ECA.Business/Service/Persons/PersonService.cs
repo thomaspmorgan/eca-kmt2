@@ -78,10 +78,12 @@ namespace ECA.Business.Service.Persons
                 throw new EcaBusinessException("The person already exists.");
             }
             var personToUpdate = await GetPersonByIdAsync(pii.PersonId);
-            var cityOfBirth = await GetLocationByIdAsync(pii.CityOfBirthId);
+            var cityOfBirth = await GetLocationByIdAsync(pii.CityOfBirthId.GetValueOrDefault());
             var countriesOfCitizenship = await GetLocationsByIdAsync(pii.CountriesOfCitizenship);
+            /*
             var validationEntity = GetValidationEntity(pii, personToUpdate, cityOfBirth, countriesOfCitizenship);
             validator.ValidateUpdate(validationEntity);
+            */
             DoUpdate(pii, personToUpdate, cityOfBirth, countriesOfCitizenship);
 
             return personToUpdate;
@@ -323,13 +325,14 @@ namespace ECA.Business.Service.Persons
         /// <returns>The person created</returns>
         public async Task<Person> CreateAsync(NewPerson newPerson)
         {
-
+            /*
             var existingPerson = await GetExistingPerson(newPerson);
             if (existingPerson != null)
             {
                 this.logger.Trace("Found existing person {0}.", existingPerson);
                 throw new EcaBusinessException("The person already exists.");
             }
+            */
             var project = await GetProjectByIdAsync(newPerson.ProjectId);
             var countriesOfCitizenship = await GetLocationsByIdAsync(newPerson.CountriesOfCitizenship);
             var person = CreatePerson(newPerson, countriesOfCitizenship);
@@ -369,16 +372,16 @@ namespace ECA.Business.Service.Persons
         /// <param name="dateOfBirth">The date of birth</param>
         /// <param name="cityOfBirthId">The city of birth id</param>
         /// <returns>Queryable person object</returns>
-        private IQueryable<Person> CreateGetPerson(string firstName, string lastName, int genderId, DateTime dateOfBirth, int cityOfBirthId)
+        private IQueryable<Person> CreateGetPerson(string firstName, string lastName, int genderId, DateTime? dateOfBirth, int? cityOfBirthId)
         {
             return Context.People.Where(
                     x => x.FirstName.ToLower().Trim() == firstName.ToLower().Trim() &&
                          x.LastName.ToLower().Trim() == lastName.ToLower().Trim() &&
                          x.GenderId == genderId &&
                          x.DateOfBirth.HasValue &&
-                         x.DateOfBirth.Value.Day == dateOfBirth.Day &&
-                         x.DateOfBirth.Value.Month == dateOfBirth.Month &&
-                         x.DateOfBirth.Value.Year == dateOfBirth.Year &&
+                         x.DateOfBirth.Value.Day == dateOfBirth.Value.Day &&
+                         x.DateOfBirth.Value.Month == dateOfBirth.Value.Month &&
+                         x.DateOfBirth.Value.Year == dateOfBirth.Value.Year &&
                          x.PlaceOfBirthId == cityOfBirthId
                     );
         }
@@ -551,8 +554,7 @@ namespace ECA.Business.Service.Persons
 
         private PersonServiceValidationEntity GetValidationEntity(UpdatePii pii, Person person,  
                                                                   Location cityOfBirth, List<Location> countriesOfCititzenship) {
-            return new PersonServiceValidationEntity(person, pii.GenderId, pii.DateOfBirth, cityOfBirth, 
-                                                     countriesOfCititzenship);
+            return new PersonServiceValidationEntity(person, pii.GenderId, countriesOfCititzenship);
         }
 
 

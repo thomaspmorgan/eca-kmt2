@@ -42,14 +42,14 @@ angular.module('staticApp')
       $scope.showGeneral = true;
       $scope.showPii = false;
       $scope.showContact = true;
-      $scope.edit = [];
+      $scope.edit = {};
       $scope.edit.General = false;
       $scope.edit.Pii = false;
       $scope.datePickerOpen = false;
 
       $scope.maxDateOfBirth = new Date();
 
-      $scope.selectedCountriesOfCitizenship = [];
+      $scope.edit.selectedCountriesOfCitizenship = [];
 
       $scope.activityImageSet = [
           'images/placeholders/participant/activities1.png',
@@ -99,17 +99,6 @@ angular.module('staticApp')
           return null;
       };
 
-    //ParticipantService.getParticipantById($stateParams.participantId)
-    //  .then(function (data) {
-    //      $scope.participant = data;
-    //      loadPii(data.personId);
-    //      $scope.personIdDeferred.resolve(data.personId);
-    //      PersonService.getContactInfoById(data.personId)
-    //        .then(function (data) {
-    //            $scope.contactInfo = data;
-    //        });
-    //  });
-
     PersonService.getPersonById($stateParams.personId)
       .then(function (data) {
           $scope.person = data;
@@ -128,7 +117,7 @@ angular.module('staticApp')
                if ($scope.pii.dateOfBirth) {
                    $scope.pii.dateOfBirth = new Date($scope.pii.dateOfBirth);
                }
-               $scope.selectedCountriesOfCitizenship = $scope.pii.countriesOfCitizenship.map(function (obj) {
+               $scope.edit.selectedCountriesOfCitizenship = $scope.pii.countriesOfCitizenship.map(function (obj) {
                    var location = {};
                    location.id = obj.id;
                    location.name = obj.value;
@@ -175,6 +164,7 @@ angular.module('staticApp')
 
     $scope.saveEditPii = function () {
         setupPii();
+
         PersonService.updatePii($scope.pii, $scope.person.personId)
             .then(function () {
                 NotificationService.showSuccessMessage("The edit was successful.");
@@ -201,11 +191,9 @@ angular.module('staticApp')
 
     function setupPii() {
         $scope.pii.personId = $scope.person.personId;
-        //$scope.pii.participantId = $scope.participant.participantId;
-        $scope.pii.countriesOfCitizenship = $scope.selectedCountriesOfCitizenship.map(function (obj) {
+        $scope.pii.countriesOfCitizenship = $scope.edit.selectedCountriesOfCitizenship.map(function (obj) {
             return obj.id;
         });
-        //$scope.pii.sevisId = $scope.participant.sevisId;
     };
 
     $scope.openDatePicker = function ($event) {

@@ -12,6 +12,20 @@ namespace ECA.Data
 
     public partial class LocationType
     {
+
+        public readonly static int[] POLITICAL_LOCATION_TYPES = new int[]
+        {
+            LocationType.City.Id,
+            LocationType.Division.Id,
+            LocationType.Country.Id,
+            LocationType.Region.Id
+        };
+
+        public LocationType()
+        {
+            this.History = new History();
+        }
+
         [Key]
         public int LocationTypeId { get; set; }
         [Required]
@@ -19,5 +33,4 @@ namespace ECA.Data
 
         public History History { get; set; }
     }
-
 }

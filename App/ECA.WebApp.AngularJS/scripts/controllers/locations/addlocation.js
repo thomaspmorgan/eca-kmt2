@@ -15,6 +15,7 @@ angular.module('staticApp')
         $stateParams,
         $q,
         $log,
+        $compile,
         $modalInstance,
         smoothScroll,
         LookupService,
@@ -42,7 +43,8 @@ angular.module('staticApp')
       $scope.view.isTransformingLocation = false;
       $scope.view.isLongitudeRequired = false;
       $scope.view.isLatitudeRequired = false;
-      
+      $scope.view.matchingLocations = [];
+
 
       $scope.view.mapOptions = {
           center: new google.maps.LatLng(38.9071, -77.0368),
@@ -86,7 +88,7 @@ angular.module('staticApp')
           if ($item.division && !$scope.view.newLocation.divisionId) {
               $log.info('Auto populating division to location.');
               $scope.view.newLocation.divisionId = $item.divisionId;
-              
+
               return $q.all(loadDivisions(), checkNewLocationExistence())
               .then(function () {
 
@@ -144,7 +146,7 @@ angular.module('staticApp')
               delete $scope.view.newLocation.city;
               delete $scope.view.newLocation.cityId;
           }
-          if($scope.view.newLocation.locationTypeId === ConstantsService.locationType.place.id
+          if ($scope.view.newLocation.locationTypeId === ConstantsService.locationType.place.id
               || $scope.view.newLocation.locationTypeId === ConstantsService.locationType.building.id) {
               $scope.view.isLatitudeRequired = true;
               $scope.view.isLongitudeRequired = true;
@@ -153,22 +155,35 @@ angular.module('staticApp')
               $scope.view.isLatitudeRequired = false;
               $scope.view.isLongitudeRequired = false;
           }
+          return checkNewLocationExistence();
+      }
+
+
+      $scope.view.onSearchCityClick = function () {
+          return doGeocode($scope.view.search);
+      }
+
+      $scope.view.onLatitudeMapClick = function () {
+          var map = getNewLocationMap();
+          var center = map.getCenter();
+          $scope.view.newLocation.latitude = center.lat();
+          $scope.view.newLocation.longitude = center.lng();
       }
 
       var markers = [];
-      $scope.view.onSearchCityClick = function () {
-          $scope.view.isGeocoding = true;
+      function doGeocode(address) {
           clearMapMarkers();
-          return LocationService.geocode($scope.view.search)
+          $scope.view.isGeocoding = true;
+          return LocationService.geocode(address)
           .then(function (results) {
-              $scope.view.isGeocoding = false;
               if (results.length > 0) {
                   var map = getNewLocationMap();
                   var bounds = new google.maps.LatLngBounds();
                   angular.forEach(results, function (result, index) {
                       var marker = new google.maps.Marker({
                           position: result.geometry.location,
-                          map: map
+                          map: map,
+                          animation: google.maps.Animation.DROP,
                       });
                       marker.addListener('click', function () {
                           onMapMarkerClickHandler(marker, result);
@@ -181,19 +196,13 @@ angular.module('staticApp')
               else {
                   NotificationService.showWarningMessage('No results found for the search.');
               }
+              $scope.view.isGeocoding = false;
           })
           .catch(function (response) {
               $scope.view.isGeocoding = false;
               $log.error('Unable to perform search.');
               NotificationService.showErrorMessage("Unable to perform search.");
           });
-      }
-
-      $scope.view.onLatitudeMapClick = function () {
-          var map = getNewLocationMap();
-          var center = map.getCenter();
-          $scope.view.newLocation.latitude = center.lat();
-          $scope.view.newLocation.longitude = center.lng();
       }
 
       function clearCity() {
@@ -208,12 +217,20 @@ angular.module('staticApp')
           markers = [];
       }
 
+      var infoWindow = null;
       function onMapMarkerClickHandler(marker, geocodeResult) {
           $scope.view.isTransformingLocation = true;
           var map = getNewLocationMap();
-          var infoWindow = new google.maps.InfoWindow({
-              content: geocodeResult.formatted_address
-          });
+
+          $scope.geocodeResult = geocodeResult;
+          var content = '<div><ng-include src="\'views/locations/marker.html\'"></ng-include></div>';
+
+          var compiled = $compile(content)($scope);
+          if (infoWindow) {
+              infoWindow.close();
+          }
+          infoWindow = new google.maps.InfoWindow();
+          infoWindow.setContent(compiled[0]);
           infoWindow.open(map, marker);
           return LocationService.transformGeocodedLocation(geocodeResult)
           .then(function (transformedLocation) {
@@ -384,15 +401,17 @@ angular.module('staticApp')
           });
       }
 
+
       var existenceFilter = FilterService.add('addlocation_existencefilter');
       function checkNewLocationExistence() {
           $scope.view.locationExists = false;
+          $scope.view.matchingLocations = [];
           if ($scope.view.newLocation.locationTypeId !== ConstantsService.locationType.building.id
-              && $scope.view.newLocation.locationTypeId !== ConstantsService.locationType.place.id) {              
+              && $scope.view.newLocation.locationTypeId !== ConstantsService.locationType.place.id) {
               existenceFilter.reset();
               existenceFilter = existenceFilter
                   .skip(0)
-                  .take(1)
+                  .take(10)
                   .sortBy('name');
               if ($scope.view.newLocation.locationTypeId === ConstantsService.locationType.city.id) {
                   existenceFilter = existenceFilter.equal('locationTypeId', ConstantsService.locationType.city.id);
@@ -409,8 +428,8 @@ angular.module('staticApp')
               return LocationService.get(existenceFilter.toParams())
               .then(function (response) {
                   if (response.total > 0) {
-                      NotificationService.showWarningMessage('This location may already exist.');
                       $scope.view.locationExists = true;
+                      $scope.view.matchingLocations = response.results;
                   }
                   else {
                       $scope.view.locationExists = false;

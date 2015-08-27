@@ -294,7 +294,7 @@
                                 <div class="form-group">
                                     <label for="">PLACE OF BIRTH - COUNTRY<span class="asterisk"> *</span></label>
                                     <isteven-multi-select input-model="countries" output-model="newParticipant.countryOfBirth" button-label="name" item-label="name" tick-property="ticked" selection-mode="single" on-item-click="birthCountrySelected(data)"></isteven-multi-select>
-                                    <input type="text" ng-model="newParticipant.countryOfBirth" required style="display: none">
+                                    <input type="text" ng-model="newParticipant.countryOfBirth" style="display: none">
                                 </div>
                                 <div class="form-group">
                                     <label for="">COUNTRIES OF CITIZENSHIP<span class="asterisk"> *</span></label>
@@ -328,7 +328,6 @@
                                                 datepicker-popup="{{view.dateFormat}}"
                                                 ng-model="newParticipant.dateOfBirth"
                                                 is-open="view.isDobDatePickerOpen"
-                                                ng-required="true"
                                                 close-text="Close"
                                                 form-element guidance="Date of birth of the participant." />
                                         <span class="input-group-btn">
@@ -339,7 +338,7 @@
                                 <div class="form-group">
                                     <label for="">PLACE OF BIRTH - CITY<span class="asterisk"> *</span></label>
                                     <isteven-multi-select input-model="cities" output-model="newParticipant.cityOfBirth" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
-                                    <input type="text" ng-model="newParticipant.cityOfBirth" required style="display: none">
+                                    <input type="text" ng-model="newParticipant.cityOfBirth" style="display: none">
                                 </div>
                                 <!--
                                 <div class="form-group">

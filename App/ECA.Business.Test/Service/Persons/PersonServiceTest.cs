@@ -1670,27 +1670,6 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        [ExpectedException(typeof(EcaBusinessException), "The person already exists.")]
-        public async Task TestCreateAsync_Duplicate()
-        {
-            var existingPerson = new Person
-            {
-                FirstName = "firstName",
-                LastName = "lastName",
-                GenderId = Gender.Female.Id,
-                DateOfBirth = DateTime.Now,
-                PlaceOfBirthId = 1
-            };
-
-            context.People.Add(existingPerson);
-
-            var newPerson = new NewPerson(new User(0), 1, existingPerson.FirstName, existingPerson.LastName,
-                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value, 1,
-                                          new List<int>());
-            var person = await service.CreateAsync(newPerson);
-        }
-
-        [TestMethod]
         public async Task TestGetExistingPerson_DoesNotExist()
         {
             var newPerson = new NewPerson(new User(0), 1, "firstName", "lastName", 1, DateTime.Now, 1, new List<int>());

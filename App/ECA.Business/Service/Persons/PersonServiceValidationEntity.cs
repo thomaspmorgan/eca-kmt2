@@ -23,13 +23,10 @@ namespace ECA.Business.Service.Persons
         /// <param name="dateOfBirth">The date of birth</param>
         /// <param name="cityOfBirth">The city of birth</param>
         /// <param name="countriesOfCitizenship">The countries of citizenship</param>
-        public PersonServiceValidationEntity(Person person, int genderId, 
-                                             DateTime dateOfBirth, Location cityOfBirth, List<Location> countriesOfCitizenship)
+        public PersonServiceValidationEntity(Person person, int genderId, List<Location> countriesOfCitizenship)
         {
             this.Person = person;
             this.GenderId = genderId;
-            this.DateOfBirth = dateOfBirth;
-            this.CityOfBirth = cityOfBirth;
             this.CountriesOfCitizenship = countriesOfCitizenship;
         }
 
@@ -47,16 +44,6 @@ namespace ECA.Business.Service.Persons
         /// Gets or sets gender id
         /// </summary>
         public int GenderId { get; private set; }
-
-        /// <summary>
-        /// Gets or sets date of birth
-        /// </summary>
-        public DateTime DateOfBirth { get; private set; }
-
-        /// <summary>
-        /// Gets or sets city or birth
-        /// </summary>
-        public Location CityOfBirth { get; private set; }
 
         /// <summary>
         /// Gets or sets countries of citizenship
