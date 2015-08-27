@@ -9,7 +9,7 @@
  */
 angular.module('staticApp')
 	.constant('API_PREFIX', 'api/')
-	.constant('API_ENDPOINT_CLOUDAPP_DEV', 'https://ecaapi-kmt-dev.azurewebsites.net/')
+	.constant('API_ENDPOINT_CLOUDAPP_DEV', 'https://kmtapi-dev.azurewebsites.net/')
 	.constant('API_ENDPOINT_CLOUDAPP_QA', 'https://ecaapi-kmt-qa.azurewebsites.net/')
     .constant('API_ENDPOINT_CLOUDAPP_PRE', 'https://ecaapi-kmt-pre.azurewebsites.net/')
     .constant('API_ENDPOINT_CLOUDAPP_UAT', 'https://kmtapi.state.gov/')

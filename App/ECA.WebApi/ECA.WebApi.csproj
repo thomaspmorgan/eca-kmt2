@@ -585,6 +585,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\PublishProfiles\kmtapi-dev %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\kmtapi-dev.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
