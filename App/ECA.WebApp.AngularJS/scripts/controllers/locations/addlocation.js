@@ -17,7 +17,6 @@ angular.module('staticApp')
         $log,
         $compile,
         $modalInstance,
-        smoothScroll,
         LookupService,
         LocationService,
         ConstantsService,
@@ -36,6 +35,7 @@ angular.module('staticApp')
       $scope.view.isGeocoding = false;
       $scope.view.isLoadingRequiredData = false;
       $scope.view.isLoadingCities = false;
+      $scope.view.isLoadingDivisions = false;
       $scope.view.isSavingNewLocation = false;
       $scope.view.isMapIdle = false;
       $scope.view.search = '';
@@ -44,11 +44,11 @@ angular.module('staticApp')
       $scope.view.isLongitudeRequired = false;
       $scope.view.isLatitudeRequired = false;
       $scope.view.matchingLocations = [];
-
+      $scope.view.totalMatchingLocations = 0;
 
       $scope.view.mapOptions = {
           center: new google.maps.LatLng(38.9071, -77.0368),
-          zoom: 5,
+          zoom: 0,
           mapTypeId: google.maps.MapTypeId.ROADMAP
       };
       $scope.view.newLocation = getNewLocation();
@@ -57,6 +57,7 @@ angular.module('staticApp')
           loadDivisions();
           setRegionByCountryId($scope.view.newLocation.countryId);
           clearCity();
+          clearLatAndLong();
           return checkNewLocationExistence();
       }
 
@@ -71,6 +72,7 @@ angular.module('staticApp')
       $scope.view.onSelectCityBlur = function ($event) {
           if ($scope.view.newLocation.city === '') {
               clearCity();
+              clearLatAndLong();
           }
       };
 
@@ -101,6 +103,7 @@ angular.module('staticApp')
 
       $scope.view.onDivisionChange = function () {
           clearCity();
+          clearLatAndLong();
           return checkNewLocationExistence();
       }
 
@@ -134,7 +137,10 @@ angular.module('staticApp')
       }
 
       $scope.view.onSaveClick = function () {
-          return saveNewLocation();
+          return saveNewLocation()
+              .then(function (loc) {
+                  $modalInstance.close(loc);
+              });
       }
 
       $scope.view.onCloseClick = function () {
@@ -143,6 +149,7 @@ angular.module('staticApp')
 
       $scope.view.onLocationTypeChange = function () {
           if ($scope.view.newLocation.locationTypeId === ConstantsService.locationType.city.id) {
+              $scope.view.newLocation.city = '';
               delete $scope.view.newLocation.city;
               delete $scope.view.newLocation.cityId;
           }
@@ -169,6 +176,7 @@ angular.module('staticApp')
           $scope.view.newLocation.latitude = center.lat();
           $scope.view.newLocation.longitude = center.lng();
       }
+
 
       var markers = [];
       function doGeocode(address) {
@@ -205,6 +213,11 @@ angular.module('staticApp')
           });
       }
 
+      function clearLatAndLong() {
+          delete $scope.view.newLocation.longitude;
+          delete $scope.view.newLocation.latitude;
+      }
+
       function clearCity() {
           delete $scope.view.newLocation.cityId;
           delete $scope.view.newLocation.city;
@@ -226,6 +239,7 @@ angular.module('staticApp')
           var content = '<div><ng-include src="\'views/locations/marker.html\'"></ng-include></div>';
 
           var compiled = $compile(content)($scope);
+          debugger;
           if (infoWindow) {
               infoWindow.close();
           }
@@ -308,6 +322,7 @@ angular.module('staticApp')
 
       var divisionsFilter = FilterService.add('addlocation_divisions');
       function loadDivisions() {
+          $scope.view.isLoadingDivisions = true;
           var countryId = $scope.view.newLocation.countryId;
           divisionsFilter.reset();
           var divisionsParams = divisionsFilter
@@ -320,8 +335,10 @@ angular.module('staticApp')
           return LocationService.get(divisionsParams)
           .then(function (response) {
               $scope.view.divisions = response.results;
+              $scope.view.isLoadingDivisions = false;
           })
           .catch(function () {
+              $scope.view.isLoadingDivisions = false;
               var message = "Unable to load divisions.";
               NotificationService.showErrorMessage(message);
               $log.error(message);
@@ -392,6 +409,8 @@ angular.module('staticApp')
           .then(function (response) {
               NotificationService.showSuccessMessage("Successfully saved location.");
               $scope.view.isSavingNewLocation = false;
+              var savedLocation = response.data;
+              return savedLocation;
           })
           .catch(function (response) {
               var message = "Unable to save location.";
@@ -406,42 +425,35 @@ angular.module('staticApp')
       function checkNewLocationExistence() {
           $scope.view.locationExists = false;
           $scope.view.matchingLocations = [];
-          if ($scope.view.newLocation.locationTypeId !== ConstantsService.locationType.building.id
-              && $scope.view.newLocation.locationTypeId !== ConstantsService.locationType.place.id) {
-              existenceFilter.reset();
-              existenceFilter = existenceFilter
-                  .skip(0)
-                  .take(10)
-                  .sortBy('name');
-              if ($scope.view.newLocation.locationTypeId === ConstantsService.locationType.city.id) {
-                  existenceFilter = existenceFilter.equal('locationTypeId', ConstantsService.locationType.city.id);
-              }
-              if ($scope.view.newLocation.name && $scope.view.newLocation.name.length > 0) {
-                  existenceFilter = existenceFilter.like('name', $scope.view.newLocation.name)
-              }
-              if ($scope.view.newLocation.countryId) {
-                  existenceFilter = existenceFilter.equal('countryId', $scope.view.newLocation.countryId);
-              }
-              if ($scope.view.newLocation.divisionId) {
-                  existenceFilter = existenceFilter.equal('divisionId', $scope.view.newLocation.divisionId);
-              }
-              return LocationService.get(existenceFilter.toParams())
-              .then(function (response) {
-                  if (response.total > 0) {
-                      $scope.view.locationExists = true;
-                      $scope.view.matchingLocations = response.results;
-                  }
-                  else {
-                      $scope.view.locationExists = false;
-                  }
-              })
-              .catch(function (response) {
-                  var message = "Unable to validate location.";
-                  $log.error(message);
-                  NotificationService.showErrorMessage(message);
-              });
+          existenceFilter.reset();
+          existenceFilter = existenceFilter
+              .skip(0)
+              .take(10)
+              .sortBy('name');
+          if ($scope.view.newLocation.locationTypeId) {
+              existenceFilter = existenceFilter.equal('locationTypeId', $scope.view.newLocation.locationTypeId);
           }
-          return;
+          if ($scope.view.newLocation.name && $scope.view.newLocation.name.length > 0) {
+              existenceFilter = existenceFilter.like('name', $scope.view.newLocation.name)
+          }
+          if ($scope.view.newLocation.countryId) {
+              existenceFilter = existenceFilter.equal('countryId', $scope.view.newLocation.countryId);
+          }
+          if ($scope.view.newLocation.divisionId) {
+              existenceFilter = existenceFilter.equal('divisionId', $scope.view.newLocation.divisionId);
+          }
+          return LocationService.get(existenceFilter.toParams())
+          .then(function (response) {
+              $scope.view.locationExists = response.total > 0;
+              $scope.view.matchingLocations = response.results;
+              $scope.view.totalMatchingLocations = response.total;
+          })
+          .catch(function (response) {
+              var message = "Unable to validate location.";
+              $log.error(message);
+              NotificationService.showErrorMessage(message);
+          });
+
       }
 
       $scope.view.isLoadingRequiredData = true;
