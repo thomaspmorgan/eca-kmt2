@@ -16,6 +16,7 @@ angular.module('staticApp')
         $state,
         $modal,
         $timeout,
+        smoothScroll,
         ProjectService,
         ProgramService,
         TableService,
@@ -61,6 +62,7 @@ angular.module('staticApp')
 
       $scope.editView.categoryLabel = "...";
       $scope.editView.objectiveLabel = "...";
+      $scope.editView.locationUiSelectId = 'selectLocations';
 
       $scope.editView.loadProjectStati = function () {
           loadProjectStati();
@@ -166,6 +168,7 @@ angular.module('staticApp')
 
           modalInstance.result.then(function (selectedLocations) {
               $log.info('Finished searching locations.');
+              scrollToLocations();
               normalizeLookupProperties(selectedLocations)
               angular.forEach(selectedLocations, function (selectedLocation, index) {
                   var addLocation = true;
@@ -178,9 +181,22 @@ angular.module('staticApp')
                       $scope.editView.selectedLocations.push(selectedLocation);
                   }
               });
+              
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });
+      }
+
+      function scrollToLocations() {
+          var options = {
+              duration: 500,
+              easing: 'easeIn',
+              offset: 200,
+              callbackBefore: function (element) { },
+              callbackAfter: function (element) { }
+          }
+          var element = document.getElementById($scope.editView.locationUiSelectId);
+          smoothScroll(element, options);
       }
 
       function cancelEdit() {
@@ -458,7 +474,7 @@ angular.module('staticApp')
       var categoriesFilter = FilterService.add('projectedit_categoriesfilter');
       function loadCategories(search) {
           categoriesFilter.reset();
-          categoriesFilter = categoriesFilter.skip(0).take(maxLimit);          
+          categoriesFilter = categoriesFilter.skip(0).take(maxLimit);
           if (search) {
               categoriesFilter = categoriesFilter.like('name', search);
           }
@@ -480,7 +496,7 @@ angular.module('staticApp')
       var objectivesFilter = FilterService.add('projectedit_objectivesfilter');
       function loadObjectives(search) {
           objectivesFilter.reset();
-          objectivesFilter = objectivesFilter.skip(0).take(maxLimit);          
+          objectivesFilter = objectivesFilter.skip(0).take(maxLimit);
           if (search) {
               objectivesFilter = objectivesFilter.like('name', search);
           }
@@ -596,8 +612,6 @@ angular.module('staticApp')
               setSelectedLocations();
               showProjectEditCancelButton();
               $scope.editView.isLoading = false;
-
-              $scope.editView.onAdvancedSearchClick();
           })
           .catch(function () {
               $log.error('Unable to project edit data.');
@@ -608,6 +622,4 @@ angular.module('staticApp')
           $log.error('Failed to load project in edit.js project controller.');
           $scope.editView.isLoading = false;
       })
-
-      
   });

@@ -54,15 +54,16 @@ angular.module('staticApp')
       }
 
       $scope.view.onAddClick = function () {
-          var modalInstance = $modal.open({
+          var addLocationModalInstance = $modal.open({
               animation: true,
               templateUrl: 'views/locations/addlocationmodal.html',
               controller: 'AddLocationCtrl',
               size: 'lg',
               resolve: {}
           });
-          modalInstance.result.then(function (selectedLocations) {
+          addLocationModalInstance.result.then(function (addedLocation) {
               $log.info('Finished adding locations.');
+              $modalInstance.close([addedLocation]);
               
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
@@ -149,8 +150,6 @@ angular.module('staticApp')
       $q.all([getLocationTypes(), loadContries(), loadRegions()])
         .then(function () {
             $scope.view.isLoadingRequiredData = false;
-
-            $scope.view.onAddClick();
         })
         .catch(function () {
             $scope.view.isLoadingRequiredData = false;

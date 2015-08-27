@@ -27,7 +27,7 @@
                                     <div class="error" ng-show="form.addLocationForm.locationTypeId.$error.required">Please select a location type.</div>
                                 </div>
                             </div>
-                            <div class="form-group" ng-class="{ 'has-error': view.locationExists, 'has-feedback': view.locationExists}">
+                            <div class="form-group" ng-class="{ 'has-warning': view.locationExists, 'has-feedback': view.locationExists}">
                                 <label for="locationName">Name<span class="asterisk"> *</span></label>
                                 <input name="locationName"
                                        ng-model="view.newLocation.name"
@@ -45,11 +45,11 @@
                                 <div ng-show="form.addLocationForm.locationName.$dirty || form.addLocationForm.locationName.$error.required">
                                     <div class="error" ng-show="form.addLocationForm.locationName.$error.required">Please enter a name.</div>
                                 </div>
-                                <div ng-show="view.locationExists" class="error">
-                                    There {{view.matchingLocations.length > 1 ? 'are' : 'is'}}
-                                    {{view.matchingLocations.length}}
-                                    location{{view.matchingLocations.length > 1 ? 's' : ''}}
-                                    that match{{view.matchingLocations.length == 1 ? 'es' : ''}}
+                                <div ng-show="view.locationExists" class="warning">
+                                    There {{view.totalMatchingLocations > 1 ? 'are' : 'is'}}
+                                    {{view.totalMatchingLocations}}
+                                    location{{view.totalMatchingLocations > 1 ? 's' : ''}}
+                                    that match{{view.totalMatchingLocations == 1 ? 'es' : ''}}
                                     this new location.
                                 </div>
                             </div>
@@ -65,14 +65,18 @@
                                         required />
                             </div>
                             <div class="form-group">
-                                <label for="divisionId">Division</label>
+                                <label for="divisionId">
+                                    Division
+                                    <i style="margin-left:30px;" class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingDivisions">autorenew</i>
+                                </label>
                                 <select class="form-control"
                                         id="divisionId"
                                         name="divisionId"
-                                        ng-disabled="view.isSavingNewLocation || view.isTransformingLocation"
+                                        ng-disabled="view.isSavingNewLocation || view.isTransformingLocation || view.isLoadingDivisions"
                                         ng-model="view.newLocation.divisionId"
                                         ng-change="view.onDivisionChange()"
                                         ng-options="t.id as t.name for t in view.divisions" />
+
                             </div>
                             <div class="form-group">
                                 <label for="cityId">City</label>
@@ -103,7 +107,7 @@
                                            type="number"
                                            class="form-control"
                                            ng-disabled="view.isSavingNewLocation || view.isTransformingLocation"
-                                           placeholder="Enter location latitude."
+                                           placeholder="Enter latitude or use the map's' center."
                                            ng-change="view.onLatitudeChange()"
                                            id="latitude"
                                            ng-required="view.isLatitudeRequired" />
@@ -129,7 +133,7 @@
                                        type="number"
                                        class="form-control"
                                        ng-disabled="view.isSavingNewLocation || view.isTransformingLocation"
-                                       placeholder="Enter location longitude."
+                                       placeholder="Enter longitude or use the map's' center."
                                        id="longitude"
                                        ng-change="view.onLongitudeChange()"
                                        ng-required="view.isLongitudeRequired" />
@@ -140,6 +144,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
+                                <label for="longitude">Google</label>
                                 <p class="input-group">
                                     <input name="search"
                                            ng-model="view.search"
@@ -161,8 +166,8 @@
                                  ng-disabled="view.isSavingNewLocation || view.isTransformingLocation"
                                  ui-map="view.newLocationMap"
                                  ui-options="view.mapOptions"
-                                 style="height: 450px; width: 400px;"
-                                 ui-event="{'map-idle' : 'onMapIdle()'}">
+                                 style="height: 500px; width: 400px;"
+                                 ui-event="{'map-idle' : 'view.onMapIdle()'}">
                             </div>
                             <div class="spinner" ng-show="view.isTransformingLocation">
                                 <div class="bounce1"></div>
@@ -178,7 +183,7 @@
 </div>
 <div class="modal-footer">
     <div class="pull-right">
-        <button ng-click="view.onSaveClick()" class="btn btn-primary" ng-disabled="form.addLocationForm.$invalid || view.locationExists">
+        <button ng-click="view.onSaveClick()" class="btn btn-primary" ng-disabled="form.addLocationForm.$invalid || view.locationExists || view.isSavingNewLocation">
             Save
         </button>
         <button ng-click="view.onCloseClick()" class="btn btn-cancel">Close</button>
