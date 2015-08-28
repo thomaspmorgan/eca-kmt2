@@ -84,7 +84,14 @@
                         {{moneyFlow.moneyFlowStatus}}
                     </td>
                     <td>{{moneyFlow.sourceRecipientTypeName}}</td>
-                    <td>{{moneyFlow.sourceRecipientName}}</td>
+                    <td>
+                        <span ng-if="moneyFlow.href" class="bookmark">
+                            <a href="{{moneyFlow.href}}" target="_blank">{{moneyFlow.sourceRecipientName}}</a>
+                        </span>
+                        <span ng-if="!moneyFlow.href">
+                            {{moneyFlow.sourceRecipientName}}
+                        </span>
+                    </td>
                     <td>
                         <span class="{{moneyFlow.amount < 0 ? 'outgoingMoneyFlow' : 'incomingMoneyFlow'}}">{{moneyFlow.amount < 0 ? '-' : '+'}}{{moneyFlow.amount | currency}}</span>
                     </td>

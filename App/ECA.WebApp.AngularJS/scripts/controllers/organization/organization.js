@@ -22,7 +22,8 @@ angular.module('staticApp')
           overview: { title: 'Overview', path: 'overview', active: true, order: 1 },
           artifacts: { title: 'Attachments', path: 'artifacts', active: true, order: 2 },
           impact: { title: 'Impact', path: 'impact', active: true, order: 3 },
-          activity: { title: 'Timeline', path: 'activities', active: true, order: 4 }
+          activity: { title: 'Timeline', path: 'activities', active: true, order: 4 },
+          fundings: { title: 'Funding', path: 'moneyflows', active: true, order: 5 }
       };
 
       $scope.view.organizationId = $stateParams.organizationId;
