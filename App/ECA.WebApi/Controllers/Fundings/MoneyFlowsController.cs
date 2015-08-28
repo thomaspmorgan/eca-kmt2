@@ -139,7 +139,7 @@ namespace ECA.WebApi.Controllers.Fundings
         /// <param name="model">The new project money flow.</param>
         /// <returns>An ok result.</returns>    
         [Route("Office/MoneyFlows")]
-        [ResourceAuthorize(Permission.EDIT_OFFICE_VALUE, ResourceType.OFFICE_VALUE, typeof(AdditionalOfficeMoneyFlowBindingModel), "projectId")]
+        [ResourceAuthorize(Permission.EDIT_OFFICE_VALUE, ResourceType.OFFICE_VALUE, typeof(AdditionalOfficeMoneyFlowBindingModel), "officeId")]
         public Task<IHttpActionResult> PostCreateOfficeMoneyFlowAsync([FromBody]AdditionalOfficeMoneyFlowBindingModel model)
         {
             return DoCreateAsync(model);
@@ -165,7 +165,7 @@ namespace ECA.WebApi.Controllers.Fundings
         /// <param name="id">The id of the money flow.</param>
         /// <returns>An Ok result.</returns>
         [ResourceAuthorize(Permission.EDIT_OFFICE_VALUE, ResourceType.OFFICE_VALUE, "officeId")]
-        [Route("Offices/{projectId:int}/MoneyFlows/{id:int}")]
+        [Route("Offices/{officeId:int}/MoneyFlows/{id:int}")]
         public Task<IHttpActionResult> DeleteOfficeMoneyFlowAsync(int id, int officeId)
         {
             return DoDeleteAsync(id, officeId);

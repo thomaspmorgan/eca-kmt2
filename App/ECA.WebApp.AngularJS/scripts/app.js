@@ -449,6 +449,11 @@ angular
             controller: 'OrganizationActivitiesCtrl',
             requireADLogin: true
         })
+        .state('organizations.moneyflows', {
+            url: '/moneyflows',
+            templateUrl: 'views/organizations/moneyflows.html',
+            requireADLogin: true
+        })
         .state('partner', {
             url: '/partner',
             templateUrl: 'views/partner.html',

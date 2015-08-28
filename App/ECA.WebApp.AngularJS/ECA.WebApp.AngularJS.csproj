@@ -193,10 +193,12 @@
     <Content Include="scripts\services\socialmediaservice.js" />
     <Content Include="scripts\services\addressservice.js" />
     <Content Include="scripts\services\participantperson.js" />
+    <Content Include="scripts\services\stateservice.js" />
     <Content Include="scripts\services\userservice.js" />
     <Content Include="views\directives\confirmdialog.html" />
     <Content Include="views\directives\equalityfilter.html" />
     <Content Include="views\directives\languageProficiencies.html" />
+    <Content Include="views\directives\moneyflow.html" />
     <Content Include="views\directives\moneyflows.html" />
     <Content Include="views\directives\memberships.html" />
     <Content Include="views\directives\socialmedias.html" />
@@ -207,6 +209,7 @@
     <Content Include="views\organizations\activities.html" />
     <Content Include="views\organizations\impact.html" />
     <Content Include="views\organizations\artifacts.html" />
+    <Content Include="views\organizations\moneyflows.html" />
     <Content Include="views\organizations\overview.html" />
     <Content Include="views\organizations\partials\editdetails.html" />
     <Content Include="views\partials\collaborators.html" />

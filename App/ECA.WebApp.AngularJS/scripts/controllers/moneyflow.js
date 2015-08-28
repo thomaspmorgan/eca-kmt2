@@ -119,11 +119,9 @@ angular.module('staticApp')
 
       $scope.view.formatPeerEntity = function ($item, $model, $label) {
           if (!$model) {
-              $log.info("return empty string");
               return '';
           }
           else {
-              $log.info("return primary text");
               return $model.primaryText;
           }
       }
@@ -143,6 +141,10 @@ angular.module('staticApp')
               moneyFlow.isExpense = false;
               $scope.view.isSourceRecipientFieldEnabled = true;
               $scope.view.isSourceRecipientFieldRequired = true;
+          }
+          if (!moneyFlow.peerEntityTypeId) {
+              //user hasn't selected a source/recipient type yet
+              $scope.view.isSourceRecipientFieldEnabled = false;
           }
       }
 
@@ -305,7 +307,7 @@ angular.module('staticApp')
               moneyFlow.officeId = entity.entityId;
           }
           else if (entity.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id) {
-              moneyFlow.organization = entity.entityId;
+              moneyFlow.organizationId = entity.entityId;
           }
           else {
               throw Error('The money flow source recipient type is not yet supported.');
@@ -378,7 +380,6 @@ angular.module('staticApp')
           });
       }
 
-
       $scope.view.isLoadingRequiredData = true;
       $q.all([getMoneyFlowSourceRecipientTypes(), getAllMoneyFlowTypes(), getAllMoneyFlowStati()])
         .then(function () {
@@ -387,6 +388,4 @@ angular.module('staticApp')
         .catch(function () {
             $scope.view.isLoadingRequiredData = false;
         });
-
-
   });
