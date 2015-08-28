@@ -13,6 +13,7 @@ namespace ECA.WebApi.Test.Models.Fundings
         public void TestToUpdatedMoneyFlow()
         {
             var sourceEntityId = 2;
+            var entityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             var model = new UpdatedMoneyFlowBindingModel
             {
                 Description = "desc",
@@ -23,7 +24,7 @@ namespace ECA.WebApi.Test.Models.Fundings
                 Amount = 1.00m
             };
             var user = new User(1);
-            var instance = model.ToUpdatedMoneyFlow(user, sourceEntityId);
+            var instance = model.ToUpdatedMoneyFlow(user, sourceEntityId, entityTypeId);
             Assert.IsTrue(Object.ReferenceEquals(user, instance.Audit.User));
             Assert.AreEqual(model.Description, instance.Description);
             Assert.AreEqual(model.FiscalYear, instance.FiscalYear);
@@ -32,6 +33,7 @@ namespace ECA.WebApi.Test.Models.Fundings
             Assert.AreEqual(model.TransactionDate, instance.TransactionDate);
             Assert.AreEqual(model.Amount, instance.Value);
             Assert.AreEqual(sourceEntityId, instance.SourceOrRecipientEntityId);
+            Assert.AreEqual(entityTypeId, instance.SourceOrRecipientEntityTypeId);
         }
     }
 }

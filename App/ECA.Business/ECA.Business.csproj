@@ -132,6 +132,7 @@
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
     <Compile Include="Queries\Persons\LanguageProficiencyQueries.cs" />
     <Compile Include="Queries\Persons\MembershipQueries.cs" />
+    <Compile Include="Service\Fundings\EditedMoneyFlow.cs" />
     <Compile Include="Service\Lookup\ILanguageService.cs" />
     <Compile Include="Service\Lookup\LanguageDTO.cs" />
     <Compile Include="Service\Lookup\LanguageService.cs" />

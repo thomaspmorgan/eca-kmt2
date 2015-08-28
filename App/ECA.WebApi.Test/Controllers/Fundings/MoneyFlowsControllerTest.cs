@@ -25,13 +25,37 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         private Mock<IMoneyFlowService> moneyFlowService;
         private Mock<IUserProvider> userProvider;
         private MoneyFlowsController controller;
+        private Action<int> verifyUpdateMoneyFlowSourceRecipientEntityTypeId;
+        private EditedMoneyFlow expectedMoneyFlow;
 
         [TestInitialize]
-        public void TestInit() 
+        public void TestInit()
         {
+            expectedMoneyFlow = null;
             moneyFlowService = new Mock<IMoneyFlowService>();
             userProvider = new Mock<IUserProvider>();
             controller = new MoneyFlowsController(moneyFlowService.Object, userProvider.Object);
+
+
+            Action<EditedMoneyFlow> updateOrDeleteMoneyFlowCallback = (givenMoneyFlow) =>
+            {
+                Assert.IsNotNull(expectedMoneyFlow, "Call SetExpectedEditedMoneyFlow in the update or delete test.");
+                Assert.AreEqual(expectedMoneyFlow.Id, givenMoneyFlow.Id);
+                Assert.AreEqual(expectedMoneyFlow.SourceOrRecipientEntityId, givenMoneyFlow.SourceOrRecipientEntityId);
+                Assert.AreEqual(expectedMoneyFlow.SourceOrRecipientEntityTypeId, givenMoneyFlow.SourceOrRecipientEntityTypeId);
+            };
+
+            moneyFlowService.Setup(x => x.UpdateAsync(It.IsAny<UpdatedMoneyFlow>()))
+                .Returns(Task.FromResult<object>(null))
+                .Callback(updateOrDeleteMoneyFlowCallback);
+            moneyFlowService.Setup(x => x.DeleteAsync(It.IsAny<DeletedMoneyFlow>()))
+                .Returns(Task.FromResult<object>(null))
+                .Callback(updateOrDeleteMoneyFlowCallback);
+        }
+
+        private void SetExpectedEditedMoneyFlow(int id, int entityId, int entityTypeId)
+        {
+            expectedMoneyFlow = new EditedMoneyFlow(id, entityId, entityTypeId);
         }
 
         #region Get moneyflows by project
@@ -239,6 +263,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             {
                 MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
             };
+            SetExpectedEditedMoneyFlow(model.Id, entityId, MoneyFlowSourceRecipientType.Office.Id);
             var response = await controller.PutUpdateOfficeMoneyFlowAsync(model, entityId);
             Assert.IsInstanceOfType(response, typeof(OkResult));
             userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
@@ -263,11 +288,12 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         [TestMethod]
         public async Task TestPutUpdateOrganizationMoneyFlowAsync()
         {
-            var entityId = 1;
+            var entityId = 100;
             var model = new UpdatedMoneyFlowBindingModel
             {
                 MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
             };
+            SetExpectedEditedMoneyFlow(model.Id, entityId, MoneyFlowSourceRecipientType.Organization.Id);
             var response = await controller.PutUpdateOrganizationMoneyFlowAsync(model, entityId);
             Assert.IsInstanceOfType(response, typeof(OkResult));
             userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
@@ -280,7 +306,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         public async Task TestPutUpdateOrganizationMoneyFlowAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
-            var entityId = 1;
+            var entityId = 100;
             var model = new UpdatedMoneyFlowBindingModel
             {
                 MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
@@ -293,11 +319,12 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         [TestMethod]
         public async Task TestPutUpdateProjectMoneyFlowAsync()
         {
-            var entityId = 1;
+            var entityId = 100;
             var model = new UpdatedMoneyFlowBindingModel
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,                
+                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
             };
+            SetExpectedEditedMoneyFlow(model.Id, entityId, MoneyFlowSourceRecipientType.Project.Id);
             var response = await controller.PutUpdateProjectMoneyFlowAsync(model, entityId);
             Assert.IsInstanceOfType(response, typeof(OkResult));
             userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
@@ -310,7 +337,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         public async Task TestPutUpdateProjectMoneyFlowAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
-            var entityId = 1;
+            var entityId = 100;
             var model = new UpdatedMoneyFlowBindingModel
             {
                 MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
@@ -322,11 +349,12 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         [TestMethod]
         public async Task TestPutUpdateProgramMoneyFlowAsync()
         {
-            var entityId = 1;
+            var entityId = 100;
             var model = new UpdatedMoneyFlowBindingModel
             {
                 MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
             };
+            SetExpectedEditedMoneyFlow(model.Id, entityId, MoneyFlowSourceRecipientType.Program.Id);
             var response = await controller.PutUpdateProgramMoneyFlowAsync(model, entityId);
             Assert.IsInstanceOfType(response, typeof(OkResult));
             userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
@@ -339,7 +367,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         public async Task TestPutUpdateProgramMoneyFlowAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
-            var entityId = 1;
+            var entityId = 100;
             var model = new UpdatedMoneyFlowBindingModel
             {
                 MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
@@ -353,8 +381,9 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         [TestMethod]
         public async Task TestDeleteOfficeMoneyFlowAsync()
         {
-            var moneyFlowId = 1;
-            var entityId = 2;
+            var moneyFlowId = 100;
+            var entityId = 200;
+            SetExpectedEditedMoneyFlow(moneyFlowId, entityId, MoneyFlowSourceRecipientType.Office.Id);
             var response = await controller.DeleteOfficeMoneyFlowAsync(moneyFlowId, entityId);
             Assert.IsInstanceOfType(response, typeof(OkResult));
             userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
@@ -366,8 +395,9 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         [TestMethod]
         public async Task TestDeleteOrganizationMoneyFlowAsync()
         {
-            var moneyFlowId = 1;
-            var entityId = 2;
+            var moneyFlowId = 100;
+            var entityId = 200;
+            SetExpectedEditedMoneyFlow(moneyFlowId, entityId, MoneyFlowSourceRecipientType.Organization.Id);
             var response = await controller.DeleteOrganizationMoneyFlowAsync(moneyFlowId, entityId);
             Assert.IsInstanceOfType(response, typeof(OkResult));
             userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
@@ -381,6 +411,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         {
             var moneyFlowId = 1;
             var entityId = 2;
+            SetExpectedEditedMoneyFlow(moneyFlowId, entityId, MoneyFlowSourceRecipientType.Project.Id);
             var response = await controller.DeleteProjectMoneyFlowAsync(moneyFlowId, entityId);
             Assert.IsInstanceOfType(response, typeof(OkResult));
             userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
@@ -392,8 +423,9 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         [TestMethod]
         public async Task TestDeleteProgramMoneyFlowAsync()
         {
-            var moneyFlowId = 1;
-            var entityId = 2;
+            var moneyFlowId = 100;
+            var entityId = 200;
+            SetExpectedEditedMoneyFlow(moneyFlowId, entityId, MoneyFlowSourceRecipientType.Program.Id);
             var response = await controller.DeleteProgramMoneyFlowAsync(moneyFlowId, entityId);
             Assert.IsInstanceOfType(response, typeof(OkResult));
             userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
