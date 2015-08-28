@@ -281,6 +281,9 @@
     <None Include="Properties\PublishProfiles\ECA_Dev.pubxml" />
     <None Include="Properties\PublishProfiles\ECA_Pre.pubxml" />
     <None Include="Properties\PublishProfiles\kmt-dev.pubxml" />
+    <None Include="Properties\PublishProfiles\kmt-pre.pubxml" />
+    <None Include="Properties\PublishProfiles\kmt-prod.pubxml" />
+    <None Include="Properties\PublishProfiles\kmt-qa.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
