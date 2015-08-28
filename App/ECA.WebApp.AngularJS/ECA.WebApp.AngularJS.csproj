@@ -266,7 +266,6 @@
     <Content Include="package.json" />
     <Content Include="build.cmd" />
     <None Include="ECA.WebApp.AngularJS.wpp.targets" />
-    <None Include="Properties\PublishProfiles\kmt-dev.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev - brandon.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev - FTP.pubxml" />
@@ -281,6 +280,7 @@
     <None Include="Properties\PublishProfiles\ECA_QA.pubxml" />
     <None Include="Properties\PublishProfiles\ECA_Dev.pubxml" />
     <None Include="Properties\PublishProfiles\ECA_Pre.pubxml" />
+    <None Include="Properties\PublishProfiles\kmt-dev.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
