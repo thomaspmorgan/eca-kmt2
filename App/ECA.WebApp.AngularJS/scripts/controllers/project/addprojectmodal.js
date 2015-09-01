@@ -40,7 +40,33 @@ angular.module('staticApp')
       }
 
       $scope.view.onCancelClick = function () {
-          $modalInstance.dismiss('cancel');
+          if ($scope.form.projectForm.$dirty) {
+              var modalInstance = $modal.open({
+                  animation: false,
+                  templateUrl: 'views/directives/confirmdialog.html',
+                  controller: 'ConfirmCtrl',
+                  resolve: {
+                      options: function () {
+                          return {
+                              title: 'Confirm',
+                              message: 'There are unsaved changes.  Are you sure you wish to cance?',
+                              okText: 'Yes',
+                              cancelText: 'No'
+                          };
+                      }
+                  }
+              });
+              modalInstance.result.then(function () {
+                  $log.info('User confirmed cancel...');
+                  $modalInstance.dismiss('cancel');
+
+              }, function () {
+                  $log.info('Modal dismissed at: ' + new Date());
+              });
+          }
+          else {
+              $modalInstance.dismiss('cancel');
+          }
       }
 
 
