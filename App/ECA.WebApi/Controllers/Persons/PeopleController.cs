@@ -35,8 +35,8 @@ namespace ECA.WebApi.Controllers.Persons
         private IPersonService service;
         private IUserProvider userProvider;
         private IAddressModelHandler addressHandler;
+        private IEmailAddressHandler emailAddressHandler;
         private ISocialMediaPresenceModelHandler socialMediaHandler;
-        private IMembershipService membershipService;
 
         /// <summary>
         /// Constructor 
@@ -44,6 +44,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="service">The service to inject</param>
         /// <param name="userProvider">The user provider.</param>
         /// <param name="addressHandler">The address handler.</param>
+        /// <param name="emailAddressHandler">The Email Address handler.</param>
         /// <param name="socialMediaHandler">The social media handler.</param>
 
         public PeopleController(
@@ -55,11 +56,13 @@ namespace ECA.WebApi.Controllers.Persons
             Contract.Requires(service != null, "The participant service must not be null.");
             Contract.Requires(userProvider != null, "The user provider must not be null.");
             Contract.Requires(addressHandler != null, "The address handler must not be null.");
+            Contract.Requires(emailAddressHandler != null, "The email address handler must not be null.");
             Contract.Requires(socialMediaHandler != null, "The social media handler must not be null.");
             this.addressHandler = addressHandler;
             this.service = service;
             this.userProvider = userProvider;
             this.socialMediaHandler = socialMediaHandler;
+            this.emailAddressHandler = emailAddressHandler;
         }
 
         /// <summary>
@@ -373,6 +376,52 @@ namespace ECA.WebApi.Controllers.Persons
         {
             return socialMediaHandler.HandleDeleteSocialMediaAsync(socialMediaId, this);
         }
+        #endregion
+
+        #region Email Addresses
+
+
+        /// <summary>
+        /// Adds a new email address to the person.
+        /// </summary>
+        /// <param name="model">The new email address.</param>
+        /// <param name="personId">The id of the person.</param>
+        /// <returns>The saved email address.</returns>
+        [Route("People/{personId:int}/EmailAddress")]
+        [ResponseType(typeof(EmailAddressDTO))]
+        public Task<IHttpActionResult> PostEmailAddressAsync(int personId, [FromBody]PersonEmailAddressBindingModel model)
+        {
+            return emailAddressHandler.HandleEmailAddressAsync<Person>(model, this);
+        }
+
+        /// <summary>
+        /// Updates the new email address of the person.
+        /// </summary>
+        /// <param name="model">The new email address.</param>
+        /// <param name="personId">The person id.</param>
+        /// <returns>The saved email address.</returns>
+        [Route("People/{personId:int}/EmailAddress")]
+        [ResponseType(typeof(SocialMediaDTO))]
+        public Task<IHttpActionResult> PutUpdateEmailAddressAsync(int personId, [FromBody]UpdatedEmailAddressBindingModel model)
+        {
+            return emailAddressHandler.HandleUpdateEmailAddressAsync(model, this);
+        }
+
+        /// <summary>
+        /// Deletes the email address presence from the person.
+        /// </summary>
+        /// <param name="emailAddressId">The emailAddressId id.</param>
+        /// <param name="personId">The person id.</param>
+        /// <returns>An ok result.</returns>
+        [Route("People/{personId:int}/EmailAddress/{emailAddressId:int}")]
+        [ResponseType(typeof(OkResult))]
+        public Task<IHttpActionResult> DeleteEmailAddressAsync(int personId, int emailAddressId)
+        {
+            return emailAddressHandler.HandleDeleteEmailAddressAsync(emailAddressId, this);
+        }
+
+
+
         #endregion
 
     }

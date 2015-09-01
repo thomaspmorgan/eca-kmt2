@@ -96,6 +96,11 @@ namespace ECA.Data
         public DbSet<EmailAddress> EmailAddresses { get; set; }
 
         /// <summary>
+        /// Gets or sets the email address types.
+        /// </summary>
+        public DbSet<EmailAddressType> EmailAddressTypes { get; set; }
+
+        /// <summary>
         /// Gets or sets the activities.
         /// </summary>
         public DbSet<Activity> Activities { get; set; }
