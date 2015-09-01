@@ -159,7 +159,7 @@ angular.module('staticApp')
 
       $scope.editView.onAdvancedSearchClick = function () {
           var modalInstance = $modal.open({
-              animation: true,
+              animation: false,
               templateUrl: 'views/locations/searchlocations.html',
               controller: 'SearchLocationsCtrl',
               size: 'lg',

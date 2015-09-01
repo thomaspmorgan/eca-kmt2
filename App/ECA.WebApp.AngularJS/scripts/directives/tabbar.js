@@ -22,7 +22,6 @@ angular.module('staticApp')
         } else {
           scope.edit = false;
         }
-
         scope.addTab = function (tab) {
           tab.active = true;
           if (scope.onAdd) {

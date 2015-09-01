@@ -147,6 +147,9 @@
     <Content Include="scripts\controllers\membership\membership.js" />
     <Content Include="scripts\controllers\moneyflow.js" />
     <Content Include="scripts\controllers\moneyflows.js" />
+    <Content Include="scripts\controllers\office\branchesandprograms.js" />
+    <Content Include="scripts\controllers\program\addprogrammodal.js" />
+    <Content Include="scripts\controllers\office\overview.js" />
     <Content Include="scripts\controllers\organization\activities.js" />
     <Content Include="scripts\controllers\organization\impact.js" />
     <Content Include="scripts\controllers\organization\artifacts.js" />
@@ -158,6 +161,9 @@
     <Content Include="scripts\controllers\person\personEduEmp.js" />
     <Content Include="scripts\controllers\person\personEvaluationNotes.js" />
     <Content Include="scripts\controllers\person\personGeneral.js" />
+    <Content Include="scripts\controllers\program\overview.js" />
+    <Content Include="scripts\controllers\program\subprogramsandprojects.js" />
+    <Content Include="scripts\controllers\project\addprojectmodal.js" />
     <Content Include="scripts\controllers\project\selectparticipanttype.js" />
     <Content Include="scripts\controllers\project\edit.js" />
     <Content Include="scripts\controllers\project\overview.js" />
@@ -172,6 +178,7 @@
     <Content Include="scripts\controllers\reports\CountryAwards.js" />
     <Content Include="scripts\controllers\reports\YearAwards.js" />
     <Content Include="scripts\controllers\reports\RegionAwards.js" />
+    <Content Include="scripts\controllers\servervalidation.js" />
     <Content Include="scripts\controllers\socialmedia\socialmedia.js" />
     <Content Include="scripts\controllers\socialmedia\socialmedias.js" />
     <Content Include="scripts\directives\equalityfilter.js" />
@@ -201,6 +208,7 @@
     <Content Include="views\directives\moneyflow.html" />
     <Content Include="views\directives\moneyflows.html" />
     <Content Include="views\directives\memberships.html" />
+    <Content Include="views\directives\servervalidationdialog.html" />
     <Content Include="views\directives\socialmedias.html" />
     <Content Include="views\directives\addresses.html" />
     <Content Include="views\locations\addlocationmodal.html" />
@@ -222,6 +230,8 @@
     <Content Include="views\person\partials\generalView.html" />
     <Content Include="views\organization.html" />
     <Content Include="views\program\moneyflows.html" />
+    <Content Include="views\program\addprogrammodal.html" />
+    <Content Include="views\project\addprojectmodal.html" />
     <Content Include="views\project\selectparticipanttype.html" />
     <Content Include="scripts\services\organization.js" />
     <Content Include="views\organizations\allorganizations.html" />
@@ -511,9 +521,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="scripts\controllers\program\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

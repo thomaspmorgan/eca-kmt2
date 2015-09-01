@@ -1,18 +1,26 @@
 <div class="tabs">
-  <div class="tab" ng-repeat="tab in tabs | tabFilter | orderBy:'order'" ui-sref-active="active">
-    <a ui-sref="{{entity}}.{{tab.path}}">{{tab.title}}</a>
-  </div>
-  <div ng-show="edit" class="dropdown add-tab">
-    <button class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-      <img src="images/addTab.png">
-    </button>
-    <!--<div class="dropdown right">-->
-      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-        <div class="tab-helper">
-          <p class="strong">Add Section</p>
-          <p>Select a section to add to your project.</p>
-        </div>
-        <li ng-repeat="tab in tabs" ng-hide="tab.path === 'overview'" role="presentation" ng-class="{'disabled' : tab.active}"><a role="menuitem" tabindex="-1" ng-click="tab.exsists || addTab(tab)">{{tab.title}}</a></li>
-      </ul>
-    <!--</div>-->
+    <div class="tab" ng-repeat="tab in tabs | tabFilter| orderBy:'order'">
+        <a ui-sref="{{entity}}.{{tab.path}}">{{tab.title}}</a>
+    </div>
+    <div ng-show="edit" class="dropdown add-tab">
+        <button class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+            <img src="images/addTab.png">
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <div class="tab-helper">
+                <p class="strong">Add Section</p>
+                <p>Select a section to add to your project.</p>
+            </div>
+            <li ng-repeat="tab in tabs"
+                ng-hide="tab.path === 'overview'"
+                role="presentation"
+                ng-class="{'disabled' : tab.active}">
+                <a role="menuitem" 
+                   tabindex="-1" 
+                   ng-click="tab.exsists || addTab(tab)">
+                    {{tab.title}}
+                </a>
+            </li>
+        </ul>
+    </div>
 </div>

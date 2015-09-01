@@ -8,14 +8,16 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ConfirmCtrl', function (
+  .controller('ServerValidationCtrl', function (
         $scope,
         $stateParams,
         $q,
         $log,
         $modalInstance,
+        validationError,
         options
         ) {
+      options = options || {};
 
       if (!options.title) {
           $log.info('title not defined.  Using default title.');
@@ -37,11 +39,16 @@ angular.module('staticApp')
           $log.info('The cancelCallback function is not defined, using empty function.');
           options.cancelCallback = function () { };
       }
-      $scope.title = options.title || 'Confirm';
-      $scope.message = options.message || 'Are you sure?';
+
+      $scope.validationErrors = [];
+      for (var key in validationError) {
+          $scope.validationErrors.push(validationError[key]);
+      }
+      
+      $scope.title = options.title || 'Validation Error';
+      $scope.message = options.message || 'The following validation errors were found.';
       $scope.okText = options.okText || 'Ok';
       $scope.cancelText = options.cancelText || 'Cancel';
-
 
       $scope.onOkClick = function () {
           $log.info('User confirmed, executing okCallback.');

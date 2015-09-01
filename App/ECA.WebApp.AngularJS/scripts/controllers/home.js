@@ -52,7 +52,7 @@ angular.module('staticApp')
 
       $scope.deleteBookmark = function (bookmark) {
           var modalInstance = $modal.open({
-              animation: true,
+              animation: false,
               templateUrl: 'views/directives/confirmdialog.html',
               controller: 'ConfirmCtrl',
               resolve: {

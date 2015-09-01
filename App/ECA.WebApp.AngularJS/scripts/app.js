@@ -276,12 +276,14 @@ angular
         })
         .state('programs.overview', {
             url: '/overview',
+            controller: 'ProgramOverviewCtrl',
             templateUrl: 'views/program/overview.html',
             requireADLogin: true
         })
         .state('programs.projects', {
             url: '/projects',
             templateUrl: 'views/program/projects.html',
+            controller: 'SubProgramsAndProjectsCtrl',
             requireADLogin: true
         })
 
@@ -378,11 +380,13 @@ angular
         .state('offices.overview', {
             url: '/overview',
             templateUrl: 'views/office/overview.html',
+            controller: 'OfficeOverviewCtrl',
             requireADLogin: true
         })
         .state('offices.branches', {
             url: '/branches',
             templateUrl: 'views/office/branches.html',
+            controller: 'BranchesAndProgramsCtrl',
             requireADLogin: true
         })
         .state('offices.activity', {

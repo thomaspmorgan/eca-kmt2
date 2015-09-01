@@ -24,7 +24,6 @@ namespace ECA.Business.Models.Programs
         /// <param name="endDate">The program end date.</param>
         /// <param name="ownerOrganizationId">The owner organization by id.</param>
         /// <param name="parentProgramId">The parent program by id.</param>
-        /// <param name="focusId">The focus by id.</param>
         /// <param name="website">The website of the program.</param>
         /// <param name="goalIds">The goals of the program by id.</param>
         /// <param name="pointOfContactIds">The points contact by id.</param>

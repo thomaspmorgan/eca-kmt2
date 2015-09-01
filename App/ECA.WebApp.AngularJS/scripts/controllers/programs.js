@@ -8,56 +8,15 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProgramsCtrl', function ($scope, $stateParams, $state, ProgramService,
-      ProjectService, TableService, LocationService, ConstantsService, LookupService, orderByFilter) {
+  .controller('ProgramsCtrl', function (
+      $scope,
+      $stateParams,
+      $state,
+      $log,
+        $q,
+      NotificationService,
+      ProgramService) {
 
-      $scope.listOfNewItemOptions = ['Sub-program', 'Project'];
-
-      $scope.currentCreatedItem = '';
-
-      $scope.confirmClose = false;
-      $scope.confirmFail = false;
-      $scope.confirmSave = false;
-      $scope.newProjectId = null;
-      $scope.isSavingProject = false;
-      $scope.validations = [];
-
-      $scope.themes = [];
-      $scope.categories = [];
-      $scope.objectives = [];
-      $scope.goals = [];
-      $scope.regions = [];
-      $scope.pointsOfContact = [];
-      $scope.selectedFilterRegions = [];
-
-      $scope.newProject = {
-          title: '',
-          description: ''
-      };
-      $scope.newProgram = {
-          name: '',
-          description: '',
-          parentProgramId: null,
-          ownerOrganizationId: null,
-          programStatusId: null,
-          startDate: new Date(),
-          themes: [],
-          categories: [],
-          objectives: [],
-          goals: [],
-          regions: [],
-          contacts: [],
-          website: null
-      };
-      $scope.out = {
-          Themes: [],
-          Regions: [],
-          Goals: [],
-          Contacts: [],
-          Categories: [],
-          Objectives: [],
-          OwnerOrganizationId: []
-      };
       $scope.tabs = {
           overview: {
               title: 'Overview',
@@ -97,275 +56,27 @@ angular.module('staticApp')
           }
       };
 
-      $scope.header = "Sub-Programs and Projects";
-      $scope.branches = [];
-      $scope.subprograms = [];
-      $scope.projects = [];
+      $scope.data = {};
+      $scope.data.loadProgramPromise = $q.defer();
+      $scope.view = {};
+      $scope.view.isLoadingProgram = false;
 
-      $scope.sortedCategories = [];
-      $scope.sortedObjectives = [];
-
-      $scope.lookupParams = {
-          start: null,
-          limit: 100,
-          sort: null,
-          filter: null
-      };
-
-      $scope.parentLookupParams = {
-          start: null,
-          limit: 25,
-          sort: null,
-          filter: null
-      };
-
-      $scope.searchRegions = function (search) {
-          return loadRegions(search);
-      }
-
-      function loadRegions(search) {
-          var params = {
-              start: 0,
-              limit: 10,
-              filter: [
-                  {
-                      comparison: ConstantsService.equalComparisonType,
-                      value: ConstantsService.locationType.region.id,
-                      property: 'locationTypeId'
-                  }
-              ]
-          };
-          if (search && search.length > 0) {
-              params.filter.push({
-                  comparison: ConstantsService.likeComparisonType,
-                  value: search,
-                  property: 'name'
-              });
-          }
-          return LocationService.get(params)
-          .then(function (data) {
-              $scope.regions = data.results;
-          });
-      }
-
-      LookupService.getAllThemes($scope.lookupParams)
-        .then(function (data) {
-            $scope.themes = data.results;
-            angular.forEach($scope.themes, function (value, key) {
-                $scope.themes[key].ticked = false;
-            });
-        });
-
-      LookupService.getAllGoals($scope.lookupParams)
-        .then(function (data) {
-            $scope.goals = data.results;
-            angular.forEach($scope.goals, function (value, key) {
-                $scope.goals[key].ticked = false;
-            })
-        });
-
-      LookupService.getAllContacts($scope.lookupParams)
-          .then(function (data) {
-              $scope.pointsOfContact = data.results;
-              angular.forEach($scope.pointsOfContact, function (value, key) {
-                  $scope.pointsOfContact[key].ticked = false;
-              })
-          });
-
-      LocationService.get({ limit: 300, filter: { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.region.id } })
+      function loadProgramById(programId) {
+          $scope.view.isLoadingProgram = true;
+          return ProgramService.get(programId)
             .then(function (data) {
-                $scope.regions = data.results;
-            });
-
-      ProgramService.get($stateParams.programId)
-          .then(function (program) {
-              $scope.program = program;
-
-              $scope.categoryLabel = program.ownerOfficeCategoryLabel;
-              $scope.objectiveLabel = program.ownerOfficeObjectiveLabel;
-
-              $scope.sortedCategories = orderByFilter($scope.program.categories, '+focusName');
-              $scope.sortedObjectives = orderByFilter($scope.program.objectives, '+justificationName');
-          });
-
-      $scope.projectsLoading = false;
-
-      $scope.getProjects = function (tableState) {
-
-          $scope.projectsLoading = true;
-
-          TableService.setTableState(tableState);
-
-          var params = {
-              start: TableService.getStart(),
-              limit: TableService.getLimit(),
-              sort: TableService.getSort(),
-              filter: TableService.getFilter()
-          };
-          ProjectService.getProjectsByProgram($stateParams.programId, params)
-            .then(function (response) {
-                $scope.projects = response.data.results;
-                var limit = TableService.getLimit();
-                tableState.pagination.numberOfPages = Math.ceil(response.data.total / limit);
-
+                $scope.view.isLoadingProgram = false;
+                $scope.program = data;
+                $scope.data.loadProgramPromise.resolve($scope.program);
             })
-            .then(function () {
-                $scope.projectsLoading = false;
+            .catch(function (response) {
+                $scope.view.isLoadingProgram = false;
+                var message = 'Unable to load program by id.';
+                $log.error(message);
+                NotificationService.showErrorMessage(message);
             });
-
       }
 
-      $scope.getSubPrograms = function (tableState) { // get the subprograms (first children of this program)
-
-          $scope.subProgramsLoading = true;
-          TableService.setTableState(tableState);
-
-          var params = {
-              start: TableService.getStart(),
-              limit: TableService.getLimit(),
-              sort: TableService.getSort(),
-              filter: TableService.getFilter()
-          };
-
-          ProgramService.getSubPrograms($stateParams.programId, params)
-            .then(function (response) {
-                $scope.subprograms = response.data.results;
-                var limit = TableService.getLimit();
-                tableState.pagination.numberOfPages = Math.ceil(response.data.total / limit);
-            })
-            .then(function () {
-                $scope.subProgramsLoading = false;
-            });
-
-
-      }
-
-      $scope.saveProject = function () {
-          var project = {
-              name: $scope.newProject.title,
-              description: $scope.newProject.description,
-              projectStatusId: 5,
-              programId: $scope.program.id
-          }
-          $scope.isSavingProject = true;
-          ProjectService.create(project)
-            .then(function (createSuccessData) {
-                var createdProject = createSuccessData.data;
-                $scope.confirmSave = true;
-                $scope.newProjectId = createdProject.id;
-            }, function (createErrorData) {
-                if (createErrorData.status === 400 && createErrorData.data && createErrorData.data.ValidationErrors) {
-                    $scope.errorMessage = createErrorData.data.Message;
-                    for (var key in createErrorData.data.ValidationErrors) {
-                        $scope.validations.push(createErrorData.data.ValidationErrors[key]);
-                    }
-                    $scope.confirmFail = true;
-                }
-                else {
-                    $scope.errorMessage = 'An Error has occurred.';
-                    $scope.confirmFail = true;
-                }
-            })
-          .then(function () {
-              $scope.isSavingProject = false;
-          });
-      };
-
-      $scope.clickCreate = function ($event) {
-          $event.preventDefault();
-          $scope.showCreateOptions = true;
-      };
-
-      $scope.modalClose = function () {
-          if (unsavedChanges()) {
-              $scope.confirmClose = true;
-          }
-          else {
-              $scope.createProject = false;
-              $scope.createProgram = false;
-          }
-      };
-
-      function unsavedChanges() {
-          var unsavedChanges = false;
-          if ($scope.newProject.title.length > 0 || $scope.newProject.description.length > 0) {
-              unsavedChanges = true;
-          }
-          return unsavedChanges;
-      }
-
-      $scope.modalClear = function () {
-          angular.forEach($scope.newProject, function (value, key) {
-              $scope.newProject[key] = '';
-          });
-          $scope.formScope.projectForm.$setPristine();
-      };
-
-      $scope.setFormScope = function (scope) {
-          $scope.formScope = scope;
-      };
-
-      $scope.updateProgram = function () {
-          saveProgram();
-      };
-
-      $scope.addTab = function () {
-          if ($scope.tabs.moneyflows.active && !$scope.program.moneyFlowReferences) {
-              $scope.program.moneyFlowReferences = [];
-          }
-          if ($scope.tabs.artifacts.active && !$scope.program.artifactReferences) {
-              $scope.program.artifactReferences = [];
-          }
-          saveProgram();
-      };
-
-      function saveProgram() {
-          ProgramService.update($scope.program, $stateParams.programId)
-              .then(function (program) {
-                  $scope.program = program;
-              });
-      }
-
-      $scope.confirmCloseYes = function () {
-          $scope.confirmClose = false;
-          $scope.createProject = false;
-      };
-
-      $scope.confirmCloseNo = function () {
-          $scope.createProject = true;
-          $scope.confirmClose = false;
-      };
-
-      $scope.confirmSaveYes = function () {
-          $scope.confirmSave = false;
-          $state.go('projects.overview', { projectId: $scope.newProjectId });
-          $scope.createProject = false;
-      };
-
-      $scope.confirmFailOk = function () {
-          $scope.confirmFail = false;
-      };
-
-      $scope.createItem = function (createdItem) {
-          switch (createdItem) {
-              case "subprogram":
-                  $scope.createNewSubProgram();
-                  break;
-              case "project":
-                  $scope.createProject = true;
-                  break;
-          }
-
-          $scope.showCreateOptions = false;
-
-      };
-
-      $scope.createNewSubProgram = function () {
-          $scope.newProgram.parentProgramId = $stateParams.programId;
-          $scope.newProgram.parentProgram = "Ambassadors Fund For Cultural Preservation (AFCP)";
-          $scope.createProgram = true;
-
-      };
-
-
+      $q.all([loadProgramById($stateParams.programId)])
+        .then(function () {})
   });

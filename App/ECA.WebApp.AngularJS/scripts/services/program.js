@@ -76,17 +76,7 @@ angular.module('staticApp')
               return defer.promise;
           },
           create: function (program) {
-              var defer = $q.defer();
-              DragonBreath.create(program, 'programs')
-                .success(function (data) {
-                    getProgram(data);
-                    defer.resolve(newProgram);
-                })
-                .error(function (data) {
-                    getProgram(data);
-                    defer.resolve(newProgram);
-                });
-              return defer.promise;
+              return DragonBreath.create(program, 'programs');
           },
           addPermission: function (permissionModel) {
               return DragonBreath.create(permissionModel, 'programs/collaborator/add');
