@@ -20,7 +20,6 @@ angular.module('staticApp')
         ProgramService,
         FilterService,
         LookupService,
-        TableService,
         OfficeService,
         ConstantsService,
         NotificationService) {

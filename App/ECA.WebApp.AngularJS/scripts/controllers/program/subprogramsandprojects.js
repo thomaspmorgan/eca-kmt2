@@ -144,34 +144,6 @@ angular.module('staticApp')
           $scope.showCreateOptions = true;
       };
 
-      $scope.modalClose = function () {
-          if (unsavedChanges()) {
-              $scope.confirmClose = true;
-          }
-          else {
-              $scope.createProject = false;
-              $scope.createProgram = false;
-          }
-      };
-
-      function unsavedChanges() {
-          var unsavedChanges = false;
-          if ($scope.newProject.title.length > 0 || $scope.newProject.description.length > 0) {
-              unsavedChanges = true;
-          }
-          return unsavedChanges;
-      }
-
-      $scope.modalClear = function () {
-          angular.forEach($scope.newProject, function (value, key) {
-              $scope.newProject[key] = '';
-          });
-          $scope.formScope.projectForm.$setPristine();
-      };
-
-      $scope.setFormScope = function (scope) {
-          $scope.formScope = scope;
-      };
 
       $scope.addTab = function () {
           if ($scope.tabs.moneyflows.active && !$scope.program.moneyFlowReferences) {

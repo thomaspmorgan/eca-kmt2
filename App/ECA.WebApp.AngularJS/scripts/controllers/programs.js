@@ -9,13 +9,14 @@
  */
 angular.module('staticApp')
   .controller('ProgramsCtrl', function (
-      $scope,
-      $stateParams,
-      $state,
-      $log,
+        $scope,
+        $stateParams,
+        $state,
+        $log,
         $q,
-      NotificationService,
-      ProgramService) {
+        StateService,
+        NotificationService,
+        ProgramService) {
 
       $scope.tabs = {
           overview: {
@@ -60,12 +61,14 @@ angular.module('staticApp')
       $scope.data.loadProgramPromise = $q.defer();
       $scope.view = {};
       $scope.view.isLoadingProgram = false;
+      $scope.view.permalink = 'http://www.google.com'
 
       function loadProgramById(programId) {
           $scope.view.isLoadingProgram = true;
           return ProgramService.get(programId)
             .then(function (data) {
                 $scope.view.isLoadingProgram = false;
+                $scope.view.permalink = StateService.getProgramState(programId, { absolute: true });
                 $scope.program = data;
                 $scope.data.loadProgramPromise.resolve($scope.program);
             })
@@ -78,5 +81,5 @@ angular.module('staticApp')
       }
 
       $q.all([loadProgramById($stateParams.programId)])
-        .then(function () {})
+        .then(function () { })
   });

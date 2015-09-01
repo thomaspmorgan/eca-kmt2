@@ -12,17 +12,16 @@ angular.module('staticApp')
       $stateParams,
       $q,
       $log,
-      DragonBreath,
       ConstantsService,
       NotificationService,
       OfficeService,
-      TableService,
-      AuthService,
-      LookupService,
-      ProgramService) {
+      StateService,
+      AuthService) {
 
       var officeId = $stateParams.officeId;
       $scope.office = {};
+      $scope.view = {};
+      $scope.view.permalink = '';
       $scope.showFundingTab = true;
       $scope.tabs = {
           overview: {
@@ -65,6 +64,7 @@ angular.module('staticApp')
           .then(function (response) {
               $scope.office = response.data;
               $scope.data.loadedOfficePromise.resolve($scope.office);
+              $scope.view.permalink = StateService.getOfficeState(officeId, { absolute: true });
           })
           .catch(function (response) {
               var message = "Unable to load office by id.";

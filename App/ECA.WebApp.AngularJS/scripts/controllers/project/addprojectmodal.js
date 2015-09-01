@@ -70,7 +70,6 @@ angular.module('staticApp')
           }
       }
 
-
       function saveProject() {
           $scope.view.isSavingProject = true;
           return ProjectService.create($scope.view.project)
@@ -114,5 +113,4 @@ angular.module('staticApp')
               $log.info('Modal dismissed at: ' + new Date());
           });
       }
-      
   });

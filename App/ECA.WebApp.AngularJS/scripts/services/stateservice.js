@@ -49,32 +49,39 @@ angular.module('staticApp')
               }
           },
 
-          getProjectState: function (projectId) {
-              return $state.href(service.stateNames.overview.project, { projectId: projectId }) + '#top';
+          getProjectState: function (projectId, options) {
+              options = options || {};
+              return $state.href(service.stateNames.overview.project, { projectId: projectId }, options) + '#top';
           },
 
-          getProgramState: function (programId) {
-              return $state.href(service.stateNames.overview.program, { programId: programId }) + '#top';
+          getProgramState: function (programId, options) {
+              options = options || {};
+              return $state.href(service.stateNames.overview.program, { programId: programId }, options) + '#top';
           },
 
-          getOfficeState: function (officeId) {
-              return $state.href(service.stateNames.overview.office, { officeId: officeId }) + '#top';
+          getOfficeState: function (officeId, options) {
+              options = options || {};
+              return $state.href(service.stateNames.overview.office, { officeId: officeId }, options) + '#top';
           },
 
-          getOrganizationState: function (organizationId) {
-              return $state.href(service.stateNames.overview.organization, { organizationId: organizationId }) + '#top';
+          getOrganizationState: function (organizationId, options) {
+              options = options || {};
+              return $state.href(service.stateNames.overview.organization, { organizationId: organizationId }, options) + '#top';
           },
 
-          getPersonState: function (personId) {
-              return $state.href(service.stateNames.overview.person, { personId: personId }) + '#top';
+          getPersonState: function (personId, options) {
+              options = options || {};
+              return $state.href(service.stateNames.overview.person, { personId: personId }, options) + '#top';
           },
 
-          goToProgramState: function (programId) {
-              return $state.go(service.stateNames.overview.program, { programId: programId }) + '#top';
+          goToProgramState: function (programId, options) {
+              options = options || {};
+              return $state.go(service.stateNames.overview.program, { programId: programId }, options) + '#top';
           },
 
-          goToProjectState: function (projectId) {
-              return $state.go(service.stateNames.overview.project, { projectId: projectId }) + '#top';
+          goToProjectState: function (projectId, options) {
+              options = options || {};
+              return $state.go(service.stateNames.overview.project, { projectId: projectId }, options) + '#top';
           }
       };
       return service;

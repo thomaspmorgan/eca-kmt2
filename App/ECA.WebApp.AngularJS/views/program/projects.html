@@ -1,7 +1,9 @@
 <div class="row">
-    <h2 class="program-color tab-header">
+    <h2 class="program-color tab-header col-md-10">
         {{header}}
-        <div class="btn-group right dropdown" dropdown>
+    </h2>
+    <div class="col-md-2" style="margin-top:8px;">
+        <div class="btn-group dropdown" dropdown>
             <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
                 Create New &nbsp;&nbsp;&nbsp;<span class="caret"></span>
             </button>
@@ -10,7 +12,7 @@
                 <li><a ng-click="view.createProject()">Project</a></li>
             </ul>
         </div>
-    </h2>
+    </div>
 </div>
 <h4 class="tab-subheader">Sub-Programs List</h4>
 <div ng-show="!subprograms.length">
@@ -64,8 +66,6 @@
         <div st-template="views/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="projects.length > 0"></div>
     </div>
 </div>
-
-
 <h4 class="tab-subheader">Projects List</h4>
 <div st-pipe="getProjects" st-table="projects" id="sort-list">
     <table class="col-md-12 table">
@@ -134,11 +134,9 @@
                     <div class="right" style="display:none;" showonparentrow>
                         <div class="copyEditDeleteOptions">
                             <i class="md md-content-copy md-2x copyEditDeleteOption" ng-show="!copyProgramLoading"></i>
-                            <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="copyProgramLoading"></i>
                         </div>
                         <div class="copyEditDeleteOptions">
                             <i class="md md-mode-edit md-2x copyEditDeleteOption" ng-show="!editProgramLoading"></i>
-                            <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="editProgramLoading"></i>
                         </div>
                         <div class="copyEditDeleteOptions">
                             <i class="md md-delete md-2x copyEditDeleteOption"></i>
