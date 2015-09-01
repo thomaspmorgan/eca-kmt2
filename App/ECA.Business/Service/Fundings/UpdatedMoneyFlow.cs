@@ -12,7 +12,7 @@ namespace ECA.Business.Service.Fundings
     /// <summary>
     /// The UpdatedMoneyFlow allows a business layer client to update a money flow entry in the ECA system.
     /// </summary>
-    public class UpdatedMoneyFlow : IAuditable
+    public class UpdatedMoneyFlow : EditedMoneyFlow, IAuditable
     {
         /// <summary>
         /// Creates a new UpdatedMoneyFlow object that can be used to update a Money Flow to the ECA system.
@@ -25,15 +25,18 @@ namespace ECA.Business.Service.Fundings
         /// <param name="fiscalYear">The fiscal year.</param>
         /// <param name="id">The id of the money flow.</param>
         /// <param name="sourceOrRecipientEntityId">The source or recipient entity id, useful for security.</param>
+        /// <param name="sourceOrRecipientEntityTypeId">The source or recipient entity type id, useful for security.</param>
         public UpdatedMoneyFlow(
             User updator,
             int id,
             int sourceOrRecipientEntityId,
+            int sourceOrRecipientEntityTypeId,
             string description,
             decimal value,
             int moneyFlowStatusId,
             DateTimeOffset transactionDate,
             int fiscalYear)
+            : base(id, sourceOrRecipientEntityId, sourceOrRecipientEntityTypeId)
         {
             Contract.Requires(updator != null, "The updated by user must not be null.");
             var moneyFlowStatus = MoneyFlowStatus.GetStaticLookup(moneyFlowStatusId);
@@ -41,8 +44,6 @@ namespace ECA.Business.Service.Fundings
             {
                 throw new UnknownStaticLookupException(String.Format("The money flow status [{0}] is not supported.", moneyFlowStatusId));
             }
-            this.SourceOrRecipientEntityId = sourceOrRecipientEntityId;
-            this.Id = id;
             this.Audit = new Update(updator);
             this.Description = description;
             this.Value = value;
@@ -53,19 +54,9 @@ namespace ECA.Business.Service.Fundings
         }
 
         /// <summary>
-        /// Gets the source entity id.
-        /// </summary>
-        public int SourceOrRecipientEntityId { get; private set; }
-
-        /// <summary>
         /// Gets the audit.
         /// </summary>
         public Audit Audit { get; private set; }
-
-        /// <summary>
-        /// Gets the id of the money flow.
-        /// </summary>
-        public int Id { get; private set; }
 
         /// <summary>
         /// Gets the transaction date.

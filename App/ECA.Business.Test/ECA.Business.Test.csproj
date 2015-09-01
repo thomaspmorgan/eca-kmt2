@@ -106,7 +106,9 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
@@ -143,6 +145,7 @@
     <Compile Include="Service\Admin\BookmarkServiceTest.cs" />
     <Compile Include="Service\Admin\UpdatedSocialMediaPresenceTest.cs" />
     <Compile Include="Service\Admin\UpdateOrganizationValidationEntityTest.cs" />
+    <Compile Include="Service\Fundings\EditedMoneyFlowTest.cs" />
     <Compile Include="Service\Fundings\UpdatedMoneyFlowTest.cs" />
     <Compile Include="Service\Lookup\LocationTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\SocialMediaTypeServiceTest.cs" />

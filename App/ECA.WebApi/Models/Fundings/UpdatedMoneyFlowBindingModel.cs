@@ -52,14 +52,16 @@ namespace ECA.WebApi.Models.Fundings
         /// </summary>
         /// <param name="user">The user doing the update.</param>
         /// <param name="sourceOrRecipientEntityId">The source or recipient entity id.</param>
+        /// <param name="sourceOrRecipientEntityTypeId">The source or recipient entity type id.</param>
         /// <returns>The business entity to update a money flow.</returns>
-        public UpdatedMoneyFlow ToUpdatedMoneyFlow(User user, int sourceOrRecipientEntityId)
+        public UpdatedMoneyFlow ToUpdatedMoneyFlow(User user, int sourceOrRecipientEntityId, int sourceOrRecipientEntityTypeId)
         {
             Contract.Requires(user != null, "The user must not be null.");
             return new UpdatedMoneyFlow(
                 updator: user, 
                 id: this.Id, 
                 sourceOrRecipientEntityId: sourceOrRecipientEntityId, 
+                sourceOrRecipientEntityTypeId: sourceOrRecipientEntityTypeId,
                 description: this.Description, 
                 value: this.Amount, 
                 moneyFlowStatusId: this.MoneyFlowStatusId, 

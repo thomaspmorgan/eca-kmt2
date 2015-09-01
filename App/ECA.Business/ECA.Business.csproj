@@ -139,6 +139,7 @@
     <Compile Include="Service\Admin\NewEmailAddress.cs" />
     <Compile Include="Service\Admin\NewPersonEmailAddress.cs" />
     <Compile Include="Service\Admin\UpdatedEmailAddress.cs" />
+    <Compile Include="Service\Fundings\EditedMoneyFlow.cs" />
     <Compile Include="Service\Lookup\ILanguageService.cs" />
     <Compile Include="Service\Lookup\IEmailAddressTypeService.cs" />
     <Compile Include="Service\Lookup\LanguageDTO.cs" />
