@@ -1,5 +1,5 @@
 <div class="tabs">
-    <div class="tab" ng-repeat="tab in tabs | tabFilter| orderBy:'order'">
+    <div class="tab" ng-repeat="tab in tabs | tabFilter | orderBy:'order'">
         <a ui-sref="{{entity}}.{{tab.path}}">{{tab.title}}</a>
     </div>
     <div ng-show="edit" class="dropdown add-tab">

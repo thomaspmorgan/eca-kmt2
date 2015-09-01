@@ -22,7 +22,6 @@ angular.module('staticApp')
       $scope.office = {};
       $scope.view = {};
       $scope.view.permalink = '';
-      $scope.showFundingTab = true;
       $scope.tabs = {
           overview: {
               title: 'Overview',
@@ -51,7 +50,7 @@ angular.module('staticApp')
           moneyflows: {
               title: 'Funding',
               path: 'moneyflows',
-              active: $scope.showFundingTab,
+              active: false,
               order: 5
           }
       };
@@ -70,8 +69,7 @@ angular.module('staticApp')
               var message = "Unable to load office by id.";
               NotificationService.showErrorMessage(message);
               $log.error(message);
-
-          })
+          });
       }
 
       function loadPermissions() {
@@ -80,11 +78,11 @@ angular.module('staticApp')
           var config = {};
           config[ConstantsService.permission.viewOffice.value] = {
               hasPermission: function () {
-                  $scope.showFundingTab = false;
+                  $scope.tabs.moneyflows.active = true;
                   $log.info('User has view office permission in office.js controller.');
               },
               notAuthorized: function () {
-                  $scope.showFundingTab = false;
+                  $scope.tabs.moneyflows.active = false;
                   $log.info('User not authorized to view office in office.js controller.');
               }
           };

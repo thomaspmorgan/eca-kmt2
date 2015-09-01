@@ -110,26 +110,6 @@ angular.module('staticApp')
           saveProject();
       };
 
-      $scope.addTab = function () {
-          if ($scope.tabs.participants.active && !$scope.project.participants) {
-              $scope.project.participants = [];
-          }
-          if ($scope.tabs.partners.active && !$scope.project.agreements) {
-              $scope.project.agreements = [];
-          }
-          if ($scope.tabs.artifacts.active && !$scope.project.artifactReferences) {
-              $scope.project.artifactReferences = [];
-          }
-          if ($scope.tabs.moneyflows.active && !$scope.project.moneyFlows) {
-              $scope.project.moneyFlows = [];
-          }
-          if ($scope.tabs.impact.active && !$scope.project.impacts) {
-              $scope.project.impacts = [];
-          }
-          console.log($scope.tabs);
-          saveProject();
-      }
-
       $scope.saveProject = function () {
           var project = {
               id: Date.now().toString(),
