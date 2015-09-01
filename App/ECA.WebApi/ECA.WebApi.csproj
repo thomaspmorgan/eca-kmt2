@@ -425,6 +425,7 @@
     <Compile Include="Controllers\Admin\GendersController.cs" />
     <Compile Include="Controllers\Admin\MaritalStatusesController.cs" />
     <Compile Include="Controllers\Admin\LanguagesController.cs" />
+    <Compile Include="Controllers\Admin\EmailAddressesController .cs" />
     <Compile Include="Controllers\Persons\LanguageProficiencyController.cs" />
     <Compile Include="Controllers\Persons\MembershipController.cs" />
     <Compile Include="Controllers\Fundings\MoneyFlowSourceRecipientTypesController.cs" />
@@ -453,8 +454,13 @@
     <Compile Include="Custom\SwaggerExtensions\ApplySchemaVendorExtensions.cs" />
     <Compile Include="Custom\SwaggerExtensions\AssignOAuth2SecurityRequirements.cs" />
     <Compile Include="Custom\SwaggerExtensions\DescendingAlphabeticComparer.cs" />
+    <Compile Include="Models\Admin\IEmailAddressHandler.cs" />
     <Compile Include="Models\Admin\LocationBindingModel.cs" />
+    <Compile Include="Models\Admin\EmailAddressBindingModelBase.cs" />
+    <Compile Include="Models\Admin\EmailAddressHandler.cs" />
+    <Compile Include="Models\Admin\PersonEmailAddressBindingModel.cs" />
     <Compile Include="Models\Admin\UpdatedLocationBindingModel.cs" />
+    <Compile Include="Models\Admin\UpdatedEmailAddressBindingModel.cs" />
     <Compile Include="Models\Fundings\AdditionalMoneyFlowBindingModel.cs" />
     <Compile Include="Models\Fundings\AdditionalOrganizationMoneyFlowBindingModel.cs" />
     <Compile Include="Models\Fundings\AdditionalOfficeMoneyFlowBindingModel.cs" />

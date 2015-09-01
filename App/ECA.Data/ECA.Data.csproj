@@ -156,12 +156,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ECA-KMTStaticDataGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="EmailAddressType.cs" />
     <Compile Include="FieldOfStudy.cs" />
     <Compile Include="Focus.cs" />
     <Compile Include="Gender.cs" />
     <Compile Include="Goal.cs" />
     <Compile Include="IAddressable.cs" />
     <None Include="IFundable.csold" />
+    <Compile Include="IEmailAddressable.cs" />
     <Compile Include="IObjectivable.cs" />
     <Compile Include="IContactable.cs" />
     <Compile Include="IGoalable.cs" />

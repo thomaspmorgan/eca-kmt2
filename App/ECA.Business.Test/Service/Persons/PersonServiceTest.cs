@@ -484,7 +484,7 @@ namespace ECA.Business.Test.Service.Persons
                 PersonId = 1
             };
 
-            person.Emails.Add(email);
+            person.EmailAddresses.Add(email);
 
             context.EmailAddresses.Add(email);
             context.People.Add(person);
@@ -492,9 +492,9 @@ namespace ECA.Business.Test.Service.Persons
             Action<ContactInfoDTO> tester = (serviceResult) =>
             {
                 Assert.IsNotNull(serviceResult);
-                Assert.AreEqual(person.Emails.Count(), serviceResult.Emails.Count());
-                CollectionAssert.AreEqual(person.Emails.Select(x => x.EmailAddressId).ToList(), serviceResult.Emails.Select(x => x.Id).ToList());
-                CollectionAssert.AreEqual(person.Emails.Select(x => x.Address).ToList(), serviceResult.Emails.Select(x => x.Value).ToList());
+                Assert.AreEqual(person.EmailAddresses.Count(), serviceResult.Emails.Count());
+                CollectionAssert.AreEqual(person.EmailAddresses.Select(x => x.EmailAddressId).ToList(), serviceResult.Emails.Select(x => x.Id).ToList());
+                CollectionAssert.AreEqual(person.EmailAddresses.Select(x => x.Address).ToList(), serviceResult.Emails.Select(x => x.Value).ToList());
             };
 
             var result = service.GetContactInfoById(person.PersonId);
