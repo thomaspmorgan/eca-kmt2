@@ -30,7 +30,7 @@
                     </div>
                 </th>
                 <th class="col-md-2 verticalTop">
-                    <button ng-show="!programsLoading" ng-click="view.onCreateProgramClick()" class="btn btn-success right col-sd-2">CREATE PROGRAM</button>
+                    <button ng-disabled="view.isLoadingPrograms" ng-click="view.onCreateProgramClick()" class="btn btn-success right col-sd-2">CREATE PROGRAM</button>
                 </th>
             </tr>
         </thead>

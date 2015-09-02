@@ -3,7 +3,7 @@
         {{header}}
     </h2>
     <div class="col-md-2" style="margin-top:8px;">
-        <div class="btn-group dropdown" dropdown>
+        <div class="btn-group dropdown" ng-show="!view.isLoadingProgram" dropdown>
             <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
                 Create New &nbsp;&nbsp;&nbsp;<span class="caret"></span>
             </button>
@@ -36,7 +36,6 @@
                         </div>
                     </td>
                     <td class="col-md-3 tools" style="vertical-align:middle; padding-right:40px;">
-
                         <div class="right" style="display:none;" showonparentrow>
                             <div id="copySection" class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy" ng-click="copyProgram(program.programId)">
                                 <i class="md md-content-copy md-2x copyEditDeleteOption" ng-show="!copyProgramLoading"></i>

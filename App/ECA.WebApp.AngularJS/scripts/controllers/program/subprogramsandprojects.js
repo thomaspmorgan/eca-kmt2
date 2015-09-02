@@ -108,37 +108,6 @@ angular.module('staticApp')
             });
       }
 
-      $scope.saveProject = function () {
-          var project = {
-              name: $scope.newProject.title,
-              description: $scope.newProject.description,
-              projectStatusId: 5,
-              programId: $scope.program.id
-          }
-          $scope.isSavingProject = true;
-          ProjectService.create(project)
-            .then(function (createSuccessData) {
-                var createdProject = createSuccessData.data;
-                $scope.confirmSave = true;
-                $scope.newProjectId = createdProject.id;
-            }, function (createErrorData) {
-                if (createErrorData.status === 400 && createErrorData.data && createErrorData.data.ValidationErrors) {
-                    $scope.errorMessage = createErrorData.data.Message;
-                    for (var key in createErrorData.data.ValidationErrors) {
-                        $scope.validations.push(createErrorData.data.ValidationErrors[key]);
-                    }
-                    $scope.confirmFail = true;
-                }
-                else {
-                    $scope.errorMessage = 'An Error has occurred.';
-                    $scope.confirmFail = true;
-                }
-            })
-          .then(function () {
-              $scope.isSavingProject = false;
-          });
-      };
-
       $scope.view.createSubProgram = function () {
           var addProgramModalInstance = $modal.open({
               animation: false,

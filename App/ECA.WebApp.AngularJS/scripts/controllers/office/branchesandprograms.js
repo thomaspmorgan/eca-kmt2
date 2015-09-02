@@ -131,7 +131,7 @@ angular.module('staticApp')
               })
           .catch(function (response) {
               $scope.view.isLoadingBranches = false;
-              var message = "Unable to load child offices and brances.";
+              var message = "Unable to load child offices and branches.";
               NotificationService.showErrorMessage(message);
               $log.error(message);
           })

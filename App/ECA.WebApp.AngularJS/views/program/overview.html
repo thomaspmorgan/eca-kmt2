@@ -1,106 +1,113 @@
 <h2 class="program-color tab-header">Overview</h2>
-<div class="row">
-    <h5 editable-textarea="program.description" e-form="editDescription" e-rows="5" e-cols="150" onaftersave="updateProgram()">
-        {{program.description}}
-    </h5>
+<div class="spinner" ng-show="view.isLoadingProgram">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
 </div>
-<div class="row tags" ng-show="program.tags">
-    <span ng-repeat="tag in program.tags" class="tag">#{{tag}}</span>
-</div>
-<div class="row table">
-    <h4 class="tab-subheader">Details</h4>
-    <div class="col-md-6">
-        <div class="row" ng-show="program.themes">
-            <div class="col-md-4 title-label">Themes</div>
-            <div class="col-md-8">
-                <ul>
-                    <li ng-repeat="theme in program.themes | orderBy:'value'">&#149 {{theme.value}}</li>
-                </ul>
+<div ng-show="!view.isLoadingProgram">
+    <div class="row">
+        <h5 editable-textarea="program.description" e-form="editDescription" e-rows="5" e-cols="150" onaftersave="updateProgram()">
+            {{program.description}}
+        </h5>
+    </div>
+    <div class="row tags" ng-show="program.tags">
+        <span ng-repeat="tag in program.tags" class="tag">#{{tag}}</span>
+    </div>
+    <div class="row table">
+        <h4 class="tab-subheader">Details</h4>
+        <div class="col-md-6">
+            <div class="row" ng-show="program.themes">
+                <div class="col-md-4 title-label">Themes</div>
+                <div class="col-md-8">
+                    <ul>
+                        <li ng-repeat="theme in program.themes | orderBy:'value'">&#149 {{theme.value}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row" ng-show="program.pdGoals">
+                <div class="col-md-4 title-label">Public Diplomacy Goals</div>
+                <div class="col-md-8">
+                    <ul>
+                        <li ng-repeat="goal in program.pdGoals | orderBy:'goal'">&#149 {{goal}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row" ng-show="program.goals">
+                <div class="col-md-4 title-label">Strategic Goals</div>
+                <div class="col-md-8">
+                    <ul>
+                        <li ng-repeat="goal in program.goals | orderBy:'value'">&#149 {{goal.value}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row" ng-show="program.regionIsos">
+                <div class="col-md-4 title-label">Regions</div>
+                <div class="col-md-8">
+                    <ul>
+                        <li ng-repeat="region in program.regionIsos | orderBy:'value'">{{region.value}}</li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="row" ng-show="program.pdGoals">
-            <div class="col-md-4 title-label">Public Diplomacy Goals</div>
-            <div class="col-md-8">
-                <ul>
-                    <li ng-repeat="goal in program.pdGoals | orderBy:'goal'">&#149 {{goal}}</li>
-                </ul>
+        <div class="col-md-6">
+            <div class="row" ng-show="program.ownerOrganizationId && program.ownerDescription">
+                <div class="col-md-4 title-label">Office</div>
+                <div class="col-md-8"><a ui-sref="offices.overview({officeId: program.ownerOrganizationId})">{{program.ownerName}}</a></div>
             </div>
-        </div>
-        <div class="row" ng-show="program.goals">
-            <div class="col-md-4 title-label">Strategic Goals</div>
-            <div class="col-md-8">
-                <ul>
-                    <li ng-repeat="goal in program.goals | orderBy:'value'">&#149 {{goal.value}}</li>
-                </ul>
+            <div class="row" ng-show="program.categories">
+                <div class="col-md-4 title-label">{{view.categoryLabel}}</div>
+                <div class="col-md-8">
+                    <ul>
+                        <li ng-repeat="category in view.sortedCategories | orderBy:['focusName','name']">
+                            <ng-switch on="$first || category.focusName != sortedCategories[$index-1].focusName">
+                                <div ng-switch-when="true" class="title-label"><strong>{{category.focusName}}</strong></div>
+                            </ng-switch>
+                            &#149 {{category.name}}
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <div class="row" ng-show="program.regionIsos">
-            <div class="col-md-4 title-label">Regions</div>
-            <div class="col-md-8">
-                <ul>
-                    <li ng-repeat="region in program.regionIsos | orderBy:'value'">{{region.value}}</li>
-                </ul>
+            <div class="row" ng-show="program.objectives">
+                <div class="col-md-4 title-label">{{view.objectiveLabel}}</div>
+                <div class="col-md-8">
+                    <ul>
+                        <li ng-repeat="objective in view.sortedObjectives | orderBy:['justificationName','name']">
+                            <ng-switch on="$first || objective.justificationName != sortedObjectives[$index - 1].justificationName">
+                                <div ng-switch-when="true" class="title-label"><strong>{{objective.justificationName}}</strong></div>
+                            </ng-switch>
+                            &#149 {{objective.name}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row" ng-show="program.contacts">
+                <div class="col-md-4 title-label"><ng-pluralize count="program.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
+                <div class="col-md-8">
+                    <ul>
+                        <li ng-repeat="contact in program.contacts | orderBy:'value'">&#149 {{contact.value}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row" ng-show="program.websites">
+                <div class="col-md-4 title-label">Websites</div>
+                <div class="col-md-8">
+                    <ul>
+                        <li ng-repeat="website in program.websites">
+                            <a href="{{website.url}}" target="_blank">{{website.title}}</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="row" ng-show="program.ownerOrganizationId && program.ownerDescription">
-            <div class="col-md-4 title-label">Office</div>
-            <div class="col-md-8"><a ui-sref="offices.overview({officeId: program.ownerOrganizationId})">{{program.ownerName}}</a></div>
+    <div class="row">
+        <h4 class="tab-subheader">Snapshot</h4>
+        <div class="col-md-4">
+            <p class="stat text-center">{{project.countryIsos.length}}</p>
+            <!-- 		<p class="title-label text-center">Locations</p> -->
         </div>
-        <div class="row" ng-show="program.categories">
-            <div class="col-md-4 title-label">{{view.categoryLabel}}</div>
-            <div class="col-md-8">
-                <ul>
-                    <li ng-repeat="category in view.sortedCategories | orderBy:['focusName','name']">
-                        <ng-switch on="$first || category.focusName != sortedCategories[$index-1].focusName">
-                            <div ng-switch-when="true" class="title-label"><strong>{{category.focusName}}</strong></div>
-                        </ng-switch>
-                        &#149 {{category.name}}
-                    </li>
-                </ul>
-            </div>
+        <div class="col-md-8">
+            <map width="600" height="300" countries="program.countryIsos"></map>
         </div>
-        <div class="row" ng-show="program.objectives">
-            <div class="col-md-4 title-label">{{view.objectiveLabel}}</div>
-            <div class="col-md-8">
-                <ul>
-                    <li ng-repeat="objective in view.sortedObjectives | orderBy:['justificationName','name']">
-                        <ng-switch on="$first || objective.justificationName != sortedObjectives[$index - 1].justificationName">
-                            <div ng-switch-when="true" class="title-label"><strong>{{objective.justificationName}}</strong></div>
-                        </ng-switch>
-                        &#149 {{objective.name}}
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="row" ng-show="program.contacts">
-            <div class="col-md-4 title-label"><ng-pluralize count="program.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
-            <div class="col-md-8">
-                <ul>
-                    <li ng-repeat="contact in program.contacts | orderBy:'value'">&#149 {{contact.value}}</li>
-                </ul>
-            </div>
-        </div>
-        <div class="row" ng-show="program.websites">
-            <div class="col-md-4 title-label">Websites</div>
-            <div class="col-md-8">
-                <ul>
-                    <li ng-repeat="website in program.websites">
-                        <a href="{{website.url}}" target="_blank">{{website.title}}</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <h4 class="tab-subheader">Snapshot</h4>
-    <div class="col-md-4">
-        <p class="stat text-center">{{project.countryIsos.length}}</p>
-        <!-- 		<p class="title-label text-center">Locations</p> -->
-    </div>
-    <div class="col-md-8">
-        <map width="600" height="300" countries="program.countryIsos"></map>
     </div>
 </div>
