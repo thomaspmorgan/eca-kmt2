@@ -128,14 +128,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Queries\Admin\BookmarkQueries.cs" />
+    <Compile Include="Queries\Admin\EmailAddressQueries.cs" />
+    <Compile Include="Queries\Models\Admin\EmailAddressDTO.cs" />
     <Compile Include="Queries\Models\Persons\LanguageProficiencyDTO.cs" />
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
     <Compile Include="Queries\Persons\LanguageProficiencyQueries.cs" />
     <Compile Include="Queries\Persons\MembershipQueries.cs" />
+    <Compile Include="Service\Admin\IEmailAddressService.cs" />
+    <Compile Include="Service\Admin\EmailAddressService.cs" />
+    <Compile Include="Service\Admin\NewEmailAddress.cs" />
+    <Compile Include="Service\Admin\NewPersonEmailAddress.cs" />
+    <Compile Include="Service\Admin\UpdatedEmailAddress.cs" />
     <Compile Include="Service\Fundings\EditedMoneyFlow.cs" />
     <Compile Include="Service\Lookup\ILanguageService.cs" />
+    <Compile Include="Service\Lookup\IEmailAddressTypeService.cs" />
     <Compile Include="Service\Lookup\LanguageDTO.cs" />
     <Compile Include="Service\Lookup\LanguageService.cs" />
+    <Compile Include="Service\Lookup\EmailAddressTypeDTO.cs" />
+    <Compile Include="Service\Lookup\EmailAddressTypeService.cs" />
     <Compile Include="Service\Persons\ILanguageProficiencyService.cs" />
     <Compile Include="Service\Persons\IMembershipService.cs" />
     <Compile Include="Service\Persons\LanguageProficiencyService.cs" />

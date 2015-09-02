@@ -130,7 +130,7 @@ angular.module('staticApp')
 
       $scope.view.onDeleteClick = function (moneyFlow) {
           var modalInstance = $modal.open({
-              animation: true,
+              animation: false,
               templateUrl: 'views/directives/confirmdialog.html',
               controller: 'ConfirmCtrl',
               resolve: {
@@ -160,7 +160,7 @@ angular.module('staticApp')
 
       function showEditMoneyFlow(moneyFlow) {
           var modalInstance = $modal.open({
-              animation: true,
+              animation: false,
               templateUrl: 'views/directives/moneyflow.html',
               controller: 'MoneyFlowCtrl',
               size: 'lg',
@@ -170,7 +170,6 @@ angular.module('staticApp')
                   }
               }
           });
-
           modalInstance.result.then(function (newMoneyFlow) {
               $log.info('Finished adding new money flow.');
               reloadMoneyFlowTable();

@@ -180,7 +180,7 @@ namespace ECA.Business.Queries.Persons
                         where person.PersonId == personId
                         select new ContactInfoDTO
                         {
-                            Emails = person.Emails.Select(x => new SimpleLookupDTO() { Id = x.EmailAddressId, Value = x.Address }),
+                            Emails = person.EmailAddresses.Select(x => new SimpleLookupDTO() { Id = x.EmailAddressId, Value = x.Address }),
                             SocialMedias = person.SocialMedias.Select(x => new SocialMediaDTO
                             { 
                                 Id = x.SocialMediaId, 

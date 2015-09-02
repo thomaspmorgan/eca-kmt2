@@ -74,9 +74,9 @@ namespace ECA.Data.Configuration
               .Map(p =>
              {
                  p.MapLeftKey("ProgramId");
-                  p.MapRightKey("ObjectiveId");
-                  p.ToTable("ProgramObjective");
-               });
+                 p.MapRightKey("ObjectiveId");
+                 p.ToTable("ProgramObjective");
+             });
         }
     }
 }

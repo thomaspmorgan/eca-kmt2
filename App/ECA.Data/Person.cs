@@ -12,7 +12,7 @@ namespace ECA.Data
     /// <summary>
     /// A person is someone who has applied to, is participating in, or has completed an ECA project.
     /// </summary>
-    public class Person : IHistorical, IAddressable, ISocialable
+    public class Person : IHistorical, IAddressable, ISocialable, IEmailAddressable
     {
         /// <summary>
         /// Gets the max length of the first name.
@@ -74,7 +74,7 @@ namespace ECA.Data
             EducationalHistory = new HashSet<ProfessionEducation>();
             LanguageProficiencies = new HashSet<PersonLanguageProficiency>();
             PhoneNumbers = new HashSet<PhoneNumber>();
-            Emails = new HashSet<EmailAddress>();
+            EmailAddresses = new HashSet<EmailAddress>();
             ExternalIds = new HashSet<ExternalId>();
             SocialMedias = new HashSet<SocialMedia>();
             Addresses = new HashSet<Address>();
@@ -182,7 +182,7 @@ namespace ECA.Data
         public ICollection<ProfessionEducation> EducationalHistory { get; set; }
         public ICollection<PersonLanguageProficiency> LanguageProficiencies { get; set; }
         public ICollection<PhoneNumber> PhoneNumbers { get; set; }
-        public ICollection<EmailAddress> Emails { get; set; }
+        public ICollection<EmailAddress> EmailAddresses { get; set; }
         public ICollection<ExternalId> ExternalIds { get; set; }
         public ICollection<SocialMedia> SocialMedias { get; set; }
         public ICollection<Address> Addresses { get; set; }

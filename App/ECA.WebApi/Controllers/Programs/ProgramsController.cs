@@ -157,7 +157,6 @@ namespace ECA.WebApi.Controllers.Programs
         /// </summary>
         /// <returns>The program with the given id.</returns>
         [ResponseType(typeof(ProgramViewModel))]
-        [ResourceAuthorize(CAM.Data.Permission.VIEW_PROGRAM_VALUE, CAM.Data.ResourceType.PROGRAM_VALUE)]
         [Route("Programs/{id:int}")]
         public async Task<IHttpActionResult> GetProgramByIdAsync(int id)
         {

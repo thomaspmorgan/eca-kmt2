@@ -11,6 +11,16 @@ angular.module('staticApp')
   .factory('StateService', function ($rootScope, $log, $http, $state, ConstantsService, DragonBreath) {
 
       var service = {
+          stateNames: {
+              overview: {
+                  project: 'projects.overview',
+                  program: 'programs.overview',
+                  office: 'offices.overview',
+                  organization: 'organizations.overview',
+                  person: 'people.personalinformation'
+              }
+          },
+
           isStateAvailableByMoneyFlowSourceRecipientTypeId: function (moneyFlowSourceReceipientTypeId) {
               if (moneyFlowSourceReceipientTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id
                   || moneyFlowSourceReceipientTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id
@@ -39,24 +49,39 @@ angular.module('staticApp')
               }
           },
 
-          getProjectState: function (projectId) {
-              return $state.href('projects.overview', { projectId: projectId });
+          getProjectState: function (projectId, options) {
+              options = options || {};
+              return $state.href(service.stateNames.overview.project, { projectId: projectId }, options) + '#top';
           },
 
-          getProgramState: function (programId) {
-              return $state.href('programs.overview', { programId: programId });
+          getProgramState: function (programId, options) {
+              options = options || {};
+              return $state.href(service.stateNames.overview.program, { programId: programId }, options) + '#top';
           },
 
-          getOfficeState: function (officeId) {
-              return $state.href('offices.overview', { officeId: officeId });
+          getOfficeState: function (officeId, options) {
+              options = options || {};
+              return $state.href(service.stateNames.overview.office, { officeId: officeId }, options) + '#top';
           },
 
-          getOrganizationState: function (organizationId) {
-              return $state.href('organizations.overview', { organizationId: organizationId });
+          getOrganizationState: function (organizationId, options) {
+              options = options || {};
+              return $state.href(service.stateNames.overview.organization, { organizationId: organizationId }, options) + '#top';
           },
 
-          getPersonState: function (personId) {
-              return $state.href('people.personalinformation', { personId: personId });
+          getPersonState: function (personId, options) {
+              options = options || {};
+              return $state.href(service.stateNames.overview.person, { personId: personId }, options) + '#top';
+          },
+
+          goToProgramState: function (programId, options) {
+              options = options || {};
+              return $state.go(service.stateNames.overview.program, { programId: programId }, options) + '#top';
+          },
+
+          goToProjectState: function (projectId, options) {
+              options = options || {};
+              return $state.go(service.stateNames.overview.project, { projectId: projectId }, options) + '#top';
           }
       };
       return service;

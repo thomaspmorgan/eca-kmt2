@@ -92,7 +92,7 @@
                                        ng-blur="view.onSelectCityBlur($event)"
                                        typeahead-wait-ms="400"
                                        typeahead-loading="view.isLoadingCities"
-                                       typeahead="city as city.name for city in view.loadCities($viewValue) | filter : $viewValue | limitTo : 20"
+                                       typeahead="city as city.name for city in view.loadCities($viewValue) | limitTo : 20"
                                        typeahead-on-select="view.onSelectCity($item, $model, $label)"
                                        typeahead-template-url="selectLocationTemplate.html"
                                        typeahead-editable="false">

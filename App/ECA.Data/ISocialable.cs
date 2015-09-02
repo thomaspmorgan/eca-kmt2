@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace ECA.Data
 {
     /// <summary>
-    /// An ISocialable entity is an entity that maintains a social media presence, such as facebook or twitter.
+    /// An ISocialable entity is an entity that maintains a social media presence, such as facebook or twitter
     /// </summary>
     public interface ISocialable
     {
