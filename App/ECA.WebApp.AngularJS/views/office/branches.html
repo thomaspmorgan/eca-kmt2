@@ -46,18 +46,15 @@
                     </div>
                 </td>
                 <td class="col-md-3 tools" style="vertical-align:middle; padding-right:40px;">
-
                     <div class="right" style="display:none;" showonparentrow>
-                        <div id="copySection" class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy" ng-click="copyProgram(program.programId)">
-                            <i class="md md-content-copy md-2x copyEditDeleteOption" ng-show="!copyProgramLoading"></i>
-                            <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="copyProgramLoading"></i>
+                        <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy">
+                            <i class="material-icons md-24 copyEditDeleteOption">content_copy</i>
                         </div>
-                        <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Edit" ng-click="editProgram(program.programId)">
-                            <i class="md md-mode-edit md-2x copyEditDeleteOption" ng-show="!editProgramLoading"></i>
-                            <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="editProgramLoading"></i>
+                        <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Edit">
+                            <i class="material-icons md-24 copyEditDeleteOption">edit</i>
                         </div>
-                        <div class="copyEditDeleteOptions tip" tooltip-placement="bottom" tooltip="Delete" ng-click="deleteProgram(program.programId)">
-                            <i class="md md-delete md-2x copyEditDeleteOption"></i>
+                        <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Delete">
+                            <i class="material-icons md-24 copyEditDeleteOption">delete</i>
                         </div>
                     </div>
                 </td>
