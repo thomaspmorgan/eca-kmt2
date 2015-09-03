@@ -18,7 +18,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// </summary>
         public ContactInfoDTO()
         {
-            Emails = new List<SimpleLookupDTO>();
+            EmailAddresses = new List<EmailAddressDTO>();
             SocialMedias = new List<SocialMediaDTO>();
             PhoneNumbers = new List<SimpleTypeLookupDTO>();
         }
@@ -26,7 +26,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets and sets emails
         /// </summary>
-        public IEnumerable<SimpleLookupDTO> Emails { get; set; }
+        public IEnumerable<EmailAddressDTO> EmailAddresses { get; set; }
 
         /// <summary>
         /// Gets and sets social medias

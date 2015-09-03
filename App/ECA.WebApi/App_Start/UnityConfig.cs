@@ -104,6 +104,9 @@ namespace ECA.WebApi
             container.RegisterType<IMembershipService, MembershipService>(new HierarchicalLifetimeManager());
             container.RegisterType<ILanguageService, LanguageService>(new HierarchicalLifetimeManager());
             container.RegisterType<ILanguageProficiencyService, LanguageProficiencyService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IEmailAddressService, EmailAddressService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IEmailAddressTypeService, EmailAddressTypeService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IEmailAddressHandler, EmailAddressHandler>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>

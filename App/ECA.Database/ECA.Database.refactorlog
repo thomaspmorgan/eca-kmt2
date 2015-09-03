@@ -637,4 +637,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="IsNativeLanguage" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="ee34b3af-f045-4b2e-b3e3-c5ee25af273f" ChangeDateTime="09/03/2015 00:27:50">
+    <Property Name="ElementName" Value="[dbo].[EmailAddress].[ History_CreatedBy]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[EmailAddress]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="History_CreatedBy" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0514e552-422b-42e5-95c1-e5c3fc5f39bd" ChangeDateTime="09/03/2015 00:27:56">
+    <Property Name="ElementName" Value="[dbo].[EmailAddress].[ History_CreatedOn]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[EmailAddress]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="History_CreatedOn" />
+  </Operation>
 </Operations>

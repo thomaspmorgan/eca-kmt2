@@ -1,5 +1,16 @@
 ﻿angular.module('staticApp').factory('ConstantsService', function() {
 	return {
+		emailAddressType: {
+			home: {id: 1, value: "Home"},
+			homeEmergency: {id: 2, value: "Home Emergency"},
+			host: {id: 3, value: "Host"},
+			hostEmergency: {id: 4, value: "Host Emergency"},
+			organization: {id: 5, value: "Organization"},
+			personal: {id: 6, value: "Personal"},
+			other: {id: 7, value: "Other"},
+			business: {id: 8, value: "Business"},
+			undetermined: {id: 9, value: "Undetermined"}
+		},
 		locationType: {
 			region: {id: 2, value: "Region"},
 			country: {id: 3, value: "Country"},
@@ -121,6 +132,7 @@
 		registerUserFailureEventName: 'registerUserFailure',
 		registerUserSuccessEventName: 'registerUserSuccess',
 		removeNewAddressEventName: 'removeNewAddress',
+		removeNewEmailAddressEventName: 'removeNewEmailAddress',
 		removeNewLanguageProficiencyEventName: 'removeNewLanguageProficiency',
 		removeNewMembershipsEventName: 'removeNewMembership',
 		removeNewSocialMediaEventName: 'removeNewSocialMedia',
