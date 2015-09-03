@@ -9,347 +9,93 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('AllProgramsCtrl', function ($scope, $q, $stateParams, $state, ProgramService, LookupService, TableService, orderByFilter, ConstantsService,
-      AuthService, OfficeService, $timeout, $log, NotificationService) {
+  .controller('AllProgramsCtrl', function ($scope,
+      $q,
+      $stateParams,
+      $state,
+      smoothScroll,
+      FilterService,
+      ProgramService,
+      LookupService,
+      TableService,
+      orderByFilter,
+      ConstantsService,
+      AuthService,
+      OfficeService,
+      $timeout,
+      $log,
+      NotificationService) {
 
-      $scope.errorMessage = 'Unknown Error';
-      $scope.validations = [];
+      $scope.view = {};
+      $scope.view.totalNumberOfPrograms = 0;
+      $scope.view.skippedNumberOfPrograms = 0;
+      $scope.view.numberOfPrograms = 0;
+      $scope.view.ecaUserId = null;
+      $scope.view.programFilter = '';      
+      $scope.view.showDraftsOnly = false;
+      $scope.view.programs = [];
+      $scope.view.programsLoading = false;
+      $scope.view.hierarchyKey = "hierarchy";
+      $scope.view.alphabeticalKey = "alpha";
+      $scope.view.listType = $scope.view.hierarchyKey;
 
-      $scope.totalNumberOfPrograms = 0;
-      $scope.skippedNumberOfPrograms = 0;
-      $scope.numberOfPrograms = 0;
-
-      $scope.categoryLabel = 'Focus Categories';
-      $scope.objectiveLabel = 'Objectives';
-
-      $scope.showObjectiveJustification = false;
-      $scope.showCategoryFocus = false;
-
-      $scope.isFormBusy = false;
-
-      $scope.programFilter = '';
-
-      $scope.totalRecords = 0;
-
-      $scope.today = function () {
-          $scope.startDate = new Date();
-      };
-      $scope.today();
-
-      $scope.calOpened = false;
-
-      $scope.modalForm = {};
-
-      $scope.currentForm = null;
-      $scope.ecaUserId = null;
-
-      $scope.editProgramLoading = false;
-      $scope.currentpage = $stateParams.page || 1;
-
-      $scope.editExisting = false;
-      $scope.dropDownDirty = false;
-
-      $scope.initialTableState = null;
-      $scope.alerts = [];
-
-      $scope.offices = [];
-
-      $scope.themes = [];
-      $scope.categories = [];
-      $scope.objectives = [];
-      $scope.goals = [];
-      $scope.regions = [];
-      $scope.pointsOfContact = [];
-
-      $scope.programList = { type: 'hierarchy' };
-
-      $scope.draftsOnly = false;
-
-      // initialize new Program record
-      $scope.newProgram = {
-          name: '',
-          description: '',
-          parentProgramId: null,
-          ownerOrganizationId: null,
-          programStatusId: null,
-          startDate: new Date(),
-          themes: [],
-          categories: [],
-          objectives: [],
-          goals: [],
-          regions: [],
-          contacts: [],
-          website: null
-      };
-
-      $scope.out = {
-          Themes: [],
-          Regions: [],
-          Goals: [],
-          Contacts: [],
-          Categories: [],
-          Objectives: [],
-          OwnerOrganizationId: []
-      };
-      $scope.programs = [];
-
-      $scope.programsLoading = false;
-
-      $scope.lookupParams = {
-          start: null,
-          limit: 100,
-          sort: null,
-          filter: null
-      };
-
-      $scope.parentLookupParams = {
-          start: null,
-          limit: 25,
-          sort: null,
-          filter: null
-      };
-
-      $scope.regionsLookupParams = {
-          start: null,
-          limit: 10,
-          sort: null,
-          filter: [{ property: 'locationtypeid', comparison: 'eq', value: 2 }]
-      };
-
-      $scope.officeSpecificLookupParams = {
-          start: 0,
-          limit: 100,
-
-      };
-
-      LookupService.getAllThemes($scope.lookupParams)
-          .then(function (data) {
-              $scope.themes = data.results;
-              angular.forEach($scope.themes, function (value, key) {
-                  $scope.themes[key].ticked = false;
-              });
-          });
-
-      LookupService.getAllGoals($scope.lookupParams)
-        .then(function (data) {
-            $scope.goals = data.results;
-            angular.forEach($scope.goals, function (value, key) {
-                $scope.goals[key].ticked = false;
-            })
-        });
-
-      LookupService.getAllContacts($scope.lookupParams)
-          .then(function (data) {
-              $scope.pointsOfContact = data.results;
-              angular.forEach($scope.pointsOfContact, function (value, key) {
-                  $scope.pointsOfContact[key].ticked = false;
-              })
-          });
-
-      LookupService.getAllRegions($scope.regionsLookupParams)
-          .then(function (data) {
-              $scope.regions = data.results;
-              angular.forEach($scope.regions, function (value, key) {
-                  $scope.regions[key].ticked = false;
-              });
-          });
-
-      OfficeService.getAll($scope.lookupParams)
-          .then(function (response) {
-              var orderedResults = orderByFilter(response.data.results, '+name');
-
-              $scope.offices = orderedResults;
-              angular.forEach($scope.offices, function (value, key) {
-                  $scope.offices[key].ticked = false;
-              });
-          });
-
-      AuthService.getUserInfo()
-      .then(function (response) {
-          $scope.ecaUserId = response.data.ecaUserId;
-      })
-      .catch(function () {
-          $log.error('Unable to load user info.');
-      })
-
-      $scope.allCategoriesGrouped = [];
-      function loadCategories(officeId) {
-          return ProgramService.getCategories(officeId, $scope.officeSpecificLookupParams)
-            .then(function (response) {
-                var focusName = '';
-                $scope.categories = response.data.results;
-
-                angular.forEach($scope.categories, function (value, key) {
-
-                    if (value.focusName != focusName) {
-
-                        $scope.allCategoriesGrouped.push({ focusGroup: false });
-
-                        focusName = value.focusName;
-                        $scope.allCategoriesGrouped.push(
-                          { name: '<strong>Focus: ' + value.focusName + '</strong>', focusGroup: true }
-                        );
-                    }
-                    $scope.allCategoriesGrouped.push(
-                        { id: value.id, name: value.name, ticked: false }
-                    );
-                });
-            });
+      $scope.view.onProgramFiltersChange = function () {
+          console.assert($scope.getAllProgramsTableState, "The table state function must exist.");
+          var tableState = $scope.getAllProgramsTableState();
+          return $scope.view.getPrograms(tableState);
       }
 
-
-      $scope.allObjectivesGrouped = [];
-      function loadObjectives(officeId) {
-          return ProgramService.getObjectives(officeId, $scope.officeSpecificLookupParams)
-            .then(function (response) {
-
-                var justificationName = '';
-                $scope.objectives = response.data.results;
-
-                angular.forEach($scope.objectives, function (value, key) {
-
-                    if (value.justificationName != justificationName) {
-
-                        $scope.allObjectivesGrouped.push({ justificationGroup: false });
-
-                        justificationName = value.justificationName;
-                        $scope.allObjectivesGrouped.push(
-                          { name: '<strong>Justification: ' + value.justificationName + '</strong>', justificationGroup: true }
-                        );
-                    }
-                    $scope.allObjectivesGrouped.push(
-                        { id: value.id, name: value.name, ticked: false }
-                    );
-                });
-
-            });
+      $scope.view.onExpandClick = function (program) {
+          program.isExpanded = true;
+          showChildren(program);
+          scrollToProgram(program);
       }
 
+      $scope.view.onCollapseClick = function (program) {
+          program.isExpanded = false;
+          hideChildren(program);
+          scrollToProgram(program);
+      }
 
-      // don't know why, but I need to access the scope variable for the data to load correctly
-      var x = $scope.themes[1];
-      x = $scope.goals[1];
-      x = $scope.pointsOfContact[1];
-      x = $scope.regions[1];
-      x = $scope.categories[1];
-      x = $scope.objectives[1];
-
-      //#region fill dropdown when editing
-
-      $scope.tickSelectedItems = function () {
-
-          // use javascript native foreach? 
-
-          angular.forEach($scope.regions, function (value, key) {
-              $scope.regions[key].ticked = ($.inArray(value.id, $scope.newProgram.regions) > -1);
-          });
-          angular.forEach($scope.pointsOfContact, function (value, key) {
-              $scope.pointsOfContact[key].ticked = ($.inArray(value.id, $scope.newProgram.contacts) > -1);
-          });
-          angular.forEach($scope.goals, function (value, key) {
-              $scope.goals[key].ticked = ($.inArray(value.id, $scope.newProgram.goals) > -1);
-          });
-          angular.forEach($scope.themes, function (value, key) {
-              $scope.themes[key].ticked = ($.inArray(value.id, $scope.newProgram.themes) > -1);
-          });
-          angular.forEach($scope.allCategoriesGrouped, function (value, key) {
-              $scope.allCategoriesGrouped[key].ticked = ($.inArray(value.id, $scope.newProgram.categories) > -1);
-          });
-          angular.forEach($scope.allObjectivesGrouped, function (value, key) {
-              $scope.allObjectivesGrouped[key].ticked = ($.inArray(value.id, $scope.newProgram.objectives) > -1);
-          });
-      };
-
-      $scope.changeOwnerOffice = function () {
-          var officeId = $scope.out.OwnerOrganization[0].organizationId;
-          if ($scope.newProgram) {
-              $scope.newProgram.ownerOrganizationId = officeId;
+      function scrollToProgram(program) {
+          var id = program.divId;
+          var options = {
+              duration: 500,
+              easing: 'easeIn',
+              offset: 115,
+              callbackBefore: function (element) { },
+              callbackAfter: function (element) { }
           }
-          loadOfficeSpecificData(officeId);
-      };
+          var element = document.getElementById(id)
+          smoothScroll(element, options);
+      }
 
-      function loadOfficeSettings(officeId) {
-          $scope.isFormBusy = true;
-          return OfficeService.getSettings(officeId)
+      function showChildren(program) {
+          angular.forEach(program.children, function (child, index) {
+              child.isHidden = false;
+              child.isExpanded = false;
+          });
+      }
+
+      function hideChildren(program) {
+          angular.forEach(program.children, function (child, index) {
+              child.isHidden = true;
+              child.isExpanded = false;
+          });
+      }
+
+      function loadUserId() {
+          return AuthService.getUserInfo()
               .then(function (response) {
-                  var objectiveLabel = response.data.objectiveLabel;
-                  var categoryLabel = response.data.categoryLabel;
-                  var focusLabel = response.data.focusLabel;
-                  var justificationLabel = response.data.justificationLabel;
-                  var isCategoryRequired = response.data.isCategoryRequired;
-                  var isObjectiveRequired = response.data.isObjectiveRequired;
-
-                  $scope.categoryLabel = categoryLabel + '/' + focusLabel;
-                  $scope.objectiveLabel = objectiveLabel + '/' + justificationLabel;
-
-                  $scope.showCategoryFocus = isCategoryRequired;
-                  $scope.showObjectiveJustification = isObjectiveRequired;
-
+                  $scope.view.ecaUserId = response.data.ecaUserId;
+                  return response.data.ecaUserId;
               })
-              .then(function () {
-                  $scope.isFormBusy = false;
-              })
-          .catch(function () {
-              $log.error('Unable to load office settings.');
-              NotificationService.showErrorMessage('Unable to load office settings.');
-          });
-      }
-
-      function loadOfficeSpecificData(officeId) {
-          return $q.all([loadOfficeSettings(officeId), loadCategories(officeId), loadObjectives(officeId)])
-          .then(function () {
-              $log.info('Loaded office specific data.');
-          });
-      }
-
-
-      $scope.showHideChildren = function (program, showChild) {
-          // loop through rows after this one and show/hide while programLevel is less
-
-          $('#expand' + program.programId).toggle();
-          $('#contract' + program.programId).toggle();
-
-          var thisRow = $('#program' + program.programId);
-          var currentLevel = program.programLevel;
-
-          var start = thisRow[0].rowIndex + 1;
-
-          var rows = document.getElementById("programList").rows;
-          for (var rowIndex = start; rowIndex < rows.length; rowIndex++) {
-              var row = rows[rowIndex];
-
-              var level = $(row).attr('program-level');
-              if (level > currentLevel) {
-                  if (showChild) { $(row).show() } else { $(row).hide(); }
-              }
-              else {
-                  break;
-              }
-          }
-      };
-
-      $scope.getParentPrograms = function (val) {
-          $scope.parentLookupParams = {
-              start: null,
-              limit: 25,
-              sort: null,
-              filter: [{ property: 'name', comparison: 'like', value: val },
-                      { property: 'programstatusid', comparison: 'eq', value: 1 }]
-          };
-          return ProgramService.getAllProgramsAlpha($scope.parentLookupParams)
-              .then(function (data) {
-                  return data.results;
+              .catch(function () {
+                  $log.error('Unable to load user info.');
               });
       }
 
-      $scope.changeProgramList = function () {
-          var tableState = $scope.initialTableState;
-          $scope.getPrograms(tableState);
-      };
-
-      $scope.getPrograms = function (tableState) {
-          $scope.initialTableState = tableState;
-
+      $scope.view.getPrograms = function (tableState) {          
           TableService.setTableState(tableState);
           var params = {
               start: TableService.getStart(),
@@ -358,38 +104,43 @@ angular.module('staticApp')
               filter: TableService.getFilter(),
               keyword: TableService.getKeywords()
           };
+
           if (!params.filter) {
               params.filter = [];
           }
-          
-          $scope.programFilter = params.keyword;
-          if ($scope.draftsOnly) {
+
+          $scope.view.programFilter = params.keyword;
+          if ($scope.view.showDraftsOnly) {
               params.filter.push({ property: 'programStatusId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.programStatus.draft.id });
-              params.filter.push({ property: 'createdByUserId', comparison: ConstantsService.equalComparisonType, value: $scope.ecaUserId });
+              params.filter.push({ property: 'createdByUserId', comparison: ConstantsService.equalComparisonType, value: $scope.view.ecaUserId });
           }
           else {
               params.filter.push({ property: 'programStatusId', comparison: ConstantsService.notEqualComparisonType, value: ConstantsService.programStatus.draft.id });
           }
-          if ($scope.programList.type == "alpha") {
-              $scope.refreshProgramsAlpha(params, tableState);
+          if ($scope.view.listType === $scope.view.alphabeticalKey) {
+              return loadProgramsAlphabetically(params, tableState);
           }
           else {
-              $scope.refreshProgramsHierarchy(params, tableState);
+              return loadProgramsInHierarchy(params, tableState);
           };
       };
 
-      $scope.refreshProgramsAlpha = function (params, tableState) {
-          $scope.programsLoading = true;
-          ProgramService.getAllProgramsAlpha(params)
+      function loadProgramsAlphabetically(params, tableState) {
+          $scope.view.programsLoading = true;
+          return ProgramService.getAllProgramsAlpha(params)
           .then(function (data) {
               processData(data, tableState, params);
+          })
+          .catch(function(response){
+              var message = "Unable to load programs.";
+              $log.error(message);
+              NotificationService.showErrorMessage(message);
           });
       };
 
-      $scope.refreshProgramsHierarchy = function (params, tableState) {
-          $scope.programsLoading = true;
-
-          ProgramService.getAllProgramsHierarchy(params)
+      function loadProgramsInHierarchy(params, tableState) {
+          $scope.view.programsLoading = true;
+          return ProgramService.getAllProgramsHierarchy(params)
           .then(function (data) {
               processData(data, tableState, params);
           });
@@ -403,293 +154,41 @@ angular.module('staticApp')
               start = params.start + 1;
           };
           var count = params.start + programs.length;
-
           updatePagingDetails(total, start, count);
-
           var limit = TableService.getLimit();
           tableState.pagination.numberOfPages = Math.ceil(total / limit);
 
-          $scope.programs = programs;
-          $scope.programsLoading = false;
+          angular.forEach(programs, function (program, index) {
+              if (program.children) {
+                  if (program.isRoot) {
+                      program.isHidden = false;
+                  }
+                  else {
+                      program.isHidden = true;
+                  }
+                  program.isExpanded = false;
+              }
+              program.divId = 'program' + program.programId;
+          });
+
+          $scope.view.programs = programs;
+          $scope.view.programsLoading = false;
+          return programs;
       };
 
       function updatePagingDetails(total, start, count) {
-          $scope.totalNumberOfPrograms = total;
-          $scope.skippedNumberOfPrograms = start;
-          $scope.numberOfPrograms = count;
+          $scope.view.totalNumberOfPrograms = total;
+          $scope.view.skippedNumberOfPrograms = start;
+          $scope.view.numberOfPrograms = count;
       };
 
 
-      $scope.createModalCancel = function () {
+      $q.all([loadUserId()])
+      .then(function (results) {
 
-          $scope.currentForm = $scope.modalForm.programForm;
-          $scope.checkFormStatus();
-      };
+      })
+      .catch(function () {
 
-      $scope.editModalCancel = function () {
-          $scope.currentForm = $scope.modalForm.editProgramForm;
-          $scope.checkFormStatus();
-      };
-
-      $scope.checkFormStatus = function () {
-          if ($scope.currentFormIsDirty()) {
-              $scope.showConfirmClose = true;
-          }
-          else {
-              $scope.showCreateProgram = false;
-              $scope.showEditProgram = false;
-              return true;
-          }
-      };
-
-      $scope.currentFormIsDirty = function () {
-          return ($scope.modalForm.editProgramForm.$dirty || $scope.modalForm.programForm.$dirty || $scope.dropDownDirty);
-      };
-
-
-
-      $scope.editProgram = function (programId) {
-
-          var curDate = new Date();
-          // to fix date-disabled error preventing form validation when 
-          // a start date is from an existing program
-          $scope.minDate = curDate.setFullYear(curDate.getFullYear() - 5);
-
-          $scope.programId = programId;
-
-          $('#loadingEditLabel' + programId).css("display", "inline-block");
-
-          $scope.editProgramLoading = true;
-          $scope.editExisting = true;
-          $scope.dropDownDirty = false;
-          $scope.isFormBusy = true;
-          $scope.programId = programId;
-          ProgramService.get(programId)
-              .then(function (newProgram) {
-                  loadOfficeSpecificData(newProgram.ownerOrganizationId)
-                  .then(function () {
-                      $scope.newProgram = newProgram;
-                      $scope.newProgram.themes = newProgram.themes.map(getIds);
-                      $scope.newProgram.goals = newProgram.goals.map(getIds);
-                      $scope.newProgram.contacts = newProgram.contacts.map(getIds);
-                      $scope.newProgram.regions = newProgram.regionIsos.map(getIds);
-                      $scope.newProgram.categories = newProgram.categories.map(getIds);
-                      $scope.newProgram.objectives = newProgram.objectives.map(getIds);
-
-                      $scope.tickSelectedItems();
-
-                      $scope.editProgramLoading = false;
-
-                      $scope.showEditProgram = true;
-
-                      $('#loadingEditLabel' + programId).css("display", "none");
-                  })
-              }).then(function () {
-                  $scope.isFormBusy = false;
-              })
-          .catch(function () {
-              $log.error('Unable to load program.');
-              NotificationService.showErrorMessage('Unable to load program.');
-          });
-      };
-
-      function getIds(element) {
-          return element.id;
-      };
-
-      $scope.saveEditedProgram = function () {
-
-          var editProgramForm = $scope.modalForm.editProgramForm;
-
-          var programId = $scope.programId;
-          $scope.isFormBusy = true;
-          if (editProgramForm.$valid) {
-              cleanUpNewProgram();
-              ProgramService.update($scope.newProgram, $scope.programId)
-                  .then(function (program) {
-                      if (Array.isArray(program)) {
-                          $scope.errorMessage = "There were one or more errors:";
-                          $scope.validations = program;
-                          $scope.confirmFail = true;
-                      }
-                      else if (program.hasOwnProperty('Message')) {
-
-                          $scope.errorMessage = program.Message;
-                          $scope.validations = program.ValidationErrors;
-                          $scope.confirmFail = true;
-
-                      }
-                      else if (program.hasOwnProperty('ErrorMessage')) {
-                          $scope.errorMessage = program.ErrorMessage;
-                          $scope.validations.push(program.Property);
-                          $scope.validations.confirmFail = true;
-                      }
-                      else if (Array.isArray(program)) {
-                          $scope.errorMessage = "There were one or more errors:";
-                          $scope.validations = programs;
-                          $scope.validations.confirmFail = true;
-                      }
-                      else {
-                          $scope.program = program; //perhaps not, this is to get the id
-                          $scope.confirmSave = true;
-                      }
-                  })
-                  .then(function () {
-                      $scope.isFormBusy = false;
-                  })
-                  .catch(function () {
-                      NotificationService.showErrorMessage('Unable to save program.');
-                  });
-          }
-          else {
-              alert('Please complete all required fields');
-          }
-
-      };
-
-      $scope.saveCreatedProgram = function () {
-
-          $scope.isFormBusy = true;
-          var programForm = $scope.modalForm.programForm;
-          if (programForm.$valid) {
-              cleanUpNewProgram();
-
-              if ($scope.out.OwnerOrganization.length > 0) {
-                  $scope.newProgram.ownerOrganizationId = $scope.out.OwnerOrganization[0].organizationId;
-              }
-              ProgramService.create($scope.newProgram)
-                  .then(function (program) {
-                      if (Array.isArray(program)) {
-                          $scope.errorMessage = "There were one or more errors:";
-                          $scope.validations = program;
-                          $scope.confirmFail = true;
-                      }
-                      else if (program.hasOwnProperty('Message')) {
-                          $scope.errorMessage = program.Message;
-                          $scope.validations = program.ValidationErrors;
-                          $scope.confirmFail = true;
-                      }
-                      else if (program.hasOwnProperty('ErrorMessage')) {
-                          $scope.errorMessage = program.ErrorMessage;
-                          $scope.validations.push(program.Property);
-                          $scope.validations.confirmFail = true;
-                      }
-                      else if (Array.isArray(program)) {
-                          $scope.errorMessage = "There were one or more errors:";
-                          $scope.validations = programs;
-                          $scope.validations.confirmFail = true;
-                      }
-                      else {
-                          $scope.program = program; //perhaps not, this is to get the id
-                          $scope.confirmSave = true;
-                          $scope.modalClear();
-                      }
-                  })
-              .then(function () {
-                  $scope.isFormBusy = false;
-              })
-              .catch(function () {
-                  NotificationService.showErrorMessage('Unable to save program.');
-              });
-          }
-      };
-
-      function cleanUpNewProgram() {
-          if ($scope.newProgram.parentProgram !== undefined) {
-              $scope.newProgram.parentProgramId = $scope.newProgram.parentProgram.programId;
-          }
-          $scope.newProgram.themes = $scope.out.Themes.map(getIds);
-          $scope.newProgram.goals = $scope.out.Goals.map(getIds);
-          $scope.newProgram.contacts = $scope.out.Contacts.map(getIds);
-          $scope.newProgram.regions = $scope.out.Regions.map(getIds);
-          $scope.newProgram.categories = $scope.out.Categories.map(getIds);
-          $scope.newProgram.objectives = $scope.out.Objectives.map(getIds);
-
-      };
-
-      // calendar popup for startDate
-      $scope.calOpen = function ($event) {
-          $event.preventDefault();
-          $event.stopPropagation();
-
-          this.calOpened = true;
-
-      };
-
-      // #region clear modal form
-
-      $scope.modalClear = function () {
-          angular.forEach($scope.newProgram, function (value, key) {
-              $scope.newProgram[key] = ''
-          });
-          $scope.calClear();
-          $scope.newProgram.ownerOrganizationId = 1;
-          $scope.newProgram.startDate = new Date();
-          $scope.newProgram.parentProgramId = null;
-
-          $scope.modalForm.editProgramForm.$setPristine();
-          $scope.modalForm.programForm.$setPristine();
-
-          var elements = angular.element(document.querySelectorAll('.multiSelect .reset'));
-          angular.forEach(elements, function (value, key) {
-              $timeout(function () {
-                  elements[key].click();
-              })
-          });
-
-      };
-      $scope.calClear = function () {
-          $scope.startDate = null;
-      };
-
-      //#endregion
-
-      $scope.toggleMin = function () {
-          $scope.minDate = $scope.minDate ? null : new Date();
-      };
-      $scope.toggleMin();
-
-      $scope.toggleMax = function () {
-          var curDate = new Date();
-          curDate = curDate.setFullYear(curDate.getFullYear() + 1);
-          $scope.maxDate = curDate;
-      };
-      $scope.toggleMax();
-
-
-      // #region Confirmation dialogs
-
-      $scope.closeEditingModal = function () {
-          $scope.showEditProgram = false;
-          $scope.showCreateProgram = false;
-          $scope.modalClear();
-      };
-
-      $scope.confirmCloseYes = function () {
-          $scope.showConfirmClose = false;
-          $scope.closeEditingModal();
-      };
-
-      $scope.confirmCloseNo = function () {
-          $scope.showConfirmClose = false;
-      };
-
-      $scope.confirmSaveYes = function () {
-          $scope.confirmSave = false;
-          $scope.closeEditingModal();
-          $scope.changeProgramList();
-
-      };
-
-      $scope.confirmFailOk = function () {
-          $scope.confirmFail = false;
-      };
-
-      // #endregion
-
-      $scope.setDropDownDirty = function () {
-          $scope.dropDownDirty = true;
-      };
-
+      });
   });
 
