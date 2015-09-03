@@ -56,12 +56,12 @@
                     <td class="narrowPadding">
                         <div id="{{program.divId}}">
                             <div class="col-md-10" ng-style="{'padding-left': (40*program.programLevel)}">
-                                <div class="col-md-1">
+                                <div ng-if="!program.isRoot" ng-class="{'col-md-1': !program.isRoot}">
                                     <i style="margin-left:25px;"
                                        ng-show="!program.isRoot && view.listType === view.hierarchyKey"
                                        class="material-icons md-18 flip-horizontal">keyboard_return</i>
                                 </div>
-                                <div class="col-md-11">
+                                <div ng-class="{'col-md-12': program.isRoot, 'col-md-11': !program.isRoot}">
                                     <span class="owner-office">{{program.officeSymbol}}</span>
                                     <span class="owner-office"> - {{program.status}}</span>
                                     <h4>
@@ -69,7 +69,6 @@
                                     </h4>
                                 </div>
                             </div>
-
                             <div class="col-md-2" ng-show="program.numChildren > 0">
                                 <span ng-click="view.onExpandClick(program)" style="cursor:pointer;" class="right">
                                     <i class="material-icons md-24" ng-show="!program.isExpanded">expand_more</i>
@@ -81,10 +80,10 @@
                         </div>
                         <div style="min-height:145px;">
                             <div class="col-md-10" ng-style="{'padding-left': (40*program.programLevel)}">
-                                <div class="col-md-1">
+                                <div ng-if="!program.isRoot" ng-class="{'col-md-1': !program.isRoot}">
                                     &nbsp;
                                 </div>
-                                <div class="col-md-11">
+                                <div ng-class="{'col-md-12': program.isRoot, 'col-md-11': !program.isRoot}">
                                     <p ng-bind-html="program.description | highlight:programFilter">{{program.description}}</p>
                                 </div>
                             </div>
