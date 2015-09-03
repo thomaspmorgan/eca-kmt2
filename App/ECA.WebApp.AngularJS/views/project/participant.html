@@ -46,7 +46,7 @@
                        ng-model="view.selectedExistingParticipant"
                        typeahead-wait-ms="400"
                        typeahead-loading="view.isLoadingAvailableParticipants"
-                       typeahead="participant as participant.name for participant in view.getAvailableParticipants($viewValue) | filter : $viewValue | limitTo : view.addParticipantsLimit"
+                       typeahead="participant as participant.name for participant in view.getAvailableParticipants($viewValue) | limitTo : view.addParticipantsLimit"
                        typeahead-on-select="view.onAddParticipantSelect($item, $model, $label)"
                        typeahead-template-url="addParticipantTemplate.html"
                        typeahead-editable="false">
@@ -59,12 +59,12 @@
             <p class="pull-right" style="font-style:italic">Search not returning a result?</p>
         </div>
         <div class="col-md-1" ng-show="!view.isAddingParticipant" style="margin-top:65px;">
-            <button class="btn btn-primary" ng-click=" modal.addParticipant=true">ADD NEW PARTICIPANT</button>
+            <button class="btn btn-primary" ng-click="openAddNewParticipant()">ADD NEW PARTICIPANT</button>
         </div>
     </div>
     <div class="row expand">
         <div class="dashed col-md-12" ng-show="participants.length === 0">
-            <h4>No participants yet.<span class="light"> Drop files here, <a>upload</a> or <a ng-click="modal.addParticipant = true">add manually</a>.</span></h4>
+            <h4>No participants yet.<span class="light"> Drop files here, <a>upload</a> or <a ng-click="openAddPersonDialog()">add manually</a>.</span></h4>
         </div>
         <div st-pipe="getParticipants" st-table="participants" exposetablestate="getParticipantsTableState" id="sort-list">
             <table class="col-md-12 alt">
@@ -267,104 +267,7 @@
             </table>
             <div st-template="views/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="participants.length > 0"></div>
         </div>
-        <modal-dialog show="modal.addParticipant" dialog-title="Add to Participants" before-close="addParticipantModalClose()" on-close="addParticipantModalClear()" main-model="newParticipant">
-            <h5>Fill out the required information below for each participant.</h5>
-            <div class="required2">* Marks required fields</div>
-            <div id="modal-tab" class="tabs">
-                <ul class="left">
-                    <li class="tab right mute">Other</li>
-                    <li class="tab right mute">Contact Information</li>
-                    <li class="tab right active">Personal Information</li>
-                </ul>
-            </div>
-            <div id="form-container" class="row" in-context-form>
-                <div class="col-md-10">
-                    <form name="participantForm">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="">FIRST / GIVEN NAME<span class="asterisk"> *</span></label>
-                                    <input ng-model="newParticipant.firstName" form-element guidance="First or given name of the participant." type="text" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="">GENDER<span class="asterisk"> *</span></label>
-                                    <isteven-multi-select input-model="genders" output-model="newParticipant.gender" button-label="value" item-label="value" tick-property="ticked" selection-mode="single"></isteven-multi-select>
-                                    <input type="text" ng-model="newParticipant.gender" required style="display: none">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">PLACE OF BIRTH - COUNTRY<span class="asterisk"> *</span></label>
-                                    <isteven-multi-select input-model="countries" output-model="newParticipant.countryOfBirth" button-label="name" item-label="name" tick-property="ticked" selection-mode="single" on-item-click="birthCountrySelected(data)"></isteven-multi-select>
-                                    <input type="text" ng-model="newParticipant.countryOfBirth" style="display: none">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">COUNTRIES OF CITIZENSHIP<span class="asterisk"> *</span></label>
-                                    <isteven-multi-select input-model="countriesCopy" output-model="newParticipant.countriesOfCitizenship" button-label="name" item-label="name" tick-property="ticked"></isteven-multi-select>
-                                    <input type="text" ng-model="newParticipant.countriesOfCitizenship[0]" required style="display: none">
-                                </div>
-                                <!--
-                                <div class="form-group">
-                                    <label for="">ORIGINATION - COUNTRY<span class="asterisk"> *</span></label>
-                                    <isteven-multi-select input-model="countries" output-model="newParticipant.countryOfOrigination" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
-                                    <input type="text" ng-model="newParticipant.countryOfOrigination" required style="display: none">
-                                </div>
-                                -->
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="">SURNAME / PRIMARY NAME<span class="asterisk"> *</span></label>
-                                    <input ng-model="newParticipant.lastName" form-element guidance="Surname or primary name of the participant." type="text" class="form-control" required>
-                                </div>
-                                <style>
-                                    td:first-child {
-                                        padding: 0;
-                                    }
-                                </style>
-                                <div class="form-group" style="#td">
-                                    <label for="dobDate">DATE OF BIRTH<span class="asterisk"> *</span></label>
-                                    <div class="input-group">
-                                        <input type="text"
-                                                id="dobDate"
-                                                class="form-control"
-                                                datepicker-popup="{{view.dateFormat}}"
-                                                ng-model="newParticipant.dateOfBirth"
-                                                is-open="view.isDobDatePickerOpen"
-                                                close-text="Close"
-                                                form-element guidance="Date of birth of the participant." />
-                                        <span class="input-group-btn">
-                                            <button type="button" class="btn btn-default" ng-click="view.openDobDatePicker($event)"><i class="material-icons md-18">event</i></button>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="">PLACE OF BIRTH - CITY<span class="asterisk"> *</span></label>
-                                    <isteven-multi-select input-model="cities" output-model="newParticipant.cityOfBirth" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
-                                    <input type="text" ng-model="newParticipant.cityOfBirth" style="display: none">
-                                </div>
-                                <!--
-                                <div class="form-group">
-                                    <label for="">DESTINATION - COUNTRY<span class="asterisk"> *</span></label>
-                                    <isteven-multi-select input-model="countries" output-model="newParticipant.countryOfDestination" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
-                                    <input type="text" ng-model="newParticipant.countryOfDestination" required style="display: none">
-                                </div>
-                                -->
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-md-2">
-                    <guidance></guidance>
-                </div>
-            </div>
-            <button class="btn btn-cancel" ng-click="modal.addParticipant = false">CANCEL</button>
-            <button class="btn btn-success right" ng-disabled="participantForm.$invalid" ng-click="addParticipant()">ADD</button>
-        </modal-dialog>
     </div>
-    <modal-dialog show="modal.addParticipantResult" dialog-title="{{result.title}}" before-close="modal.addParticipantResult = false">
-        <p class="strong">{{result.subtitle}}</p>
-        <p class="alert-danger" ng-show="result.error">{{result.error}}</p>
-        <button class="btn btn-default right" ng-click="modal.addParticipantResult = false">OK</button>
-    </modal-dialog>
-
     <script type="text/ng-template" id="addParticipantTemplate.html">
         <a>
             <!--Organization search results-->

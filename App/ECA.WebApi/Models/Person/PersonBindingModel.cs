@@ -20,6 +20,12 @@ namespace ECA.WebApi.Models.Person
         public int ProjectId { get; set; }
 
         /// <summary>
+        /// Gets or set the participant type id
+        /// </summary>
+        [Required]
+        public int ParticipantTypeId { get; set; }
+
+        /// <summary>
         /// Gets or sets the first name
         /// </summary>
         [Required]
@@ -50,7 +56,6 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Gets or sets the countries of citizenship
         /// </summary>
-        [Required]
         public List<int> CountriesOfCitizenship { get; set; }
 
         /// <summary>
@@ -60,7 +65,7 @@ namespace ECA.WebApi.Models.Person
         /// <returns>New person business object</returns>
         public NewPerson ToNewPerson(User user)
         {
-            return new NewPerson(user, this.ProjectId, this.FirstName, this.LastName, this.Gender, this.DateOfBirth,
+            return new NewPerson(user, this.ProjectId, this.ParticipantTypeId, this.FirstName, this.LastName, this.Gender, this.DateOfBirth,
                                  this.CityOfBirth, this.CountriesOfCitizenship);
         }
     }
