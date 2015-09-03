@@ -80,10 +80,6 @@ namespace ECA.Business.Service.Persons
             var personToUpdate = await GetPersonByIdAsync(pii.PersonId);
             var cityOfBirth = await GetLocationByIdAsync(pii.CityOfBirthId.GetValueOrDefault());
             var countriesOfCitizenship = await GetLocationsByIdAsync(pii.CountriesOfCitizenship);
-            /*
-            var validationEntity = GetValidationEntity(pii, personToUpdate, cityOfBirth, countriesOfCitizenship);
-            validator.ValidateUpdate(validationEntity);
-            */
             DoUpdate(pii, personToUpdate, cityOfBirth, countriesOfCitizenship);
 
             return personToUpdate;
@@ -325,18 +321,10 @@ namespace ECA.Business.Service.Persons
         /// <returns>The person created</returns>
         public async Task<Person> CreateAsync(NewPerson newPerson)
         {
-            /*
-            var existingPerson = await GetExistingPerson(newPerson);
-            if (existingPerson != null)
-            {
-                this.logger.Trace("Found existing person {0}.", existingPerson);
-                throw new EcaBusinessException("The person already exists.");
-            }
-            */
             var project = await GetProjectByIdAsync(newPerson.ProjectId);
             var countriesOfCitizenship = await GetLocationsByIdAsync(newPerson.CountriesOfCitizenship);
             var person = CreatePerson(newPerson, countriesOfCitizenship);
-            var participant = CreateParticipant(person, project);
+            var participant = CreateParticipant(person, newPerson.ParticipantTypeId, project);
             this.logger.Trace("Created participant {0}.", newPerson); 
             return person;
         }
@@ -435,14 +423,15 @@ namespace ECA.Business.Service.Persons
         /// Create a participant
         /// </summary>
         /// <param name="person">Person to associate with participant</param>
+        /// <param name="participantTypeId">Participant type id</param>
         /// <param name="project">Project to assocate with participant</param>
         /// <returns></returns>
-        private Participant CreateParticipant(Person person, Project project)
+        private Participant CreateParticipant(Person person, int participantTypeId, Project project)
         {
             var participant = new Participant
             {
                 PersonId = person.PersonId,
-                ParticipantTypeId = ParticipantType.Individual.Id
+                ParticipantTypeId = participantTypeId
             };
 
             participant.Project = project;

@@ -70,16 +70,36 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the date of birth.
         /// </summary>
         public DateTime? DateOfBirth { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the gender.
         /// </summary>
         public string Gender { get; set; }
 
         /// <summary>
+        /// Gets or sets the gender id
+        /// </summary>
+        public int GenderId { get; set; }
+
+        /// <summary>
         /// Gets or sets the current status
         /// </summary>
         public string CurrentStatus { get; set; }
+
+        /// <summary>
+        /// Gets or sets the country of birth
+        /// </summary>
+        public string CountryOfBirth { get; set; }
+
+        /// <summary>
+        /// Gets or sets the city of birth
+        /// </summary>
+        public string CityOfBirth { get; set; }
+
+        /// <summary>
+        /// Gets or sets the city of birth id
+        /// </summary>
+        public int? CityOfBirthId { get; set; }
 
     }
 }

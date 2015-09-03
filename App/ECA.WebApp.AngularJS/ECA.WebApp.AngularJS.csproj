@@ -165,6 +165,7 @@
     <Content Include="scripts\controllers\program\overview.js" />
     <Content Include="scripts\controllers\program\subprogramsandprojects.js" />
     <Content Include="scripts\controllers\project\addprojectmodal.js" />
+    <Content Include="scripts\controllers\project\addnewparticipant.js" />
     <Content Include="scripts\controllers\project\selectparticipanttype.js" />
     <Content Include="scripts\controllers\project\edit.js" />
     <Content Include="scripts\controllers\project\overview.js" />
@@ -234,6 +235,7 @@
     <Content Include="views\program\moneyflows.html" />
     <Content Include="views\program\addprogrammodal.html" />
     <Content Include="views\project\addprojectmodal.html" />
+    <Content Include="views\project\addnewparticipant.html" />
     <Content Include="views\project\selectparticipanttype.html" />
     <Content Include="scripts\services\organization.js" />
     <Content Include="views\organizations\allorganizations.html" />
