@@ -281,7 +281,7 @@ angular
             requireADLogin: true
         })
         .state('programs.edit', {
-            url: '/overview',
+            url: '/edit',
             controller: 'ProgramEditCtrl',
             templateUrl: 'views/program/edit.html',
             requireADLogin: true

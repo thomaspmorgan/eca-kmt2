@@ -82,6 +82,14 @@ angular.module('staticApp')
           goToProjectState: function (projectId, options) {
               options = options || {};
               return $state.go(service.stateNames.overview.project, { projectId: projectId }, options) + '#top';
+          },
+
+          goToForbiddenState: function () {
+              return $state.go('forbidden');
+          },
+
+          goToErrorState: function () {
+              return $state.go('error');
           }
       };
       return service;

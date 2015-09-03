@@ -130,6 +130,7 @@
     <Compile Include="Queries\Admin\BookmarkQueries.cs" />
     <Compile Include="Queries\Admin\EmailAddressQueries.cs" />
     <Compile Include="Queries\Models\Admin\EmailAddressDTO.cs" />
+    <Compile Include="Queries\Models\Admin\ProgramStatusDTO.cs" />
     <Compile Include="Queries\Models\Persons\LanguageProficiencyDTO.cs" />
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
     <Compile Include="Queries\Persons\LanguageProficiencyQueries.cs" />
@@ -249,6 +250,8 @@
     <Compile Include="Service\Lookup\SocialMediaTypeDTO.cs" />
     <Compile Include="Service\Lookup\SocialMediaTypeService.cs" />
     <Compile Include="Service\Persons\UpdateGeneral.cs" />
+    <Compile Include="Service\Programs\IProgramStatusService.cs" />
+    <Compile Include="Service\Programs\ProgramStatusService.cs" />
     <Compile Include="Service\Projects\AdditionalOrganizationProjectParticipant.cs" />
     <Compile Include="Service\Projects\AdditionalPersonProjectParticipant.cs" />
     <Compile Include="Service\Projects\IProjectStatusService.cs" />

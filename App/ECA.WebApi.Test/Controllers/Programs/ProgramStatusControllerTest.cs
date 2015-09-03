@@ -13,33 +13,33 @@ using System.Web.Http.Results;
 namespace ECA.WebApi.Test.Controllers.Projects
 {
     [TestClass]
-    public class ProjectStatusControllerTest
+    public class ProgramStatusControllerTest
     {
-        private Mock<IProjectStatusService> serviceMock;
-        private ProjectStatusesController controller;
+        private Mock<IProgramStatusService> serviceMock;
+        private ProgramStatusesController controller;
 
         [TestInitialize]
         public void TestInit()
         {
-            serviceMock = new Mock<IProjectStatusService>();
-            serviceMock.Setup(x => x.GetAsync(It.IsAny<QueryableOperator<ProjectStatusDTO>>()))
-                .ReturnsAsync(new PagedQueryResults<ProjectStatusDTO>(1, new List<ProjectStatusDTO>()));
-            controller = new ProjectStatusesController(serviceMock.Object);
+            serviceMock = new Mock<IProgramStatusService>();
+            serviceMock.Setup(x => x.GetAsync(It.IsAny<QueryableOperator<ProgramStatusDTO>>()))
+                .ReturnsAsync(new PagedQueryResults<ProgramStatusDTO>(1, new List<ProgramStatusDTO>()));
+            controller = new ProgramStatusesController(serviceMock.Object);
         }
 
         #region Get
         [TestMethod]
         public async Task TestGetProjectStatiAsync()
         {
-            var response = await controller.GetProjectStatiAsync(new PagingQueryBindingModel<ProjectStatusDTO>());
-            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<ProjectStatusDTO>>));
+            var response = await controller.GetProgramStatiAsync(new PagingQueryBindingModel<ProgramStatusDTO>());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<ProgramStatusDTO>>));
         }
 
         [TestMethod]
         public async Task TestGetProjectStatiAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
-            var response = await controller.GetProjectStatiAsync(new PagingQueryBindingModel<ProjectStatusDTO>());
+            var response = await controller.GetProgramStatiAsync(new PagingQueryBindingModel<ProgramStatusDTO>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
         #endregion

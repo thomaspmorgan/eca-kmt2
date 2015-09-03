@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Admin;
+using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Projects;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
@@ -22,20 +23,20 @@ namespace ECA.WebApi.Controllers.Projects
     /// The Project Status controller handles crud operations on project stati.
     /// </summary>
     [Authorize]
-    public class ProjectStatusesController : ApiController
+    public class ProgramStatusesController : ApiController
     {
         /// <summary>
         /// The default sorter for a list of foci.
         /// </summary>
-        private static readonly ExpressionSorter<ProjectStatusDTO> DEFAULT_PROJECT_STATUS_DTO_SORTER = 
-            new ExpressionSorter<ProjectStatusDTO>(x => x.Name, SortDirection.Ascending);
-        private IProjectStatusService service;
+        private static readonly ExpressionSorter<ProgramStatusDTO> DEFAULT_PROGRAM_STATUS_DTO_SORTER = 
+            new ExpressionSorter<ProgramStatusDTO>(x => x.Name, SortDirection.Ascending);
+        private IProgramStatusService service;
 
         /// <summary>
-        /// Creates a new instance with the project status service.
+        /// Creates a new instance with the program status service.
         /// </summary>
         /// <param name="service">The service.</param>
-        public ProjectStatusesController(IProjectStatusService service)
+        public ProgramStatusesController(IProgramStatusService service)
         {
             Contract.Requires(service != null, "The service must not be null.");
             this.service = service;
@@ -47,11 +48,11 @@ namespace ECA.WebApi.Controllers.Projects
         /// <param name="queryModel">The query model.</param>
         /// <returns>The project stati currently in the system.</returns>
         [ResponseType(typeof(PagedQueryResults<ProjectStatusDTO>))]
-        public async Task<IHttpActionResult> GetProjectStatiAsync([FromUri]PagingQueryBindingModel<ProjectStatusDTO> queryModel)
+        public async Task<IHttpActionResult> GetProgramStatiAsync([FromUri]PagingQueryBindingModel<ProgramStatusDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetAsync(queryModel.ToQueryableOperator(DEFAULT_PROJECT_STATUS_DTO_SORTER));
+                var results = await this.service.GetAsync(queryModel.ToQueryableOperator(DEFAULT_PROGRAM_STATUS_DTO_SORTER));
                 return Ok(results);
             }
             else

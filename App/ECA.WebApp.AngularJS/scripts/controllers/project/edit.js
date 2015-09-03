@@ -588,7 +588,7 @@ angular.module('staticApp')
                   $log.info('User has edit project permission in edit.js controller.');
               },
               notAuthorized: function () {
-                  $state.go('forbidden');
+                  StateService.goToForbiddenState();
               }
           };
           return AuthService.getResourcePermissions(resourceType, projectId, config)
