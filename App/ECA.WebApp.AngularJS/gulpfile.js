@@ -37,7 +37,7 @@ gulp.task('html', ['styles'], function () {
         .pipe(assets)
         .pipe(gulpIf('*.js', uglify({mangle: false})))
         .pipe(gulpIf('*.css', replace('select2.png', '../images/select2.png')))
-        .pipe(gulpIf('*.css', replace('../bower_components/material-design-icons/iconfont/', '../fonts/material-design-icons/iconfont/')))
+        //.pipe(gulpIf('*.css', replace('../bower_components/material-design-icons/iconfont/', '../fonts/material-design-icons/iconfont/')))
         .pipe(gulpIf('*.css', minifyCss()))
         .pipe(assets.restore())
         .pipe(useref())

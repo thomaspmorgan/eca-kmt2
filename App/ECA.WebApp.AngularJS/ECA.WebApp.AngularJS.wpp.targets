@@ -11,12 +11,12 @@
       </FilesForPackagingFromProject>
     </ItemGroup>
 
-    <!--<ItemGroup>
-      <_BowerComponents Include="bower_components\**\*" />
+    <ItemGroup>
+      <_BowerComponents Include="bower_components\material-design-icons\iconfont\**\*" />
       <FilesForPackagingFromProject Include="%(_BowerComponents.Identity)">
         <DestinationRelativePath>bower_components\%(RecursiveDir)%(Filename)%(Extension)</DestinationRelativePath>
       </FilesForPackagingFromProject>
-    </ItemGroup>-->
+    </ItemGroup>
 
   </Target>
   <PropertyGroup>

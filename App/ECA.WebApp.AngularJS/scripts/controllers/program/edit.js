@@ -128,7 +128,7 @@ angular.module('staticApp')
       var categoriesFilter = FilterService.add('editprogram_categoriesfilter');
       function loadCategories(officeId, selectedCategories) {
           categoriesFilter.reset();
-          categoriesFilter = categoriesFilter.skip(0).take(maxLimit).notIn('id', selectedCategories.map(function (c) { return c.id; }));
+          categoriesFilter = categoriesFilter.skip(0).take(maxLimit);
           return OfficeService.getCategories(officeId, categoriesFilter.toParams())
             .then(function (response) {
                 normalizeLookupProperties(response.data.results);
