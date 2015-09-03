@@ -1,16 +1,18 @@
 <div class="row">
-    <h2 class="program-color tab-header">
+    <h2 class="program-color tab-header col-md-10">
         {{header}}
-        <div class="btn-group right dropdown" dropdown>
+    </h2>
+    <div class="col-md-2" style="margin-top:8px;">
+        <div class="btn-group dropdown" ng-show="!view.isLoadingProgram" dropdown>
             <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
                 Create New &nbsp;&nbsp;&nbsp;<span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
-                <li><a href ng-click="createItem('subprogram')">Sub-Program</a></li>
-                <li><a href ng-click="createItem('project')">Project</a></li>
+                <li><a ng-click="view.createSubProgram()">Sub-Program</a></li>
+                <li><a ng-click="view.createProject()">Project</a></li>
             </ul>
         </div>
-    </h2>
+    </div>
 </div>
 <h4 class="tab-subheader">Sub-Programs List</h4>
 <div ng-show="!subprograms.length">
@@ -34,18 +36,15 @@
                         </div>
                     </td>
                     <td class="col-md-3 tools" style="vertical-align:middle; padding-right:40px;">
-
                         <div class="right" style="display:none;" showonparentrow>
-                            <div id="copySection" class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy" ng-click="copyProgram(program.programId)">
-                                <i class="md md-content-copy md-2x copyEditDeleteOption" ng-show="!copyProgramLoading"></i>
-                                <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="copyProgramLoading"></i>
+                            <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy">
+                                <i class="material-icons md-24 copyEditDeleteOption">content_copy</i>
                             </div>
-                            <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Edit" ng-click="editProgram(program.programId)">
-                                <i class="md md-mode-edit md-2x copyEditDeleteOption" ng-show="!editProgramLoading"></i>
-                                <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="editProgramLoading"></i>
+                            <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Edit">
+                                <i class="material-icons md-24 copyEditDeleteOption">edit</i>
                             </div>
-                            <div class="copyEditDeleteOptions tip" tooltip-placement="bottom" tooltip="Delete" ng-click="deleteProgram(program.programId)">
-                                <i class="md md-delete md-2x copyEditDeleteOption"></i>
+                            <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Delete">
+                                <i class="material-icons md-24 copyEditDeleteOption">delete</i>
                             </div>
                         </div>
                     </td>
@@ -64,8 +63,6 @@
         <div st-template="views/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="projects.length > 0"></div>
     </div>
 </div>
-
-
 <h4 class="tab-subheader">Projects List</h4>
 <div st-pipe="getProjects" st-table="projects" id="sort-list">
     <table class="col-md-12 table">
@@ -132,16 +129,14 @@
                 </td>
                 <td style="vertical-align:middle;">
                     <div class="right" style="display:none;" showonparentrow>
-                        <div class="copyEditDeleteOptions">
-                            <i class="md md-content-copy md-2x copyEditDeleteOption" ng-show="!copyProgramLoading"></i>
-                            <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="copyProgramLoading"></i>
+                        <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy">
+                            <i class="material-icons md-24 copyEditDeleteOption">content_copy</i>
                         </div>
-                        <div class="copyEditDeleteOptions">
-                            <i class="md md-mode-edit md-2x copyEditDeleteOption" ng-show="!editProgramLoading"></i>
-                            <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="editProgramLoading"></i>
+                        <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Edit">
+                            <i class="material-icons md-24 copyEditDeleteOption">edit</i>
                         </div>
-                        <div class="copyEditDeleteOptions">
-                            <i class="md md-delete md-2x copyEditDeleteOption"></i>
+                        <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Delete">
+                            <i class="material-icons md-24 copyEditDeleteOption">delete</i>
                         </div>
                     </div>
                 </td>
@@ -160,239 +155,4 @@
     <div st-template="views/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="projects.length > 0"></div>
 </div>
 
-<modal-dialog show="createProject" dialog-title="Create Project" on-open="modalSetPristine()" on-close="modalClear()">
-    <div class="tip" ng-show="!isSavingProject">
-        <img src="images/tip.png"><span class="strong">Did you know?</span> This is a draft. Only you can see this.
-        <div class="required">* Marks required fields</div>
-    </div>
-    <div id="modal" class="row" ng-show="!isSavingProject" in-context-form>
-        <div class="col-md-10">
-            <form name="projectForm" ng-init="setFormScope(this)" novalidate>
-                <div class="form-group">
-                    <label>Project Title<span class="asterisk"> *</span></label>
-                    <input name="projectTitle" ng-model="newProject.title" form-element guidance="This is the name of your project. (e.g. ETA Fulbright 2015)" type="text" class="form-control" placeholder="Enter project title..." required>
-                    <div ng-show="projectForm.projectTitle.$dirty">
-                        <div class="error" ng-show="projectForm.projectTitle.$error.required">Please enter a project name.</div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Project Description<span class="asterisk"> *</span></label>
-                    <textarea name="projectDescription" ng-model="newProject.description" form-element guidance="This briefly summarizes what this project is about." type="text" class="form-control" placeholder="Enter description..." required></textarea>
-                    <span class="error" ng-show="projectForm.projectDescription.$error.required && projectForm.projectDescription.$dirty">Project description is required.</span>
-                </div>
-                <div ng-show="branches.length" class="form-group" form-element="click" guidance="Select the branch that this project is in. (If applicable)">
-                    <label>Branch</label>
-                    <multi-select input-model="branches"
-                                  output-model="newProject.branch"
-                                  button-label="displayName"
-                                  item-label="displayName"
-                                  tick-property="ticked"
-                                  selection-mode="single"
-                                  helper-elements="">
-                    </multi-select>
-                </div>
-            </form>
-        </div>
-        <div class="col-md-2">
-            <guidance></guidance>
-        </div>
-    </div>
-    <div class="spinner" ng-show="isSavingProject">
-        <div class="bounce1"></div>
-        <div class="bounce2"></div>
-        <div class="bounce3"></div>
-    </div>
-    <button class="btn btn-cancel" ng-show="!isSavingProject" ng-click="createProject = !modalClose()">CANCEL</button>
-    <button type="submit" form="projectForm" ng-show="!isSavingProject" ng-disabled="projectForm.projectDescription.$error.required" class="btn btn-success right" ng-click="saveProject()">CREATE</button>
-</modal-dialog>
 
-<modal-dialog show="createProgram" dialog-title="Create Program">
-    <div class="tip">
-        <img src="images/tip.png"><span class="strong">Did you know?</span> This is a draft. Only you can see this.
-        <div class="required">* Marks required fields</div>
-    </div>
-
-    <div id="modal" class="row" in-context-form>
-        <div class="col-md-10">
-            <div class="spinner" ng-show="isFormBusy">
-                <div class="bounce1"></div>
-                <div class="bounce2"></div>
-                <div class="bounce3"></div>
-            </div>
-            <form name="modalForm.programForm" ng-show="!isFormBusy">
-                <div class="form-group">
-                    <label>Program Name<span class="asterisk"> *</span></label>
-                    <input name="name" ng-model="newProgram.name" form-element guidance="This is the name of your program. (e.g. ETA Fulbright)" type="text" class="form-control" placeholder="Enter program title..." required>
-                    <div ng-show="modalForm.programForm.name.$dirty">
-                        <div class="error" ng-show="modalForm.programForm.name.$error.required">Please enter a program name.</div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Program Description<span class="asterisk"> *</span></label>
-                    <textarea name="description" ng-model="newProgram.description" form-element guidance="This briefly summarizes what this program is about." type="text" class="form-control" placeholder="Enter description..." required></textarea>
-                    <span class="error" ng-show="modalForm.programForm.description.$error.required && modalForm.programForm.description.$dirty">Program description is required.</span>
-                </div>
-                <div class="form-group">
-                    <label>Parent Program</label>
-                    <input name="parentProgram" ng-model="newProgram.parentProgram" form-element guidance="This is the parent program of your new program, if needed." type="text" placeholder="Enter Parent Program name..."
-                           typeahead="p as p.name for p in getParentPrograms($viewValue)" typeahead-loading="loadingPrograms" typeahead-on-select="model=$item.value"
-                           typeahead-editable="false" class="form-control" />
-                    <i class="material-icons md-18 material-icons-spin" ng-show="loadingPrograms">autorenew</i>
-                </div>
-                <div class="form-group">
-                    <label>Program Inception<span class="asterisk"> *</span></label>
-                    <p class="input-group">
-                        <input name="start" type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="newProgram.startDate" is-open="calOpened"
-                               min-date="minDate" max-date="maxDate" close-text="Close" placeholder="Enter start date..." required />
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="calOpen($event)"><i class="material-icons md-18">event</i></button>
-                        </span>
-                    </p>
-                    <div ng-show="modalForm.programForm.start.$dirty">
-                        <div class="error" ng-show="modalForm.programForm.start.$error.required">Please enter a start date.</div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Related Regions<span class="asterisk"> *</span></label>
-                    <isteven-multi-select input-model="regions"
-                                          output-model="out.Regions"
-                                          button-label="name"
-                                          item-label="name"
-                                          tick-property="ticked"
-                                          selection-mode="multiple"
-                                          helper-elements="none reset"
-                                          on-item-click="setDropDownDirty()">
-                    </isteven-multi-select>
-                    <div ng-show="regionsInvalid">
-                        <span class="error">Please select at least one region.</span>
-                    </div>
-                </div>
-                <div class="form-group" form-element guidance="This lists the themes for the program (at least one required).">
-                    <label>Themes<span class="asterisk"> *</span></label>
-                    <isteven-multi-select input-model="themes"
-                                          output-model="out.Themes"
-                                          button-label="name"
-                                          item-label="name"
-                                          tick-property="ticked"
-                                          selection-mode="multiple"
-                                          helper-elements="filter none reset"
-                                          max-height="250px"
-                                          on-item-click="setDropDownDirty()">
-                    </isteven-multi-select>
-                    <div ng-show="themesInvalid">
-                        <span class="error">Please select at least one theme.</span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Goals<span class="asterisk"> *</span></label>
-                    <isteven-multi-select input-model="goals"
-                                          output-model="out.Goals"
-                                          button-label="name"
-                                          item-label="name"
-                                          tick-property="ticked"
-                                          selection-mode="multiple"
-                                          helper-elements="none reset"
-                                          max-height="250px"
-                                          on-item-click="setDropDownDirty()">
-                    </isteven-multi-select>
-                    <div ng-show="goalsInvalid">
-                        <span class="error">Please select at least one goal.</span>
-                    </div>
-                </div>
-                <div class="form-group" ng-show="showCategoryFocus">
-                    <label>{{categoryLabel}}</label>
-                    <isteven-multi-select input-model="allCategoriesGrouped"
-                                          output-model="out.Categories"
-                                          button-label="name"
-                                          item-label="name"
-                                          tick-property="ticked"
-                                          selection-mode="multiple"
-                                          helper-elements="none reset"
-                                          max-height="250px"
-                                          group-property="focusGroup"
-                                          on-item-click="setDropDownDirty()">
-                    </isteven-multi-select>
-                    <div ng-show="categoriesInvalid">
-                        <span class="error">Please select at least one focus/category.</span>
-                    </div>
-                </div>
-                <div class="form-group" ng-show="showObjectiveJustification">
-                    <label>{{objectiveLabel}}</label>
-                    <isteven-multi-select input-model="allObjectivesGrouped"
-                                          output-model="out.Objectives"
-                                          button-label="name"
-                                          item-label="name"
-                                          tick-property="ticked"
-                                          selection-mode="multiple"
-                                          helper-elements="none reset"
-                                          max-height="250px"
-                                          group-property="justificationGroup"
-                                          on-item-click="setDropDownDirty()">
-                    </isteven-multi-select>
-                    <div ng-show="objectivesInvalid">
-                        <span class="error">Please select at least one justification/objective.</span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Points Of Contact<span class="asterisk"> *</span></label>
-                    <isteven-multi-select input-model="pointsOfContact"
-                                          output-model="out.Contacts"
-                                          button-label="fullName"
-                                          item-label="fullName"
-                                          tick-property="ticked"
-                                          selection-mode="multiple"
-                                          helper-elements="filter none reset"
-                                          max-height="250px"
-                                          on-item-click="setDropDownDirty()">
-                    </isteven-multi-select>
-                    <div ng-show="contactsInvalid">
-                        <span class="error">Please select at least one point of contact.</span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>External Website</label>
-                    <input type="url" name="programWebsite" ng-model="newProgram.website" class="form-control" placeholder="Enter website address (e.g. http://somesite.com)..." form-element guidance="If the program has a website URL, you can enter it here." />
-                    <div ng-show="modalForm.programForm.programWebsite.$dirty">
-                        <span class="error" ng-show="modalForm.programForm.programWebsite.$error.url">Not a valid website address.</span>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        <div class="col-md-2">
-            <guidance></guidance>
-        </div>
-    </div>
-    <div class="modalFormButtons">
-        <button class="btn btn-cancel" ng-click="createProgram = !modalClose()">CANCEL</button>
-        <button ng-disabled="modalForm.programForm.$invalid" class="btn btn-success right" ng-click="saveCreatedProgram()">CREATE</button>
-    </div>
-</modal-dialog>
-
-<modal-dialog show="confirmClose" dialog-title="Confirm Close" before-close="confirmCloseNo()">
-    <p class="strong">There is unsaved data.  Are you sure you want to close?</p>
-    <button class="btn btn-default right" ng-click="confirmCloseYes()">YES</button>
-    &nbsp;
-    <button class="btn btn-success right" ng-click="confirmCloseNo()">NO</button>
-</modal-dialog>
-
-<modal-dialog show="confirmSave" dialog-title="Project Created" before-close="confirmSaveYes()">
-    <p class="strong">The project was created sucessfully!</p>
-    <button class="btn btn-default right" ng-click="confirmSaveYes()">OK</button>
-</modal-dialog>
-
-<modal-dialog show="confirmFail" dialog-title="Error Saving Project" before-close="confirmFailOk()" on-close="">
-    <p class="strong">There was an error saving the new project.</p>
-    <p class="alert-warning">{{errorMessage}}</p>
-    <div>
-        <ul>
-            <li class="alert-danger" ng-repeat="validation in validations">{{validation}}</li>
-        </ul>
-    </div>
-    <button class="btn btn-default right" ng-click="confirmFailOk()">OK</button>
-</modal-dialog>
-<style>
-    .ng-modal-close-x {
-        display: none;
-    }
-</style>

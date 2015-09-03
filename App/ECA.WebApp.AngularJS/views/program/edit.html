@@ -1,0 +1,202 @@
+﻿<div class="spinner" ng-show="view.isLoadingProgram || view.isLoadingRequiredData || view.isSaving">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+</div>
+<div ng-show="!view.isLoadingProgram && !view.isLoadingRequiredData && !view.isSaving" in-context-form>
+    <div>
+        <div class="pull-right">
+            <button ng-click="view.onSaveClick($event)" ng-disabled="form.programForm.$invalid" class="btn btn-success">Save</button>
+            <button ng-click="view.onCancelClick($event)" class="btn btn-cancel">Cancel</button>
+        </div>
+        <h2 class="project-color tab-header" ng-show="!view.isLoading && !view.isSaving">Overview</h2>
+    </div>
+    <form name="form.programForm" class="form-horizontal">
+        <div class="form-group">
+            <label class="col-md-2 title-label" for="program">Program Name <span class="asterisk"> *</span></label>
+            <div class="col-md-10">
+                <input name="name"
+                       ng-model="view.program.name"
+                       form-element guidance="This is the name of your program."
+                       type="text"
+                       class="form-control"
+                       placeholder="Enter program title..."
+                       id="programName"
+                       required />
+                <div ng-show="form.programForm.name.$dirty">
+                    <div class="error" ng-show="form.programForm.name.$error.required">Please enter a program name.</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 title-label" for="description">Description <span class="asterisk"> *</span></label>
+            <div class="col-md-10">
+                <textarea name="description"
+                          ng-model="view.program.description"
+                          form-element guidance="This is the description of your program."
+                          type="text"
+                          id="description"
+                          class="form-control"
+                          placeholder="Enter program description..."
+                          required />
+                <div ng-show="form.programForm.description.$dirty">
+                    <div class="error" ng-show="form.programForm.description.$error.required">Please enter a project description.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row tags">
+            <span ng-repeat="tag in view.program.tags" class="tag">#{{tag}}</span>
+        </div>
+        <div class="row table">
+            <h4 class="tab-subheader">Details</h4>
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label class="col-md-3 title-label" for="status">Status <span class="asterisk"> *</span></label>
+                    <div class="col-md-9">
+                        <select class="form-control" id="status" ng-options="s.id as s.name for s in view.programStatii" ng-model="view.program.programStatusId" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 title-label" for="startDate">Start Date <span class="asterisk"> *</span></label>
+                    <div class="col-md-9">
+                        <p class="input-group">
+                            <input type="text"
+                                   id="startDate"
+                                   class="form-control"
+                                   datepicker-popup="{{view.dateFormat}}"
+                                   ng-model="view.program.startDate"
+                                   is-open="view.isStartDatePickerOpen"
+                                   ng-required="true"
+                                   close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="view.openStartDatePicker($event)"><i class="material-icons md-18">event</i></button>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 title-label" for="endDate">End Date <span class="asterisk"> *</span></label>
+                    <div class="col-md-9">
+                        <p class="input-group">
+                            <input type="text"
+                                   class="form-control"
+                                   id="endDate"
+                                   datepicker-popup="{{view.dateFormat}}"
+                                   ng-model="view.program.endDate"
+                                   is-open="view.isEndDatePickerOpen"
+                                   ng-required="true"
+                                   min-date="view.program.startDate"
+                                   close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="view.openEndDatePicker($event)"><i class="material-icons md-18">event</i></button>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 title-label">Themes</div>
+                    <div class="col-md-6">
+                        <ui-select multiple close-on-select="true" ng-model="view.selectedThemes" theme="select2" title="Choose a theme." style="min-width: 200px;">
+                            <ui-select-match placeholder="Select themes...">
+                                <div>{{$item.value}}</div>
+                            </ui-select-match>
+                            <ui-select-choices repeat="theme in view.themes | filter: {value: $select.search} track by theme.id">
+                                <div ng-bind-html="theme.value | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 title-label">Strategic Goals</div>
+                    <div class="col-md-6">
+                        <ui-select multiple close-on-select="true" ng-model="view.selectedGoals" theme="select2" title="Choose a goal." style="min-width: 200px;">
+                            <ui-select-match placeholder="Select goals...">
+                                <div>{{$item.value}}</div>
+                            </ui-select-match>
+                            <ui-select-choices repeat="goal in view.goals | filter: {value: $select.search} track by goal.id">
+                                <div ng-bind-html="goal.value | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6 title-label">Office</div>
+                    <div class="col-md-6">{{view.program.ownerName}}</div>
+                </div>
+                <div class="row" ng-show="view.isCategoryRequired">
+                    <div class="col-md-6 title-label">{{view.categoryLabel}} <span class="asterisk"> *</span></div>
+                    <div class="col-md-6">
+                        <ui-select multiple close-on-select="true" ng-model="view.selectedCategories" theme="select2" title="Choose a category." style="min-width: 200px;">
+                            <ui-select-match placeholder="Select categories...">
+                                <div>{{$item.value}}</div>
+                            </ui-select-match>
+                            <ui-select-choices group-by="'focusName'" repeat="category in view.categories | filter: {value: $select.search} track by category.id">
+                                <div ng-bind-html="category.value | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="row" ng-show="view.isObjectiveRequired">
+                    <div class="col-md-6 title-label">{{view.objectiveLabel}} <span class="asterisk"> *</span></div>
+                    <div class="col-md-6">
+                        <ui-select multiple close-on-select="true" ng-model="view.selectedObjectives" theme="select2" title="Choose an objective." style="min-width: 200px;">
+                            <ui-select-match placeholder="Select objectives...">
+                                <div>{{$item.value}}</div>
+                            </ui-select-match>
+                            <ui-select-choices group-by="'justificationName'" repeat="objective in view.objectives | filter: {value: $select.search} track by objective.id">
+                                <div ng-bind-html="objective.value | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div><!--
+                <div class="row" ng-show="project.contacts">
+                    <div class="col-md-6 title-label"><ng-pluralize count="project.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
+                    <div class="col-md-6">
+                        <ui-select multiple close-on-select="true" ng-model="view.selectedPointsOfContact" theme="select2" title="Choose a point of contact." style="min-width: 200px;">
+                            <ui-select-match placeholder="Select points of contact...">
+                                <div>{{$item.value}}</div>
+                            </ui-select-match>
+
+                            <ui-select-choices refresh="view.searchPointsOfContact($select.search)" refresh-delay="250" repeat="person in view.pointsOfContact | filter: select.search track by person.id">
+                                <div ng-bind-html="person.fullName | highlight: $select.search"></div>
+                                <div class="small">{{person.position}}</div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>-->
+                <!--<div class="row" ng-show="project.locations">
+                    <div class="col-md-6 title-label">
+                        <ng-pluralize count="project.locations.length" when="{'1':'Location','other':'Locations'}"></ng-pluralize>
+                    </div>
+                    <div class="col-md-6">
+                        <ui-select multiple
+                                   id="{{view.locationUiSelectId}}"
+                                   close-on-select="true"
+                                   ng-model="view.selectedLocations"
+                                   theme="select2"
+                                   search-enabled="false"
+                                   title="Choose a location."
+                                   style="min-width: 200px;">
+                            <ui-select-match placeholder="Select locations...">
+                                <div>
+                                    {{$item.value}} ({{$item.locationTypeName}}:  {{$item.divisionIso ? $item.divisionIso + ', ' : ''}}{{$item.countryIso ? $item.countryIso : $item.locationIso}})
+                                </div>
+                            </ui-select-match>
+                            <ui-select-choices refresh="view.searchLocations($select.search)" refresh-delay="250" repeat="location in view.locations | filter: select.search track by location.id">
+                                <div ng-bind-html="location.name | highlight: $select.search"></div>
+                                <div style="margin-left:10px;" class="small" ng-show="location.locationTypeName">{{location.locationTypeName}}</div>
+                                <div style="margin-left:10px;" class="small" ng-show="location.city">{{location.city}}</div>
+                                <div style="margin-left:10px;" class="small" ng-show="location.division">{{location.division}}</div>
+                                <div style="margin-left:10px;" class="small" ng-show="location.country">{{location.country}}</div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <div style="margin-top:5px;">
+                            <button class="btn btn-default" ng-click="view.onAdvancedSearchClick()">Advanced <i class="material-icons md-dark">search</i></button>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+    </form>
+</div>

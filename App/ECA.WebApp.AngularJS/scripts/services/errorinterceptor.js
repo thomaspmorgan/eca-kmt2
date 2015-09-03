@@ -12,16 +12,17 @@ angular.module('staticApp')
         service.responseError = function (response) {
             var $q = $injector.get('$q');
             var $state = $injector.get('$state');
+            var StateService = $injector.get('StateService');
             var AuthService = $injector.get('AuthService');
             var notificationService = $injector.get('NotificationService');
             if (response && response.status === 401) {
                 AuthService.login();
             }
             else if (response && response.status === 403) {
-                $state.go('forbidden');
+                StateService.goToForbiddenState();
             }
             else if (response && response.status === 500) {
-                $state.go('error');
+                StateService.goToErrorState();
             }
             return $q.reject(response);
         };

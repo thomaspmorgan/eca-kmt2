@@ -47,7 +47,7 @@ namespace ECA.WebApi.Controllers.Projects
         /// <param name="queryModel">The query model.</param>
         /// <returns>The project stati currently in the system.</returns>
         [ResponseType(typeof(PagedQueryResults<ProjectStatusDTO>))]
-        public async Task<IHttpActionResult> GetProjectStati([FromUri]PagingQueryBindingModel<ProjectStatusDTO> queryModel)
+        public async Task<IHttpActionResult> GetProjectStatiAsync([FromUri]PagingQueryBindingModel<ProjectStatusDTO> queryModel)
         {
             if (ModelState.IsValid)
             {

@@ -1,0 +1,71 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">{{view.title}}</h3>
+</div>
+<div class="modal-body">
+    <div class="spinner" ng-show="view.isSavingProject">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+    <div ng-show="!view.isSavingProject">
+        <div class="tip">
+            <img src="images/tip.png"><span class="strong">Did you know?</span> This is a draft. Only you can see this.
+            <div class="required">* Marks required fields</div>
+        </div>
+
+        <div id="modal" class="row" in-context-form>
+            <div class="col-md-10">
+                <form name="form.projectForm" ng-show="!view.isSavingProject">
+                    <div class="form-group" ng-class="{ 'has-error': view.doesProjectExist, 'has-feedback': view.doesProjectExist}">
+                        <label>
+                            Project Title<span class="asterisk"> *</span>
+                            <i style="margin-left:30px;"
+                               class="material-icons md-18 material-icons-spin contextual-busy"
+                               ng-show="view.isLoadingLikeProjects">autorenew</i>
+                        </label>
+                        <input name="name"
+                               ng-model="view.project.name"
+                               form-element guidance="This is the name of your project."
+                               type="text"
+                               class="form-control"
+                               ng-change="view.onProjectNameChange()"
+                               ng-model-options="{debounce: 500}"
+                               placeholder="Enter project title..."
+                               required>
+                        <span class="form-control-feedback" ng-show="view.doesProjectExist"><i class="material-icons md-24">error</i></span>
+                        <div ng-show="view.doesProjectExist" class="error">
+                            There is already a project named {{view.project.name}}.
+                        </div>
+                        <div ng-show="form.projectForm.name.$dirty">
+                            <div class="error" ng-show="form.projectForm.name.$error.required">Please enter a project name.</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Project Description<span class="asterisk"> *</span></label>
+                        <textarea name="description"
+                                  class="form-control"
+                                  ng-model="view.project.description"
+                                  form-element guidance="This briefly summarizes what this project is about."
+                                  type="text"
+                                  placeholder="Enter description..."
+                                  required></textarea>
+                        <span class="error" ng-show="form.projectForm.description.$error.required">Project description is required.</span>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-2">
+                <guidance></guidance>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div>
+        <button class="btn btn-success"
+                ng-click="view.onSaveClick()"
+                ng-disabled="form.projectForm.$invalid || view.isSavingProject || view.doesProjectExist || view.isLoadingLikeProjects">
+            Save
+        </button>
+        <button class="btn btn-cancel" ng-click="view.onCancelClick()">Cancel</button>
+    </div>
+</div>

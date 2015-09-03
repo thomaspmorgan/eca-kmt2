@@ -17,8 +17,6 @@ angular.module('staticApp')
         options
         ) {
 
-
-      //$scope.title = "Confirm";
       if (!options.title) {
           $log.info('title not defined.  Using default title.');
       }

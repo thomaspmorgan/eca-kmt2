@@ -110,26 +110,6 @@ angular.module('staticApp')
           saveProject();
       };
 
-      $scope.addTab = function () {
-          if ($scope.tabs.participants.active && !$scope.project.participants) {
-              $scope.project.participants = [];
-          }
-          if ($scope.tabs.partners.active && !$scope.project.agreements) {
-              $scope.project.agreements = [];
-          }
-          if ($scope.tabs.artifacts.active && !$scope.project.artifactReferences) {
-              $scope.project.artifactReferences = [];
-          }
-          if ($scope.tabs.moneyflows.active && !$scope.project.moneyFlows) {
-              $scope.project.moneyFlows = [];
-          }
-          if ($scope.tabs.impact.active && !$scope.project.impacts) {
-              $scope.project.impacts = [];
-          }
-          console.log($scope.tabs);
-          saveProject();
-      }
-
       $scope.saveProject = function () {
           var project = {
               id: Date.now().toString(),
@@ -187,70 +167,6 @@ angular.module('staticApp')
                 $log.error('Unable to load user permissions in project.js controller.');
             });
       }
-
-
-      // DIALOG BOX FUNCTIONS
-
-      $scope.confirmDeleteYes = function () {
-          executeDeleteMoneyFlow();
-          $scope.confirmDelete = false;
-          $scope.moneyFlowConfirmMessage = "deleted";
-          $scope.confirmSuccess = true;
-      }
-
-      $scope.closeConfirm = function () {
-          $scope.confirmSuccess = false;
-      }
-
-      // calendar popup for startDate
-      $scope.transactionCalendarOpen = function ($event) {
-          $event.preventDefault();
-          $event.stopPropagation();
-
-          $scope.transactionCalendarOpened = true;
-
-      };
-
-      $scope.createModalCancel = function () {
-          $scope.checkFormStatus();
-      };
-
-      $scope.confirmClose = function (closeModal) {
-          $scope.showConfirmClose = false;
-
-          if (closeModal) {
-              $scope.showCreateMoneyFlow = false;
-              $scope.modalClear();
-          }
-      };
-
-      $scope.confirmCloseSuccess = function () {
-          $scope.confirmSuccess = false;
-
-          $scope.currentlyEditing = false;
-          $scope.getMoneyFlows();
-
-      };
-
-      $scope.checkFormStatus = function () {
-          if ($scope.modalForm.moneyFlowForm.$dirty) {
-              $scope.showConfirmClose = true;
-          }
-          else {
-              $scope.showCreateMoneyFlow = false;
-          }
-      };
-
-      $scope.confirmCancel = function () {
-          // simply close the confirmation modal dialog
-          $scope.confirmDelete = false;
-      };
-
-      $scope.openTransactionDatePicker = function ($event) {
-          $event.preventDefault();
-          $event.stopPropagation();
-          $scope.isTransactionDatePickerOpen = true;
-      };
 
       $q.all([loadPermissions()])
       .then(function () {

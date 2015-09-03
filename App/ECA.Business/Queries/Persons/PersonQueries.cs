@@ -45,6 +45,7 @@ namespace ECA.Business.Queries.Persons
                             FamilyName = person.FamilyName,
                             FirstName = person.FirstName,
                             Gender = gender.GenderName,
+                            GenderId = gender.GenderId,
                             GivenName = person.GivenName,
                             PersonId = person.PersonId,
                             LastName = person.LastName,
@@ -61,7 +62,10 @@ namespace ECA.Business.Queries.Persons
                                         + ((person.NameSuffix != null && person.NameSuffix.Trim().Length > 0) ? (person.NameSuffix.Trim() + " ") : String.Empty)
                                         + ((person.Alias != null && person.Alias.Trim().Length > 0) ? ("(" + person.Alias.Trim() + ")") : String.Empty)
                                         ).Trim(),
-                            CurrentStatus = hasCurrentParticipation ? currentParticipation.Status.Status : UNKNOWN_PARTICIPANT_STATUS
+                            CurrentStatus = hasCurrentParticipation ? currentParticipation.Status.Status : UNKNOWN_PARTICIPANT_STATUS,
+                            CountryOfBirth = person.PlaceOfBirth != null ? person.PlaceOfBirth.Country.LocationName : null,
+                            CityOfBirth = person.PlaceOfBirth != null ? person.PlaceOfBirth.LocationName : null,
+                            CityOfBirthId = person.PlaceOfBirth != null ? person.PlaceOfBirth.LocationId : (int?)null
                         };
             return query;
         }
@@ -188,11 +192,11 @@ namespace ECA.Business.Queries.Persons
                                 EmailAddressTypeId = x.EmailAddressTypeId
                             }),
                             SocialMedias = person.SocialMedias.Select(x => new SocialMediaDTO
-                            { 
-                                Id = x.SocialMediaId, 
-                                SocialMediaType = x.SocialMediaType.SocialMediaTypeName, 
+                            {
+                                Id = x.SocialMediaId,
+                                SocialMediaType = x.SocialMediaType.SocialMediaTypeName,
                                 SocialMediaTypeId = x.SocialMediaTypeId,
-                                Value = x.SocialMediaValue 
+                                Value = x.SocialMediaValue
                             }).OrderBy(s => s.SocialMediaType),
                             PhoneNumbers = person.PhoneNumbers.Select(x => new SimpleTypeLookupDTO() { Id = x.PhoneNumberId, Type = x.PhoneNumberType.PhoneNumberTypeName, Value = x.Number }),
                         };
@@ -238,10 +242,10 @@ namespace ECA.Business.Queries.Persons
             var query = from education in context.ProfessionEducations
                         let hasOrganization = education.Organization != null
                         let organization = education.Organization
-                        
+
                         let address = hasOrganization ? organization.Addresses.OrderByDescending(x => x.IsPrimary).FirstOrDefault() : null
                         let hasAddress = address != null
-                        
+
                         let hasLocation = hasAddress && address.Location != null
                         let location = hasLocation ? address.Location : null
 
@@ -352,3 +356,4 @@ namespace ECA.Business.Queries.Persons
         }
     }
 }
+

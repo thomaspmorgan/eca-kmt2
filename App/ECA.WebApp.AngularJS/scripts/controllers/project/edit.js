@@ -159,7 +159,7 @@ angular.module('staticApp')
 
       $scope.editView.onAdvancedSearchClick = function () {
           var modalInstance = $modal.open({
-              animation: true,
+              animation: false,
               templateUrl: 'views/locations/searchlocations.html',
               controller: 'SearchLocationsCtrl',
               size: 'lg',
@@ -588,7 +588,7 @@ angular.module('staticApp')
                   $log.info('User has edit project permission in edit.js controller.');
               },
               notAuthorized: function () {
-                  $state.go('forbidden');
+                  StateService.goToForbiddenState();
               }
           };
           return AuthService.getResourcePermissions(resourceType, projectId, config)

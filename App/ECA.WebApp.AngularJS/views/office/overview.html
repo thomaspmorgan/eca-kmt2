@@ -3,57 +3,52 @@
     <div class="bounce2"></div>
     <div class="bounce3"></div>
 </div>
-<div class="alert alert-danger" ng-show="!officeExists">
-    Error!  The office was not found.
-</div>
-<div class="alert alert-danger" ng-show="showLoadingOfficeByIdError">
-    Error!  There was an error processing the request.
-</div>
+
 <div ng-show="!isLoadingOfficeById">
     <h2 class="office-color tab-header">Overview</h2>
     <div class="row">
         <h5>
-            {{office.description}}
+            {{view.office.description}}
         </h5>
     </div>
-    <div class="row tags" ng-show="office.tags">
-        <span ng-repeat="tag in office.tags" class="tag">#{{tag}}</span>
+    <div class="row tags" ng-show="view.office.tags">
+        <span ng-repeat="tag in view.office.tags" class="tag">#{{tag}}</span>
     </div>
     <div class="row table">
         <h4 class="tab-subheader">Details</h4>
         <div class="col-md-6">
-            <div class="row" ng-show="office.themes">
+            <div class="row" ng-show="view.office.themes">
                 <div class="col-md-4 title-label">Themes</div>
                 <div class="col-md-8">
                     <ul>
-                        <li ng-repeat="theme in office.themes | orderBy:'value'">{{theme.value}}</li>
+                        <li ng-repeat="theme in view.office.themes | orderBy:'value'">{{theme.value}}</li>
                     </ul>
                 </div>
             </div>
-            <div class="row" ng-show="office.goals">
+            <div class="row" ng-show="view.office.goals">
                 <div class="col-md-4 title-label">Goals</div>
                 <div class="col-md-8">
                     <ul>
-                        <li ng-repeat="goal in office.goals | orderBy:'value'">{{goal.value}}</li>
+                        <li ng-repeat="goal in view.office.goals | orderBy:'value'">{{goal.value}}</li>
                     </ul>
                 </div>
             </div>
 
         </div>
         <div class="col-md-6">
-            <div class="row" ng-show="office.foci">
+            <div class="row" ng-show="view.office.foci">
                 <div class="col-md-4 title-label">Foci</div>
                 <div class="col-md-8">
                     <ul>
-                        <li ng-repeat="focus in office.foci | orderBy:'value'">{{focus.value}}</li>
+                        <li ng-repeat="focus in view.office.foci | orderBy:'value'">{{focus.value}}</li>
                     </ul>
                 </div>
             </div>
-            <div class="row" ng-show="office.contacts">
-                <div class="col-md-4 title-label"><ng-pluralize count="office.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
+            <div class="row" ng-show="view.office.contacts">
+                <div class="col-md-4 title-label"><ng-pluralize count="view.office.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
                 <div class="col-md-8">
                     <ul>
-                        <li ng-repeat="contact in office.contacts | orderBy:'value'">{{contact.value}}</li>
+                        <li ng-repeat="contact in view.office.contacts | orderBy:'value'">{{contact.value}}</li>
                     </ul>
                 </div>
             </div>

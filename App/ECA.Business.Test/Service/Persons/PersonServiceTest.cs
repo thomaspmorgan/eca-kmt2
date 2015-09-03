@@ -1602,7 +1602,7 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestCreateAsync()
         {
-            var newPerson = new NewPerson(new User(0), 1, "firstName", "lastName",
+            var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName",
                                           Gender.Male.Id, DateTime.Now, 1,
                                           new List<int>());
             var person = await service.CreateAsync(newPerson);
@@ -1624,7 +1624,7 @@ namespace ECA.Business.Test.Service.Persons
 
             context.Locations.Add(city);
 
-            var newPerson = new NewPerson(new User(0), 1, "firstName", "lastName",
+            var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName",
                                         Gender.Male.Id, DateTime.Now, city.LocationId,
                                         new List<int>());
             var person = await service.CreateAsync(newPerson);
@@ -1642,7 +1642,7 @@ namespace ECA.Business.Test.Service.Persons
             context.Locations.Add(country);
 
             List<int> countriesOfCitizenship = new List<int>(new int[] { country.LocationId });
-            var newPerson = new NewPerson(new User(0), 1, "firstName", "lastName",
+            var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName",
                                          Gender.Male.Id, DateTime.Now, 1,
                                          countriesOfCitizenship);
             var person = await service.CreateAsync(newPerson);
@@ -1659,14 +1659,15 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             context.Projects.Add(project);
-
-            var newPerson = new NewPerson(new User(0), project.ProjectId, "firstName", "lastName",
+            var participantTypeId = ParticipantType.Individual.Id;
+            var newPerson = new NewPerson(new User(0), project.ProjectId, participantTypeId, "firstName", "lastName",
                                          Gender.Male.Id, DateTime.Now, 1,
                                          new List<int>());
             var person = await service.CreateAsync(newPerson);
             // Check that participant is associated to person
             var participant = await context.Participants.Where(x => x.PersonId == person.PersonId).FirstOrDefaultAsync();
             Assert.AreEqual(person.PersonId, participant.PersonId);
+            Assert.AreEqual(participantTypeId, participant.ParticipantTypeId);
             // Check that participant is associated to project
             var participantProject = participant.Project;
             Assert.IsTrue(Object.ReferenceEquals(project, participant.Project));
@@ -1675,7 +1676,7 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestGetExistingPerson_DoesNotExist()
         {
-            var newPerson = new NewPerson(new User(0), 1, "firstName", "lastName", 1, DateTime.Now, 1, new List<int>());
+            var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName", 1, DateTime.Now, 1, new List<int>());
             var person = await service.GetExistingPerson(newPerson);
             Assert.IsNull(person);
         }
@@ -1694,7 +1695,7 @@ namespace ECA.Business.Test.Service.Persons
 
             context.People.Add(existingPerson);
 
-            var newPerson = new NewPerson(new User(0), 1, existingPerson.FirstName.ToUpper(), existingPerson.LastName.ToLower(),
+            var newPerson = new NewPerson(new User(0), 1, 1, existingPerson.FirstName.ToUpper(), existingPerson.LastName.ToLower(),
                                           existingPerson.GenderId, existingPerson.DateOfBirth.Value, 1,
                                           new List<int>());
             var person = await service.GetExistingPerson(newPerson);
@@ -1715,7 +1716,7 @@ namespace ECA.Business.Test.Service.Persons
 
             context.People.Add(existingPerson);
 
-            var newPerson = new NewPerson(new User(0), 1, existingPerson.FirstName.Trim(), existingPerson.LastName.Trim(),
+            var newPerson = new NewPerson(new User(0), 1, 1, existingPerson.FirstName.Trim(), existingPerson.LastName.Trim(),
                                           existingPerson.GenderId, existingPerson.DateOfBirth.Value, 1,
                                           new List<int>());
             var person = await service.GetExistingPerson(newPerson);
@@ -1737,7 +1738,7 @@ namespace ECA.Business.Test.Service.Persons
 
             context.People.Add(existingPerson);
 
-            var newPerson = new NewPerson(new User(0), 1, existingPerson.FirstName.ToUpper(), existingPerson.LastName.ToLower(),
+            var newPerson = new NewPerson(new User(0), 1, 1, existingPerson.FirstName.ToUpper(), existingPerson.LastName.ToLower(),
                                           existingPerson.GenderId, existingPerson.DateOfBirth.Value.AddHours(2), 1,
                                           new List<int>());
             var person = await service.GetExistingPerson(newPerson);

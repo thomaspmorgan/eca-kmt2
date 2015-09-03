@@ -349,7 +349,7 @@ namespace ECA.Business.Service.Projects
             this.logger.Trace("Check all contacts with ids {0} existed.", String.Join(", ", updatedProject.PointsOfContactIds));
 
             var categoriesExist = CheckAllCategoriesExist(updatedProject.CategoryIds);
-            this.logger.Trace("Check all goals with ids {0} existed.", String.Join(", ", updatedProject.GoalIds));
+            this.logger.Trace("Check all categories with ids {0} existed.", String.Join(", ", updatedProject.CategoryIds));
 
             var objectivesExist = CheckAllObjectivesExist(updatedProject.ObjectiveIds);
             this.logger.Trace("Check all contacts with ids {0} existed.", String.Join(", ", updatedProject.PointsOfContactIds));
@@ -407,7 +407,7 @@ namespace ECA.Business.Service.Projects
             this.logger.Trace("Check all contacts with ids {0} existed.", String.Join(", ", updatedProject.PointsOfContactIds));
 
             var categoriesExist = await CheckAllCategoriesExistAsync(updatedProject.CategoryIds);
-            this.logger.Trace("Check all goals with ids {0} existed.", String.Join(", ", updatedProject.GoalIds));
+            this.logger.Trace("Check all categories with ids {0} existed.", String.Join(", ", updatedProject.CategoryIds));
 
             var objectivesExist = await CheckAllObjectivesExistAsync(updatedProject.ObjectiveIds);
             this.logger.Trace("Check all contacts with ids {0} existed.", String.Join(", ", updatedProject.PointsOfContactIds));

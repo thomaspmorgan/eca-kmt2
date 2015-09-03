@@ -31,7 +31,7 @@ namespace ECA.WebApi.Test.Controllers.Projects
         [TestMethod]
         public async Task TestGetProjectStatiAsync()
         {
-            var response = await controller.GetProjectStati(new PagingQueryBindingModel<ProjectStatusDTO>());
+            var response = await controller.GetProjectStatiAsync(new PagingQueryBindingModel<ProjectStatusDTO>());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<ProjectStatusDTO>>));
         }
 
@@ -39,7 +39,7 @@ namespace ECA.WebApi.Test.Controllers.Projects
         public async Task TestGetProjectStatiAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
-            var response = await controller.GetProjectStati(new PagingQueryBindingModel<ProjectStatusDTO>());
+            var response = await controller.GetProjectStatiAsync(new PagingQueryBindingModel<ProjectStatusDTO>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
         #endregion

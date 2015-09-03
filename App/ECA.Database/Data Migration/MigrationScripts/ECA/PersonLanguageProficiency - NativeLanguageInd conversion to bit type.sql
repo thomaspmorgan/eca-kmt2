@@ -30,7 +30,7 @@ ALTER TABLE [dbo].[PersonLanguageProficiency] ALTER COLUMN [IsNativeLanguage] bi
 
 
 /* And then create a new default constraint:  */
-EXEC('ALTER TABLE [dbo].[PersonLanguageProficiency] ADD CONSTRAINT [' + @DefaultObjectName + '] DEFAULT 0 FOR [IsNativeLanguage]');
+ALTER TABLE [dbo].[PersonLanguageProficiency] ADD DEFAULT ((0)) FOR [IsNativeLanguage];
 
 
 /* Reenable PK */

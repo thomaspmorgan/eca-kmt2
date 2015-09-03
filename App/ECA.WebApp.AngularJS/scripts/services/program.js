@@ -54,14 +54,38 @@ angular.module('staticApp')
               return DragonBreath.get(params, path);
           },
           getAllProgramsHierarchy: function (params) {
+              var me = this;
               var defer = $q.defer();
               var path = 'programs/Hierarchy';
-              DragonBreath.get(params,path)
+              DragonBreath.get(params, path)
                 .success(function (data) {
+                    me.setChildrenOfProgramHierarchy(data.results);
                     defer.resolve(data);
                 });
               return defer.promise;
           },
+
+          setChildrenOfProgramHierarchy: function (programsAsFlatList) {
+              for (var i = 0; i < programsAsFlatList.length; i++) {
+                  var parent = programsAsFlatList[i];
+                  if (!parent.parentProgram_ProgramId) {
+                      parent.isRoot = true;
+                  }
+                  else {
+                      parent.isRoot = false;
+                  }
+                  parent.children = parent.children || [];
+
+                  for (var j = 0; j < programsAsFlatList.length; j++) {
+                      var potentialChild = programsAsFlatList[j];
+                      if (potentialChild.parentProgram_ProgramId && potentialChild.parentProgram_ProgramId === parent.programId) {
+                          parent.children.push(potentialChild);
+                          potentialChild.parent = parent;
+                      }
+                  }
+              }
+          },
+
           update: function (program, id) {
               var defer = $q.defer();
               DragonBreath.save(program, 'programs', id)
@@ -76,17 +100,7 @@ angular.module('staticApp')
               return defer.promise;
           },
           create: function (program) {
-              var defer = $q.defer();
-              DragonBreath.create(program, 'programs')
-                .success(function (data) {
-                    getProgram(data);
-                    defer.resolve(newProgram);
-                })
-                .error(function (data) {
-                    getProgram(data);
-                    defer.resolve(newProgram);
-                });
-              return defer.promise;
+              return DragonBreath.create(program, 'programs');
           },
           addPermission: function (permissionModel) {
               return DragonBreath.create(permissionModel, 'programs/collaborator/add');

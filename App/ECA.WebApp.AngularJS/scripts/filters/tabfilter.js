@@ -11,11 +11,12 @@
 angular.module('staticApp')
   .filter('tabFilter', function () {
     return function (input) {
-    	var output = [];
+        var output = [];
     	angular.forEach(input, function (val, key) {
     		if (val.active) {
     			output.push(val);
     		}
+    		
     	});
       return output;
     };

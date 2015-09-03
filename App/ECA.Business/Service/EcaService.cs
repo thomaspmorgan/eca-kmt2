@@ -345,11 +345,19 @@ namespace ECA.Business.Service
 
             goalsToAdd.ForEach(x =>
             {
-                if (Context.GetEntityState(x) == EntityState.Detached)
+                var localEntity = Context.GetLocalEntity<Goal>(y => y.GoalId == x.GoalId);
+                if (localEntity == null)
                 {
-                    Context.Goals.Attach(x);
+                    if (Context.GetEntityState(x) == EntityState.Detached)
+                    {
+                        Context.Goals.Attach(x);
+                    }
+                    goalable.Goals.Add(x);
                 }
-                goalable.Goals.Add(x);
+                else
+                {
+                    goalable.Goals.Add(localEntity);
+                }
             });
             goalsToRemove.ForEach(x =>
             {

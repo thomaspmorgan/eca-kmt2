@@ -17,18 +17,20 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="createdBy">User that created the person</param>
         /// <param name="projectId">The project id</param>
+        /// <param name="participantTypeId">The participant type id</param>
         /// <param name="firstName">The first name</param>
         /// <param name="lastName">The last name</param>
         /// <param name="gender">The gender</param>
         /// <param name="dateOfBirth">The date of birth</param>
         /// <param name="cityOfBirth">The city of birth</param>
         /// <param name="countriesOfCitizenship">The countries of citizenship</param>
-        public NewPerson(User createdBy, int projectId, string firstName, string lastName, int gender, DateTime? dateOfBirth,
+        public NewPerson(User createdBy, int projectId, int participantTypeId, string firstName, string lastName, int gender, DateTime? dateOfBirth,
                          int? cityOfBirth, List<int> countriesOfCitizenship)
         {
             Contract.Requires(createdBy != null, "The created by user must not be null.");
 
             this.ProjectId = projectId;
+            this.ParticipantTypeId = participantTypeId;
             this.FirstName = firstName;
             this.LastName = lastName;
             this.Gender = gender;
@@ -42,6 +44,11 @@ namespace ECA.Business.Service.Persons
         /// Gets and sets the project id
         /// </summary>
         public int ProjectId { get; private set; }
+
+        /// <summary>
+        /// Gets and sets the participant type id
+        /// </summary>
+        public int ParticipantTypeId { get; private set; }
 
         /// <summary>
         /// Gets and sets the first name

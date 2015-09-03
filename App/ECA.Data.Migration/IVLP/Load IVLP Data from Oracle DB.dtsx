@@ -1,0 +1,2403 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="9/1/2015 12:28:23 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{ED023576-4C47-4BA9-860A-C789FB9BE4F8}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load IVLP Data from Oracle DB"
+  DTS:PackageType="5"
+  DTS:VersionBuild="18"
+  DTS:VersionGUID="{57C16962-99EE-4622-9414-B59FC9131CE2}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{1584C0FB-71AD-4E22-8F9A-DD42DE45F1B0}"
+      DTS:ObjectName="(localdb)\v11.0.ECA_Local">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=(localdb)\v11.0;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ecaoracle.cloudapp.net.system]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{955886AF-FC82-4F38-A60E-891978814864}"
+      DTS:ObjectName="ecaoracle.cloudapp.net.system">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=ecaoracle.cloudapp.net/ECA;User ID=system;Provider=OraOLEDB.Oracle.1;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAB+RlKVf2Lzmt53Ck8kCNA/c2SFCnCM1r/84YC11L45tAAAAAAOgAAAAAIAACAAAADEMXBIxU8g7Kmy9kf+MNwSvOPXO6JSFu3xd4nXJgdZ5iAAAADr6C0J1SSUCfZ7ddTRWWp3TS/MbOdP/GjnqktanBxw/EAAAABVQulBMSoLDSY2Ps0d3thyJ5VK+64DS/c+duQezzGh0dSl784HqWnL9vSFdgDdsfQl1JchkoMmhyD/OytzDdXP</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Load New Programs"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{01DE5722-08AC-47A2-BB7E-A495067401C1}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load New Programs"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load New Programs\Add new program"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Add new program"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Program]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load New Programs\Add new program.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].Columns[ProgramStatusId_KMT]"
+                      cachedDataType="i4"
+                      cachedName="ProgramStatusId_KMT"
+                      externalMetadataColumnId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[ProgramStatusId]"
+                      lineageId="Package\Load New Programs\Lookup Program StatusId.Outputs[Lookup Match Output].Columns[ProgramStatusId_KMT]" />
+                    <inputColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].Columns[ProgramName_KMT]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="ProgramName_KMT"
+                      externalMetadataColumnId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[ProgramName_KMT]" />
+                    <inputColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].Columns[History_CreatedBy_KMT]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy_KMT"
+                      externalMetadataColumnId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy_KMT]" />
+                    <inputColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].Columns[History_CreatedOn_KMT]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_CreatedOn_KMT"
+                      externalMetadataColumnId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn_KMT]" />
+                    <inputColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].Columns[History_RevisedBy_KMT]"
+                      cachedDataType="i4"
+                      cachedName="History_RevisedBy_KMT"
+                      externalMetadataColumnId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy_KMT]" />
+                    <inputColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].Columns[History_RevisedOn_KMT]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_RevisedOn_KMT"
+                      externalMetadataColumnId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn_KMT]" />
+                    <inputColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].Columns[ParentProgram_ProgramId_KMT]"
+                      cachedDataType="i4"
+                      cachedName="ParentProgram_ProgramId_KMT"
+                      externalMetadataColumnId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[ParentProgram_ProgramId]"
+                      lineageId="Package\Load New Programs\Lookup Parent Program Id (default).Outputs[Lookup Match Output].Columns[ParentProgram_ProgramId_KMT]" />
+                    <inputColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].Columns[StartDate_KMT]"
+                      cachedDataType="dbTimeStampOffset"
+                      cachedName="StartDate_KMT"
+                      cachedScale="7"
+                      externalMetadataColumnId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[StartDate]"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[StartDate_KMT]" />
+                    <inputColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].Columns[EndDate_KMT]"
+                      cachedDataType="dbTimeStampOffset"
+                      cachedName="EndDate_KMT"
+                      cachedScale="7"
+                      externalMetadataColumnId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[EndDate]"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[EndDate_KMT]" />
+                    <inputColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].Columns[Owner_OrganizationId_KMT]"
+                      cachedDataType="i4"
+                      cachedName="Owner_OrganizationId_KMT"
+                      externalMetadataColumnId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[Owner_OrganizationId]"
+                      lineageId="Package\Load New Programs\Lookup Owner OrganizationId (default).Outputs[Lookup Match Output].Columns[Owner_OrganizationId_KMT]" />
+                    <inputColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].Columns[Description_KMT]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="Description_KMT"
+                      externalMetadataColumnId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[Description_KMT]" />
+                    <inputColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].Columns[Website_KMT]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="Website_KMT"
+                      externalMetadataColumnId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[Website]"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[Website_KMT]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[ProgramId]"
+                      dataType="i4"
+                      name="ProgramId" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[ProgramStatusId]"
+                      dataType="i4"
+                      name="ProgramStatusId" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      dataType="wstr"
+                      length="3000"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[Website]"
+                      dataType="wstr"
+                      length="100"
+                      name="Website" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[StartDate]"
+                      dataType="dbTimeStampOffset"
+                      name="StartDate"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[EndDate]"
+                      dataType="dbTimeStampOffset"
+                      name="EndDate"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[ParentProgram_ProgramId]"
+                      dataType="i4"
+                      name="ParentProgram_ProgramId" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[Owner_OrganizationId]"
+                      dataType="i4"
+                      name="Owner_OrganizationId" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[RowVersion]"
+                      dataType="bytes"
+                      length="8"
+                      name="RowVersion" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load New Programs\Add new program.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load New Programs\Add new program.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load New Programs\Add new program.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load New Programs\Add new program.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load New Programs\Add new program.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load New Programs\Add Required Columns"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Add Required Columns"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load New Programs\Add Required Columns.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load New Programs\Add Required Columns.Inputs[Derived Column Input].Columns[PROGRAM]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="PROGRAM"
+                      lineageId="Package\Load New Programs\Aggregate Program.Outputs[Aggregate Output 1].Columns[PROGRAM]" />
+                    <inputColumn
+                      refId="Package\Load New Programs\Add Required Columns.Inputs[Derived Column Input].Columns[UnicodePROGRAM]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="UnicodePROGRAM"
+                      lineageId="Package\Load New Programs\Data Conversion.Outputs[Data Conversion Output].Columns[UnicodePROGRAM]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load New Programs\Add Required Columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[ProgramStatus_KMT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="6"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[ProgramStatus_KMT]"
+                      name="ProgramStatus_KMT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"Active"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"Active"</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy_KMT]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy_KMT]"
+                      name="History_CreatedBy_KMT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">1</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy_KMT]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy_KMT]"
+                      name="History_RevisedBy_KMT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">1</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[ProgramName_KMT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[ProgramName_KMT]"
+                      name="ProgramName_KMT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\Load New Programs\Aggregate Program.Outputs[Aggregate Output 1].Columns[PROGRAM]} == "IV Regional Visitors" ? "Regional Programs" : (#{Package\Load New Programs\Aggregate Program.Outputs[Aggregate Output 1].Columns[PROGRAM]} == "Voluntary Visitors" ? "IVLP On Demand" : #{Package\Load New Programs\Aggregate Program.Outputs[Aggregate Output 1].Columns[PROGRAM]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">PROGRAM == "IV Regional Visitors" ? "Regional Programs" : (PROGRAM == "Voluntary Visitors" ? "IVLP On Demand" : PROGRAM)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn_KMT]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn_KMT]"
+                      name="History_CreatedOn_KMT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn_KMT]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn_KMT]"
+                      name="History_RevisedOn_KMT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[ParentProgram_ProgramName_KMT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="46"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[ParentProgram_ProgramName_KMT]"
+                      name="ParentProgram_ProgramName_KMT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"International Vistor Leadership Program (IVLP)"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"International Vistor Leadership Program (IVLP)"</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[StartDate_KMT]"
+                      dataType="dbTimeStampOffset"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[StartDate_KMT]"
+                      name="StartDate_KMT"
+                      scale="7"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_DBTIMESTAMPOFFSET,7)(DT_DATE)("2015/01/01")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_DBTIMESTAMPOFFSET,7)(DT_DATE)("2015/01/01")</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[EndDate_KMT]"
+                      dataType="dbTimeStampOffset"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[EndDate_KMT]"
+                      name="EndDate_KMT"
+                      scale="7"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_DBTIMESTAMPOFFSET,7)(DT_DATE)("2016/01/01")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_DBTIMESTAMPOFFSET,7)(DT_DATE)("2016/01/01")</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[Owner_OrganizationName_KMT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="32"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[Owner_OrganizationName_KMT]"
+                      name="Owner_OrganizationName_KMT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"Office of International Visitors"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"Office of International Visitors"</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[Owner_OrganizationTypeName_KMT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="6"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[Owner_OrganizationTypeName_KMT]"
+                      name="Owner_OrganizationTypeName_KMT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"Office"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"Office"</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[Description_KMT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[Description_KMT]"
+                      name="Description_KMT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\Load New Programs\Data Conversion.Outputs[Data Conversion Output].Columns[UnicodePROGRAM]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">UnicodePROGRAM</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[Website_KMT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="20"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[Website_KMT]"
+                      name="Website_KMT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"http://eca.state.gov"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"http://eca.state.gov"</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load New Programs\Add Required Columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load New Programs\Aggregate Program"
+              componentClassID="Microsoft.Aggregate"
+              contactInfo="Aggregate;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;3"
+              description="Aggregates data with functions such as Average, Sum, Count, Max, and Min. For example, group data to compute the sum of sales per product or the average visits per day."
+              name="Aggregate Program"
+              version="3">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the approximate number of group by keys that the aggregation produces. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no KeyScale value is used."
+                  name="KeyScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the exact number of group by keys that the aggregation produces. If a KeyScale value is specified, the value in Keys takes precedence."
+                  name="Keys" />
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the approximate number of distinct values in a column that the aggregation counts distinctly. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no CountDistinctScale value is used."
+                  name="CountDistinctScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the exact number of distinct values in a column that the aggregation counts distinctly. If a CountDistinctScale value is specified, the value in CountDistinctKeys takes precedence."
+                  name="CountDistinctKeys" />
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage by which memory can be extended during the aggregation. Valid values are between 1 and 100."
+                  name="AutoExtendFactor">25</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Load New Programs\Aggregate Program.Inputs[Aggregate Input 1]"
+                  name="Aggregate Input 1">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load New Programs\Aggregate Program.Inputs[Aggregate Input 1].Columns[PROGRAM]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="PROGRAM"
+                      lineageId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].Columns[PROGRAM]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load New Programs\Aggregate Program.Outputs[Aggregate Output 1]"
+                  name="Aggregate Output 1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the approximate number of group by keys that the aggregation produces. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no KeyScale value is used."
+                      name="KeyScale"
+                      typeConverter="KeyScaleType">0</property>
+                    <property
+                      dataType="System.Null"
+                      description="Specifies the exact number of group by keys that the aggregation produces. If a KeyScale value is specified, the value in Keys takes precedence."
+                      name="Keys" />
+                  </properties>
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load New Programs\Aggregate Program.Outputs[Aggregate Output 1].Columns[PROGRAM]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\Load New Programs\Aggregate Program.Outputs[Aggregate Output 1].Columns[PROGRAM]"
+                      name="PROGRAM">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].Columns[PROGRAM]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">1</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load New Programs\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load New Programs\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load New Programs\Data Conversion.Inputs[Data Conversion Input].Columns[PROGRAM]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="PROGRAM"
+                      lineageId="Package\Load New Programs\Aggregate Program.Outputs[Aggregate Output 1].Columns[PROGRAM]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load New Programs\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Load New Programs\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load New Programs\Data Conversion.Outputs[Data Conversion Output].Columns[UnicodePROGRAM]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\Load New Programs\Data Conversion.Outputs[Data Conversion Output].Columns[UnicodePROGRAM]"
+                      name="UnicodePROGRAM"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load New Programs\Aggregate Program.Outputs[Aggregate Output 1].Columns[PROGRAM]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load New Programs\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Load New Programs\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load New Programs\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load New Programs\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load New Programs\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load New Programs\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load New Programs\Does Program Exist?"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Does Program Exist?"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Program]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Program]) [refTable]
+where [refTable].[Name] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProgramId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProgramStatusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Name" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Description" dataType="DT_WSTR" length="3000" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Website" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StartDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="EndDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="ParentProgram_ProgramId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Owner_OrganizationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="RowVersion" dataType="DT_BYTES" length="8" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[ProgramName_KMT]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load New Programs\Does Program Exist?.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load New Programs\Does Program Exist?.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load New Programs\Does Program Exist?.Inputs[Lookup Input].Columns[ProgramName_KMT]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="ProgramName_KMT"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[ProgramName_KMT]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Name</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load New Programs\Does Program Exist?.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load New Programs\Does Program Exist?.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load New Programs\Does Program Exist?.Outputs[Lookup Match Output].Columns[ProgramIdExists]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load New Programs\Does Program Exist?.Outputs[Lookup Match Output].Columns[ProgramIdExists]"
+                      name="ProgramIdExists"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">ProgramId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load New Programs\Does Program Exist?.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load New Programs\Does Program Exist?.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load New Programs\Does Program Exist?.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load New Programs\Does Program Exist?.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load New Programs\Does Program Exist?.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load New Programs\Does Program Exist?.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load New Programs\Does Program Exist?.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load New Programs\Does Program Exist?.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load New Programs\IVLP Project (Oracle)"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="IVLP Project (Oracle)"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">"KM_IVLP"."IVLP_PROJECT"</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load New Programs\IVLP Project (Oracle).Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[ecaoracle.cloudapp.net.system]"
+                  connectionManagerRefId="Package.ConnectionManagers[ecaoracle.cloudapp.net.system]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].Columns[PROGRAM]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROGRAM]"
+                      length="100"
+                      lineageId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].Columns[PROGRAM]"
+                      name="PROGRAM"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROJECT_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="PROJECT_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROGRAM]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="PROGRAM" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROJECT_NUMBER]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="PROJECT_NUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROJECT_TITLE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="140"
+                      name="PROJECT_TITLE" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROJECT_TYPE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="PROJECT_TYPE" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[FISCAL_YEAR]"
+                      dataType="numeric"
+                      name="FISCAL_YEAR"
+                      precision="4" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[START_DATE]"
+                      dataType="dbTimeStamp"
+                      name="START_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[END_DATE]"
+                      dataType="dbTimeStamp"
+                      name="END_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[EST_PARTICIPANT_CNT]"
+                      dataType="numeric"
+                      name="EST_PARTICIPANT_CNT"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[EST_ARRIVAL_DATE]"
+                      dataType="dbTimeStamp"
+                      name="EST_ARRIVAL_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[EST_DEPARTURE_DATE]"
+                      dataType="dbTimeStamp"
+                      name="EST_DEPARTURE_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STATUS]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="PROJECT_STATUS" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROJECT_LANGUAGE]"
+                      dataType="wstr"
+                      length="100"
+                      name="PROJECT_LANGUAGE" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[FUNDING_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="FUNDING_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[FUNDING_SOURCE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="FUNDING_SOURCE" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[FUNDING_COUNTRY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="FUNDING_COUNTRY" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[NOMINATED_BY_ORG_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="NOMINATED_BY_ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[COUNTRY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="60"
+                      name="COUNTRY" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[REGION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="REGION" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[NPA_ORG_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="NPA_ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[NPA_PGM_OFFICER_PERSON_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="NPA_PGM_OFFICER_PERSON_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[NPA_PGM_ASSOCIATE_PERSON_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="NPA_PGM_ASSOCIATE_PERSON_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[DOS_PGM_OFFICE_ORG_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="DOS_PGM_OFFICE_ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[DOS_PGM_OFFICER_PERSON_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="DOS_PGM_OFFICER_PERSON_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[DOS_PGM_COORDINATOR_PERSON_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="DOS_PGM_COORDINATOR_PERSON_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROJECT_CREATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="PROJECT_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROJECT_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PROJECT_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROJECT_UPDATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="PROJECT_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROJECT_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PROJECT_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Error Output].Columns[PROGRAM]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Error Output].Columns[PROGRAM]"
+                      name="PROGRAM" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load New Programs\Lookup Office Organization TypeId"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup Office Organization TypeId"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[OrganizationType]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[OrganizationType]) [refTable]
+where [refTable].[OrganizationTypeName] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="OrganizationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="OrganizationTypeName" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[Owner_OrganizationTypeName_KMT]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load New Programs\Lookup Office Organization TypeId.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load New Programs\Lookup Office Organization TypeId.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load New Programs\Lookup Office Organization TypeId.Inputs[Lookup Input].Columns[Owner_OrganizationTypeName_KMT]"
+                      cachedDataType="wstr"
+                      cachedLength="6"
+                      cachedName="Owner_OrganizationTypeName_KMT"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[Owner_OrganizationTypeName_KMT]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">OrganizationTypeName</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load New Programs\Lookup Office Organization TypeId.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load New Programs\Lookup Office Organization TypeId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load New Programs\Lookup Office Organization TypeId.Outputs[Lookup Match Output].Columns[OrganizationTypeId_KMT]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load New Programs\Lookup Office Organization TypeId.Outputs[Lookup Match Output].Columns[OrganizationTypeId_KMT]"
+                      name="OrganizationTypeId_KMT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">OrganizationTypeId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load New Programs\Lookup Office Organization TypeId.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load New Programs\Lookup Office Organization TypeId.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load New Programs\Lookup Office Organization TypeId.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load New Programs\Lookup Office Organization TypeId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load New Programs\Lookup Office Organization TypeId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load New Programs\Lookup Office Organization TypeId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load New Programs\Lookup Office Organization TypeId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load New Programs\Lookup Office Organization TypeId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load New Programs\Lookup Owner OrganizationId (default)"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup Owner OrganizationId (default)"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Organization]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Organization]) [refTable]
+where [refTable].[Name] = ? and [refTable].[OrganizationTypeId] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="OrganizationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="OrganizationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="OfficeSymbol" dataType="DT_WSTR" length="128" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Description" dataType="DT_WSTR" length="3000" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Status" dataType="DT_WSTR" length="20" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Name" dataType="DT_WSTR" length="600" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Website" dataType="DT_WSTR" length="2000" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="ParentOrganization_OrganizationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[Owner_OrganizationName_KMT]};#{Package\Load New Programs\Lookup Office Organization TypeId.Outputs[Lookup Match Output].Columns[OrganizationTypeId_KMT]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load New Programs\Lookup Owner OrganizationId (default).Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load New Programs\Lookup Owner OrganizationId (default).Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load New Programs\Lookup Owner OrganizationId (default).Inputs[Lookup Input].Columns[OrganizationTypeId_KMT]"
+                      cachedDataType="i4"
+                      cachedName="OrganizationTypeId_KMT"
+                      lineageId="Package\Load New Programs\Lookup Office Organization TypeId.Outputs[Lookup Match Output].Columns[OrganizationTypeId_KMT]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">OrganizationTypeId</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load New Programs\Lookup Owner OrganizationId (default).Inputs[Lookup Input].Columns[Owner_OrganizationName_KMT]"
+                      cachedDataType="wstr"
+                      cachedLength="32"
+                      cachedName="Owner_OrganizationName_KMT"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[Owner_OrganizationName_KMT]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Name</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load New Programs\Lookup Owner OrganizationId (default).Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load New Programs\Lookup Owner OrganizationId (default).Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load New Programs\Lookup Owner OrganizationId (default).Outputs[Lookup Match Output].Columns[Owner_OrganizationId_KMT]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load New Programs\Lookup Owner OrganizationId (default).Outputs[Lookup Match Output].Columns[Owner_OrganizationId_KMT]"
+                      name="Owner_OrganizationId_KMT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">OrganizationId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load New Programs\Lookup Owner OrganizationId (default).Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load New Programs\Lookup Owner OrganizationId (default).Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load New Programs\Lookup Owner OrganizationId (default).Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load New Programs\Lookup Owner OrganizationId (default).Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load New Programs\Lookup Owner OrganizationId (default).Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load New Programs\Lookup Owner OrganizationId (default).Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load New Programs\Lookup Owner OrganizationId (default).Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load New Programs\Lookup Owner OrganizationId (default).Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load New Programs\Lookup Parent Program Id (default)"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup Parent Program Id (default)"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Program]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Program]) [refTable]
+where [refTable].[Name] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProgramId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProgramStatusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Name" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Description" dataType="DT_WSTR" length="3000" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Website" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StartDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="EndDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="ParentProgram_ProgramId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Owner_OrganizationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="RowVersion" dataType="DT_BYTES" length="8" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[ParentProgram_ProgramName_KMT]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load New Programs\Lookup Parent Program Id (default).Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load New Programs\Lookup Parent Program Id (default).Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load New Programs\Lookup Parent Program Id (default).Inputs[Lookup Input].Columns[ParentProgram_ProgramName_KMT]"
+                      cachedDataType="wstr"
+                      cachedLength="46"
+                      cachedName="ParentProgram_ProgramName_KMT"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[ParentProgram_ProgramName_KMT]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Name</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load New Programs\Lookup Parent Program Id (default).Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load New Programs\Lookup Parent Program Id (default).Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load New Programs\Lookup Parent Program Id (default).Outputs[Lookup Match Output].Columns[ParentProgram_ProgramId_KMT]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load New Programs\Lookup Parent Program Id (default).Outputs[Lookup Match Output].Columns[ParentProgram_ProgramId_KMT]"
+                      name="ParentProgram_ProgramId_KMT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">ProgramId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load New Programs\Lookup Parent Program Id (default).Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load New Programs\Lookup Parent Program Id (default).Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load New Programs\Lookup Parent Program Id (default).Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load New Programs\Lookup Parent Program Id (default).Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load New Programs\Lookup Parent Program Id (default).Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load New Programs\Lookup Parent Program Id (default).Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load New Programs\Lookup Parent Program Id (default).Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load New Programs\Lookup Parent Program Id (default).Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load New Programs\Lookup Program StatusId"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup Program StatusId"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[ProgramStatus]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[ProgramStatus]) [refTable]
+where [refTable].[Status] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">2</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProgramStatusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Status" dataType="DT_WSTR" length="20" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[ProgramStatus_KMT]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load New Programs\Lookup Program StatusId.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load New Programs\Lookup Program StatusId.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load New Programs\Lookup Program StatusId.Inputs[Lookup Input].Columns[ProgramStatus_KMT]"
+                      cachedDataType="wstr"
+                      cachedLength="6"
+                      cachedName="ProgramStatus_KMT"
+                      lineageId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output].Columns[ProgramStatus_KMT]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Status</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load New Programs\Lookup Program StatusId.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load New Programs\Lookup Program StatusId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load New Programs\Lookup Program StatusId.Outputs[Lookup Match Output].Columns[ProgramStatusId_KMT]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load New Programs\Lookup Program StatusId.Outputs[Lookup Match Output].Columns[ProgramStatusId_KMT]"
+                      name="ProgramStatusId_KMT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">ProgramStatusId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load New Programs\Lookup Program StatusId.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load New Programs\Lookup Program StatusId.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load New Programs\Lookup Program StatusId.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load New Programs\Lookup Program StatusId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load New Programs\Lookup Program StatusId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load New Programs\Lookup Program StatusId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load New Programs\Lookup Program StatusId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load New Programs\Lookup Program StatusId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load New Programs.Paths[Aggregate Output 1]"
+              endId="Package\Load New Programs\Data Conversion.Inputs[Data Conversion Input]"
+              name="Aggregate Output 1"
+              startId="Package\Load New Programs\Aggregate Program.Outputs[Aggregate Output 1]" />
+            <path
+              refId="Package\Load New Programs.Paths[Data Conversion Output]"
+              endId="Package\Load New Programs\Add Required Columns.Inputs[Derived Column Input]"
+              name="Data Conversion Output"
+              startId="Package\Load New Programs\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Load New Programs.Paths[Derived Column Output]"
+              endId="Package\Load New Programs\Lookup Program StatusId.Inputs[Lookup Input]"
+              name="Derived Column Output"
+              startId="Package\Load New Programs\Add Required Columns.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load New Programs.Paths[Lookup Match Output]"
+              endId="Package\Load New Programs\Lookup Parent Program Id (default).Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load New Programs\Lookup Program StatusId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load New Programs.Paths[Lookup Match Output1]"
+              endId="Package\Load New Programs\Lookup Office Organization TypeId.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load New Programs\Lookup Parent Program Id (default).Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load New Programs.Paths[Lookup Match Output2]"
+              endId="Package\Load New Programs\Lookup Owner OrganizationId (default).Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load New Programs\Lookup Office Organization TypeId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load New Programs.Paths[Lookup Match Output3]"
+              endId="Package\Load New Programs\Does Program Exist?.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load New Programs\Lookup Owner OrganizationId (default).Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load New Programs.Paths[Lookup No Match Output]"
+              endId="Package\Load New Programs\Add new program.Inputs[OLE DB Destination Input]"
+              name="Lookup No Match Output"
+              startId="Package\Load New Programs\Does Program Exist?.Outputs[Lookup No Match Output]" />
+            <path
+              refId="Package\Load New Programs.Paths[OLE DB Source Output]"
+              endId="Package\Load New Programs\Aggregate Program.Inputs[Aggregate Input 1]"
+              name="OLE DB Source Output"
+              startId="Package\Load New Programs\IVLP Project (Oracle).Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Projects"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{F78D4F7E-2AD9-4ADB-9526-EA7F870F5AF8}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Projects"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Load New Programs"
+          TopLeft="30.5,22.5" />
+        <NodeLayout
+          Size="142,42"
+          Id="Package\Load Projects"
+          TopLeft="64.5,115.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load New Programs">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="186,42"
+          Id="Package\Load New Programs\Add Required Columns"
+          TopLeft="42,331.830882352941" />
+        <NodeLayout
+          Size="178,42"
+          Id="Package\Load New Programs\IVLP Project (Oracle)"
+          TopLeft="23.5,43.3308823529412" />
+        <NodeLayout
+          Size="199,42"
+          Id="Package\Load New Programs\Lookup Program StatusId"
+          TopLeft="316.5,329.330882352941" />
+        <NodeLayout
+          Size="247,42"
+          Id="Package\Load New Programs\Lookup Parent Program Id (default)"
+          TopLeft="289.5,228.330882352941" />
+        <EdgeLayout
+          Id="Package\Load New Programs.Paths[Lookup Match Output]"
+          TopLeft="414.5,329.330882352941">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-59"
+              Start="0,0"
+              End="0,-51.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-51.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,-31.5546875,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load New Programs.Paths[Derived Column Output]"
+          TopLeft="228,351.580882352941">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="88.5,0"
+              Start="0,0"
+              End="81,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="81,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="176,42"
+          Id="Package\Load New Programs\Does Program Exist?"
+          TopLeft="690.5,38.3308823529412" />
+        <NodeLayout
+          Size="163,42"
+          Id="Package\Load New Programs\Add new program"
+          TopLeft="704.5,323.330882352941" />
+        <EdgeLayout
+          Id="Package\Load New Programs.Paths[Lookup No Match Output]"
+          TopLeft="782.25,80.3308823529412">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,243"
+              Start="0,0"
+              End="0,235.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,235.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-55.80638671875,111.9453125,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Load New Programs\Aggregate Program"
+          TopLeft="25.5,127" />
+        <EdgeLayout
+          Id="Package\Load New Programs.Paths[OLE DB Source Output]"
+          TopLeft="111.5,85.3308823529412">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41.6691176470588"
+              Start="0,0"
+              End="0,34.1691176470588">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.1691176470588" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="264,42"
+          Id="Package\Load New Programs\Lookup Owner OrganizationId (default)"
+          TopLeft="273.5,40.3308823529412" />
+        <NodeLayout
+          Size="243,42"
+          Id="Package\Load New Programs\Lookup Office Organization TypeId"
+          TopLeft="287.5,130.414953149401" />
+        <EdgeLayout
+          Id="Package\Load New Programs.Paths[Lookup Match Output1]"
+          TopLeft="411,228.330882352941">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-55.9159292035398"
+              Start="0,0"
+              End="0,-48.4159292035398">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-48.4159292035398" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,-30.0126521017699,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load New Programs.Paths[Lookup Match Output2]"
+          TopLeft="407.25,130.414953149401">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-48.0840707964602"
+              Start="0,0"
+              End="0,-40.5840707964602">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-40.5840707964602" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,-26.0967228982301,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load New Programs.Paths[Lookup Match Output3]"
+          TopLeft="537.5,60.3308823529412">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="153,0"
+              Start="0,0"
+              End="145.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="145.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="24.55861328125,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Load New Programs\Data Conversion"
+          TopLeft="33.5,225.330882352941" />
+        <EdgeLayout
+          Id="Package\Load New Programs.Paths[Aggregate Output 1]"
+          TopLeft="111,169">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,56.3308823529412"
+              Start="0,0"
+              End="0,48.8308823529412">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48.8308823529412" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load New Programs.Paths[Data Conversion Output]"
+          TopLeft="108.416666666667,267.330882352941">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,64.5"
+              Start="0,0"
+              End="0,57">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,57" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load New Programs\IVLP Project (Oracle)">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load New Programs\Lookup Program StatusId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[ProgramStatus]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load New Programs\Lookup Parent Program Id (default)">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Program]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load New Programs\Does Program Exist?">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Program]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load New Programs\Add new program">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load New Programs\Lookup Owner OrganizationId (default)">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Organization]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load New Programs\Lookup Office Organization TypeId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[OrganizationType]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
