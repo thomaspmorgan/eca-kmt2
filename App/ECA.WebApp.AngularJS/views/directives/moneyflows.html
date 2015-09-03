@@ -111,17 +111,16 @@
                     <td ng-show="!view.moneyFlowsLoading && !moneyFlow.currentlyEditing && view.canEditMoneyFlows">
                         <div class="right" style="display:none;" showonparentrow>
                             <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy" ng-click="view.onCopyClick(moneyFlow)">
-                                <i class="md md-content-copy md-2x copyEditDeleteOption"></i>
+                                <i class="material-icons md-24 copyEditDeleteOption">content_copy</i>
                             </div>
                             <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Edit" ng-click="view.onEditClick(moneyFlow)">
-                                <i class="md md-mode-edit md-2x copyEditDeleteOption"></i>
+                                <i class="material-icons md-24 copyEditDeleteOption">edit</i>
                             </div>
                             <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Delete" ng-click="view.onDeleteClick(moneyFlow)">
-                                <i class="md md-delete md-2x copyEditDeleteOption"></i>
+                                <i class="material-icons md-24 copyEditDeleteOption">delete</i>
                             </div>
                         </div>
                     </td>
-
                 </tr>
                 <tr ng-show="moneyFlow.isDeleting">
                     <td colspan="9">
