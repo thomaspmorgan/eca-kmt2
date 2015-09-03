@@ -280,6 +280,12 @@ angular
             templateUrl: 'views/program/overview.html',
             requireADLogin: true
         })
+        .state('programs.edit', {
+            url: '/overview',
+            controller: 'ProgramEditCtrl',
+            templateUrl: 'views/program/edit.html',
+            requireADLogin: true
+        })
         .state('programs.projects', {
             url: '/projects',
             templateUrl: 'views/program/projects.html',
@@ -434,7 +440,7 @@ angular
             templateUrl: 'views/organizations/overview.html',
             controller: 'OrganizationOverviewCtrl',
             requireADLogin: true
-        })        
+        })
         .state('organizations.artifacts', {
             url: '/artifacts',
             templateUrl: 'views/organizations/artifacts.html',
