@@ -29,7 +29,7 @@ namespace ECA.Business.Service.Persons
             Contract.Requires(updator != null, "The updator must not be null.");
             this.PersonId = personId;
             this.LanguageId = languageId;
-            this.NativeLanguageInd = isNativeLanguage;
+            this.IsNativeLanguage = isNativeLanguage;
             this.SpeakingProficiency = speakingProficiency;
             this.ReadingProficiency = readingProficiency;
             this.ComprehensionProficiency = comprehensionProficiency;
@@ -49,7 +49,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Get or sets the Native Languange indicator
         /// </summary>
-        public bool NativeLanguageInd { get; set; }
+        public bool IsNativeLanguage { get; set; }
 
         /// <summary>
         /// Get or sets the Speaking Proficiency

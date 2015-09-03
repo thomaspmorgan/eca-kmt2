@@ -135,7 +135,6 @@ namespace ECA.Business.Service.Programs
                     yield return new BusinessValidationResult<EcaProgram>(x => x.FocusCategoryIds, NO_CATEGORIES_GIVEN_ERROR_MESSAGE);
                 }
             }
-
         }
 
         /// <summary>

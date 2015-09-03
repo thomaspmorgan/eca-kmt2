@@ -293,6 +293,7 @@
     <Build Include="dbo\Tables\PersonProminentCategory.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.ProminentCategory.staticdata.sql" />
     <None Include="Data Migration\MigrationScripts\ECA\PersonLanguageProficiency - NativeLanguageInd conversion to bit type.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\Rename LanguageProficiency to Language.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ECA.Database.refactorlog" />

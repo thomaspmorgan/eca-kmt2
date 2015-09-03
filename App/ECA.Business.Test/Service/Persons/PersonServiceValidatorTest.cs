@@ -27,8 +27,6 @@ namespace ECA.Business.Test.Service.Persons
             var entity = new PersonServiceValidationEntity(
                 person,
                 genderId,
-                dateOfBirth,
-                cityOfBirth,
                 countriesOfCitizenship);
 
             var results = validator.DoValidateUpdate(entity).ToList();
@@ -50,8 +48,6 @@ namespace ECA.Business.Test.Service.Persons
             var entity = new PersonServiceValidationEntity(
                 null,
                 genderId,
-                dateOfBirth,
-                cityOfBirth,
                 countriesOfCitizenship);
 
             var results = validator.DoValidateUpdate(entity).ToList();
@@ -76,92 +72,12 @@ namespace ECA.Business.Test.Service.Persons
             var entity = new PersonServiceValidationEntity(
                 person,
                 genderId,
-                dateOfBirth,
-                cityOfBirth,
                 countriesOfCitizenship);
 
             var results = validator.DoValidateUpdate(entity).ToList();
             Assert.AreEqual(1, results.Count);
             var validationResult = results.First();
             Assert.AreEqual(PersonServiceValidator.GENDER_NOT_FOUND, validationResult.ErrorMessage);
-        }
-
-        [TestMethod]
-        public void TestDateOfBirthGreaterThanToday()
-        {
-            var validator = new PersonServiceValidator();
-            var person = new Person();
-            var genderId = 1;
-            var dateOfBirth = DateTime.Now.AddDays(1);
-            var cityOfBirth = new Location();
-            var countriesOfCitizenship = new List<Location>();
-            var countryOfCitizenship = new Location();
-
-            countriesOfCitizenship.Add(countryOfCitizenship);
-
-            var entity = new PersonServiceValidationEntity(
-                person,
-                genderId,
-                dateOfBirth,
-                cityOfBirth,
-                countriesOfCitizenship);
-
-            var results = validator.DoValidateUpdate(entity).ToList();
-            Assert.AreEqual(1, results.Count);
-            var validationResult = results.First();
-            Assert.AreEqual(PersonServiceValidator.DATE_OF_BIRTH_GREATER_THAN_TODAY, validationResult.ErrorMessage);
-        }
-
-        [TestMethod]
-        public void TestDateRequired()
-        {
-            var validator = new PersonServiceValidator();
-            var person = new Person();
-            var genderId = 1;
-            var dateOfBirth = DateTime.MinValue;
-            var cityOfBirth = new Location();
-            var countriesOfCitizenship = new List<Location>();
-            var countryOfCitizenship = new Location();
-
-            countriesOfCitizenship.Add(countryOfCitizenship);
-
-            var entity = new PersonServiceValidationEntity(
-                person,
-                genderId,
-                dateOfBirth,
-                cityOfBirth,
-                countriesOfCitizenship);
-
-            var results = validator.DoValidateUpdate(entity).ToList();
-            Assert.AreEqual(1, results.Count);
-            var validationResult = results.First();
-            Assert.AreEqual(PersonServiceValidator.DATE_OF_BIRTH_REQUIRED, validationResult.ErrorMessage);
-        }
-
-        [TestMethod]
-        public void TestNullCityOfBirth()
-        {
-            var validator = new PersonServiceValidator();
-            var person = new Person();
-            var participant = new Participant();
-            var genderId = 1;
-            var dateOfBirth = DateTime.Now;
-            var countriesOfCitizenship = new List<Location>();
-            var countryOfCitizenship = new Location();
-
-            countriesOfCitizenship.Add(countryOfCitizenship);
-
-            var entity = new PersonServiceValidationEntity(
-                person,
-                genderId,
-                dateOfBirth,
-                null,
-                countriesOfCitizenship);
-
-            var results = validator.DoValidateUpdate(entity).ToList();
-            Assert.AreEqual(1, results.Count);
-            var validationResult = results.First();
-            Assert.AreEqual(PersonServiceValidator.CITY_OF_BIRTH_NOT_FOUND, validationResult.ErrorMessage);
         }
 
         [TestMethod]
@@ -177,8 +93,6 @@ namespace ECA.Business.Test.Service.Persons
             var entity = new PersonServiceValidationEntity(
                 person,
                 genderId,
-                dateOfBirth,
-                cityOfBirth,
                 null);
 
             var results = validator.DoValidateUpdate(entity).ToList();
@@ -201,8 +115,6 @@ namespace ECA.Business.Test.Service.Persons
             var entity = new PersonServiceValidationEntity(
                 person,
                 genderId,
-                dateOfBirth,
-                cityOfBirth,
                 countriesOfCitizenship);
 
             var results = validator.DoValidateUpdate(entity).ToList();

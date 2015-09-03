@@ -48,11 +48,11 @@ namespace ECA.Business.Service.Persons
             string alias,
             int genderId,
             string ethnicity,
-            int cityOfBirthId,
-            DateTime dateOfBirth,
+            int? cityOfBirthId,
+            DateTime? dateOfBirth,
             List<int> countriesOfCitizenship,
             string medicalConditions,
-            int maritalStatusId
+            int? maritalStatusId
             )
         {
             Contract.Requires(updatedBy != null, "The updated by user must not be null.");
@@ -139,12 +139,12 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets or sets the city of birth
         /// </summary>
-        public int CityOfBirthId { get; private set; }
+        public int? CityOfBirthId { get; private set; }
 
         /// <summary>
         /// Gets or sets the date of birth
         /// </summary>
-        public DateTime DateOfBirth { get; private set; }
+        public DateTime? DateOfBirth { get; private set; }
 
         /// <summary>
         /// Gets or sets the countries of citizenship
@@ -159,7 +159,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets or sets the marital status id
         /// </summary>
-        public int MaritalStatusId { get; private set; }
+        public int? MaritalStatusId { get; private set; }
 
         /// <summary>
         /// Gets or sets the audit record

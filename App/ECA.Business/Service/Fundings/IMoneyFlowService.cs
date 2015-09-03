@@ -6,6 +6,7 @@ using ECA.Core.Service;
 using ECA.Data;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
+using System;
 
 namespace ECA.Business.Service.Fundings
 {
@@ -46,6 +47,38 @@ namespace ECA.Business.Service.Fundings
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The programs's money flows.</returns>
         Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByProgramIdAsync(int programId, QueryableOperator<MoneyFlowDTO> queryOperator);
+
+        /// <summary>
+        /// Returns the money flows for the organization with the given id.
+        /// </summary>
+        /// <param name="organizationId">The organization id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The organization's money flows.</returns>
+        PagedQueryResults<MoneyFlowDTO> GetMoneyFlowsByOrganizationId(int organizationId, QueryableOperator<MoneyFlowDTO> queryOperator);
+
+        /// <summary>
+        /// Returns the money flows for the organization with the given id.
+        /// </summary>
+        /// <param name="organizationId">The organization id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The organization's money flows.</returns>
+        Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByOrganizationIdAsync(int organizationId, QueryableOperator<MoneyFlowDTO> queryOperator);
+
+        /// <summary>
+        /// Returns the money flows for the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The office id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The office's money flows.</returns>
+        PagedQueryResults<MoneyFlowDTO> GetMoneyFlowsByOfficeId(int officeId, QueryableOperator<MoneyFlowDTO> queryOperator);
+
+        /// <summary>
+        /// Returns the money flows for the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The office id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The office's money flows.</returns>
+        Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByOfficeIdAsync(int officeId, QueryableOperator<MoneyFlowDTO> queryOperator);
 
         /// <summary>
         /// Adds the given money flow object to the ECA System.
@@ -219,6 +252,54 @@ namespace ECA.Business.Service.Fundings
         {
             Contract.Requires(deletedMoneyFlow != null, "The deletedMoneyFlow must not be null.");
             return Task.FromResult<object>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="organizationId"></param>
+        /// <param name="queryOperator"></param>
+        /// <returns></returns>
+        public PagedQueryResults<MoneyFlowDTO> GetMoneyFlowsByOrganizationId(int organizationId, QueryableOperator<MoneyFlowDTO> queryOperator)
+        {
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="organizationId"></param>
+        /// <param name="queryOperator"></param>
+        /// <returns></returns>
+        public Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByOrganizationIdAsync(int organizationId, QueryableOperator<MoneyFlowDTO> queryOperator)
+        {
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+            return Task.FromResult<PagedQueryResults<MoneyFlowDTO>>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="officeId"></param>
+        /// <param name="queryOperator"></param>
+        /// <returns></returns>
+        public PagedQueryResults<MoneyFlowDTO> GetMoneyFlowsByOfficeId(int officeId, QueryableOperator<MoneyFlowDTO> queryOperator)
+        {
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="officeId"></param>
+        /// <param name="queryOperator"></param>
+        /// <returns></returns>
+        public Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByOfficeIdAsync(int officeId, QueryableOperator<MoneyFlowDTO> queryOperator)
+        {
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+            return Task.FromResult<PagedQueryResults<MoneyFlowDTO>>(null);
         }
     }
 }

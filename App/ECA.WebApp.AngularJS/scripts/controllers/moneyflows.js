@@ -20,7 +20,8 @@ angular.module('staticApp')
         LookupService,
         ConstantsService,
         NotificationService,
-        TableService
+        TableService,
+        StateService
         ) {
 
       $scope.view = {};
@@ -129,7 +130,7 @@ angular.module('staticApp')
 
       $scope.view.onDeleteClick = function (moneyFlow) {
           var modalInstance = $modal.open({
-              animation: true,
+              animation: false,
               templateUrl: 'views/directives/confirmdialog.html',
               controller: 'ConfirmCtrl',
               resolve: {
@@ -159,7 +160,7 @@ angular.module('staticApp')
 
       function showEditMoneyFlow(moneyFlow) {
           var modalInstance = $modal.open({
-              animation: true,
+              animation: false,
               templateUrl: 'views/directives/moneyflow.html',
               controller: 'MoneyFlowCtrl',
               size: 'lg',
@@ -169,7 +170,6 @@ angular.module('staticApp')
                   }
               }
           });
-
           modalInstance.result.then(function (newMoneyFlow) {
               $log.info('Finished adding new money flow.');
               reloadMoneyFlowTable();
@@ -286,13 +286,24 @@ angular.module('staticApp')
                   moneyFlow.isDeleting = false;
                   moneyFlow.editableAmount = moneyFlow.amount < 0 ? -moneyFlow.amount : moneyFlow.amount;
                   moneyFlow.isTransactionDatePickerOpen = true;
+                  if (StateService.isStateAvailableByMoneyFlowSourceRecipientTypeId(moneyFlow.sourceRecipientEntityTypeId)) {
+                      moneyFlow.href = StateService.getStateByMoneyFlowSourceRecipientType(moneyFlow.sourceRecipientEntityId, moneyFlow.sourceRecipientEntityTypeId)
+                  }
+
                   $scope.$watch(function () {
                       return moneyFlow.editableAmount;
                   },
                   function (newValue, oldValue) {
                       if (newValue !== oldValue) {
-                          console.assert(newValue >= 0, 'The amount value should never be negative.');
-                          moneyFlow.amount = newValue;
+                          var positiveAmount = newValue > 0 ? newValue : -newValue;
+                          var negativeAmount = newValue < 0 ? newValue : -newValue;
+                          moneyFlow.editableAmount = positiveAmount;
+                          if (moneyFlow.isOutgoing) {
+                              moneyFlow.amount = negativeAmount;
+                          }
+                          else {
+                              moneyFlow.amount = positiveAmount;
+                          }
                       }
                   });
               });
@@ -305,7 +316,6 @@ angular.module('staticApp')
               $scope.view.total = total;
               $scope.view.isLoadingMoneyFlows = false;
               $scope.view.moneyFlows = pagedMoneyFlows;
-
           })
           .catch(function (response) {
               var message = "Unable to load money flows for source entity with id " + entityId;
@@ -322,6 +332,12 @@ angular.module('staticApp')
           else if (moneyFlowSourceRecipientTypeId === ConstantsService.moneyFlowSourceRecipientType.project.id) {
               return MoneyFlowService.getMoneyFlowsByProject;
           }
+          else if (moneyFlowSourceRecipientTypeId === ConstantsService.moneyFlowSourceRecipientType.office.id) {
+              return MoneyFlowService.getMoneyFlowsByOffice;
+          }
+          else if (moneyFlowSourceRecipientTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id) {
+              return MoneyFlowService.getMoneyFlowsByOrganization;
+          }
           else {
               throw Error('A mapping to a money flow service function for the money flow source recipient type id [' + moneyFlowSourceRecipientTypeId + '] does not exist.');
           }
@@ -329,9 +345,8 @@ angular.module('staticApp')
 
 
       function loadPermissions() {
-          var resourceTypeId = $scope.resourceTypeId;
-          var resourceType = AuthService.getResourceTypeNameById(resourceTypeId);
           var foreignResourceId = $scope.view.entityId;
+          var resourceTypeId = $scope.resourceTypeId;
           var hasEditPermissionCallback = function () {
               $log.info('User has edit money flow permission moneyflow.js controller.');
               $scope.view.canEditMoneyFlows = true;
@@ -339,14 +354,24 @@ angular.module('staticApp')
           var notAuthorizedCallback = function () {
               $scope.view.canEditMoneyFlows = false;
           };
-          var config = getPermissionsConfig(resourceTypeId, hasEditPermissionCallback, notAuthorizedCallback);
+          if (resourceTypeId !== '') {
+              var resourceType = AuthService.getResourceTypeNameById(resourceTypeId);
+              var config = getPermissionsConfig(resourceTypeId, hasEditPermissionCallback, notAuthorizedCallback);
+              return AuthService.getResourcePermissions(resourceType, foreignResourceId, config)
+                .then(function (result) {
 
-          return AuthService.getResourcePermissions(resourceType, foreignResourceId, config)
-            .then(function (result) {
-
-            }, function () {
-                $log.error('Unable to load user permissions.');
-            });
+                }, function () {
+                    $log.error('Unable to load user permissions.');
+                });
+          }
+          else {
+              $log.info('Moneyflow object is not a resource type used in permissions, therefore, edit permission is granted.');
+              var dfd = $q.defer();
+              hasEditPermissionCallback();
+              dfd.resolve();
+              return dfd.promise;
+          }
+          
       }
 
       function getPermissionsConfig(resourceTypeId, hasEditPermissionCallback, notAuthorizedCallback) {
@@ -356,30 +381,34 @@ angular.module('staticApp')
           else if (resourceTypeId === ConstantsService.resourceType.program.id) {
               return getProgramPermissionsConfig(hasEditPermissionCallback, notAuthorizedCallback);
           }
+          else if (resourceTypeId === ConstantsService.resourceType.office.id) {
+              return getOfficePermissionsConfig(hasEditPermissionCallback, notAuthorizedCallback);
+          }
           else {
               throw Error("The resource type id is not yet supported for money flows.");
           }
       }
 
-      function getProjectPermissionsConfig(hasEditPermissionCallback, notAuthorizedCallback) {
+      function getGenericPermissionsConfig(permissionName, hasEditPermissionCallback, notAuthorizedCallback) {
           var config = {};
-          config[ConstantsService.permission.editProject.value] = {
+          config[permissionName] = {
               hasPermission: hasEditPermissionCallback,
               notAuthorized: notAuthorizedCallback
           };
           return config;
+      }
+
+      function getProjectPermissionsConfig(hasEditPermissionCallback, notAuthorizedCallback) {
+          return getGenericPermissionsConfig(ConstantsService.permission.editProject.value, hasEditPermissionCallback, notAuthorizedCallback);
       }
 
       function getProgramPermissionsConfig(hasEditPermissionCallback, notAuthorizedCallback) {
-          var config = {
-          };
-          config[ConstantsService.permission.editProgram.value] = {
-              hasPermission: hasEditPermissionCallback,
-              notAuthorized: notAuthorizedCallback
-          };
-          return config;
+          return getGenericPermissionsConfig(ConstantsService.permission.editProgram.value, hasEditPermissionCallback, notAuthorizedCallback);
       }
 
+      function getOfficePermissionsConfig(hasEditPermissionCallback, notAuthorizedCallback) {
+          return getGenericPermissionsConfig(ConstantsService.permission.editOffice.value, hasEditPermissionCallback, notAuthorizedCallback);
+      }
 
 
       $scope.view.isLoadingRequiredData = true;

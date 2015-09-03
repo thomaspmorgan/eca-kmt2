@@ -48,40 +48,6 @@ namespace ECA.WebApi.Controllers.Admin
         }
 
         /// <summary>
-        /// Updates the system's address with the given updated address.
-        /// </summary>
-        /// <returns>The updated address.</returns>
-        [ResponseType(typeof(AddressDTO))]
-        public async Task<IHttpActionResult> PutUpdateAddressAsync(UpdatedAddressBindingModel updatedAddress)
-        {
-            if (ModelState.IsValid)
-            {
-                var currentUser = this.userProvider.GetCurrentUser();
-                var businessUser = this.userProvider.GetBusinessUser(currentUser);
-                await this.locationService.UpdateAsync(updatedAddress.ToUpdatedEcaAddress(businessUser));
-                await this.locationService.SaveChangesAsync();
-                var dto = await this.locationService.GetAddressByIdAsync(updatedAddress.AddressId);
-                return Ok(dto);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-        }
-
-        /// <summary>
-        /// Deletes the system's address with the given id.
-        /// </summary>
-        /// <returns>The updated address.</returns>
-        [ResponseType(typeof(OkResult))]
-        public async Task<IHttpActionResult> DeleteAddressAsync(int id)
-        {
-            await this.locationService.DeleteAsync(id);
-            await this.locationService.SaveChangesAsync();
-            return Ok();
-        }
-
-        /// <summary>
         /// Returns the address types currently in the system.
         /// </summary>
         /// <returns>The address types.</returns>

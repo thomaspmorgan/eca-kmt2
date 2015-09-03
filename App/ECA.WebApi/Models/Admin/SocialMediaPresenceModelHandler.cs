@@ -55,5 +55,41 @@ namespace ECA.WebApi.Models.Admin
                 return new InvalidModelStateResult(controller.ModelState, controller);
             }
         }
+
+        /// <summary>
+        /// Handles a controller action's request to update social media.
+        /// </summary>
+        /// <param name="updatedSocialMedia">The updated social media.</param>
+        /// <param name="controller">The controller making the request.</param>
+        /// <returns>The updated social media.</returns>
+        public async Task<IHttpActionResult> HandleUpdateSocialMediaAsync(UpdatedSocialMediaBindingModel updatedSocialMedia, ApiController controller)
+        {
+            if (controller.ModelState.IsValid)
+            {
+                var currentUser = this.userProvider.GetCurrentUser();
+                var businessUser = this.userProvider.GetBusinessUser(currentUser);
+                await this.socialMediaService.UpdateAsync(updatedSocialMedia.ToUpdatedSocialMediaPresence(businessUser));
+                await this.socialMediaService.SaveChangesAsync();
+                var dto = await this.socialMediaService.GetByIdAsync(updatedSocialMedia.Id);
+                return new OkNegotiatedContentResult<SocialMediaDTO>(dto, controller);
+            }
+            else
+            {
+                return new InvalidModelStateResult(controller.ModelState, controller);
+            }
+        }
+
+        /// <summary>
+        /// Handles a controller action's request to delete a social media presence by id.
+        /// </summary>
+        /// <param name="id">The id of the social media.</param>
+        /// <param name="controller">The controller making the request.</param>
+        /// <returns>An ok result.</returns>
+        public async Task<IHttpActionResult> HandleDeleteSocialMediaAsync(int id, ApiController controller)
+        {
+            await this.socialMediaService.DeleteAsync(id);
+            await this.socialMediaService.SaveChangesAsync();
+            return new OkResult(controller);
+        }
     }
 }

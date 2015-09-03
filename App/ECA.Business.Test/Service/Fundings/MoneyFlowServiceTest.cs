@@ -45,6 +45,409 @@ namespace ECA.Business.Test.Service.Fundings
         {
 
         }
+        #region Get MoneyFlows By Office Id
+        [TestMethod]
+        public async Task TestGetMoneyFlowsByOfficeId_CheckProperties()
+        {
+            var outgoing = new MoneyFlowType
+            {
+                MoneyFlowTypeId = MoneyFlowType.Outgoing.Id,
+                MoneyFlowTypeName = MoneyFlowType.Outgoing.Value
+            };
+            var officeType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Office.Id,
+                TypeName = MoneyFlowSourceRecipientType.Office.Value
+            };
+            var budgeted = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Budgeted.Value
+            };
+
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceOrg = new Organization
+            {
+                OrganizationId = sourceId,
+                Name = "Outgoing"
+            };
+
+            var recipientOrg = new Organization
+            {
+                OrganizationId = recipientId,
+                Name = "Incoming"
+
+            };
+
+            var moneyFlow = new MoneyFlow
+            {
+                SourceOrganizationId = sourceId,
+                RecipientOrganizationId = recipientId,
+                SourceOrganization = sourceOrg,
+                RecipientOrganization = recipientOrg,
+                SourceType = officeType,
+                SourceTypeId = officeType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = officeType,
+                RecipientTypeId = officeType.MoneyFlowSourceRecipientTypeId,
+
+                MoneyFlowStatus = budgeted,
+                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            context.Organizations.Add(sourceOrg);
+            context.Organizations.Add(recipientOrg);
+            context.MoneyFlowTypes.Add(outgoing);
+            context.MoneyFlowSourceRecipientTypes.Add(officeType);
+            context.MoneyFlowStatuses.Add(budgeted);
+
+            Action<PagedQueryResults<MoneyFlowDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                Assert.IsNotNull(results.Results.First());
+                Assert.AreEqual(moneyFlow.MoneyFlowId, results.Results.First().Id);
+            };
+
+            var defaultSorter = new ExpressionSorter<MoneyFlowDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<MoneyFlowDTO>(0, 10, defaultSorter);
+            var serviceResults = service.GetMoneyFlowsByOfficeId(sourceOrg.OrganizationId, queryOperator);
+            var serviceResultsAsync = await service.GetMoneyFlowsByOfficeIdAsync(sourceOrg.OrganizationId, queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+        #endregion
+
+
+        #region Get MoneyFlows By Organization Id
+        [TestMethod]
+        public async Task TestGetMoneyFlowsByOrganizationId_CheckProperties()
+        {
+            var outgoing = new MoneyFlowType
+            {
+                MoneyFlowTypeId = MoneyFlowType.Outgoing.Id,
+                MoneyFlowTypeName = MoneyFlowType.Outgoing.Value
+            };
+            var organizationType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Organization.Id,
+                TypeName = MoneyFlowSourceRecipientType.Organization.Value
+            };
+            var budgeted = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Budgeted.Value
+            };
+
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceOrg = new Organization
+            {
+                OrganizationId = sourceId,
+                Name = "Outgoing"
+            };
+
+            var recipientOrg = new Organization
+            {
+                OrganizationId = recipientId,
+                Name = "Incoming"
+
+            };
+
+            var moneyFlow = new MoneyFlow
+            {
+                SourceOrganizationId = sourceId,
+                RecipientOrganizationId = recipientId,
+                SourceOrganization = sourceOrg,
+                RecipientOrganization = recipientOrg,
+                SourceType = organizationType,
+                SourceTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = organizationType,
+                RecipientTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
+
+                MoneyFlowStatus = budgeted,
+                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            context.Organizations.Add(sourceOrg);
+            context.Organizations.Add(recipientOrg);
+            context.MoneyFlowTypes.Add(outgoing);
+            context.MoneyFlowSourceRecipientTypes.Add(organizationType);
+            context.MoneyFlowStatuses.Add(budgeted);
+
+            Action<PagedQueryResults<MoneyFlowDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                Assert.IsNotNull(results.Results.First());
+                Assert.AreEqual(moneyFlow.MoneyFlowId, results.Results.First().Id);
+            };
+
+            var defaultSorter = new ExpressionSorter<MoneyFlowDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<MoneyFlowDTO>(0, 10, defaultSorter);
+            var serviceResults = service.GetMoneyFlowsByOrganizationId(sourceOrg.OrganizationId, queryOperator);
+            var serviceResultsAsync = await service.GetMoneyFlowsByOrganizationIdAsync(sourceOrg.OrganizationId, queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+
+        }
+
+        [TestMethod]
+        public async Task TestGetMoneyFlowsByOrganizationId_OrganizationIsOffice()
+        {
+            var outgoing = new MoneyFlowType
+            {
+                MoneyFlowTypeId = MoneyFlowType.Outgoing.Id,
+                MoneyFlowTypeName = MoneyFlowType.Outgoing.Value
+            };
+            var organizationType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Organization.Id,
+                TypeName = MoneyFlowSourceRecipientType.Organization.Value
+            };
+            var budgeted = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Budgeted.Value
+            };
+
+            var sourceId = 1;
+            var recipientId = 2;
+
+            var officeType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.Office.Id
+            };
+            var sourceOrg = new Organization
+            {
+                OrganizationId = sourceId,
+                Name = "Outgoing",
+                OrganizationType = officeType,
+                OrganizationTypeId = officeType.OrganizationTypeId
+            };
+
+            var recipientOrg = new Organization
+            {
+                OrganizationId = recipientId,
+                Name = "Incoming",
+                OrganizationType = officeType,
+                OrganizationTypeId = officeType.OrganizationTypeId
+
+            };
+
+            var moneyFlow = new MoneyFlow
+            {
+                SourceOrganizationId = sourceId,
+                RecipientOrganizationId = recipientId,
+                SourceOrganization = sourceOrg,
+                RecipientOrganization = recipientOrg,
+                SourceType = organizationType,
+                SourceTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = organizationType,
+                RecipientTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
+
+                MoneyFlowStatus = budgeted,
+                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            context.Organizations.Add(sourceOrg);
+            context.Organizations.Add(recipientOrg);
+            context.MoneyFlowTypes.Add(outgoing);
+            context.MoneyFlowSourceRecipientTypes.Add(organizationType);
+            context.MoneyFlowStatuses.Add(budgeted);
+
+            var defaultSorter = new ExpressionSorter<MoneyFlowDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<MoneyFlowDTO>(0, 10, defaultSorter);
+            var message = String.Format("The organization with the given id [{0}] is an office named [{1}].  This office must be accessed using office related methods only.",
+                        sourceId,
+                        sourceOrg.Name);
+            Func<Task> f = () =>
+            {
+                return service.GetMoneyFlowsByOrganizationIdAsync(sourceOrg.OrganizationId, queryOperator);
+            };
+            service.Invoking(x => x.GetMoneyFlowsByOrganizationId(sourceOrg.OrganizationId, queryOperator)).ShouldThrow<BusinessSecurityException>().WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestGetMoneyFlowsByOrganizationId_OrganizationIsBranch()
+        {
+            var outgoing = new MoneyFlowType
+            {
+                MoneyFlowTypeId = MoneyFlowType.Outgoing.Id,
+                MoneyFlowTypeName = MoneyFlowType.Outgoing.Value
+            };
+            var organizationType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Organization.Id,
+                TypeName = MoneyFlowSourceRecipientType.Organization.Value
+            };
+            var budgeted = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Budgeted.Value
+            };
+
+            var sourceId = 1;
+            var recipientId = 2;
+
+            var branchType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.Branch.Id
+            };
+            var sourceOrg = new Organization
+            {
+                OrganizationId = sourceId,
+                Name = "Outgoing",
+                OrganizationType = branchType,
+                OrganizationTypeId = branchType.OrganizationTypeId
+            };
+
+            var recipientOrg = new Organization
+            {
+                OrganizationId = recipientId,
+                Name = "Incoming",
+                OrganizationType = branchType,
+                OrganizationTypeId = branchType.OrganizationTypeId
+
+            };
+
+            var moneyFlow = new MoneyFlow
+            {
+                SourceOrganizationId = sourceId,
+                RecipientOrganizationId = recipientId,
+                SourceOrganization = sourceOrg,
+                RecipientOrganization = recipientOrg,
+                SourceType = organizationType,
+                SourceTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = organizationType,
+                RecipientTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
+
+                MoneyFlowStatus = budgeted,
+                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            context.Organizations.Add(sourceOrg);
+            context.Organizations.Add(recipientOrg);
+            context.MoneyFlowTypes.Add(outgoing);
+            context.MoneyFlowSourceRecipientTypes.Add(organizationType);
+            context.MoneyFlowStatuses.Add(budgeted);
+
+            var defaultSorter = new ExpressionSorter<MoneyFlowDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<MoneyFlowDTO>(0, 10, defaultSorter);
+            var message = String.Format("The organization with the given id [{0}] is an office named [{1}].  This office must be accessed using office related methods only.",
+                        sourceId,
+                        sourceOrg.Name);
+            Func<Task> f = () =>
+            {
+                return service.GetMoneyFlowsByOrganizationIdAsync(sourceOrg.OrganizationId, queryOperator);
+            };
+            service.Invoking(x => x.GetMoneyFlowsByOrganizationId(sourceOrg.OrganizationId, queryOperator)).ShouldThrow<BusinessSecurityException>().WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestGetMoneyFlowsByOrganizationId_OrganizationIsDivision()
+        {
+            var outgoing = new MoneyFlowType
+            {
+                MoneyFlowTypeId = MoneyFlowType.Outgoing.Id,
+                MoneyFlowTypeName = MoneyFlowType.Outgoing.Value
+            };
+            var organizationType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Organization.Id,
+                TypeName = MoneyFlowSourceRecipientType.Organization.Value
+            };
+            var budgeted = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Budgeted.Value
+            };
+
+            var sourceId = 1;
+            var recipientId = 2;
+
+            var divisonType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.Division.Id
+            };
+            var sourceOrg = new Organization
+            {
+                OrganizationId = sourceId,
+                Name = "Outgoing",
+                OrganizationType = divisonType,
+                OrganizationTypeId = divisonType.OrganizationTypeId
+            };
+
+            var recipientOrg = new Organization
+            {
+                OrganizationId = recipientId,
+                Name = "Incoming",
+                OrganizationType = divisonType,
+                OrganizationTypeId = divisonType.OrganizationTypeId
+
+            };
+
+            var moneyFlow = new MoneyFlow
+            {
+                SourceOrganizationId = sourceId,
+                RecipientOrganizationId = recipientId,
+                SourceOrganization = sourceOrg,
+                RecipientOrganization = recipientOrg,
+                SourceType = organizationType,
+                SourceTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = organizationType,
+                RecipientTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
+
+                MoneyFlowStatus = budgeted,
+                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            context.Organizations.Add(sourceOrg);
+            context.Organizations.Add(recipientOrg);
+            context.MoneyFlowTypes.Add(outgoing);
+            context.MoneyFlowSourceRecipientTypes.Add(organizationType);
+            context.MoneyFlowStatuses.Add(budgeted);
+
+            var defaultSorter = new ExpressionSorter<MoneyFlowDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<MoneyFlowDTO>(0, 10, defaultSorter);
+            var message = String.Format("The organization with the given id [{0}] is an office named [{1}].  This office must be accessed using office related methods only.",
+                        sourceId,
+                        sourceOrg.Name);
+            Func<Task> f = () =>
+            {
+                return service.GetMoneyFlowsByOrganizationIdAsync(sourceOrg.OrganizationId, queryOperator);
+            };
+            service.Invoking(x => x.GetMoneyFlowsByOrganizationId(sourceOrg.OrganizationId, queryOperator)).ShouldThrow<BusinessSecurityException>().WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+        }
+        #endregion
 
         #region Get MoneyFlows By Project Id
         [TestMethod]
@@ -425,6 +828,7 @@ namespace ECA.Business.Test.Service.Fundings
         {
             var expectedMapping = new Dictionary<int, Type>();
             expectedMapping.Add(MoneyFlowSourceRecipientType.ItineraryStop.Id, typeof(ItineraryStop));
+            expectedMapping.Add(MoneyFlowSourceRecipientType.Office.Id, typeof(Organization));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Organization.Id, typeof(Organization));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Participant.Id, typeof(Participant));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Program.Id, typeof(Program));
@@ -453,6 +857,7 @@ namespace ECA.Business.Test.Service.Fundings
         {
             var expectedMapping = new Dictionary<int, Type>();
             expectedMapping.Add(MoneyFlowSourceRecipientType.ItineraryStop.Id, typeof(ItineraryStop));
+            expectedMapping.Add(MoneyFlowSourceRecipientType.Office.Id, typeof(Organization));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Organization.Id, typeof(Organization));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Participant.Id, typeof(Participant));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Program.Id, typeof(Program));
@@ -488,7 +893,7 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowId = 1;
             var sourceEntityId = 3;
             MoneyFlow moneyFlowToDelete = null;
-
+            var entityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             context.SetupActions.Add(() =>
             {
                 moneyFlowToDelete = new MoneyFlow
@@ -500,7 +905,8 @@ namespace ECA.Business.Test.Service.Fundings
                     MoneyFlowTypeId = -1,
                     TransactionDate = lastWeek,
                     Value = -1.0m,
-                    SourceProjectId = sourceEntityId
+                    SourceProjectId = sourceEntityId,
+                    SourceTypeId = entityTypeId
                 };
                 moneyFlowToDelete.History.CreatedBy = userId;
                 moneyFlowToDelete.History.RevisedBy = userId;
@@ -516,7 +922,7 @@ namespace ECA.Business.Test.Service.Fundings
             {
                 Assert.AreEqual(0, context.MoneyFlows.Count());
             };
-            var instance = new DeletedMoneyFlow(new User(userId), moneyFlowId, sourceEntityId);
+            var instance = new DeletedMoneyFlow(new User(userId), moneyFlowId, sourceEntityId, entityTypeId);
 
             context.Revert();
             beforeTester();
@@ -539,7 +945,7 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityId = 3;
             MoneyFlow moneyFlowToDelete = null;
             MoneyFlow otherMoneyFlow = null;
-
+            var entityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             context.SetupActions.Add(() =>
             {
                 moneyFlowToDelete = new MoneyFlow
@@ -551,7 +957,8 @@ namespace ECA.Business.Test.Service.Fundings
                     MoneyFlowTypeId = -1,
                     TransactionDate = lastWeek,
                     Value = -1.0m,
-                    SourceProjectId = sourceEntityId
+                    SourceProjectId = sourceEntityId,
+                    SourceTypeId = entityTypeId
                 };
                 otherMoneyFlow = new MoneyFlow
                 {
@@ -562,7 +969,8 @@ namespace ECA.Business.Test.Service.Fundings
                     MoneyFlowTypeId = -1,
                     TransactionDate = lastWeek,
                     Value = -1.0m,
-                    SourceProjectId = sourceEntityId + 1
+                    SourceProjectId = sourceEntityId + 1,
+                    SourceTypeId = entityTypeId
                 };
                 moneyFlowToDelete.History.CreatedBy = userId;
                 moneyFlowToDelete.History.RevisedBy = userId;
@@ -585,7 +993,7 @@ namespace ECA.Business.Test.Service.Fundings
                 Assert.AreEqual(1, context.MoneyFlows.Count());
                 Assert.IsTrue(Object.ReferenceEquals(otherMoneyFlow, context.MoneyFlows.First()));
             };
-            var instance = new DeletedMoneyFlow(new User(userId), moneyFlowId, sourceEntityId);
+            var instance = new DeletedMoneyFlow(new User(userId), moneyFlowId, sourceEntityId, entityTypeId);
 
             context.Revert();
             beforeTester();
@@ -606,13 +1014,15 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var sourceEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
-                SourceProjectId = -1
+                SourceProjectId = -1,
+                SourceTypeId = entityTypeId
             };
             context.MoneyFlows.Add(moneyFlow);
-            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, sourceEntityId);
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, sourceEntityId, entityTypeId);
 
             Func<Task> f = () =>
             {
@@ -635,13 +1045,15 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var sourceEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Program.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
-                SourceProgramId = -1
+                SourceProgramId = -1,
+                SourceTypeId = entityTypeId
             };
             context.MoneyFlows.Add(moneyFlow);
-            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, sourceEntityId);
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, sourceEntityId, entityTypeId);
 
             Func<Task> f = () =>
             {
@@ -664,13 +1076,15 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var sourceEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.ItineraryStop.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
-                SourceItineraryStopId = -1
+                SourceItineraryStopId = -1,
+                SourceTypeId = entityTypeId
             };
             context.MoneyFlows.Add(moneyFlow);
-            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, sourceEntityId);
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, sourceEntityId, entityTypeId);
 
             Func<Task> f = () =>
             {
@@ -693,13 +1107,44 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var sourceEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Organization.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
                 SourceOrganizationId = -1
             };
             context.MoneyFlows.Add(moneyFlow);
-            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, sourceEntityId);
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, sourceEntityId, entityTypeId);
+
+            Func<Task> f = () =>
+            {
+                return service.DeleteAsync(deletedMoneyFlow);
+            };
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Delete(deletedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestDelete_MoneyFlowWithSourceOfficeDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var revisorId = 2;
+            var moneyFlowId = 1;
+            var sourceEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Office.Id;
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = moneyFlowId,
+                SourceOrganizationId = -1
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, sourceEntityId, entityTypeId);
 
             Func<Task> f = () =>
             {
@@ -722,13 +1167,15 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var sourceEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Participant.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
-                SourceParticipantId = -1
+                SourceParticipantId = -1,
+                SourceTypeId = entityTypeId
             };
             context.MoneyFlows.Add(moneyFlow);
-            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, sourceEntityId);
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, sourceEntityId, entityTypeId);
 
             Func<Task> f = () =>
             {
@@ -751,13 +1198,15 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var recipientEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Accomodation.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
-                RecipientAccommodationId = -1
+                RecipientAccommodationId = -1,
+                RecipientTypeId = entityTypeId
             };
             context.MoneyFlows.Add(moneyFlow);
-            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, recipientEntityId);
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, recipientEntityId, entityTypeId);
 
             Func<Task> f = () =>
             {
@@ -780,13 +1229,15 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var recipientEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Accomodation.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
-                RecipientItineraryStopId = -1
+                RecipientItineraryStopId = -1,
+                RecipientTypeId = entityTypeId
             };
             context.MoneyFlows.Add(moneyFlow);
-            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, recipientEntityId);
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, recipientEntityId, entityTypeId);
 
             Func<Task> f = () =>
             {
@@ -809,13 +1260,46 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var recipientEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Organization.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
-                RecipientOrganizationId = -1
+                RecipientOrganizationId = -1,
+                RecipientTypeId = entityTypeId
             };
             context.MoneyFlows.Add(moneyFlow);
-            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, recipientEntityId);
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, recipientEntityId, entityTypeId);
+
+            Func<Task> f = () =>
+            {
+                return service.DeleteAsync(deletedMoneyFlow);
+            };
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Delete(deletedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestDelete_MoneyFlowWithRecipientOfficeDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var revisorId = 2;
+            var moneyFlowId = 1;
+            var recipientEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Office.Id;
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = moneyFlowId,
+                RecipientOrganizationId = -1,
+                RecipientTypeId = entityTypeId
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, recipientEntityId, entityTypeId);
 
             Func<Task> f = () =>
             {
@@ -838,14 +1322,16 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var recipientEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Participant.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
-                RecipientParticipantId = -1
+                RecipientParticipantId = -1,
+                RecipientTypeId = entityTypeId
             };
             context.MoneyFlows.Add(moneyFlow);
 
-            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, recipientEntityId);
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, recipientEntityId, entityTypeId);
 
             Func<Task> f = () =>
             {
@@ -868,14 +1354,16 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var recipientEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Program.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
-                RecipientProgramId = -1
+                RecipientProgramId = -1,
+                RecipientTypeId = entityTypeId
             };
             context.MoneyFlows.Add(moneyFlow);
 
-            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, recipientEntityId);
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, recipientEntityId, entityTypeId);
 
             Func<Task> f = () =>
             {
@@ -898,14 +1386,16 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var recipientEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
-                RecipientProjectId = -1
+                RecipientProjectId = -1,
+                RecipientTypeId = entityTypeId
             };
             context.MoneyFlows.Add(moneyFlow);
 
-            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, recipientEntityId);
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, recipientEntityId, entityTypeId);
 
             Func<Task> f = () =>
             {
@@ -928,14 +1418,16 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var recipientEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Transportation.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
-                RecipientTransportationId = -1
+                RecipientTransportationId = -1,
+                RecipientTypeId = entityTypeId
             };
             context.MoneyFlows.Add(moneyFlow);
 
-            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, recipientEntityId);
+            var deletedMoneyFlow = new DeletedMoneyFlow(new User(revisorId), moneyFlowId, recipientEntityId, entityTypeId);
 
             Func<Task> f = () =>
             {
@@ -964,7 +1456,7 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowId = 1;
             var sourceEntityId = 3;
             MoneyFlow moneyFlowToUpdate = null;
-
+            var entityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             context.SetupActions.Add(() =>
             {
                 moneyFlowToUpdate = new MoneyFlow
@@ -976,7 +1468,8 @@ namespace ECA.Business.Test.Service.Fundings
                     MoneyFlowTypeId = -1,
                     TransactionDate = lastWeek,
                     Value = -1.0m,
-                    SourceProjectId = sourceEntityId
+                    SourceProjectId = sourceEntityId,
+                    SourceTypeId = entityTypeId
                 };
                 moneyFlowToUpdate.History.CreatedBy = creatorId;
                 moneyFlowToUpdate.History.RevisedBy = creatorId;
@@ -993,7 +1486,8 @@ namespace ECA.Business.Test.Service.Fundings
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
                 fiscalYear: 2015,
-                sourceOrRecipientEntityId: sourceEntityId
+                sourceOrRecipientEntityId: sourceEntityId,
+                sourceOrRecipientEntityTypeId: entityTypeId
                 );
 
             Action tester = () =>
@@ -1029,6 +1523,7 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var sourceEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             var updatedMoneyFlow = new UpdatedMoneyFlow(
                 updator: new User(revisorId),
                 sourceOrRecipientEntityId: sourceEntityId,
@@ -1036,6 +1531,7 @@ namespace ECA.Business.Test.Service.Fundings
                 description: "new description",
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
+                sourceOrRecipientEntityTypeId: entityTypeId,
                 transactionDate: DateTimeOffset.UtcNow,
                 fiscalYear: 2015
                 );
@@ -1058,16 +1554,19 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var sourceEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
-                SourceProjectId = -1
+                SourceProjectId = -1,
+                SourceTypeId = entityTypeId
             };
             context.MoneyFlows.Add(moneyFlow);
 
             var updatedMoneyFlow = new UpdatedMoneyFlow(
                 updator: new User(revisorId),
                 sourceOrRecipientEntityId: sourceEntityId,
+                sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
                 value: 10.00m,
@@ -1097,16 +1596,19 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var sourceEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Program.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
-                SourceProgramId = -1
+                SourceProgramId = -1,
+                SourceTypeId = entityTypeId
             };
             context.MoneyFlows.Add(moneyFlow);
 
             var updatedMoneyFlow = new UpdatedMoneyFlow(
                 updator: new User(revisorId),
                 sourceOrRecipientEntityId: sourceEntityId,
+                sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
                 value: 10.00m,
@@ -1136,16 +1638,19 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var sourceEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.ItineraryStop.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
-                SourceItineraryStopId = -1
+                SourceItineraryStopId = -1,
+                SourceTypeId = entityTypeId
             };
             context.MoneyFlows.Add(moneyFlow);
 
             var updatedMoneyFlow = new UpdatedMoneyFlow(
                 updator: new User(revisorId),
                 sourceOrRecipientEntityId: sourceEntityId,
+                sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
                 value: 10.00m,
@@ -1175,16 +1680,61 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var sourceEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Organization.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
-                SourceOrganizationId = -1
+                SourceOrganizationId = -1,
+                SourceTypeId = entityTypeId
             };
             context.MoneyFlows.Add(moneyFlow);
 
             var updatedMoneyFlow = new UpdatedMoneyFlow(
                 updator: new User(revisorId),
                 sourceOrRecipientEntityId: sourceEntityId,
+                sourceOrRecipientEntityTypeId: entityTypeId,
+                id: moneyFlowId,
+                description: "new description",
+                value: 10.00m,
+                moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
+                transactionDate: DateTimeOffset.UtcNow,
+                fiscalYear: 2015
+                );
+
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(updatedMoneyFlow);
+            };
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Update(updatedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_MoneyFlowWithSourceOfficeDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var revisorId = 2;
+            var moneyFlowId = 1;
+            var sourceEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Office.Id;
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = moneyFlowId,
+                SourceOrganizationId = -1,
+                SourceTypeId = entityTypeId
+            };
+            context.MoneyFlows.Add(moneyFlow);
+
+            var updatedMoneyFlow = new UpdatedMoneyFlow(
+                updator: new User(revisorId),
+                sourceOrRecipientEntityId: sourceEntityId,
+                sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
                 value: 10.00m,
@@ -1214,16 +1764,19 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var sourceEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Participant.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
-                SourceParticipantId = -1
+                SourceParticipantId = -1,
+                SourceTypeId = entityTypeId
             };
             context.MoneyFlows.Add(moneyFlow);
 
             var updatedMoneyFlow = new UpdatedMoneyFlow(
                 updator: new User(revisorId),
                 sourceOrRecipientEntityId: sourceEntityId,
+                sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
                 value: 10.00m,
@@ -1253,16 +1806,19 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var recipientEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Accomodation.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
-                RecipientAccommodationId = -1
+                RecipientAccommodationId = -1,
+                RecipientTypeId = entityTypeId,
             };
             context.MoneyFlows.Add(moneyFlow);
 
             var updatedMoneyFlow = new UpdatedMoneyFlow(
                 updator: new User(revisorId),
                 sourceOrRecipientEntityId: recipientEntityId,
+                sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
                 value: 10.00m,
@@ -1292,16 +1848,19 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var recipientEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.ItineraryStop.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
-                RecipientItineraryStopId = -1
+                RecipientItineraryStopId = -1,
+                RecipientTypeId = entityTypeId,
             };
             context.MoneyFlows.Add(moneyFlow);
 
             var updatedMoneyFlow = new UpdatedMoneyFlow(
                 updator: new User(revisorId),
                 sourceOrRecipientEntityId: recipientEntityId,
+                sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
                 value: 10.00m,
@@ -1331,16 +1890,61 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var recipientEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Organization.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
-                RecipientOrganizationId = -1
+                RecipientOrganizationId = -1,
+                RecipientTypeId = entityTypeId,
             };
             context.MoneyFlows.Add(moneyFlow);
 
             var updatedMoneyFlow = new UpdatedMoneyFlow(
                 updator: new User(revisorId),
                 sourceOrRecipientEntityId: recipientEntityId,
+                sourceOrRecipientEntityTypeId: entityTypeId,
+                id: moneyFlowId,
+                description: "new description",
+                value: 10.00m,
+                moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
+                transactionDate: DateTimeOffset.UtcNow,
+                fiscalYear: 2015
+                );
+
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(updatedMoneyFlow);
+            };
+            var message = String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        revisorId,
+                        moneyFlow.MoneyFlowId);
+            service.Invoking(x => x.Update(updatedMoneyFlow)).ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>()
+                .WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_MoneyFlowWithRecipientOfficeDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var revisorId = 2;
+            var moneyFlowId = 1;
+            var recipientEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Office.Id;
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = moneyFlowId,
+                RecipientOrganizationId = -1,
+                RecipientTypeId = entityTypeId,
+            };
+            context.MoneyFlows.Add(moneyFlow);
+
+            var updatedMoneyFlow = new UpdatedMoneyFlow(
+                updator: new User(revisorId),
+                sourceOrRecipientEntityId: recipientEntityId,
+                sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
                 value: 10.00m,
@@ -1370,16 +1974,19 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var recipientEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Participant.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
-                RecipientParticipantId = -1
+                RecipientParticipantId = -1,
+                RecipientTypeId = entityTypeId,
             };
             context.MoneyFlows.Add(moneyFlow);
 
             var updatedMoneyFlow = new UpdatedMoneyFlow(
                 updator: new User(revisorId),
                 sourceOrRecipientEntityId: recipientEntityId,
+                sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
                 value: 10.00m,
@@ -1409,16 +2016,19 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var recipientEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Program.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
-                RecipientProgramId = -1
+                RecipientProgramId = -1,
+                RecipientTypeId = entityTypeId,
             };
             context.MoneyFlows.Add(moneyFlow);
 
             var updatedMoneyFlow = new UpdatedMoneyFlow(
                 updator: new User(revisorId),
                 sourceOrRecipientEntityId: recipientEntityId,
+                sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
                 value: 10.00m,
@@ -1448,16 +2058,19 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var recipientEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
-                RecipientProjectId = -1
+                RecipientProjectId = -1,
+                RecipientTypeId = entityTypeId,
             };
             context.MoneyFlows.Add(moneyFlow);
 
             var updatedMoneyFlow = new UpdatedMoneyFlow(
                 updator: new User(revisorId),
                 sourceOrRecipientEntityId: recipientEntityId,
+                sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
                 value: 10.00m,
@@ -1487,16 +2100,19 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var recipientEntityId = 3;
+            var entityTypeId = MoneyFlowSourceRecipientType.Transportation.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
-                RecipientTransportationId = -1
+                RecipientTransportationId = -1,
+                RecipientTypeId = entityTypeId,
             };
             context.MoneyFlows.Add(moneyFlow);
 
             var updatedMoneyFlow = new UpdatedMoneyFlow(
                 updator: new User(revisorId),
                 sourceOrRecipientEntityId: recipientEntityId,
+                sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
                 value: 10.00m,
@@ -1518,6 +2134,5 @@ namespace ECA.Business.Test.Service.Fundings
                 .WithMessage(message);
         }
         #endregion
-
     }
 }

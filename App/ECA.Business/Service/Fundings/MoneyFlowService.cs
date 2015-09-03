@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using ECA.Business.Models.Fundings;
 using ECA.Core.Exceptions;
 using ECA.Business.Exceptions;
+using ECA.Business.Queries.Admin;
 
 namespace ECA.Business.Service.Fundings
 {
@@ -27,6 +28,7 @@ namespace ECA.Business.Service.Fundings
         private readonly IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity> validator;
         private Action<object, int, Type> throwIfEntityNotFound;
         private Action<int, MoneyFlow, MoneyFlow> throwSecurityViolationIfNull;
+        private Action<int, OfficeDTO> throwSecurityViolationIfOrgIsOffice;
 
         /// <summary>
         /// Creates a new instance with the context to operate against and the validator.
@@ -54,6 +56,16 @@ namespace ECA.Business.Service.Fundings
                         String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.", 
                         userId, 
                         actualMoneyFlow.MoneyFlowId));
+                }
+            };
+            throwSecurityViolationIfOrgIsOffice = (organizationId, officeDto) =>
+            {
+                if(officeDto != null)
+                {
+                    throw new BusinessSecurityException(
+                        String.Format("The organization with the given id [{0}] is an office named [{1}].  This office must be accessed using office related methods only.",
+                        organizationId,
+                        officeDto.Name));
                 }
             };
         }
@@ -110,6 +122,68 @@ namespace ECA.Business.Service.Fundings
             this.logger.Trace("Retrieved money flows by program id {0} with query operator {1}.", programId, queryOperator);
             return moneyFlows;
         }
+
+        /// <summary>
+        /// Returns the money flows for the organization with the given id.
+        /// </summary>
+        /// <param name="organizationId">The organization id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The organization's money flows.</returns>
+        public PagedQueryResults<MoneyFlowDTO> GetMoneyFlowsByOrganizationId(int organizationId, QueryableOperator<MoneyFlowDTO> queryOperator)
+        {
+            var office = CreateGetOfficeByOrganizationIdQuery(organizationId).FirstOrDefault();
+            throwSecurityViolationIfOrgIsOffice(organizationId, office);
+            var moneyFlows = MoneyFlowQueries.CreateGetMoneyFlowDTOsByOrganizationId(this.Context, organizationId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved money flows by organization id {0} with query operator {1}.", organizationId, queryOperator);
+            return moneyFlows;
+        }
+
+        /// <summary>
+        /// Returns the money flows for the organization with the given id.
+        /// </summary>
+        /// <param name="organizationId">The organization id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The organization's money flows.</returns>
+        public async Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByOrganizationIdAsync(int organizationId, QueryableOperator<MoneyFlowDTO> queryOperator)
+        {
+            var office = await CreateGetOfficeByOrganizationIdQuery(organizationId).FirstOrDefaultAsync();
+            throwSecurityViolationIfOrgIsOffice(organizationId, office);
+            var moneyFlows = await MoneyFlowQueries.CreateGetMoneyFlowDTOsByOrganizationId(this.Context, organizationId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved money flows by organization id {0} with query operator {1}.", organizationId, queryOperator);
+            return moneyFlows;
+        }
+
+        /// <summary>
+        /// Returns the money flows for the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The office id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The office's money flows.</returns>
+        public PagedQueryResults<MoneyFlowDTO> GetMoneyFlowsByOfficeId(int officeId, QueryableOperator<MoneyFlowDTO> queryOperator)
+        {
+            var office = CreateGetOfficeByOrganizationIdQuery(officeId).FirstOrDefault();
+            var moneyFlows = MoneyFlowQueries.CreateGetMoneyFlowDTOsByOfficeId(this.Context, officeId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved money flows by organization id {0} with query operator {1}.", officeId, queryOperator);
+            return moneyFlows;
+        }
+
+        /// <summary>
+        /// Returns the money flows for the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The office id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The office's money flows.</returns>
+        public async Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByOfficeIdAsync(int officeId, QueryableOperator<MoneyFlowDTO> queryOperator)
+        {
+            var moneyFlows = await MoneyFlowQueries.CreateGetMoneyFlowDTOsByOfficeId(this.Context, officeId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved money flows by organization id {0} with query operator {1}.", officeId, queryOperator);
+            return moneyFlows;
+        }
+
+        private IQueryable<OfficeDTO> CreateGetOfficeByOrganizationIdQuery(int organizationId)
+        {
+            return OfficeQueries.CreateGetOfficeByIdQuery(this.Context, organizationId);
+        }
         #endregion
 
         /// <summary>
@@ -121,6 +195,7 @@ namespace ECA.Business.Service.Fundings
         {
             var expectedMapping = new Dictionary<int, Type>();
             expectedMapping.Add(MoneyFlowSourceRecipientType.ItineraryStop.Id, typeof(ItineraryStop));
+            expectedMapping.Add(MoneyFlowSourceRecipientType.Office.Id, typeof(Organization));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Organization.Id, typeof(Organization));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Participant.Id, typeof(Participant));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Program.Id, typeof(Program));
@@ -240,7 +315,7 @@ namespace ECA.Business.Service.Fundings
         public void Update(UpdatedMoneyFlow updatedMoneyFlow)
         {
             var moneyFlowToUpdate = Context.MoneyFlows.Find(updatedMoneyFlow.Id);
-            var permissableMoneyFlow = CreateGetMoneyFlowByIdAndEntityIdQuery(updatedMoneyFlow.Id, updatedMoneyFlow.SourceOrRecipientEntityId).FirstOrDefault();
+            var permissableMoneyFlow = CreateGetMoneyFlowByIdAndEntityIdQuery(updatedMoneyFlow).FirstOrDefault();
             throwSecurityViolationIfNull(updatedMoneyFlow.Audit.User.Id, permissableMoneyFlow, moneyFlowToUpdate);
             DoUpdate(updatedMoneyFlow, moneyFlowToUpdate);
         }
@@ -253,7 +328,7 @@ namespace ECA.Business.Service.Fundings
         public async Task UpdateAsync(UpdatedMoneyFlow updatedMoneyFlow)
         {
             var moneyFlowToUpdate = await Context.MoneyFlows.FindAsync(updatedMoneyFlow.Id);
-            var permissableMoneyFlow = await CreateGetMoneyFlowByIdAndEntityIdQuery(updatedMoneyFlow.Id, updatedMoneyFlow.SourceOrRecipientEntityId).FirstOrDefaultAsync();
+            var permissableMoneyFlow = await CreateGetMoneyFlowByIdAndEntityIdQuery(updatedMoneyFlow).FirstOrDefaultAsync();
             throwSecurityViolationIfNull(updatedMoneyFlow.Audit.User.Id, permissableMoneyFlow, moneyFlowToUpdate);
             DoUpdate(updatedMoneyFlow, moneyFlowToUpdate);
         }
@@ -295,7 +370,7 @@ namespace ECA.Business.Service.Fundings
         public void Delete(DeletedMoneyFlow deletedMoneyFlow)
         {
             var moneyFlowToDelete = Context.MoneyFlows.Find(deletedMoneyFlow.Id);
-            var permissableMoneyFlow = CreateGetMoneyFlowByIdAndEntityIdQuery(deletedMoneyFlow.Id, deletedMoneyFlow.SourceOrRecipientEntityId).FirstOrDefault();
+            var permissableMoneyFlow = CreateGetMoneyFlowByIdAndEntityIdQuery(deletedMoneyFlow).FirstOrDefault();
             throwSecurityViolationIfNull(deletedMoneyFlow.Audit.User.Id, permissableMoneyFlow, moneyFlowToDelete);
             DoDelete(moneyFlowToDelete);
         }
@@ -307,7 +382,7 @@ namespace ECA.Business.Service.Fundings
         public async Task DeleteAsync(DeletedMoneyFlow deletedMoneyFlow)
         {
             var moneyFlowToDelete = await Context.MoneyFlows.FindAsync(deletedMoneyFlow.Id);
-            var permissableMoneyFlow = await CreateGetMoneyFlowByIdAndEntityIdQuery(deletedMoneyFlow.Id, deletedMoneyFlow.SourceOrRecipientEntityId).FirstOrDefaultAsync();
+            var permissableMoneyFlow = await CreateGetMoneyFlowByIdAndEntityIdQuery(deletedMoneyFlow).FirstOrDefaultAsync();
             throwSecurityViolationIfNull(deletedMoneyFlow.Audit.User.Id, permissableMoneyFlow, moneyFlowToDelete);
             DoDelete(moneyFlowToDelete);
         }
@@ -320,33 +395,38 @@ namespace ECA.Business.Service.Fundings
         #endregion
 
         /// <summary>
-        /// We need a query to make sure that the money flow you are updating is the one with the Id
+        /// We need a query to make sure that the money flow you are updating or deleting is the one with the Id
         /// and the source or recipient entity id.  This is an additional security measure to ensure that user who
-        /// was granted access to edit a certain entities money flow does not then try to go an edit a seperate money flow.
+        /// was granted access to edit or delete a certain entity's money flow does not then try to go an edit a seperate money flow.
         /// </summary>
-        /// <param name="moneyFlowId">The money flow id.</param>
-        /// <param name="entityId">The permissable entity id, i.e. the entity by which a user has been granted access to modify.</param>
-        /// <returns>The money flow with the given money flow id and source entity id.</returns>
-        private IQueryable<MoneyFlow> CreateGetMoneyFlowByIdAndEntityIdQuery(int moneyFlowId, int entityId)
+        /// <param name="simpleMoneyFlow">The edited money flow business entity.</param>
+        /// <returns>The money flow with the given money flow id, source or recipient entity type id and source or recipient entity id.</returns>
+        private IQueryable<MoneyFlow> CreateGetMoneyFlowByIdAndEntityIdQuery(EditedMoneyFlow simpleMoneyFlow)
         {
             //In order to make sure the money flow that the client wants to update is one they have permission
             //to we need to make sure the money flow they wish to update is the one with the given id
             //and the source entity they have access to.
             return Context.MoneyFlows
-                .Where(x => x.MoneyFlowId == moneyFlowId
+                .Where(x => x.MoneyFlowId == simpleMoneyFlow.Id
+
                 && (
-                x.SourceItineraryStopId == entityId
-                || x.SourceOrganizationId == entityId
-                || x.SourceParticipantId == entityId
-                || x.SourceProgramId == entityId
-                || x.SourceProjectId == entityId
-                || x.RecipientAccommodationId == entityId
-                || x.RecipientItineraryStopId == entityId
-                || x.RecipientOrganizationId == entityId
-                || x.RecipientParticipantId == entityId
-                || x.RecipientProgramId == entityId
-                || x.RecipientProjectId == entityId
-                || x.RecipientTransportationId == entityId
+                x.SourceTypeId == simpleMoneyFlow.SourceOrRecipientEntityTypeId
+                || x.RecipientTypeId == simpleMoneyFlow.SourceOrRecipientEntityTypeId
+                )
+
+                && (
+                x.SourceItineraryStopId == simpleMoneyFlow.SourceOrRecipientEntityId
+                || x.SourceOrganizationId == simpleMoneyFlow.SourceOrRecipientEntityId
+                || x.SourceParticipantId == simpleMoneyFlow.SourceOrRecipientEntityId
+                || x.SourceProgramId == simpleMoneyFlow.SourceOrRecipientEntityId
+                || x.SourceProjectId == simpleMoneyFlow.SourceOrRecipientEntityId
+                || x.RecipientAccommodationId == simpleMoneyFlow.SourceOrRecipientEntityId
+                || x.RecipientItineraryStopId == simpleMoneyFlow.SourceOrRecipientEntityId
+                || x.RecipientOrganizationId == simpleMoneyFlow.SourceOrRecipientEntityId
+                || x.RecipientParticipantId == simpleMoneyFlow.SourceOrRecipientEntityId
+                || x.RecipientProgramId == simpleMoneyFlow.SourceOrRecipientEntityId
+                || x.RecipientProjectId == simpleMoneyFlow.SourceOrRecipientEntityId
+                || x.RecipientTransportationId == simpleMoneyFlow.SourceOrRecipientEntityId
                 ));
         }
     }

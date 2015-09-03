@@ -35,8 +35,8 @@ namespace ECA.WebApi.Controllers.Persons
         private IPersonService service;
         private IUserProvider userProvider;
         private IAddressModelHandler addressHandler;
+        private IEmailAddressHandler emailAddressHandler;
         private ISocialMediaPresenceModelHandler socialMediaHandler;
-        private IMembershipService membershipService;
 
         /// <summary>
         /// Constructor 
@@ -44,6 +44,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="service">The service to inject</param>
         /// <param name="userProvider">The user provider.</param>
         /// <param name="addressHandler">The address handler.</param>
+        /// <param name="emailAddressHandler">The Email Address handler.</param>
         /// <param name="socialMediaHandler">The social media handler.</param>
 
         public PeopleController(
@@ -55,11 +56,13 @@ namespace ECA.WebApi.Controllers.Persons
             Contract.Requires(service != null, "The participant service must not be null.");
             Contract.Requires(userProvider != null, "The user provider must not be null.");
             Contract.Requires(addressHandler != null, "The address handler must not be null.");
+            Contract.Requires(emailAddressHandler != null, "The email address handler must not be null.");
             Contract.Requires(socialMediaHandler != null, "The social media handler must not be null.");
             this.addressHandler = addressHandler;
             this.service = service;
             this.userProvider = userProvider;
             this.socialMediaHandler = socialMediaHandler;
+            this.emailAddressHandler = emailAddressHandler;
         }
 
         /// <summary>
@@ -274,7 +277,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <param name="model">The model to update</param>
         /// <returns></returns>
-        [Route("People/{personId:int}/General")]
+        [Route("People/General")]
         public async Task<IHttpActionResult> PutGeneralAsync(GeneralBindingModel model)
         {
             if (ModelState.IsValid)
@@ -291,29 +294,135 @@ namespace ECA.WebApi.Controllers.Persons
             }
         }
 
+        #region Address
         /// <summary>
         /// Adds a new address to the person.
         /// </summary>
         /// <param name="model">The new address.</param>
+        /// <param name="personId">The id of the person.</param>
         /// <returns>The saved address.</returns>
-        [Route("People/Address")]
+        [Route("People/{personId:int}/Address")]
         [ResponseType(typeof(AddressDTO))]
-        public Task<IHttpActionResult> PostAddressAsync([FromBody]PersonAddressBindingModel model)
+        public Task<IHttpActionResult> PostAddressAsync(int personId, [FromBody]PersonAddressBindingModel model)
         {
             return addressHandler.HandleAdditionalAddressAsync<Person>(model, this);
         }
 
         /// <summary>
+        /// Updates the address for the person.
+        /// </summary>
+        /// <param name="personId">The person id.</param>
+        /// <param name="model">The updated address.</param>
+        /// <returns>The saved address.</returns>
+        [Route("People/{personId:int}/Address")]
+        [ResponseType(typeof(AddressDTO))]
+        public Task<IHttpActionResult> PutAddressAsync(int personId, [FromBody]UpdatedAddressBindingModel model)
+        {
+            return addressHandler.HandleUpdateAddressAsync(model, this);
+        }
+
+        /// <summary>
+        /// Deletes the address from the person.
+        /// </summary>
+        /// <param name="personId">The person id.</param>
+        /// <param name="addressId">The address id.</param>
+        /// <returns>An Ok result.</returns>
+        [Route("People/{personId:int}/Address/{addressId:int}")]
+        [ResponseType(typeof(OkResult))]
+        public Task<IHttpActionResult> DeleteAddressAsync(int personId, int addressId)
+        {
+            return addressHandler.HandleDeleteAddressAsync(addressId, this);
+        }
+
+        #endregion
+
+        #region Social Media
+
+        /// <summary>
         /// Adds a new social media to the person.
         /// </summary>
         /// <param name="model">The new social media.</param>
+        /// <param name="personId">The id of the person.</param>
         /// <returns>The saved social media.</returns>
-        [Route("People/SocialMedia")]
+        [Route("People/{personId:int}/SocialMedia")]
         [ResponseType(typeof(SocialMediaDTO))]
-        public Task<IHttpActionResult> PostSocialMediaAsync([FromBody]PersonSocialMediaPresenceBindingModel model)
+        public Task<IHttpActionResult> PostSocialMediaAsync(int personId, [FromBody]PersonSocialMediaPresenceBindingModel model)
         {
             return socialMediaHandler.HandleSocialMediaPresenceAsync<Person>(model, this);
         }
+
+        /// <summary>
+        /// Updates the new social media presence of the person.
+        /// </summary>
+        /// <param name="model">The new social media.</param>
+        /// <param name="personId">The person id.</param>
+        /// <returns>The saved social media.</returns>
+        [Route("People/{personId:int}/SocialMedia")]
+        [ResponseType(typeof(SocialMediaDTO))]
+        public Task<IHttpActionResult> PutUpdateSocialMediaAsync(int personId, [FromBody]UpdatedSocialMediaBindingModel model)
+        {
+            return socialMediaHandler.HandleUpdateSocialMediaAsync(model, this);
+        }
+
+        /// <summary>
+        /// Deletes the social media presence from the person.
+        /// </summary>
+        /// <param name="socialMediaId">The socialMediaId id.</param>
+        /// <param name="personId">The person id.</param>
+        /// <returns>An ok result.</returns>
+        [Route("People/{personId:int}/SocialMedia/{socialMediaId:int}")]
+        [ResponseType(typeof(OkResult))]
+        public Task<IHttpActionResult> DeleteSocialMediaAsync(int personId, int socialMediaId)
+        {
+            return socialMediaHandler.HandleDeleteSocialMediaAsync(socialMediaId, this);
+        }
+        #endregion
+
+        #region Email Addresses
+
+
+        /// <summary>
+        /// Adds a new email address to the person.
+        /// </summary>
+        /// <param name="model">The new email address.</param>
+        /// <param name="personId">The id of the person.</param>
+        /// <returns>The saved email address.</returns>
+        [Route("People/{personId:int}/EmailAddress")]
+        [ResponseType(typeof(EmailAddressDTO))]
+        public Task<IHttpActionResult> PostEmailAddressAsync(int personId, [FromBody]PersonEmailAddressBindingModel model)
+        {
+            return emailAddressHandler.HandleEmailAddressAsync<Person>(model, this);
+        }
+
+        /// <summary>
+        /// Updates the new email address of the person.
+        /// </summary>
+        /// <param name="model">The new email address.</param>
+        /// <param name="personId">The person id.</param>
+        /// <returns>The saved email address.</returns>
+        [Route("People/{personId:int}/EmailAddress")]
+        [ResponseType(typeof(SocialMediaDTO))]
+        public Task<IHttpActionResult> PutUpdateEmailAddressAsync(int personId, [FromBody]UpdatedEmailAddressBindingModel model)
+        {
+            return emailAddressHandler.HandleUpdateEmailAddressAsync(model, this);
+        }
+
+        /// <summary>
+        /// Deletes the email address presence from the person.
+        /// </summary>
+        /// <param name="emailAddressId">The emailAddressId id.</param>
+        /// <param name="personId">The person id.</param>
+        /// <returns>An ok result.</returns>
+        [Route("People/{personId:int}/EmailAddress/{emailAddressId:int}")]
+        [ResponseType(typeof(OkResult))]
+        public Task<IHttpActionResult> DeleteEmailAddressAsync(int personId, int emailAddressId)
+        {
+            return emailAddressHandler.HandleDeleteEmailAddressAsync(emailAddressId, this);
+        }
+
+
+
+        #endregion
 
     }
 }

@@ -238,5 +238,35 @@ namespace ECA.Business.Queries.Fundings
             query = query.Apply(queryOperator);
             return query;
         }
+
+        /// <summary>
+        /// Returns a query to get all money flows for the organization with the given id.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="organizationId">The organization id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The query to get all organization money flows.</returns>
+        public static IQueryable<MoneyFlowDTO> CreateGetMoneyFlowDTOsByOrganizationId(EcaContext context, int organizationId, QueryableOperator<MoneyFlowDTO> queryOperator)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var query = CreateGetMoneyFlowsDTOsByEntityType(context, organizationId, MoneyFlowSourceRecipientType.Organization.Id);
+            query = query.Apply(queryOperator);
+            return query;
+        }
+
+        /// <summary>
+        /// Returns a query to get all money flows for the office with the given id.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="officeId">The office id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The query to get all office money flows.</returns>
+        public static IQueryable<MoneyFlowDTO> CreateGetMoneyFlowDTOsByOfficeId(EcaContext context, int officeId, QueryableOperator<MoneyFlowDTO> queryOperator)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var query = CreateGetMoneyFlowsDTOsByEntityType(context, officeId, MoneyFlowSourceRecipientType.Office.Id);
+            query = query.Apply(queryOperator);
+            return query;
+        }
     }
 }

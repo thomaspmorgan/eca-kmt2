@@ -1,7 +1,7 @@
 ﻿<div ng-controller="MoneyFlowsCtrl">
     <h4 class="tab-subheader">
         Funding List
-        <button class="btn btn-primary right" ng-show="!view.isLoadingRequiredData && !view.isLoadingMoneyFlows" ng-click="view.onAddFundingItemClick()">ADD FUNDING ITEM</button>
+        <button class="btn btn-primary right" ng-show="!view.isLoadingRequiredData && !view.isLoadingMoneyFlows && view.canEditMoneyFlows" ng-click="view.onAddFundingItemClick()">ADD FUNDING ITEM</button>
     </h4>
     <p class="subheader listCount">Showing {{view.start}} - {{view.end}} of {{view.total}} funding items.</p>
     <div st-pipe="view.getMoneyFlows" st-table="view.moneyFlows" exposetablestate="getMoneyFlowsTableState" id="sort-list">
@@ -84,9 +84,16 @@
                         {{moneyFlow.moneyFlowStatus}}
                     </td>
                     <td>{{moneyFlow.sourceRecipientTypeName}}</td>
-                    <td>{{moneyFlow.sourceRecipientName}}</td>
                     <td>
-                        <span class="{{moneyFlow.amount < 0 ? 'outgoingMoneyFlow' : 'incomingMoneyFlow'}}">{{moneyFlow.amount < 0 ? '-' : '+'}}{{moneyFlow.amount | currency}}</span>
+                        <span ng-if="moneyFlow.href" class="bookmark">
+                            <a href="{{moneyFlow.href}}">{{moneyFlow.sourceRecipientName}}</a>
+                        </span>
+                        <span ng-if="!moneyFlow.href">
+                            {{moneyFlow.sourceRecipientName}}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="{{moneyFlow.amount < 0 ? 'outgoingMoneyFlow' : 'incomingMoneyFlow'}}">{{moneyFlow.amount | currency}}</span>
                     </td>
                     <td style="text-align: center">
                         {{moneyFlow.fiscalYear}}

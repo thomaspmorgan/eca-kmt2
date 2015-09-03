@@ -507,6 +507,10 @@ namespace ECA.Data
 		/// Returns the Post lookup with id 9.
 		/// </summary>
 		public static StaticLookup Post { get { return new StaticLookup("Post", 9); } }
+		/// <summary>
+		/// Returns the Office lookup with id 10.
+		/// </summary>
+		public static StaticLookup Office { get { return new StaticLookup("Office", 10); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -523,6 +527,7 @@ namespace ECA.Data
 			if (7 == id) return MoneyFlowSourceRecipientType.Transportation;
 			if (8 == id) return MoneyFlowSourceRecipientType.Expense;
 			if (9 == id) return MoneyFlowSourceRecipientType.Post;
+			if (10 == id) return MoneyFlowSourceRecipientType.Office;
 			return null;
 		}
 		///<summary>
@@ -541,6 +546,7 @@ namespace ECA.Data
 			if ("Transportation".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Transportation;
 			if ("Expense".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Expense;
 			if ("Post".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Post;
+			if ("Office".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Office;
 			return null;
 		}
 

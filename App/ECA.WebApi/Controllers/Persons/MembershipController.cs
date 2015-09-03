@@ -69,7 +69,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <returns>The saved membership.</returns>
         [ResponseType(typeof(MembershipDTO))]
         [Route("People/{personId:int}/Membership")]
-        public async Task<IHttpActionResult> PostMembershipAsync(PersonMembershipBindingModel model)
+        public async Task<IHttpActionResult> PostMembershipAsync(NewPersonMembershipBindingModel model)
         {
             if (ModelState.IsValid)
             {

@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('HomeCtrl', function ($rootScope, $scope, $state, $modal, AuthService, BookmarkService, NotificationService) {
+  .controller('HomeCtrl', function ($rootScope, $scope, $state, $modal, AuthService, BookmarkService, NotificationService, StateService) {
 
       $scope.loadingBookmarks = true;
 
@@ -34,27 +34,25 @@ angular.module('staticApp')
       };
 
       $scope.getHref = function (bookmark) {
-
-          var href;
-
           if (bookmark.type === 'Office') {
-              href = $state.href('offices.overview', { officeId: bookmark.officeId });
+              return StateService.getOfficeState(bookmark.officeId);
           } else if (bookmark.type === 'Program') {
-              href = $state.href('programs.overview', { programId: bookmark.programId });
+              return StateService.getProgramState(bookmark.programId);
           } else if (bookmark.type === 'Project') {
-              href = $state.href('projects.overview', { projectId: bookmark.projectId });
+              return StateService.getProjectState(bookmark.projectId);
           } else if (bookmark.type === 'Person') {
-              href = $state.href('people.personalinformation', { personId: bookmark.personId });
+              return StateService.getPersonState(bookmark.personId);
           } else if (bookmark.type === 'Organization') {
-              href = $state.href('organizations.overview', { organizationId: bookmark.organizationId });
+              return StateService.getOrganizationState(bookmark.organizationId);
           }
-
-          return href;
+          else {
+              throw Error('The bookmark type is not supported.');
+          }
       }
 
       $scope.deleteBookmark = function (bookmark) {
           var modalInstance = $modal.open({
-              animation: true,
+              animation: false,
               templateUrl: 'views/directives/confirmdialog.html',
               controller: 'ConfirmCtrl',
               resolve: {

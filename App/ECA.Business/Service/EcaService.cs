@@ -345,11 +345,19 @@ namespace ECA.Business.Service
 
             goalsToAdd.ForEach(x =>
             {
-                if (Context.GetEntityState(x) == EntityState.Detached)
+                var localEntity = Context.GetLocalEntity<Goal>(y => y.GoalId == x.GoalId);
+                if (localEntity == null)
                 {
-                    Context.Goals.Attach(x);
+                    if (Context.GetEntityState(x) == EntityState.Detached)
+                    {
+                        Context.Goals.Attach(x);
+                    }
+                    goalable.Goals.Add(x);
                 }
-                goalable.Goals.Add(x);
+                else
+                {
+                    goalable.Goals.Add(localEntity);
+                }
             });
             goalsToRemove.ForEach(x =>
             {
@@ -396,6 +404,12 @@ namespace ECA.Business.Service
             });
         }
 
+        /// <summary>
+        /// Updates the regions on the given IRegionable to the locations with the given ids.  Ensure the locations
+        /// are already loaded via the context before calling this method.
+        /// </summary>
+        /// <param name="regionIds">The locations by id.</param>
+        /// <param name="regionable">The entity to update.</param>
         public void SetRegions(List<int> regionIds, IRegionable regionable)
         {
             Contract.Requires(regionIds != null, "The theme ids must not be null.");
@@ -428,6 +442,7 @@ namespace ECA.Business.Service
                 regionable.Regions.Remove(x);
             });
         }
+
         /// <summary>
         /// Updates the themes on the given program to the themes with the given ids.  Ensure the themes
         /// are already loaded via the context before calling this method.
@@ -466,6 +481,12 @@ namespace ECA.Business.Service
             });
         }
 
+        /// <summary>
+        /// Updates the categories on the given ICategorizable to the themes with the given ids.  Ensure the categories
+        /// are already loaded via the context before calling this method.
+        /// </summary>
+        /// <param name="categoryIds">The categories by id.</param>
+        /// <param name="categorizable">The categorizable to update.</param>
         public void SetCategories(List<int> categoryIds, ICategorizable categorizable)
         {
             Contract.Requires(categoryIds != null, "The category ids must not be null.");
@@ -498,6 +519,12 @@ namespace ECA.Business.Service
             });
         }
 
+        /// <summary>
+        /// Updates the objectives on the given IObjectivable to the objectives with the given ids.  Ensure the objectives
+        /// are already loaded via the context before calling this method.
+        /// </summary>
+        /// <param name="objectiveIds">The objectives by id.</param>
+        /// <param name="objectivable">The Objectivable to update.</param>
         public void SetObjectives(List<int> objectiveIds, IObjectivable objectivable)
         {
             Contract.Requires(objectiveIds != null, "The objective ids must not be null.");
@@ -533,7 +560,7 @@ namespace ECA.Business.Service
         /// <summary>
         /// Sets locations on the given instance with the given locaiton ids.
         /// </summary>
-        /// <typeparam name="T">The class type with an ICollection<Location> property.</typeparam>
+        /// <typeparam name="T">The class type with an ICollection of locations property.</typeparam>
         /// <param name="locationIds">The locations by id.</param>
         /// <param name="locationPropertySelector">The lambda to select a property typed to a collection of locations.</param>
         /// <param name="instance">The instance that contains a collection of locations to be set.</param>

@@ -47,11 +47,11 @@
         <div class="col-md-6">
             <div class="row">
                 <div class="col-md-6 title-label">Office</div>
-                <div class="col-md-6"><a ui-sref="offices.overview({officeId: program.ownerOrganizationId})">{{program.ownerName}}</a></div>
+                <div class="col-md-6"><a ui-sref="offices.overview({officeId: project.ownerId})">{{project.ownerName}}</a></div>
             </div>
             <div class="row">
                 <div class="col-md-6 title-label">Program</div>
-                <div class="col-md-6"><a ui-sref="programs.overview({programId: program.id})">{{program.name}}</a></div>
+                <div class="col-md-6"><a ui-sref="programs.overview({programId: project.programId})">{{project.programName}}</a></div>
             </div>
             <div class="row" ng-show="project.categories.length > 0">
                 <div class="col-md-6 title-label">{{categoryLabel}}</div>

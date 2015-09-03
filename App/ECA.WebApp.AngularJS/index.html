@@ -125,18 +125,18 @@
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/jquery-ui/jquery-ui.js"></script>
     <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/button.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/carousel.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/dropdown.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/modal.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/popover.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/affix.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/alert.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/button.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/carousel.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/collapse.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/tab.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/transition.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/modal.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/popover.js"></script>
     <script src="bower_components/angular-ui-utils/ui-utils.min.js"></script>
     <script src="bower_components/angular-ui-map/ui-map.min.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
@@ -165,6 +165,7 @@
     <!-- build:js(.) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/confirm.js"></script>
+    <script src="scripts/controllers/servervalidation.js"></script>
     <script src="scripts/controllers/allprograms.js"></script>
     <script src="scripts/controllers/office.js"></script>
     <script src="scripts/controllers/socialmedia/socialmedia.js"></script>
@@ -181,6 +182,7 @@
     <script src="scripts/controllers/moneyflow.js"></script>
     <script src="scripts/controllers/project.js"></script>
     <script src="scripts/controllers/project/overview.js"></script>
+    <script src="scripts/controllers/project/addprojectmodal.js"></script>
     <script src="scripts/controllers/project/projectparticipant.js"></script>
     <script src="scripts/controllers/project/selectparticipanttype.js"></script>
     <script src="scripts/controllers/project/unsavedchanges.js"></script>
@@ -190,6 +192,7 @@
     <script src="scripts/controllers/collaborators.js"></script>
     <script src="scripts/controllers/locations/searchlocations.js"></script>
     <script src="scripts/controllers/locations/addlocation.js"></script>
+    <script src="scripts/controllers/locations/marker.js"></script>
     <script src="scripts/services/authservice.js"></script>
     <script src="scripts/services/addressservice.js"></script>
     <script src="scripts/services/socialmediaservice.js"></script>
@@ -215,6 +218,8 @@
     <script src="scripts/controllers/people.js"></script>
     <script src="scripts/controllers/person/timeline.js"></script>
     <script src="scripts/controllers/programs.js"></script>
+    <script src="scripts/controllers/program/subprogramsandprojects.js"></script>
+    <script src="scripts/controllers/program/overview.js"></script>
     <script src="scripts/services/dragonbreath.js"></script>
     <script src="scripts/modules/modal.js"></script>
     <script src="scripts/directives/form-element.js"></script>
@@ -228,6 +233,9 @@
     <script src="scripts/services/userservice.js"></script>
     <script src="scripts/services/program.js"></script>
     <script src="scripts/controllers/alloffices.js"></script>
+    <script src="scripts/controllers/office/overview.js"></script>
+    <script src="scripts/controllers/office/branchesandprograms.js"></script>
+    <script src="scripts/controllers/program/addprogrammodal.js"></script>
     <script src="scripts/controllers/allpeople.js"></script>
     <script src="scripts/controllers/allorganizations.js"></script>
     <script src="scripts/services/participant.js"></script>
@@ -242,6 +250,7 @@
     <script src="scripts/services/locationservice.js"></script>
     <script src="scripts/services/downloadservice.js"></script>
     <script src="scripts/services/constantsservice.js"></script>
+    <script src="scripts/services/stateservice.js"></script>
     <script src="scripts/services/logouteventservice.js"></script>
     <script src="scripts/services/moneyflow.js"></script>
     <script src="scripts/services/tableservice.js"></script>
@@ -269,6 +278,10 @@
     <script src="scripts/controllers/membership/memberships.js"></script>
     <script src="scripts/directives/memberships.js"></script>
     <script src="scripts/services/membership.js"></script>
+    <script src="scripts/controllers/languageProficiencies/languageProficiency.js"></script>
+    <script src="scripts/controllers/languageProficiencies/languageProficiencies.js"></script>
+    <script src="scripts/directives/languageProficiencies.js"></script>
+    <script src="scripts/services/languageProficiency.js"></script>
     <!-- endbuild -->
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=onGoogleReady"></script>
 </body>

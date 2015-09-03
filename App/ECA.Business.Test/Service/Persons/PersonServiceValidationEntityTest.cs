@@ -23,14 +23,10 @@ namespace ECA.Business.Test.Service.Persons
             var entity = new PersonServiceValidationEntity(
                 person,
                 genderId,
-                dateOfBirth,
-                cityOfBirth,
                 countriesOfCitizenship);
 
             Assert.IsTrue(Object.ReferenceEquals(person, entity.Person));
             Assert.AreEqual(genderId, entity.GenderId);
-            Assert.AreEqual(dateOfBirth, entity.DateOfBirth);
-            Assert.IsTrue(Object.ReferenceEquals(cityOfBirth, entity.CityOfBirth));
             Assert.IsTrue(Object.ReferenceEquals(countriesOfCitizenship, entity.CountriesOfCitizenship));
         }
     }

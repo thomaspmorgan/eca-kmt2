@@ -62,5 +62,40 @@ namespace ECA.WebApi.Models.Admin
                 return new InvalidModelStateResult(controller.ModelState, controller);
             }
         }
+
+        /// <summary>
+        /// Handles a controller action's request to delete an address by id.
+        /// </summary>
+        /// <param name="addressId">The address id.</param>
+        /// <returns>The action result.</returns>
+        public async Task<IHttpActionResult> HandleDeleteAddressAsync(int addressId, ApiController controller)
+        {
+            await this.locationService.DeleteAsync(addressId);
+            await this.locationService.SaveChangesAsync();
+            return new OkResult(controller);
+        }
+
+        /// <summary>
+        /// Handles a controller action's request to update an address.
+        /// </summary>
+        /// <param name="updatedAddress">The updated address.</param>
+        /// <param name="controller">The controller with the request.</param>
+        /// <returns>The action result.</returns>
+        public async Task<IHttpActionResult> HandleUpdateAddressAsync(UpdatedAddressBindingModel updatedAddress, ApiController controller)
+        {
+            if (controller.ModelState.IsValid)
+            {
+                var currentUser = this.userProvider.GetCurrentUser();
+                var businessUser = this.userProvider.GetBusinessUser(currentUser);
+                await this.locationService.UpdateAsync(updatedAddress.ToUpdatedEcaAddress(businessUser));
+                await this.locationService.SaveChangesAsync();
+                var dto = await this.locationService.GetAddressByIdAsync(updatedAddress.AddressId);
+                return new OkNegotiatedContentResult<AddressDTO>(dto, controller);
+            }
+            else
+            {
+                return new InvalidModelStateResult(controller.ModelState, controller);
+            }
+        }
     }
 }

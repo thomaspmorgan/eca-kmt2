@@ -63,7 +63,8 @@ namespace ECA.Business.Test.Service.Persons
             var participantOrigination = new Organization
             {
                 OrganizationId = 1,
-                Name = "partOrg"
+                Name = "partOrg",
+                
             };
 
             var prominentCat1 = new ProminentCategory
@@ -96,7 +97,7 @@ namespace ECA.Business.Test.Service.Persons
                 IsNativeLanguage = false,
                 SpeakingProficiency = 5,
                 ReadingProficiency = 5,
-                ComprehensionProficiency = 5
+                ComprehensionProficiency = 5,
             };
 
             var dependant1 = new Person
@@ -113,7 +114,6 @@ namespace ECA.Business.Test.Service.Persons
                 ImpactId = 1,
                 Description = "desc1"
             };
-
             var person = new Person
             {
                 PersonId = 1,
@@ -126,6 +126,8 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             context.Genders.Add(gender);
+            context.Languages.Add(language1);
+            languageProficiency1.Language = language1;
             context.PersonLanguageProficiencies.Add(languageProficiency1);
             context.ProminentCategories.Add(prominentCat1);
             context.Activities.Add(activity1);
@@ -482,7 +484,7 @@ namespace ECA.Business.Test.Service.Persons
                 PersonId = 1
             };
 
-            person.Emails.Add(email);
+            person.EmailAddresses.Add(email);
 
             context.EmailAddresses.Add(email);
             context.People.Add(person);
@@ -490,9 +492,9 @@ namespace ECA.Business.Test.Service.Persons
             Action<ContactInfoDTO> tester = (serviceResult) =>
             {
                 Assert.IsNotNull(serviceResult);
-                Assert.AreEqual(person.Emails.Count(), serviceResult.Emails.Count());
-                CollectionAssert.AreEqual(person.Emails.Select(x => x.EmailAddressId).ToList(), serviceResult.Emails.Select(x => x.Id).ToList());
-                CollectionAssert.AreEqual(person.Emails.Select(x => x.Address).ToList(), serviceResult.Emails.Select(x => x.Value).ToList());
+                Assert.AreEqual(person.EmailAddresses.Count(), serviceResult.Emails.Count());
+                CollectionAssert.AreEqual(person.EmailAddresses.Select(x => x.EmailAddressId).ToList(), serviceResult.Emails.Select(x => x.Id).ToList());
+                CollectionAssert.AreEqual(person.EmailAddresses.Select(x => x.Address).ToList(), serviceResult.Emails.Select(x => x.Value).ToList());
             };
 
             var result = service.GetContactInfoById(person.PersonId);
@@ -1665,27 +1667,6 @@ namespace ECA.Business.Test.Service.Persons
             // Check that participant is associated to project
             var participantProject = participant.Project;
             Assert.IsTrue(Object.ReferenceEquals(project, participant.Project));
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(EcaBusinessException), "The person already exists.")]
-        public async Task TestCreateAsync_Duplicate()
-        {
-            var existingPerson = new Person
-            {
-                FirstName = "firstName",
-                LastName = "lastName",
-                GenderId = Gender.Female.Id,
-                DateOfBirth = DateTime.Now,
-                PlaceOfBirthId = 1
-            };
-
-            context.People.Add(existingPerson);
-
-            var newPerson = new NewPerson(new User(0), 1, existingPerson.FirstName, existingPerson.LastName,
-                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value, 1,
-                                          new List<int>());
-            var person = await service.CreateAsync(newPerson);
         }
 
         [TestMethod]

@@ -211,14 +211,14 @@
                     <div class="form-group">
                         <label class="col-md-4 title-label">Country<span class="asterisk"> *</span></label>
                         <div class="col-md-8">
-                            <select class="form-control" name="countryOfBirth" ng-model="pii.countryOfBirthId" ng-options="country.id as country.name for country in countries" ng-change="updateCountryOfBirth()" required />
+                            <select class="form-control" name="countryOfBirth" ng-model="pii.countryOfBirthId" ng-options="country.id as country.name for country in countries" ng-change="updateCountryOfBirth()" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-4 title-label">City<span class="asterisk"> *</span></label>
                         <div class="col-md-8">
                             <input type="text" class="form-control" name="cityOfBirth" ng-model="pii.cityOfBirthId" typeahead="city.id as city.name for city in getCities($viewValue) | filter : $viewValue | limitTo : 25"
-                                   typeahead-editable="false" typeahead-input-formatter="formatCityOfBirth($model)" ng-required="edit.Pii" />
+                                   typeahead-editable="false" typeahead-input-formatter="formatCityOfBirth($model)" />
                         </div>
                     </div>
                 </div>
@@ -238,7 +238,7 @@
                         <label class="col-md-4 title-label"></label>
                         <div class="col-md-8 input-group">
                             <input type="text" class="form-control" name="dateOfBirth" datepicker-popup="dd-MMMM-yyyy" ng-model="pii.dateOfBirth"
-                                   is-open="datePickerOpen" ng-required="edit.Pii" max-date="maxDateOfBirth" close-text="Close">
+                                   is-open="datePickerOpen" max-date="maxDateOfBirth" close-text="Close">
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-default" ng-click="openDatePicker($event)">
                                     <i class="material-icons md-18">event</i>
@@ -264,7 +264,7 @@
                     <div class="form-group">
                         <label class="col-md-4 title-label"></label>
                         <div class="col-md-8">
-                            <ui-select multiple ng-model="$parent.selectedCountriesOfCitizenship" ng-disabled="!edit.Pii" theme="select2" title="Choose a country" style="min-width: 200px;">
+                            <ui-select multiple ng-model="edit.selectedCountriesOfCitizenship" ng-disabled="!edit.Pii" theme="select2" title="Choose a country" style="min-width: 200px;">
                                 <ui-select-match placeholder="Select countries...">
                                     <div>{{$item.name}}</div>
                                 </ui-select-match>

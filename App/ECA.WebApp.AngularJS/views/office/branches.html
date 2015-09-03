@@ -1,24 +1,18 @@
-<div class="alert alert-danger" ng-show="loadingProgramsErrorOccurred">There was an error retrieving programs.</div>
-<h2 class="office-color tab-header">{{header}}</h2>
-<div class="alert alert-danger" ng-show="loadingBranchesErrorOccurred">
-    Error!  There was an error retrieving the branches.
-</div>
-<div ng-show="branches.length">
-    <!--<h4 class="tab-subheader">Branches</h4>-->
-    <div class="spinner" ng-show="isLoadingBranches">
+<h2 class="office-color tab-header">{{view.header}}</h2>
+<div ng-show="view.branches.length || view.isLoadingBranches">
+    <div class="spinner" ng-show="view.isLoadingBranches">
         <div class="bounce1"></div>
         <div class="bounce2"></div>
         <div class="bounce3"></div>
     </div>
-    <ul class="branch-list" ng-show="!isLoadingBranches">
-        <li ng-repeat="branch in branches" class="branch">
+    <ul class="branch-list" ng-show="!view.isLoadingBranches">
+        <li ng-repeat="branch in view.branches" class="branch">
             <span class="branch-title">{{branch.organizationType}}</span>
             <span class="branch-name"><a ui-sref="offices.overview({officeId: branch.organizationId})">{{branch.name}}</a></span>
         </li>
     </ul>
 </div>
-<div st-pipe="getPrograms" st-table="programs" id="sort-list">
-    <!--<h4 class="tab-subheader">Programs</h4>-->
+<div st-pipe="view.getPrograms" st-table="view.programs" id="sort-list">
     <table class="col-md-12 table">
         <thead>
             <tr>
@@ -28,27 +22,27 @@
             <tr>
                 <th>
                     <div>
-                        <input st-search type="search" placeholder="Search Programs" class="search-contextual" maxlength="100">
+                        <input st-search type="search" placeholder="Search Programs" class="search-contextual" maxlength="100" ng-model="view.programFilter">
                         <i class="material-icons md-18 contextual">search</i>
                     </div>
                     <div style="margin-top:25px;margin-bottom:-25px">
-                        <p class="subheader">Showing {{skippedNumberOfPrograms}} - {{numberOfPrograms}} of {{totalNumberOfPrograms}} programs</p>
+                        <p class="subheader">Showing {{view.skippedNumberOfPrograms}} - {{view.numberOfPrograms}} of {{view.totalNumberOfPrograms}} programs</p>
                     </div>
                 </th>
                 <th class="col-md-2 verticalTop">
-                    <button ng-show="!programsLoading" ng-click="createProgramForm()" class="btn btn-success right col-sd-2">CREATE PROGRAM</button>
+                    <button ng-disabled="view.isLoadingPrograms" ng-click="view.onCreateProgramClick()" class="btn btn-success right col-sd-2">CREATE PROGRAM</button>
                 </th>
             </tr>
         </thead>
         <tbody class="list2">
-            <tr ng-repeat="program in programs" class="hover" ng-show="!isLoadingPrograms">
+            <tr ng-repeat="program in view.programs" class="hover" ng-show="!view.isLoadingPrograms">
                 <td>
                     <div ng-style="{marginLeft: (program.programLevel) * 60}">
-                        <span class="owner-office" ng-bind-html="program.officeSymbol | highlight:programFilter">{{office.officeSymbol}}</span>
+                        <span class="owner-office" ng-bind-html="program.officeSymbol | highlight:view.programFilter">{{office.officeSymbol}}</span>
                         <h4>
-                            <a ng-bind-html="program.name | highlight:programFilter" ui-sref="programs.overview({officeId: program.owner_OrganizationId, programId: program.programId})">{{program.name}}</a>
+                            <a ng-bind-html="program.name | highlight:view.programFilter" ui-sref="programs.overview({officeId: program.owner_OrganizationId, programId: program.programId})">{{program.name}}</a>
                         </h4>
-                        <p ng-bind-html="program.description | highlight:programFilter" class="description">{{program.description}}</p>
+                        <p ng-bind-html="program.description | highlight:view.programFilter" class="description">{{program.description}}</p>
                     </div>
                 </td>
                 <td class="col-md-3 tools" style="vertical-align:middle; padding-right:40px;">
@@ -79,7 +73,7 @@
             </tr>
         </tbody>
     </table>
-    <div st-template="views/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="programs.length > 0"></div>
+    <div st-template="views/partials/pagination.html" st-pagination="" st-items-by-page="view.programsLimit" st-displayed-pages="10" ng-show="programs.length > 0"></div>
 </div>
 
 <modal-dialog show="showEditProgram" dialog-title="Edit program - {{ newProgram.name }}" before-close="editModalCancel()">

@@ -32,6 +32,7 @@ angular.module('staticApp')
               id: entityId,
               addressId: --tempAddressId,
               addressableType: addressableType,
+              isNew: true,
               addressDisplayName: 'NEW ADDRESS'
           };
           entityAddresses.splice(0, 0, newAddress);

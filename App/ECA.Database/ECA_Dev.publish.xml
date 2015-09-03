@@ -2,9 +2,9 @@
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
-    <TargetDatabaseName>ECA_Dev</TargetDatabaseName>
+    <TargetDatabaseName>ECA_KMT_DEV</TargetDatabaseName>
     <DeployScriptFileName>ECA_Dev.sql</DeployScriptFileName>
-    <TargetConnectionString>Data Source=dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Password=wisconsin-89;Pooling=False</TargetConnectionString>
+    <TargetConnectionString>Data Source=eca.database.windows.net;User ID=ECA;Pooling=False</TargetConnectionString>
     <ProfileVersionNumber>1</ProfileVersionNumber>
   </PropertyGroup>
 </Project>

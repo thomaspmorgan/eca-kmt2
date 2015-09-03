@@ -102,6 +102,8 @@ namespace ECA.WebApi
             container.RegisterType<IProminentCategoryService, ProminentCategoryService>(new HierarchicalLifetimeManager());
             container.RegisterType<IBookmarkService, BookmarkService>(new HierarchicalLifetimeManager());
             container.RegisterType<IMembershipService, MembershipService>(new HierarchicalLifetimeManager());
+            container.RegisterType<ILanguageService, LanguageService>(new HierarchicalLifetimeManager());
+            container.RegisterType<ILanguageProficiencyService, LanguageProficiencyService>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>

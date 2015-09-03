@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[PersonLanguageProficiency] (
     [LanguageId] INT NOT NULL,
     [PersonId]                           INT NOT NULL,
-    [NativeLanguageInd] CHAR NOT NULL DEFAULT 'N', 
+    [IsNativeLanguage] BIT NOT NULL DEFAULT 0, 
     [SpeakingProficiency] INT NULL DEFAULT 0, 
     [ReadingProficiency] INT NULL DEFAULT 0, 
     [ComprehensionProficiency] INT NULL DEFAULT 0, 

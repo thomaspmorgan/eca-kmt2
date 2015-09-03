@@ -26,7 +26,6 @@ angular.module('staticApp')
 
       var originalMembership = angular.copy($scope.membership);
 
-
       $scope.view.saveMembershipChanges = function () {
           $scope.view.isSavingChanges = true;
 
@@ -46,10 +45,10 @@ angular.module('staticApp')
           }
       };
 
-      $scope.view.cancelMembershipChanges = function () {
+      $scope.view.cancelMembershipChanges = function (form) {
           $scope.view.showEditMembership = false;
-          $scope.form.membershipForm.$setPristine();
-          $scope.form.membershipForm.$setUntouched();
+          //form.membershipForm.$setPristine();
+          //form.membershipForm.$setUntouched();
           if (isNewMembership($scope.membership)) {
               removeMembershipFromView($scope.membership);
           }

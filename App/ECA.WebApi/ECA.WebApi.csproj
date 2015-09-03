@@ -24,6 +24,7 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
     <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -423,6 +424,9 @@
     <Compile Include="Controllers\Admin\BookmarksController.cs" />
     <Compile Include="Controllers\Admin\GendersController.cs" />
     <Compile Include="Controllers\Admin\MaritalStatusesController.cs" />
+    <Compile Include="Controllers\Admin\LanguagesController.cs" />
+    <Compile Include="Controllers\Admin\EmailAddressesController .cs" />
+    <Compile Include="Controllers\Persons\LanguageProficiencyController.cs" />
     <Compile Include="Controllers\Persons\MembershipController.cs" />
     <Compile Include="Controllers\Fundings\MoneyFlowSourceRecipientTypesController.cs" />
     <Compile Include="Controllers\Fundings\MoneyFlowTypesController.cs" />
@@ -450,9 +454,16 @@
     <Compile Include="Custom\SwaggerExtensions\ApplySchemaVendorExtensions.cs" />
     <Compile Include="Custom\SwaggerExtensions\AssignOAuth2SecurityRequirements.cs" />
     <Compile Include="Custom\SwaggerExtensions\DescendingAlphabeticComparer.cs" />
+    <Compile Include="Models\Admin\IEmailAddressHandler.cs" />
     <Compile Include="Models\Admin\LocationBindingModel.cs" />
+    <Compile Include="Models\Admin\EmailAddressBindingModelBase.cs" />
+    <Compile Include="Models\Admin\EmailAddressHandler.cs" />
+    <Compile Include="Models\Admin\PersonEmailAddressBindingModel.cs" />
     <Compile Include="Models\Admin\UpdatedLocationBindingModel.cs" />
+    <Compile Include="Models\Admin\UpdatedEmailAddressBindingModel.cs" />
     <Compile Include="Models\Fundings\AdditionalMoneyFlowBindingModel.cs" />
+    <Compile Include="Models\Fundings\AdditionalOrganizationMoneyFlowBindingModel.cs" />
+    <Compile Include="Models\Fundings\AdditionalOfficeMoneyFlowBindingModel.cs" />
     <Compile Include="Models\Fundings\AdditionalProgramMoneyFlowBindingModel.cs" />
     <Compile Include="Models\Fundings\AdditionalProjectMoneyFlowBindingModel.cs" />
     <Compile Include="Models\Fundings\UpdatedMoneyFlowBindingModel.cs" />
@@ -472,8 +483,10 @@
     <Compile Include="Models\Admin\UpdatedOrganizationBindingModel.cs" />
     <Compile Include="Models\Admin\UpdatedSocialMediaBindingModel.cs" />
     <Compile Include="Models\Person\GeneralBindingModel.cs" />
+    <Compile Include="Models\Person\NewLanguageProficiencyBindingModel.cs" />
+    <Compile Include="Models\Person\UpdatedLanguageProficiencyBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedPersonMembershipBindingModel.cs" />
-    <Compile Include="Models\Person\PersonMembershipBindingModel.cs" />
+    <Compile Include="Models\Person\NewPersonMembershipBindingModel.cs" />
     <Compile Include="Models\Person\PiiBindingModel.cs" />
     <Compile Include="Models\Programs\ProgramCollaboratorBindingModel.cs" />
     <Compile Include="Models\Projects\AdditionalOrganizationProjectParticipantBindingModel.cs" />
@@ -565,18 +578,9 @@
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <Content Include="ECA.WebApi.wpp.targets" />
-    <None Include="Properties\PublishProfiles\ecaapi-kmt-dev - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\ecaapi-kmt-dev-Web-Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\ecaapi-kmt-qa.pubxml" />
-    <None Include="Properties\PublishProfiles\ECA_QA.pubxml">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Properties\PublishProfiles\ECA_Dev.pubxml">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Properties\PublishProfiles\ECA_Pre.pubxml">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="Properties\PublishProfiles\kmtapi-dev.pubxml" />
+    <None Include="Properties\PublishProfiles\kmtapi-pre.pubxml" />
+    <None Include="Properties\PublishProfiles\kmtapi-qa.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

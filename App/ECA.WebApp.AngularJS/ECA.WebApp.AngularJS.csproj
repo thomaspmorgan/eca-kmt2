@@ -138,12 +138,18 @@
     <Content Include="scripts\controllers\allorganizations.js" />
     <Content Include="scripts\controllers\collaborators.js" />
     <Content Include="scripts\controllers\confirm.js" />
+    <Content Include="scripts\controllers\languageProficiencies\languageProficiency.js" />
+    <Content Include="scripts\controllers\languageProficiencies\languageProficiencies.js" />
     <Content Include="scripts\controllers\locations\addlocation.js" />
+    <Content Include="scripts\controllers\locations\marker.js" />
     <Content Include="scripts\controllers\locations\searchlocations.js" />
     <Content Include="scripts\controllers\membership\memberships.js" />
     <Content Include="scripts\controllers\membership\membership.js" />
     <Content Include="scripts\controllers\moneyflow.js" />
     <Content Include="scripts\controllers\moneyflows.js" />
+    <Content Include="scripts\controllers\office\branchesandprograms.js" />
+    <Content Include="scripts\controllers\program\addprogrammodal.js" />
+    <Content Include="scripts\controllers\office\overview.js" />
     <Content Include="scripts\controllers\organization\activities.js" />
     <Content Include="scripts\controllers\organization\impact.js" />
     <Content Include="scripts\controllers\organization\artifacts.js" />
@@ -155,6 +161,9 @@
     <Content Include="scripts\controllers\person\personEduEmp.js" />
     <Content Include="scripts\controllers\person\personEvaluationNotes.js" />
     <Content Include="scripts\controllers\person\personGeneral.js" />
+    <Content Include="scripts\controllers\program\overview.js" />
+    <Content Include="scripts\controllers\program\subprogramsandprojects.js" />
+    <Content Include="scripts\controllers\project\addprojectmodal.js" />
     <Content Include="scripts\controllers\project\selectparticipanttype.js" />
     <Content Include="scripts\controllers\project\edit.js" />
     <Content Include="scripts\controllers\project\overview.js" />
@@ -169,9 +178,11 @@
     <Content Include="scripts\controllers\reports\CountryAwards.js" />
     <Content Include="scripts\controllers\reports\YearAwards.js" />
     <Content Include="scripts\controllers\reports\RegionAwards.js" />
+    <Content Include="scripts\controllers\servervalidation.js" />
     <Content Include="scripts\controllers\socialmedia\socialmedia.js" />
     <Content Include="scripts\controllers\socialmedia\socialmedias.js" />
     <Content Include="scripts\directives\equalityfilter.js" />
+    <Content Include="scripts\directives\languageProficiencies.js" />
     <Content Include="scripts\directives\memberships.js" />
     <Content Include="scripts\directives\moneyflows.js" />
     <Content Include="scripts\directives\socialmedias.js" />
@@ -183,23 +194,30 @@
     <Content Include="scripts\filters\groupby.js" />
     <Content Include="scripts\filters\propFilter.js" />
     <Content Include="scripts\services\bookmark.js" />
+    <Content Include="scripts\services\languageProficiency.js" />
     <Content Include="scripts\services\membership.js" />
     <Content Include="scripts\services\filterservice.js" />
     <Content Include="scripts\services\socialmediaservice.js" />
     <Content Include="scripts\services\addressservice.js" />
     <Content Include="scripts\services\participantperson.js" />
+    <Content Include="scripts\services\stateservice.js" />
     <Content Include="scripts\services\userservice.js" />
     <Content Include="views\directives\confirmdialog.html" />
     <Content Include="views\directives\equalityfilter.html" />
+    <Content Include="views\directives\languageProficiencies.html" />
+    <Content Include="views\directives\moneyflow.html" />
     <Content Include="views\directives\moneyflows.html" />
     <Content Include="views\directives\memberships.html" />
+    <Content Include="views\directives\servervalidationdialog.html" />
     <Content Include="views\directives\socialmedias.html" />
     <Content Include="views\directives\addresses.html" />
     <Content Include="views\locations\addlocationmodal.html" />
+    <Content Include="views\locations\marker.html" />
     <Content Include="views\locations\searchlocations.html" />
     <Content Include="views\organizations\activities.html" />
     <Content Include="views\organizations\impact.html" />
     <Content Include="views\organizations\artifacts.html" />
+    <Content Include="views\organizations\moneyflows.html" />
     <Content Include="views\organizations\overview.html" />
     <Content Include="views\organizations\partials\editdetails.html" />
     <Content Include="views\partials\collaborators.html" />
@@ -212,6 +230,8 @@
     <Content Include="views\person\partials\generalView.html" />
     <Content Include="views\organization.html" />
     <Content Include="views\program\moneyflows.html" />
+    <Content Include="views\program\addprogrammodal.html" />
+    <Content Include="views\project\addprojectmodal.html" />
     <Content Include="views\project\selectparticipanttype.html" />
     <Content Include="scripts\services\organization.js" />
     <Content Include="views\organizations\allorganizations.html" />
@@ -258,26 +278,15 @@
     <Content Include="ApplicationInsights.config" />
     <Content Include="package.json" />
     <Content Include="build.cmd" />
-    <None Include=".bin\bower.cmd" />
-    <None Include=".bin\git.cmd" />
-    <None Include=".bin\node.cmd" />
-    <None Include=".bin\npm.cmd" />
     <None Include="ECA.WebApp.AngularJS.wpp.targets" />
-    <None Include="Properties\PublishProfiles\brian.pubxml" />
-    <None Include="Properties\PublishProfiles\eca-kmt-dev %282%29.pubxml" />
-    <None Include="Properties\PublishProfiles\eca-kmt-dev - brandon.pubxml" />
-    <None Include="Properties\PublishProfiles\eca-kmt-dev - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\eca-kmt-dev-Web-Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\eca-kmt-dev.pubxml" />
-    <None Include="Properties\PublishProfiles\eca-kmt-qa - brandon.pubxml" />
-    <None Include="Properties\PublishProfiles\eca-kmt-qa.pubxml" />
     <Content Include="scripts\services\constantsservice.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>constantsservice.js</LastGenOutput>
     </Content>
-    <None Include="Properties\PublishProfiles\ECA_QA.pubxml" />
-    <None Include="Properties\PublishProfiles\ECA_Dev.pubxml" />
-    <None Include="Properties\PublishProfiles\ECA_Pre.pubxml" />
+    <None Include="Properties\PublishProfiles\kmt-dev.pubxml" />
+    <None Include="Properties\PublishProfiles\kmt-pre.pubxml" />
+    <None Include="Properties\PublishProfiles\kmt-prod.pubxml" />
+    <None Include="Properties\PublishProfiles\kmt-qa.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -512,9 +521,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="scripts\controllers\program\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
