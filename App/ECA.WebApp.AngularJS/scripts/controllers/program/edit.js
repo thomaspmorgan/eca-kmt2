@@ -14,6 +14,7 @@ angular.module('staticApp')
       $state,
       $log,
       $q,
+      FilterService,
       NotificationService,
       LookupService,
       ConstantsService,
@@ -43,6 +44,8 @@ angular.module('staticApp')
 
       $scope.view.selectedThemes = [];
       $scope.view.selectedGoals = [];
+      $scope.view.selectedCategories = [];
+      $scope.view.selectedObjectives = [];
 
       $scope.view.openStartDatePicker = function ($event) {
           $event.preventDefault();
@@ -122,9 +125,13 @@ angular.module('staticApp')
           });
       }
 
-      function loadCategories(officeId) {
-          return OfficeService.getCategories(officeId, { limit: maxLimit })
+      var categoriesFilter = FilterService.add('editprogram_categoriesfilter');
+      function loadCategories(officeId, selectedCategories) {
+          categoriesFilter.reset();
+          categoriesFilter = categoriesFilter.skip(0).take(maxLimit).notIn('id', selectedCategories.map(function (c) { return c.id; }));
+          return OfficeService.getCategories(officeId, categoriesFilter.toParams())
             .then(function (response) {
+                normalizeLookupProperties(response.data.results);
                 $scope.view.categories = response.data.results;
                 if (response.data.total > maxLimit) {
                     NotificationService.showWarningMessage("There are more categories than can be loaded in one time, some categories may be available.");
@@ -141,6 +148,7 @@ angular.module('staticApp')
       function loadObjectives(officeId) {
           return OfficeService.getObjectives(officeId, { limit: maxLimit })
             .then(function (response) {
+                normalizeLookupProperties(response.data.results);
                 $scope.view.objectives = response.data.results;
                 if (response.data.total > maxLimit) {
                     NotificationService.showWarningMessage("There are more objectives than can be loaded in one time, some categories may be available.");
@@ -214,11 +222,13 @@ angular.module('staticApp')
 
       function setSelectedCategories() {
           var categoriesName = 'categories';
+          normalizeLookupProperties($scope.view.program[categoriesName]);
           setSelectedItems(categoriesName, 'selectedCategories');
       }
 
       function setSelectedObjectives() {
           var objectivesName = 'objectives';
+          normalizeLookupProperties($scope.view.program[objectivesName]);
           setSelectedItems(objectivesName, 'selectedObjectives');
       }
 
@@ -250,11 +260,9 @@ angular.module('staticApp')
           $scope.view.program = program;
           $scope.view.categoryLabel = program.ownerOfficeCategoryLabel;
           $scope.view.objectiveLabel = program.ownerOfficeObjectiveLabel;
-          $scope.view.sortedCategories = orderByFilter($scope.program.categories, '+focusName');
-          $scope.view.sortedObjectives = orderByFilter($scope.program.objectives, '+justificationName');
-          //setSelectedCategories();
+          setSelectedCategories();
           setSelectedGoals();
-          //setSelectedObjectives();
+          setSelectedObjectives();
           //setSelectedPointsOfContact();
           setSelectedThemes();
           $scope.view.isLoadingRequiredData = true;
@@ -263,7 +271,7 @@ angular.module('staticApp')
                 loadPermissions(),
                 loadGoals(),
                 loadThemes(),
-                loadCategories(officeId),
+                loadCategories(officeId, program.categories),
                 loadObjectives(officeId),
                 loadOfficeSettings(program.ownerOrganizationId),
                 loadProgramStatii()])
