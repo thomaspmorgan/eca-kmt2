@@ -24,7 +24,7 @@ angular.module('staticApp')
       };
 
       $scope.cancelEditContact = function () {
-          $scope.toggleEditContact();
+          $scope.edit.Contact = false;
       };
 
       $scope.saveEditContact = function () {
@@ -33,7 +33,7 @@ angular.module('staticApp')
           //.then(function () {
           //    NotificationService.showSuccessMessage("The edit was successful.");
           //    loadGeneral($scope.general.personId);
-             $scope.toggleEditContact();
+          $scope.edit.Contact = false;
           //},
           //  function (error) {
           //      if (error.status == 400) {

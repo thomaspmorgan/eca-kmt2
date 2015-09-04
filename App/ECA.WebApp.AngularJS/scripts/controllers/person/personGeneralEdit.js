@@ -44,7 +44,7 @@ angular.module('staticApp')
      };
 
       $scope.cancelEditGeneral = function () {
-          $scope.toggleEditGeneral();
+          $scope.edit.General = false;
       };
 
       $scope.saveEditGeneral = function () {
@@ -53,7 +53,7 @@ angular.module('staticApp')
           .then(function () {
               NotificationService.showSuccessMessage("The edit was successful.");
               loadGeneral($scope.general.personId);
-              $scope.toggleEditGeneral();
+              $scope.edit.General = false;
           }, 
             function (error) {
                 if (error.status == 400) {

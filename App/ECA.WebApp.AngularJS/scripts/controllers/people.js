@@ -202,11 +202,4 @@ angular.module('staticApp')
         $scope.datePickerOpen = true;
     };
 
-    $scope.toggleEditGeneral = function () {
-        $scope.edit.General = !$scope.edit.General;
-    }
-
-    $scope.toggleEditContact = function () {
-        $scope.edit.Contact = !$scope.edit.Contact;
-    }
   });
