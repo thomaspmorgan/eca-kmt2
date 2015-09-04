@@ -45,6 +45,7 @@ angular.module('staticApp')
       $scope.edit = {};
       $scope.edit.General = false;
       $scope.edit.Pii = false;
+      $scope.edit.Contact = false;
       $scope.datePickerOpen = false;
 
       $scope.maxDateOfBirth = new Date();

@@ -9,7 +9,7 @@
 angular.module('staticApp')
   .controller('personGeneralCtrl', function ($scope, PersonService, $stateParams) {
 
-
+      $scope.generalLoading = true;
 
       $scope.personIdDeferred.promise
         .then(function (personId) {
@@ -17,9 +17,11 @@ angular.module('staticApp')
       });
 
       function loadGeneral(personId) {
+          $scope.generalLoading = true;
           PersonService.getGeneralById(personId)
           .then(function (data) {
               $scope.general = data;
+              $scope.generalLoading = false;
           });
       };
 }); 

@@ -1,32 +1,41 @@
 ﻿<div ng-controller="personContactCtrl">
-    <div class="col-md-6">
-        <div class="row">
-            <div class="col-md-4 title-label">Email(s)</div>
-            <emailaddresses model="contactInfo" modelid="person.personId" modeltype="'person'" editmode="edit.Contact"></emailaddresses>
-        </div>
-        <div class="row">
-            <div class="col-md-4 title-label">Social Media</div>
-            <socialmedias model="contactInfo" modelid="person.personId" modeltype="'person'" />
+    <div ng-show="contactsLoading">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="row">
-            <div class="col-md-4 title-label">Phone Number</div>
-            <div class="col-md-8">
-                <ul>
-                    <li ng-repeat="phoneNumber in contactInfo.phoneNumbers">
-                        {{phoneNumber.type}}: {{phoneNumber.value}}
-                    </li>
-                </ul>
+    <div ng-show="!contactsLoading">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4 title-label">Email(s)</div>
+                <emailaddresses model="contactInfo" modelid="person.personId" modeltype="'person'" editmode="edit.Contact"></emailaddresses>
+            </div>
+            <div class="row">
+                <div class="col-md-4 title-label">Social Media</div>
+                <socialmedias model="contactInfo" modelid="person.personId" modeltype="'person'" />
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-4 title-label">Contact Agreement</div>
-            <div class="col-md-8">{{participant.contactAgreement}}</div>
-        </div>
-        <div class="row">
-            <div class="col-md-4 title-label">Contact Agreements</div>
-            <div class="col-md-8">TODO</div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4 title-label">Phone Number</div>
+                <div class="col-md-8">
+                    <ul>
+                        <li ng-repeat="phoneNumber in contactInfo.phoneNumbers">
+                            {{phoneNumber.type}}: {{phoneNumber.value}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 title-label">Contact Agreement</div>
+                <div class="col-md-8">{{participant.contactAgreement}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 title-label">Contact Agreements</div>
+                <div class="col-md-8">TODO</div>
+            </div>
         </div>
     </div>
 </div>

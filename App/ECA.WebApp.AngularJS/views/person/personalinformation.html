@@ -31,7 +31,7 @@
                 <button ng-click="saveEditPii()" class="btn btn-success" ng-disabled="piiForm.$invalid || piiForm.$pristine">Save</button>
                 <button ng-click="cancelEditPii()" class="btn btn-cancel">Cancel</button>
             </div>
-            <a ng-show="!edit.Pii" ng-click="edit.Pii = true">
+            <a ng-show="!edit.Pii" ng-click="edit.Pii = !edit.Pii">
                 <i class="material-icons md-dark md-24 pull-right">edit</i>
             </a>
         </div>

@@ -9,13 +9,13 @@
 angular.module('staticApp')
   .controller('personGeneralEditCtrl', function ($scope, PersonService, NotificationService, LookupService, $stateParams) {
 
-      $scope.toggleEdit = $scope.toggleEditGeneral;
-
       $scope.general = [];
 
       $scope.editView = [];
       $scope.editView.prominentCategories = [];
       $scope.editView.selectedProminentCategories = [];
+
+      $scope.loadingGeneral = true;
 
       $scope.personIdDeferred.promise
         .then(function (personId) {
@@ -23,7 +23,8 @@ angular.module('staticApp')
             loadGeneral(personId);
       });
 
-     function loadGeneral(personId) {
+      function loadGeneral(personId) {
+          $scope.loadingGeneral = true;
           PersonService.getGeneralById(personId)
           .then(function (data) {
               $scope.general = data;
@@ -33,6 +34,7 @@ angular.module('staticApp')
                   prominentCategory.name = obj.value;
                   return prominentCategory;
               });
+              $scope.loadingGeneral = false;
           });
       };
 

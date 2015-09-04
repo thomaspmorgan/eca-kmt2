@@ -15,12 +15,8 @@ angular.module('staticApp')
               modelId: '=modelid',
               modelType: '=modeltype',
               editMode: '=editmode'
-          },
-          link: link
+          }
       };
       return directive;
       
-      function link(scope, $el, attrs) {
-          var edit = attrs.editmode;
-      }
   });
