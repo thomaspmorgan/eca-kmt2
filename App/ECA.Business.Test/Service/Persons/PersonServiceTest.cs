@@ -464,19 +464,21 @@ namespace ECA.Business.Test.Service.Persons
             var email = new EmailAddress
             {
                 EmailAddressId = 1,
-                Address = "test@test.com"
+                Address = "test@test.com",
+                EmailAddressTypeId = 1
             };
 
             var email2 = new EmailAddress
             {
                 EmailAddressId = 2,
-                Address = "test1@test.com"
-
+                Address = "test1@test.com",
+                EmailAddressTypeId = 1
             };
             var email3 = new EmailAddress
             {
                 EmailAddressId = 3,
-                Address = "test2@test.com"
+                Address = "test2@test.com",
+                EmailAddressTypeId = 1
             };
 
             var person = new Person
@@ -484,17 +486,32 @@ namespace ECA.Business.Test.Service.Persons
                 PersonId = 1
             };
 
+            var emailAddressType = new EmailAddressType
+            {
+                EmailAddressTypeId = 1,
+                EmailAddressTypeName = "Home"
+            };
+
+            email.EmailAddressType = emailAddressType;
+            email2.EmailAddressType = emailAddressType;
+            email3.EmailAddressType = emailAddressType;
+
             person.EmailAddresses.Add(email);
 
+            context.EmailAddressTypes.Add(emailAddressType);
+
             context.EmailAddresses.Add(email);
+            context.EmailAddresses.Add(email2);
+            context.EmailAddresses.Add(email3);
             context.People.Add(person);
 
             Action<ContactInfoDTO> tester = (serviceResult) =>
             {
                 Assert.IsNotNull(serviceResult);
-                Assert.AreEqual(person.EmailAddresses.Count(), serviceResult.Emails.Count());
-                CollectionAssert.AreEqual(person.EmailAddresses.Select(x => x.EmailAddressId).ToList(), serviceResult.Emails.Select(x => x.Id).ToList());
-                CollectionAssert.AreEqual(person.EmailAddresses.Select(x => x.Address).ToList(), serviceResult.Emails.Select(x => x.Value).ToList());
+                Assert.AreEqual(person.EmailAddresses.Count(), serviceResult.EmailAddresses.Count());
+                CollectionAssert.AreEqual(person.EmailAddresses.Select(x => x.EmailAddressId).ToList(), serviceResult.EmailAddresses.Select(x => x.Id).ToList());
+                CollectionAssert.AreEqual(person.EmailAddresses.Select(x => x.Address).ToList(), serviceResult.EmailAddresses.Select(x => x.Address).ToList());
+                CollectionAssert.AreEqual(person.EmailAddresses.Select(x => x.EmailAddressTypeId).ToList(), serviceResult.EmailAddresses.Select(x => x.EmailAddressTypeId).ToList());
             };
 
             var result = service.GetContactInfoById(person.PersonId);

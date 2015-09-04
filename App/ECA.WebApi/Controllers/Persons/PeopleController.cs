@@ -51,7 +51,8 @@ namespace ECA.WebApi.Controllers.Persons
             IPersonService service, 
             IUserProvider userProvider,
             IAddressModelHandler addressHandler,
-            ISocialMediaPresenceModelHandler socialMediaHandler)
+            ISocialMediaPresenceModelHandler socialMediaHandler,
+            IEmailAddressHandler emailAddressHandler)
         {
             Contract.Requires(service != null, "The participant service must not be null.");
             Contract.Requires(userProvider != null, "The user provider must not be null.");
@@ -401,7 +402,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="personId">The person id.</param>
         /// <returns>The saved email address.</returns>
         [Route("People/{personId:int}/EmailAddress")]
-        [ResponseType(typeof(SocialMediaDTO))]
+        [ResponseType(typeof(EmailAddressDTO))]
         public Task<IHttpActionResult> PutUpdateEmailAddressAsync(int personId, [FromBody]UpdatedEmailAddressBindingModel model)
         {
             return emailAddressHandler.HandleUpdateEmailAddressAsync(model, this);

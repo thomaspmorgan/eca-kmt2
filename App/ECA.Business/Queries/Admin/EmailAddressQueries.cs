@@ -21,7 +21,9 @@ namespace ECA.Business.Queries.Admin
             return context.EmailAddresses.Select(x => new EmailAddressDTO
             {
                 Id = x.EmailAddressId,
-                Address = x.Address
+                Address = x.Address,
+                EmailAddressType = x.EmailAddressType.EmailAddressTypeName,
+                EmailAddressTypeId = x.EmailAddressTypeId
             });
         }
 

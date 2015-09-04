@@ -138,6 +138,8 @@
     <Content Include="scripts\controllers\allorganizations.js" />
     <Content Include="scripts\controllers\collaborators.js" />
     <Content Include="scripts\controllers\confirm.js" />
+    <Content Include="scripts\controllers\emailAddresses\emailaddress.js" />
+    <Content Include="scripts\controllers\emailAddresses\emailaddresses.js" />
     <Content Include="scripts\controllers\languageProficiencies\languageProficiency.js" />
     <Content Include="scripts\controllers\languageProficiencies\languageProficiencies.js" />
     <Content Include="scripts\controllers\locations\addlocation.js" />
@@ -156,6 +158,8 @@
     <Content Include="scripts\controllers\organization\editdetails.js" />
     <Content Include="scripts\controllers\organization\organization.js" />
     <Content Include="scripts\controllers\organization\overview.js" />
+    <Content Include="scripts\controllers\person\personContactEdit.js" />
+    <Content Include="scripts\controllers\person\personContact.js" />
     <Content Include="scripts\controllers\person\personGeneralEdit.js" />
     <Content Include="scripts\controllers\person\timeline.js" />
     <Content Include="scripts\controllers\person\personEduEmp.js" />
@@ -187,6 +191,7 @@
     <Content Include="scripts\directives\languageProficiencies.js" />
     <Content Include="scripts\directives\memberships.js" />
     <Content Include="scripts\directives\moneyflows.js" />
+    <Content Include="scripts\directives\emailAddresses.js" />
     <Content Include="scripts\directives\socialmedias.js" />
     <Content Include="scripts\directives\addresses.js" />
     <Content Include="scripts\controllers\toolbaricons.js" />
@@ -199,6 +204,7 @@
     <Content Include="scripts\services\languageProficiency.js" />
     <Content Include="scripts\services\membership.js" />
     <Content Include="scripts\services\filterservice.js" />
+    <Content Include="scripts\services\emailaddressservice.js" />
     <Content Include="scripts\services\socialmediaservice.js" />
     <Content Include="scripts\services\addressservice.js" />
     <Content Include="scripts\services\participantperson.js" />
@@ -219,6 +225,7 @@
     <Content Include="views\directives\moneyflow.html" />
     <Content Include="views\directives\moneyflows.html" />
     <Content Include="views\directives\memberships.html" />
+    <Content Include="views\directives\emailAddresses.html" />
     <Content Include="views\directives\servervalidationdialog.html" />
     <Content Include="views\directives\socialmedias.html" />
     <Content Include="views\directives\addresses.html" />
@@ -235,9 +242,11 @@
     <Content Include="views\partials\pagination.html" />
     <Content Include="views\partials\toolbaricons.html" />
     <Content Include="views\person\allpeople.html" />
+    <Content Include="views\person\partials\contactEdit.html" />
     <Content Include="views\person\partials\evaluationNotesView.html" />
     <Content Include="views\person\partials\eduempView.html" />
     <Content Include="views\person\partials\generalEdit.html" />
+    <Content Include="views\person\partials\contactView.html" />
     <Content Include="views\person\partials\generalView.html" />
     <Content Include="views\organization.html" />
     <Content Include="views\program\edit.html" />

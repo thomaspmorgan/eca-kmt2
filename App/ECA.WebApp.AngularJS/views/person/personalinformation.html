@@ -209,13 +209,13 @@
                 </div>
                 <div class="col-md-8" ng-show="edit.Pii">
                     <div class="form-group">
-                        <label class="col-md-4 title-label">Country<span class="asterisk"> *</span></label>
+                        <label class="col-md-4 title-label">Country</label>
                         <div class="col-md-8">
                             <select class="form-control" name="countryOfBirth" ng-model="pii.countryOfBirthId" ng-options="country.id as country.name for country in countries" ng-change="updateCountryOfBirth()" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 title-label">City<span class="asterisk"> *</span></label>
+                        <label class="col-md-4 title-label">City</label>
                         <div class="col-md-8">
                             <input type="text" class="form-control" name="cityOfBirth" ng-model="pii.cityOfBirthId" typeahead="city.id as city.name for city in getCities($viewValue) | filter : $viewValue | limitTo : 25"
                                    typeahead-editable="false" typeahead-input-formatter="formatCityOfBirth($model)" />
@@ -251,7 +251,7 @@
         </div>
         <div class="col-md-6">
             <div class="row">
-                <div class="col-md-4 title-label">Countries of Citizenship<span class="asterisk" ng-show="edit.Pii"> *</span></div>
+                <div class="col-md-4 title-label">Countries of Citizenship</div>
                 <div class="col-md-8" ng-show="!edit.Pii">
                     <div class="form-group" ng-repeat="country in pii.countriesOfCitizenship">
                         <label class="col-md-4 title-label"></label>
@@ -264,7 +264,7 @@
                     <div class="form-group">
                         <label class="col-md-4 title-label"></label>
                         <div class="col-md-8">
-                            <ui-select multiple ng-model="edit.selectedCountriesOfCitizenship" ng-disabled="!edit.Pii" theme="select2" title="Choose a country" style="min-width: 200px;">
+                            <ui-select multiple ng-model="$parent.selectedCountriesOfCitizenship" ng-disabled="!edit.Pii" theme="select2" title="Choose a country" style="min-width: 200px;">
                                 <ui-select-match placeholder="Select countries...">
                                     <div>{{$item.name}}</div>
                                 </ui-select-match>
@@ -332,45 +332,14 @@
                 <i class="material-icons md-dark md-36 pull-right" ng-show="showContact">expand_more</i>
                 <i class="material-icons md-dark md-36 pull-right" ng-show="!showContact">expand_less</i>
             </a>
+            <a ng-show="!edit.Contact" ng-click="edit.Contact = !edit.Contact">
+                <i class="material-icons md-dark md-24 pull-right">edit</i>
+            </a>
         </div>
     </div>
-    <div class="row" ng-show="showContact">
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-4 title-label">Email(s)</div>
-                <div class="col-md-8">
-                    <ul>
-                        <li ng-repeat="email in contactInfo.emails">
-                            <a href="mailto:{{email.value}}">{{email.value}}</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 title-label">Social Media</div>
-                <socialmedias model="contactInfo" modelid="person.personId" modeltype="'person'" />
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-4 title-label">Phone Number</div>
-                <div class="col-md-8">
-                    <ul>
-                        <li ng-repeat="phoneNumber in contactInfo.phoneNumbers">
-                            {{phoneNumber.type}}: {{phoneNumber.value}}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 title-label">Contact Agreement</div>
-                <div class="col-md-8">{{participant.contactAgreement}}</div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 title-label">Contact Agreements</div>
-                <div class="col-md-8">TODO</div>
-            </div>
-        </div>
+    <div collapse="!showContact">
+        <div ng-if="!edit.Contact"><ng-include src="'/views/person/partials/contactView.html'"></ng-include></div>
+        <div ng-if="edit.Contact"><ng-include src="'/views/person/partials/contactEdit.html'"></ng-include></div>
     </div>
 
     <div class="row">

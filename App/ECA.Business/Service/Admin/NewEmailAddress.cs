@@ -56,7 +56,8 @@ namespace ECA.Business.Service.Admin
             Contract.Requires(addressable.EmailAddresses != null, "The email address property must not be null.");
             var emailAddress = new EmailAddress
             {
-                Address = this.Address
+                Address = this.Address,
+                EmailAddressTypeId = this.EmailAddressTypeId  
             };
             this.Create.SetHistory(emailAddress);
             addressable.EmailAddresses.Add(emailAddress);
