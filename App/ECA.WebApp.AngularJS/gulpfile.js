@@ -48,11 +48,9 @@ gulp.task('copy', ['clean'], function () {
     gulp.src('images/**/*.*')
         .pipe(gulp.dest('dist/images'));
     gulp.src('views/**/*.*')
-        .pipe(gulp.dest('dist/views'));
-    gulp.src('bower_components/fonts-raleway/fonts/fonts-raleway/**/*.ttf')
-        .pipe(gulp.dest('dist/fonts/fonts-raleway'));
-    gulp.src('bower_components/material-design-icons/iconfont/**/*.*')
-        .pipe(gulp.dest('dist/bower_components/material-design-icons/iconfont/'));
+    //    .pipe(gulp.dest('dist/views'));
+    gulp.src('styles/fonts/*.*')
+        .pipe(gulp.dest('dist/styles/fonts'));
     gulp.src('bower_components/select2/*.png')
         .pipe(gulp.dest('dist/images'));
 });

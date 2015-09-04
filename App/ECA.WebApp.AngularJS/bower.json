@@ -25,9 +25,7 @@
     "select2": "3.4.5",
     "ngSmoothScroll": "1.7.1",
     "angularjs-toaster": "0.4.12",
-    "file-saver-saveas-js": "1.20150304.1",
-    "fonts-raleway": "0.0.3",
-    "material-design-icons": "2.0.0"
+    "file-saver-saveas-js": "1.20150304.1"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.4",
