@@ -458,54 +458,68 @@ namespace ECA.Business.Test.Service.Persons
         #endregion
 
         #region Get Contact Info By Id
-        //[TestMethod]
-        //public async Task TestGetContactInfoById_Emails()
-        //{
-        //    var email = new EmailAddress
-        //    {
-        //        EmailAddressId = 1,
-        //        Address = "test@test.com",
-        //        EmailAddressTypeId = 1
-        //    };
+        [TestMethod]
+        public async Task TestGetContactInfoById_Emails()
+        {
+            var email = new EmailAddress
+            {
+                EmailAddressId = 1,
+                Address = "test@test.com",
+                EmailAddressTypeId = 1
+            };
 
-        //    var email2 = new EmailAddress
-        //    {
-        //        EmailAddressId = 2,
-        //        Address = "test1@test.com",
-        //        EmailAddressTypeId = 1
-        //    };
-        //    var email3 = new EmailAddress
-        //    {
-        //        EmailAddressId = 3,
-        //        Address = "test2@test.com",
-        //        EmailAddressTypeId = 1
-        //    };
+            var email2 = new EmailAddress
+            {
+                EmailAddressId = 2,
+                Address = "test1@test.com",
+                EmailAddressTypeId = 1
+            };
+            var email3 = new EmailAddress
+            {
+                EmailAddressId = 3,
+                Address = "test2@test.com",
+                EmailAddressTypeId = 1
+            };
 
-        //    var person = new Person
-        //    {
-        //        PersonId = 1
-        //    };
+            var person = new Person
+            {
+                PersonId = 1
+            };
 
-        //    person.EmailAddresses.Add(email);
+            var emailAddressType = new EmailAddressType
+            {
+                EmailAddressTypeId = 1,
+                EmailAddressTypeName = "Home"
+            };
 
-        //    context.EmailAddresses.Add(email);
-        //    context.People.Add(person);
+            email.EmailAddressType = emailAddressType;
+            email2.EmailAddressType = emailAddressType;
+            email3.EmailAddressType = emailAddressType;
 
-        //    Action<ContactInfoDTO> tester = (serviceResult) =>
-        //    {
-        //        Assert.IsNotNull(serviceResult);
-        //        Assert.AreEqual(person.EmailAddresses.Count(), serviceResult.EmailAddresses.Count());
-        //        CollectionAssert.AreEqual(person.EmailAddresses.Select(x => x.EmailAddressId).ToList(), serviceResult.EmailAddresses.Select(x => x.Id).ToList());
-        //        CollectionAssert.AreEqual(person.EmailAddresses.Select(x => x.Address).ToList(), serviceResult.EmailAddresses.Select(x => x.Address).ToList());
-        //        CollectionAssert.AreEqual(person.EmailAddresses.Select(x => x.EmailAddressTypeId).ToList(), serviceResult.EmailAddresses.Select(x => x.EmailAddressTypeId).ToList());
-        //    };
+            person.EmailAddresses.Add(email);
 
-        //    var result = service.GetContactInfoById(person.PersonId);
-        //    var resultAsync = await service.GetContactInfoByIdAsync(person.PersonId);
+            context.EmailAddressTypes.Add(emailAddressType);
 
-        //    tester(result);
-        //    tester(resultAsync);
-        //}
+            context.EmailAddresses.Add(email);
+            context.EmailAddresses.Add(email2);
+            context.EmailAddresses.Add(email3);
+            context.People.Add(person);
+
+            Action<ContactInfoDTO> tester = (serviceResult) =>
+            {
+                Assert.IsNotNull(serviceResult);
+                Assert.AreEqual(person.EmailAddresses.Count(), serviceResult.EmailAddresses.Count());
+                CollectionAssert.AreEqual(person.EmailAddresses.Select(x => x.EmailAddressId).ToList(), serviceResult.EmailAddresses.Select(x => x.Id).ToList());
+                CollectionAssert.AreEqual(person.EmailAddresses.Select(x => x.Address).ToList(), serviceResult.EmailAddresses.Select(x => x.Address).ToList());
+                CollectionAssert.AreEqual(person.EmailAddresses.Select(x => x.EmailAddressTypeId).ToList(), serviceResult.EmailAddresses.Select(x => x.EmailAddressTypeId).ToList());
+            };
+
+            var result = service.GetContactInfoById(person.PersonId);
+            var resultAsync = await service.GetContactInfoByIdAsync(person.PersonId);
+
+            tester(result);
+            tester(resultAsync);
+        }
 
         [TestMethod]
         public async Task TestGetContactInfoById_SocialMedias()
