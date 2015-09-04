@@ -34,7 +34,7 @@
                             </ui-select>
                         </div>
                         <div class="form-group">
-                            <label for="">PLACE OF BIRTH - COUNTRY<span class="asterisk"> *</span></label>
+                            <label for="">PLACE OF BIRTH - COUNTRY</label>
                             <ui-select ng-model="newParticipant.countryOfBirth" theme="select2" style="min-width: 300px;" on-select="countryOfBirthSelected()" ng-disabled="newParticipant.selectedDuplicate">
                                 <ui-select-match placeholder="Select a country of birth...">{{$select.selected.name}}</ui-select-match>
                                 <ui-select-choices refresh="searchCountries($select.search)" refresh-delay="250" repeat="country in countries track by country.id">
@@ -43,7 +43,7 @@
                             </ui-select>
                         </div>
                         <div class="form-group">
-                            <label for="">COUNTRIES OF CITIZENSHIP<span class="asterisk"> *</span></label>
+                            <label for="">COUNTRIES OF CITIZENSHIP</label>
                             <ui-select multiple ng-model="newParticipant.countriesOfCitizenship" theme="select2" style="min-width: 300px;" ng-disabled="newParticipant.selectedDuplicate">
                                 <ui-select-match placeholder="Select countries of citizenship...">{{$item.name}}</ui-select-match>
                                 <ui-select-choices refresh="searchCountriesCopy($select.search)" refresh-delay="250" repeat="country in countriesCopy track by country.id">
@@ -63,7 +63,7 @@
                             }
                         </style>
                         <div class="form-group">
-                            <label for="dobDate">DATE OF BIRTH<span class="asterisk"> *</span></label>
+                            <label for="dobDate">DATE OF BIRTH</label>
                             <div class="input-group">
                                 <input type="text"
                                        class="form-control"
@@ -80,7 +80,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="">PLACE OF BIRTH - CITY<span class="asterisk"> *</span></label>
+                            <label for="">PLACE OF BIRTH - CITY</label>
                             <ui-select ng-model="newParticipant.cityOfBirth" theme="select2" style="min-width: 300px;" ng-disabled="newParticipant.selectedDuplicate">
                                 <ui-select-match placeholder="Select a city of birth...">{{$select.selected.name}}{{$select.selected.division ? ', ' + $select.selected.division : ''}}</ui-select-match>
                                 <ui-select-choices refresh="searchCities($select.search)" refresh-delay="250" repeat="city in cities track by city.id">
