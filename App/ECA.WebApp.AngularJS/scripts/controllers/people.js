@@ -49,7 +49,7 @@ angular.module('staticApp')
 
       $scope.maxDateOfBirth = new Date();
 
-      $scope.edit.selectedCountriesOfCitizenship = [];
+      $scope.selectedCountriesOfCitizenship = [];
 
       $scope.activityImageSet = [
           'images/placeholders/participant/activities1.png',
@@ -117,7 +117,7 @@ angular.module('staticApp')
                if ($scope.pii.dateOfBirth) {
                    $scope.pii.dateOfBirth = new Date($scope.pii.dateOfBirth);
                }
-               $scope.edit.selectedCountriesOfCitizenship = $scope.pii.countriesOfCitizenship.map(function (obj) {
+               $scope.selectedCountriesOfCitizenship = $scope.pii.countriesOfCitizenship.map(function (obj) {
                    var location = {};
                    location.id = obj.id;
                    location.name = obj.value;
@@ -191,7 +191,7 @@ angular.module('staticApp')
 
     function setupPii() {
         $scope.pii.personId = $scope.person.personId;
-        $scope.pii.countriesOfCitizenship = $scope.edit.selectedCountriesOfCitizenship.map(function (obj) {
+        $scope.pii.countriesOfCitizenship = $scope.selectedCountriesOfCitizenship.map(function (obj) {
             return obj.id;
         });
     };
