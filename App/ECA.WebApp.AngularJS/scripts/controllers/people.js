@@ -158,7 +158,7 @@ angular.module('staticApp')
       });
 
     $scope.cancelEditPii = function () {
-        $scope.edit.Pii = false;
+        this.edit.Pii = false;
         loadPii($scope.person.personId);
     };
 
@@ -168,7 +168,7 @@ angular.module('staticApp')
         PersonService.updatePii($scope.pii, $scope.person.personId)
             .then(function () {
                 NotificationService.showSuccessMessage("The edit was successful.");
-                $scope.edit.Pii = false;
+                this.edit.Pii = false;
                 loadPii($scope.person.personId);
             }, 
             function (error) {
