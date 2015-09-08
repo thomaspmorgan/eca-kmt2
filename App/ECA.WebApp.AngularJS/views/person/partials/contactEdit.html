@@ -7,41 +7,45 @@
         </div>
     </div>
     <div ng-show="!contactsLoading">
-        <div class="row">
-            <div class="pull-right">
-                <button ng-click="saveEditContact()" class="btn btn-success" ng-disabled="generalForm.$invalid || generalForm.$pristine">Save</button>
-                <button ng-click="cancelEditContact()" class="btn btn-cancel">Cancel</button>
-            </div>
-        </div>
-        <div class="col-md-6">
+
             <div class="row">
-                <div class="col-md-4 title-label">Email(s)</div>
-                <emailaddresses model="contactInfo" modelid="person.personId" modeltype="'person'" editmode="edit.Contact"></emailaddresses>
-            </div>
-            <div class="row">
-                <div class="col-md-4 title-label">Social Media</div>
-                <socialmedias model="contactInfo" modelid="person.personId" modeltype="'person'" />
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-4 title-label">Phone Number</div>
-                <div class="col-md-8">
-                    <ul>
-                        <li ng-repeat="phoneNumber in contactInfo.phoneNumbers">
-                            {{phoneNumber.type}}: {{phoneNumber.value}}
-                        </li>
-                    </ul>
+                <div class="pull-right">
+                    <button ng-click="saveEditContact()" class="btn btn-success" ng-disabled="contactForm.$invalid || contactForm.$pristine">Save</button>
+                    <button ng-click="cancelEditContact()" class="btn btn-cancel">Cancel</button>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-4 title-label">Contact Agreement</div>
-                <div class="col-md-8">{{participant.contactAgreement}}</div>
+        <form name="contactForm" class="form-horizontal">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-4 title-label">Email(s)</div>
+                    <emailaddresses model="contactInfo" modelid="person.personId" modeltype="'person'" editmode="edit.Contact"></emailaddresses>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 title-label">Social Media</div>
+                    <socialmedias model="contactInfo" modelid="person.personId" modeltype="'person'" />
+                </div>
             </div>
-            <div class="row">
-                <div class="col-md-4 title-label">Contact Agreements</div>
-                <div class="col-md-8">TODO</div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-4 title-label">Phone Number</div>
+                    <div class="col-md-8">
+                        <ul>
+                            <li ng-repeat="phoneNumber in contactInfo.phoneNumbers">
+                                {{phoneNumber.type}}: {{phoneNumber.value}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 title-label">Has Contact Agreement?</div>
+                    <div class="col-md-8"><input type="checkbox" ng-model="contactInfo.hasContactAgreement"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 title-label">Contact Agreements</div>
+                    <div class="col-md-8">TODO</div>
+                </div>
             </div>
-        </div>
-    </div>
+        </form>
+
+</div>
 </div>

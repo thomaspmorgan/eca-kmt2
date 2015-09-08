@@ -13,14 +13,14 @@ angular.module('staticApp')
 
       $scope.personIdDeferred.promise
         .then(function (personId) {
-            loadContact(personId);
+            loadContactInfo(personId);
       });
 
-      function loadContact(personId) {
+      function loadContactInfo(personId) {
           $scope.loadingContacts = true;
           PersonService.getContactInfoById(personId)
           .then(function (data) {
-              $scope.contact = data;
+              $scope.contactInfo = data;
               $scope.loadingContacts = false;
           });
       };
