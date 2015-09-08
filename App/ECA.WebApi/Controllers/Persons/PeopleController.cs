@@ -295,6 +295,28 @@ namespace ECA.WebApi.Controllers.Persons
             }
         }
 
+        /// <summary>
+        /// Put method to update a person's General Info
+        /// </summary>
+        /// <param name="model">The model to update</param>
+        /// <returns></returns>
+        [Route("People/ContactInfo")]
+        public async Task<IHttpActionResult> PutContactInfoAsync(ContactInfoBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var person = await service.UpdateContactInfoAsync(model.ToUpdateContactInfo(businessUser));
+                await service.SaveChangesAsync();
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
         #region Address
         /// <summary>
         /// Adds a new address to the person.

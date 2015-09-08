@@ -24,7 +24,6 @@ namespace ECA.Business.Test.Queries.Persons
             {
                 ParticipantId = 1,
                 SevisId = "N0000000001",
-                ContactAgreement = false,
                 StudyProject = "studyProject",
             };
             var project = new Project
@@ -47,7 +46,6 @@ namespace ECA.Business.Test.Queries.Persons
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
 
             Assert.AreEqual(participantPerson.SevisId, participantPersonResult.SevisId);
-            Assert.AreEqual(participantPerson.ContactAgreement, participantPersonResult.ContactAgreement);
             Assert.AreEqual(participantPerson.StudyProject, participantPersonResult.StudyProject);
             Assert.AreEqual(project.ProjectId, participantPersonResult.ProjectId);
 

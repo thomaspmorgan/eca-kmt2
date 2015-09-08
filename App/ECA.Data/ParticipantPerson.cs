@@ -27,10 +27,7 @@ namespace ECA.Data
         public int ParticipantId { get; set; }
         [MaxLength(SEVIS_ID_MAX_LENGTH)]
         public string SevisId { get; set; }
-        /// <summary>
-        /// Can the participant be contacted? (agreement to contact is in place)
-        /// </summary>
-        public bool ContactAgreement { get; set; }
+
         [MaxLength(STUDY_PROJECT_MAX_LENGTH)]
         public string StudyProject {get; set;}
 

@@ -199,6 +199,8 @@ namespace ECA.Business.Queries.Persons
                                 Value = x.SocialMediaValue
                             }).OrderBy(s => s.SocialMediaType),
                             PhoneNumbers = person.PhoneNumbers.Select(x => new SimpleTypeLookupDTO() { Id = x.PhoneNumberId, Type = x.PhoneNumberType.PhoneNumberTypeName, Value = x.Number }),
+                            HasContactAgreement = person.HasContactAgreement,
+                            PersonId = person.PersonId
                         };
             return query;
         }
