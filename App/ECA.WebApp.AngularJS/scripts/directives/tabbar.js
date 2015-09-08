@@ -14,9 +14,9 @@ angular.module('staticApp')
           replace: true,
           link: function postLink(scope, el, attrs) {
               if (attrs.edit !== undefined) {
-                  scope.edit = true;
+                  scope.tabedit = true;
               } else {
-                  scope.edit = false;
+                  scope.tabedit = false;
               }
               scope.addTab = function (tab) {
                   tab.active = true;
