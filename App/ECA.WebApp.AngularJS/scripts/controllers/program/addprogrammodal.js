@@ -116,7 +116,7 @@ angular.module('staticApp')
                       options: function () {
                           return {
                               title: 'Confirm',
-                              message: 'There are unsaved changes.  Are you sure you wish to cance?',
+                              message: 'There are unsaved changes.  Are you sure you wish to cancel?',
                               okText: 'Yes',
                               cancelText: 'No'
                           };

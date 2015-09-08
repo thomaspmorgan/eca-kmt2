@@ -2,7 +2,7 @@
   "name": "static",
   "version": "0.0.1",
   "dependencies": {
-    "angular": "1.4.4",
+    "angular": "1.4.5",
     "json3": "3.3.2",
     "es5-shim": "4.1.11",
     "bootstrap-sass": "3.3.5",
@@ -33,6 +33,6 @@
   },
   "appPath": "app",
   "resolutions": {
-    "angular": "1.4.4"
+    "angular": "1.4.5"
   }
 }

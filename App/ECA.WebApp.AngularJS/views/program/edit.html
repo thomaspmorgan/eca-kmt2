@@ -3,7 +3,7 @@
     <div class="bounce2"></div>
     <div class="bounce3"></div>
 </div>
-<div ng-show="!view.isLoadingProgram && !view.isLoadingRequiredData && !view.isSaving" in-context-form>
+<div ng-show="!view.isLoadingProgram && !view.isLoadingRequiredData && !view.isSaving">
     <div>
         <div class="pull-right">
             <button ng-click="view.onSaveClick($event)" ng-disabled="form.programForm.$invalid" class="btn btn-success">Save</button>
@@ -17,7 +17,6 @@
             <div class="col-md-10">
                 <input name="name"
                        ng-model="view.program.name"
-                       form-element guidance="This is the name of your program."
                        type="text"
                        class="form-control"
                        placeholder="Enter program title..."
@@ -33,7 +32,6 @@
             <div class="col-md-10">
                 <textarea name="description"
                           ng-model="view.program.description"
-                          form-element guidance="This is the description of your program."
                           type="text"
                           id="description"
                           class="form-control"
@@ -42,6 +40,17 @@
                 <div ng-show="form.programForm.description.$dirty">
                     <div class="error" ng-show="form.programForm.description.$error.required">Please enter a project description.</div>
                 </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 title-label" for="program">Website</label>
+            <div class="col-md-10">
+                <input name="name"
+                       ng-model="view.program.website"
+                       type="text"
+                       class="form-control"
+                       placeholder="Enter program website..."
+                       id="website" />
             </div>
         </div>
         <div class="row tags">
@@ -150,7 +159,8 @@
                             </ui-select-choices>
                         </ui-select>
                     </div>
-                </div><!--
+                </div>
+                <!--
                 <div class="row" ng-show="project.contacts">
                     <div class="col-md-6 title-label"><ng-pluralize count="project.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
                     <div class="col-md-6">
@@ -166,7 +176,7 @@
                         </ui-select>
                     </div>
                 </div>-->
-                <!--<div class="row" ng-show="project.locations">
+                <div class="row" ng-show="project.locations">
                     <div class="col-md-6 title-label">
                         <ng-pluralize count="project.locations.length" when="{'1':'Location','other':'Locations'}"></ng-pluralize>
                     </div>
@@ -196,7 +206,8 @@
                             <button class="btn btn-default" ng-click="view.onAdvancedSearchClick()">Advanced <i class="material-icons md-dark">search</i></button>
                         </div>
                     </div>
-                </div>-->
+                </div>
             </div>
+        </div>
     </form>
 </div>
