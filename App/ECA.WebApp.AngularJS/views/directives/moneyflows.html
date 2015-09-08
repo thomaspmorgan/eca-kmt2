@@ -147,7 +147,7 @@
                         </div>
                     </td>
                     <td colspan="9" ng-show="!moneyFlow.isSavingUpdate">
-                        <div in-context-form id="{{view.getMoneyFlowDivId(moneyFlow)}}">
+                        <div id="{{view.getMoneyFlowDivId(moneyFlow)}}">
                             <form name="form.moneyFlowForm">
                                 <div class="row">
                                     <div class="form-group col-md-6">
@@ -162,7 +162,6 @@
                                                    is-open="moneyFlow.isTransactionDatePickerOpen"
                                                    close-text="Close"
                                                    show-weeks="false"
-                                                   form-element guidance="The transaction date."
                                                    ng-required="true" />
                                             <span class="input-group-btn">
                                                 <button type="button" class="btn btn-default" ng-click="view.openTransactionDatePicker($event, moneyFlow, form.moneyFlowForm)">
@@ -192,7 +191,6 @@
                                         <label for="amount">Amount<span class="asterisk"> *</span></label>
                                         <input name="amount"
                                                ng-model="moneyFlow.editableAmount"
-                                               form-element guidance="This is the amount."
                                                max="{{view.maxAmount}}"
                                                type="number"
                                                min="0"
@@ -210,7 +208,6 @@
                                                max="{{view.maxAmount}}"
                                                min="1"
                                                ng-model="moneyFlow.fiscalYear"
-                                               form-element guidance="This is the fiscal year."
                                                type="number"
                                                class="form-control"
                                                placeholder="Enter fiscal year."
@@ -228,7 +225,6 @@
                                                   maxlength="{{view.maxDescriptionLength}}"
                                                   class="largerArea"
                                                   ng-model="moneyFlow.description"
-                                                  form-element guidance="This is the description of the funding."
                                                   id="description{{moneyFlow.id}}"
                                                   required
                                                   placeholder="Enter description..." />

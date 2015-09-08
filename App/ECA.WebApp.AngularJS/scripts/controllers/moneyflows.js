@@ -285,7 +285,11 @@ angular.module('staticApp')
                   moneyFlow.isSavingUpdate = false;
                   moneyFlow.isDeleting = false;
                   moneyFlow.editableAmount = moneyFlow.amount < 0 ? -moneyFlow.amount : moneyFlow.amount;
-                  moneyFlow.isTransactionDatePickerOpen = true;
+                  moneyFlow.isTransactionDatePickerOpen = false;
+                  var transactionDate = new Date(moneyFlow.transactionDate);
+                  if (!isNaN(transactionDate.getTime())) {
+                      moneyFlow.transactionDate = transactionDate;
+                  }
                   if (StateService.isStateAvailableByMoneyFlowSourceRecipientTypeId(moneyFlow.sourceRecipientEntityTypeId)) {
                       moneyFlow.href = StateService.getStateByMoneyFlowSourceRecipientType(moneyFlow.sourceRecipientEntityId, moneyFlow.sourceRecipientEntityTypeId)
                   }
