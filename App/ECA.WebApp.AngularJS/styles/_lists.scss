@@ -1,261 +1,253 @@
 
 .divider {
-  background: $bordergray;
-  height: 1px;
-  margin-left: -40px;
-  width: 110%;
+    background: $bordergray;
+    height: 1px;
+    margin-left: -40px;
+    width: 110%;
 }
 
 .list2 {
 
-  input[type="checkbox"] {
-    margin-right: 10px;
-  }
-
-  tr {
-      border-top: 1px solid #e5eae9;
-      border-bottom: 0;
-  }
-
-  tr:last-child, tr:nth-last-child(2) {
-      border-bottom: 1px solid #e5eae9;
-  }
-
-  td {
-    //padding: 40px 0 40px 0;
-      
-    a {
-        color: $primarytext;
+    input[type="checkbox"] {
+        margin-right: 10px;
     }
 
-    a:hover {
-        color: $blue;
-        text-decoration: underline;
-    } 
-  }
-
-  td:first-child {
-    padding: 40px 0 40px 10px;
-  }
-    
-  
-  
-  .row {
-    border-top: 1px solid $bordergray;
-    padding: 40px 60px 40px 40px;
-    width: 100%;
-
-    a {
-      color: $primarytext;
+    tr {
+        border-top: 1px solid #e5eae9;
+        border-bottom: 0;
     }
 
-    a:hover {
-      color: $blue;
-      text-decoration: underline;
-    }  
-  } 
+    tr:last-child, tr:nth-last-child(2) {
+        border-bottom: 1px solid #e5eae9;
+    }
 
-  .row2 {
-    border-bottom: 1px solid $bordergray;
-    padding: 20px 10px 40px;
-  }  
+    td {
+        //padding: 40px 0 40px 0;
+        a {
+            color: $primarytext;
+        }
 
-  .row3 {
-    border-top: 1px solid $bordergray;
-    margin-left: 0;
-    padding: 40px 60px 60px 40px;
-    width: 110%;
-  }
+        a:hover {
+            color: $blue;
+            text-decoration: underline;
+        }
+    }
 
-  .list-title {
-    font-weight: 300;
-  }
+    td:first-child {
+        padding: 40px 0 40px 10px;
+    }
 
-  .description {
-    color: $mediumgray; 	
-    margin-top: 15px;
-  }
+    .row {
+        border-top: 1px solid $bordergray;
+        padding: 40px 60px 40px 40px;
+        width: 100%;
 
-  .col-md-9,
-  .col-md-10,
-  .col-md-2,
-  .col-md-12 {
-    padding-left: 0;
-  }
+        a {
+            color: $primarytext;
+        }
 
-  .table {
-    max-width: 90%;  	
-    width: 90%;
-  }
+        a:hover {
+            color: $blue;
+            text-decoration: underline;
+        }
+    }
 
-  .col-md-6 {
-    width: 40%;  
-  }
+    .row2 {
+        border-bottom: 1px solid $bordergray;
+        padding: 20px 10px 40px;
+    }
 
-  .tools {
-    padding-top: 50px;
-  }
-  
-  .tools2 {
-    padding: 0;
-  }
+    .row3 {
+        border-top: 1px solid $bordergray;
+        margin-left: 0;
+        padding: 40px 60px 60px 40px;
+        width: 110%;
+    }
 
-  .tools3 {
-    padding-top: 30px;
-  }
+    .list-title {
+        font-weight: 300;
+    }
 
-  .icon {
-    margin-right: 10px;
-  }
+    .description {
+        color: $mediumgray;
+        margin-top: 15px;
+    }
 
+    .col-md-9,
+    .col-md-10,
+    .col-md-2,
+    .col-md-12 {
+        padding-left: 0;
+    }
+
+    .table {
+        max-width: 90%;
+        width: 90%;
+    }
+
+    .col-md-6 {
+        width: 40%;
+    }
+
+    .tools {
+        padding-top: 50px;
+    }
+
+    .tools2 {
+        padding: 0;
+    }
+
+    .tools3 {
+        padding-top: 30px;
+    }
+
+    .icon {
+        margin-right: 10px;
+    }
 }
 
 .list3 {
-
 }
+
 .expand {
-  background: $lightgray;
-  padding: 33px; 
+    background: $lightgray;
+    padding: 33px;
 
-  &.dashed {
-    border: 1px dashed #ccd5d4;
-    border-radius: 3px;
-    text-align: center;
-  }
-
+    &.dashed {
+        border: 1px dashed #ccd5d4;
+        border-radius: 3px;
+        text-align: center;
+    }
 }
 
 .row {
-  &.recess {
-    background: #efefef;
-    height: 60px;
-    line-height: 43px;
-    padding: 40px 80px 80px 40px;
-    width: 100%;
-  }
+    &.recess {
+        background: #efefef;
+        height: 60px;
+        line-height: 43px;
+        padding: 40px 80px 80px 40px;
+        width: 100%;
+    }
 }
 
 .hover {
 
-  .icon {
-    display: none;
-  }
-
-  &:hover {
-    background: $lightgray;		
-    
     .icon {
-      display: inline-block;
+        display: none;
     }
-  }
+
+    &:hover {
+        background: $lightgray;
+
+        .icon {
+            display: inline-block;
+        }
+    }
 }
 
 .hover-dark {
 
-  .icon {
-    display: none;
-  }
-
-  &:hover {
-    background: darken($lightgray, 5%);		
-    
     .icon {
-      display: inline-block;
+        display: none;
     }
-  }
+
+    &:hover {
+        background: darken($lightgray, 5%);
+
+        .icon {
+            display: inline-block;
+        }
+    }
 }
 
 .title-label {
-  color: #a0a9ab;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: .5px;
-  text-transform: uppercase;	
+    color: #a0a9ab;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .5px;
+    text-transform: uppercase;
 }
 
 #pagination {
-  height: auto;
-  width: 100%;
-
-  img {
-    display: block;
     height: auto;
-    margin: 0 auto;
-    width: auto;
-  }
+    width: 100%;
+
+    img {
+        display: block;
+        height: auto;
+        margin: 0 auto;
+        width: auto;
+    }
 }
 
 #sort-list {
-  height: auto;
-  width: 100%;
-
-  img {
-    display: inline block;
     height: auto;
-    margin-left: 8px;
-    width: auto;
-  }
+    width: 100%;
 
-  table {
-    padding-left: 0;
-  }
+    img {
+        display: inline block;
+        height: auto;
+        margin-left: 8px;
+        width: auto;
+    }
 
-  th {
-    padding-bottom: 14px;
-    padding-left: 0;    
-    
-      tr {
-        border-bottom: 0;
-        border-top: 0;
-      }
-  }
+    table {
+        padding-left: 0;
+    }
 
-  tr:nth-child(2) {
-      th:first-child {
-          padding-left: 20px;
-      }
+    th {
+        padding-bottom: 14px;
+        padding-left: 0;
 
-      th {
-          padding-right: 8px;
-      }
-  }
+        tr {
+            border-bottom: 0;
+            border-top: 0;
+        }
+    }
 
+    tr:nth-child(2) {
+        th:first-child {
+            padding-left: 20px;
+        }
+
+        th {
+            padding-right: 8px;
+        }
+    }
 }
 
 .sort-label {
-  font-size: 12px;
-  text-decoration: underline;
-  text-transform: uppercase;
+    font-size: 12px;
+    text-decoration: underline;
+    text-transform: uppercase;
+    padding-left: 0;
 
-  padding-left: 0;
-
-  &:hover {
-      cursor: pointer;
-  }
-
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 .alt {
-  border-bottom: 1px solid $bordergray;
+    border-bottom: 1px solid $bordergray;
 }
 
 #data-list {
-  td {
-    padding-left: 0;
-  }
+    td {
+        padding-left: 0;
+    }
 }
 
 #list-views {
-  display: inline-block;
-  padding: 0;
-
-  img {
     display: inline-block;
-    height: auto;  	
-    margin-left: 10px;
-    padding-top: 10px;
-    width: auto;
-  }
+    padding: 0;
+
+    img {
+        display: inline-block;
+        height: auto;
+        margin-left: 10px;
+        padding-top: 10px;
+        width: auto;
+    }
 }
 
 .indentOnce {
@@ -266,8 +258,7 @@
     padding-left: 100px;
 }
 
-.circle
- {
+.circle {
     height: 29px;
     width: 29px;
     border-radius: 50%;
