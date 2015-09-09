@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECA.Data
 {
-    public class PhoneNumber
+    public class PhoneNumber : IHistorical
     {
         [Key]
         public int PhoneNumberId { get; set; }
@@ -16,5 +16,7 @@ namespace ECA.Data
         public string Number { get; set; }
         public PhoneNumberType PhoneNumberType { get; set; }
         public int PhoneNumberTypeId { get; set; }
+
+        public History History { get; set; }
     } 
 }
