@@ -49,6 +49,11 @@ namespace ECA.WebApi.Models.Person
         public DateTime? DateOfBirth { get; set; }
 
         /// <summary>
+        /// Denotes if date of birth is unknown
+        /// </summary>
+        public bool DateOfBirthUnknown { get; set; }
+
+        /// <summary>
         /// Gets or sets the city of birth
         /// </summary>
         public int? CityOfBirth { get; set; }
