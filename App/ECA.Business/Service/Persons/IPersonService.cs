@@ -123,6 +123,14 @@ namespace ECA.Business.Service.Persons
         Task<Person> UpdateGeneralAsync(UpdateGeneral general);
 
         /// <summary>
+        /// Update contact info section of a person
+        /// </summary>
+        /// <param name="contactInfo"></param>
+        /// <returns></returns>
+        Task<Person> UpdateContactInfoAsync(UpdateContactInfo contactInfo);
+
+
+        /// <summary>
         /// Returns the paged, sorted, and filtered people in the system.
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>

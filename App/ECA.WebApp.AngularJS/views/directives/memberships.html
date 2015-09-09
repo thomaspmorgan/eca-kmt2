@@ -1,8 +1,8 @@
 ﻿<div ng-controller="MembershipsCtrl">
     <div>
         <a ng-click="view.collapseMemberships = !view.collapseMemberships">
-            <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapseMemberships">expand_more</i>
-            <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapseMemberships">expand_less</i>
+            <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapseMemberships">expand_less</i>
+            <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapseMemberships">expand_more</i>
         </a>
         <a ng-click="view.onAddMembershipClick(model.memberships, personId)" ng-show="editMode">
             <i class="material-icons md-24 md-dark pull-right">add</i>

@@ -182,6 +182,26 @@ namespace ECA.Business.Service.Persons
             this.logger.Trace("Retrieved contact info by id {0}.", personId);             
             return contactInfo;
         }
+
+        /// <summary>
+        /// Update contact Info
+        /// </summary>
+        /// <param name="contactInfo">The general business model</param>
+        /// <returns>The person updated</returns>
+        public async Task<Person> UpdateContactInfoAsync(UpdateContactInfo contactInfo)
+        {
+            var personToUpdate = await GetPersonByIdAsync(contactInfo.PersonId);
+            DoUpdate(contactInfo, personToUpdate);
+            return personToUpdate;
+        }
+
+        // Update contact info HasContactAgreement
+
+        private void DoUpdate(UpdateContactInfo contactInfo, Person person)
+        {
+            person.HasContactAgreement = contactInfo.HasContactAgreement;
+        }
+
         #endregion
 
         #region Employment
@@ -295,7 +315,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Creates query for looking up a list of prominent categories
         /// </summary>
-        /// <param name="locationIds">Ids to lookup</param>
+        /// <param name="prominentCategoryIds">Ids to lookup</param>
         /// <returns>Queryable list of prominent categories</returns>
         private IQueryable<ProminentCategory> CreateGetProminentCategoriesById(List<int> prominentCategoryIds)
         {

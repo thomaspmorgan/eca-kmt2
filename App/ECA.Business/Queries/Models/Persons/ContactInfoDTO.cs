@@ -37,5 +37,20 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets and set phone numbers
         /// </summary>
         public IEnumerable<SimpleTypeLookupDTO> PhoneNumbers { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool HasContactAgreement { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public IEnumerable<SimpleLookupDTO> ContactAgreements { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Person Id.
+        /// </summary>
+        public int? PersonId { get; set; }
     }
 }

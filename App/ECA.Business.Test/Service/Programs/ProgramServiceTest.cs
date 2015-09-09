@@ -77,23 +77,53 @@ namespace ECA.Business.Test.Service.Programs
             {
                 GoalId = 4,
             };
-
-            var country = new Location
+            var divisionType = new LocationType
             {
-                LocationId = 500,
-                LocationName = "country",
-                LocationIso = "countryIso",
-                LocationTypeId = LocationType.Country.Id,
+                LocationTypeId = LocationType.Division.Id,
+                LocationTypeName = LocationType.Division.Value
             };
+            var countryType = new LocationType
+            {
+                LocationTypeId = LocationType.Country.Id,
+                 LocationTypeName = LocationType.Country.Value
+            };
+            var regionType = new LocationType
+            {
+                LocationTypeId = LocationType.Region.Id,
+                LocationTypeName = LocationType.Region.Value
+            };
+            
             var region = new Location
             {
                 LocationName = "region",
                 LocationId = 3,
                 LocationIso = "locationIso",
-                LocationTypeId = LocationType.Region.Id
+                LocationTypeId = regionType.LocationTypeId,
+                LocationType = regionType
             };
-            country.Region = region;
+            var country = new Location
+            {
+                LocationId = 500,
+                LocationName = "country",
+                LocationIso = "countryIso",
+                LocationTypeId = countryType.LocationTypeId,
+                LocationType = countryType,
+                Region = region,
+                RegionId = region.LocationId
+            };
+            var division = new Location
+            {
+                LocationId = 501,
+                LocationName = "division",
+                LocationIso = "divisionIso",
+                LocationTypeId = divisionType.LocationTypeId,
+                LocationType = divisionType,
+                Country = country,
+                CountryId = country.LocationId,
+                Region = region,
+                RegionId = region.LocationId
 
+            };
             var parentProgram = new Program
             {
                 ProgramId = 10,
@@ -190,12 +220,16 @@ namespace ECA.Business.Test.Service.Programs
             context.Locations.Add(country);
             context.Programs.Add(parentProgram);
             context.Locations.Add(region);
+            context.Locations.Add(country);
+            context.Locations.Add(division);
+            context.LocationTypes.Add(countryType);
+            context.LocationTypes.Add(regionType);
+            context.LocationTypes.Add(divisionType);
 
             Action<ProgramDTO> tester = (publishedProgram) =>
             {
                 CollectionAssert.AreEqual(program.Contacts.Select(x => x.ContactId).ToList(), publishedProgram.Contacts.Select(x => x.Id).ToList());
                 CollectionAssert.AreEqual(program.Contacts.Select(x => x.FullName).ToList(), publishedProgram.Contacts.Select(x => x.Value).ToList());
-
 
                 CollectionAssert.AreEqual(
                     context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationId).ToList(),
@@ -204,13 +238,22 @@ namespace ECA.Business.Test.Service.Programs
                     context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationIso).ToList(),
                     publishedProgram.CountryIsos.Select(x => x.Value).ToList());
 
-
                 CollectionAssert.AreEqual(
                     context.Locations.Where(x => x.LocationTypeId == LocationType.Region.Id).Select(x => x.LocationId).ToList(),
                     publishedProgram.RegionIsos.Select(x => x.Id).ToList());
                 CollectionAssert.AreEqual(
                     context.Locations.Where(x => x.LocationTypeId == LocationType.Region.Id).Select(x => x.LocationIso).ToList(),
                     publishedProgram.RegionIsos.Select(x => x.Value).ToList());
+
+                CollectionAssert.AreEqual(
+                    context.Locations.Where(x => x.LocationTypeId == LocationType.Region.Id).Select(x => x.LocationId).ToList(),
+                    publishedProgram.Regions.Select(x => x.Id).ToList());
+                CollectionAssert.AreEqual(
+                    context.Locations.Where(x => x.LocationTypeId == LocationType.Region.Id).Select(x => x.LocationIso).ToList(),
+                    publishedProgram.RegionIsos.Select(x => x.Value).ToList());
+
+                Assert.AreEqual(0, publishedProgram.Regions.Where(x => x.LocationTypeId == divisionType.LocationTypeId).Count());
+                CollectionAssert.AreEqual(new List<int> { regionType.LocationTypeId }, publishedProgram.Regions.Select(x => x.LocationTypeId).Distinct().ToList());
 
                 CollectionAssert.AreEqual(
                     context.Categories.Select(x => x.CategoryId).ToList(),
