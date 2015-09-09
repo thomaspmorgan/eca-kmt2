@@ -70,6 +70,16 @@ angular.module('staticApp')
                 $scope.view.isLoadingProgram = false;
                 $scope.view.permalink = StateService.getProgramState(programId, { absolute: true });
                 $scope.program = data;
+
+                var startDate = new Date($scope.program.startDate);
+                if (!isNaN(startDate.getTime())) {
+                    $scope.program.startDate = startDate;
+                }
+                var endDate = new Date($scope.program.endDate);
+                if (!isNaN(endDate.getTime())) {
+                    $scope.program.endDate = endDate;
+                }
+
                 $scope.data.loadProgramPromise.resolve($scope.program);
             })
             .catch(function (response) {

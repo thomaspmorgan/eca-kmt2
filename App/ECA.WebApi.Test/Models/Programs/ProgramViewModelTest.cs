@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Service.Lookup;
 using ECA.WebApi.Models.Programs;
@@ -23,17 +24,21 @@ namespace ECA.WebApi.Test.Models.Programs
             Assert.IsNotNull(viewModel.RegionIsos);
             Assert.IsNotNull(viewModel.Themes);
             Assert.IsNotNull(viewModel.Goals);
+            Assert.IsNotNull(viewModel.Regions);
         }
 
         [TestMethod]
         public void TestConstructor_ProgramDtoArg()
         {
+            var list = new List<LocationDTO>();
+
             var dto = new ProgramDTO();
             dto.Contacts = ToListOfSimpleLookups(1, "contact");
             dto.CountryIsos = ToListOfSimpleLookups(2, "iso");
             dto.Description = "desc";
             dto.Focus = ToListOfSimpleLookups(3, "focus").First();
             dto.Goals = ToListOfSimpleLookups(4, "goal");
+            dto.Regions = list;
             dto.Id = 1;
             dto.Name = "name";
             dto.OwnerDescription = "owner desc";
@@ -66,6 +71,7 @@ namespace ECA.WebApi.Test.Models.Programs
             CollectionAssert.AreEqual(dto.Goals.ToList(), viewModel.Goals.ToList());
             CollectionAssert.AreEqual(dto.RegionIsos.ToList(), viewModel.RegionIsos.ToList());
             CollectionAssert.AreEqual(dto.Themes.ToList(), viewModel.Themes.ToList());
+            Assert.IsTrue(Object.ReferenceEquals(list, dto.Regions));
         }
 
         private List<SimpleLookupDTO> ToListOfSimpleLookups(int id, string value)

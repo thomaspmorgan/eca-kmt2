@@ -76,6 +76,11 @@ namespace ECA.Business.Queries.Models.Programs
         public IEnumerable<SimpleLookupDTO> RegionIsos { get; set; }
 
         /// <summary>
+        /// Gets or sets the Regions.
+        /// </summary>
+        public IEnumerable<LocationDTO> Regions { get; set; }
+
+        /// <summary>
         /// Gets or sets the Goals.
         /// </summary>
         public IEnumerable<SimpleLookupDTO> Goals { get; set; }
@@ -120,8 +125,14 @@ namespace ECA.Business.Queries.Models.Programs
         /// </summary>
         public int OwnerOrganizationId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the owner's category label.
+        /// </summary>
         public string OwnerOrganizationCategoryLabel { get; set; }
 
+        /// <summary>
+        /// Gets or sets the owner's object label.
+        /// </summary>
         public string OwnerOrganizationObjectiveLabel { get; set; }
 
         /// <summary>
@@ -129,8 +140,14 @@ namespace ECA.Business.Queries.Models.Programs
         /// </summary>
         public byte[] RowVersion { get; set; }
 
+        /// <summary>
+        /// Gets or sets the program status id.
+        /// </summary>
         public int ProgramStatusId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the website.
+        /// </summary>
         public string Website { get; set; }
     }
 }

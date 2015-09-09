@@ -26,6 +26,7 @@ namespace ECA.WebApi.Models.Programs
             this.Themes = new List<SimpleLookupDTO>();
             this.Categories = new List<FocusCategoryDTO>();
             this.Objectives = new List<JustificationObjectiveDTO>();
+            this.Regions = new List<LocationDTO>();
         }
 
         /// <summary>
@@ -59,6 +60,7 @@ namespace ECA.WebApi.Models.Programs
             this.Objectives = program.Objectives;
             this.ProgramStatusId = program.ProgramStatusId;
             this.Website = program.Website;
+            this.Regions = program.Regions;
         }
 
         /// <summary>
@@ -120,6 +122,11 @@ namespace ECA.WebApi.Models.Programs
         /// Gets or sets the Region Isos.
         /// </summary>
         public IEnumerable<SimpleLookupDTO> RegionIsos { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Regions.
+        /// </summary>
+        public IEnumerable<LocationDTO> Regions { get; set; }
 
         /// <summary>
         /// Gets or sets the Goals.

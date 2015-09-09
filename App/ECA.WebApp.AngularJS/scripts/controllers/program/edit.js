@@ -14,6 +14,7 @@ angular.module('staticApp')
       $state,
       $log,
       $q,
+      LocationService,
       FilterService,
       NotificationService,
       LookupService,
@@ -29,6 +30,8 @@ angular.module('staticApp')
       $scope.view.programStatii = [];
       $scope.view.goals = [];
       $scope.view.themes = [];
+      $scope.view.regions = [];
+      $scope.view.selectedRegions = [];
       $scope.view.isLoadingProgram = true;
       $scope.view.isLoadingRequiredData = false;
       $scope.view.sortedObjectives = [];
@@ -46,6 +49,7 @@ angular.module('staticApp')
       $scope.view.selectedGoals = [];
       $scope.view.selectedCategories = [];
       $scope.view.selectedObjectives = [];
+      $scope.view.selectedPointsOfContact = [];
 
       $scope.view.openStartDatePicker = function ($event) {
           $event.preventDefault();
@@ -57,6 +61,10 @@ angular.module('staticApp')
           $event.preventDefault();
           $event.stopPropagation();
           $scope.view.isEndDatePickerOpen = true;
+      }
+
+      $scope.view.searchPointsOfContact = function(search){
+          return loadPointsOfContact(search);
       }
       var maxLimit = 300;
       function loadPermissions() {
@@ -193,6 +201,47 @@ angular.module('staticApp')
           });
       }
 
+      var pocFilter = FilterService.add('programedit_pocfilter');
+      function loadPointsOfContact(search) {
+          pocFilter.reset();
+          pocFilter = pocFilter.skip(0).take(maxLimit);
+          if (search) {
+              pocFilter = pocFilter.like('fullName', search);
+          }
+          return LookupService.getAllContacts(pocFilter.toParams())
+              .then(function (response) {
+                  if (response.total > maxLimit) {
+                      $log.error('There are more contacts in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
+                  }
+                  for (var i = 0; i < response.results.length; i++) {
+                      var position = "";
+                      if (response.results[i].position) {
+                          position = " (" + response.results[i].position + ")";
+                      }
+                      response.results[i].value = response.results[i].fullName + position;
+                  }
+                  $scope.view.pointsOfContact = response.results;
+              });
+      }
+
+      var regionsFilter = FilterService.add('programedit_regions');
+      function loadRegions() {
+          regionsFilter.reset();
+          regionsFilter = regionsFilter.skip(0).take(10)
+            .equal('locationTypeId', ConstantsService.locationType.region.id)
+            .sortBy('name');
+          
+          return LocationService.get(regionsFilter.toParams())
+              .then(function (response) {
+                  normalizeLookupProperties(response.results);
+                  $scope.view.regions = response.results;
+              })
+              .catch(function () {
+                  $log.error('Unable to load locations.');
+                  NotificationService.showErrorMessage('Unable to load locations.');
+              });
+      }
+
       function setSelectedItems(programPropertyName, viewSelectedPropertyName) {
           console.assert($scope.view.program.hasOwnProperty(programPropertyName), "The project property " + programPropertyName + " does not exist.");
           console.assert($scope.view.hasOwnProperty(viewSelectedPropertyName), "The view " + viewSelectedPropertyName + " property does not exist.");
@@ -248,11 +297,11 @@ angular.module('staticApp')
           }
       }
 
-      //function setSelectedLocations() {
-      //    var locationsName = 'locations';
-      //    normalizeLookupProperties($scope.$parent.project[locationsName]);
-      //    setSelectedItems(locationsName, 'selectedLocations');
-      //}
+      function setSelectedRegions() {
+          var regionsName = 'regions';
+          normalizeLookupProperties($scope.view.program[regionsName]);
+          setSelectedItems(regionsName, 'selectedRegions');
+      }
 
       $scope.data.loadProgramPromise.promise
       .then(function (program) {
@@ -263,7 +312,8 @@ angular.module('staticApp')
           setSelectedCategories();
           setSelectedGoals();
           setSelectedObjectives();
-          //setSelectedPointsOfContact();
+          setSelectedRegions();
+          setSelectedPointsOfContact();
           setSelectedThemes();
           $scope.view.isLoadingRequiredData = true;
           var officeId = program.ownerOrganizationId;
@@ -271,6 +321,7 @@ angular.module('staticApp')
                 loadPermissions(),
                 loadGoals(),
                 loadThemes(),
+                loadRegions(),
                 loadCategories(officeId, program.categories),
                 loadObjectives(officeId),
                 loadOfficeSettings(program.ownerOrganizationId),
