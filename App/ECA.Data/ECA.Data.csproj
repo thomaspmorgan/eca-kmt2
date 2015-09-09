@@ -164,6 +164,7 @@
     <Compile Include="IAddressable.cs" />
     <Compile Include="Website.cs" />
     <None Include="IFundable.csold" />
+    <Compile Include="IPhoneNumberable.cs" />
     <Compile Include="IEmailAddressable.cs" />
     <Compile Include="IObjectivable.cs" />
     <Compile Include="IContactable.cs" />

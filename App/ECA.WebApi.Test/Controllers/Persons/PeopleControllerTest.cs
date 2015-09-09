@@ -29,6 +29,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
         private Mock<IAddressModelHandler> addressHandler;
         private Mock<ISocialMediaPresenceModelHandler> socialMediaHandler;
         private Mock<IEmailAddressHandler> emailAddressHandler;
+        private Mock<IPhoneNumberHandler> phoneNumberHandler;
         private PeopleController controller;
         
         [TestInitialize]
@@ -39,7 +40,8 @@ namespace ECA.WebApi.Test.Controllers.Persons
             addressHandler = new Mock<IAddressModelHandler>();
             socialMediaHandler = new Mock<ISocialMediaPresenceModelHandler>();
             emailAddressHandler = new Mock<IEmailAddressHandler>();
-            controller = new PeopleController(personService.Object, userProvider.Object, addressHandler.Object, socialMediaHandler.Object, emailAddressHandler.Object);
+            phoneNumberHandler = new Mock<IPhoneNumberHandler>();
+            controller = new PeopleController(personService.Object, userProvider.Object, addressHandler.Object, socialMediaHandler.Object, phoneNumberHandler.Object, emailAddressHandler.Object);
         }
 
         #region Get Pii By Id
