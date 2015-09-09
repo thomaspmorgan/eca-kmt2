@@ -26,6 +26,8 @@ angular.module('staticApp')
 
       var officeId = office.id;
       $scope.view = {};
+      $scope.view.maxDescriptionLength = 3000;
+      $scope.view.maxNameLength = 255;
       $scope.view.isLoadingRequiredData = false;
       $scope.view.isSavingProgram = false;
       $scope.view.isLoadingPrograms = false;
@@ -74,6 +76,7 @@ angular.module('staticApp')
       $scope.view.isSelectedThemesValid = false;
       $scope.view.isSelectedGoalsValid = false;
       $scope.view.isSelectedContactsValid = false;
+      $scope.view.isSelectedObjectivesValid = false;
 
       var maxLimit = 300;
 
@@ -165,6 +168,19 @@ angular.module('staticApp')
           }
           else {
               $scope.view.isSelectedGoalsValid = false;
+          }
+      }
+
+      $scope.view.onObjectivesChange = function () {
+          $scope.view.onObjectivesSelect();
+      }
+
+      $scope.view.onObjectivesSelect = function () {
+          if ($scope.view.selectedObjectives.length > 0) {
+              $scope.view.isSelectedObjectivesValid = true;
+          }
+          else {
+              $scope.view.isSelectedObjectivesValid = false;
           }
       }
 

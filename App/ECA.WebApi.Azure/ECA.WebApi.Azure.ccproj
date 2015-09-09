@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>2.7</ProductVersion>
-    <ProjectGuid>{7e9eb7f6-b17d-45e0-b825-616a6b1ea076}</ProjectGuid>
+    <ProjectGuid>{cea0e515-55a9-43ac-aa46-a6b31f6b98b9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ECA.WebApi.Azure</RootNamespace>

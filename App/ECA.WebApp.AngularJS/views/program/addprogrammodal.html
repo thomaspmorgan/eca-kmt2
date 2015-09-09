@@ -27,12 +27,14 @@
                                ng-model="view.program.name" 
                                form-element guidance="This is the name of your program. (e.g. ETA Fulbright)" 
                                type="text" 
+                               maxlength="255"
                                class="form-control" 
                                ng-change="view.onProgramNameChange()"
                                ng-model-options="{debounce: 500}"
                                placeholder="Enter program title..." 
                                required>
                         <span class="form-control-feedback" ng-show="view.doesProgramExist"><i class="material-icons md-24">error</i></span>
+                        <p class="mute" style="margin-top:5px;">{{view.program.name.length}} of {{view.maxNameLength}} characters remaining.</p>
                         <div ng-show="view.doesProgramExist" class="error">
                             There is already a program named {{view.program.name}}.
                         </div>
@@ -43,6 +45,7 @@
                     <div class="form-group">
                         <label>Program Description<span class="asterisk"> *</span></label>
                         <textarea name="description" 
+                                  maxlength="3000"
                                   class="form-control" 
                                   ng-model="view.program.description" 
                                   form-element guidance="This briefly summarizes what this program is about." 
@@ -51,6 +54,7 @@
                                   required>
 
                         </textarea>
+                        <p class="mute" style="margin-top:5px;">{{view.program.description.length}} of {{view.maxDescriptionLength}} characters remaining.</p>
                         <span class="error" ng-show="form.programForm.description.$error.required">Program description is required.</span>
                     </div>
                     <div class="form-group" ng-show="!view.program.isSubProgram">
@@ -205,6 +209,8 @@
                                 <ui-select multiple
                                            close-on-select="true"
                                            ng-model="view.selectedObjectives"
+                                           on-select="view.onObjectivesSelect()"
+                                           ng-change="view.onObjectivesChange()"
                                            theme="select2"
                                            title="Choose a {{view.objectiveLabel}}."
                                            style="min-width: 200px;">
@@ -215,6 +221,9 @@
                                         <div ng-bind-html="objective.name | highlight: $select.search"></div>
                                     </ui-select-choices>
                                 </ui-select>
+                                <div ng-show="!view.isSelectedObjectivesValid">
+                                    <span class="error">Please select at least one {{view.objectiveLabel}}.</span>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label>Points Of Contact<span class="asterisk"> *</span></label>

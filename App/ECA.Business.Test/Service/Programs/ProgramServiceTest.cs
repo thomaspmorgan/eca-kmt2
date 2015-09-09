@@ -66,7 +66,9 @@ namespace ECA.Business.Test.Service.Programs
 
             var contact = new Contact
             {
-                ContactId = 100
+                ContactId = 100,
+                FullName = "full name",
+                Position = "position"
             };
             var theme = new Theme
             {
@@ -229,7 +231,7 @@ namespace ECA.Business.Test.Service.Programs
             Action<ProgramDTO> tester = (publishedProgram) =>
             {
                 CollectionAssert.AreEqual(program.Contacts.Select(x => x.ContactId).ToList(), publishedProgram.Contacts.Select(x => x.Id).ToList());
-                CollectionAssert.AreEqual(program.Contacts.Select(x => x.FullName).ToList(), publishedProgram.Contacts.Select(x => x.Value).ToList());
+                CollectionAssert.AreEqual(program.Contacts.Select(x => x.FullName + String.Format(" ({0})", x.Position)).ToList(), publishedProgram.Contacts.Select(x => x.Value).ToList());
 
                 CollectionAssert.AreEqual(
                     context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationId).ToList(),

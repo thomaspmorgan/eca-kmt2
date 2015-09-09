@@ -114,7 +114,7 @@ namespace ECA.Business.Queries.Programs
 
                         select new ProgramDTO
                         {
-                            Contacts = contacts.Select(x => new SimpleLookupDTO { Id = x.ContactId, Value = x.FullName }),
+                            Contacts = contacts.Select(x => new SimpleLookupDTO { Id = x.ContactId, Value = x.FullName + " (" + x.Position + ")" }),
                             CountryIsos = countries.Select(x => new SimpleLookupDTO { Id = x.Id, Value = x.LocationIso }),
                             Description = program.Description,
                             Categories = categories.Select(c => new FocusCategoryDTO { Id = c.CategoryId, Name = c.CategoryName, FocusName = c.Focus.FocusName }),

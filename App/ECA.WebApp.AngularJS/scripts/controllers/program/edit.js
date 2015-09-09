@@ -22,6 +22,7 @@ angular.module('staticApp')
       StateService,
       AuthService,
       OfficeService,
+      ProgramService,
       orderByFilter
 
       ) {
@@ -32,10 +33,13 @@ angular.module('staticApp')
       $scope.view.isSelectedThemesValid = false;
       $scope.view.isSelectedGoalsValid = false;
       $scope.view.isSelectedContactsValid = false;
-      $scope.view.isObjectivedRequired = false;
+      $scope.view.isSelectedObjectivesValid = false;
+      $scope.view.isObjectivesRequired = false;
       $scope.view.isCategoryRequired = false;
       $scope.view.minimumRequiredFoci = -1;
       $scope.view.maximumRequiredFoci = -1;
+      $scope.view.maxDescriptionLength = 3000;
+      $scope.view.maxNameLength = 255;
 
       $scope.view.programStatii = [];
       $scope.view.goals = [];
@@ -54,12 +58,37 @@ angular.module('staticApp')
       $scope.view.isEndDatePickerOpen = false;
       $scope.view.isStartDatePickerOpen = false;
       $scope.view.dateFormat = 'dd-MMMM-yyyy';
+      $scope.view.isLoadingLikePrograms = false;
+      $scope.view.doesProgramExist = false;
 
       $scope.view.selectedThemes = [];
       $scope.view.selectedGoals = [];
       $scope.view.selectedCategories = [];
       $scope.view.selectedObjectives = [];
       $scope.view.selectedPointsOfContact = [];
+
+      var programsWithSameNameFilter = FilterService.add('programedit_programswithsamename');
+      $scope.view.onProgramNameChange = function () {
+          var programName = $scope.view.program.name;
+          var programId = $scope.view.program.id;
+          if (programName && programName.length > 0) {
+              programsWithSameNameFilter.reset();
+              programsWithSameNameFilter = programsWithSameNameFilter.skip(0).take(1).equal('name', programName).notEqual('programId', programId);
+              $scope.view.isLoadingLikePrograms = true;
+              return ProgramService.getAllProgramsAlpha(programsWithSameNameFilter.toParams())
+                  .then(function (response) {
+                      $scope.view.matchingProgramsByName = response.data;
+                      $scope.view.doesProgramExist = response.total > 0;
+                      $scope.view.isLoadingLikePrograms = false;
+                  })
+                  .catch(function (response) {
+                      $scope.view.isLoadingLikePrograms = false;
+                      var message = "Unable to load matching programs.";
+                      $log.error(message);
+                      NotificationService.showErrorMessage(message);
+                  });
+          }
+      }
 
       $scope.view.openStartDatePicker = function ($event) {
           $event.preventDefault();
@@ -77,6 +106,19 @@ angular.module('staticApp')
           return loadPointsOfContact(search);
       }
 
+      $scope.view.onObjectivesChange = function () {
+          $scope.view.onObjectivesSelect();
+      }
+
+      $scope.view.onObjectivesSelect = function () {
+          if ($scope.view.selectedObjectives.length > 0) {
+              $scope.view.isSelectedObjectivesValid = true;
+          }
+          else {
+              $scope.view.isSelectedObjectivesValid = false;
+          }
+      }
+
       $scope.view.onCategoriesChange = function () {
           $scope.view.onCategoriesSelect();
       }
@@ -88,6 +130,19 @@ angular.module('staticApp')
           }
           if ($scope.view.selectedCategories.length > $scope.view.maximumRequiredFoci) {
               $scope.view.isSelectedCategoriesValid = false;
+          }
+      }
+
+      $scope.view.onRegionsChange = function () {
+          $scope.view.onRegionsSelect();
+      }
+
+      $scope.view.onRegionsSelect = function () {
+          if ($scope.view.selectedRegions.length > 0) {
+              $scope.view.isSelectedRegionsValid = true;
+          }
+          else {
+              $scope.view.isSelectedRegionsValid = false;
           }
       }
 
@@ -378,11 +433,7 @@ angular.module('staticApp')
           setSelectedObjectives();
           setSelectedRegions();
           setSelectedPointsOfContact();
-          setSelectedThemes();
-          $scope.view.onCategoriesChange();
-          $scope.view.onThemesChange();
-          $scope.view.onGoalsChange();
-          $scope.view.onContactsChange();
+          setSelectedThemes();          
           $scope.view.isLoadingRequiredData = true;
           var officeId = program.ownerOrganizationId;
           $q.all([
@@ -395,6 +446,12 @@ angular.module('staticApp')
                 loadOfficeSettings(program.ownerOrganizationId),
                 loadProgramStatii()])
           .then(function (results) {
+              $scope.view.onThemesChange();
+              $scope.view.onGoalsChange();
+              $scope.view.onContactsChange();
+              $scope.view.onObjectivesChange();
+              $scope.view.onRegionsChange();
+              $scope.view.onCategoriesChange();
               $scope.view.isLoadingRequiredData = false;
           })
           .catch(function () {
