@@ -107,7 +107,7 @@
     <None Include="CAM.Database.publish.xml" />
     <None Include="ECA_Dev.publish.xml" />
     <None Include="ECA_QA.publish.xml" />
-    <None Include="ECA_UAT.publish.publish.xml" />
+    <None Include="ECA_UAT.publish.xml" />
     <None Include="ECA_PRE.publish.xml" />
     <None Include="Scripts\PostDeploy\AdditionalUsersAndPermissionAssignments.sql" />
   </ItemGroup>

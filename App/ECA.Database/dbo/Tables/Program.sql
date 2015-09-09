@@ -3,7 +3,6 @@
 	[ProgramStatusId]	INT NOT NULL DEFAULT 1,
     [Name]                    NVARCHAR (255)     NOT NULL,
     [Description]             NVARCHAR (3000)     NOT NULL,
-	[Website]             NVARCHAR (100)     NULL,
     [StartDate]               DATETIMEOFFSET (7) NOT NULL,
     [EndDate]                 DATETIMEOFFSET (7) NOT NULL,
     [History_CreatedBy]       INT                NOT NULL,

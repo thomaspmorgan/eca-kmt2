@@ -41,7 +41,7 @@
                     <div class="error" ng-show="form.programForm.description.$error.required">Please enter a project description.</div>
                 </div>
             </div>
-        </div>        
+        </div>
         <div class="row table">
             <h4 class="tab-subheader">Details</h4>
             <div class="col-md-6">
@@ -89,9 +89,15 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 title-label">Themes</div>
+                    <div class="col-md-6 title-label">Themes<span class="asterisk"> *</span></div>
                     <div class="col-md-6">
-                        <ui-select multiple close-on-select="true" ng-model="view.selectedThemes" theme="select2" title="Choose a theme." style="min-width: 200px;">
+                        <ui-select multiple
+                                   close-on-select="true"
+                                   ng-model="view.selectedThemes"
+                                   theme="select2" title="Choose a theme."
+                                   on-select="view.onThemesSelect()"
+                                   ng-change="view.onThemesChange()"
+                                   style="min-width: 200px;">
                             <ui-select-match placeholder="Select themes...">
                                 <div>{{$item.value}}</div>
                             </ui-select-match>
@@ -99,12 +105,22 @@
                                 <div ng-bind-html="theme.value | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
+                        <div ng-show="!view.isSelectedThemesValid">
+                            <span class="error">Please select at least one theme.</span>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 title-label">Strategic Goals</div>
+                    <div class="col-md-6 title-label">Goals<span class="asterisk"> *</span></div>
                     <div class="col-md-6">
-                        <ui-select multiple close-on-select="true" ng-model="view.selectedGoals" theme="select2" title="Choose a goal." style="min-width: 200px;">
+                        <ui-select multiple
+                                   close-on-select="true"
+                                   ng-model="view.selectedGoals"
+                                   theme="select2"
+                                   on-select="view.onGoalsSelect()"
+                                   ng-change="view.onGoalsChange()"
+                                   title="Choose a goal."
+                                   style="min-width: 200px;">
                             <ui-select-match placeholder="Select goals...">
                                 <div>{{$item.value}}</div>
                             </ui-select-match>
@@ -112,6 +128,9 @@
                                 <div ng-bind-html="goal.value | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
+                        <div ng-show="!view.isSelectedGoalsValid">
+                            <span class="error">Please select at least one goal.</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -127,7 +146,13 @@
                 <div class="row">
                     <div class="col-md-6 title-label">{{view.categoryLabel}} <span class="asterisk" ng-show="view.isCategoryRequired"> *</span></div>
                     <div class="col-md-6">
-                        <ui-select multiple close-on-select="true" ng-model="view.selectedCategories" theme="select2" title="Choose a category." style="min-width: 200px;">
+                        <ui-select multiple close-on-select="true"
+                                   ng-model="view.selectedCategories"
+                                   theme="select2"
+                                   on-select="view.onCategoriesSelect()"
+                                   ng-change="view.onCategoriesChange()"
+                                   title="Choose a category."
+                                   style="min-width: 200px;">
                             <ui-select-match placeholder="Select categories...">
                                 <div>{{$item.value}}</div>
                             </ui-select-match>
@@ -135,6 +160,12 @@
                                 <div ng-bind-html="category.value | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
+                        <div ng-show="view.selectedCategories.length < view.minimumRequiredFoci">
+                            <span class="error">Please select at least one {{view.minimumRequiredFoci}} {{view.categoryLabel}}.</span>
+                        </div>
+                        <div ng-show="view.selectedCategories.length > view.maximumRequiredFoci">
+                            <span class="error">You may only select up to {{view.maximumRequiredFoci}} {{view.categoryLabel}}.</span>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -153,7 +184,14 @@
                 <div class="row">
                     <div class="col-md-6 title-label"><ng-pluralize count="program.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
                     <div class="col-md-6">
-                        <ui-select multiple close-on-select="true" ng-model="view.selectedPointsOfContact" theme="select2" title="Choose a point of contact." style="min-width: 200px;">
+                        <ui-select multiple
+                                   close-on-select="true"
+                                   ng-model="view.selectedPointsOfContact"
+                                   theme="select2"
+                                   on-select="view.onContactsSelect()"
+                                   ng-change="view.onContactsChange()"
+                                   title="Choose a point of contact."
+                                   style="min-width: 200px;">
                             <ui-select-match placeholder="Select points of contact...">
                                 <div>{{$item.value}}</div>
                             </ui-select-match>
@@ -163,6 +201,9 @@
                                 <div class="small">{{person.position}}</div>
                             </ui-select-choices>
                         </ui-select>
+                        <div ng-show="!view.isSelectedContactsValid">
+                            <span class="error">Please select at least one point of contact.</span>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -184,7 +225,7 @@
                                 </div>
                             </ui-select-match>
                             <ui-select-choices repeat="region in view.regions | propsFilter: {name: $select.search} track by region.id">
-                                <div ng-bind-html="region.name | highlight: $select.search"></div>                               
+                                <div ng-bind-html="region.name | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
                     </div>

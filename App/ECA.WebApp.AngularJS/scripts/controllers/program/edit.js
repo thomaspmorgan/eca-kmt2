@@ -27,6 +27,16 @@ angular.module('staticApp')
       ) {
 
       $scope.view = {};
+      $scope.view.isSelectedCategoriesValid = true;
+      $scope.view.isSelectedRegionsValid = false;
+      $scope.view.isSelectedThemesValid = false;
+      $scope.view.isSelectedGoalsValid = false;
+      $scope.view.isSelectedContactsValid = false;
+      $scope.view.isObjectivedRequired = false;
+      $scope.view.isCategoryRequired = false;
+      $scope.view.minimumRequiredFoci = -1;
+      $scope.view.maximumRequiredFoci = -1;
+
       $scope.view.programStatii = [];
       $scope.view.goals = [];
       $scope.view.themes = [];
@@ -66,6 +76,60 @@ angular.module('staticApp')
       $scope.view.searchPointsOfContact = function(search){
           return loadPointsOfContact(search);
       }
+
+      $scope.view.onCategoriesChange = function () {
+          $scope.view.onCategoriesSelect();
+      }
+
+      $scope.view.onCategoriesSelect = function () {
+          $scope.view.isSelectedCategoriesValid = true;
+          if ($scope.view.selectedCategories.length < $scope.view.minimumRequiredFoci) {
+              $scope.view.isSelectedCategoriesValid = false;
+          }
+          if ($scope.view.selectedCategories.length > $scope.view.maximumRequiredFoci) {
+              $scope.view.isSelectedCategoriesValid = false;
+          }
+      }
+
+      $scope.view.onThemesChange = function () {
+          $scope.view.onThemesSelect();
+      }
+
+      $scope.view.onThemesSelect = function () {
+          if ($scope.view.selectedThemes.length > 0) {
+              $scope.view.isSelectedThemesValid = true;
+          }
+          else {
+              $scope.view.isSelectedThemesValid = false;
+          }
+      }
+
+      $scope.view.onGoalsChange = function () {
+          $scope.view.onGoalsSelect();
+      }
+
+      $scope.view.onGoalsSelect = function () {
+          if ($scope.view.selectedGoals.length > 0) {
+              $scope.view.isSelectedGoalsValid = true;
+          }
+          else {
+              $scope.view.isSelectedGoalsValid = false;
+          }
+      }
+
+      $scope.view.onContactsChange = function () {
+          $scope.view.onContactsSelect();
+      }
+
+      $scope.view.onContactsSelect = function () {
+          if ($scope.view.selectedPointsOfContact.length > 0) {
+              $scope.view.isSelectedContactsValid = true;
+          }
+          else {
+              $scope.view.isSelectedContactsValid = false;
+          }
+      }
+
       var maxLimit = 300;
       function loadPermissions() {
           console.assert(ConstantsService.resourceType.program.value, 'The constants service must have the program resource type value.');
@@ -315,6 +379,10 @@ angular.module('staticApp')
           setSelectedRegions();
           setSelectedPointsOfContact();
           setSelectedThemes();
+          $scope.view.onCategoriesChange();
+          $scope.view.onThemesChange();
+          $scope.view.onGoalsChange();
+          $scope.view.onContactsChange();
           $scope.view.isLoadingRequiredData = true;
           var officeId = program.ownerOrganizationId;
           $q.all([
