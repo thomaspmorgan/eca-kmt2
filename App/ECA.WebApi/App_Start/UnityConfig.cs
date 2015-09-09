@@ -108,6 +108,9 @@ namespace ECA.WebApi
             container.RegisterType<IEmailAddressService, EmailAddressService>(new HierarchicalLifetimeManager());
             container.RegisterType<IEmailAddressTypeService, EmailAddressTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IEmailAddressHandler, EmailAddressHandler>(new HierarchicalLifetimeManager());
+            container.RegisterType<IPhoneNumberService, PhoneNumberService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IPhoneNumberTypeService, PhoneNumberTypeService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IPhoneNumberHandler, PhoneNumberHandler>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>
