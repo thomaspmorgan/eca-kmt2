@@ -32,7 +32,7 @@ namespace ECA.Data
         /// </summary>
         [Required]
         [MaxLength(4000)]
-        public int WebsiteValue { get; set; }
+        public string WebsiteValue { get; set; }
 
         /// <summary>
         /// Gets or sets the history
