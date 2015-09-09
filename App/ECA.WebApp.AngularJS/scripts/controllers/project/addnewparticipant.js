@@ -134,6 +134,13 @@ angular.module('staticApp')
           $scope.isDobDatePickerOpen = true;
       }
 
+      $scope.toggleDobUnknown = function () {
+          $scope.dateOfBirthUnknown = $scope.dateOfBirthUnknown === false ? true : false;
+          $scope.newParticipant.dateOfBirthUnknown = $scope.dateOfBirthUnknown;
+          $scope.newParticipant.dateOfBirth = undefined;
+          $scope.isDobDatePickerOpen = false;
+      };
+
       $scope.searchCountries = function (search) {
           loadCountries(search);
       }
