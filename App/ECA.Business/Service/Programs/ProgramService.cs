@@ -202,8 +202,7 @@ namespace ECA.Business.Service.Programs
                 ProgramStatusId = draftProgram.ProgramStatusId,
                 StartDate = draftProgram.StartDate,
                 OwnerId = owner.OrganizationId,
-                Owner = owner,
-                Website = draftProgram.Website,
+                Owner = owner
             };
             SetGoals(draftProgram.GoalIds, program);
             SetPointOfContacts(draftProgram.ContactIds, program);
@@ -318,7 +317,6 @@ namespace ECA.Business.Service.Programs
             programToUpdate.ProgramStatusId = updatedProgram.ProgramStatusId;
             programToUpdate.RowVersion = updatedProgram.RowVersion;
             programToUpdate.StartDate = updatedProgram.StartDate;
-            programToUpdate.Website = updatedProgram.Website;
 
             updatedProgram.Audit.SetHistory(programToUpdate);
 

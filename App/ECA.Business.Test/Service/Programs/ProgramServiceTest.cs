@@ -1072,7 +1072,6 @@ namespace ECA.Business.Test.Service.Programs
             var description = "description";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTime.UtcNow.AddDays(1.0);
-            var website = "http://www.google.com";
             var pointOfContactIds = new List<int>();
             var themeIds = new List<int>();
             var goalIds = new List<int>();
@@ -1088,7 +1087,6 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerId,
                parentProgramId: parentProgramId,
-               website: website,
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
                themeIds: themeIds,
@@ -1117,7 +1115,6 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(ownerId, program.OwnerId);
             Assert.AreEqual(parentProgramId, program.ParentProgram.ProgramId);
             Assert.AreEqual(ProgramStatus.Draft.Id, program.ProgramStatusId);
-            Assert.AreEqual(website, program.Website);
         }
 
         [TestMethod]
@@ -1132,7 +1129,6 @@ namespace ECA.Business.Test.Service.Programs
             var description = "description";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTime.UtcNow.AddDays(1.0);
-            var website = "http://www.google.com";
             var pointOfContactIds = new List<int>();
             var themeIds = new List<int>();
             var goalIds = new List<int>();
@@ -1148,7 +1144,6 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerId,
                parentProgramId: null,
-               website: website,
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
                themeIds: themeIds,
@@ -1178,7 +1173,6 @@ namespace ECA.Business.Test.Service.Programs
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTime.UtcNow.AddDays(1.0);
             
-            var website = "http://www.google.com";
             var pointOfContactIds = new List<int>();
             var themeIds = new List<int>();
             var goalIds = new List<int>();
@@ -1194,7 +1188,6 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerId,
                parentProgramId: parentProgramId,
-               website: website,
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
                themeIds: themeIds,
@@ -1223,7 +1216,6 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(ownerId, program.OwnerId);
             Assert.AreEqual(parentProgramId, program.ParentProgram.ProgramId);
             Assert.AreEqual(ProgramStatus.Draft.Id, program.ProgramStatusId);
-            Assert.AreEqual(website, program.Website);
         }
 
         [TestMethod]
@@ -1242,7 +1234,6 @@ namespace ECA.Business.Test.Service.Programs
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTime.UtcNow.AddDays(1.0);
 
-            var website = "http://www.google.com";
             var pointOfContactIds = new List<int>();
             var themeIds = new List<int>();
             var goalIds = new List<int>();
@@ -1258,7 +1249,6 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerId,
                parentProgramId: null,
-               website: website,
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
                themeIds: themeIds,
@@ -1294,7 +1284,6 @@ namespace ECA.Business.Test.Service.Programs
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var parentProgramId = 3;
-            var website = "http://www.google.com";
             var pointOfContactIds = new List<int> { contact.ContactId };
             var themeIds = new List<int>();
             var goalIds = new List<int>();
@@ -1310,7 +1299,6 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerId,
                parentProgramId: parentProgramId,
-               website: website,
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
                themeIds: themeIds,
@@ -1343,7 +1331,6 @@ namespace ECA.Business.Test.Service.Programs
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var parentProgramId = 3;
-            var website = "http://www.google.com";
             var pointOfContactIds = new List<int> { contact.ContactId };
             var themeIds = new List<int>();
             var goalIds = new List<int>();
@@ -1359,7 +1346,6 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerId,
                parentProgramId: parentProgramId,
-               website: website,
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
                themeIds: themeIds,
@@ -1393,7 +1379,6 @@ namespace ECA.Business.Test.Service.Programs
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var parentProgramId = 3;
-            var website = "http://www.google.com";
             var pointOfContactIds = new List<int> { contact.ContactId };
             var themeIds = new List<int>();
             var goalIds = new List<int>();
@@ -1409,7 +1394,6 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerId,
                parentProgramId: parentProgramId,
-               website: website,
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
                themeIds: themeIds,
@@ -1444,7 +1428,6 @@ namespace ECA.Business.Test.Service.Programs
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var parentProgramId = 3;
-            var website = "http://www.google.com";
             var goalIds = new List<int> { goal.GoalId };
             var themeIds = new List<int>();
             var contactIds = new List<int>();
@@ -1460,7 +1443,6 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerId,
                parentProgramId: parentProgramId,
-               website: website,
                goalIds: goalIds,
                pointOfContactIds: contactIds,
                themeIds: themeIds,
@@ -1495,7 +1477,6 @@ namespace ECA.Business.Test.Service.Programs
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var parentProgramId = 3;
-            var website = "http://www.google.com";
             var goalIds = new List<int> { goal.GoalId };
             var themeIds = new List<int>();
             var contactIds = new List<int>();
@@ -1511,7 +1492,6 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerId,
                parentProgramId: parentProgramId,
-               website: website,
                goalIds: goalIds,
                pointOfContactIds: contactIds,
                themeIds: themeIds,
@@ -1546,7 +1526,6 @@ namespace ECA.Business.Test.Service.Programs
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var parentProgramId = 3;
-            var website = "http://www.google.com";
             var goalIds = new List<int>();
             var themeIds = new List<int> { theme.ThemeId };
             var contactIds = new List<int>();
@@ -1562,7 +1541,6 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerId,
                parentProgramId: parentProgramId,
-               website: website,
                goalIds: goalIds,
                pointOfContactIds: contactIds,
                themeIds: themeIds,
@@ -1599,7 +1577,6 @@ namespace ECA.Business.Test.Service.Programs
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var parentProgramId = 3;
-            var website = "http://www.google.com";
             var goalIds = new List<int>();
             var themeIds = new List<int> { theme.ThemeId };
             var contactIds = new List<int>();
@@ -1615,7 +1592,6 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerId,
                parentProgramId: parentProgramId,
-               website: website,
                goalIds: goalIds,
                pointOfContactIds: contactIds,
                themeIds: themeIds,
@@ -1649,7 +1625,6 @@ namespace ECA.Business.Test.Service.Programs
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var parentProgramId = 3;
-            var website = "http://www.google.com";
             var goalIds = new List<int>();
             var themeIds = new List<int>();
             var contactIds = new List<int>();
@@ -1665,7 +1640,6 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerId,
                parentProgramId: parentProgramId,
-               website: website,
                goalIds: goalIds,
                pointOfContactIds: contactIds,
                themeIds: themeIds,
@@ -1700,7 +1674,6 @@ namespace ECA.Business.Test.Service.Programs
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var parentProgramId = 3;
-            var website = "http://www.google.com";
             var goalIds = new List<int>();
             var themeIds = new List<int>();
             var contactIds = new List<int>();
@@ -1716,7 +1689,6 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerId,
                parentProgramId: parentProgramId,
-               website: website,
                goalIds: goalIds,
                pointOfContactIds: contactIds,
                themeIds: themeIds,
@@ -1761,7 +1733,6 @@ namespace ECA.Business.Test.Service.Programs
                 EndDate = DateTime.UtcNow.AddDays(1.0),
                 ProgramStatusId = ProgramStatus.Draft.Id,
                 ParentProgram = null,
-                Website = "old website",
                 History = new History
                 {
                     CreatedBy = creatorId,
@@ -1779,7 +1750,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newWebsite = "new website";
             var newParentProgramId = parentProgram.ProgramId;
             var updatedRowVersion = new byte[1] { (byte)1 };
 
@@ -1794,7 +1764,6 @@ namespace ECA.Business.Test.Service.Programs
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
                 programRowVersion: updatedRowVersion,
-                website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: null,
@@ -1815,7 +1784,6 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(program.ProgramId, updatedProgram.ProgramId);
             Assert.AreEqual(newProgramStatusId, updatedProgram.ProgramStatusId);
             Assert.AreEqual(newStartDate, updatedProgram.StartDate);
-            Assert.AreEqual(newWebsite, updatedProgram.Website);
 
             Assert.AreEqual(yesterday, updatedProgram.History.CreatedOn);
             Assert.AreEqual(creatorId, updatedProgram.History.CreatedBy);
@@ -1850,7 +1818,6 @@ namespace ECA.Business.Test.Service.Programs
                 ProgramStatusId = ProgramStatus.Draft.Id,
                 ParentProgram = null,
                 RowVersion = originalRowVersion,
-                Website = "old website",
                 History = new History
                 {
                     CreatedBy = creatorId,
@@ -1868,7 +1835,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newWebsite = "new website";
             var newParentProgramId = parentProgram.ProgramId;
             var updatedRowVersion = new byte[1] { (byte)1 };
 
@@ -1883,7 +1849,6 @@ namespace ECA.Business.Test.Service.Programs
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
                 programRowVersion: updatedRowVersion,
-                website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: null,
@@ -1903,7 +1868,6 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(program.ProgramId, updatedProgram.ProgramId);
             Assert.AreEqual(newProgramStatusId, updatedProgram.ProgramStatusId);
             Assert.AreEqual(newStartDate, updatedProgram.StartDate);
-            Assert.AreEqual(newWebsite, updatedProgram.Website);
 
             Assert.AreEqual(yesterday, updatedProgram.History.CreatedOn);
             Assert.AreEqual(creatorId, updatedProgram.History.CreatedBy);
@@ -1941,7 +1905,6 @@ namespace ECA.Business.Test.Service.Programs
                 EndDate = DateTime.UtcNow.AddDays(1.0),
                 ProgramStatusId = ProgramStatus.Draft.Id,
                 ParentProgram = null,
-                Website = "old website",
                 History = new History
                 {
                     CreatedBy = creatorId,
@@ -1959,7 +1922,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newWebsite = "new website";
             var newParentProgramId = parentProgram.ProgramId;
 
             var updatedEcaProgram = new EcaProgram(
@@ -1973,7 +1935,6 @@ namespace ECA.Business.Test.Service.Programs
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
                 programRowVersion: new byte[0],
-                website: newWebsite,
                 goalIds: new List<int> { 1 },
                 pointOfContactIds: null,
                 themeIds: null,
@@ -2016,7 +1977,6 @@ namespace ECA.Business.Test.Service.Programs
                 EndDate = DateTime.UtcNow.AddDays(1.0),
                 ProgramStatusId = ProgramStatus.Draft.Id,
                 ParentProgram = null,
-                Website = "old website",
                 History = new History
                 {
                     CreatedBy = creatorId,
@@ -2034,7 +1994,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newWebsite = "new website";
             var newParentProgramId = parentProgram.ProgramId;
 
             var updatedEcaProgram = new EcaProgram(
@@ -2048,7 +2007,6 @@ namespace ECA.Business.Test.Service.Programs
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
                 programRowVersion: new byte[0],
-                website: newWebsite,
                 goalIds: new List<int> { 1 },
                 pointOfContactIds: null,
                 themeIds: null,
@@ -2090,7 +2048,6 @@ namespace ECA.Business.Test.Service.Programs
                 EndDate = DateTime.UtcNow.AddDays(1.0),
                 ProgramStatusId = ProgramStatus.Draft.Id,
                 ParentProgram = null,
-                Website = "old website",
                 History = new History
                 {
                     CreatedBy = creatorId,
@@ -2108,7 +2065,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newWebsite = "new website";
             var newParentProgramId = parentProgram.ProgramId;
 
             var updatedEcaProgram = new EcaProgram(
@@ -2122,7 +2078,6 @@ namespace ECA.Business.Test.Service.Programs
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
                 programRowVersion: new byte[0],
-                website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: new List<int> { 1 },
@@ -2163,7 +2118,6 @@ namespace ECA.Business.Test.Service.Programs
                 EndDate = DateTime.UtcNow.AddDays(1.0),
                 ProgramStatusId = ProgramStatus.Draft.Id,
                 ParentProgram = null,
-                Website = "old website",
                 History = new History
                 {
                     CreatedBy = creatorId,
@@ -2181,7 +2135,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newWebsite = "new website";
             var newParentProgramId = parentProgram.ProgramId;
 
             var updatedEcaProgram = new EcaProgram(
@@ -2195,7 +2148,6 @@ namespace ECA.Business.Test.Service.Programs
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
                 programRowVersion: new byte[0],
-                website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: new List<int> { 1 },
@@ -2238,7 +2190,6 @@ namespace ECA.Business.Test.Service.Programs
 
                 ProgramStatusId = ProgramStatus.Draft.Id,
                 ParentProgram = null,
-                Website = "old website",
                 History = new History
                 {
                     CreatedBy = creatorId,
@@ -2256,7 +2207,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newWebsite = "new website";
             var newParentProgramId = parentProgram.ProgramId;
 
             var updatedEcaProgram = new EcaProgram(
@@ -2270,7 +2220,6 @@ namespace ECA.Business.Test.Service.Programs
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
                 programRowVersion: new byte[0],
-                website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: new List<int> { 1 },
                 themeIds: null,
@@ -2311,7 +2260,6 @@ namespace ECA.Business.Test.Service.Programs
                 EndDate = DateTime.UtcNow.AddDays(1.0),
                 ProgramStatusId = ProgramStatus.Draft.Id,
                 ParentProgram = null,
-                Website = "old website",
                 History = new History
                 {
                     CreatedBy = creatorId,
@@ -2329,7 +2277,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newWebsite = "new website";
             var newParentProgramId = parentProgram.ProgramId;
 
             var updatedEcaProgram = new EcaProgram(
@@ -2343,7 +2290,6 @@ namespace ECA.Business.Test.Service.Programs
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
                 programRowVersion: new byte[0],
-                website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: new List<int> { 1 },
                 themeIds: null,
@@ -2387,7 +2333,6 @@ namespace ECA.Business.Test.Service.Programs
                 EndDate = DateTime.UtcNow.AddDays(1.0),
                 ProgramStatusId = ProgramStatus.Draft.Id,
                 ParentProgram = null,
-                Website = "old website",
                 History = new History
                 {
                     CreatedBy = creatorId,
@@ -2405,7 +2350,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newWebsite = "new website";
             var newParentProgramId = parentProgram.ProgramId;
 
             var updatedEcaProgram = new EcaProgram(
@@ -2419,7 +2363,6 @@ namespace ECA.Business.Test.Service.Programs
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
                 programRowVersion: new byte[0],
-                website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: null,
@@ -2462,7 +2405,6 @@ namespace ECA.Business.Test.Service.Programs
                 EndDate = DateTime.UtcNow.AddDays(1.0),
                 ProgramStatusId = ProgramStatus.Draft.Id,
                 ParentProgram = null,
-                Website = "old website",
                 History = new History
                 {
                     CreatedBy = creatorId,
@@ -2481,7 +2423,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newWebsite = "new website";
             var newParentProgramId = parentProgram.ProgramId;
 
             var updatedEcaProgram = new EcaProgram(
@@ -2495,7 +2436,6 @@ namespace ECA.Business.Test.Service.Programs
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
                 programRowVersion: new byte[0],
-                website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: null,
@@ -2525,7 +2465,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newWebsite = "new website";
             var newParentProgramId = 12;
 
             var updatedEcaProgram = new EcaProgram(
@@ -2539,7 +2478,6 @@ namespace ECA.Business.Test.Service.Programs
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
                 programRowVersion: new byte[0],
-                website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: null,
@@ -2562,7 +2500,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newWebsite = "new website";
 
             var newParentProgramId = 12;
 
@@ -2577,7 +2514,6 @@ namespace ECA.Business.Test.Service.Programs
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
                 programRowVersion: new byte[0],
-                website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: null,
