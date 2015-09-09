@@ -9,19 +9,19 @@
 angular.module('staticApp')
   .controller('personContactCtrl', function ($scope, PersonService, $stateParams) {
 
-      $scope.loadingContacts = true;
+      $scope.contactsLoading = true;
 
       $scope.personIdDeferred.promise
         .then(function (personId) {
-            loadContact(personId);
+            loadContactInfo(personId);
       });
 
-      function loadContact(personId) {
-          $scope.loadingContacts = true;
+      function loadContactInfo(personId) {
+          $scope.contactsLoading = true;
           PersonService.getContactInfoById(personId)
           .then(function (data) {
-              $scope.contact = data;
-              $scope.loadingContacts = false;
+              $scope.contactInfo = data;
+              $scope.contactsLoading = false;
           });
       };
 }); 

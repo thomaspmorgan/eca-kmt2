@@ -6,7 +6,6 @@
     [History_RevisedBy] INT NOT NULL, 
     [History_RevisedOn] DATETIMEOFFSET NOT NULL, 
     [SevisId] VARCHAR(15) NULL, 
-    [ContactAgreement] BIT NOT NULL DEFAULT 0, 
     [FieldOfStudyId] INT NULL, 
     [StudyProject] NVARCHAR(250) NULL, 
     [ProgramSubjectId] INT NULL, 

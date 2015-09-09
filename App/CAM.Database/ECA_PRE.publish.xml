@@ -4,7 +4,7 @@
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseName>ECA_KMT_PRE</TargetDatabaseName>
     <DeployScriptFileName>ECA_KMT_PRE.sql</DeployScriptFileName>
-    <TargetConnectionString>Data Source=dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Password=wisconsin-89;Pooling=False</TargetConnectionString>
+    <TargetConnectionString>Data Source=eca.database.windows.net;User ID=ECA;Pooling=False</TargetConnectionString>
     <ProfileVersionNumber>1</ProfileVersionNumber>
   </PropertyGroup>
 </Project>

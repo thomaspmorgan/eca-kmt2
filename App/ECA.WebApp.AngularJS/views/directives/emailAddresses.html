@@ -1,8 +1,8 @@
 ﻿<div ng-controller="EmailAddressesCtrl">
     <div>
         <a ng-click="view.collapseEmailAddresses = !view.collapseEmailAddresses">
-            <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapseEmailAddresses">expand_more</i>
-            <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapseEmailAddresses">expand_less</i>
+            <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapseEmailAddresses">expand_less</i>
+            <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapseEmailAddresses">expand_more</i>
         </a>
         <a ng-click="view.onAddEmailAddressClick(modelType, emailAddressable.emailAddresses, modelId)" ng-show="editMode">
             <i class="material-icons md-24 md-dark pull-right">add</i>

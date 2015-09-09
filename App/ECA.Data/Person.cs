@@ -167,7 +167,12 @@ namespace ECA.Data
         public Location PlaceOfBirth { get; set; }
        
         public string MedicalConditions { get; set; }
-        
+
+        /// <summary>
+        /// Can the participant be contacted? (agreement to contact is in place)
+        /// </summary>
+        public bool HasContactAgreement { get; set; }
+
         [InverseProperty("CitizensOfCountry")]
         public ICollection<Location> CountriesOfCitizenship { get; set; }
         public string Ethnicity { get; set; }

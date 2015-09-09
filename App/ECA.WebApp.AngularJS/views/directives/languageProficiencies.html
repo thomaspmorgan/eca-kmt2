@@ -1,8 +1,8 @@
 ﻿<div ng-controller="LanguageProficienciesCtrl">
     <div>
         <a ng-click="view.collapseLanguageProficiencies = !view.collapseLanguageProficiencies">
-            <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapseLanguageProficiencies">expand_more</i>
-            <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapseLanguageProficiencies">expand_less</i>
+            <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapseLanguageProficiencies">expand_less</i>
+            <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapseLanguageProficiencies">expand_more</i>
         </a>
         <a ng-click="view.onAddLanguageProficiencyClick(model.languageProficiencies, personId)" ng-show="editMode">
             <i class="material-icons md-24 md-dark pull-right">add</i>
