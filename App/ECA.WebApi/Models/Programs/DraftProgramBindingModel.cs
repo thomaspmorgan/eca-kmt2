@@ -91,7 +91,6 @@ namespace ECA.WebApi.Models.Programs
                 endDate: this.EndDate,
                 ownerOrganizationId: this.OwnerOrganizationId,
                 parentProgramId: this.ParentProgramId,
-                website: this.Website,
                 goalIds: this.Goals,
                 pointOfContactIds: this.Contacts,
                 themeIds: this.Themes,

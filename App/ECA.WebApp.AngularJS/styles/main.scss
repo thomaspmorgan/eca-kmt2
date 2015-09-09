@@ -26,6 +26,7 @@ $blue: #297cb4;
 $blueactive: #1a5f8e;
 $gray: #e7e7e7;
 $grayactive: #415358;
+$button-toggle-on: #98FB98;
 
 $toolbarZIndex: 1000;
 $navBarZIndex: 1001;
@@ -794,7 +795,7 @@ div.modal-center-large .modal-content .modal-body {
 }
 
 .toggleButtons {
-    background-color: $gray-light;
+    background-color: $button-toggle-on;
 }
 
 .verticalTop {

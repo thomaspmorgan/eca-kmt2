@@ -26,7 +26,6 @@ namespace ECA.Business.Test.Service.Programs
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
             var programStatusId = ProgramStatus.Active.Id;
-            var website = "http://www.google.com";
             var goalIds = new List<int> { 10 };
             var themeIds = new List<int> { 20 };
             var pointOfContactIds = new List<int> { 30 };
@@ -46,7 +45,6 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: ownerOrganizationId,
                 parentProgramId: parentProgramId,
                 programStatusId: programStatusId,
-                website: website,
                 programRowVersion: rowVersion,
                 goalIds: goalIds,
                 pointOfContactIds: pointOfContactIds,
@@ -65,7 +63,6 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(parentProgramId, program.ParentProgramId);
             Assert.AreEqual(ownerOrganizationId, program.OwnerOrganizationId);
             Assert.AreEqual(programStatusId, program.ProgramStatusId);
-            Assert.AreEqual(website, program.Website);
 
             CollectionAssert.AreEqual(goalIds, program.GoalIds);
             CollectionAssert.AreEqual(themeIds, program.ThemeIds);
@@ -86,7 +83,6 @@ namespace ECA.Business.Test.Service.Programs
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
             var programStatusId = ProgramStatus.Active.Id;
-            var website = "http://www.google.com";
             var goalIds = new List<int> { 10, 10 };
             var themeIds = new List<int> { 20, 20 };
             var pointOfContactIds = new List<int> { 30, 30 };
@@ -106,7 +102,6 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: ownerOrganizationId,
                 parentProgramId: parentProgramId,
                 programStatusId: programStatusId,
-                website: website,
                 programRowVersion: rowVersion,
                 goalIds: goalIds,
                 pointOfContactIds: pointOfContactIds,
@@ -136,7 +131,6 @@ namespace ECA.Business.Test.Service.Programs
             var parentProgramId = 3;
             var programStatusId = ProgramStatus.Active.Id;
             var focusId = 1;
-            var website = "http://www.google.com";
 
             var user = new User(userId);
             var program = new EcaProgram(
@@ -150,7 +144,6 @@ namespace ECA.Business.Test.Service.Programs
                 parentProgramId: parentProgramId,
                 programStatusId: programStatusId,
                 programRowVersion: new byte[0],
-                website: website,
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: null,
@@ -177,7 +170,6 @@ namespace ECA.Business.Test.Service.Programs
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
             var programStatusId = -1;
-            var website = "http://www.google.com";
 
             var user = new User(userId);
             var program = new EcaProgram(
@@ -191,7 +183,6 @@ namespace ECA.Business.Test.Service.Programs
                 parentProgramId: parentProgramId,
                 programStatusId: programStatusId,
                 programRowVersion: new byte[0],
-                website: website,
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: null,

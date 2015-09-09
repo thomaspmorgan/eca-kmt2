@@ -42,6 +42,7 @@ namespace ECA.Data
             this.Contacts = new HashSet<Contact>();
             this.Categories = new HashSet<Category>();
             this.Objectives = new HashSet<Objective>();
+            this.Websites = new HashSet<Website>();
 
             this.History = new History();
         }
@@ -102,11 +103,6 @@ namespace ECA.Data
         public int ProgramStatusId { get; set; }
 
         /// <summary>
-        /// Gets or sets the Website.
-        /// </summary>
-        public string Website { get; set; }
-
-        /// <summary>
         /// Gets or sets the RowVersion.
         /// </summary>
         public byte[] RowVersion { get; set; }
@@ -131,6 +127,11 @@ namespace ECA.Data
 
         public ICollection<Objective> Objectives { get; set; }
         public ICollection<Category> Categories { get; set; }
+
+        /// <summary>
+        /// Gets or sets websites
+        /// </summary>
+        public ICollection<Website> Websites { get; set; }
 
         public History History { get; set; }
 

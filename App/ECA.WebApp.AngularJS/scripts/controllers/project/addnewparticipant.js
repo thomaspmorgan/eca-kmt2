@@ -128,6 +128,13 @@ angular.module('staticApp')
           $modalInstance.close();
       }
 
+      $scope.$watch('newParticipant.dateOfBirth', function () {
+          var date = $scope.newParticipant.dateOfBirth;
+          if (date) {
+              $scope.dateOfBirthUnknown = false;
+          }
+      });
+
       $scope.openDobDatePicker = function ($event) {
           $event.preventDefault();
           $event.stopPropagation();
@@ -136,9 +143,11 @@ angular.module('staticApp')
 
       $scope.toggleDobUnknown = function () {
           $scope.dateOfBirthUnknown = $scope.dateOfBirthUnknown === false ? true : false;
-          $scope.newParticipant.dateOfBirthUnknown = $scope.dateOfBirthUnknown;
-          $scope.newParticipant.dateOfBirth = undefined;
-          $scope.isDobDatePickerOpen = false;
+          if ($scope.dateOfBirthUnknown === true) {
+              $scope.newParticipant.dateOfBirthUnknown = $scope.dateOfBirthUnknown;
+              $scope.newParticipant.dateOfBirth = undefined;
+              $scope.isDobDatePickerOpen = false;
+          }          
       };
 
       $scope.searchCountries = function (search) {

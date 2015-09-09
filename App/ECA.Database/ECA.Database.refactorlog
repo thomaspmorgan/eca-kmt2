@@ -651,4 +651,39 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="History_CreatedOn" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="583a9cf3-f9d3-4c45-b54b-44508a49dd48" ChangeDateTime="09/09/2015 14:26:32">
+    <Property Name="ElementName" Value="[dbo].[Website].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Website]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="WebsiteId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e7224895-6bf6-4935-9865-a04031ff4d21" ChangeDateTime="09/09/2015 14:27:07">
+    <Property Name="ElementName" Value="[dbo].[Website].[WebsiteName]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Website]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="WebsiteValue" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="171cc568-4496-478c-91d9-2cb0522c3f31" ChangeDateTime="09/09/2015 14:43:51">
+    <Property Name="ElementName" Value="[dbo].[Website].[History]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Website]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="History_CreatedBy" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="79af5616-0ea0-4c4e-87a6-55a24a7f9425" ChangeDateTime="09/09/2015 14:47:20">
+    <Property Name="ElementName" Value="[dbo].[ProgramWebsite].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ProgramWebsite]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ProgramId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="49bee264-80d1-4079-b9f5-70523b03c9f6" ChangeDateTime="09/09/2015 14:50:46">
+    <Property Name="ElementName" Value="[dbo].[ProgramWebsite].[IX_ProgramWebsite_Column]" />
+    <Property Name="ElementType" Value="SqlIndex" />
+    <Property Name="ParentElementName" Value="[dbo].[ProgramWebsite]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[IX_ProgramWebsite_ProgramId]" />
+  </Operation>
 </Operations>

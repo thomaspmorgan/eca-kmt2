@@ -56,7 +56,6 @@ namespace ECA.WebApi.Models.Programs
                 parentProgramId: this.ParentProgramId,
                 programStatusId: this.ProgramStatusId,
                 programRowVersion: Convert.FromBase64String(this.RowVersion),
-                website: this.Website,
                 goalIds: this.Goals,
                 pointOfContactIds: this.Contacts,
                 themeIds: this.Themes,
