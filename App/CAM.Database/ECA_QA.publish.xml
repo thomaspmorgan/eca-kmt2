@@ -5,6 +5,6 @@
     <TargetDatabaseName>ECA_KMT_QA</TargetDatabaseName>
     <DeployScriptFileName>CAM.Database.sql</DeployScriptFileName>
     <ProfileVersionNumber>1</ProfileVersionNumber>
-    <TargetConnectionString>Data Source=eca.database.windows.net;User ID=ECA;Pooling=False</TargetConnectionString>
+    <TargetConnectionString>Data Source=eca.database.windows.net;User ID=ECA;Password=wisconsin-89;Pooling=False</TargetConnectionString>
   </PropertyGroup>
 </Project>
