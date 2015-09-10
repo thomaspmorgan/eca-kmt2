@@ -30,7 +30,7 @@ namespace ECA.WebApi.Test.Models.Programs
             model.StartDate = DateTimeOffset.UtcNow;
             model.Themes = new List<int> { 3 };
             model.Regions = new List<int> { 4 };
-            model.Website = "website";
+            model.Websites = new List<string> { "http://www.google.com" };
             model.RowVersion = Convert.ToBase64String(rowVersion);
             var user = new User(1);
 
@@ -48,6 +48,7 @@ namespace ECA.WebApi.Test.Models.Programs
             CollectionAssert.AreEqual(model.Contacts, ecaProgram.ContactIds);
             CollectionAssert.AreEqual(model.Themes, ecaProgram.ThemeIds);
             CollectionAssert.AreEqual(model.Regions, ecaProgram.RegionIds);
+            CollectionAssert.AreEqual(model.Websites, ecaProgram.Websites);
             CollectionAssert.AreEqual(rowVersion, ecaProgram.RowVersion);
             Assert.AreEqual(user.Id, ecaProgram.Audit.User.Id);
 
