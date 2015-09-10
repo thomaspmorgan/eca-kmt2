@@ -16,6 +16,7 @@ angular.module('staticApp')
         $modal,
         $modalInstance,
         parentProgram,
+        MessageBox,
         ProjectService,
         FilterService,
         LookupService,
@@ -25,6 +26,8 @@ angular.module('staticApp')
         NotificationService) {
 
       $scope.view = {};
+      $scope.view.maxNameLength = 500;
+      $scope.view.maxDescriptionLength = 3000;
       $scope.view.title = 'Add Project to ' + parentProgram.name;
       $scope.view.isSavingProject = false;
       $scope.view.isLoadingLikeProjects = false;
@@ -41,27 +44,14 @@ angular.module('staticApp')
 
       $scope.view.onCancelClick = function () {
           if ($scope.form.projectForm.$dirty) {
-              var modalInstance = $modal.open({
-                  animation: false,
-                  templateUrl: 'views/directives/confirmdialog.html',
-                  controller: 'ConfirmCtrl',
-                  resolve: {
-                      options: function () {
-                          return {
-                              title: 'Confirm',
-                              message: 'There are unsaved changes.  Are you sure you wish to cancel?',
-                              okText: 'Yes',
-                              cancelText: 'No'
-                          };
-                      }
+              MessageBox.confirm({
+                  title: 'Confirm',
+                  message: 'There are unsaved changes.  Are you sure you wish to cancel?',
+                  okText: 'Yes',
+                  cancelText: 'No',
+                  okCallback: function () {
+                      $modalInstance.dismiss('cancel');
                   }
-              });
-              modalInstance.result.then(function () {
-                  $log.info('User confirmed cancel...');
-                  $modalInstance.dismiss('cancel');
-
-              }, function () {
-                  $log.info('Modal dismissed at: ' + new Date());
               });
           }
           else {
@@ -118,7 +108,7 @@ angular.module('staticApp')
 
       function showValidationErrors(error) {
           var validationModal = $modal.open({
-              animation: false,
+              animation: true,
               templateUrl: 'views/directives/servervalidationdialog.html',
               controller: 'ServerValidationCtrl',
               size: 'lg',

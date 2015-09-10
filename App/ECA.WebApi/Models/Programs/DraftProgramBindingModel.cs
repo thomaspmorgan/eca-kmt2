@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Models.Programs;
+using ECA.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,12 +17,14 @@ namespace ECA.WebApi.Models.Programs
         /// The name of the program.
         /// </summary>
         [Required]
+        [MaxLength(Program.MAX_NAME_LENGTH)]
         public string Name { get; set; }
 
         /// <summary>
         /// The program description.
         /// </summary>
         [Required]
+        [MaxLength(Program.MAX_DESCRIPTION_LENGTH)]
         public string Description { get; set; }
 
         /// <summary>

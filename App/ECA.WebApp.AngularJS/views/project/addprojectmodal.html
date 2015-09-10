@@ -24,6 +24,7 @@
                                ng-show="view.isLoadingLikeProjects">autorenew</i>
                         </label>
                         <input name="name"
+                               maxlength="{{view.maxNameLength}}"
                                ng-model="view.project.name"
                                form-element guidance="This is the name of your project."
                                type="text"
@@ -33,6 +34,7 @@
                                placeholder="Enter project title..."
                                required>
                         <span class="form-control-feedback" ng-show="view.doesProjectExist"><i class="material-icons md-24">error</i></span>
+                        <p class="mute" style="margin-top:5px;">{{view.project.name.length}} of {{view.maxNameLength}} characters remaining.</p>
                         <div ng-show="view.doesProjectExist" class="error">
                             There is already a project named {{view.project.name}}.
                         </div>
@@ -48,8 +50,12 @@
                                   form-element guidance="This briefly summarizes what this project is about."
                                   type="text"
                                   placeholder="Enter description..."
-                                  required></textarea>
-                        <span class="error" ng-show="form.projectForm.description.$error.required">Project description is required.</span>
+                                  required/>
+                        <p class="mute" style="margin-top:5px;">{{view.project.description.length}} of {{view.maxDescriptionLength}} characters remaining.</p>
+                        <div ng-show="form.projectForm.description.$dirty">
+                            <span class="error" ng-show="form.projectForm.description.$error.required">Project description is required.</span>
+                        </div>
+
                     </div>
                 </form>
             </div>

@@ -116,7 +116,7 @@ namespace ECA.Data.Test
                 Description = "desc",
                 Owner = new Organization()
             };
-            var items = new Dictionary<object, object> { {EcaContext.VALIDATABLE_CONTEXT_KEY, context } };
+            var items = new Dictionary<object, object> { { EcaContext.VALIDATABLE_CONTEXT_KEY, context } };
             var vc = new ValidationContext(testProgram, null, items);
             var results = new List<ValidationResult>();
             var actual = Validator.TryValidateObject(testProgram, vc, results);
@@ -124,6 +124,60 @@ namespace ECA.Data.Test
             Assert.AreEqual(1, results.Count);
             Assert.AreEqual("Name", results.First().MemberNames.First());
             Assert.AreEqual(String.Format("The program with the name [{0}] already exists.", testProgram.Name), results.First().ErrorMessage);
+        }
+
+        [TestMethod]
+        public void TestNameMaxLength()
+        {
+            var owner = new Organization();
+            var program = new Program
+            {
+                ProgramId = 2,
+                Name = new string('a', Program.MAX_NAME_LENGTH),
+                Description = "desc",
+                Owner = owner,
+                OwnerId = owner.OrganizationId
+            };
+            var items = new Dictionary<object, object> { { EcaContext.VALIDATABLE_CONTEXT_KEY, context } };
+            var vc = new ValidationContext(program, null, items);
+            var results = new List<ValidationResult>();
+            var actual = Validator.TryValidateObject(program, vc, results, true);
+
+            Assert.IsTrue(actual);
+            Assert.AreEqual(0, results.Count);
+            program.Name = new string('a', Program.MAX_NAME_LENGTH + 1);
+
+            actual = Validator.TryValidateObject(program, vc, results, true);
+            Assert.IsFalse(actual);
+            Assert.AreEqual(1, results.Count);
+            Assert.AreEqual("Name", results.First().MemberNames.First());
+        }
+
+        [TestMethod]
+        public void TestDescriptionMaxLength()
+        {
+            var owner = new Organization();
+            var program = new Program
+            {
+                ProgramId = 2,
+                Name = new string('a', Program.MAX_NAME_LENGTH),
+                Description = new string('a', Program.MAX_DESCRIPTION_LENGTH),
+                Owner = owner,
+                OwnerId = owner.OrganizationId
+            };
+            var items = new Dictionary<object, object> { { EcaContext.VALIDATABLE_CONTEXT_KEY, context } };
+            var vc = new ValidationContext(program, null, items);
+            var results = new List<ValidationResult>();
+            var actual = Validator.TryValidateObject(program, vc, results, true);
+
+            Assert.IsTrue(actual);
+            Assert.AreEqual(0, results.Count);
+            program.Description = new string('a', Program.MAX_DESCRIPTION_LENGTH + 1);
+
+            actual = Validator.TryValidateObject(program, vc, results, true);
+            Assert.IsFalse(actual);
+            Assert.AreEqual(1, results.Count);
+            Assert.AreEqual("Description", results.First().MemberNames.First());
         }
     }
 }

@@ -25,6 +25,19 @@ namespace ECA.Data
         IRegionable,
         IPermissable
     {
+        /// <summary>
+        /// The maximum length of the program name.
+        /// </summary>
+        public const int MAX_NAME_LENGTH = 255;
+
+        /// <summary>
+        /// The maximum length of a program description.
+        /// </summary>
+        public const int MAX_DESCRIPTION_LENGTH = 3000;
+
+        /// <summary>
+        /// Creates a new default program.
+        /// </summary>
         public Program()
         {
             this.Regions = new HashSet<Location>();
@@ -56,12 +69,14 @@ namespace ECA.Data
         /// Gets or sets the Name.
         /// </summary>
         [Required]
+        [MaxLength(MAX_NAME_LENGTH)]
         public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the description.
         /// </summary>
         [Required]
+        [MaxLength(MAX_DESCRIPTION_LENGTH)]
         public string Description { get; set; }
 
         /// <summary>

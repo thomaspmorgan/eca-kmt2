@@ -14,6 +14,7 @@ angular.module('staticApp')
         $q,
         $log,
         $modal,
+        MessageBox,
         smoothScroll,
         AuthService,
         MoneyFlowService,
@@ -129,27 +130,15 @@ angular.module('staticApp')
       }
 
       $scope.view.onDeleteClick = function (moneyFlow) {
-          var modalInstance = $modal.open({
-              animation: false,
-              templateUrl: 'views/directives/confirmdialog.html',
-              controller: 'ConfirmCtrl',
-              resolve: {
-                  options: function () {
-                      return {
-                          title: 'Confirm',
-                          message: 'Are you sure you wish to delete the funding line item?',
-                          okText: 'Yes',
-                          cancelText: 'No'
-                      };
-                  }
+          MessageBox.confirm({
+              title: 'Confirm',
+              message: 'Are you sure you wish to delete the funding line item?',
+              okText: 'Yes',
+              cancelText: 'No',
+              okCallback: function () {
+                  $log.info('User confirmed delete of money flow...');
+                  deleteMoneyFlow(moneyFlow);
               }
-          });
-          modalInstance.result.then(function () {
-              $log.info('User confirmed delete of money flow...');
-              deleteMoneyFlow(moneyFlow);
-
-          }, function () {
-              $log.info('Modal dismissed at: ' + new Date());
           });
       }
 
@@ -160,7 +149,7 @@ angular.module('staticApp')
 
       function showEditMoneyFlow(moneyFlow) {
           var modalInstance = $modal.open({
-              animation: false,
+              animation: true,
               templateUrl: 'views/directives/moneyflow.html',
               controller: 'MoneyFlowCtrl',
               size: 'lg',
@@ -375,7 +364,7 @@ angular.module('staticApp')
               dfd.resolve();
               return dfd.promise;
           }
-          
+
       }
 
       function getPermissionsConfig(resourceTypeId, hasEditPermissionCallback, notAuthorizedCallback) {

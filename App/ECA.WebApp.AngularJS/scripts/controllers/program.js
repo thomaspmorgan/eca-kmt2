@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProgramsCtrl', function (
+  .controller('ProgramCtrl', function (
         $scope,
         $stateParams,
         $state,
@@ -61,7 +61,8 @@ angular.module('staticApp')
       $scope.data.loadProgramPromise = $q.defer();
       $scope.view = {};
       $scope.view.isLoadingProgram = false;
-      $scope.view.permalink = 'http://www.google.com'
+      $scope.view.permalink = '';
+      //$scope.view.show
 
       function loadProgramById(programId) {
           $scope.view.isLoadingProgram = true;

@@ -55,7 +55,7 @@ angular.module('staticApp')
 
       $scope.view.onAddClick = function () {
           var addLocationModalInstance = $modal.open({
-              animation: false,
+              animation: true,
               templateUrl: 'views/locations/addlocationmodal.html',
               controller: 'AddLocationCtrl',
               size: 'lg',

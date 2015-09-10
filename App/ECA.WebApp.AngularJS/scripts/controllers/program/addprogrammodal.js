@@ -15,6 +15,7 @@ angular.module('staticApp')
         $log,
         $modal,
         $modalInstance,
+        MessageBox,
         office,
         parentProgram,
         ProgramService,
@@ -111,27 +112,14 @@ angular.module('staticApp')
 
       $scope.view.onCancelClick = function () {
           if ($scope.form.programForm.$dirty) {
-              var modalInstance = $modal.open({
-                  animation: false,
-                  templateUrl: 'views/directives/confirmdialog.html',
-                  controller: 'ConfirmCtrl',
-                  resolve: {
-                      options: function () {
-                          return {
-                              title: 'Confirm',
-                              message: 'There are unsaved changes.  Are you sure you wish to cancel?',
-                              okText: 'Yes',
-                              cancelText: 'No'
-                          };
-                      }
+              MessageBox.confirm({
+                  title: 'Confirm',
+                  message: 'There are unsaved changes.  Are you sure you wish to cancel?',
+                  okText: 'Yes',
+                  cancelText: 'No',
+                  okCallback: function () {
+                      $modalInstance.dismiss('cancel');
                   }
-              });
-              modalInstance.result.then(function () {
-                  $log.info('User confirmed cancel...');
-                  $modalInstance.dismiss('cancel');
-
-              }, function () {
-                  $log.info('Modal dismissed at: ' + new Date());
               });
           }
           else {
@@ -420,7 +408,7 @@ angular.module('staticApp')
 
       function showValidationErrors(error) {
           var validationModal = $modal.open({
-              animation: false,
+              animation: true,
               templateUrl: 'views/directives/servervalidationdialog.html',
               controller: 'ServerValidationCtrl',
               size: 'lg',

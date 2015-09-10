@@ -23,6 +23,7 @@
                        placeholder="Enter project title..."
                        id="projectName"
                        required />
+                <p class="mute" style="margin-top:5px;">{{project.name.length}} of {{editView.maxNameLength}} characters remaining.</p>
                 <div ng-show="form.projectForm.name.$dirty">
                     <div class="error" ng-show="form.projectForm.name.$error.required">Please enter a project name.</div>
                 </div>
@@ -39,6 +40,7 @@
                           class="form-control"
                           placeholder="Enter project description..."
                           required />
+                <p class="mute" style="margin-top:5px;">{{project.description.length}} of {{editView.maxDescriptionLength}} characters remaining.</p>
                 <div ng-show="form.projectForm.description.$dirty">
                     <div class="error" ng-show="form.projectForm.description.$error.required">Please enter a project description.</div>
                 </div>

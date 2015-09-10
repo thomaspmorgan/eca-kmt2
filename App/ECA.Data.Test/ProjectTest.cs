@@ -134,5 +134,53 @@ namespace ECA.Data.Test
                         testProject.Name);
             Assert.AreEqual(expectedErrorMessage, results.First().ErrorMessage);
         }
+
+        [TestMethod]
+        public void TestNameMaxLength()
+        {
+            var project = new Project
+            {
+                ProgramId = 2,
+                Name = new string('a', Project.MAX_NAME_LENGTH),
+                Description = "desc",
+            };
+            var items = new Dictionary<object, object> { { EcaContext.VALIDATABLE_CONTEXT_KEY, context } };
+            var vc = new ValidationContext(project, null, items);
+            var results = new List<ValidationResult>();
+            var actual = Validator.TryValidateObject(project, vc, results, true);
+
+            Assert.IsTrue(actual);
+            Assert.AreEqual(0, results.Count);
+            project.Name = new string('a', Project.MAX_NAME_LENGTH + 1);
+
+            actual = Validator.TryValidateObject(project, vc, results, true);
+            Assert.IsFalse(actual);
+            Assert.AreEqual(1, results.Count);
+            Assert.AreEqual("Name", results.First().MemberNames.First());
+        }
+
+        [TestMethod]
+        public void TestDescriptionMaxLength()
+        {
+            var project = new Project
+            {
+                ProgramId = 2,
+                Name = new string('a', Project.MAX_NAME_LENGTH),
+                Description = new string('a', Project.MAX_DESCRIPTION_LENGTH),
+            };
+            var items = new Dictionary<object, object> { { EcaContext.VALIDATABLE_CONTEXT_KEY, context } };
+            var vc = new ValidationContext(project, null, items);
+            var results = new List<ValidationResult>();
+            var actual = Validator.TryValidateObject(project, vc, results, true);
+
+            Assert.IsTrue(actual);
+            Assert.AreEqual(0, results.Count);
+            project.Description = new string('a', Project.MAX_DESCRIPTION_LENGTH + 1);
+
+            actual = Validator.TryValidateObject(project, vc, results, true);
+            Assert.IsFalse(actual);
+            Assert.AreEqual(1, results.Count);
+            Assert.AreEqual("Description", results.First().MemberNames.First());
+        }
     }
 }

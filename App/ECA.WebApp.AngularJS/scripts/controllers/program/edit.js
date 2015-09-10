@@ -48,6 +48,7 @@ angular.module('staticApp')
       $scope.view.selectedRegions = [];
       $scope.view.isLoadingProgram = true;
       $scope.view.isLoadingRequiredData = false;
+      $scope.view.isSaving = false;
       $scope.view.sortedObjectives = [];
       $scope.view.categoryLabel = '';
       $scope.view.objectiveLabel = '';
@@ -66,6 +67,7 @@ angular.module('staticApp')
       $scope.view.selectedCategories = [];
       $scope.view.selectedObjectives = [];
       $scope.view.selectedPointsOfContact = [];
+      $scope.view.originalProgram = null;
 
       var programsWithSameNameFilter = FilterService.add('programedit_programswithsamename');
       $scope.view.onProgramNameChange = function () {
@@ -183,6 +185,73 @@ angular.module('staticApp')
           else {
               $scope.view.isSelectedContactsValid = false;
           }
+      }
+
+      $scope.view.onSaveClick = function () {
+          $scope.view.isSaving = true;
+          setIds('regions', $scope.view.selectedRegions, 'id');
+          setIds('themes', $scope.view.selectedThemes, 'id');
+          setIds('goals', $scope.view.selectedGoals, 'id');
+          setIds('categories', $scope.view.selectedCategories, 'id');
+          setIds('contacts', $scope.view.selectedContacts, 'id');
+          setIds('objectives', $scope.view.selectedObjectives, 'id');
+          setIds('contacts', $scope.view.selectedPointsOfContact, 'id');
+          return ProgramService.update($scope.view.program)
+          .then(function (response) {
+              $scope.view.originalProgram = angular.copy();
+              $scope.view.isSaving = false;
+          })
+          .catch(function (response) {
+              $scope.view.isSaving = false;
+              if (response.status === 400 && response.data && response.data.ValidationErrors) {
+                  showValidationErrors(response.data);
+              }
+              else {
+                  var message = 'Unable to save program.';
+                  NotificationService.showErrorMessage(message);
+                  $log.error(message);
+              }
+          });
+      }
+
+      $scope.view.onCancelClick = function () {          
+          $scope.view.program = $scope.view.originalProgram;
+          callAllSetSelecteds();
+          callAllOnChanges();
+      }
+
+      function setIds(arrayPropertyName, values, idPropertyName) {
+          console.assert($scope.view.program[arrayPropertyName], "The program must have a property named " + arrayPropertyName);
+          console.assert(Array.isArray($scope.view.program[arrayPropertyName]), 'The program property ' + arrayPropertyName + ' must be an array.');
+          $scope.view.program[arrayPropertyName] = [];
+          angular.forEach(values, function (v, index) {
+              console.assert(v[idPropertyName], "The array item must have a property named " + idPropertyName);
+              $scope.view.program[arrayPropertyName].push(v[idPropertyName]);
+          });
+      }
+
+      function showValidationErrors(error) {
+          var validationModal = $modal.open({
+              animation: true,
+              templateUrl: 'views/directives/servervalidationdialog.html',
+              controller: 'ServerValidationCtrl',
+              size: 'lg',
+              resolve: {
+                  options: function () {
+                      return {};
+                  },
+                  validationError: function () {
+                      return error.ValidationErrors;
+                  }
+              }
+          });
+          validationModal.result.then(function () {
+              $log.info('Finished validation errors.');
+              validationModal.close();
+
+          }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+          });
       }
 
       var maxLimit = 300;
@@ -422,18 +491,31 @@ angular.module('staticApp')
           setSelectedItems(regionsName, 'selectedRegions');
       }
 
+      function callAllOnChanges() {
+          $scope.view.onThemesChange();
+          $scope.view.onGoalsChange();
+          $scope.view.onContactsChange();
+          $scope.view.onObjectivesChange();
+          $scope.view.onRegionsChange();
+          $scope.view.onCategoriesChange();
+      }
+
+      function callAllSetSelecteds() {
+          setSelectedCategories();
+          setSelectedGoals();
+          setSelectedObjectives();
+          setSelectedRegions();
+          setSelectedPointsOfContact();
+          setSelectedThemes();
+      }
+
       $scope.data.loadProgramPromise.promise
       .then(function (program) {
           $scope.view.isLoadingProgram = false;
           $scope.view.program = program;
           $scope.view.categoryLabel = program.ownerOfficeCategoryLabel;
           $scope.view.objectiveLabel = program.ownerOfficeObjectiveLabel;
-          setSelectedCategories();
-          setSelectedGoals();
-          setSelectedObjectives();
-          setSelectedRegions();
-          setSelectedPointsOfContact();
-          setSelectedThemes();          
+          callAllSetSelecteds();
           $scope.view.isLoadingRequiredData = true;
           var officeId = program.ownerOrganizationId;
           $q.all([
@@ -446,12 +528,8 @@ angular.module('staticApp')
                 loadOfficeSettings(program.ownerOrganizationId),
                 loadProgramStatii()])
           .then(function (results) {
-              $scope.view.onThemesChange();
-              $scope.view.onGoalsChange();
-              $scope.view.onContactsChange();
-              $scope.view.onObjectivesChange();
-              $scope.view.onRegionsChange();
-              $scope.view.onCategoriesChange();
+              callAllOnChanges();
+              $scope.view.originalProgram = angular.copy(program);
               $scope.view.isLoadingRequiredData = false;
           })
           .catch(function () {
@@ -464,5 +542,7 @@ angular.module('staticApp')
       .catch(function (response) {
           $scope.view.isLoadingProgram = false;
       });
+
+
 
   });

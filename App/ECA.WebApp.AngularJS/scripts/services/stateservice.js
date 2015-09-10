@@ -18,6 +18,10 @@ angular.module('staticApp')
                   office: 'offices.overview',
                   organization: 'organizations.overview',
                   person: 'people.personalinformation'
+              },
+              edit: {
+                  project: 'projects.edit',
+                  program: 'programs.edit'
               }
           },
 

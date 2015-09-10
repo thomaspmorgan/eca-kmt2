@@ -11,6 +11,7 @@ angular.module('staticApp')
   .controller('ProjectCtrl', function ($scope, $state, $stateParams, $log, $q,
       ProjectService,
       AuthService,
+      StateService,
       ConstantsService,
       orderByFilter) {
 
@@ -74,7 +75,7 @@ angular.module('staticApp')
             $scope.data.loadProjectByIdPromise.resolve($scope.project);
         });
 
-      var editStateName = 'projects.edit';
+      var editStateName = StateService.stateNames.edit.project;
 
       $scope.showProjectEditCancelButton = function () {
           $scope.isProjectEditCancelButtonVisible = true;
@@ -109,42 +110,6 @@ angular.module('staticApp')
       $scope.updateProject = function () {
           saveProject();
       };
-
-      $scope.saveProject = function () {
-          var project = {
-              id: Date.now().toString(),
-              name: $scope.newProject.title,
-              description: $scope.newProject.description,
-              branch: $scope.newProject.branch[0].name,
-              parentProgram: {
-                  name: $scope.program.name,
-                  id: $scope.program.id
-              },
-              parentOffice: {
-                  name: $scope.program.owner.longName,
-                  id: $scope.program.owner.organizationId
-              }
-          };
-
-          ProjectService.create(project)
-              .then(function (project) {
-                  console.log($scope.program.id);
-                  $state.go('projects.overview', { projectId: project.id});
-              });
-
-          if (!$scope.program.projectReferences) {
-              $scope.program.projectReferences = [];
-          }
-          $scope.program.projectReferences.push({ name: project.name, id: project.id });
-          saveProgram();
-      };
-
-      function saveProject() {
-          ProjectService.update($scope.project, $stateParams.projectId)
-            .then(function (project) {
-                $scope.project = project;
-            });
-      }
 
       function loadPermissions() {
           console.assert(ConstantsService.resourceType.project.value, 'The constants service must have the project resource type value.');
