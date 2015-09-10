@@ -27,6 +27,8 @@ angular.module('staticApp')
 
       ) {
 
+      console.assert($scope.$parent.view.isEditButtonEnabled !== undefined, 'The parent should have a flag to determine the enabled state of the edit button.');
+
       $scope.view = {};
       $scope.view.isSelectedCategoriesValid = true;
       $scope.view.isSelectedRegionsValid = false;
@@ -213,6 +215,11 @@ angular.module('staticApp')
           $scope.view.program = $scope.view.originalProgram;
           callAllSetSelecteds();
           callAllOnChanges();
+          StateService.goToProgramState($scope.view.program.id, {});
+      }
+
+      $scope.view.validateMinimumGoals = function ($value) {
+          return $scope.view.selectedGoals.length > 0;
       }
 
       function setIds(arrayPropertyName, values, idPropertyName) {

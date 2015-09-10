@@ -132,6 +132,8 @@
                     <div class="col-md-6 title-label">Goals<span class="asterisk"> *</span></div>
                     <div class="col-md-6">
                         <ui-select multiple
+                                   name="goals"
+                                   ui-validate="{minimumGoal: 'view.validateMinimumGoals($value)'}"
                                    close-on-select="true"
                                    ng-model="view.selectedGoals"
                                    theme="select2"
@@ -148,6 +150,11 @@
                         </ui-select>
                         <div ng-show="!view.isSelectedGoalsValid">
                             <span class="error">Please select at least one goal.</span>
+                        </div>
+                        {{form.programForm.goals.$valid}}
+                        {{form.programForm.goals.$error.minimumGoal}}
+                        <div ng-show="form.programForm.goals.$error.minimumGoal">
+                            <span class="error">Please select at least one goal222.</span>
                         </div>
                     </div>
                 </div>
