@@ -203,14 +203,9 @@ angular.module('staticApp')
           })
           .catch(function (response) {
               $scope.view.isSaving = false;
-              if (response.status === 400 && response.data && response.data.ValidationErrors) {
-                  showValidationErrors(response.data);
-              }
-              else {
-                  var message = 'Unable to save program.';
-                  NotificationService.showErrorMessage(message);
-                  $log.error(message);
-              }
+              var message = 'Unable to save program.';
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
           });
       }
 
@@ -227,30 +222,6 @@ angular.module('staticApp')
           angular.forEach(values, function (v, index) {
               console.assert(v[idPropertyName], "The array item must have a property named " + idPropertyName);
               $scope.view.program[arrayPropertyName].push(v[idPropertyName]);
-          });
-      }
-
-      function showValidationErrors(error) {
-          var validationModal = $modal.open({
-              animation: true,
-              templateUrl: 'views/directives/servervalidationdialog.html',
-              controller: 'ServerValidationCtrl',
-              size: 'lg',
-              resolve: {
-                  options: function () {
-                      return {};
-                  },
-                  validationError: function () {
-                      return error.ValidationErrors;
-                  }
-              }
-          });
-          validationModal.result.then(function () {
-              $log.info('Finished validation errors.');
-              validationModal.close();
-
-          }, function () {
-              $log.info('Modal dismissed at: ' + new Date());
           });
       }
 
