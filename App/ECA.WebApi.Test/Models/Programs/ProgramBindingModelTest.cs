@@ -43,7 +43,6 @@ namespace ECA.WebApi.Test.Models.Programs
             Assert.AreEqual(model.Id, ecaProgram.Id);
             Assert.AreEqual(model.ProgramStatusId, ecaProgram.ProgramStatusId);
             Assert.AreEqual(model.StartDate, ecaProgram.StartDate);
-            Assert.AreEqual(model.Website, ecaProgram.Website);
 
             CollectionAssert.AreEqual(model.Goals, ecaProgram.GoalIds);
             CollectionAssert.AreEqual(model.Contacts, ecaProgram.ContactIds);

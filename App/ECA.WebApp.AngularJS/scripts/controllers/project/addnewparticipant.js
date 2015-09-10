@@ -17,6 +17,7 @@ angular.module('staticApp')
       $scope.newParticipant = {};
       $scope.newParticipant.countriesOfCitizenship = [];
       $scope.newParticipant.selectedDuplicate = undefined;
+      $scope.newParticipant.dateOfBirthUnknown = false;
 
       $scope.duplicates = [];
 
@@ -32,8 +33,7 @@ angular.module('staticApp')
                            { property: 'lastName', comparison: 'eq', value: newParticipant.lastName },
                            { property: 'genderId', comparison: 'eq', value: newParticipant.gender }]
               };
-
-
+              
               if (newParticipant.dateOfBirth) {
                   params.filter.push({ property: 'dateOfBirth', comparison: 'eq', value: newParticipant.dateOfBirth });
               }
@@ -94,12 +94,13 @@ angular.module('staticApp')
           newParticipant.firstName = $scope.newParticipant.firstName;
           newParticipant.lastName = $scope.newParticipant.lastName;
           newParticipant.gender = $scope.newParticipant.gender.id;
+          newParticipant.dateOfBirthUnknown = $scope.newParticipant.dateOfBirthUnknown;
 
           if ($scope.newParticipant.dateOfBirth) {
               newParticipant.dateOfBirth = $scope.newParticipant.dateOfBirth;
               newParticipant.dateOfBirth.setUTCHours(0, 0, 0, 0);
           }
-
+          
           if ($scope.newParticipant.cityOfBirth) {
               newParticipant.cityOfBirth = $scope.newParticipant.cityOfBirth.id;
           }
@@ -134,11 +135,22 @@ angular.module('staticApp')
           $scope.isDobDatePickerOpen = true;
       }
 
+      $scope.$watch('newParticipant.dateOfBirth', function () {
+          var date = $scope.newParticipant.dateOfBirth;
+          if (date) {
+              $scope.newParticipant.dateOfBirthUnknown = false;
+          }
+      });
+
       $scope.toggleDobUnknown = function () {
-          $scope.dateOfBirthUnknown = $scope.dateOfBirthUnknown === false ? true : false;
-          $scope.newParticipant.dateOfBirthUnknown = $scope.dateOfBirthUnknown;
-          $scope.newParticipant.dateOfBirth = undefined;
-          $scope.isDobDatePickerOpen = false;
+          $scope.newParticipant.dateOfBirthUnknown = $scope.newParticipant.dateOfBirthUnknown === false ? true : false;
+          if ($scope.newParticipant.dateOfBirthUnknown === true) {
+              $scope.dateOfBirthPlaceholder = 'Unknown'
+              $scope.newParticipant.dateOfBirth = undefined;
+              $scope.isDobDatePickerOpen = false;
+          } else {
+              $scope.dateOfBirthPlaceholder = '';
+          }
       };
 
       $scope.searchCountries = function (search) {

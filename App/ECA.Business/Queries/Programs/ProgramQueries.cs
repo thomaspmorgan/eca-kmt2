@@ -136,8 +136,7 @@ namespace ECA.Business.Queries.Programs
                             RowVersion = program.RowVersion,
                             StartDate = program.StartDate,
                             Themes = themes.Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName }),
-                            ProgramStatusId = program.ProgramStatusId,
-                            Website = program.Website
+                            ProgramStatusId = program.ProgramStatusId
                         };
             return query;
         }

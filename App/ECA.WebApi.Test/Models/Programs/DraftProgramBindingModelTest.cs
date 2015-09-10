@@ -26,7 +26,6 @@ namespace ECA.WebApi.Test.Models.Programs
             model.StartDate = DateTimeOffset.UtcNow;
             model.Themes = new List<int> { 3 };
             model.Regions = new List<int> { 4 };
-            model.Website = "website";
             var user = new User(1);
 
             var draftProgram = model.ToDraftProgram(user);
@@ -36,7 +35,6 @@ namespace ECA.WebApi.Test.Models.Programs
             Assert.AreEqual(model.OwnerOrganizationId, draftProgram.OwnerOrganizationId);
             Assert.AreEqual(model.ParentProgramId, draftProgram.ParentProgramId);
             Assert.AreEqual(model.StartDate, draftProgram.StartDate);
-            Assert.AreEqual(model.Website, draftProgram.Website);
 
             CollectionAssert.AreEqual(model.Goals, draftProgram.GoalIds);
             CollectionAssert.AreEqual(model.Contacts, draftProgram.ContactIds);

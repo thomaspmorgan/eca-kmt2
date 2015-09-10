@@ -80,6 +80,14 @@ namespace ECA.Data.Configuration
                  p.MapRightKey("ObjectiveId");
                  p.ToTable("ProgramObjective");
              });
+            HasMany<Website>(p => p.Websites)
+                .WithMany(t => t.Programs)
+                .Map(p =>
+                {
+                    p.MapLeftKey("ProgramId");
+                    p.MapRightKey("WebsiteId");
+                    p.ToTable("ProgramWebsite");
+                });
         }
     }
 }

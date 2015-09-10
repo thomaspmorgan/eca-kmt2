@@ -43,11 +43,11 @@
                             </ui-select>
                         </div>
                         <div class="form-group">
-                            <label for="">COUNTRIES OF CITIZENSHIP</label>
-                            <ui-select multiple ng-model="newParticipant.countriesOfCitizenship" theme="select2" style="min-width: 300px;" ng-disabled="newParticipant.selectedDuplicate">
-                                <ui-select-match placeholder="Select countries of citizenship...">{{$item.name}}</ui-select-match>
-                                <ui-select-choices refresh="searchCountriesCopy($select.search)" refresh-delay="250" repeat="country in countriesCopy track by country.id">
-                                    <div ng-bind-html="country.name | highlight: $select.search"></div>
+                            <label for="">PLACE OF BIRTH - CITY</label>
+                            <ui-select ng-model="newParticipant.cityOfBirth" theme="select2" style="min-width: 300px;" ng-disabled="newParticipant.selectedDuplicate">
+                                <ui-select-match placeholder="Select a city of birth...">{{$select.selected.name}}{{$select.selected.division ? ', ' + $select.selected.division : ''}}</ui-select-match>
+                                <ui-select-choices refresh="searchCities($select.search)" refresh-delay="250" repeat="city in cities track by city.id">
+                                    <span ng-bind-html="city.name | highlight: $select.search"></span><span ng-show="city.division" ng-bind-html="', ' + city.division"></span>
                                 </ui-select-choices>
                             </ui-select>
                         </div>
@@ -73,21 +73,21 @@
                                        is-open="isDobDatePickerOpen"
                                        close-text="Close"
                                        form-element guidance="Date of birth of the participant."
-                                       ng-disabled="newParticipant.selectedDuplicate" />
+                                       ng-disabled="newParticipant.selectedDuplicate" placeholder="{{dateOfBirthPlaceholder}}" />
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="openDobDatePicker($event)" ng-disabled="newParticipant.selectedDuplicate"><i class="material-icons md-18">event</i></button>
                                 </span>
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="toggleDobUnknown()" ng-class="{toggleButtons:dateOfBirthUnknown}" ng-disabled="newParticipant.selectedDuplicate"><i class="material-icons md-18">event</i></button>
+                                    <button type="button" class="btn btn-default" ng-click="toggleDobUnknown()" ng-class="{toggleButtons:newParticipant.dateOfBirthUnknown}" ng-disabled="newParticipant.selectedDuplicate" tooltip-placement="top" tooltip="Unknown date of birth"><i class="material-icons md-18">help</i></button>
                                 </span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="">PLACE OF BIRTH - CITY</label>
-                            <ui-select ng-model="newParticipant.cityOfBirth" theme="select2" style="min-width: 300px;" ng-disabled="newParticipant.selectedDuplicate">
-                                <ui-select-match placeholder="Select a city of birth...">{{$select.selected.name}}{{$select.selected.division ? ', ' + $select.selected.division : ''}}</ui-select-match>
-                                <ui-select-choices refresh="searchCities($select.search)" refresh-delay="250" repeat="city in cities track by city.id">
-                                    <span ng-bind-html="city.name | highlight: $select.search"></span><span ng-show="city.division" ng-bind-html="', ' + city.division"></span>
+                            <label for="">COUNTRIES OF CITIZENSHIP</label>
+                            <ui-select multiple ng-model="newParticipant.countriesOfCitizenship" theme="select2" style="min-width: 300px;" ng-disabled="newParticipant.selectedDuplicate">
+                                <ui-select-match placeholder="Select countries of citizenship...">{{$item.name}}</ui-select-match>
+                                <ui-select-choices refresh="searchCountriesCopy($select.search)" refresh-delay="250" repeat="country in countriesCopy track by country.id">
+                                    <div ng-bind-html="country.name | highlight: $select.search"></div>
                                 </ui-select-choices>
                             </ui-select>
                         </div>
