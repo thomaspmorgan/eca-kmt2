@@ -7,7 +7,7 @@
  * # tabBar
  */
 angular.module('staticApp')
-  .directive('tabBar', function ($state) {
+  .directive('tabBar', function () {
       return {
           templateUrl: 'views/partials/tabbar.html',
           restrict: 'E',
@@ -17,7 +17,6 @@ angular.module('staticApp')
               onAdd: '&'
           },
           link: function postLink(scope, el, attrs) {
-
               if (attrs.tabedit !== undefined) {
                   scope.tabedit = true;
               } else {
