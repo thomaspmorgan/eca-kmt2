@@ -1,264 +1,270 @@
 .navbar-toggle {
-  border: 0;
-  float: left;
-  margin-left: 40px;
+    border: 0;
+    float: left;
+    margin-left: 40px;
 }
 
 #search-bar {
-  margin-top: 7px;
+    margin-top: 7px;
 
-  .form-control {
-    color: $primarytext;
-  }
+    .form-control {
+        color: $primarytext;
+    }
 }
 
 #search-bar-icon {
-  margin-top: 15px;
+    margin-top: 15px;
 }
 
 .tab {
-  margin-right: 40px;
-  margin-top: 20px;
-  text-decoration: none;
-
-  &.active {
-    border-bottom: 5px solid #415358;
-    height: 44px;
+    margin-right: 40px;
+    margin-top: 20px;
     text-decoration: none;
 
+    &.active {
+        border-bottom: 5px solid #415358;
+        height: 44px;
+        text-decoration: none;
+
+        a {
+            color: $primarytext;
+            text-decoration: none;
+
+            &.focus {
+                text-decoration: none;
+            }
+
+            &.visited {
+                text-decoration: none;
+            }
+
+            &.hover {
+                text-decoration: none;
+            }
+        }
+    }
+
     a {
-      color: $primarytext;
+        color: $mediumgray;
     }
 
     a:hover {
-      color: $primarytext;
-      text-decoration: none;
+        border-bottom: 5px solid $blue;
+        color: $blue;
+        padding-bottom: 21px;
+        text-decoration: none;
     }
-  }
-
-  a {
-    color: $mediumgray;
-  }
-
-  a:hover {
-    border-bottom: 5px solid $blue;
-    color: $blue;
-    padding-bottom: 21px;
-    text-decoration: none;
-  }
 }
 
 .tabs {
-  border-bottom: 1px solid #efefef;
-  height: 65px;
-  padding-left: 42px;
+    border-bottom: 1px solid #efefef;
+    height: 65px;
+    padding-left: 42px;
 
-  div { 
-    display: inline-block;
-    float: left;
+    div {
+        display: inline-block;
+        float: left;
 
-    &.add-tab {
-      background-color: $lightgray;
-      height: 65px;
-      padding: 0 20px;
+        &.add-tab {
+            background-color: $lightgray;
+            height: 65px;
+            padding: 0 20px;
+        }
     }
-  }
 
-  button {
-    background: none;
-    border: 0;
-    height: 63px;
-  }
+    button {
+        background: none;
+        border: 0;
+        height: 63px;
+    }
 
-  &.open {
-    background: none;
-    color: #297cb4;
+    &.open {
+        background: none;
+        color: #297cb4;
+        //   button.dropdown-toggle {
+        //   color: #297cb4;
+        // }
+    }
 
-  //   button.dropdown-toggle {
-  //   color: #297cb4;
-  // }
-}
-
-  &.active {
-    border-bottom: 5px solid #415358;
-  }
+    &.active {
+        border-bottom: 5px solid #415358;
+    }
 }
 
 .dropdown-menu {
-  border: 1px solid $bordergray;
-  margin: 0;
-  padding: 15px 0 5px;
+    border: 1px solid $bordergray;
+    margin: 0;
+    padding: 15px 0 5px;
 
-  li {
-    font-size: 12px;  
-    font-weight: 500;
-    letter-spacing: .5px;  
-    text-transform: uppercase;    
+    li {
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: .5px;
+        text-transform: uppercase;
 
-    a {
-      padding: 10px 15px;
+        a {
+            padding: 10px 15px;
+        }
+
+        &.disabled {
+            opacity: .5;
+        }
     }
-
-    &.disabled {
-      opacity: .5;
-    }
-  }
 }
 
 .tab-helper {
-  border-bottom: 1px solid $bordergray;
-  margin-bottom: 5px;
-  padding: 0 10px 5px 15px;
-  width: 100%;
+    border-bottom: 1px solid $bordergray;
+    margin-bottom: 5px;
+    padding: 0 10px 5px 15px;
+    width: 100%;
 }
 
 .cbp-spmenu {
-  background: #415358;
-  position: fixed;
+    background: #415358;
+    position: fixed;
 
-  h3 {
-    background: #0d77b6;
-    color: #afdefa;
-    font-size: 1.9em;
-    font-weight: 300;
-    margin: 0;
-    padding: 20px;
-  }
-
-  a {
-    color: #fff;
-    display: block;
-    font-size: 1.1em;
-    font-weight: 300;
-
-    &:hover {
-      background: #2c393e;
-      text-decoration: none;
+    h3 {
+        background: #0d77b6;
+        color: #afdefa;
+        font-size: 1.9em;
+        font-weight: 300;
+        margin: 0;
+        padding: 20px;
     }
 
-    &:active {
-      background: #afdefa;
-      color: #47a3da;
+    a {
+        color: #fff;
+        display: block;
+        font-size: 1.1em;
+        font-weight: 300;
+
+        &:hover {
+            background: #2c393e;
+            text-decoration: none;
+        }
+
+        &:active {
+            background: #afdefa;
+            color: #47a3da;
+        }
     }
-  }
 }
 
 .foot {
-  background-color: #297cb4;
-  bottom: 50px;
-  position: absolute;
-  width: 100%;
+    background-color: #297cb4;
+    bottom: 50px;
+    position: absolute;
+    width: 100%;
 
-  img {
-    margin-right: 9px;
-  }
+    img {
+        margin-right: 9px;
+    }
 }
 
 .cbp-spmenu-vertical {
-  height: 100%;
-  top: 50px;
-  width: 240px;
-  z-index: $navBarZIndex;
+    height: 100%;
+    top: 50px;
+    width: 240px;
+    z-index: $navBarZIndex;
 
-  a {
-    padding: 1.6em;
-  }
+    a {
+        padding: 1.6em;
+    }
 }
 
 
 .cbp-spmenu-horizontal {
-  height: 150px;
-  left: 0;
-  overflow: hidden;
-  width: 100%;
-  z-index: $navBarZIndex;
+    height: 150px;
+    left: 0;
+    overflow: hidden;
+    width: 100%;
+    z-index: $navBarZIndex;
 
-  h3 {
-    float: left;
-    height: 100%;
-    width: 20%;
-  }
+    h3 {
+        float: left;
+        height: 100%;
+        width: 20%;
+    }
 
-  a {
-    border-left: 1px solid #258ecd;
-    float: left;
-    padding: .8em;
-    width: 20%;
-  }
+    a {
+        border-left: 1px solid #258ecd;
+        float: left;
+        padding: .8em;
+        width: 20%;
+    }
 }
 
 
 .cbp-spmenu-left {
-  left: -240px;
+    left: -240px;
 
-  &.cbp-spmenu-open {
-    left: 0; 
-  }
+    &.cbp-spmenu-open {
+        left: 0;
+    }
 }
 
 .cbp-spmenu-right {
-  right: -240px;
+    right: -240px;
 
-  &.cbp-spmenu-open {
-    right: 0;
-  }
+    &.cbp-spmenu-open {
+        right: 0;
+    }
 }
 
 
 .cbp-spmenu-push {
-  left: 0;
-  overflow-x: hidden;
-  position: relative;
+    left: 0;
+    overflow-x: hidden;
+    position: relative;
 }
 
 .cbp-spmenu-push-toright {
-  left: 240px;
+    left: 240px;
 }
 
 .cbp-spmenu-push-toleft {
-  left: -240px;
+    left: -240px;
 }
 
 
 .cbp-spmenu,
 .cbp-spmenu-push {
-  transition: all .3s ease;
+    transition: all .3s ease;
 }
 
-@media screen and (max-width: 55.1875em){
+@media screen and (max-width: 55.1875em) {
 
-  .cbp-spmenu-horizontal {
-    font-size: 75%;
-    height: 110px;
-  }
+    .cbp-spmenu-horizontal {
+        font-size: 75%;
+        height: 110px;
+    }
 
-  .cbp-spmenu-top {
-    top: -110px;
-  }
+    .cbp-spmenu-top {
+        top: -110px;
+    }
 
-  .cbp-spmenu-bottom {
-    bottom: -110px;
-  }
-
+    .cbp-spmenu-bottom {
+        bottom: -110px;
+    }
 }
 
-@media screen and (max-height: 26.375em){
+@media screen and (max-height: 26.375em) {
 
-  .cbp-spmenu-vertical {
-    font-size: 90%;
-    width: 190px;
-  }
+    .cbp-spmenu-vertical {
+        font-size: 90%;
+        width: 190px;
+    }
 
-  .cbp-spmenu-left,
-  .cbp-spmenu-push-toleft {
-    left: -190px;
-  }
+    .cbp-spmenu-left,
+    .cbp-spmenu-push-toleft {
+        left: -190px;
+    }
 
-  .cbp-spmenu-right {
-    right: -190px;
-  }
+    .cbp-spmenu-right {
+        right: -190px;
+    }
 
-  .cbp-spmenu-push-toright {
-    left: 190px;
-  }
+    .cbp-spmenu-push-toright {
+        left: 190px;
+    }
 }

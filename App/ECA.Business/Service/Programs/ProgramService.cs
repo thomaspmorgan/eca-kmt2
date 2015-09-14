@@ -31,10 +31,11 @@ namespace ECA.Business.Service.Programs
         private readonly IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity> validator;
         private readonly IOfficeService officeService;
         
+        /// <summary>
         /// Creates a new ProgramService with the given context to operator against.
         /// </summary>
+        /// <param name="officeService">The office service.</param>
         /// <param name="context">The context to operate on.</param>
-        /// <param name="logger">The logger.</param>
         /// <param name="programServiceValidator">The program service validator.</param>
         public ProgramService(EcaContext context, IOfficeService officeService, IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity> programServiceValidator)
             : base(context)

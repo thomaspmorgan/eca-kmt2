@@ -95,38 +95,9 @@ angular.module('staticApp')
           })
           .catch(function (response) {
               $scope.view.isSavingProject = false;
-              if (response.status === 400 && response.data && response.data.ValidationErrors) {
-                  showValidationErrors(response.data);
-              }
-              else {
-                  var message = 'Unable to save project.';
-                  NotificationService.showErrorMessage(message);
-                  $log.error(message);
-              }
-          });
-      }
-
-      function showValidationErrors(error) {
-          var validationModal = $modal.open({
-              animation: true,
-              templateUrl: 'views/directives/servervalidationdialog.html',
-              controller: 'ServerValidationCtrl',
-              size: 'lg',
-              resolve: {
-                  options: function () {
-                      return {};
-                  },
-                  validationError: function () {
-                      return error.ValidationErrors;
-                  }
-              }
-          });
-          validationModal.result.then(function () {
-              $log.info('Finished validation errors.');
-              validationModal.close();
-
-          }, function () {
-              $log.info('Modal dismissed at: ' + new Date());
+              var message = 'Unable to save program.';
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
           });
       }
   });

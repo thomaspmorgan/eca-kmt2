@@ -94,6 +94,11 @@ angular.module('staticApp')
 
           goToErrorState: function () {
               return $state.go('error');
+          },
+
+          goToEditProgramState: function (programId, options) {
+              options = options || {};
+              return $state.go(service.stateNames.edit.program, { programId: programId }, options) + '#top';
           }
       };
       return service;

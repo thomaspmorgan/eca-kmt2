@@ -14,6 +14,8 @@ angular.module('staticApp')
         $state,
         $log,
         $q,
+        ConstantsService,
+        AuthService,
         StateService,
         NotificationService,
         ProgramService) {
@@ -56,20 +58,63 @@ angular.module('staticApp')
               order: 6
           }
       };
+      var programId = $stateParams.programId;
 
       $scope.data = {};
       $scope.data.loadProgramPromise = $q.defer();
       $scope.view = {};
       $scope.view.isLoadingProgram = false;
       $scope.view.permalink = '';
-      //$scope.view.show
+      $scope.view.isEditButtonEnabled = false;
+      $scope.view.showEditProgramButton = false;
+      $scope.view.showCancelEditProgramButton = false;
+      $scope.view.editProgramStateName = StateService.stateNames.edit.program;
 
-      function loadProgramById(programId) {
+      $scope.view.state = $state;
+      $scope.view.onEditProgramClick = function ($event) {
+          StateService.goToEditProgramState(programId, {});
+      }
+
+      $scope.view.onCancelEditProgramClick = function ($event) {
+          StateService.goToProgramState(programId, {});
+      }
+
+      $scope.view.onSaveProgramClick = function ($event) {
+
+      }
+
+      function isInEditState() {
+          return $scope.view.state.current.name === view.editProgramStateName;
+      }
+
+      function loadPermissions() {
+          console.assert(ConstantsService.resourceType.program.value, 'The constants service must have the program resource type value.');
+          var resourceType = ConstantsService.resourceType.program.value;
+          var config = {};
+          config[ConstantsService.permission.editProgram.value] = {
+              hasPermission: function () {
+                  $log.info('User has edit program permission in edit.js controller.');
+                  $scope.view.isEditButtonEnabled = true;
+                  $scope.view.showEditProgramButton = true;
+              },
+              notAuthorized: function () {
+                  StateService.goToForbiddenState();
+              }
+          };
+          return AuthService.getResourcePermissions(resourceType, programId, config)
+            .then(function (result) {
+
+            }, function () {
+                $log.error('Unable to load user permissions.');
+            });
+      }
+
+      function loadProgramById(id) {
           $scope.view.isLoadingProgram = true;
-          return ProgramService.get(programId)
+          return ProgramService.get(id)
             .then(function (data) {
                 $scope.view.isLoadingProgram = false;
-                $scope.view.permalink = StateService.getProgramState(programId, { absolute: true });
+                $scope.view.permalink = StateService.getProgramState(id, { absolute: true });
                 $scope.program = data;
 
                 var startDate = new Date($scope.program.startDate);
@@ -91,6 +136,16 @@ angular.module('staticApp')
             });
       }
 
-      $q.all([loadProgramById($stateParams.programId)])
-        .then(function () { })
+      $q.all([loadPermissions()])
+      .then(function (results) {
+          return $q.all([loadProgramById(programId)])
+              .then(function () {
+
+              })
+      })
+      .catch(function () {
+          var message = "Unable to load program required data.";
+          $log.error(message);
+          NotificationService.showErrorMessage(message);
+      })
   });

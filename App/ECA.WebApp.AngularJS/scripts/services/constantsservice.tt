@@ -38,6 +38,7 @@
 	otherConstants["registerUserSuccessEventName"] = "registerUserSuccess";
 	otherConstants["registerUserFailureEventName"] = "registerUserFailure";
 	otherConstants["saveProjectEventName"] = "saveProject";
+	otherConstants["saveProgramEventName"] = "saveProgram";
 	otherConstants["cancelProjectEventName"] = "cancelProjectEdit";
 	otherConstants["removeNewAddressEventName"] = "removeNewAddress";
 	otherConstants["primaryAddressChangedEventName"] = "primaryAddressChanged";

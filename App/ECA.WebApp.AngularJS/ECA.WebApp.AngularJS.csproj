@@ -214,7 +214,6 @@
     <Content Include="scripts\controllers\reports\CountryAwards.js" />
     <Content Include="scripts\controllers\reports\YearAwards.js" />
     <Content Include="scripts\controllers\reports\RegionAwards.js" />
-    <Content Include="scripts\controllers\servervalidation.js" />
     <Content Include="scripts\controllers\socialmedia\socialmedia.js" />
     <Content Include="scripts\controllers\socialmedia\socialmedias.js" />
     <Content Include="scripts\directives\equalityfilter.js" />
@@ -257,7 +256,6 @@
     <Content Include="views\directives\moneyflows.html" />
     <Content Include="views\directives\memberships.html" />
     <Content Include="views\directives\emailAddresses.html" />
-    <Content Include="views\directives\servervalidationdialog.html" />
     <Content Include="views\directives\socialmedias.html" />
     <Content Include="views\directives\addresses.html" />
     <Content Include="views\locations\addlocationmodal.html" />

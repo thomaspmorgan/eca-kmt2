@@ -16,6 +16,7 @@ angular
     'ui.router',
     'ui.bootstrap',
     'ui.map',
+    'ui.validate',
     'ui.event',
     'ngModal',
     'isteven-multi-select',
