@@ -23,6 +23,7 @@ namespace ECA.Business.Queries.Models.Programs
             this.Themes = new List<SimpleLookupDTO>();
             this.Categories = new List<FocusCategoryDTO>();
             this.Objectives = new List<JustificationObjectiveDTO>();
+            this.Websites = new List<SimpleLookupDTO>();
         }
 
         /// <summary>
@@ -153,6 +154,6 @@ namespace ECA.Business.Queries.Models.Programs
         /// <summary>
         /// Gets or sets the website.
         /// </summary>
-        public string Website { get; set; }
+        public IEnumerable<SimpleLookupDTO> Websites { get; set; }
     }
 }
