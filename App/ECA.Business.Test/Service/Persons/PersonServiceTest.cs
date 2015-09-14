@@ -1617,7 +1617,7 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestCreateAsync()
         {
             var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName",
-                                          Gender.Male.Id, DateTime.Now, 1,
+                                          Gender.Male.Id, DateTime.Now, false, 1,
                                           new List<int>());
             var person = await service.CreateAsync(newPerson);
 
@@ -1639,7 +1639,7 @@ namespace ECA.Business.Test.Service.Persons
             context.Locations.Add(city);
 
             var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName",
-                                        Gender.Male.Id, DateTime.Now, city.LocationId,
+                                        Gender.Male.Id, DateTime.Now, false, city.LocationId,
                                         new List<int>());
             var person = await service.CreateAsync(newPerson);
             Assert.AreEqual(city.LocationId, person.PlaceOfBirthId);
@@ -1657,7 +1657,7 @@ namespace ECA.Business.Test.Service.Persons
 
             List<int> countriesOfCitizenship = new List<int>(new int[] { country.LocationId });
             var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName",
-                                         Gender.Male.Id, DateTime.Now, 1,
+                                         Gender.Male.Id, DateTime.Now, false, 1,
                                          countriesOfCitizenship);
             var person = await service.CreateAsync(newPerson);
             CollectionAssert.AreEqual(newPerson.CountriesOfCitizenship,
@@ -1675,7 +1675,7 @@ namespace ECA.Business.Test.Service.Persons
             context.Projects.Add(project);
             var participantTypeId = ParticipantType.Individual.Id;
             var newPerson = new NewPerson(new User(0), project.ProjectId, participantTypeId, "firstName", "lastName",
-                                         Gender.Male.Id, DateTime.Now, 1,
+                                         Gender.Male.Id, DateTime.Now, false, 1,
                                          new List<int>());
             var person = await service.CreateAsync(newPerson);
             // Check that participant is associated to person
@@ -1690,7 +1690,7 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestGetExistingPerson_DoesNotExist()
         {
-            var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName", 1, DateTime.Now, 1, new List<int>());
+            var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName", 1, DateTime.Now, false, 1, new List<int>());
             var person = await service.GetExistingPerson(newPerson);
             Assert.IsNull(person);
         }
@@ -1710,7 +1710,7 @@ namespace ECA.Business.Test.Service.Persons
             context.People.Add(existingPerson);
 
             var newPerson = new NewPerson(new User(0), 1, 1, existingPerson.FirstName.ToUpper(), existingPerson.LastName.ToLower(),
-                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value, 1,
+                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value, false, 1,
                                           new List<int>());
             var person = await service.GetExistingPerson(newPerson);
             Assert.IsNotNull(person);
@@ -1731,7 +1731,7 @@ namespace ECA.Business.Test.Service.Persons
             context.People.Add(existingPerson);
 
             var newPerson = new NewPerson(new User(0), 1, 1, existingPerson.FirstName.Trim(), existingPerson.LastName.Trim(),
-                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value, 1,
+                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value, false, 1,
                                           new List<int>());
             var person = await service.GetExistingPerson(newPerson);
             Assert.IsNotNull(person);
@@ -1753,7 +1753,7 @@ namespace ECA.Business.Test.Service.Persons
             context.People.Add(existingPerson);
 
             var newPerson = new NewPerson(new User(0), 1, 1, existingPerson.FirstName.ToUpper(), existingPerson.LastName.ToLower(),
-                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value.AddHours(2), 1,
+                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value.AddHours(2), false, 1,
                                           new List<int>());
             var person = await service.GetExistingPerson(newPerson);
             Assert.IsNotNull(person);
@@ -1791,6 +1791,7 @@ namespace ECA.Business.Test.Service.Persons
                                     "ethnicity",
                                     default(int),
                                     DateTime.Now,
+                                    false,
                                     new List<int>(),
                                     "medicalConditions",
                                     default(int));
@@ -1845,6 +1846,7 @@ namespace ECA.Business.Test.Service.Persons
                                     "ethnicity",
                                     default(int),
                                     DateTime.Now,
+                                    false,
                                     new List<int>(),
                                     "medicalConditions",
                                     default(int));
@@ -1888,6 +1890,7 @@ namespace ECA.Business.Test.Service.Persons
                                     "ethnicity",
                                     placeOfBirth.LocationId,
                                     DateTime.Now,
+                                    false,
                                     new List<int>(),
                                     "medicalConditions",
                                     default(int));
@@ -1934,6 +1937,7 @@ namespace ECA.Business.Test.Service.Persons
                                     "ethnicity",
                                     default(int),
                                     DateTime.Now,
+                                    false,
                                     countriesOfCitizenship,
                                     "medicalConditions",
                                     default(int));
@@ -1979,6 +1983,7 @@ namespace ECA.Business.Test.Service.Persons
                                     "ethnicity",
                                     default(int),
                                     DateTime.Now,
+                                    false,
                                     new List<int>(),
                                     "medicalConditions",
                                     maritalStatus.MaritalStatusId);
@@ -2021,6 +2026,7 @@ namespace ECA.Business.Test.Service.Persons
                                     "ethnicity",
                                     default(int),
                                     DateTime.Now,
+                                    false,
                                     new List<int>(),
                                     "medicalConditions",
                                     default(int));
@@ -2080,6 +2086,7 @@ namespace ECA.Business.Test.Service.Persons
                                     null,
                                     placeOfBirth.LocationId,
                                     dateOfBirth,
+                                    false,
                                     new List<int>(),
                                     null,
                                     default(int));
