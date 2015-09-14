@@ -60,7 +60,6 @@ angular.module('staticApp')
       };
       var programId = $stateParams.programId;
 
-
       $scope.data = {};
       $scope.data.loadProgramPromise = $q.defer();
       $scope.view = {};
@@ -78,6 +77,10 @@ angular.module('staticApp')
 
       $scope.view.onCancelEditProgramClick = function ($event) {
           StateService.goToProgramState(programId, {});
+      }
+
+      $scope.view.onSaveProgramClick = function ($event) {
+
       }
 
       function isInEditState() {

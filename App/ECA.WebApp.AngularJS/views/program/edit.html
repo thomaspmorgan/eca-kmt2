@@ -7,7 +7,7 @@
     <div>
         <div class="pull-right">
             <button ng-click="view.onSaveClick($event)"
-                    ng-disabled="form.programForm.$invalid || !view.isSelectedCategoriesValid || !view.isSelectedObjectivesValid || !view.isSelectedRegionsValid || !view.isSelectedThemesValid || !view.isSelectedGoalsValid || !view.isSelectedContactsValid"
+                    ng-disabled="form.programForm.$invalid"
                     class="btn btn-success">
                 Save
             </button>
@@ -24,22 +24,22 @@
             </label>
             <div class="col-md-10" ng-class="{ 'has-error': view.doesProgramExist, 'has-feedback': view.doesProgramExist}">
                 <input name="name"
-                       maxlength="{{view.maxNameLength}}"
-                       ng-change="view.onProgramNameChange()"
+                       maxlength="{{view.maxNameLength}}"                       
                        ng-model-options="{debounce: 500}"
+                       ui-validate-async="{unique: 'view.validateUniqueProgramName($value)'}"
                        ng-model="view.program.name"
                        type="text"
                        class="form-control"
                        placeholder="Enter program title..."
                        id="programName"
                        required />
-                <p class="mute" style="margin-top:5px;">{{view.program.name.length}} of {{view.maxNameLength}} characters remaining.</p>
-                <span class="form-control-feedback" style="margin-top:8px;" ng-show="view.doesProgramExist"><i class="material-icons md-24">error</i></span>
-                <div ng-show="view.doesProgramExist" class="error">
-                    There is already a program named {{view.program.name}}.
-                </div>
-                <div ng-show="form.programForm.name.$dirty">
-                    <div class="error" ng-show="form.programForm.name.$error.required">Please enter a program name.</div>
+                <div ng-show="!form.programForm.name.$error.required && !form.programForm.name.$error.unique">
+                    <p class="mute" style="margin-top:5px;">{{view.program.name.length}} of {{view.maxNameLength}} characters remaining.</p>
+                </div>                
+                <span class="form-control-feedback" style="margin-top:8px;" ng-show="view.doesProgramExist"><i class="material-icons md-24">error</i></span>              
+                <div ng-show="form.programForm.name.$dirty" class="error" >
+                    <div ng-show="form.programForm.name.$error.required">Please enter a program name.</div>
+                    <div ng-show="form.programForm.name.$error.unique">This program already exists.</div>
                 </div>
             </div>
         </div>
@@ -111,7 +111,9 @@
                     <div class="col-md-6">
                         <ui-select multiple
                                    close-on-select="true"
+                                   name="themes"
                                    ng-model="view.selectedThemes"
+                                   ui-validate="{minimum: 'view.validateMinimumThemes($value)'}"
                                    theme="select2" title="Choose a theme."
                                    on-select="view.onThemesSelect()"
                                    ng-change="view.onThemesChange()"
@@ -123,7 +125,7 @@
                                 <div ng-bind-html="theme.value | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
-                        <div ng-show="!view.isSelectedThemesValid">
+                        <div ng-show="form.programForm.themes.$error.minimum">
                             <span class="error">Please select at least one theme.</span>
                         </div>
                     </div>
@@ -133,12 +135,10 @@
                     <div class="col-md-6">
                         <ui-select multiple
                                    name="goals"
-                                   ui-validate="{minimumGoal: 'view.validateMinimumGoals($value)'}"
+                                   ui-validate="{minimum: 'view.validateMinimumGoals($value)'}"
                                    close-on-select="true"
                                    ng-model="view.selectedGoals"
                                    theme="select2"
-                                   on-select="view.onGoalsSelect()"
-                                   ng-change="view.onGoalsChange()"
                                    title="Choose a goal."
                                    style="min-width: 200px;">
                             <ui-select-match placeholder="Select goals...">
@@ -148,13 +148,8 @@
                                 <div ng-bind-html="goal.value | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
-                        <div ng-show="!view.isSelectedGoalsValid">
+                        <div ng-show="form.programForm.goals.$error.minimum">
                             <span class="error">Please select at least one goal.</span>
-                        </div>
-                        {{form.programForm.goals.$valid}}
-                        {{form.programForm.goals.$error.minimumGoal}}
-                        <div ng-show="form.programForm.goals.$error.minimumGoal">
-                            <span class="error">Please select at least one goal222.</span>
                         </div>
                     </div>
                 </div>
@@ -172,7 +167,9 @@
                     <div class="col-md-6 title-label">{{view.categoryLabel}} <span class="asterisk" ng-show="view.isCategoryRequired"> *</span></div>
                     <div class="col-md-6">
                         <ui-select multiple close-on-select="true"
+                                   name="categories"
                                    ng-model="view.selectedCategories"
+                                   ui-validate="{minimum: 'view.validateMinimumCategories($value)', maximum: 'view.validateMaximumCategories($value)'}"
                                    theme="select2"
                                    on-select="view.onCategoriesSelect()"
                                    ng-change="view.onCategoriesChange()"
@@ -185,10 +182,10 @@
                                 <div ng-bind-html="category.value | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
-                        <div ng-show="view.selectedCategories.length < view.minimumRequiredFoci">
+                        <div ng-show="form.programForm.categories.$error.minimum">
                             <span class="error">Please select at least one {{view.minimumRequiredFoci}} {{view.categoryLabel}}.</span>
                         </div>
-                        <div ng-show="view.selectedCategories.length > view.maximumRequiredFoci">
+                        <div ng-show="form.programForm.categories.$error.maximum">
                             <span class="error">You may only select up to {{view.maximumRequiredFoci}} {{view.categoryLabel}}.</span>
                         </div>
                     </div>
@@ -197,11 +194,11 @@
                     <div class="col-md-6 title-label">{{view.objectiveLabel}} <span class="asterisk" ng-show="view.isObjectiveRequired"> *</span></div>
                     <div class="col-md-6">
                         <ui-select multiple
+                                   name="objectives"
                                    close-on-select="true"
                                    ng-model="view.selectedObjectives"
                                    theme="select2"
-                                   on-select="view.onObjectivesSelect()"
-                                   ng-change="view.onObjectivesChange()"
+                                   ui-validate="{minimum: 'view.validateMinimumObjectives($value)'}"
                                    title="Choose an objective."
                                    style="min-width: 200px;">
                             <ui-select-match placeholder="Select objectives...">
@@ -211,7 +208,7 @@
                                 <div ng-bind-html="objective.value | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
-                        <div ng-show="!view.isSelectedObjectivesValid">
+                        <div ng-show="form.programForm.objectives.$error.minimum">
                             <span class="error">Please select at least one {{view.objectiveLabel}}.</span>
                         </div>
                     </div>
@@ -220,11 +217,11 @@
                     <div class="col-md-6 title-label"><ng-pluralize count="program.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact<span class="asterisk"> *</span></div>
                     <div class="col-md-6">
                         <ui-select multiple
+                                   name="pointsOfContact"
                                    close-on-select="true"
                                    ng-model="view.selectedPointsOfContact"
+                                   ui-validate="{minimum: 'view.validateMinimumPointsOfContact($value)'}"
                                    theme="select2"
-                                   on-select="view.onContactsSelect()"
-                                   ng-change="view.onContactsChange()"
                                    title="Choose a point of contact."
                                    style="min-width: 200px;">
                             <ui-select-match placeholder="Select points of contact...">
@@ -236,7 +233,7 @@
                                 <div class="small">{{person.position}}</div>
                             </ui-select-choices>
                         </ui-select>
-                        <div ng-show="!view.isSelectedContactsValid">
+                        <div ng-show="form.programForm.pointsOfContact.$error.minimum">
                             <span class="error">Please select at least one point of contact.</span>
                         </div>
                     </div>
@@ -248,12 +245,12 @@
                     </div>
                     <div class="col-md-6">
                         <ui-select multiple
+                                   name="regions"
                                    close-on-select="true"
                                    ng-model="view.selectedRegions"
+                                   ui-validate="{minimum: 'view.validateMinimumRegions($value)'}"
                                    theme="select2"
                                    append-to-body="true"
-                                   on-select="view.onRegionsSelect()"
-                                   ng-change="view.onRegionsChange()"
                                    search-enabled="false"
                                    title="Choose a region."
                                    style="min-width: 200px;">
@@ -266,9 +263,10 @@
                                 <div ng-bind-html="region.name | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
-                        <div ng-show="!view.isSelectedRegionsValid">
+                        <div ng-show="form.programForm.regions.$error.minimum">
                             <span class="error">Please select at least one region.</span>
                         </div>
+                        
                     </div>
                 </div>
             </div>

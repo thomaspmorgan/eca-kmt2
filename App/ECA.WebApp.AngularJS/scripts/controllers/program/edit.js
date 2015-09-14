@@ -30,12 +30,6 @@ angular.module('staticApp')
       console.assert($scope.$parent.view.isEditButtonEnabled !== undefined, 'The parent should have a flag to determine the enabled state of the edit button.');
 
       $scope.view = {};
-      $scope.view.isSelectedCategoriesValid = true;
-      $scope.view.isSelectedRegionsValid = false;
-      $scope.view.isSelectedThemesValid = false;
-      $scope.view.isSelectedGoalsValid = false;
-      $scope.view.isSelectedContactsValid = false;
-      $scope.view.isSelectedObjectivesValid = false;
       $scope.view.isObjectivesRequired = false;
       $scope.view.isCategoryRequired = false;
       $scope.view.minimumRequiredFoci = -1;
@@ -72,26 +66,37 @@ angular.module('staticApp')
       $scope.view.originalProgram = null;
 
       var programsWithSameNameFilter = FilterService.add('programedit_programswithsamename');
-      $scope.view.onProgramNameChange = function () {
-          var programName = $scope.view.program.name;
-          var programId = $scope.view.program.id;
-          if (programName && programName.length > 0) {
+      $scope.view.validateUniqueProgramName = function ($value) {
+          var dfd = $q.defer();
+          if ($value && $value.length > 0) {
+              var programId = $scope.view.program.id;
               programsWithSameNameFilter.reset();
-              programsWithSameNameFilter = programsWithSameNameFilter.skip(0).take(1).equal('name', programName).notEqual('programId', programId);
+              programsWithSameNameFilter = programsWithSameNameFilter.skip(0).take(1).equal('name', $value).notEqual('programId', programId);
               $scope.view.isLoadingLikePrograms = true;
-              return ProgramService.getAllProgramsAlpha(programsWithSameNameFilter.toParams())
+              ProgramService.getAllProgramsAlpha(programsWithSameNameFilter.toParams())
                   .then(function (response) {
                       $scope.view.matchingProgramsByName = response.data;
-                      $scope.view.doesProgramExist = response.total > 0;
                       $scope.view.isLoadingLikePrograms = false;
+                      $scope.view.doesProgramExist = response.total > 0;
+                      if ($scope.view.doesProgramExist) {
+                          dfd.reject();
+                      }
+                      else {
+                          dfd.resolve();
+                      }
                   })
                   .catch(function (response) {
                       $scope.view.isLoadingLikePrograms = false;
                       var message = "Unable to load matching programs.";
                       $log.error(message);
                       NotificationService.showErrorMessage(message);
+                      return false;
                   });
           }
+          else {
+              dfd.resolve();
+          }
+          return dfd.promise;
       }
 
       $scope.view.openStartDatePicker = function ($event) {
@@ -106,87 +111,8 @@ angular.module('staticApp')
           $scope.view.isEndDatePickerOpen = true;
       }
 
-      $scope.view.searchPointsOfContact = function(search){
+      $scope.view.searchPointsOfContact = function (search) {
           return loadPointsOfContact(search);
-      }
-
-      $scope.view.onObjectivesChange = function () {
-          $scope.view.onObjectivesSelect();
-      }
-
-      $scope.view.onObjectivesSelect = function () {
-          if ($scope.view.selectedObjectives.length > 0) {
-              $scope.view.isSelectedObjectivesValid = true;
-          }
-          else {
-              $scope.view.isSelectedObjectivesValid = false;
-          }
-      }
-
-      $scope.view.onCategoriesChange = function () {
-          $scope.view.onCategoriesSelect();
-      }
-
-      $scope.view.onCategoriesSelect = function () {
-          $scope.view.isSelectedCategoriesValid = true;
-          if ($scope.view.selectedCategories.length < $scope.view.minimumRequiredFoci) {
-              $scope.view.isSelectedCategoriesValid = false;
-          }
-          if ($scope.view.selectedCategories.length > $scope.view.maximumRequiredFoci) {
-              $scope.view.isSelectedCategoriesValid = false;
-          }
-      }
-
-      $scope.view.onRegionsChange = function () {
-          $scope.view.onRegionsSelect();
-      }
-
-      $scope.view.onRegionsSelect = function () {
-          if ($scope.view.selectedRegions.length > 0) {
-              $scope.view.isSelectedRegionsValid = true;
-          }
-          else {
-              $scope.view.isSelectedRegionsValid = false;
-          }
-      }
-
-      $scope.view.onThemesChange = function () {
-          $scope.view.onThemesSelect();
-      }
-
-      $scope.view.onThemesSelect = function () {
-          if ($scope.view.selectedThemes.length > 0) {
-              $scope.view.isSelectedThemesValid = true;
-          }
-          else {
-              $scope.view.isSelectedThemesValid = false;
-          }
-      }
-
-      $scope.view.onGoalsChange = function () {
-          $scope.view.onGoalsSelect();
-      }
-
-      $scope.view.onGoalsSelect = function () {
-          if ($scope.view.selectedGoals.length > 0) {
-              $scope.view.isSelectedGoalsValid = true;
-          }
-          else {
-              $scope.view.isSelectedGoalsValid = false;
-          }
-      }
-
-      $scope.view.onContactsChange = function () {
-          $scope.view.onContactsSelect();
-      }
-
-      $scope.view.onContactsSelect = function () {
-          if ($scope.view.selectedPointsOfContact.length > 0) {
-              $scope.view.isSelectedContactsValid = true;
-          }
-          else {
-              $scope.view.isSelectedContactsValid = false;
-          }
       }
 
       $scope.view.onSaveClick = function () {
@@ -211,15 +137,76 @@ angular.module('staticApp')
           });
       }
 
-      $scope.view.onCancelClick = function () {          
+      $scope.view.onCancelClick = function () {
+          $scope.$parent.view.isEditButtonEnabled = true;
           $scope.view.program = $scope.view.originalProgram;
-          callAllSetSelecteds();
-          callAllOnChanges();
+          setAllUiSelectValues();
           StateService.goToProgramState($scope.view.program.id, {});
       }
 
       $scope.view.validateMinimumGoals = function ($value) {
-          return $scope.view.selectedGoals.length > 0;
+          if (!$value) {
+              return false;
+          }
+          else {
+              return $value.length > 0;
+          }
+      }
+
+      $scope.view.validateMinimumThemes = function ($value) {
+          if (!$value) {
+              return false;
+          }
+          else {
+              return $value.length > 0;
+          }
+      }
+
+      $scope.view.validateMinimumCategories = function ($value) {
+          if (!$value) {
+              return false;
+          }
+          if ($value.length < $scope.view.minimumRequiredFoci) {
+              return false;
+          }
+          return true;
+      }
+
+      $scope.view.validateMaximumCategories = function ($value) {
+          if (!$value) {
+              return true;
+          }
+          if ($value.length > $scope.view.maximumRequiredFoci) {
+              return false;
+          }
+          return true;
+      }
+
+      $scope.view.validateMinimumObjectives = function ($value) {
+          if (!$value) {
+              return false;
+          }
+          else {
+              return $value.length > 0;
+          }
+      }
+
+      $scope.view.validateMinimumPointsOfContact = function ($value) {
+          if (!$value) {
+              return false;
+          }
+          else {
+              return $value.length > 0;
+          }
+      }
+
+      $scope.view.validateMinimumRegions = function ($value) {
+          if (!$value) {
+              return false;
+          }
+          else {
+              return $value.length > 0;
+          }
       }
 
       function setIds(arrayPropertyName, values, idPropertyName) {
@@ -396,7 +383,7 @@ angular.module('staticApp')
           regionsFilter = regionsFilter.skip(0).take(10)
             .equal('locationTypeId', ConstantsService.locationType.region.id)
             .sortBy('name');
-          
+
           return LocationService.get(regionsFilter.toParams())
               .then(function (response) {
                   normalizeLookupProperties(response.results);
@@ -469,16 +456,7 @@ angular.module('staticApp')
           setSelectedItems(regionsName, 'selectedRegions');
       }
 
-      function callAllOnChanges() {
-          $scope.view.onThemesChange();
-          $scope.view.onGoalsChange();
-          $scope.view.onContactsChange();
-          $scope.view.onObjectivesChange();
-          $scope.view.onRegionsChange();
-          $scope.view.onCategoriesChange();
-      }
-
-      function callAllSetSelecteds() {
+      function setAllUiSelectValues() {
           setSelectedCategories();
           setSelectedGoals();
           setSelectedObjectives();
@@ -487,13 +465,24 @@ angular.module('staticApp')
           setSelectedThemes();
       }
 
+      function onFormValidStateChange() {
+          var isInvalid = $scope.form.programForm.$invalid;
+          if (isInvalid) {
+              $scope.$parent.view.isEditButtonEnabled = false;
+          }
+          else {
+              $scope.$parent.view.isEditButtonEnabled = true;
+          }
+      }
+
+
       $scope.data.loadProgramPromise.promise
       .then(function (program) {
           $scope.view.isLoadingProgram = false;
           $scope.view.program = program;
           $scope.view.categoryLabel = program.ownerOfficeCategoryLabel;
           $scope.view.objectiveLabel = program.ownerOfficeObjectiveLabel;
-          callAllSetSelecteds();
+
           $scope.view.isLoadingRequiredData = true;
           var officeId = program.ownerOrganizationId;
           $q.all([
@@ -506,7 +495,13 @@ angular.module('staticApp')
                 loadOfficeSettings(program.ownerOrganizationId),
                 loadProgramStatii()])
           .then(function (results) {
-              callAllOnChanges();
+              setAllUiSelectValues();
+              onFormValidStateChange();
+              $scope.$watch(function () {
+                  return $scope.form.programForm.$invalid;
+              }, onFormValidStateChange);
+
+
               $scope.view.originalProgram = angular.copy(program);
               $scope.view.isLoadingRequiredData = false;
           })

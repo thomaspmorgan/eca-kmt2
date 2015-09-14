@@ -136,6 +136,7 @@
 		removeNewLanguageProficiencyEventName: 'removeNewLanguageProficiency',
 		removeNewMembershipsEventName: 'removeNewMembership',
 		removeNewSocialMediaEventName: 'removeNewSocialMedia',
+		saveProgramEventName: 'saveProgram',
 		saveProjectEventName: 'saveProject',
 		searchDelimiter: ' '
 	};
