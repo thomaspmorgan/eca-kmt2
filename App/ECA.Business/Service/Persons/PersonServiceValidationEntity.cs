@@ -17,11 +17,7 @@ namespace ECA.Business.Service.Persons
         /// Constructor
         /// </summary>
         /// <param name="person">The person</param>
-        /// <param name="firstName">The first name</param>
-        /// <param name="lastName">The last name</param>
         /// <param name="genderId">The gender id</param>
-        /// <param name="dateOfBirth">The date of birth</param>
-        /// <param name="cityOfBirth">The city of birth</param>
         /// <param name="countriesOfCitizenship">The countries of citizenship</param>
         public PersonServiceValidationEntity(Person person, int genderId, List<Location> countriesOfCitizenship)
         {

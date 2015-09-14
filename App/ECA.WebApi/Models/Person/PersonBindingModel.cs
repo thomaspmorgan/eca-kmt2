@@ -51,7 +51,7 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Denotes if date of birth is unknown
         /// </summary>
-        public bool DateOfBirthUnknown { get; set; }
+        public bool IsDateOfBirthUnknown { get; set; }
 
         /// <summary>
         /// Gets or sets the city of birth
@@ -66,12 +66,12 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Creates a new person business object
         /// </summary>
-        /// <param name="userId">The user that created the entity</param>
+        /// <param name="user">The user that created the entity</param>
         /// <returns>New person business object</returns>
         public NewPerson ToNewPerson(User user)
         {
             return new NewPerson(user, this.ProjectId, this.ParticipantTypeId, this.FirstName, this.LastName, this.Gender, this.DateOfBirth,
-                                 this.CityOfBirth, this.CountriesOfCitizenship);
+                                 this.IsDateOfBirthUnknown, this.CityOfBirth, this.CountriesOfCitizenship);
         }
     }
 }

@@ -79,6 +79,9 @@ angular.module('staticApp')
           updateContactInfo: function(contactInfo, id) {
               return DragonBreath.save(contactInfo, 'people/contactInfo')
           },
+          updateEduEmp: function (eduemp, id) {
+              return DragonBreath.save(eduemp, 'people/eduemp')
+          },
           create: function (person) {
               return DragonBreath.create(person, 'people');
           }

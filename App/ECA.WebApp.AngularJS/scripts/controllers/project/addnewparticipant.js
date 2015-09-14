@@ -142,7 +142,9 @@ angular.module('staticApp')
           }
       });
 
-      $scope.toggleDobUnknown = function () {
+      $scope.toggleDobUnknown = function ($event) {
+          $event.preventDefault();
+          $event.stopPropagation();
           $scope.newParticipant.dateOfBirthUnknown = $scope.newParticipant.dateOfBirthUnknown === false ? true : false;
           if ($scope.newParticipant.dateOfBirthUnknown === true) {
               $scope.dateOfBirthPlaceholder = 'Unknown'

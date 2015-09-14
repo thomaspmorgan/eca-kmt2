@@ -1,0 +1,43 @@
+﻿<div ng-controller="personEducationEmploymentEditCtrl">
+    <div ng-show="personEduEmpLoading">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+    <div ng-show="edit.EduEmp">
+        <div class="row">
+            <div class="pull-right">
+                <button ng-click="saveEditEduEmp()" class="btn btn-success" ng-disabled="eduempForm.$invalid || eduempForm.$pristine">Save</button>
+                <button ng-click="cancelEditEduEmp()" class="btn btn-cancel">Cancel</button>
+            </div>
+        </div>
+        <form name="eduempForm" class="form-horizontal">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <i class="material-icons md-dark col-md-1">school</i>
+                        <label class="col-md-3 title-label">Education</label>
+                        <div class="col-md-8">
+                            <!-- TODO: education edit list -->
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <i class="material-icons md-dark col-md-1">work</i>
+                        <label class="col-md-3 title-label">Professional History</label>
+                        <div class="col-md-8">
+                            <!-- TODO: employment edit list -->
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

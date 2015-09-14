@@ -57,29 +57,24 @@
                             <label for="">SURNAME / PRIMARY NAME<span class="asterisk"> *</span></label>
                             <input ng-model="newParticipant.lastName" form-element guidance="Surname or primary name of the participant." type="text" class="form-control" required ng-disabled="newParticipant.selectedDuplicate">
                         </div>
-                        <style>
-                            td:first-child {
-                                padding: 0;
-                            }
-                        </style>
-                        <div class="form-group">
+                        <div class="form-group" style="min-width: 300px;">
                             <label for="dobDate">DATE OF BIRTH</label>
                             <div class="input-group">
                                 <input type="text"
-                                       class="form-control"
-                                       datepicker-popup="{{dateFormat}}"
-                                       max-date="maxDate"
-                                       ng-model="newParticipant.dateOfBirth"
-                                       is-open="isDobDatePickerOpen"
-                                       close-text="Close"
-                                       form-element guidance="Date of birth of the participant."
-                                       ng-disabled="newParticipant.selectedDuplicate" placeholder="{{dateOfBirthPlaceholder}}" />
+                                        class="form-control"
+                                        datepicker-popup="{{dateFormat}}"
+                                        max-date="maxDate"
+                                        ng-model="newParticipant.dateOfBirth"
+                                        is-open="isDobDatePickerOpen"
+                                        close-text="Close"
+                                        form-element guidance="Date of birth of the participant."
+                                        ng-disabled="newParticipant.selectedDuplicate" placeholder="{{dateOfBirthPlaceholder}}" />
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="openDobDatePicker($event)" ng-disabled="newParticipant.selectedDuplicate"><i class="material-icons md-18">event</i></button>
+                                    <button class="btn btn-default" ng-click="openDobDatePicker($event)" ng-disabled="newParticipant.selectedDuplicate"><i class="material-icons md-18">event</i></button>
                                 </span>
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="toggleDobUnknown()" ng-class="{toggleButtons:newParticipant.dateOfBirthUnknown}" ng-disabled="newParticipant.selectedDuplicate" tooltip-placement="top" tooltip="Unknown date of birth"><i class="material-icons md-18">help</i></button>
-                                </span>
+                                <div class="pull-right">
+                                    <button class="btn btn-default" ng-click="toggleDobUnknown($event)" ng-disabled="newParticipant.selectedDuplicate" tooltip-placement="top" tooltip="Unknown date of birth">Unknown</button>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -98,6 +93,11 @@
                 <div class="alert alert-warning" role="alert">
                     <strong>Warning!</strong> This person may already exist. You may continue adding the person or add an existing person to the project from the list below.`
                 </div>
+                <style>
+                    td:first-child {
+                        padding: 0;
+                    }
+                </style>
                 <table class="table">
                     <thead>
                         <tr>

@@ -88,6 +88,11 @@ namespace ECA.WebApi.Models.Person
         public DateTime? DateOfBirth { get; set; }
 
         /// <summary>
+        /// Gets or sets the date of birth unknown flag.
+        /// </summary>
+        public bool IsDateOfBirthUnknown { get; set; }
+
+        /// <summary>
         /// Gets or sets the countries of citizenship
         /// </summary>
         [Required]
@@ -126,6 +131,7 @@ namespace ECA.WebApi.Models.Person
                 ethnicity: this.Ethnicity,
                 cityOfBirthId: this.CityOfBirthId,
                 dateOfBirth: this.DateOfBirth,
+                isDateOfBirthUnknown: this.IsDateOfBirthUnknown,
                 countriesOfCitizenship: this.CountriesOfCitizenship,
                 medicalConditions: this.MedicalConditions,
                 maritalStatusId: this.MaritalStatusId

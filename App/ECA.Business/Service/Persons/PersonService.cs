@@ -100,6 +100,7 @@ namespace ECA.Business.Service.Persons
             person.Ethnicity = updatePii.Ethnicity;
             person.PlaceOfBirthId = updatePii.CityOfBirthId;
             person.DateOfBirth = updatePii.DateOfBirth;
+            person.IsDateOfBirthUnknown = updatePii.IsDateOfBirthUnknown;
             person.MedicalConditions = updatePii.MedicalConditions;
             person.MaritalStatusId = updatePii.MaritalStatusId;
 
