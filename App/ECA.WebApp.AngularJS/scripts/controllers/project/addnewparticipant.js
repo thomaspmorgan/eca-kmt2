@@ -17,7 +17,7 @@ angular.module('staticApp')
       $scope.newParticipant = {};
       $scope.newParticipant.countriesOfCitizenship = [];
       $scope.newParticipant.selectedDuplicate = undefined;
-      $scope.newParticipant.dateOfBirthUnknown = false;
+      $scope.newParticipant.isDateOfBirthUnknown = false;
 
       $scope.duplicates = [];
 
@@ -94,7 +94,7 @@ angular.module('staticApp')
           newParticipant.firstName = $scope.newParticipant.firstName;
           newParticipant.lastName = $scope.newParticipant.lastName;
           newParticipant.gender = $scope.newParticipant.gender.id;
-          newParticipant.dateOfBirthUnknown = $scope.newParticipant.dateOfBirthUnknown;
+          newParticipant.isDateOfBirthUnknown = $scope.newParticipant.isDateOfBirthUnknown;
 
           if ($scope.newParticipant.dateOfBirth) {
               newParticipant.dateOfBirth = $scope.newParticipant.dateOfBirth;
@@ -138,15 +138,15 @@ angular.module('staticApp')
       $scope.$watch('newParticipant.dateOfBirth', function () {
           var date = $scope.newParticipant.dateOfBirth;
           if (date) {
-              $scope.newParticipant.dateOfBirthUnknown = false;
+              $scope.newParticipant.isDateOfBirthUnknown = false;
           }
       });
 
       $scope.toggleDobUnknown = function ($event) {
           $event.preventDefault();
           $event.stopPropagation();
-          $scope.newParticipant.dateOfBirthUnknown = $scope.newParticipant.dateOfBirthUnknown === false ? true : false;
-          if ($scope.newParticipant.dateOfBirthUnknown === true) {
+          $scope.newParticipant.isDateOfBirthUnknown = $scope.newParticipant.isDateOfBirthUnknown === false ? true : false;
+          if ($scope.newParticipant.isDateOfBirthUnknown === true) {
               $scope.dateOfBirthPlaceholder = 'Unknown'
               $scope.newParticipant.dateOfBirth = undefined;
               $scope.isDobDatePickerOpen = false;
