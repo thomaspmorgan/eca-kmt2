@@ -211,11 +211,22 @@ namespace ECA.Business.Service.Programs
             SetRegions(draftProgram.RegionIds, program);
             SetCategories(draftProgram.FocusCategoryIds, program);
             SetObjectives(draftProgram.JustificationObjectiveIds, program);
+            SetWebsites(draftProgram.Websites, program);
 
             Debug.Assert(draftProgram.Audit != null, "The audit must not be null.");
             draftProgram.Audit.SetHistory(program);
             this.Context.Programs.Add(program);
             return program;
+        }
+
+        private void SetWebsites(List<string> websiteList, Program program)
+        {
+                var websites = websiteList.Select(x => new Website
+                {
+                    WebsiteValue = x
+                });
+
+                program.Websites = websites.ToList();
         }
 
         #endregion
@@ -237,6 +248,7 @@ namespace ECA.Business.Service.Programs
                 .Include(x => x.Categories)
                 .Include(x => x.Objectives)
                 .Include(x => x.Owner)
+                .Include(x => x.Websites)
                 .Where(x => x.ProgramId == programId);
         }
 

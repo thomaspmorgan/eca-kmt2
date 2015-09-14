@@ -92,6 +92,7 @@ namespace ECA.Business.Queries.Programs
                         let contacts = program.Contacts
                         let categories = program.Categories
                         let objectives = program.Objectives
+                        let websites = program.Websites
 
                         let regions = from location in allLocations
                                       join programRegion in program.Regions
@@ -136,7 +137,8 @@ namespace ECA.Business.Queries.Programs
                             RowVersion = program.RowVersion,
                             StartDate = program.StartDate,
                             Themes = themes.Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName }),
-                            ProgramStatusId = program.ProgramStatusId
+                            ProgramStatusId = program.ProgramStatusId,
+                            Websites = websites.Select(x => new SimpleLookupDTO { Id = x.WebsiteId, Value = x.WebsiteValue })
                         };
             return query;
         }

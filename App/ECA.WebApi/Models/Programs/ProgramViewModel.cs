@@ -27,6 +27,7 @@ namespace ECA.WebApi.Models.Programs
             this.Categories = new List<FocusCategoryDTO>();
             this.Objectives = new List<JustificationObjectiveDTO>();
             this.Regions = new List<LocationDTO>();
+            this.Websites = new List<SimpleLookupDTO>();
         }
 
         /// <summary>
@@ -59,7 +60,7 @@ namespace ECA.WebApi.Models.Programs
             this.Categories = program.Categories;
             this.Objectives = program.Objectives;
             this.ProgramStatusId = program.ProgramStatusId;
-            this.Website = program.Website;
+            this.Websites = program.Websites;
             this.Regions = program.Regions;
         }
 
@@ -169,6 +170,9 @@ namespace ECA.WebApi.Models.Programs
 
         public int ProgramStatusId { get; set; }
 
-        public string Website { get; set; }
+        /// <summary>
+        /// Gets or set the websites
+        /// </summary>
+        public IEnumerable<SimpleLookupDTO> Websites { get; set; }
     }
 }
