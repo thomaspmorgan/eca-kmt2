@@ -23,6 +23,7 @@ SET @DeleteMissingRecords = 0
 -- 1: Define table variable
 DECLARE @tblTempTable TABLE (
 [GenderId] int,
+[SEVISGenderCode]  nvarchar(1),
 [GenderName] nvarchar(20),
 [History_CreatedBy] int,
 [History_CreatedOn] datetimeoffset,
@@ -37,16 +38,16 @@ DECLARE @tblTempTable TABLE (
 -- removed entries. If you remove an entry then it will no longer
 -- be added to new databases based on your schema, but the entry
 -- will not be deleted from databases in which the value already exists.
-INSERT INTO @tblTempTable ([GenderId], [GenderName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('1', 'Male', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
-INSERT INTO @tblTempTable ([GenderId], [GenderName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('2', 'Female', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
-INSERT INTO @tblTempTable ([GenderId], [GenderName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('3', 'Other', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
-INSERT INTO @tblTempTable ([GenderId], [GenderName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('4', 'Not Specified', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([GenderId], [SEVISGenderCode], [GenderName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('1', 'M', 'Male', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([GenderId], [SEVISGenderCode], [GenderName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('2', 'F', 'Female', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([GenderId], [SEVISGenderCode], [GenderName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('3', 'U', 'Unknown', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([GenderId], [SEVISGenderCode], [GenderName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('4', 'U', 'Not Specified', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
 
 
 -- 3: Insert any new items into the table from the table variable
 SET IDENTITY_INSERT [dbo].[Gender] ON
-INSERT INTO [dbo].[Gender] ([GenderId], [GenderName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn])
-SELECT tmp.[GenderId], tmp.[GenderName], tmp.[History_CreatedBy], tmp.[History_CreatedOn], tmp.[History_RevisedBy], tmp.[History_RevisedOn]
+INSERT INTO [dbo].[Gender] ([GenderId], [SEVISGenderCode], [GenderName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn])
+SELECT tmp.[GenderId], tmp.[SEVISGenderCode], tmp.[GenderName], tmp.[History_CreatedBy], tmp.[History_CreatedOn], tmp.[History_RevisedBy], tmp.[History_RevisedOn]
 FROM @tblTempTable tmp
 LEFT JOIN [dbo].[Gender] tbl ON tbl.[GenderId] = tmp.[GenderId]
 WHERE tbl.[GenderId] IS NULL
@@ -54,6 +55,7 @@ SET IDENTITY_INSERT [dbo].[Gender] OFF
 
 -- 4: Update any modified values with the values from the table variable
 UPDATE LiveTable SET
+LiveTable.[SEVISGenderCode] = tmp.[SEVISGenderCode],
 LiveTable.[GenderName] = tmp.[GenderName],
 LiveTable.[History_CreatedBy] = tmp.[History_CreatedBy],
 LiveTable.[History_CreatedOn] = tmp.[History_CreatedOn],
