@@ -658,4 +658,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="[FK_ParticipantPerson_ToProgramCategory]" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="c706fcf1-b8ef-427c-9a02-aa6d28c74137" ChangeDateTime="09/14/2015 18:46:59">
+    <Property Name="ElementName" Value="[dbo].[ParticipantPerson].[ProgramSubjectId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ParticipantPerson]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ProgramCategoryId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b85edb81-d753-4abf-88d8-53e662a9dcf6" ChangeDateTime="09/14/2015 18:48:05">
+    <Property Name="ElementName" Value="[dbo].[ParticipantPerson].[IX_ParticipantPerson_Column]" />
+    <Property Name="ElementType" Value="SqlIndex" />
+    <Property Name="ParentElementName" Value="[dbo].[ParticipantPerson]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[IX_ParticipantPerson_ProgramCategory]" />
+  </Operation>
 </Operations>
