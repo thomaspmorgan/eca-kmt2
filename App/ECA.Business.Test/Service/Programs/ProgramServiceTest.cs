@@ -184,6 +184,11 @@ namespace ECA.Business.Test.Service.Programs
                 ObjectiveId = 1,
                 ObjectiveName = "obj",
             };
+            var status = new ProgramStatus
+            {
+                ProgramStatusId = 1,
+                Status = "status"
+            };
             var program = new Program
             {
                 ProgramId = 1,
@@ -191,7 +196,10 @@ namespace ECA.Business.Test.Service.Programs
                 Description = "description",
                 ParentProgram = parentProgram,
                 RowVersion = rowVersion,
-                StartDate = DateTimeOffset.UtcNow,                
+                StartDate = DateTimeOffset.UtcNow,     
+                EndDate = DateTimeOffset.UtcNow,  
+                ProgramStatusId = status.ProgramStatusId,
+                ProgramStatus = status,
                 History = new History
                 {
                     CreatedBy = creatorId,
@@ -227,6 +235,7 @@ namespace ECA.Business.Test.Service.Programs
             context.LocationTypes.Add(countryType);
             context.LocationTypes.Add(regionType);
             context.LocationTypes.Add(divisionType);
+            context.ProgramStatuses.Add(status);
 
             Action<ProgramDTO> tester = (publishedProgram) =>
             {
@@ -291,6 +300,9 @@ namespace ECA.Business.Test.Service.Programs
 
                 Assert.AreEqual(now, publishedProgram.RevisedOn);
                 Assert.AreEqual(program.StartDate, publishedProgram.StartDate);
+                Assert.AreEqual(program.EndDate, publishedProgram.EndDate);
+                Assert.AreEqual(status.ProgramStatusId, publishedProgram.ProgramStatusId);
+                Assert.AreEqual(status.Status, publishedProgram.ProgramStatusName);
                 Assert.AreEqual(owner.Name, publishedProgram.OwnerName);
                 Assert.AreEqual(owner.Description, publishedProgram.OwnerDescription);
                 Assert.AreEqual(owner.OrganizationId, publishedProgram.OwnerOrganizationId);
@@ -313,7 +325,11 @@ namespace ECA.Business.Test.Service.Programs
             var now = DateTime.UtcNow;
             var creatorId = 1;
             var revisorId = 2;
-
+            var status = new ProgramStatus
+            {
+                ProgramStatusId = 1,
+                Status = "status"
+            };
             var program = new Program
             {
                 ProgramId = 1,
@@ -321,6 +337,8 @@ namespace ECA.Business.Test.Service.Programs
                 Description = "description",
                 ParentProgram = null,
                 StartDate = DateTimeOffset.UtcNow,
+                ProgramStatus = status,
+                ProgramStatusId = status.ProgramStatusId,
                 History = new History
                 {
                     CreatedBy = creatorId,
@@ -340,6 +358,7 @@ namespace ECA.Business.Test.Service.Programs
             program.Owner = owner;
             context.Programs.Add(program);
             context.Organizations.Add(owner);
+            context.ProgramStatuses.Add(status);
 
             Action<ProgramDTO> tester = (publishedProgram) =>
             {
@@ -361,7 +380,11 @@ namespace ECA.Business.Test.Service.Programs
             var now = DateTime.UtcNow;
             var creatorId = 1;
             var revisorId = 2;
-
+            var status = new ProgramStatus
+            {
+                ProgramStatusId = 1,
+                Status = "status"
+            };
             var program = new Program
             {
                 ProgramId = 1,
@@ -369,6 +392,8 @@ namespace ECA.Business.Test.Service.Programs
                 Description = "description",
                 ParentProgram = null,
                 StartDate = DateTimeOffset.UtcNow,
+                ProgramStatusId = status.ProgramStatusId,
+                ProgramStatus = status,
                 History = new History
                 {
                     CreatedBy = creatorId,
@@ -398,6 +423,7 @@ namespace ECA.Business.Test.Service.Programs
             owner.OfficeSettings.Add(justificationOfficeSetting);
             program.Owner = owner;
             context.Programs.Add(program);
+            context.ProgramStatuses.Add(status);
             context.Organizations.Add(owner);
             context.OfficeSettings.Add(focusOfficeSetting);
             context.OfficeSettings.Add(justificationOfficeSetting);

@@ -17,14 +17,15 @@
     </div>
     <form name="form.programForm" class="form-horizontal">
         <div class="form-group">
-            <label class="col-md-2 title-label" for="program">Program Name <span class="asterisk"> *</span>
+            <label class="col-md-2 title-label" for="program">
+                Program Name <span class="asterisk"> *</span>
                 <i style="margin-left:30px;"
                    class="material-icons md-18 material-icons-spin contextual-busy"
                    ng-show="view.isLoadingLikePrograms">autorenew</i>
             </label>
             <div class="col-md-10" ng-class="{ 'has-error': view.doesProgramExist, 'has-feedback': view.doesProgramExist}">
                 <input name="name"
-                       maxlength="{{view.maxNameLength}}"                       
+                       maxlength="{{view.maxNameLength}}"
                        ng-model-options="{debounce: 500}"
                        ui-validate-async="{unique: 'view.validateUniqueProgramName($value)'}"
                        ng-model="view.program.name"
@@ -35,9 +36,9 @@
                        required />
                 <div ng-show="!form.programForm.name.$error.required && !form.programForm.name.$error.unique">
                     <p class="mute" style="margin-top:5px;">{{view.program.name.length}} of {{view.maxNameLength}} characters remaining.</p>
-                </div>                
-                <span class="form-control-feedback" style="margin-top:8px;" ng-show="view.doesProgramExist"><i class="material-icons md-24">error</i></span>              
-                <div ng-show="form.programForm.name.$dirty" class="error" >
+                </div>
+                <span class="form-control-feedback" style="margin-top:8px;" ng-show="view.doesProgramExist"><i class="material-icons md-24">error</i></span>
+                <div ng-show="form.programForm.name.$dirty" class="error">
                     <div ng-show="form.programForm.name.$error.required">Please enter a program name.</div>
                     <div ng-show="form.programForm.name.$error.unique">This program already exists.</div>
                 </div>
@@ -66,7 +67,10 @@
                 <div class="form-group row">
                     <label class="col-md-3 title-label" for="status">Status <span class="asterisk"> *</span></label>
                     <div class="col-md-9">
-                        <select class="form-control" id="status" ng-options="s.id as s.name for s in view.programStatii" ng-model="view.program.programStatusId" />
+                        <select class="form-control"
+                                id="status"
+                                ng-options="s.id as s.name for s in view.programStatii"
+                                ng-model="view.program.programStatusId" />
                     </div>
                 </div>
                 <div class="form-group row">
@@ -82,7 +86,11 @@
                                    ng-required="true"
                                    close-text="Close" />
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="view.openStartDatePicker($event)"><i class="material-icons md-18">event</i></button>
+                                <button type="button"
+                                        class="btn btn-default"
+                                        ng-click="view.openStartDatePicker($event)">
+                                    <i class="material-icons md-18">event</i>
+                                </button>
                             </span>
                         </p>
                     </div>
@@ -101,7 +109,11 @@
                                    min-date="view.program.startDate"
                                    close-text="Close" />
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="view.openEndDatePicker($event)"><i class="material-icons md-18">event</i></button>
+                                <button type="button"
+                                        class="btn btn-default"
+                                        ng-click="view.openEndDatePicker($event)">
+                                    <i class="material-icons md-18">event</i>
+                                </button>
                             </span>
                         </p>
                     </div>
@@ -115,8 +127,6 @@
                                    ng-model="view.selectedThemes"
                                    ui-validate="{minimum: 'view.validateMinimumThemes($value)'}"
                                    theme="select2" title="Choose a theme."
-                                   on-select="view.onThemesSelect()"
-                                   ng-change="view.onThemesChange()"
                                    style="min-width: 200px;">
                             <ui-select-match placeholder="Select themes...">
                                 <div>{{$item.value}}</div>
@@ -153,6 +163,36 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6 title-label">
+                        <ng-pluralize count="view.program.regions.length" when="{'1':'Region','other':'Regions'}"></ng-pluralize>
+                        <span class="asterisk"> *</span>
+                    </div>
+                    <div class="col-md-6">
+                        <ui-select multiple
+                                   name="regions"
+                                   close-on-select="true"
+                                   ng-model="view.selectedRegions"
+                                   ui-validate="{minimum: 'view.validateMinimumRegions($value)'}"
+                                   theme="select2"
+                                   append-to-body="true"
+                                   search-enabled="false"
+                                   title="Choose a region."
+                                   style="min-width: 200px;">
+                            <ui-select-match placeholder="Select regions...">
+                                <div>
+                                    {{$item.value}}
+                                </div>
+                            </ui-select-match>
+                            <ui-select-choices repeat="region in view.regions | propsFilter: {name: $select.search} track by region.id">
+                                <div ng-bind-html="region.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <div ng-show="form.programForm.regions.$error.minimum">
+                            <span class="error">Please select at least one region.</span>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-md-6">
                 <div class="row">
@@ -161,7 +201,26 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 title-label">Parent Program</div>
-                    <div class="col-md-6">{{view.program.parentProgramName}}</div>
+                    <div class="col-md-6">
+                        <ui-select ng-model="view.program.parentProgram"
+                                   theme="select2"
+                                   style="min-width: 200px;">
+                            <ui-select-match placeholder="Select a parent program...">
+                                {{$select.selected.name}}
+                            </ui-select-match>
+                            <ui-select-choices refresh="view.searchParentPrograms($select.search)"
+                                               refresh-delay="250"
+                                               group-by="'isCurrent'"
+                                               repeat="program in view.parentPrograms track by program.programId">
+                                <div>
+                                    <span ng-bind-html="program.name | highlight: $select.search"></span>
+                                </div>
+                                <div class="small" style="margin-left:10px;">
+                                    {{program.officeSymbol}}
+                                </div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 title-label">{{view.categoryLabel}} <span class="asterisk" ng-show="view.isCategoryRequired"> *</span></div>
@@ -171,8 +230,6 @@
                                    ng-model="view.selectedCategories"
                                    ui-validate="{minimum: 'view.validateMinimumCategories($value)', maximum: 'view.validateMaximumCategories($value)'}"
                                    theme="select2"
-                                   on-select="view.onCategoriesSelect()"
-                                   ng-change="view.onCategoriesChange()"
                                    title="Choose a category."
                                    style="min-width: 200px;">
                             <ui-select-match placeholder="Select categories...">
@@ -236,37 +293,6 @@
                         <div ng-show="form.programForm.pointsOfContact.$error.minimum">
                             <span class="error">Please select at least one point of contact.</span>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 title-label">
-                        <ng-pluralize count="view.program.regions.length" when="{'1':'Region','other':'Regions'}"></ng-pluralize>
-                        <span class="asterisk"> *</span>
-                    </div>
-                    <div class="col-md-6">
-                        <ui-select multiple
-                                   name="regions"
-                                   close-on-select="true"
-                                   ng-model="view.selectedRegions"
-                                   ui-validate="{minimum: 'view.validateMinimumRegions($value)'}"
-                                   theme="select2"
-                                   append-to-body="true"
-                                   search-enabled="false"
-                                   title="Choose a region."
-                                   style="min-width: 200px;">
-                            <ui-select-match placeholder="Select regions...">
-                                <div>
-                                    {{$item.value}}
-                                </div>
-                            </ui-select-match>
-                            <ui-select-choices repeat="region in view.regions | propsFilter: {name: $select.search} track by region.id">
-                                <div ng-bind-html="region.name | highlight: $select.search"></div>
-                            </ui-select-choices>
-                        </ui-select>
-                        <div ng-show="form.programForm.regions.$error.minimum">
-                            <span class="error">Please select at least one region.</span>
-                        </div>
-                        
                     </div>
                 </div>
             </div>

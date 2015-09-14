@@ -92,6 +92,7 @@ namespace ECA.Business.Queries.Programs
                         let contacts = program.Contacts
                         let categories = program.Categories
                         let objectives = program.Objectives
+                        let status = program.ProgramStatus
 
                         let regions = from location in allLocations
                                       join programRegion in program.Regions
@@ -116,8 +117,9 @@ namespace ECA.Business.Queries.Programs
                         {
                             Contacts = contacts.Select(x => new SimpleLookupDTO { Id = x.ContactId, Value = x.FullName + " (" + x.Position + ")" }),
                             CountryIsos = countries.Select(x => new SimpleLookupDTO { Id = x.Id, Value = x.LocationIso }),
-                            Description = program.Description,
                             Categories = categories.Select(c => new FocusCategoryDTO { Id = c.CategoryId, Name = c.CategoryName, FocusName = c.Focus.FocusName }),
+                            Description = program.Description,
+                            EndDate = program.EndDate,                            
                             Goals = goals.Select(x => new SimpleLookupDTO { Id = x.GoalId, Value = x.GoalName }),
                             Id = program.ProgramId,
                             Objectives = objectives.Select(o => new JustificationObjectiveDTO { Id = o.ObjectiveId, Name = o.ObjectiveName, JustificationName = o.Justification.JustificationName }),
@@ -136,7 +138,8 @@ namespace ECA.Business.Queries.Programs
                             RowVersion = program.RowVersion,
                             StartDate = program.StartDate,
                             Themes = themes.Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName }),
-                            ProgramStatusId = program.ProgramStatusId
+                            ProgramStatusId = program.ProgramStatusId,
+                            ProgramStatusName = status.Status
                         };
             return query;
         }

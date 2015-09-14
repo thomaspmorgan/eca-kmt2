@@ -72,15 +72,16 @@ angular.module('staticApp')
 
       $scope.view.state = $state;
       $scope.view.onEditProgramClick = function ($event) {
-          StateService.goToEditProgramState(programId, {});
+          if ($state.current.name === $scope.view.editProgramStateName) {
+              $scope.$broadcast(ConstantsService.saveProgramEventName);
+          }
+          else {
+              StateService.goToEditProgramState(programId, {});
+          }
       }
 
       $scope.view.onCancelEditProgramClick = function ($event) {
-          StateService.goToProgramState(programId, {});
-      }
-
-      $scope.view.onSaveProgramClick = function ($event) {
-
+          $scope.$broadcast(ConstantsService.cancelProgramChangesEventName);
       }
 
       function isInEditState() {
@@ -94,7 +95,10 @@ angular.module('staticApp')
           config[ConstantsService.permission.editProgram.value] = {
               hasPermission: function () {
                   $log.info('User has edit program permission in edit.js controller.');
-                  $scope.view.isEditButtonEnabled = true;
+                  if ($state.current.name !== StateService.stateNames.edit.program) {
+                      $scope.view.isEditButtonEnabled = true;
+                  }
+                  
                   $scope.view.showEditProgramButton = true;
               },
               notAuthorized: function () {
@@ -125,7 +129,9 @@ angular.module('staticApp')
                 if (!isNaN(endDate.getTime())) {
                     $scope.program.endDate = endDate;
                 }
-
+                else {
+                    $scope.program.endDate = null;
+                }
                 $scope.data.loadProgramPromise.resolve($scope.program);
             })
             .catch(function (response) {

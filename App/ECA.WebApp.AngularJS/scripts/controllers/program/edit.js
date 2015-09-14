@@ -9,26 +9,27 @@
  */
 angular.module('staticApp')
   .controller('ProgramEditCtrl', function (
-      $scope,
-      $stateParams,
-      $state,
-      $log,
-      $q,
-      LocationService,
-      FilterService,
-      NotificationService,
-      LookupService,
-      ConstantsService,
-      StateService,
-      AuthService,
-      OfficeService,
-      ProgramService,
-      orderByFilter
+        $scope,
+        $stateParams,
+        $state,
+        $log,
+        $q,
+        MessageBox,
+        LocationService,
+        FilterService,
+        NotificationService,
+        LookupService,
+        ConstantsService,
+        StateService,
+        AuthService,
+        OfficeService,
+        ProgramService,
+        orderByFilter
 
       ) {
 
       console.assert($scope.$parent.view.isEditButtonEnabled !== undefined, 'The parent should have a flag to determine the enabled state of the edit button.');
-
+      var programId = parseInt($stateParams.programId, 10);
       $scope.view = {};
       $scope.view.isObjectivesRequired = false;
       $scope.view.isCategoryRequired = false;
@@ -42,6 +43,7 @@ angular.module('staticApp')
       $scope.view.themes = [];
       $scope.view.regions = [];
       $scope.view.selectedRegions = [];
+      $scope.view.parentPrograms = [];
       $scope.view.isLoadingProgram = true;
       $scope.view.isLoadingRequiredData = false;
       $scope.view.isSaving = false;
@@ -69,7 +71,6 @@ angular.module('staticApp')
       $scope.view.validateUniqueProgramName = function ($value) {
           var dfd = $q.defer();
           if ($value && $value.length > 0) {
-              var programId = $scope.view.program.id;
               programsWithSameNameFilter.reset();
               programsWithSameNameFilter = programsWithSameNameFilter.skip(0).take(1).equal('name', $value).notEqual('programId', programId);
               $scope.view.isLoadingLikePrograms = true;
@@ -115,33 +116,20 @@ angular.module('staticApp')
           return loadPointsOfContact(search);
       }
 
+      $scope.$on(ConstantsService.saveProgramEventName, function () {
+          return saveProgram();
+      })
+
+      $scope.$on(ConstantsService.cancelProgramChangesEventName, function () {
+          return doCancel();
+      })
+
       $scope.view.onSaveClick = function () {
-          $scope.view.isSaving = true;
-          setIds('regions', $scope.view.selectedRegions, 'id');
-          setIds('themes', $scope.view.selectedThemes, 'id');
-          setIds('goals', $scope.view.selectedGoals, 'id');
-          setIds('categories', $scope.view.selectedCategories, 'id');
-          setIds('contacts', $scope.view.selectedContacts, 'id');
-          setIds('objectives', $scope.view.selectedObjectives, 'id');
-          setIds('contacts', $scope.view.selectedPointsOfContact, 'id');
-          return ProgramService.update($scope.view.program)
-          .then(function (response) {
-              $scope.view.originalProgram = angular.copy();
-              $scope.view.isSaving = false;
-          })
-          .catch(function (response) {
-              $scope.view.isSaving = false;
-              var message = 'Unable to save program.';
-              NotificationService.showErrorMessage(message);
-              $log.error(message);
-          });
+          return saveProgram();
       }
 
       $scope.view.onCancelClick = function () {
-          $scope.$parent.view.isEditButtonEnabled = true;
-          $scope.view.program = $scope.view.originalProgram;
-          setAllUiSelectValues();
-          StateService.goToProgramState($scope.view.program.id, {});
+          doCancel();
       }
 
       $scope.view.validateMinimumGoals = function ($value) {
@@ -209,6 +197,80 @@ angular.module('staticApp')
           }
       }
 
+      var searchParentProgramsFilter = FilterService.add('editprogram_searchparentprograms');
+      $scope.view.searchParentPrograms = function ($search) {
+          searchParentProgramsFilter.reset();
+          searchParentProgramsFilter = searchParentProgramsFilter
+            .skip(0)
+            .take(25);
+          if ($search && $search.length > 0) {
+              searchParentProgramsFilter = searchParentProgramsFilter.like('name', $search);
+          }
+          if ($scope.view.program) {
+              searchParentProgramsFilter = searchParentProgramsFilter.equal('owner_OrganizationId', $scope.view.program.ownerOrganizationId);
+          }
+          return ProgramService.getAllProgramsAlpha(searchParentProgramsFilter.toParams())
+          .then(function (response) {
+              $scope.view.parentPrograms = response.results;
+              return response.results;
+          })
+          .catch(function (response) {
+              var message = 'Unable to load available parent programs.';
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
+          });
+      }
+
+      function doCancel() {
+          if ($scope.form.programForm.$dirty) {
+              MessageBox.confirm({
+                  title: 'Unsaved Changes',
+                  message: "There are unsaved changes to this program.  Are you sure you wish to cancel?",
+                  okText: 'Yes, Cancel Changes',
+                  cancelText: 'No',
+                  okCallback: toOverview
+              });
+          }
+          else {
+              toOverview();
+          }
+      }
+
+      function toOverview() {
+          $scope.$parent.view.isEditButtonEnabled = true;
+          $scope.view.program = $scope.view.originalProgram;
+          setAllUiSelectValues();
+          StateService.goToProgramState($scope.view.program.id, { reload: true })
+      }
+
+      function saveProgram() {
+          $scope.view.isSaving = true;
+          setIds('regions', $scope.view.selectedRegions, 'id');
+          setIds('themes', $scope.view.selectedThemes, 'id');
+          setIds('goals', $scope.view.selectedGoals, 'id');
+          setIds('categories', $scope.view.selectedCategories, 'id');
+          setIds('contacts', $scope.view.selectedContacts, 'id');
+          setIds('objectives', $scope.view.selectedObjectives, 'id');
+          setIds('contacts', $scope.view.selectedPointsOfContact, 'id');
+          if ($scope.view.program.parentProgram) {
+              $scope.view.program.parentProgramId = $scope.view.program.parentProgram.programId;
+          }
+          return ProgramService.update($scope.view.program)
+          .then(function (response) {
+              var updatedProgram = response.data;
+              $scope.view.originalProgram = angular.copy(updatedProgram);
+              $scope.view.program = updatedProgram;
+              $scope.view.isSaving = false;
+              return StateService.goToProgramState($scope.view.program.id, { reload: true });
+          })
+          .catch(function (response) {
+              $scope.view.isSaving = false;
+              var message = 'Unable to save program.';
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
+          });
+      }
+
       function setIds(arrayPropertyName, values, idPropertyName) {
           console.assert($scope.view.program[arrayPropertyName], "The program must have a property named " + arrayPropertyName);
           console.assert(Array.isArray($scope.view.program[arrayPropertyName]), 'The program property ' + arrayPropertyName + ' must be an array.');
@@ -222,7 +284,6 @@ angular.module('staticApp')
       var maxLimit = 300;
       function loadPermissions() {
           console.assert(ConstantsService.resourceType.program.value, 'The constants service must have the program resource type value.');
-          var programId = $stateParams.programId;
           var resourceType = ConstantsService.resourceType.program.value;
           var config = {};
           config[ConstantsService.permission.editProgram.value] = {
@@ -434,6 +495,13 @@ angular.module('staticApp')
           setSelectedItems(objectivesName, 'selectedObjectives');
       }
 
+      function setSelectedParentProgram() {
+          $scope.view.program.parentProgram = {
+              programId: $scope.view.program.parentProgramId,
+              name: $scope.view.program.parentProgramName,
+          };
+      }
+
       function normalizeLookupProperties(lookups) {
           console.assert(Array.isArray(lookups), "The given value must be an array.");
           for (var i = 0; i < lookups.length; i++) {
@@ -463,6 +531,7 @@ angular.module('staticApp')
           setSelectedRegions();
           setSelectedPointsOfContact();
           setSelectedThemes();
+          setSelectedParentProgram();
       }
 
       function onFormValidStateChange() {
@@ -475,7 +544,7 @@ angular.module('staticApp')
           }
       }
 
-
+      $scope.$parent.view.isEditButtonEnabled = false;
       $scope.data.loadProgramPromise.promise
       .then(function (program) {
           $scope.view.isLoadingProgram = false;
@@ -493,17 +562,16 @@ angular.module('staticApp')
                 loadCategories(officeId, program.categories),
                 loadObjectives(officeId),
                 loadOfficeSettings(program.ownerOrganizationId),
+                $scope.view.searchParentPrograms(null),
                 loadProgramStatii()])
           .then(function (results) {
               setAllUiSelectValues();
-              onFormValidStateChange();
+              $scope.view.originalProgram = angular.copy(program);
+              $scope.view.isLoadingRequiredData = false;
               $scope.$watch(function () {
                   return $scope.form.programForm.$invalid;
               }, onFormValidStateChange);
-
-
-              $scope.view.originalProgram = angular.copy(program);
-              $scope.view.isLoadingRequiredData = false;
+              onFormValidStateChange();
           })
           .catch(function () {
               var message = "Unable to load required data.";

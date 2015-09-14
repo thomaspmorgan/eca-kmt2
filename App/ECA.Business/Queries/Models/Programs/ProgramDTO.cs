@@ -41,6 +41,11 @@ namespace ECA.Business.Queries.Models.Programs
         public string Description { get; set; }
 
         /// <summary>
+        /// Gets or sets the End Date.
+        /// </summary>
+        public DateTimeOffset EndDate { get; set; }
+
+        /// <summary>
         /// Gets or sets the Start Date.
         /// </summary>
         public DateTimeOffset StartDate { get; set; }
@@ -101,11 +106,6 @@ namespace ECA.Business.Queries.Models.Programs
         public IEnumerable<JustificationObjectiveDTO> Objectives { get; set; }
 
         /// <summary>
-        /// Gets or sets the focus.
-        /// </summary>
-        public SimpleLookupDTO Focus { get; set; }
-
-        /// <summary>
         /// Gets or sets the Owner Name.
         /// </summary>
         public string OwnerName { get; set; }
@@ -144,6 +144,11 @@ namespace ECA.Business.Queries.Models.Programs
         /// Gets or sets the program status id.
         /// </summary>
         public int ProgramStatusId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the program status name.
+        /// </summary>
+        public string ProgramStatusName { get; set; }
 
         /// <summary>
         /// Gets or sets the website.

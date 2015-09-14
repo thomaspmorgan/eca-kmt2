@@ -55,10 +55,12 @@ namespace ECA.WebApi.Models.Programs
             this.RevisedOn = program.RevisedOn;
             this.RowVersion = Convert.ToBase64String(program.RowVersion);
             this.StartDate = program.StartDate;
+            this.EndDate = program.EndDate;
             this.Themes = program.Themes;
             this.Categories = program.Categories;
             this.Objectives = program.Objectives;
             this.ProgramStatusId = program.ProgramStatusId;
+            this.ProgramStatusName = program.ProgramStatusName;
             this.Website = program.Website;
             this.Regions = program.Regions;
         }
@@ -82,6 +84,11 @@ namespace ECA.WebApi.Models.Programs
         /// Gets or sets the Start Date.
         /// </summary>
         public DateTimeOffset StartDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the End Date.
+        /// </summary>
+        public DateTimeOffset EndDate { get; set; }
 
         /// <summary>
         /// Gets or sets the Revised On date.
@@ -167,7 +174,15 @@ namespace ECA.WebApi.Models.Programs
         /// </summary>
         public string RowVersion { get; set; }
 
+        /// <summary>
+        /// Gets or sets the program status id.
+        /// </summary>
         public int ProgramStatusId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the program status name.
+        /// </summary>
+        public string ProgramStatusName { get; set; }
 
         public string Website { get; set; }
     }
