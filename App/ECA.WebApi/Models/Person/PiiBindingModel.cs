@@ -90,7 +90,7 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Gets or sets the date of birth unknown flag.
         /// </summary>
-        public bool IsDateOfBirthUnknown { get; set; }
+        public bool? IsDateOfBirthUnknown { get; set; }
 
         /// <summary>
         /// Gets or sets the countries of citizenship

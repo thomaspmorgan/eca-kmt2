@@ -112,7 +112,7 @@ namespace ECA.Data
         /// <summary>
         /// Denotes if date of birth is unknown
         /// </summary>
-        public bool IsDateOfBirthUnknown { get; set; }
+        public bool? IsDateOfBirthUnknown { get; set; }
 
         /// <summary>
         /// Gets or sets FirstName.

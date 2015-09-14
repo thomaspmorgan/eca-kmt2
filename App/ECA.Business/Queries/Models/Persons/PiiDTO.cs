@@ -40,7 +40,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets or sets the date of birth unknown flag.
         /// </summary>
-        public bool IsDateOfBirthUnknown { get; set; }
+        public bool? IsDateOfBirthUnknown { get; set; }
 
         /// <summary>
         /// Gets and sets countries of citizenship

@@ -50,7 +50,7 @@ namespace ECA.Business.Service.Persons
             string ethnicity,
             int? cityOfBirthId,
             DateTime? dateOfBirth,
-            bool isDateOfBirthUnknown,
+            bool? isDateOfBirthUnknown,
             List<int> countriesOfCitizenship,
             string medicalConditions,
             int? maritalStatusId
@@ -151,7 +151,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets or sets the date of birth unknown flag.
         /// </summary>
-        public bool IsDateOfBirthUnknown { get; private set; }
+        public bool? IsDateOfBirthUnknown { get; private set; }
 
         /// <summary>
         /// Gets or sets the countries of citizenship
