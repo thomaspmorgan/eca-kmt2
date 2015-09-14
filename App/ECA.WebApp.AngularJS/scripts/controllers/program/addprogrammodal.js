@@ -15,6 +15,7 @@ angular.module('staticApp')
         $log,
         $modal,
         $modalInstance,
+        MessageBox,
         office,
         parentProgram,
         ProgramService,
@@ -26,6 +27,8 @@ angular.module('staticApp')
 
       var officeId = office.id;
       $scope.view = {};
+      $scope.view.maxDescriptionLength = 3000;
+      $scope.view.maxNameLength = 255;
       $scope.view.isLoadingRequiredData = false;
       $scope.view.isSavingProgram = false;
       $scope.view.isLoadingPrograms = false;
@@ -52,6 +55,7 @@ angular.module('staticApp')
           parentProgramId: parentProgram ? parentProgram.id : null,
           parentProgramName: parentProgram ? parentProgram.name : null,
           isSubProgram: parentProgram ? true : false,
+          websites: [undefined]
       };
       $scope.view.selectedContacts = [];
       $scope.view.selectedRegions = [];
@@ -74,6 +78,7 @@ angular.module('staticApp')
       $scope.view.isSelectedThemesValid = false;
       $scope.view.isSelectedGoalsValid = false;
       $scope.view.isSelectedContactsValid = false;
+      $scope.view.isSelectedObjectivesValid = false;
 
       var maxLimit = 300;
 
@@ -108,27 +113,14 @@ angular.module('staticApp')
 
       $scope.view.onCancelClick = function () {
           if ($scope.form.programForm.$dirty) {
-              var modalInstance = $modal.open({
-                  animation: false,
-                  templateUrl: 'views/directives/confirmdialog.html',
-                  controller: 'ConfirmCtrl',
-                  resolve: {
-                      options: function () {
-                          return {
-                              title: 'Confirm',
-                              message: 'There are unsaved changes.  Are you sure you wish to cance?',
-                              okText: 'Yes',
-                              cancelText: 'No'
-                          };
-                      }
+              MessageBox.confirm({
+                  title: 'Confirm',
+                  message: 'There are unsaved changes.  Are you sure you wish to cancel?',
+                  okText: 'Yes',
+                  cancelText: 'No',
+                  okCallback: function () {
+                      $modalInstance.dismiss('cancel');
                   }
-              });
-              modalInstance.result.then(function () {
-                  $log.info('User confirmed cancel...');
-                  $modalInstance.dismiss('cancel');
-
-              }, function () {
-                  $log.info('Modal dismissed at: ' + new Date());
               });
           }
           else {
@@ -165,6 +157,19 @@ angular.module('staticApp')
           }
           else {
               $scope.view.isSelectedGoalsValid = false;
+          }
+      }
+
+      $scope.view.onObjectivesChange = function () {
+          $scope.view.onObjectivesSelect();
+      }
+
+      $scope.view.onObjectivesSelect = function () {
+          if ($scope.view.selectedObjectives.length > 0) {
+              $scope.view.isSelectedObjectivesValid = true;
+          }
+          else {
+              $scope.view.isSelectedObjectivesValid = false;
           }
       }
 
@@ -230,6 +235,14 @@ angular.module('staticApp')
                       NotificationService.showErrorMessage(message);
                   });
           }
+      }
+
+      $scope.view.addWebsite = function() {
+          $scope.view.program.websites.push(undefined);
+      }
+
+      $scope.view.deleteWebsite = function ($index) {
+          $scope.view.program.websites.splice($index, 1);
       }
 
       var programsFilter = FilterService.add('programmodal_loadprograms');
@@ -384,6 +397,10 @@ angular.module('staticApp')
           setIds('categories', $scope.view.selectedCategories, 'id');
           setIds('contacts', $scope.view.selectedContacts, 'id');
           setIds('objectives', $scope.view.selectedObjectives, 'id');
+
+          // Remove undefined elements
+          $scope.view.program.websites = $scope.view.program.websites.filter(function (n) { return n != undefined });
+
           return ProgramService.create($scope.view.program)
           .then(function (response) {
               $scope.view.isSavingProgram = false;
@@ -391,38 +408,9 @@ angular.module('staticApp')
           })
           .catch(function (response) {
               $scope.view.isSavingProgram = false;
-              if (response.status === 400 && response.data && response.data.ValidationErrors) {
-                  showValidationErrors(response.data);
-              }
-              else {
-                  var message = 'Unable to save program.';
-                  NotificationService.showErrorMessage(message);
-                  $log.error(message);
-              }
-          });
-      }
-
-      function showValidationErrors(error) {
-          var validationModal = $modal.open({
-              animation: false,
-              templateUrl: 'views/directives/servervalidationdialog.html',
-              controller: 'ServerValidationCtrl',
-              size: 'lg',
-              resolve: {
-                  options: function () {
-                      return {};
-                  },
-                  validationError: function () {
-                      return error.ValidationErrors;
-                  }
-              }
-          });
-          validationModal.result.then(function () {
-              $log.info('Finished validation errors.');
-              validationModal.close();
-
-          }, function () {
-              $log.info('Modal dismissed at: ' + new Date());
+              var message = 'Unable to save program.';
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
           });
       }
 

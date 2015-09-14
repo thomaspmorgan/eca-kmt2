@@ -1,8 +1,8 @@
 <div class="tabs">
-    <div class="tab" ng-repeat="tab in tabs | tabFilter | orderBy:'order'">
+    <div ui-sref-active="active" class="tab" ng-repeat="tab in tabs | tabFilter | orderBy:'order'">
         <a ui-sref="{{entity}}.{{tab.path}}">{{tab.title}}</a>
     </div>
-    <div ng-show="edit" class="dropdown add-tab">
+    <div ng-show="tabedit" class="dropdown add-tab">
         <button class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
             <img src="images/addTab.png">
         </button>

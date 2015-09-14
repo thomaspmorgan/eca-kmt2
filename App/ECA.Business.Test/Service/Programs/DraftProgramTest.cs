@@ -21,13 +21,13 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var website = "http://www.google.com";
             var goalIds = new List<int> { 10 };
             var themeIds = new List<int> { 20 };
             var pointOfContactIds = new List<int> { 30 };
             var regionIds = new List<int> { 40 };
             var categoryIds = new List<int> { 50 };
             var objectiveIds = new List<int> { 60 };
+            var websites = new List<string> { "http://www.google.com" };
 
             var user = new User(userId);
             var program = new DraftProgram(
@@ -38,13 +38,13 @@ namespace ECA.Business.Test.Service.Programs
                 endDate: endDate,
                 ownerOrganizationId: ownerOrganizationId,
                 parentProgramId: parentProgramId,
-                website: website,
                 goalIds: goalIds,
                 pointOfContactIds: pointOfContactIds,
                 themeIds: themeIds,
                 regionIds: regionIds,
                 categoryIds: categoryIds,
-                objectiveIds: objectiveIds
+                objectiveIds: objectiveIds,
+                websites: websites
 
                 );
             Assert.AreEqual(user, program.Audit.User);
@@ -57,14 +57,13 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(ownerOrganizationId, program.OwnerOrganizationId);
             Assert.AreEqual(parentProgramId, program.ParentProgramId);
             Assert.AreEqual(ProgramStatus.Draft.Id, program.ProgramStatusId);
-            Assert.AreEqual(website, program.Website);
             Assert.IsNull(program.RowVersion);
 
             CollectionAssert.AreEqual(goalIds, program.GoalIds);
             CollectionAssert.AreEqual(themeIds, program.ThemeIds);
             CollectionAssert.AreEqual(pointOfContactIds, program.ContactIds);
             CollectionAssert.AreEqual(regionIds, program.RegionIds);
-            
+            CollectionAssert.AreEqual(websites, program.Websites);
         }
 
         [TestMethod]
@@ -79,7 +78,6 @@ namespace ECA.Business.Test.Service.Programs
             var parentProgramId = 3;
             var programStatusId = ProgramStatus.Active.Id;
             var focusId = 100;
-            var website = "http://www.google.com";
 
             var user = new User(userId);
             var program = new DraftProgram(
@@ -90,18 +88,19 @@ namespace ECA.Business.Test.Service.Programs
                 endDate: endDate,
                 ownerOrganizationId: ownerOrganizationId,
                 parentProgramId: parentProgramId,
-                website: website,
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: null,
                 regionIds: null,
-               categoryIds: null,
-               objectiveIds: null
+                categoryIds: null,
+                objectiveIds: null,
+                websites: null
                 );
             Assert.IsNotNull(program.GoalIds);
             Assert.IsNotNull(program.ThemeIds);
             Assert.IsNotNull(program.ContactIds);
             Assert.IsNotNull(program.RegionIds);
+            Assert.IsNotNull(program.Websites);
         }
     }
 }

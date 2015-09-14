@@ -6,8 +6,8 @@
         </div>
         <div class="col-md-6">
             <a ng-click="showGeneral = !showGeneral">
-                <i class="material-icons md-dark md-36 pull-right" ng-show="showGeneral">expand_more</i>
-                <i class="material-icons md-dark md-36 pull-right" ng-show="!showGeneral">expand_less</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="showGeneral">expand_less</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="!showGeneral">expand_more</i>
             </a>
             <a ng-show="!edit.General" ng-click="edit.General = !edit.General">
                 <i class="material-icons md-dark md-24 pull-right">edit</i>
@@ -24,19 +24,19 @@
         </div>
         <div class="col-md-6">
             <a ng-click="showPii = !showPii">
-                <i class="material-icons md-dark md-36 pull-right" ng-show="showPii">expand_more</i>
-                <i class="material-icons md-dark md-36 pull-right" ng-show="!showPii">expand_less</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="showPii">expand_less</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="!showPii">expand_more</i>
             </a>
             <div class="pull-right" ng-show="edit.Pii">
                 <button ng-click="saveEditPii()" class="btn btn-success" ng-disabled="piiForm.$invalid || piiForm.$pristine">Save</button>
                 <button ng-click="cancelEditPii()" class="btn btn-cancel">Cancel</button>
             </div>
-            <a ng-show="!edit.Pii" ng-click="edit.Pii = true">
+            <a ng-show="!edit.Pii" ng-click="edit.Pii = !edit.Pii">
                 <i class="material-icons md-dark md-24 pull-right">edit</i>
             </a>
         </div>
     </div>
-    <form name="piiForm" class="form-horizontal" ng-show="showPii">
+    <form name="piiForm" class="form-horizontal" collapse="!showPii">
         <div class="col-md-6">
             <div class="row">
                 <div class="col-md-4 title-label">Names & Alternatives</div>
@@ -209,27 +209,27 @@
                 </div>
                 <div class="col-md-8" ng-show="edit.Pii">
                     <div class="form-group">
-                        <label class="col-md-4 title-label">Country<span class="asterisk"> *</span></label>
+                        <label class="col-md-4 title-label">Country</label>
                         <div class="col-md-8">
                             <select class="form-control" name="countryOfBirth" ng-model="pii.countryOfBirthId" ng-options="country.id as country.name for country in countries" ng-change="updateCountryOfBirth()" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 title-label">City<span class="asterisk"> *</span></label>
+                        <label class="col-md-4 title-label">City</label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" name="cityOfBirth" ng-model="pii.cityOfBirthId" typeahead="city.id as city.name for city in getCities($viewValue) | filter : $viewValue | limitTo : 25"
+                            <input type="text" class="form-control" name="cityOfBirth" ng-model="pii.cityOfBirthId" typeahead="city.id as city.name for city in getCities($viewValue) | limitTo : 25"
                                    typeahead-editable="false" typeahead-input-formatter="formatCityOfBirth($model)" />
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 title-label">Date of Birth<span class="asterisk" ng-show="edit.Pii"> *</span></div>
+                <div class="col-md-4 title-label">Date of Birth</div>
                 <div class="col-md-8" ng-show="!edit.Pii">
                     <div class="form-group">
                         <label class="col-md-4 title-label"></label>
                         <div class="col-md-8">
-                            {{pii.dateOfBirth | date }}
+                            {{pii.isDateOfBirthUnknown ? 'Unknown' : pii.dateOfBirth | date}}
                         </div>
                     </div>
                 </div>
@@ -237,13 +237,16 @@
                     <div class="form-group">
                         <label class="col-md-4 title-label"></label>
                         <div class="col-md-8 input-group">
-                            <input type="text" class="form-control" name="dateOfBirth" datepicker-popup="dd-MMMM-yyyy" ng-model="pii.dateOfBirth"
-                                   is-open="datePickerOpen" max-date="maxDateOfBirth" close-text="Close">
+                            <input type="text" class="form-control" name="dateOfBirth" id="dateOfBirth" datepicker-popup="dd-MMMM-yyyy" ng-model="pii.dateOfBirth"
+                                   is-open="datePickerOpen" max-date="maxDateOfBirth" close-text="Close" placeholder="{{dateOfBirthPlaceholder}}">
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-default" ng-click="openDatePicker($event)">
                                     <i class="material-icons md-18">event</i>
                                 </button>
                             </span>
+                            <div class="pull-right" style="padding-left:2px;">
+                                <button class="btn btn-default" ng-click="toggleDobUnknown($event)" tooltip-placement="top" tooltip="Unknown date of birth">Unknown</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -251,7 +254,7 @@
         </div>
         <div class="col-md-6">
             <div class="row">
-                <div class="col-md-4 title-label">Countries of Citizenship<span class="asterisk" ng-show="edit.Pii"> *</span></div>
+                <div class="col-md-4 title-label">Countries of Citizenship</div>
                 <div class="col-md-8" ng-show="!edit.Pii">
                     <div class="form-group" ng-repeat="country in pii.countriesOfCitizenship">
                         <label class="col-md-4 title-label"></label>
@@ -264,7 +267,7 @@
                     <div class="form-group">
                         <label class="col-md-4 title-label"></label>
                         <div class="col-md-8">
-                            <ui-select multiple ng-model="edit.selectedCountriesOfCitizenship" ng-disabled="!edit.Pii" theme="select2" title="Choose a country" style="min-width: 200px;">
+                            <ui-select multiple ng-model="$parent.selectedCountriesOfCitizenship" ng-disabled="!edit.Pii" theme="select2" title="Choose a country" style="min-width: 200px;">
                                 <ui-select-match placeholder="Select countries...">
                                     <div>{{$item.name}}</div>
                                 </ui-select-match>
@@ -297,7 +300,7 @@
                     <div class="form-group">
                         <label class="col-md-4 title-label"></label>
                         <div class="col-md-8">
-                            <textarea class="form-control" class="form-control" ng-model="pii.medicalConditions"></textarea>
+                            <textarea class="form-control" ng-model="pii.medicalConditions"></textarea>
                         </div>
                     </div>
                 </div>
@@ -329,48 +332,17 @@
         </div>
         <div class="col-md-6">
             <a ng-click="showContact = !showContact">
-                <i class="material-icons md-dark md-36 pull-right" ng-show="showContact">expand_more</i>
-                <i class="material-icons md-dark md-36 pull-right" ng-show="!showContact">expand_less</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="showContact">expand_less</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="!showContact">expand_more</i>
+            </a>
+            <a ng-show="!edit.Contact" ng-click="edit.Contact = !edit.Contact">
+                <i class="material-icons md-dark md-24 pull-right">edit</i>
             </a>
         </div>
     </div>
-    <div class="row" ng-show="showContact">
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-4 title-label">Email(s)</div>
-                <div class="col-md-8">
-                    <ul>
-                        <li ng-repeat="email in contactInfo.emails">
-                            <a href="mailto:{{email.value}}">{{email.value}}</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 title-label">Social Media</div>
-                <socialmedias model="contactInfo" modelid="person.personId" modeltype="'person'" />
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-4 title-label">Phone Number</div>
-                <div class="col-md-8">
-                    <ul>
-                        <li ng-repeat="phoneNumber in contactInfo.phoneNumbers">
-                            {{phoneNumber.type}}: {{phoneNumber.value}}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 title-label">Contact Agreement</div>
-                <div class="col-md-8">{{participant.contactAgreement}}</div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 title-label">Contact Agreements</div>
-                <div class="col-md-8">TODO</div>
-            </div>
-        </div>
+    <div collapse="!showContact">
+        <div ng-if="!edit.Contact"><ng-include src="'/views/person/partials/contactView.html'"></ng-include></div>
+        <div ng-if="edit.Contact"><ng-include src="'/views/person/partials/contactEdit.html'"></ng-include></div>
     </div>
 
     <div class="row">
@@ -379,27 +351,34 @@
         </div>
         <div class="col-md-6">
             <a ng-click="showEduEmp = !showEduEmp">
-                <i class="material-icons md-dark md-36 pull-right" ng-show="showEduEmp">expand_more</i>
-                <i class="material-icons md-dark md-36 pull-right" ng-show="!showEduEmp">expand_less</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="showEduEmp">expand_less</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="!showEduEmp">expand_more</i>
+            </a>
+            <a ng-show="!edit.EduEmp" ng-click="edit.EduEmp = !edit.EduEmp">
+                <i class="material-icons md-dark md-24 pull-right">edit</i>
             </a>
         </div>
     </div>
     <div collapse="!showEduEmp">
-        <ng-include src="'/views/person/partials/eduempView.html'"></ng-include>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6">
-            <h4 class="tab-subheader">Evaluation &amp; Notes</h4>
+        <div ng-if="!edit.EduEmp">
+            <ng-include src="'/views/person/partials/eduempView.html'"></ng-include>
         </div>
-        <div class="col-md-6">
-            <a ng-click="showEvalNotes = !showEvalNotes">
-                <i class="material-icons md-dark md-36 pull-right" ng-show="showEvalNotes">expand_more</i>
-                <i class="material-icons md-dark md-36 pull-right" ng-show="!showEvalNotes">expand_less</i>
-            </a>
+        <div ng-if="!edit.EduEmp">
+            <ng-include src="'/views/person/partials/eduempEdit.html'"></ng-include>
         </div>
-    </div>
-    <div collapse="!showEvalNotes">
-        <ng-include src="'/views/person/partials/evaluationNotesView.html'"></ng-include>
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="tab-subheader">Evaluation &amp; Notes</h4>
+            </div>
+            <div class="col-md-6">
+                <a ng-click="showEvalNotes = !showEvalNotes">
+                    <i class="material-icons md-dark md-36 pull-right" ng-show="showEvalNotes">expand_less</i>
+                    <i class="material-icons md-dark md-36 pull-right" ng-show="!showEvalNotes">expand_more</i>
+                </a>
+            </div>
+        </div>
+        <div collapse="!showEvalNotes">
+            <ng-include src="'/views/person/partials/evaluationNotesView.html'"></ng-include>
+        </div>
     </div>
 </div>

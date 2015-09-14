@@ -56,13 +56,13 @@ namespace ECA.WebApi.Models.Programs
                 parentProgramId: this.ParentProgramId,
                 programStatusId: this.ProgramStatusId,
                 programRowVersion: Convert.FromBase64String(this.RowVersion),
-                website: this.Website,
                 goalIds: this.Goals,
                 pointOfContactIds: this.Contacts,
                 themeIds: this.Themes,
                 regionIds: this.Regions,
                 categoryIds: this.Categories,
-                objectiveIds: this.Objectives
+                objectiveIds: this.Objectives,
+                websites: this.Websites
                 );
 
             return ecaProgram;

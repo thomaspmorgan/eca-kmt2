@@ -29,7 +29,6 @@ namespace ECA.Business.Queries.Persons
                          {
                              ParticipantId = p.ParticipantId,
                              SevisId = p.SevisId,
-                             ContactAgreement = p.ContactAgreement,
                              ProjectId = p.Participant.ProjectId,
                              StudyProject = p.StudyProject,
                              FieldOfStudy = p.FieldOfStudy != null ? p.FieldOfStudy.Description : null,

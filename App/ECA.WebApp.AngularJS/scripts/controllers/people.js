@@ -45,11 +45,14 @@ angular.module('staticApp')
       $scope.edit = {};
       $scope.edit.General = false;
       $scope.edit.Pii = false;
+      $scope.edit.Contact = false;
+      $scope.edit.EduEmp = false;
+
       $scope.datePickerOpen = false;
 
       $scope.maxDateOfBirth = new Date();
 
-      $scope.edit.selectedCountriesOfCitizenship = [];
+      $scope.selectedCountriesOfCitizenship = [];
 
       $scope.activityImageSet = [
           'images/placeholders/participant/activities1.png',
@@ -98,7 +101,29 @@ angular.module('staticApp')
           }
           return null;
       };
+      
+      //$scope.$watch('pii.dateOfBirth', function () {
+      //    if ($scope.pii.dateOfBirth !== undefined) {
+      //        var date = $scope.pii.dateOfBirth;
+      //        if (date) {
+      //            $scope.pii.isDateOfBirthUnknown = false;
+      //        }
+      //    }          
+      //});
 
+      $scope.toggleDobUnknown = function ($event) {
+          $event.preventDefault();
+          $event.stopPropagation();
+          $scope.pii.isDateOfBirthUnknown = $scope.pii.isDateOfBirthUnknown === false ? true : false;
+          if ($scope.pii.isDateOfBirthUnknown === true) {
+              $scope.dateOfBirthPlaceholder = 'Unknown'
+              $scope.pii.dateOfBirth = '';
+              $scope.datePickerOpen = false;
+          } else {
+              $scope.dateOfBirthPlaceholder = '';
+          }          
+      };
+      
     PersonService.getPersonById($stateParams.personId)
       .then(function (data) {
           $scope.person = data;
@@ -116,8 +141,14 @@ angular.module('staticApp')
                $scope.pii = data;
                if ($scope.pii.dateOfBirth) {
                    $scope.pii.dateOfBirth = new Date($scope.pii.dateOfBirth);
+                   $scope.pii.isDateOfBirthUnknown = false;
+                   $scope.dateOfBirthPlaceholder = '';
+               } else if ($scope.pii.isDateOfBirthUnknown) {
+                   $scope.dateOfBirthPlaceholder = 'Unknown'
+                   $scope.pii.dateOfBirth = undefined;
+                   $scope.datePickerOpen = false;
                }
-               $scope.edit.selectedCountriesOfCitizenship = $scope.pii.countriesOfCitizenship.map(function (obj) {
+               $scope.selectedCountriesOfCitizenship = $scope.pii.countriesOfCitizenship.map(function (obj) {
                    var location = {};
                    location.id = obj.id;
                    location.name = obj.value;
@@ -158,7 +189,7 @@ angular.module('staticApp')
       });
 
     $scope.cancelEditPii = function () {
-        $scope.edit.Pii = false;
+        this.edit.Pii = false;
         loadPii($scope.person.personId);
     };
 
@@ -191,7 +222,7 @@ angular.module('staticApp')
 
     function setupPii() {
         $scope.pii.personId = $scope.person.personId;
-        $scope.pii.countriesOfCitizenship = $scope.edit.selectedCountriesOfCitizenship.map(function (obj) {
+        $scope.pii.countriesOfCitizenship = $scope.selectedCountriesOfCitizenship.map(function (obj) {
             return obj.id;
         });
     };
@@ -202,7 +233,4 @@ angular.module('staticApp')
         $scope.datePickerOpen = true;
     };
 
-    $scope.toggleEditGeneral = function () {
-        $scope.edit.General = !$scope.edit.General;
-    }
   });

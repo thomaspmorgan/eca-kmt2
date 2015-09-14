@@ -16,6 +16,7 @@ angular
     'ui.router',
     'ui.bootstrap',
     'ui.map',
+    'ui.validate',
     'ui.event',
     'ngModal',
     'isteven-multi-select',
@@ -271,13 +272,19 @@ angular
         .state('programs', {
             url: '/programs/:programId',
             templateUrl: 'views/programs.html',
-            controller: 'ProgramsCtrl',
+            controller: 'ProgramCtrl',
             requireADLogin: true
         })
         .state('programs.overview', {
             url: '/overview',
             controller: 'ProgramOverviewCtrl',
             templateUrl: 'views/program/overview.html',
+            requireADLogin: true
+        })
+        .state('programs.edit', {
+            url: '/edit',
+            controller: 'ProgramEditCtrl',
+            templateUrl: 'views/program/edit.html',
             requireADLogin: true
         })
         .state('programs.projects', {
@@ -434,7 +441,7 @@ angular
             templateUrl: 'views/organizations/overview.html',
             controller: 'OrganizationOverviewCtrl',
             requireADLogin: true
-        })        
+        })
         .state('organizations.artifacts', {
             url: '/artifacts',
             templateUrl: 'views/organizations/artifacts.html',

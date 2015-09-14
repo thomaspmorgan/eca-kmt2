@@ -35,6 +35,8 @@ angular.module('staticApp')
 
 
       $scope.editView = {};
+      $scope.editView.maxNameLength = 500;
+      $scope.editView.maxDescriptionLength = 3000;
       $scope.editView.params = $stateParams;
       $scope.editView.isLoading = false;
       $scope.editView.isSaving = false;
@@ -116,10 +118,6 @@ angular.module('staticApp')
           $scope.$parent.project.locationIds = [];
       }
 
-      $scope.editView.confirmFailOk = function () {
-          $scope.editView.saveFailed = false;
-      }
-
       $scope.$on(ConstantsService.saveProjectEventName, function () {
           saveProject();
       });
@@ -159,7 +157,7 @@ angular.module('staticApp')
 
       $scope.editView.onAdvancedSearchClick = function () {
           var modalInstance = $modal.open({
-              animation: false,
+              animation: true,
               templateUrl: 'views/locations/searchlocations.html',
               controller: 'SearchLocationsCtrl',
               size: 'lg',
@@ -588,7 +586,7 @@ angular.module('staticApp')
                   $log.info('User has edit project permission in edit.js controller.');
               },
               notAuthorized: function () {
-                  $state.go('forbidden');
+                  StateService.goToForbiddenState();
               }
           };
           return AuthService.getResourcePermissions(resourceType, projectId, config)

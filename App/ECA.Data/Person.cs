@@ -12,7 +12,7 @@ namespace ECA.Data
     /// <summary>
     /// A person is someone who has applied to, is participating in, or has completed an ECA project.
     /// </summary>
-    public class Person : IHistorical, IAddressable, ISocialable, IEmailAddressable
+    public class Person : IHistorical, IAddressable, ISocialable, IEmailAddressable, IPhoneNumberable
     {
         /// <summary>
         /// Gets the max length of the first name.
@@ -110,6 +110,11 @@ namespace ECA.Data
         public DateTime? DateOfBirth { get; set; }
 
         /// <summary>
+        /// Denotes if date of birth is unknown
+        /// </summary>
+        public bool IsDateOfBirthUnknown { get; set; }
+
+        /// <summary>
         /// Gets or sets FirstName.
         /// </summary>
         [MaxLength(FIRST_NAME_MAX_LENGTH)]
@@ -167,7 +172,12 @@ namespace ECA.Data
         public Location PlaceOfBirth { get; set; }
        
         public string MedicalConditions { get; set; }
-        
+
+        /// <summary>
+        /// Can the participant be contacted? (agreement to contact is in place)
+        /// </summary>
+        public bool HasContactAgreement { get; set; }
+
         [InverseProperty("CitizensOfCountry")]
         public ICollection<Location> CountriesOfCitizenship { get; set; }
         public string Ethnicity { get; set; }

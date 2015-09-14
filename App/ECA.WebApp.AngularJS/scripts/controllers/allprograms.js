@@ -78,10 +78,14 @@ angular.module('staticApp')
       }
 
       function hideChildren(program) {
-          angular.forEach(program.children, function (child, index) {
+          for (var i = 0; i < program.children.length; i++) {
+              var child = program.children[i];
+              if (child.children && child.children.length > 0) {
+                  hideChildren(child);
+              }
               child.isHidden = true;
               child.isExpanded = false;
-          });
+          }
       }
 
       function loadUserId() {

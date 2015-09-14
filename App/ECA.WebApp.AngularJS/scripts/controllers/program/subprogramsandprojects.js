@@ -110,9 +110,10 @@ angular.module('staticApp')
 
       $scope.view.createSubProgram = function () {
           var addProgramModalInstance = $modal.open({
-              animation: false,
+              animation: true,
               templateUrl: 'views/program/addprogrammodal.html',
               controller: 'AddProgramModalCtrl',
+              backdrop: 'static',
               size: 'lg',
               resolve: {
                   office: function () {
@@ -138,10 +139,11 @@ angular.module('staticApp')
 
       $scope.view.createProject = function () {
           var addProgramModalInstance = $modal.open({
-              animation: false,
+              animation: true,
               templateUrl: 'views/project/addprojectmodal.html',
               controller: 'AddProjectModalCtrl',
               size: 'lg',
+              backdrop: 'static',
               resolve: {
                   office: function () {
                       return {

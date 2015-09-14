@@ -1,10 +1,10 @@
 ﻿<div ng-controller="MembershipsCtrl">
     <div>
         <a ng-click="view.collapseMemberships = !view.collapseMemberships">
-            <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapseMemberships">expand_more</i>
-            <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapseMemberships">expand_less</i>
+            <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapseMemberships">expand_less</i>
+            <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapseMemberships">expand_more</i>
         </a>
-        <a ng-click="view.onAddMembershipClick(model.memberships, personId)" ng-show="editMode == 'edit'">
+        <a ng-click="view.onAddMembershipClick(model.memberships, personId)" ng-show="editMode">
             <i class="material-icons md-24 md-dark pull-right">add</i>
         </a>
         <div class="pull-right" style="margin-top: 3px;" ng-show="view.collapseMemberships">({{model.memberships.length}})</div>
@@ -17,10 +17,10 @@
                     <div class="bounce2"></div>
                     <div class="bounce3"></div>
                 </div>
-                <div ng-class="{true: 'row', false: 'row2'}[editMode == 'edit']" ng-show="!view.isSavingChanges">
+                <div ng-class="{true: 'row', false: 'row2'}[editMode]" ng-show="!view.isSavingChanges">
                     <div ng-show="!view.showEditMembership">
                         <span>{{membership.name}}</span>
-                        <div class="pull-right" ng-show="!view.showEditMembership && editMode == 'edit'">
+                        <div class="pull-right" ng-show="!view.showEditMembership && editMode">
                             <a ng-show="!view.showEditMembership && !view.isDeletingMembership" ng-click="view.showConfirmDelete = true">
                                 <i class="material-icons md-dark">delete</i>
                             </a>

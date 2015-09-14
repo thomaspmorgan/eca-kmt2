@@ -58,6 +58,7 @@
             <div class="form-group col-md-6">
                 <label>Amount<span class="asterisk"> *</span></label>
                 <input type="number"
+                       step="any"
                        id="amount"
                        name="amount"
                        max="{{view.maxAmount}}"
@@ -117,13 +118,12 @@
                         ng-model="view.moneyFlow.peerEntity"
                         typeahead-wait-ms="400"
                         typeahead-loading="view.isLoadingSources"
-                        typeahead="peer as peer.primaryText for peer in view.getPeers($viewValue) | filter : $viewValue | limitTo : view.searchLimit"
+                        typeahead="peer as peer.primaryText for peer in view.getPeers($viewValue) | limitTo : view.searchLimit"
                         typeahead-on-select="view.onSelectPeer($item, $model, $label)"
                         typeahead-template-url="selectSourceTemplate.html"
                         typeahead-editable="false"
                         typeahead-input-formatter="view.formatPeerEntity($item, $model, $label)"
-                        ng-required="view.isSourceRecipientFieldRequired">
-                        </input>
+                        ng-required="view.isSourceRecipientFieldRequired"/>
                         <i class="material-icons md-18 contextual" ng-show="!view.isLoadingSources">search</i>
                         <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingSources">autorenew</i>
                     </div>
@@ -166,10 +166,10 @@
 <script type="text/ng-template" id="selectSourceTemplate.html">
     <a>
         <div ng-show="match.model.primaryText">
-            <span bind-html-unsafe="match.model.primaryText | typeaheadHighlight:query"></span>
+            <span ng-bind-html="match.model.primaryText | typeaheadHighlight:query"></span>
         </div>
         <div ng-show="match.model.secondaryText" style="margin-left: 30px;">
-            <span bind-html-unsafe="match.model.secondaryText | typeaheadHighlight:query"></span>
+            <span ng-bind-html="match.model.secondaryText | typeaheadHighlight:query"></span>
         </div>
     </a>
 </script>

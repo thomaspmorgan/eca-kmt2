@@ -31,7 +31,6 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ParticipantId = 1,
                 SevisId = "N0000000001",
-                ContactAgreement = false,
                 StudyProject = "studyProject",
             };
             var project = new Project
@@ -58,7 +57,6 @@ namespace ECA.Business.Test.Service.Persons
                 var participantPersonResult = results.Results.First();
 
                 Assert.AreEqual(participantPerson.SevisId, participantPersonResult.SevisId);
-                Assert.AreEqual(participantPerson.ContactAgreement, participantPersonResult.ContactAgreement);
                 Assert.AreEqual(participantPerson.StudyProject, participantPersonResult.StudyProject);
                 Assert.AreEqual(project.ProjectId, participantPersonResult.ProjectId);
 
@@ -115,7 +113,6 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ParticipantId = 1,
                 SevisId = "N0000000001",
-                ContactAgreement = false,
                 StudyProject = "studyProject",
             };
 
@@ -136,7 +133,6 @@ namespace ECA.Business.Test.Service.Persons
 
                 Assert.AreEqual(project.ProjectId, participantPersonResult.ProjectId);
                 Assert.AreEqual(participantPerson.SevisId, participantPersonResult.SevisId);
-                Assert.AreEqual(participantPerson.ContactAgreement, participantPersonResult.ContactAgreement);
                 Assert.AreEqual(participantPerson.StudyProject, participantPersonResult.StudyProject);
 
                 Assert.IsNull(participantPersonResult.FieldOfStudy);
@@ -190,7 +186,6 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ParticipantId = 1,
                 SevisId = "N0000000001",
-                ContactAgreement = false,
                 StudyProject = "studyProject",
             };
             var project = new Project
@@ -213,7 +208,6 @@ namespace ECA.Business.Test.Service.Persons
             Action<SimpleParticipantPersonDTO> tester = (results) =>
             {
                 Assert.AreEqual(participantPerson.SevisId, results.SevisId);
-                Assert.AreEqual(participantPerson.ContactAgreement, results.ContactAgreement);
                 Assert.AreEqual(participantPerson.StudyProject, results.StudyProject);
                 Assert.AreEqual(project.ProjectId, results.ProjectId);
 

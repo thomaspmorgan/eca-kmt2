@@ -128,18 +128,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Queries\Admin\BookmarkQueries.cs" />
+    <Compile Include="Queries\Admin\PhoneNumberQueries.cs" />
     <Compile Include="Queries\Admin\EmailAddressQueries.cs" />
+    <Compile Include="Queries\Models\Admin\PhoneNumberDTO.cs" />
     <Compile Include="Queries\Models\Admin\EmailAddressDTO.cs" />
+    <Compile Include="Queries\Models\Admin\ProgramStatusDTO.cs" />
     <Compile Include="Queries\Models\Persons\LanguageProficiencyDTO.cs" />
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
     <Compile Include="Queries\Persons\LanguageProficiencyQueries.cs" />
     <Compile Include="Queries\Persons\MembershipQueries.cs" />
+    <Compile Include="Service\Admin\PhoneNumberService.cs" />
+    <Compile Include="Service\Admin\IPhoneNumberService.cs" />
     <Compile Include="Service\Admin\IEmailAddressService.cs" />
     <Compile Include="Service\Admin\EmailAddressService.cs" />
+    <Compile Include="Service\Admin\NewPersonPhoneNumber.cs" />
+    <Compile Include="Service\Admin\NewPhoneNumber.cs" />
     <Compile Include="Service\Admin\NewEmailAddress.cs" />
     <Compile Include="Service\Admin\NewPersonEmailAddress.cs" />
+    <Compile Include="Service\Admin\UpdatedPhoneNumber.cs" />
     <Compile Include="Service\Admin\UpdatedEmailAddress.cs" />
     <Compile Include="Service\Fundings\EditedMoneyFlow.cs" />
+    <Compile Include="Service\Lookup\PhoneNumberTypeService.cs" />
+    <Compile Include="Service\Lookup\PhoneNumberTypeDTO.cs" />
+    <Compile Include="Service\Lookup\IPhoneNumberTypeService.cs" />
     <Compile Include="Service\Lookup\ILanguageService.cs" />
     <Compile Include="Service\Lookup\IEmailAddressTypeService.cs" />
     <Compile Include="Service\Lookup\LanguageDTO.cs" />
@@ -248,7 +259,10 @@
     <Compile Include="Service\Lookup\ParticipantTypeService.cs" />
     <Compile Include="Service\Lookup\SocialMediaTypeDTO.cs" />
     <Compile Include="Service\Lookup\SocialMediaTypeService.cs" />
+    <Compile Include="Service\Persons\UpdateContactInfo.cs" />
     <Compile Include="Service\Persons\UpdateGeneral.cs" />
+    <Compile Include="Service\Programs\IProgramStatusService.cs" />
+    <Compile Include="Service\Programs\ProgramStatusService.cs" />
     <Compile Include="Service\Projects\AdditionalOrganizationProjectParticipant.cs" />
     <Compile Include="Service\Projects\AdditionalPersonProjectParticipant.cs" />
     <Compile Include="Service\Projects\IProjectStatusService.cs" />

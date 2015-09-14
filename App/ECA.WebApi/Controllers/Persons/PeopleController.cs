@@ -36,6 +36,7 @@ namespace ECA.WebApi.Controllers.Persons
         private IUserProvider userProvider;
         private IAddressModelHandler addressHandler;
         private IEmailAddressHandler emailAddressHandler;
+        private IPhoneNumberHandler phoneNumberHandler;
         private ISocialMediaPresenceModelHandler socialMediaHandler;
 
         /// <summary>
@@ -45,24 +46,29 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="userProvider">The user provider.</param>
         /// <param name="addressHandler">The address handler.</param>
         /// <param name="emailAddressHandler">The Email Address handler.</param>
+        /// <param name="phoneNumberHandler">The phone number handler.</param>
         /// <param name="socialMediaHandler">The social media handler.</param>
 
         public PeopleController(
             IPersonService service, 
             IUserProvider userProvider,
             IAddressModelHandler addressHandler,
-            ISocialMediaPresenceModelHandler socialMediaHandler)
+            ISocialMediaPresenceModelHandler socialMediaHandler,
+            IPhoneNumberHandler phoneNumberHandler,
+            IEmailAddressHandler emailAddressHandler)
         {
             Contract.Requires(service != null, "The participant service must not be null.");
             Contract.Requires(userProvider != null, "The user provider must not be null.");
             Contract.Requires(addressHandler != null, "The address handler must not be null.");
             Contract.Requires(emailAddressHandler != null, "The email address handler must not be null.");
+            Contract.Requires(phoneNumberHandler != null, "The phone number handler must not be null.");
             Contract.Requires(socialMediaHandler != null, "The social media handler must not be null.");
             this.addressHandler = addressHandler;
             this.service = service;
             this.userProvider = userProvider;
             this.socialMediaHandler = socialMediaHandler;
             this.emailAddressHandler = emailAddressHandler;
+            this.phoneNumberHandler = phoneNumberHandler;
         }
 
         /// <summary>
@@ -294,6 +300,28 @@ namespace ECA.WebApi.Controllers.Persons
             }
         }
 
+        /// <summary>
+        /// Put method to update a person's General Info
+        /// </summary>
+        /// <param name="model">The model to update</param>
+        /// <returns></returns>
+        [Route("People/ContactInfo")]
+        public async Task<IHttpActionResult> PutContactInfoAsync(ContactInfoBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var person = await service.UpdateContactInfoAsync(model.ToUpdateContactInfo(businessUser));
+                await service.SaveChangesAsync();
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
         #region Address
         /// <summary>
         /// Adds a new address to the person.
@@ -401,7 +429,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="personId">The person id.</param>
         /// <returns>The saved email address.</returns>
         [Route("People/{personId:int}/EmailAddress")]
-        [ResponseType(typeof(SocialMediaDTO))]
+        [ResponseType(typeof(EmailAddressDTO))]
         public Task<IHttpActionResult> PutUpdateEmailAddressAsync(int personId, [FromBody]UpdatedEmailAddressBindingModel model)
         {
             return emailAddressHandler.HandleUpdateEmailAddressAsync(model, this);
@@ -419,10 +447,48 @@ namespace ECA.WebApi.Controllers.Persons
         {
             return emailAddressHandler.HandleDeleteEmailAddressAsync(emailAddressId, this);
         }
-
-
-
+        
         #endregion
 
+        #region Phone Numbers
+
+        /// <summary>
+        /// Adds a new phone number to the person.
+        /// </summary>
+        /// <param name="model">The new email address.</param>
+        /// <param name="personId">The id of the person.</param>
+        /// <returns>The saved email address.</returns>
+        [Route("People/{personId:int}/PhoneNumber")]
+        [ResponseType(typeof(PhoneNumberDTO))]
+        public Task<IHttpActionResult> PostPhoneNumberAsync(int personId, [FromBody]PersonPhoneNumberBindingModel model)
+        {
+            return phoneNumberHandler.HandlePhoneNumberAsync<Person>(model, this);
+        }
+
+        /// <summary>
+        /// Updates the phone number of the person.
+        /// </summary>
+        /// <param name="model">The new email address.</param>
+        /// <returns>The saved email address.</returns>
+        [Route("People/{personId:int}/PhoneNumber")]
+        [ResponseType(typeof(PhoneNumberDTO))]
+        public Task<IHttpActionResult> PutUpdatePhoneNumberAsync([FromBody]UpdatedPhoneNumberBindingModel model)
+        {
+            return phoneNumberHandler.HandleUpdatePhoneNumberAsync(model, this);
+        }
+
+        /// <summary>
+        /// Deletes the phone number from the phoneNumberable.
+        /// </summary>
+        /// <param name="phoneNumberId">The emailAddressId id.</param>
+        /// <returns>An ok result.</returns>
+        [Route("People/{personId:int}/EmailAddress/{emailAddressId:int}")]
+        [ResponseType(typeof(OkResult))]
+        public Task<IHttpActionResult> DeletePhoneNumberAsync(int phoneNumberId)
+        {
+            return phoneNumberHandler.HandleDeletePhoneNumberAsync(phoneNumberId, this);
+        }
+
+        #endregion
     }
 }

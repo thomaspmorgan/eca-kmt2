@@ -185,6 +185,97 @@ namespace ECA.Data
 }
 #endregion
 
+#region EmailAddressType
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class EmailAddressType : ECA.Core.Generation.IStaticLookup
+	{
+		/// <summary>
+		/// Returns the Home lookup with id 1.
+		/// </summary>
+		public static StaticLookup Home { get { return new StaticLookup("Home", 1); } }
+		/// <summary>
+		/// Returns the Home Emergency lookup with id 2.
+		/// </summary>
+		public static StaticLookup HomeEmergency { get { return new StaticLookup("Home Emergency", 2); } }
+		/// <summary>
+		/// Returns the Host lookup with id 3.
+		/// </summary>
+		public static StaticLookup Host { get { return new StaticLookup("Host", 3); } }
+		/// <summary>
+		/// Returns the Host Emergency lookup with id 4.
+		/// </summary>
+		public static StaticLookup HostEmergency { get { return new StaticLookup("Host Emergency", 4); } }
+		/// <summary>
+		/// Returns the Organization lookup with id 5.
+		/// </summary>
+		public static StaticLookup Organization { get { return new StaticLookup("Organization", 5); } }
+		/// <summary>
+		/// Returns the Personal lookup with id 6.
+		/// </summary>
+		public static StaticLookup Personal { get { return new StaticLookup("Personal", 6); } }
+		/// <summary>
+		/// Returns the Other lookup with id 7.
+		/// </summary>
+		public static StaticLookup Other { get { return new StaticLookup("Other", 7); } }
+		/// <summary>
+		/// Returns the Business lookup with id 8.
+		/// </summary>
+		public static StaticLookup Business { get { return new StaticLookup("Business", 8); } }
+		/// <summary>
+		/// Returns the Undetermined lookup with id 9.
+		/// </summary>
+		public static StaticLookup Undetermined { get { return new StaticLookup("Undetermined", 9); } }
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if (1 == id) return EmailAddressType.Home;
+			if (2 == id) return EmailAddressType.HomeEmergency;
+			if (3 == id) return EmailAddressType.Host;
+			if (4 == id) return EmailAddressType.HostEmergency;
+			if (5 == id) return EmailAddressType.Organization;
+			if (6 == id) return EmailAddressType.Personal;
+			if (7 == id) return EmailAddressType.Other;
+			if (8 == id) return EmailAddressType.Business;
+			if (9 == id) return EmailAddressType.Undetermined;
+			return null;
+		}
+		///<summary>
+		/// Returns the lookup value of this entity with the given value, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given value, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(string value)
+		{
+			if ("Home".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return EmailAddressType.Home;
+			if ("Home Emergency".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return EmailAddressType.HomeEmergency;
+			if ("Host".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return EmailAddressType.Host;
+			if ("Host Emergency".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return EmailAddressType.HostEmergency;
+			if ("Organization".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return EmailAddressType.Organization;
+			if ("Personal".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return EmailAddressType.Personal;
+			if ("Other".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return EmailAddressType.Other;
+			if ("Business".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return EmailAddressType.Business;
+			if ("Undetermined".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return EmailAddressType.Undetermined;
+			return null;
+		}
+
+		/// <summary>
+		/// Returns the static lookup config used to generate this type's static lookups.
+		/// <returns>The static lookup config used to generate this type's static lookups.</returns>
+		/// </summary>
+		public StaticLookupConfig GetConfig()
+		{
+			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "EmailAddressType", TableName = "EmailAddressType", IdColumnName = "EmailAddressTypeId", ValueColumnName = "EmailAddressTypeName" };
+		}
+	}
+}
+#endregion
+
 #region Gender
 namespace ECA.Data
 {
@@ -1346,6 +1437,7 @@ namespace ECA.Data
 			var errors = new List<string>();
 			errors.AddRange(validator.Validate<ActorType>());
 			errors.AddRange(validator.Validate<AddressType>());
+			errors.AddRange(validator.Validate<EmailAddressType>());
 			errors.AddRange(validator.Validate<Gender>());
 			errors.AddRange(validator.Validate<ItineraryStatus>());
 			errors.AddRange(validator.Validate<LocationType>());

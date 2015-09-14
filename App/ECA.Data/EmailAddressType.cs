@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECA.Data
 {
-    public class EmailAddressType : IHistorical
+    public partial class EmailAddressType : IHistorical
     {
         private const int MAX_EMAIL_TYPE_LENGTH = 128;
 

@@ -17,6 +17,9 @@ namespace ECA.Data.Configuration
         /// </summary>
         public ProgramConfiguration()
         {
+            HasKey(x => x.ProgramId);
+            Property(x => x.Name).HasMaxLength(Program.MAX_NAME_LENGTH);
+            Property(x => x.Description).HasMaxLength(Program.MAX_DESCRIPTION_LENGTH);
             Property(x => x.OwnerId).HasColumnName("Owner_OrganizationId");
             Property(x => x.RowVersion).IsRowVersion();
             HasRequired(e => e.Owner).WithMany(e => e.OwnerPrograms).HasForeignKey(x => x.OwnerId).WillCascadeOnDelete(false);
@@ -77,6 +80,14 @@ namespace ECA.Data.Configuration
                  p.MapRightKey("ObjectiveId");
                  p.ToTable("ProgramObjective");
              });
+            HasMany<Website>(p => p.Websites)
+                .WithMany(t => t.Programs)
+                .Map(p =>
+                {
+                    p.MapLeftKey("ProgramId");
+                    p.MapRightKey("WebsiteId");
+                    p.ToTable("ProgramWebsite");
+                });
         }
     }
 }

@@ -31,10 +31,11 @@ namespace ECA.Business.Service.Programs
         private readonly IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity> validator;
         private readonly IOfficeService officeService;
         
+        /// <summary>
         /// Creates a new ProgramService with the given context to operator against.
         /// </summary>
+        /// <param name="officeService">The office service.</param>
         /// <param name="context">The context to operate on.</param>
-        /// <param name="logger">The logger.</param>
         /// <param name="programServiceValidator">The program service validator.</param>
         public ProgramService(EcaContext context, IOfficeService officeService, IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity> programServiceValidator)
             : base(context)
@@ -202,8 +203,7 @@ namespace ECA.Business.Service.Programs
                 ProgramStatusId = draftProgram.ProgramStatusId,
                 StartDate = draftProgram.StartDate,
                 OwnerId = owner.OrganizationId,
-                Owner = owner,
-                Website = draftProgram.Website,
+                Owner = owner
             };
             SetGoals(draftProgram.GoalIds, program);
             SetPointOfContacts(draftProgram.ContactIds, program);
@@ -211,11 +211,22 @@ namespace ECA.Business.Service.Programs
             SetRegions(draftProgram.RegionIds, program);
             SetCategories(draftProgram.FocusCategoryIds, program);
             SetObjectives(draftProgram.JustificationObjectiveIds, program);
+            SetWebsites(draftProgram.Websites, program);
 
             Debug.Assert(draftProgram.Audit != null, "The audit must not be null.");
             draftProgram.Audit.SetHistory(program);
             this.Context.Programs.Add(program);
             return program;
+        }
+
+        private void SetWebsites(List<string> websiteList, Program program)
+        {
+                var websites = websiteList.Select(x => new Website
+                {
+                    WebsiteValue = x
+                });
+
+                program.Websites = websites.ToList();
         }
 
         #endregion
@@ -237,6 +248,7 @@ namespace ECA.Business.Service.Programs
                 .Include(x => x.Categories)
                 .Include(x => x.Objectives)
                 .Include(x => x.Owner)
+                .Include(x => x.Websites)
                 .Where(x => x.ProgramId == programId);
         }
 
@@ -318,7 +330,6 @@ namespace ECA.Business.Service.Programs
             programToUpdate.ProgramStatusId = updatedProgram.ProgramStatusId;
             programToUpdate.RowVersion = updatedProgram.RowVersion;
             programToUpdate.StartDate = updatedProgram.StartDate;
-            programToUpdate.Website = updatedProgram.Website;
 
             updatedProgram.Audit.SetHistory(programToUpdate);
 

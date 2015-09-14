@@ -25,6 +25,19 @@ namespace ECA.Data
         IRegionable,
         IPermissable
     {
+        /// <summary>
+        /// The maximum length of the program name.
+        /// </summary>
+        public const int MAX_NAME_LENGTH = 255;
+
+        /// <summary>
+        /// The maximum length of a program description.
+        /// </summary>
+        public const int MAX_DESCRIPTION_LENGTH = 3000;
+
+        /// <summary>
+        /// Creates a new default program.
+        /// </summary>
         public Program()
         {
             this.Regions = new HashSet<Location>();
@@ -42,6 +55,7 @@ namespace ECA.Data
             this.Contacts = new HashSet<Contact>();
             this.Categories = new HashSet<Category>();
             this.Objectives = new HashSet<Objective>();
+            this.Websites = new HashSet<Website>();
 
             this.History = new History();
         }
@@ -56,12 +70,14 @@ namespace ECA.Data
         /// Gets or sets the Name.
         /// </summary>
         [Required]
+        [MaxLength(MAX_NAME_LENGTH)]
         public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the description.
         /// </summary>
         [Required]
+        [MaxLength(MAX_DESCRIPTION_LENGTH)]
         public string Description { get; set; }
 
         /// <summary>
@@ -102,11 +118,6 @@ namespace ECA.Data
         public int ProgramStatusId { get; set; }
 
         /// <summary>
-        /// Gets or sets the Website.
-        /// </summary>
-        public string Website { get; set; }
-
-        /// <summary>
         /// Gets or sets the RowVersion.
         /// </summary>
         public byte[] RowVersion { get; set; }
@@ -131,6 +142,11 @@ namespace ECA.Data
 
         public ICollection<Objective> Objectives { get; set; }
         public ICollection<Category> Categories { get; set; }
+
+        /// <summary>
+        /// Gets or sets websites
+        /// </summary>
+        public ICollection<Website> Websites { get; set; }
 
         public History History { get; set; }
 

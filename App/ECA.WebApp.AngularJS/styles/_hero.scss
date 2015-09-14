@@ -153,6 +153,40 @@
 
     .toolbar {
         background-color: #323e74;
+
+        .btn {
+            background: $blue;
+            border: 0;
+            font-size: 1em;
+            min-width: 147px;
+            color: white;
+            border-bottom-left-radius: 4px;
+            border-top-left-radius: 4px;
+
+            &.dropdown-toggle {
+                border-left: 1px solid rgba(0, 0, 0, .15);
+                border-bottom-left-radius: 0;
+                border-top-left-radius: 0;
+                margin-right: 20px;
+                min-width: 40px;
+                width: 40px;
+                max-width: 40px;
+            }
+        }
+
+        .modified {
+            background: $green;
+        }
+
+        .cancel {
+            background: $gray;
+            color: black;
+        }
+
+        .cancel:hover {
+            background: $mediumgray;
+            color: white;
+        }
     }
 }
 

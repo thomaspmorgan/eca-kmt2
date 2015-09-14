@@ -422,10 +422,12 @@
     <Compile Include="Common\AdGraph.cs" />
     <Compile Include="Controllers\Admin\AddressesController.cs" />
     <Compile Include="Controllers\Admin\BookmarksController.cs" />
+    <Compile Include="Controllers\Admin\PhoneNumbersController.cs" />
     <Compile Include="Controllers\Admin\GendersController.cs" />
     <Compile Include="Controllers\Admin\MaritalStatusesController.cs" />
     <Compile Include="Controllers\Admin\LanguagesController.cs" />
     <Compile Include="Controllers\Admin\EmailAddressesController .cs" />
+    <Compile Include="Controllers\Admin\ProgramStatusesController.cs" />
     <Compile Include="Controllers\Persons\LanguageProficiencyController.cs" />
     <Compile Include="Controllers\Persons\MembershipController.cs" />
     <Compile Include="Controllers\Fundings\MoneyFlowSourceRecipientTypesController.cs" />
@@ -454,11 +456,16 @@
     <Compile Include="Custom\SwaggerExtensions\ApplySchemaVendorExtensions.cs" />
     <Compile Include="Custom\SwaggerExtensions\AssignOAuth2SecurityRequirements.cs" />
     <Compile Include="Custom\SwaggerExtensions\DescendingAlphabeticComparer.cs" />
+    <Compile Include="Models\Admin\PersonPhoneNumberBindingModel.cs" />
+    <Compile Include="Models\Admin\PhoneNumberHandler.cs" />
+    <Compile Include="Models\Admin\IPhoneNumberHandler.cs" />
+    <Compile Include="Models\Admin\PhoneNumberBindingModelBase.cs" />
     <Compile Include="Models\Admin\IEmailAddressHandler.cs" />
     <Compile Include="Models\Admin\LocationBindingModel.cs" />
     <Compile Include="Models\Admin\EmailAddressBindingModelBase.cs" />
     <Compile Include="Models\Admin\EmailAddressHandler.cs" />
     <Compile Include="Models\Admin\PersonEmailAddressBindingModel.cs" />
+    <Compile Include="Models\Admin\UpdatedPhoneNumberBindingModel.cs" />
     <Compile Include="Models\Admin\UpdatedLocationBindingModel.cs" />
     <Compile Include="Models\Admin\UpdatedEmailAddressBindingModel.cs" />
     <Compile Include="Models\Fundings\AdditionalMoneyFlowBindingModel.cs" />
@@ -482,6 +489,7 @@
     <Compile Include="Models\Admin\UpdatedAddressBindingModel.cs" />
     <Compile Include="Models\Admin\UpdatedOrganizationBindingModel.cs" />
     <Compile Include="Models\Admin\UpdatedSocialMediaBindingModel.cs" />
+    <Compile Include="Models\Person\ContactInfolBindingModel.cs" />
     <Compile Include="Models\Person\GeneralBindingModel.cs" />
     <Compile Include="Models\Person\NewLanguageProficiencyBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedLanguageProficiencyBindingModel.cs" />
@@ -636,8 +644,8 @@
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>13633</DevelopmentServerPort>
+          <AutoAssignPort>False</AutoAssignPort>
+          <DevelopmentServerPort>5555</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:5555/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

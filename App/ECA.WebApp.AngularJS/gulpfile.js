@@ -35,7 +35,7 @@ gulp.task('html', ['styles'], function () {
 
     gulp.src('index.html')
         .pipe(assets)
-        .pipe(gulpIf('*.js', uglify({mangle: false})))
+        .pipe(gulpIf('*.js', uglify({ mangle: false })))
         .pipe(gulpIf('*.css', replace('select2.png', '../images/select2.png')))
         .pipe(gulpIf('*.css', minifyCss()))
         .pipe(assets.restore())
@@ -46,10 +46,10 @@ gulp.task('html', ['styles'], function () {
 gulp.task('copy', ['clean'], function () {
     gulp.src('images/**/*.*')
         .pipe(gulp.dest('dist/images'));
-    gulp.src('views/**/*.*')
-        .pipe(gulp.dest('dist/views'));
-    gulp.src('bower_components/material-design-iconic-font/fonts/**/*.*')
-        .pipe(gulp.dest('dist/fonts'));
+    gulp.src('bower_components/bootstrap-sass/assets/fonts/bootstrap/*.*')
+        .pipe(gulp.dest('dist/bower_components/bootstrap-sass/assets/fonts/bootstrap'));
+    gulp.src('styles/fonts/*.*')
+        .pipe(gulp.dest('dist/styles/fonts'));
     gulp.src('bower_components/select2/*.png')
         .pipe(gulp.dest('dist/images'));
 });

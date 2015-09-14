@@ -5,19 +5,18 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <link href='https://fonts.googleapis.com/css?family=Raleway:400,100,300,200,500,600,700,800,900' rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">    
+     
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/isteven-angular-multiselect/isteven-multi-select.css" />
     <link rel="stylesheet" href="bower_components/angular-xeditable/dist/css/xeditable.css">
+    <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css">
     <link rel="stylesheet" href="bower_components/select2/select2.css">
     <link rel="stylesheet" href="bower_components/select2/select2-bootstrap.css">
     <link rel="stylesheet" href="bower_components/angularjs-toaster/toaster.min.css">
     <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css" />
-    <link rel="stylesheet" href="bower_components/material-design-iconic-font/css/material-design-iconic-font.min.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.) styles/main.css -->
@@ -143,6 +142,7 @@
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/angular-ui-validate/dist/validate.min.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/isteven-angular-multiselect/isteven-multi-select.js"></script>
     <script src="bower_components/d3/d3.js"></script>
@@ -165,7 +165,6 @@
     <!-- build:js(.) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/confirm.js"></script>
-    <script src="scripts/controllers/servervalidation.js"></script>
     <script src="scripts/controllers/allprograms.js"></script>
     <script src="scripts/controllers/office.js"></script>
     <script src="scripts/controllers/socialmedia/socialmedia.js"></script>
@@ -186,6 +185,7 @@
     <script src="scripts/controllers/project/projectparticipant.js"></script>
     <script src="scripts/controllers/project/selectparticipanttype.js"></script>
     <script src="scripts/controllers/project/unsavedchanges.js"></script>
+    <script src="scripts/controllers/project/addnewparticipant.js"></script>
     <script src="scripts/controllers/project/edit.js"></script>
     <script src="scripts/controllers/about.js"></script>
     <script src="scripts/controllers/toolbaricons.js"></script>
@@ -197,6 +197,7 @@
     <script src="scripts/services/addressservice.js"></script>
     <script src="scripts/services/socialmediaservice.js"></script>
     <script src="scripts/services/filterservice.js"></script>
+    <script src="scripts/services/messagebox.js"></script>
     <script src="scripts/controllers/securetest.js"></script>
     <script src="scripts/controllers/logout.js"></script>
     <script src="scripts/services/schema.js"></script>
@@ -217,8 +218,9 @@
     <script src="scripts/controllers/settings.js"></script>
     <script src="scripts/controllers/people.js"></script>
     <script src="scripts/controllers/person/timeline.js"></script>
-    <script src="scripts/controllers/programs.js"></script>
+    <script src="scripts/controllers/program.js"></script>
     <script src="scripts/controllers/program/subprogramsandprojects.js"></script>
+    <script src="scripts/controllers/program/edit.js"></script>
     <script src="scripts/controllers/program/overview.js"></script>
     <script src="scripts/services/dragonbreath.js"></script>
     <script src="scripts/modules/modal.js"></script>
@@ -272,6 +274,7 @@
     <script src="scripts/controllers/reports/YearAwards.js"></script>
     <script src="scripts/controllers/person/personGeneral.js"></script>
     <script src="scripts/controllers/person/personEduEmp.js"></script>
+    <script src="scripts/controllers/person/personEduEmpEdit.js"></script>
     <script src="scripts/controllers/person/personEvaluationNotes.js"></script>
     <script src="scripts/controllers/person/personGeneralEdit.js"></script>
     <script src="scripts/controllers/membership/membership.js"></script>
@@ -282,6 +285,12 @@
     <script src="scripts/controllers/languageProficiencies/languageProficiencies.js"></script>
     <script src="scripts/directives/languageProficiencies.js"></script>
     <script src="scripts/services/languageProficiency.js"></script>
+    <script src="scripts/services/emailaddressservice.js"></script>
+    <script src="scripts/directives/emailAddresses.js"></script>
+    <script src="scripts/controllers/emailAddresses/emailaddress.js"></script>
+    <script src="scripts/controllers/emailAddresses/emailaddresses.js"></script>
+    <script src="scripts/controllers/person/personContact.js"></script>
+    <script src="scripts/controllers/person/personContactEdit.js"></script>
     <!-- endbuild -->
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=onGoogleReady"></script>
 </body>

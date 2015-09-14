@@ -1,18 +1,8 @@
-﻿using ECA.Business.Queries.Admin;
-using ECA.Business.Queries.Models.Admin;
+﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Lookup;
-using ECA.Core.DynamicLinq;
-using ECA.Core.Query;
-using ECA.Core.Service;
 using ECA.Data;
-using NLog;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Projects
 {
@@ -21,9 +11,8 @@ namespace ECA.Business.Service.Projects
     /// </summary>
     public class ProjectStatusService : LookupService<ProjectStatusDTO>, IProjectStatusService
     {
-
         /// <summary>
-        /// Creates a new ProjectStatusService with the context and logger.
+        /// Creates a new ProjectStatusService with the context.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
         public ProjectStatusService(EcaContext context)

@@ -3,8 +3,24 @@
 </div>
 <div class="jumbotron program">
     <div class="toolbar" sticky offset="49">
-        <div class="left">
-            <span class="detail">Last Updated {{program.revisedOn | date}}</span>
+        <div class="left2">
+            <button type="button"
+                    ng-class="{modified: view.state.current.name === view.editProgramStateName}"
+                    class="btn"
+                    style="margin-right:10px;margin-left:5px;"
+                    ng-disabled="!view.isEditButtonEnabled"
+                    ng-click="view.onEditProgramClick($event)">
+                {{view.state.current.name === view.editProgramStateName ? 'Save Changes' : 'Edit'}}
+            </button>
+            <button type="button" 
+                    class="btn btn-cancel cancel" 
+                    style="margin-right:10px;margin-left:5px;" 
+                    ui-sref-active=""
+                    ng-show="view.state.current.name === view.editProgramStateName" 
+                    ng-click="view.onCancelEditProgramClick($event)">
+                Cancel
+            </button>
+            <span class="detail">Last Updated {{(program.revisedOn | date:"MMM dd, yyyy") || 'No revised on date.'}}</span>
         </div>
         <ng-include src="'/views/partials/toolbaricons.html'"></ng-include>
     </div>

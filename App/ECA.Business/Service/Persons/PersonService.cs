@@ -80,10 +80,6 @@ namespace ECA.Business.Service.Persons
             var personToUpdate = await GetPersonByIdAsync(pii.PersonId);
             var cityOfBirth = await GetLocationByIdAsync(pii.CityOfBirthId.GetValueOrDefault());
             var countriesOfCitizenship = await GetLocationsByIdAsync(pii.CountriesOfCitizenship);
-            /*
-            var validationEntity = GetValidationEntity(pii, personToUpdate, cityOfBirth, countriesOfCitizenship);
-            validator.ValidateUpdate(validationEntity);
-            */
             DoUpdate(pii, personToUpdate, cityOfBirth, countriesOfCitizenship);
 
             return personToUpdate;
@@ -104,6 +100,7 @@ namespace ECA.Business.Service.Persons
             person.Ethnicity = updatePii.Ethnicity;
             person.PlaceOfBirthId = updatePii.CityOfBirthId;
             person.DateOfBirth = updatePii.DateOfBirth;
+            person.IsDateOfBirthUnknown = updatePii.IsDateOfBirthUnknown;
             person.MedicalConditions = updatePii.MedicalConditions;
             person.MaritalStatusId = updatePii.MaritalStatusId;
 
@@ -186,6 +183,26 @@ namespace ECA.Business.Service.Persons
             this.logger.Trace("Retrieved contact info by id {0}.", personId);             
             return contactInfo;
         }
+
+        /// <summary>
+        /// Update contact Info
+        /// </summary>
+        /// <param name="contactInfo">The general business model</param>
+        /// <returns>The person updated</returns>
+        public async Task<Person> UpdateContactInfoAsync(UpdateContactInfo contactInfo)
+        {
+            var personToUpdate = await GetPersonByIdAsync(contactInfo.PersonId);
+            DoUpdate(contactInfo, personToUpdate);
+            return personToUpdate;
+        }
+
+        // Update contact info HasContactAgreement
+
+        private void DoUpdate(UpdateContactInfo contactInfo, Person person)
+        {
+            person.HasContactAgreement = contactInfo.HasContactAgreement;
+        }
+
         #endregion
 
         #region Employment
@@ -299,7 +316,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Creates query for looking up a list of prominent categories
         /// </summary>
-        /// <param name="locationIds">Ids to lookup</param>
+        /// <param name="prominentCategoryIds">Ids to lookup</param>
         /// <returns>Queryable list of prominent categories</returns>
         private IQueryable<ProminentCategory> CreateGetProminentCategoriesById(List<int> prominentCategoryIds)
         {
@@ -325,18 +342,10 @@ namespace ECA.Business.Service.Persons
         /// <returns>The person created</returns>
         public async Task<Person> CreateAsync(NewPerson newPerson)
         {
-            /*
-            var existingPerson = await GetExistingPerson(newPerson);
-            if (existingPerson != null)
-            {
-                this.logger.Trace("Found existing person {0}.", existingPerson);
-                throw new EcaBusinessException("The person already exists.");
-            }
-            */
             var project = await GetProjectByIdAsync(newPerson.ProjectId);
             var countriesOfCitizenship = await GetLocationsByIdAsync(newPerson.CountriesOfCitizenship);
             var person = CreatePerson(newPerson, countriesOfCitizenship);
-            var participant = CreateParticipant(person, project);
+            var participant = CreateParticipant(person, newPerson.ParticipantTypeId, project);
             this.logger.Trace("Created participant {0}.", newPerson); 
             return person;
         }
@@ -435,14 +444,15 @@ namespace ECA.Business.Service.Persons
         /// Create a participant
         /// </summary>
         /// <param name="person">Person to associate with participant</param>
+        /// <param name="participantTypeId">Participant type id</param>
         /// <param name="project">Project to assocate with participant</param>
         /// <returns></returns>
-        private Participant CreateParticipant(Person person, Project project)
+        private Participant CreateParticipant(Person person, int participantTypeId, Project project)
         {
             var participant = new Participant
             {
                 PersonId = person.PersonId,
-                ParticipantTypeId = ParticipantType.Individual.Id
+                ParticipantTypeId = participantTypeId
             };
 
             participant.Project = project;

@@ -48,14 +48,14 @@ namespace ECA.Business.Models.Programs
             int ownerOrganizationId,
             int? parentProgramId,
             int programStatusId,
-            string website,
             byte[] programRowVersion,
             List<int> goalIds,
             List<int> pointOfContactIds,
             List<int> themeIds,
             List<int> regionIds,
             List<int> categoryIds,
-            List<int> objectiveIds)
+            List<int> objectiveIds,
+            List<string> websites)
         {
             Contract.Requires(updatedBy != null, "The updated by user must not be null.");
             var programStatus = ProgramStatus.GetStaticLookup(programStatusId);
@@ -71,13 +71,13 @@ namespace ECA.Business.Models.Programs
             this.EndDate = endDate;
             this.OwnerOrganizationId = ownerOrganizationId;
             this.ParentProgramId = parentProgramId;
-            this.Website = website;
             this.GoalIds = goalIds ?? new List<int>();
             this.ContactIds = pointOfContactIds ?? new List<int>();
             this.ThemeIds = themeIds ?? new List<int>();
             this.RegionIds = regionIds ?? new List<int>();
             this.FocusCategoryIds = categoryIds ?? new List<int>();
             this.JustificationObjectiveIds = objectiveIds ?? new List<int>();
+            this.Websites = websites ?? new List<string>();
             this.ProgramStatusId = programStatusId;
             this.Audit = new Update(updatedBy);
             this.RowVersion = programRowVersion;
@@ -88,6 +88,7 @@ namespace ECA.Business.Models.Programs
             this.RegionIds = this.RegionIds.Distinct().ToList();
             this.FocusCategoryIds = this.FocusCategoryIds.Distinct().ToList();
             this.JustificationObjectiveIds = this.JustificationObjectiveIds.Distinct().ToList();
+            this.Websites = this.Websites.Distinct().ToList();
         }
 
         /// <summary>
@@ -109,11 +110,6 @@ namespace ECA.Business.Models.Programs
         /// Gets the program description.
         /// </summary>
         public string Description { get; private set; }
-
-        /// <summary>
-        /// gets the program website.
-        /// </summary>
-        public string Website { get; private set; }
 
         /// <summary>
         /// Gets the program state date.
@@ -148,6 +144,12 @@ namespace ECA.Business.Models.Programs
         public List<int> FocusCategoryIds { get; set; }
 
         public List<int> JustificationObjectiveIds { get; set; }
+
+        /// <summary>
+        /// Gets or sets the websites
+        /// </summary>
+        public List<string> Websites { get; set; }
+
         /// <summary>
         /// Gets the program contacts by id.
         /// </summary>

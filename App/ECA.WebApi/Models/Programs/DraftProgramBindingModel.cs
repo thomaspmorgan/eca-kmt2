@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Models.Programs;
+using ECA.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,18 +17,15 @@ namespace ECA.WebApi.Models.Programs
         /// The name of the program.
         /// </summary>
         [Required]
+        [MaxLength(Program.MAX_NAME_LENGTH)]
         public string Name { get; set; }
 
         /// <summary>
         /// The program description.
         /// </summary>
         [Required]
+        [MaxLength(Program.MAX_DESCRIPTION_LENGTH)]
         public string Description { get; set; }
-
-        /// <summary>
-        /// The website of the program.
-        /// </summary>
-        public string Website { get; set; }
 
         /// <summary>
         /// The start date.
@@ -77,6 +75,11 @@ namespace ECA.WebApi.Models.Programs
         public List<int> Objectives { get; set; }
 
         /// <summary>
+        /// Gets or sets the websites
+        /// </summary>
+        public List<string> Websites { get; set; }
+
+        /// <summary>
         /// Returns a DraftProgram business entity from this binding model.
         /// </summary>
         /// <param name="user">The user making the change.</param>
@@ -91,13 +94,13 @@ namespace ECA.WebApi.Models.Programs
                 endDate: this.EndDate,
                 ownerOrganizationId: this.OwnerOrganizationId,
                 parentProgramId: this.ParentProgramId,
-                website: this.Website,
                 goalIds: this.Goals,
                 pointOfContactIds: this.Contacts,
                 themeIds: this.Themes,
                 regionIds: this.Regions,
                 categoryIds: this.Categories,
-                objectiveIds: this.Objectives
+                objectiveIds: this.Objectives,
+                websites: this.Websites
                 );
         }
     }

@@ -24,13 +24,13 @@ namespace ECA.Business.Models.Programs
         /// <param name="endDate">The program end date.</param>
         /// <param name="ownerOrganizationId">The owner organization by id.</param>
         /// <param name="parentProgramId">The parent program by id.</param>
-        /// <param name="website">The website of the program.</param>
         /// <param name="goalIds">The goals of the program by id.</param>
         /// <param name="pointOfContactIds">The points contact by id.</param>
         /// <param name="themeIds">The themese of the program by id.</param>
         /// <param name="regionIds">The regions the program is operating in by id.</param>
         /// <param name="categoryIds">The focus categories by id.</param>
         /// <param name="objectiveIds">The objectivs by id.</param>
+        /// <param name="websites">The websites</param>
         public DraftProgram(
             User createdBy,
             string name,
@@ -39,13 +39,13 @@ namespace ECA.Business.Models.Programs
             DateTimeOffset endDate,
             int ownerOrganizationId,
             int? parentProgramId,
-            string website,
             List<int> goalIds,
             List<int> pointOfContactIds,
             List<int> themeIds,
             List<int> regionIds,
             List<int> categoryIds,
-            List<int> objectiveIds)
+            List<int> objectiveIds,
+            List<string> websites)
             : base(
                 updatedBy: createdBy,
                 id: 0,
@@ -57,13 +57,13 @@ namespace ECA.Business.Models.Programs
                 parentProgramId: parentProgramId,
                 programStatusId: ProgramStatus.Draft.Id,
                 programRowVersion: null,
-                website: website,
                 goalIds: goalIds,
                 pointOfContactIds: pointOfContactIds,
                 themeIds: themeIds,
                 regionIds: regionIds,
                 categoryIds: categoryIds,
-                objectiveIds: objectiveIds
+                objectiveIds: objectiveIds,
+                websites: websites
                 )
         {
             Contract.Requires(createdBy != null, "The created by user must not be null.");

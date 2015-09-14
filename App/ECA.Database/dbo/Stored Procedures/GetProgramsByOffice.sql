@@ -24,7 +24,7 @@ With Programs As
   FROM [Program] as TopLevelProgram
   Join Organization As Org On TopLevelProgram.Owner_OrganizationId = Org.OrganizationId
   Join ProgramStatus On TopLevelProgram.ProgramStatusId = ProgramStatus.ProgramStatusId
-  where TopLevelProgram.Owner_OrganizationId = @OfficeId and TopLevelProgram.ProgramStatusId = 1
+  where TopLevelProgram.Owner_OrganizationId = @OfficeId
   
   union all
 
@@ -42,7 +42,7 @@ With Programs As
   inner join Programs as PL On Prog.ParentProgram_ProgramId = PL.ProgramId
     Join ProgramStatus On Prog.ProgramStatusId = ProgramStatus.ProgramStatusId
 
-  where Prog.Owner_OrganizationId != @OfficeId and Prog.ProgramStatusId = 1)
+  where Prog.Owner_OrganizationId != @OfficeId)
 
   select * from Programs order by Name, ProgramLevel
 

@@ -1,10 +1,10 @@
 ﻿<div ng-controller="LanguageProficienciesCtrl">
     <div>
         <a ng-click="view.collapseLanguageProficiencies = !view.collapseLanguageProficiencies">
-            <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapseLanguageProficiencies">expand_more</i>
-            <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapseLanguageProficiencies">expand_less</i>
+            <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapseLanguageProficiencies">expand_less</i>
+            <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapseLanguageProficiencies">expand_more</i>
         </a>
-        <a ng-click="view.onAddLanguageProficiencyClick(model.languageProficiencies, personId)" ng-show="editMode == 'edit'">
+        <a ng-click="view.onAddLanguageProficiencyClick(model.languageProficiencies, personId)" ng-show="editMode">
             <i class="material-icons md-24 md-dark pull-right">add</i>
         </a>
         <div class="pull-right" style="margin-top: 3px;" ng-show="view.collapseLanguageProficiencies">({{model.languageProficiencies.length}})</div>
@@ -25,20 +25,20 @@
                     <div class="bounce3"></div>
                 </div>
                 <div ng-show="!view.isSavingChanges">
-                    <div ng-class ="{true: 'row', false: 'row2'}[editMode == 'edit']" ng-show="!view.showEditLanguageProficiency">
+                    <div ng-class ="{true: 'row', false: 'row2'}[editMode]" ng-show="!view.showEditLanguageProficiency">
                         <div class="col-md-2">{{languageProficiency.languageName}}</div>
                         <div class="col-md-2">{{languageProficiency.speakingProficiency}}</div>
                         <div class="col-md-2">{{languageProficiency.readingProficiency}}</div>
                         <div class="col-md-2">{{languageProficiency.comprehensionProficiency}}</div>
                         <div ng-class="{true: 'col-md-2', false: 'col-md-4'}[editMode == 'edit']"><input type="checkbox" ng-model="languageProficiency.isNativeLanguage" disabled></input></div>
-                        <div class="col-md-2" ng-show="!view.showEditLanguageProficiency && editMode=='edit'">
-                            <a ng-show="!view.showEditLanguageProficiency && editMode == 'edit' && !view.isDeletingLanguageProficiency" ng-click="view.showConfirmDelete = true">
+                        <div class="col-md-2" ng-show="!view.showEditLanguageProficiency && editMode">
+                            <a ng-show="!view.showEditLanguageProficiency && editMode && !view.isDeletingLanguageProficiency" ng-click="view.showConfirmDelete = true">
                             <i class="material-icons md-dark">delete</i>
                             </a>
                             <a ng-show="view.isDeletingLanguageProficiency">
                                 <i class="material-icons md-dark material-icons-spin">refresh</i>
                             </a>
-                            <a ng-show="!view.showEditLanguageProficiency && editMode == 'edit'" ng-click="view.onEditLanguageProficiencyClick()">
+                            <a ng-show="!view.showEditLanguageProficiency && editMode" ng-click="view.onEditLanguageProficiencyClick()">
                                 <i class="material-icons md-dark">edit</i>
                             </a>
                         </div>

@@ -52,7 +52,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// </summary>
         /// <returns>The email address types.</returns>
         [Route("Types")]
-        [ResponseType(typeof(SocialMediaTypeDTO))]
+        [ResponseType(typeof(EmailAddressTypeDTO))]
         public async Task<IHttpActionResult> GetEmailAddressTypesAsync([FromUri]PagingQueryBindingModel<EmailAddressTypeDTO> model)
         {
             if (ModelState.IsValid)

@@ -90,6 +90,7 @@ namespace ECA.WebApi
             container.RegisterType<IParticipantTypeService, ParticipantTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPersonService, PersonService>(new HierarchicalLifetimeManager());
             container.RegisterType<IProgramService, ProgramService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IProgramStatusService, ProgramStatusService>(new HierarchicalLifetimeManager());
             container.RegisterType<IProjectService, ProjectService>(new HierarchicalLifetimeManager());
             container.RegisterType<IProjectStatusService, ProjectStatusService>(new HierarchicalLifetimeManager());
             container.RegisterType<IReportService, ReportService>(new HierarchicalLifetimeManager());
@@ -104,6 +105,12 @@ namespace ECA.WebApi
             container.RegisterType<IMembershipService, MembershipService>(new HierarchicalLifetimeManager());
             container.RegisterType<ILanguageService, LanguageService>(new HierarchicalLifetimeManager());
             container.RegisterType<ILanguageProficiencyService, LanguageProficiencyService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IEmailAddressService, EmailAddressService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IEmailAddressTypeService, EmailAddressTypeService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IEmailAddressHandler, EmailAddressHandler>(new HierarchicalLifetimeManager());
+            container.RegisterType<IPhoneNumberService, PhoneNumberService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IPhoneNumberTypeService, PhoneNumberTypeService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IPhoneNumberHandler, PhoneNumberHandler>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>

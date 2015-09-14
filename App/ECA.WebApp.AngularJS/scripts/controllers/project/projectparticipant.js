@@ -17,8 +17,6 @@ angular.module('staticApp')
         $state,
         OrganizationService,
         PersonService,
-        LocationService,
-        LookupService,
         ConstantsService,
         AuthService,
         ProjectService,
@@ -26,10 +24,6 @@ angular.module('staticApp')
         TableService,
         ParticipantService,
         ParticipantPersonsService) {
-
-      $scope.newParticipant = {};
-      $scope.genders = {};
-      $scope.cities = {};
 
       $scope.view = {};
       $scope.view.params = $stateParams;
@@ -150,71 +144,6 @@ angular.module('staticApp')
           clearAddParticipantView();
       }
 
-      $scope.birthCountrySelected = function (data) {
-          LocationService.get({
-              limit: 300,
-              filter: [{ property: 'countryId', comparison: 'eq', value: data.id },
-                       { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.city.id }]
-          }).then(function (data) {
-              $scope.cities = data.results;
-          });
-      }
-
-      $scope.view.openDobDatePicker = function ($event) {
-          $event.preventDefault();
-          $event.stopPropagation();
-          $scope.view.isDobDatePickerOpen = true;
-      }
-
-      $scope.addParticipant = function () {
-          setupNewParticipant();
-          PersonService.create($scope.newParticipant)
-            .then(function () {
-                displaySuccess();
-                reloadParticipantTable();
-            }, function (error) {
-                if (error.status == 400) {
-                    displayError(error.data);
-                }
-            });
-          $scope.addParticipantModalClose();
-      };
-
-      $scope.addParticipantModalClose = function () {
-          $scope.modal.addParticipant = false;
-      };
-
-      $scope.addParticipantModalClear = function () {
-          $scope.modal.addParticipant = false;
-
-          angular.forEach($scope.newParticipant, function (value, key) {
-              $scope.newParticipant[key] = '';
-          });
-
-          angular.forEach($scope.genders, function (value, key) {
-              if ($scope.genders[key].ticked === undefined) {
-                  $scope.genders[key].ticked = false;
-              } else {
-                  delete $scope.genders[key].ticked;
-              }
-          });
-          angular.forEach($scope.countries, function (value, key) {
-              if ($scope.countries[key].ticked === undefined) {
-                  $scope.countries[key].ticked = false;
-              } else {
-                  delete $scope.countries[key].ticked;
-              }
-          });
-          angular.forEach($scope.countriesCopy, function (value, key) {
-              if ($scope.countriesCopy[key].ticked === undefined) {
-                  $scope.countriesCopy[key].ticked = false;
-              } else {
-                  delete $scope.countriesCopy[key].ticked;
-              }
-          });
-          $scope.cities = [];
-      };
-
       function reloadParticipantTable() {
           console.assert($scope.getParticipantsTableState, "The table state function must exist.");
           $scope.getParticipants($scope.getParticipantsTableState());
@@ -225,52 +154,6 @@ angular.module('staticApp')
           $scope.view.displayedAvailableParticipantsCount = 0;
           $scope.view.totalAvailableParticipants = 0;
       }
-
-      function loadGenders() {
-          return LookupService.getAllGenders({ limit: 300 })
-            .then(function (data) {
-                $scope.genders = data.results;
-            });
-      }
-
-      function loadCountries() {
-          return LocationService.get({ limit: 300, filter: { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country.id } })
-            .then(function (data) {
-                $scope.countries = data.results;
-                $scope.countriesCopy = angular.copy(data.results);
-            });
-      }
-
-      function setupNewParticipant() {
-          delete $scope.newParticipant.countryOfBirth;
-          $scope.newParticipant.projectId = $scope.project.id;
-          $scope.newParticipant.gender = $scope.newParticipant.gender[0].id;
-          if ($scope.newParticipant.cityOfBirth.length > 0) {
-              $scope.newParticipant.cityOfBirth = $scope.newParticipant.cityOfBirth[0].id;
-          } else {
-              delete $scope.newParticipant.cityOfBirth;
-          }
-          $scope.newParticipant.countriesOfCitizenship =
-               $scope.newParticipant.countriesOfCitizenship.map(function (obj) {
-                   return obj.id;
-               });
-          console.log($scope.newParticipant);
-      };
-
-      function displaySuccess() {
-          $scope.modal.addParticipantResult = true;
-          $scope.result = {};
-          $scope.result.title = "Person Created";
-          $scope.result.subtitle = "The person was created successfully!";
-      };
-
-      function displayError(error) {
-          $scope.modal.addParticipantResult = true;
-          $scope.result = {};
-          $scope.result.title = "Error Creating Person";
-          $scope.result.subtitle = "There was an error creating the new person.";
-          $scope.result.error = error;
-      };
 
       function loadAvailableParticipants(search, participantType) {
           var params = {
@@ -418,8 +301,23 @@ angular.module('staticApp')
           }
       };
 
+      $scope.openAddNewParticipant = function () {
+          var modalInstance = $modal.open({
+              templateUrl: '/views/project/addnewparticipant.html',
+              controller: 'AddNewParticipantCtrl',
+              backdrop: 'static',
+              size: 'lg'
+          });
+
+          modalInstance.result.then(function (participant) {
+              if (participant) {
+                  reloadParticipantTable();
+              }
+          });
+      };
+
       $scope.view.isLoading = true;
-      $q.all([loadPermissions(), loadCollaboratorDetails(), loadGenders(), loadCountries()])
+      $q.all([loadPermissions(), loadCollaboratorDetails()])
       .then(function (results) {
 
       }, function (errorResponse) {

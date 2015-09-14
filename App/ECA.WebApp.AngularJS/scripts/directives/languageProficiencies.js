@@ -13,7 +13,7 @@ angular.module('staticApp')
           scope: {
               model: '=model',
               personId: '=personid',
-              editMode: '@editmode'
+              editMode: '=editmode'
           }
       };
       return directive;
