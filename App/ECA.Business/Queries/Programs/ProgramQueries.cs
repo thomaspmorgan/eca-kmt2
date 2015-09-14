@@ -140,7 +140,7 @@ namespace ECA.Business.Queries.Programs
                             StartDate = program.StartDate,
                             Themes = themes.Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName }),
                             ProgramStatusId = program.ProgramStatusId,
-                            Websites = websites.Select(x => new SimpleLookupDTO { Id = x.WebsiteId, Value = x.WebsiteValue })
+                            Websites = websites.Select(x => new SimpleLookupDTO { Id = x.WebsiteId, Value = x.WebsiteValue }),
                             ProgramStatusName = status.Status
                         };
             return query;
