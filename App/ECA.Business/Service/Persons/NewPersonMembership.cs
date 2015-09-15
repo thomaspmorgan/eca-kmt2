@@ -44,7 +44,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Adds the given 
         /// </summary>
-        /// <param name="socialable">The socialable entity.</param>
+        /// <param name="person">The person entity.</param>
         /// <returns>The membership that should be added to the context.</returns>
         public Membership AddPersonMembership(Person person)
         {
