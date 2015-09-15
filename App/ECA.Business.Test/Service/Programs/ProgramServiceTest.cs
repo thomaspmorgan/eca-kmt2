@@ -2338,7 +2338,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int>();
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
-            var websites = new List<string>();
+            var websites = new List<WebsiteDTO>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -2398,7 +2398,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int>();
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
-            var websites = new List<string>();
+            var websites = new List<WebsiteDTO>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -2444,7 +2444,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int>();
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
-            var websites = new List<string>();
+            var websites = new List<WebsiteDTO>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -2507,7 +2507,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int>();
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
-            var websites = new List<string>();
+            var websites = new List<WebsiteDTO>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -2559,7 +2559,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int>();
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
-            var websites = new List<string>();
+            var websites = new List<WebsiteDTO>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -2608,7 +2608,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int>();
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
-            var websites = new List<string>();
+            var websites = new List<WebsiteDTO>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -2658,7 +2658,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int>();
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
-            var websites = new List<string>();
+            var websites = new List<WebsiteDTO>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -2709,7 +2709,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int>();
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
-            var websites = new List<string>();
+            var websites = new List<WebsiteDTO>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -2760,7 +2760,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int>();
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
-            var websites = new List<string>();
+            var websites = new List<WebsiteDTO>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -2811,7 +2811,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int>();
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
-            var websites = new List<string>();
+            var websites = new List<WebsiteDTO>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -2864,7 +2864,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int>();
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
-            var websites = new List<string>();
+            var websites = new List<WebsiteDTO>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -2914,7 +2914,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int> { region.LocationId };
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
-            var websites = new List<string>();
+            var websites = new List<WebsiteDTO>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -2965,7 +2965,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int> { region.LocationId };
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
-            var websites = new List<string>();
+            var websites = new List<WebsiteDTO>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,

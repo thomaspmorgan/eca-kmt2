@@ -26,6 +26,7 @@ namespace ECA.WebApi.Test.Models.Programs
             model.StartDate = DateTimeOffset.UtcNow;
             model.Themes = new List<int> { 3 };
             model.Regions = new List<int> { 4 };
+            model.Websites = new List<WebsiteBindingModel> { new WebsiteBindingModel { Id = null, Value = "http://google.com" } };
             var user = new User(1);
 
             var draftProgram = model.ToDraftProgram(user);
@@ -40,6 +41,7 @@ namespace ECA.WebApi.Test.Models.Programs
             CollectionAssert.AreEqual(model.Contacts, draftProgram.ContactIds);
             CollectionAssert.AreEqual(model.Themes, draftProgram.ThemeIds);
             CollectionAssert.AreEqual(model.Regions, draftProgram.RegionIds);
+            CollectionAssert.AreEqual(model.Websites.Select(x => x.Value).ToList(), draftProgram.Websites.Select(x => x.Value).ToList());
             Assert.AreEqual(user.Id, draftProgram.Audit.User.Id);
         }
 
