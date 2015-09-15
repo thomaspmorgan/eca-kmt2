@@ -54,8 +54,6 @@ angular.module('staticApp')
 
       $scope.view.cancelEmailAddressChanges = function () {
           $scope.view.showEditEmailAddress = false;
-          $scope.form.emailAddressForm.$setPristine();
-          $scope.form.emailAddressForm.$setUntouched();
           if (isNewEmailAddress($scope.emailAddress)) {
               removeEmailAddressFromView($scope.emailAddress);
           }

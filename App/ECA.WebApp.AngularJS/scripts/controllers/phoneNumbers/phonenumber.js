@@ -54,8 +54,6 @@ angular.module('staticApp')
 
       $scope.view.cancelPhoneNumberChanges = function () {
           $scope.view.showEditPhoneNumber = false;
-          $scope.form.phoneNumberForm.$setPristine();
-          $scope.form.phoneNumberForm.$setUntouched();
           if (isNewPhoneNumber($scope.phoneNumber)) {
               removePhoneNumberFromView($scope.phoneNumber);
           }
