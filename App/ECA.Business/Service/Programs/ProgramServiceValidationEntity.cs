@@ -1,4 +1,5 @@
-﻿using ECA.Business.Service.Admin;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Service.Admin;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
@@ -16,10 +17,10 @@ namespace ECA.Business.Service.Programs
         /// <summary>
         /// Creates a new ProgramServiceValidationEntity.
         /// </summary>
+        /// <param name="programId">The id of the program.</param>
         /// <param name="name">The name of the program.</param>
         /// <param name="description">The description of the program.</param>
         /// <param name="regionLocationTypeIds">The region ids.</param>
-        /// <param name="focus">The focus.</param>
         /// <param name="owner">The owner.</param>
         /// <param name="parentProgramId">The parent program id.</param>
         /// <param name="contactIds">The list of contacts by id.</param>
@@ -30,7 +31,12 @@ namespace ECA.Business.Service.Programs
         /// <param name="categoryIds">The categories by id.</param>
         /// <param name="objectiveIds">The objectives by id.</param>
         /// <param name="ownerOfficeSettings">The office settings for the owner.</param>
-        public ProgramServiceValidationEntity(string name, 
+        /// <param name="parentProgramParentPrograms">The list of parent programs for the given parent program.  In other words, 
+        /// the program may have a new parent program set, so to prevent circular references, the tree of programs for the parent program must
+        /// be known and checked.</param>
+        public ProgramServiceValidationEntity(
+            int programId,
+            string name, 
             string description, 
             List<int> regionLocationTypeIds, 
             List<int> contactIds, 
@@ -42,8 +48,10 @@ namespace ECA.Business.Service.Programs
             Organization owner, 
             OfficeSettings ownerOfficeSettings,
             int? parentProgramId, 
-            Program parentProgram)
+            Program parentProgram,
+            List<OrganizationProgramDTO> parentProgramParentPrograms)
         {
+            this.ProgramId = programId;
             this.RegionLocationTypeIds = regionLocationTypeIds;
             this.OwnerOrganization = owner;
             this.ParentProgramId = parentProgramId;
@@ -57,7 +65,13 @@ namespace ECA.Business.Service.Programs
             this.CategoryIds = categoryIds;
             this.ObjectiveIds = objectiveIds;
             this.OwnerOfficeSettings = ownerOfficeSettings;
+            this.ParentProgramParentPrograms = parentProgramParentPrograms ?? new List<OrganizationProgramDTO>();
         }
+
+        /// <summary>
+        /// Gets the id of the program being validated.
+        /// </summary>
+        public int ProgramId { get; private set; }
 
         /// <summary>
         /// Gets the owner office settings.
@@ -100,11 +114,6 @@ namespace ECA.Business.Service.Programs
         public List<int> RegionLocationTypeIds { get; private set; }
 
         /// <summary>
-        /// Gets the focus.
-        /// </summary>
-        public Focus Focus { get; private set; }
-
-        /// <summary>
         /// Gets or the owner.
         /// </summary>
         public Organization OwnerOrganization { get; private set; }
@@ -113,6 +122,11 @@ namespace ECA.Business.Service.Programs
         /// Gets the parent program.
         /// </summary>
         public Program ParentProgram { get; private set; }
+
+        /// <summary>
+        /// Gets or sets all parent programs of the parent program.
+        /// </summary>
+        public IList<OrganizationProgramDTO> ParentProgramParentPrograms { get; set; }
 
         /// <summary>
         /// Gets the parent program id.

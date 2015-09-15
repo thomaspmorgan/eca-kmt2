@@ -76,5 +76,10 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or sets the id of the creator.
         /// </summary>
         public int CreatedByUserId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the path.
+        /// </summary>
+        public string Path { get; set; }
     }
 }

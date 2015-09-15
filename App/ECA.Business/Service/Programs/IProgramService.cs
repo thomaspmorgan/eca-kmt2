@@ -7,6 +7,9 @@ using ECA.Core.Service;
 using ECA.Data;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System;
+
 namespace ECA.Business.Service.Programs
 {
     /// <summary>
@@ -28,9 +31,19 @@ namespace ECA.Business.Service.Programs
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The paged, filtered, and sorted list of program in the system.</returns>
         Task<PagedQueryResults<OrganizationProgramDTO>> GetProgramsAsync(QueryableOperator<OrganizationProgramDTO> queryOperator);
-
+        
+        /// <summary>
+        /// Returns the list of programs in a hierarchy.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The programs.</returns>
         PagedQueryResults<OrganizationProgramDTO> GetProgramsHierarchy(QueryableOperator<OrganizationProgramDTO> queryOperator);
-
+        
+        /// <summary>
+        /// Returns the list of programs in a hierarchy.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The programs.</returns>
         Task<PagedQueryResults<OrganizationProgramDTO>> GetProgramsHierarchyAsync(QueryableOperator<OrganizationProgramDTO> queryOperator);
        
         /// <summary>
@@ -76,6 +89,20 @@ namespace ECA.Business.Service.Programs
         /// </summary>
         /// <param name="updatedProgram">The updated program.</param>
         Task UpdateAsync(EcaProgram updatedProgram);
+
+        /// <summary>
+        /// Returns a list of parent programs to the program with the given id.  The root program will be first.
+        /// </summary>
+        /// <param name="programId">The id of the program to get parent programs for.</param>
+        /// <returns>The list of parent programs, root first.</returns>
+        List<OrganizationProgramDTO> GetParentPrograms(int programId);
+
+        /// <summary>
+        /// Returns a list of parent programs to the program with the given id.  The root program will be first.
+        /// </summary>
+        /// <param name="programId">The id of the program to get parent programs for.</param>
+        /// <returns>The list of parent programs, root first.</returns>
+        Task<List<OrganizationProgramDTO>> GetParentProgramsAsync(int programId);
     }
 
     /// <summary>
@@ -138,15 +165,28 @@ namespace ECA.Business.Service.Programs
             return null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <param name="queryOperator"></param>
+        /// <returns></returns>
         public Task<PagedQueryResults<OrganizationProgramDTO>> GetSubprogramsByProgramAsync(int programId, QueryableOperator<OrganizationProgramDTO> queryOperator)
         {
             return Task.FromResult<PagedQueryResults<OrganizationProgramDTO>>(null);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <param name="queryOperator"></param>
+        /// <returns></returns>
         public PagedQueryResults<OrganizationProgramDTO> GetSubprogramsByProgram(int programId, QueryableOperator<OrganizationProgramDTO> queryOperator)
         {
             return null;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -207,7 +247,26 @@ namespace ECA.Business.Service.Programs
             return Task.FromResult<object>(null);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
+        public List<OrganizationProgramDTO> GetParentPrograms(int programId)
+        {
+            Contract.Ensures(Contract.Result<List<OrganizationProgramDTO>>() != null, "The value returned must not be null.");
+            return null;
+        }
 
-        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
+        public Task<List<OrganizationProgramDTO>> GetParentProgramsAsync(int programId)
+        {
+            Contract.Ensures(Contract.Result<IList<OrganizationProgramDTO>>() != null, "The value returned must not be null.");
+            return Task.FromResult<List<OrganizationProgramDTO>>(null);
+        }
     }
 }

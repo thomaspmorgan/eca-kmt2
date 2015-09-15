@@ -27,10 +27,14 @@ namespace ECA.Business.Service.Programs
     /// </summary>
     public class ProgramService : EcaService, IProgramService
     {
+        /// <summary>
+        /// The character used to seperate the path in the program hierarchy sql stored procedure.
+        /// </summary>
+        public static char[] PROGRAM_HIERARCHY_SPLIT_CHARS = new char[] { '-' };
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity> validator;
         private readonly IOfficeService officeService;
-        
+
         /// <summary>
         /// Creates a new ProgramService with the given context to operator against.
         /// </summary>
@@ -87,6 +91,11 @@ namespace ECA.Business.Service.Programs
             return dto;
         }
 
+        /// <summary>
+        /// Returns the list of programs in a hierarchy.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The programs.</returns>
         public PagedQueryResults<OrganizationProgramDTO> GetProgramsHierarchy(QueryableOperator<OrganizationProgramDTO> queryOperator)
         {
             var results = CreateGetProgramsHierarchySqlQuery().ToArray();
@@ -95,6 +104,11 @@ namespace ECA.Business.Service.Programs
             return pagedResults;
         }
 
+        /// <summary>
+        /// Returns the list of programs in a hierarchy.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The programs.</returns>
         public async Task<PagedQueryResults<OrganizationProgramDTO>> GetProgramsHierarchyAsync(QueryableOperator<OrganizationProgramDTO> queryOperator)
         {
             var results = (await CreateGetProgramsHierarchySqlQuery().ToArrayAsync());
@@ -133,8 +147,59 @@ namespace ECA.Business.Service.Programs
             return dto;
         }
 
+        /// <summary>
+        /// Returns a list of parent programs to the program with the given id.  The root program will be first.
+        /// </summary>
+        /// <param name="programId">The id of the program to get parent programs for.</param>
+        /// <returns>The list of parent programs, root first.</returns>
+        public List<OrganizationProgramDTO> GetParentPrograms(int programId)
+        {
+            var hierarchyPrograms = CreateGetProgramsHierarchySqlQuery().ToArray();
+            return DoGetParentPrograms(programId, hierarchyPrograms);
+        }
 
+        /// <summary>
+        /// Returns a list of parent programs to the program with the given id.  The root program will be first.
+        /// </summary>
+        /// <param name="programId">The id of the program to get parent programs for.</param>
+        /// <returns>The list of parent programs, root first.</returns>
+        public async Task<List<OrganizationProgramDTO>> GetParentProgramsAsync(int programId)
+        {
+            var hierarchyPrograms = await CreateGetProgramsHierarchySqlQuery().ToArrayAsync();
+            return DoGetParentPrograms(programId, hierarchyPrograms);
+        }
 
+        private List<OrganizationProgramDTO> DoGetParentPrograms(int programId, IEnumerable<OrganizationProgramDTO> hierarchyPrograms)
+        {
+            var childProgram = hierarchyPrograms.Where(x => x.ProgramId == programId).FirstOrDefault();
+            if (childProgram == null)
+            {
+                return new List<OrganizationProgramDTO>();
+            }
+            else
+            {
+                var parentPrograms = new List<OrganizationProgramDTO>();
+                var paths = childProgram.Path.Split(PROGRAM_HIERARCHY_SPLIT_CHARS, StringSplitOptions.RemoveEmptyEntries);
+                //need to skip the last path value because that belongs to the program with the given program id.
+                paths = paths.Take(paths.Length - 1).ToArray();
+                var path = "";
+                for (var i = 0; i < paths.Length; i++)
+                {
+                    if (i == 0)
+                    {
+                        path = paths[i];
+                    }
+                    else
+                    {
+                        path += PROGRAM_HIERARCHY_SPLIT_CHARS[0] + paths[i];
+                    }
+                    var parentProgram = hierarchyPrograms.Where(x => x.Path == path).FirstOrDefault();
+                    Contract.Assert(parentProgram != null, String.Format("A Program with the path [{0}] should exist.", path));
+                    parentPrograms.Add(parentProgram);
+                }
+                return parentPrograms;
+            }
+        }
         #endregion
 
         #region Create
@@ -157,9 +222,16 @@ namespace ECA.Business.Service.Programs
 
             var parentProgramId = draftProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? GetProgramEntityById(draftProgram.ParentProgramId.Value) : null;
-            var program = DoCreate(draftProgram, GetValidationEntity(draftProgram, owner, ownerOfficeSettings, parentProgram, regionTypeIds));
+
+            var program = DoCreate(draftProgram, GetValidationEntity(
+                    program: draftProgram,
+                    owner: owner,
+                    ownerOfficeSettings: ownerOfficeSettings,
+                    parentProgram: parentProgram,
+                    regionTypesIds: regionTypeIds,
+                    parentProgramParentPrograms: new List<OrganizationProgramDTO>()));
             this.logger.Trace("Created program.");
-            
+
             return program;
         }
 
@@ -181,8 +253,14 @@ namespace ECA.Business.Service.Programs
 
             var parentProgramId = draftProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? await GetProgramEntityByIdAsync(draftProgram.ParentProgramId.Value) : null;
-            
-            var program = DoCreate(draftProgram, GetValidationEntity(draftProgram, owner, ownerOfficeSettings, parentProgram, regionTypeIds));
+
+            var program = DoCreate(draftProgram, GetValidationEntity(
+                    program: draftProgram,
+                    owner: owner,
+                    ownerOfficeSettings: ownerOfficeSettings,
+                    parentProgram: parentProgram,
+                    regionTypesIds: regionTypeIds,
+                    parentProgramParentPrograms: new List<OrganizationProgramDTO>()));
             this.logger.Trace("Created program.");
             return program;
         }
@@ -221,12 +299,12 @@ namespace ECA.Business.Service.Programs
 
         private void SetWebsites(List<string> websiteList, Program program)
         {
-                var websites = websiteList.Select(x => new Website
-                {
-                    WebsiteValue = x
-                });
+            var websites = websiteList.Select(x => new Website
+            {
+                WebsiteValue = x
+            });
 
-                program.Websites = websites.ToList();
+            program.Websites = websites.ToList();
         }
 
         #endregion
@@ -272,9 +350,21 @@ namespace ECA.Business.Service.Programs
 
             var parentProgramId = updatedProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? GetProgramEntityById(updatedProgram.ParentProgramId.Value) : null;
+
+            List<OrganizationProgramDTO> parentProgramParentPrograms = new List<OrganizationProgramDTO>();
+            if (parentProgram != null)
+            {
+                parentProgramParentPrograms = GetParentPrograms(parentProgram.ProgramId);
+            }
             if (programToUpdate != null)
             {
-                DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(updatedProgram, owner, ownerOfficeSettings, parentProgram, regionTypeIds));
+                DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(
+                    program: updatedProgram,
+                    owner: owner,
+                    ownerOfficeSettings: ownerOfficeSettings,
+                    parentProgram: parentProgram,
+                    regionTypesIds: regionTypeIds,
+                    parentProgramParentPrograms: parentProgramParentPrograms));
                 this.logger.Trace("Performed update on program.");
             }
             else
@@ -304,9 +394,21 @@ namespace ECA.Business.Service.Programs
             var parentProgramId = updatedProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? await GetProgramEntityByIdAsync(updatedProgram.ParentProgramId.Value) : null;
 
+            List<OrganizationProgramDTO> parentProgramParentPrograms = new List<OrganizationProgramDTO>();
+            if(parentProgram != null)
+            {
+                parentProgramParentPrograms = await GetParentProgramsAsync(parentProgram.ProgramId);
+            }
+
             if (programToUpdate != null)
             {
-                DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(updatedProgram, owner, ownerOfficeSettings, parentProgram, regionTypeIds));
+                DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(
+                    program: updatedProgram,
+                    owner: owner, 
+                    ownerOfficeSettings: ownerOfficeSettings, 
+                    parentProgram: parentProgram,
+                    regionTypesIds: regionTypeIds, 
+                    parentProgramParentPrograms: parentProgramParentPrograms));
                 this.logger.Trace("Performed update on program.");
             }
             else
@@ -393,9 +495,16 @@ namespace ECA.Business.Service.Programs
             return this.Context.Programs.Find(parentProgramId);
         }
 
-        private ProgramServiceValidationEntity GetValidationEntity(EcaProgram program, Organization owner, OfficeSettings ownerOfficeSettings, Program parentProgram, List<int> regionTypesIds)
+        private ProgramServiceValidationEntity GetValidationEntity(
+            EcaProgram program, 
+            Organization owner, 
+            OfficeSettings ownerOfficeSettings, 
+            Program parentProgram, 
+            List<int> regionTypesIds,
+            List<OrganizationProgramDTO> parentProgramParentPrograms)
         {
             return new ProgramServiceValidationEntity(
+                programId: program.Id,
                 name: program.Name,
                 description: program.Description,
                 regionLocationTypeIds: regionTypesIds,
@@ -408,7 +517,8 @@ namespace ECA.Business.Service.Programs
                 objectiveIds: program.JustificationObjectiveIds,
                 parentProgramId: program.ParentProgramId,
                 parentProgram: parentProgram,
-                ownerOfficeSettings: ownerOfficeSettings
+                ownerOfficeSettings: ownerOfficeSettings,
+                parentProgramParentPrograms: parentProgramParentPrograms
                 );
         }
 

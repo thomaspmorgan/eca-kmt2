@@ -341,9 +341,14 @@ namespace ECA.Data
         public DbSet<MoneyFlowSourceRecipientType> MoneyFlowSourceRecipientTypes { get; set; }
 
         /// <summary>
-        /// Gets or sets users;
+        /// Gets or sets users.
         /// </summary>
         public DbSet<UserAccount> UserAccounts { get; set; }
+
+        /// <summary>
+        /// Gets or sets the websites.
+        /// </summary>
+        public DbSet<Website> Websites { get; set; }
 
         /// <summary>
         /// Overrides the DbContext OnModelCreating method.

@@ -927,6 +927,21 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.UserAccount>(this.SingleOrDefault(x => x.PrincipalId.Equals(keyValues.First())));
 		}
 	}
+	public class WebsiteTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Website>
+	{
+		public override ECA.Data.Website Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///WebsiteId
+			return this.SingleOrDefault(x => x.WebsiteId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.Website> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///WebsiteId
+			return Task.FromResult<ECA.Data.Website>(this.SingleOrDefault(x => x.WebsiteId.Equals(keyValues.First())));
+		}
+	}
 	public class InMemoryEcaContext : ECA.Data.EcaContext
 	{
 		public InMemoryEcaContext()
@@ -998,6 +1013,7 @@ namespace ECA.Business.Test
 			this.Themes = new ThemeTestDbSet();
 			this.Transportations = new TransportationTestDbSet();
 			this.UserAccounts = new UserAccountTestDbSet();
+			this.Websites = new WebsiteTestDbSet();
 		}
 
 		public List<Action> SetupActions { get; set; }

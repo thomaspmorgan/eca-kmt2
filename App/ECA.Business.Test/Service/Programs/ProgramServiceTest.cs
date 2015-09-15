@@ -56,6 +56,261 @@ namespace ECA.Business.Test.Service.Programs
 
         #region Get
         [TestMethod]
+        public async Task TestGetParentPrograms_HasOneParentProgram()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                var dto1 = new OrganizationProgramDTO
+                {
+                    Description = "desc1",
+                    Name = "org 1",
+                    NumChildren = 2,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    ParentProgram_ProgramId = 4,
+                    ProgramId = 5,
+                    ProgramLevel = 6,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 7,
+                    Path = "1"
+                };
+                var dto2 = new OrganizationProgramDTO
+                {
+                    Description = "desc2",
+                    Name = "org 2",
+                    NumChildren = 20,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 20,
+                    ParentProgram_ProgramId = 40,
+                    ProgramId = 50,
+                    ProgramLevel = 60,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 70,
+                    Path = "1-1"
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+
+                Action<IList<OrganizationProgramDTO>> tester = (results) =>
+                {
+                    Assert.AreEqual(1, results.Count);
+                    Assert.IsTrue(Object.ReferenceEquals(dto1, results.First()));
+                };
+                var serviceResults = service.GetParentPrograms(dto2.ProgramId);
+                var serviceResultsAsync = await service.GetParentProgramsAsync(dto2.ProgramId);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetParentPrograms_HasTwoParentPrograms()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                var dto1 = new OrganizationProgramDTO
+                {
+                    Description = "desc1",
+                    Name = "org 1",
+                    NumChildren = 2,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    ParentProgram_ProgramId = 4,
+                    ProgramId = 5,
+                    ProgramLevel = 6,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 7,
+                    Path = "15"
+                };
+                var dto2 = new OrganizationProgramDTO
+                {
+                    Description = "desc2",
+                    Name = "org 2",
+                    NumChildren = 20,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 20,
+                    ParentProgram_ProgramId = 40,
+                    ProgramId = 50,
+                    ProgramLevel = 60,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 70,
+                    Path = "15-2"
+                };
+                var dto3 = new OrganizationProgramDTO
+                {
+                    Description = "desc2",
+                    Name = "org 2",
+                    NumChildren = 20,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 20,
+                    ParentProgram_ProgramId = 40,
+                    ProgramId = 60,
+                    ProgramLevel = 60,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 70,
+                    Path = "15-2-1"
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                list.Add(dto3);
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+
+                Action<IList<OrganizationProgramDTO>> tester = (results) =>
+                {
+                    Assert.AreEqual(2, results.Count);
+                    Assert.IsTrue(Object.ReferenceEquals(dto1, results.First()));
+                    Assert.IsTrue(Object.ReferenceEquals(dto2, results.Last()));
+                };
+                var serviceResults = service.GetParentPrograms(dto3.ProgramId);
+                var serviceResultsAsync = await service.GetParentProgramsAsync(dto3.ProgramId);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetParentPrograms_NoParentPrograms()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                var dto1 = new OrganizationProgramDTO
+                {
+                    Description = "desc1",
+                    Name = "org 1",
+                    NumChildren = 2,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    ParentProgram_ProgramId = 4,
+                    ProgramId = 5,
+                    ProgramLevel = 6,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 7,
+                    Path = "15"
+                };
+                
+                list.Add(dto1);
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+
+                Action<IList<OrganizationProgramDTO>> tester = (results) =>
+                {
+                    Assert.IsNotNull(results);
+                    Assert.AreEqual(0, results.Count);
+                };
+                var serviceResults = service.GetParentPrograms(dto1.ProgramId);
+                var serviceResultsAsync = await service.GetParentProgramsAsync(dto1.ProgramId);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetParentPrograms_ProgramDoesNotExist()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+
+                Action<IList<OrganizationProgramDTO>> tester = (results) =>
+                {
+                    Assert.IsNotNull(results);
+                    Assert.AreEqual(0, results.Count);
+                };
+                var serviceResults = service.GetParentPrograms(1);
+                var serviceResultsAsync = await service.GetParentProgramsAsync(1);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
+        }
+
+
+        [TestMethod]
         public async Task TestGetProgramById_CheckProperties_HasParentProgram()
         {
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
@@ -1763,759 +2018,1197 @@ namespace ECA.Business.Test.Service.Programs
         #endregion
 
         #region Update
+
+        [TestMethod]
+        public void TestUpdate_CheckParentProgramsRequested()
+        {
+            using (ShimsContext.Create())
+            {
+                var parentProgramsLoaded = false;
+                var list = new List<OrganizationProgramDTO>();
+                list.Add(new OrganizationProgramDTO());
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                parentProgramsLoaded = false;
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    parentProgramsLoaded = true;
+                    return list.ToArray();
+                });
+
+
+                Assert.AreEqual(0, context.Programs.Count());
+                var ownerId = 12;
+                context.Organizations.Add(new Organization { OrganizationId = ownerId });
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var originalRowVersion = new byte[1] { (byte)0 };
+                var parentProgram = new Program
+                {
+                    ProgramId = 2
+                };
+
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "old name",
+                    Description = "old description",
+                    StartDate = DateTimeOffset.UtcNow,
+                    EndDate = DateTime.UtcNow.AddDays(1.0),
+                    ProgramStatusId = ProgramStatus.Draft.Id,
+                    ParentProgram = null,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = creatorId,
+                        RevisedOn = yesterday
+                    },
+                };
+                context.Programs.Add(program);
+                context.Programs.Add(parentProgram);
+                Assert.AreEqual(2, context.Programs.Count());
+
+                var newName = "new name";
+                var newDescription = "new description";
+                var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+                var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+                var newProgramStatusId = ProgramStatus.Completed.Id;
+                var newParentProgramId = parentProgram.ProgramId;
+                var updatedRowVersion = new byte[1] { (byte)1 };
+
+                var updatedEcaProgram = new EcaProgram(
+                    updatedBy: new User(revisorId),
+                    id: program.ProgramId,
+                    name: newName,
+                    description: newDescription,
+                    startDate: newStartDate,
+                    endDate: newEndDate,
+                    ownerOrganizationId: ownerId,
+                    parentProgramId: newParentProgramId,
+                    programStatusId: newProgramStatusId,
+                    programRowVersion: updatedRowVersion,
+                    goalIds: null,
+                    pointOfContactIds: null,
+                    themeIds: null,
+                    regionIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    websites: null
+                    );
+                service.Update(updatedEcaProgram);
+                Assert.IsTrue(parentProgramsLoaded);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestUpdateAsync_CheckParentProgramsRequested()
+        {
+            using (ShimsContext.Create())
+            {
+                var parentProgramsLoaded = false;
+                var list = new List<OrganizationProgramDTO>();
+                list.Add(new OrganizationProgramDTO());
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                parentProgramsLoaded = true;
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    parentProgramsLoaded = false;
+                    return list.ToArray();
+                });
+
+
+                Assert.AreEqual(0, context.Programs.Count());
+                var ownerId = 12;
+                context.Organizations.Add(new Organization { OrganizationId = ownerId });
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var originalRowVersion = new byte[1] { (byte)0 };
+                var parentProgram = new Program
+                {
+                    ProgramId = 2
+                };
+
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "old name",
+                    Description = "old description",
+                    StartDate = DateTimeOffset.UtcNow,
+                    EndDate = DateTime.UtcNow.AddDays(1.0),
+                    ProgramStatusId = ProgramStatus.Draft.Id,
+                    ParentProgram = null,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = creatorId,
+                        RevisedOn = yesterday
+                    },
+                };
+                context.Programs.Add(program);
+                context.Programs.Add(parentProgram);
+                Assert.AreEqual(2, context.Programs.Count());
+
+                var newName = "new name";
+                var newDescription = "new description";
+                var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+                var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+                var newProgramStatusId = ProgramStatus.Completed.Id;
+                var newParentProgramId = parentProgram.ProgramId;
+                var updatedRowVersion = new byte[1] { (byte)1 };
+
+                var updatedEcaProgram = new EcaProgram(
+                    updatedBy: new User(revisorId),
+                    id: program.ProgramId,
+                    name: newName,
+                    description: newDescription,
+                    startDate: newStartDate,
+                    endDate: newEndDate,
+                    ownerOrganizationId: ownerId,
+                    parentProgramId: newParentProgramId,
+                    programStatusId: newProgramStatusId,
+                    programRowVersion: updatedRowVersion,
+                    goalIds: null,
+                    pointOfContactIds: null,
+                    themeIds: null,
+                    regionIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    websites: null
+                    );
+                await service.UpdateAsync(updatedEcaProgram);
+                Assert.IsTrue(parentProgramsLoaded);
+            }
+        }
+
         [TestMethod]
         public void TestUpdate_CheckProperties()
         {
-            Assert.AreEqual(0, context.Programs.Count());
-            var ownerId = 12;
-            context.Organizations.Add(new Organization { OrganizationId = ownerId });
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var now = DateTime.UtcNow;
-            var creatorId = 1;
-            var revisorId = 2;
-            var originalRowVersion = new byte[1] { (byte)0 };
-            var parentProgram = new Program
+            using (ShimsContext.Create())
             {
-                ProgramId = 2
-            };
-
-            var program = new Program
-            {
-                ProgramId = 1,
-                Name = "old name",
-                Description = "old description",
-                StartDate = DateTimeOffset.UtcNow,
-                EndDate = DateTime.UtcNow.AddDays(1.0),
-                ProgramStatusId = ProgramStatus.Draft.Id,
-                ParentProgram = null,
-                History = new History
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
                 {
-                    CreatedBy = creatorId,
-                    CreatedOn = yesterday,
-                    RevisedBy = creatorId,
-                    RevisedOn = yesterday
-                },
-            };
-            context.Programs.Add(program);
-            context.Programs.Add(parentProgram);
-            Assert.AreEqual(2, context.Programs.Count());
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
 
-            var newName = "new name";
-            var newDescription = "new description";
-            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
-            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
-            var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newParentProgramId = parentProgram.ProgramId;
-            var updatedRowVersion = new byte[1] { (byte)1 };
 
-            var updatedEcaProgram = new EcaProgram(
-                updatedBy: new User(revisorId),
-                id: program.ProgramId,
-                name: newName,
-                description: newDescription,
-                startDate: newStartDate,
-                endDate: newEndDate,
-                ownerOrganizationId: ownerId,
-                parentProgramId: newParentProgramId,
-                programStatusId: newProgramStatusId,
-                programRowVersion: updatedRowVersion,
-                goalIds: null,
-                pointOfContactIds: null,
-                themeIds: null,
-                regionIds: null,
-                categoryIds: null,
-                objectiveIds: null,
-                websites: null
-                );
-            service.Update(updatedEcaProgram);
+                Assert.AreEqual(0, context.Programs.Count());
+                var ownerId = 12;
+                context.Organizations.Add(new Organization { OrganizationId = ownerId });
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var originalRowVersion = new byte[1] { (byte)0 };
+                var parentProgram = new Program
+                {
+                    ProgramId = 2
+                };
 
-            mockValidator.Verify(x => x.ValidateUpdate(It.IsAny<ProgramServiceValidationEntity>()), Times.Once());
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "old name",
+                    Description = "old description",
+                    StartDate = DateTimeOffset.UtcNow,
+                    EndDate = DateTime.UtcNow.AddDays(1.0),
+                    ProgramStatusId = ProgramStatus.Draft.Id,
+                    ParentProgram = null,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = creatorId,
+                        RevisedOn = yesterday
+                    },
+                };
+                context.Programs.Add(program);
+                context.Programs.Add(parentProgram);
+                Assert.AreEqual(2, context.Programs.Count());
 
-            var updatedProgram = context.Programs.First();
-            Assert.AreEqual(newDescription, updatedProgram.Description);
-            Assert.AreEqual(newEndDate, updatedProgram.EndDate);
-            Assert.AreEqual(newName, updatedProgram.Name);
-            Assert.AreEqual(ownerId, updatedProgram.OwnerId);
-            Assert.AreEqual(ownerId, updatedProgram.Owner.OrganizationId);
-            Assert.AreEqual(program.ProgramId, updatedProgram.ProgramId);
-            Assert.AreEqual(newProgramStatusId, updatedProgram.ProgramStatusId);
-            Assert.AreEqual(newStartDate, updatedProgram.StartDate);
+                var newName = "new name";
+                var newDescription = "new description";
+                var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+                var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+                var newProgramStatusId = ProgramStatus.Completed.Id;
+                var newParentProgramId = parentProgram.ProgramId;
+                var updatedRowVersion = new byte[1] { (byte)1 };
 
-            Assert.AreEqual(yesterday, updatedProgram.History.CreatedOn);
-            Assert.AreEqual(creatorId, updatedProgram.History.CreatedBy);
-            Assert.AreEqual(revisorId, updatedProgram.History.RevisedBy);
-            DateTimeOffset.UtcNow.Should().BeCloseTo(updatedProgram.History.RevisedOn, DbContextHelper.DATE_PRECISION);
-            CollectionAssert.AreEqual(updatedRowVersion, updatedProgram.RowVersion);
+                var updatedEcaProgram = new EcaProgram(
+                    updatedBy: new User(revisorId),
+                    id: program.ProgramId,
+                    name: newName,
+                    description: newDescription,
+                    startDate: newStartDate,
+                    endDate: newEndDate,
+                    ownerOrganizationId: ownerId,
+                    parentProgramId: newParentProgramId,
+                    programStatusId: newProgramStatusId,
+                    programRowVersion: updatedRowVersion,
+                    goalIds: null,
+                    pointOfContactIds: null,
+                    themeIds: null,
+                    regionIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    websites: null
+                    );
+                service.Update(updatedEcaProgram);
 
+                mockValidator.Verify(x => x.ValidateUpdate(It.IsAny<ProgramServiceValidationEntity>()), Times.Once());
+
+                var updatedProgram = context.Programs.First();
+                Assert.AreEqual(newDescription, updatedProgram.Description);
+                Assert.AreEqual(newEndDate, updatedProgram.EndDate);
+                Assert.AreEqual(newName, updatedProgram.Name);
+                Assert.AreEqual(ownerId, updatedProgram.OwnerId);
+                Assert.AreEqual(ownerId, updatedProgram.Owner.OrganizationId);
+                Assert.AreEqual(program.ProgramId, updatedProgram.ProgramId);
+                Assert.AreEqual(newProgramStatusId, updatedProgram.ProgramStatusId);
+                Assert.AreEqual(newStartDate, updatedProgram.StartDate);
+
+                Assert.AreEqual(yesterday, updatedProgram.History.CreatedOn);
+                Assert.AreEqual(creatorId, updatedProgram.History.CreatedBy);
+                Assert.AreEqual(revisorId, updatedProgram.History.RevisedBy);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(updatedProgram.History.RevisedOn, DbContextHelper.DATE_PRECISION);
+                CollectionAssert.AreEqual(updatedRowVersion, updatedProgram.RowVersion);
+            }
         }
 
         [TestMethod]
         public async Task TestUpdateAsync_CheckProperties()
         {
-            Assert.AreEqual(0, context.Programs.Count());
-            var ownerId = 12;
-            context.Organizations.Add(new Organization { OrganizationId = ownerId });
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var now = DateTime.UtcNow;
-            var creatorId = 1;
-            var revisorId = 2;
-            var originalRowVersion = new byte[1] { (byte)1 };
-            var parentProgram = new Program
+            using (ShimsContext.Create())
             {
-                ProgramId = 2
-            };
-            var program = new Program
-            {
-                ProgramId = 1,
-                Name = "old name",
-                Description = "old description",
-                StartDate = DateTimeOffset.UtcNow,
-                EndDate = DateTime.UtcNow.AddDays(1.0),
-                ProgramStatusId = ProgramStatus.Draft.Id,
-                ParentProgram = null,
-                RowVersion = originalRowVersion,
-                History = new History
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
                 {
-                    CreatedBy = creatorId,
-                    CreatedOn = yesterday,
-                    RevisedBy = creatorId,
-                    RevisedOn = yesterday
-                },
-            };
-            context.Programs.Add(program);
-            context.Programs.Add(parentProgram);
-            Assert.AreEqual(2, context.Programs.Count());
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                Assert.AreEqual(0, context.Programs.Count());
+                var ownerId = 12;
+                context.Organizations.Add(new Organization { OrganizationId = ownerId });
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var originalRowVersion = new byte[1] { (byte)1 };
+                var parentProgram = new Program
+                {
+                    ProgramId = 2
+                };
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "old name",
+                    Description = "old description",
+                    StartDate = DateTimeOffset.UtcNow,
+                    EndDate = DateTime.UtcNow.AddDays(1.0),
+                    ProgramStatusId = ProgramStatus.Draft.Id,
+                    ParentProgram = null,
+                    RowVersion = originalRowVersion,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = creatorId,
+                        RevisedOn = yesterday
+                    },
+                };
+                context.Programs.Add(program);
+                context.Programs.Add(parentProgram);
+                Assert.AreEqual(2, context.Programs.Count());
 
-            var newName = "new name";
-            var newDescription = "new description";
-            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
-            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
-            var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newParentProgramId = parentProgram.ProgramId;
-            var updatedRowVersion = new byte[1] { (byte)1 };
+                var newName = "new name";
+                var newDescription = "new description";
+                var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+                var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+                var newProgramStatusId = ProgramStatus.Completed.Id;
+                var newParentProgramId = parentProgram.ProgramId;
+                var updatedRowVersion = new byte[1] { (byte)1 };
 
-            var updatedEcaProgram = new EcaProgram(
-                updatedBy: new User(revisorId),
-                id: program.ProgramId,
-                name: newName,
-                description: newDescription,
-                startDate: newStartDate,
-                endDate: newEndDate,
-                ownerOrganizationId: ownerId,
-                parentProgramId: newParentProgramId,
-                programStatusId: newProgramStatusId,
-                programRowVersion: updatedRowVersion,
-                goalIds: null,
-                pointOfContactIds: null,
-                themeIds: null,
-                regionIds: null,
-                categoryIds: null,
-                objectiveIds: null,
-                websites: null
-                );
-            await service.UpdateAsync(updatedEcaProgram);
-            mockValidator.Verify(x => x.ValidateUpdate(It.IsAny<ProgramServiceValidationEntity>()), Times.Once());
+                var updatedEcaProgram = new EcaProgram(
+                    updatedBy: new User(revisorId),
+                    id: program.ProgramId,
+                    name: newName,
+                    description: newDescription,
+                    startDate: newStartDate,
+                    endDate: newEndDate,
+                    ownerOrganizationId: ownerId,
+                    parentProgramId: newParentProgramId,
+                    programStatusId: newProgramStatusId,
+                    programRowVersion: updatedRowVersion,
+                    goalIds: null,
+                    pointOfContactIds: null,
+                    themeIds: null,
+                    regionIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    websites: null
+                    );
+                await service.UpdateAsync(updatedEcaProgram);
+                mockValidator.Verify(x => x.ValidateUpdate(It.IsAny<ProgramServiceValidationEntity>()), Times.Once());
 
-            var updatedProgram = context.Programs.First();
-            Assert.AreEqual(newDescription, updatedProgram.Description);
-            Assert.AreEqual(newEndDate, updatedProgram.EndDate);
-            Assert.AreEqual(newName, updatedProgram.Name);
-            Assert.AreEqual(ownerId, updatedProgram.OwnerId);
-            Assert.AreEqual(ownerId, updatedProgram.Owner.OrganizationId);
-            Assert.AreEqual(program.ProgramId, updatedProgram.ProgramId);
-            Assert.AreEqual(newProgramStatusId, updatedProgram.ProgramStatusId);
-            Assert.AreEqual(newStartDate, updatedProgram.StartDate);
+                var updatedProgram = context.Programs.First();
+                Assert.AreEqual(newDescription, updatedProgram.Description);
+                Assert.AreEqual(newEndDate, updatedProgram.EndDate);
+                Assert.AreEqual(newName, updatedProgram.Name);
+                Assert.AreEqual(ownerId, updatedProgram.OwnerId);
+                Assert.AreEqual(ownerId, updatedProgram.Owner.OrganizationId);
+                Assert.AreEqual(program.ProgramId, updatedProgram.ProgramId);
+                Assert.AreEqual(newProgramStatusId, updatedProgram.ProgramStatusId);
+                Assert.AreEqual(newStartDate, updatedProgram.StartDate);
 
-            Assert.AreEqual(yesterday, updatedProgram.History.CreatedOn);
-            Assert.AreEqual(creatorId, updatedProgram.History.CreatedBy);
+                Assert.AreEqual(yesterday, updatedProgram.History.CreatedOn);
+                Assert.AreEqual(creatorId, updatedProgram.History.CreatedBy);
 
-            CollectionAssert.AreEqual(updatedRowVersion, updatedProgram.RowVersion);
+                CollectionAssert.AreEqual(updatedRowVersion, updatedProgram.RowVersion);
 
-            Assert.AreEqual(revisorId, updatedProgram.History.RevisedBy);
-            DateTimeOffset.UtcNow.Should().BeCloseTo(updatedProgram.History.RevisedOn, DbContextHelper.DATE_PRECISION);
+                Assert.AreEqual(revisorId, updatedProgram.History.RevisedBy);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(updatedProgram.History.RevisedOn, DbContextHelper.DATE_PRECISION);
+            }
         }
 
         [TestMethod]
         public void TestUpdate_CheckGoals()
         {
-            Assert.AreEqual(0, context.Programs.Count());
-            var ownerId = 12;
-            context.Organizations.Add(new Organization { OrganizationId = ownerId });
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var now = DateTime.UtcNow;
-            var creatorId = 1;
-            var revisorId = 2;
-            var parentProgram = new Program
+            using (ShimsContext.Create())
             {
-                ProgramId = 2
-            };
-            var focus = new Focus
-            {
-                FocusId = 100
-            };
-            var program = new Program
-            {
-                ProgramId = 1,
-                Name = "old name",
-                Description = "old description",
-                StartDate = DateTimeOffset.UtcNow,
-                EndDate = DateTime.UtcNow.AddDays(1.0),
-                ProgramStatusId = ProgramStatus.Draft.Id,
-                ParentProgram = null,
-                History = new History
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
                 {
-                    CreatedBy = creatorId,
-                    CreatedOn = yesterday,
-                    RevisedBy = revisorId,
-                    RevisedOn = now
-                },
-            };
-            context.Programs.Add(program);
-            context.Programs.Add(parentProgram);
-            Assert.AreEqual(2, context.Programs.Count());
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                Assert.AreEqual(0, context.Programs.Count());
+                var ownerId = 12;
+                context.Organizations.Add(new Organization { OrganizationId = ownerId });
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var parentProgram = new Program
+                {
+                    ProgramId = 2
+                };
+                var focus = new Focus
+                {
+                    FocusId = 100
+                };
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "old name",
+                    Description = "old description",
+                    StartDate = DateTimeOffset.UtcNow,
+                    EndDate = DateTime.UtcNow.AddDays(1.0),
+                    ProgramStatusId = ProgramStatus.Draft.Id,
+                    ParentProgram = null,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = revisorId,
+                        RevisedOn = now
+                    },
+                };
+                context.Programs.Add(program);
+                context.Programs.Add(parentProgram);
+                Assert.AreEqual(2, context.Programs.Count());
 
-            var newName = "new name";
-            var newDescription = "new description";
-            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
-            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
-            var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newParentProgramId = parentProgram.ProgramId;
+                var newName = "new name";
+                var newDescription = "new description";
+                var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+                var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+                var newProgramStatusId = ProgramStatus.Completed.Id;
+                var newParentProgramId = parentProgram.ProgramId;
 
-            var updatedEcaProgram = new EcaProgram(
-                updatedBy: new User(revisorId),
-                id: program.ProgramId,
-                name: newName,
-                description: newDescription,
-                startDate: newStartDate,
-                endDate: newEndDate,
-                ownerOrganizationId: ownerId,
-                parentProgramId: newParentProgramId,
-                programStatusId: newProgramStatusId,
-                programRowVersion: new byte[0],
-                goalIds: new List<int> { 1 },
-                pointOfContactIds: null,
-                themeIds: null,
-                regionIds: null,
-                categoryIds: null,
-                objectiveIds: null,
-                websites: null
-                );
-            service.Update(updatedEcaProgram);
+                var updatedEcaProgram = new EcaProgram(
+                    updatedBy: new User(revisorId),
+                    id: program.ProgramId,
+                    name: newName,
+                    description: newDescription,
+                    startDate: newStartDate,
+                    endDate: newEndDate,
+                    ownerOrganizationId: ownerId,
+                    parentProgramId: newParentProgramId,
+                    programStatusId: newProgramStatusId,
+                    programRowVersion: new byte[0],
+                    goalIds: new List<int> { 1 },
+                    pointOfContactIds: null,
+                    themeIds: null,
+                    regionIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    websites: null
+                    );
+                service.Update(updatedEcaProgram);
 
-            var updatedProgram = context.Programs.First();
-            Assert.AreEqual(1, updatedProgram.Goals.Count);
-            Assert.AreEqual(0, updatedProgram.Regions.Count);
-            Assert.AreEqual(0, updatedProgram.Themes.Count);
-            Assert.AreEqual(0, updatedProgram.Contacts.Count);
+                var updatedProgram = context.Programs.First();
+                Assert.AreEqual(1, updatedProgram.Goals.Count);
+                Assert.AreEqual(0, updatedProgram.Regions.Count);
+                Assert.AreEqual(0, updatedProgram.Themes.Count);
+                Assert.AreEqual(0, updatedProgram.Contacts.Count);
 
-            Assert.AreEqual(updatedEcaProgram.GoalIds.First(), updatedProgram.Goals.First().GoalId);
+                Assert.AreEqual(updatedEcaProgram.GoalIds.First(), updatedProgram.Goals.First().GoalId);
+            }
         }
 
         [TestMethod]
         public async Task TestUpdateAsync_CheckGoals()
         {
-            Assert.AreEqual(0, context.Programs.Count());
-            var ownerId = 12;
-            context.Organizations.Add(new Organization { OrganizationId = ownerId });
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var now = DateTime.UtcNow;
-            var creatorId = 1;
-            var revisorId = 2;
-            var parentProgram = new Program
+            using (ShimsContext.Create())
             {
-                ProgramId = 2
-            };
-
-            var program = new Program
-            {
-                ProgramId = 1,
-                Name = "old name",
-                Description = "old description",
-                StartDate = DateTimeOffset.UtcNow,
-                EndDate = DateTime.UtcNow.AddDays(1.0),
-                ProgramStatusId = ProgramStatus.Draft.Id,
-                ParentProgram = null,
-                History = new History
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
                 {
-                    CreatedBy = creatorId,
-                    CreatedOn = yesterday,
-                    RevisedBy = revisorId,
-                    RevisedOn = now
-                },
-            };
-            context.Programs.Add(program);
-            context.Programs.Add(parentProgram);
-            Assert.AreEqual(2, context.Programs.Count());
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                Assert.AreEqual(0, context.Programs.Count());
+                var ownerId = 12;
+                context.Organizations.Add(new Organization { OrganizationId = ownerId });
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var parentProgram = new Program
+                {
+                    ProgramId = 2
+                };
 
-            var newName = "new name";
-            var newDescription = "new description";
-            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
-            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
-            var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newParentProgramId = parentProgram.ProgramId;
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "old name",
+                    Description = "old description",
+                    StartDate = DateTimeOffset.UtcNow,
+                    EndDate = DateTime.UtcNow.AddDays(1.0),
+                    ProgramStatusId = ProgramStatus.Draft.Id,
+                    ParentProgram = null,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = revisorId,
+                        RevisedOn = now
+                    },
+                };
+                context.Programs.Add(program);
+                context.Programs.Add(parentProgram);
+                Assert.AreEqual(2, context.Programs.Count());
 
-            var updatedEcaProgram = new EcaProgram(
-                updatedBy: new User(revisorId),
-                id: program.ProgramId,
-                name: newName,
-                description: newDescription,
-                startDate: newStartDate,
-                endDate: newEndDate,
-                ownerOrganizationId: ownerId,
-                parentProgramId: newParentProgramId,
-                programStatusId: newProgramStatusId,
-                programRowVersion: new byte[0],
-                goalIds: new List<int> { 1 },
-                pointOfContactIds: null,
-                themeIds: null,
-                regionIds: null,
-                categoryIds: null,
-                objectiveIds: null,
-                websites: null
-                );
-            await service.UpdateAsync(updatedEcaProgram);
+                var newName = "new name";
+                var newDescription = "new description";
+                var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+                var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+                var newProgramStatusId = ProgramStatus.Completed.Id;
+                var newParentProgramId = parentProgram.ProgramId;
 
-            var updatedProgram = context.Programs.First();
-            Assert.AreEqual(1, updatedProgram.Goals.Count);
-            Assert.AreEqual(0, updatedProgram.Regions.Count);
-            Assert.AreEqual(0, updatedProgram.Themes.Count);
-            Assert.AreEqual(0, updatedProgram.Contacts.Count);
+                var updatedEcaProgram = new EcaProgram(
+                    updatedBy: new User(revisorId),
+                    id: program.ProgramId,
+                    name: newName,
+                    description: newDescription,
+                    startDate: newStartDate,
+                    endDate: newEndDate,
+                    ownerOrganizationId: ownerId,
+                    parentProgramId: newParentProgramId,
+                    programStatusId: newProgramStatusId,
+                    programRowVersion: new byte[0],
+                    goalIds: new List<int> { 1 },
+                    pointOfContactIds: null,
+                    themeIds: null,
+                    regionIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    websites: null
+                    );
+                await service.UpdateAsync(updatedEcaProgram);
 
-            Assert.AreEqual(updatedEcaProgram.GoalIds.First(), updatedProgram.Goals.First().GoalId);
+                var updatedProgram = context.Programs.First();
+                Assert.AreEqual(1, updatedProgram.Goals.Count);
+                Assert.AreEqual(0, updatedProgram.Regions.Count);
+                Assert.AreEqual(0, updatedProgram.Themes.Count);
+                Assert.AreEqual(0, updatedProgram.Contacts.Count);
+
+                Assert.AreEqual(updatedEcaProgram.GoalIds.First(), updatedProgram.Goals.First().GoalId);
+            }
         }
 
         [TestMethod]
         public void TestUpdate_CheckThemes()
         {
-            Assert.AreEqual(0, context.Programs.Count());
-            var ownerId = 12;
-            context.Organizations.Add(new Organization { OrganizationId = ownerId });
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var now = DateTime.UtcNow;
-            var creatorId = 1;
-            var revisorId = 2;
-            var parentProgram = new Program
+            using (ShimsContext.Create())
             {
-                ProgramId = 2
-            };
-            var program = new Program
-            {
-                ProgramId = 1,
-                Name = "old name",
-                Description = "old description",
-                StartDate = DateTimeOffset.UtcNow,
-                EndDate = DateTime.UtcNow.AddDays(1.0),
-                ProgramStatusId = ProgramStatus.Draft.Id,
-                ParentProgram = null,
-                History = new History
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
                 {
-                    CreatedBy = creatorId,
-                    CreatedOn = yesterday,
-                    RevisedBy = revisorId,
-                    RevisedOn = now
-                },
-            };
-            context.Programs.Add(program);
-            context.Programs.Add(parentProgram);
-            Assert.AreEqual(2, context.Programs.Count());
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                Assert.AreEqual(0, context.Programs.Count());
+                var ownerId = 12;
+                context.Organizations.Add(new Organization { OrganizationId = ownerId });
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var parentProgram = new Program
+                {
+                    ProgramId = 2
+                };
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "old name",
+                    Description = "old description",
+                    StartDate = DateTimeOffset.UtcNow,
+                    EndDate = DateTime.UtcNow.AddDays(1.0),
+                    ProgramStatusId = ProgramStatus.Draft.Id,
+                    ParentProgram = null,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = revisorId,
+                        RevisedOn = now
+                    },
+                };
+                context.Programs.Add(program);
+                context.Programs.Add(parentProgram);
+                Assert.AreEqual(2, context.Programs.Count());
 
-            var newName = "new name";
-            var newDescription = "new description";
-            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
-            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
-            var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newParentProgramId = parentProgram.ProgramId;
+                var newName = "new name";
+                var newDescription = "new description";
+                var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+                var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+                var newProgramStatusId = ProgramStatus.Completed.Id;
+                var newParentProgramId = parentProgram.ProgramId;
 
-            var updatedEcaProgram = new EcaProgram(
-                updatedBy: new User(revisorId),
-                id: program.ProgramId,
-                name: newName,
-                description: newDescription,
-                startDate: newStartDate,
-                endDate: newEndDate,
-                ownerOrganizationId: ownerId,
-                parentProgramId: newParentProgramId,
-                programStatusId: newProgramStatusId,
-                programRowVersion: new byte[0],
-                goalIds: null,
-                pointOfContactIds: null,
-                themeIds: new List<int> { 1 },
-                regionIds: null,
-                categoryIds: null,
-                objectiveIds: null,
-                websites: null
-                );
-            service.Update(updatedEcaProgram);
+                var updatedEcaProgram = new EcaProgram(
+                    updatedBy: new User(revisorId),
+                    id: program.ProgramId,
+                    name: newName,
+                    description: newDescription,
+                    startDate: newStartDate,
+                    endDate: newEndDate,
+                    ownerOrganizationId: ownerId,
+                    parentProgramId: newParentProgramId,
+                    programStatusId: newProgramStatusId,
+                    programRowVersion: new byte[0],
+                    goalIds: null,
+                    pointOfContactIds: null,
+                    themeIds: new List<int> { 1 },
+                    regionIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    websites: null
+                    );
+                service.Update(updatedEcaProgram);
 
-            var updatedProgram = context.Programs.First();
-            Assert.AreEqual(0, updatedProgram.Goals.Count);
-            Assert.AreEqual(0, updatedProgram.Regions.Count);
-            Assert.AreEqual(1, updatedProgram.Themes.Count);
-            Assert.AreEqual(0, updatedProgram.Contacts.Count);
-            Assert.AreEqual(updatedEcaProgram.ThemeIds.First(), updatedProgram.Themes.First().ThemeId);
+                var updatedProgram = context.Programs.First();
+                Assert.AreEqual(0, updatedProgram.Goals.Count);
+                Assert.AreEqual(0, updatedProgram.Regions.Count);
+                Assert.AreEqual(1, updatedProgram.Themes.Count);
+                Assert.AreEqual(0, updatedProgram.Contacts.Count);
+                Assert.AreEqual(updatedEcaProgram.ThemeIds.First(), updatedProgram.Themes.First().ThemeId);
+            }
         }
 
         [TestMethod]
         public async Task TestUpdateAsync_CheckThemes()
         {
-            Assert.AreEqual(0, context.Programs.Count());
-            var ownerId = 12;
-            context.Organizations.Add(new Organization { OrganizationId = ownerId });
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var now = DateTime.UtcNow;
-            var creatorId = 1;
-            var revisorId = 2;
-            var parentProgram = new Program
+            using (ShimsContext.Create())
             {
-                ProgramId = 2
-            };
-            var program = new Program
-            {
-                ProgramId = 1,
-                Name = "old name",
-                Description = "old description",
-                StartDate = DateTimeOffset.UtcNow,
-                EndDate = DateTime.UtcNow.AddDays(1.0),
-                ProgramStatusId = ProgramStatus.Draft.Id,
-                ParentProgram = null,
-                History = new History
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
                 {
-                    CreatedBy = creatorId,
-                    CreatedOn = yesterday,
-                    RevisedBy = revisorId,
-                    RevisedOn = now
-                },
-            };
-            context.Programs.Add(program);
-            context.Programs.Add(parentProgram);
-            Assert.AreEqual(2, context.Programs.Count());
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                Assert.AreEqual(0, context.Programs.Count());
+                var ownerId = 12;
+                context.Organizations.Add(new Organization { OrganizationId = ownerId });
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var parentProgram = new Program
+                {
+                    ProgramId = 2
+                };
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "old name",
+                    Description = "old description",
+                    StartDate = DateTimeOffset.UtcNow,
+                    EndDate = DateTime.UtcNow.AddDays(1.0),
+                    ProgramStatusId = ProgramStatus.Draft.Id,
+                    ParentProgram = null,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = revisorId,
+                        RevisedOn = now
+                    },
+                };
+                context.Programs.Add(program);
+                context.Programs.Add(parentProgram);
+                Assert.AreEqual(2, context.Programs.Count());
 
-            var newName = "new name";
-            var newDescription = "new description";
-            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
-            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
-            var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newParentProgramId = parentProgram.ProgramId;
+                var newName = "new name";
+                var newDescription = "new description";
+                var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+                var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+                var newProgramStatusId = ProgramStatus.Completed.Id;
+                var newParentProgramId = parentProgram.ProgramId;
 
-            var updatedEcaProgram = new EcaProgram(
-                updatedBy: new User(revisorId),
-                id: program.ProgramId,
-                name: newName,
-                description: newDescription,
-                startDate: newStartDate,
-                endDate: newEndDate,
-                ownerOrganizationId: ownerId,
-                parentProgramId: newParentProgramId,
-                programStatusId: newProgramStatusId,
-                programRowVersion: new byte[0],
-                goalIds: null,
-                pointOfContactIds: null,
-                themeIds: new List<int> { 1 },
-                regionIds: null,
-                categoryIds: null,
-                objectiveIds: null,
-                websites: null
-                );
-            await service.UpdateAsync(updatedEcaProgram);
+                var updatedEcaProgram = new EcaProgram(
+                    updatedBy: new User(revisorId),
+                    id: program.ProgramId,
+                    name: newName,
+                    description: newDescription,
+                    startDate: newStartDate,
+                    endDate: newEndDate,
+                    ownerOrganizationId: ownerId,
+                    parentProgramId: newParentProgramId,
+                    programStatusId: newProgramStatusId,
+                    programRowVersion: new byte[0],
+                    goalIds: null,
+                    pointOfContactIds: null,
+                    themeIds: new List<int> { 1 },
+                    regionIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    websites: null
+                    );
+                await service.UpdateAsync(updatedEcaProgram);
 
-            var updatedProgram = context.Programs.First();
-            Assert.AreEqual(0, updatedProgram.Goals.Count);
-            Assert.AreEqual(0, updatedProgram.Regions.Count);
-            Assert.AreEqual(1, updatedProgram.Themes.Count);
-            Assert.AreEqual(0, updatedProgram.Contacts.Count);
-            Assert.AreEqual(updatedEcaProgram.ThemeIds.First(), updatedProgram.Themes.First().ThemeId);
+                var updatedProgram = context.Programs.First();
+                Assert.AreEqual(0, updatedProgram.Goals.Count);
+                Assert.AreEqual(0, updatedProgram.Regions.Count);
+                Assert.AreEqual(1, updatedProgram.Themes.Count);
+                Assert.AreEqual(0, updatedProgram.Contacts.Count);
+                Assert.AreEqual(updatedEcaProgram.ThemeIds.First(), updatedProgram.Themes.First().ThemeId);
+            }
         }
 
         [TestMethod]
         public void TestUpdate_CheckPointOfContacts()
         {
-            Assert.AreEqual(0, context.Programs.Count());
-            var ownerId = 12;
-            context.Organizations.Add(new Organization { OrganizationId = ownerId });
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var now = DateTime.UtcNow;
-            var creatorId = 1;
-            var revisorId = 2;
-            var parentProgram = new Program
+            using (ShimsContext.Create())
             {
-                ProgramId = 2
-            };
-
-            var program = new Program
-            {
-                ProgramId = 1,
-                Name = "old name",
-                Description = "old description",
-                StartDate = DateTimeOffset.UtcNow,
-                EndDate = DateTime.UtcNow.AddDays(1.0),
-
-                ProgramStatusId = ProgramStatus.Draft.Id,
-                ParentProgram = null,
-                History = new History
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
                 {
-                    CreatedBy = creatorId,
-                    CreatedOn = yesterday,
-                    RevisedBy = revisorId,
-                    RevisedOn = now
-                },
-            };
-            context.Programs.Add(program);
-            context.Programs.Add(parentProgram);
-            Assert.AreEqual(2, context.Programs.Count());
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                Assert.AreEqual(0, context.Programs.Count());
+                var ownerId = 12;
+                context.Organizations.Add(new Organization { OrganizationId = ownerId });
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var parentProgram = new Program
+                {
+                    ProgramId = 2
+                };
 
-            var newName = "new name";
-            var newDescription = "new description";
-            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
-            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
-            var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newParentProgramId = parentProgram.ProgramId;
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "old name",
+                    Description = "old description",
+                    StartDate = DateTimeOffset.UtcNow,
+                    EndDate = DateTime.UtcNow.AddDays(1.0),
 
-            var updatedEcaProgram = new EcaProgram(
-                updatedBy: new User(revisorId),
-                id: program.ProgramId,
-                name: newName,
-                description: newDescription,
-                startDate: newStartDate,
-                endDate: newEndDate,
-                ownerOrganizationId: ownerId,
-                parentProgramId: newParentProgramId,
-                programStatusId: newProgramStatusId,
-                programRowVersion: new byte[0],
-                goalIds: null,
-                pointOfContactIds: new List<int> { 1 },
-                themeIds: null,
-                regionIds: null,
-                categoryIds: null,
-                objectiveIds: null,
-                websites: null
-                );
-            service.Update(updatedEcaProgram);
+                    ProgramStatusId = ProgramStatus.Draft.Id,
+                    ParentProgram = null,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = revisorId,
+                        RevisedOn = now
+                    },
+                };
+                context.Programs.Add(program);
+                context.Programs.Add(parentProgram);
+                Assert.AreEqual(2, context.Programs.Count());
 
-            var updatedProgram = context.Programs.First();
-            Assert.AreEqual(0, updatedProgram.Goals.Count);
-            Assert.AreEqual(0, updatedProgram.Regions.Count);
-            Assert.AreEqual(0, updatedProgram.Themes.Count);
-            Assert.AreEqual(1, updatedProgram.Contacts.Count);
-            Assert.AreEqual(updatedEcaProgram.ContactIds.First(), updatedProgram.Contacts.First().ContactId);
+                var newName = "new name";
+                var newDescription = "new description";
+                var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+                var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+                var newProgramStatusId = ProgramStatus.Completed.Id;
+                var newParentProgramId = parentProgram.ProgramId;
+
+                var updatedEcaProgram = new EcaProgram(
+                    updatedBy: new User(revisorId),
+                    id: program.ProgramId,
+                    name: newName,
+                    description: newDescription,
+                    startDate: newStartDate,
+                    endDate: newEndDate,
+                    ownerOrganizationId: ownerId,
+                    parentProgramId: newParentProgramId,
+                    programStatusId: newProgramStatusId,
+                    programRowVersion: new byte[0],
+                    goalIds: null,
+                    pointOfContactIds: new List<int> { 1 },
+                    themeIds: null,
+                    regionIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    websites: null
+                    );
+                service.Update(updatedEcaProgram);
+
+                var updatedProgram = context.Programs.First();
+                Assert.AreEqual(0, updatedProgram.Goals.Count);
+                Assert.AreEqual(0, updatedProgram.Regions.Count);
+                Assert.AreEqual(0, updatedProgram.Themes.Count);
+                Assert.AreEqual(1, updatedProgram.Contacts.Count);
+                Assert.AreEqual(updatedEcaProgram.ContactIds.First(), updatedProgram.Contacts.First().ContactId);
+            }
         }
 
         [TestMethod]
         public async Task TestUpdateAsync_CheckPointOfContacts()
         {
-            Assert.AreEqual(0, context.Programs.Count());
-            var ownerId = 12;
-            context.Organizations.Add(new Organization { OrganizationId = ownerId });
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var now = DateTime.UtcNow;
-            var creatorId = 1;
-            var revisorId = 2;
-            var parentProgram = new Program
+            using (ShimsContext.Create())
             {
-                ProgramId = 2
-            };
-            var program = new Program
-            {
-                ProgramId = 1,
-                Name = "old name",
-                Description = "old description",
-                StartDate = DateTimeOffset.UtcNow,
-                EndDate = DateTime.UtcNow.AddDays(1.0),
-                ProgramStatusId = ProgramStatus.Draft.Id,
-                ParentProgram = null,
-                History = new History
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
                 {
-                    CreatedBy = creatorId,
-                    CreatedOn = yesterday,
-                    RevisedBy = revisorId,
-                    RevisedOn = now
-                },
-            };
-            context.Programs.Add(program);
-            context.Programs.Add(parentProgram);
-            Assert.AreEqual(2, context.Programs.Count());
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                Assert.AreEqual(0, context.Programs.Count());
+                var ownerId = 12;
+                context.Organizations.Add(new Organization { OrganizationId = ownerId });
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var parentProgram = new Program
+                {
+                    ProgramId = 2
+                };
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "old name",
+                    Description = "old description",
+                    StartDate = DateTimeOffset.UtcNow,
+                    EndDate = DateTime.UtcNow.AddDays(1.0),
+                    ProgramStatusId = ProgramStatus.Draft.Id,
+                    ParentProgram = null,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = revisorId,
+                        RevisedOn = now
+                    },
+                };
+                context.Programs.Add(program);
+                context.Programs.Add(parentProgram);
+                Assert.AreEqual(2, context.Programs.Count());
 
-            var newName = "new name";
-            var newDescription = "new description";
-            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
-            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
-            var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newParentProgramId = parentProgram.ProgramId;
+                var newName = "new name";
+                var newDescription = "new description";
+                var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+                var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+                var newProgramStatusId = ProgramStatus.Completed.Id;
+                var newParentProgramId = parentProgram.ProgramId;
 
-            var updatedEcaProgram = new EcaProgram(
-                updatedBy: new User(revisorId),
-                id: program.ProgramId,
-                name: newName,
-                description: newDescription,
-                startDate: newStartDate,
-                endDate: newEndDate,
-                ownerOrganizationId: ownerId,
-                parentProgramId: newParentProgramId,
-                programStatusId: newProgramStatusId,
-                programRowVersion: new byte[0],
-                goalIds: null,
-                pointOfContactIds: new List<int> { 1 },
-                themeIds: null,
-                regionIds: null,
-                categoryIds: null,
-                objectiveIds: null,
-                websites: null
-                );
-            await service.UpdateAsync(updatedEcaProgram);
+                var updatedEcaProgram = new EcaProgram(
+                    updatedBy: new User(revisorId),
+                    id: program.ProgramId,
+                    name: newName,
+                    description: newDescription,
+                    startDate: newStartDate,
+                    endDate: newEndDate,
+                    ownerOrganizationId: ownerId,
+                    parentProgramId: newParentProgramId,
+                    programStatusId: newProgramStatusId,
+                    programRowVersion: new byte[0],
+                    goalIds: null,
+                    pointOfContactIds: new List<int> { 1 },
+                    themeIds: null,
+                    regionIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    websites: null
+                    );
+                await service.UpdateAsync(updatedEcaProgram);
 
-            var updatedProgram = context.Programs.First();
-            Assert.AreEqual(0, updatedProgram.Goals.Count);
-            Assert.AreEqual(0, updatedProgram.Regions.Count);
-            Assert.AreEqual(0, updatedProgram.Themes.Count);
-            Assert.AreEqual(1, updatedProgram.Contacts.Count);
-            Assert.AreEqual(updatedEcaProgram.ContactIds.First(), updatedProgram.Contacts.First().ContactId);
+                var updatedProgram = context.Programs.First();
+                Assert.AreEqual(0, updatedProgram.Goals.Count);
+                Assert.AreEqual(0, updatedProgram.Regions.Count);
+                Assert.AreEqual(0, updatedProgram.Themes.Count);
+                Assert.AreEqual(1, updatedProgram.Contacts.Count);
+                Assert.AreEqual(updatedEcaProgram.ContactIds.First(), updatedProgram.Contacts.First().ContactId);
+            }
         }
 
         [TestMethod]
         public void TestUpdate_CheckRegions()
         {
-            var ownerId = 12;
-            context.Organizations.Add(new Organization { OrganizationId = ownerId });
-            var region = new Location { LocationId = 1, LocationTypeId = LocationType.Region.Id };
-            context.Locations.Add(region);
-            Assert.AreEqual(0, context.Programs.Count());
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var now = DateTime.UtcNow;
-            var creatorId = 1;
-            var revisorId = 2;
-            var parentProgram = new Program
+            using (ShimsContext.Create())
             {
-                ProgramId = 2
-            };
-
-            var program = new Program
-            {
-                ProgramId = 1,
-                Name = "old name",
-                Description = "old description",
-                StartDate = DateTimeOffset.UtcNow,
-                EndDate = DateTime.UtcNow.AddDays(1.0),
-                ProgramStatusId = ProgramStatus.Draft.Id,
-                ParentProgram = null,
-                History = new History
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
                 {
-                    CreatedBy = creatorId,
-                    CreatedOn = yesterday,
-                    RevisedBy = revisorId,
-                    RevisedOn = now
-                },
-            };
-            context.Programs.Add(program);
-            context.Programs.Add(parentProgram);
-            Assert.AreEqual(2, context.Programs.Count());
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                var ownerId = 12;
+                context.Organizations.Add(new Organization { OrganizationId = ownerId });
+                var region = new Location { LocationId = 1, LocationTypeId = LocationType.Region.Id };
+                context.Locations.Add(region);
+                Assert.AreEqual(0, context.Programs.Count());
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var parentProgram = new Program
+                {
+                    ProgramId = 2
+                };
 
-            var newName = "new name";
-            var newDescription = "new description";
-            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
-            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
-            var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newParentProgramId = parentProgram.ProgramId;
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "old name",
+                    Description = "old description",
+                    StartDate = DateTimeOffset.UtcNow,
+                    EndDate = DateTime.UtcNow.AddDays(1.0),
+                    ProgramStatusId = ProgramStatus.Draft.Id,
+                    ParentProgram = null,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = revisorId,
+                        RevisedOn = now
+                    },
+                };
+                context.Programs.Add(program);
+                context.Programs.Add(parentProgram);
+                Assert.AreEqual(2, context.Programs.Count());
 
-            var updatedEcaProgram = new EcaProgram(
-                updatedBy: new User(revisorId),
-                id: program.ProgramId,
-                name: newName,
-                description: newDescription,
-                startDate: newStartDate,
-                endDate: newEndDate,
-                ownerOrganizationId: ownerId,
-                parentProgramId: newParentProgramId,
-                programStatusId: newProgramStatusId,
-                programRowVersion: new byte[0],
-                goalIds: null,
-                pointOfContactIds: null,
-                themeIds: null,
-                regionIds: new List<int> { region.LocationId },
-                categoryIds: null,
-                objectiveIds: null,
-                websites: null
-                );
-            service.Update(updatedEcaProgram);
+                var newName = "new name";
+                var newDescription = "new description";
+                var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+                var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+                var newProgramStatusId = ProgramStatus.Completed.Id;
+                var newParentProgramId = parentProgram.ProgramId;
 
-            var updatedProgram = context.Programs.First();
-            Assert.AreEqual(0, updatedProgram.Goals.Count);
-            Assert.AreEqual(1, updatedProgram.Regions.Count);
-            Assert.AreEqual(0, updatedProgram.Themes.Count);
-            Assert.AreEqual(0, updatedProgram.Contacts.Count);
-            Assert.AreEqual(updatedEcaProgram.RegionIds.First(), updatedProgram.Regions.First().LocationId);
+                var updatedEcaProgram = new EcaProgram(
+                    updatedBy: new User(revisorId),
+                    id: program.ProgramId,
+                    name: newName,
+                    description: newDescription,
+                    startDate: newStartDate,
+                    endDate: newEndDate,
+                    ownerOrganizationId: ownerId,
+                    parentProgramId: newParentProgramId,
+                    programStatusId: newProgramStatusId,
+                    programRowVersion: new byte[0],
+                    goalIds: null,
+                    pointOfContactIds: null,
+                    themeIds: null,
+                    regionIds: new List<int> { region.LocationId },
+                    categoryIds: null,
+                    objectiveIds: null,
+                    websites: null
+                    );
+                service.Update(updatedEcaProgram);
+
+                var updatedProgram = context.Programs.First();
+                Assert.AreEqual(0, updatedProgram.Goals.Count);
+                Assert.AreEqual(1, updatedProgram.Regions.Count);
+                Assert.AreEqual(0, updatedProgram.Themes.Count);
+                Assert.AreEqual(0, updatedProgram.Contacts.Count);
+                Assert.AreEqual(updatedEcaProgram.RegionIds.First(), updatedProgram.Regions.First().LocationId);
+            }
         }
 
         [TestMethod]
         public async Task TestUpdateAsync_CheckRegions()
         {
-            var ownerId = 12;
-            context.Organizations.Add(new Organization { OrganizationId = ownerId });
-            var region = new Location { LocationId = 1, LocationTypeId = LocationType.Region.Id };
-            context.Locations.Add(region);
-            Assert.AreEqual(0, context.Programs.Count());
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var now = DateTime.UtcNow;
-            var creatorId = 1;
-            var revisorId = 2;
-            var parentProgram = new Program
+            using (ShimsContext.Create())
             {
-                ProgramId = 2
-            };
-            var program = new Program
-            {
-                ProgramId = 1,
-                Name = "old name",
-                Description = "old description",
-                StartDate = DateTimeOffset.UtcNow,
-                EndDate = DateTime.UtcNow.AddDays(1.0),
-                ProgramStatusId = ProgramStatus.Draft.Id,
-                ParentProgram = null,
-                History = new History
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
                 {
-                    CreatedBy = creatorId,
-                    CreatedOn = yesterday,
-                    RevisedBy = revisorId,
-                    RevisedOn = now
-                },
-            };
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                var ownerId = 12;
+                context.Organizations.Add(new Organization { OrganizationId = ownerId });
+                var region = new Location { LocationId = 1, LocationTypeId = LocationType.Region.Id };
+                context.Locations.Add(region);
+                Assert.AreEqual(0, context.Programs.Count());
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var parentProgram = new Program
+                {
+                    ProgramId = 2
+                };
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "old name",
+                    Description = "old description",
+                    StartDate = DateTimeOffset.UtcNow,
+                    EndDate = DateTime.UtcNow.AddDays(1.0),
+                    ProgramStatusId = ProgramStatus.Draft.Id,
+                    ParentProgram = null,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = revisorId,
+                        RevisedOn = now
+                    },
+                };
 
-            context.Programs.Add(program);
-            context.Programs.Add(parentProgram);
-            Assert.AreEqual(2, context.Programs.Count());
+                context.Programs.Add(program);
+                context.Programs.Add(parentProgram);
+                Assert.AreEqual(2, context.Programs.Count());
 
-            var newName = "new name";
-            var newDescription = "new description";
-            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
-            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
-            var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newParentProgramId = parentProgram.ProgramId;
+                var newName = "new name";
+                var newDescription = "new description";
+                var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+                var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+                var newProgramStatusId = ProgramStatus.Completed.Id;
+                var newParentProgramId = parentProgram.ProgramId;
 
-            var updatedEcaProgram = new EcaProgram(
-                updatedBy: new User(revisorId),
-                id: program.ProgramId,
-                name: newName,
-                description: newDescription,
-                startDate: newStartDate,
-                endDate: newEndDate,
-                ownerOrganizationId: ownerId,
-                parentProgramId: newParentProgramId,
-                programStatusId: newProgramStatusId,
-                programRowVersion: new byte[0],
-                goalIds: null,
-                pointOfContactIds: null,
-                themeIds: null,
-                regionIds: new List<int> { region.LocationId },
-                categoryIds: null,
-                objectiveIds: null,
-                websites: null
-                );
-            await service.UpdateAsync(updatedEcaProgram);
+                var updatedEcaProgram = new EcaProgram(
+                    updatedBy: new User(revisorId),
+                    id: program.ProgramId,
+                    name: newName,
+                    description: newDescription,
+                    startDate: newStartDate,
+                    endDate: newEndDate,
+                    ownerOrganizationId: ownerId,
+                    parentProgramId: newParentProgramId,
+                    programStatusId: newProgramStatusId,
+                    programRowVersion: new byte[0],
+                    goalIds: null,
+                    pointOfContactIds: null,
+                    themeIds: null,
+                    regionIds: new List<int> { region.LocationId },
+                    categoryIds: null,
+                    objectiveIds: null,
+                    websites: null
+                    );
+                await service.UpdateAsync(updatedEcaProgram);
 
-            var updatedProgram = context.Programs.First();
-            Assert.AreEqual(0, updatedProgram.Goals.Count);
-            Assert.AreEqual(1, updatedProgram.Regions.Count);
-            Assert.AreEqual(0, updatedProgram.Themes.Count);
-            Assert.AreEqual(0, updatedProgram.Contacts.Count);
-            Assert.AreEqual(updatedEcaProgram.RegionIds.First(), updatedProgram.Regions.First().LocationId);
+                var updatedProgram = context.Programs.First();
+                Assert.AreEqual(0, updatedProgram.Goals.Count);
+                Assert.AreEqual(1, updatedProgram.Regions.Count);
+                Assert.AreEqual(0, updatedProgram.Themes.Count);
+                Assert.AreEqual(0, updatedProgram.Contacts.Count);
+                Assert.AreEqual(updatedEcaProgram.RegionIds.First(), updatedProgram.Regions.First().LocationId);
+            }
         }
 
         [TestMethod]
