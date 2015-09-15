@@ -72,6 +72,11 @@
 			officeOwner: {id: 10, value: "Office Owner"},
 			administrator: {id: 11, value: "Administrator"}
 		},
+		phoneNumberType: {
+			home: {id: 1, value: "Home"},
+			work: {id: 2, value: "Work"},
+			cell: {id: 3, value: "Cell"}
+		},
 		programStatus: {
 			active: {id: 1, value: "Active"},
 			pending: {id: 2, value: "Pending"},
@@ -136,6 +141,7 @@
 		removeNewLanguageProficiencyEventName: 'removeNewLanguageProficiency',
 		removeNewMembershipsEventName: 'removeNewMembership',
 		removeNewSocialMediaEventName: 'removeNewSocialMedia',
+		removewNewPhoneNumberEventName: 'removeNewPhoneNumber',
 		saveProjectEventName: 'saveProject',
 		searchDelimiter: ' '
 	};

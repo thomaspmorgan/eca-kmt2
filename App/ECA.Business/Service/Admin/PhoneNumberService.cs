@@ -100,7 +100,7 @@ namespace ECA.Business.Service.Admin
         private PhoneNumber DoCreate<T>(NewPhoneNumber<T> newPhoneNumber, IPhoneNumberable phoneNumberable) where T : class, IPhoneNumberable
         {
             throwIfPhoneNumberableEntityNotFound(phoneNumberable, newPhoneNumber.GetPhoneNumberableEntityId());            
-            return newPhoneNumber.AddEmailAddress(phoneNumberable);
+            return newPhoneNumber.AddPhoneNumber(phoneNumberable);
         }
         #endregion
 

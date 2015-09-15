@@ -198,13 +198,19 @@ namespace ECA.Business.Queries.Persons
                                 SocialMediaTypeId = x.SocialMediaTypeId,
                                 Value = x.SocialMediaValue
                             }).OrderBy(s => s.SocialMediaType),
-                            PhoneNumbers = person.PhoneNumbers.Select(x => new SimpleTypeLookupDTO() { Id = x.PhoneNumberId, Type = x.PhoneNumberType.PhoneNumberTypeName, Value = x.Number }),
+                            PhoneNumbers = person.PhoneNumbers.Select(x => new PhoneNumberDTO() { Id = x.PhoneNumberId, PhoneNumberType = x.PhoneNumberType.PhoneNumberTypeName, PhoneNumberTypeId = x.PhoneNumberTypeId, Number = x.Number }),
                             HasContactAgreement = person.HasContactAgreement,
                             PersonId = person.PersonId
                         };
             return query;
         }
 
+        /// <summary>
+        /// Returns the general information for a person
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="personId"></param>
+        /// <returns></returns>
         public static IQueryable<GeneralDTO> CreateGetGeneralByIdQuery(EcaContext context, int personId)
         {
             Contract.Requires(context != null, "The context must not be null.");

@@ -50,7 +50,7 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="phoneNumberable">The IPhoneNumberable entity.</param>
         /// <returns>The phone number that should be added to the context.</returns>
-        public PhoneNumber AddEmailAddress(IPhoneNumberable phoneNumberable)
+        public PhoneNumber AddPhoneNumber(IPhoneNumberable phoneNumberable)
         {
             Contract.Requires(phoneNumberable != null, "The addressable entity must not be null.");
             Contract.Requires(phoneNumberable.PhoneNumbers != null, "The phone numbers property must not be null.");

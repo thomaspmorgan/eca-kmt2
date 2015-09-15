@@ -27,14 +27,8 @@
             </div>
             <div class="col-md-6">
                 <div class="row">
-                    <div class="col-md-4 title-label">Phone Number</div>
-                    <div class="col-md-8">
-                        <ul>
-                            <li ng-repeat="phoneNumber in contactInfo.phoneNumbers">
-                                {{phoneNumber.type}}: {{phoneNumber.value}}
-                            </li>
-                        </ul>
-                    </div>
+                    <div class="col-md-4 title-label">Phone Number (s)</div>
+                    <phonenumbers model="contactInfo" modelid="person.personId" modeltype="'person'" editmode="edit.Contact"></phonenumbers>
                 </div>
                 <div class="row">
                     <div class="col-md-4 title-label">Has Contact Agreement?</div>
