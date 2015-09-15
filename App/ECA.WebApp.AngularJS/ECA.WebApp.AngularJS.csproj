@@ -233,6 +233,7 @@
     <Content Include="scripts\filters\groupby.js" />
     <Content Include="scripts\filters\propFilter.js" />
     <Content Include="scripts\services\bookmark.js" />
+    <Content Include="scripts\services\eduempservice.js" />
     <Content Include="scripts\services\phonenumberservice.js" />
     <Content Include="scripts\services\languageProficiency.js" />
     <Content Include="scripts\services\membership.js" />

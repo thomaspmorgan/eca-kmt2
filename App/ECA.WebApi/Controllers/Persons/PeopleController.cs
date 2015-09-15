@@ -364,6 +364,26 @@ namespace ECA.WebApi.Controllers.Persons
 
         #endregion
 
+        #region Education
+
+        //[Route("People/{personId:int}/Education")]
+        //[ResponseType(typeof(EducationEmploymentDTO))]
+        //public Task<IHttpActionResult> PostEducationAsync(int personId, [FromBody]PersonEducationBindingModel model)
+        //{
+        //    //return educationHandler
+        //}
+
+
+        #endregion
+
+        #region Employment
+
+
+
+        #endregion
+
+
+
         #region Social Media
 
         /// <summary>

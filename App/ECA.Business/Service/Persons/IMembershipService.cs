@@ -5,6 +5,7 @@ using ECA.Core.DynamicLinq;
 using ECA.Data;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
+
 namespace ECA.Business.Service.Persons
 {
     /// <summary>
