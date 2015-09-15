@@ -61,7 +61,8 @@ namespace ECA.WebApi.Models.Programs
                 themeIds: this.Themes,
                 regionIds: this.Regions,
                 categoryIds: this.Categories,
-                objectiveIds: this.Objectives
+                objectiveIds: this.Objectives,
+                websites: this.Websites
                 );
 
             return ecaProgram;

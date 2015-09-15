@@ -36,11 +36,12 @@ namespace ECA.WebApi.Test.Models.Programs
             dto.Contacts = ToListOfSimpleLookups(1, "contact");
             dto.CountryIsos = ToListOfSimpleLookups(2, "iso");
             dto.Description = "desc";
-            dto.Focus = ToListOfSimpleLookups(3, "focus").First();
             dto.Goals = ToListOfSimpleLookups(4, "goal");
             dto.Regions = list;
             dto.Id = 1;
             dto.Name = "name";
+            dto.ProgramStatusName = "status";
+            dto.ProgramStatusId = 100;
             dto.OwnerDescription = "owner desc";
             dto.OwnerName = "owner name";
             dto.OwnerOrganizationId = 2;
@@ -51,7 +52,9 @@ namespace ECA.WebApi.Test.Models.Programs
             dto.RevisedOn = DateTimeOffset.UtcNow;
             dto.RowVersion = new byte[1] { (byte)1 };
             dto.StartDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            dto.EndDate = DateTimeOffset.UtcNow.AddDays(1.0);
             dto.Themes = ToListOfSimpleLookups(6, "theme");
+            
 
             var viewModel = new ProgramViewModel(dto);
             Assert.AreEqual(dto.Description, viewModel.Description);
@@ -65,6 +68,9 @@ namespace ECA.WebApi.Test.Models.Programs
             Assert.AreEqual(dto.RevisedOn, viewModel.RevisedOn);
             Assert.AreEqual(Convert.ToBase64String(dto.RowVersion), viewModel.RowVersion);
             Assert.AreEqual(dto.StartDate, viewModel.StartDate);
+            Assert.AreEqual(dto.EndDate, viewModel.EndDate);
+            Assert.AreEqual(dto.ProgramStatusId, viewModel.ProgramStatusId);
+            Assert.AreEqual(dto.ProgramStatusName, viewModel.ProgramStatusName);
 
             CollectionAssert.AreEqual(dto.Contacts.ToList(), viewModel.Contacts.ToList());
             CollectionAssert.AreEqual(dto.CountryIsos.ToList(), viewModel.CountryIsos.ToList());

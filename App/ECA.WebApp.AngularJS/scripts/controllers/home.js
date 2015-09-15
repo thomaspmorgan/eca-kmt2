@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('HomeCtrl', function ($rootScope, $scope, $state, $modal, AuthService, BookmarkService, NotificationService, StateService) {
+  .controller('HomeCtrl', function ($rootScope, $scope, $state, $modal, MessageBox, AuthService, BookmarkService, NotificationService, StateService) {
 
       $scope.loadingBookmarks = true;
 
@@ -51,34 +51,23 @@ angular.module('staticApp')
       }
 
       $scope.deleteBookmark = function (bookmark) {
-          var modalInstance = $modal.open({
-              animation: false,
-              templateUrl: 'views/directives/confirmdialog.html',
-              controller: 'ConfirmCtrl',
-              resolve: {
-                  options: function () {
-                      return {
-                          title: 'Confirm',
-                          message: 'Are you sure you wish to delete the bookmark?',
-                          okText: 'Yes',
-                          cancelText: 'No'
-                      };
-                  }
+          MessageBox.confirm({
+              title: 'Confirm',
+              message: 'Are you sure you wish to delete the bookmark?',
+              okText: 'Yes',
+              cancelText: 'No',
+              okCallback: function () {
+                  deleteBookmark(bookmark);
               }
-          });
-          modalInstance.result.then(function () {
-              deleteBookmark(bookmark);
-
-          }, function () {
           });
       }
 
       function deleteBookmark(bookmark) {
           BookmarkService.deleteBookmark(bookmark)
           .then(function () {
-            NotificationService.showSuccessMessage('The bookmark was successfully removed.');
+              NotificationService.showSuccessMessage('The bookmark was successfully removed.');
           }, function () {
-            NotificationService.showErrorMessage('There was an error removing the bookmark.');
+              NotificationService.showErrorMessage('There was an error removing the bookmark.');
           })
           .finally(function () {
               getBookmarks();
@@ -101,5 +90,5 @@ angular.module('staticApp')
       }
 
       getBookmarks();
-      
-});
+
+  });

@@ -9,41 +9,44 @@
  */
 angular.module('staticApp')
   .controller('ProgramEditCtrl', function (
-      $scope,
-      $stateParams,
-      $state,
-      $log,
-      $q,
-      LocationService,
-      FilterService,
-      NotificationService,
-      LookupService,
-      ConstantsService,
-      StateService,
-      AuthService,
-      OfficeService,
-      orderByFilter
+        $scope,
+        $stateParams,
+        $state,
+        $log,
+        $q,
+        MessageBox,
+        LocationService,
+        FilterService,
+        NotificationService,
+        LookupService,
+        ConstantsService,
+        StateService,
+        AuthService,
+        OfficeService,
+        ProgramService,
+        orderByFilter
 
       ) {
 
+      console.assert($scope.$parent.view.isEditButtonEnabled !== undefined, 'The parent should have a flag to determine the enabled state of the edit button.');
+      var programId = parseInt($stateParams.programId, 10);
       $scope.view = {};
-      $scope.view.isSelectedCategoriesValid = true;
-      $scope.view.isSelectedRegionsValid = false;
-      $scope.view.isSelectedThemesValid = false;
-      $scope.view.isSelectedGoalsValid = false;
-      $scope.view.isSelectedContactsValid = false;
-      $scope.view.isObjectivedRequired = false;
+      $scope.view.isObjectivesRequired = false;
       $scope.view.isCategoryRequired = false;
       $scope.view.minimumRequiredFoci = -1;
       $scope.view.maximumRequiredFoci = -1;
+      $scope.view.maxDescriptionLength = 3000;
+      $scope.view.maxNameLength = 255;
 
       $scope.view.programStatii = [];
       $scope.view.goals = [];
       $scope.view.themes = [];
       $scope.view.regions = [];
       $scope.view.selectedRegions = [];
+      $scope.view.parentPrograms = [];
       $scope.view.isLoadingProgram = true;
       $scope.view.isLoadingRequiredData = false;
+      $scope.view.isSaving = false;
       $scope.view.sortedObjectives = [];
       $scope.view.categoryLabel = '';
       $scope.view.objectiveLabel = '';
@@ -54,12 +57,48 @@ angular.module('staticApp')
       $scope.view.isEndDatePickerOpen = false;
       $scope.view.isStartDatePickerOpen = false;
       $scope.view.dateFormat = 'dd-MMMM-yyyy';
+      $scope.view.isLoadingLikePrograms = false;
+      $scope.view.doesProgramExist = false;
 
       $scope.view.selectedThemes = [];
       $scope.view.selectedGoals = [];
       $scope.view.selectedCategories = [];
       $scope.view.selectedObjectives = [];
       $scope.view.selectedPointsOfContact = [];
+      $scope.view.originalProgram = null;
+
+      var programsWithSameNameFilter = FilterService.add('programedit_programswithsamename');
+      $scope.view.validateUniqueProgramName = function ($value) {
+          var dfd = $q.defer();
+          if ($value && $value.length > 0) {
+              programsWithSameNameFilter.reset();
+              programsWithSameNameFilter = programsWithSameNameFilter.skip(0).take(1).equal('name', $value).notEqual('programId', programId);
+              $scope.view.isLoadingLikePrograms = true;
+              ProgramService.getAllProgramsAlpha(programsWithSameNameFilter.toParams())
+                  .then(function (response) {
+                      $scope.view.matchingProgramsByName = response.data;
+                      $scope.view.isLoadingLikePrograms = false;
+                      $scope.view.doesProgramExist = response.total > 0;
+                      if ($scope.view.doesProgramExist) {
+                          dfd.reject();
+                      }
+                      else {
+                          dfd.resolve();
+                      }
+                  })
+                  .catch(function (response) {
+                      $scope.view.isLoadingLikePrograms = false;
+                      var message = "Unable to load matching programs.";
+                      $log.error(message);
+                      NotificationService.showErrorMessage(message);
+                      return false;
+                  });
+          }
+          else {
+              dfd.resolve();
+          }
+          return dfd.promise;
+      }
 
       $scope.view.openStartDatePicker = function ($event) {
           $event.preventDefault();
@@ -73,67 +112,178 @@ angular.module('staticApp')
           $scope.view.isEndDatePickerOpen = true;
       }
 
-      $scope.view.searchPointsOfContact = function(search){
+      $scope.view.searchPointsOfContact = function (search) {
           return loadPointsOfContact(search);
       }
 
-      $scope.view.onCategoriesChange = function () {
-          $scope.view.onCategoriesSelect();
+      $scope.$on(ConstantsService.saveProgramEventName, function () {
+          return saveProgram();
+      })
+
+      $scope.$on(ConstantsService.cancelProgramChangesEventName, function () {
+          return doCancel();
+      })
+
+      $scope.view.onSaveClick = function () {
+          return saveProgram();
       }
 
-      $scope.view.onCategoriesSelect = function () {
-          $scope.view.isSelectedCategoriesValid = true;
-          if ($scope.view.selectedCategories.length < $scope.view.minimumRequiredFoci) {
-              $scope.view.isSelectedCategoriesValid = false;
-          }
-          if ($scope.view.selectedCategories.length > $scope.view.maximumRequiredFoci) {
-              $scope.view.isSelectedCategoriesValid = false;
-          }
+      $scope.view.onCancelClick = function () {
+          doCancel();
       }
 
-      $scope.view.onThemesChange = function () {
-          $scope.view.onThemesSelect();
-      }
-
-      $scope.view.onThemesSelect = function () {
-          if ($scope.view.selectedThemes.length > 0) {
-              $scope.view.isSelectedThemesValid = true;
+      $scope.view.validateMinimumGoals = function ($value) {
+          if (!$value) {
+              return false;
           }
           else {
-              $scope.view.isSelectedThemesValid = false;
+              return $value.length > 0;
           }
       }
 
-      $scope.view.onGoalsChange = function () {
-          $scope.view.onGoalsSelect();
-      }
-
-      $scope.view.onGoalsSelect = function () {
-          if ($scope.view.selectedGoals.length > 0) {
-              $scope.view.isSelectedGoalsValid = true;
+      $scope.view.validateMinimumThemes = function ($value) {
+          if (!$value) {
+              return false;
           }
           else {
-              $scope.view.isSelectedGoalsValid = false;
+              return $value.length > 0;
           }
       }
 
-      $scope.view.onContactsChange = function () {
-          $scope.view.onContactsSelect();
+      $scope.view.validateMinimumCategories = function ($value) {
+          if (!$value) {
+              return false;
+          }
+          if ($value.length < $scope.view.minimumRequiredFoci) {
+              return false;
+          }
+          return true;
       }
 
-      $scope.view.onContactsSelect = function () {
-          if ($scope.view.selectedPointsOfContact.length > 0) {
-              $scope.view.isSelectedContactsValid = true;
+      $scope.view.validateMaximumCategories = function ($value) {
+          if (!$value) {
+              return true;
+          }
+          if ($value.length > $scope.view.maximumRequiredFoci) {
+              return false;
+          }
+          return true;
+      }
+
+      $scope.view.validateMinimumObjectives = function ($value) {
+          if (!$value) {
+              return false;
           }
           else {
-              $scope.view.isSelectedContactsValid = false;
+              return $value.length > 0;
           }
+      }
+
+      $scope.view.validateMinimumPointsOfContact = function ($value) {
+          if (!$value) {
+              return false;
+          }
+          else {
+              return $value.length > 0;
+          }
+      }
+
+      $scope.view.validateMinimumRegions = function ($value) {
+          if (!$value) {
+              return false;
+          }
+          else {
+              return $value.length > 0;
+          }
+      }
+
+      var searchParentProgramsFilter = FilterService.add('editprogram_searchparentprograms');
+      $scope.view.searchParentPrograms = function ($search) {
+          searchParentProgramsFilter.reset();
+          searchParentProgramsFilter = searchParentProgramsFilter
+            .skip(0)
+            .take(25);
+          if ($search && $search.length > 0) {
+              searchParentProgramsFilter = searchParentProgramsFilter.like('name', $search);
+          }
+          if ($scope.view.program) {
+              searchParentProgramsFilter = searchParentProgramsFilter.equal('owner_OrganizationId', $scope.view.program.ownerOrganizationId);
+          }
+          return ProgramService.getAllProgramsAlpha(searchParentProgramsFilter.toParams())
+          .then(function (response) {
+              $scope.view.parentPrograms = response.results;
+              return response.results;
+          })
+          .catch(function (response) {
+              var message = 'Unable to load available parent programs.';
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
+          });
+      }
+
+      function doCancel() {
+          if ($scope.form.programForm.$dirty) {
+              MessageBox.confirm({
+                  title: 'Unsaved Changes',
+                  message: "There are unsaved changes to this program.  Are you sure you wish to cancel?",
+                  okText: 'Yes, Cancel Changes',
+                  cancelText: 'No',
+                  okCallback: toOverview
+              });
+          }
+          else {
+              toOverview();
+          }
+      }
+
+      function toOverview() {
+          $scope.$parent.view.isEditButtonEnabled = true;
+          $scope.view.program = $scope.view.originalProgram;
+          setAllUiSelectValues();
+          StateService.goToProgramState($scope.view.program.id, { reload: true })
+      }
+
+      function saveProgram() {
+          $scope.view.isSaving = true;
+          setIds('regions', $scope.view.selectedRegions, 'id');
+          setIds('themes', $scope.view.selectedThemes, 'id');
+          setIds('goals', $scope.view.selectedGoals, 'id');
+          setIds('categories', $scope.view.selectedCategories, 'id');
+          setIds('contacts', $scope.view.selectedContacts, 'id');
+          setIds('objectives', $scope.view.selectedObjectives, 'id');
+          setIds('contacts', $scope.view.selectedPointsOfContact, 'id');
+          if ($scope.view.program.parentProgram) {
+              $scope.view.program.parentProgramId = $scope.view.program.parentProgram.programId;
+          }
+          return ProgramService.update($scope.view.program)
+          .then(function (response) {
+              var updatedProgram = response.data;
+              $scope.view.originalProgram = angular.copy(updatedProgram);
+              $scope.view.program = updatedProgram;
+              $scope.view.isSaving = false;
+              return StateService.goToProgramState($scope.view.program.id, { reload: true });
+          })
+          .catch(function (response) {
+              $scope.view.isSaving = false;
+              var message = 'Unable to save program.';
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
+          });
+      }
+
+      function setIds(arrayPropertyName, values, idPropertyName) {
+          console.assert($scope.view.program[arrayPropertyName], "The program must have a property named " + arrayPropertyName);
+          console.assert(Array.isArray($scope.view.program[arrayPropertyName]), 'The program property ' + arrayPropertyName + ' must be an array.');
+          $scope.view.program[arrayPropertyName] = [];
+          angular.forEach(values, function (v, index) {
+              console.assert(v[idPropertyName], "The array item must have a property named " + idPropertyName);
+              $scope.view.program[arrayPropertyName].push(v[idPropertyName]);
+          });
       }
 
       var maxLimit = 300;
       function loadPermissions() {
           console.assert(ConstantsService.resourceType.program.value, 'The constants service must have the program resource type value.');
-          var programId = $stateParams.programId;
           var resourceType = ConstantsService.resourceType.program.value;
           var config = {};
           config[ConstantsService.permission.editProgram.value] = {
@@ -294,7 +444,7 @@ angular.module('staticApp')
           regionsFilter = regionsFilter.skip(0).take(10)
             .equal('locationTypeId', ConstantsService.locationType.region.id)
             .sortBy('name');
-          
+
           return LocationService.get(regionsFilter.toParams())
               .then(function (response) {
                   normalizeLookupProperties(response.results);
@@ -345,6 +495,13 @@ angular.module('staticApp')
           setSelectedItems(objectivesName, 'selectedObjectives');
       }
 
+      function setSelectedParentProgram() {
+          $scope.view.program.parentProgram = {
+              programId: $scope.view.program.parentProgramId,
+              name: $scope.view.program.parentProgramName,
+          };
+      }
+
       function normalizeLookupProperties(lookups) {
           console.assert(Array.isArray(lookups), "The given value must be an array.");
           for (var i = 0; i < lookups.length; i++) {
@@ -367,22 +524,34 @@ angular.module('staticApp')
           setSelectedItems(regionsName, 'selectedRegions');
       }
 
-      $scope.data.loadProgramPromise.promise
-      .then(function (program) {
-          $scope.view.isLoadingProgram = false;
-          $scope.view.program = program;
-          $scope.view.categoryLabel = program.ownerOfficeCategoryLabel;
-          $scope.view.objectiveLabel = program.ownerOfficeObjectiveLabel;
+      function setAllUiSelectValues() {
           setSelectedCategories();
           setSelectedGoals();
           setSelectedObjectives();
           setSelectedRegions();
           setSelectedPointsOfContact();
           setSelectedThemes();
-          $scope.view.onCategoriesChange();
-          $scope.view.onThemesChange();
-          $scope.view.onGoalsChange();
-          $scope.view.onContactsChange();
+          setSelectedParentProgram();
+      }
+
+      function onFormValidStateChange() {
+          var isInvalid = $scope.form.programForm.$invalid;
+          if (isInvalid) {
+              $scope.$parent.view.isEditButtonEnabled = false;
+          }
+          else {
+              $scope.$parent.view.isEditButtonEnabled = true;
+          }
+      }
+
+      $scope.$parent.view.isEditButtonEnabled = false;
+      $scope.data.loadProgramPromise.promise
+      .then(function (program) {
+          $scope.view.isLoadingProgram = false;
+          $scope.view.program = program;
+          $scope.view.categoryLabel = program.ownerOfficeCategoryLabel;
+          $scope.view.objectiveLabel = program.ownerOfficeObjectiveLabel;
+
           $scope.view.isLoadingRequiredData = true;
           var officeId = program.ownerOrganizationId;
           $q.all([
@@ -393,9 +562,16 @@ angular.module('staticApp')
                 loadCategories(officeId, program.categories),
                 loadObjectives(officeId),
                 loadOfficeSettings(program.ownerOrganizationId),
+                $scope.view.searchParentPrograms(null),
                 loadProgramStatii()])
           .then(function (results) {
+              setAllUiSelectValues();
+              $scope.view.originalProgram = angular.copy(program);
               $scope.view.isLoadingRequiredData = false;
+              $scope.$watch(function () {
+                  return $scope.form.programForm.$invalid;
+              }, onFormValidStateChange);
+              onFormValidStateChange();
           })
           .catch(function () {
               var message = "Unable to load required data.";
@@ -407,5 +583,7 @@ angular.module('staticApp')
       .catch(function (response) {
           $scope.view.isLoadingProgram = false;
       });
+
+
 
   });

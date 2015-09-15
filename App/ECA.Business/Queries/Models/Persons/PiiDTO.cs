@@ -38,6 +38,11 @@ namespace ECA.Business.Queries.Models.Persons
         public DateTime? DateOfBirth { get; set; }
 
         /// <summary>
+        /// Gets or sets the date of birth unknown flag.
+        /// </summary>
+        public bool? IsDateOfBirthUnknown { get; set; }
+
+        /// <summary>
         /// Gets and sets countries of citizenship
         /// </summary>
         public IEnumerable<SimpleLookupDTO> CountriesOfCitizenship {get; set;}

@@ -294,6 +294,8 @@
     <None Include="Scripts\PostDeploy\StaticData\dbo.ProminentCategory.staticdata.sql" />
     <None Include="Data Migration\MigrationScripts\ECA\PersonLanguageProficiency - NativeLanguageInd conversion to bit type.sql" />
     <None Include="Data Migration\MigrationScripts\ECA\Rename LanguageProficiency to Language.sql" />
+    <Build Include="dbo\Tables\ProgramWebsite.sql" />
+    <Build Include="dbo\Tables\Website.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ECA.Database.refactorlog" />

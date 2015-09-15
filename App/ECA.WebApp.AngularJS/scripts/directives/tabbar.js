@@ -12,8 +12,12 @@ angular.module('staticApp')
           templateUrl: 'views/partials/tabbar.html',
           restrict: 'E',
           replace: true,
+          scope: {
+              tabs: '=',
+              onAdd: '&'
+          },
           link: function postLink(scope, el, attrs) {
-              if (attrs.edit !== undefined) {
+              if (attrs.tabedit !== undefined) {
                   scope.tabedit = true;
               } else {
                   scope.tabedit = false;

@@ -1,6 +1,7 @@
 ﻿using ECA.Business.Models;
 using ECA.Business.Service.Admin;
 using ECA.Business.Service.Projects;
+using ECA.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -24,12 +25,14 @@ namespace ECA.WebApi.Models.Projects
         /// The name of the draft project.
         /// </summary>
         [Required]
+        [MaxLength(Project.MAX_NAME_LENGTH)]
         public string Name { get; set; }
 
         /// <summary>
         /// The description of the draft project.
         /// </summary>
         [Required]
+        [MaxLength(Project.MAX_DESCRIPTION_LENGTH)]
         public string Description { get; set; }
 
         /// <summary>

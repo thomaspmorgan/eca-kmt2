@@ -18,6 +18,10 @@ angular.module('staticApp')
                   office: 'offices.overview',
                   organization: 'organizations.overview',
                   person: 'people.personalinformation'
+              },
+              edit: {
+                  project: 'projects.edit',
+                  program: 'programs.edit'
               }
           },
 
@@ -90,6 +94,11 @@ angular.module('staticApp')
 
           goToErrorState: function () {
               return $state.go('error');
+          },
+
+          goToEditProgramState: function (programId, options) {
+              options = options || {};
+              return $state.go(service.stateNames.edit.program, { programId: programId }, options) + '#top';
           }
       };
       return service;

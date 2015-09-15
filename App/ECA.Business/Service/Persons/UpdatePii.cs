@@ -17,7 +17,6 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="updatedBy">The user updating the pii</param>
         /// <param name="personId">The person id</param>
-        /// <param name="participantId">The participant id</param>
         /// <param name="firstName">The first name</param>
         /// <param name="lastName">The last name</param>
         /// <param name="namePrefix">The name prefix</param>
@@ -31,6 +30,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="ethnicity">The ethnicity</param>
         /// <param name="cityOfBirthId">The city of birth id</param>
         /// <param name="dateOfBirth">The date of birth</param>
+        /// <param name="isDateOfBirthUnknown">True if date of birth is unknown</param>
         /// <param name="countriesOfCitizenship">The coutries of citizenship</param>
         /// <param name="medicalConditions">The medical conditions</param>
         /// <param name="maritalStatusId">The marital status id</param>
@@ -50,6 +50,7 @@ namespace ECA.Business.Service.Persons
             string ethnicity,
             int? cityOfBirthId,
             DateTime? dateOfBirth,
+            bool? isDateOfBirthUnknown,
             List<int> countriesOfCitizenship,
             string medicalConditions,
             int? maritalStatusId
@@ -70,6 +71,7 @@ namespace ECA.Business.Service.Persons
             this.Ethnicity = ethnicity;
             this.CityOfBirthId = cityOfBirthId;
             this.DateOfBirth = dateOfBirth;
+            this.IsDateOfBirthUnknown = isDateOfBirthUnknown;
             this.CountriesOfCitizenship = countriesOfCitizenship;
             this.MedicalConditions = medicalConditions;
             this.MaritalStatusId = maritalStatusId;
@@ -145,6 +147,11 @@ namespace ECA.Business.Service.Persons
         /// Gets or sets the date of birth
         /// </summary>
         public DateTime? DateOfBirth { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the date of birth unknown flag.
+        /// </summary>
+        public bool? IsDateOfBirthUnknown { get; private set; }
 
         /// <summary>
         /// Gets or sets the countries of citizenship

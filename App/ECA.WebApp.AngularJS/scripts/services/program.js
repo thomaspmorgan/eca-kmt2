@@ -87,17 +87,7 @@ angular.module('staticApp')
           },
 
           update: function (program, id) {
-              var defer = $q.defer();
-              DragonBreath.save(program, 'programs', id)
-                .success(function (data) {
-                    getProgram(data);
-                    defer.resolve(newProgram);
-                })
-                .error(function (data) {
-                    getProgram(data);
-                    defer.resolve(newProgram);
-                });
-              return defer.promise;
+              return DragonBreath.save(program, 'programs');
           },
           create: function (program) {
               return DragonBreath.create(program, 'programs');

@@ -22,10 +22,11 @@ namespace ECA.Business.Service.Persons
         /// <param name="lastName">The last name</param>
         /// <param name="gender">The gender</param>
         /// <param name="dateOfBirth">The date of birth</param>
+        /// <param name="isDateOfBirthUnknown">Denotes date of birth is unknown</param>
         /// <param name="cityOfBirth">The city of birth</param>
         /// <param name="countriesOfCitizenship">The countries of citizenship</param>
         public NewPerson(User createdBy, int projectId, int participantTypeId, string firstName, string lastName, int gender, DateTime? dateOfBirth,
-                         int? cityOfBirth, List<int> countriesOfCitizenship)
+                         bool? isDateOfBirthUnknown, int? cityOfBirth, List<int> countriesOfCitizenship)
         {
             Contract.Requires(createdBy != null, "The created by user must not be null.");
 
@@ -35,6 +36,7 @@ namespace ECA.Business.Service.Persons
             this.LastName = lastName;
             this.Gender = gender;
             this.DateOfBirth = dateOfBirth;
+            this.IsDateOfBirthUnknown = isDateOfBirthUnknown;
             this.CityOfBirth = cityOfBirth;
             this.CountriesOfCitizenship = countriesOfCitizenship;
             this.Audit = new Create(createdBy);
@@ -69,7 +71,12 @@ namespace ECA.Business.Service.Persons
         /// Gets and sets the date of birth
         /// </summary>
         public DateTime? DateOfBirth { get; private set; }
-        
+
+        /// <summary>
+        /// Denotes if date of birth is unknown
+        /// </summary>
+        public bool? IsDateOfBirthUnknown { get; private set; }
+
         /// <summary>
         /// Gets and sets the city of birth
         /// </summary>

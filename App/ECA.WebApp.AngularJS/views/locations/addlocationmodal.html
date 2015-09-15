@@ -9,8 +9,8 @@
             <div class="bounce3"></div>
         </div>
         <div in-context-form>
-            <form name="form.addLocationForm" ng-show="!view.isLoadingRequiredData">
-                <div class="row">
+            <form name="form.addLocationForm">
+                <div class="row" ng-show="!view.isLoadingRequiredData">
                     <div class="col-md-12">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -189,7 +189,6 @@
         <button ng-click="view.onCloseClick()" class="btn btn-cancel">Close</button>
     </div>
 </div>
-
 <script type="text/ng-template" id="selectLocationTemplate.html">
     <a>
         <div ng-show="match.model.name">

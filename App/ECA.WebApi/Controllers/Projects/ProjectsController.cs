@@ -47,10 +47,9 @@ namespace ECA.WebApi.Controllers.Projects
         /// Creates a new ProjectsController with the given project service.
         /// </summary>
         /// <param name="projectService">The project service.</param>
-        /// <param name="userProvider">The user provider.</param>
         /// <param name="authorizationHandler">The authorization handler.</param>
+        /// <param name="userProvider">The user provider.</param>
         /// <param name="resourceService">The resource service.</param>
-        /// <param name="locationService">The location service.</param>
         public ProjectsController(
             IProjectService projectService, 
             IResourceAuthorizationHandler authorizationHandler, 

@@ -64,7 +64,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 OrganizationId = 1,
                 Name = "partOrg",
-                
+
             };
 
             var prominentCat1 = new ProminentCategory
@@ -114,11 +114,13 @@ namespace ECA.Business.Test.Service.Persons
                 ImpactId = 1,
                 Description = "desc1"
             };
+
             var person = new Person
             {
                 PersonId = 1,
                 Gender = gender,
                 DateOfBirth = DateTime.Now,
+                IsDateOfBirthUnknown = false,
                 FirstName = "firstName",
                 LastName = "lastName",
                 NamePrefix = "namePrefix",
@@ -181,6 +183,7 @@ namespace ECA.Business.Test.Service.Persons
                 PersonId = 1,
                 Gender = gender,
                 DateOfBirth = DateTime.Now,
+                IsDateOfBirthUnknown = false,
                 FirstName = "firstName",
                 LastName = "lastName",
                 NamePrefix = "namePrefix",
@@ -296,6 +299,7 @@ namespace ECA.Business.Test.Service.Persons
                 LocationTypeId = LocationType.City.Id,
                 CountryId = country.LocationId
             };
+
             var division = new Location
             {
                 LocationId = 10,
@@ -319,11 +323,13 @@ namespace ECA.Business.Test.Service.Persons
                 Division = division,
                 DivisionId = division.LocationId
             };
+
             var addressType = new AddressType
             {
                 AddressName = AddressType.Home.Value,
                 AddressTypeId = AddressType.Home.Id
             };
+
             var address = new Address
             {
                 AddressId = 1,
@@ -474,6 +480,7 @@ namespace ECA.Business.Test.Service.Persons
                 Address = "test1@test.com",
                 EmailAddressTypeId = 1
             };
+
             var email3 = new EmailAddress
             {
                 EmailAddressId = 3,
@@ -499,7 +506,6 @@ namespace ECA.Business.Test.Service.Persons
             person.EmailAddresses.Add(email);
 
             context.EmailAddressTypes.Add(emailAddressType);
-
             context.EmailAddresses.Add(email);
             context.EmailAddresses.Add(email2);
             context.EmailAddresses.Add(email3);
@@ -688,7 +694,6 @@ namespace ECA.Business.Test.Service.Persons
 
             tester(result);
             tester(resultAsync);
-
         }
         #endregion
 
@@ -938,7 +943,7 @@ namespace ECA.Business.Test.Service.Persons
             Action<List<EducationEmploymentDTO>> tester = (list) =>
             {
                 Assert.AreEqual(1, list.Count);
-                var dto = list.First();              
+                var dto = list.First();
                 Assert.IsNull(dto.Organization.Location);
             };
             var results = service.GetEducationsByPersonId(person.PersonId);
@@ -1617,7 +1622,7 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestCreateAsync()
         {
             var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName",
-                                          Gender.Male.Id, DateTime.Now, 1,
+                                          Gender.Male.Id, DateTime.Now, false, 1,
                                           new List<int>());
             var person = await service.CreateAsync(newPerson);
 
@@ -1639,7 +1644,7 @@ namespace ECA.Business.Test.Service.Persons
             context.Locations.Add(city);
 
             var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName",
-                                        Gender.Male.Id, DateTime.Now, city.LocationId,
+                                        Gender.Male.Id, DateTime.Now, false, city.LocationId,
                                         new List<int>());
             var person = await service.CreateAsync(newPerson);
             Assert.AreEqual(city.LocationId, person.PlaceOfBirthId);
@@ -1657,7 +1662,7 @@ namespace ECA.Business.Test.Service.Persons
 
             List<int> countriesOfCitizenship = new List<int>(new int[] { country.LocationId });
             var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName",
-                                         Gender.Male.Id, DateTime.Now, 1,
+                                         Gender.Male.Id, DateTime.Now, false, 1,
                                          countriesOfCitizenship);
             var person = await service.CreateAsync(newPerson);
             CollectionAssert.AreEqual(newPerson.CountriesOfCitizenship,
@@ -1675,7 +1680,7 @@ namespace ECA.Business.Test.Service.Persons
             context.Projects.Add(project);
             var participantTypeId = ParticipantType.Individual.Id;
             var newPerson = new NewPerson(new User(0), project.ProjectId, participantTypeId, "firstName", "lastName",
-                                         Gender.Male.Id, DateTime.Now, 1,
+                                         Gender.Male.Id, DateTime.Now, false, 1,
                                          new List<int>());
             var person = await service.CreateAsync(newPerson);
             // Check that participant is associated to person
@@ -1690,7 +1695,7 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestGetExistingPerson_DoesNotExist()
         {
-            var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName", 1, DateTime.Now, 1, new List<int>());
+            var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName", 1, DateTime.Now, false, 1, new List<int>());
             var person = await service.GetExistingPerson(newPerson);
             Assert.IsNull(person);
         }
@@ -1710,7 +1715,7 @@ namespace ECA.Business.Test.Service.Persons
             context.People.Add(existingPerson);
 
             var newPerson = new NewPerson(new User(0), 1, 1, existingPerson.FirstName.ToUpper(), existingPerson.LastName.ToLower(),
-                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value, 1,
+                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value, false, 1,
                                           new List<int>());
             var person = await service.GetExistingPerson(newPerson);
             Assert.IsNotNull(person);
@@ -1731,7 +1736,7 @@ namespace ECA.Business.Test.Service.Persons
             context.People.Add(existingPerson);
 
             var newPerson = new NewPerson(new User(0), 1, 1, existingPerson.FirstName.Trim(), existingPerson.LastName.Trim(),
-                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value, 1,
+                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value, false, 1,
                                           new List<int>());
             var person = await service.GetExistingPerson(newPerson);
             Assert.IsNotNull(person);
@@ -1753,7 +1758,7 @@ namespace ECA.Business.Test.Service.Persons
             context.People.Add(existingPerson);
 
             var newPerson = new NewPerson(new User(0), 1, 1, existingPerson.FirstName.ToUpper(), existingPerson.LastName.ToLower(),
-                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value.AddHours(2), 1,
+                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value.AddHours(2), false, 1,
                                           new List<int>());
             var person = await service.GetExistingPerson(newPerson);
             Assert.IsNotNull(person);
@@ -1791,6 +1796,7 @@ namespace ECA.Business.Test.Service.Persons
                                     "ethnicity",
                                     default(int),
                                     DateTime.Now,
+                                    false,
                                     new List<int>(),
                                     "medicalConditions",
                                     default(int));
@@ -1845,6 +1851,7 @@ namespace ECA.Business.Test.Service.Persons
                                     "ethnicity",
                                     default(int),
                                     DateTime.Now,
+                                    false,
                                     new List<int>(),
                                     "medicalConditions",
                                     default(int));
@@ -1888,6 +1895,7 @@ namespace ECA.Business.Test.Service.Persons
                                     "ethnicity",
                                     placeOfBirth.LocationId,
                                     DateTime.Now,
+                                    false,
                                     new List<int>(),
                                     "medicalConditions",
                                     default(int));
@@ -1934,6 +1942,7 @@ namespace ECA.Business.Test.Service.Persons
                                     "ethnicity",
                                     default(int),
                                     DateTime.Now,
+                                    false,
                                     countriesOfCitizenship,
                                     "medicalConditions",
                                     default(int));
@@ -1979,6 +1988,7 @@ namespace ECA.Business.Test.Service.Persons
                                     "ethnicity",
                                     default(int),
                                     DateTime.Now,
+                                    false,
                                     new List<int>(),
                                     "medicalConditions",
                                     maritalStatus.MaritalStatusId);
@@ -2021,6 +2031,7 @@ namespace ECA.Business.Test.Service.Persons
                                     "ethnicity",
                                     default(int),
                                     DateTime.Now,
+                                    false,
                                     new List<int>(),
                                     "medicalConditions",
                                     default(int));
@@ -2080,6 +2091,7 @@ namespace ECA.Business.Test.Service.Persons
                                     null,
                                     placeOfBirth.LocationId,
                                     dateOfBirth,
+                                    false,
                                     new List<int>(),
                                     null,
                                     default(int));

@@ -110,6 +110,11 @@ namespace ECA.Data
         public DateTime? DateOfBirth { get; set; }
 
         /// <summary>
+        /// Denotes if date of birth is unknown
+        /// </summary>
+        public bool? IsDateOfBirthUnknown { get; set; }
+
+        /// <summary>
         /// Gets or sets FirstName.
         /// </summary>
         [MaxLength(FIRST_NAME_MAX_LENGTH)]

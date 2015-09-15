@@ -66,7 +66,9 @@ namespace ECA.Business.Test.Service.Programs
 
             var contact = new Contact
             {
-                ContactId = 100
+                ContactId = 100,
+                FullName = "full name",
+                Position = "position"
             };
             var theme = new Theme
             {
@@ -182,6 +184,11 @@ namespace ECA.Business.Test.Service.Programs
                 ObjectiveId = 1,
                 ObjectiveName = "obj",
             };
+            var status = new ProgramStatus
+            {
+                ProgramStatusId = 1,
+                Status = "status"
+            };
             var program = new Program
             {
                 ProgramId = 1,
@@ -189,7 +196,10 @@ namespace ECA.Business.Test.Service.Programs
                 Description = "description",
                 ParentProgram = parentProgram,
                 RowVersion = rowVersion,
-                StartDate = DateTimeOffset.UtcNow,                
+                StartDate = DateTimeOffset.UtcNow,     
+                EndDate = DateTimeOffset.UtcNow,  
+                ProgramStatusId = status.ProgramStatusId,
+                ProgramStatus = status,
                 History = new History
                 {
                     CreatedBy = creatorId,
@@ -225,11 +235,12 @@ namespace ECA.Business.Test.Service.Programs
             context.LocationTypes.Add(countryType);
             context.LocationTypes.Add(regionType);
             context.LocationTypes.Add(divisionType);
+            context.ProgramStatuses.Add(status);
 
             Action<ProgramDTO> tester = (publishedProgram) =>
             {
                 CollectionAssert.AreEqual(program.Contacts.Select(x => x.ContactId).ToList(), publishedProgram.Contacts.Select(x => x.Id).ToList());
-                CollectionAssert.AreEqual(program.Contacts.Select(x => x.FullName).ToList(), publishedProgram.Contacts.Select(x => x.Value).ToList());
+                CollectionAssert.AreEqual(program.Contacts.Select(x => x.FullName + String.Format(" ({0})", x.Position)).ToList(), publishedProgram.Contacts.Select(x => x.Value).ToList());
 
                 CollectionAssert.AreEqual(
                     context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationId).ToList(),
@@ -289,6 +300,9 @@ namespace ECA.Business.Test.Service.Programs
 
                 Assert.AreEqual(now, publishedProgram.RevisedOn);
                 Assert.AreEqual(program.StartDate, publishedProgram.StartDate);
+                Assert.AreEqual(program.EndDate, publishedProgram.EndDate);
+                Assert.AreEqual(status.ProgramStatusId, publishedProgram.ProgramStatusId);
+                Assert.AreEqual(status.Status, publishedProgram.ProgramStatusName);
                 Assert.AreEqual(owner.Name, publishedProgram.OwnerName);
                 Assert.AreEqual(owner.Description, publishedProgram.OwnerDescription);
                 Assert.AreEqual(owner.OrganizationId, publishedProgram.OwnerOrganizationId);
@@ -311,7 +325,11 @@ namespace ECA.Business.Test.Service.Programs
             var now = DateTime.UtcNow;
             var creatorId = 1;
             var revisorId = 2;
-
+            var status = new ProgramStatus
+            {
+                ProgramStatusId = 1,
+                Status = "status"
+            };
             var program = new Program
             {
                 ProgramId = 1,
@@ -319,6 +337,8 @@ namespace ECA.Business.Test.Service.Programs
                 Description = "description",
                 ParentProgram = null,
                 StartDate = DateTimeOffset.UtcNow,
+                ProgramStatus = status,
+                ProgramStatusId = status.ProgramStatusId,
                 History = new History
                 {
                     CreatedBy = creatorId,
@@ -338,6 +358,7 @@ namespace ECA.Business.Test.Service.Programs
             program.Owner = owner;
             context.Programs.Add(program);
             context.Organizations.Add(owner);
+            context.ProgramStatuses.Add(status);
 
             Action<ProgramDTO> tester = (publishedProgram) =>
             {
@@ -359,7 +380,11 @@ namespace ECA.Business.Test.Service.Programs
             var now = DateTime.UtcNow;
             var creatorId = 1;
             var revisorId = 2;
-
+            var status = new ProgramStatus
+            {
+                ProgramStatusId = 1,
+                Status = "status"
+            };
             var program = new Program
             {
                 ProgramId = 1,
@@ -367,6 +392,8 @@ namespace ECA.Business.Test.Service.Programs
                 Description = "description",
                 ParentProgram = null,
                 StartDate = DateTimeOffset.UtcNow,
+                ProgramStatusId = status.ProgramStatusId,
+                ProgramStatus = status,
                 History = new History
                 {
                     CreatedBy = creatorId,
@@ -396,6 +423,7 @@ namespace ECA.Business.Test.Service.Programs
             owner.OfficeSettings.Add(justificationOfficeSetting);
             program.Owner = owner;
             context.Programs.Add(program);
+            context.ProgramStatuses.Add(status);
             context.Organizations.Add(owner);
             context.OfficeSettings.Add(focusOfficeSetting);
             context.OfficeSettings.Add(justificationOfficeSetting);
@@ -1078,6 +1106,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int>();
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
+            var websites = new List<string>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -1092,7 +1121,8 @@ namespace ECA.Business.Test.Service.Programs
                themeIds: themeIds,
                regionIds: regionIds,
                categoryIds: categoryIds,
-               objectiveIds: objectiveIds
+               objectiveIds: objectiveIds,
+               websites: websites
                );
 
             var program = service.Create(draftProgram);
@@ -1102,6 +1132,7 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(0, program.Contacts.Count);
             Assert.AreEqual(0, program.Themes.Count);
             Assert.AreEqual(0, program.Goals.Count);
+            Assert.AreEqual(0, program.Websites.Count);
 
             Assert.AreEqual(user.Id, program.History.CreatedBy);
             Assert.AreEqual(user.Id, program.History.RevisedBy);
@@ -1135,6 +1166,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int>();
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
+            var websites = new List<string>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -1149,7 +1181,8 @@ namespace ECA.Business.Test.Service.Programs
                themeIds: themeIds,
                regionIds: regionIds,
                categoryIds: categoryIds,
-               objectiveIds: objectiveIds
+               objectiveIds: objectiveIds,
+               websites: websites
                );
 
             var program = service.Create(draftProgram);
@@ -1179,6 +1212,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int>();
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
+            var websites = new List<string>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -1193,7 +1227,8 @@ namespace ECA.Business.Test.Service.Programs
                themeIds: themeIds,
                regionIds: regionIds,
                categoryIds: categoryIds,
-               objectiveIds: objectiveIds
+               objectiveIds: objectiveIds,
+               websites: websites
                );
 
             var program = await service.CreateAsync(draftProgram);
@@ -1240,6 +1275,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int>();
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
+            var websites = new List<string>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -1254,7 +1290,8 @@ namespace ECA.Business.Test.Service.Programs
                themeIds: themeIds,
                regionIds: regionIds,
                categoryIds: categoryIds,
-               objectiveIds: objectiveIds
+               objectiveIds: objectiveIds,
+               websites: websites
                );
 
             var program = await service.CreateAsync(draftProgram);
@@ -1290,6 +1327,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int>();
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
+            var websites = new List<string>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -1304,7 +1342,8 @@ namespace ECA.Business.Test.Service.Programs
                themeIds: themeIds,
                regionIds: regionIds,
                categoryIds: categoryIds,
-               objectiveIds: objectiveIds
+               objectiveIds: objectiveIds,
+               websites: websites
                );
 
             var program = await service.CreateAsync(draftProgram);
@@ -1337,6 +1376,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int>();
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
+            var websites = new List<string>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -1351,7 +1391,8 @@ namespace ECA.Business.Test.Service.Programs
                themeIds: themeIds,
                regionIds: regionIds,
                categoryIds: categoryIds,
-               objectiveIds: objectiveIds
+               objectiveIds: objectiveIds,
+               websites: websites
                );
 
             var program = service.Create(draftProgram);
@@ -1385,6 +1426,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int>();
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
+            var websites = new List<string>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -1399,7 +1441,8 @@ namespace ECA.Business.Test.Service.Programs
                themeIds: themeIds,
                regionIds: regionIds,
                categoryIds: categoryIds,
-               objectiveIds: objectiveIds
+               objectiveIds: objectiveIds,
+               websites: websites
                );
 
             var program = await service.CreateAsync(draftProgram);
@@ -1434,6 +1477,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int>();
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
+            var websites = new List<string>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -1448,7 +1492,8 @@ namespace ECA.Business.Test.Service.Programs
                themeIds: themeIds,
                regionIds: regionIds,
                categoryIds: categoryIds,
-               objectiveIds: objectiveIds
+               objectiveIds: objectiveIds,
+               websites: websites
                );
 
             var program = service.Create(draftProgram);
@@ -1483,6 +1528,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int>();
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
+            var websites = new List<string>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -1497,7 +1543,8 @@ namespace ECA.Business.Test.Service.Programs
                themeIds: themeIds,
                regionIds: regionIds,
                categoryIds: categoryIds,
-               objectiveIds: objectiveIds
+               objectiveIds: objectiveIds,
+               websites: websites
                );
 
             var program = await service.CreateAsync(draftProgram);
@@ -1532,6 +1579,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int>();
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
+            var websites = new List<string>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -1546,7 +1594,8 @@ namespace ECA.Business.Test.Service.Programs
                themeIds: themeIds,
                regionIds: regionIds,
                categoryIds: categoryIds,
-               objectiveIds: objectiveIds
+               objectiveIds: objectiveIds,
+               websites: websites
                );
 
             var program = service.Create(draftProgram);
@@ -1583,6 +1632,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int>();
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
+            var websites = new List<string>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -1597,7 +1647,8 @@ namespace ECA.Business.Test.Service.Programs
                themeIds: themeIds,
                regionIds: regionIds,
                categoryIds: categoryIds,
-               objectiveIds: objectiveIds
+               objectiveIds: objectiveIds,
+               websites: websites
                );
 
             var program = await service.CreateAsync(draftProgram);
@@ -1631,6 +1682,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int> { region.LocationId };
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
+            var websites = new List<string>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -1645,7 +1697,8 @@ namespace ECA.Business.Test.Service.Programs
                themeIds: themeIds,
                regionIds: regionIds,
                categoryIds: categoryIds,
-               objectiveIds: objectiveIds
+               objectiveIds: objectiveIds,
+               websites: websites
                );
 
             var program = service.Create(draftProgram);
@@ -1680,6 +1733,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int> { region.LocationId };
             var categoryIds = new List<int>();
             var objectiveIds = new List<int>();
+            var websites = new List<string>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -1694,7 +1748,8 @@ namespace ECA.Business.Test.Service.Programs
                themeIds: themeIds,
                regionIds: regionIds,
                categoryIds: categoryIds,
-               objectiveIds: objectiveIds
+               objectiveIds: objectiveIds,
+               websites: websites
                );
 
             var program = await service.CreateAsync(draftProgram);
@@ -1769,7 +1824,8 @@ namespace ECA.Business.Test.Service.Programs
                 themeIds: null,
                 regionIds: null,
                 categoryIds: null,
-                objectiveIds: null
+                objectiveIds: null,
+                websites: null
                 );
             service.Update(updatedEcaProgram);
 
@@ -1854,7 +1910,8 @@ namespace ECA.Business.Test.Service.Programs
                 themeIds: null,
                 regionIds: null,
                 categoryIds: null,
-                objectiveIds: null
+                objectiveIds: null,
+                websites: null
                 );
             await service.UpdateAsync(updatedEcaProgram);
             mockValidator.Verify(x => x.ValidateUpdate(It.IsAny<ProgramServiceValidationEntity>()), Times.Once());
@@ -1939,8 +1996,9 @@ namespace ECA.Business.Test.Service.Programs
                 pointOfContactIds: null,
                 themeIds: null,
                 regionIds: null,
-                                categoryIds: null,
-                objectiveIds: null
+                categoryIds: null,
+                objectiveIds: null,
+                websites: null
                 );
             service.Update(updatedEcaProgram);
 
@@ -2011,8 +2069,9 @@ namespace ECA.Business.Test.Service.Programs
                 pointOfContactIds: null,
                 themeIds: null,
                 regionIds: null,
-                                categoryIds: null,
-                objectiveIds: null
+                categoryIds: null,
+                objectiveIds: null,
+                websites: null
                 );
             await service.UpdateAsync(updatedEcaProgram);
 
@@ -2082,8 +2141,9 @@ namespace ECA.Business.Test.Service.Programs
                 pointOfContactIds: null,
                 themeIds: new List<int> { 1 },
                 regionIds: null,
-                                categoryIds: null,
-                objectiveIds: null
+                categoryIds: null,
+                objectiveIds: null,
+                websites: null
                 );
             service.Update(updatedEcaProgram);
 
@@ -2152,8 +2212,9 @@ namespace ECA.Business.Test.Service.Programs
                 pointOfContactIds: null,
                 themeIds: new List<int> { 1 },
                 regionIds: null,
-                                categoryIds: null,
-                objectiveIds: null
+                categoryIds: null,
+                objectiveIds: null,
+                websites: null
                 );
             await service.UpdateAsync(updatedEcaProgram);
 
@@ -2224,8 +2285,9 @@ namespace ECA.Business.Test.Service.Programs
                 pointOfContactIds: new List<int> { 1 },
                 themeIds: null,
                 regionIds: null,
-                                categoryIds: null,
-                objectiveIds: null
+                categoryIds: null,
+                objectiveIds: null,
+                websites: null
                 );
             service.Update(updatedEcaProgram);
 
@@ -2294,8 +2356,9 @@ namespace ECA.Business.Test.Service.Programs
                 pointOfContactIds: new List<int> { 1 },
                 themeIds: null,
                 regionIds: null,
-                                categoryIds: null,
-                objectiveIds: null
+                categoryIds: null,
+                objectiveIds: null,
+                websites: null
                 );
             await service.UpdateAsync(updatedEcaProgram);
 
@@ -2367,8 +2430,9 @@ namespace ECA.Business.Test.Service.Programs
                 pointOfContactIds: null,
                 themeIds: null,
                 regionIds: new List<int> { region.LocationId },
-                                categoryIds: null,
-                objectiveIds: null
+                categoryIds: null,
+                objectiveIds: null,
+                websites: null
                 );
             service.Update(updatedEcaProgram);
 
@@ -2440,8 +2504,9 @@ namespace ECA.Business.Test.Service.Programs
                 pointOfContactIds: null,
                 themeIds: null,
                 regionIds: new List<int> { region.LocationId },
-                                categoryIds: null,
-                objectiveIds: null
+                categoryIds: null,
+                objectiveIds: null,
+                websites: null
                 );
             await service.UpdateAsync(updatedEcaProgram);
 
@@ -2482,8 +2547,9 @@ namespace ECA.Business.Test.Service.Programs
                 pointOfContactIds: null,
                 themeIds: null,
                 regionIds: null,
-                                categoryIds: null,
-                objectiveIds: null
+                categoryIds: null,
+                objectiveIds: null,
+                websites: null
                 );
             service.Update(updatedEcaProgram);
         }
@@ -2518,8 +2584,9 @@ namespace ECA.Business.Test.Service.Programs
                 pointOfContactIds: null,
                 themeIds: null,
                 regionIds: null,
-                                categoryIds: null,
-                objectiveIds: null
+                categoryIds: null,
+                objectiveIds: null,
+                websites: null
                 );
             await service.UpdateAsync(updatedEcaProgram);
         }

@@ -26,6 +26,16 @@ namespace ECA.Data
         IPermissable
     {
         /// <summary>
+        /// The max length of the name.
+        /// </summary>
+        public const int MAX_NAME_LENGTH = 500;
+
+        /// <summary>
+        /// The max description length.
+        /// </summary>
+        public const int MAX_DESCRIPTION_LENGTH = 3000;
+
+        /// <summary>
         /// Creates a new Project and initializes the collections.
         /// </summary>
         public Project()
@@ -52,8 +62,10 @@ namespace ECA.Data
         [Key]
         public int ProjectId { get; set; }
         [Required]
+        [MaxLength(MAX_NAME_LENGTH)]
         public string Name { get; set; }
         [Required]
+        [MaxLength(MAX_DESCRIPTION_LENGTH)]
         public string Description { get; set; }
         public ProjectType ProjectType { get; set; }
         public int? ProjectTypeId { get; set; }

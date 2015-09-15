@@ -113,6 +113,7 @@ namespace ECA.Business.Queries.Persons
                             Gender = person.Gender.GenderName,
                             GenderId = person.GenderId,
                             DateOfBirth = person.DateOfBirth,
+                            IsDateOfBirthUnknown = person.IsDateOfBirthUnknown,
                             CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }),
                             FirstName = person.FirstName,
                             LastName = person.LastName,

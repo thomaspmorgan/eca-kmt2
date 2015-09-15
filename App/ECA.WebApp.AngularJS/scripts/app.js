@@ -16,6 +16,7 @@ angular
     'ui.router',
     'ui.bootstrap',
     'ui.map',
+    'ui.validate',
     'ui.event',
     'ngModal',
     'isteven-multi-select',
@@ -272,7 +273,7 @@ angular
         .state('programs', {
             url: '/programs/:programId',
             templateUrl: 'views/programs.html',
-            controller: 'ProgramsCtrl',
+            controller: 'ProgramCtrl',
             requireADLogin: true
         })
         .state('programs.overview', {

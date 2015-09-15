@@ -27,6 +27,7 @@ namespace ECA.WebApi.Models.Programs
             this.Categories = new List<FocusCategoryDTO>();
             this.Objectives = new List<JustificationObjectiveDTO>();
             this.Regions = new List<LocationDTO>();
+            this.Websites = new List<SimpleLookupDTO>();
         }
 
         /// <summary>
@@ -55,11 +56,13 @@ namespace ECA.WebApi.Models.Programs
             this.RevisedOn = program.RevisedOn;
             this.RowVersion = Convert.ToBase64String(program.RowVersion);
             this.StartDate = program.StartDate;
+            this.EndDate = program.EndDate;
             this.Themes = program.Themes;
             this.Categories = program.Categories;
             this.Objectives = program.Objectives;
             this.ProgramStatusId = program.ProgramStatusId;
-            this.Website = program.Website;
+            this.ProgramStatusName = program.ProgramStatusName;
+            this.Websites = program.Websites;
             this.Regions = program.Regions;
         }
 
@@ -82,6 +85,11 @@ namespace ECA.WebApi.Models.Programs
         /// Gets or sets the Start Date.
         /// </summary>
         public DateTimeOffset StartDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the End Date.
+        /// </summary>
+        public DateTimeOffset EndDate { get; set; }
 
         /// <summary>
         /// Gets or sets the Revised On date.
@@ -167,8 +175,19 @@ namespace ECA.WebApi.Models.Programs
         /// </summary>
         public string RowVersion { get; set; }
 
+        /// <summary>
+        /// Gets or sets the program status id.
+        /// </summary>
         public int ProgramStatusId { get; set; }
 
-        public string Website { get; set; }
+        /// <summary>
+        /// Gets or sets the program status name.
+        /// </summary>
+        public string ProgramStatusName { get; set; }
+
+        /// <summary>
+        /// Gets or set the websites
+        /// </summary>
+        public IEnumerable<SimpleLookupDTO> Websites { get; set; }
     }
 }

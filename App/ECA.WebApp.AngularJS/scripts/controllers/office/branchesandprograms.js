@@ -38,9 +38,10 @@ angular.module('staticApp')
 
       $scope.view.onCreateProgramClick = function () {
           var addProgramModalInstance = $modal.open({
-              animation: false,
+              animation: true,
               templateUrl: 'views/program/addprogrammodal.html',
               controller: 'AddProgramModalCtrl',
+              backdrop: 'static',
               size: 'lg',
               resolve: {
                   office: function () {

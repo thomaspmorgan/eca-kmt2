@@ -27,6 +27,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int> { 40 };
             var categoryIds = new List<int> { 50 };
             var objectiveIds = new List<int> { 60 };
+            var websites = new List<string> { "http://www.google.com" };
 
             var user = new User(userId);
             var program = new DraftProgram(
@@ -42,7 +43,8 @@ namespace ECA.Business.Test.Service.Programs
                 themeIds: themeIds,
                 regionIds: regionIds,
                 categoryIds: categoryIds,
-                objectiveIds: objectiveIds
+                objectiveIds: objectiveIds,
+                websites: websites
 
                 );
             Assert.AreEqual(user, program.Audit.User);
@@ -61,7 +63,7 @@ namespace ECA.Business.Test.Service.Programs
             CollectionAssert.AreEqual(themeIds, program.ThemeIds);
             CollectionAssert.AreEqual(pointOfContactIds, program.ContactIds);
             CollectionAssert.AreEqual(regionIds, program.RegionIds);
-            
+            CollectionAssert.AreEqual(websites, program.Websites);
         }
 
         [TestMethod]
@@ -90,13 +92,15 @@ namespace ECA.Business.Test.Service.Programs
                 pointOfContactIds: null,
                 themeIds: null,
                 regionIds: null,
-               categoryIds: null,
-               objectiveIds: null
+                categoryIds: null,
+                objectiveIds: null,
+                websites: null
                 );
             Assert.IsNotNull(program.GoalIds);
             Assert.IsNotNull(program.ThemeIds);
             Assert.IsNotNull(program.ContactIds);
             Assert.IsNotNull(program.RegionIds);
+            Assert.IsNotNull(program.Websites);
         }
     }
 }

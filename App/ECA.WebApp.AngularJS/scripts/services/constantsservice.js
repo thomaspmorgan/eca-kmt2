@@ -114,6 +114,7 @@
 			other: {id: 8, value: "Other"}
 		},
 		adalLoginSuccessEventName: 'adal:loginSuccess',
+		cancelProgramChangesEventName: 'cancelProgramEdit',
 		cancelProjectEventName: 'cancelProjectEdit',
 		containsAnyComparisonType: 'containsany',
 		emptyGuid: '00000000-0000-0000-0000-000000000000',
@@ -142,6 +143,7 @@
 		removeNewMembershipsEventName: 'removeNewMembership',
 		removeNewSocialMediaEventName: 'removeNewSocialMedia',
 		removewNewPhoneNumberEventName: 'removeNewPhoneNumber',
+		saveProgramEventName: 'saveProgram',
 		saveProjectEventName: 'saveProject',
 		searchDelimiter: ' '
 	};
