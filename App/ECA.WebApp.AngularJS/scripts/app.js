@@ -28,7 +28,8 @@ angular
     'ui.date',
     'toaster',
     'ngAnimate',
-    'smoothScroll'
+    'smoothScroll',
+    'internationalPhoneNumber'
   ])
   .config(function ($stateProvider, $httpProvider, $urlRouterProvider, adalAuthenticationServiceProvider) {
 

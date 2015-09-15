@@ -360,12 +360,8 @@
         </div>
     </div>
     <div collapse="!showEduEmp">
-        <div ng-if="!edit.EduEmp">
-            <ng-include src="'/views/person/partials/eduempView.html'"></ng-include>
-        </div>
-        <div ng-if="!edit.EduEmp">
-            <ng-include src="'/views/person/partials/eduempEdit.html'"></ng-include>
-        </div>
+        <div ng-if="!edit.EduEmp"><ng-include src="'/views/person/partials/eduempView.html'"></ng-include></div>
+        <div ng-if="edit.EduEmp"><ng-include src="'/views/person/partials/eduempEdit.html'"></ng-include></div>
         <div class="row">
             <div class="col-md-6">
                 <h4 class="tab-subheader">Evaluation &amp; Notes</h4>

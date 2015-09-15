@@ -179,6 +179,8 @@
     <Content Include="scripts\controllers\moneyflow.js" />
     <Content Include="scripts\controllers\moneyflows.js" />
     <Content Include="scripts\controllers\office\branchesandprograms.js" />
+    <Content Include="scripts\controllers\phoneNumbers\phonenumber.js" />
+    <Content Include="scripts\controllers\phoneNumbers\phonenumbers.js" />
     <Content Include="scripts\controllers\person\personEduEmpEdit.js" />
     <Content Include="scripts\controllers\program\addprogrammodal.js" />
     <Content Include="scripts\controllers\office\overview.js" />
@@ -216,6 +218,7 @@
     <Content Include="scripts\controllers\reports\RegionAwards.js" />
     <Content Include="scripts\controllers\socialmedia\socialmedia.js" />
     <Content Include="scripts\controllers\socialmedia\socialmedias.js" />
+    <Content Include="scripts\directives\phoneNumbers.js" />
     <Content Include="scripts\directives\equalityfilter.js" />
     <Content Include="scripts\directives\languageProficiencies.js" />
     <Content Include="scripts\directives\memberships.js" />
@@ -230,6 +233,7 @@
     <Content Include="scripts\filters\groupby.js" />
     <Content Include="scripts\filters\propFilter.js" />
     <Content Include="scripts\services\bookmark.js" />
+    <Content Include="scripts\services\phonenumberservice.js" />
     <Content Include="scripts\services\languageProficiency.js" />
     <Content Include="scripts\services\membership.js" />
     <Content Include="scripts\services\filterservice.js" />
@@ -250,6 +254,7 @@
     <Content Include="styles\fonts\raleway-v9-latin-900.svg" />
     <Content Include="styles\fonts\raleway-v9-latin-regular.svg" />
     <Content Include="views\directives\confirmdialog.html" />
+    <Content Include="views\directives\phoneNumbers.html" />
     <Content Include="views\directives\equalityfilter.html" />
     <Content Include="views\directives\languageProficiencies.html" />
     <Content Include="views\directives\moneyflow.html" />
@@ -613,7 +618,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="images\intl-tel-input\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

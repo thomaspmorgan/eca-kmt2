@@ -40,8 +40,9 @@ angular.module('staticApp')
       $scope.cancelEditEduEmp = function () {
           $scope.edit.EduEmp = false;
       };
-      
-      $scope.saveEditEduEmp = function () {
+
+
+      $scope.saveEditEducation = function () {
           PersonService.updateEduEmp($scope.eduemp, $scope.eduemp.Id)
           .then(function () {
               NotificationService.showSuccessMessage("The edit was successful.");

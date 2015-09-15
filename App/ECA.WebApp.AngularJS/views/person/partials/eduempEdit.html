@@ -9,7 +9,6 @@
     <div ng-show="edit.EduEmp">
         <div class="row">
             <div class="pull-right">
-                <button ng-click="saveEditEduEmp()" class="btn btn-success" ng-disabled="eduempForm.$invalid || eduempForm.$pristine">Save</button>
                 <button ng-click="cancelEditEduEmp()" class="btn btn-cancel">Cancel</button>
             </div>
         </div>
@@ -19,10 +18,60 @@
                     <div class="row">
                         <i class="material-icons md-dark col-md-1">school</i>
                         <label class="col-md-3 title-label">Education</label>
+                        <a ng-click="view.onAddEducationClick(model.education, personId)">
+                            <i class="material-icons md-24 md-dark pull-right">add</i>
+                        </a>
                         <div class="col-md-8">
                             <!-- TODO: education edit list -->
+                            <div ng-repeat="education in educations">
+                                <div ng-controller="personEducationEmploymentEditCtrl" class="expandIndent">
+                                    <div class="spinner" ng-show="view.isSavingChanges || view.isLoadingRequiredData">
+                                        <div class="bounce1"></div>
+                                        <div class="bounce2"></div>
+                                        <div class="bounce3"></div>
+                                    </div>
+                                    <div class="row" ng-show="!view.isSavingChanges && !view.isLoadingRequiredData">
+                                        <div ng-class="{true: 'row', false: 'row2'}[editMode]" ng-show="!view.showEditEducation">
+                                            {{education.title}} ({{education.startDate | date: 'yyyy'}}-{{education.endDate | date: 'yyyy'}})
+                                            <div class="pull-right" ng-show="!view.showEditEducation">
+                                                <a ng-show="!view.showEditEducation && !view.isDeletingEducation && editMode" ng-click="view.showConfirmDelete = true">
+                                                    <i class="material-icons md-dark">delete</i>
+                                                </a>
+                                                <a ng-show="view.isDeletingEducation">
+                                                    <i class="material-icons md-dark material-icons-spin">refresh</i>
+                                                </a>
+                                                <a ng-show="!view.showEditEducation && editMode" ng-click="view.onEditEducationClick()">
+                                                    <i class="material-icons md-dark">edit</i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div ng-show="view.showConfirmDelete" class="text-center">
+                                            Are you sure you want to delete this education?
+                                        </div>
+                                        <div ng-show="view.showConfirmDelete" style="margin-top:10px;" class="text-center">
+                                            <button ng-click="view.onDeleteEducationClick()" class="btn btn-danger">Delete</button>
+                                            <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
+                                        </div>
+                                        <div in-context-form ng-show="view.showEditEmailAddress">
+                                            <form name="form.emailAddressForm" class="row form-horizontal">
 
 
+                                            </form>
+                                        </div>
+
+
+
+
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -30,6 +79,9 @@
                     <div class="row">
                         <i class="material-icons md-dark col-md-1">work</i>
                         <label class="col-md-3 title-label">Professional History</label>
+                        <a ng-click="view.onAddEmploymentClick(model.employment, personId)">
+                            <i class="material-icons md-24 md-dark pull-right">add</i>
+                        </a>
                         <div class="col-md-8">
                             <!-- TODO: employment edit list -->
 

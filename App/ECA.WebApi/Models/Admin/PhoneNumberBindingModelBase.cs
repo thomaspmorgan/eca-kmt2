@@ -36,7 +36,7 @@ namespace ECA.WebApi.Models.Admin
         /// <summary>
         /// The phoneNumberable entity id.
         /// </summary>
-        public int PhoneNumberAddressableId { get; set; }
+        public int PhoneNumberableId { get; set; }
 
         /// <summary>
         /// Returns a business layer entity to create or update a phone number.

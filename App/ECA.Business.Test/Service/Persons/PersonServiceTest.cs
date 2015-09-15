@@ -64,7 +64,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 OrganizationId = 1,
                 Name = "partOrg",
-                
+
             };
 
             var prominentCat1 = new ProminentCategory
@@ -114,11 +114,13 @@ namespace ECA.Business.Test.Service.Persons
                 ImpactId = 1,
                 Description = "desc1"
             };
+
             var person = new Person
             {
                 PersonId = 1,
                 Gender = gender,
                 DateOfBirth = DateTime.Now,
+                IsDateOfBirthUnknown = false,
                 FirstName = "firstName",
                 LastName = "lastName",
                 NamePrefix = "namePrefix",
@@ -181,6 +183,7 @@ namespace ECA.Business.Test.Service.Persons
                 PersonId = 1,
                 Gender = gender,
                 DateOfBirth = DateTime.Now,
+                IsDateOfBirthUnknown = false,
                 FirstName = "firstName",
                 LastName = "lastName",
                 NamePrefix = "namePrefix",
@@ -296,6 +299,7 @@ namespace ECA.Business.Test.Service.Persons
                 LocationTypeId = LocationType.City.Id,
                 CountryId = country.LocationId
             };
+
             var division = new Location
             {
                 LocationId = 10,
@@ -319,11 +323,13 @@ namespace ECA.Business.Test.Service.Persons
                 Division = division,
                 DivisionId = division.LocationId
             };
+
             var addressType = new AddressType
             {
                 AddressName = AddressType.Home.Value,
                 AddressTypeId = AddressType.Home.Id
             };
+
             var address = new Address
             {
                 AddressId = 1,
@@ -474,6 +480,7 @@ namespace ECA.Business.Test.Service.Persons
                 Address = "test1@test.com",
                 EmailAddressTypeId = 1
             };
+
             var email3 = new EmailAddress
             {
                 EmailAddressId = 3,
@@ -499,7 +506,6 @@ namespace ECA.Business.Test.Service.Persons
             person.EmailAddresses.Add(email);
 
             context.EmailAddressTypes.Add(emailAddressType);
-
             context.EmailAddresses.Add(email);
             context.EmailAddresses.Add(email2);
             context.EmailAddresses.Add(email3);
@@ -599,8 +605,8 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.IsNotNull(serviceResult);
                 Assert.AreEqual(person.PhoneNumbers.Count(), serviceResult.PhoneNumbers.Count());
                 CollectionAssert.AreEqual(person.PhoneNumbers.Select(x => x.PhoneNumberId).ToList(), serviceResult.PhoneNumbers.Select(x => x.Id).ToList());
-                CollectionAssert.AreEqual(person.PhoneNumbers.Select(x => x.PhoneNumberType.PhoneNumberTypeName).ToList(), serviceResult.PhoneNumbers.Select(x => x.Type).ToList());
-                CollectionAssert.AreEqual(person.PhoneNumbers.Select(x => x.Number).ToList(), serviceResult.PhoneNumbers.Select(x => x.Value).ToList());
+                CollectionAssert.AreEqual(person.PhoneNumbers.Select(x => x.PhoneNumberType.PhoneNumberTypeName).ToList(), serviceResult.PhoneNumbers.Select(x => x.PhoneNumberType).ToList());
+                CollectionAssert.AreEqual(person.PhoneNumbers.Select(x => x.Number).ToList(), serviceResult.PhoneNumbers.Select(x => x.Number).ToList());
             };
 
             var result = service.GetContactInfoById(person.PersonId);
@@ -688,7 +694,6 @@ namespace ECA.Business.Test.Service.Persons
 
             tester(result);
             tester(resultAsync);
-
         }
         #endregion
 
@@ -938,7 +943,7 @@ namespace ECA.Business.Test.Service.Persons
             Action<List<EducationEmploymentDTO>> tester = (list) =>
             {
                 Assert.AreEqual(1, list.Count);
-                var dto = list.First();              
+                var dto = list.First();
                 Assert.IsNull(dto.Organization.Location);
             };
             var results = service.GetEducationsByPersonId(person.PersonId);

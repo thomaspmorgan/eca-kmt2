@@ -447,7 +447,7 @@ namespace ECA.WebApi.Controllers.Persons
         {
             return emailAddressHandler.HandleDeleteEmailAddressAsync(emailAddressId, this);
         }
-        
+
         #endregion
 
         #region Phone Numbers
@@ -455,9 +455,9 @@ namespace ECA.WebApi.Controllers.Persons
         /// <summary>
         /// Adds a new phone number to the person.
         /// </summary>
-        /// <param name="model">The new email address.</param>
+        /// <param name="model">The new phone number.</param>
         /// <param name="personId">The id of the person.</param>
-        /// <returns>The saved email address.</returns>
+        /// <returns>The saved phone number.</returns>
         [Route("People/{personId:int}/PhoneNumber")]
         [ResponseType(typeof(PhoneNumberDTO))]
         public Task<IHttpActionResult> PostPhoneNumberAsync(int personId, [FromBody]PersonPhoneNumberBindingModel model)
@@ -468,8 +468,8 @@ namespace ECA.WebApi.Controllers.Persons
         /// <summary>
         /// Updates the phone number of the person.
         /// </summary>
-        /// <param name="model">The new email address.</param>
-        /// <returns>The saved email address.</returns>
+        /// <param name="model">The new phone number.</param>
+        /// <returns>The saved phone number.</returns>
         [Route("People/{personId:int}/PhoneNumber")]
         [ResponseType(typeof(PhoneNumberDTO))]
         public Task<IHttpActionResult> PutUpdatePhoneNumberAsync([FromBody]UpdatedPhoneNumberBindingModel model)
@@ -480,9 +480,9 @@ namespace ECA.WebApi.Controllers.Persons
         /// <summary>
         /// Deletes the phone number from the phoneNumberable.
         /// </summary>
-        /// <param name="phoneNumberId">The emailAddressId id.</param>
+        /// <param name="phoneNumberId">The phoneNumber id.</param>
         /// <returns>An ok result.</returns>
-        [Route("People/{personId:int}/EmailAddress/{emailAddressId:int}")]
+        [Route("People/{personId:int}/PhoneNumber/{phoneNumberId:int}")]
         [ResponseType(typeof(OkResult))]
         public Task<IHttpActionResult> DeletePhoneNumberAsync(int phoneNumberId)
         {
