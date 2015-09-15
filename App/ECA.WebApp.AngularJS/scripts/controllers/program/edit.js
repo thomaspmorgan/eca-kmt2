@@ -221,6 +221,18 @@ angular.module('staticApp')
           });
       }
 
+      $scope.view.addWebsite = function () {
+          $scope.view.program.websites.push({ value: undefined });
+      }
+
+      $scope.view.deleteWebsite = function ($index) {
+          if ($scope.view.program.websites.length == 1) {
+              $scope.view.program.websites[$index] = { value: undefined };
+          } else {
+              $scope.view.program.websites.splice($index, 1);
+          }
+      }
+
       function doCancel() {
           if ($scope.form.programForm.$dirty) {
               MessageBox.confirm({
@@ -255,6 +267,11 @@ angular.module('staticApp')
           if ($scope.view.program.parentProgram) {
               $scope.view.program.parentProgramId = $scope.view.program.parentProgram.programId;
           }
+
+          $scope.view.program.websites = $scope.view.program.websites.filter(function (n) { return n.value != undefined });
+
+          console.log($scope.view.program);
+
           return ProgramService.update($scope.view.program)
           .then(function (response) {
               var updatedProgram = response.data;
@@ -549,6 +566,9 @@ angular.module('staticApp')
       .then(function (program) {
           $scope.view.isLoadingProgram = false;
           $scope.view.program = program;
+          if ($scope.view.program.websites.length === 0) {
+              $scope.view.program.websites.push({ value: undefined });
+          }
           $scope.view.categoryLabel = program.ownerOfficeCategoryLabel;
           $scope.view.objectiveLabel = program.ownerOfficeObjectiveLabel;
 
