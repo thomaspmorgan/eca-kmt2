@@ -82,4 +82,31 @@ namespace ECA.Business.Queries.Models.Admin
         /// </summary>
         public string Path { get; set; }
     }
+
+    /// <summary>
+    /// An IEqualiltyComparer for OrganizationProgramDTO, useful once the entities have been marshalled by the service.
+    /// </summary>
+    public class OrganizationProgramDTOComparer : IEqualityComparer<OrganizationProgramDTO>
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public bool Equals(OrganizationProgramDTO x, OrganizationProgramDTO y)
+        {
+            return x.ProgramId == y.ProgramId;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public int GetHashCode(OrganizationProgramDTO obj)
+        {
+            return obj.ProgramId;
+        }
+    }
 }

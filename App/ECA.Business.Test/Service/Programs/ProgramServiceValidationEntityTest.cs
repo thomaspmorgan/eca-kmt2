@@ -64,5 +64,44 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(parentProgramId, entity.ParentProgramId);
             Assert.AreEqual(programId, entity.ProgramId);
         }
+
+        [TestMethod]
+        public void TestConstructor_NullParentProgramParentPrograms()
+        {
+            var regionLocationTypeIds = new List<int> { 1 };
+            var contactIds = new List<int> { 1 };
+            var themeIds = new List<int> { 1 };
+            var goalIds = new List<int> { 1 };
+            var regionIds = new List<int> { 1 };
+            var categoryIds = new List<int> { 1 };
+            var objectiveIds = new List<int> { 1 };
+            var focus = new Focus();
+            var owner = new Organization();
+            var parentProgramId = 2;
+            var parentProgram = new Program();
+            var name = "hello";
+            var description = "desc";
+            var programId = 1;
+            var officeSettings = new OfficeSettings();
+            var entity = new ProgramServiceValidationEntity(
+                programId,
+                name,
+                description,
+                regionLocationTypeIds,
+                contactIds,
+                themeIds,
+                goalIds,
+                regionIds,
+                categoryIds,
+                objectiveIds,
+                owner,
+                officeSettings,
+                parentProgramId,
+                parentProgram,
+                null
+                );
+
+            Assert.IsNotNull(entity.ParentProgramParentPrograms);
+        }
     }
 }

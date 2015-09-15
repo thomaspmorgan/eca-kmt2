@@ -103,6 +103,37 @@ namespace ECA.Business.Service.Programs
         /// <param name="programId">The id of the program to get parent programs for.</param>
         /// <returns>The list of parent programs, root first.</returns>
         Task<List<OrganizationProgramDTO>> GetParentProgramsAsync(int programId);
+
+        /// <summary>
+        /// Returns all child programs of the program with the given id.
+        /// </summary>
+        /// <param name="programId">The id of the program to retrieve all child programs for.</param>
+        /// <returns>All child, grand child, etc programs of the program with the given id.</returns>
+        List<OrganizationProgramDTO> GetAllChildPrograms(int programId);
+
+        /// <summary>
+        /// Returns all child programs of the program with the given id.
+        /// </summary>
+        /// <param name="programId">The id of the program to retrieve all child programs for.</param>
+        /// <returns>All child, grand child, etc programs of the program with the given id.</returns>
+        Task<List<OrganizationProgramDTO>> GetAllChildProgramsAsync(int programId);
+
+        /// <summary>
+        /// Returns a paged, filtered, and sorted list of programs that could be a parent to the program with the given id.
+        /// </summary>
+        /// <param name="programId">The id of the program to get valid parent programs for.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged, filtered, and sorted list of programs that could be a parent to the program with the given id.</returns>
+        PagedQueryResults<OrganizationProgramDTO> GetValidParentPrograms(int programId, QueryableOperator<OrganizationProgramDTO> queryOperator);
+
+        /// <summary>
+        /// Returns a paged, filtered, and sorted list of programs that could be a parent to the program with the given id.
+        /// </summary>
+        /// <param name="programId">The id of the program to get valid parent programs for.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged, filtered, and sorted list of programs that could be a parent to the program with the given id.</returns>
+        Task<PagedQueryResults<OrganizationProgramDTO>> GetValidParentProgramsAsync(int programId, QueryableOperator<OrganizationProgramDTO> queryOperator);
+
     }
 
     /// <summary>
@@ -267,6 +298,52 @@ namespace ECA.Business.Service.Programs
         {
             Contract.Ensures(Contract.Result<IList<OrganizationProgramDTO>>() != null, "The value returned must not be null.");
             return Task.FromResult<List<OrganizationProgramDTO>>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
+        public List<OrganizationProgramDTO> GetAllChildPrograms(int programId)
+        {
+            Contract.Ensures(Contract.Result<List<OrganizationProgramDTO>>() != null, "The value returned must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
+        public Task<List<OrganizationProgramDTO>> GetAllChildProgramsAsync(int programId)
+        {
+            Contract.Ensures(Contract.Result<IList<OrganizationProgramDTO>>() != null, "The value returned must not be null.");
+            return Task.FromResult<List<OrganizationProgramDTO>>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <param name="queryOperator"></param>
+        /// <returns></returns>
+        public PagedQueryResults<OrganizationProgramDTO> GetValidParentPrograms(int programId, QueryableOperator<OrganizationProgramDTO> queryOperator)
+        {
+            Contract.Ensures(Contract.Result<PagedQueryResults<OrganizationProgramDTO>>() != null, "The value returned must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <param name="queryOperator"></param>
+        /// <returns></returns>
+        public Task<PagedQueryResults<OrganizationProgramDTO>> GetValidParentProgramsAsync(int programId, QueryableOperator<OrganizationProgramDTO> queryOperator)
+        {
+            Contract.Ensures(Contract.Result<PagedQueryResults<OrganizationProgramDTO>>() != null, "The value returned must not be null.");
+            return Task.FromResult<PagedQueryResults<OrganizationProgramDTO>>(null);
         }
     }
 }

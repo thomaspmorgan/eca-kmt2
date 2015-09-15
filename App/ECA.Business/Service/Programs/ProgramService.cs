@@ -86,7 +86,7 @@ namespace ECA.Business.Service.Programs
 
         public PagedQueryResults<OrganizationProgramDTO> GetSubprogramsByProgram(int programId, QueryableOperator<OrganizationProgramDTO> queryOperator)
         {
-            var dto = ProgramQueries.CreateGetSubprogramsQuery(this.Context, programId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit); ;
+            var dto = ProgramQueries.CreateGetSubprogramsQuery(this.Context, programId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
             this.logger.Trace("Retrieved subprograms of program id  [{0}].", programId);
             return dto;
         }
@@ -199,6 +199,87 @@ namespace ECA.Business.Service.Programs
                 }
                 return parentPrograms;
             }
+        }
+
+        /// <summary>
+        /// Returns all child programs of the program with the given id.
+        /// </summary>
+        /// <param name="programId">The id of the program to retrieve all child programs for.</param>
+        /// <returns>All child, grand child, etc programs of the program with the given id.</returns>
+        public List<OrganizationProgramDTO> GetAllChildPrograms(int programId)
+        {
+            var hierarchyPrograms = CreateGetProgramsHierarchySqlQuery().ToArray();
+            return DoGetAllChildPrograms(programId, hierarchyPrograms);
+        }
+
+        /// <summary>
+        /// Returns all child programs of the program with the given id.
+        /// </summary>
+        /// <param name="programId">The id of the program to retrieve all child programs for.</param>
+        /// <returns>All child, grand child, etc programs of the program with the given id.</returns>
+        public async Task<List<OrganizationProgramDTO>> GetAllChildProgramsAsync(int programId)
+        {
+            var hierarchyPrograms = await CreateGetProgramsHierarchySqlQuery().ToArrayAsync();
+            return DoGetAllChildPrograms(programId, hierarchyPrograms);
+        }
+
+        private List<OrganizationProgramDTO> DoGetAllChildPrograms(int programId, IEnumerable<OrganizationProgramDTO> hierarchyPrograms)
+        {
+            var program = hierarchyPrograms.Where(x => x.ProgramId == programId).FirstOrDefault();
+            if(program == null)
+            {
+                return new List<OrganizationProgramDTO>();
+            }
+            else
+            {
+                var childPrograms = hierarchyPrograms.Where(x => x.Path.IndexOf(program.Path) == 0 && x.ProgramId != program.ProgramId).ToList();
+                return childPrograms;
+            }
+        }
+
+        /// <summary>
+        /// Returns a paged, filtered, and sorted list of programs that could be a parent to the program with the given id.
+        /// </summary>
+        /// <param name="programId">The id of the program to get valid parent programs for.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged, filtered, and sorted list of programs that could be a parent to the program with the given id.</returns>
+        public PagedQueryResults<OrganizationProgramDTO> GetValidParentPrograms(int programId, QueryableOperator<OrganizationProgramDTO> queryOperator)
+        {
+            var results = CreateGetProgramsHierarchySqlQuery().ToArray();
+            return DoGetValidParentPrograms(programId, results, queryOperator);
+        }
+
+        /// <summary>
+        /// Returns a paged, filtered, and sorted list of programs that could be a parent to the program with the given id.
+        /// </summary>
+        /// <param name="programId">The id of the program to get valid parent programs for.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged, filtered, and sorted list of programs that could be a parent to the program with the given id.</returns>
+        public async Task<PagedQueryResults<OrganizationProgramDTO>> GetValidParentProgramsAsync(int programId, QueryableOperator<OrganizationProgramDTO> queryOperator)
+        {
+            var results = await CreateGetProgramsHierarchySqlQuery().ToArrayAsync();
+            return DoGetValidParentPrograms(programId, results, queryOperator);
+        }
+
+        private PagedQueryResults<OrganizationProgramDTO> DoGetValidParentPrograms(int programId, IEnumerable<OrganizationProgramDTO> hierarchyPrograms, QueryableOperator<OrganizationProgramDTO> queryOperator)
+        {
+            var program = hierarchyPrograms.Where(x => x.ProgramId == programId).FirstOrDefault();
+            if (program == null)
+            {
+                return new PagedQueryResults<OrganizationProgramDTO>(0, new List<OrganizationProgramDTO>());
+            }
+            else
+            {
+                var childPrograms = DoGetAllChildPrograms(programId, hierarchyPrograms);
+                var validParentPrograms = hierarchyPrograms
+                    .Where(x => x.Owner_OrganizationId == program.Owner_OrganizationId && x.ProgramId != programId)
+                    .ToList()
+                    .Except(childPrograms, new OrganizationProgramDTOComparer())
+                    .ToList();
+                var pagedResults = GetPagedQueryResults(validParentPrograms, queryOperator);
+                return pagedResults;
+            }
+            
         }
         #endregion
 

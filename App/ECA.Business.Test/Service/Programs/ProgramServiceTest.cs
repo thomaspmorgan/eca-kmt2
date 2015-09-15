@@ -56,6 +56,983 @@ namespace ECA.Business.Test.Service.Programs
 
         #region Get
         [TestMethod]
+        public async Task TestGetValidParentPrograms_Sort()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                var dto1 = new OrganizationProgramDTO
+                {
+                    Description = "desc1",
+                    Name = "parent",
+                    NumChildren = 2,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    ParentProgram_ProgramId = 4,
+                    ProgramId = 5,
+                    ProgramLevel = 6,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 7,
+                    Path = "1"
+                };
+                var dto2 = new OrganizationProgramDTO
+                {
+                    Description = "desc2",
+                    Name = "child",
+                    NumChildren = 20,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    ParentProgram_ProgramId = dto1.ProgramId,
+                    ProgramId = 50,
+                    ProgramLevel = 60,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 70,
+                    Path = "1-1"
+                };
+                var dto3 = new OrganizationProgramDTO
+                {
+                    Description = "desc2",
+                    Name = "grandchild",
+                    NumChildren = 20,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    ParentProgram_ProgramId = dto2.ProgramId,
+                    ProgramId = 60,
+                    ProgramLevel = 60,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 70,
+                    Path = "1-1-1"
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                list.Add(dto3);
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+
+                Action<PagedQueryResults<OrganizationProgramDTO>> tester = (results) =>
+                {
+                    Assert.IsNotNull(results);
+                    Assert.AreEqual(2, results.Total);
+                    Assert.AreEqual(2, results.Results.Count());
+                    Assert.IsTrue(Object.ReferenceEquals(dto1, results.Results.First()));
+                    Assert.IsTrue(Object.ReferenceEquals(dto2, results.Results.Last()));
+                };
+                var defaultSorter = new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending);
+                var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, defaultSorter);
+
+                queryOperator.Sorters.Add(new ExpressionSorter<OrganizationProgramDTO>(x => x.ProgramId, SortDirection.Ascending));
+                var serviceResults = service.GetValidParentPrograms(dto3.ProgramId, queryOperator);
+                var serviceResultsAsync = await service.GetValidParentProgramsAsync(dto3.ProgramId, queryOperator);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
+        }
+
+
+        [TestMethod]
+        public async Task TestGetValidParentPrograms_Filter()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                var dto1 = new OrganizationProgramDTO
+                {
+                    Description = "desc1",
+                    Name = "parent",
+                    NumChildren = 2,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    ParentProgram_ProgramId = 4,
+                    ProgramId = 5,
+                    ProgramLevel = 6,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 7,
+                    Path = "1"
+                };
+                var dto2 = new OrganizationProgramDTO
+                {
+                    Description = "desc2",
+                    Name = "child",
+                    NumChildren = 20,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    ParentProgram_ProgramId = dto1.ProgramId,
+                    ProgramId = 50,
+                    ProgramLevel = 60,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 70,
+                    Path = "1-1"
+                };
+                var dto3 = new OrganizationProgramDTO
+                {
+                    Description = "desc2",
+                    Name = "grandchild",
+                    NumChildren = 20,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    ParentProgram_ProgramId = dto2.ProgramId,
+                    ProgramId = 60,
+                    ProgramLevel = 60,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 70,
+                    Path = "1-1-1"
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                list.Add(dto3);
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+
+                Action<PagedQueryResults<OrganizationProgramDTO>> tester = (results) =>
+                {
+                    Assert.IsNotNull(results);
+                    Assert.AreEqual(0, results.Total);
+                    Assert.AreEqual(0, results.Results.Count());
+                };
+                var defaultSorter = new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending);
+                var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 1, defaultSorter);
+                queryOperator.Filters.Add(new ExpressionFilter<OrganizationProgramDTO>(x => x.Name, ComparisonType.Equal, "abc"));
+                var serviceResults = service.GetValidParentPrograms(dto2.ProgramId, queryOperator);
+                var serviceResultsAsync = await service.GetValidParentProgramsAsync(dto2.ProgramId, queryOperator);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetValidParentPrograms_Paging()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                var dto1 = new OrganizationProgramDTO
+                {
+                    Description = "desc1",
+                    Name = "parent",
+                    NumChildren = 2,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    ParentProgram_ProgramId = 4,
+                    ProgramId = 5,
+                    ProgramLevel = 6,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 7,
+                    Path = "1"
+                };
+                var dto2 = new OrganizationProgramDTO
+                {
+                    Description = "desc2",
+                    Name = "child",
+                    NumChildren = 20,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    ParentProgram_ProgramId = dto1.ProgramId,
+                    ProgramId = 50,
+                    ProgramLevel = 60,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 70,
+                    Path = "1-1"
+                };
+                var dto3 = new OrganizationProgramDTO
+                {
+                    Description = "desc2",
+                    Name = "grandchild",
+                    NumChildren = 20,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    ParentProgram_ProgramId = dto2.ProgramId,
+                    ProgramId = 60,
+                    ProgramLevel = 60,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 70,
+                    Path = "1-1-1"
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                list.Add(dto3);
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+
+                Action<PagedQueryResults<OrganizationProgramDTO>> tester = (results) =>
+                {
+                    Assert.IsNotNull(results);
+                    Assert.AreEqual(2, results.Total);
+                    Assert.AreEqual(1, results.Results.Count());
+                    Assert.IsTrue(Object.ReferenceEquals(dto2, results.Results.First()));
+                    Assert.IsTrue(Object.ReferenceEquals(dto2, results.Results.Last()));
+                };
+                var defaultSorter = new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending);
+                var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 1, defaultSorter);
+                var serviceResults = service.GetValidParentPrograms(dto3.ProgramId, queryOperator);
+                var serviceResultsAsync = await service.GetValidParentProgramsAsync(dto3.ProgramId, queryOperator);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetValidParentPrograms_ProgramsHaveDifferentOwners()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                var dto1 = new OrganizationProgramDTO
+                {
+                    Description = "desc1",
+                    Name = "parent",
+                    NumChildren = 2,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 1,
+                    ParentProgram_ProgramId = 4,
+                    ProgramId = 5,
+                    ProgramLevel = 6,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 7,
+                    Path = "1"
+                };
+                var dto2 = new OrganizationProgramDTO
+                {
+                    Description = "desc2",
+                    Name = "child",
+                    NumChildren = 20,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    ParentProgram_ProgramId = dto1.ProgramId,
+                    ProgramId = 50,
+                    ProgramLevel = 60,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 70,
+                    Path = "1-1"
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+
+                Action<PagedQueryResults<OrganizationProgramDTO>> tester = (results) =>
+                {
+                    Assert.IsNotNull(results);
+                    Assert.AreEqual(0, results.Total);
+                    Assert.AreEqual(0, results.Results.Count());
+                };
+                var defaultSorter = new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending);
+                var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, defaultSorter);
+                var serviceResults = service.GetValidParentPrograms(dto2.ProgramId, queryOperator);
+                var serviceResultsAsync = await service.GetValidParentProgramsAsync(dto2.ProgramId, queryOperator);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetValidParentPrograms_ProgramDoesNotExist()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+
+                Action<PagedQueryResults<OrganizationProgramDTO>> tester = (results) =>
+                {
+                    Assert.IsNotNull(results);
+                    Assert.AreEqual(0, results.Total);
+                    Assert.AreEqual(0, results.Results.Count());
+                };
+                var defaultSorter = new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending);
+                var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, defaultSorter);
+                var serviceResults = service.GetValidParentPrograms(1, queryOperator);
+                var serviceResultsAsync = await service.GetValidParentProgramsAsync(1, queryOperator);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetValidParentPrograms_HasParentAndHasChild()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                var dto1 = new OrganizationProgramDTO
+                {
+                    Description = "desc1",
+                    Name = "parent",
+                    NumChildren = 2,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    ParentProgram_ProgramId = 4,
+                    ProgramId = 5,
+                    ProgramLevel = 6,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 7,
+                    Path = "1"
+                };
+                var dto2 = new OrganizationProgramDTO
+                {
+                    Description = "desc2",
+                    Name = "child",
+                    NumChildren = 20,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    ParentProgram_ProgramId = dto1.ProgramId,
+                    ProgramId = 50,
+                    ProgramLevel = 60,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 70,
+                    Path = "1-1"
+                };
+                var dto3 = new OrganizationProgramDTO
+                {
+                    Description = "desc2",
+                    Name = "grandchild",
+                    NumChildren = 20,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    ParentProgram_ProgramId = dto2.ProgramId,
+                    ProgramId = 60,
+                    ProgramLevel = 60,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 70,
+                    Path = "1-1-1"
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                list.Add(dto3);
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+
+                Action<PagedQueryResults<OrganizationProgramDTO>> tester = (results) =>
+                {
+                    Assert.IsNotNull(results);
+                    Assert.AreEqual(1, results.Total);
+                    Assert.AreEqual(1, results.Results.Count());
+                    Assert.IsTrue(Object.ReferenceEquals(dto1, results.Results.First()));
+                };
+                var defaultSorter = new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending);
+                var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, defaultSorter);
+                var serviceResults = service.GetValidParentPrograms(dto2.ProgramId, queryOperator);
+                var serviceResultsAsync = await service.GetValidParentProgramsAsync(dto2.ProgramId, queryOperator);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetValidParentPrograms_DoesNotHaveChild()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                var dto1 = new OrganizationProgramDTO
+                {
+                    Description = "desc1",
+                    Name = "parent",
+                    NumChildren = 2,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    ParentProgram_ProgramId = 4,
+                    ProgramId = 5,
+                    ProgramLevel = 6,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 7,
+                    Path = "1"
+                };
+                var dto2 = new OrganizationProgramDTO
+                {
+                    Description = "desc2",
+                    Name = "child",
+                    NumChildren = 20,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    ParentProgram_ProgramId = 40,
+                    ProgramId = 50,
+                    ProgramLevel = 60,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 70,
+                    Path = "2"
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+
+                Action<PagedQueryResults<OrganizationProgramDTO>> tester = (results) =>
+                {
+                    Assert.IsNotNull(results);
+                    Assert.AreEqual(1, results.Total);
+                    Assert.AreEqual(1, results.Results.Count());
+                    Assert.IsTrue(Object.ReferenceEquals(dto2, results.Results.First()));
+                };
+                var defaultSorter = new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending);
+                var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, defaultSorter);
+                var serviceResults = service.GetValidParentPrograms(dto1.ProgramId, queryOperator);
+                var serviceResultsAsync = await service.GetValidParentProgramsAsync(dto1.ProgramId, queryOperator);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetValidParentPrograms_HasChild()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                var dto1 = new OrganizationProgramDTO
+                {
+                    Description = "desc1",
+                    Name = "parent",
+                    NumChildren = 2,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    ParentProgram_ProgramId = 4,
+                    ProgramId = 5,
+                    ProgramLevel = 6,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 7,
+                    Path = "1"
+                };
+                var dto2 = new OrganizationProgramDTO
+                {
+                    Description = "desc2",
+                    Name = "child",
+                    NumChildren = 20,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 20,
+                    ParentProgram_ProgramId = 40,
+                    ProgramId = 50,
+                    ProgramLevel = 60,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 70,
+                    Path = "1-1"
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+
+                Action<PagedQueryResults<OrganizationProgramDTO>> tester = (results) =>
+                {
+                    Assert.IsNotNull(results);
+                    Assert.AreEqual(0, results.Total);
+                    Assert.AreEqual(0, results.Results.Count());
+                };
+                var defaultSorter = new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending);
+                var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, defaultSorter);
+                var serviceResults = service.GetValidParentPrograms(dto1.ProgramId, queryOperator);
+                var serviceResultsAsync = await service.GetValidParentProgramsAsync(dto1.ProgramId, queryOperator);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetValidParentPrograms_OwnerHasOneProgram()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                var dto1 = new OrganizationProgramDTO
+                {
+                    Description = "desc1",
+                    Name = "parent",
+                    NumChildren = 2,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    ParentProgram_ProgramId = 4,
+                    ProgramId = 5,
+                    ProgramLevel = 6,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 7,
+                    Path = "1"
+                };
+                list.Add(dto1);
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+
+                Action<PagedQueryResults<OrganizationProgramDTO>> tester = (results) =>
+                {
+                    Assert.IsNotNull(results);
+                    Assert.AreEqual(0, results.Total);
+                    Assert.AreEqual(0, results.Results.Count());
+                };
+                var defaultSorter = new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending);
+                var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, defaultSorter);
+                var serviceResults = service.GetValidParentPrograms(dto1.ProgramId, queryOperator);
+                var serviceResultsAsync = await service.GetValidParentProgramsAsync(dto1.ProgramId, queryOperator);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetAllChildPrograms_ProgramDoesNotExist()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+
+                Action<IList<OrganizationProgramDTO>> tester = (results) =>
+                {
+                    Assert.IsNotNull(results);
+                    Assert.AreEqual(0, results.Count);
+                };
+                var serviceResults = service.GetAllChildPrograms(1);
+                var serviceResultsAsync = await service.GetAllChildProgramsAsync(1);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetAllChildPrograms_HasNoChildren()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                var dto1 = new OrganizationProgramDTO
+                {
+                    Description = "desc1",
+                    Name = "org 1",
+                    NumChildren = 2,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    ParentProgram_ProgramId = 4,
+                    ProgramId = 5,
+                    ProgramLevel = 6,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 7,
+                    Path = "1"
+                };
+                var dto2 = new OrganizationProgramDTO
+                {
+                    Description = "desc2",
+                    Name = "org 2",
+                    NumChildren = 20,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 20,
+                    ParentProgram_ProgramId = 40,
+                    ProgramId = 50,
+                    ProgramLevel = 60,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 70,
+                    Path = "2"
+                };
+                var dto3 = new OrganizationProgramDTO
+                {
+                    Description = "desc2",
+                    Name = "org 2",
+                    NumChildren = 20,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 20,
+                    ParentProgram_ProgramId = 40,
+                    ProgramId = 60,
+                    ProgramLevel = 60,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 70,
+                    Path = "2-1"
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                list.Add(dto3);
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+
+                Action<IList<OrganizationProgramDTO>> tester = (results) =>
+                {
+                    Assert.AreEqual(0, results.Count);
+                };
+                var serviceResults = service.GetAllChildPrograms(dto1.ProgramId);
+                var serviceResultsAsync = await service.GetAllChildProgramsAsync(dto1.ProgramId);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetAllChildPrograms_HasOneChildOneGrandChild()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                var dto1 = new OrganizationProgramDTO
+                {
+                    Description = "desc1",
+                    Name = "org 1",
+                    NumChildren = 2,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    ParentProgram_ProgramId = 4,
+                    ProgramId = 5,
+                    ProgramLevel = 6,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 7,
+                    Path = "1"
+                };
+                var dto2 = new OrganizationProgramDTO
+                {
+                    Description = "desc2",
+                    Name = "org 2",
+                    NumChildren = 20,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 20,
+                    ParentProgram_ProgramId = 40,
+                    ProgramId = 50,
+                    ProgramLevel = 60,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 70,
+                    Path = "1-1"
+                };
+                var dto3 = new OrganizationProgramDTO
+                {
+                    Description = "desc2",
+                    Name = "org 2",
+                    NumChildren = 20,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 20,
+                    ParentProgram_ProgramId = 40,
+                    ProgramId = 60,
+                    ProgramLevel = 60,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 70,
+                    Path = "1-1-1"
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                list.Add(dto3);
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+
+                Action<IList<OrganizationProgramDTO>> tester = (results) =>
+                {
+                    Assert.AreEqual(2, results.Count);
+                    Assert.IsTrue(Object.ReferenceEquals(dto2, results.First()));
+                    Assert.IsTrue(Object.ReferenceEquals(dto3, results.Last()));
+                };
+                var serviceResults = service.GetAllChildPrograms(dto1.ProgramId);
+                var serviceResultsAsync = await service.GetAllChildProgramsAsync(dto1.ProgramId);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetAllChildPrograms_HasOneChild()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                var dto1 = new OrganizationProgramDTO
+                {
+                    Description = "desc1",
+                    Name = "org 1",
+                    NumChildren = 2,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    ParentProgram_ProgramId = 4,
+                    ProgramId = 5,
+                    ProgramLevel = 6,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 7,
+                    Path = "1"
+                };
+                var dto2 = new OrganizationProgramDTO
+                {
+                    Description = "desc2",
+                    Name = "org 2",
+                    NumChildren = 20,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 20,
+                    ParentProgram_ProgramId = 40,
+                    ProgramId = 50,
+                    ProgramLevel = 60,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 70,
+                    Path = "1-1"
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+
+                Action<IList<OrganizationProgramDTO>> tester = (results) =>
+                {
+                    Assert.AreEqual(1, results.Count);
+                    Assert.IsTrue(Object.ReferenceEquals(dto2, results.First()));
+                };
+                var serviceResults = service.GetAllChildPrograms(dto1.ProgramId);
+                var serviceResultsAsync = await service.GetAllChildProgramsAsync(dto1.ProgramId);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
+        }
+
+        [TestMethod]
         public async Task TestGetParentPrograms_HasOneParentProgram()
         {
             using (ShimsContext.Create())
@@ -235,7 +1212,7 @@ namespace ECA.Business.Test.Service.Programs
                     SortOrder = 7,
                     Path = "15"
                 };
-                
+
                 list.Add(dto1);
                 System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
                 {
@@ -342,14 +1319,14 @@ namespace ECA.Business.Test.Service.Programs
             var countryType = new LocationType
             {
                 LocationTypeId = LocationType.Country.Id,
-                 LocationTypeName = LocationType.Country.Value
+                LocationTypeName = LocationType.Country.Value
             };
             var regionType = new LocationType
             {
                 LocationTypeId = LocationType.Region.Id,
                 LocationTypeName = LocationType.Region.Value
             };
-            
+
             var region = new Location
             {
                 LocationName = "region",
@@ -451,8 +1428,8 @@ namespace ECA.Business.Test.Service.Programs
                 Description = "description",
                 ParentProgram = parentProgram,
                 RowVersion = rowVersion,
-                StartDate = DateTimeOffset.UtcNow,     
-                EndDate = DateTimeOffset.UtcNow,  
+                StartDate = DateTimeOffset.UtcNow,
+                EndDate = DateTimeOffset.UtcNow,
                 ProgramStatusId = status.ProgramStatusId,
                 ProgramStatus = status,
                 History = new History
@@ -620,7 +1597,7 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(0, context.OfficeSettings.Count());
                 Assert.AreEqual(OfficeSettings.CATEGORY_DEFAULT_LABEL, publishedProgram.OwnerOrganizationCategoryLabel);
                 Assert.AreEqual(OfficeSettings.OBJECTIVE_DEFAULT_LABEL, publishedProgram.OwnerOrganizationObjectiveLabel);
-                
+
             };
             var result = service.GetProgramById(program.ProgramId);
             var resultAsync = await service.GetProgramByIdAsync(program.ProgramId);
@@ -1460,7 +2437,7 @@ namespace ECA.Business.Test.Service.Programs
             var description = "description";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTime.UtcNow.AddDays(1.0);
-            
+
             var pointOfContactIds = new List<int>();
             var themeIds = new List<int>();
             var goalIds = new List<int>();
