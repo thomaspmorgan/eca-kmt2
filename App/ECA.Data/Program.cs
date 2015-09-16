@@ -34,6 +34,7 @@ namespace ECA.Data
         /// The maximum length of a program description.
         /// </summary>
         public const int MAX_DESCRIPTION_LENGTH = 3000;
+        
 
         /// <summary>
         /// Creates a new default program.
@@ -93,8 +94,15 @@ namespace ECA.Data
         public int OwnerId { get; set; }
 
         /// <summary>
+        /// Gets or sets the parent program id.
+        /// </summary>
+        [Column("ParentProgram_ProgramId")]
+        public int? ParentProgramId { get; set; }
+
+        /// <summary>
         /// Gets or sets the Parent Program.
         /// </summary>
+        [ForeignKey("ParentProgramId")]
         public virtual Program ParentProgram { get; set; }
 
         /// <summary>
@@ -105,7 +113,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the End date.
         /// </summary>
-        public DateTimeOffset EndDate { get; set; }
+        public DateTimeOffset? EndDate { get; set; }
 
         /// <summary>
         /// Gets or sets the ProgramStatus.
@@ -122,25 +130,82 @@ namespace ECA.Data
         /// </summary>
         public byte[] RowVersion { get; set; }
 
+        /// <summary>
+        /// Gets or sets the regions.
+        /// </summary>
         [Required]
         [InverseProperty("RegionPrograms")]
         public ICollection<Location> Regions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the locations.
+        /// </summary>
         [InverseProperty("LocationPrograms")]
         public ICollection<Location> Locations { get; set; }
+
+        /// <summary>
+        /// Gets or sets the target programs.
+        /// </summary>
         [InverseProperty("TargetPrograms")]
         public ICollection<Location> Targets { get; set; }
+
+        /// <summary>
+        /// Gets or sets the child programs.
+        /// </summary>
+        public virtual ICollection<Program> ChildPrograms { get; set; }
+
+        /// <summary>
+        /// Gets or sets source money flows.
+        /// </summary>
         public ICollection<MoneyFlow> SourceProgramMoneyFlows { get; set; }
+
+        /// <summary>
+        /// Gets or sets recipient money flows.
+        /// </summary>
         public ICollection<MoneyFlow> RecipientProgramMoneyFlows { get; set; }
+
+        /// <summary>
+        /// Gets or sets projects.
+        /// </summary>
         public ICollection<Project> Projects { get; set; }
-        public ICollection<Program> ChildPrograms { get; set; }
+
+        /// <summary>
+        /// Gets or sets themes.
+        /// </summary>
         public ICollection<Theme> Themes { get; set; }
+
+        /// <summary>
+        /// Gets or sets goals.
+        /// </summary>
         public ICollection<Goal> Goals { get; set; }
+
+        /// <summary>
+        /// Gets or sets artifacts.
+        /// </summary>
         public ICollection<Artifact> Artifacts { get; set; }
+        /// <summary>
+        /// Gets or sets the program type.
+        /// </summary>
         public ICollection<ProgramType> ProgramType { get; set; }
+
+        /// <summary>
+        /// Gets or sets impacts.
+        /// </summary>
         public ICollection<Impact> Impacts { get; set; }
+
+        /// <summary>
+        /// Gets or sets contacts.
+        /// </summary>
         public ICollection<Contact> Contacts { get; set; }
 
+        /// <summary>
+        /// Gets or sets objectives.
+        /// </summary>
         public ICollection<Objective> Objectives { get; set; }
+
+        /// <summary>
+        /// Gets or sets the categories.
+        /// </summary>
         public ICollection<Category> Categories { get; set; }
 
         /// <summary>
@@ -148,8 +213,16 @@ namespace ECA.Data
         /// </summary>
         public ICollection<Website> Websites { get; set; }
 
+        /// <summary>
+        /// Gets or sets the history.
+        /// </summary>
         public History History { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="validationContext"></param>
+        /// <returns></returns>
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             Contract.Assert(validationContext != null, "The validation context must not be null.");

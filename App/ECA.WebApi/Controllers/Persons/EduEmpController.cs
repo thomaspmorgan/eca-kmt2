@@ -76,7 +76,7 @@ namespace ECA.WebApi.Controllers.Persons
                 return BadRequest(ModelState);
             }
         }
-
+        
         [ResponseType(typeof(EducationEmploymentDTO))]
         [Route("People/{personId:int}/Education")]
         public async Task<IHttpActionResult> PutEducationAsync(UpdatedPersonEduEmpBindingModel model)
@@ -91,7 +91,7 @@ namespace ECA.WebApi.Controllers.Persons
                 return Ok(dto);
             }
             else
-            {
+                {
                 return BadRequest(ModelState);
             }
         }
@@ -101,7 +101,7 @@ namespace ECA.WebApi.Controllers.Persons
         public async Task<IHttpActionResult> DeleteEducation(int id)
         {
             await service.DeleteAsync(id);
-            await service.SaveChangesAsync();
+                    await service.SaveChangesAsync();
             return Ok();
         }
         
@@ -134,18 +134,18 @@ namespace ECA.WebApi.Controllers.Persons
         public async Task<IHttpActionResult> PostEmploymentAsync(PersonEduEmpBindingModel model)
         {
             if (ModelState.IsValid)
-            {
+                {
                 var currentUser = userProvider.GetCurrentUser();
                 var businessUser = userProvider.GetBusinessUser(currentUser);
                 var education = await service.CreateEmploymentAsync(model.ToPersonEduEmp(businessUser));
-                await service.SaveChangesAsync();
+                    await service.SaveChangesAsync();
                 var dto = await service.GetEmploymentByIdAsync(education.ProfessionEducationId);
-                return Ok(dto);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
+                    return Ok(dto);
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
         }
 
         [ResponseType(typeof(EducationEmploymentDTO))]
@@ -178,6 +178,6 @@ namespace ECA.WebApi.Controllers.Persons
 
 
         #endregion
-        
+
     }
 }

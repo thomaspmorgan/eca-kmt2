@@ -90,7 +90,6 @@ namespace ECA.WebApi.Controllers.Persons
             }
         }
 
-
         /// <summary>
         /// Returns pii associated with person 
         /// </summary>
@@ -235,7 +234,6 @@ namespace ECA.WebApi.Controllers.Persons
             }
         }
 
-
         /// <summary>
         /// Put method to update a person's General Info
         /// </summary>
@@ -293,7 +291,6 @@ namespace ECA.WebApi.Controllers.Persons
         {
             return addressHandler.HandleAdditionalAddressAsync<Person>(model, this);
         }
-
         /// <summary>
         /// Updates the address for the person.
         /// </summary>
@@ -306,7 +303,6 @@ namespace ECA.WebApi.Controllers.Persons
         {
             return addressHandler.HandleUpdateAddressAsync(model, this);
         }
-
         /// <summary>
         /// Deletes the address from the person.
         /// </summary>
@@ -319,11 +315,9 @@ namespace ECA.WebApi.Controllers.Persons
         {
             return addressHandler.HandleDeleteAddressAsync(addressId, this);
         }
-
         #endregion
-        
-        #region Social Media
 
+        #region Social Media
         /// <summary>
         /// Adds a new social media to the person.
         /// </summary>
@@ -362,11 +356,10 @@ namespace ECA.WebApi.Controllers.Persons
         {
             return socialMediaHandler.HandleDeleteSocialMediaAsync(socialMediaId, this);
         }
+
         #endregion
 
         #region Email Addresses
-
-
         /// <summary>
         /// Adds a new email address to the person.
         /// </summary>
@@ -379,7 +372,6 @@ namespace ECA.WebApi.Controllers.Persons
         {
             return emailAddressHandler.HandleEmailAddressAsync<Person>(model, this);
         }
-
         /// <summary>
         /// Updates the new email address of the person.
         /// </summary>
@@ -392,7 +384,6 @@ namespace ECA.WebApi.Controllers.Persons
         {
             return emailAddressHandler.HandleUpdateEmailAddressAsync(model, this);
         }
-
         /// <summary>
         /// Deletes the email address presence from the person.
         /// </summary>
@@ -405,7 +396,6 @@ namespace ECA.WebApi.Controllers.Persons
         {
             return emailAddressHandler.HandleDeleteEmailAddressAsync(emailAddressId, this);
         }
-
         #endregion
 
         #region Phone Numbers
@@ -422,7 +412,6 @@ namespace ECA.WebApi.Controllers.Persons
         {
             return phoneNumberHandler.HandlePhoneNumberAsync<Person>(model, this);
         }
-
         /// <summary>
         /// Updates the phone number of the person.
         /// </summary>
@@ -434,7 +423,6 @@ namespace ECA.WebApi.Controllers.Persons
         {
             return phoneNumberHandler.HandleUpdatePhoneNumberAsync(model, this);
         }
-
         /// <summary>
         /// Deletes the phone number from the phoneNumberable.
         /// </summary>
@@ -446,7 +434,6 @@ namespace ECA.WebApi.Controllers.Persons
         {
             return phoneNumberHandler.HandleDeletePhoneNumberAsync(phoneNumberId, this);
         }
-
         #endregion
     }
 }
