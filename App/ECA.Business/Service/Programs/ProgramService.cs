@@ -370,7 +370,7 @@ namespace ECA.Business.Service.Programs
             SetRegions(draftProgram.RegionIds, program);
             SetCategories(draftProgram.FocusCategoryIds, program);
             SetObjectives(draftProgram.JustificationObjectiveIds, program);
-            SetWebsites(draftProgram.Websites, program);
+            //SetWebsites(draftProgram.Websites, program);
 
             Debug.Assert(draftProgram.Audit != null, "The audit must not be null.");
             draftProgram.Audit.SetHistory(program);
