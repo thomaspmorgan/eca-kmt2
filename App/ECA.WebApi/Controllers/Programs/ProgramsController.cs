@@ -34,9 +34,14 @@ namespace ECA.WebApi.Controllers.Programs
         /// <summary>
         /// The default sorter for a list of programs.
         /// </summary>
-        private static readonly ExpressionSorter<SimpleProgramDTO> ALPHA_PROGRAM_SORTER = new ExpressionSorter<SimpleProgramDTO>(x => x.Name, SortDirection.Ascending);
+        private static readonly ExpressionSorter<SimpleProgramDTO> ALPHA_PROGRAM_SORTER = 
+            new ExpressionSorter<SimpleProgramDTO>(x => x.Name, SortDirection.Ascending);
 
-        private static readonly ExpressionSorter<OrganizationProgramDTO> HIERARCHY_PROGRAM_SORTER = new ExpressionSorter<OrganizationProgramDTO>(x => x.SortOrder, SortDirection.Ascending);
+        /// <summary>
+        /// The default sorter for a hierarchy of programs.
+        /// </summary>
+        private static readonly ExpressionSorter<OrganizationProgramDTO> HIERARCHY_PROGRAM_SORTER = 
+            new ExpressionSorter<OrganizationProgramDTO>(x => x.SortOrder, SortDirection.Ascending);
 
         /// <summary>
         /// The default sorter for a list of foci.
@@ -49,7 +54,11 @@ namespace ECA.WebApi.Controllers.Programs
         private static readonly ExpressionSorter<JustificationObjectiveDTO> DEFAULT_JUSTIFICATION_OBJECTIVE_DTO_SORTER =
             new ExpressionSorter<JustificationObjectiveDTO>(x => x.JustificationName, SortDirection.Ascending);
 
-        private static readonly ExpressionSorter<ResourceAuthorization> DEFAULT_RESOURCE_AUTHORIZATION_SORTER = new ExpressionSorter<ResourceAuthorization>(x => x.DisplayName, SortDirection.Ascending);
+        /// <summary>
+        /// The default sorter for resource authorizations.
+        /// </summary>
+        private static readonly ExpressionSorter<ResourceAuthorization> DEFAULT_RESOURCE_AUTHORIZATION_SORTER =
+            new ExpressionSorter<ResourceAuthorization>(x => x.DisplayName, SortDirection.Ascending);
 
 
         private IProgramService programService;
@@ -74,7 +83,7 @@ namespace ECA.WebApi.Controllers.Programs
             Contract.Requires(justificationObjectiveService != null, "The justification service must not be null.");
             Contract.Requires(resourceService != null, "The resource service must not be null.");
             Contract.Requires(authorizationHandler != null, "The authorization handler must not be null.");
-            
+
             this.programService = programService;
             this.userProvider = userProvider;
             this.categoryService = categoryService;
@@ -96,9 +105,9 @@ namespace ECA.WebApi.Controllers.Programs
             {
                 var results = await this.programService.GetProgramsAsync(
                     queryModel.ToQueryableOperator(
-                    ALPHA_PROGRAM_SORTER, 
-                    x => x.Name, 
-                    x=> x.Description));
+                    ALPHA_PROGRAM_SORTER,
+                    x => x.Name,
+                    x => x.Description));
                 return Ok(results);
             }
             else
@@ -141,10 +150,31 @@ namespace ECA.WebApi.Controllers.Programs
         [ResponseType(typeof(PagedQueryResults<OrganizationProgramDTO>))]
         public async Task<IHttpActionResult> GetSubprogramsByProgramAsync(int programId, [FromUri]PagingQueryBindingModel<OrganizationProgramDTO> queryModel)
         {
-            var dto = await this.programService.GetSubprogramsByProgramAsync(programId, queryModel.ToQueryableOperator(ALPHA_PROGRAM_SORTER));
-            if (dto != null)
+            if (ModelState.IsValid)
             {
-                return Ok(dto);
+                var programs = await this.programService.GetSubprogramsByProgramAsync(programId, queryModel.ToQueryableOperator(ALPHA_PROGRAM_SORTER));
+                return Ok(programs);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Returns valid potential parent programs for the program with the given id.
+        /// </summary>
+        /// <param name="programId">The program id.</param>
+        /// <param name="queryModel">The query model.</param>
+        /// <returns>The valid possible parent programs.</returns>
+        [Route("Programs/{programId}/ParentPrograms")]
+        [ResponseType(typeof(PagedQueryResults<OrganizationProgramDTO>))]
+        public async Task<IHttpActionResult> GetValidParentProgramsAsync(int programId, [FromUri]PagingQueryBindingModel<OrganizationProgramDTO> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var programs = await this.programService.GetValidParentProgramsAsync(programId, queryModel.ToQueryableOperator(HIERARCHY_PROGRAM_SORTER));
+                return Ok(programs);
             }
             else
             {
@@ -168,7 +198,7 @@ namespace ECA.WebApi.Controllers.Programs
             else
             {
                 return NotFound();
-            }            
+            }
         }
 
         /// <summary>

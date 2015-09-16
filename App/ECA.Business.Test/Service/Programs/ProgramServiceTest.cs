@@ -1286,395 +1286,599 @@ namespace ECA.Business.Test.Service.Programs
             }
         }
 
-
+        /// <summary>
+        /// This test does not check all parent programs i.e. calling the stored procedure to get all parents.
+        /// It's only going to check the direct parent is set.
+        /// </summary>
+        /// <returns></returns>
         [TestMethod]
         public async Task TestGetProgramById_CheckProperties_HasParentProgram()
         {
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var now = DateTime.UtcNow;
-            var creatorId = 1;
-            var revisorId = 2;
-            var rowVersion = new byte[1] { (byte)1 };
-
-            var contact = new Contact
+            using (ShimsContext.Create())
             {
-                ContactId = 100,
-                FullName = "full name",
-                Position = "position"
-            };
-            var theme = new Theme
-            {
-                ThemeId = 2,
-                ThemeName = "theme"
-            };
-            var goal = new Goal
-            {
-                GoalId = 4,
-            };
-            var divisionType = new LocationType
-            {
-                LocationTypeId = LocationType.Division.Id,
-                LocationTypeName = LocationType.Division.Value
-            };
-            var countryType = new LocationType
-            {
-                LocationTypeId = LocationType.Country.Id,
-                LocationTypeName = LocationType.Country.Value
-            };
-            var regionType = new LocationType
-            {
-                LocationTypeId = LocationType.Region.Id,
-                LocationTypeName = LocationType.Region.Value
-            };
-
-            var region = new Location
-            {
-                LocationName = "region",
-                LocationId = 3,
-                LocationIso = "locationIso",
-                LocationTypeId = regionType.LocationTypeId,
-                LocationType = regionType
-            };
-            var country = new Location
-            {
-                LocationId = 500,
-                LocationName = "country",
-                LocationIso = "countryIso",
-                LocationTypeId = countryType.LocationTypeId,
-                LocationType = countryType,
-                Region = region,
-                RegionId = region.LocationId
-            };
-            var division = new Location
-            {
-                LocationId = 501,
-                LocationName = "division",
-                LocationIso = "divisionIso",
-                LocationTypeId = divisionType.LocationTypeId,
-                LocationType = divisionType,
-                Country = country,
-                CountryId = country.LocationId,
-                Region = region,
-                RegionId = region.LocationId
-
-            };
-            var parentProgram = new Program
-            {
-                ProgramId = 10,
-                Name = "parent program"
-            };
-            var owner = new Organization
-            {
-                OrganizationId = 30,
-                Description = "owner desc",
-                Name = "owner",
-                OfficeSymbol = "symbol"
-            };
-            var focusOfficeSetting = new OfficeSetting
-            {
-                Name = OfficeSetting.FOCUS_SETTING_KEY,
-                Value = "focus",
-                OfficeId = owner.OrganizationId,
-                Office = owner,
-            };
-            var objectiveOfficeSetting = new OfficeSetting
-            {
-                Name = OfficeSetting.OBJECTIVE_SETTING_KEY,
-                Value = "objective",
-                OfficeId = owner.OrganizationId,
-                Office = owner,
-            };
-
-            owner.OfficeSettings.Add(focusOfficeSetting);
-            owner.OfficeSettings.Add(objectiveOfficeSetting);
-
-            var focus = new Focus
-            {
-                FocusId = 1,
-                FocusName = "focus",
-                Office = owner,
-                OfficeId = owner.OrganizationId
-            };
-            var category = new Category
-            {
-                CategoryId = 1,
-                CategoryName = "category",
-                Focus = focus,
-                FocusId = focus.FocusId,
-            };
-            var justification = new Justification
-            {
-                JustificationId = 1,
-                JustificationName = "justification",
-                Office = owner,
-                OfficeId = owner.OrganizationId
-            };
-            var objective = new Objective
-            {
-                Justification = justification,
-                JustificationId = justification.JustificationId,
-                ObjectiveId = 1,
-                ObjectiveName = "obj",
-            };
-            var status = new ProgramStatus
-            {
-                ProgramStatusId = 1,
-                Status = "status"
-            };
-            var program = new Program
-            {
-                ProgramId = 1,
-                Name = "name",
-                Description = "description",
-                ParentProgram = parentProgram,
-                RowVersion = rowVersion,
-                StartDate = DateTimeOffset.UtcNow,
-                EndDate = DateTimeOffset.UtcNow,
-                ProgramStatusId = status.ProgramStatusId,
-                ProgramStatus = status,
-                History = new History
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
                 {
-                    CreatedBy = creatorId,
-                    CreatedOn = yesterday,
-                    RevisedBy = revisorId,
-                    RevisedOn = now
-                },
-                Owner = owner
-            };
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var rowVersion = new byte[1] { (byte)1 };
 
-            program.Categories.Add(category);
-            program.Objectives.Add(objective);
-            program.Contacts.Add(contact);
-            program.Goals.Add(goal);
-            program.Regions.Add(region);
+                var contact = new Contact
+                {
+                    ContactId = 100,
+                    FullName = "full name",
+                    Position = "position"
+                };
+                var theme = new Theme
+                {
+                    ThemeId = 2,
+                    ThemeName = "theme"
+                };
+                var goal = new Goal
+                {
+                    GoalId = 4,
+                };
+                var divisionType = new LocationType
+                {
+                    LocationTypeId = LocationType.Division.Id,
+                    LocationTypeName = LocationType.Division.Value
+                };
+                var countryType = new LocationType
+                {
+                    LocationTypeId = LocationType.Country.Id,
+                    LocationTypeName = LocationType.Country.Value
+                };
+                var regionType = new LocationType
+                {
+                    LocationTypeId = LocationType.Region.Id,
+                    LocationTypeName = LocationType.Region.Value
+                };
 
-            context.Foci.Add(focus);
-            context.Categories.Add(category);
-            context.Justifications.Add(justification);
-            context.Objectives.Add(objective);
-            context.OfficeSettings.Add(focusOfficeSetting);
-            context.OfficeSettings.Add(objectiveOfficeSetting);
-            context.Organizations.Add(owner);
-            context.Programs.Add(program);
-            context.Contacts.Add(contact);
-            context.Themes.Add(theme);
-            context.Goals.Add(goal);
-            context.Locations.Add(country);
-            context.Programs.Add(parentProgram);
-            context.Locations.Add(region);
-            context.Locations.Add(country);
-            context.Locations.Add(division);
-            context.LocationTypes.Add(countryType);
-            context.LocationTypes.Add(regionType);
-            context.LocationTypes.Add(divisionType);
-            context.ProgramStatuses.Add(status);
+                var region = new Location
+                {
+                    LocationName = "region",
+                    LocationId = 3,
+                    LocationIso = "locationIso",
+                    LocationTypeId = regionType.LocationTypeId,
+                    LocationType = regionType
+                };
+                var country = new Location
+                {
+                    LocationId = 500,
+                    LocationName = "country",
+                    LocationIso = "countryIso",
+                    LocationTypeId = countryType.LocationTypeId,
+                    LocationType = countryType,
+                    Region = region,
+                    RegionId = region.LocationId
+                };
+                var division = new Location
+                {
+                    LocationId = 501,
+                    LocationName = "division",
+                    LocationIso = "divisionIso",
+                    LocationTypeId = divisionType.LocationTypeId,
+                    LocationType = divisionType,
+                    Country = country,
+                    CountryId = country.LocationId,
+                    Region = region,
+                    RegionId = region.LocationId
 
-            Action<ProgramDTO> tester = (publishedProgram) =>
-            {
-                CollectionAssert.AreEqual(program.Contacts.Select(x => x.ContactId).ToList(), publishedProgram.Contacts.Select(x => x.Id).ToList());
-                CollectionAssert.AreEqual(program.Contacts.Select(x => x.FullName + String.Format(" ({0})", x.Position)).ToList(), publishedProgram.Contacts.Select(x => x.Value).ToList());
+                };
+                var parentProgram = new Program
+                {
+                    ProgramId = 10,
+                    Name = "parent program"
+                };
+                var owner = new Organization
+                {
+                    OrganizationId = 30,
+                    Description = "owner desc",
+                    Name = "owner",
+                    OfficeSymbol = "symbol"
+                };
+                var focusOfficeSetting = new OfficeSetting
+                {
+                    Name = OfficeSetting.FOCUS_SETTING_KEY,
+                    Value = "focus",
+                    OfficeId = owner.OrganizationId,
+                    Office = owner,
+                };
+                var objectiveOfficeSetting = new OfficeSetting
+                {
+                    Name = OfficeSetting.OBJECTIVE_SETTING_KEY,
+                    Value = "objective",
+                    OfficeId = owner.OrganizationId,
+                    Office = owner,
+                };
 
-                CollectionAssert.AreEqual(
-                    context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationId).ToList(),
-                    publishedProgram.CountryIsos.Select(x => x.Id).ToList());
-                CollectionAssert.AreEqual(
-                    context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationIso).ToList(),
-                    publishedProgram.CountryIsos.Select(x => x.Value).ToList());
+                owner.OfficeSettings.Add(focusOfficeSetting);
+                owner.OfficeSettings.Add(objectiveOfficeSetting);
 
-                CollectionAssert.AreEqual(
-                    context.Locations.Where(x => x.LocationTypeId == LocationType.Region.Id).Select(x => x.LocationId).ToList(),
-                    publishedProgram.RegionIsos.Select(x => x.Id).ToList());
-                CollectionAssert.AreEqual(
-                    context.Locations.Where(x => x.LocationTypeId == LocationType.Region.Id).Select(x => x.LocationIso).ToList(),
-                    publishedProgram.RegionIsos.Select(x => x.Value).ToList());
+                var focus = new Focus
+                {
+                    FocusId = 1,
+                    FocusName = "focus",
+                    Office = owner,
+                    OfficeId = owner.OrganizationId
+                };
+                var category = new Category
+                {
+                    CategoryId = 1,
+                    CategoryName = "category",
+                    Focus = focus,
+                    FocusId = focus.FocusId,
+                };
+                var justification = new Justification
+                {
+                    JustificationId = 1,
+                    JustificationName = "justification",
+                    Office = owner,
+                    OfficeId = owner.OrganizationId
+                };
+                var objective = new Objective
+                {
+                    Justification = justification,
+                    JustificationId = justification.JustificationId,
+                    ObjectiveId = 1,
+                    ObjectiveName = "obj",
+                };
+                var status = new ProgramStatus
+                {
+                    ProgramStatusId = 1,
+                    Status = "status"
+                };
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "name",
+                    Description = "description",
+                    ParentProgram = parentProgram,
+                    RowVersion = rowVersion,
+                    StartDate = DateTimeOffset.UtcNow,
+                    EndDate = DateTimeOffset.UtcNow,
+                    ProgramStatusId = status.ProgramStatusId,
+                    ProgramStatus = status,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = revisorId,
+                        RevisedOn = now
+                    },
+                    Owner = owner
+                };
 
-                CollectionAssert.AreEqual(
-                    context.Locations.Where(x => x.LocationTypeId == LocationType.Region.Id).Select(x => x.LocationId).ToList(),
-                    publishedProgram.Regions.Select(x => x.Id).ToList());
-                CollectionAssert.AreEqual(
-                    context.Locations.Where(x => x.LocationTypeId == LocationType.Region.Id).Select(x => x.LocationIso).ToList(),
-                    publishedProgram.RegionIsos.Select(x => x.Value).ToList());
+                program.Categories.Add(category);
+                program.Objectives.Add(objective);
+                program.Contacts.Add(contact);
+                program.Goals.Add(goal);
+                program.Regions.Add(region);
 
-                Assert.AreEqual(0, publishedProgram.Regions.Where(x => x.LocationTypeId == divisionType.LocationTypeId).Count());
-                CollectionAssert.AreEqual(new List<int> { regionType.LocationTypeId }, publishedProgram.Regions.Select(x => x.LocationTypeId).Distinct().ToList());
+                context.Foci.Add(focus);
+                context.Categories.Add(category);
+                context.Justifications.Add(justification);
+                context.Objectives.Add(objective);
+                context.OfficeSettings.Add(focusOfficeSetting);
+                context.OfficeSettings.Add(objectiveOfficeSetting);
+                context.Organizations.Add(owner);
+                context.Programs.Add(program);
+                context.Contacts.Add(contact);
+                context.Themes.Add(theme);
+                context.Goals.Add(goal);
+                context.Locations.Add(country);
+                context.Programs.Add(parentProgram);
+                context.Locations.Add(region);
+                context.Locations.Add(country);
+                context.Locations.Add(division);
+                context.LocationTypes.Add(countryType);
+                context.LocationTypes.Add(regionType);
+                context.LocationTypes.Add(divisionType);
+                context.ProgramStatuses.Add(status);
 
-                CollectionAssert.AreEqual(
-                    context.Categories.Select(x => x.CategoryId).ToList(),
-                    publishedProgram.Categories.Select(x => x.Id).ToList());
-                CollectionAssert.AreEqual(
-                    context.Categories.Select(x => x.CategoryName).ToList(),
-                    publishedProgram.Categories.Select(x => x.Name).ToList());
-                CollectionAssert.AreEqual(
-                    context.Foci.Select(x => x.FocusName).ToList(),
-                    publishedProgram.Categories.Select(x => x.FocusName).ToList());
+                Action<ProgramDTO> tester = (publishedProgram) =>
+                {
+                    CollectionAssert.AreEqual(program.Contacts.Select(x => x.ContactId).ToList(), publishedProgram.Contacts.Select(x => x.Id).ToList());
+                    CollectionAssert.AreEqual(program.Contacts.Select(x => x.FullName + String.Format(" ({0})", x.Position)).ToList(), publishedProgram.Contacts.Select(x => x.Value).ToList());
 
-                CollectionAssert.AreEqual(
-                    context.Objectives.Select(x => x.ObjectiveId).ToList(),
-                    publishedProgram.Objectives.Select(x => x.Id).ToList());
-                CollectionAssert.AreEqual(
-                    context.Objectives.Select(x => x.ObjectiveName).ToList(),
-                    publishedProgram.Objectives.Select(x => x.Name).ToList());
-                CollectionAssert.AreEqual(
-                    context.Justifications.Select(x => x.JustificationName).ToList(),
-                    publishedProgram.Objectives.Select(x => x.JustificationName).ToList());
+                    CollectionAssert.AreEqual(
+                        context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationId).ToList(),
+                        publishedProgram.CountryIsos.Select(x => x.Id).ToList());
+                    CollectionAssert.AreEqual(
+                        context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationIso).ToList(),
+                        publishedProgram.CountryIsos.Select(x => x.Value).ToList());
 
-                CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalName).ToList(), publishedProgram.Goals.Select(x => x.Value).ToList());
-                CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalId).ToList(), publishedProgram.Goals.Select(x => x.Id).ToList());
+                    CollectionAssert.AreEqual(
+                        context.Locations.Where(x => x.LocationTypeId == LocationType.Region.Id).Select(x => x.LocationId).ToList(),
+                        publishedProgram.RegionIsos.Select(x => x.Id).ToList());
+                    CollectionAssert.AreEqual(
+                        context.Locations.Where(x => x.LocationTypeId == LocationType.Region.Id).Select(x => x.LocationIso).ToList(),
+                        publishedProgram.RegionIsos.Select(x => x.Value).ToList());
 
-                CollectionAssert.AreEqual(rowVersion, publishedProgram.RowVersion);
+                    CollectionAssert.AreEqual(
+                        context.Locations.Where(x => x.LocationTypeId == LocationType.Region.Id).Select(x => x.LocationId).ToList(),
+                        publishedProgram.Regions.Select(x => x.Id).ToList());
+                    CollectionAssert.AreEqual(
+                        context.Locations.Where(x => x.LocationTypeId == LocationType.Region.Id).Select(x => x.LocationIso).ToList(),
+                        publishedProgram.RegionIsos.Select(x => x.Value).ToList());
 
-                Assert.AreEqual(program.Description, publishedProgram.Description);
+                    Assert.AreEqual(0, publishedProgram.Regions.Where(x => x.LocationTypeId == divisionType.LocationTypeId).Count());
+                    CollectionAssert.AreEqual(new List<int> { regionType.LocationTypeId }, publishedProgram.Regions.Select(x => x.LocationTypeId).Distinct().ToList());
 
-                Assert.AreEqual(program.ProgramId, publishedProgram.Id);
-                Assert.AreEqual(program.Name, publishedProgram.Name);
-                Assert.AreEqual(parentProgram.ProgramId, publishedProgram.ParentProgramId);
-                Assert.AreEqual(parentProgram.Name, publishedProgram.ParentProgramName);
+                    CollectionAssert.AreEqual(
+                        context.Categories.Select(x => x.CategoryId).ToList(),
+                        publishedProgram.Categories.Select(x => x.Id).ToList());
+                    CollectionAssert.AreEqual(
+                        context.Categories.Select(x => x.CategoryName).ToList(),
+                        publishedProgram.Categories.Select(x => x.Name).ToList());
+                    CollectionAssert.AreEqual(
+                        context.Foci.Select(x => x.FocusName).ToList(),
+                        publishedProgram.Categories.Select(x => x.FocusName).ToList());
 
-                Assert.AreEqual(now, publishedProgram.RevisedOn);
-                Assert.AreEqual(program.StartDate, publishedProgram.StartDate);
-                Assert.AreEqual(program.EndDate, publishedProgram.EndDate);
-                Assert.AreEqual(status.ProgramStatusId, publishedProgram.ProgramStatusId);
-                Assert.AreEqual(status.Status, publishedProgram.ProgramStatusName);
-                Assert.AreEqual(owner.Name, publishedProgram.OwnerName);
-                Assert.AreEqual(owner.Description, publishedProgram.OwnerDescription);
-                Assert.AreEqual(owner.OrganizationId, publishedProgram.OwnerOrganizationId);
-                Assert.AreEqual(owner.OfficeSymbol, publishedProgram.OwnerOfficeSymbol);
-                Assert.AreEqual(focusOfficeSetting.Value, publishedProgram.OwnerOrganizationCategoryLabel);
-                Assert.AreEqual(objectiveOfficeSetting.Value, publishedProgram.OwnerOrganizationObjectiveLabel);
+                    CollectionAssert.AreEqual(
+                        context.Objectives.Select(x => x.ObjectiveId).ToList(),
+                        publishedProgram.Objectives.Select(x => x.Id).ToList());
+                    CollectionAssert.AreEqual(
+                        context.Objectives.Select(x => x.ObjectiveName).ToList(),
+                        publishedProgram.Objectives.Select(x => x.Name).ToList());
+                    CollectionAssert.AreEqual(
+                        context.Justifications.Select(x => x.JustificationName).ToList(),
+                        publishedProgram.Objectives.Select(x => x.JustificationName).ToList());
 
-            };
-            var result = service.GetProgramById(program.ProgramId);
-            var resultAsync = await service.GetProgramByIdAsync(program.ProgramId);
-            tester(result);
-            tester(resultAsync);
+                    CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalName).ToList(), publishedProgram.Goals.Select(x => x.Value).ToList());
+                    CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalId).ToList(), publishedProgram.Goals.Select(x => x.Id).ToList());
+
+                    CollectionAssert.AreEqual(rowVersion, publishedProgram.RowVersion);
+
+                    Assert.AreEqual(program.Description, publishedProgram.Description);
+
+                    Assert.AreEqual(program.ProgramId, publishedProgram.Id);
+                    Assert.AreEqual(program.Name, publishedProgram.Name);
+                    Assert.AreEqual(parentProgram.ProgramId, publishedProgram.ParentProgramId);
+                    Assert.AreEqual(parentProgram.Name, publishedProgram.ParentProgramName);
+
+                    Assert.AreEqual(now, publishedProgram.RevisedOn);
+                    Assert.AreEqual(program.StartDate, publishedProgram.StartDate);
+                    Assert.AreEqual(program.EndDate, publishedProgram.EndDate);
+                    Assert.AreEqual(status.ProgramStatusId, publishedProgram.ProgramStatusId);
+                    Assert.AreEqual(status.Status, publishedProgram.ProgramStatusName);
+                    Assert.AreEqual(owner.Name, publishedProgram.OwnerName);
+                    Assert.AreEqual(owner.Description, publishedProgram.OwnerDescription);
+                    Assert.AreEqual(owner.OrganizationId, publishedProgram.OwnerOrganizationId);
+                    Assert.AreEqual(owner.OfficeSymbol, publishedProgram.OwnerOfficeSymbol);
+                    Assert.AreEqual(focusOfficeSetting.Value, publishedProgram.OwnerOrganizationCategoryLabel);
+                    Assert.AreEqual(objectiveOfficeSetting.Value, publishedProgram.OwnerOrganizationObjectiveLabel);
+
+                };
+                var result = service.GetProgramById(program.ProgramId);
+                var resultAsync = await service.GetProgramByIdAsync(program.ProgramId);
+                tester(result);
+                tester(resultAsync);
+            }
         }
 
+        [TestMethod]
+        public async Task TestGetProgramById_CheckAllParentPrograms()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                list.Add(new OrganizationProgramDTO
+                {
+                    ProgramId = 100,
+                    Name = "parent",
+                    Path = "1"
+                });
+                list.Add(new OrganizationProgramDTO
+                {
+                    ProgramId = 200,
+                    Name = "grand parent",
+                    Path = "1-1"
+                });
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var rowVersion = new byte[1] { (byte)1 };
+
+                var status = new ProgramStatus
+                {
+                    ProgramStatusId = 1,
+                    Status = "status"
+                };
+                var owner = new Organization
+                {
+                    OrganizationId = 30,
+                    Description = "owner desc",
+                    Name = "owner",
+                    OfficeSymbol = "symbol"
+                };
+
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "name",
+                    Description = "description",
+                    RowVersion = rowVersion,
+                    StartDate = DateTimeOffset.UtcNow,
+                    EndDate = DateTimeOffset.UtcNow,
+                    ProgramStatusId = status.ProgramStatusId,
+                    ProgramStatus = status,
+                    Owner = owner,
+                    OwnerId = owner.OrganizationId,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = revisorId,
+                        RevisedOn = now
+                    }
+                };
+                context.Organizations.Add(owner);
+                context.Programs.Add(program);
+                context.ProgramStatuses.Add(status);
+                list.Add(new OrganizationProgramDTO
+                {
+                    ProgramId = program.ProgramId,
+                    Name = program.Name,
+                    Path = "1-1-1"
+                });
+                Action<ProgramDTO> tester = (publishedProgram) =>
+                {
+                    Assert.AreEqual(2, publishedProgram.AllParentPrograms.Count());
+                    var parentProgram = list.First();
+                    var grandParentProgram = list[1];
+
+                    Assert.AreEqual(parentProgram.ProgramId, publishedProgram.AllParentPrograms.First().Id);
+                    Assert.AreEqual(parentProgram.Name, publishedProgram.AllParentPrograms.First().Value);
+
+                    Assert.AreEqual(grandParentProgram.ProgramId, publishedProgram.AllParentPrograms.Last().Id);
+                    Assert.AreEqual(grandParentProgram.Name, publishedProgram.AllParentPrograms.Last().Value);
+                };
+                var result = service.GetProgramById(program.ProgramId);
+                var resultAsync = await service.GetProgramByIdAsync(program.ProgramId);
+                tester(result);
+                tester(resultAsync);
+            }
+        }
 
         [TestMethod]
         public async Task TestGetProgramById_NoOfficeSettings()
         {
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var now = DateTime.UtcNow;
-            var creatorId = 1;
-            var revisorId = 2;
-            var status = new ProgramStatus
+            using (ShimsContext.Create())
             {
-                ProgramStatusId = 1,
-                Status = "status"
-            };
-            var program = new Program
-            {
-                ProgramId = 1,
-                Name = "name",
-                Description = "description",
-                ParentProgram = null,
-                StartDate = DateTimeOffset.UtcNow,
-                ProgramStatus = status,
-                ProgramStatusId = status.ProgramStatusId,
-                History = new History
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
                 {
-                    CreatedBy = creatorId,
-                    CreatedOn = yesterday,
-                    RevisedBy = revisorId,
-                    RevisedOn = now
-                }
-            };
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var status = new ProgramStatus
+                {
+                    ProgramStatusId = 1,
+                    Status = "status"
+                };
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "name",
+                    Description = "description",
+                    ParentProgram = null,
+                    StartDate = DateTimeOffset.UtcNow,
+                    ProgramStatus = status,
+                    ProgramStatusId = status.ProgramStatusId,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = revisorId,
+                        RevisedOn = now
+                    }
+                };
 
-            var owner = new Organization
-            {
-                OrganizationId = 30,
-                Description = "owner desc",
-                Name = "owner",
-                OfficeSymbol = "symbol"
-            };
-            program.Owner = owner;
-            context.Programs.Add(program);
-            context.Organizations.Add(owner);
-            context.ProgramStatuses.Add(status);
+                var owner = new Organization
+                {
+                    OrganizationId = 30,
+                    Description = "owner desc",
+                    Name = "owner",
+                    OfficeSymbol = "symbol"
+                };
+                program.Owner = owner;
+                context.Programs.Add(program);
+                context.Organizations.Add(owner);
+                context.ProgramStatuses.Add(status);
 
-            Action<ProgramDTO> tester = (publishedProgram) =>
-            {
-                Assert.AreEqual(0, context.OfficeSettings.Count());
-                Assert.AreEqual(OfficeSettings.CATEGORY_DEFAULT_LABEL, publishedProgram.OwnerOrganizationCategoryLabel);
-                Assert.AreEqual(OfficeSettings.OBJECTIVE_DEFAULT_LABEL, publishedProgram.OwnerOrganizationObjectiveLabel);
+                Action<ProgramDTO> tester = (publishedProgram) =>
+                {
+                    Assert.AreEqual(0, context.OfficeSettings.Count());
+                    Assert.AreEqual(OfficeSettings.CATEGORY_DEFAULT_LABEL, publishedProgram.OwnerOrganizationCategoryLabel);
+                    Assert.AreEqual(OfficeSettings.OBJECTIVE_DEFAULT_LABEL, publishedProgram.OwnerOrganizationObjectiveLabel);
 
-            };
-            var result = service.GetProgramById(program.ProgramId);
-            var resultAsync = await service.GetProgramByIdAsync(program.ProgramId);
-            tester(result);
-            tester(resultAsync);
+                };
+                var result = service.GetProgramById(program.ProgramId);
+                var resultAsync = await service.GetProgramByIdAsync(program.ProgramId);
+                tester(result);
+                tester(resultAsync);
+            }
         }
 
         [TestMethod]
         public async Task TestGetProgramById_DoesNotHaveParentProgram()
         {
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var now = DateTime.UtcNow;
-            var creatorId = 1;
-            var revisorId = 2;
-            var status = new ProgramStatus
+            using (ShimsContext.Create())
             {
-                ProgramStatusId = 1,
-                Status = "status"
-            };
-            var program = new Program
-            {
-                ProgramId = 1,
-                Name = "name",
-                Description = "description",
-                ParentProgram = null,
-                StartDate = DateTimeOffset.UtcNow,
-                ProgramStatusId = status.ProgramStatusId,
-                ProgramStatus = status,
-                History = new History
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
                 {
-                    CreatedBy = creatorId,
-                    CreatedOn = yesterday,
-                    RevisedBy = revisorId,
-                    RevisedOn = now
-                }
-            };
-            var focusOfficeSetting = new OfficeSetting
-            {
-                Name = OfficeSetting.FOCUS_SETTING_KEY,
-                Value = "focus"
-            };
-            var justificationOfficeSetting = new OfficeSetting
-            {
-                Name = OfficeSetting.JUSTIFICATION_SETTING_KEY,
-                Value = "justification"
-            };
-            var owner = new Organization
-            {
-                OrganizationId = 30,
-                Description = "owner desc",
-                Name = "owner",
-                OfficeSymbol = "symbol"
-            };
-            owner.OfficeSettings.Add(focusOfficeSetting);
-            owner.OfficeSettings.Add(justificationOfficeSetting);
-            program.Owner = owner;
-            context.Programs.Add(program);
-            context.ProgramStatuses.Add(status);
-            context.Organizations.Add(owner);
-            context.OfficeSettings.Add(focusOfficeSetting);
-            context.OfficeSettings.Add(justificationOfficeSetting);
-            Action<ProgramDTO> tester = (publishedProgram) =>
-            {
-                Assert.IsFalse(publishedProgram.ParentProgramId.HasValue);
-                Assert.IsNull(publishedProgram.ParentProgramName);
-            };
-            var result = service.GetProgramById(program.ProgramId);
-            var resultAsync = await service.GetProgramByIdAsync(program.ProgramId);
-            tester(result);
-            tester(resultAsync);
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var status = new ProgramStatus
+                {
+                    ProgramStatusId = 1,
+                    Status = "status"
+                };
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "name",
+                    Description = "description",
+                    ParentProgram = null,
+                    StartDate = DateTimeOffset.UtcNow,
+                    ProgramStatusId = status.ProgramStatusId,
+                    ProgramStatus = status,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = revisorId,
+                        RevisedOn = now
+                    }
+                };
+                var focusOfficeSetting = new OfficeSetting
+                {
+                    Name = OfficeSetting.FOCUS_SETTING_KEY,
+                    Value = "focus"
+                };
+                var justificationOfficeSetting = new OfficeSetting
+                {
+                    Name = OfficeSetting.JUSTIFICATION_SETTING_KEY,
+                    Value = "justification"
+                };
+                var owner = new Organization
+                {
+                    OrganizationId = 30,
+                    Description = "owner desc",
+                    Name = "owner",
+                    OfficeSymbol = "symbol"
+                };
+                owner.OfficeSettings.Add(focusOfficeSetting);
+                owner.OfficeSettings.Add(justificationOfficeSetting);
+                program.Owner = owner;
+                context.Programs.Add(program);
+                context.ProgramStatuses.Add(status);
+                context.Organizations.Add(owner);
+                context.OfficeSettings.Add(focusOfficeSetting);
+                context.OfficeSettings.Add(justificationOfficeSetting);
+                Action<ProgramDTO> tester = (publishedProgram) =>
+                {
+                    Assert.IsFalse(publishedProgram.ParentProgramId.HasValue);
+                    Assert.IsNull(publishedProgram.ParentProgramName);
+                };
+                var result = service.GetProgramById(program.ProgramId);
+                var resultAsync = await service.GetProgramByIdAsync(program.ProgramId);
+                tester(result);
+                tester(resultAsync);
+            }
         }
 
         [TestMethod]
         public async Task TestGetProgramById_ProgramDoesNotExist()
         {
-            Assert.IsNull(service.GetProgramById(-1));
-            Assert.IsNull(await service.GetProgramByIdAsync(-1));
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                Assert.IsNull(service.GetProgramById(-1));
+                Assert.IsNull(await service.GetProgramByIdAsync(-1));
+            }
         }
 
         [TestMethod]
@@ -2360,7 +2564,8 @@ namespace ECA.Business.Test.Service.Programs
             var program = service.Create(draftProgram);
             mockValidator.Verify(x => x.ValidateCreate(It.IsAny<ProgramServiceValidationEntity>()), Times.Once());
             Assert.IsNotNull(program);
-            Assert.IsNotNull(program.ParentProgram);
+            Assert.IsNull(program.ParentProgram);
+            Assert.AreEqual(parentProgram.ProgramId, program.ParentProgramId);
             Assert.AreEqual(0, program.Contacts.Count);
             Assert.AreEqual(0, program.Themes.Count);
             Assert.AreEqual(0, program.Goals.Count);
@@ -2376,7 +2581,6 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(startDate, program.StartDate);
             Assert.AreEqual(endDate, program.EndDate);
             Assert.AreEqual(ownerId, program.OwnerId);
-            Assert.AreEqual(parentProgramId, program.ParentProgram.ProgramId);
             Assert.AreEqual(ProgramStatus.Draft.Id, program.ProgramStatusId);
         }
 
@@ -2466,7 +2670,8 @@ namespace ECA.Business.Test.Service.Programs
             var program = await service.CreateAsync(draftProgram);
             mockValidator.Verify(x => x.ValidateCreate(It.IsAny<ProgramServiceValidationEntity>()), Times.Once());
             Assert.IsNotNull(program);
-            Assert.IsNotNull(program.ParentProgram);
+            Assert.IsNull(program.ParentProgram);
+            Assert.AreEqual(parentProgram.ProgramId, program.ParentProgramId);
             Assert.AreEqual(0, program.Contacts.Count);
             Assert.AreEqual(0, program.Themes.Count);
             Assert.AreEqual(0, program.Goals.Count);
@@ -2481,7 +2686,6 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(startDate, program.StartDate);
             Assert.AreEqual(endDate, program.EndDate);
             Assert.AreEqual(ownerId, program.OwnerId);
-            Assert.AreEqual(parentProgramId, program.ParentProgram.ProgramId);
             Assert.AreEqual(ProgramStatus.Draft.Id, program.ProgramStatusId);
         }
 

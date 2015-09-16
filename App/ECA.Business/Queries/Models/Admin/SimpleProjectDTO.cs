@@ -91,6 +91,7 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or set the owner id
         /// </summary>
         public int OwnerId { get; set; }
+
         /// <summary>
         /// Gets or sets the owner office symbol
         /// </summary>

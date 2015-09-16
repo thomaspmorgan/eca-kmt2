@@ -206,13 +206,10 @@ angular.module('staticApp')
           if ($search && $search.length > 0) {
               searchParentProgramsFilter = searchParentProgramsFilter.like('name', $search);
           }
-          if ($scope.view.program) {
-              searchParentProgramsFilter = searchParentProgramsFilter.equal('owner_OrganizationId', $scope.view.program.ownerOrganizationId);
-          }
-          return ProgramService.getAllProgramsAlpha(searchParentProgramsFilter.toParams())
+          return ProgramService.getValidParentPrograms(programId, searchParentProgramsFilter.toParams())
           .then(function (response) {
-              $scope.view.parentPrograms = response.results;
-              return response.results;
+              $scope.view.parentPrograms = response.data.results;
+              return response.data.results;
           })
           .catch(function (response) {
               var message = 'Unable to load available parent programs.';
@@ -267,10 +264,11 @@ angular.module('staticApp')
           if ($scope.view.program.parentProgram) {
               $scope.view.program.parentProgramId = $scope.view.program.parentProgram.programId;
           }
+          else {
+              $scope.view.program.parentProgramId = null;
+          }
 
           $scope.view.program.websites = $scope.view.program.websites.filter(function (n) { return n.value != undefined });
-
-          console.log($scope.view.program);
 
           return ProgramService.update($scope.view.program)
           .then(function (response) {

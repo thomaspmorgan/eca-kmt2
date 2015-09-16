@@ -489,7 +489,7 @@
     <Compile Include="Models\Admin\UpdatedAddressBindingModel.cs" />
     <Compile Include="Models\Admin\UpdatedOrganizationBindingModel.cs" />
     <Compile Include="Models\Admin\UpdatedSocialMediaBindingModel.cs" />
-    <Compile Include="Models\Person\ContactInfolBindingModel.cs" />
+    <Compile Include="Models\Person\ContactInfoBindingModel.cs" />
     <Compile Include="Models\Person\GeneralBindingModel.cs" />
     <Compile Include="Models\Person\NewLanguageProficiencyBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedLanguageProficiencyBindingModel.cs" />
