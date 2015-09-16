@@ -9,6 +9,11 @@ DROP CONSTRAINT FK_ParticipantPerson_ToProgramSubject ;
 DROP INDEX IX_ParticipantPerson_ProgramSubjectCode 
     ON dbo.ParticipantPerson;
 
+/* Replace existing values with NULL */
+UPDATE dbo.ParticipantPerson
+SET ProgramSubjectId = NULL
+WHERE ProgramSubjectId IS NOT NULL;
+
 /* Rename Column to ProgramCategoryId */
 EXEC sp_rename 'dbo.ParticipantPerson.ProgramSubjectId', 'ProgramCategoryId', 'COLUMN';
 
