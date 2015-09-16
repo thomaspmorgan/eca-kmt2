@@ -19,6 +19,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NLog;
 using ECA.Business.Service.Admin;
+using ECA.Business.Service.Lookup;
 
 namespace ECA.Business.Service.Programs
 {
@@ -131,8 +132,8 @@ namespace ECA.Business.Service.Programs
         public ProgramDTO GetProgramById(int programId)
         {
             var dto = ProgramQueries.CreateGetPublishedProgramByIdQuery(this.Context, programId).FirstOrDefault();
-            this.logger.Trace("Retrieved program by id [{0}].", programId);
-            return dto;
+            var parentPrograms = GetParentPrograms(programId);
+            return DoGetProgramById(programId, dto, parentPrograms);
         }
 
         /// <summary>
@@ -143,6 +144,21 @@ namespace ECA.Business.Service.Programs
         public async Task<ProgramDTO> GetProgramByIdAsync(int programId)
         {
             var dto = await ProgramQueries.CreateGetPublishedProgramByIdQuery(this.Context, programId).FirstOrDefaultAsync();
+            var parentPrograms = await GetParentProgramsAsync(programId);
+            return DoGetProgramById(programId, dto, parentPrograms);
+        }       
+
+        private ProgramDTO DoGetProgramById(int programId, ProgramDTO dto, List<OrganizationProgramDTO> parentPrograms)
+        {
+            if(dto != null)
+            {
+                dto.AllParentPrograms = parentPrograms.Select(x =>
+                new SimpleLookupDTO
+                {
+                    Id = x.ProgramId,
+                    Value = x.Name
+                }).ToList();
+            }
             this.logger.Trace("Retrieved program by id [{0}].", programId);
             return dto;
         }
@@ -356,8 +372,7 @@ namespace ECA.Business.Service.Programs
                 Description = draftProgram.Description,
                 EndDate = draftProgram.EndDate,
                 Name = draftProgram.Name,
-
-                ParentProgram = draftProgram.ParentProgramId.HasValue ? GetProgramEntityById(draftProgram.ParentProgramId.Value) : null,
+                ParentProgramId = draftProgram.ParentProgramId,
                 ProgramType = null,
                 ProgramStatusId = draftProgram.ProgramStatusId,
                 StartDate = draftProgram.StartDate,
@@ -505,8 +520,7 @@ namespace ECA.Business.Service.Programs
             programToUpdate.Name = updatedProgram.Name;
             programToUpdate.Owner = owner;
             programToUpdate.OwnerId = owner.OrganizationId;
-            //parent program should already be loaded in the context via the Find method
-            programToUpdate.ParentProgram = updatedProgram.ParentProgramId.HasValue ? GetProgramEntityById(updatedProgram.ParentProgramId.Value) : null;
+            programToUpdate.ParentProgramId = updatedProgram.ParentProgramId;
             programToUpdate.ProgramStatusId = updatedProgram.ProgramStatusId;
             programToUpdate.RowVersion = updatedProgram.RowVersion;
             programToUpdate.StartDate = updatedProgram.StartDate;

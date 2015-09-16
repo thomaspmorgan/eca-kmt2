@@ -22,9 +22,11 @@ namespace ECA.Data.Configuration
             Property(x => x.Description).HasMaxLength(Program.MAX_DESCRIPTION_LENGTH);
             Property(x => x.OwnerId).HasColumnName("Owner_OrganizationId");
             Property(x => x.RowVersion).IsRowVersion();
+
+
             HasRequired(e => e.Owner).WithMany(e => e.OwnerPrograms).HasForeignKey(x => x.OwnerId).WillCascadeOnDelete(false);
             HasRequired(a => a.ProgramStatus).WithMany().HasForeignKey(x => x.ProgramStatusId).WillCascadeOnDelete(false);
-
+           
             HasMany<Theme>(p => p.Themes).WithMany(t => t.Programs).Map(p =>
             {
                 p.MapLeftKey("ProgramId");
@@ -66,14 +68,14 @@ namespace ECA.Data.Configuration
                 p.MapRightKey("ContactId");
                 p.ToTable("ProgramContact");
             });
-            HasMany(p => p.Categories).WithMany(t => t.Programs)
+            HasMany<Category>(p => p.Categories).WithMany(t => t.Programs)
                 .Map(p =>
                 {
                     p.MapLeftKey("ProgramId");
                     p.MapRightKey("CategoryId");
                     p.ToTable("ProgramCategory");
                 });
-            HasMany(p => p.Objectives).WithMany(t => t.Programs)
+            HasMany<Objective>(p => p.Objectives).WithMany(t => t.Programs)
               .Map(p =>
              {
                  p.MapLeftKey("ProgramId");

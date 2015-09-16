@@ -27,6 +27,8 @@ using CAM.Business.Service;
 using CAM.Business.Model;
 using CAM.Data;
 using ECA.Core.DynamicLinq.Filter;
+using ECA.WebApi.Models.Security;
+using System.Web.Http;
 
 namespace ECA.WebApi.Test.Controllers.Programs
 {
@@ -70,6 +72,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
         {
             var response = await controller.GetObjectivesByProgramIdAsync(1, new PagingQueryBindingModel<JustificationObjectiveDTO>());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<JustificationObjectiveDTO>>));
+            justificationObjectiveService.Verify(x => x.GetJustificationObjectivesByProgramIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<JustificationObjectiveDTO>>()), Times.Once());
         }
 
         [TestMethod]
@@ -85,6 +88,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
         {
             var response = await controller.GetCategoriesByProgramIdAsync(1, new PagingQueryBindingModel<FocusCategoryDTO>());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<FocusCategoryDTO>>));
+            focusCategoryService.Verify(x => x.GetFocusCategoriesByProgramIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<FocusCategoryDTO>>()), Times.Once());
         }
 
         [TestMethod]
@@ -92,6 +96,22 @@ namespace ECA.WebApi.Test.Controllers.Programs
         {
             controller.ModelState.AddModelError("key", "error");
             var response = await controller.GetCategoriesByProgramIdAsync(1, new PagingQueryBindingModel<FocusCategoryDTO>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
+        [TestMethod]
+        public async Task TestGetProgramsHierarchyAsync()
+        {
+            var response = await controller.GetProgramsHierarchyAsync(new PagingQueryBindingModel<OrganizationProgramDTO>());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<OrganizationProgramDTO>>));
+            service.Verify(x => x.GetProgramsHierarchyAsync(It.IsAny<QueryableOperator<OrganizationProgramDTO>>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestGetProgramsHierarchyAsyncc_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetProgramsHierarchyAsync(new PagingQueryBindingModel<OrganizationProgramDTO>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
 
@@ -107,6 +127,38 @@ namespace ECA.WebApi.Test.Controllers.Programs
         {
             controller.ModelState.AddModelError("key", "error");
             var response = await controller.GetProgramsAsync(new PagingQueryBindingModel<OrganizationProgramDTO>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
+        [TestMethod]
+        public async Task TestGetValidParentProgramsAsync()
+        {
+            var response = await controller.GetValidParentProgramsAsync(1, new PagingQueryBindingModel<OrganizationProgramDTO>());            
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<OrganizationProgramDTO>>));
+            service.Verify(x => x.GetValidParentProgramsAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<OrganizationProgramDTO>>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestGetSubprogramsByProgramAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetSubprogramsByProgramAsync(1, new PagingQueryBindingModel<OrganizationProgramDTO>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
+        [TestMethod]
+        public async Task TestGetSubprogramsByProgramAsync()
+        {
+            var response = await controller.GetSubprogramsByProgramAsync(1, new PagingQueryBindingModel<OrganizationProgramDTO>());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<OrganizationProgramDTO>>));
+            service.Verify(x => x.GetSubprogramsByProgramAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<OrganizationProgramDTO>>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestGetValidParentProgramsAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetValidParentProgramsAsync(1, new PagingQueryBindingModel<OrganizationProgramDTO>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
 
@@ -164,6 +216,31 @@ namespace ECA.WebApi.Test.Controllers.Programs
             controller.ModelState.AddModelError("key", "error");
             var response = await controller.GetCollaboratorsAsync(1, new PagingQueryBindingModel<ResourceAuthorization>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
+        [TestMethod]
+        public async Task TestPostAddCollaboratorAsync()
+        {
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(1));
+
+            var response = await controller.PostAddCollaboratorAsync(new ProgramCollaboratorBindingModel());
+            authorizationHandler.Verify(x => x.HandleGrantedPermissionBindingModelAsync(It.IsAny<IGrantedPermissionBindingModel>(), It.IsAny<ApiController>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestPostRevokeCollaboratorAsync()
+        {
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(1));
+            var response = await controller.PostRevokeCollaboratorAsync(new ProgramCollaboratorBindingModel());
+            authorizationHandler.Verify(x => x.HandleRevokedPermissionBindingModelAsync(It.IsAny<IRevokedPermissionBindingModel>(), It.IsAny<ApiController>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestPostRemoveCollaboratorAsync()
+        {
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(1));
+            var response = await controller.PostRemoveCollaboratorAsync(new ProgramCollaboratorBindingModel());
+            authorizationHandler.Verify(x => x.HandleDeletedPermissionBindingModelAsync(It.IsAny<IDeletedPermissionBindingModel>(), It.IsAny<ApiController>()), Times.Once());
         }
         #endregion
 

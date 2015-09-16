@@ -79,8 +79,14 @@ namespace ECA.WebApi.Models.Programs
         /// </summary>
         public List<int> Regions { get; set; }
 
+        /// <summary>
+        /// The categories by id.
+        /// </summary>
         public List<int> Categories { get; set; }
 
+        /// <summary>
+        /// The objectives by id.
+        /// </summary>
         public List<int> Objectives { get; set; }
 
         /// <summary>

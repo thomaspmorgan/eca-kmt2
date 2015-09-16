@@ -219,7 +219,7 @@
                         <ui-select ng-model="view.program.parentProgram"
                                    theme="select2"
                                    style="min-width: 200px;">
-                            <ui-select-match placeholder="Select a parent program...">
+                            <ui-select-match placeholder="Select a parent program..." allow-clear="true">
                                 {{$select.selected.name}}
                             </ui-select-match>
                             <ui-select-choices refresh="view.searchParentPrograms($select.search)"

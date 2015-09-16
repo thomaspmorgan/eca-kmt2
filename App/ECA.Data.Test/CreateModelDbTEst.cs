@@ -14,7 +14,6 @@ namespace ECA.Data.Test
             {
                 Database.SetInitializer<EcaContext>(new DropCreateDatabaseAlways<EcaContext>());
                 context.Database.Initialize(true);
-
             }
         }
     }

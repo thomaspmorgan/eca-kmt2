@@ -1286,10 +1286,37 @@ namespace ECA.Business.Test.Service.Programs
             }
         }
 
-
+        /// <summary>
+        /// This test does not check all parent programs i.e. calling the stored procedure to get all parents.
+        /// It's only going to check the direct parent is set.
+        /// </summary>
+        /// <returns></returns>
         [TestMethod]
         public async Task TestGetProgramById_CheckProperties_HasParentProgram()
         {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var now = DateTime.UtcNow;
             var creatorId = 1;
@@ -1548,11 +1575,139 @@ namespace ECA.Business.Test.Service.Programs
             tester(result);
             tester(resultAsync);
         }
+        }
 
+        [TestMethod]
+        public async Task TestGetProgramById_CheckAllParentPrograms()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                list.Add(new OrganizationProgramDTO
+                {
+                    ProgramId = 100,
+                    Name = "parent",
+                    Path = "1"
+                });
+                list.Add(new OrganizationProgramDTO
+                {
+                    ProgramId = 200,
+                    Name = "grand parent",
+                    Path = "1-1"
+                });
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var rowVersion = new byte[1] { (byte)1 };
+
+                var status = new ProgramStatus
+                {
+                    ProgramStatusId = 1,
+                    Status = "status"
+                };
+                var owner = new Organization
+                {
+                    OrganizationId = 30,
+                    Description = "owner desc",
+                    Name = "owner",
+                    OfficeSymbol = "symbol"
+                };
+
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "name",
+                    Description = "description",
+                    RowVersion = rowVersion,
+                    StartDate = DateTimeOffset.UtcNow,
+                    EndDate = DateTimeOffset.UtcNow,
+                    ProgramStatusId = status.ProgramStatusId,
+                    ProgramStatus = status,
+                    Owner = owner,
+                    OwnerId = owner.OrganizationId,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = revisorId,
+                        RevisedOn = now
+                    }
+                };
+                context.Organizations.Add(owner);
+                context.Programs.Add(program);
+                context.ProgramStatuses.Add(status);
+                list.Add(new OrganizationProgramDTO
+                {
+                    ProgramId = program.ProgramId,
+                    Name = program.Name,
+                    Path = "1-1-1"
+                });
+                Action<ProgramDTO> tester = (publishedProgram) =>
+                {
+                    Assert.AreEqual(2, publishedProgram.AllParentPrograms.Count());
+                    var parentProgram = list.First();
+                    var grandParentProgram = list[1];
+
+                    Assert.AreEqual(parentProgram.ProgramId, publishedProgram.AllParentPrograms.First().Id);
+                    Assert.AreEqual(parentProgram.Name, publishedProgram.AllParentPrograms.First().Value);
+
+                    Assert.AreEqual(grandParentProgram.ProgramId, publishedProgram.AllParentPrograms.Last().Id);
+                    Assert.AreEqual(grandParentProgram.Name, publishedProgram.AllParentPrograms.Last().Value);
+                };
+                var result = service.GetProgramById(program.ProgramId);
+                var resultAsync = await service.GetProgramByIdAsync(program.ProgramId);
+                tester(result);
+                tester(resultAsync);
+            }
+        }
 
         [TestMethod]
         public async Task TestGetProgramById_NoOfficeSettings()
         {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var now = DateTime.UtcNow;
             var creatorId = 1;
@@ -1604,10 +1759,34 @@ namespace ECA.Business.Test.Service.Programs
             tester(result);
             tester(resultAsync);
         }
+        }
 
         [TestMethod]
         public async Task TestGetProgramById_DoesNotHaveParentProgram()
         {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var now = DateTime.UtcNow;
             var creatorId = 1;
@@ -1669,12 +1848,37 @@ namespace ECA.Business.Test.Service.Programs
             tester(result);
             tester(resultAsync);
         }
+        }
 
         [TestMethod]
         public async Task TestGetProgramById_ProgramDoesNotExist()
         {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
             Assert.IsNull(service.GetProgramById(-1));
             Assert.IsNull(await service.GetProgramByIdAsync(-1));
+        }
         }
 
         [TestMethod]
@@ -2360,7 +2564,8 @@ namespace ECA.Business.Test.Service.Programs
             var program = service.Create(draftProgram);
             mockValidator.Verify(x => x.ValidateCreate(It.IsAny<ProgramServiceValidationEntity>()), Times.Once());
             Assert.IsNotNull(program);
-            Assert.IsNotNull(program.ParentProgram);
+            Assert.IsNull(program.ParentProgram);
+            Assert.AreEqual(parentProgram.ProgramId, program.ParentProgramId);
             Assert.AreEqual(0, program.Contacts.Count);
             Assert.AreEqual(0, program.Themes.Count);
             Assert.AreEqual(0, program.Goals.Count);
@@ -2376,7 +2581,6 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(startDate, program.StartDate);
             Assert.AreEqual(endDate, program.EndDate);
             Assert.AreEqual(ownerId, program.OwnerId);
-            Assert.AreEqual(parentProgramId, program.ParentProgram.ProgramId);
             Assert.AreEqual(ProgramStatus.Draft.Id, program.ProgramStatusId);
         }
 
@@ -2466,7 +2670,8 @@ namespace ECA.Business.Test.Service.Programs
             var program = await service.CreateAsync(draftProgram);
             mockValidator.Verify(x => x.ValidateCreate(It.IsAny<ProgramServiceValidationEntity>()), Times.Once());
             Assert.IsNotNull(program);
-            Assert.IsNotNull(program.ParentProgram);
+            Assert.IsNull(program.ParentProgram);
+            Assert.AreEqual(parentProgram.ProgramId, program.ParentProgramId);
             Assert.AreEqual(0, program.Contacts.Count);
             Assert.AreEqual(0, program.Themes.Count);
             Assert.AreEqual(0, program.Goals.Count);
@@ -2481,7 +2686,6 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(startDate, program.StartDate);
             Assert.AreEqual(endDate, program.EndDate);
             Assert.AreEqual(ownerId, program.OwnerId);
-            Assert.AreEqual(parentProgramId, program.ParentProgram.ProgramId);
             Assert.AreEqual(ProgramStatus.Draft.Id, program.ProgramStatusId);
         }
 
