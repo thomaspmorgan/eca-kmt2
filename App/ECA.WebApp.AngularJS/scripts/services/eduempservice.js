@@ -11,14 +11,23 @@ angular.module('staticApp')
   .factory('EduEmpService', function ($q, DragonBreath) {
 
       return {
-          addEduEmp: function (eduemp, personId) {
-              return DragonBreath.create(eduemp, 'people/' + personId + '/eduemp');
+          addEducation: function (eduemp, personId) {
+              return DragonBreath.create(eduemp, 'people/' + personId + '/education');
           },
-          updateEduEmp: function (eduemp, personId) {
-              return DragonBreath.save(eduemp, 'people/' + personId + '/eduemp');
+          addEmployment: function (eduemp, personId) {
+              return DragonBreath.create(eduemp, 'people/' + personId + '/employment');
           },
-          deleteEduEmp: function (eduemp, personId) {
-              return DragonBreath.delete(eduemp, 'people/' + personId + '/eduemp/' + eduemp.id);
+          updateEducation: function (eduemp, personId) {
+              return DragonBreath.save(eduemp, 'people/' + personId + '/education');
+          },
+          updateEmployment: function (eduemp, personId) {
+              return DragonBreath.save(eduemp, 'people/' + personId + '/employment');
+          },
+          deleteEducation: function (eduemp, personId) {
+              return DragonBreath.delete(eduemp, 'people/' + personId + '/education/' + eduemp.id);
+          },
+          deleteEmployment: function (eduemp, personId) {
+              return DragonBreath.delete(eduemp, 'people/' + personId + '/employment/' + eduemp.id);
           }
       };
   });

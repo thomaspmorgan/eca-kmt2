@@ -115,7 +115,7 @@ angular.module('staticApp')
       function onSaveMembershipSuccess(response) {
           $scope.membership = response.data;
           originalMembership = angular.copy($scope.membership);
-          NotificationService.showSuccessMessage("Successfully saved changes to social media.");
+          NotificationService.showSuccessMessage("Successfully saved changes to membership.");
           $scope.view.showEditMembership = false;
           $scope.view.isSavingChanges = false;
       }

@@ -7,46 +7,209 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personEducationEmploymentEditCtrl', function ($scope, PersonService, NotificationService, $stateParams, $log) {
+  .controller('personEducationEmploymentEditCtrl', function ($scope, PersonService, EduEmpService, $stateParams, NotificationService) {
 
-      $scope.eduemp = [];
+      $scope.view = {};
+      $scope.view.params = $stateParams;
+      $scope.view.showEditEduEmp = false;
+      $scope.view.isSavingChanges = false;
 
-      $scope.personEduEmpLoading = true;
-      
+      var originalEduEmp = angular.copy($scope.eduemp);
+
+      $scope.EduEmpLoading = true;
+
       $scope.personIdDeferred.promise
       .then(function (personId) {
           loadEmployments(personId);
           loadEducations(personId);
       });
-      
-      $scope.cancelEditEduEmp = function () {
-          $scope.edit.EduEmp = false;
-      };
-      
-      $scope.saveEditEducation = function () {
-          PersonService.updateEduEmp($scope.eduemp, $scope.eduemp.Id)
-          .then(function () {
-              NotificationService.showSuccessMessage("The edit was successful.");
-              loadEmployments($scope.general.personId);
-              loadEducations($scope.general.personId);
-              $scope.edit.EduEmp = false;
-          },
-            function (error) {
-                if (error.status == 400) {
-                    if (error.data.message && error.data.modelState) {
-                        for (var key in error.data.modelState) {
-                            NotificationService.showErrorMessage(error.data.modelState[key][0]);
-                        }
-                    }
-                    else if (error.data.Message && error.data.ValidationErrors) {
-                        for (var key in error.data.ValidationErrors) {
-                            NotificationService.showErrorMessage(error.data.ValidationErrors[key]);
-                        }
-                    } else {
-                        NotificationService.showErrorMessage(error.data);
-                    }
-                }
+
+      /* EDUCATION */
+
+      function loadEducations(personId) {
+          $scope.EduEmpLoading = true;
+          PersonService.getEducationsById(personId)
+            .then(function (data) {
+                $scope.educations = data;
+                $scope.EduEmpLoading = false;
             });
+      };
+
+      $scope.view.onEditEducationClick = function () {
+          $scope.view.showEditEducation = true;
+          var id = getEduEmpFormDivId();
+          var options = {
+              duration: 500,
+              easing: 'easeIn',
+              offset: 200,
+              callbackBefore: function (element) { },
+              callbackAfter: function (element) { }
+          }
+          smoothScroll(getEduEmpFormDivElement(id), options);
+      };
+
+      $scope.view.saveEducationChanges = function () {
+          $scope.view.isSavingChanges = true;
+
+          if (isNewEduEmp($scope.eduemp)) {
+              var tempId = angular.copy($scope.eduemp.id);
+              return EduEmpService.addEducation($scope.eduemp, $scope.view.params.personId)
+                .then(onSaveEduEmpSuccess)
+                .then(function () {
+                    updateEduEmpFormDivId(tempId);
+                })
+                .catch(onSaveEduEmpError);
+          }
+          else {
+              return EduEmpService.updateEducation($scope.eduemp, $scope.view.params.personId)
+                  .then(onSaveEduEmpSuccess)
+                  .catch(onSaveEduEmpError);
+          }
+      };
+
+      $scope.view.onDeleteEducationClick = function () {
+          if (isNewEduEmp($scope.eduemp)) {
+              removeEduEmpFromView($scope.eduemp);
+          }
+          else {
+              $scope.view.isDeletingEduEmp = true;
+              return EduEmpService.deleteEduEmp($scope.eduemp, $scope.view.params.personId)
+              .then(function () {
+                  NotificationService.showSuccessMessage("Successfully deleted education.");
+                  $scope.view.isDeletingEduEmp = false;
+                  removeEduEmpFromView($scope.eduemp);
+              })
+              .catch(function () {
+                  var message = "Unable to delete education.";
+                  $log.error(message);
+                  NotificationService.showErrorMessage(message);
+              });
+          }
       }
+
+      $scope.view.cancelEducationChanges = function (form) {
+          $scope.view.showEditEducation = false;
+          if (isNewEduEmp($scope.eduemp)) {
+              removeEduEmpFromView($scope.eduemp);
+          }
+          else {
+              $scope.eduemp = angular.copy(originalEduEmp);
+          }
+      };
+
+
+      /* EMPLOYMENT */
+
+      function loadEmployments(personId) {
+          $scope.EduEmpLoading = true;
+          PersonService.getEmploymentsById(personId)
+          .then(function (data) {
+              $scope.employments = data;
+              $scope.EduEmpLoading = false;
+          });
+      };
+
+      $scope.view.onEditEmploymentClick = function () {
+          $scope.view.showEditEmployment = true;
+          var id = getEduEmpFormDivId();
+          var options = {
+              duration: 500,
+              easing: 'easeIn',
+              offset: 200,
+              callbackBefore: function (element) { },
+              callbackAfter: function (element) { }
+          }
+          smoothScroll(getEduEmpFormDivElement(id), options);
+      };
+
+      $scope.view.saveEmploymentChanges = function () {
+          $scope.view.isSavingChanges = true;
+
+          if (isNewEduEmp($scope.eduemp)) {
+              var tempId = angular.copy($scope.eduemp.id);
+              return EduEmpService.addEmployment($scope.eduemp, $scope.view.params.personId)
+                .then(onSaveEduEmpSuccess)
+                .then(function () {
+                    updateEduEmpFormDivId(tempId);
+                })
+                .catch(onSaveEduEmpError);
+          }
+          else {
+              return EduEmpService.updateEmployment($scope.eduemp, $scope.view.params.personId)
+                  .then(onSaveEduEmpSuccess)
+                  .catch(onSaveEduEmpError);
+          }
+      };
+
+      $scope.view.onDeleteEmploymentClick = function () {
+          if (isNewEduEmp($scope.eduemp)) {
+              removeEduEmpFromView($scope.eduemp);
+          }
+          else {
+              $scope.view.isDeletingEmployment = true;
+              return EduEmpService.deleteEduEmp($scope.eduemp, $scope.view.params.personId)
+              .then(function () {
+                  NotificationService.showSuccessMessage("Successfully deleted employment.");
+                  $scope.view.isDeletingEmployment = false;
+                  removeEduEmpFromView($scope.eduemp);
+              })
+              .catch(function () {
+                  var message = "Unable to delete employment.";
+                  $log.error(message);
+                  NotificationService.showErrorMessage(message);
+              });
+          }
+      }
+
+      $scope.view.cancelEmploymentChanges = function (form) {
+          $scope.view.showEditEmployment = false;
+          if (isNewEduEmp($scope.eduemp)) {
+              removeEduEmpFromView($scope.eduemp);
+          }
+          else {
+              $scope.eduemp = angular.copy(originalEduEmp);
+          }
+      };
+
+
+      /* EDUCATION / EMPLOYMENT */
+      
+      function removeEduEmpFromView(eduemp) {
+          $scope.$emit(ConstantsService.removeNewEduEmpEventName, eduemp);
+      }
+
+      function getEduEmpFormDivIdPrefix() {
+          return 'eduempForm';
+      }
+
+      function getEduEmpFormDivId() {
+          return getEduEmpFormDivIdPrefix() + $scope.eduemp.id;
+      }
+
+      function updateEduEmpFormDivId(tempId) {
+          var id = getEduEmpFormDivIdPrefix() + tempId;
+          var e = getEduEmpFormDivElement(id);
+          e.id = getEduEmpFormDivIdPrefix() + $scope.eduemp.id;
+      }
+
+      function getEduEmpFormDivElement(id) {
+          return document.getElementById(id)
+      }
+
+      function onSaveEduEmpSuccess(response) {
+          $scope.eduemp = response.data;
+          originalEduEmp = angular.copy($scope.eduemp);
+          NotificationService.showSuccessMessage("Successfully saved changes.");
+          $scope.view.showEditEduEmp = false;
+          $scope.view.isSavingChanges = false;
+      }
+
+      function onSaveEduEmpError() {
+          var message = "Failed to save changes.";
+          NotificationService.showErrorMessage(message);
+          $log.error(message);
+          $scope.view.isSavingChanges = false;
+      }
+
 
   });

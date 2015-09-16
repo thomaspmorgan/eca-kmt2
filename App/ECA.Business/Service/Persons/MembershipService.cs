@@ -108,7 +108,7 @@ namespace ECA.Business.Service.Persons
         public async Task<MembershipDTO> GetByIdAsync(int id)
         {
             var dto = await MembershipQueries.CreateGetMembershipDTOByIdQuery(this.Context, id).FirstOrDefaultAsync();
-            logger.Info("Retrieved the social media dto with the given id [{0}].", id);
+            logger.Info("Retrieved the membership dto with the given id [{0}].", id);
             return dto;
         }
         #endregion
@@ -148,7 +148,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Updates the ECA system's membership data with the given updated social media.
         /// </summary>
-        /// <param name="updatedSocialMedia">The updated membership.</param>
+        /// <param name="updatedMembership">The updated membership.</param>
         public void Update(UpdatedPersonMembership updatedMembership)
         {
             var membership = Context.Memberships.Find(updatedMembership.Id);

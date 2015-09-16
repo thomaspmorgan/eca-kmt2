@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using ECA.Business.Service.Persons;
 using ECA.Business.Service;
 using ECA.Data;
+using ECA.Business.Queries.Models.Admin;
 
 namespace ECA.WebApi.Models.Person
 {
@@ -22,8 +23,11 @@ namespace ECA.WebApi.Models.Person
 
         public DateTimeOffset? EndDate { get; set; }
 
-        public Organization Organization { get; set; }
+        public OrganizationDTO Organization { get; set; }
 
+        public Data.Person PersonOfEducation { get; set; }
+
+        public Data.Person PersonOfProfession { get; set; }
 
         public NewPersonEduEmp ToPersonEduEmp(User user)
         {
@@ -34,7 +38,9 @@ namespace ECA.WebApi.Models.Person
                 startDate: this.StartDate,
                 endDate: this.EndDate,
                 organization: this.Organization,
-                personId: this.PersonId
+                personId: this.PersonId,
+                personOfEducation: this.PersonOfEducation,
+                personOfProfession: this.PersonOfProfession
                 );
         }
     }
