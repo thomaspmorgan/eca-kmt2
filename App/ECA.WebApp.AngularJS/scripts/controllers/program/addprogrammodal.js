@@ -402,8 +402,8 @@ angular.module('staticApp')
           setIds('contacts', $scope.view.selectedContacts, 'id');
           setIds('objectives', $scope.view.selectedObjectives, 'id');
 
-          // Remove undefined elements
-          $scope.view.program.websites = $scope.view.program.websites.filter(function (n) { return n.value != undefined });
+          // Remove undefined elements and empty strings
+          $scope.view.program.websites = $scope.view.program.websites.filter(function (n) { return (n.value && n.value.length > 0) });
 
           return ProgramService.create($scope.view.program)
           .then(function (response) {
