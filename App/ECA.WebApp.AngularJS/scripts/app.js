@@ -250,6 +250,7 @@ angular
         .state('people.personalinformation', {
             url: '/personalinformation',
             templateUrl: 'views/person/personalinformation.html',
+            controller: 'PersonInformationCtrl',
             requireADLogin: true
         })
         .state('people.relatedreports', {
