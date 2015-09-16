@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Diagnostics.Contracts;
-using ECA.Data;
+using ECA.Business.Queries.Models.Admin;
 
 namespace ECA.Business.Service.Persons
 {
     public class UpdatedPersonEduEmp
     {
-        public UpdatedPersonEduEmp(User updator, int id, string title, string role, DateTimeOffset startDate, DateTimeOffset? endDate, Organization organization, Person personOfEducation, Person personOfProfession)
+        public UpdatedPersonEduEmp(User updator, int id, string title, string role, DateTimeOffset startDate, DateTimeOffset? endDate, SimpleOrganizationDTO organization, int? personOfEducationId, int? personOfProfessionId)
         {
             Contract.Requires(updator != null, "The updator must not be null.");
             this.Update = new Update(updator);
@@ -20,8 +16,8 @@ namespace ECA.Business.Service.Persons
             this.StartDate = startDate;
             this.EndDate = endDate;
             this.Organization = organization;
-            this.PersonOfEducation = personOfEducation;
-            this.PersonOfProfession = personOfProfession;
+            this.PersonOfEducationId = personOfEducationId;
+            this.PersonOfProfessionId = personOfProfessionId;
         }
 
         public Update Update { get; private set; }
@@ -36,10 +32,10 @@ namespace ECA.Business.Service.Persons
 
         public DateTimeOffset? EndDate { get; private set; }
 
-        public Organization Organization { get; private set; }
+        public SimpleOrganizationDTO Organization { get; private set; }
 
-        public Person PersonOfEducation { get; private set; }
+        public int? PersonOfEducationId { get; private set; }
 
-        public Person PersonOfProfession { get; private set; }
+        public int? PersonOfProfessionId { get; private set; }
     }
 }

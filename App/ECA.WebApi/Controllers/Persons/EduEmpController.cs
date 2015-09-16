@@ -36,45 +36,40 @@ namespace ECA.WebApi.Controllers.Persons
             this.userProvider = userProvider;
         }
 
-        [ResponseType(typeof(PagedQueryResults<EducationEmploymentDTO>))]
-        public async Task<IHttpActionResult> GetAsync([FromUri]PagingQueryBindingModel<EducationEmploymentDTO> queryModel)
+        #region Education
+
+        /// <summary>
+        /// Returns educations info associated with a person
+        /// </summary>
+        /// <param name="personId">The person id to find educations info for</param>
+        /// <returns>Educations info associated with person</returns>
+        [ResponseType(typeof(IList<EducationEmploymentDTO>))]
+        [Route("People/{personId:int}/Education")]
+        public async Task<IHttpActionResult> GetEducationsByPersonIdAsync(int personId)
         {
-            if (ModelState.IsValid)
+            var educations = await service.GetEducationByIdAsync(personId);
+            if (educations != null)
             {
-                var dtos = await service.GetAsync(queryModel.ToQueryableOperator(DEFAULT_SORTER));
-                return Ok(dtos);
+                return Ok(educations);
             }
             else
             {
-                return BadRequest(ModelState);
+                return NotFound();
             }
         }
-        
+
         [ResponseType(typeof(EducationEmploymentDTO))]
-        public async Task<IHttpActionResult> PostAsync(PersonEduEmpBindingModel model)
+        [Route("People/{personId:int}/Education")]
+        public async Task<IHttpActionResult> PostEducationAsync(PersonEduEmpBindingModel model)
         {
             if (ModelState.IsValid)
             {
                 var currentUser = userProvider.GetCurrentUser();
                 var businessUser = userProvider.GetBusinessUser(currentUser);
-                if (model.PersonOfEducation != null)
-                {
-                    var eduemp = await service.CreateEducationAsync(model.ToPersonEduEmp(businessUser));
-                    await service.SaveChangesAsync();
-                    var dto = await service.GetEducationByIdAsync(eduemp.ProfessionEducationId);
-                    return Ok(dto);
-                }
-                else if (model.PersonOfProfession != null)
-                {
-                    var eduemp = await service.CreateEmploymentAsync(model.ToPersonEduEmp(businessUser));
-                    await service.SaveChangesAsync();
-                    var dto = await service.GetEmploymentByIdAsync(eduemp.ProfessionEducationId);
-                    return Ok(dto);
-                }
-                else
-                {
-                    return BadRequest(ModelState);
-                }
+                var education = await service.CreateEducationAsync(model.ToPersonEduEmp(businessUser));
+                await service.SaveChangesAsync();
+                var dto = await service.GetEducationByIdAsync(education.ProfessionEducationId);
+                return Ok(dto);
             }
             else
             {
@@ -82,8 +77,107 @@ namespace ECA.WebApi.Controllers.Persons
             }
         }
 
+        [ResponseType(typeof(EducationEmploymentDTO))]
+        [Route("People/{personId:int}/Education")]
+        public async Task<IHttpActionResult> PutEducationAsync(UpdatedPersonEduEmpBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                await service.UpdateEducationAsync(model.ToUpdatedPersonEduEmp(businessUser));
+                await service.SaveChangesAsync();
+                var dto = await service.GetEducationByIdAsync(model.ProfessionEducationId);
+                return Ok(dto);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        [ResponseType(typeof(OkResult))]
+        [Route("People/{personId:int}/Education/{id:int}")]
+        public async Task<IHttpActionResult> DeleteEducation(int id)
+        {
+            await service.DeleteAsync(id);
+            await service.SaveChangesAsync();
+            return Ok();
+        }
+        
+        #endregion
+
+        #region Employment
+
+        /// <summary>
+        /// Returns employments info associated with a person
+        /// </summary>
+        /// <param name="personId">The person id to find employments info for</param>
+        /// <returns>Employents info associated with person</returns>
+        [ResponseType(typeof(IList<EducationEmploymentDTO>))]
+        [Route("People/{personId:int}/Employment")]
+        public async Task<IHttpActionResult> GetEmploymentsByPersonIdAsync(int personId)
+        {
+            var employments = await service.GetEmploymentByIdAsync(personId);
+            if (employments != null)
+            {
+                return Ok(employments);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+        
+        [ResponseType(typeof(EducationEmploymentDTO))]
+        [Route("People/{personId:int}/Employment")]
+        public async Task<IHttpActionResult> PostEmploymentAsync(PersonEduEmpBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var education = await service.CreateEmploymentAsync(model.ToPersonEduEmp(businessUser));
+                await service.SaveChangesAsync();
+                var dto = await service.GetEmploymentByIdAsync(education.ProfessionEducationId);
+                return Ok(dto);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        [ResponseType(typeof(EducationEmploymentDTO))]
+        [Route("People/{personId:int}/Employment")]
+        public async Task<IHttpActionResult> PutEmploymentAsync(UpdatedPersonEduEmpBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                await service.UpdateEmploymentAsync(model.ToUpdatedPersonEduEmp(businessUser));
+                await service.SaveChangesAsync();
+                var dto = await service.GetEmploymentByIdAsync(model.ProfessionEducationId);
+                return Ok(dto);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        [ResponseType(typeof(OkResult))]
+        [Route("People/{personId:int}/Employment/{id:int}")]
+        public async Task<IHttpActionResult> DeleteEmployment(int id)
+        {
+            await service.DeleteAsync(id);
+            await service.SaveChangesAsync();
+            return Ok();
+        }
 
 
-
+        #endregion
+        
     }
 }

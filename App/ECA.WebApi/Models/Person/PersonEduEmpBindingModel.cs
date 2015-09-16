@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.ComponentModel.DataAnnotations;
 using ECA.Business.Service.Persons;
 using ECA.Business.Service;
-using ECA.Data;
 using ECA.Business.Queries.Models.Admin;
 
 namespace ECA.WebApi.Models.Person
@@ -23,11 +19,11 @@ namespace ECA.WebApi.Models.Person
 
         public DateTimeOffset? EndDate { get; set; }
 
-        public OrganizationDTO Organization { get; set; }
+        public SimpleOrganizationDTO Organization { get; set; }
 
-        public Data.Person PersonOfEducation { get; set; }
+        public int? PersonOfEducationId { get; set; }
 
-        public Data.Person PersonOfProfession { get; set; }
+        public int? PersonOfProfessionId { get; set; }
 
         public NewPersonEduEmp ToPersonEduEmp(User user)
         {
@@ -39,8 +35,8 @@ namespace ECA.WebApi.Models.Person
                 endDate: this.EndDate,
                 organization: this.Organization,
                 personId: this.PersonId,
-                personOfEducation: this.PersonOfEducation,
-                personOfProfession: this.PersonOfProfession
+                personOfEducationId: this.PersonOfEducationId,
+                personOfProfessionId: this.PersonOfProfessionId
                 );
         }
     }

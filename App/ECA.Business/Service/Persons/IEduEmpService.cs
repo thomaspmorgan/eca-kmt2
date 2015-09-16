@@ -32,13 +32,13 @@ namespace ECA.Business.Service.Persons
 
         Task<ProfessionEducation> CreateEmploymentAsync(NewPersonEduEmp eduemp);
 
-        void UpdateEducation(UpdatedPersonEduEmp updatededuemp, Person person);
+        void UpdateEducation(UpdatedPersonEduEmp updatededuempp);
 
-        Task UpdateEducationAsync(UpdatedPersonEduEmp updatededuemp, Person person);
+        Task UpdateEducationAsync(UpdatedPersonEduEmp updatededuemp);
 
-        void UpdateEmployment(UpdatedPersonEduEmp updatededuemp, Person person);
+        void UpdateEmployment(UpdatedPersonEduEmp updatededuemp);
 
-        Task UpdateEmploymentAsync(UpdatedPersonEduEmp updatededuemp, Person person);
+        Task UpdateEmploymentAsync(UpdatedPersonEduEmp updatededuemp);
 
         void Delete(int eduempId);
 
@@ -107,23 +107,23 @@ namespace ECA.Business.Service.Persons
             return Task.FromResult<ProfessionEducation>(null);
         }
         
-        public void UpdateEducation(UpdatedPersonEduEmp updatededuemp, Person person)
+        public void UpdateEducation(UpdatedPersonEduEmp updatededuemp)
         {
             Contract.Requires(updatededuemp != null, "The updated education must not be null.");
         }
 
-        public Task UpdateEducationAsync(UpdatedPersonEduEmp updatededuemp, Person person)
+        public Task UpdateEducationAsync(UpdatedPersonEduEmp updatededuemp)
         {
             Contract.Requires(updatededuemp != null, "The updated education must not be null.");
             return Task.FromResult<object>(null);
         }
 
-        public void UpdateEmployment(UpdatedPersonEduEmp updatededuemp, Person person)
+        public void UpdateEmployment(UpdatedPersonEduEmp updatededuemp)
         {
             Contract.Requires(updatededuemp != null, "The updated employment must not be null.");
         }
 
-        public Task UpdateEmploymentAsync(UpdatedPersonEduEmp updatededuemp, Person person)
+        public Task UpdateEmploymentAsync(UpdatedPersonEduEmp updatededuemp)
         {
             Contract.Requires(updatededuemp != null, "The updated employment must not be null.");
             return Task.FromResult<object>(null);

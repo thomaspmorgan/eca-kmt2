@@ -26,12 +26,9 @@ namespace ECA.Data
         public int? OrganizationId { get; set; }
         public DateTimeOffset DateFrom { get; set; }
         public DateTimeOffset? DateTo { get; set; }
-
-        //relationships
-        [InverseProperty("EducationalHistory")]
-        public Person PersonOfEducation { get; set; }
-        [InverseProperty("ProfessionalHistory")]
-        public Person PersonOfProfession { get; set; }
+        
+        public int? PersonOfEducationId { get; set; }
+        public int? PersonOfProfessionId { get; set; }
 
         public History History { get; set; }
     }
