@@ -45,8 +45,7 @@ namespace ECA.WebApi.Models.Programs
         /// <summary>
         /// The end date.
         /// </summary>
-        [Required]
-        public DateTimeOffset EndDate { get; set; }
+        public DateTimeOffset? EndDate { get; set; }
 
         /// <summary>
         /// The id of the owner organization.
