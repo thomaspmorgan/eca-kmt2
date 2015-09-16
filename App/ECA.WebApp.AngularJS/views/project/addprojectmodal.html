@@ -66,12 +66,21 @@
     </div>
 </div>
 <div class="modal-footer">
-    <div>
+    <div ng-show="!view.showConfirmCancel">
         <button class="btn btn-success"
                 ng-click="view.onSaveClick()"
                 ng-disabled="form.projectForm.$invalid || view.isSavingProject || view.doesProjectExist || view.isLoadingLikeProjects">
             Save
         </button>
         <button class="btn btn-cancel" ng-click="view.onCancelClick()">Cancel</button>
+    </div>
+    <div ng-show="view.showConfirmCancel">
+        <div class="col-md-6">
+            <p class="text-left">There are unsaved changes to this new project.  Are you sure you wish to cancel?</p>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-success" ng-click="view.onYesCancelChangesClick()">Yes, Cancel Changes</button>
+            <button class="btn btn-cancel" ng-click="view.onNoDoNotCancelChangesClick()">No</button>
+        </div>
     </div>
 </div>

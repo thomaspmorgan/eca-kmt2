@@ -35,6 +35,7 @@ angular.module('staticApp')
       $scope.view.isLoadingLikePrograms = false;
       $scope.view.matchingProgramsByName = [];
       $scope.view.doesProgramExist = false;
+      $scope.view.showConfirmCancel = false;
       $scope.view.themes = [];
       $scope.view.goals = [];
       $scope.view.themes = [];
@@ -55,7 +56,7 @@ angular.module('staticApp')
           parentProgramId: parentProgram ? parentProgram.id : null,
           parentProgramName: parentProgram ? parentProgram.name : null,
           isSubProgram: parentProgram ? true : false,
-          websites: [{value: undefined}]
+          websites: [{ value: undefined }]
       };
       $scope.view.selectedContacts = [];
       $scope.view.selectedRegions = [];
@@ -113,19 +114,19 @@ angular.module('staticApp')
 
       $scope.view.onCancelClick = function () {
           if ($scope.form.programForm.$dirty) {
-              MessageBox.confirm({
-                  title: 'Confirm',
-                  message: 'There are unsaved changes.  Are you sure you wish to cancel?',
-                  okText: 'Yes',
-                  cancelText: 'No',
-                  okCallback: function () {
-                      $modalInstance.dismiss('cancel');
-                  }
-              });
+              $scope.view.showConfirmCancel = true;
           }
           else {
               $modalInstance.dismiss('cancel');
           }
+      }
+
+      $scope.view.onYesCancelChangesClick = function () {
+          $modalInstance.dismiss('cancel');
+      }
+
+      $scope.view.onNoDoNotCancelChangesClick = function () {
+          $scope.view.showConfirmCancel = false;
       }
 
       $scope.view.openStartDateCalendar = function (event) {
@@ -237,7 +238,7 @@ angular.module('staticApp')
           }
       }
 
-      $scope.view.addWebsite = function() {
+      $scope.view.addWebsite = function () {
           $scope.view.program.websites.push({ value: undefined });
       }
 
@@ -245,7 +246,7 @@ angular.module('staticApp')
           if ($scope.view.program.websites.length == 1) {
               $scope.view.program.websites[$index] = { value: undefined };
           } else {
-            $scope.view.program.websites.splice($index, 1);
+              $scope.view.program.websites.splice($index, 1);
           }
       }
 

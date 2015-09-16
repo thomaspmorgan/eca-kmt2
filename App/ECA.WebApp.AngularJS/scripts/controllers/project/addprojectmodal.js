@@ -26,6 +26,7 @@ angular.module('staticApp')
         NotificationService) {
 
       $scope.view = {};
+      $scope.view.showConfirmCancel = false;
       $scope.view.maxNameLength = 500;
       $scope.view.maxDescriptionLength = 3000;
       $scope.view.title = 'Add Project to ' + parentProgram.name;
@@ -44,19 +45,19 @@ angular.module('staticApp')
 
       $scope.view.onCancelClick = function () {
           if ($scope.form.projectForm.$dirty) {
-              MessageBox.confirm({
-                  title: 'Confirm',
-                  message: 'There are unsaved changes.  Are you sure you wish to cancel?',
-                  okText: 'Yes',
-                  cancelText: 'No',
-                  okCallback: function () {
-                      $modalInstance.dismiss('cancel');
-                  }
-              });
+              $scope.view.showConfirmCancel = true;
           }
           else {
               $modalInstance.dismiss('cancel');
           }
+      }
+
+      $scope.view.onYesCancelChangesClick = function () {
+          $modalInstance.dismiss('cancel');
+      }
+
+      $scope.view.onNoDoNotCancelChangesClick = function () {
+          $scope.view.showConfirmCancel = false;
       }
 
 
