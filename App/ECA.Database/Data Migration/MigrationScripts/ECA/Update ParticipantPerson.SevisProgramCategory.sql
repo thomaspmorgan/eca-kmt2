@@ -2,7 +2,7 @@
 UPDATE
     pp
 SET
-    pp.programcategoryidid = x.programcategoryid
+    pp.programcategoryid = x.programcategoryid
 FROM
     eca_kmt_dev.eca_kmt_dev.dbo.participantperson pp
 INNER JOIN
