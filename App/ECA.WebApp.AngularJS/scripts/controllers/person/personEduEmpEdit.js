@@ -18,30 +18,12 @@ angular.module('staticApp')
           loadEmployments(personId);
           loadEducations(personId);
       });
-
-      function loadEmployments(personId) {
-          $scope.personEduEmpLoading = true;
-          PersonService.getEmploymentsById(personId)
-          .then(function (data) {
-              $scope.employments = data;
-              $scope.personEduEmpLoading = false;
-          });
-      };
-
-      function loadEducations(personId) {
-          $scope.personEduEmpLoading = true;
-          PersonService.getEducationsById(personId)
-            .then(function (data) {
-                $scope.educations = data;
-                $scope.personEduEmpLoading = false;
-            });
-      };
-
+      
       $scope.cancelEditEduEmp = function () {
           $scope.edit.EduEmp = false;
       };
       
-      $scope.saveEditEduEmp = function () {
+      $scope.saveEditEducation = function () {
           PersonService.updateEduEmp($scope.eduemp, $scope.eduemp.Id)
           .then(function () {
               NotificationService.showSuccessMessage("The edit was successful.");

@@ -20,7 +20,7 @@ namespace ECA.WebApi.Models.Admin
         public override NewPhoneNumber<ECA.Data.Person> ToPhoneNumber(Business.Service.User user)
         {
             Contract.Requires(user != null, "The user must not be null.");
-            return new NewPersonPhoneNumber(user, this.PhoneNumberTypeId, this.Number, this.PhoneNumberAddressableId);
+            return new NewPersonPhoneNumber(user, this.PhoneNumberTypeId, this.Number, this.PhoneNumberableId);
         }
     }
 }

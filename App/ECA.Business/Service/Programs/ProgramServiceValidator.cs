@@ -20,6 +20,10 @@ namespace ECA.Business.Service.Programs
 
         public const string NO_OBJECTIVES_GIVEN_ERROR_MESSAGE = "There must be at least one one justification/objective for a program with this organization.";
 
+        /// <summary>
+        /// The error message to display when a program is having it's parent program changed to a program that is already a child of that program.
+        /// </summary>
+        public const string CIRCULAR_PARENT_PROGRAM_ERROR_MESSAGE = "The given parent program is already a child program of this program.";
 
         /// <summary>
         /// The error message when a program is configured without any goals.
@@ -134,6 +138,10 @@ namespace ECA.Business.Service.Programs
                 {
                     yield return new BusinessValidationResult<EcaProgram>(x => x.FocusCategoryIds, NO_CATEGORIES_GIVEN_ERROR_MESSAGE);
                 }
+            }
+            if(validationEntity.ParentProgramParentPrograms.Select(x => x.ProgramId).ToList().Contains(validationEntity.ProgramId))
+            {
+                yield return new BusinessValidationResult<EcaProgram>(x => x.ParentProgramId, CIRCULAR_PARENT_PROGRAM_ERROR_MESSAGE);
             }
         }
 

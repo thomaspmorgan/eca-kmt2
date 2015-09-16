@@ -1,10 +1,10 @@
 'use strict';
 
 var gulp = require('gulp');
+var del = require('del');
 
-gulp.task('clean', function (cb) {
-    var del = require('del');
-    del('dist/**/*', cb);
+gulp.task('clean', function () {
+    return del(['dist/**/*']);
 });
 
 gulp.task('styles', ['clean'], function () {

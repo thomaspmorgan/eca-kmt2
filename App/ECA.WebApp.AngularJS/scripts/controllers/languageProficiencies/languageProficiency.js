@@ -57,8 +57,6 @@ angular.module('staticApp')
 
       $scope.view.cancelLanguageProficiencyChanges = function (form) {
           $scope.view.showEditLanguageProficiency = false;
-          // form.languageProficiencyForm.$setPristine();
-          // form.languageProficiencyForm.$setUntouched();
           if (isNewLanguageProficiency($scope.languageProficiency)) {
               removeLanguageProficiencyFromView($scope.languageProficiency);
           }

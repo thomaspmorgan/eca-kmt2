@@ -64,6 +64,9 @@ angular.module('staticApp')
           getEmailAddressTypes:  function (params) {
               return DragonBreath.getCached(params, 'emailaddresses/types');
           },
+          getPhoneNumberTypes: function (params) {
+              return DragonBreath.getCached(params, 'phonenumbers/types');
+          },
           getLocationTypes: function (params) {
               return DragonBreath.getCached(params, 'locations/types');
           },

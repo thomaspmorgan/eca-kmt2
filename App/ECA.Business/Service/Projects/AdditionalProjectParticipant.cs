@@ -79,7 +79,7 @@ namespace ECA.Business.Service.Projects
     }
 
     /// <summary>
-    /// 
+    /// AdditionalProjectParticipantContract
     /// </summary>
     [ContractClassFor(typeof(AdditionalProjectParticipant))]
     public abstract class AdditionalProjectParticipantContract : AdditionalProjectParticipant

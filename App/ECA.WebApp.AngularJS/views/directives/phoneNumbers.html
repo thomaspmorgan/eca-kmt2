@@ -1,0 +1,90 @@
+﻿<div ng-controller="PhoneNumbersCtrl">
+    <div>
+        <a ng-click="view.collapsePhoneNumbers = !view.collapsePhoneNumbers">
+            <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapsePhoneNumbers">expand_less</i>
+            <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapsePhoneNumbers">expand_more</i>
+        </a>
+        <a ng-click="view.onAddPhoneNumberClick(modelType, phoneNumberable.phoneNumbers, modelId)" ng-show="editMode">
+            <i class="material-icons md-24 md-dark pull-right">add</i>
+        </a>
+        <div class="pull-right" style="margin-top: 3px;" ng-show="view.collapsePhoneNumbers">({{phoneNumberable.phoneNumbers.length}})</div>
+    </div>
+    <div class="col-md-12" collapse="view.collapsePhoneNumbers">
+        <div ng-repeat="phoneNumber in phoneNumberable.phoneNumbers">
+            <div ng-controller="PhoneNumberCtrl" class="expandIndent">
+                <div class="spinner" ng-show="view.isSavingChanges || view.isLoadingRequiredData">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
+                <div class="row" ng-show="!view.isSavingChanges && !view.isLoadingRequiredData">
+                    <div ng-class="{true: 'row', false: 'row2'}[editMode]" ng-show="!view.showEditPhoneNumber">
+                        <a href="tel:{{phoneNumber.number}}">{{phoneNumber.number}}</a>
+                        <div class="pull-right" ng-show="!view.showEditPhoneNumber">
+                            {{phoneNumber.phoneNumberType}}
+                            <a ng-show="!view.showEditPhoneNumber && !view.isDeletingPhoneNumber && editMode" ng-click="view.showConfirmDelete = true">
+                                <i class="material-icons md-dark">delete</i>
+                            </a>
+                            <a ng-show="view.isDeletingPhoneNumber">
+                                <i class="material-icons md-dark material-icons-spin">refresh</i>
+                            </a>
+                            <a ng-show="!view.showEditPhoneNumber && editMode" ng-click="view.onEditPhoneNumberClick()">
+                                <i class="material-icons md-dark">edit</i>
+                            </a>
+                        </div>
+                    </div>
+                    <div ng-show="view.showConfirmDelete" class="text-center">
+                        Are you sure you want to delete this phone number?
+                    </div>
+                    <div ng-show="view.showConfirmDelete" style="margin-top:10px;" class="text-center">
+                        <button ng-click="view.onDeletePhoneNumberClick()" class="btn btn-danger">Delete</button>
+                        <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
+                    </div>
+                    <div in-context-form ng-show="view.showEditPhoneNumber">
+                        <form name="form.phoneNumberForm" class="row form-horizontal">
+                            <div class="form-group">
+                                <label class="title-label col-md-3" for="type">Type<span class="asterisk"> *</span></label>
+                                <div class="col-md-9">
+                                    <select class="form-control"
+                                            id="type"
+                                            name="phoneNumberTypeId"
+                                            ng-change="view.onPhoneNumberTypeChange()"
+                                            ng-options="t.id as t.name for t in view.phoneNumberTypes"
+                                            ng-model="phoneNumber.phoneNumberTypeId"
+                                            required />
+                                </div>
+                                <div ng-show="form.phoneNumberForm.phoneNumberTypeId.$dirty || form.phoneNumberTypeId.phoneNumberTypeId.$error.required">
+                                    <div class="error" ng-show="form.phoneNumberForm.phoneNumberTypeId.$error.required">Please select an phone number type.</div>
+                                </div>
+                            </div>
+                            <div class="form-group" id="phoneNumberForm{{phoneNumber.id}}">
+                                <label class="title-label col-md-3" for="phoneNumberValue">Phone<span class="asterisk"> *</span></label>
+                                <div class="col-md-9">
+                                    <input name="phoneNumberValue"
+                                           maxlength="100"
+                                           ng-model="phoneNumber.number"
+                                           form-element
+                                           guidance="This is the value  of the phone number."
+                                           type="text"
+                                           class="form-control"
+                                           placeholder="Enter phone number value."
+                                           id="phoneNumberValue"
+                                           international-phone-number
+                                           required />
+                                </div>
+                                <div ng-show="form.phoneNumberForm.phoneNumberValue.$dirty || form.phoneNumberForm.phoneNumberValue.$error.required">
+                                    <div class="error" ng-show="form.phoneNumberForm.phoneNumberValue.$error.required">Please enter a phone number value.</div>
+                                </div>
+                            </div>
+
+                        </form>
+                        <div class="row right" ng-show="view.showEditPhoneNumber">
+                            <button ng-click="view.savePhoneNumberChanges()" class="btn btn-success" ng-disabled="form.phoneNumberForm.$invalid">Save</button>
+                            <button ng-click="view.cancelPhoneNumberChanges()" class="btn btn-cancel">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

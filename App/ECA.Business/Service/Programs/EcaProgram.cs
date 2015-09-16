@@ -9,6 +9,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using ECA.Business.Service.Programs;
 
 namespace ECA.Business.Models.Programs
 {
@@ -30,7 +31,7 @@ namespace ECA.Business.Models.Programs
         /// <param name="parentProgramId">The parent program id.</param>
         /// <param name="programStatusId">The program status id.</param>
         /// <param name="focusId">The focus by id.</param>
-        /// <param name="website">The website.</param>
+        /// <param name="websites">The websites</param>
         /// <param name="goalIds">The goals of the program by id.</param>
         /// <param name="programRowVersion">The row version of the program.</param>
         /// <param name="pointOfContactIds">The points of contact by id.</param>
@@ -55,7 +56,7 @@ namespace ECA.Business.Models.Programs
             List<int> regionIds,
             List<int> categoryIds,
             List<int> objectiveIds,
-            List<string> websites)
+            List<WebsiteDTO> websites)
         {
             Contract.Requires(updatedBy != null, "The updated by user must not be null.");
             var programStatus = ProgramStatus.GetStaticLookup(programStatusId);
@@ -77,7 +78,7 @@ namespace ECA.Business.Models.Programs
             this.RegionIds = regionIds ?? new List<int>();
             this.FocusCategoryIds = categoryIds ?? new List<int>();
             this.JustificationObjectiveIds = objectiveIds ?? new List<int>();
-            this.Websites = websites ?? new List<string>();
+            this.Websites = websites ?? new List<WebsiteDTO>();
             this.ProgramStatusId = programStatusId;
             this.Audit = new Update(updatedBy);
             this.RowVersion = programRowVersion;
@@ -88,7 +89,6 @@ namespace ECA.Business.Models.Programs
             this.RegionIds = this.RegionIds.Distinct().ToList();
             this.FocusCategoryIds = this.FocusCategoryIds.Distinct().ToList();
             this.JustificationObjectiveIds = this.JustificationObjectiveIds.Distinct().ToList();
-            this.Websites = this.Websites.Distinct().ToList();
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace ECA.Business.Models.Programs
         /// <summary>
         /// Gets or sets the websites
         /// </summary>
-        public List<string> Websites { get; set; }
+        public List<WebsiteDTO> Websites { get; set; }
 
         /// <summary>
         /// Gets the program contacts by id.

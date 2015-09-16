@@ -20,7 +20,7 @@ namespace ECA.Business.Queries.Models.Persons
         {
             EmailAddresses = new List<EmailAddressDTO>();
             SocialMedias = new List<SocialMediaDTO>();
-            PhoneNumbers = new List<SimpleTypeLookupDTO>();
+            PhoneNumbers = new List<PhoneNumberDTO>();
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets and set phone numbers
         /// </summary>
-        public IEnumerable<SimpleTypeLookupDTO> PhoneNumbers { get; set; }
+        public IEnumerable<PhoneNumberDTO> PhoneNumbers { get; set; }
 
         /// <summary>
         /// 

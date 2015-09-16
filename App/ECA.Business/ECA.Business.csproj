@@ -263,6 +263,7 @@
     <Compile Include="Service\Persons\UpdateGeneral.cs" />
     <Compile Include="Service\Programs\IProgramStatusService.cs" />
     <Compile Include="Service\Programs\ProgramStatusService.cs" />
+    <Compile Include="Service\Programs\WebsiteDTO.cs" />
     <Compile Include="Service\Projects\AdditionalOrganizationProjectParticipant.cs" />
     <Compile Include="Service\Projects\AdditionalPersonProjectParticipant.cs" />
     <Compile Include="Service\Projects\IProjectStatusService.cs" />

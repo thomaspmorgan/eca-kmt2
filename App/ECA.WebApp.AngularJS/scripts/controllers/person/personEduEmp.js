@@ -7,7 +7,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personEducationEmploymentCtrl', function ($scope, ParticipantService, PersonService, $stateParams) {
+  .controller('personEducationEmploymentCtrl', function ($scope, PersonService, EduEmpService, $stateParams, NotificationService) {
 
       $scope.personEduEmpLoading = true;
 
@@ -34,4 +34,9 @@ angular.module('staticApp')
                 $scope.personEduEmpLoading = false;
             });
       };
+
+
+
+
+
 }); 

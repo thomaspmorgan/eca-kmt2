@@ -52,6 +52,16 @@
                     </ul>
                 </div>
             </div>
+            <div class="row" ng-show="program.websites.length > 0">
+                <div class="col-md-4 title-label">Websites</div>
+                <div class="col-md-8">
+                    <ul>
+                        <li ng-repeat="website in program.websites">
+                            <a href="{{website.value}}" target="_blank">{{website.value}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <div class="col-md-6">
             <div class="row" ng-show="program.ownerOrganizationId && program.ownerDescription">
@@ -93,16 +103,6 @@
                 <div class="col-md-8">
                     <ul>
                         <li ng-repeat="contact in program.contacts | orderBy:'value'">&#149 {{contact.value}}</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row" ng-show="program.websites.length > 0">
-                <div class="col-md-4 title-label">Websites</div>
-                <div class="col-md-8">
-                    <ul>
-                        <li ng-repeat="website in program.websites">
-                            <a href="{{website.value}}" target="_blank">{{website.value}}</a>
-                        </li>
                     </ul>
                 </div>
             </div>

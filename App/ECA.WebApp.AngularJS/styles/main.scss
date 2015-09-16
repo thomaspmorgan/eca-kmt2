@@ -941,3 +941,8 @@ div.tip:hover span {
    top: 32px;  
    right: 6px;
 }
+
+/* Path to flag icons for international-phone-number directive */
+.iti-flag {
+    background-image: url("../images/intl-tel-input/flags.png");
+}
