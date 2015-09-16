@@ -370,7 +370,7 @@ namespace ECA.Business.Service.Programs
             SetRegions(draftProgram.RegionIds, program);
             SetCategories(draftProgram.FocusCategoryIds, program);
             SetObjectives(draftProgram.JustificationObjectiveIds, program);
-            SetWebsites(draftProgram.Websites, program);
+            SetWebsitesToCreate(draftProgram.Websites, program);
 
             Debug.Assert(draftProgram.Audit != null, "The audit must not be null.");
             draftProgram.Audit.SetHistory(program);
@@ -378,13 +378,10 @@ namespace ECA.Business.Service.Programs
             return program;
         }
 
-        private void SetWebsites(List<string> websiteList, Program program)
+        private void SetWebsitesToCreate(List<WebsiteDTO> websiteList, Program program)
         {
-            var websites = websiteList.Select(x => new Website
-            {
-                WebsiteValue = x
-            });
-
+            var distinctWebsites = websiteList.Select(x => x.Value).Distinct().ToList();
+            var websites = distinctWebsites.Select(y => new Website { WebsiteValue = y });
             program.Websites = websites.ToList();
         }
 
@@ -522,7 +519,29 @@ namespace ECA.Business.Service.Programs
             SetRegions(updatedProgram.RegionIds, programToUpdate);
             SetCategories(updatedProgram.FocusCategoryIds, programToUpdate);
             SetObjectives(updatedProgram.JustificationObjectiveIds, programToUpdate);
+            SetWebsitesToUpdate(updatedProgram.Websites, programToUpdate);
         }
+
+        private void SetWebsitesToUpdate(List<WebsiteDTO> websiteList, Program program)
+        {
+            var websiteIds = websiteList.Select(x => x.Id).ToList();
+            var websitesToRemove = program.Websites.Where(x => !websiteIds.Where(y => y != null).Contains(x.WebsiteId)).ToList();
+            foreach(Website website in websitesToRemove)
+            {
+                program.Websites.Remove(website);
+            }
+            var websitesToAdd = websiteList.Where(x => x.Id == null).ToList();
+            foreach(WebsiteDTO website in websitesToAdd)
+            {
+                program.Websites.Add(new Website { WebsiteValue = website.Value });
+            }
+            var websitesToUpdate = program.Websites.Where(x => websiteIds.Contains(x.WebsiteId)).ToList();
+            foreach(Website website in websitesToUpdate)
+            {
+                var updatedWebsite = websiteList.Where(x => x.Id == website.WebsiteId).FirstOrDefault();
+                website.WebsiteValue = updatedWebsite.Value;
+            }
+          }
         #endregion
 
         /// <summary>

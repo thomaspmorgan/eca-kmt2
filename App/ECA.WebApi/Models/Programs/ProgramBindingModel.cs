@@ -62,7 +62,7 @@ namespace ECA.WebApi.Models.Programs
                 regionIds: this.Regions,
                 categoryIds: this.Categories,
                 objectiveIds: this.Objectives,
-                websites: this.Websites
+                websites: GetWebsites()
                 );
 
             return ecaProgram;

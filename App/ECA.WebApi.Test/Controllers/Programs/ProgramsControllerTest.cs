@@ -176,7 +176,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
             {
                 Name = "name",
                 Description = "desc",
-                ProgramStatusId = ProgramStatus.Active.Id
+                ProgramStatusId = ProgramStatus.Active.Id,
             };
             var response = await controller.PostProgramAsync(model);
             service.Verify(x => x.CreateAsync(It.IsAny<DraftProgram>()), Times.Once());

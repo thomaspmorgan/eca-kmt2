@@ -5,6 +5,7 @@ using ECA.Business.Models.Programs;
 using ECA.Data;
 using System.Collections.Generic;
 using ECA.Business.Service;
+using ECA.Business.Service.Programs;
 
 namespace ECA.Business.Test.Service.Programs
 {
@@ -27,7 +28,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int> { 40 };
             var categoryIds = new List<int> { 50 };
             var objectiveIds = new List<int> { 60 };
-            var websites = new List<string> { "http://www.google.com" };
+            var websites = new List<WebsiteDTO> { new WebsiteDTO(null, "http://google.com") };
 
             var user = new User(userId);
             var program = new DraftProgram(

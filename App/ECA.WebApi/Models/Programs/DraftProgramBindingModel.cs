@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Models.Programs;
+using ECA.Business.Service.Programs;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,14 @@ namespace ECA.WebApi.Models.Programs
     /// </summary>
     public class DraftProgramBindingModel
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public DraftProgramBindingModel()
+        {
+            this.Websites = new List<WebsiteBindingModel>();
+        }
+
         /// <summary>
         /// The name of the program.
         /// </summary>
@@ -77,7 +86,7 @@ namespace ECA.WebApi.Models.Programs
         /// <summary>
         /// Gets or sets the websites
         /// </summary>
-        public List<string> Websites { get; set; }
+        public List<WebsiteBindingModel> Websites { get; set; }
 
         /// <summary>
         /// Returns a DraftProgram business entity from this binding model.
@@ -100,8 +109,22 @@ namespace ECA.WebApi.Models.Programs
                 regionIds: this.Regions,
                 categoryIds: this.Categories,
                 objectiveIds: this.Objectives,
-                websites: this.Websites
+                websites: GetWebsites()
                 );
+        }
+
+        /// <summary>
+        /// Converts list of website binding models to website dtos
+        /// </summary>
+        /// <returns></returns>
+        protected List<WebsiteDTO> GetWebsites()
+        {
+            List<WebsiteDTO> websites = new List<WebsiteDTO>();
+            foreach(WebsiteBindingModel website in Websites)
+            {
+                websites.Add(new WebsiteDTO(website.Id, website.Value));
+            }
+            return websites;
         }
     }
 }

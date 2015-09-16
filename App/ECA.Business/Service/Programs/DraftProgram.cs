@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Service;
+using ECA.Business.Service.Programs;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
@@ -45,7 +46,7 @@ namespace ECA.Business.Models.Programs
             List<int> regionIds,
             List<int> categoryIds,
             List<int> objectiveIds,
-            List<string> websites)
+            List<WebsiteDTO> websites)
             : base(
                 updatedBy: createdBy,
                 id: 0,

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using ECA.Data;
 using ECA.Business.Service;
 using System.ComponentModel.DataAnnotations;
+using ECA.Business.Service.Programs;
 
 namespace ECA.WebApi.Test.Models.Programs
 {
@@ -30,7 +31,7 @@ namespace ECA.WebApi.Test.Models.Programs
             model.StartDate = DateTimeOffset.UtcNow;
             model.Themes = new List<int> { 3 };
             model.Regions = new List<int> { 4 };
-            model.Websites = new List<string> { "http://www.google.com" };
+            model.Websites = new List<WebsiteBindingModel> { new WebsiteBindingModel { Id = null, Value = "http://google.com"} };
             model.RowVersion = Convert.ToBase64String(rowVersion);
             var user = new User(1);
 
@@ -48,8 +49,8 @@ namespace ECA.WebApi.Test.Models.Programs
             CollectionAssert.AreEqual(model.Contacts, ecaProgram.ContactIds);
             CollectionAssert.AreEqual(model.Themes, ecaProgram.ThemeIds);
             CollectionAssert.AreEqual(model.Regions, ecaProgram.RegionIds);
-            CollectionAssert.AreEqual(model.Websites, ecaProgram.Websites);
             CollectionAssert.AreEqual(rowVersion, ecaProgram.RowVersion);
+            CollectionAssert.AreEqual(model.Websites.Select(x => x.Value).ToList(), ecaProgram.Websites.Select(x => x.Value).ToList());
             Assert.AreEqual(user.Id, ecaProgram.Audit.User.Id);
 
         }

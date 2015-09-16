@@ -55,7 +55,7 @@ angular.module('staticApp')
           parentProgramId: parentProgram ? parentProgram.id : null,
           parentProgramName: parentProgram ? parentProgram.name : null,
           isSubProgram: parentProgram ? true : false,
-          websites: [undefined]
+          websites: [{value: undefined}]
       };
       $scope.view.selectedContacts = [];
       $scope.view.selectedRegions = [];
@@ -238,11 +238,15 @@ angular.module('staticApp')
       }
 
       $scope.view.addWebsite = function() {
-          $scope.view.program.websites.push(undefined);
+          $scope.view.program.websites.push({ value: undefined });
       }
 
       $scope.view.deleteWebsite = function ($index) {
-          $scope.view.program.websites.splice($index, 1);
+          if ($scope.view.program.websites.length == 1) {
+              $scope.view.program.websites[$index] = { value: undefined };
+          } else {
+            $scope.view.program.websites.splice($index, 1);
+          }
       }
 
       var programsFilter = FilterService.add('programmodal_loadprograms');
@@ -398,8 +402,8 @@ angular.module('staticApp')
           setIds('contacts', $scope.view.selectedContacts, 'id');
           setIds('objectives', $scope.view.selectedObjectives, 'id');
 
-          // Remove undefined elements
-          $scope.view.program.websites = $scope.view.program.websites.filter(function (n) { return n != undefined });
+          // Remove undefined elements and empty strings
+          $scope.view.program.websites = $scope.view.program.websites.filter(function (n) { return (n.value && n.value.length > 0) });
 
           return ProgramService.create($scope.view.program)
           .then(function (response) {
