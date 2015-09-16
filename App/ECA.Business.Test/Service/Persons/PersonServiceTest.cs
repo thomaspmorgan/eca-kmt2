@@ -781,7 +781,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(education.Role, dto.Role);
                 Assert.AreEqual(education.DateFrom, dto.StartDate);
                 Assert.AreEqual(education.DateTo, dto.EndDate);
-                Assert.AreEqual(String.Format("{0}, {1}", city.LocationName, country.LocationName), dto.Organization.Location);
+                Assert.AreEqual(String.Format("{0}, {1}", city.LocationName, country.LocationName), dto.Organization.Addresses);
                 Assert.AreEqual(organization.OrganizationId, dto.Organization.OrganizationId);
                 Assert.AreEqual(organizationType.OrganizationTypeName, dto.Organization.OrganizationType);
                 Assert.AreEqual(organization.Status, dto.Organization.Status);
@@ -881,7 +881,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Assert.AreEqual(1, list.Count);
                 var dto = list.First();
-                Assert.AreEqual(String.Format("{0}, {1}", city.LocationName, country.LocationName), dto.Organization.Location);
+                Assert.AreEqual(String.Format("{0}, {1}", city.LocationName, country.LocationName), dto.Organization.Addresses);
             };
             var results = service.GetEducationsByPersonId(person.PersonId);
             var resultsAsync = await service.GetEducationsByPersonIdAsync(person.PersonId);
@@ -944,7 +944,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Assert.AreEqual(1, list.Count);
                 var dto = list.First();
-                Assert.IsNull(dto.Organization.Location);
+                Assert.IsNull(dto.Organization.Addresses);
             };
             var results = service.GetEducationsByPersonId(person.PersonId);
             var resultsAsync = await service.GetEducationsByPersonIdAsync(person.PersonId);
@@ -1022,7 +1022,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Assert.AreEqual(1, list.Count);
                 var dto = list.First();
-                Assert.IsNull(dto.Organization.Location);
+                Assert.IsNull(dto.Organization.Addresses);
             };
             var results = service.GetEducationsByPersonId(person.PersonId);
             var resultsAsync = await service.GetEducationsByPersonIdAsync(person.PersonId);
@@ -1100,7 +1100,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Assert.AreEqual(1, list.Count);
                 var dto = list.First();
-                Assert.IsNull(dto.Organization.Location);
+                Assert.IsNull(dto.Organization.Addresses);
             };
             var results = service.GetEducationsByPersonId(person.PersonId);
             var resultsAsync = await service.GetEducationsByPersonIdAsync(person.PersonId);
@@ -1241,7 +1241,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(employment.Role, dto.Role);
                 Assert.AreEqual(employment.DateFrom, dto.StartDate);
                 Assert.AreEqual(employment.DateTo, dto.EndDate);
-                Assert.AreEqual(String.Format("{0}, {1}", city.LocationName, country.LocationName), dto.Organization.Location);
+                Assert.AreEqual(String.Format("{0}, {1}", city.LocationName, country.LocationName), dto.Organization.Addresses);
                 Assert.AreEqual(organization.OrganizationId, dto.Organization.OrganizationId);
                 Assert.AreEqual(organizationType.OrganizationTypeName, dto.Organization.OrganizationType);
                 Assert.AreEqual(organization.Status, dto.Organization.Status);
@@ -1341,7 +1341,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Assert.AreEqual(1, list.Count);
                 var dto = list.First();
-                Assert.AreEqual(String.Format("{0}, {1}", city.LocationName, country.LocationName), dto.Organization.Location);
+                Assert.AreEqual(String.Format("{0}, {1}", city.LocationName, country.LocationName), dto.Organization.Addresses);
             };
             var results = service.GetEmploymentsByPersonId(person.PersonId);
             var resultsAsync = await service.GetEmploymentsByPersonIdAsync(person.PersonId);
@@ -1404,7 +1404,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Assert.AreEqual(1, list.Count);
                 var dto = list.First();
-                Assert.IsNull(dto.Organization.Location);
+                Assert.IsNull(dto.Organization.Addresses);
             };
             var results = service.GetEmploymentsByPersonId(person.PersonId);
             var resultsAsync = await service.GetEmploymentsByPersonIdAsync(person.PersonId);
@@ -1482,7 +1482,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Assert.AreEqual(1, list.Count);
                 var dto = list.First();
-                Assert.IsNull(dto.Organization.Location);
+                Assert.IsNull(dto.Organization.Addresses);
             };
             var results = service.GetEmploymentsByPersonId(person.PersonId);
             var resultsAsync = await service.GetEmploymentsByPersonIdAsync(person.PersonId);
@@ -1560,7 +1560,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Assert.AreEqual(1, list.Count);
                 var dto = list.First();
-                Assert.IsNull(dto.Organization.Location);
+                Assert.IsNull(dto.Organization.Addresses);
             };
             var results = service.GetEmploymentsByPersonId(person.PersonId);
             var resultsAsync = await service.GetEmploymentsByPersonIdAsync(person.PersonId);

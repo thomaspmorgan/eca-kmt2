@@ -117,13 +117,13 @@ angular.module('staticApp')
               $scope.view.showConfirmCancel = true;
           }
           else {
-              $modalInstance.dismiss('cancel');
+                      $modalInstance.dismiss('cancel');
+                  }
           }
-      }
 
       $scope.view.onYesCancelChangesClick = function () {
-          $modalInstance.dismiss('cancel');
-      }
+              $modalInstance.dismiss('cancel');
+          }
 
       $scope.view.onNoDoNotCancelChangesClick = function () {
           $scope.view.showConfirmCancel = false;
@@ -246,7 +246,7 @@ angular.module('staticApp')
           if ($scope.view.program.websites.length == 1) {
               $scope.view.program.websites[$index] = { value: undefined };
           } else {
-              $scope.view.program.websites.splice($index, 1);
+            $scope.view.program.websites.splice($index, 1);
           }
       }
 

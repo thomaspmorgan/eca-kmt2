@@ -138,6 +138,7 @@
 		registerUserFailureEventName: 'registerUserFailure',
 		registerUserSuccessEventName: 'registerUserSuccess',
 		removeNewAddressEventName: 'removeNewAddress',
+		removeNewEduEmpEventName: 'removeNewEduEmp',
 		removeNewEmailAddressEventName: 'removeNewEmailAddress',
 		removeNewLanguageProficiencyEventName: 'removeNewLanguageProficiency',
 		removeNewMembershipsEventName: 'removeNewMembership',

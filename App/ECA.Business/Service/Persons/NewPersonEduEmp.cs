@@ -11,7 +11,7 @@ namespace ECA.Business.Service.Persons
 {
     public class NewPersonEduEmp
     {
-        public NewPersonEduEmp(User user, string title, string role, DateTimeOffset startDate, DateTimeOffset? endDate, Organization organization, int personId)
+        public NewPersonEduEmp(User user, string title, string role, DateTimeOffset startDate, DateTimeOffset? endDate, OrganizationDTO organization, int personId, Person personOfEducation = null, Person personOfProfession = null)
         {
             this.PersonId = personId;
             this.Title = title;
@@ -19,6 +19,8 @@ namespace ECA.Business.Service.Persons
             this.StartDate = startDate;
             this.EndDate = endDate;
             this.Organization = organization;
+            this.PersonOfEducation = personOfEducation;
+            this.PersonOfProfession = personOfProfession;
             this.Create = new Create(user);
         }
 
@@ -35,7 +37,11 @@ namespace ECA.Business.Service.Persons
 
         public DateTimeOffset? EndDate { get; private set; }
 
-        public Organization Organization { get; private set; }
+        public OrganizationDTO Organization { get; private set; }
+
+        public Person PersonOfEducation { get; private set; }
+
+        public Person PersonOfProfession { get; private set; }
 
 
         public Create Create { get; private set; }
@@ -49,9 +55,8 @@ namespace ECA.Business.Service.Persons
                 Role = this.Role,
                 DateFrom = this.StartDate,
                 DateTo = this.EndDate,
-                Organization = this.Organization,
                 OrganizationId = this.Organization.OrganizationId,
-                PersonOfEducation = person                
+                PersonOfEducation = this.PersonOfEducation
             };
             this.Create.SetHistory(eduemp);
             person.EducationalHistory.Add(eduemp);
@@ -67,9 +72,8 @@ namespace ECA.Business.Service.Persons
                 Role = this.Role,
                 DateFrom = this.StartDate,
                 DateTo = this.EndDate,
-                Organization = this.Organization,
                 OrganizationId = this.Organization.OrganizationId,
-                PersonOfProfession = person
+                PersonOfProfession = this.PersonOfProfession
             };
             this.Create.SetHistory(eduemp);
             person.ProfessionalHistory.Add(eduemp);

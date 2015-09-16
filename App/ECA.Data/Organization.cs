@@ -114,7 +114,6 @@ namespace ECA.Data
         public ICollection<SocialMedia> SocialMedias { get; set; }
 
         //relationships
-
         public ICollection<MoneyFlow> MoneyFlowSources { get; set; }
         public ICollection<MoneyFlow> MoneyFlowRecipients { get; set; }
         public ICollection<Program> OwnerPrograms { get; set; }

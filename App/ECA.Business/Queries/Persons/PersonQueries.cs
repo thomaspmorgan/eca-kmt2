@@ -248,6 +248,7 @@ namespace ECA.Business.Queries.Persons
         public static IQueryable<EducationEmploymentDTO> CreateGetEducationsByPersonIdQuery(EcaContext context, int personId)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            
             var query = from education in context.ProfessionEducations
                         let hasOrganization = education.Organization != null
                         let organization = education.Organization
@@ -276,12 +277,11 @@ namespace ECA.Business.Queries.Persons
                             Role = education.Role,
                             StartDate = education.DateFrom,
                             EndDate = education.DateTo,
-                            Organization = hasOrganization ? new SimpleOrganizationDTO
+                            Organization = hasOrganization ? new OrganizationDTO
                             {
                                 OrganizationId = organization.OrganizationId,
                                 Name = organization.Name,
                                 OrganizationType = organization.OrganizationType.OrganizationTypeName,
-                                Location = organizationLocation,
                                 Status = organization.Status
                             } : null
                         };
@@ -325,12 +325,11 @@ namespace ECA.Business.Queries.Persons
                             Role = employment.Role,
                             StartDate = employment.DateFrom,
                             EndDate = employment.DateTo,
-                            Organization = hasOrganization ? new SimpleOrganizationDTO
+                            Organization = hasOrganization ? new OrganizationDTO
                             {
                                 OrganizationId = organization.OrganizationId,
                                 Name = organization.Name,
                                 OrganizationType = organization.OrganizationType.OrganizationTypeName,
-                                Location = organizationLocation,
                                 Status = organization.Status
                             } : null
                         };

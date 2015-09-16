@@ -49,27 +49,38 @@ namespace ECA.WebApi.Controllers.Persons
                 return BadRequest(ModelState);
             }
         }
-
-
+        
         [ResponseType(typeof(EducationEmploymentDTO))]
-        [Route("People/{personId:int}/Membership")]
-        public async Task<IHttpActionResult> PostEduEmpAsync(PersonEduEmpBindingModel model)
+        public async Task<IHttpActionResult> PostAsync(PersonEduEmpBindingModel model)
         {
             if (ModelState.IsValid)
             {
                 var currentUser = userProvider.GetCurrentUser();
                 var businessUser = userProvider.GetBusinessUser(currentUser);
-                var eduemp = await service.CreateAsync(model.ToPersonEduEmp(businessUser));
-                await service.SaveChangesAsync();
-                var dto = await service.GetByIdAsync(eduemp.ProfessionEducationId);
-                return Ok(dto);
+                if (model.PersonOfEducation != null)
+                {
+                    var eduemp = await service.CreateEducationAsync(model.ToPersonEduEmp(businessUser));
+                    await service.SaveChangesAsync();
+                    var dto = await service.GetEducationByIdAsync(eduemp.ProfessionEducationId);
+                    return Ok(dto);
+                }
+                else if (model.PersonOfProfession != null)
+                {
+                    var eduemp = await service.CreateEmploymentAsync(model.ToPersonEduEmp(businessUser));
+                    await service.SaveChangesAsync();
+                    var dto = await service.GetEmploymentByIdAsync(eduemp.ProfessionEducationId);
+                    return Ok(dto);
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
             }
             else
             {
                 return BadRequest(ModelState);
             }
         }
-
 
 
 
