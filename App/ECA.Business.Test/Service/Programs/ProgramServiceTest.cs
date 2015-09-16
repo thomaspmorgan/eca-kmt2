@@ -3494,7 +3494,6 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(newEndDate, updatedProgram.EndDate);
                 Assert.AreEqual(newName, updatedProgram.Name);
                 Assert.AreEqual(ownerId, updatedProgram.OwnerId);
-                Assert.AreEqual(ownerId, updatedProgram.Owner.OrganizationId);
                 Assert.AreEqual(program.ProgramId, updatedProgram.ProgramId);
                 Assert.AreEqual(newProgramStatusId, updatedProgram.ProgramStatusId);
                 Assert.AreEqual(newStartDate, updatedProgram.StartDate);
@@ -3602,7 +3601,6 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(newEndDate, updatedProgram.EndDate);
                 Assert.AreEqual(newName, updatedProgram.Name);
                 Assert.AreEqual(ownerId, updatedProgram.OwnerId);
-                Assert.AreEqual(ownerId, updatedProgram.Owner.OrganizationId);
                 Assert.AreEqual(program.ProgramId, updatedProgram.ProgramId);
                 Assert.AreEqual(newProgramStatusId, updatedProgram.ProgramStatusId);
                 Assert.AreEqual(newStartDate, updatedProgram.StartDate);

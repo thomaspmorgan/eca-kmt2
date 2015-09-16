@@ -30,7 +30,6 @@ namespace ECA.Business.Models.Programs
         /// <param name="ownerOrganizationId">The owner organization id.</param>
         /// <param name="parentProgramId">The parent program id.</param>
         /// <param name="programStatusId">The program status id.</param>
-        /// <param name="focusId">The focus by id.</param>
         /// <param name="websites">The websites</param>
         /// <param name="goalIds">The goals of the program by id.</param>
         /// <param name="programRowVersion">The row version of the program.</param>
@@ -45,7 +44,7 @@ namespace ECA.Business.Models.Programs
             string name,
             string description,
             DateTimeOffset startDate,
-            DateTimeOffset endDate,
+            DateTimeOffset? endDate,
             int ownerOrganizationId,
             int? parentProgramId,
             int programStatusId,
@@ -119,7 +118,7 @@ namespace ECA.Business.Models.Programs
         /// <summary>
         /// Gets the program end date.
         /// </summary>
-        public DateTimeOffset EndDate { get; private set; }
+        public DateTimeOffset? EndDate { get; private set; }
 
         /// <summary>
         /// Gets the program's owning organization id.

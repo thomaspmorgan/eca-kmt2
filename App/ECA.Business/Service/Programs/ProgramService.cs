@@ -366,7 +366,6 @@ namespace ECA.Business.Service.Programs
         {
             Contract.Requires(draftProgram != null, "The draft program must not be null.");
             validator.ValidateCreate(validationEntity);
-            var owner = GetOrganizationById(draftProgram.OwnerOrganizationId);
             var program = new Program
             {
                 Description = draftProgram.Description,
@@ -376,8 +375,7 @@ namespace ECA.Business.Service.Programs
                 ProgramType = null,
                 ProgramStatusId = draftProgram.ProgramStatusId,
                 StartDate = draftProgram.StartDate,
-                OwnerId = owner.OrganizationId,
-                Owner = owner
+                OwnerId = draftProgram.OwnerOrganizationId
             };
             SetGoals(draftProgram.GoalIds, program);
             SetPointOfContacts(draftProgram.ContactIds, program);
@@ -514,12 +512,10 @@ namespace ECA.Business.Service.Programs
         {
             Contract.Requires(updatedProgram != null, "The updated program must not be null.");
             validator.ValidateUpdate(validationEntity);
-            var owner = GetOrganizationById(updatedProgram.OwnerOrganizationId);
             programToUpdate.Description = updatedProgram.Description;
             programToUpdate.EndDate = updatedProgram.EndDate;
             programToUpdate.Name = updatedProgram.Name;
-            programToUpdate.Owner = owner;
-            programToUpdate.OwnerId = owner.OrganizationId;
+            programToUpdate.OwnerId = updatedProgram.OwnerOrganizationId;
             programToUpdate.ParentProgramId = updatedProgram.ParentProgramId;
             programToUpdate.ProgramStatusId = updatedProgram.ProgramStatusId;
             programToUpdate.RowVersion = updatedProgram.RowVersion;
