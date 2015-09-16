@@ -2992,6 +2992,108 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(1, program.Regions.Count);
             Assert.AreEqual(region.LocationId, program.Regions.First().LocationId);
         }
+
+        [TestMethod]
+        public void TestCreate_CheckWebsites()
+        {
+            var ownerId = 12;
+            context.Organizations.Add(new Organization { OrganizationId = ownerId });
+            var focusId = 100;
+            var focus = new Focus { FocusId = focusId };
+            context.Foci.Add(focus);
+            var userId = 1;
+            var user = new User(userId);
+            var name = "name";
+            var description = "description";
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var parentProgramId = 3;
+            var goalIds = new List<int>();
+            var themeIds = new List<int>();
+            var contactIds = new List<int>();
+            var regionIds = new List<int>();
+            var categoryIds = new List<int>();
+            var objectiveIds = new List<int>();
+            var website = new WebsiteDTO(null, "http://google.com");
+            var websites = new List<WebsiteDTO> { website };
+
+            var draftProgram = new DraftProgram(
+               createdBy: user,
+               name: name,
+               description: description,
+               startDate: startDate,
+               endDate: endDate,
+               ownerOrganizationId: ownerId,
+               parentProgramId: parentProgramId,
+               goalIds: goalIds,
+               pointOfContactIds: contactIds,
+               themeIds: themeIds,
+               regionIds: regionIds,
+               categoryIds: categoryIds,
+               objectiveIds: objectiveIds,
+               websites: websites
+               );
+
+            var program = service.Create(draftProgram);
+            Assert.IsNotNull(program);
+            Assert.AreEqual(0, program.Contacts.Count);
+            Assert.AreEqual(0, program.Themes.Count);
+            Assert.AreEqual(0, program.Goals.Count);
+            Assert.AreEqual(0, program.Regions.Count);
+            Assert.AreEqual(1, program.Websites.Count);
+            Assert.AreEqual(website.Value, program.Websites.First().WebsiteValue);
+        }
+
+        [TestMethod]
+        public async Task TestCreateAsync_CheckWebsites()
+        {
+            var ownerId = 12;
+            context.Organizations.Add(new Organization { OrganizationId = ownerId });
+            var focusId = 100;
+            var focus = new Focus { FocusId = focusId };
+            context.Foci.Add(focus);
+            var userId = 1;
+            var user = new User(userId);
+            var name = "name";
+            var description = "description";
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var parentProgramId = 3;
+            var goalIds = new List<int>();
+            var themeIds = new List<int>();
+            var contactIds = new List<int>();
+            var regionIds = new List<int>();
+            var categoryIds = new List<int>();
+            var objectiveIds = new List<int>();
+            var website = new WebsiteDTO(null, "http://google.com");
+            var websites = new List<WebsiteDTO> { website };
+
+            var draftProgram = new DraftProgram(
+               createdBy: user,
+               name: name,
+               description: description,
+               startDate: startDate,
+               endDate: endDate,
+               ownerOrganizationId: ownerId,
+               parentProgramId: parentProgramId,
+               goalIds: goalIds,
+               pointOfContactIds: contactIds,
+               themeIds: themeIds,
+               regionIds: regionIds,
+               categoryIds: categoryIds,
+               objectiveIds: objectiveIds,
+               websites: websites
+               );
+
+            var program = await service.CreateAsync(draftProgram);
+            Assert.IsNotNull(program);
+            Assert.AreEqual(0, program.Contacts.Count);
+            Assert.AreEqual(0, program.Themes.Count);
+            Assert.AreEqual(0, program.Goals.Count);
+            Assert.AreEqual(0, program.Regions.Count);
+            Assert.AreEqual(1, program.Websites.Count);
+            Assert.AreEqual(website.Value, program.Websites.First().WebsiteValue);
+        }
         #endregion
 
         #region Update
@@ -4185,6 +4287,648 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(0, updatedProgram.Themes.Count);
                 Assert.AreEqual(0, updatedProgram.Contacts.Count);
                 Assert.AreEqual(updatedEcaProgram.RegionIds.First(), updatedProgram.Regions.First().LocationId);
+            }
+        }
+
+        [TestMethod]
+        public void TestUpdate_AddNewWebsite()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                var ownerId = 12;
+                context.Organizations.Add(new Organization { OrganizationId = ownerId });
+                Assert.AreEqual(0, context.Programs.Count());
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var parentProgram = new Program
+                {
+                    ProgramId = 2
+                };
+
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "old name",
+                    Description = "old description",
+                    StartDate = DateTimeOffset.UtcNow,
+                    EndDate = DateTime.UtcNow.AddDays(1.0),
+                    ProgramStatusId = ProgramStatus.Draft.Id,
+                    ParentProgram = null,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = revisorId,
+                        RevisedOn = now
+                    }
+                };
+
+                context.Programs.Add(program);
+                context.Programs.Add(parentProgram);
+                Assert.AreEqual(2, context.Programs.Count());
+
+                var newName = "new name";
+                var newDescription = "new description";
+                var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+                var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+                var newProgramStatusId = ProgramStatus.Completed.Id;
+                var newParentProgramId = parentProgram.ProgramId;
+
+                var websites = new List<WebsiteDTO>();
+                websites.Add(new WebsiteDTO(null, "http://google.com"));
+
+                var updatedEcaProgram = new EcaProgram(
+                    updatedBy: new User(revisorId),
+                    id: program.ProgramId,
+                    name: newName,
+                    description: newDescription,
+                    startDate: newStartDate,
+                    endDate: newEndDate,
+                    ownerOrganizationId: ownerId,
+                    parentProgramId: newParentProgramId,
+                    programStatusId: newProgramStatusId,
+                    programRowVersion: new byte[0],
+                    goalIds: null,
+                    pointOfContactIds: null,
+                    themeIds: null,
+                    regionIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    websites: websites
+                    );
+                service.Update(updatedEcaProgram);
+
+                var updatedProgram = context.Programs.First();
+                Assert.AreEqual(0, updatedProgram.Goals.Count);
+                Assert.AreEqual(0, updatedProgram.Regions.Count);
+                Assert.AreEqual(0, updatedProgram.Themes.Count);
+                Assert.AreEqual(0, updatedProgram.Contacts.Count);
+                Assert.AreEqual(1, updatedProgram.Websites.Count);
+                Assert.AreEqual("http://google.com", updatedProgram.Websites.FirstOrDefault().WebsiteValue);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestUpdateAsync_AddNewWebsite()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                var ownerId = 12;
+                context.Organizations.Add(new Organization { OrganizationId = ownerId });
+                Assert.AreEqual(0, context.Programs.Count());
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var parentProgram = new Program
+                {
+                    ProgramId = 2
+                };
+
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "old name",
+                    Description = "old description",
+                    StartDate = DateTimeOffset.UtcNow,
+                    EndDate = DateTime.UtcNow.AddDays(1.0),
+                    ProgramStatusId = ProgramStatus.Draft.Id,
+                    ParentProgram = null,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = revisorId,
+                        RevisedOn = now
+                    }
+                };
+
+                context.Programs.Add(program);
+                context.Programs.Add(parentProgram);
+                Assert.AreEqual(2, context.Programs.Count());
+
+                var newName = "new name";
+                var newDescription = "new description";
+                var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+                var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+                var newProgramStatusId = ProgramStatus.Completed.Id;
+                var newParentProgramId = parentProgram.ProgramId;
+
+                var websites = new List<WebsiteDTO>();
+                websites.Add(new WebsiteDTO(null, "http://google.com"));
+
+                var updatedEcaProgram = new EcaProgram(
+                    updatedBy: new User(revisorId),
+                    id: program.ProgramId,
+                    name: newName,
+                    description: newDescription,
+                    startDate: newStartDate,
+                    endDate: newEndDate,
+                    ownerOrganizationId: ownerId,
+                    parentProgramId: newParentProgramId,
+                    programStatusId: newProgramStatusId,
+                    programRowVersion: new byte[0],
+                    goalIds: null,
+                    pointOfContactIds: null,
+                    themeIds: null,
+                    regionIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    websites: websites
+                    );
+                await service.UpdateAsync(updatedEcaProgram);
+
+                var updatedProgram = context.Programs.First();
+                Assert.AreEqual(0, updatedProgram.Goals.Count);
+                Assert.AreEqual(0, updatedProgram.Regions.Count);
+                Assert.AreEqual(0, updatedProgram.Themes.Count);
+                Assert.AreEqual(0, updatedProgram.Contacts.Count);
+                Assert.AreEqual(1, updatedProgram.Websites.Count);
+                Assert.AreEqual("http://google.com", updatedProgram.Websites.FirstOrDefault().WebsiteValue);
+            }
+        }
+
+        [TestMethod]
+        public void TestUpdate_UpdateExistingWebsite()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                var ownerId = 12;
+                context.Organizations.Add(new Organization { OrganizationId = ownerId });
+                Assert.AreEqual(0, context.Programs.Count());
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var parentProgram = new Program
+                {
+                    ProgramId = 2
+                };
+
+                var website = new Website
+                {
+                    WebsiteId = 1,
+                    WebsiteValue = "http://google.com"
+                };
+
+                context.Websites.Add(website);
+
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "old name",
+                    Description = "old description",
+                    StartDate = DateTimeOffset.UtcNow,
+                    EndDate = DateTime.UtcNow.AddDays(1.0),
+                    ProgramStatusId = ProgramStatus.Draft.Id,
+                    ParentProgram = null,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = revisorId,
+                        RevisedOn = now
+                    }
+                };
+
+                program.Websites.Add(website);
+
+                context.Programs.Add(program);
+                context.Programs.Add(parentProgram);
+                Assert.AreEqual(2, context.Programs.Count());
+                Assert.AreEqual(1, context.Websites.Count());
+
+                var newName = "new name";
+                var newDescription = "new description";
+                var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+                var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+                var newProgramStatusId = ProgramStatus.Completed.Id;
+                var newParentProgramId = parentProgram.ProgramId;
+
+                var websites = new List<WebsiteDTO>();
+                websites.Add(new WebsiteDTO(1, "http://bing.com"));
+
+                var updatedEcaProgram = new EcaProgram(
+                    updatedBy: new User(revisorId),
+                    id: program.ProgramId,
+                    name: newName,
+                    description: newDescription,
+                    startDate: newStartDate,
+                    endDate: newEndDate,
+                    ownerOrganizationId: ownerId,
+                    parentProgramId: newParentProgramId,
+                    programStatusId: newProgramStatusId,
+                    programRowVersion: new byte[0],
+                    goalIds: null,
+                    pointOfContactIds: null,
+                    themeIds: null,
+                    regionIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    websites: websites
+                    );
+                service.Update(updatedEcaProgram);
+
+                var updatedProgram = context.Programs.First();
+                Assert.AreEqual(0, updatedProgram.Goals.Count);
+                Assert.AreEqual(0, updatedProgram.Regions.Count);
+                Assert.AreEqual(0, updatedProgram.Themes.Count);
+                Assert.AreEqual(0, updatedProgram.Contacts.Count);
+                Assert.AreEqual(1, updatedProgram.Websites.Count);
+                Assert.AreEqual("http://bing.com", updatedProgram.Websites.FirstOrDefault().WebsiteValue);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestUpdateAsync_UpdateExistingWebsite()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                var ownerId = 12;
+                context.Organizations.Add(new Organization { OrganizationId = ownerId });
+                Assert.AreEqual(0, context.Programs.Count());
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var parentProgram = new Program
+                {
+                    ProgramId = 2
+                };
+
+                var website = new Website
+                {
+                    WebsiteId = 1,
+                    WebsiteValue = "http://google.com"
+                };
+
+                context.Websites.Add(website);
+
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "old name",
+                    Description = "old description",
+                    StartDate = DateTimeOffset.UtcNow,
+                    EndDate = DateTime.UtcNow.AddDays(1.0),
+                    ProgramStatusId = ProgramStatus.Draft.Id,
+                    ParentProgram = null,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = revisorId,
+                        RevisedOn = now
+                    }
+                };
+
+                program.Websites.Add(website);
+
+                context.Programs.Add(program);
+                context.Programs.Add(parentProgram);
+                Assert.AreEqual(2, context.Programs.Count());
+                Assert.AreEqual(1, context.Websites.Count());
+
+                var newName = "new name";
+                var newDescription = "new description";
+                var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+                var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+                var newProgramStatusId = ProgramStatus.Completed.Id;
+                var newParentProgramId = parentProgram.ProgramId;
+
+                var websites = new List<WebsiteDTO>();
+                websites.Add(new WebsiteDTO(1, "http://bing.com"));
+
+                var updatedEcaProgram = new EcaProgram(
+                    updatedBy: new User(revisorId),
+                    id: program.ProgramId,
+                    name: newName,
+                    description: newDescription,
+                    startDate: newStartDate,
+                    endDate: newEndDate,
+                    ownerOrganizationId: ownerId,
+                    parentProgramId: newParentProgramId,
+                    programStatusId: newProgramStatusId,
+                    programRowVersion: new byte[0],
+                    goalIds: null,
+                    pointOfContactIds: null,
+                    themeIds: null,
+                    regionIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    websites: websites
+                    );
+                await service.UpdateAsync(updatedEcaProgram);
+
+                var updatedProgram = context.Programs.First();
+                Assert.AreEqual(0, updatedProgram.Goals.Count);
+                Assert.AreEqual(0, updatedProgram.Regions.Count);
+                Assert.AreEqual(0, updatedProgram.Themes.Count);
+                Assert.AreEqual(0, updatedProgram.Contacts.Count);
+                Assert.AreEqual(1, updatedProgram.Websites.Count);
+                Assert.AreEqual("http://bing.com", updatedProgram.Websites.FirstOrDefault().WebsiteValue);
+            }
+        }
+
+        [TestMethod]
+        public void TestUpdate_DeleteExistingWebsite()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                var ownerId = 12;
+                context.Organizations.Add(new Organization { OrganizationId = ownerId });
+                Assert.AreEqual(0, context.Programs.Count());
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var parentProgram = new Program
+                {
+                    ProgramId = 2
+                };
+
+                var website = new Website
+                {
+                    WebsiteId = 1,
+                    WebsiteValue = "http://google.com"
+                };
+
+                context.Websites.Add(website);
+
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "old name",
+                    Description = "old description",
+                    StartDate = DateTimeOffset.UtcNow,
+                    EndDate = DateTime.UtcNow.AddDays(1.0),
+                    ProgramStatusId = ProgramStatus.Draft.Id,
+                    ParentProgram = null,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = revisorId,
+                        RevisedOn = now
+                    }
+                };
+
+                program.Websites.Add(website);
+
+                context.Programs.Add(program);
+                context.Programs.Add(parentProgram);
+                Assert.AreEqual(2, context.Programs.Count());
+                Assert.AreEqual(1, context.Websites.Count());
+
+                var newName = "new name";
+                var newDescription = "new description";
+                var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+                var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+                var newProgramStatusId = ProgramStatus.Completed.Id;
+                var newParentProgramId = parentProgram.ProgramId;
+
+                var updatedEcaProgram = new EcaProgram(
+                    updatedBy: new User(revisorId),
+                    id: program.ProgramId,
+                    name: newName,
+                    description: newDescription,
+                    startDate: newStartDate,
+                    endDate: newEndDate,
+                    ownerOrganizationId: ownerId,
+                    parentProgramId: newParentProgramId,
+                    programStatusId: newProgramStatusId,
+                    programRowVersion: new byte[0],
+                    goalIds: null,
+                    pointOfContactIds: null,
+                    themeIds: null,
+                    regionIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    websites: null
+                    );
+                service.Update(updatedEcaProgram);
+
+                var updatedProgram = context.Programs.First();
+                Assert.AreEqual(0, updatedProgram.Goals.Count);
+                Assert.AreEqual(0, updatedProgram.Regions.Count);
+                Assert.AreEqual(0, updatedProgram.Themes.Count);
+                Assert.AreEqual(0, updatedProgram.Contacts.Count);
+                Assert.AreEqual(0, updatedProgram.Websites.Count);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestUpdateAsync_DeleteExistingWebsite()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                var ownerId = 12;
+                context.Organizations.Add(new Organization { OrganizationId = ownerId });
+                Assert.AreEqual(0, context.Programs.Count());
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var parentProgram = new Program
+                {
+                    ProgramId = 2
+                };
+
+                var website = new Website
+                {
+                    WebsiteId = 1,
+                    WebsiteValue = "http://google.com"
+                };
+
+                context.Websites.Add(website);
+
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "old name",
+                    Description = "old description",
+                    StartDate = DateTimeOffset.UtcNow,
+                    EndDate = DateTime.UtcNow.AddDays(1.0),
+                    ProgramStatusId = ProgramStatus.Draft.Id,
+                    ParentProgram = null,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = revisorId,
+                        RevisedOn = now
+                    }
+                };
+
+                program.Websites.Add(website);
+
+                context.Programs.Add(program);
+                context.Programs.Add(parentProgram);
+                Assert.AreEqual(2, context.Programs.Count());
+                Assert.AreEqual(1, context.Websites.Count());
+
+                var newName = "new name";
+                var newDescription = "new description";
+                var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+                var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+                var newProgramStatusId = ProgramStatus.Completed.Id;
+                var newParentProgramId = parentProgram.ProgramId;
+
+                var updatedEcaProgram = new EcaProgram(
+                    updatedBy: new User(revisorId),
+                    id: program.ProgramId,
+                    name: newName,
+                    description: newDescription,
+                    startDate: newStartDate,
+                    endDate: newEndDate,
+                    ownerOrganizationId: ownerId,
+                    parentProgramId: newParentProgramId,
+                    programStatusId: newProgramStatusId,
+                    programRowVersion: new byte[0],
+                    goalIds: null,
+                    pointOfContactIds: null,
+                    themeIds: null,
+                    regionIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    websites: null
+                    );
+                await service.UpdateAsync(updatedEcaProgram);
+
+                var updatedProgram = context.Programs.First();
+                Assert.AreEqual(0, updatedProgram.Goals.Count);
+                Assert.AreEqual(0, updatedProgram.Regions.Count);
+                Assert.AreEqual(0, updatedProgram.Themes.Count);
+                Assert.AreEqual(0, updatedProgram.Contacts.Count);
+                Assert.AreEqual(0, updatedProgram.Websites.Count);
             }
         }
 
