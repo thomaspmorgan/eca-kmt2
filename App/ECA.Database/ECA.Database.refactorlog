@@ -686,4 +686,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="[IX_ProgramWebsite_ProgramId]" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="3aebca99-37a4-4b90-9aca-d264ac6d7148" ChangeDateTime="09/15/2015 13:44:17">
+    <Property Name="ElementName" Value="[dbo].[ParticipantPerson].[ProgramSubjectId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ParticipantPerson]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ProgramCategoryId" />
+  </Operation>
 </Operations>
