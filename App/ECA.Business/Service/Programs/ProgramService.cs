@@ -383,7 +383,7 @@ namespace ECA.Business.Service.Programs
             SetRegions(draftProgram.RegionIds, program);
             SetCategories(draftProgram.FocusCategoryIds, program);
             SetObjectives(draftProgram.JustificationObjectiveIds, program);
-            SetWebsitesToCreate(draftProgram.Websites, program);
+            SetWebsitesToCreate(draftProgram.Websites, program, draftProgram);
 
             Debug.Assert(draftProgram.Audit != null, "The audit must not be null.");
             draftProgram.Audit.SetHistory(program);
@@ -391,11 +391,17 @@ namespace ECA.Business.Service.Programs
             return program;
         }
 
-        private void SetWebsitesToCreate(List<WebsiteDTO> websiteList, Program program)
+        private void SetWebsitesToCreate(List<WebsiteDTO> websiteList, Program program, DraftProgram draftProgram)
         {
             var distinctWebsites = websiteList.Select(x => x.Value).Distinct().ToList();
-            var websites = distinctWebsites.Select(y => new Website { WebsiteValue = y });
-            program.Websites = websites.ToList();
+            var websites = new List<Website>();
+            foreach(string websiteValue in distinctWebsites)
+            {
+                var website = new Website { WebsiteValue = websiteValue };
+                draftProgram.Audit.SetHistory(website);
+                websites.Add(website);
+            }
+            program.Websites = websites;
         }
 
         #endregion
@@ -529,27 +535,31 @@ namespace ECA.Business.Service.Programs
             SetRegions(updatedProgram.RegionIds, programToUpdate);
             SetCategories(updatedProgram.FocusCategoryIds, programToUpdate);
             SetObjectives(updatedProgram.JustificationObjectiveIds, programToUpdate);
-            SetWebsitesToUpdate(updatedProgram.Websites, programToUpdate);
+            SetWebsitesToUpdate(updatedProgram, programToUpdate);
         }
 
-        private void SetWebsitesToUpdate(List<WebsiteDTO> websiteList, Program program)
+        private void SetWebsitesToUpdate(EcaProgram updatedProgram, Program program)
         {
-            var websiteIds = websiteList.Select(x => x.Id).ToList();
+            var websiteIds = updatedProgram.Websites.Select(x => x.Id).ToList();
             var websitesToRemove = program.Websites.Where(x => !websiteIds.Where(y => y != null).Contains(x.WebsiteId)).ToList();
             foreach(Website website in websitesToRemove)
             {
                 program.Websites.Remove(website);
+                Context.Websites.Remove(website);
             }
-            var websitesToAdd = websiteList.Where(x => x.Id == null).ToList();
+            var websitesToAdd = updatedProgram.Websites.Where(x => x.Id == null).ToList();
             foreach(WebsiteDTO website in websitesToAdd)
             {
-                program.Websites.Add(new Website { WebsiteValue = website.Value });
+                var newWebsite = new Website { WebsiteValue = website.Value };
+                updatedProgram.Audit.SetHistory(newWebsite);
+                program.Websites.Add(newWebsite);
             }
             var websitesToUpdate = program.Websites.Where(x => websiteIds.Contains(x.WebsiteId)).ToList();
             foreach(Website website in websitesToUpdate)
             {
-                var updatedWebsite = websiteList.Where(x => x.Id == website.WebsiteId).FirstOrDefault();
+                var updatedWebsite = updatedProgram.Websites.Where(x => x.Id == website.WebsiteId).FirstOrDefault();
                 website.WebsiteValue = updatedWebsite.Value;
+                updatedProgram.Audit.SetHistory(website);
             }
           }
         #endregion
