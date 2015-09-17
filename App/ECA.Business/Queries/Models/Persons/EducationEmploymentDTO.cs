@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ECA.Business.Queries.Models.Admin;
-using ECA.Data;
 
 namespace ECA.Business.Queries.Models.Persons
 {
@@ -20,10 +15,10 @@ namespace ECA.Business.Queries.Models.Persons
 
         public DateTimeOffset? EndDate { get; set; }
 
-        public OrganizationDTO Organization { get; set; }
+        public SimpleOrganizationDTO Organization { get; set; }
 
-        public Person PersonOfEducation { get; set; }
+        public int? PersonOfEducationId { get; set; }
 
-        public Person PersonOfProfession { get; set; }
+        public int? PersonOfProfessionId { get; set; }
     }
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using ECA.Business.Queries.Models.Persons;
+using ECA.Business.Queries.Admin;
 
 namespace ECA.Business.Service.Persons
 {
@@ -97,6 +98,8 @@ namespace ECA.Business.Service.Persons
 
         protected IQueryable<EducationEmploymentDTO> GetSelectDTOQuery()
         {
+            var allOrganizations = OrganizationQueries.CreateGetSimpleOrganizationsDTOQuery(this.Context);
+
             return Context.ProfessionEducations.Select(x => new EducationEmploymentDTO
             {
                 Id = x.ProfessionEducationId,
@@ -104,14 +107,16 @@ namespace ECA.Business.Service.Persons
                 Role = x.Role,
                 StartDate = x.DateFrom,
                 EndDate = x.DateTo,
-                PersonOfProfession = x.PersonOfProfession,
-                PersonOfEducation = x.PersonOfEducation
+                Organization = allOrganizations.Where(o => o.OrganizationId == x.OrganizationId).FirstOrDefault(),
+                PersonOfProfessionId = x.PersonOfProfessionId,
+                PersonOfEducationId = x.PersonOfEducationId
             });
         }
 
         #endregion
 
         #region Create
+        
         public ProfessionEducation CreateEducation(NewPersonEduEmp personEduEmp)
         {
             var person = this.Context.People.Find(personEduEmp.PersonId);
@@ -120,7 +125,7 @@ namespace ECA.Business.Service.Persons
 
         public async Task<ProfessionEducation> CreateEducationAsync(NewPersonEduEmp personEduEmp)
         {
-            var person = await this.Context.People.FindAsync(personEduEmp.PersonId);
+            var person = this.Context.People.Find(personEduEmp.PersonId);
             return DoCreateEducation(personEduEmp, person);
         }
         
@@ -138,7 +143,7 @@ namespace ECA.Business.Service.Persons
 
         public async Task<ProfessionEducation> CreateEmploymentAsync(NewPersonEduEmp personEduEmp)
         {
-            var person = await this.Context.People.FindAsync(personEduEmp.PersonId);
+            var person = this.Context.People.Find(personEduEmp.PersonId);
             return DoCreateEmployment(personEduEmp, person);
         }
 
@@ -151,57 +156,63 @@ namespace ECA.Business.Service.Persons
 
         #region Update
 
-        public void UpdateEducation(UpdatedPersonEduEmp updatedEduEmp, Person person)
+        public void UpdateEducation(UpdatedPersonEduEmp updatedEduEmp)
         {
             var eduemp = Context.ProfessionEducations.Find(updatedEduEmp);
-            DoUpdateEducation(updatedEduEmp, eduemp, person);
+            DoUpdateEducation(updatedEduEmp, eduemp);
         }
 
-        public async Task UpdateEducationAsync(UpdatedPersonEduEmp updatedEduEmp, Person person)
+        public async Task UpdateEducationAsync(UpdatedPersonEduEmp updatedEduEmp)
         {
             var eduemp = await Context.ProfessionEducations.FindAsync(updatedEduEmp);
-            DoUpdateEducation(updatedEduEmp, eduemp, person);
+            DoUpdateEducation(updatedEduEmp, eduemp);
         }
 
-        public void UpdateEmployment(UpdatedPersonEduEmp updatedEduEmp, Person person)
+        public void UpdateEmployment(UpdatedPersonEduEmp updatedEduEmp)
         {
             var eduemp = Context.ProfessionEducations.Find(updatedEduEmp);
-            DoUpdateEmployment(updatedEduEmp, eduemp, person);
+            DoUpdateEmployment(updatedEduEmp, eduemp);
         }
 
-        public async Task UpdateEmploymentAsync(UpdatedPersonEduEmp updatedEduEmp, Person person)
+        public async Task UpdateEmploymentAsync(UpdatedPersonEduEmp updatedEduEmp)
         {
             var eduemp = await Context.ProfessionEducations.FindAsync(updatedEduEmp);
-            DoUpdateEmployment(updatedEduEmp, eduemp, person);
+            DoUpdateEmployment(updatedEduEmp, eduemp);
         }
 
-        private void DoUpdateEducation(UpdatedPersonEduEmp updatedEduEmp, ProfessionEducation modelToUpdate, Person person)
+        private void DoUpdateEducation(UpdatedPersonEduEmp updatedEduEmp, ProfessionEducation modelToUpdate)
         {
+            var org = CreateGetOrganizationQuery(updatedEduEmp.Organization.OrganizationId);
+
             Contract.Requires(updatedEduEmp != null, "The updatedEduEmp must not be null.");
             throwIfEduEmpNotFound(modelToUpdate, updatedEduEmp.ProfessionEducationId);
+
             modelToUpdate.ProfessionEducationId = updatedEduEmp.ProfessionEducationId;
             modelToUpdate.Title = updatedEduEmp.Title;
             modelToUpdate.Role = updatedEduEmp.Role;
             modelToUpdate.DateFrom = updatedEduEmp.StartDate;
             modelToUpdate.DateTo = updatedEduEmp.EndDate;
-            modelToUpdate.Organization = updatedEduEmp.Organization;
+            modelToUpdate.Organization = org.Where(o => o.OrganizationId == updatedEduEmp.Organization.OrganizationId).FirstOrDefault();
             modelToUpdate.OrganizationId = updatedEduEmp.Organization.OrganizationId;
-            modelToUpdate.PersonOfEducation = person;
+            modelToUpdate.PersonOfEducationId = updatedEduEmp.PersonOfEducationId;
             updatedEduEmp.Update.SetHistory(modelToUpdate);
         }
 
-        private void DoUpdateEmployment(UpdatedPersonEduEmp updatedEduEmp, ProfessionEducation modelToUpdate, Person person)
+        private void DoUpdateEmployment(UpdatedPersonEduEmp updatedEduEmp, ProfessionEducation modelToUpdate)
         {
+            var org = CreateGetOrganizationQuery(updatedEduEmp.Organization.OrganizationId);
+
             Contract.Requires(updatedEduEmp != null, "The updatedEduEmp must not be null.");
             throwIfEduEmpNotFound(modelToUpdate, updatedEduEmp.ProfessionEducationId);
+
             modelToUpdate.ProfessionEducationId = updatedEduEmp.ProfessionEducationId;
             modelToUpdate.Title = updatedEduEmp.Title;
             modelToUpdate.Role = updatedEduEmp.Role;
             modelToUpdate.DateFrom = updatedEduEmp.StartDate;
             modelToUpdate.DateTo = updatedEduEmp.EndDate;
-            modelToUpdate.Organization = updatedEduEmp.Organization;
+            modelToUpdate.Organization = org.Where(o => o.OrganizationId == updatedEduEmp.Organization.OrganizationId).FirstOrDefault();
             modelToUpdate.OrganizationId = updatedEduEmp.Organization.OrganizationId;
-            modelToUpdate.PersonOfProfession = person;
+            modelToUpdate.PersonOfProfessionId = updatedEduEmp.PersonOfProfessionId;
             updatedEduEmp.Update.SetHistory(modelToUpdate);
         }
 
@@ -231,6 +242,11 @@ namespace ECA.Business.Service.Persons
 
         #endregion
 
+
+        private IQueryable<Organization> CreateGetOrganizationQuery(int organizationId)
+        {
+            return this.Context.Organizations.Where(x => x.OrganizationId == organizationId);
+        }
 
     }
 }

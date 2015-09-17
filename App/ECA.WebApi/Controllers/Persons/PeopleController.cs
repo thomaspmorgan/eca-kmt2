@@ -48,9 +48,8 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="emailAddressHandler">The Email Address handler.</param>
         /// <param name="phoneNumberHandler">The phone number handler.</param>
         /// <param name="socialMediaHandler">The social media handler.</param>
-
         public PeopleController(
-            IPersonService service,
+            IPersonService service, 
             IUserProvider userProvider,
             IAddressModelHandler addressHandler,
             ISocialMediaPresenceModelHandler socialMediaHandler,

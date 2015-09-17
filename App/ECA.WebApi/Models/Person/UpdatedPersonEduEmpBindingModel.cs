@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ECA.Business.Service.Persons;
 using ECA.Business.Service;
@@ -6,10 +7,12 @@ using ECA.Business.Queries.Models.Admin;
 
 namespace ECA.WebApi.Models.Person
 {
-    public class PersonEduEmpBindingModel
+    public class UpdatedPersonEduEmpBindingModel
     {
         [Required]
         public int PersonId { get; set; }
+
+        public int ProfessionEducationId { get; set; }
 
         public string Title { get; set; }
 
@@ -25,19 +28,21 @@ namespace ECA.WebApi.Models.Person
 
         public int? PersonOfProfessionId { get; set; }
 
-        public NewPersonEduEmp ToPersonEduEmp(User user)
+        public UpdatedPersonEduEmp ToUpdatedPersonEduEmp(User user)
         {
-            return new NewPersonEduEmp(
-                user: user,
+            return new UpdatedPersonEduEmp(
+                updator: user,
+                id: this.ProfessionEducationId,
                 title: this.Title,
                 role: this.Role,
                 startDate: this.StartDate,
                 endDate: this.EndDate,
                 organization: this.Organization,
-                personId: this.PersonId,
                 personOfEducationId: this.PersonOfEducationId,
                 personOfProfessionId: this.PersonOfProfessionId
                 );
         }
+
+
     }
 }
