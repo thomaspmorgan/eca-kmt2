@@ -30,7 +30,7 @@ namespace ECA.Business.Service.Persons
         public DateTimeOffset StartDate { get; private set; }
 
         public DateTimeOffset? EndDate { get; private set; }
-        
+
         public int? OrganizationId { get; private set; }
 
         public int? PersonOfEducationId { get; private set; }
