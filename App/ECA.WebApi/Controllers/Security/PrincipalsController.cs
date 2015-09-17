@@ -65,6 +65,7 @@ namespace ECA.WebApi.Controllers.Security
         /// Revokes the given permission to the user.
         /// </summary>
         /// <param name="id">The application id.  KMT is 1.</param>
+        /// <param name="model">The permission.</param>
         /// <returns>An ok result.</returns>
         [Route("Application/{id}/Revoke/Permission")]
         [ResponseType(typeof(OkResult))]
