@@ -11,19 +11,19 @@ angular.module('staticApp')
   .factory('MoneyFlowService', function (DragonBreath, ConstantsService, $q) {
       return {          
           getMoneyFlowsByProgram: function (id, params) {
-              var path = 'programs/' + id + '/moneyFlows'
+              var path = 'programs/' + id + '/moneyFlows';
               return DragonBreath.get(params, path);
           },
           getMoneyFlowsByProject: function (id, params) {
-              var path = 'projects/' + id + '/moneyFlows'
+              var path = 'projects/' + id + '/moneyFlows';
               return DragonBreath.get(params, path);
           },
           getMoneyFlowsByOffice: function (id, params) {
-              var path = 'offices/' + id + '/moneyFlows'
+              var path = 'offices/' + id + '/moneyFlows';
               return DragonBreath.get(params, path);
           },
           getMoneyFlowsByOrganization: function (id, params) {
-              var path = 'organizations/' + id + '/moneyFlows'
+              var path = 'organizations/' + id + '/moneyFlows';
               return DragonBreath.get(params, path);
           },
           remove: function(moneyFlow, entityId) {

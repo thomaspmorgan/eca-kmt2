@@ -24,8 +24,12 @@ angular.module('staticApp')
       });
 
       function loadEducations(personId) {
+          var params = {
+              start: 0,
+              limit: 300
+          };
           $scope.EduEmpLoading = true;
-          EduEmpService.getEducationsById(personId)
+          EduEmpService.getEducations(personId, params)
             .then(function (data) {
                 $scope.educations = data;
                 $log.info('Loaded all educations.');
@@ -39,8 +43,12 @@ angular.module('staticApp')
       };
 
       function loadEmployments(personId) {
+          var params = {
+              start: 0,
+              limit: 300
+          };
           $scope.EduEmpLoading = true;
-          EduEmpService.getEmploymentsById(personId)
+          EduEmpService.getEmployments(personId, params)
           .then(function (data) {
               $scope.employments = data;
               $log.info('Loaded all employments.');

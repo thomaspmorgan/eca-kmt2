@@ -8,6 +8,9 @@ using System.Web.Http.Description;
 using ECA.WebApi.Models.Person;
 using ECA.WebApi.Security;
 using System.Web.Http.Results;
+using ECA.Core.DynamicLinq;
+using ECA.Core.DynamicLinq.Sorter;
+using ECA.WebApi.Models.Query;
 
 namespace ECA.WebApi.Controllers.Persons
 {
@@ -18,6 +21,8 @@ namespace ECA.WebApi.Controllers.Persons
     [Authorize]
     public class EduEmpController : ApiController
     {
+        private static readonly ExpressionSorter<EducationEmploymentDTO> DEFAULT_SORTER = new ExpressionSorter<EducationEmploymentDTO>(x => x.StartDate, SortDirection.Descending);
+
         private readonly IEduEmpService service;
         private IUserProvider userProvider;
         
@@ -39,20 +44,21 @@ namespace ECA.WebApi.Controllers.Persons
         /// <summary>
         /// Returns education info associated with a person
         /// </summary>
-        /// <param name="personId">The person id to find educations info for</param>
+        /// <param name="personId">The Id of the person</param>
+        /// <param name="queryModel">The query model.</param>
         /// <returns>Education info associated with person</returns>
         [ResponseType(typeof(IList<EducationEmploymentDTO>))]
-        [Route("EduEmp/{personId:int}/Education")]
-        public async Task<IHttpActionResult> GetEducationsByPersonIdAsync(int personId)
+        [Route("EduEmp/{personId:int}/Educations")]
+        public async Task<IHttpActionResult> GetEducationsAsync(int personId, [FromUri]PagingQueryBindingModel<EducationEmploymentDTO> queryModel)
         {
-            var educations = await service.GetEducationByIdAsync(personId);
-            if (educations != null)
+            if (ModelState.IsValid)
             {
+                var educations = await service.GetEducationsAsync(personId, queryModel.ToQueryableOperator(DEFAULT_SORTER));
                 return Ok(educations);
             }
             else
             {
-                return NotFound();
+                return BadRequest(ModelState);
             }
         }
 
@@ -113,20 +119,20 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="personId">The person id to find employments info for</param>
         /// <returns>Employment info associated with person</returns>
         [ResponseType(typeof(IList<EducationEmploymentDTO>))]
-        [Route("EduEmp/{personId:int}/Employment")]
-        public async Task<IHttpActionResult> GetEmploymentsByPersonIdAsync(int personId)
+        [Route("EduEmp/{personId:int}/Employments")]
+        public async Task<IHttpActionResult> GetEmploymentsAsync(int personId, [FromUri]PagingQueryBindingModel<EducationEmploymentDTO> queryModel)
         {
-            var employments = await service.GetEmploymentByIdAsync(personId);
-            if (employments != null)
+            if (ModelState.IsValid)
             {
+                var employments = await service.GetEmploymentsAsync(personId, queryModel.ToQueryableOperator(DEFAULT_SORTER));
                 return Ok(employments);
             }
             else
             {
-                return NotFound();
+                return BadRequest(ModelState);
             }
         }
-        
+
         [ResponseType(typeof(EducationEmploymentDTO))]
         [Route("EduEmp/{personId:int}/Employment")]
         public async Task<IHttpActionResult> PostEmploymentAsync(PersonEduEmpBindingModel model)

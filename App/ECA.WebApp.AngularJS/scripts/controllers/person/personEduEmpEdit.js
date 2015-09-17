@@ -27,12 +27,22 @@ angular.module('staticApp')
       /* EDUCATION */
 
       function loadEducations(personId) {
+          var params = {
+              start: 0,
+              limit: 300
+          };
           $scope.EduEmpLoading = true;
-          EduEmpService.getEducationsById(personId)
+          EduEmpService.getEducations(personId, params)
             .then(function (data) {
                 $scope.educations = data;
+                $log.info('Loaded all educations.');
                 $scope.EduEmpLoading = false;
-            });
+            })
+          .catch(function () {
+              var message = 'Unable to load educations.';
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
+          });
       };
 
       $scope.view.onEditEducationClick = function () {
@@ -101,11 +111,21 @@ angular.module('staticApp')
       /* EMPLOYMENT */
 
       function loadEmployments(personId) {
+          var params = {
+              start: 0,
+              limit: 300
+          };
           $scope.EduEmpLoading = true;
-          EduEmpService.getEmploymentsById(personId)
+          EduEmpService.getEmployments(personId, params)
           .then(function (data) {
               $scope.employments = data;
+              $log.info('Loaded all employments.');
               $scope.EduEmpLoading = false;
+          })
+          .catch(function () {
+              var message = 'Unable to load employments.';
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
           });
       };
 
@@ -193,7 +213,7 @@ angular.module('staticApp')
       }
 
       function getEduEmpFormDivElement(id) {
-          return document.getElementById(id)
+          return document.getElementById(id);
       }
 
       function onSaveEduEmpSuccess(response) {

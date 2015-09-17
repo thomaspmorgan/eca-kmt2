@@ -158,10 +158,10 @@ angular.module('staticApp')
       function loadAvailableParticipants(search, participantType) {
           var params = {
               start: 0,
-              limit: $scope.view.addParticipantsLimit,
+              limit: $scope.view.addParticipantsLimit
           };
           if (search) {
-              params.keyword = search
+              params.keyword = search;
           }
           $scope.view.isLoadingAvailableParticipants = true;
           var dfd = null;
@@ -185,7 +185,7 @@ angular.module('staticApp')
                   data = response.data.results;
                   total = response.data.total;
               }
-              else{
+              else {
                   data = response.results;
                   total = response.total;
               }
@@ -282,7 +282,7 @@ angular.module('staticApp')
                   $scope.participantInfo[participantId] = {};
                   $scope.participantInfo[participantId].show = true;
               } else {
-                  $log.error('Unable to load participant info for ' + participantId + '.')
+                  $log.error('Unable to load participant info for ' + participantId + '.');
                   NotificationService.showErrorMessage('Unable to load participant info for ' + participantId + '.');
               }
           });

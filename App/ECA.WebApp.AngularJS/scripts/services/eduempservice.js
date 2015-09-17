@@ -11,11 +11,11 @@ angular.module('staticApp')
   .factory('EduEmpService', function ($q, DragonBreath) {
 
       return {
-          getEducationsById: function (personId) {
-                return DragonBreath.get('eduemp/' + personId + '/education');
+          getEducations: function (personId, params) {
+                return DragonBreath.get(params, 'eduemp/' + personId + '/educations');
           },
-          getEmploymentsById: function (personId) {
-                return DragonBreath.get('eduemp/' + personId + '/employment');
+          getEmployments: function (personId, params) {
+                return DragonBreath.get(params, 'eduemp/' + personId + '/employments');
           },
           addEducation: function (eduemp, personId) {
               return DragonBreath.create(eduemp, 'eduemp/' + personId + '/education');
