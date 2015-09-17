@@ -1,4 +1,5 @@
-﻿using ECA.Business.Queries.Models.Admin;
+﻿using ECA.Business.Queries.Admin;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
@@ -7,9 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Queries.Persons
 {
@@ -248,27 +246,16 @@ namespace ECA.Business.Queries.Persons
         public static IQueryable<EducationEmploymentDTO> CreateGetEducationsByPersonIdQuery(EcaContext context, int personId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            
+            var allOrganizations = OrganizationQueries.CreateGetSimpleOrganizationsDTOQuery(context);
+
             var query = from education in context.ProfessionEducations
                         let hasOrganization = education.Organization != null
-                        let organization = education.Organization
-
-                        let address = hasOrganization ? organization.Addresses.OrderByDescending(x => x.IsPrimary).FirstOrDefault() : null
-                        let hasAddress = address != null
-
-                        let hasLocation = hasAddress && address.Location != null
-                        let location = hasLocation ? address.Location : null
-
-                        let hasCountry = hasLocation && location.Country != null
-                        let country = hasCountry ? location.Country : null
-
-                        let hasCity = hasLocation && location.City != null
-                        let city = hasCity ? location.City : null
-
-                        let organizationLocation = (hasOrganization && hasAddress && hasCountry && hasCity) ?
-                            city.LocationName + ", " + country.LocationName : null
-
-                        where education.PersonOfEducation.PersonId == personId
+                        let organization = allOrganizations.FirstOrDefault(x => x.OrganizationId == education.OrganizationId)
+                        
+                        let hasLocation = organization.Location != null
+                        let location = hasLocation ? organization.Location : null
+                        
+                        where education.PersonOfEducation_PersonId == personId
                         orderby education.DateFrom descending
                         select new EducationEmploymentDTO
                         {
@@ -277,13 +264,16 @@ namespace ECA.Business.Queries.Persons
                             Role = education.Role,
                             StartDate = education.DateFrom,
                             EndDate = education.DateTo,
-                            Organization = hasOrganization ? new OrganizationDTO
+                            Organization = hasOrganization ? new SimpleOrganizationDTO
                             {
                                 OrganizationId = organization.OrganizationId,
                                 Name = organization.Name,
-                                OrganizationType = organization.OrganizationType.OrganizationTypeName,
-                                Status = organization.Status
-                            } : null
+                                OrganizationType = organization.OrganizationType,
+                                Status = organization.Status,
+                                Location = organization.Location
+                            } : null,
+                            PersonOfEducation_PersonId = personId,
+                            PersonOfProfession_PersonId = null
                         };
 
             return query;
@@ -298,25 +288,16 @@ namespace ECA.Business.Queries.Persons
         public static IQueryable<EducationEmploymentDTO> CreateGetEmploymentsByPersonIdQuery(EcaContext context, int personId)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            var allOrganizations = OrganizationQueries.CreateGetSimpleOrganizationsDTOQuery(context);
+
             var query = from employment in context.ProfessionEducations
                         let hasOrganization = employment.Organization != null
-                        let organization = employment.Organization
+                        let organization = allOrganizations.FirstOrDefault(x => x.OrganizationId == employment.OrganizationId)
 
-                        let address = hasOrganization ? organization.Addresses.OrderByDescending(x => x.IsPrimary).FirstOrDefault() : null
-                        let hasAddress = address != null
+                        let hasLocation = organization.Location != null
+                        let location = hasLocation ? organization.Location : null
 
-                        let hasLocation = hasAddress && address.Location != null
-                        let location = hasLocation ? address.Location : null
-
-                        let hasCountry = hasLocation && location.Country != null
-                        let country = hasCountry ? location.Country : null
-
-                        let hasCity = hasLocation && location.City != null
-                        let city = hasCity ? location.City : null
-
-                        let organizationLocation = (hasOrganization && hasAddress && hasCountry && hasCity) ?
-                            city.LocationName + ", " + country.LocationName : null
-                        where employment.PersonOfProfession.PersonId == personId
+                        where employment.PersonOfProfession_PersonId == personId
                         orderby employment.DateFrom descending
                         select new EducationEmploymentDTO
                         {
@@ -325,12 +306,15 @@ namespace ECA.Business.Queries.Persons
                             Role = employment.Role,
                             StartDate = employment.DateFrom,
                             EndDate = employment.DateTo,
-                            Organization = hasOrganization ? new OrganizationDTO
+                            PersonOfEducation_PersonId = null,
+                            PersonOfProfession_PersonId = personId,
+                            Organization = hasOrganization ? new SimpleOrganizationDTO
                             {
                                 OrganizationId = organization.OrganizationId,
                                 Name = organization.Name,
-                                OrganizationType = organization.OrganizationType.OrganizationTypeName,
-                                Status = organization.Status
+                                OrganizationType = organization.OrganizationType,
+                                Status = organization.Status,
+                                Location = organization.Location
                             } : null
                         };
 

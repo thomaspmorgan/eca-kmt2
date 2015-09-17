@@ -11,23 +11,29 @@ angular.module('staticApp')
   .factory('EduEmpService', function ($q, DragonBreath) {
 
       return {
+          getEducationsById: function (personId) {
+                return DragonBreath.get('eduemp/' + personId + '/education');
+          },
+          getEmploymentsById: function (personId) {
+                return DragonBreath.get('eduemp/' + personId + '/employment');
+          },
           addEducation: function (eduemp, personId) {
-              return DragonBreath.create(eduemp, 'people/' + personId + '/education');
+              return DragonBreath.create(eduemp, 'eduemp/' + personId + '/education');
           },
           addEmployment: function (eduemp, personId) {
-              return DragonBreath.create(eduemp, 'people/' + personId + '/employment');
+              return DragonBreath.create(eduemp, 'eduemp/' + personId + '/employment');
           },
           updateEducation: function (eduemp, personId) {
-              return DragonBreath.save(eduemp, 'people/' + personId + '/education');
+              return DragonBreath.save(eduemp, 'eduemp/' + personId + '/education');
           },
           updateEmployment: function (eduemp, personId) {
-              return DragonBreath.save(eduemp, 'people/' + personId + '/employment');
+              return DragonBreath.save(eduemp, 'eduemp/' + personId + '/employment');
           },
           deleteEducation: function (eduemp, personId) {
-              return DragonBreath.delete(eduemp, 'people/' + personId + '/education/' + eduemp.id);
+              return DragonBreath.delete(eduemp, 'eduemp/' + personId + '/education/' + eduemp.professionEducationId);
           },
           deleteEmployment: function (eduemp, personId) {
-              return DragonBreath.delete(eduemp, 'people/' + personId + '/employment/' + eduemp.id);
+              return DragonBreath.delete(eduemp, 'eduemp/' + personId + '/employment/' + eduemp.professionEducationId);
           }
       };
   });

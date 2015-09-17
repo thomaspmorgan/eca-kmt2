@@ -91,7 +91,7 @@ namespace ECA.WebApi.Models.Programs
         /// <summary>
         /// Gets or sets the End Date.
         /// </summary>
-        public DateTimeOffset EndDate { get; set; }
+        public DateTimeOffset? EndDate { get; set; }
 
         /// <summary>
         /// Gets or sets the Revised On date.

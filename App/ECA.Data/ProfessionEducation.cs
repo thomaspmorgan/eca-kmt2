@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECA.Data
 {
@@ -24,14 +18,12 @@ namespace ECA.Data
         public string Role { get; set; }
         public Organization Organization { get; set; }
         public int? OrganizationId { get; set; }
+
         public DateTimeOffset DateFrom { get; set; }
         public DateTimeOffset? DateTo { get; set; }
-
-        //relationships
-        [InverseProperty("EducationalHistory")]
-        public Person PersonOfEducation { get; set; }
-        [InverseProperty("ProfessionalHistory")]
-        public Person PersonOfProfession { get; set; }
+        
+        public int? PersonOfEducation_PersonId { get; set; }
+        public int? PersonOfProfession_PersonId { get; set; }
 
         public History History { get; set; }
     }

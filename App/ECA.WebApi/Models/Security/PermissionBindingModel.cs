@@ -7,7 +7,7 @@ using System.Web;
 namespace ECA.WebApi.Models.Security
 {
     /// <summary>
-    /// A DeletedPermissionBindingModel is used to delete a permission from a principal.
+    /// A PermissionBindingModel is used to modify a permission from a principal.
     /// </summary>
     public class PermissionBindingModel : IDeletedPermissionBindingModel, IGrantedPermissionBindingModel, IRevokedPermissionBindingModel
     {

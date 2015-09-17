@@ -113,7 +113,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the End date.
         /// </summary>
-        public DateTimeOffset EndDate { get; set; }
+        public DateTimeOffset? EndDate { get; set; }
 
         /// <summary>
         /// Gets or sets the ProgramStatus.
