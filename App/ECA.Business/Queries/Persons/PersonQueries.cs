@@ -250,12 +250,12 @@ namespace ECA.Business.Queries.Persons
 
             var query = from education in context.ProfessionEducations
                         let hasOrganization = education.Organization != null
-                        let organization = allOrganizations.Where(x => x.OrganizationId == education.OrganizationId).FirstOrDefault()
+                        let organization = allOrganizations.FirstOrDefault(x => x.OrganizationId == education.OrganizationId)
                         
                         let hasLocation = organization.Location != null
                         let location = hasLocation ? organization.Location : null
                         
-                        where education.PersonOfEducationId == personId
+                        where education.PersonOfEducation_PersonId == personId
                         orderby education.DateFrom descending
                         select new EducationEmploymentDTO
                         {
@@ -268,10 +268,12 @@ namespace ECA.Business.Queries.Persons
                             {
                                 OrganizationId = organization.OrganizationId,
                                 Name = organization.Name,
-                                Location = organization.Location,
                                 OrganizationType = organization.OrganizationType,
-                                Status = organization.Status
-                            } : null
+                                Status = organization.Status,
+                                Location = organization.Location
+                            } : null,
+                            PersonOfEducation_PersonId = personId,
+                            PersonOfProfession_PersonId = null
                         };
 
             return query;
@@ -290,12 +292,12 @@ namespace ECA.Business.Queries.Persons
 
             var query = from employment in context.ProfessionEducations
                         let hasOrganization = employment.Organization != null
-                        let organization = allOrganizations.Where(x => x.OrganizationId == employment.OrganizationId).FirstOrDefault()
+                        let organization = allOrganizations.FirstOrDefault(x => x.OrganizationId == employment.OrganizationId)
 
                         let hasLocation = organization.Location != null
                         let location = hasLocation ? organization.Location : null
 
-                        where employment.PersonOfProfessionId == personId
+                        where employment.PersonOfProfession_PersonId == personId
                         orderby employment.DateFrom descending
                         select new EducationEmploymentDTO
                         {
@@ -304,13 +306,15 @@ namespace ECA.Business.Queries.Persons
                             Role = employment.Role,
                             StartDate = employment.DateFrom,
                             EndDate = employment.DateTo,
+                            PersonOfEducation_PersonId = null,
+                            PersonOfProfession_PersonId = personId,
                             Organization = hasOrganization ? new SimpleOrganizationDTO
                             {
                                 OrganizationId = organization.OrganizationId,
                                 Name = organization.Name,
-                                Location = organization.Location,
                                 OrganizationType = organization.OrganizationType,
-                                Status = organization.Status
+                                Status = organization.Status,
+                                Location = organization.Location
                             } : null
                         };
 
