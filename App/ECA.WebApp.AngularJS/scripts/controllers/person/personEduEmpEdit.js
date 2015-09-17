@@ -7,7 +7,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personEducationEmploymentEditCtrl', function ($scope, PersonService, EduEmpService, $stateParams, NotificationService) {
+  .controller('personEducationEmploymentEditCtrl', function ($scope, EduEmpService, $stateParams, NotificationService) {
 
       $scope.view = {};
       $scope.view.params = $stateParams;
@@ -28,7 +28,7 @@ angular.module('staticApp')
 
       function loadEducations(personId) {
           $scope.EduEmpLoading = true;
-          PersonService.getEducationsById(personId)
+          EduEmpService.getEducationsById(personId)
             .then(function (data) {
                 $scope.educations = data;
                 $scope.EduEmpLoading = false;
@@ -102,7 +102,7 @@ angular.module('staticApp')
 
       function loadEmployments(personId) {
           $scope.EduEmpLoading = true;
-          PersonService.getEmploymentsById(personId)
+          EduEmpService.getEmploymentsById(personId)
           .then(function (data) {
               $scope.employments = data;
               $scope.EduEmpLoading = false;

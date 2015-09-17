@@ -107,9 +107,9 @@ namespace ECA.Business.Service.Persons
                 Role = x.Role,
                 StartDate = x.DateFrom,
                 EndDate = x.DateTo,
-                Organization = allOrganizations.Where(o => o.OrganizationId == x.OrganizationId).FirstOrDefault(),
-                PersonOfProfessionId = x.PersonOfProfessionId,
-                PersonOfEducationId = x.PersonOfEducationId
+                Organization = allOrganizations.FirstOrDefault(o => o.OrganizationId == x.OrganizationId),
+                PersonOfEducation_PersonId = x.PersonOfEducation_PersonId,
+                PersonOfProfession_PersonId = x.PersonOfProfession_PersonId
             });
         }
 
@@ -182,8 +182,6 @@ namespace ECA.Business.Service.Persons
 
         private void DoUpdateEducation(UpdatedPersonEduEmp updatedEduEmp, ProfessionEducation modelToUpdate)
         {
-            var org = CreateGetOrganizationQuery(updatedEduEmp.Organization.OrganizationId);
-
             Contract.Requires(updatedEduEmp != null, "The updatedEduEmp must not be null.");
             throwIfEduEmpNotFound(modelToUpdate, updatedEduEmp.ProfessionEducationId);
 
@@ -192,16 +190,13 @@ namespace ECA.Business.Service.Persons
             modelToUpdate.Role = updatedEduEmp.Role;
             modelToUpdate.DateFrom = updatedEduEmp.StartDate;
             modelToUpdate.DateTo = updatedEduEmp.EndDate;
-            modelToUpdate.Organization = org.Where(o => o.OrganizationId == updatedEduEmp.Organization.OrganizationId).FirstOrDefault();
-            modelToUpdate.OrganizationId = updatedEduEmp.Organization.OrganizationId;
-            modelToUpdate.PersonOfEducationId = updatedEduEmp.PersonOfEducationId;
+            modelToUpdate.OrganizationId = updatedEduEmp.OrganizationId;
+            modelToUpdate.PersonOfEducation_PersonId = updatedEduEmp.PersonOfEducationId;
             updatedEduEmp.Update.SetHistory(modelToUpdate);
         }
 
         private void DoUpdateEmployment(UpdatedPersonEduEmp updatedEduEmp, ProfessionEducation modelToUpdate)
         {
-            var org = CreateGetOrganizationQuery(updatedEduEmp.Organization.OrganizationId);
-
             Contract.Requires(updatedEduEmp != null, "The updatedEduEmp must not be null.");
             throwIfEduEmpNotFound(modelToUpdate, updatedEduEmp.ProfessionEducationId);
 
@@ -210,9 +205,8 @@ namespace ECA.Business.Service.Persons
             modelToUpdate.Role = updatedEduEmp.Role;
             modelToUpdate.DateFrom = updatedEduEmp.StartDate;
             modelToUpdate.DateTo = updatedEduEmp.EndDate;
-            modelToUpdate.Organization = org.Where(o => o.OrganizationId == updatedEduEmp.Organization.OrganizationId).FirstOrDefault();
-            modelToUpdate.OrganizationId = updatedEduEmp.Organization.OrganizationId;
-            modelToUpdate.PersonOfProfessionId = updatedEduEmp.PersonOfProfessionId;
+            modelToUpdate.OrganizationId = updatedEduEmp.OrganizationId;
+            modelToUpdate.PersonOfProfession_PersonId = updatedEduEmp.PersonOfProfessionId;
             updatedEduEmp.Update.SetHistory(modelToUpdate);
         }
 
@@ -242,11 +236,7 @@ namespace ECA.Business.Service.Persons
 
         #endregion
 
-
-        private IQueryable<Organization> CreateGetOrganizationQuery(int organizationId)
-        {
-            return this.Context.Organizations.Where(x => x.OrganizationId == organizationId);
-        }
+        
 
     }
 }

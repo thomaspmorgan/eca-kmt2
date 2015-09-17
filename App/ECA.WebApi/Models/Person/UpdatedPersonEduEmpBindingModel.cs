@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ECA.Business.Service.Persons;
 using ECA.Business.Service;
-using ECA.Business.Queries.Models.Admin;
 
 namespace ECA.WebApi.Models.Person
 {
@@ -22,7 +21,7 @@ namespace ECA.WebApi.Models.Person
 
         public DateTimeOffset? EndDate { get; set; }
 
-        public SimpleOrganizationDTO Organization { get; set; }
+        public int? OrganizationId { get; set; }
 
         public int? PersonOfEducationId { get; set; }
 
@@ -37,7 +36,7 @@ namespace ECA.WebApi.Models.Person
                 role: this.Role,
                 startDate: this.StartDate,
                 endDate: this.EndDate,
-                organization: this.Organization,
+                organizationId: this.OrganizationId,
                 personOfEducationId: this.PersonOfEducationId,
                 personOfProfessionId: this.PersonOfProfessionId
                 );

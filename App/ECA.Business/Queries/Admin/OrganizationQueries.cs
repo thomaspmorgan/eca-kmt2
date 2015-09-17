@@ -42,14 +42,13 @@ namespace ECA.Business.Queries.Admin
                         where !Organization.OFFICE_ORGANIZATION_TYPE_IDS.Contains(organization.OrganizationTypeId)
                         select new SimpleOrganizationDTO
                         {
+                            OrganizationId = organization.OrganizationId,
+                            Name = organization.Name,
+                            OrganizationType = organizationType.OrganizationTypeName,
+                            Status = organization.Status,
                             Location = (addressHasCity ? address.Location.City.LocationName : String.Empty)
                                         + (addressHasCity && addressHasCountry ? ", " : String.Empty)
-                                        + (addressHasCountry ? address.Location.Country.LocationName : String.Empty),
-
-                            Name = organization.Name,
-                            OrganizationId = organization.OrganizationId,
-                            OrganizationType = organizationType.OrganizationTypeName,
-                            Status = organization.Status
+                                        + (addressHasCountry ? address.Location.Country.LocationName : String.Empty)
                         };
             return query;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using ECA.Business.Queries.Models.Admin;
+using ECA.Data;
 
 namespace ECA.Business.Queries.Models.Persons
 {
@@ -16,9 +17,9 @@ namespace ECA.Business.Queries.Models.Persons
         public DateTimeOffset? EndDate { get; set; }
 
         public SimpleOrganizationDTO Organization { get; set; }
-
-        public int? PersonOfEducationId { get; set; }
-
-        public int? PersonOfProfessionId { get; set; }
+        
+        public int? PersonOfEducation_PersonId { get; set; }
+        
+        public int? PersonOfProfession_PersonId { get; set; }
     }
 }
