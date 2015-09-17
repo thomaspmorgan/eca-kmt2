@@ -223,11 +223,7 @@ angular.module('staticApp')
       }
 
       $scope.view.deleteWebsite = function ($index) {
-          if ($scope.view.program.websites.length == 1) {
-              $scope.view.program.websites[$index] = { value: undefined };
-          } else {
               $scope.view.program.websites.splice($index, 1);
-          }
       }
 
       function doCancel() {
