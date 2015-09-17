@@ -151,6 +151,9 @@ angular.module('staticApp')
       }
 
       $scope.view.validateMinimumCategories = function ($value) {
+          if (!$scope.view.isCategoryRequired) {
+              return true;
+          }
           if (!$value) {
               return false;
           }
@@ -161,6 +164,9 @@ angular.module('staticApp')
       }
 
       $scope.view.validateMaximumCategories = function ($value) {
+          if (!$scope.view.isCategoryRequired) {
+              return true;
+          }
           if (!$value) {
               return true;
           }
@@ -171,6 +177,9 @@ angular.module('staticApp')
       }
 
       $scope.view.validateMinimumObjectives = function ($value) {
+          if (!$scope.view.isObjectivesRequired) {
+              return true;
+          }
           if (!$value) {
               return false;
           }
