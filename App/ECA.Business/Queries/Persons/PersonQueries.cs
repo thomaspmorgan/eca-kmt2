@@ -249,11 +249,11 @@ namespace ECA.Business.Queries.Persons
             var allOrganizations = OrganizationQueries.CreateGetSimpleOrganizationsDTOQuery(context);
 
             var query = from education in context.ProfessionEducations
-                        let hasOrganization = education.Organization != null
-                        let organization = allOrganizations.FirstOrDefault(x => x.OrganizationId == education.OrganizationId)
+                        //let hasOrganization = education.Organization != null
+                        //let organization = allOrganizations.Where(x => x.OrganizationId == education.OrganizationId).FirstOrDefault()
                         
-                        let hasLocation = organization.Location != null
-                        let location = hasLocation ? organization.Location : null
+                        //let hasLocation = organization.Location != null
+                        //let location = hasLocation ? organization.Location : null
                         
                         where education.PersonOfEducation_PersonId == personId
                         orderby education.DateFrom descending
@@ -264,14 +264,15 @@ namespace ECA.Business.Queries.Persons
                             Role = education.Role,
                             StartDate = education.DateFrom,
                             EndDate = education.DateTo,
-                            Organization = hasOrganization ? new SimpleOrganizationDTO
-                            {
-                                OrganizationId = organization.OrganizationId,
-                                Name = organization.Name,
-                                OrganizationType = organization.OrganizationType,
-                                Status = organization.Status,
-                                Location = organization.Location
-                            } : null,
+                            Organization = null,
+                            //Organization = hasOrganization ? new SimpleOrganizationDTO
+                            //{
+                            //    OrganizationId = organization.OrganizationId,
+                            //    Name = organization.Name,
+                            //    OrganizationType = organization.OrganizationType,
+                            //    Status = organization.Status,
+                            //    Location = organization.Location
+                            //} : null,
                             PersonOfEducation_PersonId = personId,
                             PersonOfProfession_PersonId = null
                         };
@@ -288,14 +289,14 @@ namespace ECA.Business.Queries.Persons
         public static IQueryable<EducationEmploymentDTO> CreateGetEmploymentsByPersonIdQuery(EcaContext context, int personId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var allOrganizations = OrganizationQueries.CreateGetSimpleOrganizationsDTOQuery(context);
+            //var allOrganizations = OrganizationQueries.CreateGetSimpleOrganizationsDTOQuery(context);
 
             var query = from employment in context.ProfessionEducations
-                        let hasOrganization = employment.Organization != null
-                        let organization = allOrganizations.FirstOrDefault(x => x.OrganizationId == employment.OrganizationId)
+                        //let hasOrganization = employment.Organization != null
+                        //let organization = allOrganizations.Where(x => x.OrganizationId == employment.OrganizationId).FirstOrDefault()
 
-                        let hasLocation = organization.Location != null
-                        let location = hasLocation ? organization.Location : null
+                        //let hasLocation = organization.Location != null
+                        //let location = hasLocation ? organization.Location : null
 
                         where employment.PersonOfProfession_PersonId == personId
                         orderby employment.DateFrom descending
@@ -306,16 +307,17 @@ namespace ECA.Business.Queries.Persons
                             Role = employment.Role,
                             StartDate = employment.DateFrom,
                             EndDate = employment.DateTo,
+                            Organization = null,
+                            //Organization = hasOrganization ? new SimpleOrganizationDTO
+                            //{
+                            //    OrganizationId = organization.OrganizationId,
+                            //    Name = organization.Name,
+                            //    OrganizationType = organization.OrganizationType,
+                            //    Status = organization.Status,
+                            //    Location = organization.Location
+                            //} : null
                             PersonOfEducation_PersonId = null,
-                            PersonOfProfession_PersonId = personId,
-                            Organization = hasOrganization ? new SimpleOrganizationDTO
-                            {
-                                OrganizationId = organization.OrganizationId,
-                                Name = organization.Name,
-                                OrganizationType = organization.OrganizationType,
-                                Status = organization.Status,
-                                Location = organization.Location
-                            } : null
+                            PersonOfProfession_PersonId = personId
                         };
 
             return query;
