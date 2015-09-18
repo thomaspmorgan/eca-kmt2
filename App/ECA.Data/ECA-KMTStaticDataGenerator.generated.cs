@@ -3,6 +3,24 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #region ActorType
 namespace ECA.Data
 {
@@ -291,9 +309,9 @@ namespace ECA.Data
 		/// </summary>
 		public static StaticLookup Female { get { return new StaticLookup("Female", 2); } }
 		/// <summary>
-		/// Returns the Other lookup with id 3.
+		/// Returns the Unknown lookup with id 3.
 		/// </summary>
-		public static StaticLookup Other { get { return new StaticLookup("Other", 3); } }
+		public static StaticLookup Unknown { get { return new StaticLookup("Unknown", 3); } }
 		/// <summary>
 		/// Returns the Not Specified lookup with id 4.
 		/// </summary>
@@ -307,7 +325,7 @@ namespace ECA.Data
 		{
 			if (1 == id) return Gender.Male;
 			if (2 == id) return Gender.Female;
-			if (3 == id) return Gender.Other;
+			if (3 == id) return Gender.Unknown;
 			if (4 == id) return Gender.NotSpecified;
 			return null;
 		}
@@ -320,7 +338,7 @@ namespace ECA.Data
 		{
 			if ("Male".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Gender.Male;
 			if ("Female".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Gender.Female;
-			if ("Other".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Gender.Other;
+			if ("Unknown".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Gender.Unknown;
 			if ("Not Specified".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Gender.NotSpecified;
 			return null;
 		}
@@ -804,9 +822,9 @@ namespace ECA.Data
 		/// </summary>
 		public static StaticLookup USNonProfitOrganization501C3 { get { return new StaticLookup("U.S. Non-Profit Organization (501(c)(3))", 10); } }
 		/// <summary>
-		/// Returns the Individual lookup with id 11.
+		/// Returns the Partner lookup with id 11.
 		/// </summary>
-		public static StaticLookup Individual { get { return new StaticLookup("Individual", 11); } }
+		public static StaticLookup Partner { get { return new StaticLookup("Partner", 11); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -824,7 +842,7 @@ namespace ECA.Data
 			if (8 == id) return OrganizationType.PublicInternationalOrganizationPio;
 			if (9 == id) return OrganizationType.USEducationalInstitution;
 			if (10 == id) return OrganizationType.USNonProfitOrganization501C3;
-			if (11 == id) return OrganizationType.Individual;
+			if (11 == id) return OrganizationType.Partner;
 			return null;
 		}
 		///<summary>
@@ -844,7 +862,7 @@ namespace ECA.Data
 			if ("Public International Organization (PIO)".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.PublicInternationalOrganizationPio;
 			if ("U.S. Educational Institution".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.USEducationalInstitution;
 			if ("U.S. Non-Profit Organization (501(c)(3))".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.USNonProfitOrganization501C3;
-			if ("Individual".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.Individual;
+			if ("Partner".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.Partner;
 			return null;
 		}
 
