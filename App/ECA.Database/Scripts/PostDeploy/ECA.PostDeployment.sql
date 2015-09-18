@@ -22,6 +22,7 @@ Post-Deployment Script Template
 :r .\StaticData\dbo.MaritalStatus.staticdata.sql
 :r .\StaticData\dbo.MoneyFlowSourceRecipientType.staticdata.sql
 :r .\StaticData\dbo.MoneyFlowType.staticdata.sql
+:r .\StaticData\dbo.OrganizationRole.staticdata.sql
 :r .\StaticData\dbo.OrganizationType.staticdata.sql
 :r .\StaticData\dbo.ParticipantStatus.staticdata.sql
 :r .\StaticData\dbo.ParticipantType.staticdata.sql

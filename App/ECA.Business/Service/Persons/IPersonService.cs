@@ -129,7 +129,6 @@ namespace ECA.Business.Service.Persons
         /// <returns></returns>
         Task<Person> UpdateContactInfoAsync(UpdateContactInfo contactInfo);
 
-
         /// <summary>
         /// Returns the paged, sorted, and filtered people in the system.
         /// </summary>
@@ -145,17 +144,10 @@ namespace ECA.Business.Service.Persons
         Task<PagedQueryResults<SimplePersonDTO>> GetPeopleAsync(QueryableOperator<SimplePersonDTO> queryOperator);
 
         /// <summary>
-        /// Returns a Person object
-        /// </summary>
-        /// <param name="personId"></param>
-        /// <returns></returns>
-        Task<Person> GetPersonByIdAsync(int personId);
-
-        /// <summary>
         /// Gets a person as a simple DTO record
         /// </summary>
         /// <param name="personId"></param>
         /// <returns></returns>
-        Task<SimplePersonDTO> GetSimplePersonAsync(int personId);
+        Task<SimplePersonDTO> GetPersonByIdAsync(int personId);
     }
 }
