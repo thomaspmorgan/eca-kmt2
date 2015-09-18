@@ -29,16 +29,16 @@
                                     <div class="bounce3"></div>
                                 </div>
                                 <div class="row" ng-show="!view.isSavingChanges">
-                                    <div ng-class="{true: 'row', false: 'row2'}[editMode]" ng-show="!view.showEditEducation">
+                                    <div ng-class="{true: 'row', false: 'row2'}" ng-show="!view.showEditEducation">
                                         {{education.title}} ({{education.startDate | date: 'yyyy'}}-{{education.endDate | date: 'yyyy'}})
-                                        <div class="pull-right" ng-show="!view.showEditEducation && editMode">
-                                            <a ng-show="!view.showEditEducation && !view.isDeletingEducation && editMode" ng-click="view.showConfirmDelete = true">
+                                        <div class="pull-right" ng-show="!view.showEditEducation">
+                                            <a ng-show="!view.showEditEducation && !view.isDeletingEducation" ng-click="view.showConfirmDelete = true">
                                                 <i class="material-icons md-dark">delete</i>
                                             </a>
                                             <a ng-show="view.isDeletingEducation">
                                                 <i class="material-icons md-dark material-icons-spin">refresh</i>
                                             </a>
-                                            <a ng-show="!view.showEditEducation && editMode" ng-click="view.onEditEducationClick()">
+                                            <a ng-show="!view.showEditEducation" ng-click="view.onEditEducationClick()">
                                                 <i class="material-icons md-dark">edit</i>
                                             </a>
                                         </div>
@@ -73,7 +73,7 @@
                                         </form>
                                         <div class="row right" ng-show="view.showEditEducation">
                                             <button ng-click="view.saveEducationChanges()" class="btn btn-success" ng-disabled="form.educationForm.$invalid">Save</button>
-                                            <button ng-click="view.cancelEducationChanges()" class="btn btn-cancel">Cancel</button>
+                                            <button ng-click="view.cancelEducationChanges(form.educationForm)" class="btn btn-cancel">Cancel</button>
                                         </div>
                                     </div>
                                 </div>

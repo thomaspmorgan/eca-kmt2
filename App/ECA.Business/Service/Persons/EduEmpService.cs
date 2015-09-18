@@ -212,7 +212,7 @@ namespace ECA.Business.Service.Persons
             modelToUpdate.DateFrom = updatedEduEmp.StartDate;
             modelToUpdate.DateTo = updatedEduEmp.EndDate;
             modelToUpdate.OrganizationId = updatedEduEmp.OrganizationId;
-            modelToUpdate.PersonOfEducation_PersonId = updatedEduEmp.PersonOfEducationId;
+            modelToUpdate.PersonOfEducation_PersonId = updatedEduEmp.PersonOfEducation_PersonId;
             updatedEduEmp.Update.SetHistory(modelToUpdate);
         }
 
@@ -227,7 +227,7 @@ namespace ECA.Business.Service.Persons
             modelToUpdate.DateFrom = updatedEduEmp.StartDate;
             modelToUpdate.DateTo = updatedEduEmp.EndDate;
             modelToUpdate.OrganizationId = updatedEduEmp.OrganizationId;
-            modelToUpdate.PersonOfProfession_PersonId = updatedEduEmp.PersonOfProfessionId;
+            modelToUpdate.PersonOfProfession_PersonId = updatedEduEmp.PersonOfProfession_PersonId;
             updatedEduEmp.Update.SetHistory(modelToUpdate);
         }
 

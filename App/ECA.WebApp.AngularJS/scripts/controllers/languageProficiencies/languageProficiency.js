@@ -137,7 +137,7 @@ angular.module('staticApp')
 
       function isNewLanguageProficiency(languageProficiency) {
           if (languageProficiency.isNew) {
-              return languageProficiency.isNew == true;
+              return languageProficiency.isNew = true;
           }
           else {
               return false;

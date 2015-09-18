@@ -115,4 +115,6 @@ angular.module('staticApp')
           $log.info('Removed one new education/profession at index ' + index);
       });
 
+
+
 }); 
