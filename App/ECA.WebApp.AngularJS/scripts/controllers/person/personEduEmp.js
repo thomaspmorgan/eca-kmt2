@@ -15,12 +15,14 @@ angular.module('staticApp')
       var tempId = 0;
 
       $scope.data = {};
-      $scope.data.loadEduEmpsPromise = $q.defer();
+      $scope.data.loadEduEmpPromise = $q.defer();
+      $scope.data.educations = [];
+      $scope.data.employments = [];
 
       $scope.personIdDeferred.promise
       .then(function (personId) {
-          loadEmployments(personId);
           loadEducations(personId);
+          loadEmployments(personId);
       });
 
       function loadEducations(personId) {
@@ -29,16 +31,20 @@ angular.module('staticApp')
               limit: 300
           };
           $scope.EduEmpLoading = true;
-          EduEmpService.getEducations(personId, params)
-            .then(function (data) {
-                $scope.educations = data;
+          return EduEmpService.getEducations(personId, params)
+            .then(function (response) {
                 $log.info('Loaded all educations.');
+                var educations = response.data.results;
+                $scope.data.loadEduEmpPromise.resolve(educations);
+                $scope.data.educations = response.data.results;
                 $scope.EduEmpLoading = false;
+                return educations;
             })
           .catch(function () {
               var message = 'Unable to load educations.';
               NotificationService.showErrorMessage(message);
               $log.error(message);
+              $scope.EduEmpLoading = false;
           });
       };
 
@@ -48,16 +54,20 @@ angular.module('staticApp')
               limit: 300
           };
           $scope.EduEmpLoading = true;
-          EduEmpService.getEmployments(personId, params)
-          .then(function (data) {
-              $scope.employments = data;
+          return EduEmpService.getEmployments(personId, params)
+          .then(function (response) {
               $log.info('Loaded all employments.');
+              var employments = response.data.results;
+              $scope.data.loadEduEmpPromise.resolve(employments);
+              $scope.data.employments = response.data.results;
               $scope.EduEmpLoading = false;
+              return employments;
           })
           .catch(function () {
               var message = 'Unable to load employments.';
               NotificationService.showErrorMessage(message);
               $log.error(message);
+              $scope.EduEmpLoading = false;
           });
       };
 
