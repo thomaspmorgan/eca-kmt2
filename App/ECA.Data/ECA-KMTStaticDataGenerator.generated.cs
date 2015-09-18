@@ -821,10 +821,6 @@ namespace ECA.Data
 		/// Returns the U.S. Non-Profit Organization (501(c)(3)) lookup with id 10.
 		/// </summary>
 		public static StaticLookup USNonProfitOrganization501C3 { get { return new StaticLookup("U.S. Non-Profit Organization (501(c)(3))", 10); } }
-		/// <summary>
-		/// Returns the Partner lookup with id 11.
-		/// </summary>
-		public static StaticLookup Partner { get { return new StaticLookup("Partner", 11); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -842,7 +838,6 @@ namespace ECA.Data
 			if (8 == id) return OrganizationType.PublicInternationalOrganizationPio;
 			if (9 == id) return OrganizationType.USEducationalInstitution;
 			if (10 == id) return OrganizationType.USNonProfitOrganization501C3;
-			if (11 == id) return OrganizationType.Partner;
 			return null;
 		}
 		///<summary>
@@ -862,7 +857,6 @@ namespace ECA.Data
 			if ("Public International Organization (PIO)".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.PublicInternationalOrganizationPio;
 			if ("U.S. Educational Institution".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.USEducationalInstitution;
 			if ("U.S. Non-Profit Organization (501(c)(3))".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.USNonProfitOrganization501C3;
-			if ("Partner".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.Partner;
 			return null;
 		}
 
