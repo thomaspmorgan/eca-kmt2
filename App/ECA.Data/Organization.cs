@@ -54,6 +54,7 @@ namespace ECA.Data
             this.Contacts = new HashSet<Contact>();
             this.Addresses = new HashSet<Address>();
             this.OfficeSettings = new HashSet<OfficeSetting>();
+            this.OrganizationRoles = new HashSet<OrganizationRole>();
         }
 
         [Key]
@@ -120,6 +121,11 @@ namespace ECA.Data
         public History History { get; set; }
 
         public ICollection<OfficeSetting> OfficeSettings { get; set; }
+
+        /// <summary>
+        /// Gets or sets the organization roles
+        /// </summary>
+        public ICollection<OrganizationRole> OrganizationRoles { get; set; }
 
         /// <summary>
         /// Returns the organization id.

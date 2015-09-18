@@ -693,4 +693,32 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ProgramCategoryId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="19c24a6f-4e36-4ea7-8731-98f65e255479" ChangeDateTime="09/18/2015 15:00:42">
+    <Property Name="ElementName" Value="[dbo].[OrganizationRole].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[OrganizationRole]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="OrganizationRoleId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="155f8273-f69b-4e09-b102-2b089447cbd9" ChangeDateTime="09/18/2015 15:01:14">
+    <Property Name="ElementName" Value="[dbo].[OrganizationType].[OrganizationTypeId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[OrganizationType]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="OrganizationRoleId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0e32baf6-0b6e-4ca6-98ff-cd0341713152" ChangeDateTime="09/18/2015 15:01:19">
+    <Property Name="ElementName" Value="[dbo].[OrganizationType].[OrganizationTypeName]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[OrganizationType]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="OrganizationRoleName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f93fa7d2-bb01-4637-9a0a-c95753437931" ChangeDateTime="09/18/2015 16:13:33">
+    <Property Name="ElementName" Value="[dbo].[OrganizationOrganizationRole].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[OrganizationOrganizationRole]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="OrganizationId" />
+  </Operation>
 </Operations>

@@ -45,6 +45,110 @@ namespace ECA.Business.Test.Service.Fundings
         {
 
         }
+        #region Get MoneyFlows By Person Id
+        [TestMethod]
+        public async Task TestGetMoneyFlowsByPersonId_CheckProperties()
+        {
+            var outgoing = new MoneyFlowType
+            {
+                MoneyFlowTypeId = MoneyFlowType.Outgoing.Id,
+                MoneyFlowTypeName = MoneyFlowType.Outgoing.Value
+            };
+            var participantType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Participant.Id,
+                TypeName = MoneyFlowSourceRecipientType.Participant.Value
+            };
+            var budgeted = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Budgeted.Value
+            };
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
+
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourcePersonId = 3;
+            var recipientPersonId = 4;
+            var sourcePerson = new Person
+            {
+                PersonId = sourcePersonId,
+                FirstName = "source first",
+                Gender = gender,
+                GenderId = gender.GenderId
+            };
+            var recipientPerson = new Person
+            {
+                PersonId = recipientPersonId,
+                FirstName = "recipient first",
+                Gender = gender,
+                GenderId = gender.GenderId
+            };
+            var sourceParticipant = new Participant
+            {
+                ParticipantId = sourceId,
+                PersonId = sourcePersonId,
+                Person = sourcePerson
+            };
+
+            var recipientParticipant = new Participant
+            {
+                ParticipantId = recipientId,
+                PersonId = recipientPersonId,
+                Person = recipientPerson
+            };
+
+            var moneyFlow = new MoneyFlow
+            {
+                SourceParticipantId = sourceId,
+                RecipientParticipantId = recipientId,
+                SourceParticipant = sourceParticipant,
+                RecipientParticipant = recipientParticipant,
+                SourceType = participantType,
+                SourceTypeId = participantType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = participantType,
+                RecipientTypeId = participantType.MoneyFlowSourceRecipientTypeId,
+
+                MoneyFlowStatus = budgeted,
+                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10
+            };
+            context.Genders.Add(gender);
+            context.MoneyFlows.Add(moneyFlow);
+            context.People.Add(sourcePerson);
+            context.People.Add(recipientPerson);
+            context.Participants.Add(sourceParticipant);
+            context.Participants.Add(recipientParticipant);
+            context.MoneyFlowTypes.Add(outgoing);
+            context.MoneyFlowSourceRecipientTypes.Add(participantType);
+            context.MoneyFlowStatuses.Add(budgeted);
+
+            Action<PagedQueryResults<MoneyFlowDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                Assert.IsNotNull(results.Results.First());
+                Assert.AreEqual(moneyFlow.MoneyFlowId, results.Results.First().Id);
+            };
+
+            var defaultSorter = new ExpressionSorter<MoneyFlowDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<MoneyFlowDTO>(0, 10, defaultSorter);
+            var serviceResults = service.GetMoneyFlowsByPersonId(sourcePersonId, queryOperator);
+            var serviceResultsAsync = await service.GetMoneyFlowsByPersonIdAsync(sourcePersonId, queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+        #endregion
+
+
         #region Get MoneyFlows By Office Id
         [TestMethod]
         public async Task TestGetMoneyFlowsByOfficeId_CheckProperties()
