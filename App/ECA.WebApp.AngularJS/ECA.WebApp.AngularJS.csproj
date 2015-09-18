@@ -280,6 +280,7 @@
     <Content Include="views\partials\pagination.html" />
     <Content Include="views\partials\toolbaricons.html" />
     <Content Include="views\person\allpeople.html" />
+    <Content Include="views\person\moneyflows.html" />
     <Content Include="views\person\partials\contactEdit.html" />
     <Content Include="views\person\partials\eduempEdit.html" />
     <Content Include="views\person\partials\evaluationNotesView.html" />

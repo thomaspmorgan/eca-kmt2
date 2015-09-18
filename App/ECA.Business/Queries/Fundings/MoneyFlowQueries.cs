@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using ECA.Core.DynamicLinq;
 using System.Diagnostics.Contracts;
 using NLog;
+using ECA.Business.Queries.Persons;
 
 namespace ECA.Business.Queries.Fundings
 {
@@ -21,6 +22,20 @@ namespace ECA.Business.Queries.Fundings
         /// </summary>
         public const string ITINERARY_NAME = "Itinerary Stop";
 
+        /// <summary>
+        /// The name of the participant when the participant (person/org) can not be found.
+        /// </summary>
+        public const string UNKNOWN_PARTICIPANT_NAME = "UNKNOWN PARTICIPANT NAME";
+
+        /// <summary>
+        /// The default outgoing money flow entity name.
+        /// </summary>
+        public const string UNKNOWN_OUTGOING_ENTITY_NAME = "UNKNOWN OUTGOING ENTITY NAME";
+
+        /// <summary>
+        /// The default incoming money flow entity name.
+        /// </summary>
+        public const string UNKNOWN_INCOMING_ENTITY_NAME = "UNKNOWN INCOMING ENTITY NAME";
 
         /// <summary>
         /// Returns a query to get all outgoing money flows currently in the system.  This would be
@@ -37,6 +52,8 @@ namespace ECA.Business.Queries.Fundings
             var expenseMoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Expense.Id;
             var expenseMoneyFlowSourceRecipientTypeValue = MoneyFlowSourceRecipientType.Expense.Value;
 
+            var people = PersonQueries.CreateGetSimplePersonDTOsQuery(context);
+
             var query = from moneyFlow in context.MoneyFlows
                         let isExpense = moneyFlow.RecipientTypeId == expenseMoneyFlowSourceRecipientTypeId
                         let recipientTypeName = isExpense ? expenseMoneyFlowSourceRecipientTypeValue : moneyFlow.RecipientType.TypeName
@@ -44,7 +61,7 @@ namespace ECA.Business.Queries.Fundings
                         let status = moneyFlow.MoneyFlowStatus.MoneyFlowStatusName
                         let statusId = moneyFlow.MoneyFlowStatusId
                         let amount = moneyFlow.Value
-                        
+
                         let sourceEntityTypeId = moneyFlow.SourceTypeId
 
                         let sourceEntityId = moneyFlow.SourceItineraryStopId.HasValue ? moneyFlow.SourceItineraryStopId.Value
@@ -70,21 +87,24 @@ namespace ECA.Business.Queries.Fundings
                         let project = context.Projects.Where(x => x.ProjectId == recipientEntityId).FirstOrDefault()
                         let program = context.Programs.Where(x => x.ProgramId == recipientEntityId).FirstOrDefault()
                         let participant = context.Participants.Where(x => x.ParticipantId == recipientEntityId).FirstOrDefault()
+                        let participantType = participant == null ? null : participant.ParticipantType
                         let isOrgParticipant = participant == null ? false : participant.OrganizationId.HasValue
                         let isPersonParticipant = participant == null ? false : participant.PersonId.HasValue
                         let orgParticipant = isOrgParticipant ? participant.Organization : null
-                        let personParticipant = isPersonParticipant ?  participant.Person : null                        
+                        let personParticipant = isPersonParticipant ? participant.Person : null
 
                         let recipientEntityName = moneyFlow.RecipientAccommodationId.HasValue ? accomodation.Host.Name
                            : moneyFlow.RecipientItineraryStopId.HasValue ? itinerary
                            : moneyFlow.RecipientOrganizationId.HasValue ? organization.Name
                            : moneyFlow.RecipientParticipantId.HasValue ?
                                (isOrgParticipant ? orgParticipant.Name :
-                                   (isPersonParticipant ? personParticipant.FirstName + " " + personParticipant.LastName : "UNKNOWN PARTICIPANT NAME"))
+                                   (isPersonParticipant ?
+                                   people.Where(x => x.PersonId == personParticipant.PersonId).FirstOrDefault().FullName
+                                   : UNKNOWN_PARTICIPANT_NAME))
                            : moneyFlow.RecipientProgramId.HasValue ? program.Name
                            : moneyFlow.RecipientProjectId.HasValue ? project.Name
                            : moneyFlow.RecipientTransportationId.HasValue ? transportation.Carrier.Name
-                           : "UNKNOWN OUTGOING ENTITY NAME"
+                           : UNKNOWN_OUTGOING_ENTITY_NAME
 
 
                         select new MoneyFlowDTO
@@ -94,14 +114,19 @@ namespace ECA.Business.Queries.Fundings
                             EntityTypeId = sourceEntityTypeId,
                             Amount = -moneyFlow.Value,
                             Description = moneyFlow.Description,
-                            FiscalYear = moneyFlow.FiscalYear,                            
+                            FiscalYear = moneyFlow.FiscalYear,
                             MoneyFlowStatus = status,
                             MoneyFlowStatusId = statusId,
                             TransactionDate = moneyFlow.TransactionDate,
                             MoneyFlowType = outgoingMoneyFlowType,
+                            ParticipantTypeId = participantType == null ? default(int?) : participantType.ParticipantTypeId,
+                            ParticipantTypeName = participantType == null ? null : participantType.Name,
                             SourceRecipientTypeName = recipientTypeName,
                             SourceRecipientEntityTypeId = recipientTypeId,
-                            SourceRecipientEntityId = isExpense ? default(int?) : recipientEntityId,
+                            SourceRecipientEntityId = isExpense ? default(int?)
+                                : isOrgParticipant ? orgParticipant.OrganizationId
+                                : isPersonParticipant ? personParticipant.PersonId
+                                : recipientEntityId,
                             SourceRecipientName = isExpense ? null : recipientEntityName
                         };
             return query;
@@ -119,6 +144,9 @@ namespace ECA.Business.Queries.Fundings
         {
             Contract.Requires(context != null, "The context must not be null.");
             var incomingMoneyFlowType = MoneyFlowType.Incoming.Value;
+
+            var people = PersonQueries.CreateGetSimplePersonDTOsQuery(context);
+
             var query = from moneyFlow in context.MoneyFlows
                         let sourceTypeName = moneyFlow.SourceType.TypeName
                         let sourceTypeId = moneyFlow.SourceTypeId
@@ -151,17 +179,21 @@ namespace ECA.Business.Queries.Fundings
                         let participant = context.Participants.Where(x => x.ParticipantId == sourceEntityId).FirstOrDefault()
                         let isOrgParticipant = participant == null ? false : participant.OrganizationId.HasValue
                         let isPersonParticipant = participant == null ? false : participant.PersonId.HasValue
+                        let participantType = participant == null ? null : participant.ParticipantType
                         let orgParticipant = isOrgParticipant ? participant.Organization : null
                         let personParticipant = isPersonParticipant ? participant.Person : null
+                        
 
                         let sourceEntityName = moneyFlow.SourceItineraryStopId.HasValue ? itinerary
                             : moneyFlow.SourceOrganizationId.HasValue ? organization.Name
                             : moneyFlow.SourceParticipantId.HasValue ?
                                 (isOrgParticipant ? orgParticipant.Name :
-                                    (isPersonParticipant ? personParticipant.FirstName + " " + personParticipant.LastName : "UNKNOWN PARTICIPANT NAME"))
+                                    (isPersonParticipant ?
+                                        people.Where(x => x.PersonId == personParticipant.PersonId).FirstOrDefault().FullName
+                                        : UNKNOWN_PARTICIPANT_NAME))
                             : moneyFlow.SourceProgramId.HasValue ? program.Name
                             : moneyFlow.SourceProjectId.HasValue ? project.Name
-                            : "UNKNOWN INCOMING ENTITY NAME"
+                            : UNKNOWN_INCOMING_ENTITY_NAME
 
                         select new MoneyFlowDTO
                         {
@@ -170,14 +202,18 @@ namespace ECA.Business.Queries.Fundings
                             EntityTypeId = recipientEntityTypeId,
                             Amount = moneyFlow.Value,
                             Description = moneyFlow.Description,
-                            FiscalYear = moneyFlow.FiscalYear,                            
+                            FiscalYear = moneyFlow.FiscalYear,
                             MoneyFlowStatus = status,
                             MoneyFlowStatusId = statusId,
                             TransactionDate = moneyFlow.TransactionDate,
                             MoneyFlowType = incomingMoneyFlowType,
+                            ParticipantTypeId = participantType == null ? default(int?) : participantType.ParticipantTypeId,
+                            ParticipantTypeName = participantType == null ? null : participantType.Name,
                             SourceRecipientTypeName = sourceTypeName,
                             SourceRecipientEntityTypeId = sourceTypeId,
-                            SourceRecipientEntityId = sourceEntityId,
+                            SourceRecipientEntityId = isOrgParticipant ? orgParticipant.OrganizationId
+                                : isPersonParticipant ? personParticipant.PersonId
+                                : sourceEntityId,
                             SourceRecipientName = sourceEntityName
                         };
             return query;
@@ -266,6 +302,37 @@ namespace ECA.Business.Queries.Fundings
             Contract.Requires(context != null, "The context must not be null.");
             var query = CreateGetMoneyFlowsDTOsByEntityType(context, officeId, MoneyFlowSourceRecipientType.Office.Id);
             query = query.Apply(queryOperator);
+            return query;
+        }
+
+        /// <summary>
+        /// Returns a query to get all money flows for the person with the given id.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="personId">The person id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The query to get all person money flows.</returns>
+        public static IQueryable<MoneyFlowDTO> CreateGetMoneyFlowDTOsByPersonId(EcaContext context, int personId, QueryableOperator<MoneyFlowDTO> queryOperator)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var participantTypeEntityTypeId = MoneyFlowSourceRecipientType.Participant.Id;
+            var moneyFlows = CreateGetMoneyFlowDTOsQuery(context);
+
+
+            var query = from participant in context.Participants
+
+                        join person in context.Participants
+                        on participant.PersonId equals person.PersonId
+
+                        join moneyFlow in moneyFlows
+                        on new { ParticipantId = participant.ParticipantId, TypeId = participantTypeEntityTypeId }
+                        equals new { ParticipantId = moneyFlow.EntityId, TypeId = moneyFlow.EntityTypeId }
+
+                        where person.PersonId == personId
+
+                        select moneyFlow;
+
+            query = query.Distinct().Apply(queryOperator);
             return query;
         }
     }

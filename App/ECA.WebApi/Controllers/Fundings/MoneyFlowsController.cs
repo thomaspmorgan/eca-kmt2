@@ -301,6 +301,29 @@ namespace ECA.WebApi.Controllers.Fundings
 
         #endregion
 
+        #region Person
+        /// <summary>
+        /// Returns the money flows for the program with the given id.
+        /// </summary>
+        /// <param name="personId">The person id.</param>
+        /// <param name="queryModel">The query model.</param>
+        /// <returns>The money flows for the program.</returns>
+        [ResponseType(typeof(PagedQueryResults<MoneyFlowDTO>))]
+        [Route("People/{personId:int}/MoneyFlows")]
+        public async Task<IHttpActionResult> GetMoneyFlowsByPersonIdAsync(int personId, [FromUri]PagingQueryBindingModel<MoneyFlowDTO> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var results = await this.moneyFlowService.GetMoneyFlowsByPersonIdAsync(personId, queryModel.ToQueryableOperator(DEFAULT_MONEY_FLOW_DTO_SORTER));
+                return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        #endregion
         private async Task<IHttpActionResult> DoDeleteAsync(int moneyFlowId, int sourceEntityId, int sourceEntityTypeId)
         {
             var currentUser = this.userProvider.GetCurrentUser();

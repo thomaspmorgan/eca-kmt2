@@ -89,5 +89,15 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or sets the fiscal year.
         /// </summary>
         public int FiscalYear { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participant type.
+        /// </summary>
+        public int? ParticipantTypeId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participant type name.
+        /// </summary>
+        public string ParticipantTypeName { get; set; }
     }
 }

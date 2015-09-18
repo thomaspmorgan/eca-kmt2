@@ -134,6 +134,25 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         }
         #endregion
 
+        #region Get moneyflows by person
+        [TestMethod]
+        public async Task TestGetMoneyFlowsByPersonAsync()
+        {
+            moneyFlowService.Setup(x => x.GetMoneyFlowsByPersonIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<MoneyFlowDTO>>()))
+                .ReturnsAsync(new PagedQueryResults<MoneyFlowDTO>(1, new List<MoneyFlowDTO>()));
+            var response = await controller.GetMoneyFlowsByPersonIdAsync(1, new PagingQueryBindingModel<MoneyFlowDTO>());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<MoneyFlowDTO>>));
+        }
+
+        [TestMethod]
+        public async Task TestGetMoneyFlowsByPersonAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetMoneyFlowsByPersonIdAsync(1, new PagingQueryBindingModel<MoneyFlowDTO>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+        #endregion
+
         #region Create
         [TestMethod]
         public async Task TestPostCreateOfficeMoneyFlowAsync()
