@@ -110,8 +110,12 @@
                                        form-element guidance="If the program has a website URL, you can enter it here." />
                             </div>
                             <div class="col-md-2">
-                                <i style="margin-top: 12px;" class="material-icons md-18" ng-click="view.deleteWebsite($index)" ng-show="view.program.websites.length > 1">delete</i>
-                                <i style="margin-top: 12px;" class="material-icons md-18" ng-click="view.addWebsite()" ng-show="view.program.websites.length === $index + 1">add</i>
+                                <a ng-click="view.deleteWebsite($index)">
+                                    <i style="margin-top: 12px;" class="material-icons md-18" ng-show="view.program.websites.length > 1">delete</i>
+                                </a>
+                                <a ng-click="view.addWebsite()">
+                                    <i style="margin-top: 12px;" class="material-icons md-18" ng-show="view.program.websites.length === $index + 1">add</i>
+                                </a>
                             </div>
                         </div>
                     </div>

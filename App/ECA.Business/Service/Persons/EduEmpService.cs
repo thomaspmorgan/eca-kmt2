@@ -47,17 +47,31 @@ namespace ECA.Business.Service.Persons
         }
 
         #region Get
-        public PagedQueryResults<EducationEmploymentDTO> Get(QueryableOperator<EducationEmploymentDTO> queryOperator)
+        public PagedQueryResults<EducationEmploymentDTO> GetEducations(int personId, QueryableOperator<EducationEmploymentDTO> queryOperator)
         {
-            var results = GetEduEmpDTOQuery(queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
-            logger.Trace("Loaded education/profession query operator = [{0}]", queryOperator);
+            var results = GetEducationDTOQuery(personId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            logger.Trace("Loaded educations query operator = [{0}]", queryOperator);
             return results;
         }
 
-        public async Task<PagedQueryResults<EducationEmploymentDTO>> GetAsync(QueryableOperator<EducationEmploymentDTO> queryOperator)
+        public async Task<PagedQueryResults<EducationEmploymentDTO>> GetEducationsAsync(int personId, QueryableOperator<EducationEmploymentDTO> queryOperator)
         {
-            var results = await GetEduEmpDTOQuery(queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
-            logger.Trace("Loaded education/profession query operator = [{0}]", queryOperator);
+            var results = await GetEducationDTOQuery(personId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            logger.Trace("Loaded educations query operator = [{0}]", queryOperator);
+            return results;
+        }
+
+        public PagedQueryResults<EducationEmploymentDTO> GetEmployments(int personId, QueryableOperator<EducationEmploymentDTO> queryOperator)
+        {
+            var results = GetEmploymentDTOQuery(personId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            logger.Trace("Loaded professions query operator = [{0}]", queryOperator);
+            return results;
+        }
+
+        public async Task<PagedQueryResults<EducationEmploymentDTO>> GetEmploymentsAsync(int personId, QueryableOperator<EducationEmploymentDTO> queryOperator)
+        {
+            var results = await GetEmploymentDTOQuery(personId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            logger.Trace("Loaded professions query operator = [{0}]", queryOperator);
             return results;
         }
 
@@ -89,9 +103,16 @@ namespace ECA.Business.Service.Persons
             return dto;
         }
         
-        private IQueryable<EducationEmploymentDTO> GetEduEmpDTOQuery(QueryableOperator<EducationEmploymentDTO> queryOperator)
+        private IQueryable<EducationEmploymentDTO> GetEducationDTOQuery(int personId, QueryableOperator<EducationEmploymentDTO> queryOperator)
         {
-            var query = GetSelectDTOQuery();
+            var query = GetSelectDTOQuery().Where(x => x.PersonOfEducation_PersonId == personId);
+            query = query.Apply(queryOperator);
+            return query;
+        }
+
+        private IQueryable<EducationEmploymentDTO> GetEmploymentDTOQuery(int personId, QueryableOperator<EducationEmploymentDTO> queryOperator)
+        {
+            var query = GetSelectDTOQuery().Where(x => x.PersonOfProfession_PersonId == personId);
             query = query.Apply(queryOperator);
             return query;
         }

@@ -1,5 +1,5 @@
 ﻿<div ng-controller="personEducationEmploymentEditCtrl">
-    <div ng-show="personEduEmpLoading">
+    <div ng-show="EduEmpLoading">
         <div class="spinner">
             <div class="bounce1"></div>
             <div class="bounce2"></div>
@@ -14,45 +14,45 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <form name="form.educationForm">
-                    <div class="row">
-                        <i class="material-icons md-dark col-md-1">school</i>
-                        <label class="col-md-3 title-label">Education</label>
-                        <a ng-click="view.onAddEducationClick(model.education, personId)">
-                            <i class="material-icons md-24 md-dark pull-right">add</i>
-                        </a>
-                        <div class="col-md-8">
-                            <div ng-repeat="education in educations">
-                                <div ng-controller="personEducationEmploymentEditCtrl" class="expandIndent">
-                                    <div class="spinner" ng-show="view.isSavingChanges || view.isLoadingRequiredData">
-                                        <div class="bounce1"></div>
-                                        <div class="bounce2"></div>
-                                        <div class="bounce3"></div>
+                <div class="row">
+                    <i class="material-icons md-dark col-md-1">school</i>
+                    <label class="col-md-3 title-label">Education</label>
+                    <a ng-click="view.onAddEducationClick(model.education, personId)">
+                        <i class="material-icons md-24 md-dark pull-right">add</i>
+                    </a>
+                    <div class="col-md-8">
+                        <div ng-repeat="education in data.educations">
+                            <div ng-controller="personEducationEmploymentEditCtrl" class="expandIndent">
+                                <div class="spinner" ng-show="view.isSavingChanges || view.isLoadingRequiredData">
+                                    <div class="bounce1"></div>
+                                    <div class="bounce2"></div>
+                                    <div class="bounce3"></div>
+                                </div>
+                                <div class="row" ng-show="!view.isSavingChanges">
+                                    <div ng-class="{true: 'row', false: 'row2'}[editMode]" ng-show="!view.showEditEducation">
+                                        {{education.title}} ({{education.startDate | date: 'yyyy'}}-{{education.endDate | date: 'yyyy'}})
+                                        <div class="pull-right" ng-show="!view.showEditEducation && editMode">
+                                            <a ng-show="!view.showEditEducation && !view.isDeletingEducation && editMode" ng-click="view.showConfirmDelete = true">
+                                                <i class="material-icons md-dark">delete</i>
+                                            </a>
+                                            <a ng-show="view.isDeletingEducation">
+                                                <i class="material-icons md-dark material-icons-spin">refresh</i>
+                                            </a>
+                                            <a ng-show="!view.showEditEducation && editMode" ng-click="view.onEditEducationClick()">
+                                                <i class="material-icons md-dark">edit</i>
+                                            </a>
+                                        </div>
                                     </div>
-                                    <div class="row" ng-show="!view.isSavingChanges && !view.isLoadingRequiredData">
-                                        <div ng-class="{true: 'row', false: 'row2'}[editMode]" ng-show="!view.showEditEducation">
-                                            {{education.title}} ({{education.startDate | date: 'yyyy'}}-{{education.endDate | date: 'yyyy'}})
-                                            <div class="pull-right" ng-show="!view.showEditEducation">
-                                                <a ng-show="!view.showEditEducation && !view.isDeletingEducation && editMode" ng-click="view.showConfirmDelete = true">
-                                                    <i class="material-icons md-dark">delete</i>
-                                                </a>
-                                                <a ng-show="view.isDeletingEducation">
-                                                    <i class="material-icons md-dark material-icons-spin">refresh</i>
-                                                </a>
-                                                <a ng-show="!view.showEditEducation && editMode" ng-click="view.onEditEducationClick()">
-                                                    <i class="material-icons md-dark">edit</i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div ng-show="view.showConfirmDelete" class="text-center">
-                                            Are you sure you want to delete this education?
-                                        </div>
-                                        <div ng-show="view.showConfirmDelete" style="margin-top: 10px;" class="text-center">
-                                            <button ng-click="view.onDeleteEducationClick()" class="btn btn-danger">Delete</button>
-                                            <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
-                                        </div>
-                                        <div in-context-form ng-show="view.showEditEducation">
-                                            <div class="row form-horizontal">
+                                    <div ng-show="view.showConfirmDeleteEducation" class="text-center">
+                                        Are you sure you want to delete this education?
+                                    </div>
+                                    <div ng-show="view.showConfirmDeleteEducation" style="margin-top: 10px;" class="text-center">
+                                        <button ng-click="view.onDeleteEducationClick()" class="btn btn-danger">Delete</button>
+                                        <button ng-click="view.showConfirmDeleteEducation = !view.showConfirmDeleteEducation" class="btn btn-cancel">Cancel</button>
+                                    </div>
+                                    <div in-context-form ng-show="view.showEditEducation">
+                                        <form name="form.educationForm" class="row form-horizontal">
+                                            <div class="row form-group" id="educationForm{{education.professionEducationId}}">
                                                 <label class="title-label col-md-3" for="educationTitleValue">Title<span class="asterisk"> *</span></label>
                                                 <div class="col-md-9">
                                                     <input name="educationTitleValue"
@@ -67,20 +67,20 @@
                                                            required />
                                                 </div>
                                                 <div ng-show="form.educationForm.educationTitleValue.$dirty || form.educationForm.educationTitleValue.$error.required">
-                                                    <div class="error" ng-show="form.educationForm.educationTitleValue.$error.required">Please enter a email address value.</div>
+                                                    <div class="error" ng-show="form.educationForm.educationTitleValue.$error.required">Please enter a title value.</div>
                                                 </div>
                                             </div>
-                                            <div class="row right" ng-show="view.showEditEducation">
-                                                <button ng-click="view.saveEducationChanges()" class="btn btn-success" ng-disabled="form.educationForm.$invalid">Save</button>
-                                                <button ng-click="view.cancelEducationChanges()" class="btn btn-cancel">Cancel</button>
-                                            </div>
+                                        </form>
+                                        <div class="row right" ng-show="view.showEditEducation">
+                                            <button ng-click="view.saveEducationChanges()" class="btn btn-success" ng-disabled="form.educationForm.$invalid">Save</button>
+                                            <button ng-click="view.cancelEducationChanges()" class="btn btn-cancel">Cancel</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
             <div class="col-md-6">
                 <div class="row">

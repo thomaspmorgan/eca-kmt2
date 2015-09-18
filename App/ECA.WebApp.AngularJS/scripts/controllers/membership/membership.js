@@ -109,7 +109,7 @@ angular.module('staticApp')
       }
 
       function getMembershipFormDivElement(id) {
-          return document.getElementById(id)
+          return document.getElementById(id);
       }
 
       function onSaveMembershipSuccess(response) {
