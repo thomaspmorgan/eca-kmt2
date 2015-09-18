@@ -281,6 +281,7 @@ angular.module('staticApp')
                       moneyFlow.transactionDate = transactionDate;
                   }
                   if (StateService.isStateAvailableByMoneyFlowSourceRecipientTypeId(moneyFlow.sourceRecipientEntityTypeId)) {
+                      console.warn('Need to support checking the different participant types here.  We are assuming the participants are always people.');
                       moneyFlow.href = StateService.getStateByMoneyFlowSourceRecipientType(moneyFlow.sourceRecipientEntityId, moneyFlow.sourceRecipientEntityTypeId)
                   }
 
