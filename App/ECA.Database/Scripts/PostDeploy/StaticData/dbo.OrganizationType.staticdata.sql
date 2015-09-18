@@ -48,7 +48,6 @@ INSERT INTO @tblTempTable ([OrganizationTypeId], [OrganizationTypeName], [Histor
 INSERT INTO @tblTempTable ([OrganizationTypeId], [OrganizationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('9', 'U.S. Educational Institution', '0', '1/30/2015 6:39:38 PM -05:00', '0', '1/30/2015 6:39:38 PM -05:00')
 INSERT INTO @tblTempTable ([OrganizationTypeId], [OrganizationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('10', 'U.S. Non-Profit Organization (501(c)(3))', '0', '1/30/2015 6:39:38 PM -05:00', '0', '1/30/2015 6:39:38 PM -05:00')
 
-
 -- 3: Insert any new items into the table from the table variable
 SET IDENTITY_INSERT [dbo].[OrganizationType] ON
 INSERT INTO [dbo].[OrganizationType] ([OrganizationTypeId], [OrganizationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn])
