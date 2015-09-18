@@ -22,6 +22,14 @@ angular.module('staticApp')
               edit: {
                   project: 'projects.edit',
                   program: 'programs.edit'
+              },
+              moneyflow: {
+                  organization: 'organizations.moneyflows',
+                  person: 'people.moneyflows',
+                  office: 'offices.moneyflows',
+                  project: 'projects.moneyflows',
+                  program: 'programs.moneyflows'
+
               }
           },
 
@@ -29,7 +37,8 @@ angular.module('staticApp')
               if (moneyFlowSourceReceipientTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id
                   || moneyFlowSourceReceipientTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id
                   || moneyFlowSourceReceipientTypeId === ConstantsService.moneyFlowSourceRecipientType.project.id
-                  || moneyFlowSourceReceipientTypeId === ConstantsService.moneyFlowSourceRecipientType.office.id) {
+                  || moneyFlowSourceReceipientTypeId === ConstantsService.moneyFlowSourceRecipientType.office.id
+                  || moneyFlowSourceReceipientTypeId === ConstantsService.moneyFlowSourceRecipientType.participant.id) {
                   return true;
               }
               else {
@@ -51,6 +60,10 @@ angular.module('staticApp')
               if (moneyFlowSourceReceipientTypeId === ConstantsService.moneyFlowSourceRecipientType.office.id) {
                   return service.getOfficeState(entityId);
               }
+              if (moneyFlowSourceReceipientTypeId === ConstantsService.moneyFlowSourceRecipientType.participant.id) {
+                  return service.getPersonState(entityId);
+              }
+              throw Error('The money flow source recipient type is not supported.');
           },
 
           getProjectState: function (projectId, options) {

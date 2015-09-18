@@ -35,6 +35,12 @@ angular.module('staticApp')
             active: true,
             order: 4
         },
+        funding: {
+            title: 'Funding',
+            path: 'moneyflows',
+            active: true,
+            order: 5
+        }
     };
 
     $scope.activityImageSet = [

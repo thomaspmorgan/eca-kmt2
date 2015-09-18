@@ -291,9 +291,9 @@ namespace ECA.Data
 		/// </summary>
 		public static StaticLookup Female { get { return new StaticLookup("Female", 2); } }
 		/// <summary>
-		/// Returns the Other lookup with id 3.
+		/// Returns the Unknown lookup with id 3.
 		/// </summary>
-		public static StaticLookup Other { get { return new StaticLookup("Other", 3); } }
+		public static StaticLookup Unknown { get { return new StaticLookup("Unknown", 3); } }
 		/// <summary>
 		/// Returns the Not Specified lookup with id 4.
 		/// </summary>
@@ -307,7 +307,7 @@ namespace ECA.Data
 		{
 			if (1 == id) return Gender.Male;
 			if (2 == id) return Gender.Female;
-			if (3 == id) return Gender.Other;
+			if (3 == id) return Gender.Unknown;
 			if (4 == id) return Gender.NotSpecified;
 			return null;
 		}
@@ -320,7 +320,7 @@ namespace ECA.Data
 		{
 			if ("Male".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Gender.Male;
 			if ("Female".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Gender.Female;
-			if ("Other".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Gender.Other;
+			if ("Unknown".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Gender.Unknown;
 			if ("Not Specified".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Gender.NotSpecified;
 			return null;
 		}

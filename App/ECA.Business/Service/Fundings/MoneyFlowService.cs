@@ -180,6 +180,32 @@ namespace ECA.Business.Service.Fundings
             return moneyFlows;
         }
 
+        /// <summary>
+        /// Returns the money flows for the person with the given id.
+        /// </summary>
+        /// <param name="personId">The office id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The person's money flows.</returns>
+        public PagedQueryResults<MoneyFlowDTO> GetMoneyFlowsByPersonId(int personId, QueryableOperator<MoneyFlowDTO> queryOperator)
+        {
+            var moneyFlows = MoneyFlowQueries.CreateGetMoneyFlowDTOsByPersonId(this.Context, personId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved money flows by organization id {0} with query operator {1}.", personId, queryOperator);
+            return moneyFlows;
+        }
+
+        /// <summary>
+        /// Returns the money flows for the person with the given id.
+        /// </summary>
+        /// <param name="personId">The person id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The person's money flows.</returns>
+        public async Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByPersonIdAsync(int personId, QueryableOperator<MoneyFlowDTO> queryOperator)
+        {
+            var moneyFlows = await MoneyFlowQueries.CreateGetMoneyFlowDTOsByPersonId(this.Context, personId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved money flows by organization id {0} with query operator {1}.", personId, queryOperator);
+            return moneyFlows;
+        }
+
         private IQueryable<OfficeDTO> CreateGetOfficeByOrganizationIdQuery(int organizationId)
         {
             return OfficeQueries.CreateGetOfficeByIdQuery(this.Context, organizationId);

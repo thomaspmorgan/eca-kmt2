@@ -11,6 +11,7 @@ angular.module('staticApp')
   .controller('MoneyFlowsCtrl', function (
         $scope,
         $stateParams,
+        $state,
         $q,
         $log,
         $modal,
@@ -331,6 +332,9 @@ angular.module('staticApp')
           else if (moneyFlowSourceRecipientTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id) {
               return MoneyFlowService.getMoneyFlowsByOrganization;
           }
+          else if (moneyFlowSourceRecipientTypeId === ConstantsService.moneyFlowSourceRecipientType.participant.id) {
+              return MoneyFlowService.getMoneyFlowsByPersonId;
+          }
           else {
               throw Error('A mapping to a money flow service function for the money flow source recipient type id [' + moneyFlowSourceRecipientTypeId + '] does not exist.');
           }
@@ -360,7 +364,13 @@ angular.module('staticApp')
           else {
               $log.info('Moneyflow object is not a resource type used in permissions, therefore, edit permission is granted.');
               var dfd = $q.defer();
-              hasEditPermissionCallback();
+              if ($state.current.name === StateService.stateNames.moneyflow.person) {
+                  notAuthorizedCallback();
+              }
+              else {
+                  hasEditPermissionCallback();
+              }
+              
               dfd.resolve();
               return dfd.promise;
           }
