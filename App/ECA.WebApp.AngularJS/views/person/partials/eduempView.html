@@ -1,12 +1,12 @@
 ﻿<div ng-controller="personEducationEmploymentCtrl">
-    <div ng-show="personEduEmpLoading">
+    <div ng-show="EduEmpLoading">
         <div class="spinner">
             <div class="bounce1"></div>
             <div class="bounce2"></div>
             <div class="bounce3"></div>
         </div>
     </div>
-    <div ng-show="!personEduEmpLoading">
+    <div ng-show="!EduEmpLoading">
         <div class="row">
             <div class="col-md-6">
                 <div class="row">
@@ -14,7 +14,7 @@
                     <label class="col-md-3 title-label">Education</label>
                     <div class="col-md-8">
                         <ul>
-                            <li ng-repeat="education in educations" style="padding-bottom: 10px;">
+                            <li ng-repeat="education in data.educations" style="padding-bottom: 10px;">
                                 <b>{{education.title}} ({{education.startDate | date: 'yyyy'}}-{{education.endDate | date: 'yyyy'}})</b>
                                 <br />
                                 {{education.role}}
@@ -29,7 +29,7 @@
                     <label class="col-md-3 title-label">Professional History</label>
                     <div class="col-md-8">
                         <ul>
-                            <li ng-repeat="employment in employments" style="padding-bottom: 10px;">
+                            <li ng-repeat="employment in data.employments" style="padding-bottom: 10px;">
                                 <b>{{employment.title}} ({{employment.startDate | date: 'yyyy'}}-{{employment.endDate | date: 'yyyy'}})</b>
                                 <br />
                                 {{employment.role}}

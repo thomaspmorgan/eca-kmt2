@@ -33,7 +33,7 @@ angular.module('staticApp')
           DragonBreath.get('participants', id)
             .success(function (data) {
                 defer.resolve(data);
-            })
+            });
           return defer.promise;
       }
     };

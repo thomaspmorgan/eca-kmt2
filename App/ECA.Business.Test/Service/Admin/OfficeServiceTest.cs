@@ -236,7 +236,7 @@ namespace ECA.Business.Test.Service.Admin
             var office = new Organization
             {
                 OrganizationId = 1,
-                OrganizationTypeId = OrganizationType.Individual.Id,
+                OrganizationTypeId = OrganizationType.Other.Id,
                 Name = "office",
                 Description = "office desc"
             };

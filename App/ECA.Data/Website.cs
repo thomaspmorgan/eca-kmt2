@@ -10,7 +10,7 @@ namespace ECA.Data
     /// <summary>
     /// The model class for websites
     /// </summary>
-    public class Website
+    public class Website : IHistorical
     {
 
         /// <summary>

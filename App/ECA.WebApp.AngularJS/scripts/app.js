@@ -263,7 +263,11 @@ angular
             templateUrl: 'views/person/impact.html',
             requireADLogin: true
         })
-
+        .state('people.moneyflows', {
+            url: '/moneyflows',
+            templateUrl: 'views/person/moneyflows.html',
+            requireADLogin: true
+        })
         .state('allprograms', {
             url: '/allprograms',
             templateUrl: 'views/program/allprograms.html',

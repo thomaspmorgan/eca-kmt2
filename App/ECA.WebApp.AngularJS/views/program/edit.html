@@ -193,16 +193,24 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <a class="pull-right" ng-click="view.addWebsite()"><i class="material-icons md-18">add</i></a>
                     <label class="col-md-3 title-label">Websites</label>
                     <div class="col-md-9">
-                        <div ng-class="view.program.websites.length > 1 || (view.program.websites.length == 1 && website.value !== undefined) ? 'input-group' : ''" ng-repeat="website in view.program.websites track by $index">
-                            <input class="form-control" type="text" ng-model="website.value" placeholder="Enter website address (e.g. http://www.google.com)...">
-                            <span class="input-group-btn" ng-show="view.program.websites.length > 1 || (view.program.websites.length == 1 && website.value !== undefined)">
-                                <button type="button" class="btn btn-default" ng-click="view.deleteWebsite($index)">
-                                    <i class="material-icons md-18">delete</i>
-                                </button>
-                            </span>
+                        <div ng-repeat="website in view.program.websites track by $index">
+                            <div class="col-md-10">
+                                <input name="website{{$index}}"
+                                       class="form-control"
+                                       type="url"
+                                       ng-model="view.program.websites[$index].value"
+                                       placeholder="Enter website address (e.g. http://www.google.com)..." />
+                            </div>
+                            <div class="col-md-2">
+                                <a ng-click="view.deleteWebsite($index)">
+                                    <i style="margin-top: 12px;" class="material-icons md-18" ng-show="view.program.websites.length > 1">delete</i>
+                                </a>
+                                <a ng-click="view.addWebsite()">
+                                    <i style="margin-top: 12px;" class="material-icons md-18" ng-show="view.program.websites.length === $index + 1">add</i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

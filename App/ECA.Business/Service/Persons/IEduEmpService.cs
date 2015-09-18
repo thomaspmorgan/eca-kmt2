@@ -12,9 +12,13 @@ namespace ECA.Business.Service.Persons
     [ContractClass(typeof(EduEmpServiceContract))]
     public interface IEduEmpService : ISaveable
     {
-        PagedQueryResults<EducationEmploymentDTO> Get(QueryableOperator<EducationEmploymentDTO> queryOperator);
+        PagedQueryResults<EducationEmploymentDTO> GetEducations(int personId, QueryableOperator<EducationEmploymentDTO> queryOperator);
 
-        Task<PagedQueryResults<EducationEmploymentDTO>> GetAsync(QueryableOperator<EducationEmploymentDTO> queryOperator);
+        Task<PagedQueryResults<EducationEmploymentDTO>> GetEducationsAsync(int personId, QueryableOperator<EducationEmploymentDTO> queryOperator);
+
+        PagedQueryResults<EducationEmploymentDTO> GetEmployments(int personId, QueryableOperator<EducationEmploymentDTO> queryOperator);
+
+        Task<PagedQueryResults<EducationEmploymentDTO>> GetEmploymentsAsync(int personId, QueryableOperator<EducationEmploymentDTO> queryOperator);
 
         EducationEmploymentDTO GetEducationById(int id);
 
@@ -49,12 +53,22 @@ namespace ECA.Business.Service.Persons
     public abstract class EduEmpServiceContract : IEduEmpService
     {
 
-        public PagedQueryResults<EducationEmploymentDTO> Get(QueryableOperator<EducationEmploymentDTO> queryOperator)
+        public PagedQueryResults<EducationEmploymentDTO> GetEducations(int personId, QueryableOperator<EducationEmploymentDTO> queryOperator)
         {
             return null;
         }
 
-        public Task<PagedQueryResults<EducationEmploymentDTO>> GetAsync(QueryableOperator<EducationEmploymentDTO> queryOperator)
+        public Task<PagedQueryResults<EducationEmploymentDTO>> GetEducationsAsync(int personId, QueryableOperator<EducationEmploymentDTO> queryOperator)
+        {
+            return Task.FromResult<PagedQueryResults<EducationEmploymentDTO>>(null);
+        }
+
+        public PagedQueryResults<EducationEmploymentDTO> GetEmployments(int personId, QueryableOperator<EducationEmploymentDTO> queryOperator)
+        {
+            return null;
+        }
+
+        public Task<PagedQueryResults<EducationEmploymentDTO>> GetEmploymentsAsync(int personId, QueryableOperator<EducationEmploymentDTO> queryOperator)
         {
             return Task.FromResult<PagedQueryResults<EducationEmploymentDTO>>(null);
         }
