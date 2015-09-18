@@ -7,7 +7,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personEducationEmploymentCtrl', function ($scope, PersonService, $stateParams, $q, $log, ConstantsService) {
+  .controller('personEducationEmploymentCtrl', function ($scope, EduEmpService, $stateParams, $q, $log, NotificationService, ConstantsService) {
 
       $scope.view = {};
       $scope.view.params = $stateParams;
@@ -25,26 +25,37 @@ angular.module('staticApp')
 
       function loadEducations(personId) {
           $scope.EduEmpLoading = true;
-          PersonService.getEducationsById(personId)
+          EduEmpService.getEducationsById(personId)
             .then(function (data) {
                 $scope.educations = data;
+                $log.info('Loaded all educations.');
                 $scope.EduEmpLoading = false;
-            });
+            })
+          .catch(function () {
+              var message = 'Unable to load educations.';
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
+          });
       };
 
       function loadEmployments(personId) {
           $scope.EduEmpLoading = true;
-          PersonService.getEmploymentsById(personId)
+          EduEmpService.getEmploymentsById(personId)
           .then(function (data) {
               $scope.employments = data;
+              $log.info('Loaded all employments.');
               $scope.EduEmpLoading = false;
+          })
+          .catch(function () {
+              var message = 'Unable to load employments.';
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
           });
       };
 
       $scope.view.onAddEducationClick = function (entityEduEmps, personId) {
           console.assert(entityEduEmps, 'The entity education is not defined.');
           console.assert(entityEduEmps instanceof Array, 'The entity education is defined but must be an array.');
-          var name = "";
           var newEducation = {
               professionEducationId: --tempId,
               title: title,
@@ -52,17 +63,16 @@ angular.module('staticApp')
               startDate: startDate,
               endDate: endDate,
               organization: organization,
-              personOfEducation: personId,
+              personOfEducation_PersonId: personId,
               personId: personId
           };
-          entityEduEmps.splice(0, 0, newEduEmp);
+          entityEduEmps.splice(0, 0, newEducation);
           $scope.view.collapseEduEmp = false;
       }
 
       $scope.view.onAddEmploymentClick = function (entityEduEmps, personId) {
           console.assert(entityEduEmps, 'The entity employment is not defined.');
           console.assert(entityEduEmps instanceof Array, 'The entity employment is defined but must be an array.');
-          var name = "";
           var newEmployment = {
               professionEducationId: --tempId,
               title: title,
@@ -70,7 +80,7 @@ angular.module('staticApp')
               startDate: startDate,
               endDate: endDate,
               organization: organization,
-              PersonOfProfession: personId,
+              personOfProfession_PersonId: personId,
               personId: personId
           };
           entityEduEmps.splice(0, 0, newEmployment);

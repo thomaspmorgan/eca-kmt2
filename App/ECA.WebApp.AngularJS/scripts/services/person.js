@@ -19,22 +19,6 @@ angular.module('staticApp')
                 })
               return defer.promise;
           },
-          getEducationsById: function (id) {
-              var defer = $q.defer();
-              DragonBreath.get('people/' + id + '/education')
-                .success(function (data) {
-                    defer.resolve(data);
-                })
-              return defer.promise;
-          },
-          getEmploymentsById: function (id) {
-              var defer = $q.defer();
-              DragonBreath.get('people/' + id + '/employment')
-                .success(function (data) {
-                    defer.resolve(data);
-                })
-              return defer.promise;
-          },
           getGeneralById: function (id) {
               var defer = $q.defer();
               DragonBreath.get('people/' + id + '/general')

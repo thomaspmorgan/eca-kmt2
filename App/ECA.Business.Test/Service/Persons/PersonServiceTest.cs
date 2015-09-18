@@ -750,7 +750,7 @@ namespace ECA.Business.Test.Service.Persons
             address.OrganizationId = organization.OrganizationId;
             var education = new ProfessionEducation
             {
-                PersonOfEducationId = person.PersonId,
+                PersonOfEducation_PersonId = person.PersonId,
                 ProfessionEducationId = 1,
                 Title = "title",
                 Role = "role",
@@ -854,7 +854,7 @@ namespace ECA.Business.Test.Service.Persons
             otherAddress.OrganizationId = organization.OrganizationId;
             var education = new ProfessionEducation
             {
-                PersonOfEducationId = person.PersonId,
+                PersonOfEducation_PersonId = person.PersonId,
                 ProfessionEducationId = 1,
                 Title = "title",
                 Role = "role",
@@ -921,7 +921,7 @@ namespace ECA.Business.Test.Service.Persons
             address.OrganizationId = organization.OrganizationId;
             var education = new ProfessionEducation
             {
-                PersonOfEducationId = person.PersonId,
+                PersonOfEducation_PersonId = person.PersonId,
                 ProfessionEducationId = 1,
                 Title = "title",
                 Role = "role",
@@ -997,7 +997,7 @@ namespace ECA.Business.Test.Service.Persons
             address.OrganizationId = organization.OrganizationId;
             var education = new ProfessionEducation
             {
-                PersonOfEducationId = person.PersonId,
+                PersonOfEducation_PersonId = person.PersonId,
                 ProfessionEducationId = 1,
                 Title = "title",
                 Role = "role",
@@ -1075,7 +1075,7 @@ namespace ECA.Business.Test.Service.Persons
             address.OrganizationId = organization.OrganizationId;
             var education = new ProfessionEducation
             {
-                PersonOfEducationId = person.PersonId,
+                PersonOfEducation_PersonId = person.PersonId,
                 ProfessionEducationId = 1,
                 Title = "title",
                 Role = "role",
@@ -1119,7 +1119,7 @@ namespace ECA.Business.Test.Service.Persons
             };
             var education = new ProfessionEducation
             {
-                PersonOfEducationId = person.PersonId,
+                PersonOfEducation_PersonId = person.PersonId,
                 ProfessionEducationId = 1,
                 Title = "title",
                 Role = "role",
@@ -1210,7 +1210,7 @@ namespace ECA.Business.Test.Service.Persons
             address.OrganizationId = organization.OrganizationId;
             var employment = new ProfessionEducation
             {
-                PersonOfProfessionId = person.PersonId,
+                PersonOfProfession_PersonId = person.PersonId,
                 ProfessionEducationId = 1,
                 Title = "title",
                 Role = "role",
@@ -1314,7 +1314,7 @@ namespace ECA.Business.Test.Service.Persons
             otherAddress.OrganizationId = organization.OrganizationId;
             var employment = new ProfessionEducation
             {
-                PersonOfProfessionId = person.PersonId,
+                PersonOfProfession_PersonId = person.PersonId,
                 ProfessionEducationId = 1,
                 Title = "title",
                 Role = "role",
@@ -1381,7 +1381,7 @@ namespace ECA.Business.Test.Service.Persons
             address.OrganizationId = organization.OrganizationId;
             var employment = new ProfessionEducation
             {
-                PersonOfProfessionId = person.PersonId,
+                PersonOfProfession_PersonId = person.PersonId,
                 ProfessionEducationId = 1,
                 Title = "title",
                 Role = "role",
@@ -1457,7 +1457,7 @@ namespace ECA.Business.Test.Service.Persons
             address.OrganizationId = organization.OrganizationId;
             var employment = new ProfessionEducation
             {
-                PersonOfProfessionId = person.PersonId,
+                PersonOfProfession_PersonId = person.PersonId,
                 ProfessionEducationId = 1,
                 Title = "title",
                 Role = "role",
@@ -1535,7 +1535,7 @@ namespace ECA.Business.Test.Service.Persons
             address.OrganizationId = organization.OrganizationId;
             var employment = new ProfessionEducation
             {
-                PersonOfProfessionId = person.PersonId,
+                PersonOfProfession_PersonId = person.PersonId,
                 ProfessionEducationId = 1,
                 Title = "title",
                 Role = "role",
@@ -1579,7 +1579,7 @@ namespace ECA.Business.Test.Service.Persons
             };
             var employment = new ProfessionEducation
             {
-                PersonOfProfessionId = person.PersonId,
+                PersonOfProfession_PersonId = person.PersonId,
                 ProfessionEducationId = 1,
                 Title = "title",
                 Role = "role",
