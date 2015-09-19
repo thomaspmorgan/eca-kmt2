@@ -106,7 +106,7 @@ angular.module('staticApp')
           $scope.view.isAddingParticipant = true;
           var dfd = null;
           if (clientModel.personId) {
-              dfd = ProjectService.addPersonParticipant(clientModel)
+              dfd = ProjectService.addPersonParticipant(clientModel);
           }
           else {
               dfd = ProjectService.addOrganizationParticipant(clientModel);

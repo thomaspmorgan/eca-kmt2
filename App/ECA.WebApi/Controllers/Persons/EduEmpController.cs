@@ -1,4 +1,5 @@
-﻿using ECA.Business.Service.Persons;
+﻿using System;
+using ECA.Business.Service.Persons;
 using ECA.Business.Queries.Models.Persons;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -89,13 +90,34 @@ namespace ECA.WebApi.Controllers.Persons
             {
                 var currentUser = userProvider.GetCurrentUser();
                 var businessUser = userProvider.GetBusinessUser(currentUser);
-                await service.UpdateEducationAsync(model.ToUpdatedPersonEduEmp(businessUser));
-                await service.SaveChangesAsync();
-                var dto = await service.GetEducationByIdAsync(model.ProfessionEducationId);
-                return Ok(dto);
+                try
+                {
+                    await service.UpdateEducationAsync(model.ToUpdatedPersonEduEmp(businessUser));
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+                try
+                {
+                    await service.SaveChangesAsync();
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(e.Message);
+                }
+                try
+                {
+                    var dto = await service.GetEducationByIdAsync(model.ProfessionEducationId);
+                    return Ok(dto);
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(e.Message);
+                }
             }
             else
-                {
+            {
                 return BadRequest(ModelState);
             }
         }
@@ -105,7 +127,7 @@ namespace ECA.WebApi.Controllers.Persons
         public async Task<IHttpActionResult> DeleteEducation(int id)
         {
             await service.DeleteAsync(id);
-                    await service.SaveChangesAsync();
+            await service.SaveChangesAsync();
             return Ok();
         }
         

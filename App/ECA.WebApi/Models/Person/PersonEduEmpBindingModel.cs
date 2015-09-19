@@ -33,9 +33,9 @@ namespace ECA.WebApi.Models.Person
                 startDate: this.StartDate,
                 endDate: this.EndDate,
                 organizationId: this.OrganizationId,
-                personId: this.PersonId,
                 personOfEducation_PersonId: this.PersonOfEducation_PersonId,
-                personOfProfession_PersonId: this.PersonOfProfession_PersonId
+                personOfProfession_PersonId: this.PersonOfProfession_PersonId,
+                personId: this.PersonId
                 );
         }
     }

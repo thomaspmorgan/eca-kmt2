@@ -179,25 +179,25 @@ namespace ECA.Business.Service.Persons
 
         public void UpdateEducation(UpdatedPersonEduEmp updatedEduEmp)
         {
-            var eduemp = Context.ProfessionEducations.Find(updatedEduEmp);
+            var eduemp = Context.ProfessionEducations.Find(updatedEduEmp.ProfessionEducationId);
             DoUpdateEducation(updatedEduEmp, eduemp);
         }
 
         public async Task UpdateEducationAsync(UpdatedPersonEduEmp updatedEduEmp)
         {
-            var eduemp = await Context.ProfessionEducations.FindAsync(updatedEduEmp);
+            var eduemp = await Context.ProfessionEducations.FindAsync(updatedEduEmp.ProfessionEducationId);
             DoUpdateEducation(updatedEduEmp, eduemp);
         }
 
         public void UpdateEmployment(UpdatedPersonEduEmp updatedEduEmp)
         {
-            var eduemp = Context.ProfessionEducations.Find(updatedEduEmp);
+            var eduemp = Context.ProfessionEducations.Find(updatedEduEmp.ProfessionEducationId);
             DoUpdateEmployment(updatedEduEmp, eduemp);
         }
 
         public async Task UpdateEmploymentAsync(UpdatedPersonEduEmp updatedEduEmp)
         {
-            var eduemp = await Context.ProfessionEducations.FindAsync(updatedEduEmp);
+            var eduemp = await Context.ProfessionEducations.FindAsync(updatedEduEmp.ProfessionEducationId);
             DoUpdateEmployment(updatedEduEmp, eduemp);
         }
 

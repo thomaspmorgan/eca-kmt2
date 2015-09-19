@@ -23,9 +23,9 @@ namespace ECA.WebApi.Models.Person
 
         public int? OrganizationId { get; set; }
 
-        public int? PersonOfEducationId { get; set; }
+        public int? PersonOfEducation_PersonId { get; set; }
 
-        public int? PersonOfProfessionId { get; set; }
+        public int? PersonOfProfession_PersonId { get; set; }
 
         public UpdatedPersonEduEmp ToUpdatedPersonEduEmp(User user)
         {
@@ -37,8 +37,8 @@ namespace ECA.WebApi.Models.Person
                 startDate: this.StartDate,
                 endDate: this.EndDate,
                 organizationId: this.OrganizationId,
-                personOfEducationId: this.PersonOfEducationId,
-                personOfProfessionId: this.PersonOfProfessionId
+                personOfEducationId: this.PersonOfEducation_PersonId,
+                personOfProfessionId: this.PersonOfProfession_PersonId
                 );
         }
 
