@@ -10,7 +10,6 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using ECA.Business.Queries.Models.Persons;
-using ECA.Business.Queries.Admin;
 using NLog;
 
 namespace ECA.Business.Service.Persons

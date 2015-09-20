@@ -21,12 +21,16 @@ angular.module('staticApp')
       $scope.view.showEditEducation = false;
       $scope.view.showEditEmployment = false;
       $scope.view.isSavingChanges = false;
+      $scope.view.tempId = 0;
 
       $scope.data = {};
       $scope.data.educations = [];
       $scope.data.employments = [];
 
       $scope.EduEmpLoading = true;
+      $scope.startDatePickerOpen = false;
+      $scope.endDatePickerOpen = false;
+      $scope.maxDateOfBirth = new Date();
 
       $scope.personIdDeferred.promise
       .then(function (personId) {
@@ -40,6 +44,29 @@ angular.module('staticApp')
       $scope.cancelEditEduEmp = function () {
           $scope.edit.EduEmp = false;
       };
+      
+      $scope.openStartDatePicker = function ($event) {
+          $event.preventDefault();
+          $event.stopPropagation();
+          $scope.startDatePickerOpen = true;
+      };
+
+      $scope.openEndDatePicker = function ($event) {
+          $event.preventDefault();
+          $event.stopPropagation();
+          $scope.endDatePickerOpen = true;
+      };
+
+      $scope.$on(ConstantsService.removeNewEduEmpEventName, function (event, newEduEmp) {
+          console.assert($scope.model, 'The scope person must exist.  It should be set by the directive.');
+          console.assert($scope.model.eduemp instanceof Array, 'The entity education/profession is defined but must be an array.');
+
+          var eduemp = $scope.model.eduemp;
+          var index = eduemp.indexOf(newEduEmp);
+          //var removedItems = eduemp.splice(index, 1);
+          $log.info('Removed one new education/profession at index ' + index);
+      });
+
 
       /* EDUCATION */
 
@@ -55,10 +82,8 @@ angular.module('staticApp')
                 angular.forEach(response.data.results, function (education, index) {
                     education.professionEducationId = education.id;
                 });
-                var educations = response.data.results;
                 $scope.data.educations = response.data.results;
                 $scope.EduEmpLoading = false;
-                //return educations;
             })
           .catch(function () {
               var message = 'Unable to load educations.';
@@ -68,43 +93,63 @@ angular.module('staticApp')
           });
       };
 
-      $scope.view.onEditEducationClick = function (education) {
-          $scope.selected = angular.copy(education);
+      $scope.view.onEditEducationClick = function () {
           $scope.view.showEditEducation = true;
       };
 
-      $scope.view.saveEducationChanges = function (education) {
+      $scope.view.saveEducationChanges = function () {
           $scope.view.isSavingChanges = true;
           $scope.education.personId = parseInt($scope.view.personId);
-          education.personId = parseInt($scope.view.personId);
 
-          if (isNewEducation(education)) {
-              var tempId = angular.copy(education.professionEducationId);
-              EduEmpService.addEducation(education, $scope.view.personId)
+          if (isNewEducation($scope.education)) {
+              $scope.view.tempId = angular.copy($scope.education.professionEducationId);
+              return EduEmpService.addEducation($scope.education, $scope.view.personId)
                 .then(onSaveEducationSuccess)
                 .then(function () {
-                    updateEducationFormDivId(tempId);
+                    updateEducationFormDivId($scope.view.tempId);
                 })
                 .catch(onSaveEducationError);
           }
           else {
-              EduEmpService.updateEducation($scope.education, $scope.view.personId)
+              return EduEmpService.updateEducation($scope.education, $scope.view.personId)
                   .then(onSaveEducationSuccess)
                   .catch(onSaveEducationError);
           }
       };
+      
+      $scope.view.onAddEducationClick = function (entityEduEmps, personId) {
+          console.assert(entityEduEmps, 'The entity education is not defined.');
+          console.assert(entityEduEmps instanceof Array, 'The entity education is defined but must be an array.');
+          var title = "";
+          var role = "";
+          var startDate = "";
+          var endDate = "";
+          var newEducation = {
+              id: --$scope.view.tempId,
+              title: title,
+              role: role,
+              startDate: startDate,
+              endDate: endDate,
+              organizationId: null,
+              personOfEducationPersonId: personId,
+              personOfProfessionPersonId: null,
+              personId: personId
+          };
+          entityEduEmps.splice(0, 0, newEducation);
+          $scope.view.collapseEduEmp = false;
+      }
 
-      $scope.view.onDeleteEducationClick = function (education) {
-          if (isNewEducation(education)) {
-              removeEducationFromView(education);
+      $scope.view.onDeleteEducationClick = function () {
+          if (isNewEducation($scope.education)) {
+              removeEducationFromView($scope.education);
           }
           else {
               $scope.view.isDeletingEduEmp = true;
-              EduEmpService.deleteEduEmp(education, $scope.view.personId)
+              EduEmpService.deleteEduEmp($scope.education, $scope.view.personId)
               .then(function () {
                   NotificationService.showSuccessMessage("Successfully deleted education.");
                   $scope.view.isDeletingEduEmp = false;
-                  removeEducationFromView(education);
+                  removeEducationFromView($scope.education);
               })
               .catch(function () {
                   var message = "Unable to delete education.";
@@ -162,16 +207,11 @@ angular.module('staticApp')
       }
 
       function isNewEducation(education) {
-          if (education.isNew) {
-              return education.isNew = true;
-          }
-          else {
-              return false;
-          }
+          return education.personId;
       }
 
       /* EMPLOYMENT */
-
+      
       function loadEmployments(personId) {
           var params = {
               start: 0,
@@ -184,10 +224,8 @@ angular.module('staticApp')
               angular.forEach(response.data.results, function (employment, index) {
                   employment.professionEducationId = employment.id;
               });
-              var employments = response.data.results;
               $scope.data.employments = response.data.results;
               $scope.EduEmpLoading = false;
-              //return employments;
           })
           .catch(function () {
               var message = 'Unable to load employments.';
@@ -197,41 +235,63 @@ angular.module('staticApp')
           });
       };
 
-      $scope.view.onEditEmploymentClick = function (employment) {
-          $scope.selected = angular.copy(employment);
+      $scope.view.onEditEmploymentClick = function () {
           $scope.view.showEditEmployment = true;
       };
 
-      $scope.view.saveEmploymentChanges = function (employment) {
+      $scope.view.saveEmploymentChanges = function () {
           $scope.view.isSavingChanges = true;
-          employment.personId = $scope.view.personId;
-          if (isNewEmployment(employment)) {
-              var tempId = angular.copy(employment.professionEducationId);
-              EduEmpService.addEmployment(employment, $scope.view.personId)
+          $scope.employment.personId = parseInt($scope.view.personId);
+
+          if (isNewEmployment($scope.employment)) {
+              $scope.view.tempId = angular.copy($scope.employment.professionEducationId);
+              EduEmpService.addEmployment($scope.employment, $scope.view.personId)
                 .then(onSaveEmploymentSuccess)
                 .then(function () {
-                    updateEmploymentFormDivId(tempId);
+                    updateEmploymentFormDivId($scope.view.tempId);
                 })
                 .catch(onSaveEmploymentError);
           }
           else {
-              EduEmpService.updateEmployment(employment, $scope.view.personId)
+              EduEmpService.updateEmployment($scope.employment, $scope.view.personId)
                   .then(onSaveEmploymentSuccess)
                   .catch(onSaveEmploymentError);
           }
       };
 
-      $scope.view.onDeleteEmploymentClick = function (employment) {
-          if (isNewEmployment(employment)) {
-              removeEmploymentFromView(employment);
+      $scope.view.onAddEmploymentClick = function (entityEduEmps, personId) {
+          console.assert(entityEduEmps, 'The entity employment is not defined.');
+          console.assert(entityEduEmps instanceof Array, 'The entity employment is defined but must be an array.');
+          var title = "";
+          var role = "";
+          var startDate = "";
+          var endDate = "";
+          var newEmployment = {
+              id: --$scope.view.tempId,
+              title: title,
+              role: role,
+              startDate: startDate,
+              endDate: endDate,
+              organizationId: null,
+              personOfEducationPersonId: null,
+              personOfProfessionPersonId: personId,
+              personId: personId
+          };
+          entityEduEmps.splice(0, 0, newEmployment);
+          $scope.view.collapseEduEmp = false;
+      }
+
+      $scope.view.onDeleteEmploymentClick = function () {
+          if (isNewEmployment($scope.employment)) {
+              removeEmploymentFromView($scope.employment);
           }
           else {
               $scope.view.isDeletingEmployment = true;
-              EduEmpService.deleteEduEmp(employment, $scope.view.personId)
+              EduEmpService.deleteEduEmp($scope.employment, $scope.view.personId)
               .then(function () {
                   NotificationService.showSuccessMessage("Successfully deleted employment.");
                   $scope.view.isDeletingEmployment = false;
-                  removeEmploymentFromView(employment);
+                  removeEmploymentFromView($scope.employment);
               })
               .catch(function () {
                   var message = "Unable to delete employment.";
@@ -251,8 +311,8 @@ angular.module('staticApp')
           }
       };
 
-      function removeEmploymentFromView(eduemp) {
-          $scope.$emit(ConstantsService.removeNewEduEmpEventName, eduemp);
+      function removeEmploymentFromView(employment) {
+          $scope.$emit(ConstantsService.removeNewEduEmpEventName, employment);
       }
 
       function getEmploymentFormDivIdPrefix() {
@@ -276,25 +336,20 @@ angular.module('staticApp')
       function onSaveEmploymentSuccess(response) {
           $scope.employment = response.data;
           originalEmployment = angular.copy($scope.employment);
-          NotificationService.showSuccessMessage("Successfully saved education changes.");
+          NotificationService.showSuccessMessage("Successfully saved employment changes.");
           $scope.view.showEditEmployment = false;
           $scope.view.isSavingChanges = false;
       }
 
       function onSaveEmploymentError() {
-          var message = "Failed to save changes.";
+          var message = "Failed to save employment changes.";
           NotificationService.showErrorMessage(message);
           $log.error(message);
           $scope.view.isSavingChanges = false;
       }
 
-      function isNewEmployment(education) {
-          if (education.isNew) {
-              return education.isNew = true;
-          }
-          else {
-              return false;
-          }
+      function isNewEmployment(employment) {
+          return employment.personId;
       }
 
   });
