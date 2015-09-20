@@ -40,7 +40,11 @@ namespace ECA.Core.Data
             _data.Add(item);
             return item;
         }
-
+        /// <summary>
+        /// Method to remove a range from an IEnumberable of Entities
+        /// </summary>
+        /// <param name="entities"></param>
+        /// <returns></returns>
         public override IEnumerable<TEntity> RemoveRange(IEnumerable<TEntity> entities)
         {
             foreach(var entity in entities)
