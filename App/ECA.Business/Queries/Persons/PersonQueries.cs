@@ -264,7 +264,7 @@ namespace ECA.Business.Queries.Persons
                             Role = education.Role,
                             StartDate = education.DateFrom,
                             EndDate = education.DateTo,
-                            Organization = null,
+                            OrganizationId = null,
                             //Organization = hasOrganization ? new SimpleOrganizationDTO
                             //{
                             //    OrganizationId = organization.OrganizationId,
@@ -307,7 +307,7 @@ namespace ECA.Business.Queries.Persons
                             Role = employment.Role,
                             StartDate = employment.DateFrom,
                             EndDate = employment.DateTo,
-                            Organization = null,
+                            OrganizationId = null,
                             //Organization = hasOrganization ? new SimpleOrganizationDTO
                             //{
                             //    OrganizationId = organization.OrganizationId,
