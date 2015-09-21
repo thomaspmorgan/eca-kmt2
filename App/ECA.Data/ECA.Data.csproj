@@ -162,6 +162,7 @@
     <Compile Include="Gender.cs" />
     <Compile Include="Goal.cs" />
     <Compile Include="IAddressable.cs" />
+    <Compile Include="OrganizationRole.cs" />
     <Compile Include="MoneyFlowSourceRecepientTypeSetting.cs" />
     <Compile Include="Website.cs" />
     <Compile Include="IPhoneNumberable.cs" />

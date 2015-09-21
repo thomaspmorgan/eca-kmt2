@@ -1,6 +1,4 @@
-﻿using ECA.Business.Queries.Admin;
-using ECA.Business.Queries.Models.Admin;
-using ECA.Business.Queries.Persons;
+﻿using ECA.Business.Queries.Persons;
 using ECA.Core.Exceptions;
 using ECA.Core.Service;
 using ECA.Core.Query;
@@ -26,7 +24,7 @@ namespace ECA.Business.Service.Persons
         private readonly Action<Membership, int> throwIfMembershipNotFound;
 
         /// <summary>
-        /// Creates a new instance and initializes the context..
+        /// Creates a new instance and initializes the context.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
         public MembershipService(EcaContext context)
@@ -53,7 +51,7 @@ namespace ECA.Business.Service.Persons
         #region Get
 
         /// <summary>
-        /// Returns a paged, filtered, and sorted instance of dtos.
+        /// Returns a paged, filtered, and sorted instance of membership dtos.
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The paged, filtered, and sorted dtos.</returns>
@@ -65,7 +63,7 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
-        /// Returns a paged, filtered, and sorted instance of dtos.
+        /// Returns a paged, filtered, and sorted instance of membership dtos.
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The paged, filtered, and sorted dtos.</returns>
@@ -75,8 +73,7 @@ namespace ECA.Business.Service.Persons
             logger.Trace("Loaded memberships with query operator = [{0}].", queryOperator);
             return results;
         }
-
-
+        
         private IQueryable<MembershipDTO> GetMembershipDTOQuery(QueryableOperator<MembershipDTO> queryOperator)
         {
             var query = GetSelectDTOQuery();
@@ -93,6 +90,11 @@ namespace ECA.Business.Service.Persons
             });
         }
 
+        /// <summary>
+        /// Retrieves the membership dto with the given id.
+        /// </summary>
+        /// <param name="id">The id of the membership.</param>
+        /// <returns>The membership dto.</returns>
         public MembershipDTO GetById(int id)
         {
             var dto = MembershipQueries.CreateGetMembershipDTOByIdQuery(this.Context, id).FirstOrDefault();
@@ -117,7 +119,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Creates a new membership in the ECA system.
         /// </summary>
-        /// <param name="membership">The membership.</param>
+        /// <param name="personMembership">The membership.</param>
         /// <returns>The created membership entity.</returns>
         public Membership Create(NewPersonMembership personMembership)
         {
@@ -146,7 +148,7 @@ namespace ECA.Business.Service.Persons
         #region Update
 
         /// <summary>
-        /// Updates the ECA system's membership data with the given updated social media.
+        /// Updates the ECA system's membership data with the given updated membership.
         /// </summary>
         /// <param name="updatedMembership">The updated membership.</param>
         public void Update(UpdatedPersonMembership updatedMembership)

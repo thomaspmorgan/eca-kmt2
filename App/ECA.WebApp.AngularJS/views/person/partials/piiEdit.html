@@ -114,19 +114,19 @@
                 <div class="form-group row">
                     <div class="col-md-4 title-label">Date of Birth</div>
                     <div class="col-md-8">
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="dateOfBirth" id="dateOfBirth" datepicker-popup="dd-MMMM-yyyy" ng-model="pii.dateOfBirth"
-                                       is-open="datePickerOpen" max-date="maxDateOfBirth" close-text="Close" placeholder="{{dateOfBirthPlaceholder}}">
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="openDatePicker($event)">
-                                        <i class="material-icons md-18">event</i>
-                                    </button>
-                                </span>
-                                <div class="pull-right" style="padding-left:2px;">
-                                    <button class="btn btn-default" ng-click="toggleDobUnknown($event)" tooltip-placement="top" tooltip="Unknown date of birth">Unknown</button>
-                                </div>
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="dateOfBirth" id="dateOfBirth" datepicker-popup="dd-MMMM-yyyy" ng-model="pii.dateOfBirth"
+                                    is-open="datePickerOpen" max-date="maxDateOfBirth" close-text="Close" placeholder="{{dateOfBirthPlaceholder}}">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="openDatePicker($event)">
+                                    <i class="material-icons md-18">event</i>
+                                </button>
+                            </span>
+                            <div class="pull-right" style="padding-left:2px;">
+                                <button class="btn btn-default" ng-click="toggleDobUnknown($event)" tooltip-placement="top" tooltip="Unknown date of birth">Unknown</button>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">

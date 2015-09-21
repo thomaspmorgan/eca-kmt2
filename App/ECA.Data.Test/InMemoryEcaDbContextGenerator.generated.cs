@@ -13,6 +13,17 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 namespace ECA.Data.Test
 {
 	using System;
@@ -213,6 +224,21 @@ namespace ECA.Data.Test
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
 			///EmailAddressId
 			return Task.FromResult<ECA.Data.EmailAddress>(this.SingleOrDefault(x => x.EmailAddressId.Equals(keyValues.First())));
+		}
+	}
+	public class EmailAddressTypeTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.EmailAddressType>
+	{
+		public override ECA.Data.EmailAddressType Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///EmailAddressTypeId
+			return this.SingleOrDefault(x => x.EmailAddressTypeId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.EmailAddressType> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///EmailAddressTypeId
+			return Task.FromResult<ECA.Data.EmailAddressType>(this.SingleOrDefault(x => x.EmailAddressTypeId.Equals(keyValues.First())));
 		}
 	}
 	public class ExternalIdTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ExternalId>
@@ -920,6 +946,21 @@ namespace ECA.Data.Test
 			return Task.FromResult<ECA.Data.UserAccount>(this.SingleOrDefault(x => x.PrincipalId.Equals(keyValues.First())));
 		}
 	}
+	public class WebsiteTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Website>
+	{
+		public override ECA.Data.Website Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///WebsiteId
+			return this.SingleOrDefault(x => x.WebsiteId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.Website> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///WebsiteId
+			return Task.FromResult<ECA.Data.Website>(this.SingleOrDefault(x => x.WebsiteId.Equals(keyValues.First())));
+		}
+	}
 	public class InMemoryEcaContext : ECA.Data.EcaContext
 	{
 		public InMemoryEcaContext()
@@ -943,6 +984,7 @@ namespace ECA.Data.Test
 			this.Contacts = new ContactTestDbSet();
 			this.Courses = new CourseTestDbSet();
 			this.EmailAddresses = new EmailAddressTestDbSet();
+			this.EmailAddressTypes = new EmailAddressTypeTestDbSet();
 			this.ExternalIds = new ExternalIdTestDbSet();
 			this.Foci = new FocusTestDbSet();
 			this.Genders = new GenderTestDbSet();
@@ -990,6 +1032,7 @@ namespace ECA.Data.Test
 			this.Themes = new ThemeTestDbSet();
 			this.Transportations = new TransportationTestDbSet();
 			this.UserAccounts = new UserAccountTestDbSet();
+			this.Websites = new WebsiteTestDbSet();
 		}
 
 		public List<Action> SetupActions { get; set; }

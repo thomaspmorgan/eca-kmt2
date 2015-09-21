@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 
 namespace ECA.Business.Service.Persons
@@ -12,15 +13,15 @@ namespace ECA.Business.Service.Persons
             this.ProfessionEducationId = id;
             this.Title = title;
             this.Role = role;
+            this.OrganizationId = organizationId;
             this.StartDate = startDate;
             this.EndDate = endDate;
-            this.OrganizationId = organizationId;
-            this.PersonOfEducationId = personOfEducationId;
-            this.PersonOfProfessionId = personOfProfessionId;
+            this.PersonOfEducation_PersonId = personOfEducationId;
+            this.PersonOfProfession_PersonId = personOfProfessionId;
         }
 
         public Update Update { get; private set; }
-
+        
         public int ProfessionEducationId { get; private set; }
         
         public string Title { get; private set; }
@@ -33,8 +34,8 @@ namespace ECA.Business.Service.Persons
 
         public int? OrganizationId { get; private set; }
 
-        public int? PersonOfEducationId { get; private set; }
+        public int? PersonOfEducation_PersonId { get; private set; }
 
-        public int? PersonOfProfessionId { get; private set; }
+        public int? PersonOfProfession_PersonId { get; private set; }
     }
 }

@@ -6,23 +6,20 @@ namespace ECA.Business.Service.Persons
 {
     public class NewPersonEduEmp
     {
-        public NewPersonEduEmp(User user, string title, string role, DateTimeOffset startDate, DateTimeOffset? endDate, int? organizationId, int? personOfEducation_PersonId, int? personOfProfession_PersonId, int personId)
+        public NewPersonEduEmp(User user, string title, string role, DateTimeOffset startDate, DateTimeOffset? endDate, int? organizationId, int? personOfEducationPersonId, int? personOfProfessionPersonId, int personId)
         {
             PersonId = personId;
             Title = title;
             Role = role;
+            OrganizationId = organizationId;
             StartDate = startDate;
             EndDate = endDate;
-            OrganizationId = organizationId;
-            PersonOfEducation_PersonId = personOfEducation_PersonId;
-            PersonOfProfession_PersonId = personOfProfession_PersonId;
+            PersonOfEducation_PersonId = personOfEducationPersonId;
+            PersonOfProfession_PersonId = personOfProfessionPersonId;
             Create = new Create(user);
         }
 
-        /// <summary>
-        /// Gets/sets the person id.
-        /// </summary>
-        public int PersonId { get; private set; }
+        public int PersonId { get; set; }
 
         public string Title { get; private set; }
 
@@ -37,8 +34,7 @@ namespace ECA.Business.Service.Persons
         public int? PersonOfEducation_PersonId { get; private set; }
 
         public int? PersonOfProfession_PersonId { get; private set; }
-
-
+        
         public Create Create { get; private set; }
 
         public ProfessionEducation AddPersonEducation(Person person)

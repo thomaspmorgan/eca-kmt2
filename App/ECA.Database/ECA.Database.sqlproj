@@ -299,6 +299,7 @@
     <Build Include="dbo\Tables\OrganizationRole.sql" />
     <Build Include="dbo\Tables\OrganizationOrganizationRole.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.OrganizationRole.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\dbo.MoneyFlowStatus.staticdata.sql" />
     <Build Include="dbo\Tables\MoneyFlowSourceRecipientTypeSettings.sql" />
   </ItemGroup>
   <ItemGroup>
