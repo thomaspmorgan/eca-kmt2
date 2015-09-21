@@ -492,6 +492,21 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.MoneyFlowSourceRecipientType>(this.SingleOrDefault(x => x.MoneyFlowSourceRecipientTypeId.Equals(keyValues.First())));
 		}
 	}
+	public class MoneyFlowSourceRecipientTypeSettingTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.MoneyFlowSourceRecipientTypeSetting>
+	{
+		public override ECA.Data.MoneyFlowSourceRecipientTypeSetting Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///Id
+			return this.SingleOrDefault(x => x.Id.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.MoneyFlowSourceRecipientTypeSetting> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///Id
+			return Task.FromResult<ECA.Data.MoneyFlowSourceRecipientTypeSetting>(this.SingleOrDefault(x => x.Id.Equals(keyValues.First())));
+		}
+	}
 	public class MoneyFlowStatusTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.MoneyFlowStatus>
 	{
 		public override ECA.Data.MoneyFlowStatus Find(params object[] keyValues)
@@ -984,6 +999,7 @@ namespace ECA.Business.Test
 			this.Memberships = new MembershipTestDbSet();
 			this.MoneyFlows = new MoneyFlowTestDbSet();
 			this.MoneyFlowSourceRecipientTypes = new MoneyFlowSourceRecipientTypeTestDbSet();
+			this.MoneyFlowSourceRecipientTypeSettings = new MoneyFlowSourceRecipientTypeSettingTestDbSet();
 			this.MoneyFlowStatuses = new MoneyFlowStatusTestDbSet();
 			this.MoneyFlowTypes = new MoneyFlowTypeTestDbSet();
 			this.Objectives = new ObjectiveTestDbSet();

@@ -26,6 +26,7 @@ namespace ECA.Business.Service.Fundings
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity> validator;
+        private readonly IMoneyFlowSourceRecipientTypeService moneyFlowSourceRecipientTypeService;
         private Action<object, int, Type> throwIfEntityNotFound;
         private Action<int, MoneyFlow, MoneyFlow> throwSecurityViolationIfNull;
         private Action<int, OfficeDTO> throwSecurityViolationIfOrgIsOffice;
@@ -35,11 +36,13 @@ namespace ECA.Business.Service.Fundings
         /// </summary>
         /// <param name="context">The context to perform crud operations on.</param>
         /// <param name="validator">The business validator.</param>
-        public MoneyFlowService(EcaContext context, IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity> validator)
+        public MoneyFlowService(EcaContext context, IMoneyFlowSourceRecipientTypeService moneyFlowSourceRecipientTypeService, IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity> validator)
             : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(validator != null, "The validator must not be null.");
+            Contract.Requires(moneyFlowSourceRecipientTypeService != null, "The money flow source recipient type service must not be null.");
+            this.moneyFlowSourceRecipientTypeService = moneyFlowSourceRecipientTypeService;
             this.validator = validator;
             throwIfEntityNotFound = (instance, id, type) =>
             {
@@ -277,7 +280,6 @@ namespace ECA.Business.Service.Fundings
                 throwIfEntityNotFound(recipientEntity, moneyFlow.RecipientEntityId.Value, recipientType);
             }
             return DoCreate(moneyFlow);
-
         }
 
         /// <summary>
@@ -316,11 +318,12 @@ namespace ECA.Business.Service.Fundings
             return newMoneyFlow;
         }
 
-        private MoneyFlowServiceCreateValidationEntity GetCreateValidationEntity(AdditionalMoneyFlow moneyFlow, bool hasSourceEntityType, bool hasRecipientEntityType)
+        private MoneyFlowServiceCreateValidationEntity GetCreateValidationEntity(AdditionalMoneyFlow moneyFlow, bool hasSourceEntityType, bool hasRecipientEntityType, List<int> allowedRecipientEntityTypeIds)
         {
             return new MoneyFlowServiceCreateValidationEntity(
                 sourceEntityTypeId: moneyFlow.SourceEntityTypeId,
                 recipientEntityTypeId: moneyFlow.RecipientEntityTypeId,
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
                 description: moneyFlow.Description, 
                 transactionDate: moneyFlow.TransactionDate, 
                 value: moneyFlow.Value,

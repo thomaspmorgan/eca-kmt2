@@ -25,11 +25,13 @@ namespace ECA.Business.Service.Fundings
         /// <param name="hasRecipientEntityType">True, if the recipient entity has a mapped eca data entity.</param>
         /// <param name="transactionDate">The transaction date.</param>
         /// <param name="fiscalYear">The fiscal year.</param>
+        /// <param name="allowedRecipientEntityTypeIds">The collection of MoneyFlowSourceRecipientEntityTypes by id that are allowed by the source and settings.</param>
         public MoneyFlowServiceCreateValidationEntity(
             string description,
             decimal value,
             int sourceEntityTypeId,
             int recipientEntityTypeId,
+            IEnumerable<int> allowedRecipientEntityTypeIds,
             int? sourceEntityId,
             int? recipientEntityId,
             bool hasSourceEntityType,
@@ -47,6 +49,7 @@ namespace ECA.Business.Service.Fundings
             this.RecipientEntityTypeId = recipientEntityTypeId;
             this.SourceEntityTypeId = sourceEntityTypeId;
             this.FiscalYear = fiscalYear;
+            this.AllowedRecipientEntityTypeIds = allowedRecipientEntityTypeIds.Distinct().ToList() ?? new List<int>();
         }
 
         /// <summary>
@@ -68,6 +71,11 @@ namespace ECA.Business.Service.Fundings
         /// Gets the id of the source entity.
         /// </summary>
         public int? SourceEntityId { get; private set; }
+
+        /// <summary>
+        /// Gets the allowed recipient entity type ids.
+        /// </summary>
+        public IEnumerable<int> AllowedRecipientEntityTypeIds { get; private set; }
 
         /// <summary>
         /// Gets the id of the recipient entity.

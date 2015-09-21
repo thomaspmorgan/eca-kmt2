@@ -341,6 +341,11 @@ namespace ECA.Data
         public DbSet<MoneyFlowSourceRecipientType> MoneyFlowSourceRecipientTypes { get; set; }
 
         /// <summary>
+        /// Gets or sets the money flow source recipient type settings.
+        /// </summary>
+        public DbSet<MoneyFlowSourceRecipientTypeSetting> MoneyFlowSourceRecipientTypeSettings { get; set; }
+
+        /// <summary>
         /// Gets or sets users.
         /// </summary>
         public DbSet<UserAccount> UserAccounts { get; set; }
@@ -422,7 +427,6 @@ namespace ECA.Data
         /// Returns the entity that is cached locally in the db set.  This method is virtual for unit testing.
         /// </summary>
         /// <typeparam name="T">The set type.</typeparam>
-        /// <param name="set">The set containing the objects.</param>
         /// <param name="whereClause">The where clause to locate the entity.</param>
         /// <returns>The local entity instance or null if not found.</returns>
         public virtual T GetLocalEntity<T>(Func<T, bool> whereClause) where T : class
