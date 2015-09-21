@@ -49,7 +49,7 @@ namespace ECA.Business.Service.Fundings
             this.RecipientEntityTypeId = recipientEntityTypeId;
             this.SourceEntityTypeId = sourceEntityTypeId;
             this.FiscalYear = fiscalYear;
-            this.AllowedRecipientEntityTypeIds = allowedRecipientEntityTypeIds.Distinct().ToList() ?? new List<int>();
+            this.AllowedRecipientEntityTypeIds = allowedRecipientEntityTypeIds == null ? new List<int>() : allowedRecipientEntityTypeIds.Distinct();
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace ECA.Business.Service.Fundings
         /// <param name="value">The value of the money flow.</param>
         /// <param name="fiscalYear">The fiscal year.</param>
         public MoneyFlowServiceUpdateValidationEntity(
-            string description, 
+            string description,
             decimal value,
             int fiscalYear)
         {

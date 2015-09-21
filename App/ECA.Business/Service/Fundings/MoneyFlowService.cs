@@ -264,7 +264,8 @@ namespace ECA.Business.Service.Fundings
             var hasRecipientEntityType = IsMoneyFlowType(moneyFlow.RecipientEntityTypeId);
             object sourceEntity = null;
             object recipientEntity = null;
-            validator.ValidateCreate(GetCreateValidationEntity(moneyFlow, hasSourceEntityType, hasRecipientEntityType));
+            List<int> allowedMoneyFlowRecipientTypeIds = moneyFlowSourceRecipientTypeService.GetRecipientMoneyFlowTypes(moneyFlow.RecipientEntityTypeId).Select(x => x.Id).ToList();
+            validator.ValidateCreate(GetCreateValidationEntity(moneyFlow, hasSourceEntityType, hasRecipientEntityType, allowedMoneyFlowRecipientTypeIds));
             if (hasSourceEntityType)
             {
                 Contract.Assert(moneyFlow.SourceEntityId.HasValue, "The source entity id should have a value here.  This should be checked by validator.");
@@ -293,7 +294,8 @@ namespace ECA.Business.Service.Fundings
             var hasRecipientEntityType = IsMoneyFlowType(moneyFlow.RecipientEntityTypeId);
             object sourceEntity = null;
             object recipientEntity = null;
-            validator.ValidateCreate(GetCreateValidationEntity(moneyFlow, hasSourceEntityType, hasRecipientEntityType));
+            List<int> allowedMoneyFlowRecipientTypeIds = (await moneyFlowSourceRecipientTypeService.GetRecipientMoneyFlowTypesAsync(moneyFlow.RecipientEntityTypeId)).Select(x => x.Id).ToList();
+            validator.ValidateCreate(GetCreateValidationEntity(moneyFlow, hasSourceEntityType, hasRecipientEntityType, allowedMoneyFlowRecipientTypeIds));
             if (hasSourceEntityType)
             {
                 Contract.Assert(moneyFlow.SourceEntityId.HasValue, "The source entity id should have a value here.  This should be checked by validator.");

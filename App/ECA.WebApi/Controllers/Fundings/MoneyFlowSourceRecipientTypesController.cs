@@ -15,6 +15,7 @@ namespace ECA.WebApi.Controllers.Fundings
     /// The money flow source recipient types controller handles crud operations on money flow source recipient types.
     /// </summary>
     [Authorize]
+    [RoutePrefix("api/MoneyFlowSourceRecipientTypes")]
     public class MoneyFlowSourceRecipientTypesController : ApiController
     {
 
@@ -49,6 +50,17 @@ namespace ECA.WebApi.Controllers.Fundings
             {
                 return BadRequest(ModelState);
             }
+        }
+
+        /// <summary>
+        /// Returns the MoneyFlowSourceRecipientTypes that are valid recipient types for the source MoneyFlowSourceRecipientType with the given id.
+        /// </summary>
+        /// <param name="id">The id of the source MoneyFlowSourceRecipientType.</param>
+        /// <returns>The MoneyFlowSourceRecipientTypes that are valid recipient types for the MoneyFlowSourceRecipientType with the given id.</returns>
+        [Route("{id:int}/RecipientTypes")]
+        public async Task<IHttpActionResult> GetAllowedMoneyFlowRecipientTypesAsync(int id)
+        {
+            return Ok(await service.GetRecipientMoneyFlowTypesAsync(id));
         }
 
     }

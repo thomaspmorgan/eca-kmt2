@@ -76,7 +76,7 @@ namespace ECA.Business.Test.Service.Fundings
             var setting = new MoneyFlowSourceRecipientTypeSetting
             {
                 Id = 1,
-                IsReceipient = true,
+                IsRecipient = true,
                 MoneyFlowSourceRecipientType = moneyFlowSourceRecipientType,
                 MoneyFlowSourceRecipientTypeId = moneyFlowSourceRecipientType.MoneyFlowSourceRecipientTypeId,
                 PeerMoneyFlowSourceRecipientType = peerMoneyFlowSourceRecipientType,
@@ -117,7 +117,7 @@ namespace ECA.Business.Test.Service.Fundings
             var setting = new MoneyFlowSourceRecipientTypeSetting
             {
                 Id = 1,
-                IsReceipient = false,
+                IsRecipient = false,
                 MoneyFlowSourceRecipientType = moneyFlowSourceRecipientType,
                 MoneyFlowSourceRecipientTypeId = moneyFlowSourceRecipientType.MoneyFlowSourceRecipientTypeId,
                 PeerMoneyFlowSourceRecipientType = peerMoneyFlowSourceRecipientType,

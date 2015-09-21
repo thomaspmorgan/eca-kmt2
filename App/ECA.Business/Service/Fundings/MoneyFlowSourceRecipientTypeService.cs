@@ -106,7 +106,7 @@ namespace ECA.Business.Service.Fundings
 
         private IQueryable<MoneyFlowSourceRecipientTypeSetting> CreateGetRecipientMoneyFlowSourceRecipientTypeSettingsQuery(int sourceRecipientTypeId)
         {
-            return CreateGetMoneyFlowSourceReceipientTypeSettingsQuery(sourceRecipientTypeId).Where(x => x.IsReceipient);
+            return CreateGetMoneyFlowSourceReceipientTypeSettingsQuery(sourceRecipientTypeId).Where(x => x.IsRecipient);
         }
 
         private IQueryable<MoneyFlowSourceRecipientTypeSetting> CreateGetMoneyFlowSourceReceipientTypeSettingsQuery(int moneyFlowSourceRecipientTypeId)

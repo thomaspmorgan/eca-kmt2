@@ -31,13 +31,15 @@ namespace ECA.Business.Test.Service.Fundings
         private TestEcaContext context;
         private MoneyFlowService service;
         private Mock<IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity>> validator;
+        private Mock<IMoneyFlowSourceRecipientTypeService> moneyFlowSourceRecipientTypeService;
 
         [TestInitialize]
         public void TestInit()
         {
             context = new TestEcaContext();
             validator = new Mock<IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity>>();
-            service = new MoneyFlowService(context, validator.Object);
+            moneyFlowSourceRecipientTypeService = new Mock<IMoneyFlowSourceRecipientTypeService>();
+            service = new MoneyFlowService(context, moneyFlowSourceRecipientTypeService.Object, validator.Object);
         }
 
         [TestCleanup]
@@ -763,7 +765,8 @@ namespace ECA.Business.Test.Service.Fundings
                     recipientEntityId: recipientProject.ProjectId,
                     recipientEntityTypeId: projectMoneyFlowTypeId
                     );
-
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypes(It.IsAny<int>())).Returns(new List<MoneyFlowSourceRecipientTypeDTO>());
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypesAsync(It.IsAny<int>())).ReturnsAsync(new List<MoneyFlowSourceRecipientTypeDTO>());
                 Action tester = () =>
                 {
                     Assert.AreEqual(1, context.MoneyFlows.Count());
@@ -801,6 +804,8 @@ namespace ECA.Business.Test.Service.Fundings
                 tester();
 
                 validator.Verify(x => x.ValidateCreate(It.IsAny<MoneyFlowServiceCreateValidationEntity>()), Times.Exactly(2));
+                moneyFlowSourceRecipientTypeService.Verify(x => x.GetRecipientMoneyFlowTypes(It.IsAny<int>()), Times.Once());
+                moneyFlowSourceRecipientTypeService.Verify(x => x.GetRecipientMoneyFlowTypesAsync(It.IsAny<int>()), Times.Once());
             }
         }
 
@@ -827,6 +832,8 @@ namespace ECA.Business.Test.Service.Fundings
                 {
                     ProjectId = 2
                 };
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypes(It.IsAny<int>())).Returns(new List<MoneyFlowSourceRecipientTypeDTO>());
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypesAsync(It.IsAny<int>())).ReturnsAsync(new List<MoneyFlowSourceRecipientTypeDTO>());
                 context.SetupActions.Add(() =>
                 {
                     context.Projects.Add(recipientProject);
@@ -888,6 +895,8 @@ namespace ECA.Business.Test.Service.Fundings
                 {
                     ProjectId = 1
                 };
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypes(It.IsAny<int>())).Returns(new List<MoneyFlowSourceRecipientTypeDTO>());
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypesAsync(It.IsAny<int>())).ReturnsAsync(new List<MoneyFlowSourceRecipientTypeDTO>());
                 context.SetupActions.Add(() =>
                 {
                     context.Projects.Add(sourceProject);

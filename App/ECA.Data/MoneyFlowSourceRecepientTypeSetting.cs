@@ -12,8 +12,12 @@ namespace ECA.Data
     /// A MoneyFlowSourceRecipientTypeSetting is a configuration detailing a money flow source recipient type
     /// and it's peer money flow source type that can either be a source or a recipient.
     /// </summary>
+    [Table("MoneyFlowSourceRecipientTypeSettings")]
     public class MoneyFlowSourceRecipientTypeSetting
     {
+        /// <summary>
+        /// The name of the MoneyFlowSourceRecipientTypeId foreign key.
+        /// </summary>
         public const string MONEY_FLOW_SOURCE_RECIPIENT_TYPE_ID_FOREIGN_KEY_NAME = "MoneyFlowSourceRecipientTypeId";
 
         [Key]
@@ -37,7 +41,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets whether the peer money flow source type is a recipient to the money flow source type.
         /// </summary>
-        public bool IsReceipient { get; set; }
+        public bool IsRecipient { get; set; }
 
         /// <summary>
         /// Gets or sets the money flow source type being configured.
