@@ -351,6 +351,11 @@ namespace ECA.Data
         public DbSet<Website> Websites { get; set; }
 
         /// <summary>
+        /// Gets or sets the organization roles
+        /// </summary>
+        public DbSet<OrganizationRole> OrganizationRoles { get; set; }
+
+        /// <summary>
         /// Overrides the DbContext OnModelCreating method.
         /// </summary>
         /// <param name="modelBuilder">The model builder.</param>

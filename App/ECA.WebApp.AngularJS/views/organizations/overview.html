@@ -39,6 +39,14 @@
                     <div class="col-md-6 title-label">Type</div>
                     <div class="col-md-6">{{organization.organizationType}}</div>
                 </div>
+                <div class="row" ng-show="organization.organizationRoles.length > 0">
+                    <div class="col-md-6 title-label">Roles</div>
+                    <div class="col-md-6">
+                        <ul>
+                            <li ng-repeat="role in organization.organizationRoles | orderBy:'value'">{{role.value}}</li>
+                        </ul>
+                    </div>
+                </div>
                 <div class="row" ng-show="organization.contacts">
                     <div class="col-md-6 title-label"><ng-pluralize count="organization.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
                     <div class="col-md-6">

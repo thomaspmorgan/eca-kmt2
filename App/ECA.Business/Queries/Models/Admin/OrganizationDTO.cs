@@ -86,5 +86,10 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or sets the organization status
         /// </summary>
         public string Status { get; set; }
+
+        /// <summary>
+        /// Gets or sets the organization roles
+        /// </summary>
+        public IEnumerable<SimpleLookupDTO> OrganizationRoles { get; set; }
     }
 }

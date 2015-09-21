@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ECA.Core.Exceptions;
 using ECA.Business.Validation;
+using ECA.Business.Service.Lookup;
 
 namespace ECA.Business.Service.Admin
 {
@@ -100,6 +101,18 @@ namespace ECA.Business.Service.Admin
             var dto = await OrganizationQueries.CreateGetOrganizationDTOByOrganizationIdQuery(this.Context, organizationId).FirstOrDefaultAsync();
             this.logger.Trace("Retreived organization by id [{0}].", organizationId);
             return dto;
+        }
+
+        /// <summary>
+        /// Get the organization roles
+        /// </summary>
+        /// <param name="queryOperator">The query operator to apply</param>
+        /// <returns>List of organization roles</returns>
+        public async Task<PagedQueryResults<SimpleLookupDTO>> GetOrganizationRolesAsync(QueryableOperator<SimpleLookupDTO> queryOperator)
+        {
+            var organizationRoles = await OrganizationQueries.CreateGetOrganizationRolesQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved organization roles with query operator [{0}].", queryOperator);
+            return organizationRoles;
         }
 
         #endregion
