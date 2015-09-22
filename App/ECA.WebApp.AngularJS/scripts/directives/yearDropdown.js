@@ -22,8 +22,8 @@ angular.module('staticApp', []).directive('yearDropdown', function () {
             for (var i = +attrs.offset; i < +attrs.range + 1; i++) {
                 scope.years.push(currentYear + i);
             }
-            scope.bar = currentYear;
+            scope.model = currentYear;
         },
-        template: '<select ng-model="bar" ng-options="y for y in years"></select>'
+        template: '<select ng-model="model" ng-options="y for y in years"></select>'
     }
 });
