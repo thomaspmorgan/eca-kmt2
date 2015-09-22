@@ -100,50 +100,26 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
-        /// Retrieves the education dto with the given id.
+        /// Retrieves the profession/education dto with the given id.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public EducationEmploymentDTO GetEducationById(int id)
+        public EducationEmploymentDTO GetProfessionEducationById(int id)
         {
-            var dto = PersonQueries.CreateGetEducationsByPersonIdQuery(this.Context, id).FirstOrDefault();
-            logger.Info("Retrieved the education dto with given id [{0}]", id);
+            var dto = ProfessionEducationQueries.CreateGetProfessionEducationDTOByIdQuery(this.Context, id).FirstOrDefault();
+            logger.Info("Retrieved the education/employment dto with given id [{0}]", id);
             return dto;
         }
 
         /// <summary>
-        /// Retrieves the education dto with the given id.
+        /// Retrieves the profession/education dto with the given id.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<EducationEmploymentDTO> GetEducationByIdAsync(int id)
+        public async Task<EducationEmploymentDTO> GetProfessionEducationByIdAsync(int id)
         {
-            var dto = await PersonQueries.CreateGetEducationsByPersonIdQuery(this.Context, id).FirstOrDefaultAsync();
-            logger.Info("Retrieved the education dto with given id [{0}]", id);
-            return dto;
-        }
-
-        /// <summary>
-        /// Retrieves the employment dto with the given id.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public EducationEmploymentDTO GetEmploymentById(int id)
-        {
-            var dto = PersonQueries.CreateGetEmploymentsByPersonIdQuery(this.Context, id).FirstOrDefault();
-            logger.Info("Retrieved the employment dto with given id [{0}]", id);
-            return dto;
-        }
-
-        /// <summary>
-        /// Retrieves the employment dto with the given id.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<EducationEmploymentDTO> GetEmploymentByIdAsync(int id)
-        {
-            var dto = await PersonQueries.CreateGetEmploymentsByPersonIdQuery(this.Context, id).FirstOrDefaultAsync();
-            logger.Info("Retrieved the employment dto with given id [{0}]", id);
+            var dto = await ProfessionEducationQueries.CreateGetProfessionEducationDTOByIdQuery(this.Context, id).FirstOrDefaultAsync();
+            logger.Info("Retrieved the education/employment dto with given id [{0}]", id);
             return dto;
         }
         
@@ -187,72 +163,45 @@ namespace ECA.Business.Service.Persons
         #region Create
 
         /// <summary>
-        /// Creates a new education in the ECA system.
+        /// Creates a new profession/education in the ECA system.
         /// </summary>
         /// <param name="personEduEmp"></param>
         /// <returns></returns>
-        public ProfessionEducation CreateEducation(NewPersonEduEmp personEduEmp)
+        public ProfessionEducation CreateProfessionEducation(NewPersonEduEmp personEduEmp)
         {
             var person = this.Context.People.Find(personEduEmp.PersonId);
-            return DoCreateEducation(personEduEmp, person);
+            return DoCreateProfessionEducation(personEduEmp, person);
         }
 
         /// <summary>
-        /// Creates a new education in the ECA system.
+        /// Creates a new profession/education in the ECA system.
         /// </summary>
         /// <param name="personEduEmp"></param>
         /// <returns></returns>
-        public async Task<ProfessionEducation> CreateEducationAsync(NewPersonEduEmp personEduEmp)
+        public async Task<ProfessionEducation> CreateProfessionEducationAsync(NewPersonEduEmp personEduEmp)
         {
             var person = await this.Context.People.FindAsync(personEduEmp.PersonId);
-            return DoCreateEducation(personEduEmp, person);
+            return DoCreateProfessionEducation(personEduEmp, person);
         }
         
-        private ProfessionEducation DoCreateEducation(NewPersonEduEmp personEduEmp, Person person)
+        private ProfessionEducation DoCreateProfessionEducation(NewPersonEduEmp personEduEmp, Person person)
         {
             throwIfPersonEntityNotFound(person, personEduEmp.PersonId);
             return personEduEmp.AddPersonEducation(person);
         }
-
-        /// <summary>
-        /// Creates a new employment in the ECA system.
-        /// </summary>
-        /// <param name="personEduEmp"></param>
-        /// <returns></returns>
-        public ProfessionEducation CreateEmployment(NewPersonEduEmp personEduEmp)
-        {
-            var person = this.Context.People.Find(personEduEmp.PersonId);
-            return DoCreateEmployment(personEduEmp, person);
-        }
-
-        /// <summary>
-        /// Creates a new employment in the ECA system.
-        /// </summary>
-        /// <param name="personEduEmp"></param>
-        /// <returns></returns>
-        public async Task<ProfessionEducation> CreateEmploymentAsync(NewPersonEduEmp personEduEmp)
-        {
-            var person = await this.Context.People.FindAsync(personEduEmp.PersonId);
-            return DoCreateEmployment(personEduEmp, person);
-        }
-
-        private ProfessionEducation DoCreateEmployment(NewPersonEduEmp personEduEmp, Person person)
-        {
-            throwIfPersonEntityNotFound(person, personEduEmp.PersonId);
-            return personEduEmp.AddPersonProfession(person);
-        }
+        
         #endregion
 
         #region Update
 
         /// <summary>
-        /// Updates the ECA system's education data with the given updated education.
+        /// Updates the ECA system's profession/education data with the given updated profession/education.
         /// </summary>
         /// <param name="updatedEduEmp"></param>
-        public void UpdateEducation(UpdatedPersonEduEmp updatedEduEmp)
+        public void UpdateProfessionEducation(UpdatedPersonEduEmp updatedEduEmp)
         {
             var eduemp = Context.ProfessionEducations.Find(updatedEduEmp.ProfessionEducationId);
-            DoUpdateEducation(updatedEduEmp, eduemp);
+            DoUpdateProfessionEducation(updatedEduEmp, eduemp);
         }
 
         /// <summary>
@@ -260,35 +209,14 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="updatedEduEmp"></param>
         /// <returns></returns>
-        public async Task UpdateEducationAsync(UpdatedPersonEduEmp updatedEduEmp)
+        public async Task UpdateProfessionEducationAsync(UpdatedPersonEduEmp updatedEduEmp)
         {
             int id = updatedEduEmp.ProfessionEducationId;
             var eduemp = await Context.ProfessionEducations.FindAsync(id);
-            DoUpdateEducation(updatedEduEmp, eduemp);
+            DoUpdateProfessionEducation(updatedEduEmp, eduemp);
         }
-
-        /// <summary>
-        /// Updates the ECA system's employment data with the given updated employment.
-        /// </summary>
-        /// <param name="updatedEduEmp"></param>
-        public void UpdateEmployment(UpdatedPersonEduEmp updatedEduEmp)
-        {
-            var eduemp = Context.ProfessionEducations.Find(updatedEduEmp.ProfessionEducationId);
-            DoUpdateEmployment(updatedEduEmp, eduemp);
-        }
-
-        /// <summary>
-        /// Updates the ECA system's employment data with the given updated employment.
-        /// </summary>
-        /// <param name="updatedEduEmp"></param>
-        /// <returns></returns>
-        public async Task UpdateEmploymentAsync(UpdatedPersonEduEmp updatedEduEmp)
-        {
-            var eduemp = await Context.ProfessionEducations.FindAsync(updatedEduEmp.ProfessionEducationId);
-            DoUpdateEmployment(updatedEduEmp, eduemp);
-        }
-
-        private void DoUpdateEducation(UpdatedPersonEduEmp updatedEduEmp, ProfessionEducation modelToUpdate)
+        
+        private void DoUpdateProfessionEducation(UpdatedPersonEduEmp updatedEduEmp, ProfessionEducation modelToUpdate)
         {
             Contract.Requires(updatedEduEmp != null, "The updatedEduEmp must not be null.");
             throwIfEduEmpNotFound(modelToUpdate, updatedEduEmp.ProfessionEducationId);
@@ -300,24 +228,10 @@ namespace ECA.Business.Service.Persons
             modelToUpdate.DateTo = updatedEduEmp.EndDate;
             modelToUpdate.OrganizationId = updatedEduEmp.OrganizationId;
             modelToUpdate.PersonOfEducation_PersonId = updatedEduEmp.PersonOfEducation_PersonId;
-            updatedEduEmp.Update.SetHistory(modelToUpdate);
-        }
-
-        private void DoUpdateEmployment(UpdatedPersonEduEmp updatedEduEmp, ProfessionEducation modelToUpdate)
-        {
-            Contract.Requires(updatedEduEmp != null, "The updatedEduEmp must not be null.");
-            throwIfEduEmpNotFound(modelToUpdate, updatedEduEmp.ProfessionEducationId);
-
-            modelToUpdate.ProfessionEducationId = updatedEduEmp.ProfessionEducationId;
-            modelToUpdate.Title = updatedEduEmp.Title;
-            modelToUpdate.Role = updatedEduEmp.Role;
-            modelToUpdate.DateFrom = updatedEduEmp.StartDate;
-            modelToUpdate.DateTo = updatedEduEmp.EndDate;
-            modelToUpdate.OrganizationId = updatedEduEmp.OrganizationId;
             modelToUpdate.PersonOfProfession_PersonId = updatedEduEmp.PersonOfProfession_PersonId;
             updatedEduEmp.Update.SetHistory(modelToUpdate);
         }
-
+        
         #endregion
 
         #region Delete
