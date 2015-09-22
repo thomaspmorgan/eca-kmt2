@@ -110,7 +110,7 @@
                                             </div>
                                         </form>
                                         <div class="row right" ng-show="view.showEditEducation">
-                                            <button ng-click="view.saveEducationChanges()" class="btn btn-success" ng-disabled="form.educationForm.$invalid">Save</button>
+                                            <button ng-click="view.saveEducationChanges()" class="btn btn-success" ng-disabled="form.educationForm.$pristine || form.educationForm.$invalid">Save</button>
                                             <button ng-click="view.cancelEducationChanges(form.educationForm)" class="btn btn-cancel">Cancel</button>
                                         </div>
                                     </div>
@@ -155,7 +155,7 @@
                                         Are you sure you want to delete this employment?
                                     </div>
                                     <div ng-show="view.showConfirmDeleteEmployment" style="margin-top: 10px;" class="text-center">
-                                        <button ng-click="view.onDeleteEmploymentClick()" class="btn btn-danger">Delete</button>
+                                        <button ng-click="view.onDeleteEmploymentClick(employment)" class="btn btn-danger">Delete</button>
                                         <button ng-click="view.showConfirmDeleteEmployment = !view.showConfirmDeleteEmployment" class="btn btn-cancel">Cancel</button>
                                     </div>
                                     <div in-context-form ng-show="view.showEditEmployment">
@@ -214,7 +214,7 @@
                                             </div>
                                         </form>
                                         <div class="row right" ng-show="view.showEditEmployment">
-                                            <button ng-click="view.saveEmploymentChanges()" class="btn btn-success" ng-disabled="form.employmentForm.$invalid">Save</button>
+                                            <button ng-click="view.saveEmploymentChanges()" class="btn btn-success" ng-disabled="form.employmentForm.$pristine || form.employmentForm.$invalid">Save</button>
                                             <button ng-click="view.cancelEmploymentChanges(form.employmentForm)" class="btn btn-cancel">Cancel</button>
                                         </div>
                                     </div>
