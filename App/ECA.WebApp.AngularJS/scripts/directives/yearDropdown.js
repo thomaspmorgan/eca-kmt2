@@ -6,8 +6,9 @@
  * @description
  * # lists years in a dropdown according to parameters
  * 
- * Usage: <div year-dropdown ng-model="fiscalYear" offset="-10" range="2"></div>
- * 
+ * Usage: <year-dropdown name="fiscalYear" id="fiscalYear" ng-model="moneyFlow.fiscalYear" offset="-10" range="2" class="yearDropdown" required></year-dropdown>
+ * offset: years in the past to include.
+ * range: years in the future to include.
  */
 angular.module('staticApp')
     .directive('yearDropdown', function () {
