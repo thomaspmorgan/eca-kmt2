@@ -63,5 +63,16 @@ namespace ECA.WebApi.Controllers.Fundings
             return Ok(await service.GetRecipientMoneyFlowTypesAsync(id));
         }
 
+        /// <summary>
+        /// Returns the MoneyFlowSourceRecipientTypes that are valid source types for the recipient MoneyFlowSourceRecipientType with the given id.
+        /// </summary>
+        /// <param name="id">The id of the recipient MoneyFlowSourceRecipientType.</param>
+        /// <returns>The MoneyFlowSourceRecipientTypes that are valid source types for the MoneyFlowSourceRecipientType with the given id.</returns>
+        [Route("{id:int}/SourceTypes")]
+        public async Task<IHttpActionResult> GetAllowedMoneyFlowSourceTypesAsync(int id)
+        {
+            return Ok(await service.GetSourceMoneyFlowTypesAsync(id));
+        }
+
     }
 }
