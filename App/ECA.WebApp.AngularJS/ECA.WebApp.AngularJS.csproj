@@ -233,6 +233,7 @@
     <Content Include="scripts\directives\exposetablestate.js" />
     <Content Include="scripts\directives\socialmedialink.js" />
     <Content Include="scripts\directives\uiselectstsearch.js" />
+    <Content Include="scripts\directives\yearDropdown.js" />
     <Content Include="scripts\filters\groupby.js" />
     <Content Include="scripts\filters\propFilter.js" />
     <Content Include="scripts\services\bookmark.js" />
