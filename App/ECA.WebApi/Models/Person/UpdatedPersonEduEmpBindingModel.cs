@@ -26,7 +26,7 @@ namespace ECA.WebApi.Models.Person
         {
             return new UpdatedPersonEduEmp(
                 updator: user,
-                id: this.ProfessionEducationId,
+                professionEducationId: this.ProfessionEducationId,
                 title: this.Title,
                 role: this.Role,
                 startDate: this.StartDate,

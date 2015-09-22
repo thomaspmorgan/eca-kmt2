@@ -171,7 +171,7 @@ namespace ECA.Business.Service.Persons
 
             return Context.ProfessionEducations.Select(x => new EducationEmploymentDTO
             {
-                Id = x.ProfessionEducationId,
+                ProfessionEducationId = x.ProfessionEducationId,
                 Title = x.Title,
                 Role = x.Role,
                 StartDate = x.DateFrom,

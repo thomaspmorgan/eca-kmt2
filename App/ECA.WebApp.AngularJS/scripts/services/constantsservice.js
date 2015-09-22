@@ -43,8 +43,7 @@
 			other: {id: 7, value: "Other"},
 			publicInternationalOrganizationPio: {id: 8, value: "Public International Organization (PIO)"},
 			uSEducationalInstitution: {id: 9, value: "U.S. Educational Institution"},
-			uSNonProfitOrganization501C3: {id: 10, value: "U.S. Non-Profit Organization (501(c)(3))"},
-			individual: {id: 11, value: "Individual"}
+			uSNonProfitOrganization501C3: {id: 10, value: "U.S. Non-Profit Organization (501(c)(3))"}
 		},
 		participantType: {
 			foreignEducationalInstitution: {id: 1, value: "Foreign Educational Institution"},
@@ -138,8 +137,9 @@
 		registerUserFailureEventName: 'registerUserFailure',
 		registerUserSuccessEventName: 'registerUserSuccess',
 		removeNewAddressEventName: 'removeNewAddress',
-		removeNewEduEmpEventName: 'removeNewEduEmp',
+		removeNewEducationEventName: 'removeNewEducation',
 		removeNewEmailAddressEventName: 'removeNewEmailAddress',
+		removeNewEmploymentEventName: 'removeNewEmployment',
 		removeNewLanguageProficiencyEventName: 'removeNewLanguageProficiency',
 		removeNewMembershipsEventName: 'removeNewMembership',
 		removeNewSocialMediaEventName: 'removeNewSocialMedia',

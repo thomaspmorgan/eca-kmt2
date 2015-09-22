@@ -105,7 +105,8 @@
                         <div class="form-group row">
                             <label class="col-md-4 title-label">City</label>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" name="cityOfBirth" ng-model="pii.cityOfBirthId" typeahead="city.id as city.name for city in getCities($viewValue) | limitTo : 25"
+                                <input type="text" class="form-control" name="cityOfBirth" ng-model="pii.cityOfBirthId" 
+                                       typeahead="city.id as city.name for city in getCities($viewValue) | limitTo: 25"
                                        typeahead-editable="false" typeahead-input-formatter="formatCityOfBirth($model)" />
                             </div>
                         </div>

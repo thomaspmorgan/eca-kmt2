@@ -246,7 +246,7 @@ namespace ECA.Business.Queries.Persons
         public static IQueryable<EducationEmploymentDTO> CreateGetEducationsByPersonIdQuery(EcaContext context, int personId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var allOrganizations = OrganizationQueries.CreateGetSimpleOrganizationsDTOQuery(context);
+            //var allOrganizations = OrganizationQueries.CreateGetSimpleOrganizationsDTOQuery(context);
 
             var query = from education in context.ProfessionEducations
                         //let hasOrganization = education.Organization != null
@@ -259,7 +259,7 @@ namespace ECA.Business.Queries.Persons
                         orderby education.DateFrom descending
                         select new EducationEmploymentDTO
                         {
-                            Id = education.ProfessionEducationId,
+                            ProfessionEducationId = education.ProfessionEducationId,
                             Title = education.Title,
                             Role = education.Role,
                             StartDate = education.DateFrom,
@@ -302,7 +302,7 @@ namespace ECA.Business.Queries.Persons
                         orderby employment.DateFrom descending
                         select new EducationEmploymentDTO
                         {
-                            Id = employment.ProfessionEducationId,
+                            ProfessionEducationId = employment.ProfessionEducationId,
                             Title = employment.Title,
                             Role = employment.Role,
                             StartDate = employment.DateFrom,
