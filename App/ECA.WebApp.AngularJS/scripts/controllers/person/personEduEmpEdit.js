@@ -21,7 +21,7 @@ angular.module('staticApp')
       $scope.view.showEditEducation = false;
       $scope.view.showEditEmployment = false;
       $scope.view.isSavingChanges = false;
-      $scope.view.tempId = 0;
+      var tempId = 0;
 
       $scope.data = {};
       $scope.data.educations = [];
@@ -137,7 +137,7 @@ angular.module('staticApp')
           $scope.education.personId = parseInt($scope.view.personId);
 
           if (isNewEduEmp($scope.education)) {
-              var tempId = angular.copy($scope.education.professionEducationId);
+              tempId = angular.copy($scope.education.professionEducationId);
               return EduEmpService.addProfessionEducation($scope.education, $scope.view.personId)
                 .then(onSaveEducationSuccess)
                 .then(function () {
@@ -157,11 +157,11 @@ angular.module('staticApp')
           $scope.employment.personId = parseInt($scope.view.personId);
 
           if (isNewEduEmp($scope.employment)) {
-              $scope.view.tempId = angular.copy($scope.employment.professionEducationId);
+              tempId = angular.copy($scope.employment.professionEducationId);
               return EduEmpService.addProfessionEducation($scope.employment, $scope.view.personId)
                 .then(onSaveEmploymentSuccess)
                 .then(function () {
-                    updateEmploymentFormDivId($scope.view.tempId);
+                    updateEmploymentFormDivId(tempId);
                 })
                 .catch(onSaveEmploymentError);
           }
@@ -178,7 +178,7 @@ angular.module('staticApp')
           var title = "";
           var role = "";
           var newEducation = {
-              professionEducationId: null,
+              professionEducationId: --tempId,
               title: title,
               role: role,
               startDate: null,
