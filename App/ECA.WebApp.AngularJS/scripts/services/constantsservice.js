@@ -133,6 +133,7 @@
 		officeJustificationSettingName: 'Justification',
 		officeObjectiveSettingName: 'Objective',
 		primaryAddressChangedEventName: 'primaryAddressChanged',
+		primaryLanguageProficiencyChangedEventName: 'primaryLanguageProficiencyChanged',
 		registeringUserEventName: 'registeringUser',
 		registerUserFailureEventName: 'registerUserFailure',
 		registerUserSuccessEventName: 'registerUserSuccess',

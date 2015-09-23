@@ -149,4 +149,8 @@ angular.module('staticApp')
               return false;
           }
       }
+
+      $scope.view.onIsNativeLanguageChange = function () {
+          $scope.$emit(ConstantsService.primaryLanguageProficiencyChangedEventName, $scope.languageProficiency);
+      }
   });
