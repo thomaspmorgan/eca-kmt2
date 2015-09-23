@@ -51,11 +51,17 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodedUITest1.cs" />
+    <Compile Include="LocalLogin.Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="UIMap.LocalLogin.uitest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UITest.Core\UITest.Core.csproj">
+      <Project>{ec8fe480-4beb-4a16-ad1a-45a308c09107}</Project>
+      <Name>UITest.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
