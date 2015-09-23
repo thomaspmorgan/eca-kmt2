@@ -95,7 +95,7 @@
                     <select class="form-control"
                             id="peerEntityTypeId"
                             name="peerEntityTypeId"
-                            ng-options="t.id as t.name for t in view.moneyFlowSourceRecipientTypes"
+                            ng-options="t.id as t.name for t in view.getAllowedMoneyFlowSourceRecipientTypes(view.moneyFlow)"
                             ng-model="view.moneyFlow.peerEntityTypeId"
                             ng-change="view.onSelectSourceType()"
                             required />

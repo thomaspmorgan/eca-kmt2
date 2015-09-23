@@ -24,14 +24,16 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             var fiscalYear = 2000;
-            var list = new List<int> { 1, 2, 3, 3 };
+            var allowedRecipientEntityTypeIds = new List<int> { 1, 2, 3, 3 };
+            var allowedProjectParticipantIds = new List<int> { 5, 6, 7, 7 };
 
             var instance = new MoneyFlowServiceCreateValidationEntity(
                 description, 
                 value, 
                 sourceEntityTypeId,
                 recipientEntityTypeId,
-                list,
+                allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds,
                 sourceEntityId, 
                 recipientEntityId, 
                 hasSourceEntityType, 
@@ -49,11 +51,12 @@ namespace ECA.Business.Test.Service.Fundings
             Assert.AreEqual(recipientEntityTypeId, instance.RecipientEntityTypeId);
             Assert.AreEqual(fiscalYear, instance.FiscalYear);
 
-            CollectionAssert.AreEqual(list.Distinct().ToList(), instance.AllowedRecipientEntityTypeIds.ToList());
+            CollectionAssert.AreEqual(allowedRecipientEntityTypeIds.Distinct().ToList(), instance.AllowedRecipientEntityTypeIds.ToList());
+            CollectionAssert.AreEqual(allowedProjectParticipantIds.Distinct().ToList(), instance.AllowedProjectParticipantIds.ToList());
         }
 
         [TestMethod]
-        public void TestConstructor_NullAllowedRecipientEntityTypeIds()
+        public void TestConstructor_NullIdsLists()
         {
             var value = 1.00m;
             var description = "description";
@@ -65,7 +68,8 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             var fiscalYear = 2000;
-            List<int> list = null;
+            List<int> allowedRecipientEntityTypeIds = null;
+            List<int> allowedProjectParticipantIds = null;
 
 
             var instance = new MoneyFlowServiceCreateValidationEntity(
@@ -73,7 +77,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value,
                 sourceEntityTypeId,
                 recipientEntityTypeId,
-                list,
+                allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds,
                 sourceEntityId,
                 recipientEntityId,
                 hasSourceEntityType,
@@ -81,6 +86,7 @@ namespace ECA.Business.Test.Service.Fundings
                 transactionDate,
                 fiscalYear);
             Assert.IsNotNull(instance.AllowedRecipientEntityTypeIds);
+            Assert.IsNotNull(instance.AllowedProjectParticipantIds);
            
         }
     }

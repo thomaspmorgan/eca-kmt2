@@ -61,6 +61,11 @@ namespace ECA.Business.Service.Fundings
         public const string RECIPIENT_ENTITY_TYPE_IS_NOT_VALID_FOR_SOURCE_ENTITY_TYPE = "The recipient entity type is not valid for the given source entity type.";
 
         /// <summary>
+        /// The error message to return when the recipient is not a participant of the source project.
+        /// </summary>
+        public const string RECIPIENT_PARTICIPANT_IS_NOT_A_PARTICIPANT_OF_THE_PROJECT = "The recipient participant is not a participant of the source project.";
+
+        /// <summary>
         /// Returns enumerated validation results for a MoneyFlow create.
         /// </summary>
         /// <param name="validationEntity">The create entity.</param>
@@ -109,6 +114,13 @@ namespace ECA.Business.Service.Fundings
             if (!validationEntity.AllowedRecipientEntityTypeIds.Contains(validationEntity.RecipientEntityTypeId))
             {
                 yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.RecipientEntityTypeId, RECIPIENT_ENTITY_TYPE_IS_NOT_VALID_FOR_SOURCE_ENTITY_TYPE);
+            }
+            if (validationEntity.SourceEntityTypeId == MoneyFlowSourceRecipientType.Project.Id
+                && validationEntity.RecipientEntityTypeId == MoneyFlowSourceRecipientType.Participant.Id
+                && validationEntity.RecipientEntityId.HasValue
+                && !validationEntity.AllowedProjectParticipantIds.Contains(validationEntity.RecipientEntityId.Value))
+            {
+                yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.RecipientEntityId, RECIPIENT_PARTICIPANT_IS_NOT_A_PARTICIPANT_OF_THE_PROJECT);
             }
         }
         /// <summary>

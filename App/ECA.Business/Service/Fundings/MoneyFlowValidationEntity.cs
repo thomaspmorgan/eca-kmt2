@@ -26,12 +26,15 @@ namespace ECA.Business.Service.Fundings
         /// <param name="transactionDate">The transaction date.</param>
         /// <param name="fiscalYear">The fiscal year.</param>
         /// <param name="allowedRecipientEntityTypeIds">The collection of MoneyFlowSourceRecipientEntityTypes by id that are allowed by the source and settings.</param>
+        /// <param name="allowedProjectParticipantIds">The collection of by participants by id that are valid for a project.  This is needed when a money flow source is a project
+        /// and the recipient is a participant.</param>
         public MoneyFlowServiceCreateValidationEntity(
             string description,
             decimal value,
             int sourceEntityTypeId,
             int recipientEntityTypeId,
             IEnumerable<int> allowedRecipientEntityTypeIds,
+            IEnumerable<int> allowedProjectParticipantIds,
             int? sourceEntityId,
             int? recipientEntityId,
             bool hasSourceEntityType,
@@ -50,6 +53,7 @@ namespace ECA.Business.Service.Fundings
             this.SourceEntityTypeId = sourceEntityTypeId;
             this.FiscalYear = fiscalYear;
             this.AllowedRecipientEntityTypeIds = allowedRecipientEntityTypeIds == null ? new List<int>() : allowedRecipientEntityTypeIds.Distinct();
+            this.AllowedProjectParticipantIds = allowedProjectParticipantIds == null ? new List<int>() : allowedProjectParticipantIds.Distinct();
         }
 
         /// <summary>
@@ -76,6 +80,12 @@ namespace ECA.Business.Service.Fundings
         /// Gets the allowed recipient entity type ids.
         /// </summary>
         public IEnumerable<int> AllowedRecipientEntityTypeIds { get; private set; }
+
+
+        /// <summary>
+        /// Gets the allowed participants by Id for a project.
+        /// </summary>
+        public IEnumerable<int> AllowedProjectParticipantIds { get; private set; }
 
         /// <summary>
         /// Gets the id of the recipient entity.

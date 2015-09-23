@@ -5,7 +5,7 @@
     </h4>
     <p class="subheader listCount">Showing {{view.start}} - {{view.end}} of {{view.total}} funding items.</p>
     <div st-pipe="view.getMoneyFlows" st-table="view.moneyFlows" exposetablestate="getMoneyFlowsTableState" id="sort-list">
-        <table class="col-md-12">            
+        <table class="col-md-12">
             <thead>
                 <tr class="row">
                     <th st-sort="'transactionDate'" st-sort-default="reverse" class="col-md-2 sort-label medium">Transaction Date</th>
@@ -76,7 +76,7 @@
                 </tr>
             </thead>
             <tbody class="list2" ng-show="!view.isLoadingRequiredData && !view.isLoadingMoneyFlows">
-                <tr class="row" ng-repeat-start="moneyFlow in view.moneyFlows">
+                <tr class="row hover" ng-repeat-start="moneyFlow in view.moneyFlows">
                     <td class="col-md-1">
                         <span style="text-align: left">{{moneyFlow.transactionDate | date:'MM/dd/yyyy'}}</span>
                     </td>
@@ -85,17 +85,13 @@
                     </td>
                     <td>{{moneyFlow.sourceRecipientTypeName}}</td>
                     <td>
-                        <span ng-if="moneyFlow.href" class="bookmark">
-                            <a href="{{moneyFlow.href}}">{{moneyFlow.sourceRecipientName}}</a>
-                        </span>
-                        <span ng-if="!moneyFlow.href">
-                            {{moneyFlow.sourceRecipientName}}
-                        </span>
+                        <a ng-show="!moneyFlow.loadingEntityState" href="{{moneyFlow.href}}">{{moneyFlow.sourceRecipientName}}</a>
+                        <i class="material-icons material-icons-spin md-24" ng-show="moneyFlow.loadingEntityState">autorenew</i>
                     </td>
                     <td>
                         <span class="{{moneyFlow.amount < 0 ? 'outgoingMoneyFlow' : 'incomingMoneyFlow'}}">{{moneyFlow.amount | currency}}</span>
                     </td>
-                    <td style="text-align: center">
+                    <td>
                         {{moneyFlow.fiscalYear}}
                     </td>
                     <td>
@@ -138,8 +134,8 @@
                     </td>
                 </tr>
                 <tr class="expandedDescription" ng-show="moneyFlow.currentlyEditing" ng-repeat-end>
-                    <td colspan="16" >
-                        <div id="{{view.getMoneyFlowDivId(moneyFlow)}}">                            
+                    <td colspan="16">
+                        <div id="{{view.getMoneyFlowDivId(moneyFlow)}}">
                             <form name="form.moneyFlowForm" ng-show="!moneyFlow.isSavingUpdate">
                                 <div class="row">
                                     <div class="form-group col-md-6">

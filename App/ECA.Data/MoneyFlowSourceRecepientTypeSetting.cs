@@ -20,6 +20,9 @@ namespace ECA.Data
         /// </summary>
         public const string MONEY_FLOW_SOURCE_RECIPIENT_TYPE_ID_FOREIGN_KEY_NAME = "MoneyFlowSourceRecipientTypeId";
 
+        /// <summary>
+        /// Gets or sets the id.
+        /// </summary>
         [Key]
         public int Id { get; set; }
 

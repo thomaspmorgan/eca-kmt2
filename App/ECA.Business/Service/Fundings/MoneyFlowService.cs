@@ -16,6 +16,7 @@ using ECA.Business.Models.Fundings;
 using ECA.Core.Exceptions;
 using ECA.Business.Exceptions;
 using ECA.Business.Queries.Admin;
+using ECA.Business.Queries.Persons;
 
 namespace ECA.Business.Service.Fundings
 {
@@ -264,8 +265,13 @@ namespace ECA.Business.Service.Fundings
             var hasRecipientEntityType = IsMoneyFlowType(moneyFlow.RecipientEntityTypeId);
             object sourceEntity = null;
             object recipientEntity = null;
-            List<int> allowedMoneyFlowRecipientTypeIds = moneyFlowSourceRecipientTypeService.GetRecipientMoneyFlowTypes(moneyFlow.RecipientEntityTypeId).Select(x => x.Id).ToList();
-            validator.ValidateCreate(GetCreateValidationEntity(moneyFlow, hasSourceEntityType, hasRecipientEntityType, allowedMoneyFlowRecipientTypeIds));
+            List<int> allowedMoneyFlowRecipientTypeIds = moneyFlowSourceRecipientTypeService.GetRecipientMoneyFlowTypes(moneyFlow.SourceEntityTypeId).Select(x => x.Id).ToList();
+            List<int> allowedProjectParticipantIds = null;
+            if (moneyFlow.SourceEntityTypeId == MoneyFlowSourceRecipientType.Project.Id && moneyFlow.RecipientEntityTypeId == MoneyFlowSourceRecipientType.Participant.Id)
+            {
+                allowedProjectParticipantIds = ParticipantQueries.CreateGetSimpleParticipantsDTOByProjectIdQuery(this.Context, moneyFlow.SourceEntityId.Value).Select(x => x.ParticipantId).ToList();
+            }
+            validator.ValidateCreate(GetCreateValidationEntity(moneyFlow, hasSourceEntityType, hasRecipientEntityType, allowedMoneyFlowRecipientTypeIds, allowedProjectParticipantIds));
             if (hasSourceEntityType)
             {
                 Contract.Assert(moneyFlow.SourceEntityId.HasValue, "The source entity id should have a value here.  This should be checked by validator.");
@@ -294,8 +300,13 @@ namespace ECA.Business.Service.Fundings
             var hasRecipientEntityType = IsMoneyFlowType(moneyFlow.RecipientEntityTypeId);
             object sourceEntity = null;
             object recipientEntity = null;
-            List<int> allowedMoneyFlowRecipientTypeIds = (await moneyFlowSourceRecipientTypeService.GetRecipientMoneyFlowTypesAsync(moneyFlow.RecipientEntityTypeId)).Select(x => x.Id).ToList();
-            validator.ValidateCreate(GetCreateValidationEntity(moneyFlow, hasSourceEntityType, hasRecipientEntityType, allowedMoneyFlowRecipientTypeIds));
+            List<int> allowedMoneyFlowRecipientTypeIds = (await moneyFlowSourceRecipientTypeService.GetRecipientMoneyFlowTypesAsync(moneyFlow.SourceEntityTypeId)).Select(x => x.Id).ToList();
+            List<int> allowedProjectParticipantIds = null;
+            if (moneyFlow.SourceEntityTypeId == MoneyFlowSourceRecipientType.Project.Id && moneyFlow.RecipientEntityTypeId == MoneyFlowSourceRecipientType.Participant.Id)
+            {
+                allowedProjectParticipantIds = await ParticipantQueries.CreateGetSimpleParticipantsDTOByProjectIdQuery(this.Context, moneyFlow.SourceEntityId.Value).Select(x => x.ParticipantId).ToListAsync();
+            }
+            validator.ValidateCreate(GetCreateValidationEntity(moneyFlow, hasSourceEntityType, hasRecipientEntityType, allowedMoneyFlowRecipientTypeIds, allowedProjectParticipantIds));
             if (hasSourceEntityType)
             {
                 Contract.Assert(moneyFlow.SourceEntityId.HasValue, "The source entity id should have a value here.  This should be checked by validator.");
@@ -320,12 +331,18 @@ namespace ECA.Business.Service.Fundings
             return newMoneyFlow;
         }
 
-        private MoneyFlowServiceCreateValidationEntity GetCreateValidationEntity(AdditionalMoneyFlow moneyFlow, bool hasSourceEntityType, bool hasRecipientEntityType, List<int> allowedRecipientEntityTypeIds)
+        private MoneyFlowServiceCreateValidationEntity GetCreateValidationEntity(
+            AdditionalMoneyFlow moneyFlow, 
+            bool hasSourceEntityType, 
+            bool hasRecipientEntityType, 
+            List<int> allowedRecipientEntityTypeIds,
+            List<int> allowedProjectParticipantIds)
         {
             return new MoneyFlowServiceCreateValidationEntity(
                 sourceEntityTypeId: moneyFlow.SourceEntityTypeId,
                 recipientEntityTypeId: moneyFlow.RecipientEntityTypeId,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds,
                 description: moneyFlow.Description, 
                 transactionDate: moneyFlow.TransactionDate, 
                 value: moneyFlow.Value,

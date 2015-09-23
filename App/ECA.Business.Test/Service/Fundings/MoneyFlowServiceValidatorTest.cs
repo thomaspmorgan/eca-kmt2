@@ -32,6 +32,7 @@ namespace ECA.Business.Test.Service.Fundings
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedProjectParticipantIds = new List<int>();
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -46,7 +47,8 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
-                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
             Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
@@ -73,6 +75,7 @@ namespace ECA.Business.Test.Service.Fundings
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedProjectParticipantIds = new List<int>();
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -87,7 +90,8 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
-                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
             Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
@@ -115,6 +119,7 @@ namespace ECA.Business.Test.Service.Fundings
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedProjectParticipantIds = new List<int>();
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -129,7 +134,8 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
-                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
             Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
@@ -156,6 +162,7 @@ namespace ECA.Business.Test.Service.Fundings
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedProjectParticipantIds = new List<int>();
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -170,7 +177,8 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
-                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
             Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
@@ -197,6 +205,7 @@ namespace ECA.Business.Test.Service.Fundings
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedProjectParticipantIds = new List<int>();
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -211,7 +220,8 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
-                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
             Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
@@ -238,6 +248,7 @@ namespace ECA.Business.Test.Service.Fundings
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedProjectParticipantIds = new List<int>();
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -252,7 +263,8 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
-                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
             Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
@@ -279,6 +291,7 @@ namespace ECA.Business.Test.Service.Fundings
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedProjectParticipantIds = new List<int>();
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -293,7 +306,8 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
-                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
             Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
@@ -320,6 +334,7 @@ namespace ECA.Business.Test.Service.Fundings
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedProjectParticipantIds = new List<int>();
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -334,7 +349,8 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
-                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
             Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
@@ -360,6 +376,7 @@ namespace ECA.Business.Test.Service.Fundings
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedProjectParticipantIds = new List<int>();
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -374,7 +391,8 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
-                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
             Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
@@ -401,6 +419,7 @@ namespace ECA.Business.Test.Service.Fundings
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedProjectParticipantIds = new List<int>();
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -415,7 +434,8 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
-                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
             Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
@@ -442,6 +462,7 @@ namespace ECA.Business.Test.Service.Fundings
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedProjectParticipantIds = new List<int>();
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -456,7 +477,8 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
-                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
             Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
@@ -483,6 +505,7 @@ namespace ECA.Business.Test.Service.Fundings
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId, sourceEntityTypeId };
+            var allowedProjectParticipantIds = new List<int>();
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -497,7 +520,8 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
-                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
             Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
@@ -526,6 +550,7 @@ namespace ECA.Business.Test.Service.Fundings
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId, MoneyFlowSourceRecipientType.Project.Id };
+            var allowedProjectParticipantIds = new List<int>();
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -540,7 +565,8 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
-                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
             Assert.AreEqual(1, validator.DoValidateCreate(createEntity()).Count());
@@ -567,6 +593,7 @@ namespace ECA.Business.Test.Service.Fundings
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedProjectParticipantIds = new List<int>();
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -581,7 +608,8 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
-                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
             Assert.AreEqual(1, validator.DoValidateCreate(createEntity()).Count());
@@ -609,6 +637,7 @@ namespace ECA.Business.Test.Service.Fundings
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedProjectParticipantIds = new List<int>();
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -623,7 +652,8 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
-                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
             var validationErrors = validator.DoValidateCreate(createEntity()).ToList();
@@ -650,6 +680,7 @@ namespace ECA.Business.Test.Service.Fundings
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedProjectParticipantIds = new List<int>();
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
@@ -664,7 +695,8 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
-                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
             var validationErrors = validator.DoValidateCreate(createEntity()).ToList();
@@ -675,6 +707,49 @@ namespace ECA.Business.Test.Service.Fundings
             Assert.AreEqual(1, validationErrors.Count);
             Assert.AreEqual(MoneyFlowServiceValidator.RECIPIENT_ENTITY_TYPE_IS_NOT_VALID_FOR_SOURCE_ENTITY_TYPE, validationErrors.First().ErrorMessage);
             Assert.AreEqual("RecipientEntityTypeId", validationErrors.First().Property);
+        }
+
+        [TestMethod]
+        public void TestDoValidateCreate_ProjectSource_ParticipantRecipient_ParticipantNotAllowed()
+        {
+            var value = 1.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            var hasSourceEntityType = true;
+            var hasRecipientEntityType = true;
+            int? sourceEntityId = 1;
+            int? recipientEntityId = 2;
+            var sourceEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
+            var recipientEntityTypeId = MoneyFlowSourceRecipientType.Participant.Id;
+            int fiscalYear = 2000;
+            var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedProjectParticipantIds = new List<int> { recipientEntityId.Value };
+
+            Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceCreateValidationEntity(
+                value: value,
+                description: description,
+                transactionDate: transactionDate,
+                hasRecipientEntityType: hasRecipientEntityType,
+                hasSourceEntityType: hasSourceEntityType,
+                sourceEntityId: sourceEntityId,
+                recipientEntityId: recipientEntityId,
+                sourceEntityTypeId: sourceEntityTypeId,
+                recipientEntityTypeId: recipientEntityTypeId,
+                fiscalYear: fiscalYear,
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
+                );
+            };
+            Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
+
+            allowedProjectParticipantIds.Clear();
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateCreate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(MoneyFlowServiceValidator.RECIPIENT_PARTICIPANT_IS_NOT_A_PARTICIPANT_OF_THE_PROJECT, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("RecipientEntityId", validationErrors.First().Property);
         }
 
         #endregion
