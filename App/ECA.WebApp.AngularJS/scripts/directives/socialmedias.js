@@ -13,7 +13,8 @@ angular.module('staticApp')
           scope: {
               socialable: '=model',
               modelId: '=modelid',
-              modelType: '=modeltype'
+              modelType: '=modeltype',
+              editMode: '=editmode'
           }
       };
       return directive;
