@@ -35,6 +35,7 @@ angular.module('staticApp')
                 .then(onSaveMembershipSuccess)
                 .then(function () {
                     updateMembershipFormDivId(tempId);
+                    updateMemberships(tempId, $scope.membership);
                 })
                 .catch(onSaveMembershipError);
           }
@@ -45,10 +46,13 @@ angular.module('staticApp')
           }
       };
 
+      function updateLanguageProficiencies(tempId, membership) {
+          var index = $scope.model.memberships.map(function (e) { return e.id }).indexOf(tempId);
+          $scope.model.memberships[index] = membership;
+      };
+
       $scope.view.cancelMembershipChanges = function (form) {
           $scope.view.showEditMembership = false;
-          //form.membershipForm.$setPristine();
-          //form.membershipForm.$setUntouched();
           if (isNewMembership($scope.membership)) {
               removeMembershipFromView($scope.membership);
           }

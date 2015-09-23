@@ -1,16 +1,15 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 
 namespace ECA.Business.Service.Persons
 {
     public class UpdatedPersonEduEmp
     {
-        public UpdatedPersonEduEmp(User updator, int id, string title, string role, DateTimeOffset startDate, DateTimeOffset? endDate, int? organizationId, int? personOfEducationId, int? personOfProfessionId)
+        public UpdatedPersonEduEmp(User updator, int professionEducationId, string title, string role, DateTimeOffset startDate, DateTimeOffset? endDate, int? organizationId, int? personOfEducationId, int? personOfProfessionId)
         {
             Contract.Requires(updator != null, "The updator must not be null.");
             this.Update = new Update(updator);
-            this.ProfessionEducationId = id;
+            this.ProfessionEducationId = professionEducationId;
             this.Title = title;
             this.Role = role;
             this.OrganizationId = organizationId;

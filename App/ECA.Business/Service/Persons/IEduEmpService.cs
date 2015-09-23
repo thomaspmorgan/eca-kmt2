@@ -20,29 +20,17 @@ namespace ECA.Business.Service.Persons
 
         Task<PagedQueryResults<EducationEmploymentDTO>> GetEmploymentsAsync(int personId, QueryableOperator<EducationEmploymentDTO> queryOperator);
 
-        EducationEmploymentDTO GetEducationById(int id);
+        EducationEmploymentDTO GetProfessionEducationById(int id);
 
-        Task<EducationEmploymentDTO> GetEducationByIdAsync(int id);
+        Task<EducationEmploymentDTO> GetProfessionEducationByIdAsync(int id);
 
-        EducationEmploymentDTO GetEmploymentById(int id);
+        ProfessionEducation CreateProfessionEducation(NewPersonEduEmp eduemp);
 
-        Task<EducationEmploymentDTO> GetEmploymentByIdAsync(int id);
+        Task<ProfessionEducation> CreateProfessionEducationAsync(NewPersonEduEmp eduemp);
 
-        ProfessionEducation CreateEducation(NewPersonEduEmp eduemp);
+        void UpdateProfessionEducation(UpdatedPersonEduEmp updatededuempp);
 
-        Task<ProfessionEducation> CreateEducationAsync(NewPersonEduEmp eduemp);
-
-        ProfessionEducation CreateEmployment(NewPersonEduEmp eduemp);
-
-        Task<ProfessionEducation> CreateEmploymentAsync(NewPersonEduEmp eduemp);
-
-        void UpdateEducation(UpdatedPersonEduEmp updatededuempp);
-
-        Task UpdateEducationAsync(UpdatedPersonEduEmp updatededuemp);
-
-        void UpdateEmployment(UpdatedPersonEduEmp updatededuemp);
-
-        Task UpdateEmploymentAsync(UpdatedPersonEduEmp updatededuemp);
+        Task UpdateProfessionEducationAsync(UpdatedPersonEduEmp updatededuemp);
 
         void Delete(int eduempId);
 
@@ -73,73 +61,38 @@ namespace ECA.Business.Service.Persons
             return Task.FromResult<PagedQueryResults<EducationEmploymentDTO>>(null);
         }
 
-        public EducationEmploymentDTO GetEducationById(int id)
+        public EducationEmploymentDTO GetProfessionEducationById(int id)
         {
             return null;
         }
 
-        public Task<EducationEmploymentDTO> GetEducationByIdAsync(int id)
+        public Task<EducationEmploymentDTO> GetProfessionEducationByIdAsync(int id)
         {
             return Task.FromResult<EducationEmploymentDTO>(null);
         }
 
-        public EducationEmploymentDTO GetEmploymentById(int id)
-        {
-            return null;
-        }
-
-        public Task<EducationEmploymentDTO> GetEmploymentByIdAsync(int id)
-        {
-            return Task.FromResult<EducationEmploymentDTO>(null);
-        }
-
-        public ProfessionEducation CreateEducation(NewPersonEduEmp eduemp)
+        public ProfessionEducation CreateProfessionEducation(NewPersonEduEmp eduemp)
         {
             Contract.Requires(eduemp != null, "The education entity must not be null.");
             Contract.Ensures(Contract.Result<ProfessionEducation>() != null, "The education entity returned must not be null.");
             return null;
         }
 
-        public Task<ProfessionEducation> CreateEducationAsync(NewPersonEduEmp eduemp)
+        public Task<ProfessionEducation> CreateProfessionEducationAsync(NewPersonEduEmp eduemp)
         {
             Contract.Requires(eduemp != null, "The education entity must not be null.");
             Contract.Ensures(Contract.Result<Task<ProfessionEducation>>() != null, "The education entity returned must not be null.");
             return Task.FromResult<ProfessionEducation>(null);
         }
 
-        public ProfessionEducation CreateEmployment(NewPersonEduEmp eduemp)
-        {
-            Contract.Requires(eduemp != null, "The employment entity must not be null.");
-            Contract.Ensures(Contract.Result<ProfessionEducation>() != null, "The employment entity returned must not be null.");
-            return null;
-        }
-
-        public Task<ProfessionEducation> CreateEmploymentAsync(NewPersonEduEmp eduemp)
-        {
-            Contract.Requires(eduemp != null, "The employment entity must not be null.");
-            Contract.Ensures(Contract.Result<Task<ProfessionEducation>>() != null, "The employment entity returned must not be null.");
-            return Task.FromResult<ProfessionEducation>(null);
-        }
-        
-        public void UpdateEducation(UpdatedPersonEduEmp updatededuemp)
+        public void UpdateProfessionEducation(UpdatedPersonEduEmp updatededuemp)
         {
             Contract.Requires(updatededuemp != null, "The updated education must not be null.");
         }
 
-        public Task UpdateEducationAsync(UpdatedPersonEduEmp updatededuemp)
+        public Task UpdateProfessionEducationAsync(UpdatedPersonEduEmp updatededuemp)
         {
             Contract.Requires(updatededuemp != null, "The updated education must not be null.");
-            return Task.FromResult<object>(null);
-        }
-
-        public void UpdateEmployment(UpdatedPersonEduEmp updatededuemp)
-        {
-            Contract.Requires(updatededuemp != null, "The updated employment must not be null.");
-        }
-
-        public Task UpdateEmploymentAsync(UpdatedPersonEduEmp updatededuemp)
-        {
-            Contract.Requires(updatededuemp != null, "The updated employment must not be null.");
             return Task.FromResult<object>(null);
         }
 

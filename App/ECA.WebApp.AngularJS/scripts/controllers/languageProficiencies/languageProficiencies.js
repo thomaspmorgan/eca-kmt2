@@ -30,7 +30,6 @@ angular.module('staticApp')
       $scope.view.onAddLanguageProficiencyClick = function (entityLanguageProficiencies, personId) {
           console.assert(entityLanguageProficiencies, 'The entity languageProficiencies is not defined.');
           console.assert(entityLanguageProficiencies instanceof Array, 'The entity languageProficiencies is defined but must be an array.');
-          var name = "";
           var newLanguageProficiency = {
               languageId: null,
               personId: personId,

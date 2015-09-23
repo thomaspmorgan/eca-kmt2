@@ -42,8 +42,6 @@ namespace ECA.WebApi.Controllers.Persons
             this.userProvider = userProvider;
         }
 
-        #region Education
-
         /// <summary>
         /// Returns all education info associated with a person
         /// </summary>
@@ -60,61 +58,6 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
-        /// Add a new education info associated with a person
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        [ResponseType(typeof(EducationEmploymentDTO))]
-        [Route("EduEmp/{personId:int}/Education")]
-        public async Task<IHttpActionResult> PostEducationAsync(PersonEduEmpBindingModel model)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var currentUser = userProvider.GetCurrentUser();
-            var businessUser = userProvider.GetBusinessUser(currentUser);
-            var education = await service.CreateEducationAsync(model.ToPersonEduEmp(businessUser));
-            await service.SaveChangesAsync();
-            var dto = await service.GetEducationByIdAsync(education.ProfessionEducationId);
-            return Ok(dto);
-        }
-
-        /// <summary>
-        /// Updated an education info associated with a person
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
-        [ResponseType(typeof(EducationEmploymentDTO))]
-        [Route("EduEmp/{personId:int}/Education")]
-        public async Task<IHttpActionResult> PutEducationAsync(UpdatedPersonEduEmpBindingModel model)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var currentUser = userProvider.GetCurrentUser();
-            var businessUser = userProvider.GetBusinessUser(currentUser);
-            await service.UpdateEducationAsync(model.ToUpdatedPersonEduEmp(businessUser));
-            await service.SaveChangesAsync();
-            var dto = await service.GetEducationByIdAsync(model.ProfessionEducationId);
-            return Ok(dto);
-        }
-
-        /// <summary>
-        /// Delete a education info associated with a person
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [ResponseType(typeof(OkResult))]
-        [Route("EduEmp/{personId:int}/Education/{id:int}")]
-        public async Task<IHttpActionResult> DeleteEducation(int id)
-        {
-            await service.DeleteAsync(id);
-            await service.SaveChangesAsync();
-            return Ok();
-        }
-        
-        #endregion
-
-        #region Employment
-
-        /// <summary>
         /// Returns employment info associated with a person
         /// </summary>
         /// <param name="personId">The person id to find employments info for</param>
@@ -129,56 +72,55 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
-        /// Add a new employment info associated with a person
+        /// Add a new education info associated with a person
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         [ResponseType(typeof(EducationEmploymentDTO))]
-        [Route("EduEmp/{personId:int}/Employment")]
-        public async Task<IHttpActionResult> PostEmploymentAsync(PersonEduEmpBindingModel model)
+        [Route("EduEmp/{personId:int}/ProfessionEducation")]
+        public async Task<IHttpActionResult> PostProfessionEducationAsync(PersonEduEmpBindingModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var currentUser = userProvider.GetCurrentUser();
             var businessUser = userProvider.GetBusinessUser(currentUser);
-            var education = await service.CreateEmploymentAsync(model.ToPersonEduEmp(businessUser));
+            var education = await service.CreateProfessionEducationAsync(model.ToPersonEduEmp(businessUser));
             await service.SaveChangesAsync();
-            var dto = await service.GetEmploymentByIdAsync(education.ProfessionEducationId);
+            var dto = await service.GetProfessionEducationByIdAsync(education.ProfessionEducationId);
             return Ok(dto);
         }
 
         /// <summary>
-        /// Update a employment info associated with a person
+        /// Updated an education info associated with a person
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         [ResponseType(typeof(EducationEmploymentDTO))]
-        [Route("EduEmp/{personId:int}/Employment")]
-        public async Task<IHttpActionResult> PutEmploymentAsync(UpdatedPersonEduEmpBindingModel model)
+        [Route("EduEmp/{personId:int}/ProfessionEducation")]
+        public async Task<IHttpActionResult> PutProfessionEducationAsync(UpdatedPersonEduEmpBindingModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var currentUser = userProvider.GetCurrentUser();
             var businessUser = userProvider.GetBusinessUser(currentUser);
-            await service.UpdateEmploymentAsync(model.ToUpdatedPersonEduEmp(businessUser));
+            await service.UpdateProfessionEducationAsync(model.ToUpdatedPersonEduEmp(businessUser));
             await service.SaveChangesAsync();
-            var dto = await service.GetEmploymentByIdAsync(model.ProfessionEducationId);
+            var dto = await service.GetProfessionEducationByIdAsync(model.ProfessionEducationId);
             return Ok(dto);
         }
 
         /// <summary>
-        /// Delete a employment info associated with a person
+        /// Delete a education info associated with a person
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [ResponseType(typeof(OkResult))]
-        [Route("EduEmp/{personId:int}/Employment/{id:int}")]
-        public async Task<IHttpActionResult> DeleteEmployment(int id)
+        [Route("EduEmp/{personId:int}/ProfessionEducation/{id:int}")]
+        public async Task<IHttpActionResult> Delete(int id)
         {
             await service.DeleteAsync(id);
             await service.SaveChangesAsync();
             return Ok();
         }
-
-        #endregion
 
     }
 }

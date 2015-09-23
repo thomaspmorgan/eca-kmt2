@@ -776,7 +776,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Assert.AreEqual(1, list.Count);
                 var dto = list.First();
-                Assert.AreEqual(education.ProfessionEducationId, dto.Id);
+                Assert.AreEqual(education.ProfessionEducationId, dto.ProfessionEducationId);
                 Assert.AreEqual(education.Title, dto.Title);
                 Assert.AreEqual(education.Role, dto.Role);
                 Assert.AreEqual(education.DateFrom, dto.StartDate);
@@ -1236,7 +1236,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Assert.AreEqual(1, list.Count);
                 var dto = list.First();
-                Assert.AreEqual(employment.ProfessionEducationId, dto.Id);
+                Assert.AreEqual(employment.ProfessionEducationId, dto.ProfessionEducationId);
                 Assert.AreEqual(employment.Title, dto.Title);
                 Assert.AreEqual(employment.Role, dto.Role);
                 Assert.AreEqual(employment.DateFrom, dto.StartDate);

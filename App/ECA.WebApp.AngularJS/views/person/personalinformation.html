@@ -8,8 +8,8 @@
         </div>
         <div class="col-md-6">
             <a ng-click="showGeneral = !showGeneral">
-                <i class="material-icons md-dark md-36 pull-right" ng-show="showGeneral">expand_less</i>
-                <i class="material-icons md-dark md-36 pull-right" ng-show="!showGeneral">expand_more</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="showGeneral">expand_more</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="!showGeneral">expand_less</i>
             </a>
             <a ng-show="!edit.General" ng-click="edit.General = !edit.General">
                 <i class="material-icons md-dark md-24 pull-right">edit</i>
@@ -27,8 +27,8 @@
         </div>
         <div class="col-md-6">
             <a ng-click="showPii = !showPii">
-                <i class="material-icons md-dark md-36 pull-right" ng-show="showPii">expand_less</i>
-                <i class="material-icons md-dark md-36 pull-right" ng-show="!showPii">expand_more</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="showPii">expand_more</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="!showPii">expand_less</i>
             </a>
             <a ng-show="!edit.Pii" ng-click="edit.Pii = !edit.Pii">
                 <i class="material-icons md-dark md-24 pull-right">edit</i>
@@ -46,8 +46,8 @@
         </div>
         <div class="col-md-6">
             <a ng-click="showContact = !showContact">
-                <i class="material-icons md-dark md-36 pull-right" ng-show="showContact">expand_less</i>
-                <i class="material-icons md-dark md-36 pull-right" ng-show="!showContact">expand_more</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="showContact">expand_more</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="!showContact">expand_less</i>
             </a>
             <a ng-show="!edit.Contact" ng-click="edit.Contact = !edit.Contact">
                 <i class="material-icons md-dark md-24 pull-right">edit</i>
@@ -65,8 +65,8 @@
         </div>
         <div class="col-md-6">
             <a ng-click="view.collapseEduEmp = !view.collapseEduEmp">
-                <i class="material-icons md-dark md-36 pull-right" ng-show="view.collapseEduEmp">expand_less</i>
-                <i class="material-icons md-dark md-36 pull-right" ng-show="!view.collapseEduEmp">expand_more</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="view.collapseEduEmp">expand_more</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="!view.collapseEduEmp">expand_less</i>
             </a>
             <a ng-show="!edit.EduEmp" ng-click="edit.EduEmp = !edit.EduEmp">
                 <i class="material-icons md-dark md-24 pull-right">edit</i>
@@ -84,13 +84,14 @@
         </div>
         <div class="col-md-6">
             <a ng-click="showEvalNotes = !showEvalNotes">
-                <i class="material-icons md-dark md-36 pull-right" ng-show="showEvalNotes">expand_less</i>
-                <i class="material-icons md-dark md-36 pull-right" ng-show="!showEvalNotes">expand_more</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="showEvalNotes">expand_more</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="!showEvalNotes">expand_less</i>
             </a>
         </div>
     </div>
     <div collapse="!showEvalNotes">
         <ng-include src="'/views/person/partials/evaluationNotesView.html'"></ng-include>
+
     </div>
 
 </div>

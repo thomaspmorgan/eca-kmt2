@@ -1,11 +1,10 @@
 ﻿using System;
-using ECA.Business.Queries.Models.Admin;
 
 namespace ECA.Business.Queries.Models.Persons
 {
     public class EducationEmploymentDTO
     {
-        public int Id { get; set; }
+        public int ProfessionEducationId { get; set; }
 
         public string Title { get; set; }
 

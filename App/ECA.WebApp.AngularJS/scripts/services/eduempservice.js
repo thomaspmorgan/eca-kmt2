@@ -17,23 +17,14 @@ angular.module('staticApp')
           getEmployments: function (personId, params) {
                 return DragonBreath.get(params, 'eduemp/' + personId + '/employments');
           },
-          addEducation: function (eduemp, personId) {
-              return DragonBreath.create(eduemp, 'eduemp/' + personId + '/education');
+          addProfessionEducation: function (eduemp, personId) {
+              return DragonBreath.create(eduemp, 'eduemp/' + personId + '/professioneducation');
           },
-          addEmployment: function (eduemp, personId) {
-              return DragonBreath.create(eduemp, 'eduemp/' + personId + '/employment');
+          updateProfessionEducation: function (eduemp, personId) {
+              return DragonBreath.save(eduemp, 'eduemp/' + personId + '/professioneducation');
           },
-          updateEducation: function (eduemp, personId) {
-              return DragonBreath.save(eduemp, 'eduemp/' + personId + '/education');
-          },
-          updateEmployment: function (eduemp, personId) {
-              return DragonBreath.save(eduemp, 'eduemp/' + personId + '/employment');
-          },
-          deleteEducation: function (eduemp, personId) {
-              return DragonBreath.delete(eduemp, 'eduemp/' + personId + '/education/' + eduemp.professionEducationId);
-          },
-          deleteEmployment: function (eduemp, personId) {
-              return DragonBreath.delete(eduemp, 'eduemp/' + personId + '/employment/' + eduemp.professionEducationId);
+          deleteProfessionEducation: function (eduemp, personId) {
+              return DragonBreath.delete(eduemp, 'eduemp/' + personId + '/professioneducation/' + eduemp.professionEducationId);
           }
       };
   });

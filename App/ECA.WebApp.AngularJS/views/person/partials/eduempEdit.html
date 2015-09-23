@@ -33,7 +33,7 @@
                                     <div ng-class="{true: 'row', false: 'row2'}" ng-show="!view.showEditEducation">
                                         {{education.title}} ({{education.startDate | date: 'yyyy'}}-{{education.endDate | date: 'yyyy'}})
                                         <div class="pull-right" ng-show="!view.showEditEducation">
-                                            <a ng-show="!view.showEditEducation && !view.isDeletingEducation" ng-click="view.showConfirmDelete = true">
+                                            <a ng-show="!view.showEditEducation && !view.isDeletingEducation" ng-click="view.showConfirmDeleteEducation = true">
                                                 <i class="material-icons md-dark">delete</i>
                                             </a>
                                             <a ng-show="view.isDeletingEducation">
@@ -48,16 +48,16 @@
                                         Are you sure you want to delete this education?
                                     </div>
                                     <div ng-show="view.showConfirmDeleteEducation" style="margin-top: 10px;" class="text-center">
-                                        <button ng-click="view.onDeleteEducationClick()" class="btn btn-danger">Delete</button>
+                                        <button ng-click="view.onDeleteEducationClick(education)" class="btn btn-danger">Delete</button>
                                         <button ng-click="view.showConfirmDeleteEducation = !view.showConfirmDeleteEducation" class="btn btn-cancel">Cancel</button>
                                     </div>
                                     <div in-context-form ng-show="view.showEditEducation">
                                         <form name="form.educationForm" class="row form-horizontal" id="educationForm{{education.professionEducationId}}">
                                             <div class="row form-group">
-                                                <label class="title-label col-md-3" for="educationTitleValue">Title<span class="asterisk"> *</span></label>
+                                                <label class="title-label col-md-3" for="educationTitleValue">School<span class="asterisk"> *</span></label>
                                                 <div class="col-md-9">
                                                     <input name="educationTitleValue"
-                                                           maxlength="120"
+                                                           ng-maxlength="120"
                                                            ng-model="education.title"
                                                            form-element
                                                            guidance="This is the value of the education title."
@@ -67,6 +67,9 @@
                                                            id="educationTitleValue"
                                                            required/>
                                                 </div>
+                                                <div ng-show="form.educationForm.educationTitleValue.$dirty || form.educationForm.educationTitleValue.$error.required">
+                                                    <div class="error" ng-show="form.educationForm.educationTitleValue.$error.required">Please enter a Title value.</div>
+                                            </div>
                                             </div>
                                             <div class="row form-group">
                                                 <label class="title-label col-md-3" for="educationRole">Degree</label>
@@ -75,7 +78,7 @@
                                                 </div>
                                             </div>
                                             <div class="row form-group">
-                                                <label class="title-label col-md-3" for="educationStartDate">Start Date</label>
+                                                <label class="title-label col-md-3" for="educationStartDate">Start Date<span class="asterisk"> *</span></label>
                                                 <div class="col-md-9">
                                                     <div class="input-group">
                                                         <input type="text" class="form-control" name="educationStartDate" id="educationStartDate" ng-model="education.startDate"
@@ -86,6 +89,9 @@
                                                             </button>
                                                         </span>
                                                     </div>
+                                                </div>
+                                                <div ng-show="form.educationForm.educationStartDate.$dirty || form.educationForm.educationStartDate.$error.required">
+                                                    <div class="error" ng-show="form.educationForm.educationStartDate.$error.required">Please enter a Start Date value.</div>
                                                 </div>
                                             </div>
                                             <div class="row form-group">
@@ -102,12 +108,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div ng-show="form.educationForm.educationTitleValue.$dirty || form.educationForm.educationTitleValue.$error.required">
-                                                <div class="error" ng-show="form.educationForm.educationTitleValue.$error.required">Please enter a Title value.</div>
-                                            </div>
                                         </form>
                                         <div class="row right" ng-show="view.showEditEducation">
-                                            <button ng-click="view.saveEducationChanges()" class="btn btn-success" ng-disabled="form.educationForm.$invalid">Save</button>
+                                            <button ng-click="view.saveEducationChanges()" class="btn btn-success" ng-disabled="form.educationForm.$pristine || form.educationForm.$invalid">Save</button>
                                             <button ng-click="view.cancelEducationChanges(form.educationForm)" class="btn btn-cancel">Cancel</button>
                                         </div>
                                     </div>
@@ -137,7 +140,7 @@
                                     <div ng-class="{true: 'row', false: 'row2'}" ng-show="!view.showEditEmployment">
                                         {{employment.title}} ({{employment.startDate | date: 'yyyy'}}-{{employment.endDate | date: 'yyyy'}})
                                         <div class="pull-right" ng-show="!view.showEditEmployment">
-                                            <a ng-show="!view.showEditEmployment && !view.isDeletingEmployment" ng-click="view.showConfirmDelete = true">
+                                            <a ng-show="!view.showEditEmployment && !view.isDeletingEmployment" ng-click="view.showConfirmDeleteEmployment = true">
                                                 <i class="material-icons md-dark">delete</i>
                                             </a>
                                             <a ng-show="view.isDeletingEmployment">
@@ -152,13 +155,13 @@
                                         Are you sure you want to delete this employment?
                                     </div>
                                     <div ng-show="view.showConfirmDeleteEmployment" style="margin-top: 10px;" class="text-center">
-                                        <button ng-click="view.onDeleteEmploymentClick()" class="btn btn-danger">Delete</button>
+                                        <button ng-click="view.onDeleteEmploymentClick(employment)" class="btn btn-danger">Delete</button>
                                         <button ng-click="view.showConfirmDeleteEmployment = !view.showConfirmDeleteEmployment" class="btn btn-cancel">Cancel</button>
                                     </div>
                                     <div in-context-form ng-show="view.showEditEmployment">
-                                        <form name="form.employmentForm" class="row form-horizontal" id="employmentForm{{employment.professionEmploymentId}}">
+                                        <form name="form.employmentForm" class="row form-horizontal" id="employmentForm{{employment.professionEducationId}}">
                                             <div class="row form-group">
-                                                <label class="title-label col-md-3" for="employmentTitleValue">Title<span class="asterisk"> *</span></label>
+                                                <label class="title-label col-md-3" for="employmentTitleValue">Company<span class="asterisk"> *</span></label>
                                                 <div class="col-md-9">
                                                     <input name="employmentTitleValue"
                                                            maxlength="120"
@@ -211,7 +214,7 @@
                                             </div>
                                         </form>
                                         <div class="row right" ng-show="view.showEditEmployment">
-                                            <button ng-click="view.saveEmploymentChanges()" class="btn btn-success" ng-disabled="form.employmentForm.$invalid">Save</button>
+                                            <button ng-click="view.saveEmploymentChanges()" class="btn btn-success" ng-disabled="form.employmentForm.$pristine || form.employmentForm.$invalid">Save</button>
                                             <button ng-click="view.cancelEmploymentChanges(form.employmentForm)" class="btn btn-cancel">Cancel</button>
                                         </div>
                                     </div>

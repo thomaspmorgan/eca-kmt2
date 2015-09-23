@@ -137,6 +137,7 @@
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
     <Compile Include="Queries\Persons\LanguageProficiencyQueries.cs" />
     <Compile Include="Queries\Persons\MembershipQueries.cs" />
+    <Compile Include="Queries\Persons\ProfessionEducationQueries.cs" />
     <Compile Include="Service\Admin\PhoneNumberService.cs" />
     <Compile Include="Service\Admin\IPhoneNumberService.cs" />
     <Compile Include="Service\Admin\IEmailAddressService.cs" />
