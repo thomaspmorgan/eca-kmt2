@@ -76,6 +76,9 @@ angular.module('staticApp')
           getOrganizationTypes: function (params) {
               return DragonBreath.getCached(params, 'organizations/types');
           },
+          getOrganizationRoles: function (params) {
+              return DragonBreath.getCached(params, 'organizations/roles');
+          },
           getAddressTypes: function (params) {
               return DragonBreath.getCached(params, 'addresses/types');
           },
