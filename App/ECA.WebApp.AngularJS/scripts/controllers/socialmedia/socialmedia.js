@@ -43,6 +43,7 @@ angular.module('staticApp')
                 .then(onSaveSocialMediaSuccess)
                 .then(function () {
                     updateSocialMediaFormDivId(tempId);
+                    updateSocialMedias(tempId, $scope.socialMedia);
                 })
                 .catch(onSaveSocialMediaError);
           }
@@ -51,6 +52,11 @@ angular.module('staticApp')
                   .then(onSaveSocialMediaSuccess)
                   .catch(onSaveSocialMediaError);
           }
+      };
+
+      function updateSocialMedias(tempId, socialMedia) {
+          var index = $scope.socialable.socialMedias.map(function (e) { return e.id }).indexOf(tempId);
+          $scope.socialable.socialMedias[index] = socialMedia;
       };
 
       $scope.view.cancelSocialMediaChanges = function () {
@@ -75,7 +81,7 @@ angular.module('staticApp')
               console.assert($scope.modelId, 'The entity model id must be defined.');
               var sociableType = $scope.modelType;
               var modelId = $scope.modelId;
-              return SocialMediaService.delete($scope.socialMedia, sociableType, modelId)
+              var test = SocialMediaService.delete($scope.socialMedia, sociableType, modelId)
               .then(function () {
                   NotificationService.showSuccessMessage("Successfully deleted address.");
                   $scope.view.isDeletingSocialMedia = false;

@@ -42,6 +42,7 @@ angular.module('staticApp')
                 .then(onSavePhoneNumberSuccess)
                 .then(function () {
                     updatePhoneNumberFormDivId(tempId);
+                    updatePhoneNumbers(tempId, $scope.phoneNumber)
                 })
                 .catch(onSavePhoneNumberError);
           }
@@ -50,6 +51,11 @@ angular.module('staticApp')
                   .then(onSavePhoneNumberSuccess)
                   .catch(onSavePhoneNumberError);
           }
+      };
+
+      function updatePhoneNumbers(tempId, phoneNumber) {
+          var index = $scope.phoneNumberable.phoneNumbers.map(function (e) { return e.id }).indexOf(tempId);
+          $scope.phoneNumberable.phoneNumbers[index] = phoneNumber;
       };
 
       $scope.view.cancelPhoneNumberChanges = function () {
