@@ -46,6 +46,11 @@ namespace ECA.WebApi.Models.Admin
         public int OrganizationTypeId { get; set; }
 
         /// <summary>
+        /// Gets and sets the organization role ids
+        /// </summary>
+        public IEnumerable<int> OrganizationRoleIds { get; set; }
+
+        /// <summary>
         /// The points of contact of the project by id.
         /// </summary>
         public IEnumerable<int> PointsOfContactIds { get; set; }
@@ -68,6 +73,7 @@ namespace ECA.WebApi.Models.Admin
                 organizationId: this.OrganizationId,
                 website: this.Website,
                 organizationTypeId: this.OrganizationTypeId,
+                organizationRoleIds: this.OrganizationRoleIds,
                 contactIds: this.PointsOfContactIds,
                 parentOrganizationId: this.ParentOrganizationId,
                 name: this.Name,

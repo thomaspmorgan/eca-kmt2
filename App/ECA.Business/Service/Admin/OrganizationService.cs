@@ -161,7 +161,8 @@ namespace ECA.Business.Service.Admin
             throwIfOrganizationTypeByIdNull(organization.OrganizationTypeId, organizationType);
             organizationValidator.ValidateUpdate(GetUpdateOrganizationValidationEntity(organization, organizationToUpdate, parentOrganization));
             organization.Update.SetHistory(organizationToUpdate);            
-            SetPointOfContacts(organization.ContactIds.ToList(), organizationToUpdate);            
+            SetPointOfContacts(organization.ContactIds.ToList(), organizationToUpdate);
+            SetOrganizationRoles(organization.OrganizationRoleIds.ToList(), organizationToUpdate);
             organizationToUpdate.Name = organization.Name;
             organizationToUpdate.Description = organization.Description;
             if (parentOrganization != null)
@@ -178,10 +179,49 @@ namespace ECA.Business.Service.Admin
             organizationToUpdate.Website = organization.Website;
         }
 
+        /// <summary>
+        /// Sets the organization roles
+        /// </summary>
+        /// <param name="organizationRoleIds">Organization roles to set</param>
+        /// <param name="organization">The organization entity</param>
+        public void SetOrganizationRoles(List<int> organizationRoleIds, Organization organization)
+        {
+            Contract.Requires(organizationRoleIds != null, "The list of organization role ids must not be null.");
+            Contract.Requires(organization != null, "The organization must not be null.");
+            var rolesToRemove = organization.OrganizationRoles.Where(x => !organizationRoleIds.Contains(x.OrganizationRoleId)).ToList();
+            var rolesToAdd = new List<OrganizationRole>();
+            organizationRoleIds.Where(x => !organization.OrganizationRoles.Select(y => y.OrganizationRoleId).ToList().Contains(x)).ToList()
+                .Select(x => new OrganizationRole { OrganizationRoleId = x }).ToList()
+                .ForEach(x => rolesToAdd.Add(x));
+
+            rolesToAdd.ForEach(x =>
+            {
+                var localEntity = Context.GetLocalEntity<OrganizationRole>(y => y.OrganizationRoleId == x.OrganizationRoleId);
+                if (localEntity == null)
+                {
+                    if (Context.GetEntityState(x) == EntityState.Detached)
+                    {
+                        Context.OrganizationRoles.Attach(x);
+                    }
+                    organization.OrganizationRoles.Add(x);
+                }
+                else
+                {
+                    organization.OrganizationRoles.Add(localEntity);
+                }
+
+            });
+            rolesToRemove.ForEach(x =>
+            {
+                organization.OrganizationRoles.Remove(x);
+            });
+        }
+
         private IQueryable<Organization> CreateGetOrganizationByIdQuery(int id)
         {
             return Context.Organizations
                 .Include(x => x.Contacts)
+                .Include(x => x.OrganizationRoles)
                 .Include(x => x.ParentOrganization)
                 .Where(x=> x.OrganizationId == id);
         }
