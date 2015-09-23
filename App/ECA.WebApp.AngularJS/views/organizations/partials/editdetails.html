@@ -56,22 +56,25 @@
                             ng-options="organizationType.id as organizationType.name for organizationType in view.organizationTypes" />
                 </div>
             </div>
-            <!--
             <div class="form-group">
                 <label class="col-md-4 title-label">Roles</label>
                 <div class="col-md-8">
-                    <ui-select multiple ng-model="multipleDemo.colors" theme="select2" ng-disabled="disabled" style="width: 300px;">
-                        <ui-select-match placeholder="Select colors...">{{$item}}</ui-select-match>
-                        <ui-select-choices repeat="color in availableColors | filter:$select.search">
-                            {{color}}
+                    <ui-select multiple 
+                               ng-model="view.selectedOrganizationRoles" 
+                               theme="select2"
+                               on-select="view.onSelectOrganizationRolesChange()"
+                               on-remove="view.onSelectOrganizationRolesChange()"
+                               style="min-width: 200px;">
+                        <ui-select-match placeholder="Select organization roles...">{{$item.value}}</ui-select-match>
+                        <ui-select-choices repeat="role in view.organizationRoles">
+                            {{role.value}}
                         </ui-select-choices>
                     </ui-select>
                 </div>
             </div>
-            -->
-            <div class="row" ng-show="organization.contacts">
-                <div class="col-md-6 title-label"><ng-pluralize count="organization.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
-                <div class="col-md-6">
+            <div class="form-group" ng-show="organization.contacts">
+                <div class="col-md-4 title-label"><ng-pluralize count="organization.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
+                <div class="col-md-8">
                     <ui-select multiple
                                close-on-select="true"
                                ng-model="view.selectedPointsOfContact"

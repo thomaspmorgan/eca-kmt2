@@ -25,6 +25,7 @@ angular.module('staticApp')
       $scope.view.searchAvailableOrganizationsLimit = 10;
       $scope.view.selectedPointsOfContact = [];
       $scope.view.showEditDetails = true;
+      $scope.view.selectedOrganizationRoles = [];
 
       $scope.view.searchPointsOfContact = function (data) {
           loadPointsOfContact(data);
@@ -55,6 +56,10 @@ angular.module('staticApp')
           updatePointsOfContactIds();
       }
 
+      $scope.view.onSelectOrganizationRolesChange = function () {
+          updateOrganizationRoleIds();
+      }
+
       function setSelectedPointsOfContact() {
           setSelectedItems('contacts', 'selectedPointsOfContact');
       }
@@ -76,6 +81,12 @@ angular.module('staticApp')
           var propertyName = "pointsOfContactIds";
           $scope.organization[propertyName] = $scope.organization[propertyName] || [];
           updateRelationshipIds(propertyName, 'selectedPointsOfContact');
+      }
+
+      function updateOrganizationRoleIds() {
+          var propertyName = "organizationRoleIds";
+          $scope.organization[propertyName] = $scope.organization[propertyName] || [];
+          updateRelationshipIds(propertyName, 'selectedOrganizationRoles');
       }
 
       function updateRelationshipIds(idsPropertyName, viewiewSelectedPropertyName) {
@@ -164,6 +175,11 @@ angular.module('staticApp')
           limit: maxLimit
       };
 
+      var orgRolesParams = {
+          start: 0,
+          limit: maxLimit
+      };
+
       function onOrgTypesLoad(orgTypes) {
           if (orgTypes.data.total > orgTypesParams.limit) {
               var message = 'There are more org types than can be loaded.  Not all org types will be visible.'
@@ -173,13 +189,26 @@ angular.module('staticApp')
           $scope.view.organizationTypes = orgTypes.data.results;
       }
 
+      function onOrgRolesLoad(orgRoles) {
+          if (orgRoles.data.total > orgRolesParams.limit) {
+              var message = 'There are more org roles than can be loaded.  Not all org roles will be visible.'
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
+          }
+          $scope.view.organizationRoles = orgRoles.data.results;
+          for (var i = 0; i < $scope.organization.organizationRoles.length; i++) {
+              var role = $scope.view.organizationRoles.filter(function (role) { return role.id === $scope.organization.organizationRoles[i].id })[0];
+              $scope.view.selectedOrganizationRoles.push(role);
+          }
+      }
 
-      $q.all([LookupService.getOrganizationTypes(orgTypesParams)])
+      $q.all([LookupService.getOrganizationTypes(orgTypesParams), LookupService.getOrganizationRoles(orgRolesParams)])
       .then(function (results) {
           //results is an array
           var orgTypes = results[0];
           onOrgTypesLoad(orgTypes);
-
+          var orgRoles = results[1];
+          onOrgRolesLoad(orgRoles);
       })
         .catch(function () {
             $log.error('Unable to load organization.');

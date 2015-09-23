@@ -41,6 +41,7 @@ angular.module('staticApp')
 
       function saveOrganization() {
           var org = $scope.organization;
+          console.log(org);
           isOrganizationLoading(true);
           return OrganizationService.update(org)
           .then(function (results) {
