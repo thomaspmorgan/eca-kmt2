@@ -97,6 +97,10 @@
                     </ui-select>
                 </div>
             </div>
+            <div class="row" ng-show="organization.socialMedias">
+                <div class="col-md-6 title-label">Social Media</div>
+                <socialmedias model="organization" modelid="organization.organizationId" modeltype="'organization'" editmode="view.showEditDetails" />
+            </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
@@ -118,6 +122,14 @@
                     </input>
                     <i class="material-icons md-18 contextual" ng-show="!view.isLoadingParentOrganizations">search</i>
                     <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingParentOrganizations">autorenew</i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-6 title-label">Addresses</div>
+                <div>
+                    <addresses model="organization" modelid="organization.organizationId" modeltype="'organization'" editmode="view.showEditDetails" />
                 </div>
             </div>
         </div>

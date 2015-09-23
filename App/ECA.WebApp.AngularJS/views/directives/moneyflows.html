@@ -196,16 +196,9 @@
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="fiscalYear">Fiscal Year<span class="asterisk"> *</span></label>
-                                        <input name="fiscalYear"
-                                               max="{{view.maxAmount}}"
-                                               min="1"
-                                               ng-model="moneyFlow.fiscalYear"
-                                               type="number"
-                                               class="form-control"
-                                               placeholder="Enter fiscal year."
-                                               id="fiscalYear{{moneyFlow.id}}"
-                                               required />
+                                        <label for="fiscalYear">Reference Fiscal Year<span class="asterisk"> *</span></label>
+                                        <year-dropdown name="fiscalYear" id="fiscalYear" model="moneyFlow.fiscalYear" 
+                                                       offset="-10" range="2" class="yearDropdown" required></year-dropdown>
                                         <div ng-show="form.moneyFlowForm.fiscalYear.$dirty || form.moneyFlowForm.fiscalYear.$error.required">
                                             <div class="error" ng-show="form.moneyFlowForm.fiscalYear.$error.required">Please enter a fiscal year.</div>
                                         </div>

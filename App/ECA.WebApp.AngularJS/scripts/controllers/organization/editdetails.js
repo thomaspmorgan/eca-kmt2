@@ -24,6 +24,7 @@ angular.module('staticApp')
       $scope.view.isLoadingParentOrganizations = false;
       $scope.view.searchAvailableOrganizationsLimit = 10;
       $scope.view.selectedPointsOfContact = [];
+      $scope.view.showEditDetails = true;
       $scope.view.selectedOrganizationRoles = [];
 
       $scope.view.searchPointsOfContact = function (data) {

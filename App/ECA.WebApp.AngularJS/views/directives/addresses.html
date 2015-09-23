@@ -4,7 +4,7 @@
             <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapseAddresses">expand_less</i>
             <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapseAddresses">expand_more</i>
         </a>
-        <a ng-click="view.onAddAddressClick(modelType, addressable.addresses, modelId)">
+        <a ng-click="view.onAddAddressClick(modelType, addressable.addresses, modelId)" ng-show="editMode">
             <i class="material-icons md-24 md-dark pull-right">add</i>
         </a>
         <div class="pull-right" style="margin-top: 3px;">({{addressable.addresses.length}})</div>
@@ -19,19 +19,19 @@
                 </div>
                 <div class="row" ng-show="!view.isSavingChanges && !view.isLoadingRequiredData">
                     <a ng-show="!view.showEditAddress" ng-click="view.collapseAddress = !view.collapseAddress">
-                        <i class="material-icons md-dark pull-right" ng-show="view.collapseAddress">expand_more</i>
-                        <i class="material-icons md-dark pull-right" ng-show="!view.collapseAddress">expand_less</i>
+                        <i class="material-icons md-dark pull-right" ng-show="view.collapseAddress">expand_less</i>
+                        <i class="material-icons md-dark pull-right" ng-show="!view.collapseAddress">expand_more</i>
                     </a>
                     <div ng-show="!view.showEditAddress">
                         {{address.addressType}}
                         <div class="pull-right">
-                            <a ng-show="!view.showEditAddress && !view.isDeletingAddress" ng-click="view.showConfirmDelete = true">
+                            <a ng-show="!view.showEditAddress && !view.isDeletingAddress && editMode" ng-click="view.showConfirmDelete = true">
                                 <i class="material-icons md-dark">delete</i>
                             </a>
                             <a ng-show="view.isDeletingAddress">
                                 <i class="material-icons md-dark material-icons-spin">refresh</i>
                             </a>
-                            <a ng-show="!view.showEditAddress && !view.isDeletingAddress" ng-click="view.onEditAddressClick()">
+                            <a ng-show="!view.showEditAddress && !view.isDeletingAddress && editMode" ng-click="view.onEditAddressClick()">
                                 <i class="material-icons md-dark">edit</i>
                             </a>
                         </div>

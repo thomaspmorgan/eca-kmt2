@@ -13,7 +13,8 @@ angular.module('staticApp')
           scope: {
               addressable: '=model',
               modelId: '=modelid',
-              modelType: '=modeltype'
+              modelType: '=modeltype',
+              editMode: '=editmode'
           }
       };
       return directive;
