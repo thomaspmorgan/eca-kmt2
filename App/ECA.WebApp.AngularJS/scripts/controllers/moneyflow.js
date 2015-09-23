@@ -283,12 +283,11 @@ angular.module('staticApp')
           else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.participant.id) {
               namePropertyName = 'name';
               idPropertyName = 'participantId';
-              searchFilter = searchFilter.isNotNull('personId').equal('projectId', entityIdInt);
+              searchFilter = searchFilter.isNotNull('personId');
           }
           else {
               throw Error("The peer entity type id [" + peerEntityTypeId + "] is not yet supported.");
           }
-
           
           searchFilter = searchFilter
             .skip(0)
