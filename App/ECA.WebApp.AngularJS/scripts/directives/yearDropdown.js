@@ -16,11 +16,11 @@ angular.module('staticApp')
         return {
             restrict: 'E',
             scope: {
-                ngModel: "="
+                model: "="
             },
             template: function (element, attrs) {
-                return '<select ng-model="' + attrs.ngModel + '" class="form-control">' +
-                '<option ng-selected="{{ngModel == year}}" ng-repeat="year in years" value="{{year}}">{{year}}</option>' +
+                return '<select name="' + attrs.name + '" id="' + attrs.id + '" ng-model="' + attrs.model + '" ng-change="handleChange(' + attrs.model + ')" class="form-control">' +
+                '<option ng-selected="{{model == year}}" ng-repeat="year in years" value="{{year}}">{{year}}</option>' +
                 '</select>';
             },
             link: function (scope, element, attrs) {
@@ -28,6 +28,22 @@ angular.module('staticApp')
                 for (var i = +attrs.offset; i < +attrs.range + 1; i++) {
                     scope.years.push(currentYear + i);
                 }
+                
+                element.val(scope.model);
+                element.data('old-value', scope.model);
+
+                scope.$watch('model', function () {
+                    element.val(scope.model);
+                });
+                
+                scope.handleChange = function (newyear) {
+                    if (element.data('old-value') !== element.val()) {
+                        scope.model = newyear;
+                        element.data('old-value', element.val());
+                        attrs.ngSelected = newyear;
+                    }
+                }
+
             }
         }
     });
