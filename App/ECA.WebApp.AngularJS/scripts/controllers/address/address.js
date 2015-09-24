@@ -79,7 +79,7 @@ angular.module('staticApp')
       };
 
       function updateAddresses(tempId, address) {
-          var index = $scope.addressable.addresses.map(function (e) { return e.id }).indexOf(tempId);
+          var index = $scope.addressable.addresses.map(function (e) { return e.addressId }).indexOf(tempId);
           $scope.addressable.addresses[index] = address;
       };
 
