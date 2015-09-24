@@ -48,7 +48,7 @@
                 <div class="col-md-4 title-label">Regions</div>
                 <div class="col-md-8 simple-list">
                     <ul>
-                        <li ng-repeat="region in program.regionIsos | orderBy:'value'">{{region.value}}</li>
+                        <li ng-repeat="region in program.regions | orderBy:'name'">{{region.name}}</li>
                     </ul>
                 </div>
             </div>
