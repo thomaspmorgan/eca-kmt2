@@ -8,7 +8,7 @@ namespace ECA.WebApi.Models.Person
     {
         //[Required]
         public int PersonId { get; set; }
-
+        
         public string Title { get; set; }
 
         public string Role { get; set; }

@@ -47,7 +47,7 @@
                             name="moneyFlowStatusId"
                             ng-options="t.id as t.name for t in view.moneyFlowStatii"
                             ng-model="view.moneyFlow.moneyFlowStatusId"
-                            required />
+                            required></select>
                 </div>
                 <div ng-show="form.newMoneyFlow.moneyFlowStatusId.$dirty">
                     <div class="error" ng-show="form.newMoneyFlow.moneyFlowStatusId.$error.required">Please select a status.</div>
@@ -92,7 +92,7 @@
                             ng-options="t.id as t.name for t in view.moneyFlowSourceRecipientTypes"
                             ng-model="view.moneyFlow.peerEntityTypeId"
                             ng-change="view.onSelectSourceType()"
-                            required />
+                            required></select>
                 </div>
                 <div ng-show="form.newMoneyFlow.peerEntityTypeId.$dirty">
                     <div class="error" ng-show="form.newMoneyFlow.peerEntityTypeId.$error.required && !view.moneyFlow.isOutgoing">Please select a source type.</div>
@@ -138,7 +138,7 @@
                               form-element guidance="This is the description of the funding."
                               id="description"
                               required
-                              placeholder="Enter description..." />
+                              placeholder="Enter description..."></textarea>
                     <div ng-show="form.newMoneyFlow.description.$dirty">
                         <div class="error" ng-show="form.newMoneyFlow.description.$error.required ">Please enter a description.</div>
                     </div>

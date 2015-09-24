@@ -83,9 +83,9 @@ namespace ECA.WebApi.Controllers.Persons
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var currentUser = userProvider.GetCurrentUser();
             var businessUser = userProvider.GetBusinessUser(currentUser);
-            var education = await service.CreateProfessionEducationAsync(model.ToPersonEduEmp(businessUser));
+            var eduemp = await service.CreateProfessionEducationAsync(model.ToPersonEduEmp(businessUser));
             await service.SaveChangesAsync();
-            var dto = await service.GetProfessionEducationByIdAsync(education.ProfessionEducationId);
+            var dto = await service.GetProfessionEducationByIdAsync(eduemp.ProfessionEducationId);
             return Ok(dto);
         }
 

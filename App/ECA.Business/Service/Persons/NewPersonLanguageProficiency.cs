@@ -19,7 +19,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="user"></param>
         /// <param name="personId"></param>
         /// <param name="languageId"></param>
-        /// <param name="nativeLanguageInd"></param>
+        /// <param name="isNativeLanguage"></param>
         /// <param name="speakingProficiency"></param>
         /// <param name="readingProficiency"></param>
         /// <param name="comprehensionProficiency"></param>
