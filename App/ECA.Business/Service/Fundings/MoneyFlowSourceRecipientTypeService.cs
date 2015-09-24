@@ -81,13 +81,13 @@ namespace ECA.Business.Service.Fundings
         private IQueryable<MoneyFlowSourceRecipientTypeDTO> CreateGetRecipientMoneyFlowSourceRecipientTypeDTOsQuery(int moneyFlowSourceRecipientTypeId)
         {
             var query = CreateGetRecipientMoneyFlowSourceRecipientTypeSettingsQuery(moneyFlowSourceRecipientTypeId).Select(x => x.PeerMoneyFlowSourceRecipientType);
-            return CreateSelectMoneyFlowSourceRecipientDTOQuery(query);
+            return CreateSelectMoneyFlowSourceRecipientDTOQuery(query).OrderBy(x => x.Name);
         }
 
         private IQueryable<MoneyFlowSourceRecipientTypeDTO> CreateGetSourceMoneyFlowSourceRecipientTypeDTOsQuery(int moneyFlowSourceRecipientTypeId)
         {
             var query = CreateGetSourceMoneyFlowSourceRecipientTypeSettingsQuery(moneyFlowSourceRecipientTypeId).Select(x => x.PeerMoneyFlowSourceRecipientType);
-            return CreateSelectMoneyFlowSourceRecipientDTOQuery(query);
+            return CreateSelectMoneyFlowSourceRecipientDTOQuery(query).OrderBy(x => x.Name);
         }
 
         private IQueryable<MoneyFlowSourceRecipientTypeDTO> CreateSelectMoneyFlowSourceRecipientDTOQuery(IQueryable<MoneyFlowSourceRecipientType> query)
