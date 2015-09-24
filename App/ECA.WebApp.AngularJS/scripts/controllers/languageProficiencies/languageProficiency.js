@@ -45,7 +45,7 @@ angular.module('staticApp')
                 .then(onSaveLanguageProficiencySuccess)
                 .then(function () {
                     updateLanguageProficiencyFormDivId(tempId);
-                    updateLanguageProficiencies(tempId, $scope.languageProficiency)
+                    updateLanguageProficiencies(tempId, $scope.languageProficiency);
                 })
                 .catch(onSaveLanguageProficiencyError);
           }

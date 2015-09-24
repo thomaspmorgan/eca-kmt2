@@ -187,7 +187,7 @@ namespace ECA.Business.Service.Persons
         private ProfessionEducation DoCreateProfessionEducation(NewPersonEduEmp personEduEmp, Person person)
         {
             throwIfPersonEntityNotFound(person, personEduEmp.PersonId);
-            return personEduEmp.AddPersonEducation(person);
+            return personEduEmp.AddProfessionEducation(person);
         }
         
         #endregion
