@@ -188,33 +188,8 @@ namespace ECA.Business.Service.Admin
         {
             Contract.Requires(organizationRoleIds != null, "The list of organization role ids must not be null.");
             Contract.Requires(organization != null, "The organization must not be null.");
-            var rolesToRemove = organization.OrganizationRoles.Where(x => !organizationRoleIds.Contains(x.OrganizationRoleId)).ToList();
-            var rolesToAdd = new List<OrganizationRole>();
-            organizationRoleIds.Where(x => !organization.OrganizationRoles.Select(y => y.OrganizationRoleId).ToList().Contains(x)).ToList()
-                .Select(x => new OrganizationRole { OrganizationRoleId = x }).ToList()
-                .ForEach(x => rolesToAdd.Add(x));
-
-            rolesToAdd.ForEach(x =>
-            {
-                var localEntity = Context.GetLocalEntity<OrganizationRole>(y => y.OrganizationRoleId == x.OrganizationRoleId);
-                if (localEntity == null)
-                {
-                    if (Context.GetEntityState(x) == EntityState.Detached)
-                    {
-                        Context.OrganizationRoles.Attach(x);
-                    }
-                    organization.OrganizationRoles.Add(x);
-                }
-                else
-                {
-                    organization.OrganizationRoles.Add(localEntity);
-                }
-
-            });
-            rolesToRemove.ForEach(x =>
-            {
-                organization.OrganizationRoles.Remove(x);
-            });
+            var roles = Context.OrganizationRoles.Where(x => organizationRoleIds.Contains(x.OrganizationRoleId)).ToList();
+            organization.OrganizationRoles = roles;
         }
 
         private IQueryable<Organization> CreateGetOrganizationByIdQuery(int id)
