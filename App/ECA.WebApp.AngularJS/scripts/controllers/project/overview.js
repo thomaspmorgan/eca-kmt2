@@ -44,8 +44,8 @@ angular.module('staticApp')
                   var focusLabel = response.data.focusLabel;
                   var justificationLabel = response.data.justificationLabel;
 
-                  $scope.categoryLabel = categoryLabel + '/' + focusLabel;
-                  $scope.objectiveLabel = objectiveLabel + '/' + justificationLabel;
+                  $scope.categoryLabel = categoryLabel;
+                  $scope.objectiveLabel = objectiveLabel;
 
               }, function (errorResponse) {
                   $log.error('Failed to load office settings.');

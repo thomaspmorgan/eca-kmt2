@@ -1,7 +1,6 @@
 ﻿<div class="modal-header">
-    <h3 class="modal-title">Create Funding item</h3>
+    <h3 class="modal-title">Add Funding Item to {{view.entityName | limitTo: view.entityNameMaxLength}}<span ng-show="view.entityName.length > view.entityNameMaxLength">...</span></h3>
 </div>
-
 <div class="modal-body" in-context-form>
     <form name="form.newMoneyFlow" ng-show="!view.isSaving">
         <div class="form-group" id="transactionType">

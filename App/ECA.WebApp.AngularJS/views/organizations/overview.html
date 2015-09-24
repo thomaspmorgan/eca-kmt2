@@ -51,7 +51,7 @@
                     <div class="col-md-6 title-label"><ng-pluralize count="organization.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
                     <div class="col-md-6">
                         <ul>
-                            <li ng-repeat="contact in organization.contacts | orderBy:'value'">&#149 {{contact.value}}</li>
+                            <li ng-repeat="contact in organization.contacts | orderBy:'value'">{{contact.value}}</li>
                         </ul>
                     </div>
                 </div>
@@ -75,9 +75,9 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div ng-if="view.showEditDetails">
-        <ng-include src="'/views/organizations/partials/editdetails.html'"></ng-include>
+        <div ng-if="view.showEditDetails">
+            <ng-include src="'/views/organizations/partials/editdetails.html'"></ng-include>
+        </div>
     </div>
 </div>
 

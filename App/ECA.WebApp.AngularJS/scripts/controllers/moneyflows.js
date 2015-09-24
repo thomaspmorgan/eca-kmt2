@@ -25,7 +25,11 @@ angular.module('staticApp')
         TableService,
         StateService
         ) {
-
+      
+      console.assert($scope.stateParamName !== undefined, 'The stateParamName must be defined in the directive, i.e. the state parameter name that has the id of the entity showing money flows.');
+      console.assert($scope.sourceEntityTypeId !== undefined, 'The sourceEntityTypeId i.e. the money flow source recipient type id of the object that is current showing funding must be set in the directive.');
+      console.assert($scope.resourceTypeId !== undefined, 'The resourceTypeId i.e. the cam resource type id must be set in the directive..');
+      
       $scope.view = {};
       $scope.view.params = $stateParams;
       $scope.view.moneyFlows = [];
@@ -66,7 +70,8 @@ angular.module('staticApp')
       $scope.view.onAddFundingItemClick = function () {
           var newMoneyFlow = {
               entityId: $scope.view.entityId,
-              entityTypeId: $scope.sourceEntityTypeId
+              entityTypeId: $scope.sourceEntityTypeId,
+              entityName: $scope.entityName
           };
           showEditMoneyFlow(newMoneyFlow);
       };
@@ -171,7 +176,6 @@ angular.module('staticApp')
       function getCopiedMoneyFlow(moneyFlow) {
           var copiedMoneyFlow = angular.copy(moneyFlow);
           delete copiedMoneyFlow.id;
-
           copiedMoneyFlow.description = 'COPY:  ' + copiedMoneyFlow.description;
           copiedMoneyFlow.isExpense = moneyFlow.sourceRecipientEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.expense.id;
           copiedMoneyFlow.isOutoing = copiedMoneyFlow.amount < 0;
@@ -184,6 +188,7 @@ angular.module('staticApp')
           copiedMoneyFlow.peerEntity = {
               primaryText: moneyFlow.sourceRecipientName
           };
+          copiedMoneyFlow.entityName = $scope.entityName;
           return copiedMoneyFlow;
       }
 
