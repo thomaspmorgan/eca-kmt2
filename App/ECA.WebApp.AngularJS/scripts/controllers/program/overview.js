@@ -28,8 +28,8 @@ angular.module('staticApp')
           $scope.view.program = program;
           $scope.view.categoryLabel = program.ownerOfficeCategoryLabel;
           $scope.view.objectiveLabel = program.ownerOfficeObjectiveLabel;
-          $scope.view.sortedCategories = orderByFilter($scope.program.categories, '+focusName');
-          $scope.view.sortedObjectives = orderByFilter($scope.program.objectives, '+justificationName');
+          $scope.view.sortedCategories = orderByFilter(program.categories, '+focusName');
+          $scope.view.sortedObjectives = orderByFilter(program.objectives, '+justificationName');
           $scope.view.isLoadingProgram = false;
       })
       .catch(function (response) {

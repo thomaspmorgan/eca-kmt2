@@ -76,8 +76,8 @@
                 <div class="col-md-4 title-label">{{view.categoryLabel}}</div>
                 <div class="col-md-8">
                     <ul>
-                        <li ng-repeat="category in view.sortedCategories | orderBy:['focusName','name']">
-                            <ng-switch on="$first || category.focusName != sortedCategories[$index-1].focusName">
+                        <li ng-repeat="category in program.categories | orderBy:['focusName','name']">
+                            <ng-switch on="$first || category.focusName !== view.sortedCategories[$index-1].focusName">
                                 <div ng-switch-when="true" class="title-label"><strong>{{category.focusName}}</strong></div>
                             </ng-switch>
                             &#149 {{category.name}}
@@ -89,8 +89,8 @@
                 <div class="col-md-4 title-label">{{view.objectiveLabel}}</div>
                 <div class="col-md-8">
                     <ul>
-                        <li ng-repeat="objective in view.sortedObjectives | orderBy:['justificationName','name']">
-                            <ng-switch on="$first || objective.justificationName != sortedObjectives[$index - 1].justificationName">
+                        <li ng-repeat="objective in program.objectives | orderBy:['justificationName','name']">
+                            <ng-switch on="$first || objective.justificationName !== view.sortedObjectives[$index - 1].justificationName">
                                 <div ng-switch-when="true" class="title-label"><strong>{{objective.justificationName}}</strong></div>
                             </ng-switch>
                             &#149 {{objective.name}}
