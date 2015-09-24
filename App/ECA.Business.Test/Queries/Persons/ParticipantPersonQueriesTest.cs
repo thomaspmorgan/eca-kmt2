@@ -50,7 +50,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(project.ProjectId, participantPersonResult.ProjectId);
 
             Assert.IsNull(participantPersonResult.FieldOfStudy);
-            Assert.IsNull(participantPersonResult.ProgramSubject);
+            Assert.IsNull(participantPersonResult.ProgramCategory);
             Assert.IsNull(participantPersonResult.Position);
             Assert.IsNull(participantPersonResult.HostInstitution);
             Assert.IsNull(participantPersonResult.HomeInstitution);
@@ -96,17 +96,17 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetSimpleParticipantPersonsDTOQuery_CheckProgramSubject()
         {
-            var programSubject = new ProgramSubject
+            var programCategory = new ProgramCategory
             {
-                ProgramSubjectId = 1,
-                ProgramSubjectCode = "123",
+                ProgramCategoryId = 1,
+                ProgramCategoryCode = "123",
                 Description = "description"
             };
 
             var participantPerson = new ParticipantPerson
             {
                 ParticipantId = 1,
-                ProgramSubject = programSubject
+                ProgramCategory = programCategory
             };
             var project = new Project
             {
@@ -127,7 +127,7 @@ namespace ECA.Business.Test.Queries.Persons
             
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
 
-            Assert.AreEqual(programSubject.Description, participantPersonResult.ProgramSubject);
+            Assert.AreEqual(programCategory.Description, participantPersonResult.ProgramCategory);
         }
 
         [TestMethod]

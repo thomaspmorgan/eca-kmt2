@@ -20,7 +20,7 @@ namespace ECA.Data
         public int ProgramCategoryId { get; set; }
         [MinLength(PROGRAM_CATEGORY_CODE_LENGTH), MaxLength(PROGRAM_CATEGORY_CODE_LENGTH)]
         public string ProgramCategoryCode { get; set; }
-         public string Description { get; set; }
+        public string Description { get; set; }
         public History History { get; set; }
     }
 }

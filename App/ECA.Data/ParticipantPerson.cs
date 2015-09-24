@@ -9,6 +9,9 @@ using System.ComponentModel;
 
 namespace ECA.Data
 {
+    /// <summary>
+    /// A person participant on a project
+    /// </summary>
     public class ParticipantPerson
     {
 
