@@ -88,8 +88,8 @@ namespace ECA.Business.Queries.Fundings
                         let program = context.Programs.Where(x => x.ProgramId == recipientEntityId).FirstOrDefault()
                         let participant = context.Participants.Where(x => x.ParticipantId == recipientEntityId).FirstOrDefault()
                         let participantType = participant == null ? null : participant.ParticipantType
-                        let isOrgParticipant = participant == null ? false : participant.OrganizationId.HasValue
-                        let isPersonParticipant = participant == null ? false : participant.PersonId.HasValue
+                        let isOrgParticipant = participant != null && participant.OrganizationId.HasValue
+                        let isPersonParticipant = participant != null && participant.PersonId.HasValue
                         let orgParticipant = isOrgParticipant ? participant.Organization : null
                         let personParticipant = isPersonParticipant ? participant.Person : null
 
@@ -123,10 +123,7 @@ namespace ECA.Business.Queries.Fundings
                             ParticipantTypeName = participantType == null ? null : participantType.Name,
                             SourceRecipientTypeName = recipientTypeName,
                             SourceRecipientEntityTypeId = recipientTypeId,
-                            SourceRecipientEntityId = isExpense ? default(int?)
-                                : isOrgParticipant ? orgParticipant.OrganizationId
-                                : isPersonParticipant ? personParticipant.PersonId
-                                : recipientEntityId,
+                            SourceRecipientEntityId = isExpense ? default(int?) : recipientEntityId,
                             SourceRecipientName = isExpense ? null : recipientEntityName
                         };
             return query;
@@ -177,8 +174,8 @@ namespace ECA.Business.Queries.Fundings
                         let project = context.Projects.Where(x => x.ProjectId == sourceEntityId).FirstOrDefault()
                         let program = context.Programs.Where(x => x.ProgramId == sourceEntityId).FirstOrDefault()
                         let participant = context.Participants.Where(x => x.ParticipantId == sourceEntityId).FirstOrDefault()
-                        let isOrgParticipant = participant == null ? false : participant.OrganizationId.HasValue
-                        let isPersonParticipant = participant == null ? false : participant.PersonId.HasValue
+                        let isOrgParticipant = participant != null && participant.OrganizationId.HasValue
+                        let isPersonParticipant = participant != null && participant.PersonId.HasValue
                         let participantType = participant == null ? null : participant.ParticipantType
                         let orgParticipant = isOrgParticipant ? participant.Organization : null
                         let personParticipant = isPersonParticipant ? participant.Person : null
@@ -211,9 +208,7 @@ namespace ECA.Business.Queries.Fundings
                             ParticipantTypeName = participantType == null ? null : participantType.Name,
                             SourceRecipientTypeName = sourceTypeName,
                             SourceRecipientEntityTypeId = sourceTypeId,
-                            SourceRecipientEntityId = isOrgParticipant ? orgParticipant.OrganizationId
-                                : isPersonParticipant ? personParticipant.PersonId
-                                : sourceEntityId,
+                            SourceRecipientEntityId = sourceEntityId,
                             SourceRecipientName = sourceEntityName
                         };
             return query;
@@ -318,7 +313,6 @@ namespace ECA.Business.Queries.Fundings
             var participantTypeEntityTypeId = MoneyFlowSourceRecipientType.Participant.Id;
             var moneyFlows = CreateGetMoneyFlowDTOsQuery(context);
 
-
             var query = from participant in context.Participants
 
                         join person in context.Participants
@@ -329,7 +323,6 @@ namespace ECA.Business.Queries.Fundings
                         equals new { ParticipantId = moneyFlow.EntityId, TypeId = moneyFlow.EntityTypeId }
 
                         where person.PersonId == personId
-
                         select moneyFlow;
 
             query = query.Distinct().Apply(queryOperator);

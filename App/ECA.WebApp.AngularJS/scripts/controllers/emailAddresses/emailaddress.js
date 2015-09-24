@@ -42,7 +42,7 @@ angular.module('staticApp')
                 .then(onSaveEmailAddressSuccess)
                 .then(function () {
                     updateEmailAddressFormDivId(tempId);
-                    updateEmailAddresses(tempId, $scope.emailAddress)
+                    updateEmailAddresses(tempId, $scope.emailAddress);
                 })
                 .catch(onSaveEmailAddressError);
           }
@@ -90,7 +90,6 @@ angular.module('staticApp')
                   NotificationService.showErrorMessage(message);
               });
           }
-
       };
 
       $scope.view.onEditEmailAddressClick = function () {

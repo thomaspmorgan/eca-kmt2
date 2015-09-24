@@ -20,8 +20,9 @@ angular.module('staticApp')
             },
             template: function (element, attrs) {
                 return '<select name="' + attrs.name + '" id="' + attrs.id + '" ng-model="' + attrs.model + '" ng-change="handleChange(' + attrs.model + ')" class="form-control">' +
-                '<option ng-selected="{{model == year}}" ng-repeat="year in years" value="{{year}}">{{year}}</option>' +
-                '</select>';
+                    '<option value=""></option>' +
+                    '<option ng-selected="{{model == year}}" ng-repeat="year in years" value="{{year}}">{{year}}</option>' +
+                    '</select>';
             },
             link: function (scope, element, attrs) {
                 scope.years = [];

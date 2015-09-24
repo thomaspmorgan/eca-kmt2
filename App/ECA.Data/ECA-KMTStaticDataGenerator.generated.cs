@@ -3,24 +3,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #region ActorType
 namespace ECA.Data
 {
@@ -678,9 +660,13 @@ namespace ECA.Data
 	public partial class MoneyFlowStatus : ECA.Core.Generation.IStaticLookup
 	{
 		/// <summary>
-		/// Returns the Budgeted lookup with id 1.
+		/// Returns the Estimated lookup with id 1.
 		/// </summary>
-		public static StaticLookup Budgeted { get { return new StaticLookup("Budgeted", 1); } }
+		public static StaticLookup Estimated { get { return new StaticLookup("Estimated", 1); } }
+		/// <summary>
+		/// Returns the Actual lookup with id 2.
+		/// </summary>
+		public static StaticLookup Actual { get { return new StaticLookup("Actual", 2); } }
 		/// <summary>
 		/// Returns the Appropriated lookup with id 3.
 		/// </summary>
@@ -692,7 +678,8 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(int id)
 		{
-			if (1 == id) return MoneyFlowStatus.Budgeted;
+			if (1 == id) return MoneyFlowStatus.Estimated;
+			if (2 == id) return MoneyFlowStatus.Actual;
 			if (3 == id) return MoneyFlowStatus.Appropriated;
 			return null;
 		}
@@ -703,7 +690,8 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
-			if ("Budgeted".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowStatus.Budgeted;
+			if ("Estimated".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowStatus.Estimated;
+			if ("Actual".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowStatus.Actual;
 			if ("Appropriated".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowStatus.Appropriated;
 			return null;
 		}

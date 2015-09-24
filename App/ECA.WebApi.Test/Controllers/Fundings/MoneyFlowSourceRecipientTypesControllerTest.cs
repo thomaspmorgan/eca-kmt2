@@ -45,6 +45,20 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             var response = await controller.GetMoneyFlowSourceRecipientTypesAsync(new PagingQueryBindingModel<MoneyFlowSourceRecipientTypeDTO>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
+
+        [TestMethod]
+        public async Task TestGetAllowedMoneyFlowRecipientTypesAsync()
+        {
+            var response = await controller.GetAllowedMoneyFlowRecipientTypesAsync(1);
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<List<MoneyFlowSourceRecipientTypeDTO>>));
+        }
+
+        [TestMethod]
+        public async Task TestGetAllowedMoneyFlowSourceTypesAsync()
+        {
+            var response = await controller.GetAllowedMoneyFlowSourceTypesAsync(1);
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<List<MoneyFlowSourceRecipientTypeDTO>>));
+        }
         #endregion
     }
 }
