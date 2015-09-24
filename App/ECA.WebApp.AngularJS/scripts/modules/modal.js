@@ -55,11 +55,11 @@
             }
           };
           scope.hideModal = function() {
-            var close = scope.beforeClose(scope);
-            if (close) {
+            //var close = scope.beforeClose;
+            //if (close) {
               element[0].children[1].scrollTop = 0;
               return scope.show = false;
-            }
+            //}
           };
           scope.$watch('show', function(newVal, oldVal) {
             element[0].children[1].scrollTop = 0;
