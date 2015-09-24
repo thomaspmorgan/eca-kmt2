@@ -43,9 +43,9 @@ namespace ECA.Business.Queries.Models.Persons
         public bool ContactAgreement { get; set; }
 
         /// <summary>
-        /// Gets or sets the participantPerson's ProgramSubject
+        /// Gets or sets the participantPerson's ProgramCategory
         /// </summary>
-        public string ProgramSubject { get; set; }
+        public string ProgramCategory { get; set; }
 
         /// <summary>
         /// Gets or sets the participantPerson's Host Institution (organization)

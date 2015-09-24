@@ -32,7 +32,7 @@ namespace ECA.Business.Queries.Persons
                              ProjectId = p.Participant.ProjectId,
                              StudyProject = p.StudyProject,
                              FieldOfStudy = p.FieldOfStudy != null ? p.FieldOfStudy.Description : null,
-                             ProgramSubject = p.ProgramSubject != null ? p.ProgramSubject.Description : null,
+                             ProgramCategory = p.ProgramCategory != null ? p.ProgramCategory.Description : null,
                              Position = p.Position != null ? p.Position.Description : null,
                              ParticipantType = p.Participant.ParticipantType != null ? p.Participant.ParticipantType.Name : null,
                              ParticipantStatus = p.Participant.Status != null ? p.Participant.Status.Status : null,
