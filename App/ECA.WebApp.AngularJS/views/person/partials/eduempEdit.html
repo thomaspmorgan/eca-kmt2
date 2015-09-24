@@ -137,7 +137,7 @@
                                     <div class="bounce3"></div>
                                 </div>
                                 <div class="row" ng-show="!view.isSavingChanges">
-                                    <div ng-class="{true: 'row', false: 'row2'}" ng-show="!view.showEditEmployment">
+                                    <div ng-class="{true: 'row', false: 'row2'}[view.showEditEmployment]" ng-show="!view.showEditEmployment">
                                         {{employment.title}} ({{employment.startDate | date: 'yyyy'}}-{{employment.endDate | date: 'yyyy'}})
                                         <div class="pull-right" ng-show="!view.showEditEmployment">
                                             <a ng-show="!view.showEditEmployment && !view.isDeletingEmployment" ng-click="view.showConfirmDeleteEmployment = true">

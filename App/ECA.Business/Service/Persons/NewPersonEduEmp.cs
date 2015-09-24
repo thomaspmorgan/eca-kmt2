@@ -20,7 +20,7 @@ namespace ECA.Business.Service.Persons
         }
 
         public int PersonId { get; set; }
-        
+
         public string Title { get; private set; }
 
         public string Role { get; private set; }
@@ -53,15 +53,15 @@ namespace ECA.Business.Service.Persons
             this.Create.SetHistory(eduemp);
             if (this.PersonOfEducation_PersonId != null)
             {
-                person.EducationalHistory.Add(eduemp);
-            }
+            person.EducationalHistory.Add(eduemp);
+        }
             else if (this.PersonOfProfession_PersonId != null)
-            {
-                person.ProfessionalHistory.Add(eduemp);
+        {
+            person.ProfessionalHistory.Add(eduemp);
             }
 
             return eduemp;
         }
-        
+
     }
 }

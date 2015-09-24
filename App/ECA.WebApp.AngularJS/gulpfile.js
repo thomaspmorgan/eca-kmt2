@@ -37,6 +37,7 @@ gulp.task('html', ['styles'], function () {
         .pipe(assets)
         .pipe(gulpIf('*.js', uglify({ mangle: false })))
         .pipe(gulpIf('*.css', replace('select2.png', '../images/select2.png')))
+        .pipe(gulpIf('*.css', replace('select2x2.png', '../images/select2x2.png')))
         .pipe(gulpIf('*.css', minifyCss()))
         .pipe(assets.restore())
         .pipe(useref())
@@ -48,6 +49,8 @@ gulp.task('copy', ['clean'], function () {
         .pipe(gulp.dest('dist/images'));
     gulp.src('bower_components/bootstrap-sass/assets/fonts/bootstrap/*.*')
         .pipe(gulp.dest('dist/bower_components/bootstrap-sass/assets/fonts/bootstrap'));
+    gulp.src('bower_components/intl-tel-input/lib/libphonenumber/build/utils.js')
+        .pipe(gulp.dest('dist/bower_components/intl-tel-input/lib/libphonenumber/build'));
     gulp.src('styles/fonts/*.*')
         .pipe(gulp.dest('dist/styles/fonts'));
     gulp.src('bower_components/select2/*.png')

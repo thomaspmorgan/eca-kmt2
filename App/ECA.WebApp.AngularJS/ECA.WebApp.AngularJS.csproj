@@ -160,6 +160,7 @@
     <Content Include="favicon.ico" />
     <Content Include="gulpfile.js" />
     <Content Include="images\contract.png" />
+    <Content Include="images\intl-tel-input\flags.png" />
     <Content Include="karma.conf.js" />
     <Content Include="scripts\controllers\address\addresses.js" />
     <Content Include="scripts\controllers\address\address.js" />
@@ -626,9 +627,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="images\intl-tel-input\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

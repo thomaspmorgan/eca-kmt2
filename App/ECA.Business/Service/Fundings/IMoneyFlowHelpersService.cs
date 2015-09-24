@@ -60,5 +60,32 @@ namespace ECA.Business.Service.Fundings
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The project stati in the system.</returns>
         Task<PagedQueryResults<MoneyFlowSourceRecipientTypeDTO>> GetAsync(QueryableOperator<MoneyFlowSourceRecipientTypeDTO> queryOperator);
+        /// <summary>
+        /// Returns the list of MoneyFlowSourceRecipientTypes that are allowable recipient types of the given 
+        /// money flow source recipient type by id.
+        /// </summary>
+        /// <returns>The list of MoneyFlowSourceRecipientTypes that are valid recipient types for the MoneyFlowSourceRecipientType with the given id.</returns>
+        List<MoneyFlowSourceRecipientTypeDTO> GetRecipientMoneyFlowTypes(int moneyFlowSourceRecipientTypeId);
+
+        /// <summary>
+        /// Returns the list of MoneyFlowSourceRecipientTypes that are allowable recipient types of the given 
+        /// money flow source recipient type by id.
+        /// </summary>
+        /// <returns>The list of MoneyFlowSourceRecipientTypes that are valid recipient types for the MoneyFlowSourceRecipientType with the given id.</returns>
+        Task<List<MoneyFlowSourceRecipientTypeDTO>> GetRecipientMoneyFlowTypesAsync(int moneyFlowSourceRecipientTypeId);
+
+        /// <summary>
+        /// Returns the list of MoneyFlowSourceRecipientTypes that are allowable source types of the given 
+        /// money flow source recipient type by id.
+        /// </summary>
+        /// <returns>The list of MoneyFlowSourceRecipientTypes that are valid recipient types for the MoneyFlowSourceRecipientType with the given id.</returns>
+        List<MoneyFlowSourceRecipientTypeDTO> GetSourceMoneyFlowTypes(int moneyFlowSourceRecipientTypeId);
+
+        /// <summary>
+        /// Returns the list of MoneyFlowSourceRecipientTypes that are allowable source types of the given 
+        /// money flow source recipient type by id.
+        /// </summary>
+        /// <returns>The list of MoneyFlowSourceRecipientTypes that are valid recipient types for the MoneyFlowSourceRecipientType with the given id.</returns>
+        Task<List<MoneyFlowSourceRecipientTypeDTO>> GetSourceMoneyFlowTypesAsync(int moneyFlowSourceRecipientTypeId);
     }
 }
