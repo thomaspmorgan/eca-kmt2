@@ -16,86 +16,89 @@
         <h4 class="tab-subheader">Details</h4>
         <div class="col-md-6">
             <div class="row">
-                <div class="col-md-6 title-label">Status</div>
-                <div class="col-md-6">{{project.status}}</div>
+                <div class="col-md-4 title-label">Status</div>
+                <div class="col-md-8">{{project.status}}</div>
             </div>
             <div class="row">
-                <div class="col-md-6 title-label">Start Date</div>
-                <div class="col-md-6">{{(project.startDate | date:"MMMM dd, yyyy") || 'No start date.'}}</div>
+                <div class="col-md-4 title-label">Start Date</div>
+                <div class="col-md-8">{{(project.startDate | date:"MMMM dd, yyyy") || 'No start date.'}}</div>
             </div>
             <div class="row">
-                <div class="col-md-6 title-label">End Date</div>
-                <div class="col-md-6">{{(project.endDate | date:"MMMM dd, yyyy") || 'No end date.'}}</div>
+                <div class="col-md-4 title-label">End Date</div>
+                <div class="col-md-8">{{(project.endDate | date:"MMMM dd, yyyy") || 'No end date.'}}</div>
             </div>
             <div class="row">
-                <div class="col-md-6 title-label">Themes</div>
-                <div class="col-md-6">
+                <div class="col-md-4 title-label">Themes</div>
+                <div class="col-md-8 simple-list">
                     <ul>
-                        <li ng-repeat="theme in project.themes | orderBy:'value'">&#149 {{theme.value}}</li>
+                        <li ng-repeat="theme in project.themes | orderBy:'value'">{{theme.value}}</li>
                     </ul>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6 title-label">Strategic Goals</div>
-                <div class="col-md-6">
+                <div class="col-md-4 title-label">Strategic Goals</div>
+                <div class="col-md-8 simple-list">
                     <ul>
-                        <li ng-repeat="goal in project.goals | orderBy:'value'">&#149 {{goal.value}}</li>
+                        <li ng-repeat="goal in project.goals | orderBy:'value'">{{goal.value}}</li>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="row">
-                <div class="col-md-6 title-label">Office</div>
-                <div class="col-md-6"><a ui-sref="offices.overview({officeId: project.ownerId})">{{project.ownerName}}</a></div>
+                <div class="col-md-4 title-label">Office</div>
+                <div class="col-md-8"><a ui-sref="offices.overview({officeId: project.ownerId})">{{project.ownerName}}</a></div>
             </div>
             <div class="row">
-                <div class="col-md-6 title-label">Program</div>
-                <div class="col-md-6"><a ui-sref="programs.overview({programId: project.programId})">{{project.programName}}</a></div>
+                <div class="col-md-4 title-label">Program</div>
+                <div class="col-md-8"><a ui-sref="programs.overview({programId: project.programId})">{{project.programName}}</a></div>
             </div>
             <div class="row" ng-show="project.categories.length > 0">
-                <div class="col-md-6 title-label">{{categoryLabel}}</div>
-                <div class="col-md-6">
+                <div class="col-md-4 title-label">{{categoryLabel}}</div>
+                <div class="col-md-8 grouped-list">
                     <ul>
                         <li ng-repeat="category in sortedCategories | orderBy:['focusName','name']">
                             <ng-switch on="$first || category.focusName != sortedCategories[$index - 1].focusName">
                                 <div ng-switch-when="true" class="title-label"><strong>{{category.focusName}}</strong></div>
                             </ng-switch>
-                            &#149 {{category.name}}
+                            <div>{{category.name}}</div>
                         </li>
                     </ul>
-                </div>               
+                </div>
             </div>
             <div class="row" ng-show="project.objectives.length > 0">
-                <div class="col-md-6 title-label">{{objectiveLabel}}</div>
-                <div class="col-md-6">
+                <div class="col-md-4 title-label">{{objectiveLabel}}</div>
+                <div class="col-md-8 grouped-list">
                     <ul>
                         <li ng-repeat="objective in sortedObjectives | orderBy:['justificationName','name']">
                             <ng-switch on="$first || objective.justificationName != sortedObjectives[$index - 1].justificationName">
                                 <div ng-switch-when="true" class="title-label"><strong>{{objective.justificationName}}</strong></div>
                             </ng-switch>
-                            &#149 {{objective.name}}
+                            <div>{{objective.name}}</div>
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="row" ng-show="project.contacts">
-                <div class="col-md-6 title-label"><ng-pluralize count="project.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
-                <div class="col-md-6">
+                <div class="col-md-4 title-label"><ng-pluralize count="project.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
+                <div class="col-md-8 simple-list">
                     <ul>
-                        <li ng-repeat="contact in project.contacts | orderBy:'value'">&#149 {{contact.value}}</li>
+                        <li ng-repeat="contact in project.contacts | orderBy:'value'">{{contact.value}}</li>
                     </ul>
-                </div>                
+                </div>
             </div>
             <div class="row" ng-show="project.locations">
-                <div class="col-md-6 title-label"><ng-pluralize count="project.locations.length" when="{'1':'Location','other':'Locations'}"></ng-pluralize></div>
-                <div class="col-md-6">
+                <div class="col-md-4 title-label"><ng-pluralize count="project.locations.length" when="{'1':'Location','other':'Locations'}"></ng-pluralize></div>
+                <div class="col-md-8 simple-list">
                     <ul>
-                        <li ng-repeat="location in project.locations | orderBy:'name'">&#149 
-                        {{location.name}}
-                        <!--A couple of things can happen here, what we are trying to show is something like name (locationTypeName:  division, country)
-                            but the division may not be known.  Another possibility is that a location is a country itself and therefore it's own iso must be shown.-->
-                        ({{location.locationTypeName}}:  {{location.divisionIso ? location.divisionIso + ', ' : ''}}{{location.countryIso ? location.countryIso : location.locationIso}})</li>
+                        <li ng-repeat="location in project.locations | orderBy:'name'">
+                            <div>
+                                {{location.name}}
+                                <!--A couple of things can happen here, what we are trying to show is something like name (locationTypeName:  division, country)
+                                but the division may not be known.  Another possibility is that a location is a country itself and therefore it's own iso must be shown.-->
+                                ({{location.locationTypeName}}:  {{location.divisionIso ? location.divisionIso + ', ' : ''}}{{location.countryIso ? location.countryIso : location.locationIso}})
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
