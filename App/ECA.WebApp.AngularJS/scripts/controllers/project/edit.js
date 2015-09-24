@@ -567,8 +567,8 @@ angular.module('staticApp')
                       $log.info('Objective is required by office, objective justification fields should be visible.');
                   }
 
-                  $scope.editView.categoryLabel = categoryLabel + '/' + focusLabel;
-                  $scope.editView.objectiveLabel = objectiveLabel + '/' + justificationLabel;
+                  $scope.editView.categoryLabel = categoryLabel;
+                  $scope.editView.objectiveLabel = objectiveLabel;
                   $scope.editView.showCategoryFocus = isCategoryRequired;
                   $scope.editView.showObjectiveJustification = isObjectiveRequired;
               }, function (errorResponse) {

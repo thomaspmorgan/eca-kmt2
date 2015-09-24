@@ -14,7 +14,6 @@ angular.module('staticApp')
       $stateParams,
       $state,
       smoothScroll,
-      FilterService,
       ProgramService,
       LookupService,
       TableService,
@@ -30,14 +29,17 @@ angular.module('staticApp')
       $scope.view.totalNumberOfPrograms = 0;
       $scope.view.skippedNumberOfPrograms = 0;
       $scope.view.numberOfPrograms = 0;
-      $scope.view.ecaUserId = null;
-      $scope.view.programFilter = '';      
+      $scope.view.ecaUserId = null;  
       $scope.view.showDraftsOnly = false;
       $scope.view.programs = [];
       $scope.view.programsLoading = false;
       $scope.view.hierarchyKey = "hierarchy";
       $scope.view.alphabeticalKey = "alpha";
       $scope.view.listType = $scope.view.hierarchyKey;
+
+      $scope.view.onSearchChange = function () {
+          $scope.view.listType = $scope.view.alphabeticalKey;
+      };
 
       $scope.view.onProgramFiltersChange = function () {
           console.assert($scope.getAllProgramsTableState, "The table state function must exist.");
@@ -98,8 +100,12 @@ angular.module('staticApp')
                   $log.error('Unable to load user info.');
               });
       }
+      $scope.view.getPrograms = function (tableState) {
+          //remove keyword search parameter if viewing programs in hiearchy
+          if ($scope.view.listType === $scope.view.hierarchyKey && tableState.search && tableState.search.predicateObject) {
+              delete tableState.search.predicateObject.$;
+          }
 
-      $scope.view.getPrograms = function (tableState) {          
           TableService.setTableState(tableState);
           var params = {
               start: TableService.getStart(),
@@ -133,6 +139,9 @@ angular.module('staticApp')
           $scope.view.programsLoading = true;
           return ProgramService.getAllProgramsAlpha(params)
           .then(function (data) {
+              angular.forEach(data.results, function (program, index) {
+                  program.isRoot = true;
+              })
               processData(data, tableState, params);
           })
           .catch(function(response){

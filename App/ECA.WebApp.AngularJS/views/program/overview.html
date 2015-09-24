@@ -30,31 +30,31 @@
             </div>
             <div class="row" ng-show="program.themes">
                 <div class="col-md-4 title-label">Themes</div>
-                <div class="col-md-8">
+                <div class="col-md-8 simple-list">
                     <ul>
-                        <li ng-repeat="theme in program.themes | orderBy:'value'">&#149 {{theme.value}}</li>
+                        <li ng-repeat="theme in program.themes | orderBy:'value'">{{theme.value}}</li>
                     </ul>
                 </div>
-            </div>           
+            </div>
             <div class="row" ng-show="program.goals">
                 <div class="col-md-4 title-label">Strategic Goals</div>
-                <div class="col-md-8">
+                <div class="col-md-8 simple-list">
                     <ul>
-                        <li ng-repeat="goal in program.goals | orderBy:'value'">&#149 {{goal.value}}</li>
+                        <li ng-repeat="goal in program.goals | orderBy:'value'">{{goal.value}}</li>
                     </ul>
                 </div>
             </div>
             <div class="row" ng-show="program.regionIsos">
                 <div class="col-md-4 title-label">Regions</div>
-                <div class="col-md-8">
+                <div class="col-md-8 simple-list">
                     <ul>
-                        <li ng-repeat="region in program.regionIsos | orderBy:'value'">{{region.value}}</li>
+                        <li ng-repeat="region in program.regions | orderBy:'name'">{{region.name}}</li>
                     </ul>
                 </div>
             </div>
             <div class="row" ng-show="program.websites.length > 0">
                 <div class="col-md-4 title-label">Websites</div>
-                <div class="col-md-8">
+                <div class="col-md-8 simple-list">
                     <ul>
                         <li ng-repeat="website in program.websites">
                             <a href="{{website.value}}" target="_blank">{{website.value}}</a>
@@ -74,35 +74,35 @@
             </div>
             <div class="row" ng-show="program.categories">
                 <div class="col-md-4 title-label">{{view.categoryLabel}}</div>
-                <div class="col-md-8">
+                <div class="col-md-8 grouped-list">
                     <ul>
                         <li ng-repeat="category in program.categories | orderBy:['focusName','name']">
                             <ng-switch on="$first || category.focusName !== view.sortedCategories[$index-1].focusName">
                                 <div ng-switch-when="true" class="title-label"><strong>{{category.focusName}}</strong></div>
                             </ng-switch>
-                            &#149 {{category.name}}
+                            <div>{{category.name}}</div>
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="row" ng-show="program.objectives">
                 <div class="col-md-4 title-label">{{view.objectiveLabel}}</div>
-                <div class="col-md-8">
+                <div class="col-md-8 grouped-list">
                     <ul>
                         <li ng-repeat="objective in program.objectives | orderBy:['justificationName','name']">
                             <ng-switch on="$first || objective.justificationName !== view.sortedObjectives[$index - 1].justificationName">
                                 <div ng-switch-when="true" class="title-label"><strong>{{objective.justificationName}}</strong></div>
                             </ng-switch>
-                            &#149 {{objective.name}}
+                            <div>{{objective.name}}</div>
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="row" ng-show="program.contacts">
                 <div class="col-md-4 title-label"><ng-pluralize count="program.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
-                <div class="col-md-8">
+                <div class="col-md-8 simple-list">
                     <ul>
-                        <li ng-repeat="contact in program.contacts | orderBy:'value'">&#149 {{contact.value}}</li>
+                        <li ng-repeat="contact in program.contacts | orderBy:'value'">{{contact.value}}</li>
                     </ul>
                 </div>
             </div>
@@ -111,8 +111,8 @@
     <div class="row">
         <h4 class="tab-subheader">Snapshot</h4>
         <div class="col-md-4">
-            <p class="stat text-center">{{project.countryIsos.length}}</p>
-            <!-- 		<p class="title-label text-center">Locations</p> -->
+            <p class="stat text-center">{{program.countryIsos.length}}</p>
+            <p class="title-label text-center">Countries</p>
         </div>
         <div class="col-md-8">
             <map width="600" height="300" countries="program.countryIsos"></map>

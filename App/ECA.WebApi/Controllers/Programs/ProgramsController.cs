@@ -106,6 +106,7 @@ namespace ECA.WebApi.Controllers.Programs
                 var results = await this.programService.GetProgramsAsync(
                     queryModel.ToQueryableOperator(
                     ALPHA_PROGRAM_SORTER,
+                    x => x.OfficeSymbol,
                     x => x.Name,
                     x => x.Description));
                 return Ok(results);
@@ -129,9 +130,7 @@ namespace ECA.WebApi.Controllers.Programs
             {
                 var results = await this.programService.GetProgramsHierarchyAsync(
                     queryModel.ToQueryableOperator(
-                    HIERARCHY_PROGRAM_SORTER,
-                    x => x.Name,
-                    x => x.Description));
+                    HIERARCHY_PROGRAM_SORTER));
                 return Ok(results);
             }
             else

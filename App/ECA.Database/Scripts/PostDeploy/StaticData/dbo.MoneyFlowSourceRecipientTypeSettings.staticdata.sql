@@ -18,7 +18,7 @@ SET NOCOUNT ON
 -- and cause failed deployment if there are any rows referencing
 -- a record which has been deleted.
 DECLARE @DeleteMissingRecords BIT
-SET @DeleteMissingRecords = 0
+SET @DeleteMissingRecords = 1
 
 -- 1: Define table variable
 DECLARE @tblTempTable TABLE (
@@ -41,21 +41,21 @@ DECLARE @tblTempTable TABLE (
 --therefore, 1, 2, false, true
 --therefore -> INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('1', '2', 'False', 'True')
 
-INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('1', '2', 'False', 'True')
-INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('1', '4', 'False', 'True')
-INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('1', '10', 'False', 'True')
-INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('2', '1', 'True', 'False')
+INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('1', '2', 'True', 'True')
+INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('1', '3', 'True', 'True')
+INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('1', '8', 'False', 'True')
+INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('1', '10', 'True', 'False')
+INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('2', '1', 'True', 'True')
 INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('2', '2', 'True', 'True')
 INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('2', '3', 'False', 'True')
-INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('2', '8', 'False', 'True')
+INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('2', '10', 'True', 'False')
+INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('3', '1', 'True', 'True')
 INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('3', '2', 'True', 'False')
 INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('3', '4', 'False', 'True')
 INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('3', '8', 'False', 'True')
-INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('4', '8', 'False', 'True')
-INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('8', '2', 'False', 'False')
-INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('10', '1', 'True', 'False')
+INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('10', '1', 'True', 'True')
 INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('10', '2', 'False', 'True')
-INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('10', '8', 'False', 'True')
+INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('10', '10', 'True', 'True')
 
 
 -- 3: Insert any new items into the table from the table variable

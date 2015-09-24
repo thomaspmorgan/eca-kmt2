@@ -26,8 +26,12 @@ angular.module('staticApp')
         ParticipantService,
         NotificationService
         ) {
+      
+      console.assert(entity.entityName && entity.entityName.length > 0, "The entity.entityName value must be defined.");
 
       $scope.view = {};
+      $scope.view.entityNameMaxLength = 100;
+      $scope.view.entityName = entity.entityName;
       $scope.view.searchLimit = 10;
       $scope.view.params = $stateParams;      
       $scope.view.allowedRecipientMoneyFlowSourceRecipientTypes = [];
