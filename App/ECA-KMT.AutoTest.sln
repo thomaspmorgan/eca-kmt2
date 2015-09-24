@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Login.Test", "Login.Test\Login.Test\Login.Test.csproj", "{C22B5E80-AC42-49F7-A751-42DC3A0767F0}"
 EndProject
@@ -61,6 +61,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewOrganization.Test", "ViewOrganization.Test\ViewOrganization.Test.csproj", "{421AF0A0-3620-4111-A63A-F37B2BB147C6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalLogin", "LocalLogin\LocalLogin.csproj", "{48D67784-2180-42E5-862D-96F7821D984D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UITest.Core", "UITest.Core\UITest.Core.csproj", "{EC8FE480-4BEB-4A16-AD1A-45A308C09107}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -168,6 +170,10 @@ Global
 		{48D67784-2180-42E5-862D-96F7821D984D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48D67784-2180-42E5-862D-96F7821D984D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48D67784-2180-42E5-862D-96F7821D984D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC8FE480-4BEB-4A16-AD1A-45A308C09107}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC8FE480-4BEB-4A16-AD1A-45A308C09107}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC8FE480-4BEB-4A16-AD1A-45A308C09107}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC8FE480-4BEB-4A16-AD1A-45A308C09107}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

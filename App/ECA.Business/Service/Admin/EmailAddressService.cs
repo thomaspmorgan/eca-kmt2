@@ -81,8 +81,8 @@ namespace ECA.Business.Service.Admin
         /// <returns>The created email address entity.</returns>
         public EmailAddress Create<T>(NewEmailAddress<T> newEmailAddress) where T : class, IEmailAddressable
         {
-            var socialable = this.Context.Set<T>().Find(newEmailAddress.GetEmailAddressableEntityId());
-            return DoCreate(newEmailAddress, socialable);
+            var addressable = this.Context.Set<T>().Find(newEmailAddress.GetEmailAddressableEntityId());
+            return DoCreate(newEmailAddress, addressable);
         }
 
         /// <summary>
@@ -93,8 +93,8 @@ namespace ECA.Business.Service.Admin
         /// <returns>The created semail address entity.</returns>
         public async Task<EmailAddress> CreateAsync<T>(NewEmailAddress<T> newEmailAddress) where T : class, IEmailAddressable
         {
-            var socialable = await this.Context.Set<T>().FindAsync(newEmailAddress.GetEmailAddressableEntityId());
-            return DoCreate(newEmailAddress, socialable);
+            var addressable = await this.Context.Set<T>().FindAsync(newEmailAddress.GetEmailAddressableEntityId());
+            return DoCreate(newEmailAddress, addressable);
         }
 
         private EmailAddress DoCreate<T>(NewEmailAddress<T> newEmailAddress, IEmailAddressable emailAddressable) where T : class, IEmailAddressable
