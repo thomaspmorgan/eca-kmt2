@@ -1,6 +1,6 @@
 ﻿<div in-context-form ng-controller="OrganizationEditDetailsCtrl">
     <form name="form.organizationForm" class="form-horizontal">
-        <div class="form-group">
+        <div class="form-group row">
             <label class="col-md-2 title-label" for="projectName">Name <span class="asterisk"> *</span></label>
             <div class="col-md-10">
                 <input name="name"
@@ -17,7 +17,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group row">
             <label class="col-md-2 title-label" for="description">Description <span class="asterisk"> *</span></label>
             <div class="col-md-10">
                 <textarea name="description"
@@ -39,7 +39,7 @@
         </div>
 
         <div class="col-md-6">
-            <div class="form-group">
+            <div class="form-group row">
                 <label class="col-md-4 title-label">Website</label>
                 <div class="col-md-8">
                     <input type="text"
@@ -48,7 +48,7 @@
                            ng-model="organization.website" />
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group row">
                 <label class="col-md-4 title-label">Type</label>
                 <div class="col-md-8">
                     <select class="form-control"
@@ -56,7 +56,7 @@
                             ng-options="organizationType.id as organizationType.name for organizationType in view.organizationTypes" />
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group row">
                 <label class="col-md-4 title-label">Roles</label>
                 <div class="col-md-8">
                     <ui-select multiple 
@@ -72,7 +72,7 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="form-group" ng-show="organization.contacts">
+            <div class="form-group row" ng-show="organization.contacts">
                 <div class="col-md-4 title-label"><ng-pluralize count="organization.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
                 <div class="col-md-8">
                     <ui-select multiple
@@ -103,7 +103,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="form-group">
+            <div class="form-group row">
                 <label class="col-md-4 title-label">Parent Organization</label>
                 <div class="col-md-8">
                     <input type="search"
@@ -119,7 +119,6 @@
                            typeahead-on-select="view.onSelectAvailableParentOrganization($item, $model, $label)"
                            typeahead-template-url="selectParentOrganizationTemplate.html"
                            typeahead-editable="false">
-                    </input>
                     <i class="material-icons md-18 contextual" ng-show="!view.isLoadingParentOrganizations">search</i>
                     <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingParentOrganizations">autorenew</i>
                 </div>
