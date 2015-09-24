@@ -260,6 +260,26 @@ angular.module('staticApp')
           });
       }
 
+      function getMoneyFlowHref(moneyFlow) {
+          var dfd = $q.defer();
+          
+          if (moneyFlow.sourceRecipientEntityTypeId !== ConstantsService.moneyFlowSourceRecipientType.participant.id) {
+              dfd.resolve(StateService.getStateByMoneyFlowSourceRecipientType(moneyFlow.sourceRecipientEntityId, moneyFlow.sourceRecipientEntityTypeId));
+          }
+          else{
+              StateService.getStateByMoneyFlowSourceRecipientType(moneyFlow.sourceRecipientEntityId, moneyFlow.sourceRecipientEntityTypeId)
+              .then(function (result) {
+                  dfd.resolve(result);
+              })
+              .catch(function (response) {
+                  var message = "Unable to get participant state.";
+                  NotificationService.showErrorMessage(message);
+                  $log.error(message);
+              });
+          }
+          return dfd.promise;
+      }
+
       function loadMoneyFlows(params, tableState) {
           $scope.view.isLoadingMoneyFlows = true;
           var entityId = $scope.view.entityId;
@@ -276,15 +296,19 @@ angular.module('staticApp')
                   moneyFlow.isDeleting = false;
                   moneyFlow.editableAmount = moneyFlow.amount < 0 ? -moneyFlow.amount : moneyFlow.amount;
                   moneyFlow.isTransactionDatePickerOpen = false;
+                  moneyFlow.loadingEntityState = false;
+                  if (StateService.isStateAvailableByMoneyFlowSourceRecipientTypeId(moneyFlow.sourceRecipientEntityTypeId)) {
+                      moneyFlow.loadingEntityState = true;
+                      getMoneyFlowHref(moneyFlow)
+                      .then(function (href) {
+                          moneyFlow.loadingEntityState = false;
+                          moneyFlow.href = href;
+                      });
+                  }
                   var transactionDate = new Date(moneyFlow.transactionDate);
                   if (!isNaN(transactionDate.getTime())) {
                       moneyFlow.transactionDate = transactionDate;
                   }
-                  if (StateService.isStateAvailableByMoneyFlowSourceRecipientTypeId(moneyFlow.sourceRecipientEntityTypeId)) {
-                      console.warn('Need to support checking the different participant types here.  We are assuming the participants are always people.');
-                      moneyFlow.href = StateService.getStateByMoneyFlowSourceRecipientType(moneyFlow.sourceRecipientEntityId, moneyFlow.sourceRecipientEntityTypeId)
-                  }
-
                   $scope.$watch(function () {
                       return moneyFlow.editableAmount;
                   },
@@ -371,7 +395,7 @@ angular.module('staticApp')
               else {
                   hasEditPermissionCallback();
               }
-              
+
               dfd.resolve();
               return dfd.promise;
           }

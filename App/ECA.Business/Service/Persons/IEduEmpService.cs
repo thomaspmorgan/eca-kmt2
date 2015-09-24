@@ -23,15 +23,15 @@ namespace ECA.Business.Service.Persons
         EducationEmploymentDTO GetProfessionEducationById(int id);
 
         Task<EducationEmploymentDTO> GetProfessionEducationByIdAsync(int id);
-        
+
         ProfessionEducation CreateProfessionEducation(NewPersonEduEmp eduemp);
 
         Task<ProfessionEducation> CreateProfessionEducationAsync(NewPersonEduEmp eduemp);
-        
+
         void UpdateProfessionEducation(UpdatedPersonEduEmp updatededuempp);
 
         Task UpdateProfessionEducationAsync(UpdatedPersonEduEmp updatededuemp);
-        
+
         void Delete(int eduempId);
 
         Task DeleteAsync(int eduempId);
@@ -70,7 +70,7 @@ namespace ECA.Business.Service.Persons
         {
             return Task.FromResult<EducationEmploymentDTO>(null);
         }
-        
+
         public ProfessionEducation CreateProfessionEducation(NewPersonEduEmp eduemp)
         {
             Contract.Requires(eduemp != null, "The education entity must not be null.");
@@ -84,7 +84,7 @@ namespace ECA.Business.Service.Persons
             Contract.Ensures(Contract.Result<Task<ProfessionEducation>>() != null, "The education entity returned must not be null.");
             return Task.FromResult<ProfessionEducation>(null);
         }
-        
+
         public void UpdateProfessionEducation(UpdatedPersonEduEmp updatededuemp)
         {
             Contract.Requires(updatededuemp != null, "The updated education must not be null.");
@@ -95,7 +95,7 @@ namespace ECA.Business.Service.Persons
             Contract.Requires(updatededuemp != null, "The updated education must not be null.");
             return Task.FromResult<object>(null);
         }
-        
+
         public void Delete(int eduempId)
         {
 

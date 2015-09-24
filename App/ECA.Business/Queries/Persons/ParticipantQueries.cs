@@ -116,6 +116,19 @@ namespace ECA.Business.Queries.Persons
         /// Creates a query to return all participants for the project with the given id in the context.
         /// </summary>
         /// <param name="context">The context to query.</param>
+        /// <param name="projectId">The project id.</param>
+        /// <returns>The filtered and sorted query to retrieve participants.</returns>
+        public static IQueryable<SimpleParticipantDTO> CreateGetSimpleParticipantsDTOByProjectIdQuery(EcaContext context, int projectId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var query = CreateGetUnionedSimpleParticipantsDTOQuery(context).Where(x => x.ProjectId == projectId);
+            return query;
+        }
+
+        /// <summary>
+        /// Creates a query to return all participants for the project with the given id in the context.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
         /// <param name="queryOperator">The query operator.</param>
         /// <param name="projectId">The project id.</param>
         /// <returns>The filtered and sorted query to retrieve participants.</returns>
@@ -123,7 +136,7 @@ namespace ECA.Business.Queries.Persons
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
-            var query = CreateGetUnionedSimpleParticipantsDTOQuery(context).Where(x => x.ProjectId == projectId);
+            var query = CreateGetSimpleParticipantsDTOByProjectIdQuery(context, projectId);
             query = query.Apply(queryOperator);
             return query;
         }

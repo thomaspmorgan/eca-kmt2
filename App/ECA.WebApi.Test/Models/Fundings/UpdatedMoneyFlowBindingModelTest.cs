@@ -19,7 +19,7 @@ namespace ECA.WebApi.Test.Models.Fundings
                 Description = "desc",
                 FiscalYear = 2015,
                 Id = 1,
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Amount = 1.00m
             };
