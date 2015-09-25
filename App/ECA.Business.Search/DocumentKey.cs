@@ -74,19 +74,22 @@ namespace ECA.Business.Search
             var splitStrings = key.Split(new char[] { DOCUMENT_KEY_SPLIT_CHAR }, StringSplitOptions.RemoveEmptyEntries);
             var documentTypeString = splitStrings[0];
             var idString = splitStrings[1];
-            var documentTypeIdString = splitStrings[2];
+            var keyTypeString = splitStrings[2];
 
-            var documentTypeId = Int32.Parse(documentTypeIdString);
+            var documentTypeId = Int32.Parse(documentTypeString);
             var documentType = DocumentType.ToDocumentType(documentTypeId);
             this.DocumentType = (DocumentType)documentType;
 
-            var documentKeyType = Enum.Parse(typeof(DocumentKeyType), documentTypeIdString);
-            if (documentKeyType == null)
+            var keyTypeId = Int32.Parse(keyTypeString);
+            var isDocumentKeyType = Enum.IsDefined(typeof(DocumentKeyType), keyTypeId);
+            
+            if (!isDocumentKeyType)
             {
-                throw new NotSupportedException(String.Format("The document key type id [{0}] is not supported.", documentTypeIdString));
+                throw new NotSupportedException(String.Format("The document key type id [{0}] is not supported.", keyTypeString));
             }
             else
             {
+                var documentKeyType = Enum.Parse(typeof(DocumentKeyType), keyTypeString);
                 this.KeyType = (DocumentKeyType)documentKeyType;
             }
             this.Value = ParseId(this.KeyType, idString);

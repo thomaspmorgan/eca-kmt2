@@ -23,6 +23,10 @@ namespace ECA.Business.Search
 
         //IndexGetStatisticsResponse GetStats(DocumentType documentType);
 
+        Task<DocumentIndexResponse> HandleDocumentsAsync<T>(List<T> documents) where T : class;
+
+        DocumentIndexResponse HandleDocuments<T>(List<T> documents) where T : class;
+
         Task<List<DocumentIndexResponse>> HandleDocumentsAsync(List<IDocumentable> documents);
 
         List<DocumentIndexResponse> HandleDocuments(List<IDocumentable> documents);
@@ -30,5 +34,6 @@ namespace ECA.Business.Search
         Task<DocumentSearchResponse> SearchAsync(DocumentType documentType, string search, List<DocumentKey> allowedDocumentKeys);
 
         DocumentSearchResponse Search(DocumentType documentType, string search, List<DocumentKey> allowedDocumentKeys);
+        
     }
 }

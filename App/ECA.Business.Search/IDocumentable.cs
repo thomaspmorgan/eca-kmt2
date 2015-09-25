@@ -1,6 +1,8 @@
-﻿using Microsoft.Azure.Search.Models;
+﻿using ECA.Core.DynamicLinq;
+using Microsoft.Azure.Search.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -25,34 +27,25 @@ namespace ECA.Business.Search
         string GetDescription();
     }
 
-    //public abstract class DocumentBase<T> : IDocumentable where T : class
+    
+
+    //public class DocumentConfiguration<T> where T : class
     //{
 
-    //    public DocumentBase()
+
+    //    public void HasKey(Expression<Func<T, string>> idSelector)
     //    {
-    //        this.FieldLambdas = new List<Expression<Func<T, string>>>();
+
     //    }
+    //}
 
-    //    public IEnumerable<Expression<Func<T, string>>> FieldLambdas { get; set; }
-
-    //    public abstract string GetDescription();
-
-    //    public List<string> GetDocumentFields()
+    //public static class DocumentBaseExtensions
+    //{
+    //    public static DocumentBase<T> Index<T>(this DocumentBase<T> source, Expression<Func<T, string>> propertySelector) where T : class
     //    {
-    //        throw new NotSupportedException();
-    //    }
-
-    //    public abstract DocumentType GetDocumentType();
-
-    //    public abstract string GetId();
-
-    //    public abstract string GetSubtitle();
-
-    //    public abstract string GetTitle();
-
-    //    public string GetValue(string field)
-    //    {
-    //        throw new NotSupportedException();
+    //        var propertyName = PropertyHelper.GetPropertyName<T>(propertySelector);
+    //        source.AddField(propertyName);
+    //        return source;
     //    }
     //}
 }

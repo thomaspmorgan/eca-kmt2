@@ -12,69 +12,6 @@ using Microsoft.Azure;
 
 namespace ECA.Business.Search.Test
 {
-    public class TestDocument : IDocumentable
-    {
-
-
-        public int Id { get; set; }
-
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        public string Subtitle { get; set; }
-
-        public DocumentType GetDocumentType()
-        {
-            return DocumentType.Program;
-        }
-
-        public List<string> GetDocumentFields()
-        {
-            return new List<string> {
-                "Name",
-                "Description"
-            };
-
-        }
-
-        public string GetValue(string field)
-        {
-            if (field == "Name")
-            {
-                return this.Name;
-            }
-            else if (field == "Description")
-            {
-                return this.Description;
-            }
-            else
-            {
-                throw new NotSupportedException();
-            }
-        }
-
-
-        public string GetTitle()
-        {
-            return this.Name;
-        }
-
-        public string GetDescription()
-        {
-            return this.Description;
-        }
-
-        public string GetSubtitle()
-        {
-            return this.Subtitle;
-        }
-
-        public object GetId()
-        {
-            return this.Id;
-        }
-    }
 
     [TestClass]
     public class IndexServiceTest
@@ -94,7 +31,7 @@ namespace ECA.Business.Search.Test
         [TestCleanup]
         public void TestCleanup()
         {
-            
+
         }
         #region Exists
         [TestMethod]
@@ -401,7 +338,7 @@ namespace ECA.Business.Search.Test
                         return searchIndexClient;
                     }
                 };
-                
+
                 searchClient = new ShimSearchServiceClient();
 
                 searchClient.IndexesGet = () =>
@@ -421,7 +358,7 @@ namespace ECA.Business.Search.Test
                 };
 
                 service = new IndexService(searchClient.Instance);
-                
+
                 var testDocument = new TestDocument();
                 var documents = new List<IDocumentable>();
                 documents.Add(testDocument);
@@ -435,37 +372,45 @@ namespace ECA.Business.Search.Test
         }
         #endregion
 
-        //[TestMethod]
-        //public async Task Test()
-        //{
-        //    var instance = new TestDocument
-        //    {
-        //        Description = "description",
-        //        Name = "name",
-        //        Id = 1,
-        //    };
-        //    if (await service.ExistsAsync(instance.GetDocumentType()))
-        //    {
-        //        await service.DeleteIndexAsync(instance.GetDocumentType());
-        //        await service.CreateIndexAsync(instance);
-        //    }
+        [TestMethod]
+        public async Task Test()
+        {
+            var instance = new TestDocument
+            {
+                Description = "description",
+                Name = "name",
+                Id = 1,
+            };
+            //if (await service.ExistsAsync(instance.GetDocumentType()))
+            //{
+            //    await service.DeleteIndexAsync(instance.GetDocumentType());
+            //    await service.CreateIndexAsync(instance);
+            //}
 
-        //    //await service.DeleteIndexAsync(instance.GetDocumentType());
-        //    //await service.CreateIndexAsync(instance);
+            service = new IndexService(
+                new SearchServiceClient(searchServiceName, new SearchCredentials(apikey)),
+                new List<IDocumentConfiguration>
+                {
+                    new TestDocumentConfiguration()
+                }
+                );
 
-        //    //await service.DeleteIndexAsync(instance.GetDocumentType());
-        //    //await service.CreateIndexAsync(instance);
+            //await service.DeleteIndexAsync(instance.GetDocumentType());
+            //await service.CreateIndexAsync(instance);
 
-        //    var documents = new List<IDocumentable>();
-        //    documents.Add(instance);
-        //    await service.CreateIndexAsync(instance);
-        //    var response = await service.HandleDocumentsAsync(documents);
+            //await service.DeleteIndexAsync(instance.GetDocumentType());
+            //await service.CreateIndexAsync(instance);
 
-        //    var stats = await service.GetStatsAsync(instance.GetDocumentType());
+            var documents = new List<TestDocument>();
+            documents.Add(instance);
+            await service.CreateIndexAsync(instance);
+            var response = await service.HandleDocumentsAsync(documents);
 
-        //    var document = await service.GetDocumentByIdAsync(DocumentType.Program, instance.Id);
+            //var stats = await service.GetStatsAsync(instance.GetDocumentType());
 
-        //    var search = await service.SearchAsync(DocumentType.Program, instance.Name, null);
-        //}
+            //var document = await service.GetDocumentByIdAsync(DocumentType.Program, instance.Id);
+
+            //var search = await service.SearchAsync(DocumentType.Program, instance.Name, null);
+        }
     }
 }
