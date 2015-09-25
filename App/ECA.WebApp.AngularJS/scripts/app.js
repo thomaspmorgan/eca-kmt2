@@ -511,12 +511,11 @@ angular
                 animation: true,
                 templateUrl: 'views/partials/searchbar.html',
                 controller: 'searchbarCtrl',
-                size: '90',
+                windowClass: 'search-modal-resize',
                 resolve: {}
             });
         };
-
-
+        
         var leftOpen = false;
         $rootScope.pushMenu = function ($event) {
             var self = $event.target;
