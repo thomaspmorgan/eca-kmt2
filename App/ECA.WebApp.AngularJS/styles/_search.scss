@@ -26,7 +26,6 @@
 
 .search-result-wrapper {
     background: rgba(0, 0, 0, .90);
-    position: absolute;
     width: 100%;
 }
 
@@ -102,6 +101,7 @@
 
 .search-modal-resize .modal-body {
     max-height: calc(100vh - 150px);
+    max-height: -webkit-calc(100vh - 150px);
     overflow: auto;
 }
 
