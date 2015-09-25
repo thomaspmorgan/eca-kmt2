@@ -45,7 +45,7 @@ angular.module('staticApp')
               size: 'lg',
               resolve: {
                   office: function () {
-                      return $scope.view.office
+                      return $scope.view.office;
                   },
                   parentProgram: function () {
                       return null;
@@ -101,7 +101,7 @@ angular.module('staticApp')
                   var message = "Unable to load office programs.";
                   NotificationService.showErrorMessage(message);
                   $log.error(message);
-              })
+              });
       }
 
       function processData(response, tableState, params) {
@@ -122,9 +122,9 @@ angular.module('staticApp')
           $scope.view.programsLoading = false;
       };
 
-      function loadChildOffices(officeId) {
+      function loadChildOffices(officesId) {
           $scope.view.isLoadingBranches = true;
-          return OfficeService.getChildOffices(officeId)
+          return OfficeService.getChildOffices(officesId)
               .then(function (response, status, headers, config) {
                   $scope.view.isLoadingBranches = false;
                   $scope.view.branches = response.data;

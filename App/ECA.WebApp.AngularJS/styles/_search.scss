@@ -85,6 +85,18 @@
     }
 }
 
+.search-modal-header {
+    padding-top: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+    min-height: 35px;
+}
+
+.modal-90 {
+    width: 90%;
+}
+
+
 @-webkit-keyframes material-icons-spin {
     0% {
         -webkit-transform: rotate(0deg);

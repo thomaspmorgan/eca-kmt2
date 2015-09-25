@@ -516,7 +516,7 @@
     <Content Include="scripts\directives\guidance.js" />
     <Content Include="scripts\directives\incontextform.js" />
     <Content Include="scripts\directives\map.js" />
-    <Content Include="scripts\directives\searchbar.js" />
+    <Content Include="scripts\controllers\searchbar.js" />
     <Content Include="scripts\directives\staticswitcher.js" />
     <Content Include="scripts\directives\tabbar.js" />
     <Content Include="scripts\filters\tabfilter.js" />
