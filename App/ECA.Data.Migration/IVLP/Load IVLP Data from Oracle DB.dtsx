@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Load IVLP Data from Oracle DB"
   DTS:PackageType="5"
-  DTS:VersionBuild="42"
-  DTS:VersionGUID="{1FF4650A-C45D-4335-A2D6-DB5326B7B41A}">
+  DTS:VersionBuild="48"
+  DTS:VersionGUID="{799C15FC-DC06-4049-8D4C-AACB1949E1E4}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -37,7 +37,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADucfRdL+PQZTMnhkw5dpkzkkXYrZ9IKvIxkNnFTJc7ZAAAAAAOgAAAAAIAACAAAACvFjhURQXf7PAnhWiz07xyiXakcJLOeBS5xuZxe6RF4iAAAABlJPfxOnOqXO9lVdm776+WrDyMVF5J31o4ykDSTJQtTEAAAABjpDuo0NMYDX++j6ZaJ11NeXL4jB28OuHHFOPvQ9qi9RUzgCRO0Kf3kfHW6VGsCQdxU+2ALaZp/K9WbuIklgQd</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAIDKtld5u14wXdLQnWUqSUGCNIq8wRCWFyBv8+XKeWqQAAAAAOgAAAAAIAACAAAAAV+ksDyiyouItMnwJOci9QX2MmkAEiyXA/OPEX9wTdyyAAAADeRMaqsiJSdCPhifx8VRR0spd2Pf0f2z31NaRyi1+0kEAAAADE91ungj24hOeMPIAKurx0i6JfY5bE5bVBrFuo+emr/jduGp1H8fp2+daQ8rjp1btSuSw96MyfDW924gTTO0cx</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -52,7 +52,22 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAB/ilknqt9A3CFqs106vN6vzM1kQPUC1L99Sy0laawVGgAAAAAOgAAAAAIAACAAAAB80VJzwMLoosn3Ef4I76vxRwzHiopAeE4MmkHo3hXa5iAAAAB6BAwkwO84uMgqkYiB1hVyDrHoPyUxBN00zdnhija00EAAAAD6B3hhY7KPteNn4ZygJbaEvRuIbl+VOXsihJ76f2vXkpvH8HcyDG8+xtGSf2mYNpVPloXEwhpVmfXYvQTcgzyE</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABqqP4zudPRapmGpDzX3NMEdLV6YNZLbRVJ8S023YrxpgAAAAAOgAAAAAIAACAAAAAKbTlkClLS5SsF4nJB6SU3U+AqYlP9aWh9cBaLaKmHBSAAAABZmrF52j01i+f+GEn+1Q2D/ii2WSlRGznkyXZf8lFKgEAAAADQ6df1VY12Fx5tA3r7dxWvKxrFgUpjEFP2lkiq7hXh5pzh1lULokOyuj+r/XmDMUNKwVD18WEAexMIk5I8EoRJ</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ecaoracle2.cloudapp.net/ECA.system]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{3B836F87-FC07-4D3A-9721-239BC15C9466}"
+      DTS:ObjectName="ecaoracle2.cloudapp.net/ECA.system">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=ecaoracle2.cloudapp.net/ECA;User ID=system;Provider=MSDAORA.1;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAOXd3szeJiNi3PFO76uliIWiSTu02vg0iyn4LMo0F28gAAAAAOgAAAAAIAACAAAACANruupsmNLdQ8HZ6xEt5m3EZNDKqQUd1enfHIx2uQZCAAAABslDxrIWcJDjcW/GIpC7ulip+MzEyTh4G0c86Tp+yh0kAAAAC5o6LhTv/dXhgdY5JjlcPf8PFsD/mHvUo9EKT2Rj4s1DlcM+JXyWg9I5i30zQMW6bNjWN0uyartDV4bpnI2tge</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -67,13 +82,1406 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAACtGypDugfjYhVS9gY6wFCagO8BYyYd0RCyl4QMJSupAAAAAAOgAAAAAIAACAAAADtJEsZO0Ml9ObMo/IYaYqlUq12ckpNoQAdkj8T+joJryAAAAANaKZ7QnoVh6rmbihRsKlFooM+VQzYDtWnTU4zfLebdEAAAACR2XC+6MmnvGWdIk17TzuSsEVJkbXXZKccKGu/yySUzFoV6F9TyTEMGe4WTo5l7jfgV9dsjGcm97kBh6hWt3Ma</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAC9AyipUobUsEIMEcYPggGaR8423/Q5uN6fx82R8j+1zAAAAAAOgAAAAAIAACAAAAC+f4dokbj0I7rVHgzaHnd1ZTxP/Fhq8nE6XoyXFt3UASAAAACO70Gr/+tjrieJEqk7vUHDksPJUKiHqPhJNcTE+hf860AAAACx6206dUgX5bLEAFBVkks992HCWydsSJZo/kQWHYGczn3aw1QFQa1rb93vjqXRJuWoion7M+1p4nNvbm6q3PD4</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
   <DTS:Variables />
   <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Create Organization XREF Data"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{dbb45bd1-0281-44ec-abee-40b1e428da4e}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create Organization XREF Data"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Create Organization XREF Data\Add Required Columns"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Add Required Columns"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Create Organization XREF Data\Add Required Columns.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Create Organization XREF Data\Add Required Columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_OrganizationTypeName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="5"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_OrganizationTypeName]"
+                      name="ECA_OrganizationTypeName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"Other"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"Other"</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_History_CreatedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_History_CreatedBy]"
+                      name="ECA_History_CreatedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">1</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_History_RevisedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_History_RevisedBy]"
+                      name="ECA_History_RevisedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">1</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_OrganizationStatus]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="6"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_OrganizationStatus]"
+                      name="ECA_OrganizationStatus"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"Active"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"Active"</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_OrganizationId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_OrganizationId]"
+                      name="ECA_OrganizationId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">NULL(DT_I4)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">NULL(DT_I4)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_History_CreatedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_History_CreatedOn]"
+                      name="ECA_History_CreatedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_History_RevisedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_History_RevisedOn]"
+                      name="ECA_History_RevisedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_ParentOrganization_OrganizationId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_ParentOrganization_OrganizationId]"
+                      name="ECA_ParentOrganization_OrganizationId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">NULL(DT_I4)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">NULL(DT_I4)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_OfficeSymbol]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="128"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_OfficeSymbol]"
+                      name="ECA_OfficeSymbol"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">NULL(DT_WSTR,128)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">NULL(DT_WSTR,128)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_Description]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="3000"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_Description]"
+                      name="ECA_Description"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">NULL(DT_WSTR,3000)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">NULL(DT_WSTR,3000)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="600"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_Name]"
+                      name="ECA_Name"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">NULL(DT_WSTR,600)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">NULL(DT_WSTR,600)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_Website]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="2000"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_Website]"
+                      name="ECA_Website"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">NULL(DT_WSTR,2000)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">NULL(DT_WSTR,2000)</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Create Organization XREF Data\Add Required Columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create Organization XREF Data\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Create Organization XREF Data\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Data Conversion.Inputs[Data Conversion Input].Columns[ORG_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ORG_ID"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_ID]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Data Conversion.Inputs[Data Conversion Input].Columns[ORG_NAME]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="240"
+                      cachedName="ORG_NAME"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_NAME]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Data Conversion.Inputs[Data Conversion Input].Columns[WEB_ADDRESS]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="200"
+                      cachedName="WEB_ADDRESS"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[WEB_ADDRESS]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Data Conversion.Inputs[Data Conversion Input].Columns[PARENT_ORG_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="PARENT_ORG_ID"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[PARENT_ORG_ID]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Data Conversion.Inputs[Data Conversion Input].Columns[ORG_CREATE_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ORG_CREATE_ID"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_CREATE_ID]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Data Conversion.Inputs[Data Conversion Input].Columns[ORG_CREATE_DT]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="ORG_CREATE_DT"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_CREATE_DT]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Data Conversion.Inputs[Data Conversion Input].Columns[ORG_UPDATE_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ORG_UPDATE_ID"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_UPDATE_ID]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Data Conversion.Inputs[Data Conversion Input].Columns[ORG_UPDATE_DT]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="ORG_UPDATE_DT"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_UPDATE_DT]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Create Organization XREF Data\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_WEB_ADDRESS]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="200"
+                      lineageId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_WEB_ADDRESS]"
+                      name="S_WEB_ADDRESS"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[WEB_ADDRESS]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_PARENT_ORG_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="32"
+                      lineageId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_PARENT_ORG_ID]"
+                      name="S_PARENT_ORG_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[PARENT_ORG_ID]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_ORG_CREATE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="32"
+                      lineageId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_ORG_CREATE_ID]"
+                      name="S_ORG_CREATE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_CREATE_ID]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_ORG_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_ORG_CREATE_DT]"
+                      name="S_ORG_CREATE_DT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_CREATE_DT]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_ORG_UPDATE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="32"
+                      lineageId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_ORG_UPDATE_ID]"
+                      name="S_ORG_UPDATE_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_UPDATE_ID]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_ORG_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_ORG_UPDATE_DT]"
+                      name="S_ORG_UPDATE_DT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_UPDATE_DT]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_ORG_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="32"
+                      lineageId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_ORG_ID]"
+                      name="S_ORG_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_ID]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_ORG_NAME]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="240"
+                      lineageId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_ORG_NAME]"
+                      name="S_ORG_NAME"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_NAME]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Create Organization XREF Data\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle)"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="IVLP_Organization (Oracle)"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">"KM_IVLP"."IVLP_ORGANIZATION"</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[ecaoracle2.cloudapp.net/ECA.system]"
+                  connectionManagerRefId="Package.ConnectionManagers[ecaoracle2.cloudapp.net/ECA.system]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_ID]"
+                      length="32"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_ID]"
+                      name="ORG_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_NAME]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_NAME]"
+                      length="240"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_NAME]"
+                      name="ORG_NAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[WEB_ADDRESS]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[WEB_ADDRESS]"
+                      length="200"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[WEB_ADDRESS]"
+                      name="WEB_ADDRESS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[PARENT_ORG_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PARENT_ORG_ID]"
+                      length="32"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[PARENT_ORG_ID]"
+                      name="PARENT_ORG_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_CREATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_CREATE_ID]"
+                      length="32"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_CREATE_ID]"
+                      name="ORG_CREATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_CREATE_DT]"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_CREATE_DT]"
+                      name="ORG_CREATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_UPDATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_UPDATE_ID]"
+                      length="32"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_UPDATE_ID]"
+                      name="ORG_UPDATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_UPDATE_DT]"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_UPDATE_DT]"
+                      name="ORG_UPDATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_NAME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="240"
+                      name="ORG_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[WEB_ADDRESS]"
+                      codePage="1252"
+                      dataType="str"
+                      length="200"
+                      name="WEB_ADDRESS" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PARENT_ORG_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="PARENT_ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_CREATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="ORG_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="ORG_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_UPDATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="ORG_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="ORG_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_ID]"
+                      name="ORG_ID" />
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_NAME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="240"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_NAME]"
+                      name="ORG_NAME" />
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[WEB_ADDRESS]"
+                      codePage="1252"
+                      dataType="str"
+                      length="200"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[WEB_ADDRESS]"
+                      name="WEB_ADDRESS" />
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[PARENT_ORG_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[PARENT_ORG_ID]"
+                      name="PARENT_ORG_ID" />
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_CREATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_CREATE_ID]"
+                      name="ORG_CREATE_ID" />
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_CREATE_DT]"
+                      name="ORG_CREATE_DT" />
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_UPDATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_UPDATE_ID]"
+                      name="ORG_UPDATE_ID" />
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_UPDATE_DT]"
+                      name="ORG_UPDATE_DT" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Load IVLP_Organization XREF table"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[Local_IVLP_Organization_XREF]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[S_ORG_NAME]"
+                      cachedDataType="wstr"
+                      cachedLength="240"
+                      cachedName="S_ORG_NAME"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[S_ORG_NAME]"
+                      lineageId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_ORG_NAME]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[S_WEB_ADDRESS]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="S_WEB_ADDRESS"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[S_WEB_ADDRESS]"
+                      lineageId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_WEB_ADDRESS]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[S_PARENT_ORG_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="32"
+                      cachedName="S_PARENT_ORG_ID"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[S_PARENT_ORG_ID]"
+                      lineageId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_PARENT_ORG_ID]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[S_ORG_CREATE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="32"
+                      cachedName="S_ORG_CREATE_ID"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[S_ORG_CREATE_ID]"
+                      lineageId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_ORG_CREATE_ID]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[S_ORG_CREATE_DT]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="S_ORG_CREATE_DT"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[S_ORG_CREATE_DT]"
+                      lineageId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_ORG_CREATE_DT]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[S_ORG_UPDATE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="32"
+                      cachedName="S_ORG_UPDATE_ID"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[S_ORG_UPDATE_ID]"
+                      lineageId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_ORG_UPDATE_ID]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[S_ORG_UPDATE_DT]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="S_ORG_UPDATE_DT"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[S_ORG_UPDATE_DT]"
+                      lineageId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_ORG_UPDATE_DT]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_OrganizationTypeName]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="ECA_OrganizationTypeName"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_OrganizationTypeName]"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_OrganizationTypeName]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="ECA_History_CreatedBy"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_History_CreatedBy]"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_History_RevisedBy]"
+                      cachedDataType="i4"
+                      cachedName="ECA_History_RevisedBy"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_History_RevisedBy]"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_History_RevisedBy]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_OrganizationStatus]"
+                      cachedDataType="wstr"
+                      cachedLength="6"
+                      cachedName="ECA_OrganizationStatus"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_OrganizationStatus]"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_OrganizationStatus]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_OrganizationId]"
+                      cachedDataType="i4"
+                      cachedName="ECA_OrganizationId"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_OrganizationId]"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_OrganizationId]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_History_CreatedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="ECA_History_CreatedOn"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_History_CreatedOn]"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_History_CreatedOn]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_History_RevisedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="ECA_History_RevisedOn"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_History_RevisedOn]"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_History_RevisedOn]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_ParentOrganization_OrganizationId]"
+                      cachedDataType="i4"
+                      cachedName="ECA_ParentOrganization_OrganizationId"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_ParentOrganization_OrganizationId]"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_ParentOrganization_OrganizationId]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_OfficeSymbol]"
+                      cachedDataType="wstr"
+                      cachedLength="128"
+                      cachedName="ECA_OfficeSymbol"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_OfficeSymbol]"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_OfficeSymbol]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_Description]"
+                      cachedDataType="wstr"
+                      cachedLength="3000"
+                      cachedName="ECA_Description"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_Description]"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_Description]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_Name]"
+                      cachedDataType="wstr"
+                      cachedLength="600"
+                      cachedName="ECA_Name"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_Name]"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_Name]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_Website]"
+                      cachedDataType="wstr"
+                      cachedLength="2000"
+                      cachedName="ECA_Website"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_Website]"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_Website]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_OrganizationTypeId]"
+                      cachedDataType="i4"
+                      cachedName="ECA_OrganizationTypeId"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_OrganizationTypeId]"
+                      lineageId="Package\Create Organization XREF Data\Lookup Organization Type Id.Outputs[Lookup Match Output].Columns[ECA_OrganizationTypeId]" />
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[S_ORG_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="32"
+                      cachedName="S_ORG_ID"
+                      externalMetadataColumnId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[S_ORG_ID]"
+                      lineageId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output].Columns[S_ORG_ID]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[S_ORG_NAME]"
+                      dataType="wstr"
+                      length="240"
+                      name="S_ORG_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[S_WEB_ADDRESS]"
+                      dataType="wstr"
+                      length="200"
+                      name="S_WEB_ADDRESS" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[S_PARENT_ORG_ID]"
+                      dataType="wstr"
+                      length="32"
+                      name="S_PARENT_ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[S_ORG_CREATE_ID]"
+                      dataType="wstr"
+                      length="32"
+                      name="S_ORG_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[S_ORG_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="S_ORG_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[S_ORG_UPDATE_ID]"
+                      dataType="wstr"
+                      length="32"
+                      name="S_ORG_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[S_ORG_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="S_ORG_UPDATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_OrganizationTypeName]"
+                      dataType="wstr"
+                      length="5"
+                      name="ECA_OrganizationTypeName" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_History_CreatedBy]"
+                      dataType="i4"
+                      name="ECA_History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_History_RevisedBy]"
+                      dataType="i4"
+                      name="ECA_History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_OrganizationStatus]"
+                      dataType="wstr"
+                      length="6"
+                      name="ECA_OrganizationStatus" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_OrganizationId]"
+                      dataType="i4"
+                      name="ECA_OrganizationId" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_History_CreatedOn]"
+                      dataType="dbTimeStamp"
+                      name="ECA_History_CreatedOn" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_History_RevisedOn]"
+                      dataType="dbTimeStamp"
+                      name="ECA_History_RevisedOn" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_ParentOrganization_OrganizationId]"
+                      dataType="i4"
+                      name="ECA_ParentOrganization_OrganizationId" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_OfficeSymbol]"
+                      dataType="wstr"
+                      length="128"
+                      name="ECA_OfficeSymbol" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_Description]"
+                      dataType="wstr"
+                      length="3000"
+                      name="ECA_Description" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_Name]"
+                      dataType="wstr"
+                      length="600"
+                      name="ECA_Name" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_Website]"
+                      dataType="wstr"
+                      length="2000"
+                      name="ECA_Website" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[ECA_OrganizationTypeId]"
+                      dataType="i4"
+                      name="ECA_OrganizationTypeId" />
+                    <externalMetadataColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[S_ORG_ID]"
+                      dataType="wstr"
+                      length="32"
+                      name="S_ORG_ID" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create Organization XREF Data\Lookup Organization Type Id"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup Organization Type Id"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[OrganizationType]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[OrganizationType]) [refTable]
+where [refTable].[OrganizationTypeName] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="OrganizationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="OrganizationTypeName" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_OrganizationTypeName]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create Organization XREF Data\Lookup Organization Type Id.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Create Organization XREF Data\Lookup Organization Type Id.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create Organization XREF Data\Lookup Organization Type Id.Inputs[Lookup Input].Columns[ECA_OrganizationTypeName]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="ECA_OrganizationTypeName"
+                      lineageId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output].Columns[ECA_OrganizationTypeName]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">OrganizationTypeName</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create Organization XREF Data\Lookup Organization Type Id.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Create Organization XREF Data\Lookup Organization Type Id.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Lookup Organization Type Id.Outputs[Lookup Match Output].Columns[ECA_OrganizationTypeId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Create Organization XREF Data\Lookup Organization Type Id.Outputs[Lookup Match Output].Columns[ECA_OrganizationTypeId]"
+                      name="ECA_OrganizationTypeId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">OrganizationTypeId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create Organization XREF Data\Lookup Organization Type Id.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Create Organization XREF Data\Lookup Organization Type Id.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create Organization XREF Data\Lookup Organization Type Id.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Create Organization XREF Data\Lookup Organization Type Id.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Lookup Organization Type Id.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create Organization XREF Data\Lookup Organization Type Id.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create Organization XREF Data\Lookup Organization Type Id.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create Organization XREF Data\Lookup Organization Type Id.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Create Organization XREF Data.Paths[Data Conversion Output]"
+              endId="Package\Create Organization XREF Data\Add Required Columns.Inputs[Derived Column Input]"
+              name="Data Conversion Output"
+              startId="Package\Create Organization XREF Data\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Create Organization XREF Data.Paths[Derived Column Output]"
+              endId="Package\Create Organization XREF Data\Lookup Organization Type Id.Inputs[Lookup Input]"
+              name="Derived Column Output"
+              startId="Package\Create Organization XREF Data\Add Required Columns.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Create Organization XREF Data.Paths[Lookup Match Output]"
+              endId="Package\Create Organization XREF Data\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input]"
+              name="Lookup Match Output"
+              startId="Package\Create Organization XREF Data\Lookup Organization Type Id.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create Organization XREF Data.Paths[OLE DB Source Output]"
+              endId="Package\Create Organization XREF Data\Data Conversion.Inputs[Data Conversion Input]"
+              name="OLE DB Source Output"
+              startId="Package\Create Organization XREF Data\IVLP_Organization (Oracle).Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
     <DTS:Executable
       DTS:refId="Package\Create Project XRef table"
       DTS:CreationName="Microsoft.Pipeline"
@@ -1720,928 +3128,6 @@ where [refTable].[Status] = ?</property>
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\Load New Organizations"
-      DTS:CreationName="Microsoft.Pipeline"
-      DTS:Description="Data Flow Task"
-      DTS:Disabled="True"
-      DTS:DTSID="{dbb45bd1-0281-44ec-abee-40b1e428da4e}"
-      DTS:ExecutableType="Microsoft.Pipeline"
-      DTS:LocaleID="-1"
-      DTS:ObjectName="Load New Organizations"
-      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
-      <DTS:Variables />
-      <DTS:ObjectData>
-        <pipeline
-          version="1">
-          <components>
-            <component
-              refId="Package\Load New Organizations\Add Required Columns"
-              componentClassID="Microsoft.DerivedColumn"
-              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
-              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
-              name="Add Required Columns"
-              usesDispositions="true">
-              <inputs>
-                <input
-                  refId="Package\Load New Organizations\Add Required Columns.Inputs[Derived Column Input]"
-                  description="Input to the Derived Column Transformation"
-                  name="Derived Column Input">
-                  <externalMetadataColumns />
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\Load New Organizations\Add Required Columns.Outputs[Derived Column Output]"
-                  description="Default Output of the Derived Column Transformation"
-                  exclusionGroup="1"
-                  name="Derived Column Output"
-                  synchronousInputId="Package\Load New Organizations\Add Required Columns.Inputs[Derived Column Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load New Organizations\Add Required Columns.Outputs[Derived Column Output].Columns[OrganizationTypeName]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Computation"
-                      errorRowDisposition="FailComponent"
-                      length="5"
-                      lineageId="Package\Load New Organizations\Add Required Columns.Outputs[Derived Column Output].Columns[OrganizationTypeName]"
-                      name="OrganizationTypeName"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Expression"
-                          name="Expression">"Other"</property>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Friendly Expression"
-                          expressionType="Notify"
-                          name="FriendlyExpression">"Other"</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\Load New Organizations\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
-                      dataType="i4"
-                      errorOrTruncationOperation="Computation"
-                      errorRowDisposition="FailComponent"
-                      lineageId="Package\Load New Organizations\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
-                      name="History_CreatedBy"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Expression"
-                          name="Expression">0</property>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Friendly Expression"
-                          expressionType="Notify"
-                          name="FriendlyExpression">0</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\Load New Organizations\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
-                      dataType="i4"
-                      errorOrTruncationOperation="Computation"
-                      errorRowDisposition="FailComponent"
-                      lineageId="Package\Load New Organizations\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
-                      name="History_RevisedBy"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Expression"
-                          name="Expression">0</property>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Friendly Expression"
-                          expressionType="Notify"
-                          name="FriendlyExpression">0</property>
-                      </properties>
-                    </outputColumn>
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\Load New Organizations\Add Required Columns.Outputs[Derived Column Error Output]"
-                  description="Error Output of the Derived Column Transformation"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="Derived Column Error Output"
-                  synchronousInputId="Package\Load New Organizations\Add Required Columns.Inputs[Derived Column Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load New Organizations\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\Load New Organizations\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\Load New Organizations\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\Load New Organizations\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
-              refId="Package\Load New Organizations\IVLP_Organization (Oracle)"
-              componentClassID="Microsoft.OLEDBSource"
-              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
-              description="OLE DB Source"
-              name="IVLP_Organization (Oracle)"
-              usesDispositions="true"
-              version="7">
-              <properties>
-                <property
-                  dataType="System.Int32"
-                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
-                  name="CommandTimeout">0</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">"KM_IVLP"."IVLP_ORGANIZATION"</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the variable that contains the name of the database object used to open a rowset."
-                  name="OpenRowsetVariable"></property>
-                <property
-                  dataType="System.String"
-                  description="The SQL command to be executed."
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
-                <property
-                  dataType="System.String"
-                  description="The variable that contains the SQL command to be executed."
-                  name="SqlCommandVariable"></property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the column code page to use when code page information is unavailable from the data source."
-                  name="DefaultCodePage">1252</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Forces the use of the DefaultCodePage property value when describing character data."
-                  name="AlwaysUseDefaultCodePage">true</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the mode used to access the database."
-                  name="AccessMode"
-                  typeConverter="AccessMode">0</property>
-                <property
-                  dataType="System.String"
-                  description="The mappings between the parameters in the SQL command and variables."
-                  name="ParameterMapping"></property>
-              </properties>
-              <connections>
-                <connection
-                  refId="Package\Load New Organizations\IVLP_Organization (Oracle).Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[ecaoracle.cloudapp.net.system]"
-                  connectionManagerRefId="Package.ConnectionManagers[ecaoracle.cloudapp.net.system]"
-                  description="The OLE DB runtime connection used to access the database."
-                  name="OleDbConnection" />
-              </connections>
-              <outputs>
-                <output
-                  refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output]"
-                  name="OLE DB Source Output">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[IVLP_ORG_ID]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_ID]"
-                      length="255"
-                      lineageId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[IVLP_ORG_ID]"
-                      name="IVLP_ORG_ID"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_NAME]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_NAME]"
-                      length="240"
-                      lineageId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_NAME]"
-                      name="ORG_NAME"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[WEB_ADDRESS]"
-                      codePage="1252"
-                      dataType="str"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[WEB_ADDRESS]"
-                      length="200"
-                      lineageId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[WEB_ADDRESS]"
-                      name="WEB_ADDRESS"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[PARENT_ORG_ID]"
-                      codePage="1252"
-                      dataType="str"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PARENT_ORG_ID]"
-                      length="32"
-                      lineageId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[PARENT_ORG_ID]"
-                      name="PARENT_ORG_ID"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_CREATE_ID]"
-                      codePage="1252"
-                      dataType="str"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_CREATE_ID]"
-                      length="32"
-                      lineageId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_CREATE_ID]"
-                      name="ORG_CREATE_ID"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_CREATE_DT]"
-                      dataType="dbTimeStamp"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_CREATE_DT]"
-                      lineageId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_CREATE_DT]"
-                      name="ORG_CREATE_DT"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_UPDATE_ID]"
-                      codePage="1252"
-                      dataType="str"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_UPDATE_ID]"
-                      length="32"
-                      lineageId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_UPDATE_ID]"
-                      name="ORG_UPDATE_ID"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_UPDATE_DT]"
-                      dataType="dbTimeStamp"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_UPDATE_DT]"
-                      lineageId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[ORG_UPDATE_DT]"
-                      name="ORG_UPDATE_DT"
-                      truncationRowDisposition="FailComponent" />
-                  </outputColumns>
-                  <externalMetadataColumns
-                    isUsed="True">
-                    <externalMetadataColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_ID]"
-                      codePage="1252"
-                      dataType="str"
-                      length="32"
-                      name="ORG_ID" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_NAME]"
-                      dataType="wstr"
-                      length="240"
-                      name="ORG_NAME" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[WEB_ADDRESS]"
-                      codePage="1252"
-                      dataType="str"
-                      length="200"
-                      name="WEB_ADDRESS" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PARENT_ORG_ID]"
-                      codePage="1252"
-                      dataType="str"
-                      length="32"
-                      name="PARENT_ORG_ID" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_CREATE_ID]"
-                      codePage="1252"
-                      dataType="str"
-                      length="32"
-                      name="ORG_CREATE_ID" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_CREATE_DT]"
-                      dataType="dbTimeStamp"
-                      name="ORG_CREATE_DT" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_UPDATE_ID]"
-                      codePage="1252"
-                      dataType="str"
-                      length="32"
-                      name="ORG_UPDATE_ID" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].ExternalColumns[ORG_UPDATE_DT]"
-                      dataType="dbTimeStamp"
-                      name="ORG_UPDATE_DT" />
-                  </externalMetadataColumns>
-                </output>
-                <output
-                  refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output]"
-                  isErrorOut="true"
-                  name="OLE DB Source Error Output">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_ID]"
-                      codePage="1252"
-                      dataType="str"
-                      length="32"
-                      lineageId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_ID]"
-                      name="ORG_ID" />
-                    <outputColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_NAME]"
-                      dataType="wstr"
-                      length="240"
-                      lineageId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_NAME]"
-                      name="ORG_NAME" />
-                    <outputColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[WEB_ADDRESS]"
-                      codePage="1252"
-                      dataType="str"
-                      length="200"
-                      lineageId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[WEB_ADDRESS]"
-                      name="WEB_ADDRESS" />
-                    <outputColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[PARENT_ORG_ID]"
-                      codePage="1252"
-                      dataType="str"
-                      length="32"
-                      lineageId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[PARENT_ORG_ID]"
-                      name="PARENT_ORG_ID" />
-                    <outputColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_CREATE_ID]"
-                      codePage="1252"
-                      dataType="str"
-                      length="32"
-                      lineageId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_CREATE_ID]"
-                      name="ORG_CREATE_ID" />
-                    <outputColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_CREATE_DT]"
-                      dataType="dbTimeStamp"
-                      lineageId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_CREATE_DT]"
-                      name="ORG_CREATE_DT" />
-                    <outputColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_UPDATE_ID]"
-                      codePage="1252"
-                      dataType="str"
-                      length="32"
-                      lineageId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_UPDATE_ID]"
-                      name="ORG_UPDATE_ID" />
-                    <outputColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_UPDATE_DT]"
-                      dataType="dbTimeStamp"
-                      lineageId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ORG_UPDATE_DT]"
-                      name="ORG_UPDATE_DT" />
-                    <outputColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
-              refId="Package\Load New Organizations\Lookup ECA OrganizationId"
-              componentClassID="Microsoft.Lookup"
-              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
-              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
-              name="Lookup ECA OrganizationId"
-              usesDispositions="true"
-              version="6">
-              <properties>
-                <property
-                  dataType="System.String"
-                  description="Specifies the SQL statement that generates the lookup table."
-                  expressionType="Notify"
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Organization]</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
-                  expressionType="Notify"
-                  name="SqlCommandParam"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Organization]) [refTable]
-where [refTable].[OrganizationTypeId] = ? and UPPER([refTable].[Name]) = UPPER ( ? )</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the type of connection used to access the reference dataset."
-                  name="ConnectionType"
-                  typeConverter="LookupConnectionType">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the cache type of the lookup table."
-                  name="CacheType"
-                  typeConverter="CacheType">2</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
-                  name="NoMatchBehavior"
-                  typeConverter="LookupNoMatchBehavior">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
-                  name="NoMatchCachePercentage">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
-                  name="MaxMemoryUsage">25</property>
-                <property
-                  dataType="System.Int64"
-                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
-                  name="MaxMemoryUsage64">25</property>
-                <property
-                  dataType="System.String"
-                  description="Indicates whether to reference metadata in an XML format."
-                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="OrganizationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="OrganizationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="OfficeSymbol" dataType="DT_WSTR" length="128" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Description" dataType="DT_WSTR" length="3000" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Status" dataType="DT_WSTR" length="20" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Name" dataType="DT_WSTR" length="600" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Website" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="ParentOrganization_OrganizationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
-                <property
-                  containsID="true"
-                  dataType="System.String"
-                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
-                  name="ParameterMap">#{Package\Load New Organizations\Lookup Organization Type Id.Outputs[Lookup Match Output].Columns[OrganizationTypeId]};#{Package\Load New Organizations\Lookup IVLP Organization Name.Outputs[Lookup Match Output].Columns[Resolved_Org_Name]};</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the column code page to use when code page information is unavailable from the data source."
-                  name="DefaultCodePage">1252</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
-                  name="TreatDuplicateKeysAsError">false</property>
-              </properties>
-              <connections>
-                <connection
-                  refId="Package\Load New Organizations\Lookup ECA OrganizationId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  description="Connection manager used to access lookup data."
-                  name="OleDbConnection" />
-              </connections>
-              <inputs>
-                <input
-                  refId="Package\Load New Organizations\Lookup ECA OrganizationId.Inputs[Lookup Input]"
-                  name="Lookup Input">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\Load New Organizations\Lookup ECA OrganizationId.Inputs[Lookup Input].Columns[Resolved_Org_Name]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="Resolved_Org_Name"
-                      lineageId="Package\Load New Organizations\Lookup IVLP Organization Name.Outputs[Lookup Match Output].Columns[Resolved_Org_Name]">
-                      <properties>
-                        <property
-                          dataType="System.String"
-                          description="Specifies the column in the reference table that a column joins."
-                          name="JoinToReferenceColumn">Name</property>
-                        <property
-                          dataType="System.Null"
-                          description="Specifies the column in the reference table from which a column is copied."
-                          name="CopyFromReferenceColumn" />
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\Load New Organizations\Lookup ECA OrganizationId.Inputs[Lookup Input].Columns[OrganizationTypeId]"
-                      cachedDataType="i4"
-                      cachedName="OrganizationTypeId"
-                      lineageId="Package\Load New Organizations\Lookup Organization Type Id.Outputs[Lookup Match Output].Columns[OrganizationTypeId]">
-                      <properties>
-                        <property
-                          dataType="System.String"
-                          description="Specifies the column in the reference table that a column joins."
-                          name="JoinToReferenceColumn">OrganizationTypeId</property>
-                        <property
-                          dataType="System.Null"
-                          description="Specifies the column in the reference table from which a column is copied."
-                          name="CopyFromReferenceColumn" />
-                      </properties>
-                    </inputColumn>
-                  </inputColumns>
-                  <externalMetadataColumns />
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\Load New Organizations\Lookup ECA OrganizationId.Outputs[Lookup Match Output]"
-                  errorOrTruncationOperation="Lookup"
-                  errorRowDisposition="FailComponent"
-                  exclusionGroup="1"
-                  name="Lookup Match Output"
-                  synchronousInputId="Package\Load New Organizations\Lookup ECA OrganizationId.Inputs[Lookup Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load New Organizations\Lookup ECA OrganizationId.Outputs[Lookup Match Output].Columns[ECA_OrganizationId]"
-                      dataType="i4"
-                      errorOrTruncationOperation="Copy Column"
-                      lineageId="Package\Load New Organizations\Lookup ECA OrganizationId.Outputs[Lookup Match Output].Columns[ECA_OrganizationId]"
-                      name="ECA_OrganizationId"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          dataType="System.String"
-                          description="Specifies the column in the reference table from which a column is copied."
-                          name="CopyFromReferenceColumn">OrganizationId</property>
-                      </properties>
-                    </outputColumn>
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\Load New Organizations\Lookup ECA OrganizationId.Outputs[Lookup No Match Output]"
-                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
-                  exclusionGroup="1"
-                  name="Lookup No Match Output"
-                  synchronousInputId="Package\Load New Organizations\Lookup ECA OrganizationId.Inputs[Lookup Input]">
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\Load New Organizations\Lookup ECA OrganizationId.Outputs[Lookup Error Output]"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="Lookup Error Output"
-                  synchronousInputId="Package\Load New Organizations\Lookup ECA OrganizationId.Inputs[Lookup Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load New Organizations\Lookup ECA OrganizationId.Outputs[Lookup Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\Load New Organizations\Lookup ECA OrganizationId.Outputs[Lookup Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\Load New Organizations\Lookup ECA OrganizationId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\Load New Organizations\Lookup ECA OrganizationId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
-              refId="Package\Load New Organizations\Lookup IVLP Organization Name"
-              componentClassID="Microsoft.Lookup"
-              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
-              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
-              name="Lookup IVLP Organization Name"
-              usesDispositions="true"
-              version="6">
-              <properties>
-                <property
-                  dataType="System.String"
-                  description="Specifies the SQL statement that generates the lookup table."
-                  expressionType="Notify"
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[IVLP_Organization_Duplicate]</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
-                  expressionType="Notify"
-                  name="SqlCommandParam"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[IVLP_Organization_Duplicate]) [refTable]
-where [refTable].[ORG_ID] = ?</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the type of connection used to access the reference dataset."
-                  name="ConnectionType"
-                  typeConverter="LookupConnectionType">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the cache type of the lookup table."
-                  name="CacheType"
-                  typeConverter="CacheType">2</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
-                  name="NoMatchBehavior"
-                  typeConverter="LookupNoMatchBehavior">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
-                  name="NoMatchCachePercentage">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
-                  name="MaxMemoryUsage">25</property>
-                <property
-                  dataType="System.Int64"
-                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
-                  name="MaxMemoryUsage64">25</property>
-                <property
-                  dataType="System.String"
-                  description="Indicates whether to reference metadata in an XML format."
-                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ORG_ID" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ORG_NAME" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="WEB_ADDRESS" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PARENT_ORG_ID" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ORG_CREATE_ID" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ORG_CREATE_DT" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ORG_UPDATE_ID" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ORG_UPDATE_DT" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Resolved_Org_Id" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Resolved_Org_Name" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Resolved_Office_Symbol" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
-                <property
-                  containsID="true"
-                  dataType="System.String"
-                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
-                  name="ParameterMap">#{Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[IVLP_ORG_ID]};</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the column code page to use when code page information is unavailable from the data source."
-                  name="DefaultCodePage">1252</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
-                  name="TreatDuplicateKeysAsError">false</property>
-              </properties>
-              <connections>
-                <connection
-                  refId="Package\Load New Organizations\Lookup IVLP Organization Name.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
-                  description="Connection manager used to access lookup data."
-                  name="OleDbConnection" />
-              </connections>
-              <inputs>
-                <input
-                  refId="Package\Load New Organizations\Lookup IVLP Organization Name.Inputs[Lookup Input]"
-                  name="Lookup Input">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\Load New Organizations\Lookup IVLP Organization Name.Inputs[Lookup Input].Columns[IVLP_ORG_ID]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="IVLP_ORG_ID"
-                      lineageId="Package\Load New Organizations\IVLP_Organization (Oracle).Outputs[OLE DB Source Output].Columns[IVLP_ORG_ID]">
-                      <properties>
-                        <property
-                          dataType="System.String"
-                          description="Specifies the column in the reference table that a column joins."
-                          name="JoinToReferenceColumn">ORG_ID</property>
-                        <property
-                          dataType="System.Null"
-                          description="Specifies the column in the reference table from which a column is copied."
-                          name="CopyFromReferenceColumn" />
-                      </properties>
-                    </inputColumn>
-                  </inputColumns>
-                  <externalMetadataColumns />
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\Load New Organizations\Lookup IVLP Organization Name.Outputs[Lookup Match Output]"
-                  errorOrTruncationOperation="Lookup"
-                  errorRowDisposition="FailComponent"
-                  exclusionGroup="1"
-                  name="Lookup Match Output"
-                  synchronousInputId="Package\Load New Organizations\Lookup IVLP Organization Name.Inputs[Lookup Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load New Organizations\Lookup IVLP Organization Name.Outputs[Lookup Match Output].Columns[IVLP_ORG_NAME]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Copy Column"
-                      length="255"
-                      lineageId="Package\Load New Organizations\Lookup IVLP Organization Name.Outputs[Lookup Match Output].Columns[IVLP_ORG_NAME]"
-                      name="IVLP_ORG_NAME"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          dataType="System.String"
-                          description="Specifies the column in the reference table from which a column is copied."
-                          name="CopyFromReferenceColumn">ORG_NAME</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\Load New Organizations\Lookup IVLP Organization Name.Outputs[Lookup Match Output].Columns[Resolved_Org_Name]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Copy Column"
-                      length="255"
-                      lineageId="Package\Load New Organizations\Lookup IVLP Organization Name.Outputs[Lookup Match Output].Columns[Resolved_Org_Name]"
-                      name="Resolved_Org_Name"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          dataType="System.String"
-                          description="Specifies the column in the reference table from which a column is copied."
-                          name="CopyFromReferenceColumn">Resolved_Org_Name</property>
-                      </properties>
-                    </outputColumn>
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\Load New Organizations\Lookup IVLP Organization Name.Outputs[Lookup No Match Output]"
-                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
-                  exclusionGroup="1"
-                  name="Lookup No Match Output"
-                  synchronousInputId="Package\Load New Organizations\Lookup IVLP Organization Name.Inputs[Lookup Input]">
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\Load New Organizations\Lookup IVLP Organization Name.Outputs[Lookup Error Output]"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="Lookup Error Output"
-                  synchronousInputId="Package\Load New Organizations\Lookup IVLP Organization Name.Inputs[Lookup Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load New Organizations\Lookup IVLP Organization Name.Outputs[Lookup Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\Load New Organizations\Lookup IVLP Organization Name.Outputs[Lookup Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\Load New Organizations\Lookup IVLP Organization Name.Outputs[Lookup Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\Load New Organizations\Lookup IVLP Organization Name.Outputs[Lookup Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
-              refId="Package\Load New Organizations\Lookup Organization Type Id"
-              componentClassID="Microsoft.Lookup"
-              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
-              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
-              name="Lookup Organization Type Id"
-              usesDispositions="true"
-              version="6">
-              <properties>
-                <property
-                  dataType="System.String"
-                  description="Specifies the SQL statement that generates the lookup table."
-                  expressionType="Notify"
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[OrganizationType]</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
-                  expressionType="Notify"
-                  name="SqlCommandParam"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[OrganizationType]) [refTable]
-where [refTable].[OrganizationTypeName] = ?</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the type of connection used to access the reference dataset."
-                  name="ConnectionType"
-                  typeConverter="LookupConnectionType">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the cache type of the lookup table."
-                  name="CacheType"
-                  typeConverter="CacheType">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
-                  name="NoMatchBehavior"
-                  typeConverter="LookupNoMatchBehavior">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
-                  name="NoMatchCachePercentage">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
-                  name="MaxMemoryUsage">25</property>
-                <property
-                  dataType="System.Int64"
-                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
-                  name="MaxMemoryUsage64">25</property>
-                <property
-                  dataType="System.String"
-                  description="Indicates whether to reference metadata in an XML format."
-                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="OrganizationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="OrganizationTypeName" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
-                <property
-                  containsID="true"
-                  dataType="System.String"
-                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
-                  name="ParameterMap">#{Package\Load New Organizations\Add Required Columns.Outputs[Derived Column Output].Columns[OrganizationTypeName]};</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the column code page to use when code page information is unavailable from the data source."
-                  name="DefaultCodePage">1252</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
-                  name="TreatDuplicateKeysAsError">false</property>
-              </properties>
-              <connections>
-                <connection
-                  refId="Package\Load New Organizations\Lookup Organization Type Id.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  description="Connection manager used to access lookup data."
-                  name="OleDbConnection" />
-              </connections>
-              <inputs>
-                <input
-                  refId="Package\Load New Organizations\Lookup Organization Type Id.Inputs[Lookup Input]"
-                  name="Lookup Input">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\Load New Organizations\Lookup Organization Type Id.Inputs[Lookup Input].Columns[OrganizationTypeName]"
-                      cachedDataType="wstr"
-                      cachedLength="5"
-                      cachedName="OrganizationTypeName"
-                      lineageId="Package\Load New Organizations\Add Required Columns.Outputs[Derived Column Output].Columns[OrganizationTypeName]">
-                      <properties>
-                        <property
-                          dataType="System.String"
-                          description="Specifies the column in the reference table that a column joins."
-                          name="JoinToReferenceColumn">OrganizationTypeName</property>
-                        <property
-                          dataType="System.Null"
-                          description="Specifies the column in the reference table from which a column is copied."
-                          name="CopyFromReferenceColumn" />
-                      </properties>
-                    </inputColumn>
-                  </inputColumns>
-                  <externalMetadataColumns />
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\Load New Organizations\Lookup Organization Type Id.Outputs[Lookup Match Output]"
-                  errorOrTruncationOperation="Lookup"
-                  errorRowDisposition="FailComponent"
-                  exclusionGroup="1"
-                  name="Lookup Match Output"
-                  synchronousInputId="Package\Load New Organizations\Lookup Organization Type Id.Inputs[Lookup Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load New Organizations\Lookup Organization Type Id.Outputs[Lookup Match Output].Columns[OrganizationTypeId]"
-                      dataType="i4"
-                      errorOrTruncationOperation="Copy Column"
-                      lineageId="Package\Load New Organizations\Lookup Organization Type Id.Outputs[Lookup Match Output].Columns[OrganizationTypeId]"
-                      name="OrganizationTypeId"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          dataType="System.String"
-                          description="Specifies the column in the reference table from which a column is copied."
-                          name="CopyFromReferenceColumn">OrganizationTypeId</property>
-                      </properties>
-                    </outputColumn>
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\Load New Organizations\Lookup Organization Type Id.Outputs[Lookup No Match Output]"
-                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
-                  exclusionGroup="1"
-                  name="Lookup No Match Output"
-                  synchronousInputId="Package\Load New Organizations\Lookup Organization Type Id.Inputs[Lookup Input]">
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\Load New Organizations\Lookup Organization Type Id.Outputs[Lookup Error Output]"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="Lookup Error Output"
-                  synchronousInputId="Package\Load New Organizations\Lookup Organization Type Id.Inputs[Lookup Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load New Organizations\Lookup Organization Type Id.Outputs[Lookup Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\Load New Organizations\Lookup Organization Type Id.Outputs[Lookup Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\Load New Organizations\Lookup Organization Type Id.Outputs[Lookup Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\Load New Organizations\Lookup Organization Type Id.Outputs[Lookup Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-          </components>
-          <paths>
-            <path
-              refId="Package\Load New Organizations.Paths[Derived Column Output]"
-              endId="Package\Load New Organizations\Lookup Organization Type Id.Inputs[Lookup Input]"
-              name="Derived Column Output"
-              startId="Package\Load New Organizations\Add Required Columns.Outputs[Derived Column Output]" />
-            <path
-              refId="Package\Load New Organizations.Paths[Lookup Match Output]"
-              endId="Package\Load New Organizations\Lookup ECA OrganizationId.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Load New Organizations\Lookup IVLP Organization Name.Outputs[Lookup Match Output]" />
-          </paths>
-        </pipeline>
-      </DTS:ObjectData>
-    </DTS:Executable>
-    <DTS:Executable
       DTS:refId="Package\Load New Programs (Completed)"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
@@ -2798,13 +3284,6 @@ where [refTable].[OrganizationTypeName] = ?</property>
                       cachedName="Description_KMT"
                       externalMetadataColumnId="Package\Load New Programs (Completed)\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
                       lineageId="Package\Load New Programs (Completed)\Add Required Columns.Outputs[Derived Column Output].Columns[Description_KMT]" />
-                    <inputColumn
-                      refId="Package\Load New Programs (Completed)\Add new program.Inputs[OLE DB Destination Input].Columns[Website_KMT]"
-                      cachedDataType="wstr"
-                      cachedLength="20"
-                      cachedName="Website_KMT"
-                      externalMetadataColumnId="Package\Load New Programs (Completed)\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[Website]"
-                      lineageId="Package\Load New Programs (Completed)\Add Required Columns.Outputs[Derived Column Output].Columns[Website_KMT]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -2826,11 +3305,6 @@ where [refTable].[OrganizationTypeName] = ?</property>
                       dataType="wstr"
                       length="3000"
                       name="Description" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Programs (Completed)\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[Website]"
-                      dataType="wstr"
-                      length="100"
-                      name="Website" />
                     <externalMetadataColumn
                       refId="Package\Load New Programs (Completed)\Add new program.Inputs[OLE DB Destination Input].ExternalColumns[StartDate]"
                       dataType="dbTimeStampOffset"
@@ -5560,6 +6034,14 @@ where [refTable].[Status] = ?</property>
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
+          Size="197,42"
+          Id="Package\Create Project XRef table"
+          TopLeft="65.5,319.5" />
+        <NodeLayout
+          Size="225,42"
+          Id="Package\Create Organization XREF Data"
+          TopLeft="47,211" />
+        <NodeLayout
           Size="235,42"
           Id="Package\Load New Programs (Completed)"
           TopLeft="30.5,22.5" />
@@ -5567,10 +6049,6 @@ where [refTable].[Status] = ?</property>
           Size="256,42"
           Id="Package\Load New Project Status (Completed)"
           TopLeft="20.5,110.5" />
-        <NodeLayout
-          Size="197,42"
-          Id="Package\Create Project XRef table"
-          TopLeft="65.5,319.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="148.25,64.5">
@@ -5593,13 +6071,388 @@ where [refTable].[Status] = ?</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="193,42"
-          Id="Package\Load New Organizations"
-          TopLeft="51,230" />
       </GraphLayout>
     </LayoutInfo>
   </Package>
+  <TaskHost
+    design-time-name="Package\Create Project XRef table">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="182,42"
+          Id="Package\Create Project XRef table\Lookup Project Status"
+          TopLeft="42.5,297.5" />
+        <NodeLayout
+          Size="178,42"
+          Id="Package\Create Project XRef table\IVLP Project (Oracle)"
+          TopLeft="32,27" />
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Create Project XRef table\Data Conversion"
+          TopLeft="40,108" />
+        <NodeLayout
+          Size="179,42"
+          Id="Package\Create Project XRef table\Add Missing Columns"
+          TopLeft="30,196" />
+        <EdgeLayout
+          Id="Package\Create Project XRef table.Paths[Data Conversion Output]"
+          TopLeft="118.75,150">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46"
+              Start="0,0"
+              End="0,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create Project XRef table.Paths[OLE DB Source Output]"
+          TopLeft="119.5,69">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39"
+              Start="0,0"
+              End="0,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create Project XRef table.Paths[Derived Column Output]"
+          TopLeft="119.5,238">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="14,59.5"
+              Start="0,0"
+              End="14,52">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.75" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,25.75"
+                    Point2="0,29.75"
+                    Point3="4,29.75" />
+                  <mssgle:LineSegment
+                    End="10,29.75" />
+                  <mssgle:CubicBezierSegment
+                    Point1="10,29.75"
+                    Point2="14,29.75"
+                    Point3="14,33.75" />
+                  <mssgle:LineSegment
+                    End="14,52" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="166,42"
+          Id="Package\Create Project XRef table\Lookup ProgramId"
+          TopLeft="302.5,297.5" />
+        <EdgeLayout
+          Id="Package\Create Project XRef table.Paths[Lookup Match Output]"
+          TopLeft="224.5,318.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="78,0"
+              Start="0,0"
+              End="70.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="70.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-12.94138671875,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create Project XRef table\Lookup ProgramId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Program]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create Project XRef table\IVLP Project (Oracle)">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create Project XRef table\Lookup Project Status">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[ProjectStatus]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Create Organization XREF Data">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="215,42"
+          Id="Package\Create Organization XREF Data\Lookup Organization Type Id"
+          TopLeft="608.5,27.0395348837209" />
+        <NodeLayout
+          Size="186,42"
+          Id="Package\Create Organization XREF Data\Add Required Columns"
+          TopLeft="311.5,22.5" />
+        <NodeLayout
+          Size="207,42"
+          Id="Package\Create Organization XREF Data\IVLP_Organization (Oracle)"
+          TopLeft="9.5,24.5" />
+        <EdgeLayout
+          Id="Package\Create Organization XREF Data.Paths[Derived Column Output]"
+          TopLeft="497.5,45.7697674418605">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="111,0"
+              Start="0,0"
+              End="103.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="103.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="246,42"
+          Id="Package\Create Organization XREF Data\Load IVLP_Organization XREF table"
+          TopLeft="665.5,157.5" />
+        <EdgeLayout
+          Id="Package\Create Organization XREF Data.Paths[Lookup Match Output]"
+          TopLeft="716,69.0395348837209">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="72.5,88.4604651162791"
+              Start="0,0"
+              End="72.5,80.9604651162791">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.2302325581395" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,40.2302325581395"
+                    Point2="0,44.2302325581395"
+                    Point3="4,44.2302325581395" />
+                  <mssgle:LineSegment
+                    End="68.5,44.2302325581395" />
+                  <mssgle:CubicBezierSegment
+                    Point1="68.5,44.2302325581395"
+                    Point2="72.5,44.2302325581395"
+                    Point3="72.5,48.2302325581395" />
+                  <mssgle:LineSegment
+                    End="72.5,80.9604651162791" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-11.94138671875,49.2302325581395,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Create Organization XREF Data\Data Conversion"
+          TopLeft="176.5,133.5" />
+        <EdgeLayout
+          Id="Package\Create Organization XREF Data.Paths[OLE DB Source Output]"
+          TopLeft="113,66.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="141.5,67"
+              Start="0,0"
+              End="141.5,59.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,29.5"
+                    Point2="0,33.5"
+                    Point3="4,33.5" />
+                  <mssgle:LineSegment
+                    End="137.5,33.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="137.5,33.5"
+                    Point2="141.5,33.5"
+                    Point3="141.5,37.5" />
+                  <mssgle:LineSegment
+                    End="141.5,59.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create Organization XREF Data.Paths[Data Conversion Output]"
+          TopLeft="279.166666666667,133.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="125.333333333333,-69"
+              Start="0,0"
+              End="125.333333333333,-61.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-24.0203045685279" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-24.0203045685279"
+                    Point2="0,-28.0203045685279"
+                    Point3="4,-28.0203045685279" />
+                  <mssgle:LineSegment
+                    End="121.333333333333,-28.0203045685279" />
+                  <mssgle:CubicBezierSegment
+                    Point1="121.333333333333,-28.0203045685279"
+                    Point2="125.333333333333,-28.0203045685279"
+                    Point3="125.333333333333,-32.0203045685279" />
+                  <mssgle:LineSegment
+                    End="125.333333333333,-61.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create Organization XREF Data\Lookup Organization Type Id">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[OrganizationType]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create Organization XREF Data\IVLP_Organization (Oracle)">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <TaskHost
     design-time-name="Package\Load New Programs (Completed)">
     <LayoutInfo>
@@ -6007,13 +6860,13 @@ where [refTable].[Status] = ?</property>
           Id="Package\Load New Project Status (Completed)\Add Required Columns"
           TopLeft="40,319" />
         <NodeLayout
-          Size="178,42"
-          Id="Package\Load New Project Status (Completed)\IVLP Project (Oracle)"
-          TopLeft="24,45" />
-        <NodeLayout
           Size="201,42"
           Id="Package\Load New Project Status (Completed)\Does Project Status Exist?"
           TopLeft="343.5,312.5" />
+        <NodeLayout
+          Size="178,42"
+          Id="Package\Load New Project Status (Completed)\IVLP Project (Oracle)"
+          TopLeft="24,45" />
         <NodeLayout
           Size="185,42"
           Id="Package\Load New Project Status (Completed)\Add new ProjectStatus"
@@ -6178,19 +7031,6 @@ where [refTable].[Status] = ?</property>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Load New Project Status (Completed)\IVLP Project (Oracle)">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
     design-time-name="Package\Load New Project Status (Completed)\Does Project Status Exist?">
     <Properties>
       <Property>
@@ -6214,6 +7054,19 @@ where [refTable].[Status] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
+    design-time-name="Package\Load New Project Status (Completed)\IVLP Project (Oracle)">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
     design-time-name="Package\Load New Project Status (Completed)\Add new ProjectStatus">
     <Properties>
       <Property>
@@ -6226,271 +7079,8 @@ where [refTable].[Status] = ?</property>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
-  <TaskHost
-    design-time-name="Package\Create Project XRef table">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
-        <NodeLayout
-          Size="182,42"
-          Id="Package\Create Project XRef table\Lookup Project Status"
-          TopLeft="42.5,297.5" />
-        <NodeLayout
-          Size="178,42"
-          Id="Package\Create Project XRef table\IVLP Project (Oracle)"
-          TopLeft="32,27" />
-        <NodeLayout
-          Size="156,42"
-          Id="Package\Create Project XRef table\Data Conversion"
-          TopLeft="40,108" />
-        <NodeLayout
-          Size="179,42"
-          Id="Package\Create Project XRef table\Add Missing Columns"
-          TopLeft="30,196" />
-        <EdgeLayout
-          Id="Package\Create Project XRef table.Paths[Data Conversion Output]"
-          TopLeft="118.75,150">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,46"
-              Start="0,0"
-              End="0,38.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,38.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Create Project XRef table.Paths[OLE DB Source Output]"
-          TopLeft="119.5,69">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,39"
-              Start="0,0"
-              End="0,31.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,31.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Create Project XRef table.Paths[Derived Column Output]"
-          TopLeft="119.5,238">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="14,59.5"
-              Start="0,0"
-              End="14,52">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,25.75" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,25.75"
-                    Point2="0,29.75"
-                    Point3="4,29.75" />
-                  <mssgle:LineSegment
-                    End="10,29.75" />
-                  <mssgle:CubicBezierSegment
-                    Point1="10,29.75"
-                    Point2="14,29.75"
-                    Point3="14,33.75" />
-                  <mssgle:LineSegment
-                    End="14,52" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="166,42"
-          Id="Package\Create Project XRef table\Lookup ProgramId"
-          TopLeft="302.5,297.5" />
-        <EdgeLayout
-          Id="Package\Create Project XRef table.Paths[Lookup Match Output]"
-          TopLeft="224.5,318.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="78,0"
-              Start="0,0"
-              End="70.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="70.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-12.94138671875,5,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Create Project XRef table\Lookup Project Status">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[ProjectStatus]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:string">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Create Project XRef table\IVLP Project (Oracle)">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Create Project XRef table\Lookup ProgramId">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[Program]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:int">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <TaskHost
-    design-time-name="Package\Load New Organizations">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
-        <NodeLayout
-          Size="231,42"
-          Id="Package\Load New Organizations\Lookup IVLP Organization Name"
-          TopLeft="30.5,257.5" />
-        <NodeLayout
-          Size="215,42"
-          Id="Package\Load New Organizations\Lookup Organization Type Id"
-          TopLeft="608.5,27.0395348837209" />
-        <NodeLayout
-          Size="208,42"
-          Id="Package\Load New Organizations\Lookup ECA OrganizationId"
-          TopLeft="368.5,264.5" />
-        <NodeLayout
-          Size="186,42"
-          Id="Package\Load New Organizations\Add Required Columns"
-          TopLeft="311.5,27.5" />
-        <NodeLayout
-          Size="207,42"
-          Id="Package\Load New Organizations\IVLP_Organization (Oracle)"
-          TopLeft="9.5,24.5" />
-        <EdgeLayout
-          Id="Package\Load New Organizations.Paths[Lookup Match Output]"
-          TopLeft="261.5,282">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="107,0"
-              Start="0,0"
-              End="99.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="99.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-7.3100390625,5,114.120078125,16"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load New Organizations.Paths[Derived Column Output]"
-          TopLeft="497.5,48.2697674418605">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="111,0"
-              Start="0,0"
-              End="103.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="103.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load New Organizations\IVLP_Organization (Oracle)">
+    design-time-name="Package\Create Organization XREF Data\Load IVLP_Organization XREF table">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
