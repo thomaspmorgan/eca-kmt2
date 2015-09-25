@@ -22,18 +22,6 @@ namespace ECA.Business.Search.Test
         }
 
         [TestMethod]
-        public void TestConstructor_IDocumentable()
-        {
-            var testDocument = new TestDocument();
-            testDocument.Id = 123;
-
-            var documentKey = new DocumentKey(testDocument);
-            Assert.AreEqual(testDocument.Id, documentKey.Value);
-            Assert.AreEqual(testDocument.GetDocumentType(), documentKey.DocumentType);
-            Assert.AreEqual(DocumentKeyType.Int, documentKey.KeyType);
-        }
-
-        [TestMethod]
         public void TestConstructor_DocumentTypeAndObjectKey()
         {
             var documentType = DocumentType.Program;

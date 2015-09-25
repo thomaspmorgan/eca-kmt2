@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Azure.Search.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -18,16 +19,14 @@ namespace ECA.Business.Search
         private const int PROJECT_DOCUMENT_TYPE_ID = 2;
         private const string PROJECT_DOCUMENT_TYPE_NAME = "Project";
         private const string PROJECT_INDEX_NAME = ALL_DOCUMENTS_INDEX_NAME;
-
-        
-        
-        
-
         public static DocumentType Program
         {
             get
             {
-                return new DocumentType(PROGRAM_DOCUMENT_TYPE_ID, PROGRAM_DOCUMENT_TYPE_NAME, PROGRAM_INDEX_NAME);
+                return new DocumentType(
+                    PROGRAM_DOCUMENT_TYPE_ID,
+                    PROGRAM_DOCUMENT_TYPE_NAME,
+                    PROGRAM_INDEX_NAME);
             }
         }
 

@@ -61,84 +61,27 @@ namespace ECA.Business.Search
                 this.Add(key, additionalFields[key]);
             }
         }
-
-        public Index GetIndex()
-        {
-            var index = new Index
-            {
-                Name = this.DocumentType.IndexName,
-
-            };
-            foreach (var field in this.AdditionalFields)
-            {
-                index.Fields.Add(new Field
-                {
-                    Name = field,
-                    Type = DataType.String,
-                    IsSearchable = true,
-                });
-            }
-            index.Fields.Add(new Field
-            {
-                IsKey = true,
-                Name = ECADocument.ID_KEY,
-                Type = DataType.String
-            });
-            index.Fields.Add(new Field
-            {
-                IsKey = false,
-                Name = ECADocument.TITLE_KEY,
-                Type = DataType.String,
-                IsSearchable = false
-            });
-            index.Fields.Add(new Field
-            {
-                IsKey = false,
-                Name = ECADocument.SUBTITLE_KEY,
-                Type = DataType.String,
-                IsSearchable = false
-            });
-            index.Fields.Add(new Field
-            {
-                IsKey = false,
-                Name = ECADocument.DESCRIPTION_KEY,
-                Type = DataType.String,
-                IsSearchable = false
-            });
-            index.Fields.Add(new Field
-            {
-                IsKey = false,
-                Name = ECADocument.DOCUMENT_TYPE_ID_KEY,
-                Type = DataType.String,
-                IsSearchable = false,
-                IsFacetable = true,
-                IsFilterable = true
-            });
-            return index;
-        }
     }
 
-    public class SimpleDocument : ECADocument
-    {
-
-
-        public SimpleDocument(IDocumentable documentable)
-        {
-            Contract.Requires(documentable != null, "The documentable object must not be null.");
-            var key = new DocumentKey(documentable);
-            SetKey(key);
-            SetTitle(documentable.GetTitle());
-            SetDescription(documentable.GetDescription());
-            SetSubtitle(documentable.GetSubtitle());
-            SetDocumentType(documentable.GetDocumentType());
-            var dictionary = new Dictionary<string, string>();
-            foreach (var field in documentable.GetDocumentFields())
-            {
-                dictionary[field] = documentable.GetValue(field);
-            }
-            SetAdditionalFields(dictionary);
-        }
-    }
+    //public class SimpleDocument : ECADocument
+    //{
+    //    public SimpleDocument(IDocumentable documentable)
+    //    {
+    //        Contract.Requires(documentable != null, "The documentable object must not be null.");
+    //        var key = new DocumentKey(documentable);
+    //        SetKey(key);
+    //        SetTitle(documentable.GetTitle());
+    //        SetDescription(documentable.GetDescription());
+    //        SetSubtitle(documentable.GetSubtitle());
+    //        SetDocumentType(documentable.GetDocumentType());
+    //        var dictionary = new Dictionary<string, string>();
+    //        foreach (var field in documentable.GetDocumentFields())
+    //        {
+    //            dictionary[field] = documentable.GetValue(field);
+    //        }
+    //        SetAdditionalFields(dictionary);
+    //    }
+    //}
 
     public class ConfiguredDocument<T> : ECADocument where T : class
     {

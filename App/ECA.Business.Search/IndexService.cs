@@ -13,18 +13,56 @@ namespace ECA.Business.Search
     public class IndexService : IDisposable, IIndexService
     {
         private SearchServiceClient searchClient;
-        private List<IDocumentConfiguration> configurations;
 
         public IndexService(SearchServiceClient searchClient, List<IDocumentConfiguration> documentConfigurations = null)
         {
             Contract.Requires(searchClient != null, "The search client must not be null.");
             this.searchClient = searchClient;
-            //need distinct check here...
-            this.configurations = documentConfigurations ?? new List<IDocumentConfiguration>();
+            if(documentConfigurations == null)
+            {
+                this.Configurations = new List<IDocumentConfiguration>();
+            }
+            else
+            {
+                var configurationsWithoutDocumentType = documentConfigurations.Where(x => x.GetDocumentType() == null).ToList();
+                if (configurationsWithoutDocumentType.Count > 0)
+                {
+                    throw new NotSupportedException(String.Format("The following configurations do not define a document type:  {0}.",
+                        String.Join(", ",
+                        configurationsWithoutDocumentType.Select(x => x.GetType()).ToList()
+                        )));
+                }
+
+                var distinctConfigurations = from config in documentConfigurations
+                                             group config by config.GetDocumentType() into g
+                                             select new
+                                             {
+                                                 DocumentType = g.Key,
+                                                 Count = g.Count(),
+                                                 Config = g.Select(x => x)
+                                             };
+                var invalidConfigurations = distinctConfigurations.Where(x => x.Count > 1).ToList();
+                if(invalidConfigurations.Count > 0)
+                {
+                    throw new NotSupportedException(String.Format("The following document types are configured more than once:  {0}.", 
+                        String.Join(", ", 
+                        invalidConfigurations.Select(x => x.DocumentType).ToList()
+                        )));
+                }
+
+                
+
+                this.Configurations = distinctConfigurations.Select(x => x.Config.First()).ToList();
+            }
         }
 
-        
+        private void ValidateConfigurations(List<IDocumentConfiguration> configurations)
+        {
 
+        }
+
+        public List<IDocumentConfiguration> Configurations { get; private set; }
+        
         #region Exists index
 
         public bool Exists(DocumentType documentType)
@@ -41,25 +79,105 @@ namespace ECA.Business.Search
 
         #region Create Index
 
-        public void CreateIndex(IDocumentable documentable)
+        public Index GetIndex(IDocumentConfiguration configuration)
         {
-            //var ecaDocument = new SimpleDocument(documentable);
-            //var indexName = ecaDocument.DocumentType.IndexName;
-            //if (!this.searchClient.Indexes.Exists(indexName))
-            //{
-            //    this.searchClient.Indexes.CreateOrUpdate(ecaDocument.GetIndex());
-            //}
+            Contract.Requires(configuration != null, "The configuration must not be null.");
+            var index = new Index
+            {
+                Name = configuration.GetDocumentType().IndexName,
+
+            };
+            foreach (var field in configuration.GetAdditionalFieldNames())
+            {
+                index.Fields.Add(new Field
+                {
+                    Name = field,
+                    Type = DataType.String,
+                    IsSearchable = true,
+                });
+            }
+            index.Fields.Add(new Field
+            {
+                IsKey = true,
+                Name = ECADocument.ID_KEY,
+                Type = DataType.String
+            });
+            index.Fields.Add(new Field
+            {
+                IsKey = false,
+                Name = ECADocument.TITLE_KEY,
+                Type = DataType.String,
+                IsSearchable = false
+            });
+            index.Fields.Add(new Field
+            {
+                IsKey = false,
+                Name = ECADocument.SUBTITLE_KEY,
+                Type = DataType.String,
+                IsSearchable = false
+            });
+            index.Fields.Add(new Field
+            {
+                IsKey = false,
+                Name = ECADocument.DESCRIPTION_KEY,
+                Type = DataType.String,
+                IsSearchable = false
+            });
+            index.Fields.Add(new Field
+            {
+                IsKey = false,
+                Name = ECADocument.DOCUMENT_TYPE_ID_KEY,
+                Type = DataType.String,
+                IsSearchable = false,
+                IsFacetable = true,
+                IsFilterable = true
+            });
+            return index;
         }
 
-        public async Task CreateIndexAsync(IDocumentable documentable)
+        //public void CreateIndex(IDocumentable documentable)
+        //{
+        //    //var ecaDocument = new SimpleDocument(documentable);
+        //    //var indexName = ecaDocument.DocumentType.IndexName;
+        //    //if (!this.searchClient.Indexes.Exists(indexName))
+        //    //{
+        //    //    this.searchClient.Indexes.CreateOrUpdate(ecaDocument.GetIndex());
+        //    //}
+        //}
+
+        //public async Task CreateIndexAsync(IDocumentable documentable)
+        //{
+        //    //var ecaDocument = new ECADocument(documentable);
+        //    //var indexName = ecaDocument.DocumentType.IndexName;
+        //    //if (!await this.searchClient.Indexes.ExistsAsync(indexName))
+        //    //{
+        //    //    await this.searchClient.Indexes.CreateOrUpdateAsync(ecaDocument.GetIndex());
+        //    //}
+        //}
+
+        public void CreateIndex<T>() where T : class
         {
-            //var ecaDocument = new ECADocument(documentable);
-            //var indexName = ecaDocument.DocumentType.IndexName;
-            //if (!await this.searchClient.Indexes.ExistsAsync(indexName))
-            //{
-            //    await this.searchClient.Indexes.CreateOrUpdateAsync(ecaDocument.GetIndex());
-            //}
+            var configuration = GetDocumentConfiguration<T>();
+            var index = GetIndex(configuration);
+            var indexName = index.Name;
+            if (!this.searchClient.Indexes.Exists(indexName))
+            {
+                this.searchClient.Indexes.CreateOrUpdate(index);
+            }
         }
+
+        public async Task CreateIndexAsync<T>() where T : class
+        {
+            var configuration = GetDocumentConfiguration<T>();
+            var index = GetIndex(configuration);
+            var indexName = index.Name;
+            if (!(await this.searchClient.Indexes.ExistsAsync(indexName)))
+            {
+                await this.searchClient.Indexes.CreateOrUpdateAsync(index);
+            }
+        }
+
+
 
         #endregion
 
@@ -86,47 +204,47 @@ namespace ECA.Business.Search
 
         #region Handle Documents
 
-        public List<DocumentIndexResponse> HandleDocuments(List<IDocumentable> documents)
-        {
-            var responses = new List<DocumentIndexResponse>();
-            foreach (var groupedDocument in GetGroupedDocuments(documents))
-            {
-                var indexClient = GetClientByDocumentType(groupedDocument.DocumentType);
-                var indexBatch = GetIndexBatch(groupedDocument);
-                var response = indexClient.Documents.Index(indexBatch);
-                responses.Add(response);
-            }
-            return responses;
-        }
+        //public List<DocumentIndexResponse> HandleDocuments(List<IDocumentable> documents)
+        //{
+        //    var responses = new List<DocumentIndexResponse>();
+        //    foreach (var groupedDocument in GetGroupedDocuments(documents))
+        //    {
+        //        var indexClient = GetClientByDocumentType(groupedDocument.DocumentType);
+        //        var indexBatch = GetIndexBatch(groupedDocument);
+        //        var response = indexClient.Documents.Index(indexBatch);
+        //        responses.Add(response);
+        //    }
+        //    return responses;
+        //}
 
-        public async Task<List<DocumentIndexResponse>> HandleDocumentsAsync(List<IDocumentable> documents)
-        {
-            var responses = new List<DocumentIndexResponse>();
-            foreach (var groupedDocument in GetGroupedDocuments(documents))
-            {
-                var indexClient = GetClientByDocumentType(groupedDocument.DocumentType);
-                var indexBatch = GetIndexBatch(groupedDocument);
-                var response = await indexClient.Documents.IndexAsync(indexBatch);
-                responses.Add(response);
-            }
-            return responses;
-        }
+        //public async Task<List<DocumentIndexResponse>> HandleDocumentsAsync(List<IDocumentable> documents)
+        //{
+        //    var responses = new List<DocumentIndexResponse>();
+        //    foreach (var groupedDocument in GetGroupedDocuments(documents))
+        //    {
+        //        var indexClient = GetClientByDocumentType(groupedDocument.DocumentType);
+        //        var indexBatch = GetIndexBatch(groupedDocument);
+        //        var response = await indexClient.Documents.IndexAsync(indexBatch);
+        //        responses.Add(response);
+        //    }
+        //    return responses;
+        //}
 
         public async Task<DocumentIndexResponse> HandleDocumentsAsync<T>(List<T> documents) where T : class
         {
-            if(documents.Count == 0)
+            if (documents.Count == 0)
             {
                 return null;
             }
             else
             {
-                var configuration = GetDocumentConfiguration(typeof(T));
+                var configuration = GetDocumentConfiguration<T>();
                 var indexBatch = DoHandleDocuments(documents, configuration);
                 var indexClient = GetClientByDocumentType(configuration.GetDocumentType());
                 var response = await indexClient.Documents.IndexAsync(indexBatch);
                 return response;
             }
-            
+
         }
 
         public DocumentIndexResponse HandleDocuments<T>(List<T> documents) where T : class
@@ -137,7 +255,7 @@ namespace ECA.Business.Search
             }
             else
             {
-                var configuration = GetDocumentConfiguration(typeof(T));
+                var configuration = GetDocumentConfiguration<T>();
                 var indexBatch = DoHandleDocuments(documents, configuration);
                 var indexClient = GetClientByDocumentType(configuration.GetDocumentType());
                 var response = indexClient.Documents.Index(indexBatch);
@@ -151,7 +269,7 @@ namespace ECA.Business.Search
             if (configuration == null)
             {
                 throw new NotSupportedException(String.Format("The configuration for the type [{0}] was not found.", typeof(T)));
-            }            
+            }
             var actions = new List<IndexAction>();
             foreach (var document in documents)
             {
@@ -162,36 +280,36 @@ namespace ECA.Business.Search
             return indexBatch;
         }
 
-        private IDocumentConfiguration GetDocumentConfiguration(Type t)
+        public IDocumentConfiguration GetDocumentConfiguration<T>()
         {
-            return this.configurations.Where(x => x.IsConfigurationForType(t)).FirstOrDefault();
+            return this.Configurations.Where(x => x.IsConfigurationForType(typeof(T))).FirstOrDefault();
         }
 
-        private IndexBatch GetIndexBatch(GroupedDocument groupedDocument)
-        {
-            var documentType = groupedDocument.DocumentType;
-            var actions = new List<IndexAction>();
-            foreach (var document in groupedDocument.Documents)
-            {
-                var ecaDocument = new SimpleDocument(document);
-                var indexAction = new IndexAction(IndexActionType.MergeOrUpload, ecaDocument);
-                actions.Add(indexAction);
-            }
-            var indexBatch = new IndexBatch(actions);
-            return indexBatch;
-        }
+        //private IndexBatch GetIndexBatch(GroupedDocument groupedDocument)
+        //{
+        //    var documentType = groupedDocument.DocumentType;
+        //    var actions = new List<IndexAction>();
+        //    foreach (var document in groupedDocument.Documents)
+        //    {
+        //        var ecaDocument = new SimpleDocument(document);
+        //        var indexAction = new IndexAction(IndexActionType.MergeOrUpload, ecaDocument);
+        //        actions.Add(indexAction);
+        //    }
+        //    var indexBatch = new IndexBatch(actions);
+        //    return indexBatch;
+        //}
 
-        private List<GroupedDocument> GetGroupedDocuments(List<IDocumentable> documents)
-        {
-            var groupedDocuments = from document in documents
-                                   group document by document.GetDocumentType() into documentTypes
-                                   select new GroupedDocument
-                                   {
-                                       DocumentType = documentTypes.Key,
-                                       Documents = documentTypes.Select(x => x)
-                                   };
-            return groupedDocuments.ToList();
-        }
+        //private List<GroupedDocument> GetGroupedDocuments(List<IDocumentable> documents)
+        //{
+        //    var groupedDocuments = from document in documents
+        //                           group document by document.GetDocumentType() into documentTypes
+        //                           select new GroupedDocument
+        //                           {
+        //                               DocumentType = documentTypes.Key,
+        //                               Documents = documentTypes.Select(x => x)
+        //                           };
+        //    return groupedDocuments.ToList();
+        //}
 
         #endregion
 
@@ -293,12 +411,12 @@ namespace ECA.Business.Search
 
         #endregion
 
-        private class GroupedDocument
-        {
-            public DocumentType DocumentType { get; set; }
+        //private class GroupedDocument
+        //{
+        //    public DocumentType DocumentType { get; set; }
 
-            public IEnumerable<IDocumentable> Documents { get; set; }
-        }
+        //    public IEnumerable<IDocumentable> Documents { get; set; }
+        //}
     }
 
 

@@ -12,7 +12,19 @@ namespace ECA.Business.Search.Test
         {
             HasKey(x => x.Id);
             HasTitle(x => x.Name);
+            HasAdditionalField(x => x.AdditionalField);
             IsDocumentType(DocumentType.Program);
+        }
+    }
+
+    public class OtherTestDocumentConfiguration : DocumentConfiguration<OtherTestDocument, int>
+    {
+        public OtherTestDocumentConfiguration()
+        {
+            HasKey(x => x.Id);
+            HasTitle(x => x.Name);
+            HasAdditionalField(x => x.AdditionalField);
+            IsDocumentType(DocumentType.Project);
         }
     }
 }

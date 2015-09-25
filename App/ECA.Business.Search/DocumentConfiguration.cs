@@ -19,27 +19,33 @@ namespace ECA.Business.Search
 
         string GetSubtitle(object instance);
 
+        List<string> GetAdditionalFieldNames();
+
         Dictionary<string, string> GetAdditionalFields(object instance);
 
         bool IsConfigurationForType(Type type);
 
         DocumentType GetDocumentType();
-
     }
 
-    public interface IDocumentConfiguration<TEntity, TEntityKey> : IDocumentConfiguration
-        where TEntity : class
-        where TEntityKey : struct
-    {
-        Func<TEntity, TEntityKey> IdDelegate { get; }
-    }
+    //public interface IDocumentConfiguration<TEntity, TEntityKey> : IDocumentConfiguration
+    //    where TEntity : class
+    //    where TEntityKey : struct
+    //{
+    //    Func<TEntity, TEntityKey> IdDelegate { get; }
+    //}
 
-    public class DocumentConfiguration<TEntity, TEntityKey> : IDocumentConfiguration<TEntity, TEntityKey>
+    public class DocumentConfiguration<TEntity, TEntityKey> : IDocumentConfiguration//IDocumentConfiguration<TEntity, TEntityKey>
         where TEntity : class
         where TEntityKey : struct
     {
 
         private DocumentType documentType;
+
+        public DocumentConfiguration()
+        {
+            this.AdditionalFieldsDelegates = new Dictionary<string, Func<TEntity, string>>();
+        }
 
         public Func<TEntity, TEntityKey> IdDelegate { get; private set; }
 
@@ -50,11 +56,7 @@ namespace ECA.Business.Search
         public Func<TEntity, string> SubtitleDelegate { get; private set; }
 
         public Dictionary<string, Func<TEntity, string>> AdditionalFieldsDelegates { get; private set; }
-
-        public DocumentConfiguration()
-        {
-            this.AdditionalFieldsDelegates = new Dictionary<string, Func<TEntity, string>>();
-        }
+        
 
         public DocumentType GetDocumentType()
         {
@@ -162,32 +164,10 @@ namespace ECA.Business.Search
             }
             return dictionary;
         }
+
+        public List<string> GetAdditionalFieldNames()
+        {
+            return this.AdditionalFieldsDelegates.Keys.ToList();
+        }
     }
-
-
-    //public class DocumentConfiguration<TEntity, TEntityKey> 
-    //    where TEntity : class
-    //    where TEntityKey : struct
-    //{
-    //    public DocumentConfiguration()
-    //    {
-    //        this.FieldDelegates = new Dictionary<string, Func<TEntity, string>>();
-    //    }
-
-    //    public Func<TEntity, TEntityKey> IdDelegate { get; private set; }
-
-    //    public Dictionary<string, Func<TEntity,string>> FieldDelegates { get; private set; }
-
-    //    public void HasKey(Expression<Func<TEntity, TEntityKey>> idSelector)
-    //    {
-    //        this.IdDelegate = idSelector.Compile();
-    //    }
-
-    //    public void HasField(Expression<Func<TEntity, string>> fieldSelector)
-    //    {
-    //        var propertyName = PropertyHelper.GetPropertyName<TEntity>(fieldSelector);
-    //        var propertyDelegate = fieldSelector.Compile();
-    //        this.FieldDelegates.Add(propertyName, propertyDelegate);
-    //    }
-    //}
 }

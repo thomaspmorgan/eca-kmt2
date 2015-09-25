@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Search
 {
-    public interface IDocumentService<TDocument> where TDocument : IDocumentable
+    public interface IDocumentService<TDocument> where TDocument : class
     {
         IQueryable<TDocument> CreateGetDocumentsQuery();
 
@@ -29,13 +29,14 @@ namespace ECA.Business.Search
 
     public abstract class DocumentService<TContext, TDocument> : DbContextService<TContext>, IDocumentService<TDocument>
         where TContext : DbContext
-        where TDocument : IDocumentable
+        where TDocument : class
     {
         public const int DEFAULT_BATCH_SIZE = 500;
 
         private int batchSize;
         private IIndexService indexService;
         private IIndexNotificationService notificationService;
+        private Action<IDocumentConfiguration, Type> throwIfDocumentConfigurationNotFound;
 
         public DocumentService(TContext context, IIndexService indexService, IIndexNotificationService notificationService, int batchSize = DEFAULT_BATCH_SIZE) : base(context)
         {
@@ -46,6 +47,13 @@ namespace ECA.Business.Search
             this.batchSize = batchSize;
             this.notificationService = notificationService;
             context.Configuration.AutoDetectChangesEnabled = false;
+            throwIfDocumentConfigurationNotFound = (config, t) =>
+            {
+                if (config == null)
+                {
+                    throw new NotSupportedException(String.Format("The document configuration for the type [{0}] was not found.", t));
+                }
+            };
         }
 
         public abstract IQueryable<TDocument> CreateGetDocumentsQuery();
@@ -74,10 +82,12 @@ namespace ECA.Business.Search
         {
             var counter = 0;
             var total = GetDocumentCount();
-            var documentType = ((TDocument)Activator.CreateInstance(typeof(TDocument))).GetDocumentType();
+            var config = indexService.GetDocumentConfiguration<TDocument>();
+            throwIfDocumentConfigurationNotFound(config, typeof(TDocument));
+            var documentType = config.GetDocumentType();
             while (counter < total)
             {
-                var documents = GetDocumentBatch(counter, batchSize).Select(x => x as IDocumentable).ToList();
+                var documents = GetDocumentBatch(counter, batchSize).ToList();
                 indexService.HandleDocuments(documents);
                 notificationService.Processed(documentType, total, counter);
                 counter += documents.Count;
@@ -89,10 +99,12 @@ namespace ECA.Business.Search
         {
             var counter = 0;
             var total = await GetDocumentCountAsync();
-            var documentType = ((TDocument)Activator.CreateInstance(typeof(TDocument))).GetDocumentType();
+            var config = indexService.GetDocumentConfiguration<TDocument>();
+            throwIfDocumentConfigurationNotFound(config, typeof(TDocument));
+            var documentType = config.GetDocumentType();
             while (counter < total)
             {
-                var documents = (await GetDocumentBatchAsync(counter, batchSize)).Select(x => x as IDocumentable).ToList();
+                var documents = (await GetDocumentBatchAsync(counter, batchSize)).ToList();
                 indexService.HandleDocuments(documents);
                 notificationService.Processed(documentType, total, counter);
                 counter += documents.Count;

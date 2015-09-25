@@ -25,11 +25,6 @@ namespace ECA.Business.Search
             ParseKey(key);
         }
 
-        public DocumentKey(IDocumentable documentable) : this(documentable.GetDocumentType(), documentable.GetId())
-        {
-            Contract.Requires(documentable != null, "The documentable object must not be null.");
-        }
-
         public DocumentKey(DocumentType documentType, object id)
         {
             Contract.Requires(id != null, "The id must not be null.");

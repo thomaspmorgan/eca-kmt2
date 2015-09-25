@@ -6,9 +6,16 @@ namespace ECA.Business.Search
 {
     public interface IIndexService
     {
-        Task CreateIndexAsync(IDocumentable documentable);
+        //Task CreateIndexAsync(IDocumentable documentable);
 
-        void CreateIndex(IDocumentable documentable);
+        //void CreateIndex(IDocumentable documentable);
+
+        IDocumentConfiguration GetDocumentConfiguration<T>();
+
+        void CreateIndex<T>() where T : class;
+
+        Task CreateIndexAsync<T>() where T : class;
+
 
         Task DeleteIndexAsync(DocumentType documentType);
 
@@ -27,9 +34,9 @@ namespace ECA.Business.Search
 
         DocumentIndexResponse HandleDocuments<T>(List<T> documents) where T : class;
 
-        Task<List<DocumentIndexResponse>> HandleDocumentsAsync(List<IDocumentable> documents);
+        //Task<List<DocumentIndexResponse>> HandleDocumentsAsync(List<IDocumentable> documents);
 
-        List<DocumentIndexResponse> HandleDocuments(List<IDocumentable> documents);
+        //List<DocumentIndexResponse> HandleDocuments(List<IDocumentable> documents);
 
         Task<DocumentSearchResponse> SearchAsync(DocumentType documentType, string search, List<DocumentKey> allowedDocumentKeys);
 
