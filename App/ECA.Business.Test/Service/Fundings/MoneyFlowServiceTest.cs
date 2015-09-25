@@ -31,13 +31,15 @@ namespace ECA.Business.Test.Service.Fundings
         private TestEcaContext context;
         private MoneyFlowService service;
         private Mock<IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity>> validator;
+        private Mock<IMoneyFlowSourceRecipientTypeService> moneyFlowSourceRecipientTypeService;
 
         [TestInitialize]
         public void TestInit()
         {
             context = new TestEcaContext();
             validator = new Mock<IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity>>();
-            service = new MoneyFlowService(context, validator.Object);
+            moneyFlowSourceRecipientTypeService = new Mock<IMoneyFlowSourceRecipientTypeService>();
+            service = new MoneyFlowService(context, moneyFlowSourceRecipientTypeService.Object, validator.Object);
         }
 
         [TestCleanup]
@@ -45,6 +47,109 @@ namespace ECA.Business.Test.Service.Fundings
         {
 
         }
+        #region Get MoneyFlows By Person Id
+        [TestMethod]
+        public async Task TestGetMoneyFlowsByPersonId_CheckProperties()
+        {
+            var outgoing = new MoneyFlowType
+            {
+                MoneyFlowTypeId = MoneyFlowType.Outgoing.Id,
+                MoneyFlowTypeName = MoneyFlowType.Outgoing.Value
+            };
+            var participantType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Participant.Id,
+                TypeName = MoneyFlowSourceRecipientType.Participant.Value
+            };
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
+
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourcePersonId = 3;
+            var recipientPersonId = 4;
+            var sourcePerson = new Person
+            {
+                PersonId = sourcePersonId,
+                FirstName = "source first",
+                Gender = gender,
+                GenderId = gender.GenderId
+            };
+            var recipientPerson = new Person
+            {
+                PersonId = recipientPersonId,
+                FirstName = "recipient first",
+                Gender = gender,
+                GenderId = gender.GenderId
+            };
+            var sourceParticipant = new Participant
+            {
+                ParticipantId = sourceId,
+                PersonId = sourcePersonId,
+                Person = sourcePerson
+            };
+
+            var recipientParticipant = new Participant
+            {
+                ParticipantId = recipientId,
+                PersonId = recipientPersonId,
+                Person = recipientPerson
+            };
+
+            var moneyFlow = new MoneyFlow
+            {
+                SourceParticipantId = sourceId,
+                RecipientParticipantId = recipientId,
+                SourceParticipant = sourceParticipant,
+                RecipientParticipant = recipientParticipant,
+                SourceType = participantType,
+                SourceTypeId = participantType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = participantType,
+                RecipientTypeId = participantType.MoneyFlowSourceRecipientTypeId,
+
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10
+            };
+            context.Genders.Add(gender);
+            context.MoneyFlows.Add(moneyFlow);
+            context.People.Add(sourcePerson);
+            context.People.Add(recipientPerson);
+            context.Participants.Add(sourceParticipant);
+            context.Participants.Add(recipientParticipant);
+            context.MoneyFlowTypes.Add(outgoing);
+            context.MoneyFlowSourceRecipientTypes.Add(participantType);
+            context.MoneyFlowStatuses.Add(actual);
+
+            Action<PagedQueryResults<MoneyFlowDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                Assert.IsNotNull(results.Results.First());
+                Assert.AreEqual(moneyFlow.MoneyFlowId, results.Results.First().Id);
+            };
+
+            var defaultSorter = new ExpressionSorter<MoneyFlowDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<MoneyFlowDTO>(0, 10, defaultSorter);
+            var serviceResults = service.GetMoneyFlowsByPersonId(sourcePersonId, queryOperator);
+            var serviceResultsAsync = await service.GetMoneyFlowsByPersonIdAsync(sourcePersonId, queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+        #endregion
+
         #region Get MoneyFlows By Office Id
         [TestMethod]
         public async Task TestGetMoneyFlowsByOfficeId_CheckProperties()
@@ -59,10 +164,10 @@ namespace ECA.Business.Test.Service.Fundings
                 MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Office.Id,
                 TypeName = MoneyFlowSourceRecipientType.Office.Value
             };
-            var budgeted = new MoneyFlowStatus
+            var actual = new MoneyFlowStatus
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
-                MoneyFlowStatusName = MoneyFlowStatus.Budgeted.Value
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
             };
 
             var sourceId = 1;
@@ -91,8 +196,8 @@ namespace ECA.Business.Test.Service.Fundings
                 RecipientType = officeType,
                 RecipientTypeId = officeType.MoneyFlowSourceRecipientTypeId,
 
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -104,7 +209,7 @@ namespace ECA.Business.Test.Service.Fundings
             context.Organizations.Add(recipientOrg);
             context.MoneyFlowTypes.Add(outgoing);
             context.MoneyFlowSourceRecipientTypes.Add(officeType);
-            context.MoneyFlowStatuses.Add(budgeted);
+            context.MoneyFlowStatuses.Add(actual);
 
             Action<PagedQueryResults<MoneyFlowDTO>> tester = (results) =>
             {
@@ -123,7 +228,6 @@ namespace ECA.Business.Test.Service.Fundings
         }
         #endregion
 
-
         #region Get MoneyFlows By Organization Id
         [TestMethod]
         public async Task TestGetMoneyFlowsByOrganizationId_CheckProperties()
@@ -138,10 +242,10 @@ namespace ECA.Business.Test.Service.Fundings
                 MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Organization.Id,
                 TypeName = MoneyFlowSourceRecipientType.Organization.Value
             };
-            var budgeted = new MoneyFlowStatus
+            var actual = new MoneyFlowStatus
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
-                MoneyFlowStatusName = MoneyFlowStatus.Budgeted.Value
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
             };
 
             var sourceId = 1;
@@ -170,8 +274,8 @@ namespace ECA.Business.Test.Service.Fundings
                 RecipientType = organizationType,
                 RecipientTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
 
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -183,7 +287,7 @@ namespace ECA.Business.Test.Service.Fundings
             context.Organizations.Add(recipientOrg);
             context.MoneyFlowTypes.Add(outgoing);
             context.MoneyFlowSourceRecipientTypes.Add(organizationType);
-            context.MoneyFlowStatuses.Add(budgeted);
+            context.MoneyFlowStatuses.Add(actual);
 
             Action<PagedQueryResults<MoneyFlowDTO>> tester = (results) =>
             {
@@ -215,10 +319,10 @@ namespace ECA.Business.Test.Service.Fundings
                 MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Organization.Id,
                 TypeName = MoneyFlowSourceRecipientType.Organization.Value
             };
-            var budgeted = new MoneyFlowStatus
+            var actual = new MoneyFlowStatus
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
-                MoneyFlowStatusName = MoneyFlowStatus.Budgeted.Value
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
             };
 
             var sourceId = 1;
@@ -256,8 +360,8 @@ namespace ECA.Business.Test.Service.Fundings
                 RecipientType = organizationType,
                 RecipientTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
 
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -269,7 +373,7 @@ namespace ECA.Business.Test.Service.Fundings
             context.Organizations.Add(recipientOrg);
             context.MoneyFlowTypes.Add(outgoing);
             context.MoneyFlowSourceRecipientTypes.Add(organizationType);
-            context.MoneyFlowStatuses.Add(budgeted);
+            context.MoneyFlowStatuses.Add(actual);
 
             var defaultSorter = new ExpressionSorter<MoneyFlowDTO>(x => x.Id, SortDirection.Ascending);
             var queryOperator = new QueryableOperator<MoneyFlowDTO>(0, 10, defaultSorter);
@@ -297,10 +401,10 @@ namespace ECA.Business.Test.Service.Fundings
                 MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Organization.Id,
                 TypeName = MoneyFlowSourceRecipientType.Organization.Value
             };
-            var budgeted = new MoneyFlowStatus
+            var actual = new MoneyFlowStatus
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
-                MoneyFlowStatusName = MoneyFlowStatus.Budgeted.Value
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
             };
 
             var sourceId = 1;
@@ -338,8 +442,8 @@ namespace ECA.Business.Test.Service.Fundings
                 RecipientType = organizationType,
                 RecipientTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
 
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -351,7 +455,7 @@ namespace ECA.Business.Test.Service.Fundings
             context.Organizations.Add(recipientOrg);
             context.MoneyFlowTypes.Add(outgoing);
             context.MoneyFlowSourceRecipientTypes.Add(organizationType);
-            context.MoneyFlowStatuses.Add(budgeted);
+            context.MoneyFlowStatuses.Add(actual);
 
             var defaultSorter = new ExpressionSorter<MoneyFlowDTO>(x => x.Id, SortDirection.Ascending);
             var queryOperator = new QueryableOperator<MoneyFlowDTO>(0, 10, defaultSorter);
@@ -379,10 +483,10 @@ namespace ECA.Business.Test.Service.Fundings
                 MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Organization.Id,
                 TypeName = MoneyFlowSourceRecipientType.Organization.Value
             };
-            var budgeted = new MoneyFlowStatus
+            var actual = new MoneyFlowStatus
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
-                MoneyFlowStatusName = MoneyFlowStatus.Budgeted.Value
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
             };
 
             var sourceId = 1;
@@ -420,8 +524,8 @@ namespace ECA.Business.Test.Service.Fundings
                 RecipientType = organizationType,
                 RecipientTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
 
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -433,7 +537,7 @@ namespace ECA.Business.Test.Service.Fundings
             context.Organizations.Add(recipientOrg);
             context.MoneyFlowTypes.Add(outgoing);
             context.MoneyFlowSourceRecipientTypes.Add(organizationType);
-            context.MoneyFlowStatuses.Add(budgeted);
+            context.MoneyFlowStatuses.Add(actual);
 
             var defaultSorter = new ExpressionSorter<MoneyFlowDTO>(x => x.Id, SortDirection.Ascending);
             var queryOperator = new QueryableOperator<MoneyFlowDTO>(0, 10, defaultSorter);
@@ -463,10 +567,10 @@ namespace ECA.Business.Test.Service.Fundings
                 MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Project.Id,
                 TypeName = MoneyFlowSourceRecipientType.Project.Value
             };
-            var budgeted = new MoneyFlowStatus
+            var actual = new MoneyFlowStatus
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
-                MoneyFlowStatusName = MoneyFlowStatus.Budgeted.Value
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
             };
 
             var sourceId = 1;
@@ -494,8 +598,8 @@ namespace ECA.Business.Test.Service.Fundings
                 RecipientType = projectType,
                 RecipientTypeId = projectType.MoneyFlowSourceRecipientTypeId,
 
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -507,7 +611,7 @@ namespace ECA.Business.Test.Service.Fundings
             context.Projects.Add(recipientProject);
             context.MoneyFlowTypes.Add(outgoing);
             context.MoneyFlowSourceRecipientTypes.Add(projectType);
-            context.MoneyFlowStatuses.Add(budgeted);
+            context.MoneyFlowStatuses.Add(actual);
 
             Action<PagedQueryResults<MoneyFlowDTO>> tester = (results) =>
             {
@@ -540,10 +644,10 @@ namespace ECA.Business.Test.Service.Fundings
                 MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Program.Id,
                 TypeName = MoneyFlowSourceRecipientType.Program.Value
             };
-            var budgeted = new MoneyFlowStatus
+            var actual = new MoneyFlowStatus
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
-                MoneyFlowStatusName = MoneyFlowStatus.Budgeted.Value
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
             };
 
             var sourceId = 1;
@@ -572,8 +676,8 @@ namespace ECA.Business.Test.Service.Fundings
                 RecipientType = programType,
                 RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
 
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -585,7 +689,7 @@ namespace ECA.Business.Test.Service.Fundings
             context.Programs.Add(recipientProgram);
             context.MoneyFlowTypes.Add(outgoing);
             context.MoneyFlowSourceRecipientTypes.Add(programType);
-            context.MoneyFlowStatuses.Add(budgeted);
+            context.MoneyFlowStatuses.Add(actual);
 
             Action<PagedQueryResults<MoneyFlowDTO>> tester = (results) =>
             {
@@ -659,7 +763,8 @@ namespace ECA.Business.Test.Service.Fundings
                     recipientEntityId: recipientProject.ProjectId,
                     recipientEntityTypeId: projectMoneyFlowTypeId
                     );
-
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypes(It.IsAny<int>())).Returns(new List<MoneyFlowSourceRecipientTypeDTO>());
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypesAsync(It.IsAny<int>())).ReturnsAsync(new List<MoneyFlowSourceRecipientTypeDTO>());
                 Action tester = () =>
                 {
                     Assert.AreEqual(1, context.MoneyFlows.Count());
@@ -697,6 +802,8 @@ namespace ECA.Business.Test.Service.Fundings
                 tester();
 
                 validator.Verify(x => x.ValidateCreate(It.IsAny<MoneyFlowServiceCreateValidationEntity>()), Times.Exactly(2));
+                moneyFlowSourceRecipientTypeService.Verify(x => x.GetRecipientMoneyFlowTypes(It.IsAny<int>()), Times.Once());
+                moneyFlowSourceRecipientTypeService.Verify(x => x.GetRecipientMoneyFlowTypesAsync(It.IsAny<int>()), Times.Once());
             }
         }
 
@@ -723,6 +830,8 @@ namespace ECA.Business.Test.Service.Fundings
                 {
                     ProjectId = 2
                 };
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypes(It.IsAny<int>())).Returns(new List<MoneyFlowSourceRecipientTypeDTO>());
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypesAsync(It.IsAny<int>())).ReturnsAsync(new List<MoneyFlowSourceRecipientTypeDTO>());
                 context.SetupActions.Add(() =>
                 {
                     context.Projects.Add(recipientProject);
@@ -784,6 +893,8 @@ namespace ECA.Business.Test.Service.Fundings
                 {
                     ProjectId = 1
                 };
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypes(It.IsAny<int>())).Returns(new List<MoneyFlowSourceRecipientTypeDTO>());
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypesAsync(It.IsAny<int>())).ReturnsAsync(new List<MoneyFlowSourceRecipientTypeDTO>());
                 context.SetupActions.Add(() =>
                 {
                     context.Projects.Add(sourceProject);
@@ -819,6 +930,150 @@ namespace ECA.Business.Test.Service.Fundings
                     .WithMessage(String.Format("The entity of type [{0}] with id [{1}] was not found.", "Project", -1));
                 f.ShouldThrow<ModelNotFoundException>()
                     .WithMessage(String.Format("The entity of type [{0}] with id [{1}] was not found.", "Project", -1));
+            }
+        }
+
+        [TestMethod]
+        public async Task TestCreate_SourceProject_RecipientParticipant()
+        {
+            using (ShimsContext.Create())
+            {
+                var sourceProjectId = 1;
+                var recipientPersonId = 2;
+                var recipientParticipantId = 3;
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.SetType = (c, type) =>
+                {
+                    var dbSet = new System.Data.Entity.Fakes.StubDbSet();
+                    dbSet.FindObjectArray = (keys) =>
+                    {
+                        var id = (int)keys[0];
+                        if(id == sourceProjectId)
+                        {
+                            return (Object)context.Projects.Find(keys);
+                        }
+                        if(id == recipientPersonId)
+                        {
+                            return (Object)context.People.Find(keys);
+                        }
+                        if(id == recipientParticipantId)
+                        {
+                            return (Object)context.Participants.Find(keys);
+                        }
+                        throw new Exception();
+                        
+                    };
+                    dbSet.FindAsyncObjectArray = (keys) =>
+                    {
+                        var id = (int)keys[0];
+                        if (id == sourceProjectId)
+                        {
+                            return Task.FromResult<object>((Object)context.Projects.Find(keys));
+                        }
+                        if (id == recipientPersonId)
+                        {
+                            return Task.FromResult<object>((Object)context.People.Find(keys));
+                        }
+                        if (id == recipientParticipantId)
+                        {
+                            return Task.FromResult<object>((Object)context.Participants.Find(keys));
+                        }
+                        throw new Exception();
+                    };
+                    return dbSet;
+                };
+                var sourceProject = new Project
+                {
+                    ProjectId = sourceProjectId,
+                };
+                var personParticipantType = new ParticipantType
+                {
+                    ParticipantTypeId = ParticipantType.Individual.Id,
+
+                };
+                var person = new Person
+                {
+                    PersonId = recipientPersonId,
+                    FirstName  = "First Name",
+                };
+                var recipientParticipant = new Participant
+                {
+                    ParticipantId = recipientParticipantId,
+                    ProjectId = sourceProject.ProjectId,
+                    Person = person,
+                    PersonId = person.PersonId,
+                    ParticipantType = personParticipantType,
+                    ParticipantTypeId = personParticipantType.ParticipantTypeId
+                };
+                context.SetupActions.Add(() =>
+                {
+                    context.Projects.Add(sourceProject);
+                    context.Participants.Add(recipientParticipant);
+                    context.People.Add(person);
+                    context.ParticipantTypes.Add(personParticipantType);
+                });
+                var userId = 1;
+                var creator = new User(userId);
+                var description = "description";
+                decimal value = 1.90m;
+                int moneyFlowStatusId = MoneyFlowStatus.Appropriated.Id;
+                var now = DateTimeOffset.UtcNow;
+                var fiscalYear = 2015;
+                var projectMoneyFlowTypeId = MoneyFlowSourceRecipientType.Project.Id;
+                var participantMoneyFlowTypeId = MoneyFlowSourceRecipientType.Participant.Id;
+
+                var additionalMoneyFlow = new AdditionalMoneyFlow(
+                    createdBy: creator,
+                    description: description,
+                    value: value,
+                    moneyFlowStatusId: moneyFlowStatusId,
+                    transactionDate: now,
+                    fiscalYear: fiscalYear,
+                    sourceEntityId: sourceProject.ProjectId,
+                    sourceEntityTypeId: projectMoneyFlowTypeId,
+                    recipientEntityId: recipientParticipant.ParticipantId,
+                    recipientEntityTypeId: participantMoneyFlowTypeId
+                    );
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypes(It.IsAny<int>())).Returns(new List<MoneyFlowSourceRecipientTypeDTO>());
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypesAsync(It.IsAny<int>())).ReturnsAsync(new List<MoneyFlowSourceRecipientTypeDTO>());
+                Action tester = () =>
+                {
+                    Assert.AreEqual(1, context.MoneyFlows.Count());
+                    var moneyFlow = context.MoneyFlows.First();
+                    Assert.AreEqual(description, moneyFlow.Description);
+                    Assert.AreEqual(value, moneyFlow.Value);
+                    Assert.AreEqual(moneyFlowStatusId, moneyFlow.MoneyFlowStatusId);
+                    Assert.AreEqual(now, moneyFlow.TransactionDate);
+                    Assert.AreEqual(fiscalYear, moneyFlow.FiscalYear);
+                    Assert.AreEqual(sourceProject.ProjectId, moneyFlow.SourceProjectId);
+                    Assert.AreEqual(recipientParticipant.ParticipantId, moneyFlow.RecipientParticipantId);
+                    Assert.AreEqual(userId, moneyFlow.History.CreatedBy);
+                    Assert.AreEqual(userId, moneyFlow.History.RevisedBy);
+                    DateTimeOffset.UtcNow.Should().BeCloseTo(moneyFlow.History.CreatedOn, 2000);
+                    DateTimeOffset.UtcNow.Should().BeCloseTo(moneyFlow.History.RevisedOn, 2000);
+
+                    Assert.IsFalse(moneyFlow.SourceItineraryStopId.HasValue);
+                    Assert.IsFalse(moneyFlow.SourceOrganizationId.HasValue);
+                    Assert.IsFalse(moneyFlow.SourceParticipantId.HasValue);
+                    Assert.IsFalse(moneyFlow.SourceProgramId.HasValue);
+                    Assert.IsFalse(moneyFlow.RecipientAccommodationId.HasValue);
+                    Assert.IsFalse(moneyFlow.RecipientItineraryStopId.HasValue);
+                    Assert.IsFalse(moneyFlow.RecipientOrganizationId.HasValue);
+                    Assert.IsFalse(moneyFlow.RecipientProjectId.HasValue);
+                    Assert.IsFalse(moneyFlow.RecipientProgramId.HasValue);
+                    Assert.IsFalse(moneyFlow.RecipientTransportationId.HasValue);
+                };
+
+                context.Revert();
+                service.Create(additionalMoneyFlow);
+                tester();
+
+                context.Revert();
+                await service.CreateAsync(additionalMoneyFlow);
+                tester();
+
+                validator.Verify(x => x.ValidateCreate(It.IsAny<MoneyFlowServiceCreateValidationEntity>()), Times.Exactly(2));
+                moneyFlowSourceRecipientTypeService.Verify(x => x.GetRecipientMoneyFlowTypes(It.IsAny<int>()), Times.Once());
+                moneyFlowSourceRecipientTypeService.Verify(x => x.GetRecipientMoneyFlowTypesAsync(It.IsAny<int>()), Times.Once());
             }
         }
         #endregion

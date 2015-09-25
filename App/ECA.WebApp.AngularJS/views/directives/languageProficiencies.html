@@ -65,7 +65,7 @@
                                 <div class="form-group row">
                                     <label class="title-label col-md-4" for="type">Native Language?<span class="asterisk"> *</span></label>
                                     <div class="col-md-8">
-                                        <input class="form-control" id="isNativeLanguage" type="checkbox" ng-model="languageProficiency.isNativeLanguage" />
+                                        <input class="form-control" id="isNativeLanguage" type="checkbox" ng-model="languageProficiency.isNativeLanguage" ng-change="view.onIsNativeLanguageChange()" />
                                       </div>
                                     <div ng-show="form.languageProficiencyForm.isNativeLanguage.$dirty || form.languageProficiencyForm.isNativeLanguage.$error.required">
                                         <div class="error" ng-show="form.languageProficiencyForm.isNativeLanguage.$error.required">Please select native languange or not.</div>
@@ -92,7 +92,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="title-label col-md-4" for="type">Comprehension<span class="asterisk"> *</span></label>
+                                    <label class="title-label col-md-4" for="comprehension">Comprehension<span class="asterisk"> *</span></label>
                                     <div class="col-md-8">
                                         <select class="form-control" id="comprehension" ng-model="languageProficiency.comprehensionProficiency" placeholder="Select a conprehension proficiency..."
                                                 ng-options="option.id as option.name for option in view.proficiencyOptions"></select>

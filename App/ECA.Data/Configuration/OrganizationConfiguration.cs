@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity.ModelConfiguration;
 
 namespace ECA.Data.Configuration
 {
@@ -35,6 +30,15 @@ namespace ECA.Data.Configuration
             HasMany<Justification>(p => p.Justifications).WithRequired(t => t.Office).HasForeignKey(p => p.OfficeId);
             HasMany<OfficeSetting>(p => p.OfficeSettings).WithRequired(t => t.Office).HasForeignKey(p => p.OfficeId);
             HasOptional(x => x.ParentOrganization).WithMany().HasForeignKey(x => x.ParentOrganizationId);
+
+            HasMany<OrganizationRole>(p => p.OrganizationRoles)
+                .WithMany(t => t.Organizations)
+                .Map(p =>
+                {
+                    p.MapLeftKey("OrganizationId");
+                    p.MapRightKey("OrganizationRoleId");
+                    p.ToTable("OrganizationOrganizationRole");
+                });
         }
     }
 }

@@ -45,6 +45,7 @@ angular.module('staticApp')
                 .then(onSaveLanguageProficiencySuccess)
                 .then(function () {
                     updateLanguageProficiencyFormDivId(tempId);
+                    updateLanguageProficiencies(tempId, $scope.languageProficiency);
                 })
                 .catch(onSaveLanguageProficiencyError);
           }
@@ -53,6 +54,11 @@ angular.module('staticApp')
                   .then(onSaveLanguageProficiencySuccess)
                   .catch(onSaveLanguageProficiencyError);
           }
+      };
+      
+      function updateLanguageProficiencies(tempId, languageProficiency) {
+          var index = $scope.model.languageProficiencies.map(function (e) { return e.id }).indexOf(tempId);
+          $scope.model.languageProficiencies[index] = languageProficiency;
       };
 
       $scope.view.cancelLanguageProficiencyChanges = function (form) {
@@ -137,10 +143,14 @@ angular.module('staticApp')
 
       function isNewLanguageProficiency(languageProficiency) {
           if (languageProficiency.isNew) {
-              return languageProficiency.isNew == true;
+              return languageProficiency.isNew = true;
           }
           else {
               return false;
           }
+      }
+
+      $scope.view.onIsNativeLanguageChange = function () {
+          $scope.$emit(ConstantsService.primaryLanguageProficiencyChangedEventName, $scope.languageProficiency);
       }
   });

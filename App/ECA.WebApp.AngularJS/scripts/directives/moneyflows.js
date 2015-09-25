@@ -13,7 +13,8 @@ angular.module('staticApp')
           scope: {
               stateParamName: '=stateparamname',
               sourceEntityTypeId: '=sourceentitytypeid',
-              resourceTypeId: '=resourcetypeid'
+              resourceTypeId: '=resourcetypeid',
+              entityName: '=entityname'
           }
       };
       return directive;

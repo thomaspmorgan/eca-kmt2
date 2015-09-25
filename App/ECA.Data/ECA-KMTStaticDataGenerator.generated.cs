@@ -291,9 +291,9 @@ namespace ECA.Data
 		/// </summary>
 		public static StaticLookup Female { get { return new StaticLookup("Female", 2); } }
 		/// <summary>
-		/// Returns the Other lookup with id 3.
+		/// Returns the Unknown lookup with id 3.
 		/// </summary>
-		public static StaticLookup Other { get { return new StaticLookup("Other", 3); } }
+		public static StaticLookup Unknown { get { return new StaticLookup("Unknown", 3); } }
 		/// <summary>
 		/// Returns the Not Specified lookup with id 4.
 		/// </summary>
@@ -307,7 +307,7 @@ namespace ECA.Data
 		{
 			if (1 == id) return Gender.Male;
 			if (2 == id) return Gender.Female;
-			if (3 == id) return Gender.Other;
+			if (3 == id) return Gender.Unknown;
 			if (4 == id) return Gender.NotSpecified;
 			return null;
 		}
@@ -320,7 +320,7 @@ namespace ECA.Data
 		{
 			if ("Male".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Gender.Male;
 			if ("Female".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Gender.Female;
-			if ("Other".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Gender.Other;
+			if ("Unknown".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Gender.Unknown;
 			if ("Not Specified".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Gender.NotSpecified;
 			return null;
 		}
@@ -660,9 +660,13 @@ namespace ECA.Data
 	public partial class MoneyFlowStatus : ECA.Core.Generation.IStaticLookup
 	{
 		/// <summary>
-		/// Returns the Budgeted lookup with id 1.
+		/// Returns the Estimated lookup with id 1.
 		/// </summary>
-		public static StaticLookup Budgeted { get { return new StaticLookup("Budgeted", 1); } }
+		public static StaticLookup Estimated { get { return new StaticLookup("Estimated", 1); } }
+		/// <summary>
+		/// Returns the Actual lookup with id 2.
+		/// </summary>
+		public static StaticLookup Actual { get { return new StaticLookup("Actual", 2); } }
 		/// <summary>
 		/// Returns the Appropriated lookup with id 3.
 		/// </summary>
@@ -674,7 +678,8 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(int id)
 		{
-			if (1 == id) return MoneyFlowStatus.Budgeted;
+			if (1 == id) return MoneyFlowStatus.Estimated;
+			if (2 == id) return MoneyFlowStatus.Actual;
 			if (3 == id) return MoneyFlowStatus.Appropriated;
 			return null;
 		}
@@ -685,7 +690,8 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
-			if ("Budgeted".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowStatus.Budgeted;
+			if ("Estimated".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowStatus.Estimated;
+			if ("Actual".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowStatus.Actual;
 			if ("Appropriated".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowStatus.Appropriated;
 			return null;
 		}
@@ -803,10 +809,6 @@ namespace ECA.Data
 		/// Returns the U.S. Non-Profit Organization (501(c)(3)) lookup with id 10.
 		/// </summary>
 		public static StaticLookup USNonProfitOrganization501C3 { get { return new StaticLookup("U.S. Non-Profit Organization (501(c)(3))", 10); } }
-		/// <summary>
-		/// Returns the Individual lookup with id 11.
-		/// </summary>
-		public static StaticLookup Individual { get { return new StaticLookup("Individual", 11); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -824,7 +826,6 @@ namespace ECA.Data
 			if (8 == id) return OrganizationType.PublicInternationalOrganizationPio;
 			if (9 == id) return OrganizationType.USEducationalInstitution;
 			if (10 == id) return OrganizationType.USNonProfitOrganization501C3;
-			if (11 == id) return OrganizationType.Individual;
 			return null;
 		}
 		///<summary>
@@ -844,7 +845,6 @@ namespace ECA.Data
 			if ("Public International Organization (PIO)".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.PublicInternationalOrganizationPio;
 			if ("U.S. Educational Institution".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.USEducationalInstitution;
 			if ("U.S. Non-Profit Organization (501(c)(3))".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.USNonProfitOrganization501C3;
-			if ("Individual".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.Individual;
 			return null;
 		}
 

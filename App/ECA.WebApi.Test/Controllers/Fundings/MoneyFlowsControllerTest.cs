@@ -134,13 +134,32 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         }
         #endregion
 
+        #region Get moneyflows by person
+        [TestMethod]
+        public async Task TestGetMoneyFlowsByPersonAsync()
+        {
+            moneyFlowService.Setup(x => x.GetMoneyFlowsByPersonIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<MoneyFlowDTO>>()))
+                .ReturnsAsync(new PagedQueryResults<MoneyFlowDTO>(1, new List<MoneyFlowDTO>()));
+            var response = await controller.GetMoneyFlowsByPersonIdAsync(1, new PagingQueryBindingModel<MoneyFlowDTO>());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<MoneyFlowDTO>>));
+        }
+
+        [TestMethod]
+        public async Task TestGetMoneyFlowsByPersonAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetMoneyFlowsByPersonIdAsync(1, new PagingQueryBindingModel<MoneyFlowDTO>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+        #endregion
+
         #region Create
         [TestMethod]
         public async Task TestPostCreateOfficeMoneyFlowAsync()
         {
             var model = new AdditionalOfficeMoneyFlowBindingModel
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
                 PeerEntityTypeId = MoneyFlowSourceRecipientType.Organization.Id,
             };
             var response = await controller.PostCreateOfficeMoneyFlowAsync(model);
@@ -157,7 +176,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             controller.ModelState.AddModelError("key", "value");
             var model = new AdditionalOfficeMoneyFlowBindingModel
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
                 PeerEntityTypeId = MoneyFlowSourceRecipientType.Organization.Id,
             };
             var response = await controller.PostCreateOfficeMoneyFlowAsync(model);
@@ -169,7 +188,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         {
             var model = new AdditionalOrganizationMoneyFlowBindingModel
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
                 PeerEntityTypeId = MoneyFlowSourceRecipientType.Organization.Id,
             };
             var response = await controller.PostCreateOrganizationMoneyFlowAsync(model);
@@ -186,7 +205,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             controller.ModelState.AddModelError("key", "value");
             var model = new AdditionalOrganizationMoneyFlowBindingModel
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
                 PeerEntityTypeId = MoneyFlowSourceRecipientType.Organization.Id,
             };
             var response = await controller.PostCreateOrganizationMoneyFlowAsync(model);
@@ -199,7 +218,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         {
             var model = new AdditionalProjectMoneyFlowBindingModel
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
                 PeerEntityTypeId = MoneyFlowSourceRecipientType.Project.Id,
             };
             var response = await controller.PostCreateProjectMoneyFlowAsync(model);
@@ -216,7 +235,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             controller.ModelState.AddModelError("key", "value");
             var model = new AdditionalProjectMoneyFlowBindingModel
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
                 PeerEntityTypeId = MoneyFlowSourceRecipientType.Project.Id,
             };
             var response = await controller.PostCreateProjectMoneyFlowAsync(model);
@@ -228,7 +247,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         {
             var model = new AdditionalProgramMoneyFlowBindingModel
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
                 PeerEntityTypeId = MoneyFlowSourceRecipientType.Project.Id,
             };
             var response = await controller.PostCreateProgramMoneyFlowAsync(model);
@@ -245,7 +264,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             controller.ModelState.AddModelError("key", "value");
             var model = new AdditionalProgramMoneyFlowBindingModel
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
                 PeerEntityTypeId = MoneyFlowSourceRecipientType.Project.Id,
             };
             var response = await controller.PostCreateProgramMoneyFlowAsync(model);
@@ -261,7 +280,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             var entityId = 1;
             var model = new UpdatedMoneyFlowBindingModel
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
             };
             SetExpectedEditedMoneyFlow(model.Id, entityId, MoneyFlowSourceRecipientType.Office.Id);
             var response = await controller.PutUpdateOfficeMoneyFlowAsync(model, entityId);
@@ -279,7 +298,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             var entityId = 1;
             var model = new UpdatedMoneyFlowBindingModel
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
             };
             var response = await controller.PutUpdateOfficeMoneyFlowAsync(model, entityId);
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
@@ -291,7 +310,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             var entityId = 100;
             var model = new UpdatedMoneyFlowBindingModel
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
             };
             SetExpectedEditedMoneyFlow(model.Id, entityId, MoneyFlowSourceRecipientType.Organization.Id);
             var response = await controller.PutUpdateOrganizationMoneyFlowAsync(model, entityId);
@@ -309,7 +328,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             var entityId = 100;
             var model = new UpdatedMoneyFlowBindingModel
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
             };
             var response = await controller.PutUpdateOrganizationMoneyFlowAsync(model, entityId);
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
@@ -322,7 +341,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             var entityId = 100;
             var model = new UpdatedMoneyFlowBindingModel
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
             };
             SetExpectedEditedMoneyFlow(model.Id, entityId, MoneyFlowSourceRecipientType.Project.Id);
             var response = await controller.PutUpdateProjectMoneyFlowAsync(model, entityId);
@@ -340,7 +359,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             var entityId = 100;
             var model = new UpdatedMoneyFlowBindingModel
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
             };
             var response = await controller.PutUpdateProjectMoneyFlowAsync(model, entityId);
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
@@ -352,7 +371,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             var entityId = 100;
             var model = new UpdatedMoneyFlowBindingModel
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
             };
             SetExpectedEditedMoneyFlow(model.Id, entityId, MoneyFlowSourceRecipientType.Program.Id);
             var response = await controller.PutUpdateProgramMoneyFlowAsync(model, entityId);
@@ -370,7 +389,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             var entityId = 100;
             var model = new UpdatedMoneyFlowBindingModel
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
             };
             var response = await controller.PutUpdateProgramMoneyFlowAsync(model, entityId);
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));

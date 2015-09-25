@@ -11,6 +11,7 @@ angular.module('staticApp')
   .controller('MoneyFlowsCtrl', function (
         $scope,
         $stateParams,
+        $state,
         $q,
         $log,
         $modal,
@@ -24,7 +25,11 @@ angular.module('staticApp')
         TableService,
         StateService
         ) {
-
+      
+      console.assert($scope.stateParamName !== undefined, 'The stateParamName must be defined in the directive, i.e. the state parameter name that has the id of the entity showing money flows.');
+      console.assert($scope.sourceEntityTypeId !== undefined, 'The sourceEntityTypeId i.e. the money flow source recipient type id of the object that is current showing funding must be set in the directive.');
+      console.assert($scope.resourceTypeId !== undefined, 'The resourceTypeId i.e. the cam resource type id must be set in the directive..');
+      
       $scope.view = {};
       $scope.view.params = $stateParams;
       $scope.view.moneyFlows = [];
@@ -65,7 +70,8 @@ angular.module('staticApp')
       $scope.view.onAddFundingItemClick = function () {
           var newMoneyFlow = {
               entityId: $scope.view.entityId,
-              entityTypeId: $scope.sourceEntityTypeId
+              entityTypeId: $scope.sourceEntityTypeId,
+              entityName: $scope.entityName
           };
           showEditMoneyFlow(newMoneyFlow);
       };
@@ -170,7 +176,6 @@ angular.module('staticApp')
       function getCopiedMoneyFlow(moneyFlow) {
           var copiedMoneyFlow = angular.copy(moneyFlow);
           delete copiedMoneyFlow.id;
-
           copiedMoneyFlow.description = 'COPY:  ' + copiedMoneyFlow.description;
           copiedMoneyFlow.isExpense = moneyFlow.sourceRecipientEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.expense.id;
           copiedMoneyFlow.isOutoing = copiedMoneyFlow.amount < 0;
@@ -183,6 +188,7 @@ angular.module('staticApp')
           copiedMoneyFlow.peerEntity = {
               primaryText: moneyFlow.sourceRecipientName
           };
+          copiedMoneyFlow.entityName = $scope.entityName;
           return copiedMoneyFlow;
       }
 
@@ -259,6 +265,26 @@ angular.module('staticApp')
           });
       }
 
+      function getMoneyFlowHref(moneyFlow) {
+          var dfd = $q.defer();
+          
+          if (moneyFlow.sourceRecipientEntityTypeId !== ConstantsService.moneyFlowSourceRecipientType.participant.id) {
+              dfd.resolve(StateService.getStateByMoneyFlowSourceRecipientType(moneyFlow.sourceRecipientEntityId, moneyFlow.sourceRecipientEntityTypeId));
+          }
+          else{
+              StateService.getStateByMoneyFlowSourceRecipientType(moneyFlow.sourceRecipientEntityId, moneyFlow.sourceRecipientEntityTypeId)
+              .then(function (result) {
+                  dfd.resolve(result);
+              })
+              .catch(function (response) {
+                  var message = "Unable to get participant state.";
+                  NotificationService.showErrorMessage(message);
+                  $log.error(message);
+              });
+          }
+          return dfd.promise;
+      }
+
       function loadMoneyFlows(params, tableState) {
           $scope.view.isLoadingMoneyFlows = true;
           var entityId = $scope.view.entityId;
@@ -275,14 +301,19 @@ angular.module('staticApp')
                   moneyFlow.isDeleting = false;
                   moneyFlow.editableAmount = moneyFlow.amount < 0 ? -moneyFlow.amount : moneyFlow.amount;
                   moneyFlow.isTransactionDatePickerOpen = false;
+                  moneyFlow.loadingEntityState = false;
+                  if (StateService.isStateAvailableByMoneyFlowSourceRecipientTypeId(moneyFlow.sourceRecipientEntityTypeId)) {
+                      moneyFlow.loadingEntityState = true;
+                      getMoneyFlowHref(moneyFlow)
+                      .then(function (href) {
+                          moneyFlow.loadingEntityState = false;
+                          moneyFlow.href = href;
+                      });
+                  }
                   var transactionDate = new Date(moneyFlow.transactionDate);
                   if (!isNaN(transactionDate.getTime())) {
                       moneyFlow.transactionDate = transactionDate;
                   }
-                  if (StateService.isStateAvailableByMoneyFlowSourceRecipientTypeId(moneyFlow.sourceRecipientEntityTypeId)) {
-                      moneyFlow.href = StateService.getStateByMoneyFlowSourceRecipientType(moneyFlow.sourceRecipientEntityId, moneyFlow.sourceRecipientEntityTypeId)
-                  }
-
                   $scope.$watch(function () {
                       return moneyFlow.editableAmount;
                   },
@@ -331,6 +362,9 @@ angular.module('staticApp')
           else if (moneyFlowSourceRecipientTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id) {
               return MoneyFlowService.getMoneyFlowsByOrganization;
           }
+          else if (moneyFlowSourceRecipientTypeId === ConstantsService.moneyFlowSourceRecipientType.participant.id) {
+              return MoneyFlowService.getMoneyFlowsByPersonId;
+          }
           else {
               throw Error('A mapping to a money flow service function for the money flow source recipient type id [' + moneyFlowSourceRecipientTypeId + '] does not exist.');
           }
@@ -360,7 +394,13 @@ angular.module('staticApp')
           else {
               $log.info('Moneyflow object is not a resource type used in permissions, therefore, edit permission is granted.');
               var dfd = $q.defer();
-              hasEditPermissionCallback();
+              if ($state.current.name === StateService.stateNames.moneyflow.person) {
+                  notAuthorizedCallback();
+              }
+              else {
+                  hasEditPermissionCallback();
+              }
+
               dfd.resolve();
               return dfd.promise;
           }

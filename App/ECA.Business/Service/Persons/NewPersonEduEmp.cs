@@ -1,31 +1,25 @@
 ﻿using ECA.Data;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Diagnostics.Contracts;
-using ECA.Business.Queries.Models.Admin;
 
 namespace ECA.Business.Service.Persons
 {
     public class NewPersonEduEmp
     {
-        public NewPersonEduEmp(User user, string title, string role, DateTimeOffset startDate, DateTimeOffset? endDate, Organization organization, int personId)
+        public NewPersonEduEmp(User user, string title, string role, DateTimeOffset startDate, DateTimeOffset? endDate, int? organizationId, int? personOfEducationPersonId, int? personOfProfessionPersonId, int personId)
         {
-            this.PersonId = personId;
-            this.Title = title;
-            this.Role = role;
-            this.StartDate = startDate;
-            this.EndDate = endDate;
-            this.Organization = organization;
-            this.Create = new Create(user);
+            PersonId = personId;
+            Title = title;
+            Role = role;
+            StartDate = startDate;
+            EndDate = endDate;
+            OrganizationId = organizationId;
+            PersonOfEducation_PersonId = personOfEducationPersonId;
+            PersonOfProfession_PersonId = personOfProfessionPersonId;
+            Create = new Create(user);
         }
 
-        /// <summary>
-        /// Gets/sets the person id.
-        /// </summary>
-        public int PersonId { get; private set; }
+        public int PersonId { get; set; }
 
         public string Title { get; private set; }
 
@@ -35,47 +29,39 @@ namespace ECA.Business.Service.Persons
 
         public DateTimeOffset? EndDate { get; private set; }
 
-        public Organization Organization { get; private set; }
+        public int? OrganizationId { get; private set; }
 
+        public int? PersonOfEducation_PersonId { get; private set; }
 
+        public int? PersonOfProfession_PersonId { get; private set; }
+        
         public Create Create { get; private set; }
 
-        public ProfessionEducation AddPersonEducation(Person person)
+        public ProfessionEducation AddProfessionEducation(Person person)
         {
-            Contract.Requires(person != null, "The education entity must not be null.");
+            Contract.Requires(person != null, "The profession/education entity must not be null.");
             var eduemp = new ProfessionEducation
             {
                 Title = this.Title,
                 Role = this.Role,
                 DateFrom = this.StartDate,
                 DateTo = this.EndDate,
-                Organization = this.Organization,
-                OrganizationId = this.Organization.OrganizationId,
-                PersonOfEducation = person                
+                OrganizationId = this.OrganizationId,
+                PersonOfEducation_PersonId = this.PersonOfEducation_PersonId,
+                PersonOfProfession_PersonId = this.PersonOfProfession_PersonId
             };
             this.Create.SetHistory(eduemp);
+            if (this.PersonOfEducation_PersonId != null)
+            {
             person.EducationalHistory.Add(eduemp);
-            return eduemp;
         }
-
-        public ProfessionEducation AddPersonProfession(Person person)
+            else if (this.PersonOfProfession_PersonId != null)
         {
-            Contract.Requires(person != null, "The profession entity must not be null.");
-            var eduemp = new ProfessionEducation
-            {
-                Title = this.Title,
-                Role = this.Role,
-                DateFrom = this.StartDate,
-                DateTo = this.EndDate,
-                Organization = this.Organization,
-                OrganizationId = this.Organization.OrganizationId,
-                PersonOfProfession = person
-            };
-            this.Create.SetHistory(eduemp);
             person.ProfessionalHistory.Add(eduemp);
+            }
+
             return eduemp;
         }
-
 
     }
 }

@@ -17,6 +17,7 @@ namespace ECA.Business.Service.Admin
         /// <param name="user">The user</param>
         /// <param name="website">The website of the organization.</param>
         /// <param name="organizationTypeId">The organization type by id.</param>
+        /// <param name="organizationRoleIds">The ids of the organization roles</param>
         /// <param name="contactIds">The ids of the organization contacts.</param>
         /// <param name="parentOrganizationId">The parent organization by id.</param>
         /// <param name="name">The name of the organization.</param>
@@ -27,6 +28,7 @@ namespace ECA.Business.Service.Admin
             int organizationId,
             string website, 
             int organizationTypeId, 
+            IEnumerable<int> organizationRoleIds,
             IEnumerable<int> contactIds, 
             int? parentOrganizationId,
             string name,
@@ -40,6 +42,7 @@ namespace ECA.Business.Service.Admin
             this.Update = new Update(user);
             this.Website = website;
             this.OrganizationTypeId = organizationTypeId;
+            this.OrganizationRoleIds = organizationRoleIds ?? new List<int>();
             this.ContactIds = contactIds ?? new List<int>();
             this.ParentOrganizationId = parentOrganizationId;
             this.Name = name;
@@ -71,6 +74,11 @@ namespace ECA.Business.Service.Admin
         /// Gets the contact ids.
         /// </summary>
         public IEnumerable<int> ContactIds { get; private set; }
+
+        /// <summary>
+        /// Gets the organization role ids
+        /// </summary>
+        public IEnumerable<int> OrganizationRoleIds { get; private set; }
 
         /// <summary>
         /// Gets the parent organization id.

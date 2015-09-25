@@ -19,6 +19,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NLog;
 using ECA.Business.Service.Admin;
+using ECA.Business.Service.Lookup;
 
 namespace ECA.Business.Service.Programs
 {
@@ -131,8 +132,8 @@ namespace ECA.Business.Service.Programs
         public ProgramDTO GetProgramById(int programId)
         {
             var dto = ProgramQueries.CreateGetPublishedProgramByIdQuery(this.Context, programId).FirstOrDefault();
-            this.logger.Trace("Retrieved program by id [{0}].", programId);
-            return dto;
+            var parentPrograms = GetParentPrograms(programId);
+            return DoGetProgramById(programId, dto, parentPrograms);
         }
 
         /// <summary>
@@ -143,6 +144,21 @@ namespace ECA.Business.Service.Programs
         public async Task<ProgramDTO> GetProgramByIdAsync(int programId)
         {
             var dto = await ProgramQueries.CreateGetPublishedProgramByIdQuery(this.Context, programId).FirstOrDefaultAsync();
+            var parentPrograms = await GetParentProgramsAsync(programId);
+            return DoGetProgramById(programId, dto, parentPrograms);
+        }       
+
+        private ProgramDTO DoGetProgramById(int programId, ProgramDTO dto, List<OrganizationProgramDTO> parentPrograms)
+        {
+            if(dto != null)
+            {
+                dto.AllParentPrograms = parentPrograms.Select(x =>
+                new SimpleLookupDTO
+                {
+                    Id = x.ProgramId,
+                    Value = x.Name
+                }).ToList();
+            }
             this.logger.Trace("Retrieved program by id [{0}].", programId);
             return dto;
         }
@@ -350,19 +366,16 @@ namespace ECA.Business.Service.Programs
         {
             Contract.Requires(draftProgram != null, "The draft program must not be null.");
             validator.ValidateCreate(validationEntity);
-            var owner = GetOrganizationById(draftProgram.OwnerOrganizationId);
             var program = new Program
             {
                 Description = draftProgram.Description,
                 EndDate = draftProgram.EndDate,
                 Name = draftProgram.Name,
-
-                ParentProgram = draftProgram.ParentProgramId.HasValue ? GetProgramEntityById(draftProgram.ParentProgramId.Value) : null,
+                ParentProgramId = draftProgram.ParentProgramId,
                 ProgramType = null,
                 ProgramStatusId = draftProgram.ProgramStatusId,
                 StartDate = draftProgram.StartDate,
-                OwnerId = owner.OrganizationId,
-                Owner = owner
+                OwnerId = draftProgram.OwnerOrganizationId
             };
             SetGoals(draftProgram.GoalIds, program);
             SetPointOfContacts(draftProgram.ContactIds, program);
@@ -370,7 +383,7 @@ namespace ECA.Business.Service.Programs
             SetRegions(draftProgram.RegionIds, program);
             SetCategories(draftProgram.FocusCategoryIds, program);
             SetObjectives(draftProgram.JustificationObjectiveIds, program);
-            //SetWebsites(draftProgram.Websites, program);
+            SetWebsitesToCreate(draftProgram.Websites, program, draftProgram);
 
             Debug.Assert(draftProgram.Audit != null, "The audit must not be null.");
             draftProgram.Audit.SetHistory(program);
@@ -378,14 +391,17 @@ namespace ECA.Business.Service.Programs
             return program;
         }
 
-        private void SetWebsites(List<string> websiteList, Program program)
+        private void SetWebsitesToCreate(List<WebsiteDTO> websiteList, Program program, DraftProgram draftProgram)
         {
-            var websites = websiteList.Select(x => new Website
+            var distinctWebsites = websiteList.Select(x => x.Value).Distinct().ToList();
+            var websites = new List<Website>();
+            foreach(string websiteValue in distinctWebsites)
             {
-                WebsiteValue = x
-            });
-
-            program.Websites = websites.ToList();
+                var website = new Website { WebsiteValue = websiteValue };
+                draftProgram.Audit.SetHistory(website);
+                websites.Add(website);
+            }
+            program.Websites = websites;
         }
 
         #endregion
@@ -502,14 +518,11 @@ namespace ECA.Business.Service.Programs
         {
             Contract.Requires(updatedProgram != null, "The updated program must not be null.");
             validator.ValidateUpdate(validationEntity);
-            var owner = GetOrganizationById(updatedProgram.OwnerOrganizationId);
             programToUpdate.Description = updatedProgram.Description;
             programToUpdate.EndDate = updatedProgram.EndDate;
             programToUpdate.Name = updatedProgram.Name;
-            programToUpdate.Owner = owner;
-            programToUpdate.OwnerId = owner.OrganizationId;
-            //parent program should already be loaded in the context via the Find method
-            programToUpdate.ParentProgram = updatedProgram.ParentProgramId.HasValue ? GetProgramEntityById(updatedProgram.ParentProgramId.Value) : null;
+            programToUpdate.OwnerId = updatedProgram.OwnerOrganizationId;
+            programToUpdate.ParentProgramId = updatedProgram.ParentProgramId;
             programToUpdate.ProgramStatusId = updatedProgram.ProgramStatusId;
             programToUpdate.RowVersion = updatedProgram.RowVersion;
             programToUpdate.StartDate = updatedProgram.StartDate;
@@ -522,7 +535,33 @@ namespace ECA.Business.Service.Programs
             SetRegions(updatedProgram.RegionIds, programToUpdate);
             SetCategories(updatedProgram.FocusCategoryIds, programToUpdate);
             SetObjectives(updatedProgram.JustificationObjectiveIds, programToUpdate);
+            SetWebsitesToUpdate(updatedProgram, programToUpdate);
         }
+
+        private void SetWebsitesToUpdate(EcaProgram updatedProgram, Program program)
+        {
+            var websiteIds = updatedProgram.Websites.Select(x => x.Id).ToList();
+            var websitesToRemove = program.Websites.Where(x => !websiteIds.Where(y => y != null).Contains(x.WebsiteId)).ToList();
+            foreach(Website website in websitesToRemove)
+            {
+                program.Websites.Remove(website);
+                Context.Websites.Remove(website);
+            }
+            var websitesToAdd = updatedProgram.Websites.Where(x => x.Id == null).ToList();
+            foreach(WebsiteDTO website in websitesToAdd)
+            {
+                var newWebsite = new Website { WebsiteValue = website.Value };
+                updatedProgram.Audit.SetHistory(newWebsite);
+                program.Websites.Add(newWebsite);
+            }
+            var websitesToUpdate = program.Websites.Where(x => websiteIds.Contains(x.WebsiteId)).ToList();
+            foreach(Website website in websitesToUpdate)
+            {
+                var updatedWebsite = updatedProgram.Websites.Where(x => x.Id == website.WebsiteId).FirstOrDefault();
+                website.WebsiteValue = updatedWebsite.Value;
+                updatedProgram.Audit.SetHistory(website);
+            }
+          }
         #endregion
 
         /// <summary>

@@ -140,7 +140,7 @@
                                 <div>{{$item.value}}</div>
                             </ui-select-match>
                             <ui-select-choices group-by="'focusName'" repeat="category in editView.categories | filter: $select.search track by category.value">
-                                <div ng-bind-html="category.value | filter: $select.search"></div>
+                                <div ng-bind-html="category.value | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
                     </div>
@@ -152,7 +152,6 @@
                             <ui-select-match placeholder="Select objectives...">
                                 <div>{{$item.value}}</div>
                             </ui-select-match>
-
                             <ui-select-choices group-by="'justificationName'" repeat="objective in editView.objectives | filter: $select.search track by objective.value">
                                 <div ng-bind-html="objective.value | highlight: $select.search"></div>
                             </ui-select-choices>

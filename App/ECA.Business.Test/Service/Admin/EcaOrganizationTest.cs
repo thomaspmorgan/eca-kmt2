@@ -19,12 +19,13 @@ namespace ECA.Business.Test.Service.Admin
             var website = "http://www.google.com";
             var organizationTypeId = OrganizationType.ForeignEducationalInstitution.Id;
             var contactIds = new List<int>();
+            var organizationRoleIds = new List<int>();
             var parentOrgId = 2;
             var name = "name";
             var description = "description";
             var organizationId = 3;
 
-            var instance = new EcaOrganization(user, organizationId, website, organizationTypeId, contactIds, parentOrgId, name, description);
+            var instance = new EcaOrganization(user, organizationId, website, organizationTypeId, organizationRoleIds, contactIds, parentOrgId, name, description);
             Assert.IsNotNull(instance.Update);
             Assert.IsTrue(Object.ReferenceEquals(user, instance.Update.User));
             Assert.AreEqual(website, instance.Website);
@@ -41,7 +42,8 @@ namespace ECA.Business.Test.Service.Admin
             var userId = 1;
             var user = new User(userId);
             var website = "http://www.google.com";
-            var organizationTypeId = OrganizationType.ForeignEducationalInstitution.Id;            
+            var organizationTypeId = OrganizationType.ForeignEducationalInstitution.Id;
+            var organizationRoleIds = new List<int>();
             var parentOrgId = 2;
             var name = "name";
             var description = "description";
@@ -49,7 +51,7 @@ namespace ECA.Business.Test.Service.Admin
 
             List<int> contactIds = null;
 
-            var instance = new EcaOrganization(user, organizationId, website, organizationTypeId, contactIds, parentOrgId, name, description);
+            var instance = new EcaOrganization(user, organizationId, website, organizationTypeId, organizationRoleIds, contactIds, parentOrgId, name, description);
             Assert.IsNotNull(instance.ContactIds);
         }
 
@@ -61,13 +63,14 @@ namespace ECA.Business.Test.Service.Admin
             var user = new User(userId);
             var website = "http://www.google.com";
             var organizationTypeId = -1;
+            var organizationRoleIds = new List<int>();
             var parentOrgId = 2;
             var name = "name";
             var description = "description";
             var organizationId = 3;
             List<int> contactIds = null;
 
-            var instance = new EcaOrganization(user, organizationId, website, organizationTypeId, contactIds, parentOrgId, name, description);
+            var instance = new EcaOrganization(user, organizationId, website, organizationTypeId, organizationRoleIds, contactIds, parentOrgId, name, description);
         }
     }
 }

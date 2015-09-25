@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using ECA.Core.Data;
 
 namespace ECA.Data
@@ -58,6 +54,7 @@ namespace ECA.Data
             this.Contacts = new HashSet<Contact>();
             this.Addresses = new HashSet<Address>();
             this.OfficeSettings = new HashSet<OfficeSetting>();
+            this.OrganizationRoles = new HashSet<OrganizationRole>();
         }
 
         [Key]
@@ -114,7 +111,6 @@ namespace ECA.Data
         public ICollection<SocialMedia> SocialMedias { get; set; }
 
         //relationships
-
         public ICollection<MoneyFlow> MoneyFlowSources { get; set; }
         public ICollection<MoneyFlow> MoneyFlowRecipients { get; set; }
         public ICollection<Program> OwnerPrograms { get; set; }
@@ -125,6 +121,11 @@ namespace ECA.Data
         public History History { get; set; }
 
         public ICollection<OfficeSetting> OfficeSettings { get; set; }
+
+        /// <summary>
+        /// Gets or sets the organization roles
+        /// </summary>
+        public ICollection<OrganizationRole> OrganizationRoles { get; set; }
 
         /// <summary>
         /// Returns the organization id.

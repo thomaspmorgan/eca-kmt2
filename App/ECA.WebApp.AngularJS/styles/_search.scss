@@ -43,7 +43,7 @@
     color: $primarytext;
     margin-bottom: 20px;
     padding: 10px 14px;
-    width: 250px;
+    width: 90%;
 }
 
 .contextual {
@@ -84,6 +84,31 @@
         opacity: 0;
     }
 }
+
+.search-modal-header {
+    border-bottom: none;
+    min-height: 35px;
+}
+
+.search-modal-resize .modal-dialog {
+    left:0;
+    top:0;
+    right:0;
+    bottom:0;
+    margin:auto;
+    padding:10px;
+    width:auto;
+}
+
+.search-modal-resize .modal-body {
+    max-height: calc(100vh - 150px);
+    overflow: auto;
+}
+
+.modal-90 {
+    width: 90%;
+}
+
 
 @-webkit-keyframes material-icons-spin {
     0% {

@@ -9,12 +9,7 @@ using ECA.Data;
 using ECA.WebApi.Models.Admin;
 using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -31,6 +26,7 @@ namespace ECA.WebApi.Controllers.Admin
     {
         private static readonly ExpressionSorter<SimpleOrganizationDTO> DEFAULT_SORTER = new ExpressionSorter<SimpleOrganizationDTO>(x => x.Name, SortDirection.Ascending);
         private static readonly ExpressionSorter<OrganizationTypeDTO> DEFAULT_ORGANIZATION_TYPE_SORTER = new ExpressionSorter<OrganizationTypeDTO>(x => x.Name, SortDirection.Ascending);
+        private static readonly ExpressionSorter<SimpleLookupDTO> DEFAULT_ORGANIZATION_ROLE_SORTER = new ExpressionSorter<SimpleLookupDTO>(x => x.Value, SortDirection.Ascending);
         private IOrganizationService organizationService;
         private IOrganizationTypeService organizationTypeService;
         private IUserProvider userProvider;
@@ -147,6 +143,26 @@ namespace ECA.WebApi.Controllers.Admin
                 return BadRequest(ModelState);
             }
         }
+
+        /// <summary>
+        /// Returns the organization roles in the system
+        /// </summary>
+        /// <param name="queryModel">The query model</param>
+        /// <returns>The organization roles</returns>
+        [Route("Organizations/Roles")]
+        [ResponseType(typeof(PagedQueryResults<SimpleLookupDTO>))]
+        public async Task<IHttpActionResult> GetOrganizationRolesAsync([FromUri]PagingQueryBindingModel<SimpleLookupDTO> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var organizationRoles = await organizationService.GetOrganizationRolesAsync(queryModel.ToQueryableOperator(DEFAULT_ORGANIZATION_ROLE_SORTER));
+                return Ok(organizationRoles);
+            } else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
         #region Addresses
         /// <summary>
         /// Adds a new address to the organization.

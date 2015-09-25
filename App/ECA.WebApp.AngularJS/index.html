@@ -5,7 +5,7 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-
+     
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
@@ -54,9 +54,7 @@
     <nav style="overflow-y: scroll" class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
         <img src="images/placeholders/sidebar.png" height="1110" width="266" alt="">
     </nav>
-    <modal-dialog class="search-modal" show="spotlightModal" dialog-title="" on-close="modalClear()" main-model="newParticipant">
-        <searchbar ng-model="text" show="show"></searchbar>
-    </modal-dialog>
+
     <div class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -67,8 +65,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <div style="margin-right: 50px; margin-top:14px;" class="navbar-right right">
-                    <i class="material-icons md-18 col-sd-1" ng-click="spotlightModal=!spotlightModal">search</i>
+                <div style="margin-right: 50px; margin-top:14px; cursor: pointer;" class="navbar-right right">
+                    <a ng-click="onSpotlightSearchClick()">
+                        <i class="material-icons md-18 col-sd-1">search</i>
+                    </a>
                 </div>
                 <div ng-show="userInfo.isAuthenticated">
                     <span style="margin-right:25px;margin-top:14px;"
@@ -78,7 +78,7 @@
                         <div class="pull-left">
                             <i class="material-icons md-18" style="margin-right:10px;">account_circle</i>
                         </div>
-                        <a href class="dropdown-toggle" dropdown-toggle ng-bind-template="{{userInfo.profile.given_name}} {{userInfo.profile.family_name}}">
+                        <a href="#" class="dropdown-toggle" dropdown-toggle ng-bind-template="{{userInfo.profile.given_name}} {{userInfo.profile.family_name}}">
                         </a>
                         <ul class="dropdown-menu user">
                             <li><a href="#" ng-click="currentUser.logout()">Logout</a></li>
@@ -113,7 +113,7 @@
                 <p>Promoting Mutual Understanding</p>
             </div>
         </div>
-    </div>
+    </div>    
     <!-- build:js(.) scripts/oldieshim.js -->
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -131,10 +131,10 @@
     <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/carousel.js"></script>
     <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/collapse.js"></script>
     <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/modal.js"></script>
     <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/tab.js"></script>
     <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/transition.js"></script>
     <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js"></script>
-    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/modal.js"></script>
     <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js"></script>
     <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/popover.js"></script>
     <script src="bower_components/angular-ui-utils/ui-utils.min.js"></script>
@@ -205,6 +205,7 @@
     <script src="scripts/controllers/securetest.js"></script>
     <script src="scripts/controllers/logout.js"></script>
     <script src="scripts/services/schema.js"></script>
+    <script src="scripts/directives/yearDropdown.js"></script>
     <script src="scripts/directives/incontextform.js"></script>
     <script src="scripts/directives/uiselectstsearch.js"></script>
     <script src="scripts/directives/exposetablestate.js"></script>
@@ -226,9 +227,9 @@
     <script src="scripts/controllers/program/subprogramsandprojects.js"></script>
     <script src="scripts/controllers/program/edit.js"></script>
     <script src="scripts/controllers/program/overview.js"></script>
-    <script src="scripts/services/dragonbreath.js"></script>
-    <script src="scripts/modules/modal.js"></script>
-    <script src="scripts/directives/form-element.js"></script>
+<script src="scripts/services/dragonbreath.js"></script>
+<script src="scripts/modules/modal.js"></script>
+<script src="scripts/directives/form-element.js"></script>
     <script src="scripts/directives/tabbar.js"></script>
     <script src="scripts/filters/tabfilter.js"></script>
     <script src="scripts/filters/highlight.js"></script>
@@ -249,7 +250,7 @@
     <script src="scripts/services/person.js"></script>
     <script src="scripts/services/organization.js"></script>
     <script src="scripts/services/solr.js"></script>
-    <script src="scripts/directives/searchbar.js"></script>
+    <script src="scripts/controllers/searchbar.js"></script>
     <script src="scripts/controllers/home.js"></script>
     <script src="scripts/directives/staticswitcher.js"></script>
     <script src="scripts/controllers/report.js"></script>
@@ -277,9 +278,10 @@
     <script src="scripts/controllers/reports/ObjectiveAwards.js"></script>
     <script src="scripts/controllers/reports/YearAwards.js"></script>
     <script src="scripts/controllers/person/personGeneral.js"></script>
+    <script src="scripts/controllers/person/personEvaluationNotes.js"></script>
+    <script src="scripts/services/eduempservice.js"></script>
     <script src="scripts/controllers/person/personEduEmp.js"></script>
     <script src="scripts/controllers/person/personEduEmpEdit.js"></script>
-    <script src="scripts/controllers/person/personEvaluationNotes.js"></script>
     <script src="scripts/controllers/person/personGeneralEdit.js"></script>
     <script src="scripts/controllers/membership/membership.js"></script>
     <script src="scripts/controllers/membership/memberships.js"></script>
@@ -299,6 +301,9 @@
     <script src="scripts/controllers/phoneNumbers/phonenumbers.js"></script>
     <script src="scripts/directives/phoneNumbers.js"></script>
     <script src="scripts/services/phonenumberservice.js"></script>
+    <script src="scripts/controllers/person/information.js"></script>
+    <script src="scripts/controllers/person/personPii.js"></script>
+    <script src="scripts/controllers/person/personPiiEdit.js"></script>
     <!-- endbuild -->
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=onGoogleReady"></script>
 </body>

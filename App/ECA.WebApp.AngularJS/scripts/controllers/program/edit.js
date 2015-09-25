@@ -151,6 +151,9 @@ angular.module('staticApp')
       }
 
       $scope.view.validateMinimumCategories = function ($value) {
+          if (!$scope.view.isCategoryRequired) {
+              return true;
+          }
           if (!$value) {
               return false;
           }
@@ -161,6 +164,9 @@ angular.module('staticApp')
       }
 
       $scope.view.validateMaximumCategories = function ($value) {
+          if (!$scope.view.isCategoryRequired) {
+              return true;
+          }
           if (!$value) {
               return true;
           }
@@ -171,6 +177,9 @@ angular.module('staticApp')
       }
 
       $scope.view.validateMinimumObjectives = function ($value) {
+          if (!$scope.view.isObjectivesRequired) {
+              return true;
+          }
           if (!$value) {
               return false;
           }
@@ -206,13 +215,10 @@ angular.module('staticApp')
           if ($search && $search.length > 0) {
               searchParentProgramsFilter = searchParentProgramsFilter.like('name', $search);
           }
-          if ($scope.view.program) {
-              searchParentProgramsFilter = searchParentProgramsFilter.equal('owner_OrganizationId', $scope.view.program.ownerOrganizationId);
-          }
-          return ProgramService.getAllProgramsAlpha(searchParentProgramsFilter.toParams())
+          return ProgramService.getValidParentPrograms(programId, searchParentProgramsFilter.toParams())
           .then(function (response) {
-              $scope.view.parentPrograms = response.results;
-              return response.results;
+              $scope.view.parentPrograms = response.data.results;
+              return response.data.results;
           })
           .catch(function (response) {
               var message = 'Unable to load available parent programs.';
@@ -226,11 +232,7 @@ angular.module('staticApp')
       }
 
       $scope.view.deleteWebsite = function ($index) {
-          if ($scope.view.program.websites.length == 1) {
-              $scope.view.program.websites[$index] = { value: undefined };
-          } else {
               $scope.view.program.websites.splice($index, 1);
-          }
       }
 
       function doCancel() {
@@ -267,10 +269,12 @@ angular.module('staticApp')
           if ($scope.view.program.parentProgram) {
               $scope.view.program.parentProgramId = $scope.view.program.parentProgram.programId;
           }
+          else {
+              $scope.view.program.parentProgramId = null;
+          }
 
-          $scope.view.program.websites = $scope.view.program.websites.filter(function (n) { return n.value != undefined });
-
-          console.log($scope.view.program);
+          // Remove undefined elements and empty strings
+          $scope.view.program.websites = $scope.view.program.websites.filter(function (n) { return (n.value && n.value.length > 0 ) });
 
           return ProgramService.update($scope.view.program)
           .then(function (response) {

@@ -77,7 +77,7 @@ namespace ECA.Business.Service.Persons
                 this.logger.Trace("Found existing person {0}.", existingPerson);
                 throw new EcaBusinessException("The person already exists.");
             }
-            var personToUpdate = await GetPersonByIdAsync(pii.PersonId);
+            var personToUpdate = await GetPersonModelByIdAsync(pii.PersonId);
             var cityOfBirth = await GetLocationByIdAsync(pii.CityOfBirthId.GetValueOrDefault());
             var countriesOfCitizenship = await GetLocationsByIdAsync(pii.CountriesOfCitizenship);
             DoUpdate(pii, personToUpdate, cityOfBirth, countriesOfCitizenship);
@@ -191,7 +191,7 @@ namespace ECA.Business.Service.Persons
         /// <returns>The person updated</returns>
         public async Task<Person> UpdateContactInfoAsync(UpdateContactInfo contactInfo)
         {
-            var personToUpdate = await GetPersonByIdAsync(contactInfo.PersonId);
+            var personToUpdate = await GetPersonModelByIdAsync(contactInfo.PersonId);
             DoUpdate(contactInfo, personToUpdate);
             return personToUpdate;
         }
@@ -465,8 +465,8 @@ namespace ECA.Business.Service.Persons
         /// Get the person by id 
         /// </summary>
         /// <param name="personId">The person id to lookup</param>
-        /// <returns>The person</returns>
-        public async Task<Person> GetPersonByIdAsync(int personId)
+        /// <returns>The person model</returns>
+        private async Task<Person> GetPersonModelByIdAsync(int personId)
         {
             this.logger.Trace("Retrieving person with id {0}.", personId);
             return await CreateGetPersonById(personId).FirstOrDefaultAsync();
@@ -477,7 +477,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="personId">The person id to lookup</param>
         /// <returns>The person as SimplePersonDTO</returns>
-        public async Task<SimplePersonDTO> GetSimplePersonAsync(int personId)
+        public async Task<SimplePersonDTO> GetPersonByIdAsync(int personId)
         {
             this.logger.Trace("Retrieving person with id {0}.", personId);
             return await CreateGetSimplePerson(personId).FirstOrDefaultAsync();

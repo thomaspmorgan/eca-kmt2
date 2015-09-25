@@ -42,14 +42,13 @@ namespace ECA.Business.Queries.Admin
                         where !Organization.OFFICE_ORGANIZATION_TYPE_IDS.Contains(organization.OrganizationTypeId)
                         select new SimpleOrganizationDTO
                         {
+                            OrganizationId = organization.OrganizationId,
+                            Name = organization.Name,
+                            OrganizationType = organizationType.OrganizationTypeName,
+                            Status = organization.Status,
                             Location = (addressHasCity ? address.Location.City.LocationName : String.Empty)
                                         + (addressHasCity && addressHasCountry ? ", " : String.Empty)
-                                        + (addressHasCountry ? address.Location.Country.LocationName : String.Empty),
-
-                            Name = organization.Name,
-                            OrganizationId = organization.OrganizationId,
-                            OrganizationType = organizationType.OrganizationTypeName,
-                            Status = organization.Status
+                                        + (addressHasCountry ? address.Location.Country.LocationName : String.Empty)
                         };
             return query;
         }
@@ -84,6 +83,7 @@ namespace ECA.Business.Queries.Admin
                         let contacts = org.Contacts
                         let addresses = org.Addresses
                         let parentOrg = org.ParentOrganization
+                        let orgRoles = org.OrganizationRoles
                         where org.OrganizationId == organizationId
                         select new OrganizationDTO
                         {
@@ -140,8 +140,30 @@ namespace ECA.Business.Queries.Admin
                                     Value = x.SocialMediaValue
                                 }).OrderBy(s => s.SocialMediaType),
                             Website = org.Website,
-                            Status = org.Status
+                            Status = org.Status,
+                            OrganizationRoles = orgRoles.Select(x =>
+                                new SimpleLookupDTO
+                                {
+                                    Id = x.OrganizationRoleId,
+                                    Value = x.OrganizationRoleName
+                                })
                         };
+            return query;
+        }
+
+        /// <summary>
+        /// Creates a query that returns a list of organization roles
+        /// </summary>
+        /// <param name="context">The context to query</param>
+        /// <param name="queryOperator">The query operator to apply</param>
+        /// <returns>The query</returns>
+        public static IQueryable<SimpleLookupDTO> CreateGetOrganizationRolesQuery(EcaContext context, QueryableOperator<SimpleLookupDTO> queryOperator)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+
+            var query = context.OrganizationRoles.Select(x => new SimpleLookupDTO { Id = x.OrganizationRoleId, Value = x.OrganizationRoleName });
+            query = query.Apply(queryOperator);
             return query;
         }
     }

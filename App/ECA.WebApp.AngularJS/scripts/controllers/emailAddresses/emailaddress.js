@@ -42,6 +42,7 @@ angular.module('staticApp')
                 .then(onSaveEmailAddressSuccess)
                 .then(function () {
                     updateEmailAddressFormDivId(tempId);
+                    updateEmailAddresses(tempId, $scope.emailAddress);
                 })
                 .catch(onSaveEmailAddressError);
           }
@@ -50,6 +51,11 @@ angular.module('staticApp')
                   .then(onSaveEmailAddressSuccess)
                   .catch(onSaveEmailAddressError);
           }
+      };
+
+      function updateEmailAddresses(tempId, emailAddress) {
+          var index = $scope.emailAddressable.emailAddresses.map(function (e) { return e.id; }).indexOf(tempId);
+          $scope.emailAddressable.emailAddresses[index] = emailAddress;
       };
 
       $scope.view.cancelEmailAddressChanges = function () {
@@ -84,7 +90,6 @@ angular.module('staticApp')
                   NotificationService.showErrorMessage(message);
               });
           }
-
       };
 
       $scope.view.onEditEmailAddressClick = function () {

@@ -250,6 +250,7 @@ angular
         .state('people.personalinformation', {
             url: '/personalinformation',
             templateUrl: 'views/person/personalinformation.html',
+            controller: 'PersonInformationCtrl',
             requireADLogin: true
         })
         .state('people.relatedreports', {
@@ -262,7 +263,11 @@ angular
             templateUrl: 'views/person/impact.html',
             requireADLogin: true
         })
-
+        .state('people.moneyflows', {
+            url: '/moneyflows',
+            templateUrl: 'views/person/moneyflows.html',
+            requireADLogin: true
+        })
         .state('allprograms', {
             url: '/allprograms',
             templateUrl: 'views/program/allprograms.html',
@@ -485,8 +490,8 @@ angular
         });
       $httpProvider.interceptors.push('ErrorInterceptor');
   })
-  .run(['$rootScope', '$location', '$state', 'editableOptions', '$anchorScroll', 'LogoutEventService', 'ConstantsService', 'RegisterUserEventService', 'NotificationService',
-    function ($rootScope, $location, $state, editableOptions, $anchorScroll, LogoutEventService, ConstantsService, RegisterUserEventService, NotificationService) {
+  .run(['$rootScope', '$location', '$state', '$modal', 'editableOptions', '$anchorScroll', 'LogoutEventService', 'ConstantsService', 'RegisterUserEventService', 'NotificationService',
+    function ($rootScope, $location, $state, $modal, editableOptions, $anchorScroll, LogoutEventService, ConstantsService, RegisterUserEventService, NotificationService) {
 
         console.assert(RegisterUserEventService, "The RegisterUserEventService is needed so that we can register on rootscope the handler to automatically register the user.");
         editableOptions.theme = 'bs3';
@@ -500,7 +505,17 @@ angular
           { name: 'Reports', state: 'reports.archive' },
           { name: 'Partners', state: 'home.notifications' }
         ];
-
+        
+        $rootScope.onSpotlightSearchClick = function () {
+            var spotlightModalInstance = $modal.open({
+                animation: true,
+                templateUrl: 'views/partials/searchbar.html',
+                controller: 'searchbarCtrl',
+                windowClass: 'search-modal-resize',
+                resolve: {}
+            });
+        };
+        
         var leftOpen = false;
         $rootScope.pushMenu = function ($event) {
             var self = $event.target;
@@ -587,5 +602,4 @@ angular
             event.preventDefault();
         });
 
-        $rootScope.spotlightModal = false;
     }]);

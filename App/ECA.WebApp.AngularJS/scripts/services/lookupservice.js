@@ -76,6 +76,9 @@ angular.module('staticApp')
           getOrganizationTypes: function (params) {
               return DragonBreath.getCached(params, 'organizations/types');
           },
+          getOrganizationRoles: function (params) {
+              return DragonBreath.getCached(params, 'organizations/roles');
+          },
           getAddressTypes: function (params) {
               return DragonBreath.getCached(params, 'addresses/types');
           },
@@ -87,6 +90,12 @@ angular.module('staticApp')
           },
           getAllMoneyFlowSourceRecipientTypes: function (params) {
               return DragonBreath.getCached(params, 'moneyflowsourcerecipienttypes');
+          },
+          getAllowedRecipientMoneyFlowSourceRecipientTypesBySourceTypeId: function (id) {
+              return DragonBreath.getCached({}, 'moneyflowsourcerecipienttypes/' + id + '/recipienttypes');
+          },
+          getAllowedSourceMoneyFlowSourceRecipientTypesByRecipientTypeId: function (id) {
+              return DragonBreath.getCached({}, 'moneyflowsourcerecipienttypes/' + id + '/sourcetypes');
           },
           getAllGenders: function (params) {
               var defer = $q.defer();

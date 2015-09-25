@@ -669,7 +669,7 @@ namespace ECA.Business.Test.Service.Admin
         {
 
             var updater = new User(1);
-            var instance = new EcaOrganization(updater, 0, "website", OrganizationType.USEducationalInstitution.Id, null, null, "name", "desc");
+            var instance = new EcaOrganization(updater, 0, "website", OrganizationType.USEducationalInstitution.Id, null, null, null, "name", "desc");
             Func<Task> invokeAsync = () =>
             {
                 return service.UpdateAsync(instance);
@@ -692,7 +692,7 @@ namespace ECA.Business.Test.Service.Admin
             var parentOrgId = 10;
             context.Organizations.Add(organization);
             var updater = new User(1);
-            var instance = new EcaOrganization(updater, organization.OrganizationId, "website", OrganizationType.USEducationalInstitution.Id, null, parentOrgId, "name", "desc");
+            var instance = new EcaOrganization(updater, organization.OrganizationId, "website", OrganizationType.USEducationalInstitution.Id, null, null, parentOrgId, "name", "desc");
             Func<Task> invokeAsync = () =>
             {
                 return service.UpdateAsync(instance);
@@ -715,7 +715,7 @@ namespace ECA.Business.Test.Service.Admin
             };
             context.Organizations.Add(organization);
             var updater = new User(1);
-            var instance = new EcaOrganization(updater, organization.OrganizationId, "website", orgTypeId, null, null, "name", "desc");
+            var instance = new EcaOrganization(updater, organization.OrganizationId, "website", orgTypeId, null, null, null, "name", "desc");
             Func<Task> invokeAsync = () =>
             {
                 return service.UpdateAsync(instance);
@@ -792,7 +792,7 @@ namespace ECA.Business.Test.Service.Admin
                 DateTimeOffset.Now.Should().BeCloseTo(updatedOrg.History.RevisedOn, 2000);
             };
 
-            var instance = new EcaOrganization(updater, orgId, newWebsite, otherOrganizationType.OrganizationTypeId, null, null, newName, newDescription);
+            var instance = new EcaOrganization(updater, orgId, newWebsite, otherOrganizationType.OrganizationTypeId, null, null, null, newName, newDescription);
             context.Revert();
             service.Update(instance);
             tester();
@@ -857,7 +857,7 @@ namespace ECA.Business.Test.Service.Admin
                 Assert.AreEqual(contact.ContactId, updatedOrg.Contacts.First().ContactId);
             };
             var contactIds = new List<int> { contact.ContactId };
-            var instance = new EcaOrganization(updater, orgId, newWebsite, organization.OrganizationTypeId, contactIds, null, newName, newDescription);
+            var instance = new EcaOrganization(updater, orgId, newWebsite, organization.OrganizationTypeId, null, contactIds, null, newName, newDescription);
             context.Revert();
             service.Update(instance);
             tester();
@@ -921,7 +921,7 @@ namespace ECA.Business.Test.Service.Admin
                 Assert.AreEqual(parentOrganization.OrganizationId, updatedOrg.ParentOrganizationId.Value);
             };
 
-            var instance = new EcaOrganization(updater, orgId, organization.Website, organization.OrganizationTypeId, null, parentOrganization.OrganizationId, organization.Name, organization.Description);
+            var instance = new EcaOrganization(updater, orgId, organization.Website, organization.OrganizationTypeId, null, null, parentOrganization.OrganizationId, organization.Name, organization.Description);
             context.Revert();
             service.Update(instance);
             tester();
@@ -986,7 +986,7 @@ namespace ECA.Business.Test.Service.Admin
                 Assert.IsFalse(updatedOrg.ParentOrganizationId.HasValue);
             };
 
-            var instance = new EcaOrganization(updater, orgId, organization.Website, organization.OrganizationTypeId, null, null, organization.Name, organization.Description);
+            var instance = new EcaOrganization(updater, orgId, organization.Website, organization.OrganizationTypeId, null, null, null, organization.Name, organization.Description);
             context.Revert();
             service.Update(instance);
             tester();
@@ -1032,7 +1032,7 @@ namespace ECA.Business.Test.Service.Admin
             var updater = new User(updaterId);
 
             validator.Verify(x => x.ValidateUpdate(It.IsAny<UpdateOrganizationValidationEntity>()), Times.Never());
-            var instance = new EcaOrganization(updater, orgId, organization.Website, organization.OrganizationTypeId, null, null, organization.Name, organization.Description);
+            var instance = new EcaOrganization(updater, orgId, organization.Website, organization.OrganizationTypeId, null, null, null, organization.Name, organization.Description);
             context.Revert();
             service.Update(instance);
             validator.Verify(x => x.ValidateUpdate(It.IsAny<UpdateOrganizationValidationEntity>()), Times.Once());

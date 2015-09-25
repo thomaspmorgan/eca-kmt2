@@ -19,7 +19,7 @@
                 </div>
                 <div class="row" ng-show="!view.isSavingChanges && !view.isLoadingRequiredData">
                     <div ng-class="{true: 'row', false: 'row2'}[editMode]" ng-show="!view.showEditEmailAddress">
-                        {{emailAddress.address}}
+                        <a href="mailto:{{emailAddress.address}}">{{emailAddress.address}}</a>
                         <div class="pull-right" ng-show="!view.showEditEmailAddress">
                             {{emailAddress.emailAddressType}}
                             <a ng-show="!view.showEditEmailAddress && !view.isDeletingEmailAddress && editMode" ng-click="view.showConfirmDelete = true">

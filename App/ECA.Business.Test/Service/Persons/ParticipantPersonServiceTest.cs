@@ -61,7 +61,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(project.ProjectId, participantPersonResult.ProjectId);
 
                 Assert.IsNull(participantPersonResult.FieldOfStudy);
-                Assert.IsNull(participantPersonResult.ProgramSubject);
+                Assert.IsNull(participantPersonResult.ProgramCategory);
                 Assert.IsNull(participantPersonResult.Position);
                 Assert.IsNull(participantPersonResult.HostInstitution);
                 Assert.IsNull(participantPersonResult.HomeInstitution);
@@ -136,7 +136,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(participantPerson.StudyProject, participantPersonResult.StudyProject);
 
                 Assert.IsNull(participantPersonResult.FieldOfStudy);
-                Assert.IsNull(participantPersonResult.ProgramSubject);
+                Assert.IsNull(participantPersonResult.ProgramCategory);
                 Assert.IsNull(participantPersonResult.Position);
                 Assert.IsNull(participantPersonResult.HostInstitution);
                 Assert.IsNull(participantPersonResult.HomeInstitution);
@@ -212,7 +212,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(project.ProjectId, results.ProjectId);
 
                 Assert.IsNull(results.FieldOfStudy);
-                Assert.IsNull(results.ProgramSubject);
+                Assert.IsNull(results.ProgramCategory);
                 Assert.IsNull(results.Position);
                 Assert.IsNull(results.HostInstitution);
                 Assert.IsNull(results.HomeInstitution);

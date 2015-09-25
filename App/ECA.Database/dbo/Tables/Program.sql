@@ -4,7 +4,7 @@
     [Name]                    NVARCHAR (255)     NOT NULL,
     [Description]             NVARCHAR (3000)     NOT NULL,
     [StartDate]               DATETIMEOFFSET (7) NOT NULL,
-    [EndDate]                 DATETIMEOFFSET (7) NOT NULL,
+    [EndDate]                 DATETIMEOFFSET (7) NULL,
     [History_CreatedBy]       INT                NOT NULL,
     [History_CreatedOn]       DATETIMEOFFSET (7) NOT NULL,
     [History_RevisedBy]       INT                NOT NULL,

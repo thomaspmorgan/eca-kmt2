@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.ComponentModel.DataAnnotations;
 using ECA.Business.Service.Persons;
 using ECA.Business.Service;
-using ECA.Data;
 
 namespace ECA.WebApi.Models.Person
 {
     public class PersonEduEmpBindingModel
     {
-        [Required]
+        //[Required]
         public int PersonId { get; set; }
 
         public string Title { get; set; }
@@ -22,9 +17,12 @@ namespace ECA.WebApi.Models.Person
 
         public DateTimeOffset? EndDate { get; set; }
 
-        public Organization Organization { get; set; }
+        public int? OrganizationId { get; set; }
 
+        public int? PersonOfEducation_PersonId { get; set; }
 
+        public int? PersonOfProfession_PersonId { get; set; }
+        
         public NewPersonEduEmp ToPersonEduEmp(User user)
         {
             return new NewPersonEduEmp(
@@ -33,7 +31,9 @@ namespace ECA.WebApi.Models.Person
                 role: this.Role,
                 startDate: this.StartDate,
                 endDate: this.EndDate,
-                organization: this.Organization,
+                organizationId: this.OrganizationId,
+                personOfEducationPersonId: this.PersonOfEducation_PersonId,
+                personOfProfessionPersonId: this.PersonOfProfession_PersonId,
                 personId: this.PersonId
                 );
         }

@@ -8,7 +8,7 @@
         <table class="col-md-12">
             <thead>
                 <tr class="row">
-                    <th st-sort="'transactionDate'" st-sort-default="reverse" class="col-md-1 sort-label medium">Transaction Date</th>
+                    <th st-sort="'transactionDate'" st-sort-default="reverse" class="col-md-2 sort-label medium">Transaction Date</th>
                     <th st-sort="'moneyFlowStatus'" class="col-md-1 sort-label medium">Status</th>
                     <th st-sort="'sourceRecipientTypeName'" class="col-md-1 sort-label medium">Type</th>
                     <th st-sort="'sourceRecipientName'" class="col-md-2 sort-label medium">From/To</th>
@@ -75,8 +75,8 @@
                     <th>&nbsp;</th>
                 </tr>
             </thead>
-            <tbody class="list2" ng-repeat="moneyFlow in view.moneyFlows" ng-show="!view.isLoadingRequiredData && !view.isLoadingMoneyFlows">
-                <tr class="row" ng-show="!moneyFlow.isDeleting">
+            <tbody class="list2" ng-show="!view.isLoadingRequiredData && !view.isLoadingMoneyFlows">
+                <tr class="row hover" ng-repeat-start="moneyFlow in view.moneyFlows">
                     <td class="col-md-1">
                         <span style="text-align: left">{{moneyFlow.transactionDate | date:'MM/dd/yyyy'}}</span>
                     </td>
@@ -85,27 +85,22 @@
                     </td>
                     <td>{{moneyFlow.sourceRecipientTypeName}}</td>
                     <td>
-                        <span ng-if="moneyFlow.href" class="bookmark">
-                            <a href="{{moneyFlow.href}}">{{moneyFlow.sourceRecipientName}}</a>
-                        </span>
-                        <span ng-if="!moneyFlow.href">
-                            {{moneyFlow.sourceRecipientName}}
-                        </span>
+                        <a ng-show="!moneyFlow.loadingEntityState" href="{{moneyFlow.href}}">{{moneyFlow.sourceRecipientName}}</a>
+                        <i class="material-icons material-icons-spin md-24" ng-show="moneyFlow.loadingEntityState">autorenew</i>
                     </td>
                     <td>
                         <span class="{{moneyFlow.amount < 0 ? 'outgoingMoneyFlow' : 'incomingMoneyFlow'}}">{{moneyFlow.amount | currency}}</span>
                     </td>
-                    <td style="text-align: center">
+                    <td>
                         {{moneyFlow.fiscalYear}}
                     </td>
                     <td>
                         <div>
-                            {{moneyFlow.description | limitTo: 20}}<span ng-show="moneyFlow.description.length > 20">....</span>
+                            <span>{{moneyFlow.description | limitTo: 20}}</span><span ng-show="moneyFlow.description.length > 20">....</span>
                             <a ng-click="view.onToggleExpandClick(moneyFlow)" class="pull-right" ng-show="moneyFlow.description.length > 20">
                                 <i class="material-icons md-dark md-24 pull-right" ng-show="moneyFlow.showDescription">expand_more</i>
                                 <i class="material-icons md-dark md-24 pull-right" ng-show="!moneyFlow.showDescription">expand_less</i>
                             </a>
-
                         </div>
                     </td>
                     <td ng-show="!view.moneyFlowsLoading && !moneyFlow.currentlyEditing && view.canEditMoneyFlows">
@@ -123,7 +118,7 @@
                     </td>
                 </tr>
                 <tr ng-show="moneyFlow.isDeleting">
-                    <td colspan="9">
+                    <td colspan="16">
                         <div class="spinner">
                             <div class="bounce1"></div>
                             <div class="bounce2"></div>
@@ -132,23 +127,16 @@
                     </td>
                 </tr>
                 <tr class="expandedDescription" ng-show="moneyFlow.showDescription">
-                    <td colspan="9" style="padding-top:5px; padding-bottom:5px;">
+                    <td colspan="16" style="padding-top:5px; padding-bottom:5px;">
                         <div>
                             Description: {{moneyFlow.description}}
                         </div>
                     </td>
                 </tr>
-                <tr class="expandedDescription" ng-show="moneyFlow.currentlyEditing">
-                    <td colspan="9" ng-show="moneyFlow.isSavingUpdate">
-                        <div class="spinner">
-                            <div class="bounce1"></div>
-                            <div class="bounce2"></div>
-                            <div class="bounce3"></div>
-                        </div>
-                    </td>
-                    <td colspan="9" ng-show="!moneyFlow.isSavingUpdate">
+                <tr class="expandedDescription" ng-show="moneyFlow.currentlyEditing" ng-repeat-end>
+                    <td colspan="16">
                         <div id="{{view.getMoneyFlowDivId(moneyFlow)}}">
-                            <form name="form.moneyFlowForm">
+                            <form name="form.moneyFlowForm" ng-show="!moneyFlow.isSavingUpdate">
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label for="moneyFlowStatus">Transaction Date<span class="asterisk"> *</span></label>
@@ -204,16 +192,9 @@
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="fiscalYear">Fiscal Year<span class="asterisk"> *</span></label>
-                                        <input name="fiscalYear"
-                                               max="{{view.maxAmount}}"
-                                               min="1"
-                                               ng-model="moneyFlow.fiscalYear"
-                                               type="number"
-                                               class="form-control"
-                                               placeholder="Enter fiscal year."
-                                               id="fiscalYear{{moneyFlow.id}}"
-                                               required />
+                                        <label for="fiscalYear">Reference Fiscal Year<span class="asterisk"> *</span></label>
+                                        <year-dropdown name="fiscalYear" id="fiscalYear" model="moneyFlow.fiscalYear" 
+                                                       offset="-10" range="2" class="yearDropdown" required></year-dropdown>
                                         <div ng-show="form.moneyFlowForm.fiscalYear.$dirty || form.moneyFlowForm.fiscalYear.$error.required">
                                             <div class="error" ng-show="form.moneyFlowForm.fiscalYear.$error.required">Please enter a fiscal year.</div>
                                         </div>
@@ -232,9 +213,9 @@
                                         <div ng-show="form.moneyFlowForm.description.$dirty || form.moneyFlowForm.description.$error.required">
                                             <div class="error" ng-show="form.moneyFlowForm.description.$error.required">Please enter a description.</div>
                                         </div>
-                                        <p class="subheader" style="margin-top:5px;">{{moneyFlow.description.length}} of {{view.maxDescriptionLength}} characters remaining.</p>
+                                        <p class="mute">{{moneyFlow.description.length}} of {{view.maxDescriptionLength}} characters remaining.</p>
                                     </div>
-                                    <div class="pull-right">
+                                    <div class="pull-right" ng-show="!moneyFlow.isSavingUpdate">
                                         <button ng-click="view.saveMoneyFlowChanges(moneyFlow)" class="btn btn-primary" ng-disabled="form.moneyFlowForm.$invalid">Save</button>
                                         <button ng-click="view.cancelMoneyFlowChanges(moneyFlow)" class="btn btn-cancel">Cancel</button>
                                     </div>
@@ -246,7 +227,7 @@
             </tbody>
             <tbody ng-show="view.isLoadingRequiredData || view.isLoadingMoneyFlows" id="spinner">
                 <tr>
-                    <td colspan="9">
+                    <td colspan="16">
                         <div class="spinner">
                             <div class="bounce1"></div>
                             <div class="bounce2"></div>

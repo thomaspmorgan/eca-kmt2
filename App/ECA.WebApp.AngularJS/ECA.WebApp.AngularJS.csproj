@@ -160,6 +160,7 @@
     <Content Include="favicon.ico" />
     <Content Include="gulpfile.js" />
     <Content Include="images\contract.png" />
+    <Content Include="images\intl-tel-input\flags.png" />
     <Content Include="karma.conf.js" />
     <Content Include="scripts\controllers\address\addresses.js" />
     <Content Include="scripts\controllers\address\address.js" />
@@ -179,6 +180,9 @@
     <Content Include="scripts\controllers\moneyflow.js" />
     <Content Include="scripts\controllers\moneyflows.js" />
     <Content Include="scripts\controllers\office\branchesandprograms.js" />
+    <Content Include="scripts\controllers\person\personPiiEdit.js" />
+    <Content Include="scripts\controllers\person\personPii.js" />
+    <Content Include="scripts\controllers\person\information.js" />
     <Content Include="scripts\controllers\phoneNumbers\phonenumber.js" />
     <Content Include="scripts\controllers\phoneNumbers\phonenumbers.js" />
     <Content Include="scripts\controllers\person\personEduEmpEdit.js" />
@@ -230,6 +234,7 @@
     <Content Include="scripts\directives\exposetablestate.js" />
     <Content Include="scripts\directives\socialmedialink.js" />
     <Content Include="scripts\directives\uiselectstsearch.js" />
+    <Content Include="scripts\directives\yearDropdown.js" />
     <Content Include="scripts\filters\groupby.js" />
     <Content Include="scripts\filters\propFilter.js" />
     <Content Include="scripts\services\bookmark.js" />
@@ -277,6 +282,7 @@
     <Content Include="views\partials\pagination.html" />
     <Content Include="views\partials\toolbaricons.html" />
     <Content Include="views\person\allpeople.html" />
+    <Content Include="views\person\moneyflows.html" />
     <Content Include="views\person\partials\contactEdit.html" />
     <Content Include="views\person\partials\eduempEdit.html" />
     <Content Include="views\person\partials\evaluationNotesView.html" />
@@ -285,6 +291,8 @@
     <Content Include="views\person\partials\contactView.html" />
     <Content Include="views\person\partials\generalView.html" />
     <Content Include="views\organization.html" />
+    <Content Include="views\person\partials\piiEdit.html" />
+    <Content Include="views\person\partials\piiView.html" />
     <Content Include="views\program\edit.html" />
     <Content Include="views\program\moneyflows.html" />
     <Content Include="views\program\addprogrammodal.html" />
@@ -508,7 +516,7 @@
     <Content Include="scripts\directives\guidance.js" />
     <Content Include="scripts\directives\incontextform.js" />
     <Content Include="scripts\directives\map.js" />
-    <Content Include="scripts\directives\searchbar.js" />
+    <Content Include="scripts\controllers\searchbar.js" />
     <Content Include="scripts\directives\staticswitcher.js" />
     <Content Include="scripts\directives\tabbar.js" />
     <Content Include="scripts\filters\tabfilter.js" />
@@ -619,9 +627,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="images\intl-tel-input\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -665,7 +671,7 @@
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>5556</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:5556/</IISUrl>
+          <IISUrl>http://localhost:5556</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

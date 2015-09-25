@@ -67,6 +67,7 @@ angular.module('staticApp')
                 .then(onSaveAddressSuccess)
                 .then(function () {
                     updateAddressFormDivId(tempId);
+                    updateAddresses(tempId, $scope.address)
                 })
                 .catch(onSaveAddressError);
           }
@@ -75,6 +76,11 @@ angular.module('staticApp')
                   .then(onSaveAddressSuccess)
                   .catch(onSaveAddressError);
           }
+      };
+
+      function updateAddresses(tempId, address) {
+          var index = $scope.addressable.addresses.map(function (e) { return e.addressId }).indexOf(tempId);
+          $scope.addressable.addresses[index] = address;
       };
 
       $scope.view.cancelAddressChanges = function () {

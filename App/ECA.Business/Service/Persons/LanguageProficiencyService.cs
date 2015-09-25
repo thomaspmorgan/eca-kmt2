@@ -127,6 +127,10 @@ namespace ECA.Business.Service.Persons
         public PersonLanguageProficiency Create(NewPersonLanguageProficiency languageProficiency)
         {
             var person = this.Context.People.Find(languageProficiency.PersonId);
+            if (languageProficiency.IsNativeLanguage)
+            {
+                SetAllLanguagesNotNative(languageProficiency.PersonId, languageProficiency.LanguageId);
+            }
             return DoCreate(languageProficiency, person);
         }
 
@@ -138,6 +142,10 @@ namespace ECA.Business.Service.Persons
         public async Task<PersonLanguageProficiency> CreateAsync(NewPersonLanguageProficiency languageProficiency) 
         {
             var person = await this.Context.People.FindAsync(languageProficiency.PersonId);
+            if (languageProficiency.IsNativeLanguage)
+            {
+                await SetAllLanguagesNotNativeAsync(languageProficiency.PersonId, languageProficiency.LanguageId);
+            }
             return DoCreate(languageProficiency, person);
         }
 
@@ -145,6 +153,18 @@ namespace ECA.Business.Service.Persons
         {
             throwIfPersonEntityNotFound(person, languageProficiency.PersonId);
             return languageProficiency.AddPersonLanguageProficiency(person);
+        }
+
+        private async Task SetAllLanguagesNotNativeAsync(int personId, int languageId)
+        {
+            await this.Context.PersonLanguageProficiencies.Where(x => x.PersonId == personId  && x.LanguageId != languageId).ForEachAsync(x => x.IsNativeLanguage = false);
+        }
+
+        private void SetAllLanguagesNotNative(int personId, int languageId)
+        {
+            var personLanguageProficiencies = this.Context.PersonLanguageProficiencies.Where(x => x.PersonId == personId && x.LanguageId != languageId);
+            foreach (var language in personLanguageProficiencies)
+                language.IsNativeLanguage = false;
         }
         #endregion
 
@@ -180,6 +200,10 @@ namespace ECA.Business.Service.Persons
             modelToUpdate.ReadingProficiency = updatedLanguageProficiency.ReadingProficiency;
             modelToUpdate.ComprehensionProficiency = updatedLanguageProficiency.ComprehensionProficiency;
             updatedLanguageProficiency.Update.SetHistory(modelToUpdate);
+            if (updatedLanguageProficiency.IsNativeLanguage)
+            {
+                SetAllLanguagesNotNative(updatedLanguageProficiency.PersonId, updatedLanguageProficiency.LanguageId);
+            }
         }
         #endregion
 

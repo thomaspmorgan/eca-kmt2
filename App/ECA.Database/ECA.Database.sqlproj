@@ -296,6 +296,15 @@
     <None Include="Data Migration\MigrationScripts\ECA\Rename LanguageProficiency to Language.sql" />
     <Build Include="dbo\Tables\ProgramWebsite.sql" />
     <Build Include="dbo\Tables\Website.sql" />
+    <Build Include="dbo\Tables\OrganizationRole.sql" />
+    <Build Include="dbo\Tables\OrganizationOrganizationRole.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\dbo.OrganizationRole.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\dbo.MoneyFlowStatus.staticdata.sql" />
+    <Build Include="dbo\Tables\MoneyFlowSourceRecipientTypeSettings.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\dbo.MoneyFlowSourceRecipientTypeSettings.staticdata.sql" />
+    <Build Include="dbo\Tables\SevisCommStatus.sql" />
+    <Build Include="dbo\Tables\PersonParticipantSevisCommStatus.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\dbo.SevisCommStatus.staticdata.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ECA.Database.refactorlog" />

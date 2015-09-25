@@ -37,7 +37,7 @@ namespace ECA.Business.Models.Programs
             string name,
             string description,
             DateTimeOffset startDate,
-            DateTimeOffset endDate,
+            DateTimeOffset? endDate,
             int ownerOrganizationId,
             int? parentProgramId,
             List<int> goalIds,

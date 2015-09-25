@@ -324,7 +324,7 @@ angular.module('staticApp')
                 goToProjectOverview();
             }, function (error) {
                 showProjectEditCancelButton();
-                if (error.status == 400) {
+                if (error.status === 400) {
                     if (error.data.message && error.data.modelState) {
                         for (var key in error.data.modelState) {
                             NotificationService.showErrorMessage(error.data.modelState[key][0]);
@@ -567,8 +567,8 @@ angular.module('staticApp')
                       $log.info('Objective is required by office, objective justification fields should be visible.');
                   }
 
-                  $scope.editView.categoryLabel = categoryLabel + '/' + focusLabel;
-                  $scope.editView.objectiveLabel = objectiveLabel + '/' + justificationLabel;
+                  $scope.editView.categoryLabel = categoryLabel;
+                  $scope.editView.objectiveLabel = objectiveLabel;
                   $scope.editView.showCategoryFocus = isCategoryRequired;
                   $scope.editView.showObjectiveJustification = isObjectiveRequired;
               }, function (errorResponse) {

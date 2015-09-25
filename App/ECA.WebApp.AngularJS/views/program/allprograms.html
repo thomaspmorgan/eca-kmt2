@@ -29,7 +29,7 @@
             Show my drafts only
         </span>
     </div>
-    
+
     <div st-pipe="view.getPrograms" st-table="view.programs" id="sort-list" exposetablestate="getAllProgramsTableState">
         <table class="col-md-12 table" id="programList">
             <thead>
@@ -37,7 +37,13 @@
                     <th>
                         <div style="margin-left:20px;">
                             <div>
-                                <input st-search type="search" placeholder="Search Programs" class="search-contextual" maxlength="100">
+                                <input ng-change="view.onSearchChange()"
+                                       st-search type="search"
+                                       ng-model="view.programFilter"
+                                       ng-model-options="{debounce: 500}"
+                                       placeholder="Search Programs"
+                                       class="search-contextual"
+                                       maxlength="100" />
                                 <i class="material-icons md-18 contextual">search</i>
                             </div>
                             <div style="margin-top:25px;margin-bottom:-25px">
@@ -67,19 +73,19 @@
                                        class="material-icons md-18 flip-horizontal">keyboard_return</i>
                                 </div>
                                 <div ng-class="{'col-md-12': program.isRoot, 'col-md-11': !program.isRoot}">
-                                    <span class="owner-office">{{program.officeSymbol}}</span>
+                                    <span class="owner-office" ng-bind-html="program.officeSymbol | highlight:view.programFilter">{{program.officeSymbol}}</span>
                                     <span class="owner-office"> - {{program.status}}</span>
                                     <h4>
-                                        <a ng-bind-html="program.name | highlight:programFilter" ui-sref="programs.overview({programId: program.programId})">{{program.name}}</a>
+                                        <a ng-bind-html="program.name | highlight:view.programFilter" ui-sref="programs.overview({programId: program.programId})">{{program.name}}</a>
                                     </h4>
                                 </div>
                             </div>
                             <div class="col-md-2" ng-show="program.numChildren > 0">
                                 <span ng-click="view.onExpandClick(program)" style="cursor:pointer;" class="right">
-                                    <i class="material-icons md-24" ng-show="!program.isExpanded">expand_more</i>
+                                    <i class="material-icons md-24" ng-show="!program.isExpanded">expand_less</i>
                                 </span>
                                 <span ng-click="view.onCollapseClick(program)" style="cursor:pointer;" class="right">
-                                    <i class="material-icons md-24" ng-show="program.isExpanded">expand_less</i>
+                                    <i class="material-icons md-24" ng-show="program.isExpanded">expand_more</i>
                                 </span>
                             </div>
                         </div>
@@ -89,7 +95,7 @@
                                     &nbsp;
                                 </div>
                                 <div ng-class="{'col-md-12': program.isRoot, 'col-md-11': !program.isRoot}">
-                                    <p ng-bind-html="program.description | highlight:programFilter">{{program.description}}</p>
+                                    <p ng-bind-html="program.description | highlight:view.programFilter">{{program.description}}</p>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -110,6 +116,6 @@
                 </tr>
             </tbody>
         </table>
-        <div st-template="views/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="programs.length > 0"></div>
+        <div st-template="views/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="view.programs.length > 0"></div>
     </div>
 </div>

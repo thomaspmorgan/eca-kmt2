@@ -24,7 +24,7 @@ namespace ECA.Business.Test.Queries.Fundings
         private MoneyFlowSourceRecipientType expenseType;
         private MoneyFlowSourceRecipientType postType;
 
-        private MoneyFlowStatus budgeted;
+        private MoneyFlowStatus actual;
         private MoneyFlowStatus appropriated;
 
         private MoneyFlowType outgoing;
@@ -80,10 +80,10 @@ namespace ECA.Business.Test.Queries.Fundings
                 MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Post.Id,
                 TypeName = MoneyFlowSourceRecipientType.Post.Value
             };
-            budgeted = new MoneyFlowStatus
+            actual = new MoneyFlowStatus
             {
-                MoneyFlowStatusId = MoneyFlowStatus.Budgeted.Id,
-                MoneyFlowStatusName = MoneyFlowStatus.Budgeted.Value
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
             };
             appropriated = new MoneyFlowStatus
             {
@@ -112,7 +112,7 @@ namespace ECA.Business.Test.Queries.Fundings
                 context.MoneyFlowSourceRecipientTypes.Add(expenseType);
                 context.MoneyFlowSourceRecipientTypes.Add(postType);
 
-                context.MoneyFlowStatuses.Add(budgeted);
+                context.MoneyFlowStatuses.Add(actual);
                 context.MoneyFlowStatuses.Add(appropriated);
 
                 context.MoneyFlowTypes.Add(incoming);
@@ -148,8 +148,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 SourceTypeId = programType.MoneyFlowSourceRecipientTypeId,
                 RecipientType = projectType,
                 RecipientTypeId = projectType.MoneyFlowSourceRecipientTypeId,
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -171,7 +171,7 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(moneyFlow.FiscalYear, dto.FiscalYear);
             Assert.AreEqual(moneyFlow.MoneyFlowId, dto.Id);
             Assert.AreEqual(MoneyFlowSourceRecipientType.Project.Value, dto.SourceRecipientTypeName);
-            Assert.AreEqual(budgeted.MoneyFlowStatusName, dto.MoneyFlowStatus);
+            Assert.AreEqual(actual.MoneyFlowStatusName, dto.MoneyFlowStatus);
             Assert.AreEqual(moneyFlow.MoneyFlowStatusId, dto.MoneyFlowStatusId);
             Assert.AreEqual(moneyFlow.TransactionDate, dto.TransactionDate);
             Assert.AreEqual(outgoing.MoneyFlowTypeName, dto.MoneyFlowType);
@@ -182,6 +182,8 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(recipientProject.Name, dto.SourceRecipientName);
             Assert.AreEqual(projectType.TypeName, dto.SourceRecipientTypeName);
             Assert.AreEqual(projectType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
+            Assert.IsNull(dto.ParticipantTypeId);
+            Assert.IsNull(dto.ParticipantTypeName);
         }
 
         [TestMethod]
@@ -208,8 +210,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 SourceTypeId = itineraryStopType.MoneyFlowSourceRecipientTypeId,
                 RecipientType = itineraryStopType,
                 RecipientTypeId = itineraryStopType.MoneyFlowSourceRecipientTypeId,
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -229,6 +231,8 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(recipientId, dto.SourceRecipientEntityId);
             Assert.AreEqual(itineraryStopType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
             Assert.AreEqual(itineraryStopType.TypeName, dto.SourceRecipientTypeName);
+            Assert.IsNull(dto.ParticipantTypeId);
+            Assert.IsNull(dto.ParticipantTypeName);
         }
 
         [TestMethod]
@@ -258,8 +262,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 RecipientType = organizationType,
                 RecipientTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
 
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -279,6 +283,8 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(recipientId, dto.SourceRecipientEntityId);
             Assert.AreEqual(organizationType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
             Assert.AreEqual(organizationType.TypeName, dto.SourceRecipientTypeName);
+            Assert.IsNull(dto.ParticipantTypeId);
+            Assert.IsNull(dto.ParticipantTypeName);
         }
 
         [TestMethod]
@@ -286,9 +292,16 @@ namespace ECA.Business.Test.Queries.Fundings
         {
             var sourceId = 1;
             var recipientId = 2;
+            var orgParticipantType = new ParticipantType
+            {
+                ParticipantTypeId = 1,
+                Name = "name"
+            };
             var sourceParticipant = new Participant
             {
                 ParticipantId = sourceId,
+                ParticipantTypeId = orgParticipantType.ParticipantTypeId,
+                ParticipantType = orgParticipantType
             };
             var sourceOrg = new Organization
             {
@@ -300,7 +313,9 @@ namespace ECA.Business.Test.Queries.Fundings
 
             var recipientParticipant = new Participant
             {
-                ParticipantId = recipientId
+                ParticipantId = recipientId,
+                ParticipantTypeId = orgParticipantType.ParticipantTypeId,
+                ParticipantType = orgParticipantType
 
             };
             var recipientOrg = new Organization
@@ -322,14 +337,15 @@ namespace ECA.Business.Test.Queries.Fundings
                 RecipientType = participantType,
                 RecipientTypeId = participantType.MoneyFlowSourceRecipientTypeId,
 
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10
             };
+            context.ParticipantTypes.Add(orgParticipantType);
             context.MoneyFlows.Add(moneyFlow);
             context.Organizations.Add(sourceOrg);
             context.Organizations.Add(recipientOrg);
@@ -345,6 +361,8 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(recipientId, dto.SourceRecipientEntityId);
             Assert.AreEqual(participantType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
             Assert.AreEqual(participantType.TypeName, dto.SourceRecipientTypeName);
+            Assert.AreEqual(orgParticipantType.ParticipantTypeId, dto.ParticipantTypeId);
+            Assert.AreEqual(orgParticipantType.Name, dto.ParticipantTypeName);
         }
 
         [TestMethod]
@@ -352,29 +370,47 @@ namespace ECA.Business.Test.Queries.Fundings
         {
             var sourceId = 1;
             var recipientId = 2;
+            var personParticipantType = new ParticipantType
+            {
+                ParticipantTypeId = 1,
+                Name = "name"
+            };
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
             var sourceParticipant = new Participant
             {
                 ParticipantId = sourceId,
+                ParticipantTypeId = personParticipantType.ParticipantTypeId,
+                ParticipantType = personParticipantType
             };
             var sourcePerson = new Person
             {
                 PersonId = sourceId + 1,
                 FirstName = "first1",
-                LastName = "last2"
+                LastName = "last2",
+                GenderId = gender.GenderId,
+                Gender = gender
             };
             sourceParticipant.Person = sourcePerson;
             sourceParticipant.PersonId = sourcePerson.PersonId;
 
             var recipientParticipant = new Participant
             {
-                ParticipantId = recipientId
+                ParticipantId = recipientId,
+                ParticipantTypeId = personParticipantType.ParticipantTypeId,
+                ParticipantType = personParticipantType
 
             };
             var recipientPerson = new Person
             {
                 PersonId = recipientId + 1,
                 FirstName = "first2",
-                LastName = "last2"
+                LastName = "last2",
+                Gender = gender,
+                GenderId = gender.GenderId
             };
             recipientParticipant.Person = recipientPerson;
             recipientParticipant.PersonId = recipientPerson.PersonId;
@@ -390,14 +426,16 @@ namespace ECA.Business.Test.Queries.Fundings
                 RecipientType = participantType,
                 RecipientTypeId = participantType.MoneyFlowSourceRecipientTypeId,
 
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10
             };
+            context.ParticipantTypes.Add(personParticipantType);
+            context.Genders.Add(gender);
             context.MoneyFlows.Add(moneyFlow);
             context.People.Add(sourcePerson);
             context.People.Add(recipientPerson);
@@ -414,6 +452,8 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(recipientId, dto.SourceRecipientEntityId);
             Assert.AreEqual(participantType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
             Assert.AreEqual(participantType.TypeName, dto.SourceRecipientTypeName);
+            Assert.AreEqual(personParticipantType.ParticipantTypeId, dto.ParticipantTypeId);
+            Assert.AreEqual(personParticipantType.Name, dto.ParticipantTypeName);
         }
 
         [TestMethod]
@@ -445,8 +485,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 RecipientType = programType,
                 RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
 
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -466,6 +506,8 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(recipientId, dto.SourceRecipientEntityId);
             Assert.AreEqual(programType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
             Assert.AreEqual(programType.TypeName, dto.SourceRecipientTypeName);
+            Assert.IsNull(dto.ParticipantTypeId);
+            Assert.IsNull(dto.ParticipantTypeName);
         }
 
         [TestMethod]
@@ -496,8 +538,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 RecipientType = projectType,
                 RecipientTypeId = projectType.MoneyFlowSourceRecipientTypeId,
 
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -517,6 +559,8 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(recipientId, dto.SourceRecipientEntityId);
             Assert.AreEqual(projectType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
             Assert.AreEqual(projectType.TypeName, dto.SourceRecipientTypeName);
+            Assert.IsNull(dto.ParticipantTypeId);
+            Assert.IsNull(dto.ParticipantTypeName);
         }
 
         [TestMethod]
@@ -550,8 +594,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 RecipientType = transportationType,
                 RecipientTypeId = transportationType.MoneyFlowSourceRecipientTypeId,
 
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -571,6 +615,8 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(recipientId, dto.SourceRecipientEntityId);
             Assert.AreEqual(transportationType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
             Assert.AreEqual(transportationType.TypeName, dto.SourceRecipientTypeName);
+            Assert.IsNull(dto.ParticipantTypeId);
+            Assert.IsNull(dto.ParticipantTypeName);
         }
 
         [TestMethod]
@@ -604,8 +650,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 RecipientType = accomodationType,
                 RecipientTypeId = accomodationType.MoneyFlowSourceRecipientTypeId,
 
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -625,6 +671,8 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(recipientId, dto.SourceRecipientEntityId);            
             Assert.AreEqual(accomodationType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
             Assert.AreEqual(accomodationType.TypeName, dto.SourceRecipientTypeName);
+            Assert.IsNull(dto.ParticipantTypeId);
+            Assert.IsNull(dto.ParticipantTypeName);
         }
 
         [TestMethod]
@@ -646,8 +694,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 RecipientType = expenseType,
                 RecipientTypeId = expenseType.MoneyFlowSourceRecipientTypeId,
 
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -666,6 +714,8 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.IsNull(dto.SourceRecipientEntityId);
             Assert.AreEqual(expenseType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
             Assert.AreEqual(expenseType.TypeName, dto.SourceRecipientTypeName);
+            Assert.IsNull(dto.ParticipantTypeId);
+            Assert.IsNull(dto.ParticipantTypeName);
         }
 
         #endregion
@@ -697,8 +747,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 SourceTypeId = programType.MoneyFlowSourceRecipientTypeId,
                 RecipientType = projectType,
                 RecipientTypeId = projectType.MoneyFlowSourceRecipientTypeId,
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -716,7 +766,7 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(moneyFlow.Description, dto.Description);
             Assert.AreEqual(moneyFlow.FiscalYear, dto.FiscalYear);
             Assert.AreEqual(moneyFlow.MoneyFlowId, dto.Id);
-            Assert.AreEqual(budgeted.MoneyFlowStatusName, dto.MoneyFlowStatus);
+            Assert.AreEqual(actual.MoneyFlowStatusName, dto.MoneyFlowStatus);
             Assert.AreEqual(moneyFlow.MoneyFlowStatusId, dto.MoneyFlowStatusId);
             Assert.AreEqual(moneyFlow.TransactionDate, dto.TransactionDate);
             Assert.AreEqual(incoming.MoneyFlowTypeName, dto.MoneyFlowType);
@@ -727,6 +777,8 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(sourceProgram.Name, dto.SourceRecipientName);
             Assert.AreEqual(programType.TypeName, dto.SourceRecipientTypeName);
             Assert.AreEqual(programType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
+            Assert.IsNull(dto.ParticipantTypeId);
+            Assert.IsNull(dto.ParticipantTypeName);
         }
 
         [TestMethod]
@@ -753,8 +805,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 SourceTypeId = itineraryStopType.MoneyFlowSourceRecipientTypeId,
                 RecipientType = itineraryStopType,
                 RecipientTypeId = itineraryStopType.MoneyFlowSourceRecipientTypeId,
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -775,6 +827,8 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(sourceId, dto.SourceRecipientEntityId);
             Assert.AreEqual(itineraryStopType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
             Assert.AreEqual(itineraryStopType.TypeName, dto.SourceRecipientTypeName);
+            Assert.IsNull(dto.ParticipantTypeId);
+            Assert.IsNull(dto.ParticipantTypeName);
         }
 
         [TestMethod]
@@ -804,8 +858,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 RecipientType = organizationType,
                 RecipientTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
 
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -825,6 +879,8 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(sourceId, dto.SourceRecipientEntityId);
             Assert.AreEqual(organizationType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
             Assert.AreEqual(organizationType.TypeName, dto.SourceRecipientTypeName);
+            Assert.IsNull(dto.ParticipantTypeId);
+            Assert.IsNull(dto.ParticipantTypeName);
         }
 
         [TestMethod]
@@ -832,9 +888,16 @@ namespace ECA.Business.Test.Queries.Fundings
         {
             var sourceId = 1;
             var recipientId = 2;
+            var orgParticipantType = new ParticipantType
+            {
+                ParticipantTypeId = 1,
+                Name = "type"
+            };
             var sourceParticipant = new Participant
             {
                 ParticipantId = sourceId,
+                ParticipantTypeId = orgParticipantType.ParticipantTypeId,
+                ParticipantType = orgParticipantType
             };
             var sourceOrg = new Organization
             {
@@ -846,7 +909,9 @@ namespace ECA.Business.Test.Queries.Fundings
 
             var recipientParticipant = new Participant
             {
-                ParticipantId = recipientId
+                ParticipantId = recipientId,
+                ParticipantTypeId = orgParticipantType.ParticipantTypeId,
+                ParticipantType = orgParticipantType
 
             };
             var recipientOrg = new Organization
@@ -868,14 +933,15 @@ namespace ECA.Business.Test.Queries.Fundings
                 RecipientType = participantType,
                 RecipientTypeId = participantType.MoneyFlowSourceRecipientTypeId,
 
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10
             };
+            context.ParticipantTypes.Add(orgParticipantType);
             context.MoneyFlows.Add(moneyFlow);
             context.Organizations.Add(sourceOrg);
             context.Organizations.Add(recipientOrg);
@@ -891,6 +957,8 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(sourceId, dto.SourceRecipientEntityId);
             Assert.AreEqual(participantType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
             Assert.AreEqual(participantType.TypeName, dto.SourceRecipientTypeName);
+            Assert.AreEqual(orgParticipantType.ParticipantTypeId, dto.ParticipantTypeId);
+            Assert.AreEqual(orgParticipantType.Name, dto.ParticipantTypeName);
         }
 
         [TestMethod]
@@ -898,29 +966,47 @@ namespace ECA.Business.Test.Queries.Fundings
         {
             var sourceId = 1;
             var recipientId = 2;
+            var personParticipantType = new ParticipantType
+            {
+                ParticipantTypeId = 1,
+                Name = "type"
+            };
             var sourceParticipant = new Participant
             {
                 ParticipantId = sourceId,
+                ParticipantTypeId = personParticipantType.ParticipantTypeId,
+                ParticipantType = personParticipantType
+            };
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
             };
             var sourcePerson = new Person
             {
                 PersonId = sourceId + 1,
                 FirstName = "first1",
-                LastName = "last2"
+                LastName = "last2",
+                Gender = gender,
+                GenderId = gender.GenderId
             };
             sourceParticipant.Person = sourcePerson;
             sourceParticipant.PersonId = sourcePerson.PersonId;
 
             var recipientParticipant = new Participant
             {
-                ParticipantId = recipientId
+                ParticipantId = recipientId,
+                ParticipantTypeId = personParticipantType.ParticipantTypeId,
+                ParticipantType = personParticipantType
 
             };
             var recipientPerson = new Person
             {
                 PersonId = recipientId + 1,
                 FirstName = "first2",
-                LastName = "last2"
+                LastName = "last2",
+                GenderId = gender.GenderId,
+                Gender = gender
             };
             recipientParticipant.Person = recipientPerson;
             recipientParticipant.PersonId = recipientPerson.PersonId;
@@ -936,14 +1022,16 @@ namespace ECA.Business.Test.Queries.Fundings
                 RecipientType = participantType,
                 RecipientTypeId = participantType.MoneyFlowSourceRecipientTypeId,
 
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10
             };
+            context.ParticipantTypes.Add(personParticipantType);
+            context.Genders.Add(gender);
             context.MoneyFlows.Add(moneyFlow);
             context.People.Add(sourcePerson);
             context.People.Add(recipientPerson);
@@ -952,7 +1040,7 @@ namespace ECA.Business.Test.Queries.Fundings
             var results = MoneyFlowQueries.CreateIncomingMoneyFlowDTOsQuery(context).ToList();
             Assert.AreEqual(1, results.Count);
             var dto = results.First();
-            
+
             Assert.AreEqual(recipientId, dto.EntityId);
             Assert.AreEqual(MoneyFlowSourceRecipientType.Participant.Id, dto.EntityTypeId);
 
@@ -960,6 +1048,8 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(sourceId, dto.SourceRecipientEntityId);
             Assert.AreEqual(participantType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
             Assert.AreEqual(participantType.TypeName, dto.SourceRecipientTypeName);
+            Assert.AreEqual(personParticipantType.ParticipantTypeId, dto.ParticipantTypeId);
+            Assert.AreEqual(personParticipantType.Name, dto.ParticipantTypeName);
         }
 
         [TestMethod]
@@ -991,8 +1081,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 RecipientType = programType,
                 RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
 
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -1012,6 +1102,8 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(sourceId, dto.SourceRecipientEntityId);
             Assert.AreEqual(programType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
             Assert.AreEqual(programType.TypeName, dto.SourceRecipientTypeName);
+            Assert.IsNull(dto.ParticipantTypeId);
+            Assert.IsNull(dto.ParticipantTypeName);
         }
 
         [TestMethod]
@@ -1042,8 +1134,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 RecipientType = projectType,
                 RecipientTypeId = projectType.MoneyFlowSourceRecipientTypeId,
 
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -1063,6 +1155,8 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(sourceId, dto.SourceRecipientEntityId);
             Assert.AreEqual(projectType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
             Assert.AreEqual(projectType.TypeName, dto.SourceRecipientTypeName);
+            Assert.IsNull(dto.ParticipantTypeId);
+            Assert.IsNull(dto.ParticipantTypeName);
         }
         #endregion
 
@@ -1092,8 +1186,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
                 RecipientType = programType,
                 RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -1144,8 +1238,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
                 RecipientType = programType,
                 RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -1188,8 +1282,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
                 RecipientType = programType,
                 RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -1230,8 +1324,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
                 RecipientType = programType,
                 RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -1273,8 +1367,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
                 RecipientType = programType,
                 RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -1320,8 +1414,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
                 RecipientType = programType,
                 RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -1340,8 +1434,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
                 RecipientType = programType,
                 RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -1391,8 +1485,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
                 RecipientType = programType,
                 RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -1438,8 +1532,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
                 RecipientType = programType,
                 RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
@@ -1458,8 +1552,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
                 RecipientType = programType,
                 RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
-                MoneyFlowStatus = budgeted,
-                MoneyFlowStatusId = budgeted.MoneyFlowStatusId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",

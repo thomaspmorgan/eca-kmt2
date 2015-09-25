@@ -150,6 +150,7 @@
     <Compile Include="Configuration\PersonConfiguration.cs" />
     <Compile Include="Configuration\PositionConfiguration.cs" />
     <Compile Include="Configuration\ProgramConfiguration.cs" />
+    <Compile Include="Configuration\ProgramCategoryConfiguration.cs" />
     <Compile Include="Configuration\ProgramSubjectConfiguration.cs" />
     <Compile Include="ECA-KMTStaticDataGenerator.generated.cs">
       <AutoGen>True</AutoGen>
@@ -162,8 +163,11 @@
     <Compile Include="Gender.cs" />
     <Compile Include="Goal.cs" />
     <Compile Include="IAddressable.cs" />
+    <Compile Include="OrganizationRole.cs" />
+    <Compile Include="MoneyFlowSourceRecepientTypeSetting.cs" />
+    <Compile Include="ProgramCategory.cs" />
+    <Compile Include="SevisCommStatus.cs" />
     <Compile Include="Website.cs" />
-    <None Include="IFundable.csold" />
     <Compile Include="IPhoneNumberable.cs" />
     <Compile Include="IEmailAddressable.cs" />
     <Compile Include="IObjectivable.cs" />

@@ -30,7 +30,6 @@ angular.module('staticApp')
       $scope.view.onAddLanguageProficiencyClick = function (entityLanguageProficiencies, personId) {
           console.assert(entityLanguageProficiencies, 'The entity languageProficiencies is not defined.');
           console.assert(entityLanguageProficiencies instanceof Array, 'The entity languageProficiencies is defined but must be an array.');
-          var name = "";
           var newLanguageProficiency = {
               languageId: null,
               personId: personId,
@@ -52,6 +51,18 @@ angular.module('staticApp')
           var index = languageProficiencies.indexOf(newLanguageProficiency);
           var removedItems = languageProficiencies.splice(index, 1);
           $log.info('Removed one new languageProficiencies at index ' + index);
+      });
+
+      $scope.$on(ConstantsService.primaryLanguageProficiencyChangedEventName, function (event, primaryLanguageProficiency) {
+          console.assert($scope.model, 'The scope model property must exist.  It should be set by the directive.');
+          console.assert($scope.model.languageProficiencies instanceof Array, 'The entity languageProficiencies is defined but must be an array.');
+
+          var primaryLanguageProficiencyIndex = $scope.model.languageProficiencies.map(function (e) { return e.languageId }).indexOf(primaryLanguageProficiency.languageId);
+          angular.forEach($scope.model.languageProficiencies, function (languageProficiency, index) {
+              if (primaryLanguageProficiencyIndex !== index) {
+                  languageProficiency.isNativeLanguage = false;
+              }
+          });
       });
 
       function getLanguages() {

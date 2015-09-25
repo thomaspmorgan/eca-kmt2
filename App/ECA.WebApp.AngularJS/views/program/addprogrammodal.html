@@ -9,7 +9,7 @@
     </div>
     <div ng-show="!view.isLoadingRequiredData && !view.isSavingProgram">
         <div class="tip">
-            <img src="images/tip.png"><span class="strong">Please note!</span> Any changes you make to the program will be live after saving.
+            <img src="~/images/tip.png" alt="Tip"/><span class="strong">Please note!</span> Any changes you make to the program will be live after saving.
             <div class="required">* Marks required fields</div>
         </div>
 
@@ -99,17 +99,24 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <a class="pull-right" ng-click="view.addWebsite()"><i class="material-icons md-18">add</i></a>
                         <label>Websites</label>
-                        <div ng-class="view.program.websites.length > 1 || (view.program.websites.length == 1 && website.value !== undefined) ? 'input-group' : ''" ng-repeat="website in view.program.websites track by $index">
-                            <input type="text"
-                                   ng-model="view.program.websites[$index].value"
-                                   class="form-control"
-                                   placeholder="Enter website address (e.g. http://www.google.com)..."
-                                   form-element guidance="If the program has a website URL, you can enter it here." />
-                            <span class="input-group-btn" ng-show="view.program.websites.length > 1 || (view.program.websites.length == 1 && website.value !== undefined)">
-                                <button class="btn btn-default" type="button" ng-click="view.deleteWebsite($index)"><i class="material-icons md-18">delete</i></button>
-                            </span>
+                        <div class="row" ng-repeat="website in view.program.websites track by $index">
+                            <div class="col-md-10">
+                                <input name="website{{$index}}"
+                                       class="form-control"
+                                       type="url"
+                                       ng-model="view.program.websites[$index].value"
+                                       placeholder="Enter website address (e.g. http://www.google.com)..."
+                                       form-element guidance="If the program has a website URL, you can enter it here." />
+                            </div>
+                            <div class="col-md-2">
+                                <a ng-click="view.deleteWebsite($index)">
+                                    <i style="margin-top: 12px;" class="material-icons md-18" ng-show="view.program.websites.length > 1">delete</i>
+                                </a>
+                                <a ng-click="view.addWebsite()">
+                                    <i style="margin-top: 12px;" class="material-icons md-18" ng-show="view.program.websites.length === $index + 1">add</i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -117,6 +124,7 @@
                             <div class="form-group">
                                 <label>Related Regions<span class="asterisk"> *</span></label>
                                 <ui-select multiple
+                                           name="regions"
                                            close-on-select="true"
                                            ng-model="view.selectedRegions"
                                            on-select="view.onRegionsSelect()"
@@ -132,13 +140,14 @@
                                         <div ng-bind-html="region.name | highlight: $select.search"></div>
                                     </ui-select-choices>
                                 </ui-select>
-                                <div ng-show="form.programForm.$dirty && !view.isSelectedRegionsValid">
+                                <div ng-show="form.programForm.regions.$dirty && !view.isSelectedRegionsValid">
                                     <span class="error">Please select at least one related region.</span>
                                 </div>
                             </div>
                             <div class="form-group" form-element guidance="This lists the themes for the program (at least one required).">
                                 <label>Themes<span class="asterisk"> *</span></label>
                                 <ui-select multiple
+                                           name="themes"
                                            close-on-select="true"
                                            ng-model="view.selectedThemes"
                                            on-select="view.onThemesSelect()"
@@ -153,13 +162,14 @@
                                         <div ng-bind-html="theme.name | highlight: $select.search"></div>
                                     </ui-select-choices>
                                 </ui-select>
-                                <div ng-show="form.programForm.$dirty && !view.isSelectedThemesValid">
+                                <div ng-show="form.programForm.themes.$dirty && !view.isSelectedThemesValid">
                                     <span class="error">Please select at least one theme.</span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>Goals<span class="asterisk"> *</span></label>
                                 <ui-select multiple
+                                           name="goals"
                                            close-on-select="true"
                                            ng-model="view.selectedGoals"
                                            on-select="view.onGoalsSelect()"
@@ -174,16 +184,16 @@
                                         <div ng-bind-html="goal.name | highlight: $select.search"></div>
                                     </ui-select-choices>
                                 </ui-select>
-                                <div ng-show="form.programForm.$dirty && !view.isSelectedGoalsValid">
+                                <div ng-show="form.programForm.goals.$dirty && !view.isSelectedGoalsValid">
                                     <span class="error">Please select at least one goal.</span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-
                             <div class="form-group" ng-show="view.isCategoryRequired">
                                 <label>{{view.categoryLabel}}<span class="asterisk"> *</span></label>
                                 <ui-select multiple
+                                           name="categories"
                                            close-on-select="true"
                                            on-select="view.onCategoriesSelect()"
                                            ng-change="view.onCategoriesChange()"
@@ -198,7 +208,7 @@
                                         <div ng-bind-html="category.name | highlight: $select.search"></div>
                                     </ui-select-choices>
                                 </ui-select>
-                                <div ng-show="form.programForm.$dirty">
+                                <div ng-show="form.programForm.categories.$dirty">
                                     <div ng-show="view.selectedCategories.length < view.minimumRequiredFoci">
                                         <span class="error">Please select at least one {{view.minimumRequiredFoci}} {{view.categoryLabel}}.</span>
                                     </div>
@@ -210,6 +220,7 @@
                             <div class="form-group" ng-show="view.isObjectiveRequired">
                                 <label>{{view.objectiveLabel}}<span class="asterisk"> *</span></label>
                                 <ui-select multiple
+                                           name="objectives"
                                            close-on-select="true"
                                            ng-model="view.selectedObjectives"
                                            on-select="view.onObjectivesSelect()"
@@ -224,13 +235,14 @@
                                         <div ng-bind-html="objective.name | highlight: $select.search"></div>
                                     </ui-select-choices>
                                 </ui-select>
-                                <div ng-show="form.programForm.$dirty && !view.isSelectedObjectivesValid">
+                                <div ng-show="form.programForm.objectives.$dirty && !view.isSelectedObjectivesValid">
                                     <span class="error">Please select at least one {{view.objectiveLabel}}.</span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>Points Of Contact<span class="asterisk"> *</span></label>
                                 <ui-select multiple
+                                           name="pointsOfContact"
                                            close-on-select="true"
                                            on-select="view.onContactsSelect()"
                                            ng-change="view.onContactsChange()"
@@ -248,7 +260,7 @@
                                         <div class="small">{{person.position}}</div>
                                     </ui-select-choices>
                                 </ui-select>
-                                <div ng-show="form.programForm.$dirty && !view.isSelectedContactsValid">
+                                <div ng-show="form.programForm.pointsOfContact.$dirty && !view.isSelectedContactsValid">
                                     <span class="error">Please select at least one point of contact.</span>
                                 </div>
                             </div>
@@ -263,12 +275,21 @@
     </div>
 </div>
 <div class="modal-footer">
-    <div>
+    <div ng-show="!view.showConfirmCancel">
         <button class="btn btn-success"
                 ng-click="view.onSaveClick()"
                 ng-disabled="form.programForm.$invalid || view.isSavingProgram || !view.isSelectedCategoriesValid || !view.isSelectedContactsValid || !view.isSelectedGoalsValid || !view.isSelectedThemesValid || !view.isSelectedRegionsValid || view.doesProgramExist">
             Save
         </button>
         <button class="btn btn-cancel" ng-click="view.onCancelClick()">Cancel</button>
+    </div>
+    <div ng-show="view.showConfirmCancel">
+        <div class="col-md-6">
+            <p class="text-left">There are unsaved changes to this new program.  Are you sure you wish to cancel?</p>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-success" ng-click="view.onYesCancelChangesClick()">Yes, Cancel Changes</button>
+            <button class="btn btn-cancel" ng-click="view.onNoDoNotCancelChangesClick()">No</button>
+        </div>
     </div>
 </div>

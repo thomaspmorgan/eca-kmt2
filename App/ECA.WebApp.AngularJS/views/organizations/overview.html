@@ -27,7 +27,7 @@
                 </a>
             </div>
         </div>
-        <div class="row" ng-show="!view.showEditDetails">
+        <div class="row" ng-if="!view.showEditDetails">
             <div class="col-md-6">
                 <div class="row" ng-show="organization.website">
                     <div class="col-md-6 title-label">Website</div>
@@ -39,17 +39,25 @@
                     <div class="col-md-6 title-label">Type</div>
                     <div class="col-md-6">{{organization.organizationType}}</div>
                 </div>
+                <div class="row" ng-show="organization.organizationRoles.length > 0">
+                    <div class="col-md-6 title-label">Roles</div>
+                    <div class="col-md-6">
+                        <ul>
+                            <li ng-repeat="role in organization.organizationRoles | orderBy:'value'">{{role.value}}</li>
+                        </ul>
+                    </div>
+                </div>
                 <div class="row" ng-show="organization.contacts">
                     <div class="col-md-6 title-label"><ng-pluralize count="organization.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
                     <div class="col-md-6">
                         <ul>
-                            <li ng-repeat="contact in organization.contacts | orderBy:'value'">&#149 {{contact.value}}</li>
+                            <li ng-repeat="contact in organization.contacts | orderBy:'value'">{{contact.value}}</li>
                         </ul>
                     </div>
                 </div>
                 <div class="row" ng-show="organization.socialMedias">
                     <div class="col-md-6 title-label">Social Media</div>
-                    <socialmedias model="organization" modelid="organization.organizationId" modeltype="'organization'" />   
+                    <socialmedias model="organization" modelid="organization.organizationId" modeltype="'organization'" editmode="view.showEditDetails" />   
                 </div>
             </div>            
             <div class="col-md-6">
@@ -62,14 +70,14 @@
                 <div class="row">
                     <div class="col-md-6 title-label">Addresses</div>
                     <div>
-                        <addresses model="organization" modelid="organization.organizationId" modeltype="'organization'" />                        
+                        <addresses model="organization" modelid="organization.organizationId" modeltype="'organization'" editmode="view.showEditDetails" />                        
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div ng-show="view.showEditDetails">
-        <ng-include src="'/views/organizations/partials/editdetails.html'"></ng-include>
+        <div ng-if="view.showEditDetails">
+            <ng-include src="'/views/organizations/partials/editdetails.html'"></ng-include>
+        </div>
     </div>
 </div>
 

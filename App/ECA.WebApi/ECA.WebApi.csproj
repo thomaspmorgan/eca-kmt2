@@ -380,6 +380,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <EmbeddedResource Include="Content\swaggerauth.js" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -428,6 +429,7 @@
     <Compile Include="Controllers\Admin\LanguagesController.cs" />
     <Compile Include="Controllers\Admin\EmailAddressesController .cs" />
     <Compile Include="Controllers\Admin\ProgramStatusesController.cs" />
+    <Compile Include="Controllers\Persons\EduEmpController.cs" />
     <Compile Include="Controllers\Persons\LanguageProficiencyController.cs" />
     <Compile Include="Controllers\Persons\MembershipController.cs" />
     <Compile Include="Controllers\Fundings\MoneyFlowSourceRecipientTypesController.cs" />
@@ -492,7 +494,9 @@
     <Compile Include="Models\Person\ContactInfoBindingModel.cs" />
     <Compile Include="Models\Person\GeneralBindingModel.cs" />
     <Compile Include="Models\Person\NewLanguageProficiencyBindingModel.cs" />
+    <Compile Include="Models\Person\PersonEduEmpBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedLanguageProficiencyBindingModel.cs" />
+    <Compile Include="Models\Person\UpdatedPersonEduEmpBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedPersonMembershipBindingModel.cs" />
     <Compile Include="Models\Person\NewPersonMembershipBindingModel.cs" />
     <Compile Include="Models\Person\PiiBindingModel.cs" />
@@ -589,6 +593,7 @@
     <Content Include="ECA.WebApi.wpp.targets" />
     <None Include="Properties\PublishProfiles\kmtapi-dev.pubxml" />
     <None Include="Properties\PublishProfiles\kmtapi-pre.pubxml" />
+    <None Include="Properties\PublishProfiles\kmtapi-prod.pubxml" />
     <None Include="Properties\PublishProfiles\kmtapi-qa.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

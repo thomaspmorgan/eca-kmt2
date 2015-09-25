@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Core.Service;
@@ -54,5 +55,12 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="organization">The updated organization.</param>
         Task UpdateAsync(EcaOrganization organization);
+
+        /// <summary>
+        /// Gets the organization roles
+        /// </summary>
+        /// <param name="queryOperator">The query operator to apply</param>
+        /// <returns>List of organization roles</returns>
+        Task<PagedQueryResults<SimpleLookupDTO>> GetOrganizationRolesAsync(QueryableOperator<SimpleLookupDTO> queryOperator);
     }
 }
