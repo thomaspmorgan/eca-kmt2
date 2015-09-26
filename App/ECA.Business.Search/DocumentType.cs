@@ -10,7 +10,7 @@ namespace ECA.Business.Search
 {
     public class DocumentType
     {
-        private const string ALL_DOCUMENTS_INDEX_NAME = "ecadocs";
+        public const string ALL_DOCUMENTS_INDEX_NAME = "ecadocs";
 
         private const int PROGRAM_DOCUMENT_TYPE_ID = 1;
         private const string PROGRAM_DOCUMENT_TYPE_NAME = "Program";

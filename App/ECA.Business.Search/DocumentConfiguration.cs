@@ -97,6 +97,16 @@ namespace ECA.Business.Search
             AdditionalFieldsDelegates.Add(propertyName, additionalFieldSelector.Compile());
         }
 
+        //public void HasAdditionalField<T>(Expression<Func<TEntity, IEnumerable<T>>> additionalFieldSelector, Func<IEnumerable<T>, string> arrayToStringDelegate)
+        //{
+
+        //}
+
+        public void HasAdditionalField<T>(Expression<Func<TEntity, IEnumerable<T>>> additionalFieldSelector, Expression<Func<IEnumerable<T>, string>> arrayToStringLambda)
+        {
+            var propertyName = PropertyHelper.GetPropertyName(additionalFieldSelector);
+        }
+
         public void IsDocumentType(DocumentType type)
         {
             this.documentType = type;

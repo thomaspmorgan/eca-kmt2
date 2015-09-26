@@ -38,9 +38,9 @@ namespace ECA.Business.Search
 
         //List<DocumentIndexResponse> HandleDocuments(List<IDocumentable> documents);
 
-        Task<DocumentSearchResponse> SearchAsync(DocumentType documentType, string search, List<DocumentKey> allowedDocumentKeys);
+        Task<DocumentSearchResponse> SearchAsync(string search, List<DocumentKey> allowedDocumentKeys);
 
-        DocumentSearchResponse Search(DocumentType documentType, string search, List<DocumentKey> allowedDocumentKeys);
+        DocumentSearchResponse Search(string search, List<DocumentKey> allowedDocumentKeys);
         
     }
 }

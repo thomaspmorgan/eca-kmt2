@@ -7,13 +7,12 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECA.Core.Data;
 
 namespace ECA.Business.Search
 {
     public interface IDocumentService<TDocument> where TDocument : class
     {
-        IQueryable<TDocument> CreateGetDocumentsQuery();
-
         int GetDocumentCount();
 
         Task<int> GetDocumentCountAsync();
@@ -32,7 +31,7 @@ namespace ECA.Business.Search
         where TDocument : class
     {
         public const int DEFAULT_BATCH_SIZE = 500;
-
+        
         private int batchSize;
         private IIndexService indexService;
         private IIndexNotificationService notificationService;
@@ -85,9 +84,10 @@ namespace ECA.Business.Search
             var config = indexService.GetDocumentConfiguration<TDocument>();
             throwIfDocumentConfigurationNotFound(config, typeof(TDocument));
             var documentType = config.GetDocumentType();
+            notificationService.Started(documentType);
             while (counter < total)
             {
-                var documents = GetDocumentBatch(counter, batchSize).ToList();
+                var documents = GetDocumentBatch(counter, batchSize);
                 indexService.HandleDocuments(documents);
                 notificationService.Processed(documentType, total, counter);
                 counter += documents.Count;
@@ -102,10 +102,11 @@ namespace ECA.Business.Search
             var config = indexService.GetDocumentConfiguration<TDocument>();
             throwIfDocumentConfigurationNotFound(config, typeof(TDocument));
             var documentType = config.GetDocumentType();
+            notificationService.Started(documentType);
             while (counter < total)
             {
-                var documents = (await GetDocumentBatchAsync(counter, batchSize)).ToList();
-                indexService.HandleDocuments(documents);
+                var documents = await GetDocumentBatchAsync(counter, batchSize);
+                await indexService.HandleDocumentsAsync(documents);
                 notificationService.Processed(documentType, total, counter);
                 counter += documents.Count;
             }

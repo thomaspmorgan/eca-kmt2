@@ -18,7 +18,7 @@ namespace ECA.Business.Search
         {
             Contract.Requires(searchClient != null, "The search client must not be null.");
             this.searchClient = searchClient;
-            if(documentConfigurations == null)
+            if (documentConfigurations == null)
             {
                 this.Configurations = new List<IDocumentConfiguration>();
             }
@@ -42,15 +42,15 @@ namespace ECA.Business.Search
                                                  Config = g.Select(x => x)
                                              };
                 var invalidConfigurations = distinctConfigurations.Where(x => x.Count > 1).ToList();
-                if(invalidConfigurations.Count > 0)
+                if (invalidConfigurations.Count > 0)
                 {
-                    throw new NotSupportedException(String.Format("The following document types are configured more than once:  {0}.", 
-                        String.Join(", ", 
+                    throw new NotSupportedException(String.Format("The following document types are configured more than once:  {0}.",
+                        String.Join(", ",
                         invalidConfigurations.Select(x => x.DocumentType).ToList()
                         )));
                 }
 
-                
+
 
                 this.Configurations = distinctConfigurations.Select(x => x.Config.First()).ToList();
             }
@@ -62,7 +62,7 @@ namespace ECA.Business.Search
         }
 
         public List<IDocumentConfiguration> Configurations { get; private set; }
-        
+
         #region Exists index
 
         public bool Exists(DocumentType documentType)
@@ -107,21 +107,21 @@ namespace ECA.Business.Search
                 IsKey = false,
                 Name = ECADocument.TITLE_KEY,
                 Type = DataType.String,
-                IsSearchable = false
+                IsSearchable = true
             });
             index.Fields.Add(new Field
             {
                 IsKey = false,
                 Name = ECADocument.SUBTITLE_KEY,
                 Type = DataType.String,
-                IsSearchable = false
+                IsSearchable = true
             });
             index.Fields.Add(new Field
             {
                 IsKey = false,
                 Name = ECADocument.DESCRIPTION_KEY,
                 Type = DataType.String,
-                IsSearchable = false
+                IsSearchable = true
             });
             index.Fields.Add(new Field
             {
@@ -130,30 +130,10 @@ namespace ECA.Business.Search
                 Type = DataType.String,
                 IsSearchable = false,
                 IsFacetable = true,
-                IsFilterable = true
+                IsFilterable = false
             });
             return index;
         }
-
-        //public void CreateIndex(IDocumentable documentable)
-        //{
-        //    //var ecaDocument = new SimpleDocument(documentable);
-        //    //var indexName = ecaDocument.DocumentType.IndexName;
-        //    //if (!this.searchClient.Indexes.Exists(indexName))
-        //    //{
-        //    //    this.searchClient.Indexes.CreateOrUpdate(ecaDocument.GetIndex());
-        //    //}
-        //}
-
-        //public async Task CreateIndexAsync(IDocumentable documentable)
-        //{
-        //    //var ecaDocument = new ECADocument(documentable);
-        //    //var indexName = ecaDocument.DocumentType.IndexName;
-        //    //if (!await this.searchClient.Indexes.ExistsAsync(indexName))
-        //    //{
-        //    //    await this.searchClient.Indexes.CreateOrUpdateAsync(ecaDocument.GetIndex());
-        //    //}
-        //}
 
         public void CreateIndex<T>() where T : class
         {
@@ -203,32 +183,6 @@ namespace ECA.Business.Search
         #endregion
 
         #region Handle Documents
-
-        //public List<DocumentIndexResponse> HandleDocuments(List<IDocumentable> documents)
-        //{
-        //    var responses = new List<DocumentIndexResponse>();
-        //    foreach (var groupedDocument in GetGroupedDocuments(documents))
-        //    {
-        //        var indexClient = GetClientByDocumentType(groupedDocument.DocumentType);
-        //        var indexBatch = GetIndexBatch(groupedDocument);
-        //        var response = indexClient.Documents.Index(indexBatch);
-        //        responses.Add(response);
-        //    }
-        //    return responses;
-        //}
-
-        //public async Task<List<DocumentIndexResponse>> HandleDocumentsAsync(List<IDocumentable> documents)
-        //{
-        //    var responses = new List<DocumentIndexResponse>();
-        //    foreach (var groupedDocument in GetGroupedDocuments(documents))
-        //    {
-        //        var indexClient = GetClientByDocumentType(groupedDocument.DocumentType);
-        //        var indexBatch = GetIndexBatch(groupedDocument);
-        //        var response = await indexClient.Documents.IndexAsync(indexBatch);
-        //        responses.Add(response);
-        //    }
-        //    return responses;
-        //}
 
         public async Task<DocumentIndexResponse> HandleDocumentsAsync<T>(List<T> documents) where T : class
         {
@@ -285,32 +239,6 @@ namespace ECA.Business.Search
             return this.Configurations.Where(x => x.IsConfigurationForType(typeof(T))).FirstOrDefault();
         }
 
-        //private IndexBatch GetIndexBatch(GroupedDocument groupedDocument)
-        //{
-        //    var documentType = groupedDocument.DocumentType;
-        //    var actions = new List<IndexAction>();
-        //    foreach (var document in groupedDocument.Documents)
-        //    {
-        //        var ecaDocument = new SimpleDocument(document);
-        //        var indexAction = new IndexAction(IndexActionType.MergeOrUpload, ecaDocument);
-        //        actions.Add(indexAction);
-        //    }
-        //    var indexBatch = new IndexBatch(actions);
-        //    return indexBatch;
-        //}
-
-        //private List<GroupedDocument> GetGroupedDocuments(List<IDocumentable> documents)
-        //{
-        //    var groupedDocuments = from document in documents
-        //                           group document by document.GetDocumentType() into documentTypes
-        //                           select new GroupedDocument
-        //                           {
-        //                               DocumentType = documentTypes.Key,
-        //                               Documents = documentTypes.Select(x => x)
-        //                           };
-        //    return groupedDocuments.ToList();
-        //}
-
         #endregion
 
         //#region Stats
@@ -349,28 +277,44 @@ namespace ECA.Business.Search
 
         #region Search
 
-        public DocumentSearchResponse Search(DocumentType documentType, string search, List<DocumentKey> allowedDocumentKeys)
+        public DocumentSearchResponse Search(string search, List<DocumentKey> allowedDocumentKeys)
         {
-            var client = GetClientByDocumentType(documentType);
-            var parameters = GetSearchParameters(documentType, search, allowedDocumentKeys);
-            return client.Documents.Search(search, parameters);
+            var client = GetClient();
+            var parameters = GetSearchParameters(search, allowedDocumentKeys);
+            var response = client.Documents.Search(search, parameters);
+            return DoSearch(response);
         }
 
-        public async Task<DocumentSearchResponse> SearchAsync(DocumentType documentType, string search, List<DocumentKey> allowedDocumentKeys)
+        public async Task<DocumentSearchResponse> SearchAsync(string search, List<DocumentKey> allowedDocumentKeys)
         {
-            var client = GetClientByDocumentType(documentType);
-            var parameters = GetSearchParameters(documentType, search, allowedDocumentKeys);
-            return await client.Documents.SearchAsync(search, parameters);
+            var client = GetClient();
+            var parameters = GetSearchParameters(search, allowedDocumentKeys);
+            var response = await client.Documents.SearchAsync(search, parameters);
+            return DoSearch(response);
+        }
+
+        private DocumentSearchResponse DoSearch(DocumentSearchResponse response)
+        {
+            foreach(var result in response.Results)
+            {
+                var document = result.Document;
+                var keyString = document[ECADocument.ID_KEY].ToString();
+                var key = new DocumentKey(keyString);
+                result.Document.Add("key", key);
+            }
+            return response;
         }
 
         private SearchIndexClient GetClientByDocumentType(DocumentType documentType)
         {
-            var indexName = documentType.IndexName;
-            var client = this.searchClient.Indexes.GetClient(indexName);
-            return client;
+            return GetClient();
         }
 
-        private SearchParameters GetSearchParameters(DocumentType documentType, string search, List<DocumentKey> allowedDocumentKeys)
+        private SearchIndexClient GetClient()
+        {
+            return this.searchClient.Indexes.GetClient(DocumentType.ALL_DOCUMENTS_INDEX_NAME);
+        }
+        private SearchParameters GetSearchParameters(string search, List<DocumentKey> allowedDocumentKeys)
         {
             return new SearchParameters
             {
@@ -379,7 +323,6 @@ namespace ECA.Business.Search
         }
 
         #endregion
-
 
         #region IDispose
 
@@ -410,22 +353,7 @@ namespace ECA.Business.Search
 
 
         #endregion
-
-        //private class GroupedDocument
-        //{
-        //    public DocumentType DocumentType { get; set; }
-
-        //    public IEnumerable<IDocumentable> Documents { get; set; }
-        //}
+        
     }
-
-
-    //public class OtherIndexService : IndexService
-    //{
-    //    public OtherIndexService(SearchServiceClient searchClient) : base(searchClient)
-    //    {
-    //        Contract.Requires(searchClient != null, "The search client must not be null.");
-    //    }
-    //}
 }
 
