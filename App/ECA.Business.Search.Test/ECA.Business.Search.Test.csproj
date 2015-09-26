@@ -146,9 +146,9 @@
     <Compile Include="DocumentServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <Fakes Include="Fakes\Microsoft.Azure.Search.fakes" />
     <Fakes Include="Fakes\Hyak.Common.fakes" />
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +161,7 @@
       <Name>ECA.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

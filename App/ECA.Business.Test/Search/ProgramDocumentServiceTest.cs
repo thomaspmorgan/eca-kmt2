@@ -26,7 +26,7 @@ namespace ECA.Business.Test.Search
         //                new ProgramDTODocumentConfiguration()
         //        }
         //        );
-
+            
         //    var service = new ProgramDocumentService(context, indexService, new TestIndexNotificationService());
         //    await service.ProcessAsync();
 

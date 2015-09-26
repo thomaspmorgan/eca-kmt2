@@ -20,14 +20,14 @@ namespace ECA.Business.Search
 
             //HasAdditionalField<FocusCategoryDTO>(x => x.Categories, y => String.Join(", ", y.Select(z => z.FocusName).ToList()));
 
-            Func<IEnumerable<JustificationObjectiveDTO>, string> objectiveDelegate = (objectives) =>
-            {
-                var values = objectives.Select(x => x.Name).ToList();
-                var value = String.Join(", ", values);
-                return value;
-            };
+            //Func<IEnumerable<object>, string> objectiveDelegate = (objectives) =>
+            //{
+            //    var values = objectives.Select(x => x.Name).ToList();
+            //    var value = String.Join(", ", values);
+            //    return value;
+            //};
 
-            HasAdditionalField<JustificationObjectiveDTO>(x => x.Objectives, objectiveDelegate);
+            HasAdditionalField(x => x.Objectives, y => String.Join(", ", y.Objectives.Select(o => o.Name).ToList()));
         }
     }
 }

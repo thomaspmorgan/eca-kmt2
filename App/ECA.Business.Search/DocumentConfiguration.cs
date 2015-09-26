@@ -28,14 +28,8 @@ namespace ECA.Business.Search
         DocumentType GetDocumentType();
     }
 
-    //public interface IDocumentConfiguration<TEntity, TEntityKey> : IDocumentConfiguration
-    //    where TEntity : class
-    //    where TEntityKey : struct
-    //{
-    //    Func<TEntity, TEntityKey> IdDelegate { get; }
-    //}
-
-    public class DocumentConfiguration<TEntity, TEntityKey> : IDocumentConfiguration//IDocumentConfiguration<TEntity, TEntityKey>
+    
+    public class DocumentConfiguration<TEntity, TEntityKey> : IDocumentConfiguration
         where TEntity : class
         where TEntityKey : struct
     {
@@ -56,7 +50,7 @@ namespace ECA.Business.Search
         public Func<TEntity, string> SubtitleDelegate { get; private set; }
 
         public Dictionary<string, Func<TEntity, string>> AdditionalFieldsDelegates { get; private set; }
-        
+
 
         public DocumentType GetDocumentType()
         {
@@ -67,48 +61,71 @@ namespace ECA.Business.Search
         {
             Contract.Requires(instance != null, "The instance must not be null.");
             Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
+            if(IdDelegate == null)
+            {
+                throw new NotSupportedException("The id has not been configured.  Use the HasKey method.");
+            }
             return IdDelegate((TEntity)instance);
         }
 
         public void HasKey(Expression<Func<TEntity, TEntityKey>> idSelector)
         {
+            Contract.Requires(idSelector != null, "The idSelector must not be null.");
             this.IdDelegate = idSelector.Compile();
         }
 
         public void HasTitle(Expression<Func<TEntity, string>> titleSelector)
         {
+            Contract.Requires(titleSelector != null, "The titleSelector must not be null.");
             this.TitleDelegate = titleSelector.Compile();
         }
 
         public void HasSubtitle(Expression<Func<TEntity, string>> subtitleSelector)
         {
+            Contract.Requires(subtitleSelector != null, "The subtitleSelector must not be null.");
             this.SubtitleDelegate = subtitleSelector.Compile();
         }
 
         public void HasDescription(Expression<Func<TEntity, string>> descriptionSelector)
         {
+            Contract.Requires(descriptionSelector != null, "The descriptionSelector must not be null.");
             this.DescriptionDelegate = descriptionSelector.Compile();
         }
 
         public void HasAdditionalField(Expression<Func<TEntity, string>> additionalFieldSelector)
         {
+            Contract.Requires(additionalFieldSelector != null, "The additionalFieldSelector must not be null.");
             var propertyName = PropertyHelper.GetPropertyName(additionalFieldSelector);
-            var valueFn = additionalFieldSelector.Compile();
-            AdditionalFieldsDelegates.Add(propertyName, additionalFieldSelector.Compile());
+            HasAdditionalField(propertyName, additionalFieldSelector);
         }
 
-        //public void HasAdditionalField<T>(Expression<Func<TEntity, IEnumerable<T>>> additionalFieldSelector, Func<IEnumerable<T>, string> arrayToStringDelegate)
-        //{
-
-        //}
-
-        public void HasAdditionalField<T>(Expression<Func<TEntity, IEnumerable<T>>> additionalFieldSelector, Expression<Func<IEnumerable<T>, string>> arrayToStringLambda)
+        public void HasAdditionalField(string name, Expression<Func<TEntity, string>> additionalFieldSelector)
         {
+            Contract.Requires(additionalFieldSelector != null, "The additionalFieldSelector must not be null.");
+            Contract.Requires(!String.IsNullOrWhiteSpace(name), "The name of field is invalid.");
+            var valueFn = additionalFieldSelector.Compile();
+            AdditionalFieldsDelegates.Add(name, additionalFieldSelector.Compile());
+        }
+
+        public void HasAdditionalField<TCollectionType>(Expression<Func<TEntity, IEnumerable<TCollectionType>>> additionalFieldSelector, Expression<Func<TEntity, string>> valueSelector)
+        {
+            Contract.Requires(additionalFieldSelector != null, "The additionalFieldSelector must not be null.");
+            Contract.Requires(valueSelector != null, "The valueSelector must not be null.");
             var propertyName = PropertyHelper.GetPropertyName(additionalFieldSelector);
+            HasAdditionalField<TCollectionType>(propertyName, valueSelector);
+        }
+
+        public void HasAdditionalField<TCollectionType>(string name, Expression<Func<TEntity, string>> valueSelector)
+        {
+            Contract.Requires(valueSelector != null, "The valueSelector must not be null.");
+            Contract.Requires(!String.IsNullOrWhiteSpace(name), "The name of field is invalid.");
+            var valueFn = valueSelector.Compile();
+            AdditionalFieldsDelegates.Add(name, valueFn);
         }
 
         public void IsDocumentType(DocumentType type)
         {
+            Contract.Requires(type != null, "The document type must not be null.");
             this.documentType = type;
         }
 
@@ -143,7 +160,6 @@ namespace ECA.Business.Search
             {
                 return null;
             }
-
         }
 
         public string GetSubtitle(object instance)
@@ -159,7 +175,6 @@ namespace ECA.Business.Search
             {
                 return null;
             }
-
         }
 
         public Dictionary<string, string> GetAdditionalFields(object instance)
@@ -170,7 +185,11 @@ namespace ECA.Business.Search
             foreach (var key in AdditionalFieldsDelegates.Keys)
             {
                 var fn = AdditionalFieldsDelegates[key];
-                dictionary[key] = fn((TEntity)instance);
+                var value = fn((TEntity)instance);
+                if(value != null)
+                {
+                    dictionary[key] = value;
+                }
             }
             return dictionary;
         }
