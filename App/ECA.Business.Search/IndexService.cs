@@ -262,23 +262,33 @@ namespace ECA.Business.Search
 
         //#endregion
 
-        //#region Get Doc by Id
+        #region Get Doc by Id
 
-        //public Document GetDocumentById(DocumentType documentType, int id)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public ECADocument GetDocumentById(string key)
+        {
+            return GetDocumentById(new DocumentKey(key));
+        }
 
-        //public async Task<Document> GetDocumentByIdAsync(DocumentType documentType, int id)
-        //{
-        //    var indexName = documentType.IndexName;
-        //    var client = this.searchClient.Indexes.GetClient(indexName);
-        //    var documentKey = new DocumentKey(documentType, id);
-        //    var doc = await client.Documents.GetAsync(documentKey.ToString());
-        //    return doc.Document;
-        //}
+        public Task<ECADocument> GetDocumentByIdAsync(string key)
+        {
+            return GetDocumentByIdAsync(new DocumentKey(key));
+        }
 
-        //#endregion
+        public ECADocument GetDocumentById(DocumentKey key)
+        {
+            var client = GetClient();
+            var doc = client.Documents.Get<ECADocument>(key.ToString());
+            return doc.Document;
+        }
+
+        public async Task<ECADocument> GetDocumentByIdAsync(DocumentKey key)
+        {
+            var client = GetClient();
+            var doc = await client.Documents.GetAsync<ECADocument>(key.ToString());
+            return doc.Document;
+        }
+
+        #endregion
 
         #region Search
 
@@ -325,7 +335,6 @@ namespace ECA.Business.Search
                 searchParameters.Select = distinctFields;
             }
             return searchParameters;
-
         }
 
         #endregion

@@ -53,6 +53,28 @@ namespace ECA.WebApi.Controllers.Search
             return Ok(new DocumentSearchResponseViewModel(searchResults));
         }
 
+        /// <summary>
+        /// Performs a search of the ECA system.
+        /// </summary>
+        /// <param name="id">The full id of the document.</param>
+        /// <returns>The responsive documents.</returns>
+        [Route("Documents/{id}")]
+        [ResponseType(typeof(ECADocument))]
+        public async Task<IHttpActionResult> GetDocumentByIdAsync(string id)
+        {
+            var currentUser = this.userProvider.GetCurrentUser();
+            var businessUser = this.userProvider.GetBusinessUser(currentUser);
+            var document = await this.indexService.GetDocumentByIdAsync(id);
+            if(document == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(new ECADocumentViewModel(document));
+            }
+        }
+
         [Route("Search/Index")]
         public IHttpActionResult PostProcess()
         {

@@ -550,6 +550,7 @@
     <Compile Include="Models\Projects\AdditionalPersonProjectParticipantBindingModel.cs" />
     <Compile Include="Models\Projects\ProjectCollaboratorBindingModel.cs" />
     <Compile Include="Models\Search\DocumentSearchResponseViewModel.cs" />
+    <Compile Include="Models\Search\ECADocumentViewModel.cs" />
     <Compile Include="Models\Search\FileIndexNotificationService.cs" />
     <Compile Include="Models\Search\SearchResultViewModel.cs" />
     <Compile Include="Models\Security\PermissionBindingModel.cs" />

@@ -205,7 +205,7 @@ namespace ECA.Business.Search.Test
         {
             var configuration = new ConfigurationTestClass();
             Assert.IsNull(configuration.OfficeSymbolDelegate);
-            configuration.HasOfficeSymbole(x => x.OfficeSymbol);
+            configuration.HasOfficeSymbol(x => x.OfficeSymbol);
             Assert.IsNotNull(configuration.OfficeSymbolDelegate);
 
             var instance = new SimpleConfigurationTestClass();
@@ -269,7 +269,7 @@ namespace ECA.Business.Search.Test
             var configuration = new ConfigurationTestClass();
             Assert.IsNull(configuration.GetOfficeSymbol(instance));
 
-            configuration.HasOfficeSymbole(x => x.OfficeSymbol);
+            configuration.HasOfficeSymbol(x => x.OfficeSymbol);
             Assert.IsNull(configuration.GetOfficeSymbol(instance));
 
             instance.OfficeSymbol = "symbol";

@@ -6,7 +6,6 @@ namespace ECA.Business.Search
 {
     public interface IIndexService
     {
-
         IDocumentConfiguration GetDocumentConfiguration<T>();
 
         void CreateIndex<T>() where T : class;
@@ -17,14 +16,13 @@ namespace ECA.Business.Search
 
         void DeleteIndex(DocumentType documentType);
 
+        Task<ECADocument> GetDocumentByIdAsync(string key);
 
-        //Task<Document> GetDocumentByIdAsync(DocumentType documentType, int id);
+        ECADocument GetDocumentById(string key);
 
-        //Document GetDocumentById(DocumentType documentType, int id);
+        Task<ECADocument> GetDocumentByIdAsync(DocumentKey key);
 
-        //Task<IndexGetStatisticsResponse> GetStatsAsync(DocumentType documentType);
-
-        //IndexGetStatisticsResponse GetStats(DocumentType documentType);
+        ECADocument GetDocumentById(DocumentKey key);
 
         Task<DocumentIndexResponse> HandleDocumentsAsync<T>(List<T> documents) where T : class;
 

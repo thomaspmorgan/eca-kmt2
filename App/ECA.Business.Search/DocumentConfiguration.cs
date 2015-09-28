@@ -100,7 +100,7 @@ namespace ECA.Business.Search
             this.DescriptionDelegate = descriptionSelector.Compile();
         }
 
-        public void HasOfficeSymbole(Expression<Func<TEntity, string>> officeSymbolSelector)
+        public void HasOfficeSymbol(Expression<Func<TEntity, string>> officeSymbolSelector)
         {
             Contract.Requires(officeSymbolSelector != null, "The officeSymbolSelector must not be null.");
             this.OfficeSymbolDelegate = officeSymbolSelector.Compile();
