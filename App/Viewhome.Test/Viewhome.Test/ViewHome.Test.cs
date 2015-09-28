@@ -8,7 +8,8 @@ using Microsoft.VisualStudio.TestTools.UITesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UITest.Extension;
 using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
-
+using UITest.Core;
+using Microsoft.VisualStudio.TestTools.UITesting.HtmlControls;
 
 namespace Viewhome.Test
 {
@@ -16,22 +17,47 @@ namespace Viewhome.Test
     /// This test logs the user in and verifies that the three tabs on the homepage/landing page for the QA site are functional and available for display/view.
     /// </summary>
     [CodedUITest]
-    public class ViewHomeCodedUITest1
+    public class ViewHome
     {
-        public ViewHomeCodedUITest1()
+        public ViewHome()
         {
         }
 
         [TestMethod]
-        public void ViewHomeCodedUITestMethod1()
+        public void ViewHomepage()
         {
-            // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
+            //KMT Login with ECATest1 user and pw
+            
+            var browserWindow = AuthHelper.KMTLogin();
 
-            this.UIMap.LogintoQA_ExistingUser();
+            //check content menu
+            ContentMenu.AccessMenu(browserWindow);
 
-            /*this.UIMap.OpenBrowserEnterCreds();
+            //check hyperlinks for Your Shortcuts, Notifications and Timeline, and News
+
+            //shortcuts
+            HtmlHyperlink yourShortcuts = new HtmlHyperlink(browserWindow);
+            yourShortcuts.SearchProperties.Add(HtmlHyperlink.PropertyNames.InnerText, "Your Shortcuts", HtmlHyperlink.PropertyNames.ControlType, "Hyperlink", HtmlHyperlink.PropertyNames.TagInstance, "13");
+            yourShortcuts.WaitForControlReady();
+            Assert.AreEqual(true, yourShortcuts.Exists);
+
+            //notifications and timeline
+            HtmlHyperlink notifications = new HtmlHyperlink(browserWindow);
+            notifications.SearchProperties.Add(HtmlHyperlink.PropertyNames.InnerText, "Notifications & Timeline", HtmlHyperlink.PropertyNames.ControlType, "Hyperlink", HtmlHyperlink.PropertyNames.TagInstance, "14");
+            notifications.WaitForControlReady();
+            Assert.AreEqual(true, notifications.Exists);
+
+            //news
+            HtmlHyperlink news = new HtmlHyperlink(browserWindow);
+            news.SearchProperties.Add(HtmlHyperlink.PropertyNames.InnerText, "News (3)", HtmlHyperlink.PropertyNames.ControlType, "Hyperlink", HtmlHyperlink.PropertyNames.TagInstance, "15");
+            news.WaitForControlReady();
+            Assert.AreEqual(true, news.Exists);
+
+            //old code
+            /*this.UIMap.LogintoQA_ExistingUser();
+            this.UIMap.OpenBrowserEnterCreds();
             this.UIMap.SignInButton();
-            this.UIMap.SignIn();*/
+            this.UIMap.SignIn();
             this.UIMap.Notifications_ActivityLink();
             this.UIMap.SelectNotifications_ActivityLink();
             this.UIMap.NewsLink();
@@ -39,7 +65,8 @@ namespace Viewhome.Test
             this.UIMap.YourShortcutsLink();
             this.UIMap.SelectYourShortcutsLink();
             this.UIMap.CloseBrowserButton();
-            this.UIMap.CloseBrowser();
+            this.UIMap.CloseBrowser();*/
+            //end old code
         }
 
         #region Additional test attributes
