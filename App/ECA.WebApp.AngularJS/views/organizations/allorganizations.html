@@ -10,8 +10,9 @@
         <table class="col-md-12 alt">
             <thead>
                 <tr>
-                    <th st-sort="'name'" st-sort-default="true" class="col-md-4 sort-label medium">Name</th>
-                    <th st-sort="'organizationType'" class="col-md-3 sort-label medium">Type</th>
+                    <th st-sort="'name'" st-sort-default="true" class="col-md-3 sort-label medium">Name</th>
+                    <th st-sort="'organizationType'" class="col-md-2 sort-label medium">Type</th>
+                    <th class="col-md-2 sort-label medium">Roles</th>
                     <th st-sort="'status'" class="col-md-1 sort-label medium">Status</th>
                     <th st-sort="'location'" class="col-md-2 sort-label medium">Location</th>
                     <th class="col-md-2">&nbsp;</th>
@@ -22,6 +23,26 @@
                     </th>
                     <th>
                         <input st-search="'organizationType'" placeholder="" type="search" class="input-lg form-control" />
+                    </th>
+                    <th>
+                        <ui-select multiple
+                                   ui-select-st-search
+                                   ui-select-st-search-model-id="id"
+                                   ui-select-st-search-property="organizationRoleIds"
+                                   ui-select-st-search-comparison-type="containsany"
+                                   close-on-select="true"
+                                   ng-model="selectedOrganizationRoles"
+                                   theme="select2"
+                                   append-to-body="true"
+                                   title="Choose regions to filter."
+                                   style="min-width: 200px;">
+                            <ui-select-match placeholder="Select roles to filter...">
+                                <div>{{$item.value}}</div>
+                            </ui-select-match>
+                            <ui-select-choices repeat="role in organizationRoles | filter:$select.search">
+                                {{role.value}}
+                            </ui-select-choices>
+                        </ui-select>
                     </th>
                     <th>
                         <input st-search="'status'" placeholder="" type="search" class="input-lg form-control" />
@@ -40,6 +61,11 @@
                         <h5><a ng-bind-html="organization.name" ui-sref="organizations.overview({organizationId: organization.organizationId})">{{organization.name}}</a></h5>
                     </td>
                     <td>{{organization.organizationType}}</td>
+                    <td>
+                        <span ng-repeat="roleName in organization.organizationRoleNames">
+                        {{roleName}}{{$last ? '' : ','}}
+                        </span>
+                    </td>
                     <td>{{organization.status}}</td>
                     <td>{{organization.location}}</td>
                     <td>
