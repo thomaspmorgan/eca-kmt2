@@ -5,6 +5,25 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 namespace ECA.Business.Test
 {
 	using System;
@@ -567,6 +586,21 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.OfficeSetting>(this.SingleOrDefault(x => x.OfficeSettingId.Equals(keyValues.First())));
 		}
 	}
+	public class OrganizationRoleTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.OrganizationRole>
+	{
+		public override ECA.Data.OrganizationRole Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///OrganizationRoleId
+			return this.SingleOrDefault(x => x.OrganizationRoleId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.OrganizationRole> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///OrganizationRoleId
+			return Task.FromResult<ECA.Data.OrganizationRole>(this.SingleOrDefault(x => x.OrganizationRoleId.Equals(keyValues.First())));
+		}
+	}
 	public class OrganizationTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Organization>
 	{
 		public override ECA.Data.Organization Find(params object[] keyValues)
@@ -745,6 +779,21 @@ namespace ECA.Business.Test
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
 			///ProfessionEducationId
 			return Task.FromResult<ECA.Data.ProfessionEducation>(this.SingleOrDefault(x => x.ProfessionEducationId.Equals(keyValues.First())));
+		}
+	}
+	public class ProgramCategoryTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ProgramCategory>
+	{
+		public override ECA.Data.ProgramCategory Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ProgramCategoryId
+			return this.SingleOrDefault(x => x.ProgramCategoryId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.ProgramCategory> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ProgramCategoryId
+			return Task.FromResult<ECA.Data.ProgramCategory>(this.SingleOrDefault(x => x.ProgramCategoryId.Equals(keyValues.First())));
 		}
 	}
 	public class ProgramTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Program>
@@ -1004,6 +1053,7 @@ namespace ECA.Business.Test
 			this.MoneyFlowTypes = new MoneyFlowTypeTestDbSet();
 			this.Objectives = new ObjectiveTestDbSet();
 			this.OfficeSettings = new OfficeSettingTestDbSet();
+			this.OrganizationRoles = new OrganizationRoleTestDbSet();
 			this.Organizations = new OrganizationTestDbSet();
 			this.OrganizationTypes = new OrganizationTypeTestDbSet();
 			this.ParticipantPersons = new ParticipantPersonTestDbSet();
@@ -1016,6 +1066,7 @@ namespace ECA.Business.Test
 			this.PhoneNumbers = new PhoneNumberTestDbSet();
 			this.PhoneNumberTypes = new PhoneNumberTypeTestDbSet();
 			this.ProfessionEducations = new ProfessionEducationTestDbSet();
+			this.ProgramCategories = new ProgramCategoryTestDbSet();
 			this.Programs = new ProgramTestDbSet();
 			this.ProgramStatuses = new ProgramStatusTestDbSet();
 			this.ProgramTypes = new ProgramTypeTestDbSet();
