@@ -43,12 +43,13 @@ namespace ECA.WebApi.Controllers.Search
         /// <param name="search">The search query.</param>
         /// <returns>The responsive documents.</returns>
         [Route("Search")]
-        [ResponseType(typeof(DocumentSearchResponse<ECADocument>))]
+        [ResponseType(typeof(DocumentSearchResponseViewModel))]
         public async Task<IHttpActionResult> GetSearchDocumentsAsync(string search)
         {
             var currentUser = this.userProvider.GetCurrentUser();
             var businessUser = this.userProvider.GetBusinessUser(currentUser);
             var searchResults = await this.indexService.SearchAsync(search, null);
+            return Ok(new DocumentSearchResponseViewModel(searchResults));
             //var viewModels = new List<SearchResultViewModel<ECADocument>>();
             
             //foreach(var result in searchResults.Results)
@@ -62,7 +63,7 @@ namespace ECA.WebApi.Controllers.Search
             //}
             //searchResults.Results = viewModels;
 
-            return Ok(await this.indexService.SearchAsync(search, null));
+            //return Ok(await this.indexService.SearchAsync(search, null));
         }
     }
 }

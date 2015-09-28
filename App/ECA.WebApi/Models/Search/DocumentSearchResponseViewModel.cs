@@ -7,25 +7,26 @@ using System.Web;
 
 namespace ECA.WebApi.Models.Search
 {
-    public class DocumentSearchResponseViewModel : DocumentSearchResponse<ECADocument>
+    public class DocumentSearchResponseViewModel
     {
         public DocumentSearchResponseViewModel(DocumentSearchResponse<ECADocument> response)
         {
             this.Count = response.Count;
             this.Coverage = response.Coverage;
-
-            //this.Results = new List<SearchResultViewModel>();
-            //foreach(var doc in response.Results)
-            
-            //    this.Results.Add(new SearchResultViewModel(doc));
-            //}
+            this.Results = new List<SearchResultViewModel>();
+            foreach(var result in response.Results)
+            {
+                this.Results.Add(new SearchResultViewModel(result));
+            }
         }
 
-        //public long? Count { get; set; }
+        public long? Count { get; set; }
 
-        //public double? Coverage { get; set; }
+        public double? Coverage { get; set; }
 
-        ////public FacetResults Facets { get; set; }
-        //public List<SearchResultViewModel> Results { get; set; }
+        //public FacetResults Facets { get; set; }
+
+        public List<SearchResultViewModel> Results { get; set; }
+
     }
 }
