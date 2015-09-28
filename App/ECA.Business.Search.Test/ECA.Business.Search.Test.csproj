@@ -144,6 +144,7 @@
     <Compile Include="TestDocumentConfiguration.cs" />
     <Compile Include="DocumentConfigurationTest.cs" />
     <Compile Include="DocumentServiceTest.cs" />
+    <Compile Include="ECASearchParametersTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -155,6 +156,10 @@
     <ProjectReference Include="..\ECA.Business.Search\ECA.Business.Search.csproj">
       <Project>{7ffb7ec5-462a-4997-9704-736f5af245e9}</Project>
       <Name>ECA.Business.Search</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECA.Core.DynamicLinq\ECA.Core.DynamicLinq.csproj">
+      <Project>{2ffe2c53-412a-43ae-840d-470901649ed8}</Project>
+      <Name>ECA.Core.DynamicLinq</Name>
     </ProjectReference>
     <ProjectReference Include="..\ECA.Core\ECA.Core.csproj">
       <Project>{983c0be6-5e42-494d-9947-0d67b84016c1}</Project>

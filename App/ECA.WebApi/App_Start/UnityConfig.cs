@@ -1,5 +1,6 @@
 using CAM.Business.Service;
 using CAM.Data;
+using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Search;
 using ECA.Business.Service.Admin;
 using ECA.Business.Service.Fundings;
@@ -13,6 +14,7 @@ using ECA.Core.Generation;
 using ECA.Core.Service;
 using ECA.Data;
 using ECA.WebApi.Models.Admin;
+using ECA.WebApi.Models.Search;
 using ECA.WebApi.Security;
 using Microsoft.Azure.Search;
 using Microsoft.Practices.Unity;
@@ -84,6 +86,8 @@ namespace ECA.WebApi
                 var indexService = new IndexService(client, configs);
                 return indexService;
             }));
+            //container.RegisterType<IIndexNotificationService, FileIndexNotificationService>();
+            //container.RegisterType<DocumentService<EcaContext, ProgramDTO>, ProgramDocumentService>(new HierarchicalLifetimeManager());
         }
 
 

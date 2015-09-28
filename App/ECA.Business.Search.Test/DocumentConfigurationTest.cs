@@ -28,6 +28,7 @@ namespace ECA.Business.Search.Test
             
         }
 
+        public string OfficeSymbol { get; set; }
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -200,6 +201,19 @@ namespace ECA.Business.Search.Test
         }
 
         [TestMethod]
+        public void TestHasOfficeSymbol()
+        {
+            var configuration = new ConfigurationTestClass();
+            Assert.IsNull(configuration.OfficeSymbolDelegate);
+            configuration.HasOfficeSymbole(x => x.OfficeSymbol);
+            Assert.IsNotNull(configuration.OfficeSymbolDelegate);
+
+            var instance = new SimpleConfigurationTestClass();
+            instance.OfficeSymbol = "symbol";
+            Assert.IsTrue(Object.ReferenceEquals(instance.OfficeSymbol, configuration.OfficeSymbolDelegate(instance)));
+        }
+
+        [TestMethod]
         public void TestHasPointsOfContact()
         {
             var configuration = new ConfigurationTestClass();
@@ -246,6 +260,20 @@ namespace ECA.Business.Search.Test
 
             instance.Description = "desc";
             Assert.AreEqual(instance.Description, configuration.GetDescription(instance));
+        }
+
+        [TestMethod]
+        public void TestGetOfficeSymbol()
+        {
+            var instance = new SimpleConfigurationTestClass();
+            var configuration = new ConfigurationTestClass();
+            Assert.IsNull(configuration.GetOfficeSymbol(instance));
+
+            configuration.HasOfficeSymbole(x => x.OfficeSymbol);
+            Assert.IsNull(configuration.GetOfficeSymbol(instance));
+
+            instance.OfficeSymbol = "symbol";
+            Assert.AreEqual(instance.OfficeSymbol, configuration.GetOfficeSymbol(instance));
         }
 
         [TestMethod]

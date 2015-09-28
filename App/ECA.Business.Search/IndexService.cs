@@ -1,4 +1,5 @@
-﻿using Hyak.Common;
+﻿using ECA.Core.DynamicLinq;
+using Hyak.Common;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
 using System;
@@ -81,20 +82,20 @@ namespace ECA.Business.Search
             index.Fields.Add(new Field
             {
                 IsKey = true,
-                Name = ECADocument.ID_KEY,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Id),
                 Type = DataType.String
             });
             index.Fields.Add(new Field
             {
                 IsKey = false,
-                Name = ECADocument.NAME_KEY,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Name),
                 Type = DataType.String,
                 IsSearchable = true
             });
             index.Fields.Add(new Field
             {
                 IsKey = false,
-                Name = ECADocument.DOCUMENT_TYPE_KEY,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.DocumentType),
                 Type = DataType.String,
                 IsSearchable = true,
                 IsFacetable = true
@@ -102,43 +103,50 @@ namespace ECA.Business.Search
             index.Fields.Add(new Field
             {
                 IsKey = false,
-                Name = ECADocument.DESCRIPTION_KEY,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Description),
                 Type = DataType.String,
                 IsSearchable = true
             });
             index.Fields.Add(new Field
             {
                 IsKey = false,
-                Name = ECADocument.FOCI_KEY,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Foci),
                 Type = DataType.Collection(DataType.String),
                 IsSearchable = true
             });
             index.Fields.Add(new Field
             {
                 IsKey = false,
-                Name = ECADocument.GOALS_KEY,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Goals),
                 Type = DataType.Collection(DataType.String),
                 IsSearchable = true
             });
             index.Fields.Add(new Field
             {
                 IsKey = false,
-                Name = ECADocument.OBJECTIVES_KEY,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Objectives),
                 Type = DataType.Collection(DataType.String),
                 IsSearchable = true
             });
             index.Fields.Add(new Field
             {
                 IsKey = false,
-                Name = ECADocument.THEMES_KEY,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Themes),
                 Type = DataType.Collection(DataType.String),
                 IsSearchable = true
             });
             index.Fields.Add(new Field
             {
                 IsKey = false,
-                Name = ECADocument.POINTS_OF_CONTACT_KEY,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.PointsOfContact),
                 Type = DataType.Collection(DataType.String),
+                IsSearchable = true
+            });
+            index.Fields.Add(new Field
+            {
+                IsKey = false,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.OfficeSymbol),
+                Type = DataType.String,
                 IsSearchable = true
             });
             return index;
@@ -149,10 +157,7 @@ namespace ECA.Business.Search
             var configuration = GetDocumentConfiguration<T>();
             var index = GetIndex(configuration);
             var indexName = index.Name;
-            if (!this.searchClient.Indexes.Exists(indexName))
-            {
-                this.searchClient.Indexes.CreateOrUpdate(index);
-            }
+            this.searchClient.Indexes.CreateOrUpdate(index);
         }
 
         public async Task CreateIndexAsync<T>() where T : class
@@ -160,10 +165,7 @@ namespace ECA.Business.Search
             var configuration = GetDocumentConfiguration<T>();
             var index = GetIndex(configuration);
             var indexName = index.Name;
-            if (!(await this.searchClient.Indexes.ExistsAsync(indexName)))
-            {
-                await this.searchClient.Indexes.CreateOrUpdateAsync(index);
-            }
+            await this.searchClient.Indexes.CreateOrUpdateAsync(index);
         }
 
         #endregion
@@ -280,19 +282,19 @@ namespace ECA.Business.Search
 
         #region Search
 
-        public DocumentSearchResponse<ECADocument> Search(string search, List<DocumentKey> allowedDocumentKeys)
+        public DocumentSearchResponse<ECADocument> Search(ECASearchParameters ecaSearchParameters, List<DocumentKey> allowedDocumentKeys)
         {
             var client = GetClient();
-            var parameters = GetSearchParameters(search, allowedDocumentKeys);
-            var response = client.Documents.Search<ECADocument>(search, parameters);
+            var parameters = GetSearchParameters(ecaSearchParameters, allowedDocumentKeys);
+            var response = client.Documents.Search<ECADocument>(ecaSearchParameters.SearchTerm, parameters);
             return response;
         }
 
-        public async Task<DocumentSearchResponse<ECADocument>> SearchAsync(string search, List<DocumentKey> allowedDocumentKeys)
+        public async Task<DocumentSearchResponse<ECADocument>> SearchAsync(ECASearchParameters ecaSearchParameters, List<DocumentKey> allowedDocumentKeys)
         {
             var client = GetClient();
-            var parameters = GetSearchParameters(search, allowedDocumentKeys);
-            var response = await client.Documents.SearchAsync<ECADocument>(search, parameters);
+            var parameters = GetSearchParameters(ecaSearchParameters, allowedDocumentKeys);
+            var response = await client.Documents.SearchAsync<ECADocument>(ecaSearchParameters.SearchTerm, parameters);
             return response;
         }
 
@@ -305,12 +307,25 @@ namespace ECA.Business.Search
         {
             return this.searchClient.Indexes.GetClient(DocumentType.ALL_DOCUMENTS_INDEX_NAME);
         }
-        private SearchParameters GetSearchParameters(string search, List<DocumentKey> allowedDocumentKeys)
+        public SearchParameters GetSearchParameters(ECASearchParameters ecaSearchParameters, List<DocumentKey> allowedDocumentKeys)
         {
-            return new SearchParameters
+            var searchParameters = new SearchParameters
             {
-
+                Skip = ecaSearchParameters.Start,
+                Top = ecaSearchParameters.Limit,
             };
+            if(ecaSearchParameters.Facets != null)
+            {
+                var distinctFacets = ecaSearchParameters.Facets.Distinct().ToList();
+                searchParameters.Facets = distinctFacets;
+            }
+            if(ecaSearchParameters.Fields != null)
+            {
+                var distinctFields = ecaSearchParameters.Fields.Distinct().ToList();
+                searchParameters.Select = distinctFields;
+            }
+            return searchParameters;
+
         }
 
         #endregion

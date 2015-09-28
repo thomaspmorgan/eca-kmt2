@@ -10,18 +10,18 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Search
 {
-    [SerializePropertyNamesAsCamelCase]
+    //[SerializePropertyNamesAsCamelCase]
     public class ECADocument
     {
-        public const string ID_KEY = "id";
-        public const string NAME_KEY = "name";
-        public const string DOCUMENT_TYPE_KEY = "docType";
-        public const string DESCRIPTION_KEY = "desc";
-        public const string THEMES_KEY = "themes";
-        public const string GOALS_KEY = "goals";
-        public const string FOCI_KEY = "foci";
-        public const string OBJECTIVES_KEY = "objectives";
-        public const string POINTS_OF_CONTACT_KEY = "pointsOfContact";
+        //public const string ID_KEY = "id";
+        //public const string NAME_KEY = "name";
+        //public const string DOCUMENT_TYPE_KEY = "documentType";
+        //public const string DESCRIPTION_KEY = "description";
+        //public const string THEMES_KEY = "themes";
+        //public const string GOALS_KEY = "goals";
+        //public const string FOCI_KEY = "foci";
+        //public const string OBJECTIVES_KEY = "objectives";
+        //public const string POINTS_OF_CONTACT_KEY = "pointsOfContact";
         
 
         public string Description { get; set; }
@@ -31,6 +31,8 @@ namespace ECA.Business.Search
         public string Name { get; set; }
 
         public string DocumentType { get; set; }
+
+        public string OfficeSymbol { get; set; }
 
         public IEnumerable<string> PointsOfContact { get; set; }
 

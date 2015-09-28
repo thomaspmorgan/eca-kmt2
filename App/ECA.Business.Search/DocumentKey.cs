@@ -17,7 +17,7 @@ namespace ECA.Business.Search
 
     public class DocumentKey
     {
-        public const char DOCUMENT_KEY_SPLIT_CHAR = '-';
+        public const char DOCUMENT_KEY_SPLIT_CHAR = '_';
 
         public DocumentKey(string key)
         {
