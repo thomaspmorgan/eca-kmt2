@@ -83,6 +83,7 @@ namespace ECA.Business.Search
             var total = GetDocumentCount();
             var config = indexService.GetDocumentConfiguration<TDocument>();
             throwIfDocumentConfigurationNotFound(config, typeof(TDocument));
+            indexService.CreateIndex<TDocument>();
             var documentType = config.GetDocumentType();
             notificationService.Started(documentType);
             while (counter < total)
@@ -101,6 +102,7 @@ namespace ECA.Business.Search
             var total = await GetDocumentCountAsync();
             var config = indexService.GetDocumentConfiguration<TDocument>();
             throwIfDocumentConfigurationNotFound(config, typeof(TDocument));
+            await indexService.CreateIndexAsync<TDocument>();
             var documentType = config.GetDocumentType();
             notificationService.Started(documentType);
             while (counter < total)

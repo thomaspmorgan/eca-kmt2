@@ -22,7 +22,7 @@ namespace ECA.Business.Search.Test
         public SimpleEntityConfiguration()
         {
             HasKey(x => x.Id);
-            HasTitle(x => x.Name);
+            HasName(x => x.Name);
             HasDescription(x => x.Description);
         }
     }

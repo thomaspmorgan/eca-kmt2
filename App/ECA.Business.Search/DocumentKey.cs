@@ -113,5 +113,75 @@ namespace ECA.Business.Search
                 throw new NotSupportedException(String.Format("The document key type [{0}] is not supported.", keyType));
             }
         }
+
+
+        /// <summary>
+        /// Returns true if the given object equals this object.
+        /// </summary>
+        /// <param name="obj">The object to test.</param>
+        /// <returns>True if the given object equals this object.</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            var otherKey = obj as DocumentKey;
+            if (otherKey == null)
+            {
+                return false;
+            }
+            return this.DocumentType == otherKey.DocumentType
+                && this.KeyType == otherKey.KeyType
+                && this.Value.Equals(otherKey.Value);
+
+        }
+
+        /// <summary>
+        /// Returns a hash of this object.
+        /// </summary>
+        /// <returns>A hash of this object.</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hash = 17;
+                // Suitable nullity checks etc, of course :)
+                hash = hash * 23 + this.KeyType.GetHashCode();
+                hash = hash * 23 + this.DocumentType.Id.GetHashCode();
+                hash = hash * 23 + this.Value.GetHashCode();
+                return hash;
+            }
+        }
+
+        /// <summary>
+        /// Returns true if the given instances are equal.
+        /// </summary>
+        /// <param name="a">The first instance.</param>
+        /// <param name="b">The second instance.</param>
+        /// <returns>True if the given instances are equal.</returns>
+        public static bool operator ==(DocumentKey a, DocumentKey b)
+        {
+            if (System.Object.ReferenceEquals(a, b))
+            {
+                return true;
+            }
+            if (((object)a == null) || ((object)b == null))
+            {
+                return false;
+            }
+            return a.Equals(b);
+        }
+
+        /// <summary>
+        /// Returns false if the given instances are equal.
+        /// </summary>
+        /// <param name="a">The first instance.</param>
+        /// <param name="b">The second instance.</param>
+        /// <returns>False if the given instances are equal.</returns>
+        public static bool operator !=(DocumentKey a, DocumentKey b)
+        {
+            return !(a == b);
+        }
     }
 }

@@ -25,22 +25,39 @@ namespace ECA.Business.Search.Test
     {
         public SimpleConfigurationTestClass()
         {
-            this.Lookups = new List<LookupTestClass>();
+            
         }
 
         public int Id { get; set; }
 
-        public string Title { get; set; }
-
-        public string Subtitle { get; set; }
-
-        public string AdditionalField1 { get; set; }
-
-        public string AdditionalField2 { get; set; }
+        public string Name { get; set; }
 
         public string Description { get; set; }
 
-        public IEnumerable<LookupTestClass> Lookups { get; set; }
+        public IEnumerable<string> Themes
+        {
+            get; set;
+        }
+
+        public IEnumerable<string> Objectives
+        {
+            get; set;
+        }
+
+        public IEnumerable<string> Goals
+        {
+            get; set;
+        }
+
+        public IEnumerable<string> Foci
+        {
+            get; set;
+        }
+
+        public IEnumerable<string> PointsOfContact
+        {
+            get; set;
+        }
 
         public DocumentType DocumentType { get; set; }
     }
@@ -48,13 +65,13 @@ namespace ECA.Business.Search.Test
     [TestClass]
     public class DocumentConfigurationTest
     {
-        [TestMethod]
-        public void TestConstructor()
-        {
-            var configuration = new ConfigurationTestClass();
-            Assert.IsNotNull(configuration.AdditionalFieldsDelegates);
-            Assert.AreEqual(0, configuration.AdditionalFieldsDelegates.Count());
-        }
+        //[TestMethod]
+        //public void TestConstructor()
+        //{
+        //    var configuration = new ConfigurationTestClass();
+        //    Assert.IsNotNull(configuration.AdditionalFieldsDelegates);
+        //    Assert.AreEqual(0, configuration.AdditionalFieldsDelegates.Count());
+        //}
 
         [TestMethod]
         public void TestGetId()
@@ -105,29 +122,16 @@ namespace ECA.Business.Search.Test
         }
 
         [TestMethod]
-        public void TestHasTitle()
+        public void TestHasName()
         {
             var configuration = new ConfigurationTestClass();
-            Assert.IsNull(configuration.TitleDelegate);
-            configuration.HasTitle(x => x.Title);
-            Assert.IsNotNull(configuration.TitleDelegate);
+            Assert.IsNull(configuration.NameDelegate);
+            configuration.HasName(x => x.Name);
+            Assert.IsNotNull(configuration.NameDelegate);
 
             var instance = new SimpleConfigurationTestClass();
-            instance.Title = "title";
-            Assert.AreEqual(instance.Title, configuration.TitleDelegate(instance));
-        }
-
-        [TestMethod]
-        public void TestHasSubtitle()
-        {
-            var configuration = new ConfigurationTestClass();
-            Assert.IsNull(configuration.SubtitleDelegate);
-            configuration.HasSubtitle(x => x.Subtitle);
-            Assert.IsNotNull(configuration.SubtitleDelegate);
-
-            var instance = new SimpleConfigurationTestClass();
-            instance.Subtitle = "subtitle";
-            Assert.AreEqual(instance.Subtitle, configuration.SubtitleDelegate(instance));
+            instance.Name = "name";
+            Assert.AreEqual(instance.Name, configuration.NameDelegate(instance));
         }
 
         [TestMethod]
@@ -144,104 +148,68 @@ namespace ECA.Business.Search.Test
         }
 
         [TestMethod]
-        public void TestHasAdditionalField_OneField_DefaultPropertyName()
+        public void TestHasThemes()
         {
             var configuration = new ConfigurationTestClass();
-            Assert.AreEqual(0, configuration.AdditionalFieldsDelegates.Count);
-            configuration.HasAdditionalField(x => x.AdditionalField1);
-            Assert.AreEqual(1, configuration.AdditionalFieldsDelegates.Count);
+            Assert.IsNull(configuration.ThemesDelegate);
+            configuration.HasThemes(x => x.Themes);
+            Assert.IsNotNull(configuration.ThemesDelegate);
 
             var instance = new SimpleConfigurationTestClass();
-            instance.AdditionalField1 = "addfield1";
-
-            var dictionary = configuration.GetAdditionalFields(instance);
-            Assert.AreEqual(1, dictionary.Count);
-            Assert.IsTrue(dictionary.ContainsKey("AdditionalField1"));
-            Assert.AreEqual(instance.AdditionalField1, dictionary.Values.First());
+            instance.Themes = new string[] { "value1", "value2" };
+            Assert.IsTrue(Object.ReferenceEquals(instance.Themes, configuration.ThemesDelegate(instance)));
         }
 
         [TestMethod]
-        public void TestHasAdditionalField_OneField_DifferentPropertyName()
+        public void TestHasGoals()
         {
-            var fieldName = "MyField";
             var configuration = new ConfigurationTestClass();
-            Assert.AreEqual(0, configuration.AdditionalFieldsDelegates.Count);
-            configuration.HasAdditionalField(fieldName, x => x.AdditionalField1);
-            Assert.AreEqual(1, configuration.AdditionalFieldsDelegates.Count);
+            Assert.IsNull(configuration.GoalsDelegate);
+            configuration.HasGoals(x => x.Goals);
+            Assert.IsNotNull(configuration.GoalsDelegate);
 
             var instance = new SimpleConfigurationTestClass();
-            instance.AdditionalField1 = "addfield1";
-
-            var dictionary = configuration.GetAdditionalFields(instance);
-            Assert.AreEqual(1, dictionary.Count);
-            Assert.IsTrue(dictionary.ContainsKey(fieldName));
-            Assert.AreEqual(instance.AdditionalField1, dictionary.Values.First());
+            instance.Themes = new string[] { "value1", "value2" };
+            Assert.IsTrue(Object.ReferenceEquals(instance.Goals, configuration.GoalsDelegate(instance)));
         }
 
         [TestMethod]
-        public void TestHasAdditionalField_TwoFields()
+        public void TestHasFoci()
         {
             var configuration = new ConfigurationTestClass();
-            Assert.AreEqual(0, configuration.AdditionalFieldsDelegates.Count);
-            configuration.HasAdditionalField(x => x.AdditionalField1);
-            configuration.HasAdditionalField(x => x.AdditionalField2);
-            Assert.AreEqual(2, configuration.AdditionalFieldsDelegates.Count);
+            Assert.IsNull(configuration.FociDelegate);
+            configuration.HasFoci(x => x.Foci);
+            Assert.IsNotNull(configuration.FociDelegate);
 
             var instance = new SimpleConfigurationTestClass();
-            instance.AdditionalField1 = "addfield1";
-            instance.AdditionalField2 = "addfield2";
-
-            var dictionary = configuration.GetAdditionalFields(instance);
-            Assert.AreEqual(2, dictionary.Count);
-            Assert.IsTrue(dictionary.ContainsKey("AdditionalField1"));
-            Assert.IsTrue(dictionary.ContainsKey("AdditionalField2"));
-            Assert.AreEqual(instance.AdditionalField1, dictionary["AdditionalField1"]);
-            Assert.AreEqual(instance.AdditionalField2, dictionary["AdditionalField2"]);
+            instance.Themes = new string[] { "value1", "value2" };
+            Assert.IsTrue(Object.ReferenceEquals(instance.Foci, configuration.FociDelegate(instance)));
         }
 
         [TestMethod]
-        public void TestHasAdditionalField_IEnumerableProperty()
+        public void TestHasObjectives()
         {
             var configuration = new ConfigurationTestClass();
-            Assert.AreEqual(0, configuration.AdditionalFieldsDelegates.Count);
-            configuration.HasAdditionalField(x => x.Lookups, y => String.Join(", ", y.Lookups.Select(z => z.Value).ToList()));
-            Assert.AreEqual(1, configuration.AdditionalFieldsDelegates.Count);
+            Assert.IsNull(configuration.ObjectivesDelegate);
+            configuration.HasObjectives(x => x.Objectives);
+            Assert.IsNotNull(configuration.ObjectivesDelegate);
 
             var instance = new SimpleConfigurationTestClass();
-            var lookup = new LookupTestClass
-            {
-                Id = 1,
-                Value = "value"
-            };
-            instance.Lookups = new List<LookupTestClass> { lookup };
-
-            var dictionary = configuration.GetAdditionalFields(instance);
-            Assert.AreEqual(1, dictionary.Count);
-            Assert.IsTrue(dictionary.ContainsKey("Lookups"));
-            Assert.AreEqual("value", dictionary["Lookups"]);
+            instance.Themes = new string[] { "value1", "value2" };
+            Assert.IsTrue(Object.ReferenceEquals(instance.Objectives, configuration.ObjectivesDelegate(instance)));
         }
 
         [TestMethod]
-        public void TestHasAdditionalField_IEnumerableProperty_DifferentPropertyName()
+        public void TestHasPointsOfContact()
         {
-            var fieldName = "X";
             var configuration = new ConfigurationTestClass();
-            Assert.AreEqual(0, configuration.AdditionalFieldsDelegates.Count);
-            configuration.HasAdditionalField(fieldName, y => String.Join(", ", y.Lookups.Select(z => z.Value).ToList()));
-            Assert.AreEqual(1, configuration.AdditionalFieldsDelegates.Count);
+            Assert.IsNull(configuration.PointsOfContactDelegate);
+            configuration.HasPointsOfContact(x => x.PointsOfContact);
+            Assert.IsNotNull(configuration.PointsOfContactDelegate);
 
             var instance = new SimpleConfigurationTestClass();
-            var lookup = new LookupTestClass
-            {
-                Id = 1,
-                Value = "value"
-            };
-            instance.Lookups = new List<LookupTestClass> { lookup };
-
-            var dictionary = configuration.GetAdditionalFields(instance);
-            Assert.AreEqual(1, dictionary.Count);
-            Assert.IsTrue(dictionary.ContainsKey(fieldName));
-            Assert.AreEqual("value", dictionary[fieldName]);
+            instance.PointsOfContact = new string[] { "value1", "value2" };
+            Assert.IsTrue(Object.ReferenceEquals(instance.PointsOfContact, configuration.PointsOfContactDelegate(instance)));
         }
 
         [TestMethod]
@@ -253,17 +221,17 @@ namespace ECA.Business.Search.Test
         }
 
         [TestMethod]
-        public void TestGetTitle()
+        public void TestGetName()
         {
             var instance = new SimpleConfigurationTestClass();
             var configuration = new ConfigurationTestClass();
-            Assert.IsNull(configuration.GetTitle(instance));
+            Assert.IsNull(configuration.GetName(instance));
 
-            configuration.HasTitle(x => x.Title);
-            Assert.IsNull(configuration.GetTitle(instance));
+            configuration.HasName(x => x.Name);
+            Assert.IsNull(configuration.GetName(instance));
 
-            instance.Title = "title";
-            Assert.AreEqual(instance.Title, configuration.GetTitle(instance));
+            instance.Name = "name";
+            Assert.AreEqual(instance.Name, configuration.GetName(instance));
         }
 
         [TestMethod]
@@ -281,74 +249,74 @@ namespace ECA.Business.Search.Test
         }
 
         [TestMethod]
-        public void TestSubtitle()
+        public void TestGetGoals()
         {
             var instance = new SimpleConfigurationTestClass();
             var configuration = new ConfigurationTestClass();
-            Assert.IsNull(configuration.GetSubtitle(instance));
+            Assert.IsNull(configuration.GetGoals(instance));
 
-            configuration.HasSubtitle(x => x.Subtitle);
-            Assert.IsNull(configuration.GetSubtitle(instance));
+            configuration.HasGoals(x => x.Goals);
+            Assert.IsNull(configuration.GetGoals(instance));
 
-            instance.Subtitle = "sub";
-            Assert.AreEqual(instance.Subtitle, configuration.GetSubtitle(instance));
+            instance.Goals = new string[] { "value" };
+            Assert.IsTrue(Object.ReferenceEquals(instance.Goals, configuration.GetGoals(instance)));
         }
 
         [TestMethod]
-        public void TestGetAdditionalFields_ZeroAdditionalField()
+        public void TestGetObjectives()
         {
             var instance = new SimpleConfigurationTestClass();
             var configuration = new ConfigurationTestClass();
+            Assert.IsNull(configuration.GetObjectives(instance));
 
-            Assert.AreEqual(0, configuration.GetAdditionalFields(instance).Count);
+            configuration.HasObjectives(x => x.Objectives);
+            Assert.IsNull(configuration.GetObjectives(instance));
+
+            instance.Objectives = new string[] { "value" };
+            Assert.IsTrue(Object.ReferenceEquals(instance.Objectives, configuration.GetObjectives(instance)));
         }
 
         [TestMethod]
-        public void TestGetAdditionalFields_OneAdditionalField_ValueIsNull()
+        public void TestGetFoci()
         {
             var instance = new SimpleConfigurationTestClass();
             var configuration = new ConfigurationTestClass();
+            Assert.IsNull(configuration.GetFoci(instance));
 
-            configuration.HasAdditionalField(x => x.AdditionalField1);
-            instance.AdditionalField1 = null;
-            Assert.AreEqual(0, configuration.GetAdditionalFields(instance).Count);
+            configuration.HasFoci(x => x.Foci);
+            Assert.IsNull(configuration.GetFoci(instance));
+
+            instance.Foci = new string[] { "value" };
+            Assert.IsTrue(Object.ReferenceEquals(instance.Foci, configuration.GetFoci(instance)));
         }
 
         [TestMethod]
-        public void TestGetAdditionalFields_OneAdditionalField_ValueIsNotNull()
+        public void TestGetThemes()
         {
             var instance = new SimpleConfigurationTestClass();
             var configuration = new ConfigurationTestClass();
+            Assert.IsNull(configuration.GetThemes(instance));
 
-            configuration.HasAdditionalField(x => x.AdditionalField1);
-            instance.AdditionalField1 = "additionalfield1";
+            configuration.HasThemes(x => x.Themes);
+            Assert.IsNull(configuration.GetThemes(instance));
 
-            var values = configuration.GetAdditionalFields(instance);
-            Assert.AreEqual(1, values.Count);
-            Assert.IsTrue(values.ContainsKey("AdditionalField1"));
-            Assert.AreEqual(instance.AdditionalField1, values.First().Value);
+            instance.Themes = new string[] { "value" };
+            Assert.IsTrue(Object.ReferenceEquals(instance.Themes, configuration.GetThemes(instance)));
         }
 
         [TestMethod]
-        public void TestGetAdditionalFieldNames_ZeroFields()
+        public void TestGetPointsOfContact()
         {
             var instance = new SimpleConfigurationTestClass();
             var configuration = new ConfigurationTestClass();
-            Assert.AreEqual(0, configuration.GetAdditionalFieldNames().Count);
+            Assert.IsNull(configuration.GetPointsOfContact(instance));
+
+            configuration.HasPointsOfContact(x => x.PointsOfContact);
+            Assert.IsNull(configuration.GetPointsOfContact(instance));
+
+            instance.PointsOfContact = new string[] { "value" };
+            Assert.IsTrue(Object.ReferenceEquals(instance.PointsOfContact, configuration.GetPointsOfContact(instance)));
         }
 
-        [TestMethod]
-        public void TestGetAdditionalFieldNames_MultipleFields()
-        {
-            var instance = new SimpleConfigurationTestClass();
-            var configuration = new ConfigurationTestClass();
-            configuration.HasAdditionalField(x => x.AdditionalField1);
-            configuration.HasAdditionalField(x => x.AdditionalField2);
-
-            var fields = configuration.GetAdditionalFieldNames();
-            Assert.AreEqual(2, fields.Count);
-            Assert.IsTrue(fields.Contains("AdditionalField1"));
-            Assert.IsTrue(fields.Contains("AdditionalField2"));
-        }
     }
 }

@@ -156,5 +156,138 @@ namespace ECA.Business.Search.Test
             var idAsString = id.ToString();
             var parsedId = documentKey.ParseId(keyType, idAsString);
         }
+
+        [TestMethod]
+        public void TestEquals_OtherValueIsNull()
+        {
+            var documentKey = new DocumentKey(DocumentType.Program, 1);
+            Assert.IsFalse(documentKey.Equals(null));
+        }
+
+        [TestMethod]
+        public void TestEquals_DifferentObjectType()
+        {
+            var documentKey = new DocumentKey(DocumentType.Program, 1);
+            Assert.IsFalse(documentKey.Equals(1));
+        }
+
+        [TestMethod]
+        public void TestEquals_DifferentDocumentType()
+        {
+            var docType = DocumentType.Program;
+            var id = 1;
+            var otherDocType = DocumentType.Project;
+            var otherId = 1;
+            var documentKey = new DocumentKey(docType, id);
+            var otherDocumentKey = new DocumentKey(otherDocType, otherId);
+            Assert.IsFalse(documentKey.Equals(otherDocumentKey));
+        }
+
+        [TestMethod]
+        public void TestEquals_DifferentId()
+        {
+            var docType = DocumentType.Program;
+            var id = 1;
+            var otherDocType = DocumentType.Program;
+            var otherId = 2;
+            var documentKey = new DocumentKey(docType, id);
+            var otherDocumentKey = new DocumentKey(otherDocType, otherId);
+            Assert.IsFalse(documentKey.Equals(otherDocumentKey));
+        }
+
+        [TestMethod]
+        public void TestEquals_SameIdSameDocType()
+        {
+            var docType = DocumentType.Program;
+            var id = 1;
+            var otherDocType = DocumentType.Program;
+            var otherId = 1;
+            var documentKey = new DocumentKey(docType, id);
+            var otherDocumentKey = new DocumentKey(otherDocType, otherId);
+            Assert.IsTrue(documentKey.Equals(otherDocumentKey));
+        }
+
+        [TestMethod]
+        public void TestEqualOperator_SameObjectReference()
+        {
+            var docType = DocumentType.Program;
+            var id = 1;
+            var documentKey = new DocumentKey(docType, id);
+            Assert.IsTrue(documentKey == documentKey);
+        }
+
+        [TestMethod]
+        public void TestEqualOperator_LeftSideNull()
+        {
+            var docType = DocumentType.Program;
+            var id = 1;
+            var documentKey = new DocumentKey(docType, id);
+            Assert.IsFalse(null == documentKey);
+        }
+
+        [TestMethod]
+        public void TestEqualOperator_RightSideNull()
+        {
+            var docType = DocumentType.Program;
+            var id = 1;
+            var documentKey = new DocumentKey(docType, id);
+            Assert.IsFalse(documentKey == null);
+        }
+
+        [TestMethod]
+        public void TestEqualOperator_AreEqual()
+        {
+            var docType = DocumentType.Program;
+            var id = 1;
+            var otherDocType = DocumentType.Program;
+            var otherId = 1;
+            var documentKey = new DocumentKey(docType, id);
+            var otherDocumentKey = new DocumentKey(otherDocType, otherId);
+            Assert.IsTrue(documentKey == otherDocumentKey);
+        }
+
+        [TestMethod]
+        public void TestEqualOperator_AreNotEqual()
+        {
+            var docType = DocumentType.Program;
+            var id = 1;
+            var otherDocType = DocumentType.Program;
+            var otherId = 2;
+            var documentKey = new DocumentKey(docType, id);
+            var otherDocumentKey = new DocumentKey(otherDocType, otherId);
+            Assert.IsFalse(documentKey == otherDocumentKey);
+        }
+        [TestMethod]
+        public void TestNotEqualOperator_AreEqual()
+        {
+            var docType = DocumentType.Program;
+            var id = 1;
+            var otherDocType = DocumentType.Program;
+            var otherId = 1;
+            var documentKey = new DocumentKey(docType, id);
+            var otherDocumentKey = new DocumentKey(otherDocType, otherId);
+            Assert.IsFalse(documentKey != otherDocumentKey);
+        }
+
+        [TestMethod]
+        public void TestNotEqualOperator_AreNotEqual()
+        {
+            var docType = DocumentType.Program;
+            var id = 1;
+            var otherDocType = DocumentType.Program;
+            var otherId = 2;
+            var documentKey = new DocumentKey(docType, id);
+            var otherDocumentKey = new DocumentKey(otherDocType, otherId);
+            Assert.IsTrue(documentKey != otherDocumentKey);
+        }
+
+        [TestMethod]
+        public void TestGetHashCode()
+        {
+            var docType = DocumentType.Program;
+            var id = 2;
+            var documentKey = new DocumentKey(docType, id);
+            Assert.IsNotNull(documentKey.GetHashCode());
+        }
     }
 }

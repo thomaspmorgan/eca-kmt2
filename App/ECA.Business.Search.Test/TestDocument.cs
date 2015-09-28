@@ -14,12 +14,10 @@ namespace ECA.Business.Search.Test
 
         public string Description { get; set; }
 
-        public string Subtitle { get; set; }
 
-        public string AdditionalField { get; set; }
     }
 
-    public class TestDocument// : IDocumentable
+    public class TestDocument
     {
         public int Id { get; set; }
 
@@ -27,8 +25,5 @@ namespace ECA.Business.Search.Test
 
         public string Description { get; set; }
 
-        public string Subtitle { get; set; }
-
-        public string AdditionalField { get; set; }
     }
 }

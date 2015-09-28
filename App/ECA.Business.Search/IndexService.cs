@@ -49,16 +49,8 @@ namespace ECA.Business.Search
                         invalidConfigurations.Select(x => x.DocumentType).ToList()
                         )));
                 }
-
-
-
                 this.Configurations = distinctConfigurations.Select(x => x.Config.First()).ToList();
             }
-        }
-
-        private void ValidateConfigurations(List<IDocumentConfiguration> configurations)
-        {
-
         }
 
         public List<IDocumentConfiguration> Configurations { get; private set; }
@@ -85,17 +77,7 @@ namespace ECA.Business.Search
             var index = new Index
             {
                 Name = configuration.GetDocumentType().IndexName,
-
-            };
-            foreach (var field in configuration.GetAdditionalFieldNames())
-            {
-                index.Fields.Add(new Field
-                {
-                    Name = field,
-                    Type = DataType.String,
-                    IsSearchable = true,
-                });
-            }
+            };            
             index.Fields.Add(new Field
             {
                 IsKey = true,
@@ -105,14 +87,7 @@ namespace ECA.Business.Search
             index.Fields.Add(new Field
             {
                 IsKey = false,
-                Name = ECADocument.TITLE_KEY,
-                Type = DataType.String,
-                IsSearchable = true
-            });
-            index.Fields.Add(new Field
-            {
-                IsKey = false,
-                Name = ECADocument.SUBTITLE_KEY,
+                Name = ECADocument.NAME_KEY,
                 Type = DataType.String,
                 IsSearchable = true
             });
@@ -126,11 +101,30 @@ namespace ECA.Business.Search
             index.Fields.Add(new Field
             {
                 IsKey = false,
-                Name = ECADocument.DOCUMENT_TYPE_ID_KEY,
-                Type = DataType.String,
-                IsSearchable = false,
-                IsFacetable = true,
-                IsFilterable = false
+                Name = ECADocument.FOCI_KEY,
+                Type = DataType.Collection(DataType.String),
+                IsSearchable = true
+            });
+            index.Fields.Add(new Field
+            {
+                IsKey = false,
+                Name = ECADocument.GOALS_KEY,
+                Type = DataType.Collection(DataType.String),
+                IsSearchable = true
+            });
+            index.Fields.Add(new Field
+            {
+                IsKey = false,
+                Name = ECADocument.OBJECTIVES_KEY,
+                Type = DataType.Collection(DataType.String),
+                IsSearchable = true
+            });
+            index.Fields.Add(new Field
+            {
+                IsKey = false,
+                Name = ECADocument.THEMES_KEY,
+                Type = DataType.Collection(DataType.String),
+                IsSearchable = true
             });
             return index;
         }
@@ -156,8 +150,6 @@ namespace ECA.Business.Search
                 await this.searchClient.Indexes.CreateOrUpdateAsync(index);
             }
         }
-
-
 
         #endregion
 
@@ -217,7 +209,7 @@ namespace ECA.Business.Search
             }
         }
 
-        private IndexBatch DoHandleDocuments<T>(List<T> documents, IDocumentConfiguration configuration) where T : class
+        private IndexBatch<ECADocument> DoHandleDocuments<T>(List<T> documents, IDocumentConfiguration configuration) where T : class
         {
             var responses = new List<DocumentIndexResponse>();
             if (configuration == null)
@@ -225,13 +217,9 @@ namespace ECA.Business.Search
                 throw new NotSupportedException(String.Format("The configuration for the type [{0}] was not found.", typeof(T)));
             }
             var actions = new List<IndexAction>();
-            foreach (var document in documents)
-            {
-                var ecaDocument = new ConfiguredDocument<T>(configuration, document);
-                actions.Add(new IndexAction(IndexActionType.MergeOrUpload, ecaDocument));
-            }
-            var indexBatch = new IndexBatch(actions);
-            return indexBatch;
+            var ecaDocuments = new List<ECADocument>();
+            documents.ForEach(x => ecaDocuments.Add(new ECADocument<T>(configuration, x)));
+            return IndexBatch.Create(ecaDocuments.Select(d => IndexAction.Create(d)));
         }
 
         public IDocumentConfiguration GetDocumentConfiguration<T>()
@@ -277,31 +265,19 @@ namespace ECA.Business.Search
 
         #region Search
 
-        public DocumentSearchResponse Search(string search, List<DocumentKey> allowedDocumentKeys)
+        public DocumentSearchResponse<ECADocument> Search(string search, List<DocumentKey> allowedDocumentKeys)
         {
             var client = GetClient();
             var parameters = GetSearchParameters(search, allowedDocumentKeys);
-            var response = client.Documents.Search(search, parameters);
-            return DoSearch(response);
+            var response = client.Documents.Search<ECADocument>(search, parameters);
+            return response;
         }
 
-        public async Task<DocumentSearchResponse> SearchAsync(string search, List<DocumentKey> allowedDocumentKeys)
+        public async Task<DocumentSearchResponse<ECADocument>> SearchAsync(string search, List<DocumentKey> allowedDocumentKeys)
         {
             var client = GetClient();
             var parameters = GetSearchParameters(search, allowedDocumentKeys);
-            var response = await client.Documents.SearchAsync(search, parameters);
-            return DoSearch(response);
-        }
-
-        private DocumentSearchResponse DoSearch(DocumentSearchResponse response)
-        {
-            foreach(var result in response.Results)
-            {
-                var document = result.Document;
-                var keyString = document[ECADocument.ID_KEY].ToString();
-                var key = new DocumentKey(keyString);
-                result.Document.Add("key", key);
-            }
+            var response = await client.Documents.SearchAsync<ECADocument>(search, parameters);
             return response;
         }
 

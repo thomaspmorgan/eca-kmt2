@@ -14,20 +14,12 @@ namespace ECA.Business.Search
         {
             IsDocumentType(DocumentType.Program);
             HasKey(x => x.Id);
-            HasTitle(x => x.Name);
+            HasName(x => x.Name);
             HasDescription(x => x.Description);
-            HasSubtitle(x => x.OwnerOfficeSymbol);
-
-            //HasAdditionalField<FocusCategoryDTO>(x => x.Categories, y => String.Join(", ", y.Select(z => z.FocusName).ToList()));
-
-            //Func<IEnumerable<object>, string> objectiveDelegate = (objectives) =>
-            //{
-            //    var values = objectives.Select(x => x.Name).ToList();
-            //    var value = String.Join(", ", values);
-            //    return value;
-            //};
-
-            HasAdditionalField(x => x.Objectives, y => String.Join(", ", y.Objectives.Select(o => o.Name).ToList()));
+            HasFoci(x => x.Categories.Select(c => c.Name).ToList());
+            HasGoals(x => x.Goals.Select(c => c.Value).ToList());
+            HasObjectives(x => x.Objectives.Select(y => y.Name).ToList());
+            HasThemes(x => x.Themes.Select(t => t.Value).ToList());
         }
     }
 }

@@ -385,16 +385,16 @@ namespace ECA.Business.Search.Test
                     return indexOperations;
                 };
 
-                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.IndexIDocumentOperationsIndexBatch = (operations, batch) =>
+                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.IndexOf1IDocumentOperationsIndexBatchOfM0<ECADocument>((operations, batch) =>
                 {
                     indexCalled = true;
                     return documentIndexResponse;
-                };
-                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.IndexAsyncIDocumentOperationsIndexBatch = (operations, batch) =>
+                });
+                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.IndexAsyncOf1IDocumentOperationsIndexBatchOfM0<ECADocument>((operations, batch) =>
                 {
                     indexAsyncCalled = true;
                     return Task.FromResult<DocumentIndexResponse>(documentIndexResponse);
-                };
+                });
                 var configuration = new TestDocumentConfiguration();
                 service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
 
@@ -598,14 +598,14 @@ namespace ECA.Business.Search.Test
             var searchAsyncCalled = false;
 
             var key = new DocumentKey(DocumentType.Program, 1);
-            Func<DocumentSearchResponse> createDocumentSearchResponse = () =>
+            Func<DocumentSearchResponse<ECADocument>> createDocumentSearchResponse = () =>
             {
-                var response = new DocumentSearchResponse();
-                var document = new Document();
-                document[ECADocument.ID_KEY] = key.ToString();
-                response.Results.Add(new SearchResult
+                var response = new DocumentSearchResponse<ECADocument>();
+                var document = new ECADocument();
+                document.SetKey(key);
+                response.Results.Add(new SearchResult<ECADocument>
                 {
-                    Document = document
+                    Document = document,
                 });
                 return response;
             };
@@ -638,30 +638,25 @@ namespace ECA.Business.Search.Test
                     return indexOperations;
                 };
 
-                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.SearchAsyncIDocumentOperationsStringSearchParameters = (operations, searchTerm, parameters) =>
+                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.SearchAsyncOf1IDocumentOperationsStringSearchParameters<ECADocument>((operations, searchTerm, parameters) =>
                 {
                     searchAsyncCalled = true;
-                    return Task.FromResult<DocumentSearchResponse>(createDocumentSearchResponse());
-                };
-                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.SearchIDocumentOperationsStringSearchParameters = (operations, searchTerm, parameters) =>
+                    return Task.FromResult<DocumentSearchResponse<ECADocument>>(createDocumentSearchResponse());
+                });
+                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.SearchOf1IDocumentOperationsStringSearchParameters<ECADocument>((operations, searchTerm, parameters) =>
                 {
                     searchCalled = true;
                     return createDocumentSearchResponse();
-                };
+                });
                 var configuration = new TestDocumentConfiguration();
                 service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
 
-                Action<DocumentSearchResponse> tester = (response) =>
+                Action<DocumentSearchResponse<ECADocument>> tester = (response) =>
                 {
                     Assert.AreEqual(1, response.Results.Count);
                     var firstResult = response.Results.First();
                     var firstDocument = firstResult.Document;
-
-                    Assert.IsTrue(firstDocument.ContainsKey(ECADocument.ID_KEY));
-                    var testId = new DocumentKey(firstDocument[ECADocument.ID_KEY].ToString());
-                    Assert.AreEqual(key.Value, testId.Value);
-                    Assert.AreEqual(key.KeyType, testId.KeyType);
-                    Assert.AreEqual(key.DocumentType, testId.DocumentType);
+                    Assert.AreEqual(key, firstDocument.GetKey());
                 };
 
                 Assert.IsFalse(searchCalled);
@@ -716,8 +711,6 @@ namespace ECA.Business.Search.Test
             testDocument.Id = 1;
             testDocument.Description = "desc";
             testDocument.Name = "name";
-            testDocument.Subtitle = "subtitle";
-
 
             var testDocumentConfiguration = new TestDocumentConfiguration();
             using (ShimsContext.Create())
@@ -735,7 +728,7 @@ namespace ECA.Business.Search.Test
                 Assert.IsTrue(idField.IsRetrievable);
                 Assert.IsFalse(idField.IsSearchable);
 
-                var titleField = index.Fields.Where(x => x.Name == ECADocument.TITLE_KEY).FirstOrDefault();
+                var titleField = index.Fields.Where(x => x.Name == ECADocument.NAME_KEY).FirstOrDefault();
                 Assert.IsNotNull(titleField);
                 Assert.IsTrue(titleField.IsRetrievable);
                 Assert.IsTrue(titleField.IsSearchable);
@@ -745,27 +738,17 @@ namespace ECA.Business.Search.Test
                 Assert.IsTrue(descriptionField.IsRetrievable);
                 Assert.IsTrue(descriptionField.IsSearchable);
 
-                var subtitleField = index.Fields.Where(x => x.Name == ECADocument.SUBTITLE_KEY).FirstOrDefault();
-                Assert.IsNotNull(subtitleField);
-                Assert.IsTrue(subtitleField.IsRetrievable);
-                Assert.IsTrue(subtitleField.IsSearchable);
+                //var subtitleField = index.Fields.Where(x => x.Name == ECADocument.SUBTITLE_KEY).FirstOrDefault();
+                //Assert.IsNotNull(subtitleField);
+                //Assert.IsTrue(subtitleField.IsRetrievable);
+                //Assert.IsTrue(subtitleField.IsSearchable);
 
-                var documentTypeField = index.Fields.Where(x => x.Name == ECADocument.DOCUMENT_TYPE_ID_KEY).FirstOrDefault();
-                Assert.IsNotNull(documentTypeField);
-                Assert.IsTrue(documentTypeField.IsFacetable);
-                Assert.IsTrue(documentTypeField.IsRetrievable);
-                Assert.IsFalse(documentTypeField.IsSearchable);
-
-                foreach (var field in configuration.GetAdditionalFieldNames())
-                {
-                    var additionalField = index.Fields.Where(x => x.Name == field).FirstOrDefault();
-                    Assert.IsNotNull(additionalField);
-                    Assert.AreEqual(DataType.String, additionalField.Type);
-                    Assert.IsTrue(additionalField.IsSearchable);
-                    Assert.IsTrue(additionalField.IsRetrievable);
-                }
+                //var documentTypeField = index.Fields.Where(x => x.Name == ECADocument.DOCUMENT_TYPE_ID_KEY).FirstOrDefault();
+                //Assert.IsNotNull(documentTypeField);
+                //Assert.IsTrue(documentTypeField.IsFacetable);
+                //Assert.IsTrue(documentTypeField.IsRetrievable);
+                //Assert.IsFalse(documentTypeField.IsSearchable);                
             }
-
         }
 
         //[TestMethod]

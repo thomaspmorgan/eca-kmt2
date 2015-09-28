@@ -13,15 +13,19 @@ namespace ECA.Business.Search
     {
         object GetId(object instance);
 
-        string GetTitle(object instance);
+        string GetName(object instance);
 
         string GetDescription(object instance);
 
-        string GetSubtitle(object instance);
+        IEnumerable<string> GetThemes(object instance);
 
-        List<string> GetAdditionalFieldNames();
+        IEnumerable<string> GetGoals(object instance);
 
-        Dictionary<string, string> GetAdditionalFields(object instance);
+        IEnumerable<string> GetFoci(object instance);
+
+        IEnumerable<string> GetObjectives(object instance);
+
+        IEnumerable<string> GetPointsOfContact(object instance);
 
         bool IsConfigurationForType(Type type);
 
@@ -38,18 +42,24 @@ namespace ECA.Business.Search
 
         public DocumentConfiguration()
         {
-            this.AdditionalFieldsDelegates = new Dictionary<string, Func<TEntity, string>>();
+            
         }
 
         public Func<TEntity, TEntityKey> IdDelegate { get; private set; }
 
-        public Func<TEntity, string> TitleDelegate { get; private set; }
+        public Func<TEntity, string> NameDelegate { get; private set; }
 
         public Func<TEntity, string> DescriptionDelegate { get; private set; }
 
-        public Func<TEntity, string> SubtitleDelegate { get; private set; }
+        public Func<TEntity, IEnumerable<string>> ThemesDelegate { get; private set; }
 
-        public Dictionary<string, Func<TEntity, string>> AdditionalFieldsDelegates { get; private set; }
+        public Func<TEntity, IEnumerable<string>> ObjectivesDelegate { get; private set; }
+
+        public Func<TEntity, IEnumerable<string>> FociDelegate { get; private set; }
+
+        public Func<TEntity, IEnumerable<string>> GoalsDelegate { get; private set; }
+
+        public Func<TEntity, IEnumerable<string>> PointsOfContactDelegate { get; private set; }
 
 
         public DocumentType GetDocumentType()
@@ -74,16 +84,10 @@ namespace ECA.Business.Search
             this.IdDelegate = idSelector.Compile();
         }
 
-        public void HasTitle(Expression<Func<TEntity, string>> titleSelector)
+        public void HasName(Expression<Func<TEntity, string>> nameSelector)
         {
-            Contract.Requires(titleSelector != null, "The titleSelector must not be null.");
-            this.TitleDelegate = titleSelector.Compile();
-        }
-
-        public void HasSubtitle(Expression<Func<TEntity, string>> subtitleSelector)
-        {
-            Contract.Requires(subtitleSelector != null, "The subtitleSelector must not be null.");
-            this.SubtitleDelegate = subtitleSelector.Compile();
+            Contract.Requires(nameSelector != null, "The nameSelector must not be null.");
+            this.NameDelegate = nameSelector.Compile();
         }
 
         public void HasDescription(Expression<Func<TEntity, string>> descriptionSelector)
@@ -92,35 +96,34 @@ namespace ECA.Business.Search
             this.DescriptionDelegate = descriptionSelector.Compile();
         }
 
-        public void HasAdditionalField(Expression<Func<TEntity, string>> additionalFieldSelector)
+        public void HasThemes(Expression<Func<TEntity, IEnumerable<string>>> themesSelector)
         {
-            Contract.Requires(additionalFieldSelector != null, "The additionalFieldSelector must not be null.");
-            var propertyName = PropertyHelper.GetPropertyName(additionalFieldSelector);
-            HasAdditionalField(propertyName, additionalFieldSelector);
+            Contract.Requires(themesSelector != null, "The descriptionSelector must not be null.");
+            this.ThemesDelegate = themesSelector.Compile();
         }
 
-        public void HasAdditionalField(string name, Expression<Func<TEntity, string>> additionalFieldSelector)
+        public void HasObjectives(Expression<Func<TEntity, IEnumerable<string>>> objectivesSelector)
         {
-            Contract.Requires(additionalFieldSelector != null, "The additionalFieldSelector must not be null.");
-            Contract.Requires(!String.IsNullOrWhiteSpace(name), "The name of field is invalid.");
-            var valueFn = additionalFieldSelector.Compile();
-            AdditionalFieldsDelegates.Add(name, additionalFieldSelector.Compile());
+            Contract.Requires(objectivesSelector != null, "The objectivesSelector must not be null.");
+            this.ObjectivesDelegate = objectivesSelector.Compile();
         }
 
-        public void HasAdditionalField<TCollectionType>(Expression<Func<TEntity, IEnumerable<TCollectionType>>> additionalFieldSelector, Expression<Func<TEntity, string>> valueSelector)
+        public void HasGoals(Expression<Func<TEntity, IEnumerable<string>>> goalsSelector)
         {
-            Contract.Requires(additionalFieldSelector != null, "The additionalFieldSelector must not be null.");
-            Contract.Requires(valueSelector != null, "The valueSelector must not be null.");
-            var propertyName = PropertyHelper.GetPropertyName(additionalFieldSelector);
-            HasAdditionalField<TCollectionType>(propertyName, valueSelector);
+            Contract.Requires(goalsSelector != null, "The goalsSelector must not be null.");
+            this.GoalsDelegate = goalsSelector.Compile();
         }
 
-        public void HasAdditionalField<TCollectionType>(string name, Expression<Func<TEntity, string>> valueSelector)
+        public void HasFoci(Expression<Func<TEntity, IEnumerable<string>>> fociSelector)
         {
-            Contract.Requires(valueSelector != null, "The valueSelector must not be null.");
-            Contract.Requires(!String.IsNullOrWhiteSpace(name), "The name of field is invalid.");
-            var valueFn = valueSelector.Compile();
-            AdditionalFieldsDelegates.Add(name, valueFn);
+            Contract.Requires(fociSelector != null, "The fociSelector must not be null.");
+            this.FociDelegate = fociSelector.Compile();
+        }
+
+        public void HasPointsOfContact(Expression<Func<TEntity, IEnumerable<string>>> pocSelector)
+        {
+            Contract.Requires(pocSelector != null, "The pocSelector must not be null.");
+            this.PointsOfContactDelegate = pocSelector.Compile();
         }
 
         public void IsDocumentType(DocumentType type)
@@ -134,13 +137,13 @@ namespace ECA.Business.Search
             return typeof(TEntity) == type;
         }
 
-        public string GetTitle(object instance)
+        public string GetName(object instance)
         {
             Contract.Requires(instance != null, "The instance must not be null.");
             Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
-            if (TitleDelegate != null)
+            if (NameDelegate != null)
             {
-                return TitleDelegate((TEntity)instance);
+                return NameDelegate((TEntity)instance);
             }
             else
             {
@@ -162,14 +165,13 @@ namespace ECA.Business.Search
             }
         }
 
-        public string GetSubtitle(object instance)
+        public IEnumerable<string> GetThemes(object instance)
         {
             Contract.Requires(instance != null, "The instance must not be null.");
             Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
-            if (SubtitleDelegate != null)
+            if (ThemesDelegate != null)
             {
-                return SubtitleDelegate((TEntity)instance);
-
+                return ThemesDelegate((TEntity)instance);
             }
             else
             {
@@ -177,26 +179,60 @@ namespace ECA.Business.Search
             }
         }
 
-        public Dictionary<string, string> GetAdditionalFields(object instance)
+        public IEnumerable<string> GetGoals(object instance)
         {
             Contract.Requires(instance != null, "The instance must not be null.");
             Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
-            var dictionary = new Dictionary<string, string>();
-            foreach (var key in AdditionalFieldsDelegates.Keys)
+            if (GoalsDelegate != null)
             {
-                var fn = AdditionalFieldsDelegates[key];
-                var value = fn((TEntity)instance);
-                if(value != null)
-                {
-                    dictionary[key] = value;
-                }
+                return GoalsDelegate((TEntity)instance);
             }
-            return dictionary;
+            else
+            {
+                return null;
+            }
         }
 
-        public List<string> GetAdditionalFieldNames()
+        public IEnumerable<string> GetFoci(object instance)
         {
-            return this.AdditionalFieldsDelegates.Keys.ToList();
+            Contract.Requires(instance != null, "The instance must not be null.");
+            Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
+            if (FociDelegate != null)
+            {
+                return FociDelegate((TEntity)instance);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public IEnumerable<string> GetObjectives(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
+            if(ObjectivesDelegate != null)
+            {
+                return ObjectivesDelegate((TEntity)instance);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public IEnumerable<string> GetPointsOfContact(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
+            if (PointsOfContactDelegate != null)
+            {
+                return PointsOfContactDelegate((TEntity)instance);
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

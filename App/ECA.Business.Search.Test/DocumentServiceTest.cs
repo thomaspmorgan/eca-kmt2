@@ -157,6 +157,8 @@ namespace ECA.Business.Search.Test
             notificationService.Verify(x => x.Started(It.IsAny<DocumentType>()), Times.Exactly(2));
             notificationService.Verify(x => x.Processed(It.IsAny<DocumentType>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(4));
             notificationService.Verify(x => x.Finished(It.IsAny<DocumentType>()), Times.Exactly(2));
+            indexService.Verify(x => x.CreateIndex<SimpleEntity>(), Times.Once());
+            indexService.Verify(x => x.CreateIndexAsync<SimpleEntity>(), Times.Once());
         }
 
         [TestMethod]

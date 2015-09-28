@@ -11,10 +11,8 @@ namespace ECA.Business.Search.Test
         public TestDocumentConfiguration()
         {
             HasKey(x => x.Id);
-            HasTitle(x => x.Name);
-            HasSubtitle(x => x.Subtitle);
+            HasName(x => x.Name);
             HasDescription(x => x.Description);
-            HasAdditionalField(x => x.AdditionalField);
             IsDocumentType(DocumentType.Program);
         }
     }
@@ -24,10 +22,8 @@ namespace ECA.Business.Search.Test
         public OtherTestDocumentConfiguration()
         {
             HasKey(x => x.Id);
-            HasTitle(x => x.Name);
-            HasSubtitle(x => x.Subtitle);
+            HasName(x => x.Name);
             HasDescription(x => x.Description);
-            HasAdditionalField(x => x.AdditionalField);
             IsDocumentType(DocumentType.Project);
         }
     }

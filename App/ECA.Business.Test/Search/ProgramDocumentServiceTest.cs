@@ -26,10 +26,27 @@ namespace ECA.Business.Test.Search
         //                new ProgramDTODocumentConfiguration()
         //        }
         //        );
-            
+
         //    var service = new ProgramDocumentService(context, indexService, new TestIndexNotificationService());
         //    await service.ProcessAsync();
 
+        //}
+
+        //[TestMethod]
+        //public async Task TestSearch()
+        //{
+        //    //var context = new EcaContext(@"Data Source=(local);User Id=ECA;Password=wisconsin-89;Database=ECA_Local;Pooling=False");
+
+        //    var indexService = new IndexService(
+        //        new SearchServiceClient(searchServiceName, new SearchCredentials(apikey)),
+        //        new List<IDocumentConfiguration>
+        //        {
+        //                new ProgramDTODocumentConfiguration()
+        //        }
+        //        );
+
+        //    //var service = new ProgramDocumentService(context, indexService, new TestIndexNotificationService());
+        //    var results = await indexService.SearchAsync("afcp", null);
         //}
     }
 }
