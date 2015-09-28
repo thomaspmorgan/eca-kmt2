@@ -948,6 +948,10 @@ div.tip:hover span {
     background-image: url("../images/intl-tel-input/flags.png");
 }
 
+/* hack to remove input field x from IE */
+input::-ms-clear {
+    display: none;
+}
 
 .yearDropdown {
     padding: 0px;

@@ -27,6 +27,7 @@ namespace ECA.Business.Queries.Admin
             Contract.Requires(context != null, "The context must not be null.");
             var query = from organization in context.Organizations
                         let organizationType = organization.OrganizationType
+                        let organizationRoles = organization.OrganizationRoles
                         let address = organization.Addresses.OrderByDescending(x => x.IsPrimary).FirstOrDefault()
 
                         let addressHasCity = address != null
@@ -45,6 +46,8 @@ namespace ECA.Business.Queries.Admin
                             OrganizationId = organization.OrganizationId,
                             Name = organization.Name,
                             OrganizationType = organizationType.OrganizationTypeName,
+                            OrganizationRoleIds = organizationRoles.Select(x => x.OrganizationRoleId),
+                            OrganizationRoleNames = organizationRoles.Select(x => x.OrganizationRoleName),
                             Status = organization.Status,
                             Location = (addressHasCity ? address.Location.City.LocationName : String.Empty)
                                         + (addressHasCity && addressHasCountry ? ", " : String.Empty)

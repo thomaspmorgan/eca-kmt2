@@ -487,16 +487,13 @@ namespace ECA.Business.Service.Persons
         {
             return Context.People.Where(x => x.PersonId == personId).Include(x => x.CountriesOfCitizenship);
         }
-
-
+        
         private IQueryable<SimplePersonDTO> CreateGetSimplePerson(int personId)
         {
             var query = PersonQueries.CreateGetSimplePersonDTOsQuery(this.Context);
             return query.Where(p => p.PersonId == personId);
         }
-
-
-
+        
         private void SetCountriesOfCitizenship(List<Location> countriesOfCitizenship, Person person)
         {
             Contract.Requires(countriesOfCitizenship != null, "The country ids must not be null.");
@@ -507,11 +504,7 @@ namespace ECA.Business.Service.Persons
                 person.CountriesOfCitizenship.Add(x);
             });
         }
-
-
-
-
-
+        
         #endregion
 
         #region Get People

@@ -516,7 +516,7 @@
     <Content Include="scripts\directives\guidance.js" />
     <Content Include="scripts\directives\incontextform.js" />
     <Content Include="scripts\directives\map.js" />
-    <Content Include="scripts\directives\searchbar.js" />
+    <Content Include="scripts\controllers\searchbar.js" />
     <Content Include="scripts\directives\staticswitcher.js" />
     <Content Include="scripts\directives\tabbar.js" />
     <Content Include="scripts\filters\tabfilter.js" />
@@ -528,7 +528,7 @@
     <Content Include="scripts\services\program.js" />
     <Content Include="scripts\services\project.js" />
     <Content Include="scripts\services\schema.js" />
-    <Content Include="scripts\services\solr.js" />
+    <Content Include="scripts\services\search.js" />
     <Content Include="views\about.html" />
     <Content Include="views\events.html" />
     <Content Include="views\activities\activityCreate.html" />

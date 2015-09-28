@@ -2,9 +2,10 @@
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
-    <TargetDatabaseName>ECA_UAT</TargetDatabaseName>
+    <TargetDatabaseName>ECA_KMT_PROD</TargetDatabaseName>
     <DeployScriptFileName>ECA_UAT.sql</DeployScriptFileName>
-    <TargetConnectionString>Data Source=paqethoyqt.database.usgovcloudapi.net;User ID=ECA@paqethoyqt;Pooling=False</TargetConnectionString>
+    <TargetConnectionString>Data Source=eca.database.windows.net;User ID=ECA;Pooling=False</TargetConnectionString>
     <ProfileVersionNumber>1</ProfileVersionNumber>
+    <BlockOnPossibleDataLoss>False</BlockOnPossibleDataLoss>
   </PropertyGroup>
 </Project>

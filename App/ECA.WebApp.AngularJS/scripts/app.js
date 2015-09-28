@@ -490,8 +490,8 @@ angular
         });
       $httpProvider.interceptors.push('ErrorInterceptor');
   })
-  .run(['$rootScope', '$location', '$state', 'editableOptions', '$anchorScroll', 'LogoutEventService', 'ConstantsService', 'RegisterUserEventService', 'NotificationService',
-    function ($rootScope, $location, $state, editableOptions, $anchorScroll, LogoutEventService, ConstantsService, RegisterUserEventService, NotificationService) {
+  .run(['$rootScope', '$location', '$state', '$modal', 'editableOptions', '$anchorScroll', 'LogoutEventService', 'ConstantsService', 'RegisterUserEventService', 'NotificationService',
+    function ($rootScope, $location, $state, $modal, editableOptions, $anchorScroll, LogoutEventService, ConstantsService, RegisterUserEventService, NotificationService) {
 
         console.assert(RegisterUserEventService, "The RegisterUserEventService is needed so that we can register on rootscope the handler to automatically register the user.");
         editableOptions.theme = 'bs3';
@@ -505,7 +505,17 @@ angular
           { name: 'Reports', state: 'reports.archive' },
           { name: 'Partners', state: 'home.notifications' }
         ];
-
+        
+        $rootScope.onSpotlightSearchClick = function () {
+            var spotlightModalInstance = $modal.open({
+                animation: true,
+                templateUrl: 'views/partials/searchbar.html',
+                controller: 'searchbarCtrl',
+                windowClass: 'search-modal-resize',
+                resolve: {}
+            });
+        };
+        
         var leftOpen = false;
         $rootScope.pushMenu = function ($event) {
             var self = $event.target;
@@ -592,5 +602,4 @@ angular
             event.preventDefault();
         });
 
-        $rootScope.spotlightModal = false;
     }]);

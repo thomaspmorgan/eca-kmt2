@@ -4,13 +4,13 @@
  * Controller for participant timeline
  */
 angular.module('staticApp')
-  .controller('PersonTimelineCtrl', function ($scope, ProjectService, ParticipantPersonsService) {
+  .controller('PersonTimelineCtrl', function ($scope, ProjectService, ParticipantPersonsService, NotificationService) {
 
       $scope.projectsLoading = false;
 
       $scope.personIdDeferred.promise
         .then(function (personId) {
-            loadProjects(personId)
+            loadProjects(personId);
         });
 
       function loadProjects(personId) {
@@ -35,7 +35,7 @@ angular.module('staticApp')
                   $scope.participantInfo[participantId] = {};
                   $scope.participantInfo[participantId].show = true;
               } else {
-                  $log.error('Unable to load participant info for ' + participantId + '.')
+                  $log.error('Unable to load participant info for ' + participantId + '.');
                   NotificationService.showErrorMessage('Unable to load participant info for ' + participantId + '.');
               }
           });

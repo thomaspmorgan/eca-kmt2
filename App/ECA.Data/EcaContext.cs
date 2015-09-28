@@ -360,6 +360,14 @@ namespace ECA.Data
         /// </summary>
         public DbSet<OrganizationRole> OrganizationRoles { get; set; }
 
+
+        // Sevis Lookup Tables
+
+        /// <summary>
+        /// List of SEVIS program categories, used for relating to a participant
+        /// </summary>
+        public DbSet<ProgramCategory> ProgramCategories { get; set; }
+
         /// <summary>
         /// Overrides the DbContext OnModelCreating method.
         /// </summary>

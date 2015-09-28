@@ -14,7 +14,7 @@
                     <label class="col-md-3 title-label">Education</label>
                     <div class="col-md-8">
                         <ul>
-                            <li ng-repeat="education in data.educations" style="padding-bottom: 10px;">
+                            <li ng-repeat="education in data.educations" class="list-divider">
                                 <b>{{education.title}} ({{education.startDate | date: 'yyyy'}}-{{education.endDate | date: 'yyyy'}})</b>
                                 <br />
                                 {{education.role}}
@@ -29,7 +29,7 @@
                     <label class="col-md-3 title-label">Professional History</label>
                     <div class="col-md-8">
                         <ul>
-                            <li ng-repeat="employment in data.employments" style="padding-bottom: 10px;">
+                            <li ng-repeat="employment in data.employments" class="list-divider">
                                 <b>{{employment.title}} ({{employment.startDate | date: 'yyyy'}}-{{employment.endDate | date: 'yyyy'}})</b>
                                 <br />
                                 {{employment.role}}

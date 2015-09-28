@@ -3,53 +3,74 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel;
+using ECA.Business.Queries.Models.Admin;
 
-namespace ECA.Data
+namespace ECA.Business.Queries.Models.Persons
 {
     /// <summary>
-    /// A person participant on a project
+    /// A ParticipantPersonSevisDTO is used to represent a person participant in the ECA system and their associated Sevis related information.
     /// </summary>
-    public class ParticipantPerson
+    public class ParticipantPersonSevisDTO
     {
-
         /// <summary>
-        /// Gets the max length of the SEVIS Id.
+        /// Gets or sets the participant id.
         /// </summary>
-        private const int SEVIS_ID_MAX_LENGTH = 11;
-
-        /// <summary>
-        /// Gets the max length of a Study Project
-        /// </summary>
-        private const int STUDY_PROJECT_MAX_LENGTH = 250;
-
-        /// <summary>
-        /// constructor to initialize history for a ParticipantPerson
-        /// </summary>
-        public ParticipantPerson()
-        {
-            this.History = new History();
-        }
-
-        /// <summary>
-        /// The key, and foreign key to the participant
-        /// </summary>
-        [Key]
         public int ParticipantId { get; set; }
 
         /// <summary>
-        /// the SEVIS ID (assigned by SEVIS)
+        /// Gets or sets the participant's sevis id
         /// </summary>
-        [MaxLength(SEVIS_ID_MAX_LENGTH)]
         public string SevisId { get; set; }
 
         /// <summary>
-        /// The study project for the student (if student)
+        /// Gets or sets the participantPerson's Field of Study
         /// </summary>
-        [MaxLength(STUDY_PROJECT_MAX_LENGTH)]
-        public string StudyProject {get; set;}
+        public string FieldOfStudy { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participantPersons's Position
+        /// </summary>
+        public string Position { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participantPerson's StudyProject
+        /// </summary>
+        public string StudyProject { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participantPerson's ProgramCategory
+        /// </summary>
+        public string ProgramCategory { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participantPerson's Host Institution (organization)
+        /// </summary>
+        public InstitutionDTO HostInstitution { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participantPerson's Home Institution (organization)
+        /// </summary>
+        public InstitutionDTO HomeInstitution { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date revised on.
+        /// </summary>
+        public DateTimeOffset RevisedOn { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ProjectId of this participant.
+        /// </summary>
+        public int ProjectId { get; set; }
+
+        /// <summary>
+        /// Get or sets the participant type
+        /// </summary>
+        public string ParticipantType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participant status
+        /// </summary>
+        public string ParticipantStatus { get; set; }
 
         /// <summary>
         /// has the participant been sent to Sevis via RTI (manual web interface)
@@ -141,71 +162,5 @@ namespace ECA.Data
         /// </summary>
         public decimal FundingTotal { get; set; }
 
-        //Relationships
-
-        /// <summary>
-        /// Foreign key to Field of Study
-        /// </summary>
-        public int? FieldOfStudyId { get; set; }
-
-        /// <summary>
-        /// Navigation property for Field of Study
-        /// </summary>
-        public FieldOfStudy FieldOfStudy { get; set; }
-
-        /// <summary>
-        /// Foreign Key for ProgramCategory
-        /// </summary>
-        public int? ProgramCategoryId { get; set; }
-
-        /// <summary>
-        /// Foreign Key For 
-        /// </summary>
-        public ProgramCategory ProgramCategory { get; set; }
-
-        /// <summary>
-        /// Foreign Key for Position
-        /// </summary>
-        public int? PositionId { get; set; }
-
-        /// <summary>
-        /// Navigation Property for Position
-        /// </summary>
-        public Position Position { get; set; }
-
-        /// <summary>
-        /// navigation property for HostInstitution
-        /// </summary>
-        public Organization HostInstitution {get; set;}
-
-        /// <summary>
-        /// Foreign Key for HostInstitution
-        /// </summary>
-        public int? HostInstitutionId {get; set;}
-
-        /// <summary>
-        /// navigation property for HomeInstitution
-        /// </summary>
-        public Organization HomeInstitution {get; set;}
-
-        /// <summary>
-        /// Foreign Key for HomeInstitution
-        /// </summary>
-        public int? HomeInstitutionId {get; set;}
-
-        /// <summary>
-        /// Reference to the participant record
-        /// </summary>
-        public Participant Participant { get; set; }
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        public ICollection<SevisCommStatus> SevisCommStatuses { get; set; }
-
-        /// <summary>
-        /// create/update time and user
-        /// </summary>
-        public History History { get; set; }
     }
 }
