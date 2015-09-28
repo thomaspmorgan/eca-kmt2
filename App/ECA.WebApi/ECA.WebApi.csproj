@@ -440,6 +440,7 @@
     <Compile Include="Controllers\Admin\ParticipantTypesController.cs" />
     <Compile Include="Controllers\Admin\SocialMediasController.cs" />
     <Compile Include="Controllers\LogsController.cs" />
+    <Compile Include="Controllers\Persons\ParticipantPersonsSevisController.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonsController.cs" />
     <Compile Include="Controllers\Security\PrincipalsController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
