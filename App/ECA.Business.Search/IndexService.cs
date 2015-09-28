@@ -94,6 +94,14 @@ namespace ECA.Business.Search
             index.Fields.Add(new Field
             {
                 IsKey = false,
+                Name = ECADocument.DOCUMENT_TYPE_KEY,
+                Type = DataType.String,
+                IsSearchable = true,
+                IsFacetable = true
+            });
+            index.Fields.Add(new Field
+            {
+                IsKey = false,
                 Name = ECADocument.DESCRIPTION_KEY,
                 Type = DataType.String,
                 IsSearchable = true
@@ -123,6 +131,13 @@ namespace ECA.Business.Search
             {
                 IsKey = false,
                 Name = ECADocument.THEMES_KEY,
+                Type = DataType.Collection(DataType.String),
+                IsSearchable = true
+            });
+            index.Fields.Add(new Field
+            {
+                IsKey = false,
+                Name = ECADocument.POINTS_OF_CONTACT_KEY,
                 Type = DataType.Collection(DataType.String),
                 IsSearchable = true
             });

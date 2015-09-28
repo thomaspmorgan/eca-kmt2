@@ -738,16 +738,35 @@ namespace ECA.Business.Search.Test
                 Assert.IsTrue(descriptionField.IsRetrievable);
                 Assert.IsTrue(descriptionField.IsSearchable);
 
-                //var subtitleField = index.Fields.Where(x => x.Name == ECADocument.SUBTITLE_KEY).FirstOrDefault();
-                //Assert.IsNotNull(subtitleField);
-                //Assert.IsTrue(subtitleField.IsRetrievable);
-                //Assert.IsTrue(subtitleField.IsSearchable);
+                var fociField = index.Fields.Where(x => x.Name == ECADocument.FOCI_KEY).FirstOrDefault();
+                Assert.IsNotNull(fociField);
+                Assert.IsTrue(fociField.IsRetrievable);
+                Assert.IsTrue(fociField.IsSearchable);
 
-                //var documentTypeField = index.Fields.Where(x => x.Name == ECADocument.DOCUMENT_TYPE_ID_KEY).FirstOrDefault();
-                //Assert.IsNotNull(documentTypeField);
-                //Assert.IsTrue(documentTypeField.IsFacetable);
-                //Assert.IsTrue(documentTypeField.IsRetrievable);
-                //Assert.IsFalse(documentTypeField.IsSearchable);                
+                var objectivesField = index.Fields.Where(x => x.Name == ECADocument.OBJECTIVES_KEY).FirstOrDefault();
+                Assert.IsNotNull(objectivesField);
+                Assert.IsTrue(objectivesField.IsRetrievable);
+                Assert.IsTrue(objectivesField.IsSearchable);
+
+                var themesField = index.Fields.Where(x => x.Name == ECADocument.THEMES_KEY).FirstOrDefault();
+                Assert.IsNotNull(themesField);
+                Assert.IsTrue(themesField.IsRetrievable);
+                Assert.IsTrue(themesField.IsSearchable);
+
+                var goalsField = index.Fields.Where(x => x.Name == ECADocument.GOALS_KEY).FirstOrDefault();
+                Assert.IsNotNull(goalsField);
+                Assert.IsTrue(goalsField.IsRetrievable);
+                Assert.IsTrue(goalsField.IsSearchable);
+
+                var pocField = index.Fields.Where(x => x.Name == ECADocument.POINTS_OF_CONTACT_KEY).FirstOrDefault();
+                Assert.IsNotNull(pocField);
+                Assert.IsTrue(pocField.IsRetrievable);
+                Assert.IsTrue(pocField.IsSearchable);
+
+                var docTypeField = index.Fields.Where(x => x.Name == ECADocument.DOCUMENT_TYPE_KEY).FirstOrDefault();
+                Assert.IsNotNull(docTypeField);
+                Assert.IsTrue(docTypeField.IsRetrievable);
+                Assert.IsTrue(docTypeField.IsSearchable);
             }
         }
 
