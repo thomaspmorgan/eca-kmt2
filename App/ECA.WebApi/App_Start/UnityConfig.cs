@@ -1,5 +1,6 @@
 using CAM.Business.Service;
 using CAM.Data;
+using ECA.Business.Search;
 using ECA.Business.Service.Admin;
 using ECA.Business.Service.Fundings;
 using ECA.Business.Service.Lookup;
@@ -13,6 +14,7 @@ using ECA.Core.Service;
 using ECA.Data;
 using ECA.WebApi.Models.Admin;
 using ECA.WebApi.Security;
+using Microsoft.Azure.Search;
 using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
@@ -38,6 +40,7 @@ namespace ECA.WebApi
             Contract.Requires(container != null, "The container must not be null.");
             RegisterContexts(container);
             RegisterServices(container);
+            RegisterSearch(container);
             RegisterSecurityConcerns(container);
             RegisterValidations(container);
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
@@ -59,6 +62,30 @@ namespace ECA.WebApi
                 return list;
             }));
         }
+
+        /// <summary>
+        /// Registers search related types.
+        /// </summary>
+        /// <param name="container">The unity container.</param>
+        public static void RegisterSearch(IUnityContainer container)
+        {
+            var serviceName = AppSettings.SearchServiceName;
+            var apiKey = AppSettings.SearchApiKey;
+
+            container.RegisterType<SearchServiceClient>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
+            {
+                return new SearchServiceClient(serviceName, new SearchCredentials(apiKey));
+            }));
+            container.RegisterType<IIndexService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
+            {
+                var configs = new List<IDocumentConfiguration>();
+                configs.Add(new ProgramDTODocumentConfiguration());
+                var client = c.Resolve<SearchServiceClient>();
+                var indexService = new IndexService(client, configs);
+                return indexService;
+            }));
+        }
+
 
         /// <summary>
         /// Registers Admin services.
@@ -112,6 +139,7 @@ namespace ECA.WebApi
             container.RegisterType<IPhoneNumberService, PhoneNumberService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPhoneNumberTypeService, PhoneNumberTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPhoneNumberHandler, PhoneNumberHandler>(new HierarchicalLifetimeManager());
+            container.RegisterType<IParticipantPersonSevisService, ParticipantPersonSevisService>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>
