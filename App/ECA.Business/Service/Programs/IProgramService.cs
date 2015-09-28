@@ -294,10 +294,10 @@ namespace ECA.Business.Service.Programs
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public Task<List<OrganizationProgramDTO>> GetParentProgramsAsync(int programId)
+        public async Task<List<OrganizationProgramDTO>> GetParentProgramsAsync(int programId)
         {
-            Contract.Ensures(Contract.Result<IList<OrganizationProgramDTO>>() != null, "The value returned must not be null.");
-            return Task.FromResult<List<OrganizationProgramDTO>>(null);
+            Contract.Ensures(Contract.Result<Task<List<OrganizationProgramDTO>>>() != null, "The value returned must not be null.");
+            return await Task.FromResult<List<OrganizationProgramDTO>>(null);
         }
 
         /// <summary>
@@ -316,10 +316,10 @@ namespace ECA.Business.Service.Programs
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public Task<List<OrganizationProgramDTO>> GetAllChildProgramsAsync(int programId)
+        public async Task<List<OrganizationProgramDTO>> GetAllChildProgramsAsync(int programId)
         {
-            Contract.Ensures(Contract.Result<IList<OrganizationProgramDTO>>() != null, "The value returned must not be null.");
-            return Task.FromResult<List<OrganizationProgramDTO>>(null);
+            Contract.Ensures(Contract.Result<Task<List<OrganizationProgramDTO>>>() != null, "The value returned must not be null.");
+            return await Task.FromResult<List<OrganizationProgramDTO>>(null);
         }
 
         /// <summary>
