@@ -34,6 +34,11 @@ namespace ECA.WebApi
         private const string COGITO_PREFIX = "cogito.";
         private const string COGITO_API_KEY = COGITO_PREFIX + "ApiKey";
 
+        private const string SEARCH_PREFIX = "search";
+        private const string SEARCH_API_KEY = SEARCH_PREFIX + ".ApiKey";
+        private const string SEARCH_SERVICE_NAME_KEY = SEARCH_PREFIX + ".ServiceName";
+
+
         private static string Setting(string name)
         {
             // This will try to read from the cloud configuration file first
@@ -73,5 +78,8 @@ namespace ECA.WebApi
         public static string SmtpPort { get { return Setting(SMTP_PORT); } }
 
         public static string CogitoApiKey { get { return Setting(COGITO_API_KEY); } }
+
+        public static string SearchApiKey { get { return Setting(SEARCH_API_KEY); } }
+        public static string SearchServiceName { get { return Setting(SEARCH_SERVICE_NAME_KEY); } }
     }
 }
