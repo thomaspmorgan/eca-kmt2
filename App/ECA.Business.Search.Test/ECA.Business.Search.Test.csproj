@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{88C15FD9-1A48-4E34-BC25-A7D31EB92CF3}</ProjectGuid>
+    <ProjectGuid>{4E5A97B6-E992-4D27-B119-0DCCEE3773DA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ECA.Business.Test</RootNamespace>
-    <AssemblyName>ECA.Business.Test</AssemblyName>
+    <RootNamespace>ECA.Business.Search.Test</RootNamespace>
+    <AssemblyName>ECA.Business.Search.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -16,6 +16,7 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,56 +35,29 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'QA|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\QA\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PRE|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\PRE\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Dev|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Dev\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.6.0.0.0.Fakes">
-      <HintPath>FakesAssemblies\EntityFramework.6.0.0.0.Fakes.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="FluentAssertions, Version=3.4.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\FluentAssertions.3.4.1\lib\net45\FluentAssertions.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="FluentAssertions.Core, Version=3.4.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\FluentAssertions.3.4.1\lib\net45\FluentAssertions.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Hyak.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Hyak.Common.1.0.2\lib\net45\Hyak.Common.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Hyak.Common.1.0.0.0.Fakes">
+      <HintPath>FakesAssemblies\Hyak.Common.1.0.0.0.Fakes.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.Common, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.Common.2.0.4\lib\net45\Microsoft.Azure.Common.dll</HintPath>
@@ -97,7 +71,12 @@
       <HintPath>..\packages\Microsoft.Azure.Search.0.12.0-preview\lib\net40\Microsoft.Azure.Search.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Azure.Search.0.9.0.0.Fakes">
+      <HintPath>FakesAssemblies\Microsoft.Azure.Search.0.9.0.0.Fakes.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="Microsoft.Spatial, Version=6.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Spatial.6.10.0\lib\portable-net40+sl5+wp8+win8+wpa\Microsoft.Spatial.dll</HintPath>
       <Private>True</Private>
@@ -115,22 +94,15 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Moq, Version=4.2.1507.118, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Moq.4.2.1507.0118\lib\net40\Moq.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core.4.0.0.0.Fakes">
-      <HintPath>FakesAssemblies\System.Core.4.0.0.0.Fakes.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.Entity.4.0.0.0.Fakes">
-      <HintPath>FakesAssemblies\System.Data.Entity.4.0.0.0.Fakes.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Extensions, Version=2.2.22.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -160,108 +132,23 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DbContextHelper.cs" />
-    <Compile Include="InMemoryEcaDbContextGenerator.generated.cs">
-      <DependentUpon>InMemoryEcaDbContextGenerator.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Queries\Admin\BookmarkQueriesTest.cs" />
-    <Compile Include="Queries\Fundings\MoneyFlowQueriesTest.cs" />
-    <Compile Include="Queries\Persons\ParticipantPersonQueriesTest.cs" />
-    <Compile Include="Queries\Persons\ParticipantQueriesTest.cs" />
-    <Compile Include="Queries\Persons\PersonQueriesTest.cs" />
-    <Compile Include="Queries\Projects\ProjectQueriesTest.cs" />
-    <Compile Include="Search\ProgramDocumentServiceTest.cs" />
-    <Compile Include="Search\TestIndexNotificationService.cs" />
-    <Compile Include="Service\Admin\AdditionalAddressTest.cs" />
-    <Compile Include="Service\Admin\AdditionalPersonAddressTest.cs" />
-    <Compile Include="Service\Admin\AdditionalOrganizationAddressTest.cs" />
-    <Compile Include="Service\Admin\EcaAddressTest.cs" />
-    <Compile Include="Service\Admin\EcaOrganizationTest.cs" />
-    <Compile Include="Service\Admin\LocationServiceAddressValidatorTest.cs" />
-    <Compile Include="Service\Admin\LocationServiceValidatorTest.cs" />
-    <Compile Include="Service\Admin\LocationValidationEntityTest.cs" />
-    <Compile Include="Service\Fundings\AdditionalMoneyFlowTest.cs" />
-    <Compile Include="Service\Fundings\MoneyFlowServiceCreateValidationEntityTest.cs" />
-    <Compile Include="Service\Fundings\MoneyFlowServiceUpdateValidationEntityTest.cs" />
-    <Compile Include="Service\Fundings\MoneyFlowServiceValidatorTest.cs" />
-    <Compile Include="Service\Admin\OrganizationServiceValidatorTest.cs" />
-    <Compile Include="Service\Admin\OrganizationSocialMediaPresenceTest.cs" />
-    <Compile Include="Service\Admin\PersonSocialMediaPresenceTest.cs" />
-    <Compile Include="Service\Admin\SocialMediaPresenceTest.cs" />
-    <Compile Include="Service\Admin\SocialMediaServiceTest.cs" />
-    <Compile Include="Service\Admin\BookmarkServiceTest.cs" />
-    <Compile Include="Service\Admin\UpdatedSocialMediaPresenceTest.cs" />
-    <Compile Include="Service\Admin\UpdateOrganizationValidationEntityTest.cs" />
-    <Compile Include="Service\Fundings\EditedMoneyFlowTest.cs" />
-    <Compile Include="Service\Fundings\MoneyFlowSourceRecipientTypeServiceTest.cs" />
-    <Compile Include="Service\Fundings\UpdatedMoneyFlowTest.cs" />
-    <Compile Include="Service\Lookup\LocationTypeServiceTest.cs" />
-    <Compile Include="Service\Lookup\SocialMediaTypeServiceTest.cs" />
-    <Compile Include="Service\Lookup\AddressTypeServiceTest.cs" />
-    <Compile Include="Service\Lookup\ParticipantTypeServiceTest.cs" />
-    <Compile Include="Service\Persons\MembershipServiceTest.cs" />
-    <Compile Include="Service\Persons\ParticipantPersonServiceTest.cs" />
-    <Compile Include="Service\Programs\ProgramStatusServiceTest.cs" />
-    <Compile Include="Service\Projects\AdditionalOrganizationProjectParticipantTest.cs" />
-    <Compile Include="Service\Projects\AdditionalPersonProjectParticipantTest.cs" />
-    <Compile Include="Service\Projects\AdditionalProjectParticipantTest.cs" />
-    <Compile Include="Service\Projects\DraftProjectTest.cs" />
-    <Compile Include="Service\Admin\JustificationObjectiveServiceTest.cs" />
-    <Compile Include="Service\Admin\FocusCategoryServiceTest.cs" />
-    <Compile Include="Service\Admin\FocusServiceTest.cs" />
-    <Compile Include="Service\Admin\MaritalStatusServiceTest.cs" />
-    <Compile Include="Service\Fundings\MoneyFlowServiceTest.cs" />
-    <Compile Include="Service\Admin\OfficeServiceTest.cs" />
-    <Compile Include="Service\Admin\OfficeSettingsTest.cs" />
-    <Compile Include="Service\Admin\OrganizationServiceTest.cs" />
-    <Compile Include="Service\Projects\PublishedProjectTest.cs" />
-    <Compile Include="Service\Projects\ProjectServiceUpdateValidationEntityTest.cs" />
-    <Compile Include="Service\Projects\ProjectServiceValidatorTest.cs" />
-    <Compile Include="Service\Projects\ProjectServiceCreateValidationEntityTest.cs" />
-    <Compile Include="Service\Projects\ProjectStatusServiceTest.cs" />
-    <Compile Include="Service\Admin\GenderServiceTest.cs" />
-    <Compile Include="Service\CreateTest.cs" />
-    <Compile Include="Service\Lookup\SimpleLookupDTOTest.cs" />
-    <Compile Include="Service\Lookup\LookupServiceTest.cs" />
-    <Compile Include="Service\Lookup\OrganizationTypeServiceTest.cs" />
-    <Compile Include="Service\Persons\PersonServiceTest.cs" />
-    <Compile Include="Service\Persons\PersonServiceValidatorTest.cs" />
-    <Compile Include="Service\Persons\PersonServiceValidationEntityTest.cs" />
-    <Compile Include="Service\Programs\DraftProgramTest.cs" />
-    <Compile Include="Service\Programs\EcaProgramTest.cs" />
-    <Compile Include="Service\Programs\ProgramServiceValidationEntityTest.cs" />
-    <Compile Include="Service\Programs\ProgramServiceValidatorTest.cs" />
-    <Compile Include="Service\EcaServiceTest.cs" />
-    <Compile Include="Service\Admin\AdditionalLocationTest.cs" />
-    <Compile Include="Service\Admin\EcaLocationTest.cs" />
-    <Compile Include="Service\Admin\UpdatedLocationTest.cs" />
-    <Compile Include="Service\Reports\ReportServiceTest.cs" />
-    <Compile Include="Service\DeleteTest.cs" />
-    <Compile Include="Service\UserTest.cs" />
-    <Compile Include="Service\UpdateTest.cs" />
+    <Compile Include="IndexServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\Admin\GoalServiceTest.cs" />
-    <Compile Include="Service\Admin\LocationServiceTest.cs" />
-    <Compile Include="Service\Persons\ContactServiceTest.cs" />
-    <Compile Include="Service\Persons\ParticipantServiceTest.cs" />
-    <Compile Include="Service\Programs\ProgramServiceTest.cs" />
-    <Compile Include="Service\Projects\ProjectServiceTest.cs" />
-    <Compile Include="Service\Lookup\ThemeServiceTest.cs" />
-    <Compile Include="TestEcaContext.cs" />
-    <Compile Include="Validation\BusinessValidationResultTest.cs" />
-    <Compile Include="Validation\BusinessValidatorBaseTest.cs" />
+    <Compile Include="DocumentKeyTest.cs" />
+    <Compile Include="DocumentTypeTest.cs" />
+    <Compile Include="SimpleDocumentTest.cs" />
+    <Compile Include="TestContext.cs" />
+    <Compile Include="TestDocument.cs" />
+    <Compile Include="DocumentBaseTest.cs" />
+    <Compile Include="ECADocumentTest.cs" />
+    <Compile Include="TestDocumentConfiguration.cs" />
+    <Compile Include="DocumentConfigurationTest.cs" />
+    <Compile Include="DocumentServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Fakes Include="Fakes\EntityFramework.fakes" />
-    <Fakes Include="Fakes\System.Data.Entity.fakes" />
-    <Fakes Include="Fakes\System.Core.fakes" />
-    <None Include="InMemoryEcaDbContextGenerator.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>InMemoryEcaDbContextGenerator.generated.cs</LastGenOutput>
-    </None>
+    <Fakes Include="Fakes\Microsoft.Azure.Search.fakes" />
+    <Fakes Include="Fakes\Hyak.Common.fakes" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -269,25 +156,10 @@
       <Project>{7ffb7ec5-462a-4997-9704-736f5af245e9}</Project>
       <Name>ECA.Business.Search</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">
-      <Project>{0a7b54e3-736d-47b5-92fd-31d3bb416d8d}</Project>
-      <Name>ECA.Business</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ECA.Core.DynamicLinq\ECA.Core.DynamicLinq.csproj">
-      <Project>{2ffe2c53-412a-43ae-840d-470901649ed8}</Project>
-      <Name>ECA.Core.DynamicLinq</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ECA.Core\ECA.Core.csproj">
       <Project>{983c0be6-5e42-494d-9947-0d67b84016c1}</Project>
       <Name>ECA.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ECA.Data\ECA.Data.csproj">
-      <Project>{8cef11e6-50e8-4b54-a1a7-a75583ccb6ef}</Project>
-      <Name>ECA.Data</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup />
   <Choose>
