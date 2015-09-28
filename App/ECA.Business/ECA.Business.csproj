@@ -50,7 +50,7 @@
     <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
     <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
     <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
-    <CodeContractsEmitXMLDocs>True</CodeContractsEmitXMLDocs>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
     <CodeContractsCustomRewriterAssembly />
     <CodeContractsCustomRewriterClass />
     <CodeContractsLibPaths />
@@ -142,6 +142,8 @@
     <Compile Include="Queries\Persons\MembershipQueries.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonSevisQueries.cs" />
     <Compile Include="Queries\Persons\ProfessionEducationQueries.cs" />
+    <Compile Include="Search\ProgramDocumentService.cs" />
+    <Compile Include="Search\ProgramDTODocumentConfiguration.cs" />
     <Compile Include="Service\Admin\PhoneNumberService.cs" />
     <Compile Include="Service\Admin\IPhoneNumberService.cs" />
     <Compile Include="Service\Admin\IEmailAddressService.cs" />
@@ -367,6 +369,10 @@
     <None Include="Properties\DataSources\ECA.Business.Reports.Models.ProjectAward.datasource" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ECA.Business.Search\ECA.Business.Search.csproj">
+      <Project>{7ffb7ec5-462a-4997-9704-736f5af245e9}</Project>
+      <Name>ECA.Business.Search</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ECA.Core.DynamicLinq\ECA.Core.DynamicLinq.csproj">
       <Project>{2ffe2c53-412a-43ae-840d-470901649ed8}</Project>
       <Name>ECA.Core.DynamicLinq</Name>
