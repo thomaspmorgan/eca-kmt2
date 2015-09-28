@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('AllOrganizationsCtrl', function ($scope, $stateParams, $state, $log, OrganizationService, TableService) {
+  .controller('AllOrganizationsCtrl', function ($scope, $stateParams, $state, $log, OrganizationService, TableService, LookupService) {
 
       $scope.organizations = [];
       $scope.start = 0;
@@ -17,6 +17,7 @@ angular.module('staticApp')
 
       $scope.organizationsLoading = false;
       $scope.selectedOrgType = {};
+      $scope.selectedOrganizationRoles = [];
 
       $scope.onEditIconClick = function (org) {
           $state.go('organizations.edit', { organizationId: org.organizationId });
@@ -47,4 +48,10 @@ angular.module('staticApp')
                 $scope.organizationsLoading = false;
             });
       };
+
+      var params = { start: 0, limit: 300 };
+      LookupService.getOrganizationRoles(params)
+        .then(function (result) {
+            $scope.organizationRoles = result.data.results;
+        });
   });
