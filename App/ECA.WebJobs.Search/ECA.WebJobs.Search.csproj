@@ -175,6 +175,8 @@
     <None Include="Properties\PublishProfiles\kmtapi-dev.pubxml">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\PublishProfiles\kmtapi-pre.pubxml" />
+    <None Include="Properties\PublishProfiles\kmtapi-prod.pubxml" />
     <None Include="Properties\PublishProfiles\kmtapi-qa.pubxml" />
     <None Include="Properties\webjob-publish-settings.json" />
   </ItemGroup>
