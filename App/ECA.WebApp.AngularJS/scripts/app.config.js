@@ -1,4 +1,6 @@
-﻿angular.module('staticApp')
+﻿'use strict';
+
+angular.module('staticApp')
   .config(function ($stateProvider, $httpProvider, $urlRouterProvider, adalAuthenticationServiceProvider) {
 
     adalAuthenticationServiceProvider.init({
