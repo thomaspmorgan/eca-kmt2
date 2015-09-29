@@ -181,7 +181,12 @@ angular.module('staticApp')
 
       function loadParticipantTypes() {
 
-          return LookupService.getParticipantTypes({ limit: 300 })
+          return LookupService.getParticipantTypes({
+              limit: 300,
+              filter: [
+                  { property: 'isPerson', comparison: ConstantsService.equalComparisonType, value: true }
+              ]
+          })
             .then(function (data) {
                 $scope.participantTypes = data.data.results;
             });
