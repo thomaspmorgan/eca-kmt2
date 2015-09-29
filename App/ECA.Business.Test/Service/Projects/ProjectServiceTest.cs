@@ -2429,15 +2429,16 @@ namespace ECA.Business.Test.Service.Projects
             owner.OwnerPrograms.Add(program);
             var project = new Project
             {
+                ProgramId = program.ProgramId,
+                ParentProgram = program,
                 ProjectId = 1,
                 Name = "name",
                 Description = "description",
-                ProgramId = program.ProgramId,
-                ParentProgram = program
+                Status = new ProjectStatus()
             };
             program.Projects.Add(project);
-            context.Organizations.Add(owner);
             context.Programs.Add(program);
+            context.Organizations.Add(owner);
             context.Projects.Add(project);
 
             Action<ProjectDTO> tester = (serviceResult) =>

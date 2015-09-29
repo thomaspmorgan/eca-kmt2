@@ -127,6 +127,17 @@ namespace ECA.Business.Queries.Admin
         public static IQueryable<ProjectDTO> CreateGetProjectByIdQuery(EcaContext context, int projectId)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            return CreateGetProjectDTOQuery(context).Where(x => x.Id == projectId);
+        }
+
+        // <summary>
+        /// Returns a query to retrieve projets.
+        /// </summary>
+        /// <param name="context">The context to query</param>
+        /// <returns>Project</returns>
+        public static IQueryable<ProjectDTO> CreateGetProjectDTOQuery(EcaContext context)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
             var countryTypeId = LocationType.Country.Id;
             var regionTypeId = LocationType.Region.Id;
             var allLocations = LocationQueries.CreateGetLocationsQuery(context);
@@ -186,7 +197,6 @@ namespace ECA.Business.Queries.Admin
                         let allCountries = locationsWithCountries
                             .Union(countries)
                             .Union(regionCountries)
-                        where project.ProjectId == projectId
                         select new ProjectDTO
                         {
                             Id = project.ProjectId,
@@ -211,7 +221,6 @@ namespace ECA.Business.Queries.Admin
                             Categories = categories.Select(c => new FocusCategoryDTO { Id = c.CategoryId, Name = c.CategoryName, FocusName = c.Focus.FocusName }),
                         };
             return query;
-
         }
     }
 }

@@ -74,20 +74,5 @@ namespace ECA.WebApi.Controllers.Search
                 return Ok(new ECADocumentViewModel(document));
             }
         }
-
-        [Route("Search/Index")]
-        public IHttpActionResult PostProcess()
-        {
-            var currentUser = this.userProvider.GetCurrentUser();
-            var businessUser = this.userProvider.GetBusinessUser(currentUser);
-            var context = (EcaContext)this.Configuration.DependencyResolver.GetService(typeof(EcaContext));
-            var indexService = (IIndexService)this.Configuration.DependencyResolver.GetService(typeof(IIndexService));
-            var notificationService = new FileIndexNotificationService();
-            var documentService = new ProgramDocumentService(context, indexService, notificationService);
-            documentService.Process();
-            Console.WriteLine("done...");
-            documentService.Dispose();
-            return Ok();
-        }
     }
 }

@@ -11,19 +11,23 @@ using ECA.Core.Data;
 
 namespace ECA.Business.Search
 {
-    public interface IDocumentService<TDocument> where TDocument : class
+    public interface IDocumentService
     {
         int GetDocumentCount();
 
         Task<int> GetDocumentCountAsync();
 
-        List<TDocument> GetDocumentBatch(int skip, int take);
-
-        Task<List<TDocument>> GetDocumentBatchAsync(int skip, int take);
-
         void Process();
 
         Task ProcessAsync();
+
+    }
+
+    public interface IDocumentService<TDocument> : IDocumentService where TDocument : class
+    {
+        List<TDocument> GetDocumentBatch(int skip, int take);
+
+        Task<List<TDocument>> GetDocumentBatchAsync(int skip, int take);
     }
 
     public abstract class DocumentService<TContext, TDocument> : DbContextService<TContext>, IDocumentService<TDocument>
@@ -89,9 +93,9 @@ namespace ECA.Business.Search
             while (counter < total)
             {
                 var documents = GetDocumentBatch(counter, batchSize);
-                indexService.HandleDocuments(documents);
-                notificationService.Processed(documentType, total, counter);
+                indexService.HandleDocuments(documents);                
                 counter += documents.Count;
+                notificationService.Processed(documentType, total, counter);
             }
             notificationService.Finished(documentType);
         }
@@ -108,9 +112,9 @@ namespace ECA.Business.Search
             while (counter < total)
             {
                 var documents = await GetDocumentBatchAsync(counter, batchSize);
-                await indexService.HandleDocumentsAsync(documents);
-                notificationService.Processed(documentType, total, counter);
+                await indexService.HandleDocumentsAsync(documents);                
                 counter += documents.Count;
+                notificationService.Processed(documentType, total, counter);
             }
             notificationService.Finished(documentType);
         }
