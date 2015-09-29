@@ -30,7 +30,7 @@ angular.module('staticApp')
               this.path = API_ENDPOINT_CLOUDAPP_PRE + API_PREFIX + Array.prototype.slice.call(args, slicePos).join('/');
           }
           else {
-              this.path = API_ENDPOINT_CLOUDAPP_PRE + API_PREFIX + Array.prototype.slice.call(args, slicePos).join('/');
+              this.path = API_ENDPOINT_CLOUDAPP_UAT + API_PREFIX + Array.prototype.slice.call(args, slicePos).join('/');
           }
 
       }

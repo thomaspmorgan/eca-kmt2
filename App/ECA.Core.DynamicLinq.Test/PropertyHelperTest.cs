@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace ECA.Core.DynamicLinq.Test
 {
@@ -25,6 +26,8 @@ namespace ECA.Core.DynamicLinq.Test
         public double? NullableD { get; set; }
         public decimal? NullableDec { get; set; }
 
+        public IEnumerable<string> EnumerableOfStrings { get; set; }
+
         public object O { get; set; }
 
         public object GetObject()
@@ -42,6 +45,13 @@ namespace ECA.Core.DynamicLinq.Test
     [TestClass]
     public class PropertyHelperTest
     {
+        [TestMethod]
+        public void TestGetPropertyName_EnumerableOfStringsProperty()
+        {
+            var propertyName = PropertyHelper.GetPropertyName<PropertyHelperTestClass>(x => x.EnumerableOfStrings);
+            Assert.AreEqual("EnumerableOfStrings", propertyName);
+        }
+
         [TestMethod]
         public void TestGetPropertyName_NullableDateProperty()
         {

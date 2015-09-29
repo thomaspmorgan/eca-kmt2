@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECA.Business.Service.Lookup;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,6 +27,15 @@ namespace ECA.Business.Queries.Models.Admin
         /// </summary>
         public string OrganizationType { get; set; }
 
+        /// <summary>
+        /// Gets or sets the organization role ids
+        /// </summary>
+        public IEnumerable<int> OrganizationRoleIds { get; set; }
+
+        /// <summary>
+        /// Gets or sets the organization role values
+        /// </summary>
+        public IEnumerable<string> OrganizationRoleNames { get; set; }
         /// <summary>
         /// Gets or sets the status
         /// </summary>

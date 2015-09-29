@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Core", "ECA.Core\ECA.Core.csproj", "{983C0BE6-5E42-494D-9947-0D67B84016C1}"
 EndProject
@@ -16,6 +16,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Business.Test", "ECA.Business.Test\ECA.Business.Test.csproj", "{88C15FD9-1A48-4E34-BC25-A7D31EB92CF3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Data.Test", "ECA.Data.Test\ECA.Data.Test.csproj", "{1F65DC2C-B293-4C1A-8CF2-37704405D6FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Business.Search", "ECA.Business.Search\ECA.Business.Search.csproj", "{7FFB7EC5-462A-4997-9704-736F5AF245E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Business.Search.Test", "ECA.Business.Search.Test\ECA.Business.Search.Test.csproj", "{4E5A97B6-E992-4D27-B119-0DCCEE3773DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +51,14 @@ Global
 		{1F65DC2C-B293-4C1A-8CF2-37704405D6FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F65DC2C-B293-4C1A-8CF2-37704405D6FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F65DC2C-B293-4C1A-8CF2-37704405D6FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FFB7EC5-462A-4997-9704-736F5AF245E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FFB7EC5-462A-4997-9704-736F5AF245E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FFB7EC5-462A-4997-9704-736F5AF245E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FFB7EC5-462A-4997-9704-736F5AF245E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E5A97B6-E992-4D27-B119-0DCCEE3773DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E5A97B6-E992-4D27-B119-0DCCEE3773DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E5A97B6-E992-4D27-B119-0DCCEE3773DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E5A97B6-E992-4D27-B119-0DCCEE3773DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,5 +66,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{88C15FD9-1A48-4E34-BC25-A7D31EB92CF3} = {8B8F98E1-4E76-476C-8A40-39F13FD30686}
 		{1F65DC2C-B293-4C1A-8CF2-37704405D6FF} = {8B8F98E1-4E76-476C-8A40-39F13FD30686}
+		{4E5A97B6-E992-4D27-B119-0DCCEE3773DA} = {8B8F98E1-4E76-476C-8A40-39F13FD30686}
 	EndGlobalSection
 EndGlobal

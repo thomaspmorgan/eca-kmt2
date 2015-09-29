@@ -30,6 +30,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// Creates a new MembershipController with the given service.
         /// </summary>
         /// <param name="service">The service.</param>
+        /// <param name="userProvider"></param>
         public MembershipController(IMembershipService service, IUserProvider userProvider)
         {
             Contract.Requires(service != null, "The service must not be null.");

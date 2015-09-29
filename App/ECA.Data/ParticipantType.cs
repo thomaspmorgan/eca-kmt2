@@ -16,7 +16,11 @@ namespace ECA.Data
     {
         [Key]
         public int ParticipantTypeId { get; set; }
+
         [Required]
         public string Name { get; set; }
+
+        [Required]
+        public bool IsPerson { get; set; }
     }
 }

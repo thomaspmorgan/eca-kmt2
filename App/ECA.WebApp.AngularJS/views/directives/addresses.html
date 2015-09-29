@@ -198,7 +198,7 @@
                                            ng-blur="view.onSelectCountryBlur($event)"
                                            typeahead-wait-ms="400"
                                            typeahead-loading="view.isLoadingCountries"
-                                           typeahead="country as country.name for country in view.getCountries($viewValue) | filter : $viewValue | limitTo : view.searchLimit"
+                                           typeahead="country as country.name for country in view.getCountries($viewValue) | limitTo : view.searchLimit"
                                            typeahead-on-select="view.onSelectCountry($item, $model, $label)"
                                            typeahead-template-url="selectLocationTemplate.html"
                                            typeahead-editable="false"
