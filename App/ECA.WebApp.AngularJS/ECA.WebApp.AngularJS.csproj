@@ -501,7 +501,6 @@
     <Content Include="scripts\directives\staticswitcher.js" />
     <Content Include="scripts\directives\tabbar.js" />
     <Content Include="scripts\filters\tabfilter.js" />
-    <Content Include="scripts\modules\modal.js" />
     <Content Include="scripts\services\authservice.js" />
     <Content Include="scripts\services\dragonbreath.js" />
     <Content Include="scripts\services\locationservice.js" />

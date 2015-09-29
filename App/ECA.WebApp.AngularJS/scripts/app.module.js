@@ -18,7 +18,6 @@ angular
     'ui.map',
     'ui.validate',
     'ui.event',
-    'ngModal',
     'isteven-multi-select',
     'xeditable',
     'sticky',

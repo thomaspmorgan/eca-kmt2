@@ -167,9 +167,13 @@
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js(.) scripts/scripts.js -->
+
+    <!-- App -->
     <script src="scripts/app.module.js"></script>
     <script src="scripts/app.config.js"></script>
     <script src="scripts/app.run.js"></script>
+
+    <!-- Controllers -->
     <script src="scripts/controllers/confirm.js"></script>
     <script src="scripts/controllers/allprograms.js"></script>
     <script src="scripts/controllers/office.js"></script>
@@ -199,25 +203,8 @@
     <script src="scripts/controllers/locations/searchlocations.js"></script>
     <script src="scripts/controllers/locations/addlocation.js"></script>
     <script src="scripts/controllers/locations/marker.js"></script>
-    <script src="scripts/services/authservice.js"></script>
-    <script src="scripts/services/addressservice.js"></script>
-    <script src="scripts/services/socialmediaservice.js"></script>
-    <script src="scripts/services/filterservice.js"></script>
-    <script src="scripts/services/messagebox.js"></script>
     <script src="scripts/controllers/securetest.js"></script>
     <script src="scripts/controllers/logout.js"></script>
-    <script src="scripts/services/schema.js"></script>
-    <script src="scripts/directives/yearDropdown.js"></script>
-    <script src="scripts/directives/incontextform.js"></script>
-    <script src="scripts/directives/uiselectstsearch.js"></script>
-    <script src="scripts/directives/exposetablestate.js"></script>
-    <script src="scripts/directives/datepickerpopup.js"></script>
-    <script src="scripts/directives/guidance.js"></script>
-    <script src="scripts/directives/socialmedialink.js"></script>
-    <script src="scripts/directives/addresses.js"></script>
-    <script src="scripts/directives/socialmedias.js"></script>
-    <script src="scripts/directives/equalityfilter.js"></script>
-    <script src="scripts/directives/moneyflows.js"></script>
     <script src="scripts/controllers/formvalidation.js"></script>
     <script src="scripts/controllers/reports/custom.js"></script>
     <script src="scripts/controllers/reports/archive.js"></script>
@@ -229,33 +216,59 @@
     <script src="scripts/controllers/program/subprogramsandprojects.js"></script>
     <script src="scripts/controllers/program/edit.js"></script>
     <script src="scripts/controllers/program/overview.js"></script>
-    <script src="scripts/services/dragonbreath.js"></script>
-    <script src="scripts/modules/modal.js"></script>
-    <script src="scripts/directives/form-element.js"></script>
-    <script src="scripts/directives/tabbar.js"></script>
-    <script src="scripts/filters/tabfilter.js"></script>
-    <script src="scripts/filters/highlight.js"></script>
-    <script src="scripts/filters/groupby.js"></script>
-    <script src="scripts/filters/propFilter.js"></script>
-    <script src="scripts/directives/map.js"></script>
-    <script src="scripts/services/project.js"></script>
-    <script src="scripts/services/userservice.js"></script>
-    <script src="scripts/services/program.js"></script>
     <script src="scripts/controllers/alloffices.js"></script>
     <script src="scripts/controllers/office/overview.js"></script>
     <script src="scripts/controllers/office/branchesandprograms.js"></script>
     <script src="scripts/controllers/program/addprogrammodal.js"></script>
     <script src="scripts/controllers/allpeople.js"></script>
     <script src="scripts/controllers/allorganizations.js"></script>
+    <script src="scripts/controllers/searchbar.js"></script>
+    <script src="scripts/controllers/home.js"></script>
+    <script src="scripts/controllers/report.js"></script>
+    <script src="scripts/controllers/reports/archive.js"></script>
+    <script src="scripts/controllers/reports/ProjectAwards.js"></script>
+    <script src="scripts/controllers/reports/RegionAwards.js"></script>
+    <script src="scripts/controllers/reports/PostAwards.js"></script>
+    <script src="scripts/controllers/reports/FocusAwards.js"></script>
+    <script src="scripts/controllers/reports/FocusCategoryAwards.js"></script>
+    <script src="scripts/controllers/reports/CountryAwards.js"></script>
+    <script src="scripts/controllers/reports/ObjectiveAwards.js"></script>
+    <script src="scripts/controllers/reports/YearAwards.js"></script>
+    <script src="scripts/controllers/person/personGeneral.js"></script>
+    <script src="scripts/controllers/person/personEvaluationNotes.js"></script>
+    <script src="scripts/controllers/person/personEduEmp.js"></script>
+    <script src="scripts/controllers/person/personEduEmpEdit.js"></script>
+    <script src="scripts/controllers/person/personGeneralEdit.js"></script>
+    <script src="scripts/controllers/membership/membership.js"></script>
+    <script src="scripts/controllers/membership/memberships.js"></script>
+    <script src="scripts/controllers/languageProficiencies/languageProficiency.js"></script>
+    <script src="scripts/controllers/languageProficiencies/languageProficiencies.js"></script>
+    <script src="scripts/controllers/emailAddresses/emailaddress.js"></script>
+    <script src="scripts/controllers/emailAddresses/emailaddresses.js"></script>
+    <script src="scripts/controllers/person/personContact.js"></script>
+    <script src="scripts/controllers/person/personContactEdit.js"></script>
+    <script src="scripts/controllers/phoneNumbers/phonenumber.js"></script>
+    <script src="scripts/controllers/phoneNumbers/phonenumbers.js"></script>
+    <script src="scripts/controllers/person/information.js"></script>
+    <script src="scripts/controllers/person/personPii.js"></script>
+    <script src="scripts/controllers/person/personPiiEdit.js"></script>
+
+    <!-- Services -->
+    <script src="scripts/services/authservice.js"></script>
+    <script src="scripts/services/addressservice.js"></script>
+    <script src="scripts/services/socialmediaservice.js"></script>
+    <script src="scripts/services/filterservice.js"></script>
+    <script src="scripts/services/messagebox.js"></script>
+    <script src="scripts/services/schema.js"></script>
+    <script src="scripts/services/dragonbreath.js"></script>
+    <script src="scripts/services/project.js"></script>
+    <script src="scripts/services/userservice.js"></script>
+    <script src="scripts/services/program.js"></script>
     <script src="scripts/services/participant.js"></script>
     <script src="scripts/services/participantperson.js"></script>
     <script src="scripts/services/person.js"></script>
     <script src="scripts/services/organization.js"></script>
     <script src="scripts/services/search.js"></script>
-    <script src="scripts/controllers/searchbar.js"></script>
-    <script src="scripts/controllers/home.js"></script>
-    <script src="scripts/directives/staticswitcher.js"></script>
-    <script src="scripts/controllers/report.js"></script>
     <script src="scripts/services/locationservice.js"></script>
     <script src="scripts/services/downloadservice.js"></script>
     <script src="scripts/services/constantsservice.js"></script>
@@ -269,43 +282,40 @@
     <script src="scripts/services/office.js"></script>
     <script src="scripts/services/errorinterceptor.js"></script>
     <script src="scripts/services/bookmark.js"></script>
-    <script src="scripts/controllers/reports/archive.js"></script>
     <script src="scripts/services/reportservice.js"></script>
-    <script src="scripts/controllers/reports/ProjectAwards.js"></script>
-    <script src="scripts/controllers/reports/RegionAwards.js"></script>
-    <script src="scripts/controllers/reports/PostAwards.js"></script>
-    <script src="scripts/controllers/reports/FocusAwards.js"></script>
-    <script src="scripts/controllers/reports/FocusCategoryAwards.js"></script>
-    <script src="scripts/controllers/reports/CountryAwards.js"></script>
-    <script src="scripts/controllers/reports/ObjectiveAwards.js"></script>
-    <script src="scripts/controllers/reports/YearAwards.js"></script>
-    <script src="scripts/controllers/person/personGeneral.js"></script>
-    <script src="scripts/controllers/person/personEvaluationNotes.js"></script>
     <script src="scripts/services/eduempservice.js"></script>
-    <script src="scripts/controllers/person/personEduEmp.js"></script>
-    <script src="scripts/controllers/person/personEduEmpEdit.js"></script>
-    <script src="scripts/controllers/person/personGeneralEdit.js"></script>
-    <script src="scripts/controllers/membership/membership.js"></script>
-    <script src="scripts/controllers/membership/memberships.js"></script>
-    <script src="scripts/directives/memberships.js"></script>
     <script src="scripts/services/membership.js"></script>
-    <script src="scripts/controllers/languageProficiencies/languageProficiency.js"></script>
-    <script src="scripts/controllers/languageProficiencies/languageProficiencies.js"></script>
-    <script src="scripts/directives/languageProficiencies.js"></script>
     <script src="scripts/services/languageProficiency.js"></script>
     <script src="scripts/services/emailaddressservice.js"></script>
-    <script src="scripts/directives/emailAddresses.js"></script>
-    <script src="scripts/controllers/emailAddresses/emailaddress.js"></script>
-    <script src="scripts/controllers/emailAddresses/emailaddresses.js"></script>
-    <script src="scripts/controllers/person/personContact.js"></script>
-    <script src="scripts/controllers/person/personContactEdit.js"></script>
-    <script src="scripts/controllers/phoneNumbers/phonenumber.js"></script>
-    <script src="scripts/controllers/phoneNumbers/phonenumbers.js"></script>
-    <script src="scripts/directives/phoneNumbers.js"></script>
     <script src="scripts/services/phonenumberservice.js"></script>
-    <script src="scripts/controllers/person/information.js"></script>
-    <script src="scripts/controllers/person/personPii.js"></script>
-    <script src="scripts/controllers/person/personPiiEdit.js"></script>
+
+    <!-- Directives -->
+    <script src="scripts/directives/yearDropdown.js"></script>
+    <script src="scripts/directives/incontextform.js"></script>
+    <script src="scripts/directives/uiselectstsearch.js"></script>
+    <script src="scripts/directives/exposetablestate.js"></script>
+    <script src="scripts/directives/datepickerpopup.js"></script>
+    <script src="scripts/directives/guidance.js"></script>
+    <script src="scripts/directives/socialmedialink.js"></script>
+    <script src="scripts/directives/addresses.js"></script>
+    <script src="scripts/directives/socialmedias.js"></script>
+    <script src="scripts/directives/equalityfilter.js"></script>
+    <script src="scripts/directives/moneyflows.js"></script>
+    <script src="scripts/directives/form-element.js"></script>
+    <script src="scripts/directives/tabbar.js"></script>
+    <script src="scripts/directives/map.js"></script>
+    <script src="scripts/directives/staticswitcher.js"></script>
+    <script src="scripts/directives/memberships.js"></script>
+    <script src="scripts/directives/languageProficiencies.js"></script>
+    <script src="scripts/directives/emailAddresses.js"></script>
+    <script src="scripts/directives/phoneNumbers.js"></script>
+
+    <!-- Filters -->
+    <script src="scripts/filters/tabfilter.js"></script>
+    <script src="scripts/filters/highlight.js"></script>
+    <script src="scripts/filters/groupby.js"></script>
+    <script src="scripts/filters/propFilter.js"></script>
+
     <!-- endbuild -->
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=onGoogleReady"></script>
 </body>
