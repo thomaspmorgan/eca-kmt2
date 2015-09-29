@@ -14,7 +14,7 @@ namespace ECA.WebJobs.Search
     public class Functions
     {
         // This function will be triggered based on the schedule you have set for this WebJob
-        // This function will enqueue a message on an Azure Queue called queue
+        // This function will enqueue a message on an Azure Queue called search
         [NoAutomaticTrigger]
         public static void ManualTrigger(TextWriter log, int value, [Queue("search")] out string message)
         {
