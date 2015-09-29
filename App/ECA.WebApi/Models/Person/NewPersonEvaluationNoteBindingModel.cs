@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using ECA.Business.Service.Persons;
 using ECA.Business.Service;
 
 namespace ECA.WebApi.Models.Person
 {
     /// <summary>
-    /// Binding model for editing membership
+    /// Binding model for editing evaluation note
     /// </summary>
-    public class NewPersonMembershipBindingModel
+    public class NewPersonEvaluationNoteBindingModel
     {
         /// <summary>
         /// Gets and sets the person id
@@ -20,21 +16,21 @@ namespace ECA.WebApi.Models.Person
         public int PersonId { get; set; }
 
         /// <summary>
-        /// Gets and sets the membership for the user
+        /// Gets and sets the evaluation note for the user
         /// </summary>
-        public string Name { get; set; }
+        public string EvaluationNote { get; set; }
 
         /// <summary>
         /// Convert binding model to business model 
         /// </summary>
         /// <param name="user">The user creating the membership</param>
-        /// <returns>Create membership business model</returns>
-        public NewPersonMembership ToPersonMembership(User user)
+        /// <returns>Create evaluation note business model</returns>
+        public NewPersonEvaluationNote ToPersonEvaluationNote(User user)
         {
-            return new NewPersonMembership(
+            return new NewPersonEvaluationNote(
                 user: user,
                 personId: this.PersonId,
-                name: this.Name
+                evaluationNote: this.EvaluationNote
                 );
         }
     }

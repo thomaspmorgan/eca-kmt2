@@ -1,18 +1,18 @@
-﻿using System;
+﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service.Persons;
-using ECA.Business.Queries.Models.Persons;
+using ECA.Core.DynamicLinq;
+using ECA.Core.DynamicLinq.Sorter;
+using ECA.WebApi.Models.Person;
+using ECA.WebApi.Models.Query;
+using ECA.WebApi.Security;
+using NLog;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using NLog;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using ECA.WebApi.Models.Person;
-using ECA.WebApi.Security;
 using System.Web.Http.Results;
-using ECA.Core.DynamicLinq;
-using ECA.Core.DynamicLinq.Sorter;
-using ECA.WebApi.Models.Query;
 
 namespace ECA.WebApi.Controllers.Persons
 {

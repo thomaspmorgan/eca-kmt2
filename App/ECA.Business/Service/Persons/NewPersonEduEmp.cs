@@ -39,7 +39,7 @@ namespace ECA.Business.Service.Persons
 
         public ProfessionEducation AddProfessionEducation(Person person)
         {
-            Contract.Requires(person != null, "The profession/education entity must not be null.");
+            Contract.Requires(person != null, "The person entity must not be null.");
             var eduemp = new ProfessionEducation
             {
                 Title = this.Title,

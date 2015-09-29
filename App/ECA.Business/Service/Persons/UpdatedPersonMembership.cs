@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics.Contracts;
+﻿using System.Diagnostics.Contracts;
 
 namespace ECA.Business.Service.Persons
 {
@@ -37,7 +32,7 @@ namespace ECA.Business.Service.Persons
         public int Id { get; private set; }
 
         /// <summary>
-        /// Gets the value.
+        /// Gets the Name value.
         /// </summary>
         public string Name { get; private set; }
     }
