@@ -162,6 +162,7 @@ namespace ECA.Business.Search.Test
             Assert.AreEqual(configuration.GetDocumentType(), document.GetKey().DocumentType);
             Assert.AreEqual(instance.Description, document.Description);
             Assert.AreEqual(instance.Name, document.Name);
+            Assert.AreEqual(configuration.GetDocumentType().Name, document.DocumentType);
         }
     }
 }

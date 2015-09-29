@@ -143,8 +143,10 @@
     <Compile Include="Queries\Persons\MembershipQueries.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonSevisQueries.cs" />
     <Compile Include="Queries\Persons\ProfessionEducationQueries.cs" />
+    <Compile Include="Search\ProjectDocumentSesrvice.cs" />
     <Compile Include="Search\ProgramDocumentService.cs" />
     <Compile Include="Search\ProgramDTODocumentConfiguration.cs" />
+    <Compile Include="Search\ProjectDTODocumentConfiguration.cs" />
     <Compile Include="Service\Admin\PhoneNumberService.cs" />
     <Compile Include="Service\Admin\IPhoneNumberService.cs" />
     <Compile Include="Service\Admin\IEmailAddressService.cs" />

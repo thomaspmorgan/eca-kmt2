@@ -37,8 +37,7 @@ namespace ECA.Business.Search.Test
         [ExpectedException(typeof(NotSupportedException))]
         public void TestConstructor_UnknownDocumentKeyType()
         {
-            var keyAsString = "1-1-100";
-
+            var keyAsString = "1_1_100";
             var documentKey = new DocumentKey(keyAsString);
         }
 

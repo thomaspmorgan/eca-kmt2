@@ -1,5 +1,4 @@
 ﻿using ECA.Business.Queries.Models.Admin;
-using ECA.Business.Queries.Models.Programs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Search
 {
-    public class ProgramDTODocumentConfiguration : DocumentConfiguration<ProgramDTO, int>
+    public class ProjectDTODocumentConfiguration : DocumentConfiguration<ProjectDTO, int>
     {
-        public ProgramDTODocumentConfiguration()
+        public ProjectDTODocumentConfiguration()
         {
-            IsDocumentType(DocumentType.Program);
+            IsDocumentType(DocumentType.Project);
             HasKey(x => x.Id);
             HasName(x => x.Name);
             HasDescription(x => x.Description);

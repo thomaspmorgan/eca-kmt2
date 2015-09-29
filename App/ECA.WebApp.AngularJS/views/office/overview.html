@@ -19,7 +19,7 @@
         <div class="col-md-6">
             <div class="row" ng-show="view.office.themes">
                 <div class="col-md-4 title-label">Themes</div>
-                <div class="col-md-8">
+                <div class="col-md-8 simple-list">
                     <ul>
                         <li ng-repeat="theme in view.office.themes | orderBy:'value'">{{theme.value}}</li>
                     </ul>
@@ -27,7 +27,7 @@
             </div>
             <div class="row" ng-show="view.office.goals">
                 <div class="col-md-4 title-label">Goals</div>
-                <div class="col-md-8">
+                <div class="col-md-8 simple-list">
                     <ul>
                         <li ng-repeat="goal in view.office.goals | orderBy:'value'">{{goal.value}}</li>
                     </ul>
@@ -38,7 +38,7 @@
         <div class="col-md-6">
             <div class="row" ng-show="view.office.foci">
                 <div class="col-md-4 title-label">Foci</div>
-                <div class="col-md-8">
+                <div class="col-md-8 simple-list">
                     <ul>
                         <li ng-repeat="focus in view.office.foci | orderBy:'value'">{{focus.value}}</li>
                     </ul>
@@ -46,7 +46,7 @@
             </div>
             <div class="row" ng-show="view.office.contacts">
                 <div class="col-md-4 title-label"><ng-pluralize count="view.office.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
-                <div class="col-md-8">
+                <div class="col-md-8 simple-list">
                     <ul>
                         <li ng-repeat="contact in view.office.contacts | orderBy:'value'">{{contact.value}}</li>
                     </ul>

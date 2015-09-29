@@ -17,6 +17,8 @@ namespace ECA.Business.Search
 
         string GetDescription(object instance);
 
+        string GetOfficeSymbol(object instance);
+
         IEnumerable<string> GetThemes(object instance);
 
         IEnumerable<string> GetGoals(object instance);
@@ -50,6 +52,8 @@ namespace ECA.Business.Search
         public Func<TEntity, string> NameDelegate { get; private set; }
 
         public Func<TEntity, string> DescriptionDelegate { get; private set; }
+
+        public Func<TEntity, string> OfficeSymbolDelegate { get; private set; }
 
         public Func<TEntity, IEnumerable<string>> ThemesDelegate { get; private set; }
 
@@ -94,6 +98,12 @@ namespace ECA.Business.Search
         {
             Contract.Requires(descriptionSelector != null, "The descriptionSelector must not be null.");
             this.DescriptionDelegate = descriptionSelector.Compile();
+        }
+
+        public void HasOfficeSymbol(Expression<Func<TEntity, string>> officeSymbolSelector)
+        {
+            Contract.Requires(officeSymbolSelector != null, "The officeSymbolSelector must not be null.");
+            this.OfficeSymbolDelegate = officeSymbolSelector.Compile();
         }
 
         public void HasThemes(Expression<Func<TEntity, IEnumerable<string>>> themesSelector)
@@ -144,6 +154,20 @@ namespace ECA.Business.Search
             if (NameDelegate != null)
             {
                 return NameDelegate((TEntity)instance);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public string GetOfficeSymbol(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
+            if (OfficeSymbolDelegate != null)
+            {
+                return OfficeSymbolDelegate((TEntity)instance);
             }
             else
             {
@@ -234,5 +258,7 @@ namespace ECA.Business.Search
                 return null;
             }
         }
+
+        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Search;
+using ECA.Data;
 using ECA.WebApi.Models.Search;
 using ECA.WebApi.Security;
 using Microsoft.Azure.Search.Models;
@@ -40,30 +41,38 @@ namespace ECA.WebApi.Controllers.Search
         /// <summary>
         /// Performs a search of the ECA system.
         /// </summary>
-        /// <param name="search">The search query.</param>
+        /// <param name="search">The search parameters.</param>
         /// <returns>The responsive documents.</returns>
         [Route("Search")]
         [ResponseType(typeof(DocumentSearchResponseViewModel))]
-        public async Task<IHttpActionResult> GetSearchDocumentsAsync(string search)
+        public async Task<IHttpActionResult> GetSearchDocumentsAsync([FromUri]ECASearchParametersBindingModel search)
         {
             var currentUser = this.userProvider.GetCurrentUser();
             var businessUser = this.userProvider.GetBusinessUser(currentUser);
-            var searchResults = await this.indexService.SearchAsync(search, null);
+            var searchResults = await this.indexService.SearchAsync(search.ToECASearchParameters(), null);
             return Ok(new DocumentSearchResponseViewModel(searchResults));
-            //var viewModels = new List<SearchResultViewModel<ECADocument>>();
-            
-            //foreach(var result in searchResults.Results)
-            //{
-            //    var viewModel = new SearchResultViewModel<ECADocument>();
-            //    viewModel.Document = result.Document;
-            //    viewModel.Highlights = result.Highlights;
-            //    viewModel.Key = result.Document.GetKey();
-            //    viewModel.Score = result.Score;
-            //    viewModels.Add(viewModel);
-            //}
-            //searchResults.Results = viewModels;
+        }
 
-            //return Ok(await this.indexService.SearchAsync(search, null));
+        /// <summary>
+        /// Performs a search of the ECA system.
+        /// </summary>
+        /// <param name="id">The full id of the document.</param>
+        /// <returns>The responsive documents.</returns>
+        [Route("Documents/{id}")]
+        [ResponseType(typeof(ECADocument))]
+        public async Task<IHttpActionResult> GetDocumentByIdAsync(string id)
+        {
+            var currentUser = this.userProvider.GetCurrentUser();
+            var businessUser = this.userProvider.GetBusinessUser(currentUser);
+            var document = await this.indexService.GetDocumentByIdAsync(id);
+            if(document == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(new ECADocumentViewModel(document));
+            }
         }
     }
 }

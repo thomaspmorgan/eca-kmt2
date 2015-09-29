@@ -11,14 +11,11 @@ namespace ECA.WebApi.Models.Search
     {
         public SearchResultViewModel(SearchResult<ECADocument> searchResult)
         {
-            this.Key = searchResult.Document.GetKey();
-            this.Document = searchResult.Document;
+            this.Document = new ECADocumentViewModel(searchResult.Document);
             this.Score = searchResult.Score;
         }
 
-        public DocumentKey Key { get; set; }
-
-        public ECADocument Document { get; set; }
+        public ECADocumentViewModel Document { get; set; }
 
         public double Score { get; set; }
         
