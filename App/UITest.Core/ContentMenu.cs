@@ -53,7 +53,7 @@ namespace UITest.Core
             Assert.AreEqual(true, reports.Exists);
 
             //collapse content menu
-            Mouse.Click(toggleNav);
+            //Mouse.Click(toggleNav);
 
         }
 
