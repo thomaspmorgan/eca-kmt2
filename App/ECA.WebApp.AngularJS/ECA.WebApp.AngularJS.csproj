@@ -141,6 +141,8 @@
     <Content Include="images\contract.png" />
     <Content Include="images\intl-tel-input\flags.png" />
     <Content Include="karma.conf.js" />
+    <Content Include="scripts\app.config.js" />
+    <Content Include="scripts\app.run.js" />
     <Content Include="scripts\controllers\address\addresses.js" />
     <Content Include="scripts\controllers\address\address.js" />
     <Content Include="scripts\controllers\allpeople.js" />
@@ -474,7 +476,7 @@
     <Content Include="images\trash.png" />
     <Content Include="images\yeoman.png" />
     <Content Include="index.html" />
-    <Content Include="scripts\app.js" />
+    <Content Include="scripts\app.module.js" />
     <Content Include="scripts\controllers\about.js" />
     <Content Include="scripts\controllers\alloffices.js" />
     <Content Include="scripts\controllers\allparticipants.js" />
