@@ -46,7 +46,7 @@ namespace ECA.WebJobs.Search
                 documentServices.Add(projectDocumentService);
                 documentServices.ForEach((x) =>
                 {
-                    //x.Process();
+                    x.Process();
                 });
             }
         }
