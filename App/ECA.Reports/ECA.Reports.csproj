@@ -144,6 +144,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.CountryAwardDTO.datasource" />
     <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.FocusAwardDTO.datasource" />
     <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.FocusCategoryAwardDTO.datasource" />
