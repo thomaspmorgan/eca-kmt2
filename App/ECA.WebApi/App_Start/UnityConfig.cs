@@ -1,4 +1,5 @@
 using CAM.Business.Service;
+using System.Linq;
 using CAM.Data;
 using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Search;
@@ -42,7 +43,7 @@ namespace ECA.WebApi
             Contract.Requires(container != null, "The container must not be null.");
             RegisterContexts(container);
             RegisterServices(container);
-            //RegisterSearch(container);
+            RegisterSearch(container);
             RegisterSecurityConcerns(container);
             RegisterValidations(container);
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
@@ -54,7 +55,7 @@ namespace ECA.WebApi
         /// <param name="container">The unity container.</param>
         public static void RegisterContexts(IUnityContainer container)
         {
-            var connectionString = "EcaContext";
+            var connectionString = AppSettings.EcaContextConnectionString.ConnectionString;
             container.RegisterType<EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
             container.RegisterType<DbContext, EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
             container.RegisterType<List<ISaveAction>>(new InjectionFactory((c) =>
@@ -69,26 +70,23 @@ namespace ECA.WebApi
         /// Registers search related types.
         /// </summary>
         /// <param name="container">The unity container.</param>
-        //public static void RegisterSearch(IUnityContainer container)
-        //{
-        //    var serviceName = AppSettings.SearchServiceName;
-        //    var apiKey = AppSettings.SearchApiKey;
+        public static void RegisterSearch(IUnityContainer container)
+        {
+            var serviceName = AppSettings.SearchServiceName;
+            var apiKey = AppSettings.SearchApiKey;
 
-        //    container.RegisterType<SearchServiceClient>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
-        //    {
-        //        return new SearchServiceClient(serviceName, new SearchCredentials(apiKey));
-        //    }));
-        //    container.RegisterType<IIndexService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
-        //    {
-        //        var configs = new List<IDocumentConfiguration>();
-        //        configs.Add(new ProgramDTODocumentConfiguration());
-        //        var client = c.Resolve<SearchServiceClient>();
-        //        var indexService = new IndexService(client, configs);
-        //        return indexService;
-        //    }));
-        //    //container.RegisterType<IIndexNotificationService, FileIndexNotificationService>();
-        //    //container.RegisterType<DocumentService<EcaContext, ProgramDTO>, ProgramDocumentService>(new HierarchicalLifetimeManager());
-        //}
+            container.RegisterType<SearchServiceClient>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
+            {
+                return new SearchServiceClient(serviceName, new SearchCredentials(apiKey));
+            }));
+            container.RegisterType<IIndexService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
+            {
+                var configs = IndexService.GetAllConfigurations(typeof(ProgramDTODocumentConfiguration).Assembly).ToList();
+                var client = c.Resolve<SearchServiceClient>();
+                var indexService = new IndexService(client, configs);
+                return indexService;
+            }));            
+        }
 
 
         /// <summary>
@@ -182,8 +180,8 @@ namespace ECA.WebApi
 #if DEBUG
             cacheLifeInSeconds = 20;
 #endif
-
-            container.RegisterType<CamModel>(new HierarchicalLifetimeManager(), new InjectionConstructor("CamModel"));
+            var connectionString = AppSettings.CamContextConnectionString.ConnectionString;
+            container.RegisterType<CamModel>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
             container.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPrincipalService, PrincipalService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPermissableService, ResourceService>(new HierarchicalLifetimeManager());

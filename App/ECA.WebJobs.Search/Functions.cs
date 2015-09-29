@@ -7,6 +7,7 @@ using Microsoft.Azure.WebJobs;
 using ECA.Data;
 using ECA.Business.Search;
 using Microsoft.Azure.Search;
+using System;
 
 namespace ECA.WebJobs.Search
 {
@@ -27,24 +28,25 @@ namespace ECA.WebJobs.Search
         {
             var serviceName = AppSettings.SearchServiceName;
             var apiKey = AppSettings.SearchApiKey;
-
-            var configs = new List<IDocumentConfiguration>();
-            configs.Add(new ProgramDTODocumentConfiguration());
-            configs.Add(new ProjectDTODocumentConfiguration());
+            var connectionString = AppSettings.EcaContextConnectionString;
+            var configs = IndexService.GetAllConfigurations(typeof(ProgramDTODocumentConfiguration).Assembly).ToList();
 
             var notificationService = new TextWriterIndexNotificationService(log);
-            using (var context = new EcaContext())
+            using (var context = new EcaContext(connectionString.ConnectionString))
             using (var client = new SearchServiceClient(serviceName, new SearchCredentials(apiKey)))
             using (var indexService = new IndexService(client, configs))
             using (var programDocumentService = new ProgramDocumentService(context, indexService, notificationService))
             using (var projectDocumentService = new ProjectDocumentService(context, indexService, notificationService))
             {
+                Console.WriteLine(context.Database.Connection.ConnectionString);
+                Console.WriteLine(apiKey);
+                Console.WriteLine(serviceName);
                 var documentServices = new List<IDocumentService>();
                 documentServices.Add(programDocumentService);
                 documentServices.Add(projectDocumentService);
                 documentServices.ForEach((x) =>
                 {
-                    x.Process();
+                    //x.Process();
                 });
             }
         }

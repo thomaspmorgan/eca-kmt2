@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<parameters >
+
+  <parameter name="search.ApiKey" description="Azure search api key.">
+    <parameterEntry kind="XmlFile"
+                    scope="\\web.config$"
+                    match="/configuration/appSettings/add[@key='search.ApiKey']/@value" />
+  </parameter>
+
+  <parameter name="search.ServiceName" description="Azure search service name.">
+    <parameterEntry kind="XmlFile"
+                    scope="\\web.config$"
+                    match="/configuration/appSettings/add[@key='search.ServiceName']/@value" />
+  </parameter>
+
+</parameters>
+
+<!--http://sedodream.com/PermaLink,guid,25ddd39e-59de-4e35-becc-de19dcc5e4ea.aspx-->

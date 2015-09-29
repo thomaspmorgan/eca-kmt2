@@ -825,6 +825,23 @@ namespace ECA.Business.Search.Test
         #endregion
 
         [TestMethod]
+        public void TestGetAllConfigurations()
+        {
+            var t = this.GetType();
+            var allConfigurations = IndexService.GetAllConfigurations(t.Assembly);
+            Assert.AreEqual(4, allConfigurations.Count());
+            var list = allConfigurations.ToList();
+            foreach(var config in list)
+            {
+                var configType = config.GetType();
+                Assert.IsFalse(configType.IsAbstract);
+                Assert.IsTrue(configType.IsClass);
+                Assert.IsFalse(configType.IsInterface);
+                Assert.IsTrue(typeof(IDocumentConfiguration).IsAssignableFrom(configType));
+            }
+        }
+
+        [TestMethod]
         public void TestGetIndex()
         {
             var testDocument = new TestDocument();

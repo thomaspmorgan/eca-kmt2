@@ -3,7 +3,7 @@
   "webJobName": "SearchIndex",
   "startTime": "2015-09-29T00:00:00-06:00",
   "endTime": null,
-  "jobRecurrenceFrequency": "Minute",
-  "interval": 30,
+  "jobRecurrenceFrequency": "Hour",
+  "interval": 1,
   "runMode": "Scheduled"
 }

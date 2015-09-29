@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -368,7 +369,17 @@ namespace ECA.Business.Search
 
 
         #endregion
-        
+
+        public static IEnumerable<IDocumentConfiguration> GetAllConfigurations(Assembly assembly)
+        {
+            var types = assembly.GetTypes().Where(x => typeof(IDocumentConfiguration).IsAssignableFrom(x) && !x.IsAbstract && x.IsClass).ToList();
+            var configs = new List<IDocumentConfiguration>();
+            types.ForEach(x =>
+            {
+                configs.Add((IDocumentConfiguration)Activator.CreateInstance(x));
+            });
+            return configs;
+        }
     }
 }
 
