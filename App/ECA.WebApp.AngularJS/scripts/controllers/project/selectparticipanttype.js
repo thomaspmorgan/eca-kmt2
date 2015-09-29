@@ -49,7 +49,12 @@ angular.module('staticApp')
       }
 
       $scope.view.isLoading = true;
-      var loadParticipantTypeParams = { start: 0, limit: 300 };
+      var loadParticipantTypeParams = { start: 0, limit: 300, filter: [] };
+      if (clientModel.personId) {
+          loadParticipantTypeParams.filter.push({ property: 'isPerson', comparison: ConstantsService.equalComparisonType, value: true });
+      } else {
+          loadParticipantTypeParams.filter.push({ property: 'isPerson', comparison: ConstantsService.equalComparisonType, value: false });
+      }
       $q.all([loadParticipantTypes(loadParticipantTypeParams)])
         .then(function () {
             $scope.view.isLoading = false;
