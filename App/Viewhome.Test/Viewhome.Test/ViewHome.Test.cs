@@ -53,6 +53,23 @@ namespace Viewhome.Test
             news.WaitForControlReady();
             Assert.AreEqual(true, news.Exists);
 
+            //Verify bookmarks section of Your Shortcuts tab
+            HtmlDiv bookmarks = new HtmlDiv(browserWindow);
+            bookmarks.SearchProperties.Add(HtmlDiv.PropertyNames.TagName, "DIV", HtmlDiv.PropertyNames.InnerText, "star Bookmarks");
+            bookmarks.WaitForControlReady();
+            Assert.AreEqual(true, bookmarks.Exists);
+
+            //Verify bookmark display - Taylor Test (Person)
+            HtmlDiv bookDiv1 = new HtmlDiv(browserWindow);
+            bookDiv1.SearchProperties.Add(HtmlDiv.PropertyNames.TagName, "DIV", HtmlDiv.PropertyNames.InnerText, "delete Person Taylor Test Unknown 09 / 28 / 2015 Added: ", HtmlDiv.PropertyNames.TagInstance, "23");
+            bookDiv1.WaitForControlReady();
+            Assert.AreEqual(true, bookDiv1.Exists);
+
+            HtmlHyperlink bookHyp = new HtmlHyperlink(browserWindow);
+            bookHyp.SearchProperties.Add(HtmlHyperlink.PropertyNames.InnerText, "Taylor Test", HtmlHyperlink.PropertyNames.ControlType, "Hyperlink");
+            bookHyp.WaitForControlReady();
+            Assert.AreEqual(true, bookHyp.Exists);
+
             //old code
             /*this.UIMap.LogintoQA_ExistingUser();
             this.UIMap.OpenBrowserEnterCreds();

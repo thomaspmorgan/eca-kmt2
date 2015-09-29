@@ -52,7 +52,8 @@ namespace UITest.Core
             reports.WaitForControlReady();
             Assert.AreEqual(true, reports.Exists);
 
-
+            //collapse content menu
+            Mouse.Click(toggleNav);
 
         }
 

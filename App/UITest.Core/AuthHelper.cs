@@ -32,7 +32,23 @@ namespace UITest.Core
             BrowserWindow.ClearCache();
 
             //Launch IE browser and navigate to the KMT site.
-            BrowserWindow browserWindow = BrowserWindow.Launch(new System.Uri("http://localhost:5556"));
+            var uri = new System.Uri("http://localhost:5556"); 
+            BrowserWindow browserWindow = BrowserWindow.Launch(uri);
+
+            //Check existing user display
+            if (true)
+            {
+                HtmlHyperlink existUser = new HtmlHyperlink(browserWindow);
+                existUser.SearchProperties.Add(HtmlHyperlink.PropertyNames.Id, "ecatest1_statedept_us_link", HtmlHyperlink.PropertyNames.ControlType, "Hyperlink");
+                if(existUser.Exists)
+                {
+                    
+                    browserWindow.Close();
+                    BrowserWindow.ClearCache();
+                    BrowserWindow.ClearCookies();
+                    browserWindow = BrowserWindow.Launch(uri);
+                }
+            }
 
             //Enter username and password
             HtmlEdit username = new HtmlEdit(browserWindow);
