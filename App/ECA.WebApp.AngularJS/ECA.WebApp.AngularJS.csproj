@@ -218,19 +218,28 @@
     <Content Include="scripts\directives\yearDropdown.js" />
     <Content Include="scripts\filters\groupby.js" />
     <Content Include="scripts\filters\propFilter.js" />
-    <Content Include="scripts\services\bookmark.js" />
-    <Content Include="scripts\services\eduempservice.js" />
-    <Content Include="scripts\services\phonenumberservice.js" />
-    <Content Include="scripts\services\languageProficiency.js" />
-    <Content Include="scripts\services\membership.js" />
-    <Content Include="scripts\services\filterservice.js" />
-    <Content Include="scripts\services\emailaddressservice.js" />
-    <Content Include="scripts\services\messagebox.js" />
-    <Content Include="scripts\services\socialmediaservice.js" />
-    <Content Include="scripts\services\addressservice.js" />
-    <Content Include="scripts\services\participantperson.js" />
-    <Content Include="scripts\services\stateservice.js" />
-    <Content Include="scripts\services\userservice.js" />
+    <Content Include="scripts\services\bookmark.service.js" />
+    <Content Include="scripts\services\constants.service.js">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>constants.service.tt</DependentUpon>
+    </Content>
+    <Content Include="scripts\services\constants.service.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>constants.service.js</LastGenOutput>
+    </Content>
+    <Content Include="scripts\services\education-employment.service.js" />
+    <Content Include="scripts\services\phone-number.service.js" />
+    <Content Include="scripts\services\language-proficiency.service.js" />
+    <Content Include="scripts\services\membership.service.js" />
+    <Content Include="scripts\services\filter.service.js" />
+    <Content Include="scripts\services\email-address.service.js" />
+    <Content Include="scripts\services\message-box.service.js" />
+    <Content Include="scripts\services\social-media.service.js" />
+    <Content Include="scripts\services\address.service.js" />
+    <Content Include="scripts\services\participant-person.service.js" />
+    <Content Include="scripts\services\state.service.js" />
+    <Content Include="scripts\services\user.service.js" />
     <Content Include="styles\fonts\raleway-v9-latin-100.svg" />
     <Content Include="styles\fonts\raleway-v9-latin-200.svg" />
     <Content Include="styles\fonts\raleway-v9-latin-300.svg" />
@@ -280,29 +289,24 @@
     <Content Include="views\project\addprojectmodal.html" />
     <Content Include="views\project\addnewparticipant.html" />
     <Content Include="views\project\selectparticipanttype.html" />
-    <Content Include="scripts\services\organization.js" />
+    <Content Include="scripts\services\organization.service.js" />
     <Content Include="views\organizations\allorganizations.html" />
     <Content Include="views\project\unsavedchanges.html" />
     <Content Include="scripts\controllers\reports\ProjectAwards.js" />
     <Content Include="scripts\controllers\simple_test.js" />
     <Content Include="scripts\directives\datepickerpopup.js" />
     <Content Include="scripts\filters\highlight.js" />
-    <Content Include="scripts\services\downloadservice.js" />
-    <Content Include="scripts\services\logouteventservice.js" />
-    <Content Include="scripts\services\errorinterceptor.js" />
-    <Content Include="scripts\services\constantsservice.js">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>constantsservice.tt</DependentUpon>
-    </Content>
-    <Content Include="scripts\services\moneyflow.js" />
-    <Content Include="scripts\services\notificationservice.js" />
-    <Content Include="scripts\services\reportservice.js" />
-    <Content Include="scripts\services\office.js" />
-    <Content Include="scripts\services\person.js" />
-    <Content Include="scripts\services\registerusereventservice.js" />
-    <Content Include="scripts\services\tableservice.js" />
-    <Content Include="scripts\services\lookupservice.js" />
+    <Content Include="scripts\services\download.service.js" />
+    <Content Include="scripts\services\logout-event.service.js" />
+    <Content Include="scripts\services\error-interceptor.service.js" />
+    <Content Include="scripts\services\moneyflow.service.js" />
+    <Content Include="scripts\services\notification.service.js" />
+    <Content Include="scripts\services\report.service.js" />
+    <Content Include="scripts\services\office.service.js" />
+    <Content Include="scripts\services\person.service.js" />
+    <Content Include="scripts\services\register-user-event.service.js" />
+    <Content Include="scripts\services\table.service.js" />
+    <Content Include="scripts\services\lookup.service.js" />
     <Content Include="styles\_footer.scss" />
     <Content Include="styles\_form.scss" />
     <Content Include="styles\_hero.scss" />
@@ -326,10 +330,6 @@
     <Content Include="package.json" />
     <Content Include="build.cmd" />
     <None Include="ECA.WebApp.AngularJS.wpp.targets" />
-    <Content Include="scripts\services\constantsservice.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>constantsservice.js</LastGenOutput>
-    </Content>
     <None Include="Properties\PublishProfiles\kmt-dev.pubxml" />
     <None Include="Properties\PublishProfiles\kmt-pre.pubxml" />
     <None Include="Properties\PublishProfiles\kmt-prod.pubxml" />
@@ -501,14 +501,13 @@
     <Content Include="scripts\directives\staticswitcher.js" />
     <Content Include="scripts\directives\tabbar.js" />
     <Content Include="scripts\filters\tabfilter.js" />
-    <Content Include="scripts\services\authservice.js" />
-    <Content Include="scripts\services\dragonbreath.js" />
-    <Content Include="scripts\services\locationservice.js" />
-    <Content Include="scripts\services\participant.js" />
-    <Content Include="scripts\services\program.js" />
-    <Content Include="scripts\services\project.js" />
-    <Content Include="scripts\services\schema.js" />
-    <Content Include="scripts\services\search.js" />
+    <Content Include="scripts\services\auth.service.js" />
+    <Content Include="scripts\services\dragon-breath.service.js" />
+    <Content Include="scripts\services\location.service.js" />
+    <Content Include="scripts\services\participant.service.js" />
+    <Content Include="scripts\services\program.service.js" />
+    <Content Include="scripts\services\project.service.js" />
+    <Content Include="scripts\services\search.service.js" />
     <Content Include="views\about.html" />
     <Content Include="views\events.html" />
     <Content Include="views\activities\activityCreate.html" />
