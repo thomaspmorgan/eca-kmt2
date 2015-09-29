@@ -1,13 +1,12 @@
 ﻿using CAM.Data;
 using System.Data.Entity;
 using ECA.Core.Service;
-using NLog.Interface;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.Caching;
-using System.Text;
 using System.Threading.Tasks;
 using CAM.Business.Queries;
 
@@ -29,7 +28,7 @@ namespace CAM.Business.Service
         /// </summary>
         public const int DEFAULT_CACHE_TIME_TO_LIVE_IN_SECONDS = 10 * 60;
 
-        private readonly ILogger logger = new LoggerAdapter(NLog.LogManager.GetCurrentClassLogger());
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly ObjectCache cache;
         private readonly int timeToLiveInSeconds;
 
