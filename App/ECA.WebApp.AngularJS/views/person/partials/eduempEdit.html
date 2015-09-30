@@ -55,21 +55,19 @@
                                         <form name="form.educationForm" class="row form-horizontal" id="educationForm{{education.professionEducationId}}">
                                             <div class="row form-group">
                                                 <label class="title-label col-md-3" for="educationTitleValue">School<span class="asterisk"> *</span></label>
-                                                <div class="col-md-9">
-                                                    <input name="educationTitleValue"
-                                                           ng-maxlength="120"
-                                                           ng-model="education.title"
-                                                           form-element
-                                                           guidance="This is the value of the education title."
-                                                           type="text"
-                                                           class="form-control"
-                                                           placeholder="Enter education title value."
-                                                           id="educationTitleValue"
-                                                           required/>
-                                                </div>
-                                                <div ng-show="form.educationForm.educationTitleValue.$dirty || form.educationForm.educationTitleValue.$error.required">
-                                                    <div class="error" ng-show="form.educationForm.educationTitleValue.$error.required">Please enter a Title value.</div>
-                                                </div>
+                                                <input name="educationTitleValue"
+                                                       ng-maxlength="120"
+                                                       ng-model="education.title"
+                                                       form-element
+                                                       guidance="This is the value of the education title."
+                                                       type="text"
+                                                       class="form-control"
+                                                       placeholder="Enter education title value."
+                                                       id="educationTitleValue"
+                                                       required/>
+                                            </div>
+                                            <div ng-show="form.educationForm.educationTitleValue.$dirty || form.educationForm.educationTitleValue.$error.required">
+                                                <div class="error" ng-show="form.educationForm.educationTitleValue.$error.required">Please enter a Title value.</div>
                                             </div>
                                             <div class="row form-group">
                                                 <label class="title-label col-md-3" for="educationRole">Degree</label>

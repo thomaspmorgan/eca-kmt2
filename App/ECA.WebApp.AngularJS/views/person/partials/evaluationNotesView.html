@@ -1,10 +1,12 @@
 ﻿<div ng-controller="personEvaluationNotesCtrl">
-    <div class="list2" ng-show="!editEvaluation">
+    <div class="list2" ng-show="!EvaluationLoading">
         <div class="col-md-12">
-            <div class="row2" ng-repeat="evaluationNote in evaluationNotes">
+            <div class="list-divider" ng-repeat="evaluationNote in evaluationNotes">
                 <h5>{{evaluationNote.evaluationNote}}</h5>
-                <br />
-                <p><i class="material-icons md-dark">chat_bubble</i> Added by: {{evaluationNote.userName}} ({{evaluationNote.emailAddress}}) on {{evaluationNote.addedOn | date:'longDate'}}</p>
+                <p>
+                    <h6><i class="material-icons md-dark">chat_bubble</i> Added by: <a ng-href="mailto:{{evaluationNote.emailAddress}}">{{evaluationNote.userName}}</a> on {{evaluationNote.addedOn | date:'longDate'}}</h6>
+                </p>
+                <!--({ {evaluationNote.OfficeSymbol} })-->
             </div>
         </div>
     </div>

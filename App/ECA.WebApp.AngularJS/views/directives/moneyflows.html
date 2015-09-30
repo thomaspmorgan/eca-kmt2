@@ -19,7 +19,7 @@
                 </tr>
                 <tr class="row">
                     <th>
-                        <div equality-filter property="'transactionDate'" propertytype="'date'" />
+                        <div equality-filter property="'transactionDate'" propertytype="'date'"></div>
                     </th>
                     <th>
                         <ui-select multiple
@@ -64,10 +64,10 @@
                         <input st-search="'sourceRecipientName'" placeholder="" type="search" class="form-control" />
                     </th>
                     <th>
-                        <div equality-filter property="'amount'" propertytype="'float'" />
+                        <div equality-filter property="'amount'" propertytype="'float'"></div>
                     </th>
                     <th>
-                        <div equality-filter property="'fiscalYear'" propertytype="'int'" />
+                        <div equality-filter property="'fiscalYear'" propertytype="'int'"></div>
                     </th>
                     <th>
                         <input st-search="'description'" maxlength="100" placeholder="" type="search" class="form-control" />
@@ -139,7 +139,7 @@
                             <form name="form.moneyFlowForm" ng-show="!moneyFlow.isSavingUpdate">
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label for="moneyFlowStatus">Transaction Date<span class="asterisk"> *</span></label>
+                                        <label for="transactionDate{{moneyFlow.id}}">Transaction Date<span class="asterisk"> *</span></label>
                                         <p class="input-group">
                                             <input name="transactionDate"
                                                    id="transactionDate{{moneyFlow.id}}"
@@ -162,13 +162,13 @@
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="moneyFlowStatus">Status<span class="asterisk"> *</span></label>
+                                        <label for="moneyFlowStatus{{moneyFlow.id}}">Status<span class="asterisk"> *</span></label>
                                         <select class="form-control"
                                                 id="moneyFlowStatus{{moneyFlow.id}}"
                                                 name="moneyFlowStatusId"
                                                 ng-options="t.id as t.name for t in view.moneyFlowStatii"
                                                 ng-model="moneyFlow.moneyFlowStatusId"
-                                                required />
+                                                required></select>
                                         <div ng-show="form.moneyFlowForm.moneyFlowStatusId.$dirty || form.addressForm.moneyFlowStatusId.$error.required">
                                             <div class="error" ng-show="form.moneyFlowForm.moneyFlowStatusId.$error.required">Please select a funding status.</div>
                                         </div>
@@ -176,7 +176,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label for="amount">Amount<span class="asterisk"> *</span></label>
+                                        <label for="amount{{moneyFlow.id}}">Amount<span class="asterisk"> *</span></label>
                                         <input name="amount"
                                                ng-model="moneyFlow.editableAmount"
                                                max="{{view.maxAmount}}"
@@ -202,14 +202,14 @@
                                 </div>
                                 <div class="row">
                                     <div class="form-group">
-                                        <label for="description">Description<span class="asterisk"> *</span></label>
+                                        <label for="description{{moneyFlow.id}}">Description<span class="asterisk"> *</span></label>
                                         <textarea name="description"
                                                   maxlength="{{view.maxDescriptionLength}}"
                                                   class="largerArea"
                                                   ng-model="moneyFlow.description"
                                                   id="description{{moneyFlow.id}}"
                                                   required
-                                                  placeholder="Enter description..." />
+                                                  placeholder="Enter description..."></textarea>
                                         <div ng-show="form.moneyFlowForm.description.$dirty || form.moneyFlowForm.description.$error.required">
                                             <div class="error" ng-show="form.moneyFlowForm.description.$error.required">Please enter a description.</div>
                                         </div>

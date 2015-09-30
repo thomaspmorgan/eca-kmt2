@@ -19,7 +19,7 @@
                 </div>
                 <div class="row" ng-show="!view.isSavingChanges && !view.isLoadingRequiredData">
                     <div ng-class="{true: 'row', false: 'row2'}[editMode]" ng-show="!view.showEditEmailAddress">
-                        <a href="mailto:{{emailAddress.address}}">{{emailAddress.address}}</a>
+                        <a ng-href="mailto:{{emailAddress.address}}">{{emailAddress.address}}</a>
                         <div class="pull-right" ng-show="!view.showEditEmailAddress">
                             {{emailAddress.emailAddressType}}
                             <a ng-show="!view.showEditEmailAddress && !view.isDeletingEmailAddress && editMode" ng-click="view.showConfirmDelete = true">
@@ -51,7 +51,7 @@
                                             ng-change="view.onEmailAddressTypeChange()"
                                             ng-options="t.id as t.name for t in view.emailAddressTypes"
                                             ng-model="emailAddress.emailAddressTypeId"
-                                            required />
+                                            required></select>
                                 </div>
                                 <div ng-show="form.emailAddressForm.emailAddressTypeId.$dirty || form.emailAddressTypeId.emailAddressTypeId.$error.required">
                                     <div class="error" ng-show="form.emailAddressForm.emailAddressTypeId.$error.required">Please select an email address type.</div>

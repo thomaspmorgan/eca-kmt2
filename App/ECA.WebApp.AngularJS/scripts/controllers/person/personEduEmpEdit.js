@@ -354,7 +354,7 @@ angular.module('staticApp')
 
       function isNewEduEmp(eduemp) {
           if (eduemp.isNew) {
-              return eduemp.isNew = true;
+              return true;
           }
           else {
               return false;

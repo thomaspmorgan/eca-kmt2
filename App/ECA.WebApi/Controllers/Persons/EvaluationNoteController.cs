@@ -1,4 +1,5 @@
-﻿using ECA.Business.Queries.Models.Persons;
+﻿using System.Collections.Generic;
+using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
@@ -60,7 +61,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="model"></param>
         /// <returns></returns>
         [ResponseType(typeof(EvaluationNoteDTO))]
-        [Route("Person/{personId:int}/EvaluationNote")]
+        [Route("People/{personId:int}/EvaluationNote")]
         public async Task<IHttpActionResult> PostEvaluationNoteAsync(NewPersonEvaluationNoteBindingModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -78,7 +79,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="model">The updated evaluation note</param>
         /// <returns>void</returns>
         [ResponseType(typeof(EvaluationNoteDTO))]
-        [Route("Person/{personId:int}/EvaluationNote")]
+        [Route("People/{personId:int}/EvaluationNote")]
         public async Task<IHttpActionResult> PutEvalutionNoteAsync(UpdatedPersonEvaluationNoteBindingModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
