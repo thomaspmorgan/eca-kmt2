@@ -203,6 +203,7 @@
     <Compile Include="Service\Lookup\SocialMediaTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\AddressTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\ParticipantTypeServiceTest.cs" />
+    <Compile Include="Service\Persons\EvaluationServiceTest.cs" />
     <Compile Include="Service\Persons\MembershipServiceTest.cs" />
     <Compile Include="Service\Persons\ParticipantPersonServiceTest.cs" />
     <Compile Include="Service\Programs\ProgramStatusServiceTest.cs" />
