@@ -9,7 +9,7 @@
 angular.module('staticApp')
   .directive('memberships', function ($log) {
       var directive = {
-          templateUrl: 'memberships.directive.html',
+          templateUrl: 'scripts/directives/memberships.directive.html',
           scope: {
               model: '=model',
               personId: '=personid',

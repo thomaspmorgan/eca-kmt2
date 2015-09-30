@@ -9,7 +9,7 @@
 angular.module('staticApp')
   .directive('socialmedias', function ($log) {
       var directive = {
-          templateUrl: 'socialmedias.html',
+          templateUrl: 'scripts/directives/social-medias.directive.html',
           scope: {
               socialable: '=model',
               modelId: '=modelid',

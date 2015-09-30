@@ -9,7 +9,7 @@
 angular.module('staticApp')
   .directive('addresses', function ($log) {
       var directive = {
-          templateUrl: 'addresses.directive.html',
+          templateUrl: 'scripts/directives/addresses.directive.html',
           scope: {
               addressable: '=model',
               modelId: '=modelid',
