@@ -1,11 +1,8 @@
 ﻿using ECA.Business.Queries.Models.Persons;
-using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Service.Persons;
-using ECA.Business.Service.Programs;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.WebApi.Controllers.Persons;
-using ECA.WebApi.Controllers.Programs;
 using ECA.WebApi.Models.Query;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -13,7 +10,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http.Results;
 
-namespace ECA.WebApi.Test.Controllers.Programs
+namespace ECA.WebApi.Test.Controllers.Persons
 {
     [TestClass]
     public class ContactsControllerTest
