@@ -18,7 +18,7 @@ angular.module('staticApp')
               return DragonBreath.save(evaluation, 'people/' + personId + '/EvaluationNote');
           },
           deleteEvaluationNote: function (evaluation, personId) {
-              return DragonBreath.delete(evaluation, 'people/' + personId + '/EvaluationNote/' + evaluation.EvaluationNoteId);
+              return DragonBreath.delete(evaluation, 'people/' + personId + '/EvaluationNote/' + evaluation.evaluationNoteId);
           }
       }
 

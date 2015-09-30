@@ -25,7 +25,7 @@
                             <div class="bounce3"></div>
                         </div>
                         <div class="row list-divider" ng-show="!view.showEditEvaluation">
-                            <span style="font-size: 1.2em">{{evaluation.evaluationNote}}</span><br/>
+                            <span style="font-size: 1.2em">{{evaluation.evaluationNote}}</span><br />
                             <span style="font-size: 0.9em">Added by: {{evaluation.userName}} on {{evaluation.addedOn | date:'longDate'}}</span>
                             <div class="pull-right" ng-show="!view.showEditEvaluation">
                                 <a ng-show="!view.showEditEvaluation && !view.isDeletingEvaluation" ng-click="view.showConfirmDeleteEvaluation = true">
@@ -38,35 +38,35 @@
                                     <i class="material-icons md-dark">edit</i>
                                 </a>
                             </div>
-                            <div ng-show="view.showConfirmDeleteEvaluation" class="text-center">
-                                Are you sure you want to delete this evaluation?
-                            </div>
-                            <div ng-show="view.showConfirmDeleteEvaluation" style="margin-top: 10px;" class="text-center">
-                                <button ng-click="view.onDeleteEvaluationClick()" class="btn btn-danger">Delete</button>
-                                <button ng-click="view.showConfirmDeleteEvaluation = !view.showConfirmDeleteEvaluation" class="btn btn-cancel">Cancel</button>
-                            </div>
-                            <div in-context-form ng-show="view.showEditEvaluation">
-                                <form name="form.evaluationForm" class="row form-horizontal">
-                                    <div class="row form-group" id="evaluationForm{{evaluation.evaluationNoteId}}">
-                                        <label class="title-label col-md-3" for="evaluationValue">Evaluation &amp; Note<span class="asterisk"> *</span></label>
-                                        <textarea name="evaluationValue"
-                                                  maxlength="{{view.maxDescriptionLength}}"
-                                                  class="largerArea"
-                                                  ng-model="evaluation.evaluationNote"
-                                                  form-element
-                                                  guidance="Please enter an evaluation note."
-                                                  id="evaluationValue"
-                                                  placeholder="Enter evaluation..."
-                                                  required></textarea>
-                                    </div>
-                                    <div ng-show="form.evaluationForm.evaluationValue.$dirty || form.evaluationForm.evaluationValue.$error.required">
-                                        <div class="error" ng-show="form.evaluationForm.evaluationValue.$error.required">Please enter an Evaluation value.</div>
-                                    </div>
-                                </form>
-                                <div class="row right" ng-show="view.showEditEvaluation">
-                                    <button ng-click="view.saveEvaluationChanges()" class="btn btn-success" ng-disabled="form.evaluationForm.$invalid">Save</button>
-                                    <button ng-click="view.cancelEvaluationChanges(form.evaluationForm)" class="btn btn-cancel">Cancel</button>
+                        </div>
+                        <div ng-show="view.showConfirmDeleteEvaluation" class="text-center">
+                            Are you sure you want to delete this evaluation?
+                        </div>
+                        <div ng-show="view.showConfirmDeleteEvaluation" style="margin-top: 10px;" class="text-center">
+                            <button ng-click="view.onDeleteEvaluationClick()" class="btn btn-danger">Delete</button>
+                            <button ng-click="view.showConfirmDeleteEvaluation = !view.showConfirmDeleteEvaluation" class="btn btn-cancel">Cancel</button>
+                        </div>
+                        <div in-context-form ng-show="view.showEditEvaluation">
+                            <form name="form.evaluationForm" class="row form-horizontal">
+                                <div class="row form-group" id="evaluationForm{{evaluation.evaluationNoteId}}">
+                                    <label class="title-label col-md-3" for="evaluationValue">Evaluation &amp; Note<span class="asterisk"> *</span></label>
+                                    <textarea name="evaluationValue"
+                                                maxlength="{{view.maxDescriptionLength}}"
+                                                class="largerArea"
+                                                ng-model="evaluation.evaluationNote"
+                                                form-element
+                                                guidance="Please enter an evaluation note."
+                                                id="evaluationValue"
+                                                placeholder="Enter evaluation..."
+                                                required></textarea>
                                 </div>
+                                <div ng-show="form.evaluationForm.evaluationValue.$dirty || form.evaluationForm.evaluationValue.$error.required">
+                                    <div class="error" ng-show="form.evaluationForm.evaluationValue.$error.required">Please enter an Evaluation value.</div>
+                                </div>
+                            </form>
+                            <div class="row right">
+                                <button ng-click="view.saveEvaluationChanges()" class="btn btn-success" ng-disabled="form.evaluationForm.$invalid">Save</button>
+                                <button ng-click="view.cancelEvaluationChanges(form.evaluationForm)" class="btn btn-cancel">Cancel</button>
                             </div>
                         </div>
                     </div>

@@ -72,15 +72,9 @@ angular.module('staticApp')
 
       $scope.view.cancelEditEvaluation = function () {
           $scope.edit.Evaluation = false;
-          //if (isNewEvaluation($scope.evaluation)) {
-          //    removeEvaluationFromView($scope.evaluation);
-          //}
-          //else {
-          //    $scope.evaluation = angular.copy(originalEvaluation);
-          //}
       };
 
-      $scope.view.cancelEvaluationChanges = function () {
+      $scope.view.cancelEvaluationChanges = function (form) {
           $scope.view.showEditEvaluation = false;
           if (isNewEvaluation($scope.evaluation)) {
               removeEvaluationFromView($scope.evaluation);
@@ -169,5 +163,17 @@ angular.module('staticApp')
       function getEvaluationFormDivElement(id) {
           return document.getElementById(id);
       }
+      
+      $scope.$on(ConstantsService.removeNewEvaluationEventName, function (event, newEvaluation) {
+          console.assert($scope.view, 'The scope person must exist.  It should be set by the directive.');
+          console.assert($scope.view.evaluations instanceof Array, 'The entity evaluation is defined but must be an array.');
+
+          var evaluations = $scope.view.evaluations;
+          var index = evaluations.indexOf(newEvaluation);
+          var removedItems = evaluations.splice(index, 1);
+          $log.info('Removed one new evaluation at index ' + index);
+      });
+
+
 
   });

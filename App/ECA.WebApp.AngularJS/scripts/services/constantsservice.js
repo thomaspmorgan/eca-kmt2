@@ -141,6 +141,7 @@
 		removeNewEducationEventName: 'removeNewEducation',
 		removeNewEmailAddressEventName: 'removeNewEmailAddress',
 		removeNewEmploymentEventName: 'removeNewEmployment',
+		removeNewEvaluationEventName: 'removeNewEvaluation',
 		removeNewLanguageProficiencyEventName: 'removeNewLanguageProficiency',
 		removeNewMembershipsEventName: 'removeNewMembership',
 		removeNewSocialMediaEventName: 'removeNewSocialMedia',

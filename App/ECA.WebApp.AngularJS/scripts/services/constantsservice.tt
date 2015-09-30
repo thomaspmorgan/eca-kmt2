@@ -53,6 +53,7 @@
 	otherConstants["removewNewPhoneNumberEventName"] = "removeNewPhoneNumber";
 	otherConstants["removeNewEducationEventName"] = "removeNewEducation";
 	otherConstants["removeNewEmploymentEventName"] = "removeNewEmployment";
+	otherConstants["removeNewEvaluationEventName"] = "removeNewEvaluation";
 
 	otherConstants["inComparisonType"] = ComparisonType.In.Value;
 	otherConstants["notInComparisonType"] = ComparisonType.NotIn.Value;
