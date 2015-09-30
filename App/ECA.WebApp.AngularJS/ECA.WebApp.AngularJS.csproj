@@ -137,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="gulpfile.js" />
     <Content Include="images\contract.png" />
     <Content Include="images\intl-tel-input\flags.png" />
@@ -161,6 +162,7 @@
     <Content Include="scripts\controllers\moneyflow.js" />
     <Content Include="scripts\controllers\moneyflows.js" />
     <Content Include="scripts\controllers\office\branchesandprograms.js" />
+    <Content Include="scripts\controllers\person\personEvaluationNoteEdit.js" />
     <Content Include="scripts\controllers\person\personPiiEdit.js" />
     <Content Include="scripts\controllers\person\personPii.js" />
     <Content Include="scripts\controllers\person\information.js" />
@@ -229,6 +231,7 @@
       <LastGenOutput>constants.service.js</LastGenOutput>
     </Content>
     <Content Include="scripts\services\education-employment.service.js" />
+    <Content Include="scripts\services\personevaluationservice.js" />
     <Content Include="scripts\services\phone-number.service.js" />
     <Content Include="scripts\services\language-proficiency.service.js" />
     <Content Include="scripts\services\membership.service.js" />
@@ -326,7 +329,6 @@
     <Content Include="packages.config" />
     <Content Include="bower.json" />
     <Content Include=".bowerrc" />
-    <Content Include="ApplicationInsights.config" />
     <Content Include="package.json" />
     <Content Include="build.cmd" />
     <None Include="ECA.WebApp.AngularJS.wpp.targets" />
@@ -374,6 +376,7 @@
     <Content Include="styles\fonts\MaterialIcons-Regular.ttf" />
     <Content Include="styles\fonts\MaterialIcons-Regular.woff" />
     <Content Include="styles\fonts\MaterialIcons-Regular.woff2" />
+    <Content Include="views\person\partials\evaluationNotesEdit.html" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -606,7 +609,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="views\Shared\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
