@@ -231,7 +231,7 @@
       <LastGenOutput>constants.service.js</LastGenOutput>
     </Content>
     <Content Include="scripts\services\education-employment.service.js" />
-    <Content Include="scripts\services\personevaluationservice.js" />
+    <Content Include="scripts\services\person-evaluation.service.js" />
     <Content Include="scripts\services\phone-number.service.js" />
     <Content Include="scripts\services\language-proficiency.service.js" />
     <Content Include="scripts\services\membership.service.js" />
