@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using ECA.Business.Queries.Models.Persons;
+﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
@@ -56,7 +55,7 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
-        /// 
+        /// Add a new evaluation note in the eca system
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
