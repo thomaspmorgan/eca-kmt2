@@ -24,15 +24,15 @@
                 </div>
             </div>-->
             <div ng-repeat="result in results" class="row">
-                <!--<div class="col-md-2 search-label">{{result.type}}</div>-->
+                <!--<div class="col-md-2 search-label">{{result.DocumentType}}</div>-->
                 <div class="col-md-12 search-result">
-                    <div ng-repeat="resultitem in result" class="row resultrow">
+                    <!--<div ng-repeat="resultitem in result" class="row resultrow">-->
                         <div class="col-md-1">
-                            <div class="resulticon {{result.type}}">{{result.type}}</div>
+                            <div class="resulticon {{result.DocumentType}}">{{result.DocumentType}}</div>
                         </div>
-                        <div class="col-md-8 resultname">{{result.title}}</div>
-                        <div class="col-md-3 resultoffice">{{result.subtitle}}</div>
-                    </div>
+                        <div class="col-md-8 resultname">{{result.Name}}</div>
+                        <div class="col-md-3 resultoffice">{{result.Description}}</div>
+                    <!--</div>-->
                 </div>
             </div>
         </div>

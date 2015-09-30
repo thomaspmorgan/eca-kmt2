@@ -23,12 +23,21 @@ angular.module('staticApp')
       $scope.tophit = false;
       $scope.firstrun = true;
       $scope.isLoadingResults = false;
-      var res = {};
 
       $scope.autocomplete = function () {
           $scope.firstrun = true;
 
-          $scope.results = SearchService.search($scope.text, null, null, 200);
+          //this.Start, this.Limit, this.Filter, this.Facets, this.Fields, this.SearchTerm
+
+          var params = {
+              Limit: 200,
+              Filter: null,
+              Facets: null,
+              Fields: null,
+              SearchTerm: $scope.text
+          };
+
+          $scope.results = SearchService.getAll(params);
 
       //    var parseresults = function (results) {
       //        $scope.isLoadingResults = true;
