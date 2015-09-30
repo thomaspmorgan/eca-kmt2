@@ -54,7 +54,7 @@ namespace LocalLogin
             
             myotherinstance.Username = "y";*/
           
-           var browserwindow = AuthHelper.KMTLogin();
+           var browserWindow = AuthHelper.KMTLogin();
            /* var contentmenu = new HtmlControl(browserwindow);
             HtmlControl ContentmenuIcon = new HtmlControl(browserwindow);
             ContentmenuIcon.SearchProperties.Add(HtmlControl.PropertyNames.TagName, "BUTTON", HtmlControl.PropertyNames.InnerText, "Toggle navigation");

@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Search;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace ECA.Business.Search.Test
 {
@@ -66,13 +67,6 @@ namespace ECA.Business.Search.Test
     [TestClass]
     public class DocumentConfigurationTest
     {
-        //[TestMethod]
-        //public void TestConstructor()
-        //{
-        //    var configuration = new ConfigurationTestClass();
-        //    Assert.IsNotNull(configuration.AdditionalFieldsDelegates);
-        //    Assert.AreEqual(0, configuration.AdditionalFieldsDelegates.Count());
-        //}
 
         [TestMethod]
         public void TestGetId()
@@ -345,6 +339,5 @@ namespace ECA.Business.Search.Test
             instance.PointsOfContact = new string[] { "value" };
             Assert.IsTrue(Object.ReferenceEquals(instance.PointsOfContact, configuration.GetPointsOfContact(instance)));
         }
-
     }
 }
