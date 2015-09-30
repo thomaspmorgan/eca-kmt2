@@ -320,7 +320,6 @@
     <Content Include="packages.config" />
     <Content Include="bower.json" />
     <Content Include=".bowerrc" />
-    <Content Include="ApplicationInsights.config" />
     <Content Include="package.json" />
     <Content Include="build.cmd" />
     <None Include="ECA.WebApp.AngularJS.wpp.targets" />
