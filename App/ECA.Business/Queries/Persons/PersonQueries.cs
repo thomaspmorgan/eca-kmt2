@@ -335,6 +335,7 @@ namespace ECA.Business.Queries.Persons
 
             var query = from evaluationNote in context.PersonEvaluationNotes
                         join user in context.UserAccounts on evaluationNote.History.CreatedBy equals user.PrincipalId
+                        join participant in context.Participants on user.PrincipalId equals participant.ParticipantId
                         where evaluationNote.PersonId == personId
                         orderby evaluationNote.History.CreatedOn descending
                         select new EvaluationNoteDTO
@@ -344,7 +345,8 @@ namespace ECA.Business.Queries.Persons
                             AddedOn = evaluationNote.History.CreatedOn,
                             UserId = evaluationNote.History.CreatedBy,
                             UserName = user.DisplayName,
-                            EmailAddress = user.EmailAddress
+                            EmailAddress = user.EmailAddress,
+                            OfficeSymbol = participant.Organization.OfficeSymbol
                         };
             return query;
         }
