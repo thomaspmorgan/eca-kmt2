@@ -9,7 +9,7 @@
 angular.module('staticApp')
   .directive('moneyflows', function ($log) {
       var directive = {
-          templateUrl: '../views/directives/moneyflows.html',
+          templateUrl: 'moneyflows.directive.html',
           scope: {
               stateParamName: '=stateparamname',
               sourceEntityTypeId: '=sourceentitytypeid',

@@ -9,7 +9,7 @@
 angular.module('staticApp')
   .directive('emailaddresses', function ($log) {
       var directive = {
-          templateUrl: '../views/directives/emailAddresses.html',
+          templateUrl: 'email-addresses.directive.html',
           scope: {
               emailAddressable: '=model',
               modelId: '=modelid',

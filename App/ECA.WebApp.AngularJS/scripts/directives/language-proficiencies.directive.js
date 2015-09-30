@@ -9,7 +9,7 @@
 angular.module('staticApp')
   .directive('languageproficiencies', function ($log) {
       var directive = {
-          templateUrl: '../views/directives/languageProficiencies.html',
+          templateUrl: 'language-proficiencies.directive.html',
           scope: {
               model: '=model',
               personId: '=personid',
