@@ -2,21 +2,20 @@
 
 /**
  * @ngdoc directive
- * @name staticApp.directive:phoneNumbers
+ * @name staticApp.directive:addresses
  * @description
- * # phoneNumbers
+ * # addresses
  */
 angular.module('staticApp')
-  .directive('phonenumbers', function ($log) {
+  .directive('addresses', function ($log) {
       var directive = {
-          templateUrl: '../views/directives/phoneNumbers.html',
+          templateUrl: 'scripts/directives/addresses.directive.html',
           scope: {
-              phoneNumberable: '=model',
+              addressable: '=model',
               modelId: '=modelid',
               modelType: '=modeltype',
               editMode: '=editmode'
           }
       };
       return directive;
-      
   });
