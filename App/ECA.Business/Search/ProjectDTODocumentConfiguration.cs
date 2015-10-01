@@ -9,9 +9,10 @@ namespace ECA.Business.Search
 {
     public class ProjectDTODocumentConfiguration : DocumentConfiguration<ProjectDTO, int>
     {
+        public static Guid PROJECT_DTO_DOCUMENT_TYPE_ID = Guid.Parse("c886883f-627c-4b2f-87e9-2f77ccb569c7");
         public ProjectDTODocumentConfiguration()
         {
-            IsDocumentType(DocumentType.Project);
+            IsDocumentType(PROJECT_DTO_DOCUMENT_TYPE_ID, "Project");
             HasKey(x => x.Id);
             HasName(x => x.Name);
             HasDescription(x => x.Description);

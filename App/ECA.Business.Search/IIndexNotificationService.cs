@@ -8,10 +8,10 @@ namespace ECA.Business.Search
 {
     public interface IIndexNotificationService
     {
-        void Started(DocumentType documentType);
+        void Started(string documentTypeName);
 
-        void Processed(DocumentType documentType, int totalDocumentsCount, int documentsProcessed);
+        void Processed(string documentTypeName, int totalDocumentsToProcess, int documentsProcessed);
 
-        void Finished(DocumentType documentType);
+        void Finished(string documentTypeName);
     }
 }

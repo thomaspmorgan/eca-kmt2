@@ -19,24 +19,24 @@ namespace ECA.WebJobs.Search
             this.textWriter = textWriter;
         }
 
-        public void Finished(DocumentType documentType)
+        public void Finished(string documentType)
         {
-            var message = String.Format("Finished processing {0} in {1} time.", documentType.Name, stopwatch.Elapsed);
+            var message = String.Format("Finished processing {0} in {1} time.", documentType, stopwatch.Elapsed);
             textWriter.WriteLine(message);
             Console.WriteLine(message);
         }
 
-        public void Processed(DocumentType documentType, int totalDocumentsCount, int documentsProcessed)
+        public void Processed(string documentType, int totalDocumentsCount, int documentsProcessed)
         {
-            var message = String.Format("Processed {0} of {1} documents of type {2}", documentsProcessed, totalDocumentsCount, documentType.Name);
+            var message = String.Format("Processed {0} of {1} documents of type {2}", documentsProcessed, totalDocumentsCount, documentType);
             textWriter.WriteLine(message);
             Console.WriteLine(message);
         }
 
-        public void Started(DocumentType documentType)
+        public void Started(string documentType)
         {
             stopwatch = Stopwatch.StartNew();
-            var message = String.Format("Started processing {0}", documentType.Name);
+            var message = String.Format("Started processing {0}", documentType);
             Console.WriteLine(message);
             textWriter.WriteLine(message);
         }

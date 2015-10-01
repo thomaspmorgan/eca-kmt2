@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Azure.Search.Models;
+using System.Collections.Generic;
 
 namespace ECA.Business.Search.Test
 {
@@ -81,45 +82,56 @@ namespace ECA.Business.Search.Test
         }
 
         [TestMethod]
-        public void TestSetKey_DocumentKey()
+        public void TestGetKey()
         {
-            var key = new DocumentKey(DocumentType.Program, 1);
+            var key = new DocumentKey(Guid.NewGuid(), 1);
             var instance = new ECADocument();
             instance.SetKey(key);
+            Assert.IsNotNull(instance.Id);
             Assert.AreEqual(key, instance.GetKey());
-            Assert.AreEqual(key.ToString(), instance.Id);
         }
 
         [TestMethod]
         public void TestSetKey_StringKey()
         {
-            var key = new DocumentKey(DocumentType.Program, 1);
+            var key = new DocumentKey(Guid.NewGuid(), 1);
             var instance = new ECADocument();
             instance.SetKey(key.ToString());
             Assert.AreEqual(key, instance.GetKey());
             Assert.AreEqual(key.ToString(), instance.Id);
+            Assert.AreEqual(key.DocumentTypeId.ToString(), instance.DocumentTypeId);
         }
 
         [TestMethod]
-        public void TestKey_NullDocumentKeyValue()
+        public void TestSetKey_DocumentKey()
         {
+            var key = new DocumentKey(Guid.NewGuid(), 1);
             var instance = new ECADocument();
-            var key = new DocumentKey(DocumentType.Program, 1);
             instance.SetKey(key);
-            Assert.IsNotNull(instance.GetKey());
-            Assert.IsNotNull(instance.Id);
+            Assert.AreEqual(key, instance.GetKey());
+            Assert.AreEqual(key.ToString(), instance.Id);
+            Assert.AreEqual(key.DocumentTypeId.ToString(), instance.DocumentTypeId);
+        }
+
+        [TestMethod]
+        public void TestSetKey_NullDocumentKey()
+        {
+            var key = new DocumentKey(Guid.NewGuid(), 1);
+            var instance = new ECADocument();
+            instance.SetKey(key.ToString());
+            Assert.AreEqual(key, instance.GetKey());
 
             DocumentKey nullKey = null;
             instance.SetKey(nullKey);
-            Assert.IsNull(instance.GetKey());
             Assert.IsNull(instance.Id);
+            Assert.IsNull(instance.DocumentTypeId);
         }
 
         [TestMethod]
-        public void TestKey_NullStringValue()
+        public void TestSetKey_NullStringValue()
         {
             var instance = new ECADocument();
-            var key = new DocumentKey(DocumentType.Program, 1);
+            var key = new DocumentKey(Guid.NewGuid(), 1);
             instance.SetKey(key);
             Assert.IsNotNull(instance.GetKey());
             Assert.IsNotNull(instance.Id);
@@ -131,21 +143,13 @@ namespace ECA.Business.Search.Test
         }
 
         [TestMethod]
-        public void TestDocumentType()
+        public void TestDocumentTypeId()
         {
-            var key = new DocumentKey(DocumentType.Program, 1);
+            var key = new DocumentKey(Guid.NewGuid(), 1);
             var instance = new ECADocument();
             instance.SetKey(key);
-            Assert.AreEqual(key.DocumentType, instance.GetDocumentType());
-        }
-
-        [TestMethod]
-        public void TestDocumentType_NullKey()
-        {
-            DocumentKey nullKey = null;
-            var instance = new ECADocument();
-            instance.SetKey(nullKey);
-            Assert.IsNull(instance.GetDocumentType());
+            Assert.AreEqual(key.DocumentTypeId.ToString(), instance.DocumentTypeId);
+            Assert.AreEqual(key.ToString(), instance.Id);
         }
 
         [TestMethod]
@@ -156,13 +160,42 @@ namespace ECA.Business.Search.Test
             instance.Description = "desc";
             instance.Id = 1;
             instance.Name = "name";
+            instance.OfficeSymbol = "office";
+            instance.Foci = new List<string> { "foci" };
+            instance.Goals = new List<string> { "goals" };
+            instance.Objectives = new List<string> { "objectives" };
+            instance.Themes = new List<string> { "themes" };
+            instance.PointsOfContact = new List<string> { "pocs" };
+
+            var testDocumentProperties = typeof(TestDocument).GetProperties().OrderBy(x => x.Name).ToList();
+            var ecaDocumentProperties = typeof(ECADocument).GetProperties().OrderBy(x => x.Name).ToList();
+            //make sure all public properties are accounted for in TestDocument
+            foreach(var testDocProperty in testDocumentProperties)
+            {
+                //check every property on TestDocument instance has a value.
+                Assert.IsNotNull(testDocProperty.GetValue(instance), String.Format("TestDocument property [{0}] does not have a value.", testDocProperty.Name));
+            }
 
             var document = new ECADocument<TestDocument>(configuration, instance);
-            Assert.AreEqual(new DocumentKey(configuration.GetDocumentType(), instance.Id), document.GetKey());
-            Assert.AreEqual(configuration.GetDocumentType(), document.GetKey().DocumentType);
+            var documentKey = new DocumentKey(TestDocumentConfiguration.TEST_DOCUMENT_DOCUMENT_TYPE_ID, instance.Id);
+            Assert.AreEqual(documentKey, document.GetKey());
+            Assert.AreEqual(configuration.GetDocumentTypeId().ToString(), document.DocumentTypeId.ToString());
+            Assert.AreEqual(configuration.GetDocumentTypeName(), document.DocumentTypeName);
+
             Assert.AreEqual(instance.Description, document.Description);
             Assert.AreEqual(instance.Name, document.Name);
-            Assert.AreEqual(configuration.GetDocumentType().Name, document.DocumentType);
+            Assert.AreEqual(instance.OfficeSymbol, document.OfficeSymbol);
+            CollectionAssert.AreEqual(instance.Foci.ToList(), document.Foci.ToList());
+            CollectionAssert.AreEqual(instance.Goals.ToList(), document.Goals.ToList());
+            CollectionAssert.AreEqual(instance.Objectives.ToList(), document.Objectives.ToList());
+            CollectionAssert.AreEqual(instance.Themes.ToList(), document.Themes.ToList());
+            CollectionAssert.AreEqual(instance.PointsOfContact.ToList(), document.PointsOfContact.ToList());
+
+            foreach (var ecaDocProperty in ecaDocumentProperties)
+            {
+                //make sure every eca document property has a value.
+                Assert.IsNotNull(ecaDocProperty.GetValue(document));
+            }
         }
     }
 }

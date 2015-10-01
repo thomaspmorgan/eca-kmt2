@@ -22,7 +22,6 @@ namespace ECA.Business.Search.Test
             Assert.AreEqual(filter, instance.Filter);
             Assert.IsTrue(Object.ReferenceEquals(fields, instance.Fields));
             Assert.IsTrue(Object.ReferenceEquals(facets, instance.Facets));
-
         }
     }
 }

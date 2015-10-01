@@ -29,11 +29,6 @@ namespace ECA.Business.Search.Test
 
     public class TestContext : DbContext
     {
-        //public TestContext(string connectionStringOrKey) : base(conn)
-        //{
-
-        //}
-
         public TestContext()
         {
             this.SimpleEntities = new TestDbSet<SimpleEntity>();

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Search
 {
+
     public enum DocumentKeyType
     {
         String,
@@ -25,17 +26,17 @@ namespace ECA.Business.Search
             ParseKey(key);
         }
 
-        public DocumentKey(DocumentType documentType, object id)
+        public DocumentKey(Guid documentTypeId, object id)
         {
             Contract.Requires(id != null, "The id must not be null.");
-            this.DocumentType = documentType;
+            this.DocumentTypeId = documentTypeId;
             this.Value = id;
             this.KeyType = GetDocumentKeyType(id);
         }
 
         public DocumentKeyType KeyType { get; set; }
 
-        public DocumentType DocumentType { get; set; }
+        public Guid DocumentTypeId { get; set; }
 
         public object Value { get; set; }
 
@@ -57,7 +58,7 @@ namespace ECA.Business.Search
         public override string ToString()
         {
             return string.Format("{0}{1}{2}{1}{3}",
-                this.DocumentType.Id,
+                this.DocumentTypeId,
                 DOCUMENT_KEY_SPLIT_CHAR,
                 this.Value.ToString(),
                 (int)this.KeyType
@@ -67,13 +68,12 @@ namespace ECA.Business.Search
         private void ParseKey(string key)
         {
             var splitStrings = key.Split(new char[] { DOCUMENT_KEY_SPLIT_CHAR }, StringSplitOptions.RemoveEmptyEntries);
-            var documentTypeString = splitStrings[0];
+            var documentTypeIdString = splitStrings[0];
             var idString = splitStrings[1];
             var keyTypeString = splitStrings[2];
 
-            var documentTypeId = Int32.Parse(documentTypeString);
-            var documentType = DocumentType.ToDocumentType(documentTypeId);
-            this.DocumentType = (DocumentType)documentType;
+            var documentTypeId = Guid.Parse(documentTypeIdString);
+            this.DocumentTypeId = documentTypeId;            
 
             var keyTypeId = Int32.Parse(keyTypeString);
             var isDocumentKeyType = Enum.IsDefined(typeof(DocumentKeyType), keyTypeId);
@@ -131,7 +131,7 @@ namespace ECA.Business.Search
             {
                 return false;
             }
-            return this.DocumentType == otherKey.DocumentType
+            return this.DocumentTypeId == otherKey.DocumentTypeId
                 && this.KeyType == otherKey.KeyType
                 && this.Value.Equals(otherKey.Value);
 
@@ -148,7 +148,7 @@ namespace ECA.Business.Search
                 int hash = 17;
                 // Suitable nullity checks etc, of course :)
                 hash = hash * 23 + this.KeyType.GetHashCode();
-                hash = hash * 23 + this.DocumentType.Id.GetHashCode();
+                hash = hash * 23 + this.DocumentTypeId.GetHashCode();
                 hash = hash * 23 + this.Value.GetHashCode();
                 return hash;
             }
