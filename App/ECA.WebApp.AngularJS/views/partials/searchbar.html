@@ -3,13 +3,12 @@
             class="form-control col-md-12" ng-change="autocomplete()" submit-required="true" />
 </div>
 <div class="modal-body">
-    <div class="spinner" ng-show="view.isLoadingResults">
+    <div class="spinner" ng-show="isLoadingResults">
         <div class="bounce1"></div>
         <div class="bounce2"></div>
         <div class="bounce3"></div>
     </div>
-    <div class="search-result-wrapper" ng-show="results && show">
-        <!-- id, title, subtitle, desc, typeid -->
+    <div class="search-result-wrapper">
         <div class="search-result-container">
             <!--<div class="row">
                 <div class="col-md-2 search-label">Top Hit</div>
@@ -23,17 +22,17 @@
                     </div>
                 </div>
             </div>-->
-            <div ng-repeat="result in results" class="row">
-                <!--<div class="col-md-2 search-label">{{result.type}}</div>-->
-                <div class="col-md-12 search-result">
-                    <div ng-repeat="resultitem in result" class="row resultrow">
+            <div ng-repeat="docitem in results" class="row">
+                <div class="col-md-2 search-label">{{docitem.document.name}}</div>
+                <!--<div class="col-md-12 search-result">
+                    <div ng-repeat="content in document.document" class="row resultrow">
                         <div class="col-md-1">
-                            <div class="resulticon {{result.type}}">{{result.type}}</div>
+                            <div class="resulticon {{content.documentType}}">{{content.documentType}}</div>
                         </div>
-                        <div class="col-md-8 resultname">{{result.title}}</div>
-                        <div class="col-md-3 resultoffice">{{result.subtitle}}</div>
+                        <div class="col-md-8 resultname">{{content.Name}}</div>
+                        <div class="col-md-3 resultoffice">{{content.description}}</div>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
     </div>

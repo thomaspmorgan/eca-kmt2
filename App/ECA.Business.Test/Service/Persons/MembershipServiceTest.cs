@@ -2,7 +2,6 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Service.Persons;
-using System.Reflection;
 using System.Threading.Tasks;
 using ECA.Data;
 using ECA.Business.Queries.Models.Persons;
@@ -34,7 +33,7 @@ namespace ECA.Business.Test.Service.Persons
             var membership = new Membership
             {
                 MembershipId = 1,
-                Name = "name",
+                Name = "name"
             };
             context.Memberships.Add(membership);
             Action<PagedQueryResults<MembershipDTO>> tester = (results) =>
@@ -60,11 +59,11 @@ namespace ECA.Business.Test.Service.Persons
         {
             var membership1 = new Membership
             {
-                MembershipId = 1,
+                MembershipId = 1
             };
             var membership2 = new Membership
             {
-                MembershipId = 2,
+                MembershipId = 2
             };
             context.Memberships.Add(membership1);
             context.Memberships.Add(membership2);

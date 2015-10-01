@@ -162,6 +162,7 @@
     <Content Include="scripts\controllers\moneyflow.js" />
     <Content Include="scripts\controllers\moneyflows.js" />
     <Content Include="scripts\controllers\office\branchesandprograms.js" />
+    <Content Include="scripts\controllers\organization\addorganizationmodal.js" />
     <Content Include="scripts\controllers\person\personEvaluationNoteEdit.js" />
     <Content Include="scripts\controllers\person\personPiiEdit.js" />
     <Content Include="scripts\controllers\person\personPii.js" />
@@ -268,6 +269,7 @@
     <Content Include="views\locations\marker.html" />
     <Content Include="views\locations\searchlocations.html" />
     <Content Include="views\organizations\activities.html" />
+    <Content Include="views\organizations\addorganizationmodal.html" />
     <Content Include="views\organizations\impact.html" />
     <Content Include="views\organizations\artifacts.html" />
     <Content Include="views\organizations\moneyflows.html" />

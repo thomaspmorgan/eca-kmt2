@@ -19,7 +19,7 @@ namespace ECA.WebApi.Models.Person
         /// Gets and sets the evaluation note for the user
         /// </summary>
         public string EvaluationNote { get; set; }
-
+        
         /// <summary>
         /// Convert binding model to business model 
         /// </summary>

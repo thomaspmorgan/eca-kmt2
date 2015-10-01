@@ -15,7 +15,7 @@ namespace ECA.Business.Service.Persons
         public int PersonId { get; private set; }
         
         public string EvaluationNote { get; set; }
-
+        
         public Create Create { get; private set; }
 
         public PersonEvaluationNote AddPersonEvaluationNote(Person person)
@@ -23,7 +23,8 @@ namespace ECA.Business.Service.Persons
             Contract.Requires(person != null, "The person entity must not be null.");
             var evalnote = new PersonEvaluationNote
             {
-                EvaluationNote = this.EvaluationNote
+                EvaluationNote = this.EvaluationNote,
+                PersonId = person.PersonId
             };
             this.Create.SetHistory(evalnote);
             person.EvaluationNotes.Add(evalnote);

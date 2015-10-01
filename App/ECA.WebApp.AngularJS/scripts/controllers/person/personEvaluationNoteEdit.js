@@ -89,8 +89,10 @@ angular.module('staticApp')
           console.assert(entityEvaluations instanceof Array, 'The evaluation entity is defined but must be an array.');
           var note = "";
           var newEvaluation = {
-              EvaluationNoteId: null,
-              EvaluationNote: note,
+              evaluationNoteId: null,
+              evaluationNote: note,
+              userName: null,
+              addedOn: null,
               personId: $scope.view.personId,
               isNew: true
           };
