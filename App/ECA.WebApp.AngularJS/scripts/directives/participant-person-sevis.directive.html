@@ -1,0 +1,47 @@
+﻿<div class="table">
+    <div class="row">
+        <div class="col-md-5"><h5>DHS Status</h5></div>
+        <div class="col-md-5 title-label">Last Batch Date</div>
+        <div class="col-md-2">
+            <a ng-click="view.DHSStatus=!view.DHSStatus">
+                <i class="material-icons md-dark md-36 pull-right" ng-show="view.DHSStatus">expand_more</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="!view.DHSStatus">expand_less</i>
+            </a>
+        </div>
+    </div>
+    <div class="row2" ng-show="view.DHSStatus">
+        <div class="col-md-2">check</div>
+        <div class="col-md-3">status</div>
+        <div class="col-md-5">date</div>
+    </div>
+    <div class="row">
+        <div class="col-md-10"><h5>DoS Status</h5></div>
+        <div class="col-md-2">
+            <a ng-click="view.DoSStatus=!view.DoSStatus">
+                <i class="material-icons md-dark md-36 pull-right" ng-show="view.DoSStatus">expand_more</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="!view.DoSStatus">expand_less</i>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <input type="checkbox" ng-model="sevisInfo.IsSentToSevisViaRTI" /> Sent to DHS via RTI 
+        </div>
+        <div class="form-group col-md-6">
+            <input type="checkbox" ng-model="sevisInfo.IsCancelled" /> Cancelled
+        </div>
+        <div class="form-group col-md-6">
+            <input type="checkbox" ng-model="sevisInfo.IsValidatedviaRTI" /> Validated via RTI
+        </div>
+        <div class="form-group col-md-6">
+            <input type="checkbox" ng-model="sevisInfo.IsNeedsUpdate" /> Needs Update
+        </div>
+        <div class="form-group col-md-6">
+            <input type="checkbox" ng-model="sevisInfo.IsDS2019Printed" /> DS 2019 Printed
+        </div>
+        <div class="form-group col-md-6">
+            <input type="checkbox" ng-model="sevisInfo.DS2019SentToTraveler" /> DS 2019 Sent to Traveler
+        </div>  
+    </div>
+</div>
+
