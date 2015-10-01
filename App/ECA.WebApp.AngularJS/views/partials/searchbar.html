@@ -1,6 +1,6 @@
 <div class="modal-header search-modal-header">
     <input ng-show="show" type="text" ng-model="text" placeholder="Spotlight search"
-            class="form-control col-md-12" ng-change="autocomplete()" submit-required="true" />
+            class="form-control col-md-12" focus-me="true" ng-change="autocomplete()" ng-model-options="{debounce: 500}" submit-required="true" />
 </div>
 <div class="modal-body">
     <div class="spinner" ng-show="isLoadingResults">
@@ -23,7 +23,7 @@
                 </div>
             </div>-->
             <div ng-repeat="docitem in results" class="row">
-                <div class="col-md-2 search-label">{{docitem.document.name}}</div>
+                <div>{{docitem.document.document.description}}</div>
                 <!--<div class="col-md-12 search-result">
                     <div ng-repeat="content in document.document" class="row resultrow">
                         <div class="col-md-1">

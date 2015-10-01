@@ -34,7 +34,19 @@ angular.module('staticApp')
               SearchTerm: $scope.text
           };
 
-          $scope.results = SearchService.getAll(params);
+          $scope.isLoadingResults = true;
+          SearchService.getAll(params)
+          .then(function (results) {
+              $log.info('Loaded all search results.');
+              $scope.results = results;
+              $scope.isLoadingResults = false;
+          })
+          .catch(function () {
+              var message = 'Unable to load search results.';
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
+              $scope.isLoadingResults = false;
+          });
                     
 
       //    var parseresults = function (results) {
