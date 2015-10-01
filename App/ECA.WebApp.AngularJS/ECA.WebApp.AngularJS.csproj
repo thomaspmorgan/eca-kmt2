@@ -205,6 +205,7 @@
     <Content Include="scripts\controllers\reports\RegionAwards.js" />
     <Content Include="scripts\controllers\socialmedia\socialmedia.js" />
     <Content Include="scripts\controllers\socialmedia\socialmedias.js" />
+    <Content Include="scripts\directives\participant-person-sevis.directive.js" />
     <Content Include="scripts\directives\phone-numbers.directive.js" />
     <Content Include="scripts\directives\equality-filter.directive.js" />
     <Content Include="scripts\directives\language-proficiencies.directive.js" />
@@ -231,6 +232,7 @@
       <LastGenOutput>constants.service.js</LastGenOutput>
     </Content>
     <Content Include="scripts\services\education-employment.service.js" />
+    <Content Include="scripts\services\participant-person-sevis.service.js" />
     <Content Include="scripts\services\person-evaluation.service.js" />
     <Content Include="scripts\services\phone-number.service.js" />
     <Content Include="scripts\services\language-proficiency.service.js" />

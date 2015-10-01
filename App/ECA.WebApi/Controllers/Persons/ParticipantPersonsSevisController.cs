@@ -92,7 +92,7 @@ namespace ECA.WebApi.Controllers.Persons
         [Route("ParticipantPersonsSevis/{participantId:int}")]
         public async Task<IHttpActionResult> GetParticipantPersonByIdAsync(int participantId) 
         {
-            var participantPerson = await this.service.GetParticipantPersonSevisByIdAsync(participantId);
+            var participantPerson = await service.GetParticipantPersonSevisByIdAsync(participantId);
             if (participantPerson != null)
             {
                 return Ok(participantPerson);
