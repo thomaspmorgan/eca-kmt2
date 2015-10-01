@@ -770,6 +770,30 @@ namespace ECA.Business.Search.Test
         }
 
         [TestMethod]
+        public void TestGetSearchParameters_CheckHighlightFields()
+        {
+            using (ShimsContext.Create())
+            {
+                searchClient = new ShimSearchServiceClient();
+                var configuration = new TestDocumentConfiguration();
+                service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+                var allFields = service.GetIndex(configuration).Fields.ToList();
+                var searchableFields = allFields.Where(x => x.IsSearchable).OrderBy(x => x.Name).ToList();
+
+                var start = 1;
+                var limit = 10;
+                var fields = allFields.Select(x => x.Name);
+                var filter = "filter";
+                var facets = new List<string> { "facet1" };
+                var searchTerm = "search";
+
+                var searchParameters = new ECASearchParameters(start, limit, filter, facets, fields, searchTerm);
+                var instance = service.GetSearchParameters(searchParameters, null);
+                CollectionAssert.AreEqual(searchableFields.Select(x => x.Name).ToList(), instance.HighlightFields.OrderBy(x => x).ToList());
+            }
+        }
+
+        [TestMethod]
         public void TestGetSearchParameters_DistinctFieldsAndFilters()
         {
             using (ShimsContext.Create())
