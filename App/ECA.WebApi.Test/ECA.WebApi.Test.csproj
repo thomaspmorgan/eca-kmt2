@@ -152,7 +152,9 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
@@ -176,6 +178,8 @@
     <Compile Include="Controllers\Projects\ProjectStatusControllerTest.cs" />
     <Compile Include="Controllers\Admin\MaritalStatusesControllerTest.cs" />
     <Compile Include="Controllers\Admin\OrganizationsControllerTest.cs" />
+    <Compile Include="Controllers\Search\SearchControllerTest.cs" />
+    <Compile Include="Controllers\Search\ECADocumentViewModelTest.cs" />
     <Compile Include="Controllers\Security\AuthControllerTest.cs" />
     <Compile Include="Controllers\Persons\ParticipantsControllerTest.cs" />
     <Compile Include="Controllers\Persons\ContactsControllerTest.cs" />
@@ -229,6 +233,9 @@
     <Compile Include="Models\Query\PagingQueryBindingModelTest.cs" />
     <Compile Include="Models\Query\SorterBindingModelTest.cs" />
     <Compile Include="Models\Projects\ProjectCollaboratorBindingModelTest.cs" />
+    <Compile Include="Models\Search\ECASearchParametersTest.cs" />
+    <Compile Include="Models\Search\DocumentSearchResponseViewModelTest.cs" />
+    <Compile Include="Models\Search\SearchResultViewModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\ActionPermissionTest.cs" />
     <Compile Include="Security\AnonymousUserTest.cs" />
@@ -252,6 +259,10 @@
     <ProjectReference Include="..\CAM.Data\CAM.Data.csproj">
       <Project>{b1d42987-aee5-431a-bdbf-480f6d8822e1}</Project>
       <Name>CAM.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECA.Business.Search\ECA.Business.Search.csproj">
+      <Project>{7ffb7ec5-462a-4997-9704-736f5af245e9}</Project>
+      <Name>ECA.Business.Search</Name>
     </ProjectReference>
     <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">
       <Project>{0a7b54e3-736d-47b5-92fd-31d3bb416d8d}</Project>

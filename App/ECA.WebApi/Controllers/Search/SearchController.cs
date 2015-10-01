@@ -47,10 +47,18 @@ namespace ECA.WebApi.Controllers.Search
         [ResponseType(typeof(DocumentSearchResponseViewModel))]
         public async Task<IHttpActionResult> GetSearchDocumentsAsync([FromUri]ECASearchParametersBindingModel search)
         {
-            var currentUser = this.userProvider.GetCurrentUser();
-            var businessUser = this.userProvider.GetBusinessUser(currentUser);
-            var searchResults = await this.indexService.SearchAsync(search.ToECASearchParameters(), null);
-            return Ok(new DocumentSearchResponseViewModel(searchResults));
+            if (ModelState.IsValid)
+            {
+                var currentUser = this.userProvider.GetCurrentUser();
+                var permissions = await this.userProvider.GetPermissionsAsync(currentUser);
+                var searchResults = await this.indexService.SearchAsync(search.ToECASearchParameters(permissions), null);
+                return Ok(new DocumentSearchResponseViewModel(searchResults));
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+
         }
 
         /// <summary>
@@ -59,13 +67,13 @@ namespace ECA.WebApi.Controllers.Search
         /// <param name="id">The full id of the document.</param>
         /// <returns>The responsive documents.</returns>
         [Route("Documents/{id}")]
-        [ResponseType(typeof(ECADocument))]
+        [ResponseType(typeof(ECADocumentViewModel))]
         public async Task<IHttpActionResult> GetDocumentByIdAsync(string id)
         {
             var currentUser = this.userProvider.GetCurrentUser();
             var businessUser = this.userProvider.GetBusinessUser(currentUser);
             var document = await this.indexService.GetDocumentByIdAsync(id);
-            if(document == null)
+            if (document == null)
             {
                 return NotFound();
             }

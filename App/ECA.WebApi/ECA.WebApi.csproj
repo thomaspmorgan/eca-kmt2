@@ -485,7 +485,7 @@
     <Compile Include="Controllers\LogsController.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonsSevisController.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonsController.cs" />
-    <Compile Include="Controllers\Search\ECASearchParametersBindingModel.cs" />
+    <Compile Include="Models\Search\ECASearchParametersBindingModel.cs" />
     <Compile Include="Controllers\Search\SearchController.cs" />
     <Compile Include="Controllers\Security\PrincipalsController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
