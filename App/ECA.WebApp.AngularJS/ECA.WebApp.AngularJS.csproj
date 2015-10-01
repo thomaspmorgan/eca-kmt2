@@ -206,6 +206,7 @@
     <Content Include="scripts\controllers\reports\RegionAwards.js" />
     <Content Include="scripts\controllers\socialmedia\socialmedia.js" />
     <Content Include="scripts\controllers\socialmedia\socialmedias.js" />
+    <Content Include="scripts\directives\participant-person-sevis.directive.html" />
     <Content Include="scripts\directives\participant-person-sevis.directive.js" />
     <Content Include="scripts\directives\phone-numbers.directive.js" />
     <Content Include="scripts\directives\equality-filter.directive.js" />
