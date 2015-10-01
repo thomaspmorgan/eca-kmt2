@@ -36,9 +36,9 @@ angular.module('staticApp')
 
           $scope.isLoadingResults = true;
           SearchService.getAll(params)
-          .then(function (results) {
+          .then(function (response) {
               $log.info('Loaded all search results.');
-              $scope.results = results;
+              $scope.results = response.results;
               $scope.isLoadingResults = false;
           })
           .catch(function () {

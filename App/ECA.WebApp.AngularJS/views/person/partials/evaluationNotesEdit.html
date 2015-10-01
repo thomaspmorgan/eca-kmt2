@@ -27,7 +27,7 @@
                         <div class="row list-divider" ng-show="!view.showEditEvaluation">
                             <span style="font-size: 1.2em">{{evaluation.evaluationNote}}</span><br />
                             <span style="font-size: 0.9em">Added by: {{evaluation.userName}} on {{evaluation.addedOn | date:'longDate'}}</span>
-                            <div class="pull-right" ng-show="!view.showEditEvaluation">
+                            <div class="pull-right" ng-show="!view.showEditEvaluation && (view.ecaUserId == evaluation.userId || evaluation.userId == null)">
                                 <a ng-show="!view.showEditEvaluation && !view.isDeletingEvaluation" ng-click="view.showConfirmDeleteEvaluation = true">
                                     <i class="material-icons md-dark">delete</i>
                                 </a>

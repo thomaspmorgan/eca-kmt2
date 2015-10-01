@@ -14,12 +14,14 @@ angular.module('staticApp')
       PersonService,
       EvaluationService,
       NotificationService,
+      AuthService,
       ConstantsService) {
 
       $scope.view = {};
       $scope.view.personId = parseInt($stateParams.personId);
       $scope.view.isSavingChanges = false;
       $scope.view.maxDescriptionLength = 255;
+      $scope.view.ecaUserId = null;
       $scope.view.evaluations = [];
 
       $scope.showEditEvaluation = false;
@@ -27,9 +29,21 @@ angular.module('staticApp')
 
       var originalEvaluation = angular.copy($scope.evaluation);
 
+      function loadUserId() {
+          return AuthService.getUserInfo()
+              .then(function (response) {
+                  $scope.view.ecaUserId = response.data.ecaUserId;
+                  return response.data.ecaUserId;
+              })
+              .catch(function () {
+                  $log.error('Unable to load user info.');
+              });
+      }
+
       $scope.personIdDeferred.promise
       .then(function (personId) {
           loadEvaluationNotes(personId);
+          loadUserId();
       });
 
       function loadEvaluationNotes(personId) {
