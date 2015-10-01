@@ -58,7 +58,6 @@ namespace ECA.WebApi.Controllers.Search
             {
                 return BadRequest(ModelState);
             }
-
         }
 
         /// <summary>

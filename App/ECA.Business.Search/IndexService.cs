@@ -124,21 +124,28 @@ namespace ECA.Business.Search
             var index = new Index
             {
                 Name = INDEX_NAME,
+                Fields = GetFields()
             };
-            index.Fields.Add(new Field
+            return index;
+        }
+
+        private IList<Field> GetFields()
+        {
+            var fields = new List<Field>();
+            fields.Add(new Field
             {
                 IsKey = true,
                 Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Id),
                 Type = DataType.String
             });
-            index.Fields.Add(new Field
+            fields.Add(new Field
             {
                 IsKey = false,
                 Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Name),
                 Type = DataType.String,
                 IsSearchable = true
             });
-            index.Fields.Add(new Field
+            fields.Add(new Field
             {
                 IsKey = false,
                 Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.DocumentTypeName),
@@ -146,7 +153,7 @@ namespace ECA.Business.Search
                 IsSearchable = true,
                 IsFacetable = true
             });
-            index.Fields.Add(new Field
+            fields.Add(new Field
             {
                 IsKey = false,
                 Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.DocumentTypeId),
@@ -154,60 +161,60 @@ namespace ECA.Business.Search
                 IsSearchable = false,
                 IsRetrievable = true
             });
-            index.Fields.Add(new Field
+            fields.Add(new Field
             {
                 IsKey = false,
                 Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Description),
                 Type = DataType.String,
                 IsSearchable = true
             });
-            index.Fields.Add(new Field
+            fields.Add(new Field
             {
                 IsKey = false,
                 Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Foci),
                 Type = DataType.Collection(DataType.String),
                 IsSearchable = true
             });
-            index.Fields.Add(new Field
+            fields.Add(new Field
             {
                 IsKey = false,
                 Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Goals),
                 Type = DataType.Collection(DataType.String),
                 IsSearchable = true
             });
-            index.Fields.Add(new Field
+            fields.Add(new Field
             {
                 IsKey = false,
                 Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Objectives),
                 Type = DataType.Collection(DataType.String),
                 IsSearchable = true
             });
-            index.Fields.Add(new Field
+            fields.Add(new Field
             {
                 IsKey = false,
                 Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Themes),
                 Type = DataType.Collection(DataType.String),
                 IsSearchable = true
             });
-            index.Fields.Add(new Field
+            fields.Add(new Field
             {
                 IsKey = false,
                 Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.PointsOfContact),
                 Type = DataType.Collection(DataType.String),
                 IsSearchable = true
             });
-            index.Fields.Add(new Field
+            fields.Add(new Field
             {
                 IsKey = false,
                 Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.OfficeSymbol),
                 Type = DataType.String,
                 IsSearchable = true
             });
-            foreach (var field in index.Fields)
+            foreach (var field in fields)
             {
                 field.Name = ToCamelCase(field.Name);
             }
-            return index;
+            return fields;
         }
 
         private string ToCamelCase(string propertyName)
@@ -325,7 +332,7 @@ namespace ECA.Business.Search
             {
                 throw new NotSupportedException(String.Format("The configuration for the type [{0}] was not found.", typeof(T)));
             }
-            Contract.Assert(configuration.IsConfigurationForType(typeof(T)), 
+            Contract.Assert(configuration.IsConfigurationForType(typeof(T)),
                 String.Format("The IDocumentConfiguration {0} is not valid for the type {1}.", configuration.GetType(), typeof(T)));
             var actions = new List<IndexAction>();
             var ecaDocuments = new List<ECADocument>();
@@ -351,22 +358,6 @@ namespace ECA.Business.Search
         }
 
         #endregion
-
-        //#region Stats
-
-        //public IndexGetStatisticsResponse GetStats(DocumentType documentType)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public async Task<IndexGetStatisticsResponse> GetStatsAsync(DocumentType documentType)
-        //{
-        //    var indexName = documentType.IndexName;
-        //    var stats = await this.searchClient.Indexes.GetStatisticsAsync(indexName);
-        //    return stats;
-        //}
-
-        //#endregion
 
         #region Get Doc by Id
 
@@ -464,12 +455,23 @@ namespace ECA.Business.Search
         /// <returns>The SearchParameters instance for an azure search.</returns>
         public SearchParameters GetSearchParameters(ECASearchParameters ecaSearchParameters, List<DocumentKey> allowedDocumentKeys)
         {
+            List<string> highlightFields = null;
+            if (ecaSearchParameters.Fields != null)
+            {
+                highlightFields = GetFields()
+                    .Where(x => x.IsSearchable && ecaSearchParameters.Fields.Select(f => f.ToLower()).ToList().Contains(x.Name.ToLower()))
+                    .Select(x => x.Name).ToList();
+            }
             var searchParameters = new SearchParameters
             {
                 Skip = ecaSearchParameters.Start,
                 Top = ecaSearchParameters.Limit,
-                Filter = ecaSearchParameters.Filter
+                Filter = ecaSearchParameters.Filter,
             };
+            if (highlightFields != null && highlightFields.Count > 0)
+            {
+                searchParameters.HighlightFields = highlightFields;
+            }
             if (ecaSearchParameters.Facets != null)
             {
                 var distinctFacets = ecaSearchParameters.Facets.Distinct().ToList();

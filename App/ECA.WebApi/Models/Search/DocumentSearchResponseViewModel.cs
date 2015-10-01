@@ -44,6 +44,5 @@ namespace ECA.WebApi.Models.Search
         /// The search results.
         /// </summary>
         public List<SearchResultViewModel> Results { get; set; }
-
     }
 }
