@@ -12,7 +12,7 @@ angular.module('staticApp')
         $stateParams,
         $q,
         $log,
-        $modal,
+        $modalInstance,
         SearchService) {
 
       $scope.view = {};
@@ -35,9 +35,7 @@ angular.module('staticApp')
           };
 
           $scope.results = SearchService.getAll(params);
-
-          
-          
+                    
 
       //    var parseresults = function (results) {
       //        $scope.isLoadingResults = true;
@@ -90,9 +88,7 @@ angular.module('staticApp')
       };
 
       $scope.onCloseSpotlightSearchClick = function () {
-          //dismiss('onCloseSpotlightSearchClick');
-          $modal.close(this);
+          $modalInstance.dismiss('close');
       }
-
 
   });
