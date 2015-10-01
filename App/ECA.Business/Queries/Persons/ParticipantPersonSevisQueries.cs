@@ -44,94 +44,16 @@ namespace ECA.Business.Queries.Persons
                              IsValidatedViaRTI = p.IsValidatedViaRTI,
                              StartDate = p.StartDate,
                              EndDate = p.EndDate,
-                             FundingGovtAgency1 = p.FundingGovtAgency1,
-                             FundingGovtAgency2 = p.FundingGovtAgency2,
-                             FundingIntlOrg1 = p.FundingIntlOrg1,
-                             FundingIntlOrg2 = p.FundingIntlOrg2,
-                             FundingOther = p.FundingOther,
-                             FundingPersonal = p.FundingPersonal,
-                             FundingSponsor = p.FundingSponsor,
-                             FundingTotal = p.FundingTotal,
-                             FundingVisBNC = p.FundingVisBNC,
-                             FundingVisGovt = p.FundingVisGovt,
-                             HomeInstitution = p.HomeInstitution != null ? new InstitutionDTO
-                             {
-                                 Name = p.HomeInstitution.Name,
-                                 Addresses = (from address in p.HomeInstitution.Addresses
-                                              let addressType = address.AddressType
-
-                                              let location = address.Location
-
-                                              let hasCity = location.City != null
-                                              let city = location.City
-
-                                              let hasCountry = location.Country != null
-                                              let country = location.Country
-
-                                              let hasDivision = location.Division != null
-                                              let division = location.Division
-
-                                              select new AddressDTO
-                                              {
-                                                  AddressId = address.AddressId,
-                                                  AddressType = addressType.AddressName,
-                                                  AddressTypeId = addressType.AddressTypeId,
-                                                  City = hasCity ? city.LocationName : null,
-                                                  CityId = location.CityId,
-                                                  Country = hasCountry ? country.LocationName : null,
-                                                  CountryId = location.CountryId,
-                                                  Division = hasDivision ? division.LocationName : null,
-                                                  DivisionId = location.DivisionId,
-                                                  IsPrimary = address.IsPrimary,
-                                                  LocationId = location.LocationId,
-                                                  LocationName = location.LocationName,
-                                                  OrganizationId = address.OrganizationId,
-                                                  PostalCode = location.PostalCode,
-                                                  PersonId = address.PersonId,
-                                                  Street1 = location.Street1,
-                                                  Street2 = location.Street2,
-                                                  Street3 = location.Street3,
-                                              }).OrderByDescending(a => a.IsPrimary).ThenBy(a => a.AddressType),
-                             } : null,
-                             HostInstitution = p.HostInstitution != null ? new InstitutionDTO
-                             {
-                                 Name = p.HostInstitution.Name,
-                                 Addresses = (from address in p.HostInstitution.Addresses
-                                              let addressType = address.AddressType
-
-                                              let location = address.Location
-
-                                              let hasCity = location.City != null
-                                              let city = location.City
-
-                                              let hasCountry = location.Country != null
-                                              let country = location.Country
-
-                                              let hasDivision = location.Division != null
-                                              let division = location.Division
-
-                                              select new AddressDTO
-                                              {
-                                                  AddressId = address.AddressId,
-                                                  AddressType = addressType.AddressName,
-                                                  AddressTypeId = addressType.AddressTypeId,
-                                                  City = hasCity ? city.LocationName : null,
-                                                  CityId = location.CityId,
-                                                  Country = hasCountry ? country.LocationName : null,
-                                                  CountryId = location.CountryId,
-                                                  Division = hasDivision ? division.LocationName : null,
-                                                  DivisionId = location.DivisionId,
-                                                  IsPrimary = address.IsPrimary,
-                                                  LocationId = location.LocationId,
-                                                  LocationName = location.LocationName,
-                                                  OrganizationId = address.OrganizationId,
-                                                  PostalCode = location.PostalCode,
-                                                  PersonId = address.PersonId,
-                                                  Street1 = location.Street1,
-                                                  Street2 = location.Street2,
-                                                  Street3 = location.Street3,
-                                              }).OrderByDescending(a => a.IsPrimary).ThenBy(a => a.AddressType),
-                             } : null
+                             FundingGovtAgency1 = p.FundingGovtAgency1 ?? 0,
+                             FundingGovtAgency2 = p.FundingGovtAgency2 ?? 0,
+                             FundingIntlOrg1 = p.FundingIntlOrg1 ?? 0,
+                             FundingIntlOrg2 = p.FundingIntlOrg2 ?? 0,
+                             FundingOther = p.FundingOther ?? 0,
+                             FundingPersonal = p.FundingPersonal ?? 0,
+                             FundingSponsor = p.FundingSponsor ?? 0,
+                             FundingTotal = p.FundingTotal ?? 0,
+                             FundingVisBNC = p.FundingVisBNC ?? 0,
+                             FundingVisGovt = p.FundingVisGovt ?? 0
                          });
             return query;
         }

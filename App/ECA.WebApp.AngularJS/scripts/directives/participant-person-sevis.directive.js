@@ -25,10 +25,6 @@
         return directive;
 
         function link(scope, element, attrs) {
-            $log.info('In Link, ParticipantId:' + attrs.participantid);
-
-            var active = scope.$eval(attrs.active) || false;
-            
         };
 
     }
