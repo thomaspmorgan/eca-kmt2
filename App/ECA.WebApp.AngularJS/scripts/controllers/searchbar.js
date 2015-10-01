@@ -13,7 +13,6 @@ angular.module('staticApp')
         $q,
         $log,
         $modal,
-        $modalInstance,
         SearchService) {
 
       $scope.view = {};
@@ -27,10 +26,8 @@ angular.module('staticApp')
       $scope.autocomplete = function () {
           $scope.firstrun = true;
 
-          //this.Start, this.Limit, this.Filter, this.Facets, this.Fields, this.SearchTerm
-
           var params = {
-              Limit: 200,
+              Limit: 5,
               Filter: null,
               Facets: null,
               Fields: null,
@@ -38,6 +35,9 @@ angular.module('staticApp')
           };
 
           $scope.results = SearchService.getAll(params);
+
+          
+          
 
       //    var parseresults = function (results) {
       //        $scope.isLoadingResults = true;
@@ -90,7 +90,8 @@ angular.module('staticApp')
       };
 
       $scope.onCloseSpotlightSearchClick = function () {
-          $modalInstance.dismiss('onCloseSpotlightSearchClick');
+          //dismiss('onCloseSpotlightSearchClick');
+          $modal.close(this);
       }
 
 

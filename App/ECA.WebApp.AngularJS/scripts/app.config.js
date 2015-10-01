@@ -476,15 +476,15 @@ angular.module('staticApp')
         { name: 'Partners', state: 'home.notifications' }
       ];
         
-      $rootScope.onSpotlightSearchClick = function () {
-          var spotlightModalInstance = $modal.open({
-              animation: true,
-              templateUrl: 'views/partials/searchbar.html',
-              controller: 'searchbarCtrl',
-              windowClass: 'search-modal-resize',
-              resolve: {}
-          });
-      };
+      //$rootScope.onSpotlightSearchClick = function () {
+      //    var spotlightModalInstance = $modal.open({
+      //        animation: true,
+      //        templateUrl: 'views/partials/searchbar.html',
+      //        controller: 'searchbarCtrl',
+      //        windowClass: 'search-modal-resize',
+      //        resolve: {}
+      //    });
+      //};
         
       var leftOpen = false;
       $rootScope.pushMenu = function ($event) {

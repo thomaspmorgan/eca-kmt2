@@ -1,45 +1,47 @@
-<div class="modal-header search-modal-header">
-    <input ng-show="show" type="text" ng-model="text" placeholder="Spotlight search"
-            class="form-control col-md-12" ng-change="autocomplete()" submit-required="true" />
-</div>
-<div class="modal-body">
-    <div class="spinner" ng-show="view.isLoadingResults">
-        <div class="bounce1"></div>
-        <div class="bounce2"></div>
-        <div class="bounce3"></div>
+<div ng-controller="searchbarCtrl">
+    <div class="modal-header search-modal-header">
+        <input ng-show="show" type="text" ng-model="text" placeholder="Spotlight search"
+               class="form-control col-md-12" ng-change="autocomplete()" submit-required="true" />
     </div>
-    <div class="search-result-wrapper" ng-show="results && show">
-        <!-- id, title, subtitle, desc, typeid -->
-        <div class="search-result-container">
-            <!--<div class="row">
-                <div class="col-md-2 search-label">Top Hit</div>
-                <div class="col-md-10 search-result">
-                    <div class="row resultrow">
-                        <div class="col-md-1">
-                            <div class="resulticon {{tophit.type}}">{{tophit.type[0]}}</div>
+    <div class="modal-body">
+        <div class="spinner" ng-show="view.isLoadingResults">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+        <div class="search-result-wrapper">
+            <div class="search-result-container">
+                <!--<div class="row">
+                    <div class="col-md-2 search-label">Top Hit</div>
+                    <div class="col-md-10 search-result">
+                        <div class="row resultrow">
+                            <div class="col-md-1">
+                                <div class="resulticon {{tophit.type}}">{{tophit.type[0]}}</div>
+                            </div>
+                            <div class="col-md-8 resultname">{{tophit.title}}</div>
+                            <div class="col-md-3 resultoffice">{{tophit.subtitle}}</div>
                         </div>
-                        <div class="col-md-8 resultname">{{tophit.title}}</div>
-                        <div class="col-md-3 resultoffice">{{tophit.subtitle}}</div>
                     </div>
-                </div>
-            </div>-->
-            <div ng-repeat="result in results" class="row">
-                <!--<div class="col-md-2 search-label">{{result.DocumentType}}</div>-->
-                <div class="col-md-12 search-result">
-                    <!--<div ng-repeat="resultitem in result" class="row resultrow">-->
-                        <div class="col-md-1">
-                            <div class="resulticon {{result.DocumentType}}">{{result.DocumentType}}</div>
+                </div>-->
+                <div ng-repeat="docitem in results" class="row">
+                    <div class="col-md-2 search-label">{{docitem.document.name}}</div>
+                    <!--<div class="col-md-12 search-result">
+                        <div ng-repeat="content in document.document" class="row resultrow">
+                            <div class="col-md-1">
+                                <div class="resulticon {{content.documentType}}">{{content.documentType}}</div>
+                            </div>
+                            <div class="col-md-8 resultname">{{content.Name}}</div>
+                            <div class="col-md-3 resultoffice">{{content.description}}</div>
                         </div>
-                        <div class="col-md-8 resultname">{{result.Name}}</div>
-                        <div class="col-md-3 resultoffice">{{result.Description}}</div>
-                    <!--</div>-->
+                    </div>-->
                 </div>
             </div>
         </div>
     </div>
+    <div class="modal-footer">
+        <div class="pull-right">
+            <button class="btn btn-cancel" ng-click="onCloseSpotlightSearchClick()">Close</button>
+        </div>
+    </div>    
 </div>
-<div class="modal-footer">
-    <div class="pull-right">
-        <button class="btn btn-cancel" ng-click="onCloseSpotlightSearchClick()">Close</button>
-    </div>
-</div>
+
