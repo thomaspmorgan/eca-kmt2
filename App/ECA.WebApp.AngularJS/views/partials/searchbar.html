@@ -23,16 +23,19 @@
                 </div>
             </div>-->
             <div ng-repeat="docitem in results" class="row">
-                <div>DocName: {{docitem.document.document.name}}</div>
-                <!--<div class="col-md-12 search-result">
-                    <div ng-repeat="content in document.document" class="row resultrow">
-                        <div class="col-md-1">
-                            <div class="resulticon {{content.documentType}}">{{content.documentType}}</div>
+                <div class="col-md-1 text-right">
+                    <span ng-show="CreateHeader(docitem.document.documentTypeName)">{{docitem.document.documentTypeName | uppercase}}</span>
+                </div>
+                <div class="col-md-11 search-result">
+                    <div ng-repeat="content in docitem" class="row">
+                        <div class="col-md-1 text-center">
+                            <div class="resulticon {{content.documentTypeName | lowercase}}">{{content.documentTypeName | resultIconFilter}}</div>
                         </div>
-                        <div class="col-md-8 resultname">{{content.Name}}</div>
-                        <div class="col-md-3 resultoffice">{{content.description}}</div>
+                        <div class="col-md-5 resultname">{{content.name}}</div>
+                        <div class="col-md-1 resultoffice">{{content.officeSymbol}}</div>
+                        <div class="col-md-4"></div>
                     </div>
-                </div>-->
+                </div>
             </div>
         </div>
     </div>

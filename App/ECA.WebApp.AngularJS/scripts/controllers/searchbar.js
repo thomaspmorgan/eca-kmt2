@@ -27,7 +27,7 @@ angular.module('staticApp')
           $scope.firstrun = true;
 
           var params = {
-              Limit: 5,
+              Limit: 25,
               Filter: null,
               Facets: null,
               Fields: null,
@@ -47,60 +47,32 @@ angular.module('staticApp')
               $log.error(message);
               $scope.isLoadingResults = false;
           });
-                    
 
-      //    var parseresults = function (results) {
-      //        $scope.isLoadingResults = true;
-      //        //var formatElement = function () {
-      //        //    var el = element;
-      //        //    return {
-      //        //        'id': el.Fields.docId,
-      //        //        'title': el.Fields.title,
-      //        //        'subtitle': el.Fields.subtitle,
-      //        //        'type': el.Fields.type
-      //        //    };
-      //        //};
-
-      //        res = results;
-
-      //        if ((res.length === 0) && ($scope.firstrun === true)) {
-      //            $scope.firstrun = false;
-      //            SearchService.search($scope.text, null, null, 200)
-      //                  .then(function (response) {
-      //                      $scope.results = parseresults(response);
-      //                  }, function (error) {
-      //                      $log.info("Spotlight search error: ", error);
-      //                });
-      //            return;
-      //        } else if (res.length === 0) {
-      //            $scope.results = false;
-      //            $scope.tophit = false;
-      //        } else {
-      //            $scope.results = res;
-      //        }
-
-      //        //var out = {};
-      //        //$scope.tophit = formatElement(res.shift());
-
-      //        //var sorter = function () {
-      //        //    var el = element;
-      //        //    out[el.Fields.type] = out[el.Fields.type] || [];
-      //        //    if (out[el.Fields.type].length < 10) {
-      //        //        out[el.Fields.type].push(formatElement(el));
-      //        //    }
-      //        //};
-      //        //res.forEach(sorter);
-
-      //        //$scope.results = out;
-      //        $scope.isLoadingResults = false;
-      //    };
-
-      //    var response = SearchService.search($scope.text, null, null, 200);
-      //    parseresults(response);
       };
+
+      $scope.currentGroup = '';
+      $scope.CreateHeader = function (group) {
+          var showHeader = (group != $scope.currentGroup);
+          $scope.currentGroup = group;
+          return showHeader;
+      }
 
       $scope.onCloseSpotlightSearchClick = function () {
           $modalInstance.dismiss('close');
       }
 
   });
+
+angular.module('staticApp')
+  .filter('resultIconFilter', function() {
+    return function(item) {
+        if (typeof item !== 'undefined') {
+            if (item === "Project") {
+                return item.substring(0, 2);
+            } else {
+                return item.substring(0, 1);
+            }
+        }
+        return "";
+    };
+});

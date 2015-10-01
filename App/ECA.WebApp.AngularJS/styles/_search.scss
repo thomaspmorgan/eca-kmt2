@@ -20,8 +20,8 @@
 }
 
 .resultrow {
-    height: 49px;
-    line-height: 49px;
+    height: 39px;
+    line-height: 39px;
 }
 
 .search-result-wrapper {
@@ -61,7 +61,7 @@
 .search-result-container {
     background-color: #fff;
     display: block;
-    height: 1000px;
+    min-height: 1000px;
     margin: 0 auto;
     overflow: hidden;
 }
