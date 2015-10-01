@@ -60,8 +60,6 @@ namespace ECA.Business.Search.Test
         {
             get; set;
         }
-
-        public DocumentType DocumentType { get; set; }
     }
 
     [TestClass]
@@ -107,13 +105,15 @@ namespace ECA.Business.Search.Test
         public void TestIsDocumentType()
         {
             var configuration = new ConfigurationTestClass();
-            Assert.IsNull(configuration.GetDocumentType());
+            Assert.AreEqual(Guid.Empty, configuration.GetDocumentTypeId());
+            Assert.IsNull(configuration.GetDocumentTypeName());
 
-            var documentType = DocumentType.Program;
-            configuration.IsDocumentType(documentType);
+            var documentTypeId = Guid.NewGuid();
+            var documentTypeName = "hello";
+            configuration.IsDocumentType(documentTypeId, documentTypeName);
 
-            Assert.IsNotNull(configuration.GetDocumentType());
-            Assert.AreEqual(documentType, configuration.GetDocumentType());
+            Assert.AreEqual(documentTypeId, configuration.GetDocumentTypeId());
+            Assert.AreEqual(documentTypeName, configuration.GetDocumentTypeName());
         }
 
         [TestMethod]

@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.Azure.Search.Models;
+using ECA.Business.Search;
 
 namespace ECA.Business.Search.Test
 {
@@ -14,7 +15,7 @@ namespace ECA.Business.Search.Test
     public class TestDocumentService : DocumentService<TestContext, SimpleEntity>
     {
 
-        public TestDocumentService(TestContext context, IIndexService indexService, IIndexNotificationService notificationService, int batchSize = 500) : base(context, indexService, notificationService, batchSize)
+        public TestDocumentService(TestContext context, IIndexService indexService, IIndexNotificationService notificationService, int batchSize = DocumentService<TestContext, SimpleEntity>.DEFAULT_BATCH_SIZE) : base(context, indexService, notificationService, batchSize)
         {
         }
 
@@ -59,7 +60,7 @@ namespace ECA.Business.Search.Test
 
             var batchSizeField = typeof(TestDocumentService).BaseType.GetField("batchSize", BindingFlags.Instance | BindingFlags.NonPublic);
             var batchSizeValue = batchSizeField.GetValue(testService);
-            Assert.AreEqual(TestDocumentService.DEFAULT_BATCH_SIZE, batchSizeValue);
+            Assert.AreEqual(DocumentService<TestContext, SimpleEntity>.DEFAULT_BATCH_SIZE, batchSizeValue);
         }
 
         [TestMethod]
@@ -154,9 +155,9 @@ namespace ECA.Business.Search.Test
             
             service.Process();
             await service.ProcessAsync();
-            notificationService.Verify(x => x.Started(It.IsAny<DocumentType>()), Times.Exactly(2));
-            notificationService.Verify(x => x.Processed(It.IsAny<DocumentType>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(4));
-            notificationService.Verify(x => x.Finished(It.IsAny<DocumentType>()), Times.Exactly(2));
+            notificationService.Verify(x => x.Started(It.IsAny<string>()), Times.Exactly(2));
+            notificationService.Verify(x => x.Processed(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(4));
+            notificationService.Verify(x => x.Finished(It.IsAny<string>()), Times.Exactly(2));
             indexService.Verify(x => x.CreateIndex<SimpleEntity>(), Times.Once());
             indexService.Verify(x => x.CreateIndexAsync<SimpleEntity>(), Times.Once());
         }

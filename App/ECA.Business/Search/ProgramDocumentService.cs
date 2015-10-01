@@ -12,7 +12,7 @@ namespace ECA.Business.Search
 {
     public class ProgramDocumentService : DocumentService<EcaContext, ProgramDTO>
     {
-        public ProgramDocumentService(EcaContext context, IIndexService indexService, IIndexNotificationService notificationService, int batchSize = 250)
+        public ProgramDocumentService(EcaContext context, IIndexService indexService, IIndexNotificationService notificationService, int batchSize = 100)
             : base(context, indexService, notificationService, batchSize)
         {
             Contract.Requires(context != null, "The context must not be null.");

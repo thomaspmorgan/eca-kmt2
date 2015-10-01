@@ -145,7 +145,6 @@
     <Compile Include="DocumentConfiguration.cs" />
     <Compile Include="DocumentKey.cs" />
     <Compile Include="DocumentService.cs" />
-    <Compile Include="DocumentType.cs" />
     <Compile Include="ECADocument.cs" />
     <Compile Include="ECASearchParameters.cs" />
     <Compile Include="IIndexNotificationService.cs" />

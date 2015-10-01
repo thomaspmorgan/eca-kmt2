@@ -11,21 +11,23 @@ using System.Reflection;
 namespace ECA.Business.Test.Search
 {
     [TestClass]
-    public class ProgramDocumentServiceTest
+    public class ProjectDocumentServiceTest
     {
         private InMemoryEcaContext context;
-        private ProgramDocumentService service;
+        private ProjectDocumentService service;
         private Mock<IIndexService> indexService;
         private Mock<IIndexNotificationService> notificationService;
         private int batchSize;
 
 
         [TestInitialize]
-        public void TestInit() {
+        public void TestInit()
+        {
+            batchSize = 1;
             context = new InMemoryEcaContext();
             indexService = new Mock<IIndexService>();
             notificationService = new Mock<IIndexNotificationService>();
-            service = new ProgramDocumentService(context, indexService.Object, notificationService.Object, batchSize);
+            service = new ProjectDocumentService(context, indexService.Object, notificationService.Object, batchSize);
         }
 
 
@@ -33,10 +35,10 @@ namespace ECA.Business.Test.Search
         public void TestConstructor()
         {
             batchSize = 1;
-            service = new ProgramDocumentService(context, indexService.Object, notificationService.Object, batchSize);
+            service = new ProjectDocumentService(context, indexService.Object, notificationService.Object, batchSize);
             Assert.AreEqual(batchSize, service.GetBatchSize());
 
-            var batchSizeField = typeof(ProgramDocumentService).BaseType.GetField("batchSize", BindingFlags.Instance | BindingFlags.NonPublic);
+            var batchSizeField = typeof(ProjectDocumentService).BaseType.GetField("batchSize", BindingFlags.Instance | BindingFlags.NonPublic);
             var batchSizeValue = batchSizeField.GetValue(service);
             Assert.AreEqual(batchSize, batchSizeValue);
         }
