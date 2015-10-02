@@ -111,10 +111,20 @@
                             <tabset class="tabs clearfix">
                                 <tab class="tab">
                                     <tab-heading>Participant Information</tab-heading>
-                                    <div class="col-md-7">
-                                        <div class="row" ng-show="participantInfo[participant.participantId].hostInstitution">
-                                            <div class="col-md-4 title-label">Host Institution</div>
-                                            <div class="col-md-8">
+                                    <div class="row">
+                                        <div ng-show="participantInfo[participant.participantId].participantStatus">
+                                            <div class="col-md-3 title-label">Status</div>
+                                            <div class="col-md-3">{{participantInfo[participant.participantId].participantStatus}}</div>
+                                        </div>
+                                        <div ng-show="participantInfo[participant.participantId].participantType">
+                                            <div class="col-md-3 title-label">Participant Type</div>
+                                            <div class="col-md-3">{{participantInfo[participant.participantId].participantType}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div ng-show="participantInfo[participant.participantId].hostInstitution">
+                                            <div class="col-md-2 title-label">Host Institution</div>
+                                            <div class="col-md-4">
                                                 <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].hostInstitution.name">
                                                     <label class="col-md-4 title-label">Name</label>
                                                     <div class="col-md-8">
@@ -165,9 +175,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row" ng-show="participantInfo[participant.participantId].homeInstitution">
-                                            <div class="col-md-4 title-label">Home Institution</div>
-                                            <div class="col-md-8">
+                                        <div ng-show="participantInfo[participant.participantId].homeInstitution">
+                                            <div class="col-md-2 title-label">Home Institution</div>
+                                            <div class="col-md-4">
                                                 <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].homeInstitution.name">
                                                     <label class=" col-md-4 title-label">
                                                         Name
@@ -217,31 +227,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-5">
-                                        <div class="row" ng-show="participantInfo[participant.participantId].participantType">
-                                            <div class="col-md-4 title-label">Participant Type</div>
-                                            <div class="col-md-8">{{participantInfo[participant.participantId].participantType}}</div>
-                                        </div>
-                                        <div class="row" ng-show="participantInfo[participant.participantId].sevisId">
-                                            <div class="col-md-4 title-label">Sevis Id</div>
-                                            <div class="col-md-8">
-                                                {{participantInfo[participant.participantId].sevisId}}
-                                            </div>
-                                        </div>
-                                        <div class="row" ng-show="participantInfo[participant.participantId].participantStatus">
-                                            <div class="col-md-4 title-label">Status</div>
-                                            <div class="col-md-8">{{participantInfo[participant.participantId].participantStatus}}</div>
-                                        </div>
-                                        <div class="row" ng-show="participantInfo[participant.participantId].fieldOfStudy">
-                                            <div class="col-md-4 title-label">Field Of Study</div>
-                                            <div class="col-md-8">{{participantInfo[participant.participantId].fieldOfStudy}}</div>
-                                        </div>
-                                        <div class="row" ng-show="participantInfo[participant.participantId].position">
-                                            <div class="col-md-4 title-label">Position</div>
-                                            <div class="col-md-8">{{participantInfo[participant.participantId].position}}</div>
-                                        </div>
-                                    </div>
-
                                 </tab>
                                 <tab heading="SEVIS Information" class="tab" select="onSevisTabSelected(participant.participantId)" deselect="view.tabSevis=false">
                                     <participant-person-sevis participantid="{{participant.participantId}}" active="view.tabSevis" sevisinfo="sevisInfo[participant.participantId]"/>

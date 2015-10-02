@@ -56,6 +56,8 @@
     }
 }
 
+
+
 .tabs {
     border-bottom: 1px solid #efefef;
     height: 65px;
@@ -90,6 +92,38 @@
         border-bottom: 5px solid #415358;
     }
 }
+
+.nav-tabs > li > a {
+    line-height: 1.4285;
+    margin-right: 0;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    cursor: default;
+    font-weight: bold;
+    border: 0;
+    color: #415358;
+    background-color: $lightgray
+}
+
+.nav-tabs .tab a:hover {
+    border-bottom: 5px solid #297cb4;
+    color: #297cb4;
+    text-decoration: none;
+    padding-bottom: 10px;
+}
+
+.nav > li > a:hover, .nav > li > a:focus {
+    text-decoration: none;
+    padding-bottom: 10px;
+}
+
+.list2 .tabs button {
+    background-color: $bordergray;
+}
+
+
+
 
 .dropdown-menu {
     border: 1px solid $bordergray;
