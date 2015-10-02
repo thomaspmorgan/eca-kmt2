@@ -29,7 +29,7 @@ namespace ECA.WebApi.Models.Search
         public string Filter { get; set; }
 
         /// <summary>
-        /// The search facets, currently only supports 'documentType'.
+        /// The search facets, currently only supports 'documentTypeName'.
         /// </summary>
         public IEnumerable<string> Facets { get; set; }
 

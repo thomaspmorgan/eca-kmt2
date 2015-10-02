@@ -177,6 +177,8 @@
     <Compile Include="Search\ProjectDocumentServiceTest.cs" />
     <Compile Include="Search\ProgramDocumentServiceTest.cs" />
     <Compile Include="Search\TestIndexNotificationService.cs" />
+    <Compile Include="Search\ProgramDTODocumentConfigurationTest.cs" />
+    <Compile Include="Search\ProjectDTODocumentConfigurationTest.cs" />
     <Compile Include="Service\Admin\AdditionalAddressTest.cs" />
     <Compile Include="Service\Admin\AdditionalPersonAddressTest.cs" />
     <Compile Include="Service\Admin\AdditionalOrganizationAddressTest.cs" />
