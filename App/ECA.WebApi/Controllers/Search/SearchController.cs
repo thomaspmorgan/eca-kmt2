@@ -74,5 +74,18 @@ namespace ECA.WebApi.Controllers.Search
                 return Ok(new ECADocumentViewModel(document));
             }
         }
+
+        /// <summary>
+        /// Deletes the search index and all documents in it.
+        /// </summary>
+        /// <param name="id">The id of the application to delete the search index for.  KMT is 1.</param>
+        /// <returns>An Ok Result.</returns>
+        [Route("Index/{id:int}")]
+        [ResourceAuthorize(CAM.Data.Permission.ADMINISTRATOR_VALUE, CAM.Data.ResourceType.APPLICATION_VALUE)]
+        public async Task<IHttpActionResult> DeleteIndexAsync(int id)
+        {
+            await this.indexService.DeleteIndexAsync(IndexService.INDEX_NAME);
+            return Ok();
+        }
     }
 }
