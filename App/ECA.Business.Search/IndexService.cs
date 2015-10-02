@@ -151,7 +151,7 @@ namespace ECA.Business.Search
                 IsKey = false,
                 Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Name),
                 Type = DataType.String,
-                IsSearchable = true
+                IsSearchable = true,
             });
             fields.Add(new Field
             {
@@ -181,7 +181,7 @@ namespace ECA.Business.Search
                 IsKey = false,
                 Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Foci),
                 Type = DataType.Collection(DataType.String),
-                IsSearchable = true
+                IsSearchable = true,
             });
             fields.Add(new Field
             {
@@ -214,7 +214,42 @@ namespace ECA.Business.Search
             fields.Add(new Field
             {
                 IsKey = false,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Regions),
+                Type = DataType.Collection(DataType.String),
+                IsSearchable = true,
+            });
+            fields.Add(new Field
+            {
+                IsKey = false,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Countries),
+                Type = DataType.Collection(DataType.String),
+                IsSearchable = true
+            });
+            fields.Add(new Field
+            {
+                IsKey = false,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Locations),
+                Type = DataType.Collection(DataType.String),
+                IsSearchable = true
+            });
+            fields.Add(new Field
+            {
+                IsKey = false,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Websites),
+                Type = DataType.Collection(DataType.String),
+                IsSearchable = true
+            });
+            fields.Add(new Field
+            {
+                IsKey = false,
                 Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.OfficeSymbol),
+                Type = DataType.String,
+                IsSearchable = true
+            });
+            fields.Add(new Field
+            {
+                IsKey = false,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Status),
                 Type = DataType.String,
                 IsSearchable = true
             });

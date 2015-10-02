@@ -9,70 +9,25 @@ using System.Reflection;
 
 namespace ECA.Business.Search.Test
 {
-    public class ConfigurationTestClass : DocumentConfiguration<SimpleConfigurationTestClass, int>
-    {
-        public ConfigurationTestClass()
-        {
-        }
-    }
 
-    public class LookupTestClass
-    {
-        public int Id { get; set; }
-        public string Value { get; set; }
-    }
-
-    public class SimpleConfigurationTestClass
-    {
-        public SimpleConfigurationTestClass()
-        {
-            
-        }
-
-        public string OfficeSymbol { get; set; }
-        public int Id { get; set; }
-
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        public IEnumerable<string> Themes
-        {
-            get; set;
-        }
-
-        public IEnumerable<string> Objectives
-        {
-            get; set;
-        }
-
-        public IEnumerable<string> Goals
-        {
-            get; set;
-        }
-
-        public IEnumerable<string> Foci
-        {
-            get; set;
-        }
-
-        public IEnumerable<string> PointsOfContact
-        {
-            get; set;
-        }
-    }
 
     [TestClass]
     public class DocumentConfigurationTest
     {
+        private TestDocumentConfiguration configuration;
+
+        [TestInitialize]
+        public void TestInit()
+        {
+            configuration = new TestDocumentConfiguration(false);
+        }
 
         [TestMethod]
         public void TestGetId()
         {
-            var configuration = new ConfigurationTestClass();
             configuration.HasKey(x => x.Id);
 
-            var instance = new SimpleConfigurationTestClass();
+            var instance = new TestDocument();
             instance.Id = 1;
             Assert.AreEqual(instance.Id, configuration.GetId(instance));
         }
@@ -80,8 +35,7 @@ namespace ECA.Business.Search.Test
         [TestMethod]
         public void TestGetId_HasKeyNotConfigured()
         {
-            var configuration = new ConfigurationTestClass();
-            var instance = new SimpleConfigurationTestClass();
+            var instance = new TestDocument();
             Action a = () => configuration.GetId(instance);
             var message = "The id has not been configured.  Use the HasKey method.";
             a.ShouldThrow<NotSupportedException>().WithMessage(message);
@@ -90,13 +44,12 @@ namespace ECA.Business.Search.Test
         [TestMethod]
         public void TestHasKey()
         {
-            var configuration = new ConfigurationTestClass();
             Assert.IsNull(configuration.IdDelegate);
 
             configuration.HasKey(x => x.Id);
 
             Assert.IsNotNull(configuration.IdDelegate);
-            var instance = new SimpleConfigurationTestClass();
+            var instance = new TestDocument();
             instance.Id = 1;
             Assert.AreEqual(instance.Id, configuration.IdDelegate(instance));
         }
@@ -104,7 +57,6 @@ namespace ECA.Business.Search.Test
         [TestMethod]
         public void TestIsDocumentType()
         {
-            var configuration = new ConfigurationTestClass();
             Assert.AreEqual(Guid.Empty, configuration.GetDocumentTypeId());
             Assert.IsNull(configuration.GetDocumentTypeName());
 
@@ -119,38 +71,95 @@ namespace ECA.Business.Search.Test
         [TestMethod]
         public void TestHasName()
         {
-            var configuration = new ConfigurationTestClass();
             Assert.IsNull(configuration.NameDelegate);
             configuration.HasName(x => x.Name);
             Assert.IsNotNull(configuration.NameDelegate);
 
-            var instance = new SimpleConfigurationTestClass();
+            var instance = new TestDocument();
             instance.Name = "name";
             Assert.AreEqual(instance.Name, configuration.NameDelegate(instance));
         }
 
         [TestMethod]
+        public void TestHasStatus()
+        {
+            Assert.IsNull(configuration.StatusDelegate);
+            configuration.HasStatus(x => x.Status);
+            Assert.IsNotNull(configuration.StatusDelegate);
+
+            var instance = new TestDocument();
+            instance.Status = "status";
+            Assert.AreEqual(instance.Status, configuration.StatusDelegate(instance));
+        }
+
+        [TestMethod]
         public void TestHasDescription()
         {
-            var configuration = new ConfigurationTestClass();
             Assert.IsNull(configuration.DescriptionDelegate);
             configuration.HasDescription(x => x.Description);
             Assert.IsNotNull(configuration.DescriptionDelegate);
 
-            var instance = new SimpleConfigurationTestClass();
+            var instance = new TestDocument();
             instance.Description = "desc";
             Assert.AreEqual(instance.Description, configuration.DescriptionDelegate(instance));
         }
 
         [TestMethod]
+        public void TestHasCountries()
+        {
+            Assert.IsNull(configuration.CountriesDelegate);
+            configuration.HasCountries(x => x.Countries);
+            Assert.IsNotNull(configuration.CountriesDelegate);
+
+            var instance = new TestDocument();
+            instance.Countries = new string[] { "value1", "value2" };
+            Assert.IsTrue(Object.ReferenceEquals(instance.Countries, configuration.CountriesDelegate(instance)));
+        }
+
+        [TestMethod]
+        public void TestHasRegions()
+        {
+            Assert.IsNull(configuration.RegionsDelegate);
+            configuration.HasRegions(x => x.Regions);
+            Assert.IsNotNull(configuration.RegionsDelegate);
+
+            var instance = new TestDocument();
+            instance.Regions = new string[] { "value1", "value2" };
+            Assert.IsTrue(Object.ReferenceEquals(instance.Regions, configuration.RegionsDelegate(instance)));
+        }
+
+        [TestMethod]
+        public void TestHasLocations()
+        {
+            Assert.IsNull(configuration.LocationsDelegate);
+            configuration.HasLocations(x => x.Locations);
+            Assert.IsNotNull(configuration.LocationsDelegate);
+
+            var instance = new TestDocument();
+            instance.Locations = new string[] { "value1", "value2" };
+            Assert.IsTrue(Object.ReferenceEquals(instance.Locations, configuration.LocationsDelegate(instance)));
+        }
+
+        [TestMethod]
+        public void TestHasWebsites()
+        {
+            Assert.IsNull(configuration.WebsitesDelegate);
+            configuration.HasWebsites(x => x.Websites);
+            Assert.IsNotNull(configuration.WebsitesDelegate);
+
+            var instance = new TestDocument();
+            instance.Websites = new string[] { "value1", "value2" };
+            Assert.IsTrue(Object.ReferenceEquals(instance.Websites, configuration.WebsitesDelegate(instance)));
+        }
+
+        [TestMethod]
         public void TestHasThemes()
         {
-            var configuration = new ConfigurationTestClass();
             Assert.IsNull(configuration.ThemesDelegate);
             configuration.HasThemes(x => x.Themes);
             Assert.IsNotNull(configuration.ThemesDelegate);
 
-            var instance = new SimpleConfigurationTestClass();
+            var instance = new TestDocument();
             instance.Themes = new string[] { "value1", "value2" };
             Assert.IsTrue(Object.ReferenceEquals(instance.Themes, configuration.ThemesDelegate(instance)));
         }
@@ -158,12 +167,11 @@ namespace ECA.Business.Search.Test
         [TestMethod]
         public void TestHasGoals()
         {
-            var configuration = new ConfigurationTestClass();
             Assert.IsNull(configuration.GoalsDelegate);
             configuration.HasGoals(x => x.Goals);
             Assert.IsNotNull(configuration.GoalsDelegate);
 
-            var instance = new SimpleConfigurationTestClass();
+            var instance = new TestDocument();
             instance.Themes = new string[] { "value1", "value2" };
             Assert.IsTrue(Object.ReferenceEquals(instance.Goals, configuration.GoalsDelegate(instance)));
         }
@@ -171,12 +179,11 @@ namespace ECA.Business.Search.Test
         [TestMethod]
         public void TestHasFoci()
         {
-            var configuration = new ConfigurationTestClass();
             Assert.IsNull(configuration.FociDelegate);
             configuration.HasFoci(x => x.Foci);
             Assert.IsNotNull(configuration.FociDelegate);
 
-            var instance = new SimpleConfigurationTestClass();
+            var instance = new TestDocument();
             instance.Themes = new string[] { "value1", "value2" };
             Assert.IsTrue(Object.ReferenceEquals(instance.Foci, configuration.FociDelegate(instance)));
         }
@@ -184,12 +191,11 @@ namespace ECA.Business.Search.Test
         [TestMethod]
         public void TestHasObjectives()
         {
-            var configuration = new ConfigurationTestClass();
             Assert.IsNull(configuration.ObjectivesDelegate);
             configuration.HasObjectives(x => x.Objectives);
             Assert.IsNotNull(configuration.ObjectivesDelegate);
 
-            var instance = new SimpleConfigurationTestClass();
+            var instance = new TestDocument();
             instance.Themes = new string[] { "value1", "value2" };
             Assert.IsTrue(Object.ReferenceEquals(instance.Objectives, configuration.ObjectivesDelegate(instance)));
         }
@@ -197,12 +203,11 @@ namespace ECA.Business.Search.Test
         [TestMethod]
         public void TestHasOfficeSymbol()
         {
-            var configuration = new ConfigurationTestClass();
             Assert.IsNull(configuration.OfficeSymbolDelegate);
             configuration.HasOfficeSymbol(x => x.OfficeSymbol);
             Assert.IsNotNull(configuration.OfficeSymbolDelegate);
 
-            var instance = new SimpleConfigurationTestClass();
+            var instance = new TestDocument();
             instance.OfficeSymbol = "symbol";
             Assert.IsTrue(Object.ReferenceEquals(instance.OfficeSymbol, configuration.OfficeSymbolDelegate(instance)));
         }
@@ -210,12 +215,11 @@ namespace ECA.Business.Search.Test
         [TestMethod]
         public void TestHasPointsOfContact()
         {
-            var configuration = new ConfigurationTestClass();
             Assert.IsNull(configuration.PointsOfContactDelegate);
             configuration.HasPointsOfContact(x => x.PointsOfContact);
             Assert.IsNotNull(configuration.PointsOfContactDelegate);
 
-            var instance = new SimpleConfigurationTestClass();
+            var instance = new TestDocument();
             instance.PointsOfContact = new string[] { "value1", "value2" };
             Assert.IsTrue(Object.ReferenceEquals(instance.PointsOfContact, configuration.PointsOfContactDelegate(instance)));
         }
@@ -223,16 +227,14 @@ namespace ECA.Business.Search.Test
         [TestMethod]
         public void TestIsConfigurationForType()
         {
-            var configuration = new ConfigurationTestClass();
-            Assert.IsTrue(configuration.IsConfigurationForType(typeof(SimpleConfigurationTestClass)));
+            Assert.IsTrue(configuration.IsConfigurationForType(typeof(TestDocument)));
             Assert.IsFalse(configuration.IsConfigurationForType(typeof(string)));
         }
 
         [TestMethod]
         public void TestGetName()
         {
-            var instance = new SimpleConfigurationTestClass();
-            var configuration = new ConfigurationTestClass();
+            var instance = new TestDocument();
             Assert.IsNull(configuration.GetName(instance));
 
             configuration.HasName(x => x.Name);
@@ -245,8 +247,7 @@ namespace ECA.Business.Search.Test
         [TestMethod]
         public void TestGetDescription()
         {
-            var instance = new SimpleConfigurationTestClass();
-            var configuration = new ConfigurationTestClass();
+            var instance = new TestDocument();
             Assert.IsNull(configuration.GetDescription(instance));
 
             configuration.HasDescription(x => x.Description);
@@ -259,8 +260,7 @@ namespace ECA.Business.Search.Test
         [TestMethod]
         public void TestGetOfficeSymbol()
         {
-            var instance = new SimpleConfigurationTestClass();
-            var configuration = new ConfigurationTestClass();
+            var instance = new TestDocument();
             Assert.IsNull(configuration.GetOfficeSymbol(instance));
 
             configuration.HasOfficeSymbol(x => x.OfficeSymbol);
@@ -271,10 +271,22 @@ namespace ECA.Business.Search.Test
         }
 
         [TestMethod]
+        public void TestGetStatus()
+        {
+            var instance = new TestDocument();
+            Assert.IsNull(configuration.GetStatus(instance));
+
+            configuration.HasStatus(x => x.Status);
+            Assert.IsNull(configuration.GetStatus(instance));
+
+            instance.Status = "status";
+            Assert.AreEqual(instance.Status, configuration.GetStatus(instance));
+        }
+
+        [TestMethod]
         public void TestGetGoals()
         {
-            var instance = new SimpleConfigurationTestClass();
-            var configuration = new ConfigurationTestClass();
+            var instance = new TestDocument();
             Assert.IsNull(configuration.GetGoals(instance));
 
             configuration.HasGoals(x => x.Goals);
@@ -287,8 +299,7 @@ namespace ECA.Business.Search.Test
         [TestMethod]
         public void TestGetObjectives()
         {
-            var instance = new SimpleConfigurationTestClass();
-            var configuration = new ConfigurationTestClass();
+            var instance = new TestDocument();
             Assert.IsNull(configuration.GetObjectives(instance));
 
             configuration.HasObjectives(x => x.Objectives);
@@ -301,8 +312,7 @@ namespace ECA.Business.Search.Test
         [TestMethod]
         public void TestGetFoci()
         {
-            var instance = new SimpleConfigurationTestClass();
-            var configuration = new ConfigurationTestClass();
+            var instance = new TestDocument();
             Assert.IsNull(configuration.GetFoci(instance));
 
             configuration.HasFoci(x => x.Foci);
@@ -315,8 +325,7 @@ namespace ECA.Business.Search.Test
         [TestMethod]
         public void TestGetThemes()
         {
-            var instance = new SimpleConfigurationTestClass();
-            var configuration = new ConfigurationTestClass();
+            var instance = new TestDocument();
             Assert.IsNull(configuration.GetThemes(instance));
 
             configuration.HasThemes(x => x.Themes);
@@ -329,8 +338,7 @@ namespace ECA.Business.Search.Test
         [TestMethod]
         public void TestGetPointsOfContact()
         {
-            var instance = new SimpleConfigurationTestClass();
-            var configuration = new ConfigurationTestClass();
+            var instance = new TestDocument();
             Assert.IsNull(configuration.GetPointsOfContact(instance));
 
             configuration.HasPointsOfContact(x => x.PointsOfContact);
@@ -338,6 +346,58 @@ namespace ECA.Business.Search.Test
 
             instance.PointsOfContact = new string[] { "value" };
             Assert.IsTrue(Object.ReferenceEquals(instance.PointsOfContact, configuration.GetPointsOfContact(instance)));
+        }
+
+        [TestMethod]
+        public void TestGetRegions()
+        {
+            var instance = new TestDocument();
+            Assert.IsNull(configuration.GetRegions(instance));
+
+            configuration.HasRegions(x => x.Regions);
+            Assert.IsNull(configuration.GetRegions(instance));
+
+            instance.Regions = new string[] { "value" };
+            Assert.IsTrue(Object.ReferenceEquals(instance.Regions, configuration.GetRegions(instance)));
+        }
+
+        [TestMethod]
+        public void TestGetCountries()
+        {
+            var instance = new TestDocument();
+            Assert.IsNull(configuration.GetCountries(instance));
+
+            configuration.HasCountries(x => x.Countries);
+            Assert.IsNull(configuration.GetCountries(instance));
+
+            instance.Countries = new string[] { "value" };
+            Assert.IsTrue(Object.ReferenceEquals(instance.Countries, configuration.GetCountries(instance)));
+        }
+
+        [TestMethod]
+        public void TestGetLocations()
+        {
+            var instance = new TestDocument();
+            Assert.IsNull(configuration.GetLocations(instance));
+
+            configuration.HasLocations(x => x.Locations);
+            Assert.IsNull(configuration.GetLocations(instance));
+
+            instance.Locations = new string[] { "value" };
+            Assert.IsTrue(Object.ReferenceEquals(instance.Locations, configuration.GetLocations(instance)));
+        }
+
+        [TestMethod]
+        public void TestGetWebsites()
+        {
+            var instance = new TestDocument();
+            Assert.IsNull(configuration.GetWebsites(instance));
+
+            configuration.HasWebsites(x => x.Websites);
+            Assert.IsNull(configuration.GetWebsites(instance));
+
+            instance.Websites = new string[] { "value" };
+            Assert.IsTrue(Object.ReferenceEquals(instance.Websites, configuration.GetWebsites(instance)));
         }
     }
 }

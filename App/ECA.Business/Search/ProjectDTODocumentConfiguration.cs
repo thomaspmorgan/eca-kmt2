@@ -31,6 +31,8 @@ namespace ECA.Business.Search
             HasKey(x => x.Id);
             HasName(x => x.Name);
             HasDescription(x => x.Description);
+            HasStatus(x => x.Status);
+            HasLocations(x => x.Locations.Where(l => !String.IsNullOrWhiteSpace(l.Name)).Select(l => l.Name).Distinct().ToList());
             HasOfficeSymbol(x => x.OwnerOfficeSymbol);
             HasPointsOfContact(x => x.Contacts.Select(c => c.Value).ToList());
             HasFoci(x => x.Categories.Select(c => c.Name).ToList());

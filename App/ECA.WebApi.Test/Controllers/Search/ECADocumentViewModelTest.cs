@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.WebApi.Models.Search;
 using ECA.Business.Search;
+using System.Collections.Generic;
 
 namespace ECA.WebApi.Test.Controllers.Search
 {
@@ -17,6 +18,19 @@ namespace ECA.WebApi.Test.Controllers.Search
             var key = new DocumentKey(documentTypeId, id);
             var document = new ECADocument();
             document.SetKey(key);
+            document.Description = "desc";
+            document.Name = "name";
+            document.OfficeSymbol = "office";
+            document.Status = "status";
+            document.Foci = new List<string> { "foci" };
+            document.Goals = new List<string> { "goals" };
+            document.Objectives = new List<string> { "objectives" };
+            document.Themes = new List<string> { "themes" };
+            document.PointsOfContact = new List<string> { "pocs" };
+            document.Websites = new List<string> { "web" };
+            document.Regions = new List<string> { "region" };
+            document.Countries = new List<string> { "country" };
+            document.Locations = new List<string> { "local" };
 
             var model = new ECADocumentViewModel(document);
             Assert.AreEqual(key, model.Key);
@@ -25,6 +39,7 @@ namespace ECA.WebApi.Test.Controllers.Search
             Assert.AreEqual(document.DocumentTypeName, model.DocumentTypeName);
             Assert.AreEqual(document.Id, model.Id);
             Assert.AreEqual(document.Name, model.Name);
+            Assert.AreEqual(document.Status, model.Status);
             Assert.AreEqual(document.OfficeSymbol, model.OfficeSymbol);
 
             Assert.IsTrue(Object.ReferenceEquals(document.Foci, model.Foci));
@@ -32,6 +47,11 @@ namespace ECA.WebApi.Test.Controllers.Search
             Assert.IsTrue(Object.ReferenceEquals(document.Objectives, model.Objectives));
             Assert.IsTrue(Object.ReferenceEquals(document.PointsOfContact, model.PointsOfContact));
             Assert.IsTrue(Object.ReferenceEquals(document.Themes, model.Themes));
+            Assert.IsTrue(Object.ReferenceEquals(document.Regions, model.Regions));
+            Assert.IsTrue(Object.ReferenceEquals(document.Countries, model.Countries));
+            Assert.IsTrue(Object.ReferenceEquals(document.Locations, model.Locations));
+            Assert.IsTrue(Object.ReferenceEquals(document.Websites, model.Websites));
         }
     }
 }
+

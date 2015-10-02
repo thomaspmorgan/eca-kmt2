@@ -16,6 +16,7 @@ namespace ECA.Business.Test.Search
             Assert.IsNotNull(instance.IdDelegate);
             Assert.IsNotNull(instance.NameDelegate);
             Assert.IsNotNull(instance.DescriptionDelegate);
+            Assert.IsNotNull(instance.StatusDelegate);
             Assert.IsNotNull(instance.FociDelegate);
             Assert.IsNotNull(instance.GoalsDelegate);
             Assert.IsNotNull(instance.OfficeSymbolDelegate);
@@ -23,6 +24,11 @@ namespace ECA.Business.Test.Search
             Assert.IsNotNull(instance.ThemesDelegate);
             Assert.IsNotNull(instance.DocumentTypeId);
             Assert.IsNotNull(instance.DocumentTypeName);
+            Assert.IsNotNull(instance.WebsitesDelegate);
+            Assert.IsNotNull(instance.RegionsDelegate);
+
+            Assert.IsNull(instance.CountriesDelegate);
+            Assert.IsNull(instance.LocationsDelegate);
         }
     }
 }
