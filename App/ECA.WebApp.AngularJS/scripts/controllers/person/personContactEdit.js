@@ -37,7 +37,7 @@ angular.module('staticApp')
           $scope.edit.Contact = false;
           },
             function (error) {
-                if (error.status == 400) {
+                if (error.status === 400) {
                     if (error.data.message && error.data.modelState) {
                         for (var key in error.data.modelState) {
                             NotificationService.showErrorMessage(error.data.modelState[key][0]);

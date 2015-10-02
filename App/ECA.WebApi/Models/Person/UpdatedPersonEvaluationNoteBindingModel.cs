@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using ECA.Business.Service.Persons;
 using ECA.Business.Service;
 
@@ -20,6 +21,10 @@ namespace ECA.WebApi.Models.Person
         /// </summary>
         public string EvaluationNote { get; set; }
 
+        public string UserName { get; set; }
+        
+        public DateTimeOffset RevisedOn { get; set; }
+
         /// <summary>
         /// Convert binding model to business model 
         /// </summary>
@@ -30,7 +35,9 @@ namespace ECA.WebApi.Models.Person
             return new UpdatedPersonEvaluationNote(
                 updator: user,
                 evaluationNoteId: this.EvaluationNoteId,
-                evaluationNote: this.EvaluationNote
+                evaluationNote: this.EvaluationNote,
+                userName:this.UserName,
+                revisedOn:this.RevisedOn
                 );
         }
     }

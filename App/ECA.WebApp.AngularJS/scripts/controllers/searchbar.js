@@ -69,7 +69,7 @@ angular.module('staticApp')
 
       $scope.currentGroup = '';
       $scope.CreateHeader = function (group) {
-          var showHeader = (group != $scope.currentGroup);
+          var showHeader = (group !== $scope.currentGroup);
           $scope.currentGroup = group;
           return showHeader;
       }

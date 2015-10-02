@@ -57,15 +57,16 @@ angular.module('staticApp')
       
       $scope.view.saveEvaluationChanges = function () {
           $scope.view.isSavingChanges = true;
+          $scope.evaluation.personId = $scope.view.personId;
 
           if (isNewEvaluation($scope.evaluation)) {
-              //var tempId = angular.copy($scope.evaluation.evaluationNoteId);
+              var tempId = angular.copy($scope.evaluation.evaluationNoteId);
               return EvaluationService.addEvaluationNote($scope.evaluation, $scope.view.personId)
                 .then(onSaveEvaluationSuccess)
-                //.then(function () {
-                //    updateEvaluationFormDivId(tempId);
-                //    updateEvaluations(tempId, $scope.evaluation);
-                //})
+                .then(function () {
+                    updateEvaluationFormDivId(tempId);
+                    updateEvaluations(tempId, $scope.evaluation);
+                })
                 .catch(onSaveEvaluationError);
           }
           else {
@@ -75,10 +76,10 @@ angular.module('staticApp')
           }
       };
 
-      //function updateEvaluations(tempId, evaluation) {
-      //    var index = $scope.view.evaluations.map(function (e) { return e.evaluationNoteId }).indexOf(tempId);
-      //    $scope.view.evaluations[index] = evaluation;
-      //};
+      function updateEvaluations(tempId, evaluation) {
+          var index = $scope.view.evaluations.map(function (e) { return e.id }).indexOf(tempId);
+          $scope.view.evaluations[index] = evaluation;
+      };
 
       $scope.view.onEditEvaluationClick = function () {
           $scope.view.showEditEvaluation = true;
@@ -105,9 +106,12 @@ angular.module('staticApp')
           var newEvaluation = {
               evaluationNoteId: null,
               evaluationNote: note,
+              personId: $scope.view.personId,
+              userId: null,
               userName: null,
               addedOn: null,
-              personId: $scope.view.personId,
+              revisedOn: null,
+              emailAddress: null,
               isNew: true
           };
           entityEvaluations.splice(0, 0, newEvaluation);
@@ -166,14 +170,16 @@ angular.module('staticApp')
           return 'evaluationForm';
       }
 
-      function getEvaluationFormDivId() {
-          return getEvaluationFormDivIdPrefix() + $scope.evaluation.evaluationNoteId;
-      }
+      //function getEvaluationFormDivId() {
+      //    return getEvaluationFormDivIdPrefix() + $scope.evaluation.evaluationNoteId;
+      //}
 
       function updateEvaluationFormDivId(tempId) {
-          var id = getEvaluationFormDivIdPrefix() + tempId;
-          var e = getEvaluationFormDivElement(id);
-          e.id = getEvaluationFormDivIdPrefix() + $scope.evaluation.evaluationNoteId;
+          if (tempId !== null) {
+              var id = getEvaluationFormDivIdPrefix() + tempId;
+              var e = getEvaluationFormDivElement(id);
+              e.id = getEvaluationFormDivIdPrefix() + $scope.evaluation.evaluationNoteId;
+          }
       }
 
       function getEvaluationFormDivElement(id) {

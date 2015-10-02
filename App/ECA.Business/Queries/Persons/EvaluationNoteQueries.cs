@@ -13,15 +13,16 @@ namespace ECA.Business.Queries.Persons
             var query = from evaluationNote in context.PersonEvaluationNotes
                         join user in context.UserAccounts on evaluationNote.History.CreatedBy equals user.PrincipalId
                         join participant in context.Participants on user.PrincipalId equals participant.ParticipantId
-                        orderby evaluationNote.History.CreatedOn descending
                         select new EvaluationNoteDTO
                         {
                             EvaluationNoteId = evaluationNote.EvaluationNoteId,
                             EvaluationNote = evaluationNote.EvaluationNote,
                             AddedOn = evaluationNote.History.CreatedOn,
                             RevisedOn = evaluationNote.History.RevisedOn,
+                            UserId = evaluationNote.History.CreatedBy,
                             UserName = user.DisplayName,
-                            UserId = user.PrincipalId
+                            EmailAddress = user.EmailAddress,
+                            OfficeSymbol = participant.Organization.OfficeSymbol
                         };
             return query;
         }
