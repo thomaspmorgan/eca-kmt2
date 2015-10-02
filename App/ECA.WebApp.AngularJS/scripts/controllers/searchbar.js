@@ -13,7 +13,8 @@ angular.module('staticApp')
         $q,
         $log,
         $modalInstance,
-        SearchService) {
+        SearchService,
+        NotificationService) {
 
       $scope.view = {};
       $scope.results = [];
@@ -22,6 +23,7 @@ angular.module('staticApp')
       $scope.tophit = false;
       $scope.firstrun = true;
       $scope.isLoadingResults = false;
+      $scope.isLoadingDocInfo = false;
 
       $scope.autocomplete = function () {
           $scope.firstrun = true;
@@ -47,8 +49,23 @@ angular.module('staticApp')
               $log.error(message);
               $scope.isLoadingResults = false;
           });
-
       };
+
+      $scope.GetSVGDocument = function (id) {
+          $scope.isLoadingDocInfo = true;
+          SearchService.get(id)
+          .then(function (response) {
+              $scope.docinfo = response;
+              $scope.isLoadingDocInfo = false;
+          })
+          .catch(function () {
+              var message = 'Unable to load document information.';
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
+              $scope.isLoadingDocInfo = false;
+          });
+      };
+
 
       $scope.currentGroup = '';
       $scope.CreateHeader = function (group) {
@@ -66,7 +83,7 @@ angular.module('staticApp')
 angular.module('staticApp')
   .filter('resultIconFilter', function() {
     return function(item) {
-        if (typeof item !== 'undefined') {
+        if (typeof item !== 'undefined' && item !== null) {
             if (item === "Project") {
                 return item.substring(0, 2);
             } else {

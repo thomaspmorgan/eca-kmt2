@@ -1,14 +1,7 @@
 ﻿using ECA.Business.Search;
-using ECA.Data;
 using ECA.WebApi.Models.Search;
 using ECA.WebApi.Security;
-using Microsoft.Azure.Search.Models;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -69,8 +62,8 @@ namespace ECA.WebApi.Controllers.Search
         [ResponseType(typeof(ECADocumentViewModel))]
         public async Task<IHttpActionResult> GetDocumentByIdAsync(string id)
         {
-            var currentUser = this.userProvider.GetCurrentUser();
-            var businessUser = this.userProvider.GetBusinessUser(currentUser);
+            //var currentUser = this.userProvider.GetCurrentUser();
+            //var businessUser = this.userProvider.GetBusinessUser(currentUser);
             var document = await this.indexService.GetDocumentByIdAsync(id);
             if (document == null)
             {

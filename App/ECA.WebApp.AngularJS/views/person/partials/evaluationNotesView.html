@@ -4,7 +4,10 @@
             <div class="list-divider" ng-repeat="evaluationNote in evaluationNotes">
                 <h5>{{evaluationNote.evaluationNote}}</h5>
                 <p>
-                    <h6><i class="material-icons md-dark">chat_bubble</i> Added by: <a ng-href="mailto:{{evaluationNote.emailAddress}}">{{evaluationNote.userName}}</a> on {{evaluationNote.addedOn | date:'longDate'}}</h6>
+                    <h6><i class="material-icons md-dark">chat_bubble</i>
+                        Added by: <a ng-href="mailto:{{evaluationNote.emailAddress}}">{{evaluationNote.userName}}</a>
+                        on {{evaluationNote.revisedOn | date:'longDate'}}
+                    </h6>
                 </p>
                 <!--({ {evaluationNote.OfficeSymbol} })-->
             </div>

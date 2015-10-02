@@ -19,6 +19,7 @@ namespace ECA.Business.Queries.Persons
                             EvaluationNoteId = evaluationNote.EvaluationNoteId,
                             EvaluationNote = evaluationNote.EvaluationNote,
                             AddedOn = evaluationNote.History.CreatedOn,
+                            RevisedOn = evaluationNote.History.RevisedOn,
                             UserName = user.DisplayName,
                             UserId = user.PrincipalId
                         };
