@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Search
 {
+    #region Interface
     /// <summary>
     /// An IDocumentConfiguration is used to detail how an object can be transformed into a Document
     /// for searching using an IIndexService.
@@ -37,6 +38,13 @@ namespace ECA.Business.Search
         /// <param name="instance">The instance.</param>
         /// <returns>The description.</returns>
         string GetDescription(object instance);
+
+        /// <summary>
+        /// Returns the status of the instance.
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <returns>The status.</returns>
+        string GetStatus(object instance);
 
         /// <summary>
         /// Returns the office symbol of the given instance.
@@ -81,6 +89,34 @@ namespace ECA.Business.Search
         IEnumerable<string> GetPointsOfContact(object instance);
 
         /// <summary>
+        /// Returns the regions of the given instance.
+        /// </summary>
+        /// <param name="instance">The given instance.</param>
+        /// <returns>The regions.</returns>
+        IEnumerable<string> GetRegions(object instance);
+
+        /// <summary>
+        /// Returns the countries of the given instance.
+        /// </summary>
+        /// <param name="instance">The given instance.</param>
+        /// <returns>The countries.</returns>
+        IEnumerable<string> GetCountries(object instance);
+
+        /// <summary>
+        /// Returns the locations of the given instance.
+        /// </summary>
+        /// <param name="instance">The given instance.</param>
+        /// <returns>The locations.</returns>
+        IEnumerable<string> GetLocations(object instance);
+
+        /// <summary>
+        /// Returns the websites of the given instance.
+        /// </summary>
+        /// <param name="instance">The given instance.</param>
+        /// <returns>The websites.</returns>
+        IEnumerable<string> GetWebsites(object instance);
+
+        /// <summary>
         /// Returns true if this configuration is used for the given class type.
         /// </summary>
         /// <param name="type">The type.</param>
@@ -99,13 +135,20 @@ namespace ECA.Business.Search
         /// <returns>A display name of the document type.</returns>
         string GetDocumentTypeName();
     }
+    #endregion
 
+    #region Contract
     /// <summary>
     /// 
     /// </summary>
     [ContractClassFor(typeof(IDocumentConfiguration))]
     public abstract class DocumentConfigurationContract : IDocumentConfiguration
     {
+        public IEnumerable<string> GetCountries(object instance)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -178,6 +221,17 @@ namespace ECA.Business.Search
         /// </summary>
         /// <param name="instance"></param>
         /// <returns></returns>
+        public IEnumerable<string> GetLocations(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
         public string GetName(object instance)
         {
             Contract.Requires(instance != null, "The instance must not be null.");
@@ -222,7 +276,40 @@ namespace ECA.Business.Search
         /// </summary>
         /// <param name="instance"></param>
         /// <returns></returns>
+        public IEnumerable<string> GetRegions(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public string GetStatus(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
         public IEnumerable<string> GetThemes(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public IEnumerable<string> GetWebsites(object instance)
         {
             Contract.Requires(instance != null, "The instance must not be null.");
             return null;
@@ -239,6 +326,7 @@ namespace ECA.Business.Search
             return false;
         }
     }
+    #endregion
 
     /// <summary>
     /// A DocumentConfiguration class is used to perform a strongly typed document configuration
@@ -276,9 +364,34 @@ namespace ECA.Business.Search
         public Func<TEntity, string> DescriptionDelegate { get; private set; }
 
         /// <summary>
+        /// Gets the status delegate to return the object status.
+        /// </summary>
+        public Func<TEntity, string> StatusDelegate { get; private set; }
+
+        /// <summary>
         /// Gets the office symbol delegate to return the object office symbol.
         /// </summary>
         public Func<TEntity, string> OfficeSymbolDelegate { get; private set; }
+
+        /// <summary>
+        /// Gets the website delegate to return the object websites.
+        /// </summary>
+        public Func<TEntity, IEnumerable<string>> WebsitesDelegate { get; private set; }
+
+        /// <summary>
+        /// Gets the country delegate to return the object countries.
+        /// </summary>
+        public Func<TEntity, IEnumerable<string>> CountriesDelegate { get; private set; }
+
+        /// <summary>
+        /// Gets the region delegate to return the object regions.
+        /// </summary>
+        public Func<TEntity, IEnumerable<string>> RegionsDelegate { get; private set; }
+
+        /// <summary>
+        /// Gets the location delegate to return the object locations.
+        /// </summary>
+        public Func<TEntity, IEnumerable<string>> LocationsDelegate { get; private set; }
 
         /// <summary>
         /// Gets the theme delegate to return the object themes.
@@ -344,7 +457,7 @@ namespace ECA.Business.Search
         /// <summary>
         /// Enables a description to be documented using the given expression.
         /// </summary>
-        /// <param name="objectivesSelector">The expression to select the description.</param>
+        /// <param name="descriptionSelector">The expression to select the description.</param>
         public void HasDescription(Expression<Func<TEntity, string>> descriptionSelector)
         {
             Contract.Requires(descriptionSelector != null, "The descriptionSelector must not be null.");
@@ -352,19 +465,70 @@ namespace ECA.Business.Search
         }
 
         /// <summary>
+        /// Enables a status to be documented using the given expression.
+        /// </summary>
+        /// <param name="statusSelector">The expression to select the status.</param>
+        public void HasStatus(Expression<Func<TEntity, string>> statusSelector)
+        {
+            Contract.Requires(statusSelector != null, "The statusSelector must not be null.");
+            this.StatusDelegate = statusSelector.Compile();
+        }
+
+        /// <summary>
         /// Enables an office symbol to be documented using the given expression.
         /// </summary>
-        /// <param name="objectivesSelector">The expression to select the office symbol.</param>
+        /// <param name="officeSymbolSelector">The expression to select the office symbol.</param>
         public void HasOfficeSymbol(Expression<Func<TEntity, string>> officeSymbolSelector)
         {
             Contract.Requires(officeSymbolSelector != null, "The officeSymbolSelector must not be null.");
             this.OfficeSymbolDelegate = officeSymbolSelector.Compile();
         }
 
+
+        /// <summary>
+        /// Enables locations to be documented using the given expression.
+        /// </summary>
+        /// <param name="locationsSelector">The expression to select location names.</param>
+        public void HasLocations(Expression<Func<TEntity, IEnumerable<string>>> locationsSelector)
+        {
+            Contract.Requires(locationsSelector != null, "The locationsSelector must not be null.");
+            this.LocationsDelegate = locationsSelector.Compile();
+        }
+
+        /// <summary>
+        /// Enables regions to be documented using the given expression.
+        /// </summary>
+        /// <param name="regionsSelector">The expression to select region names.</param>
+        public void HasRegions(Expression<Func<TEntity, IEnumerable<string>>> regionsSelector)
+        {
+            Contract.Requires(regionsSelector != null, "The regionsSelector must not be null.");
+            this.RegionsDelegate = regionsSelector.Compile();
+        }
+
+        /// <summary>
+        /// Enables countries to be documented using the given expression.
+        /// </summary>
+        /// <param name="countriesSelector">The expression to select country names.</param>
+        public void HasCountries(Expression<Func<TEntity, IEnumerable<string>>> countriesSelector)
+        {
+            Contract.Requires(countriesSelector != null, "The countriesSelector must not be null.");
+            this.CountriesDelegate = countriesSelector.Compile();
+        }
+
+        /// <summary>
+        /// Enables websites to be documented using the given expression.
+        /// </summary>
+        /// <param name="websitesSelector">The expression to select websites.</param>
+        public void HasWebsites(Expression<Func<TEntity, IEnumerable<string>>> websitesSelector)
+        {
+            Contract.Requires(websitesSelector != null, "The websitesSelector must not be null.");
+            this.WebsitesDelegate = websitesSelector.Compile();
+        }
+
         /// <summary>
         /// Enables themes to be documented using the given expression.
         /// </summary>
-        /// <param name="objectivesSelector">The expression to select theme names.</param>
+        /// <param name="themesSelector">The expression to select theme names.</param>
         public void HasThemes(Expression<Func<TEntity, IEnumerable<string>>> themesSelector)
         {
             Contract.Requires(themesSelector != null, "The descriptionSelector must not be null.");
@@ -602,6 +766,101 @@ namespace ECA.Business.Search
         public string GetDocumentTypeName()
         {
             return this.DocumentTypeName;
+        }
+
+        /// <summary>
+        /// Returns the description of the object.
+        /// </summary>
+        /// <param name="instance">The instance of the object.</param>
+        /// <returns>The object description.</returns>
+        public string GetStatus(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
+            if (StatusDelegate != null)
+            {
+                return StatusDelegate((TEntity)instance);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns the regions of the object.
+        /// </summary>
+        /// <param name="instance">The instance of the object.</param>
+        /// <returns>The object regions.</returns>
+        public IEnumerable<string> GetRegions(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
+            if (RegionsDelegate != null)
+            {
+                return RegionsDelegate((TEntity)instance);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns the countries of the object.
+        /// </summary>
+        /// <param name="instance">The instance of the object.</param>
+        /// <returns>The object countries.</returns>
+        public IEnumerable<string> GetCountries(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
+            if (CountriesDelegate != null)
+            {
+                return CountriesDelegate((TEntity)instance);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns the locations of the object.
+        /// </summary>
+        /// <param name="instance">The instance of the object.</param>
+        /// <returns>The object locations.</returns>
+        public IEnumerable<string> GetLocations(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
+            if (LocationsDelegate != null)
+            {
+                return LocationsDelegate((TEntity)instance);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns the websites of the object.
+        /// </summary>
+        /// <param name="instance">The instance of the object.</param>
+        /// <returns>The object websites.</returns>
+        public IEnumerable<string> GetWebsites(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
+            if (WebsitesDelegate != null)
+            {
+                return WebsitesDelegate((TEntity)instance);
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

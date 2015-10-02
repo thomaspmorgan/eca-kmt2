@@ -56,7 +56,7 @@ namespace ECA.Business.Search
         public string SearchTerm { get; private set; }
 
         /// <summary>
-        /// Gets the filter.
+        /// Gets OData azure search filter.
         /// </summary>
         public string Filter { get; private set; }
     }

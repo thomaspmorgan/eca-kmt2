@@ -15,6 +15,7 @@ namespace ECA.Business.Test.Search
             Assert.AreEqual(ProjectDTODocumentConfiguration.PROJECT_DOCUMENT_TYPE_NAME, instance.DocumentTypeName);
             Assert.IsNotNull(instance.IdDelegate);
             Assert.IsNotNull(instance.NameDelegate);
+            Assert.IsNotNull(instance.StatusDelegate);
             Assert.IsNotNull(instance.DescriptionDelegate);
             Assert.IsNotNull(instance.FociDelegate);
             Assert.IsNotNull(instance.GoalsDelegate);
@@ -23,6 +24,12 @@ namespace ECA.Business.Test.Search
             Assert.IsNotNull(instance.ThemesDelegate);
             Assert.IsNotNull(instance.DocumentTypeId);
             Assert.IsNotNull(instance.DocumentTypeName);
+            Assert.IsNotNull(instance.LocationsDelegate);
+
+            Assert.IsNull(instance.RegionsDelegate);
+            Assert.IsNull(instance.CountriesDelegate);
+            Assert.IsNull(instance.WebsitesDelegate);
+
         }
     }
 }

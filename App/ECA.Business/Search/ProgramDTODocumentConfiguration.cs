@@ -33,11 +33,14 @@ namespace ECA.Business.Search
             HasName(x => x.Name);
             HasDescription(x => x.Description);
             HasOfficeSymbol(x => x.OwnerOfficeSymbol);
+            HasStatus(x => x.ProgramStatusName);
             HasPointsOfContact(x => x.Contacts.Select(c => c.Value).ToList());
             HasFoci(x => x.Categories.Select(c => c.Name).ToList());
             HasGoals(x => x.Goals.Select(c => c.Value).ToList());
             HasObjectives(x => x.Objectives.Select(y => y.Name).ToList());
             HasThemes(x => x.Themes.Select(t => t.Value).ToList());
+            HasRegions(x => x.Regions.Select(r => r.Name).ToList());
+            HasWebsites(x => x.Websites.Select(w => w.Value).ToList());
         }
     }
 }

@@ -48,6 +48,11 @@ namespace ECA.Business.Search
         public string OfficeSymbol { get; set; }
 
         /// <summary>
+        /// Gets or sets the status.
+        /// </summary>
+        public string Status { get; set; }
+
+        /// <summary>
         /// Gets or sets the points of contact.
         /// </summary>
         public IEnumerable<string> PointsOfContact { get; set; }
@@ -71,6 +76,26 @@ namespace ECA.Business.Search
         /// Gets or sets the objectives.
         /// </summary>
         public IEnumerable<string> Objectives { get; set; }
+
+        /// <summary>
+        /// Gets or sets the regions.
+        /// </summary>
+        public IEnumerable<string> Regions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the countries.
+        /// </summary>
+        public IEnumerable<string> Countries { get; set; }
+
+        /// <summary>
+        /// Gets or sets the locations.
+        /// </summary>
+        public IEnumerable<string> Locations { get; set; }
+
+        /// <summary>
+        /// Gets or sets the websites.
+        /// </summary>
+        public IEnumerable<string> Websites { get; set; }
 
         /// <summary>
         /// Sets the Id and DocumentTypeId given the document key as a string.
@@ -156,11 +181,16 @@ namespace ECA.Business.Search
             this.Name = configuration.GetName(instance);
             this.OfficeSymbol = configuration.GetOfficeSymbol(instance);
             this.Description = configuration.GetDescription(instance);
+            this.Status = configuration.GetStatus(instance);
             this.Foci = configuration.GetFoci(instance);
             this.Goals = configuration.GetGoals(instance);
             this.Objectives = configuration.GetObjectives(instance);
             this.Themes = configuration.GetThemes(instance);
             this.PointsOfContact = configuration.GetPointsOfContact(instance);
+            this.Websites = configuration.GetWebsites(instance);
+            this.Regions = configuration.GetRegions(instance);
+            this.Countries = configuration.GetCountries(instance);
+            this.Locations = configuration.GetLocations(instance);
         }
     }
 }
