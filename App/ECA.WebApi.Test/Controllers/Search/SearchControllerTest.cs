@@ -68,5 +68,15 @@ namespace ECA.WebApi.Test.Controllers.Search
             var response = await controller.GetDocumentByIdAsync("key");
             Assert.IsInstanceOfType(response, typeof(NotFoundResult));
         }
+
+        [TestMethod]
+        public async Task TestDeleteIndexAsync()
+        {
+            indexService.Setup(x => x.DeleteIndexAsync(It.IsAny<string>())).Returns(Task.FromResult<object>(null));
+            var model = new ECASearchParametersBindingModel();
+            var response = await controller.DeleteIndexAsync(1);
+            Assert.IsInstanceOfType(response, typeof(OkResult));
+            indexService.Verify(x => x.DeleteIndexAsync(It.IsAny<string>()), Times.Once());
+        }
     }
 }
