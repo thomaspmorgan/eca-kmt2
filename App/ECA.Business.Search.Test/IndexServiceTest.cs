@@ -161,7 +161,7 @@ namespace ECA.Business.Search.Test
                 });
 
 
-                var configuration = new TestDocumentConfiguration();
+                var configuration = new TestDocumentConfiguration(true);
                 service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
                 Assert.IsFalse(getAsyncCalled);
                 Assert.IsFalse(getCalled);
@@ -221,7 +221,7 @@ namespace ECA.Business.Search.Test
                     Assert.AreEqual(key.ToString(), id);
                     return documentGetResponse;
                 });
-                var configuration = new TestDocumentConfiguration();
+                var configuration = new TestDocumentConfiguration(true);
                 service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
                 Assert.IsFalse(getAsyncCalled);
                 Assert.IsFalse(getCalled);
@@ -263,7 +263,7 @@ namespace ECA.Business.Search.Test
                     return indexDefinitionResponse;
                 };
 
-                var configuration = new TestDocumentConfiguration();
+                var configuration = new TestDocumentConfiguration(true);
                 service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
                 Assert.IsFalse(calledCreate);
                 Assert.IsFalse(calledCreateAsync);
@@ -310,7 +310,7 @@ namespace ECA.Business.Search.Test
                     return doesExist;
                 };
 
-                var configuration = new TestDocumentConfiguration();
+                var configuration = new TestDocumentConfiguration(true);
                 service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
                 Assert.IsFalse(calledDelete);
                 Assert.IsFalse(calledDeleteAsync);
@@ -372,7 +372,7 @@ namespace ECA.Business.Search.Test
                     calledDelete = true;
                     return response;
                 };
-                var configuration = new TestDocumentConfiguration();
+                var configuration = new TestDocumentConfiguration(true);
                 service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
                 Assert.IsFalse(calledDelete);
                 Assert.IsFalse(calledDeleteAsync);
@@ -433,7 +433,7 @@ namespace ECA.Business.Search.Test
                     indexAsyncCalled = true;
                     return Task.FromResult<DocumentIndexResponse>(documentIndexResponse);
                 });
-                var configuration = new TestDocumentConfiguration();
+                var configuration = new TestDocumentConfiguration(true);
                 service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
 
                 var testDocument = new TestDocument();
@@ -494,7 +494,7 @@ namespace ECA.Business.Search.Test
                     indexAsyncCalled = true;
                     return Task.FromResult<DocumentIndexResponse>(documentIndexResponse);
                 });
-                var configuration = new TestDocumentConfiguration();
+                var configuration = new TestDocumentConfiguration(true);
                 service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
 
                 var testDocument = new TestDocument();
@@ -555,7 +555,7 @@ namespace ECA.Business.Search.Test
                     indexAsyncCalled = true;
                     return Task.FromResult<DocumentIndexResponse>(documentIndexResponse);
                 };
-                var configuration = new TestDocumentConfiguration();
+                var configuration = new TestDocumentConfiguration(true);
                 service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
 
                 var testDocument = new TestDocument();
@@ -642,7 +642,7 @@ namespace ECA.Business.Search.Test
                 var documentConfig1TypeId = Guid.NewGuid();
                 var documentConfig2TypeId = documentConfig1TypeId;
                 var name1 = "name1";
-                var instance = new TestDocumentConfiguration();
+                var instance = new TestDocumentConfiguration(true);
 
                 var documentConfiguration1 = new ECA.Business.Search.Fakes.StubIDocumentConfiguration
                 {
@@ -676,7 +676,7 @@ namespace ECA.Business.Search.Test
                 };
                 var documentConfig1TypeId = Guid.NewGuid();
                 var documentConfig2TypeId = Guid.NewGuid();
-                var instance = new TestDocumentConfiguration();
+                var instance = new TestDocumentConfiguration(true);
 
                 var documentConfiguration1 = new ECA.Business.Search.Fakes.StubIDocumentConfiguration
                 {
@@ -734,7 +734,7 @@ namespace ECA.Business.Search.Test
                 };
 
                 searchClient = new ShimSearchServiceClient();
-                var instance1 = new TestDocumentConfiguration();
+                var instance1 = new TestDocumentConfiguration(true);
                 var instance2 = new OtherTestDocumentConfiguration();
                 var service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { instance1, instance2 });
                 Assert.AreEqual(2, service.Configurations.Count);
@@ -749,7 +749,7 @@ namespace ECA.Business.Search.Test
             using (ShimsContext.Create())
             {
                 searchClient = new ShimSearchServiceClient();
-                var configuration = new TestDocumentConfiguration();
+                var configuration = new TestDocumentConfiguration(true);
                 service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
 
                 var start = 1;
@@ -775,7 +775,7 @@ namespace ECA.Business.Search.Test
             using (ShimsContext.Create())
             {
                 searchClient = new ShimSearchServiceClient();
-                var configuration = new TestDocumentConfiguration();
+                var configuration = new TestDocumentConfiguration(true);
                 service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
                 var allFields = service.GetIndex(configuration).Fields.ToList();
                 var searchableFields = allFields.Where(x => x.IsSearchable).OrderBy(x => x.Name).ToList();
@@ -799,7 +799,7 @@ namespace ECA.Business.Search.Test
             using (ShimsContext.Create())
             {
                 searchClient = new ShimSearchServiceClient();
-                var configuration = new TestDocumentConfiguration();
+                var configuration = new TestDocumentConfiguration(true);
                 service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
 
                 var start = 1;
@@ -822,7 +822,7 @@ namespace ECA.Business.Search.Test
             using (ShimsContext.Create())
             {
                 searchClient = new ShimSearchServiceClient();
-                var configuration = new TestDocumentConfiguration();
+                var configuration = new TestDocumentConfiguration(true);
                 service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
 
                 var start = 1;
@@ -903,7 +903,7 @@ namespace ECA.Business.Search.Test
                     searchCalled = true;
                     return createDocumentSearchResponse();
                 });
-                var configuration = new TestDocumentConfiguration();
+                var configuration = new TestDocumentConfiguration(true);
                 service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
 
                 Action<DocumentSearchResponse<ECADocument>> tester = (response) =>
@@ -944,7 +944,7 @@ namespace ECA.Business.Search.Test
                     disposeCalled = true;
                 };
 
-                var configuration = new TestDocumentConfiguration();
+                var configuration = new TestDocumentConfiguration(true);
                 service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
 
                 var searchClientField = typeof(IndexService).GetField("searchClient", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -965,7 +965,7 @@ namespace ECA.Business.Search.Test
         {
             var t = this.GetType();
             var allConfigurations = IndexService.GetAllConfigurations(t.Assembly);
-            Assert.AreEqual(4, allConfigurations.Count());
+            Assert.AreEqual(3, allConfigurations.Count());
             var list = allConfigurations.ToList();
             foreach (var config in list)
             {
@@ -994,7 +994,7 @@ namespace ECA.Business.Search.Test
             using (ShimsContext.Create())
             {
                 searchClient = new ShimSearchServiceClient();
-                var configuration = new TestDocumentConfiguration();
+                var configuration = new TestDocumentConfiguration(true);
                 service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
 
                 var index = service.GetIndex(testDocumentConfiguration);
@@ -1041,10 +1041,35 @@ namespace ECA.Business.Search.Test
                 Assert.IsTrue(pocField.IsRetrievable);
                 Assert.IsTrue(pocField.IsSearchable);
 
+                var regionsField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Regions))).FirstOrDefault();
+                Assert.IsNotNull(regionsField);
+                Assert.IsTrue(regionsField.IsRetrievable);
+                Assert.IsTrue(regionsField.IsSearchable);
+
+                var countriesField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Countries))).FirstOrDefault();
+                Assert.IsNotNull(countriesField);
+                Assert.IsTrue(countriesField.IsRetrievable);
+                Assert.IsTrue(countriesField.IsSearchable);
+
+                var locationsField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Locations))).FirstOrDefault();
+                Assert.IsNotNull(locationsField);
+                Assert.IsTrue(locationsField.IsRetrievable);
+                Assert.IsTrue(locationsField.IsSearchable);
+
+                var websitesField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Websites))).FirstOrDefault();
+                Assert.IsNotNull(websitesField);
+                Assert.IsTrue(websitesField.IsRetrievable);
+                Assert.IsTrue(websitesField.IsSearchable);
+
                 var docTypeNameField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.DocumentTypeName))).FirstOrDefault();
                 Assert.IsNotNull(docTypeNameField);
                 Assert.IsTrue(docTypeNameField.IsRetrievable);
                 Assert.IsTrue(docTypeNameField.IsSearchable);
+
+                var statusField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Status))).FirstOrDefault();
+                Assert.IsNotNull(statusField);
+                Assert.IsTrue(statusField.IsRetrievable);
+                Assert.IsTrue(statusField.IsSearchable);
 
                 var docTypeIdField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.DocumentTypeId))).FirstOrDefault();
                 Assert.IsNotNull(docTypeIdField);

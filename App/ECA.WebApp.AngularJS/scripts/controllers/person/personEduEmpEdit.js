@@ -133,13 +133,13 @@ angular.module('staticApp')
           $scope.education.personId = $scope.view.personId;
 
           if (isNewEduEmp($scope.education)) {
-              //var tempEduEmpId = angular.copy($scope.education.professionEducationId);
+              var tempEduEmpId = angular.copy($scope.education.professionEducationId);
               return EduEmpService.addProfessionEducation($scope.education, $scope.view.personId)
                 .then(onSaveEducationSuccess)
-                //.then(function () {
-                //    updateEducationFormDivId(tempEduEmpId);
-                //    //updateEducations(tempEduEmpId, $scope.education);
-                //})
+                .then(function () {
+                    updateEducationFormDivId(tempEduEmpId);
+                    updateEducations(tempEduEmpId, $scope.education);
+                })
                 .catch(onSaveEducationError);
           }
           else {
@@ -149,23 +149,23 @@ angular.module('staticApp')
           }
       };
 
-      //function updateEducations(tempId, educationInfo) {
-      //    var index = $scope.education.map(function (e) { return e.id; }).indexOf(tempId);
-      //    $scope.education[index] = educationInfo;
-      //};
+      function updateEducations(tempId, education) {
+          var index = $scope.educations.map(function (e) { return e.id; }).indexOf(tempId);
+          $scope.educations[index] = education;
+      };
 
       $scope.view.saveEmploymentChanges = function () {
           $scope.view.isSavingChanges = true;
           $scope.employment.personId = $scope.view.personId;
 
           if (isNewEduEmp($scope.employment)) {
-              //var tempEduEmpId = angular.copy($scope.employment.professionEducationId);
+              var tempEduEmpId = angular.copy($scope.employment.professionEducationId);
               return EduEmpService.addProfessionEducation($scope.employment, $scope.view.personId)
                 .then(onSaveEmploymentSuccess)
-                //.then(function () {
-                //    updateEmploymentFormDivId(tempEduEmpId);
-                //    //updateEmployments(tempEduEmpId, $scope.education);
-                //})
+                .then(function () {
+                    updateEmploymentFormDivId(tempEduEmpId);
+                    updateEmployments(tempEduEmpId, $scope.employment);
+                })
                 .catch(onSaveEmploymentError);
           }
           else {
@@ -175,10 +175,10 @@ angular.module('staticApp')
           }
       };
 
-      //function updateEmployments(tempId, employmentInfo) {
-      //    var index = $scope.employment.map(function (e) { return e.id; }).indexOf(tempId);
-      //    $scope.employment[index] = employmentInfo;
-      //};
+      function updateEmployments(tempId, employment) {
+          var index = $scope.employments.map(function (e) { return e.id; }).indexOf(tempId);
+          $scope.employments[index] = employment;
+      };
 
       $scope.view.onAddEducationClick = function (entityEduEmps) {
           console.assert(entityEduEmps, 'The entity education is not defined.');

@@ -30,6 +30,11 @@ namespace ECA.WebApi.Models.Search
             this.OfficeSymbol = ecaDocument.OfficeSymbol;
             this.PointsOfContact = ecaDocument.PointsOfContact;
             this.Themes = ecaDocument.Themes;
+            this.Websites = ecaDocument.Websites;
+            this.Regions = ecaDocument.Regions;
+            this.Countries = ecaDocument.Countries;
+            this.Locations = ecaDocument.Locations;
+            this.Status = ecaDocument.Status;
         }
 
         /// <summary>

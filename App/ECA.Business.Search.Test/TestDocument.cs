@@ -21,6 +21,8 @@ namespace ECA.Business.Search.Test
 
         public string OfficeSymbol { get; set; }
 
+        public string Status { get; set; }
+
         public IEnumerable<string> Foci { get; set; }
 
         public IEnumerable<string> Goals { get; set; }
@@ -30,6 +32,14 @@ namespace ECA.Business.Search.Test
         public IEnumerable<string> Themes { get; set; }
 
         public IEnumerable<string> PointsOfContact { get; set; }
+
+        public IEnumerable<string> Regions { get; set; }
+
+        public IEnumerable<string> Countries { get; set; }
+
+        public IEnumerable<string> Locations { get; set; }
+
+        public IEnumerable<string> Websites { get; set; }
 
     }
 }

@@ -28,7 +28,7 @@
                         <div class="col-md-2 text-right">
                             <span ng-show="CreateHeader(docitem.document.documentTypeName)">{{docitem.document.documentTypeName | uppercase}}</span>
                         </div>
-                        <div class="col-md-10 search-result">
+                        <div class="col-md-10 search-results">
                             <div ng-repeat="content in docitem" class="row">
                                 <div class="col-md-2 text-center">
                                     <div class="resulticon {{content.documentTypeName | lowercase}}">{{content.documentTypeName | resultIconFilter}}</div>

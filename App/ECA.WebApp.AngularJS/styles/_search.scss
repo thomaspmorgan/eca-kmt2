@@ -37,6 +37,11 @@
     width: 90%;
 }
 
+.contextual {
+    margin-left: -30px;
+    position: relative;
+}
+
 .search-modal-header {
     border-bottom: none;
     min-height: 65px;
@@ -66,9 +71,9 @@
     overflow: hidden;
 }
 
-.contextual {
-    margin-left: -30px;
-    position: relative;
+.search-results {
+    border-left: 1px solid $bordergray;
+    border-right: 1px solid $bordergray;
 }
 
 .material-icons.flip-horizontal {

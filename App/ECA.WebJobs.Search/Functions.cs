@@ -34,8 +34,8 @@ namespace ECA.WebJobs.Search
             using (var context = new EcaContext(connectionString.ConnectionString))
             using (var client = new SearchServiceClient(serviceName, new SearchCredentials(apiKey)))
             using (var indexService = new IndexService(client, configs))
-            using (var programDocumentService = new ProgramDocumentService(context, indexService, notificationService))
-            using (var projectDocumentService = new ProjectDocumentService(context, indexService, notificationService))
+            using (var programDocumentService = new ProgramDocumentService(context, indexService, notificationService, 300))
+            using (var projectDocumentService = new ProjectDocumentService(context, indexService, notificationService, 300))
             {
                 var documentServices = new List<IDocumentService>();
                 documentServices.Add(programDocumentService);
