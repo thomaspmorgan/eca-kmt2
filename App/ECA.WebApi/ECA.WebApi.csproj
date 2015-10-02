@@ -429,7 +429,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppSettings.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
@@ -462,7 +461,6 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Common\AdGraph.cs" />
     <Compile Include="Controllers\Admin\AddressesController.cs" />
     <Compile Include="Controllers\Admin\BookmarksController.cs" />
     <Compile Include="Controllers\Admin\PhoneNumbersController.cs" />
@@ -580,8 +578,6 @@
     <Compile Include="Security\UserCache.cs" />
     <Compile Include="Security\UserCacheService.cs" />
     <Compile Include="Security\WebApiUser.cs" />
-    <Compile Include="Common\HttpForm.cs" />
-    <Compile Include="Common\SecurityGroups.cs" />
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\Admin\FocusController.cs" />
     <Compile Include="Controllers\Admin\GoalsController.cs" />

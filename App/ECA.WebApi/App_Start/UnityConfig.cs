@@ -27,6 +27,7 @@ using System.Diagnostics.Contracts;
 using System.Runtime.Caching;
 using System.Web.Http;
 using Unity.WebApi;
+using ECA.Core.Settings;
 
 namespace ECA.WebApi
 {
@@ -55,7 +56,8 @@ namespace ECA.WebApi
         /// <param name="container">The unity container.</param>
         public static void RegisterContexts(IUnityContainer container)
         {
-            var connectionString = AppSettings.EcaContextConnectionString.ConnectionString;
+            var appSettings = new AppSettings();
+            var connectionString = appSettings.EcaContextConnectionString.ConnectionString;
             container.RegisterType<EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
             container.RegisterType<DbContext, EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
             container.RegisterType<List<ISaveAction>>(new InjectionFactory((c) =>
@@ -72,8 +74,9 @@ namespace ECA.WebApi
         /// <param name="container">The unity container.</param>
         public static void RegisterSearch(IUnityContainer container)
         {
-            var serviceName = AppSettings.SearchServiceName;
-            var apiKey = AppSettings.SearchApiKey;
+            var appSettings = new AppSettings();
+            var serviceName = appSettings.SearchServiceName;
+            var apiKey = appSettings.SearchApiKey;
 
             container.RegisterType<SearchServiceClient>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
             {
@@ -176,11 +179,12 @@ namespace ECA.WebApi
 
         public static void RegisterSecurityConcerns(IUnityContainer container)
         {
+            var appSettings = new AppSettings();
             var cacheLifeInSeconds = 10 * 60; //10 minutes
 #if DEBUG
             cacheLifeInSeconds = 20;
 #endif
-            var connectionString = AppSettings.CamContextConnectionString.ConnectionString;
+            var connectionString = appSettings.CamContextConnectionString.ConnectionString;
             container.RegisterType<CamModel>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
             container.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPrincipalService, PrincipalService>(new HierarchicalLifetimeManager());
