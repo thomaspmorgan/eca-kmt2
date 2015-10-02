@@ -65,7 +65,7 @@ namespace ECA.Business.Search
     /// </summary>
     /// <typeparam name="TContext"></typeparam>
     /// <typeparam name="TDocument"></typeparam>
-    [ContractClassFor(typeof(IDocumentService<>))]
+    [ContractClassFor(typeof(DocumentService<,>))]
     public abstract class DocumentServiceContract<TContext, TDocument>  : DocumentService<TContext, TDocument>
         where TContext : DbContext
         where TDocument : class
