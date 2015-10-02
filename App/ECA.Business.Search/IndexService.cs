@@ -18,6 +18,14 @@ namespace ECA.Business.Search
     /// </summary>
     public class IndexService : IDisposable, IIndexService
     {
+        /// <summary>
+        /// The maximum length of a document type name.
+        /// </summary>
+        public const int MAX_DOCUMENT_TYPE_NAME_LENGTH = 25;
+
+        /// <summary>
+        /// The name of the index.
+        /// </summary>
         public const string INDEX_NAME = "ecadocs";
 
         private SearchServiceClient searchClient;
