@@ -328,8 +328,8 @@ VALUES
 ,('American Music Abroad FY13','American Music Abroad','ECA/PE/C/CU')
 ,('DanceMotion USA FY13','DanceMotion USA','ECA/PE/C/CU')
 ,('Next Level FY13','Next Level','ECA/PE/C/CU')
-,('American Arts Incubator','American Arts Incubator','ECA/PE/C/CU')
-,('Community Engagement through Mural Arts','Community Engagement through Mural Arts','ECA/PE/C/CU')
+,('American Arts Incubator FY13','American Arts Incubator','ECA/PE/C/CU')
+,('Community Engagement through Mural Arts FY13','Community Engagement through Mural Arts','ECA/PE/C/CU')
 ,('One Beat FY13','One Beat','ECA/PE/C/CU')
 ,('Center Stage FY12','Center Stage','ECA/PE/C/CU')
 ,('International Writing Program FY13','International Writing Program','ECA/PE/C/CU')
@@ -394,14 +394,19 @@ while @i <= @max begin
     SELECT @ProgramName = P.ProgramName,
            @ParentProgramName = P.ParentProgramName,
            @Owner_OfficeSymbol = P.Owner_OfficeSymbol, 
-           @OfficeId = O.OrganizationId,
-           @ParentProgramId = PP.ProgramId
+           @OfficeId = O.OrganizationId
       FROM @Programs P
       LEFT JOIN dbo.organization O 
         ON (O.OfficeSymbol = P.Owner_OfficeSymbol)
-      LEFT JOIN dbo.Program PP
-        ON (UPPER(PP.Name) = UPPER(P.ParentProgramName) AND PP.Owner_OrganizationId = O.OrganizationId AND PP.ProgramStatusId = @ActiveStatusId)
      WHERE RowID = @i 
+
+    /* Find the correct Parent program - takes care of duplicates in hierarchy */
+    SELECT @ParentProgramId = ProgramId
+      FROM dbo.Program
+     WHERE UPPER(Name) = UPPER(@ParentProgramName) 
+       AND Owner_OrganizationId = @OfficeId 
+       AND ProgramStatusId = @ActiveStatusId
+     ORDER BY ParentProgram_ProgramId DESC
 
 
     /* Get the existing ProgramId */
