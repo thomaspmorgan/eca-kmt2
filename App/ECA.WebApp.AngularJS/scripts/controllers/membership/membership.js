@@ -46,7 +46,7 @@ angular.module('staticApp')
           }
       };
 
-      function updateLanguageProficiencies(tempId, membership) {
+      function updateMemberships(tempId, membership) {
           var index = $scope.model.memberships.map(function (e) { return e.id }).indexOf(tempId);
           $scope.model.memberships[index] = membership;
       };

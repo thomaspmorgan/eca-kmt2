@@ -1,0 +1,164 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ assembly name="$(SolutionDir)ECA.Core/bin/Debug/ECA.Core.dll" #>
+<#@ assembly name="$(SolutionDir)ECA.Core.DynamicLinq/bin/Debug/ECA.Core.DynamicLinq.dll" #>
+<#@ assembly name="$(SolutionDir)ECA.Data/bin/Debug/ECA.Data.dll" #>
+<#@ assembly name="$(SolutionDir)CAM.Data/bin/Debug/CAM.Data.dll" #>
+<#@ import namespace="ECA.Core" #>
+<#@ import namespace="ECA.Data" #>
+<#@ import namespace="CAM.Data" #>
+<#@ import namespace="ECA.Core.DynamicLinq" #>
+<#@ import namespace="ECA.Core.Generation" #>
+<#@ output extension=".js" #>
+<#
+	var types = new List<Type>();
+	types.Add(typeof(LocationType));
+	types.Add(typeof(ProjectStatus));
+	types.Add(typeof(ParticipantType));
+	types.Add(typeof(OrganizationType));
+	types.Add(typeof(SocialMediaType));
+	types.Add(typeof(ProgramStatus));
+	types.Add(typeof(MoneyFlowSourceRecipientType));
+	types.Add(typeof(CAM.Data.Permission));
+	types.Add(typeof(CAM.Data.ResourceType));
+	types.Add(typeof(EmailAddressType));
+	types.Add(typeof(PhoneNumberType));
+
+	types = types.OrderBy(x => x.Name).ToList();
+	var otherConstants = new Dictionary<string, string>();
+	otherConstants["searchDelimiter"] = " ";
+	otherConstants["emptyGuid"] = Guid.Empty.ToString();
+	otherConstants["logoutEventName"] = "logout";
+	otherConstants["adalLoginSuccessEventName"] = "adal:loginSuccess";
+	otherConstants["registeringUserEventName"] = "registeringUser";
+	otherConstants["registerUserSuccessEventName"] = "registerUserSuccess";
+	otherConstants["registerUserFailureEventName"] = "registerUserFailure";
+	otherConstants["saveProjectEventName"] = "saveProject";	
+	otherConstants["cancelProjectEventName"] = "cancelProjectEdit";
+	otherConstants["saveProgramEventName"] = "saveProgram";
+	otherConstants["cancelProgramChangesEventName"] = "cancelProgramEdit";
+
+	otherConstants["removeNewAddressEventName"] = "removeNewAddress";
+	otherConstants["primaryAddressChangedEventName"] = "primaryAddressChanged";
+	otherConstants["removeNewSocialMediaEventName"] = "removeNewSocialMedia";
+	otherConstants["removeNewMembershipsEventName"] = "removeNewMembership";
+	otherConstants["removeNewLanguageProficiencyEventName"] = "removeNewLanguageProficiency";
+	otherConstants["primaryLanguageProficiencyChangedEventName"] = "primaryLanguageProficiencyChanged";
+	otherConstants["removeNewEmailAddressEventName"] = "removeNewEmailAddress";
+	otherConstants["removewNewPhoneNumberEventName"] = "removeNewPhoneNumber";
+	otherConstants["removeNewEducationEventName"] = "removeNewEducation";
+	otherConstants["removeNewEmploymentEventName"] = "removeNewEmployment";
+	otherConstants["removeNewEvaluationEventName"] = "removeNewEvaluation";
+
+	otherConstants["inComparisonType"] = ComparisonType.In.Value;
+	otherConstants["notInComparisonType"] = ComparisonType.NotIn.Value;
+	otherConstants["likeComparisonType"] = ComparisonType.Like.Value;
+	otherConstants["lessThanComparisonType"] = ComparisonType.LessThan.Value;
+	otherConstants["greaterThanComparisonType"] = ComparisonType.GreaterThan.Value;
+	otherConstants["equalComparisonType"] = ComparisonType.Equal.Value;
+	otherConstants["notEqualComparisonType"] = ComparisonType.NotEqual.Value;
+	otherConstants["isNullComparisonType"] = ComparisonType.Null.Value;
+	otherConstants["isNotNullComparisonType"] = ComparisonType.NotNull.Value;
+	otherConstants["containsAnyComparisonType"] = ComparisonType.ContainsAny.Value;
+
+	otherConstants["officeFocusSettingName"] = OfficeSetting.FOCUS_SETTING_KEY;
+	otherConstants["officeJustificationSettingName"] = OfficeSetting.JUSTIFICATION_SETTING_KEY;
+	otherConstants["officeCategorySettingName"] = OfficeSetting.CATEGORY_SETTING_KEY;
+	otherConstants["officeObjectiveSettingName"] = OfficeSetting.OBJECTIVE_SETTING_KEY;
+
+	otherConstants["maxNumericValue"] = (Int32.MaxValue).ToString();
+	WriteTypes(types, otherConstants);
+#>
+
+<#+
+
+public void WriteTypes(List<Type> types, Dictionary<string, string> otherConstants)
+{
+	var moduleName = "staticApp";
+	var indent = "\t";
+
+	WriteLine(String.Format("angular.module('{0}').factory('ConstantsService', function() {{", moduleName));
+	PushIndent(indent);
+
+	WriteLine("return {");
+	PushIndent(indent);
+	types = types.OrderBy(x => x.Name).ToList();
+	for(var typeCounter = 0; typeCounter < types.Count; typeCounter++)
+	{
+		var type = types[typeCounter];
+		var staticLookups = GetStaticLookups(type);
+		WriteLine(String.Format("{0}: {{", CamelCase(type.Name)));
+		PushIndent(indent);
+
+		for(var staticLookupCounter = 0; staticLookupCounter < staticLookups.Count; staticLookupCounter++)
+		{
+			var staticLookup = staticLookups[staticLookupCounter];
+			WriteStaticLookup(staticLookup);
+			if(staticLookupCounter != staticLookups.Count - 1)
+			{
+				Write(",");
+			}
+			WriteLine(String.Empty);
+		}
+		
+		PopIndent();
+		Write("}");
+		if(typeCounter != types.Count - 1 || otherConstants.Count > 0)
+		{
+			Write(",");
+		}
+		WriteLine(String.Empty);		
+	}
+
+	var keyCounter = 0;
+	foreach(var key in otherConstants.Keys.OrderBy(x => x).ToList())
+	{
+		var value = otherConstants[key];
+		Write(String.Format("{0}: '{1}'", CamelCase(key), value));
+		if(keyCounter != otherConstants.Count - 1)
+		{
+			Write(",");
+		}
+		keyCounter++;
+		WriteLine(String.Empty);		
+	}
+
+	PopIndent();
+	WriteLine("};");
+
+	PopIndent();
+	WriteLine("});");
+}
+
+public string CamelCase(string s)
+{
+	var firstCharacterString = s.Substring(0, 1).ToLower().ToString();
+	var camelCased = firstCharacterString + s.Substring(1);
+	return camelCased;
+
+}
+
+public void WriteStaticLookup(StaticLookup lookup)
+{
+	Write(String.Format("{0}: {{id: {1}, value: \"{2}\"}}", CamelCase(Pascalize(lookup.Value)), lookup.Id, lookup.Value));
+}
+
+public List<StaticLookup> GetStaticLookups(Type t)
+{
+    var staticProperties = t.GetProperties(BindingFlags.Static | BindingFlags.Public).Where(x => x.PropertyType == typeof(StaticLookup)).ToList();
+    var staticLookups = staticProperties.Select(x => x.GetValue(null) as StaticLookup).OrderBy(x => x.Id).ToList();
+	return staticLookups;
+}
+
+public string Pascalize(object value)
+{
+    Regex rx = new Regex(@"(?:[^a-zA-Z0-9]*)(?<first>[a-zA-Z0-9])(?<reminder>[a-zA-Z0-9]*)(?:[^a-zA-Z0-9]*)");
+    return rx.Replace(value.ToString(), m => m.Groups["first"].ToString().ToUpper() + m.Groups["reminder"].ToString().ToLower());
+}
+
+#>

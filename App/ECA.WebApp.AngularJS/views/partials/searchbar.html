@@ -1,36 +1,39 @@
 <div class="modal-header search-modal-header">
     <input ng-show="show" type="text" ng-model="text" placeholder="Spotlight search"
-            class="form-control col-md-12" ng-change="autocomplete()" submit-required="true" />
+            class="form-control col-md-12" focus-me="true" ng-change="autocomplete()" ng-model-options="{debounce: 500}" submit-required="true" />
 </div>
-<div class="modal-body" style="min-height:85%">
-    <div class="spinner" ng-show="view.isLoadingResults">
+<div class="modal-body">
+    <div class="spinner" ng-show="isLoadingResults">
         <div class="bounce1"></div>
         <div class="bounce2"></div>
         <div class="bounce3"></div>
     </div>
-    <div class="search-result-wrapper" ng-show="results && show">
+    <div class="search-result-wrapper">
         <div class="search-result-container">
-            <div class="row">
+            <!--<div class="row">
                 <div class="col-md-2 search-label">Top Hit</div>
                 <div class="col-md-10 search-result">
                     <div class="row resultrow">
                         <div class="col-md-1">
                             <div class="resulticon {{tophit.type}}">{{tophit.type[0]}}</div>
                         </div>
-                        <div class="col-md-8 resultname">{{tophit.name}}</div>
-                        <div class="col-md-3 resultoffice">{{tophit.officeCode}}</div>
+                        <div class="col-md-8 resultname">{{tophit.title}}</div>
+                        <div class="col-md-3 resultoffice">{{tophit.subtitle}}</div>
                     </div>
                 </div>
-            </div>
-            <div ng-repeat="(resultType,result) in results" class="row">
-                <div class="col-md-2 search-label">{{resultType}}</div>
-                <div class="col-md-10 search-result">
-                    <div ng-repeat="resultitem in result" class="row resultrow">
-                        <div class="col-md-1">
-                            <div class="resulticon {{resultitem.type}}">{{resultitem.type[0]}}</div>
+            </div>-->
+            <div ng-repeat="docitem in results" class="row">
+                <div class="col-md-1 text-right">
+                    <span ng-show="CreateHeader(docitem.document.documentTypeName)">{{docitem.document.documentTypeName | uppercase}}</span>
+                </div>
+                <div class="col-md-11 search-result">
+                    <div ng-repeat="content in docitem" class="row">
+                        <div class="col-md-1 text-center">
+                            <div class="resulticon {{content.documentTypeName | lowercase}}">{{content.documentTypeName | resultIconFilter}}</div>
                         </div>
-                        <div class="col-md-8 resultname">{{resultitem.name}}</div>
-                        <div class="col-md-3 resultoffice">{{resultitem.officeCode}}</div>
+                        <div class="col-md-5 resultname">{{content.name}}</div>
+                        <div class="col-md-1 resultoffice">{{content.officeSymbol}}</div>
+                        <div class="col-md-4"></div>
                     </div>
                 </div>
             </div>

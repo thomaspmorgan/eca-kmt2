@@ -87,11 +87,13 @@
                 <i class="material-icons md-dark md-36 pull-right" ng-show="showEvalNotes">expand_more</i>
                 <i class="material-icons md-dark md-36 pull-right" ng-show="!showEvalNotes">expand_less</i>
             </a>
+            <a ng-show="!edit.Evaluation" ng-click="edit.Evaluation = !edit.Evaluation">
+                <i class="material-icons md-dark md-24 pull-right">edit</i>
+            </a>
         </div>
     </div>
     <div collapse="!showEvalNotes">
-        <ng-include src="'/views/person/partials/evaluationNotesView.html'"></ng-include>
-
+        <div ng-if="!edit.Evaluation"><ng-include src="'/views/person/partials/evaluationNotesView.html'"></ng-include></div>
+        <div ng-if="edit.Evaluation"><ng-include src="'/views/person/partials/evaluationNotesEdit.html'"></ng-include></div>
     </div>
-
 </div>

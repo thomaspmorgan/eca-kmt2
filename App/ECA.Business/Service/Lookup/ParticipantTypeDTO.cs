@@ -20,5 +20,10 @@ namespace ECA.Business.Service.Lookup
         /// Gets or sets the Name.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the is person flag
+        /// </summary>
+        public bool IsPerson { get; set; }
     }
 }

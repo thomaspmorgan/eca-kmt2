@@ -23,7 +23,8 @@ angular.module('staticApp')
         NotificationService,
         TableService,
         ParticipantService,
-        ParticipantPersonsService) {
+        ParticipantPersonsService,
+        ParticipantPersonsSevisService) {
 
       $scope.view = {};
       $scope.view.params = $stateParams;
@@ -44,6 +45,7 @@ angular.module('staticApp')
       $scope.view.isDobDatePickerOpen = false;
       $scope.view.dateFormat = 'dd-MMMM-yyyy';
       $scope.view.totalParticipants = 0;
+      $scope.view.tabSevis = false;
 
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;
@@ -288,7 +290,30 @@ angular.module('staticApp')
           });
       };
 
+      function loadSevisInfo(participantId) {
+          return ParticipantPersonsSevisService.getParticipantPersonsSevisById(participantId)
+          .then(function (data) {
+              $scope.sevisInfo[participantId] = data.data;
+              $scope.sevisInfo[participantId].show = true;
+          }, function (error) {
+              if (error.status === 404) {
+                  $scope.sevisInfo[participantId] = {};
+                  $scope.sevisInfo[participantId].show = true;
+              } else {
+                  $log.error('Unable to load participant SEVIS info for ' + participantId + '.');
+                  NotificationService.showErrorMessage('Unable to load participant SEVIS info for ' + participantId + '.');
+              }
+          });
+      };
+
+      $scope.onSevisTabSelected = function(participantId) {
+          $scope.view.tabSevis = true;
+          loadSevisInfo(participantId);
+      };
+
+      $scope.sevisInfo = {};
       $scope.participantInfo = {};
+
       $scope.toggleParticipantInfo = function (participantId) {
           if ($scope.participantInfo[participantId]) {
               if ($scope.participantInfo[participantId].show === true) {

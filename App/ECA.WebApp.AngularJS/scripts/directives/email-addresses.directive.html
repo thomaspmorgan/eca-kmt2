@@ -1,0 +1,89 @@
+﻿<div ng-controller="EmailAddressesCtrl">
+    <div>
+        <a ng-click="view.collapseEmailAddresses = !view.collapseEmailAddresses">
+            <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapseEmailAddresses">expand_less</i>
+            <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapseEmailAddresses">expand_more</i>
+        </a>
+        <a ng-click="view.onAddEmailAddressClick(modelType, emailAddressable.emailAddresses, modelId)" ng-show="editMode">
+            <i class="material-icons md-24 md-dark pull-right">add</i>
+        </a>
+        <div class="pull-right" style="margin-top: 3px;" ng-show="view.collapseEmailAddresses">({{emailAddressable.emailAddresses.length}})</div>
+    </div>
+    <div class="col-md-12" collapse="view.collapseEmailAddresses">
+        <div ng-repeat="emailAddress in emailAddressable.emailAddresses">
+            <div ng-controller="EmailAddressCtrl" class="expandIndent">
+                <div class="spinner" ng-show="view.isSavingChanges || view.isLoadingRequiredData">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
+                <div class="row" ng-show="!view.isSavingChanges && !view.isLoadingRequiredData">
+                    <div ng-class="{true: 'row', false: 'row2'}[editMode]" ng-show="!view.showEditEmailAddress">
+                        <a ng-href="mailto:{{emailAddress.address}}">{{emailAddress.address}}</a>
+                        <div class="pull-right" ng-show="!view.showEditEmailAddress">
+                            {{emailAddress.emailAddressType}}
+                            <a ng-show="!view.showEditEmailAddress && !view.isDeletingEmailAddress && editMode" ng-click="view.showConfirmDelete = true">
+                                <i class="material-icons md-dark">delete</i>
+                            </a>
+                            <a ng-show="view.isDeletingEmailAddress">
+                                <i class="material-icons md-dark material-icons-spin">refresh</i>
+                            </a>
+                            <a ng-show="!view.showEditEmailAddress && editMode" ng-click="view.onEditEmailAddressClick()">
+                                <i class="material-icons md-dark">edit</i>
+                            </a>
+                        </div>
+                    </div>
+                    <div ng-show="view.showConfirmDelete" class="text-center">
+                        Are you sure you want to delete this email address?
+                    </div>
+                    <div ng-show="view.showConfirmDelete" style="margin-top:10px;" class="text-center">
+                        <button ng-click="view.onDeleteEmailAddressClick()" class="btn btn-danger">Delete</button>
+                        <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
+                    </div>
+                    <div in-context-form ng-show="view.showEditEmailAddress">
+                        <form name="form.emailAddressForm" class="row form-horizontal">
+                            <div class="form-group">
+                                <label class="title-label col-md-3" for="type">Type<span class="asterisk"> *</span></label>
+                                <div class="col-md-9">
+                                    <select class="form-control"
+                                            id="type"
+                                            name="emailAddressTypeId"
+                                            ng-change="view.onEmailAddressTypeChange()"
+                                            ng-options="t.id as t.name for t in view.emailAddressTypes"
+                                            ng-model="emailAddress.emailAddressTypeId"
+                                            required></select>
+                                </div>
+                                <div ng-show="form.emailAddressForm.emailAddressTypeId.$dirty || form.emailAddressTypeId.emailAddressTypeId.$error.required">
+                                    <div class="error" ng-show="form.emailAddressForm.emailAddressTypeId.$error.required">Please select an email address type.</div>
+                                </div>
+                            </div>
+                            <div class="form-group" id="emailAddressForm{{emailAddress.id}}">
+                                <label class="title-label col-md-3" for="emailAddressValue">Address<span class="asterisk"> *</span></label>
+                                <div class="col-md-9">
+                                    <input name="emailAddressValue"
+                                           maxlength="100"
+                                           ng-model="emailAddress.address"
+                                           form-element
+                                           guidance="This is the value  of the email address."
+                                           type="email"
+                                           class="form-control"
+                                           placeholder="Enter email address value."
+                                           id="emailAddressValue"
+                                           required />
+                                </div>
+                                <div ng-show="form.emailAddressForm.emailAddressValue.$dirty || form.emailAddressForm.emailAddressValue.$error.required">
+                                    <div class="error" ng-show="form.emailAddressForm.emailAddressValue.$error.required">Please enter a email address value.</div>
+                                </div>
+                            </div>
+
+                        </form>
+                        <div class="row right" ng-show="view.showEditEmailAddress">
+                            <button ng-click="view.saveEmailAddressChanges()" class="btn btn-success" ng-disabled="form.emailAddressForm.$invalid">Save</button>
+                            <button ng-click="view.cancelEmailAddressChanges()" class="btn btn-cancel">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

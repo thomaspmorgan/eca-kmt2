@@ -28,7 +28,8 @@ namespace ECA.Business.Service.Lookup
             return Context.ParticipantTypes.Select(x => new ParticipantTypeDTO
             {
                 Id = x.ParticipantTypeId,
-                Name = x.Name
+                Name = x.Name,
+                IsPerson = x.IsPerson
             });
         }
     }

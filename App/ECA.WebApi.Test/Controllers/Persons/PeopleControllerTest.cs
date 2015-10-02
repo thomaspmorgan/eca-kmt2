@@ -2,7 +2,6 @@
 using ECA.Business.Service.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
-using ECA.Core.Service;
 using ECA.Data;
 using ECA.WebApi.Controllers.Persons;
 using ECA.WebApi.Models.Admin;
@@ -11,10 +10,6 @@ using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
@@ -84,7 +79,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
         }
         #endregion
 
-        #region Post
+        #region People Post
         [TestMethod]
         public async Task TestPostPersonAsync()
         {
@@ -104,7 +99,6 @@ namespace ECA.WebApi.Test.Controllers.Persons
             var response = await controller.PostPersonAsync(new PersonBindingModel());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
-
         #endregion
 
         #region Get People
@@ -125,6 +119,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
         }
         #endregion
 
+        #region Addresses
         [TestMethod]
         public async Task TestPostAddressAsync()
         {
@@ -147,7 +142,9 @@ namespace ECA.WebApi.Test.Controllers.Persons
             var response = await controller.DeleteAddressAsync(1, 2);
             addressHandler.Verify(x => x.HandleDeleteAddressAsync(It.IsAny<int>(), It.IsAny<ApiController>()), Times.Once());
         }
-
+        #endregion
+        
+        #region Social Media
         [TestMethod]
         public async Task TestPostSocialMediaAsync()
         {
@@ -170,5 +167,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
             var response = await controller.DeleteSocialMediaAsync(1, 1);
             socialMediaHandler.Verify(x => x.HandleDeleteSocialMediaAsync(It.IsAny<int>(), It.IsAny<ApiController>()), Times.Once());
         }
+        #endregion
+
     }
 }

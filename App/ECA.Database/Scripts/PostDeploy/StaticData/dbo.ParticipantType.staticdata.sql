@@ -23,7 +23,8 @@ SET @DeleteMissingRecords = 0
 -- 1: Define table variable
 DECLARE @tblTempTable TABLE (
 [ParticipantTypeId] int,
-[Name] nvarchar(MAX)
+[Name] nvarchar(MAX),
+[IsPerson] bit default 'false'
 )
 
 -- 2: Populate the table variable with data
@@ -33,24 +34,25 @@ DECLARE @tblTempTable TABLE (
 -- removed entries. If you remove an entry then it will no longer
 -- be added to new databases based on your schema, but the entry
 -- will not be deleted from databases in which the value already exists.
-INSERT INTO @tblTempTable ([ParticipantTypeId], [Name]) VALUES ('1', 'Foreign Educational Institution')
-INSERT INTO @tblTempTable ([ParticipantTypeId], [Name]) VALUES ('2', 'Foreign Government')
-INSERT INTO @tblTempTable ([ParticipantTypeId], [Name]) VALUES ('3', 'U.S. Educational Institution')
-INSERT INTO @tblTempTable ([ParticipantTypeId], [Name]) VALUES ('4', 'Public International Organization (PIO)')
-INSERT INTO @tblTempTable ([ParticipantTypeId], [Name]) VALUES ('5', 'U.S. Non-Profit Organization (501(c)(3))')
-INSERT INTO @tblTempTable ([ParticipantTypeId], [Name]) VALUES ('6', 'Individual')
-INSERT INTO @tblTempTable ([ParticipantTypeId], [Name]) VALUES ('7', 'Foreign NGO/PVO')
-INSERT INTO @tblTempTable ([ParticipantTypeId], [Name]) VALUES ('8', 'Other')
-INSERT INTO @tblTempTable ([ParticipantTypeId], [Name]) VALUES ('9'	,'Foreign Non Traveling Participant')
-INSERT INTO @tblTempTable ([ParticipantTypeId], [Name]) VALUES ('10','U.S. Non Traveling Participant')
-INSERT INTO @tblTempTable ([ParticipantTypeId], [Name]) VALUES ('11','Foreign Traveling Participant')
-INSERT INTO @tblTempTable ([ParticipantTypeId], [Name]) VALUES ('12','U.S. Traveling Participant')
+INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('1', 'Foreign Educational Institution', 'false')
+INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('2', 'Foreign Government', 'false')
+INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('3', 'U.S. Educational Institution', 'false')
+INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('4', 'Public International Organization (PIO)', 'false')
+INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('5', 'U.S. Non-Profit Organization (501(c)(3))', 'false')
+INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('6', 'Individual', 'true')
+INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('7', 'Foreign NGO/PVO', 'false')
+INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('8', 'Other', 'false')
+INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('9', 'Other', 'true')
+INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('10','Foreign Non Traveling Participant', 'true')
+INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('11','U.S. Non Traveling Participant', 'true')
+INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('12','Foreign Traveling Participant', 'true')
+INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('13','U.S. Traveling Participant', 'true')
 
 
 -- 3: Insert any new items into the table from the table variable
 SET IDENTITY_INSERT [dbo].[ParticipantType] ON
-INSERT INTO [dbo].[ParticipantType] ([ParticipantTypeId], [Name])
-SELECT tmp.[ParticipantTypeId], tmp.[Name]
+INSERT INTO [dbo].[ParticipantType] ([ParticipantTypeId], [Name], [IsPerson])
+SELECT tmp.[ParticipantTypeId], tmp.[Name], tmp.[IsPerson]
 FROM @tblTempTable tmp
 LEFT JOIN [dbo].[ParticipantType] tbl ON tbl.[ParticipantTypeId] = tmp.[ParticipantTypeId]
 WHERE tbl.[ParticipantTypeId] IS NULL
@@ -58,7 +60,8 @@ SET IDENTITY_INSERT [dbo].[ParticipantType] OFF
 
 -- 4: Update any modified values with the values from the table variable
 UPDATE LiveTable SET
-LiveTable.[Name] = tmp.[Name]
+LiveTable.[Name] = tmp.[Name],
+LiveTable.[IsPerson] = tmp.[IsPerson]
 FROM [dbo].[ParticipantType] LiveTable 
 INNER JOIN @tblTempTable tmp ON LiveTable.[ParticipantTypeId] = tmp.[ParticipantTypeId]
 

@@ -84,62 +84,62 @@ namespace ECA.Data
         /// <summary>
         /// the start date of the visit
         /// </summary>
-        public DateTimeOffset StartDate { get; set; }
+        public DateTimeOffset? StartDate { get; set; }
 
         /// <summary>
         /// The end date of the visit
         /// </summary>
-        public DateTimeOffset EndDate { get; set; }
+        public DateTimeOffset? EndDate { get; set; }
 
         /// <summary>
         /// Funding coming from the sponsor
         /// </summary>
-        public decimal FundingSponsor { get; set; }
+        public decimal? FundingSponsor { get; set; }
 
         /// <summary>
         /// Funding coming from the visitor
         /// </summary>
-        public decimal FundingPersonal { get; set; }
+        public decimal? FundingPersonal { get; set; }
 
         /// <summary>
         /// Funding from the visiting participant's government
         /// </summary>
-        public decimal FundingVisGovt { get; set; }
+        public decimal? FundingVisGovt { get; set; }
 
         /// <summary>
         /// Funding from the visiting participant's BNC
         /// </summary>
-        public decimal FundingVisBNC { get; set; }
+        public decimal? FundingVisBNC { get; set; }
 
         /// <summary>
         /// Funding from another U.S. government agency
         /// </summary>
-        public decimal FundingGovtAgency1 { get; set; }
+        public decimal? FundingGovtAgency1 { get; set; }
 
         /// <summary>
         /// Funding from another U.S. government agency
         /// </summary>
-        public decimal FundingGovtAgency2 { get; set; }
+        public decimal? FundingGovtAgency2 { get; set; }
 
         /// <summary>
         /// Funding from another international org
         /// </summary>
-        public decimal FundingIntlOrg1 { get; set; }
+        public decimal? FundingIntlOrg1 { get; set; }
 
         /// <summary>
         /// Funding from another international org
         /// </summary>
-        public decimal FundingIntlOrg2 { get; set; }
+        public decimal? FundingIntlOrg2 { get; set; }
 
         /// <summary>
         /// Funding from other source
         /// </summary>
-        public decimal FundingOther { get; set; }
+        public decimal? FundingOther { get; set; }
 
         /// <summary>
         /// Total funding
         /// </summary>
-        public decimal FundingTotal { get; set; }
+        public decimal? FundingTotal { get; set; }
 
         //Relationships
 

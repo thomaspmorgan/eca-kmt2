@@ -51,23 +51,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ApplicationInsights, Version=1.1.0.1899, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.ApplicationInsights.1.1.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ApplicationInsights.Extensibility.DependencyCollector">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.1.1.0\lib\net45\Microsoft.ApplicationInsights.Extensibility.DependencyCollector.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ApplicationInsights.Extensibility.PerfCounterCollector">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.1.1.0\lib\net45\Microsoft.ApplicationInsights.Extensibility.PerfCounterCollector.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ApplicationInsights.Extensibility.Web, Version=1.1.0.1909, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.1.1.0\lib\net45\Microsoft.ApplicationInsights.Extensibility.Web.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ApplicationInsights.Web.TelemetryChannel">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.TelemetryChannel.1.1.0\lib\net45\Microsoft.ApplicationInsights.Web.TelemetryChannel.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Data.Edm, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -80,10 +63,6 @@
     <Reference Include="Microsoft.Data.Services.Client, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Diagnostics.Instrumentation.Extensions.Intercept, Version=1.0.0.161, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.0.0\lib\net45\Microsoft.Diagnostics.Instrumentation.Extensions.Intercept.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource, Version=1.1.25.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -158,10 +137,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="gulpfile.js" />
     <Content Include="images\contract.png" />
     <Content Include="images\intl-tel-input\flags.png" />
     <Content Include="karma.conf.js" />
+    <Content Include="scripts\app.config.js" />
+    <Content Include="scripts\app.run.js" />
     <Content Include="scripts\controllers\address\addresses.js" />
     <Content Include="scripts\controllers\address\address.js" />
     <Content Include="scripts\controllers\allpeople.js" />
@@ -180,6 +162,8 @@
     <Content Include="scripts\controllers\moneyflow.js" />
     <Content Include="scripts\controllers\moneyflows.js" />
     <Content Include="scripts\controllers\office\branchesandprograms.js" />
+    <Content Include="scripts\controllers\organization\addorganizationmodal.js" />
+    <Content Include="scripts\controllers\person\personEvaluationNoteEdit.js" />
     <Content Include="scripts\controllers\person\personPiiEdit.js" />
     <Content Include="scripts\controllers\person\personPii.js" />
     <Content Include="scripts\controllers\person\information.js" />
@@ -222,34 +206,47 @@
     <Content Include="scripts\controllers\reports\RegionAwards.js" />
     <Content Include="scripts\controllers\socialmedia\socialmedia.js" />
     <Content Include="scripts\controllers\socialmedia\socialmedias.js" />
-    <Content Include="scripts\directives\phoneNumbers.js" />
-    <Content Include="scripts\directives\equalityfilter.js" />
-    <Content Include="scripts\directives\languageProficiencies.js" />
-    <Content Include="scripts\directives\memberships.js" />
-    <Content Include="scripts\directives\moneyflows.js" />
-    <Content Include="scripts\directives\emailAddresses.js" />
-    <Content Include="scripts\directives\socialmedias.js" />
-    <Content Include="scripts\directives\addresses.js" />
+    <Content Include="scripts\directives\participant-person-sevis.directive.html" />
+    <Content Include="scripts\directives\participant-person-sevis.directive.js" />
+    <Content Include="scripts\directives\phone-numbers.directive.js" />
+    <Content Include="scripts\directives\equality-filter.directive.js" />
+    <Content Include="scripts\directives\language-proficiencies.directive.js" />
+    <Content Include="scripts\directives\memberships.directive.js" />
+    <Content Include="scripts\directives\moneyflows.directive.js" />
+    <Content Include="scripts\directives\email-addresses.directive.js" />
+    <Content Include="scripts\directives\social-medias.directive.js" />
+    <Content Include="scripts\directives\addresses.directive.js" />
     <Content Include="scripts\controllers\toolbaricons.js" />
-    <Content Include="scripts\directives\exposetablestate.js" />
-    <Content Include="scripts\directives\socialmedialink.js" />
-    <Content Include="scripts\directives\uiselectstsearch.js" />
-    <Content Include="scripts\directives\yearDropdown.js" />
-    <Content Include="scripts\filters\groupby.js" />
-    <Content Include="scripts\filters\propFilter.js" />
-    <Content Include="scripts\services\bookmark.js" />
-    <Content Include="scripts\services\eduempservice.js" />
-    <Content Include="scripts\services\phonenumberservice.js" />
-    <Content Include="scripts\services\languageProficiency.js" />
-    <Content Include="scripts\services\membership.js" />
-    <Content Include="scripts\services\filterservice.js" />
-    <Content Include="scripts\services\emailaddressservice.js" />
-    <Content Include="scripts\services\messagebox.js" />
-    <Content Include="scripts\services\socialmediaservice.js" />
-    <Content Include="scripts\services\addressservice.js" />
-    <Content Include="scripts\services\participantperson.js" />
-    <Content Include="scripts\services\stateservice.js" />
-    <Content Include="scripts\services\userservice.js" />
+    <Content Include="scripts\directives\expose-table-state.directive.js" />
+    <Content Include="scripts\directives\social-media-link.directive.js" />
+    <Content Include="scripts\directives\ui-select-st-search.directive.js" />
+    <Content Include="scripts\directives\year-dropdown.directive.js" />
+    <Content Include="scripts\filters\group-by.filter.js" />
+    <Content Include="scripts\filters\props.filter.js" />
+    <Content Include="scripts\services\bookmark.service.js" />
+    <Content Include="scripts\services\constants.service.js">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>constants.service.tt</DependentUpon>
+    </Content>
+    <Content Include="scripts\services\constants.service.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>constants.service.js</LastGenOutput>
+    </Content>
+    <Content Include="scripts\services\education-employment.service.js" />
+    <Content Include="scripts\services\participant-person-sevis.service.js" />
+    <Content Include="scripts\services\person-evaluation.service.js" />
+    <Content Include="scripts\services\phone-number.service.js" />
+    <Content Include="scripts\services\language-proficiency.service.js" />
+    <Content Include="scripts\services\membership.service.js" />
+    <Content Include="scripts\services\filter.service.js" />
+    <Content Include="scripts\services\email-address.service.js" />
+    <Content Include="scripts\services\message-box.service.js" />
+    <Content Include="scripts\services\social-media.service.js" />
+    <Content Include="scripts\services\address.service.js" />
+    <Content Include="scripts\services\participant-person.service.js" />
+    <Content Include="scripts\services\state.service.js" />
+    <Content Include="scripts\services\user.service.js" />
     <Content Include="styles\fonts\raleway-v9-latin-100.svg" />
     <Content Include="styles\fonts\raleway-v9-latin-200.svg" />
     <Content Include="styles\fonts\raleway-v9-latin-300.svg" />
@@ -259,20 +256,21 @@
     <Content Include="styles\fonts\raleway-v9-latin-800.svg" />
     <Content Include="styles\fonts\raleway-v9-latin-900.svg" />
     <Content Include="styles\fonts\raleway-v9-latin-regular.svg" />
-    <Content Include="views\directives\confirmdialog.html" />
-    <Content Include="views\directives\phoneNumbers.html" />
-    <Content Include="views\directives\equalityfilter.html" />
-    <Content Include="views\directives\languageProficiencies.html" />
-    <Content Include="views\directives\moneyflow.html" />
-    <Content Include="views\directives\moneyflows.html" />
-    <Content Include="views\directives\memberships.html" />
-    <Content Include="views\directives\emailAddresses.html" />
-    <Content Include="views\directives\socialmedias.html" />
-    <Content Include="views\directives\addresses.html" />
+    <Content Include="scripts\directives\addresses.directive.html" />
+    <Content Include="scripts\directives\confirm-dialog.directive.html" />
+    <Content Include="scripts\directives\email-addresses.directive.html" />
+    <Content Include="scripts\directives\equality-filter.directive.html" />
+    <Content Include="scripts\directives\language-proficiencies.directive.html" />
+    <Content Include="scripts\directives\memberships.directive.html" />
+    <Content Include="scripts\directives\moneyflow.directive.html" />
+    <Content Include="scripts\directives\moneyflows.directive.html" />
+    <Content Include="scripts\directives\phone-numbers.directive.html" />
+    <Content Include="scripts\directives\social-medias.directive.html" />
     <Content Include="views\locations\addlocationmodal.html" />
     <Content Include="views\locations\marker.html" />
     <Content Include="views\locations\searchlocations.html" />
     <Content Include="views\organizations\activities.html" />
+    <Content Include="views\organizations\addorganizationmodal.html" />
     <Content Include="views\organizations\impact.html" />
     <Content Include="views\organizations\artifacts.html" />
     <Content Include="views\organizations\moneyflows.html" />
@@ -299,29 +297,24 @@
     <Content Include="views\project\addprojectmodal.html" />
     <Content Include="views\project\addnewparticipant.html" />
     <Content Include="views\project\selectparticipanttype.html" />
-    <Content Include="scripts\services\organization.js" />
+    <Content Include="scripts\services\organization.service.js" />
     <Content Include="views\organizations\allorganizations.html" />
     <Content Include="views\project\unsavedchanges.html" />
     <Content Include="scripts\controllers\reports\ProjectAwards.js" />
     <Content Include="scripts\controllers\simple_test.js" />
-    <Content Include="scripts\directives\datepickerpopup.js" />
-    <Content Include="scripts\filters\highlight.js" />
-    <Content Include="scripts\services\downloadservice.js" />
-    <Content Include="scripts\services\logouteventservice.js" />
-    <Content Include="scripts\services\errorinterceptor.js" />
-    <Content Include="scripts\services\constantsservice.js">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>constantsservice.tt</DependentUpon>
-    </Content>
-    <Content Include="scripts\services\moneyflow.js" />
-    <Content Include="scripts\services\notificationservice.js" />
-    <Content Include="scripts\services\reportservice.js" />
-    <Content Include="scripts\services\office.js" />
-    <Content Include="scripts\services\person.js" />
-    <Content Include="scripts\services\registerusereventservice.js" />
-    <Content Include="scripts\services\tableservice.js" />
-    <Content Include="scripts\services\lookupservice.js" />
+    <Content Include="scripts\directives\date-picker-popup.directive.js" />
+    <Content Include="scripts\filters\highlight.filter.js" />
+    <Content Include="scripts\services\download.service.js" />
+    <Content Include="scripts\services\logout-event.service.js" />
+    <Content Include="scripts\services\error-interceptor.service.js" />
+    <Content Include="scripts\services\moneyflow.service.js" />
+    <Content Include="scripts\services\notification.service.js" />
+    <Content Include="scripts\services\report.service.js" />
+    <Content Include="scripts\services\office.service.js" />
+    <Content Include="scripts\services\person.service.js" />
+    <Content Include="scripts\services\register-user-event.service.js" />
+    <Content Include="scripts\services\table.service.js" />
+    <Content Include="scripts\services\lookup.service.js" />
     <Content Include="styles\_footer.scss" />
     <Content Include="styles\_form.scss" />
     <Content Include="styles\_hero.scss" />
@@ -341,14 +334,9 @@
     <Content Include="packages.config" />
     <Content Include="bower.json" />
     <Content Include=".bowerrc" />
-    <Content Include="ApplicationInsights.config" />
     <Content Include="package.json" />
     <Content Include="build.cmd" />
     <None Include="ECA.WebApp.AngularJS.wpp.targets" />
-    <Content Include="scripts\services\constantsservice.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>constantsservice.js</LastGenOutput>
-    </Content>
     <None Include="Properties\PublishProfiles\kmt-dev.pubxml" />
     <None Include="Properties\PublishProfiles\kmt-pre.pubxml" />
     <None Include="Properties\PublishProfiles\kmt-prod.pubxml" />
@@ -393,6 +381,7 @@
     <Content Include="styles\fonts\MaterialIcons-Regular.ttf" />
     <Content Include="styles\fonts\MaterialIcons-Regular.woff" />
     <Content Include="styles\fonts\MaterialIcons-Regular.woff2" />
+    <Content Include="views\person\partials\evaluationNotesEdit.html" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -495,7 +484,7 @@
     <Content Include="images\trash.png" />
     <Content Include="images\yeoman.png" />
     <Content Include="index.html" />
-    <Content Include="scripts\app.js" />
+    <Content Include="scripts\app.module.js" />
     <Content Include="scripts\controllers\about.js" />
     <Content Include="scripts\controllers\alloffices.js" />
     <Content Include="scripts\controllers\allparticipants.js" />
@@ -512,23 +501,21 @@
     <Content Include="scripts\controllers\reports\create.js" />
     <Content Include="scripts\controllers\securetest.js" />
     <Content Include="scripts\controllers\settings.js" />
-    <Content Include="scripts\directives\form-element.js" />
-    <Content Include="scripts\directives\guidance.js" />
-    <Content Include="scripts\directives\incontextform.js" />
-    <Content Include="scripts\directives\map.js" />
+    <Content Include="scripts\directives\form-element.directive.js" />
+    <Content Include="scripts\directives\guidance.directive.js" />
+    <Content Include="scripts\directives\in-context-form.directive.js" />
+    <Content Include="scripts\directives\map.directive.js" />
     <Content Include="scripts\controllers\searchbar.js" />
-    <Content Include="scripts\directives\staticswitcher.js" />
-    <Content Include="scripts\directives\tabbar.js" />
-    <Content Include="scripts\filters\tabfilter.js" />
-    <Content Include="scripts\modules\modal.js" />
-    <Content Include="scripts\services\authservice.js" />
-    <Content Include="scripts\services\dragonbreath.js" />
-    <Content Include="scripts\services\locationservice.js" />
-    <Content Include="scripts\services\participant.js" />
-    <Content Include="scripts\services\program.js" />
-    <Content Include="scripts\services\project.js" />
-    <Content Include="scripts\services\schema.js" />
-    <Content Include="scripts\services\solr.js" />
+    <Content Include="scripts\directives\static-switcher.directive.js" />
+    <Content Include="scripts\directives\tab-bar.directive.js" />
+    <Content Include="scripts\filters\tab.filter.js" />
+    <Content Include="scripts\services\auth.service.js" />
+    <Content Include="scripts\services\dragon-breath.service.js" />
+    <Content Include="scripts\services\location.service.js" />
+    <Content Include="scripts\services\participant.service.js" />
+    <Content Include="scripts\services\program.service.js" />
+    <Content Include="scripts\services\project.service.js" />
+    <Content Include="scripts\services\search.service.js" />
     <Content Include="views\about.html" />
     <Content Include="views\events.html" />
     <Content Include="views\activities\activityCreate.html" />
@@ -627,7 +614,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="views\Shared\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

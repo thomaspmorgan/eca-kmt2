@@ -7,7 +7,7 @@ using ECA.Business.Service;
 namespace ECA.WebApi.Models.Person
 {
     /// <summary>
-    /// Binding model for editing pii
+    /// Binding model for editing membership
     /// </summary>
     public class UpdatedPersonMembershipBindingModel
     {

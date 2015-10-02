@@ -77,6 +77,7 @@
     <Folder Include="Sevis\Schema" />
     <Folder Include="Sevis\Tables" />
     <Folder Include="dbo\Views" />
+    <Folder Include="Scripts\Users" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ECA_Local.publish.xml" />
@@ -110,6 +111,7 @@
     <None Include="Scripts\PostDeploy\StaticData\dbo.MaritalStatus.staticdata.sql" />
     <None Include="ECA_UAT.publish.xml" />
     <None Include="ECA_PRE.publish.xml" />
+    <None Include="Scripts\Users\CreateKMT_UserInDB.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeploy\ECA.PostDeployment.sql" />

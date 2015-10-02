@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('AllOrganizationsCtrl', function ($scope, $stateParams, $state, $log, OrganizationService, TableService) {
+  .controller('AllOrganizationsCtrl', function ($scope, $stateParams, $state, $log, $modal, OrganizationService, TableService, LookupService) {
 
       $scope.organizations = [];
       $scope.start = 0;
@@ -17,9 +17,48 @@ angular.module('staticApp')
 
       $scope.organizationsLoading = false;
       $scope.selectedOrgType = {};
+      $scope.selectedOrganizationRoles = [];
 
       $scope.onEditIconClick = function (org) {
           $state.go('organizations.edit', { organizationId: org.organizationId });
+      }
+
+      $scope.addOrganization = function () {
+          var addOrganizationModalInstance = $modal.open({
+              animation: true,
+              templateUrl: 'views/organizations/addorganizationmodal.html',
+              controller: 'AddOrganizationModalCtrl',
+              backdrop: 'static',
+              size: 'lg'
+          });
+          /*
+          var addProgramModalInstance = $modal.open({
+              animation: true,
+              templateUrl: 'views/program/addprogrammodal.html',
+              controller: 'AddProgramModalCtrl',
+              backdrop: 'static',
+              size: 'lg',
+              resolve: {
+                  office: function () {
+                      return {
+                          id: $scope.view.program.ownerOrganizationId,
+                          name: $scope.view.program.ownerName
+                      }
+                  },
+                  parentProgram: function () {
+                      return $scope.view.program;
+                  }
+              }
+          });
+          addProgramModalInstance.result.then(function (addedProgram) {
+              $log.info('Finished adding program.');
+              addProgramModalInstance.close(addedProgram);
+              StateService.goToProgramState(addedProgram.id);
+
+          }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+          });
+          */
       }
 
       $scope.getOrganizations = function (tableState) {
@@ -47,4 +86,10 @@ angular.module('staticApp')
                 $scope.organizationsLoading = false;
             });
       };
+
+      var params = { start: 0, limit: 300 };
+      LookupService.getOrganizationRoles(params)
+        .then(function (result) {
+            $scope.organizationRoles = result.data.results;
+        });
   });

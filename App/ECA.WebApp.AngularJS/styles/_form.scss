@@ -109,6 +109,17 @@
     }
 }
 
+.btn-inlist {
+    background-color: $mediumgray;
+    color: $primarytext;
+
+    &:hover {
+        background-color: $grayactive;
+        color: #fff;
+    }
+
+}
+
 input,
 textarea {
     border-radius: 3px;
