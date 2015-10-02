@@ -31,6 +31,8 @@ namespace ECA.WebApi.Test.Controllers.Search
             document.Regions = new List<string> { "region" };
             document.Countries = new List<string> { "country" };
             document.Locations = new List<string> { "local" };
+            document.DocumentTypeId = "type id";
+            document.DocumentTypeName = "type name";
 
             var model = new ECADocumentViewModel(document);
             Assert.AreEqual(key, model.Key);
@@ -51,6 +53,15 @@ namespace ECA.WebApi.Test.Controllers.Search
             Assert.IsTrue(Object.ReferenceEquals(document.Countries, model.Countries));
             Assert.IsTrue(Object.ReferenceEquals(document.Locations, model.Locations));
             Assert.IsTrue(Object.ReferenceEquals(document.Websites, model.Websites));
+
+            var properties = typeof(ECADocument).GetProperties();
+            foreach (var property in properties)
+            {
+                //check every property on TestDocument instance has a value.
+                Assert.IsNotNull(property.GetValue(document), String.Format("Property [{0}] on the document does not have a value.", property.Name));
+                Assert.IsNotNull(property.GetValue(model), String.Format("Property [{0}] on the model does not have a value.", property.Name));
+                Assert.AreEqual(property.GetValue(document), property.GetValue(model));
+            }
         }
     }
 }
