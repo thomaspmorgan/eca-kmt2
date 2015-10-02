@@ -122,7 +122,10 @@
     background-color: $bordergray;
 }
 
-
+.tab-content > div {
+    display: block;
+    width: 100%;
+}
 
 
 .dropdown-menu {
