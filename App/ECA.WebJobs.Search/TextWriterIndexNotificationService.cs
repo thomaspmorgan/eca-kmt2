@@ -22,23 +22,21 @@ namespace ECA.WebJobs.Search
         public void Finished(string documentType)
         {
             var message = String.Format("Finished processing {0} in {1} time.", documentType, stopwatch.Elapsed);
-            textWriter.WriteLine(message);
+            Console.WriteLine();
             Console.WriteLine(message);
         }
 
         public void Processed(string documentType, int totalDocumentsCount, int documentsProcessed)
         {
-            var message = String.Format("Processed {0} of {1} documents of type {2}", documentsProcessed, totalDocumentsCount, documentType);
-            textWriter.WriteLine(message);
-            Console.WriteLine(message);
+            var message = String.Format("Processed {0} of {1} {2} documents.", documentsProcessed, totalDocumentsCount, documentType);
+            Console.Write("\r{0}   ", message);
         }
 
         public void Started(string documentType)
         {
             stopwatch = Stopwatch.StartNew();
-            var message = String.Format("Started processing {0}", documentType);
+            var message = String.Format("Started processing {0} documents.", documentType);
             Console.WriteLine(message);
-            textWriter.WriteLine(message);
         }
     }
 }

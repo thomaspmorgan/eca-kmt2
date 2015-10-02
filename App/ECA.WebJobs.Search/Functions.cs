@@ -8,6 +8,7 @@ using ECA.Data;
 using ECA.Business.Search;
 using Microsoft.Azure.Search;
 using System;
+using ECA.Core.Settings;
 
 namespace ECA.WebJobs.Search
 {
@@ -16,19 +17,17 @@ namespace ECA.WebJobs.Search
         // This function will be triggered based on the schedule you have set for this WebJob
         // This function will enqueue a message on an Azure Queue called search
         [NoAutomaticTrigger]
-        public static void ManualTrigger(TextWriter log, int value, [Queue("search")] out string message)
+        public static void ManualTrigger(TextWriter log)
         {
-            log.WriteLine("Function is invoked with value={0}", value);
-            message = value.ToString();
             Index(log);
-            log.WriteLine("Following message will be written on the Queue={0}", message);
         }
 
         public static void Index(TextWriter log)
         {
-            var serviceName = AppSettings.SearchServiceName;
-            var apiKey = AppSettings.SearchApiKey;
-            var connectionString = AppSettings.EcaContextConnectionString;
+            var appSettings = new AppSettings();
+            var serviceName = appSettings.SearchServiceName;
+            var apiKey = appSettings.SearchApiKey;
+            var connectionString = appSettings.EcaContextConnectionString;
             var configs = IndexService.GetAllConfigurations(typeof(ProgramDTODocumentConfiguration).Assembly).ToList();
 
             var notificationService = new TextWriterIndexNotificationService(log);
@@ -38,9 +37,6 @@ namespace ECA.WebJobs.Search
             using (var programDocumentService = new ProgramDocumentService(context, indexService, notificationService))
             using (var projectDocumentService = new ProjectDocumentService(context, indexService, notificationService))
             {
-                Console.WriteLine(context.Database.Connection.ConnectionString);
-                Console.WriteLine(apiKey);
-                Console.WriteLine(serviceName);
                 var documentServices = new List<IDocumentService>();
                 documentServices.Add(programDocumentService);
                 documentServices.Add(projectDocumentService);

@@ -10,7 +10,7 @@ namespace ECA.Business.Search.Test
     {
         public static Guid TEST_DOCUMENT_DOCUMENT_TYPE_ID = Guid.Parse("02ddc89d-9557-4de5-b1d4-2de9e1130c5c");
 
-        public const string TEST_DOCUMENT_DOCUMENT_TYPE_NAME = "test document";
+        public const string TEST_DOCUMENT_DOCUMENT_TYPE_NAME = "testdocument";
 
         public TestDocumentConfiguration()
         {

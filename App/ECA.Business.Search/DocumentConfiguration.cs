@@ -5,6 +5,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ECA.Business.Search
@@ -13,6 +14,7 @@ namespace ECA.Business.Search
     /// An IDocumentConfiguration is used to detail how an object can be transformed into a Document
     /// for searching using an IIndexService.
     /// </summary>
+    [ContractClass(typeof(DocumentConfigurationContract))]
     public interface IDocumentConfiguration
     {
         /// <summary>
@@ -96,6 +98,146 @@ namespace ECA.Business.Search
         /// </summary>
         /// <returns>A display name of the document type.</returns>
         string GetDocumentTypeName();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [ContractClassFor(typeof(IDocumentConfiguration))]
+    public abstract class DocumentConfigurationContract : IDocumentConfiguration
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public string GetDescription(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Guid GetDocumentTypeId()
+        {
+            Contract.Ensures(Contract.Result<Guid>() != Guid.Empty, "The document type id must not be the empty guid.");
+            return Guid.Empty;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public string GetDocumentTypeName()
+        {
+            Contract.Ensures(!String.IsNullOrWhiteSpace(Contract.Result<string>()), "The document type name must have a value.");
+            Contract.Ensures(Contract.Result<string>().Length <= IndexService.MAX_DOCUMENT_TYPE_NAME_LENGTH, "The document type name must not be more than the max length.");
+            Contract.Ensures(Regex.IsMatch(Contract.Result<string>(), @"^[a-zA-Z]+$"), "The document name may only have characters in it.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public IEnumerable<string> GetFoci(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public IEnumerable<string> GetGoals(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public object GetId(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            Contract.Ensures(Contract.Result<object>() != null, "The id of the instance must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public string GetName(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public IEnumerable<string> GetObjectives(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public string GetOfficeSymbol(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public IEnumerable<string> GetPointsOfContact(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public IEnumerable<string> GetThemes(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public bool IsConfigurationForType(Type type)
+        {
+            Contract.Requires(type != null, "The given type must not be null.");
+            return false;
+        }
     }
 
     /// <summary>

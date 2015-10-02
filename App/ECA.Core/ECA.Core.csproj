@@ -120,6 +120,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -160,6 +161,7 @@
     <Compile Include="Service\ISaveable.cs" />
     <Compile Include="Service\ISaveAction.cs" />
     <Compile Include="Service\PermissableSaveAction.cs" />
+    <Compile Include="Settings\AppSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
