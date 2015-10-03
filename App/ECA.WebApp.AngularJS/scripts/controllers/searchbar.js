@@ -22,21 +22,21 @@ angular.module('staticApp')
       $scope.view = {};
       $scope.results = [];
       $scope.docinfo = {};
+      $scope.tophitinfo = {};
       $scope.text = '';
       $scope.show = true;
       $scope.tophit = false;
-      $scope.firstrun = true;
+      $scope.totalResults = -1;
       $scope.isLoadingResults = false;
       $scope.isLoadingDocInfo = false;
 
       $scope.autocomplete = function () {
-          $scope.firstrun = true;
 
           var params = {
-              Limit: 25,
+              Limit: 100,
               Filter: null,
               Facets: null,
-              Fields: ['description','id','name','documentTypeName','officeSymbol','status','pointsOfContact','themes','goals','foci','objectives','regions','countries','locations','websites'],
+              Fields: ['description', 'id', 'name', 'documentTypeName', 'officeSymbol', 'themes', 'regions', 'goals', 'websites', 'objectives', 'foci', 'status', 'pointsOfContact'],
               SearchTerm: $scope.text
           };
 
@@ -44,7 +44,9 @@ angular.module('staticApp')
           SearchService.getAll(params)
           .then(function (response) {
               $log.info('Loaded all search results.');
-              $scope.results = response.results;
+              $scope.tophitinfo = response.results.slice(0, 1);
+              $scope.results = response.results.slice(1);
+              $scope.totalResults = $scope.tophitinfo.length + $scope.results.length;
               $scope.isLoadingResults = false;
           })
           .catch(function () {
@@ -59,6 +61,11 @@ angular.module('staticApp')
       $scope.GetDocumentInfo = function (id) {
           $scope.isLoadingDocInfo = true;
           $scope.docinfo = $filter('filter')($scope.results, id)[0];
+          $scope.isLoadingDocInfo = false;
+      };
+      $scope.GetTophitInfo = function () {
+          $scope.isLoadingDocInfo = true;
+          $scope.docinfo = $scope.tophitinfo[0];
           $scope.isLoadingDocInfo = false;
       };
 

@@ -10,20 +10,24 @@
     </div>
     <div class="search-result-wrapper">
         <div class="search-result-container">
-            <!--<div class="row">
-                <div class="col-md-2 search-label">Top Hit</div>
-                <div class="col-md-10 search-result">
-                    <div class="row resultrow">
-                        <div class="col-md-1">
-                            <div class="resulticon {{tophit.type}}">{{tophit.type[0]}}</div>
-                        </div>
-                        <div class="col-md-8 resultname">{{tophit.title}}</div>
-                        <div class="col-md-3 resultoffice">{{tophit.subtitle}}</div>
-                    </div>
-                </div>
-            </div>-->
             <div class="row">
                 <div class="col-md-8">
+                    <div class="row" ng-show="tophitinfo.length > 0">
+                        <div class="col-md-2 text-right">
+                            <span><strong>TOP HIT</strong></span>
+                        </div>
+                        <div class="col-md-10 search-results">
+                            <div class="row" ng-class="tophitinfo[0].document.id === docinfo.document.id ? 'resultrow-selected' : 'resultrow'">
+                                <div class="col-md-1 text-center">
+                                    <div class="resulticon {{tophitinfo[0].document.documentTypeName | lowercase}}">{{tophitinfo[0].document.documentTypeName | resultIconFilter}}</div>
+                                </div>
+                                <div class="col-md-9">
+                                    <a ng-click="GetTophitInfo()" ng-bind-html="tophitinfo[0].hitHighlights.name[0] != null ? tophitinfo[0].hitHighlights.name[0] : tophitinfo[0].document.name"></a>
+                                </div>
+                                <div class="col-md-2 resultoffice">{{tophitinfo[0].document.officeSymbol}}</div>
+                            </div>
+                        </div>
+                    </div>
                     <div ng-repeat="docitem in results" class="row">
                         <div class="col-md-2 text-right">
                             <span ng-show="CreateHeader(docitem.document.documentTypeName)"><strong>{{docitem.document.documentTypeName | uppercase}}</strong></span>
@@ -66,42 +70,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" ng-show="docinfo.document.goals.length > 0">
-                        <div class="col-md-12">
-                            <div class="search-label">GOALS</div>
-                            <div class="row">
-                                <div class="col-md-12 simple-list">
-                                    <ul>
-                                        <li ng-repeat="goal in docinfo.document.goals | orderBy:'toString()'">{{goal}}</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" ng-show="docinfo.document.foci.length > 0">
-                        <div class="col-md-12">
-                            <div class="search-label">FOCI</div>
-                            <div class="row">
-                                <div class="col-md-12 simple-list">
-                                    <ul>
-                                        <li ng-repeat="focus in docinfo.document.foci | orderBy:'toString()'">{{focus}}</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" ng-show="docinfo.document.objectives.length > 0">
-                        <div class="col-md-12">
-                            <div class="search-label">OBJECTIVES</div>
-                            <div class="row">
-                                <div class="col-md-12 simple-list">
-                                    <ul>
-                                        <li ng-repeat="objective in docinfo.document.objectives | orderBy:'toString()'">{{objective}}</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="row" ng-show="docinfo.document.regions.length > 0">
                         <div class="col-md-12">
                             <div class="search-label">REGIONS</div>
@@ -114,7 +82,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" ng-show="docinfo.document.countries.length > 0">
+                    <!--<div class="row" ng-show="docinfo.document.countries.length > 0">
                         <div class="col-md-12">
                             <div class="search-label">COUNTRIES</div>
                             <div class="row">
@@ -137,6 +105,18 @@
                                 </div>
                             </div>
                         </div>
+                    </div>-->
+                    <div class="row" ng-show="docinfo.document.goals.length > 0">
+                        <div class="col-md-12">
+                            <div class="search-label">GOALS</div>
+                            <div class="row">
+                                <div class="col-md-12 simple-list">
+                                    <ul>
+                                        <li ng-repeat="goal in docinfo.document.goals | orderBy:'toString()'">{{goal}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="row" ng-show="docinfo.document.websites.length > 0">
                         <div class="col-md-12">
@@ -150,12 +130,59 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row" ng-show="docinfo.document.objectives.length > 0">
+                        <div class="col-md-12">
+                            <div class="search-label">OBJECTIVES</div>
+                            <div class="row">
+                                <div class="col-md-12 simple-list">
+                                    <ul>
+                                        <li ng-repeat="objective in docinfo.document.objectives | orderBy:'toString()'">{{objective}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="docinfo.document.foci.length > 0">
+                        <div class="col-md-12">
+                            <div class="search-label">FOCI</div>
+                            <div class="row">
+                                <div class="col-md-12 simple-list">
+                                    <ul>
+                                        <li ng-repeat="focus in docinfo.document.foci | orderBy:'toString()'">{{focus}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="docinfo.document.status.length > 0">
+                        <div class="col-md-12">
+                            <div class="search-label">STATUS</div>
+                            <div class="row">
+                                <div class="col-md-12">{{docinfo.document.status}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="docinfo.document.pointsOfContact.length > 0">
+                        <div class="col-md-12">
+                            <div class="search-label">POINTS OF CONTACT</div>
+                            <div class="row">
+                                <div class="col-md-12 simple-list">
+                                    <ul>
+                                        <li ng-repeat="poc in docinfo.document.pointsOfContact | orderBy:'toString()'">{{poc}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <div class="modal-footer">
+    <div class="pull-left">
+        <p ng-show="totalResults > -1">Showing {{totalResults}} results</p>
+    </div>
     <div class="pull-right">
         <button class="btn btn-cancel" ng-click="onCloseSpotlightSearchClick()">Close</button>
     </div>
