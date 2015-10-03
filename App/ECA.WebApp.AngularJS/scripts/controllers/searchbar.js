@@ -13,11 +13,13 @@ angular.module('staticApp')
         $q,
         $log,
         $modalInstance,
+        $filter,
         SearchService,
         NotificationService) {
 
       $scope.view = {};
       $scope.results = [];
+      $scope.docinfo = {};
       $scope.text = '';
       $scope.show = true;
       $scope.tophit = false;
@@ -32,7 +34,7 @@ angular.module('staticApp')
               Limit: 25,
               Filter: null,
               Facets: null,
-              Fields: null,
+              Fields: ['description','id','name','documentTypeName','officeSymbol','status','pointsOfContact','themes','goals','foci','objectives','regions','countries','locations','websites'],
               SearchTerm: $scope.text
           };
 
@@ -51,22 +53,14 @@ angular.module('staticApp')
           });
       };
 
-      $scope.GetSVGDocument = function (id) {
+      // Gets document details on selection
+      $scope.GetDocumentInfo = function (id) {
           $scope.isLoadingDocInfo = true;
-          SearchService.get(id)
-          .then(function (response) {
-              $scope.docinfo = response;
-              $scope.isLoadingDocInfo = false;
-          })
-          .catch(function () {
-              var message = 'Unable to load document information.';
-              NotificationService.showErrorMessage(message);
-              $log.error(message);
-              $scope.isLoadingDocInfo = false;
-          });
+          $scope.docinfo = $filter('filter')($scope.results, id)[0];
+          $scope.isLoadingDocInfo = false;
       };
 
-
+      // Creates a group header
       $scope.currentGroup = '';
       $scope.CreateHeader = function (group) {
           var showHeader = (group !== $scope.currentGroup);
@@ -74,12 +68,14 @@ angular.module('staticApp')
           return showHeader;
       }
 
+      // Closes the search modal
       $scope.onCloseSpotlightSearchClick = function () {
           $modalInstance.dismiss('close');
       }
 
   });
 
+// Retuns item type icon text
 angular.module('staticApp')
   .filter('resultIconFilter', function() {
     return function(item) {
@@ -92,4 +88,17 @@ angular.module('staticApp')
         }
         return "";
     };
-});
+  });
+
+// Return document type title style
+angular.module('staticApp')
+  .filter('titleStyle', function () {
+      return function (doctype) {
+          if (typeof doctype !== 'undefined' && doctype !== null) {
+              return doctype.toLowerCase() + '-color';
+          }
+          return 'program-color';
+      };
+  });
+
+

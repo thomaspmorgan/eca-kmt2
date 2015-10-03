@@ -447,7 +447,7 @@ namespace ECA.Business.Search
         /// <summary>
         /// Enables a name to be documented using the given expression.
         /// </summary>
-        /// <param name="objectivesSelector">The expression to select the name.</param>
+        /// <param name="nameSelector">The expression to select the name.</param>
         public void HasName(Expression<Func<TEntity, string>> nameSelector)
         {
             Contract.Requires(nameSelector != null, "The nameSelector must not be null.");

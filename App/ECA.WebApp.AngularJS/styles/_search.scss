@@ -20,8 +20,8 @@
 }
 
 .resultrow {
-    height: 39px;
-    line-height: 39px;
+    height: 60px;
+    /*line-height: 49px;*/
 }
 
 .search-result-wrapper {
@@ -74,6 +74,10 @@
 .search-results {
     border-left: 1px solid $bordergray;
     border-right: 1px solid $bordergray;
+}
+
+.resultoffice {
+    font-size: 13px;
 }
 
 .material-icons.flip-horizontal {
