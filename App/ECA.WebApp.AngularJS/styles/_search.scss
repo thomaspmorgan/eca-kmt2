@@ -21,7 +21,13 @@
 
 .resultrow {
     height: 60px;
-    /*line-height: 49px;*/
+    vertical-align: middle;
+}
+
+.resultrow-selected {
+    height: 60px;
+    background-color: $lightgray;
+    vertical-align: middle;
 }
 
 .search-result-wrapper {
@@ -69,6 +75,11 @@
     min-height: 1000px;
     margin: 0 auto;
     overflow: hidden;
+}
+
+.search-result-container em {
+    font-style:italic;
+    font-weight:500;
 }
 
 .search-results {

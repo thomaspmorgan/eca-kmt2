@@ -14,6 +14,8 @@ angular.module('staticApp')
         $log,
         $modalInstance,
         $filter,
+        $sce,
+        $sanitize,
         SearchService,
         NotificationService) {
 
@@ -66,12 +68,12 @@ angular.module('staticApp')
           var showHeader = (group !== $scope.currentGroup);
           $scope.currentGroup = group;
           return showHeader;
-      }
-
+      };
+      
       // Closes the search modal
       $scope.onCloseSpotlightSearchClick = function () {
           $modalInstance.dismiss('close');
-      }
+      };
 
   });
 
