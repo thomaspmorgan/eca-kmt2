@@ -23,13 +23,22 @@ angular.module('staticApp')
       $scope.results = [];
       $scope.docinfo = {};
       $scope.tophitinfo = {};
+      //$scope.currentpage = $stateParams.page || 1;
+      //$scope.limit = 200;
+      //$scope.totalSearchResults = -1;
+      //$scope.skippedSearchResults = -1;
+      //$scope.numberSearchResults = -1;
       $scope.text = '';
-      $scope.show = true;
-      $scope.tophit = false;
-      $scope.totalResults = -1;
       $scope.isLoadingResults = false;
       $scope.isLoadingDocInfo = false;
 
+      //function updatePagingDetails(total, start, count) {
+      //    $scope.totalSearchResults = total;
+      //    $scope.skippedSearchResults = start;
+      //    $scope.numberSearchResults = count;
+      //};
+
+      // Execute search as user types
       $scope.autocomplete = function () {
 
           var params = {
@@ -53,6 +62,7 @@ angular.module('staticApp')
               var message = 'Unable to load search results.';
               NotificationService.showErrorMessage(message);
               $log.error(message);
+              $scope.totalResults = -1;
               $scope.isLoadingResults = false;
           });
       };
@@ -99,7 +109,7 @@ angular.module('staticApp')
     };
   });
 
-// Return document type title style
+// Return document info title style
 angular.module('staticApp')
   .filter('titleStyle', function () {
       return function (doctype) {
