@@ -14,45 +14,36 @@ angular.module('staticApp')
           get: function (id) {
               return DragonBreath.get('reports', id);
           },          
-          update: function (program, id) {
-              return DragonBreath.save(report, 'reports', id);
+          getProjectAwards: function(programId, countryId, format) {
+              return "report/ProjectAwards?programId=" + programId + "&countryId=" + countryId + "&format=" + format;
           },
-          create: function (program) {
-              return DragonBreath.create(report, 'reports');
-          },
-          getAll: function (params) {
-              return DragonBreath.get(params, 'reports');
-          },
-          getProjectAwards: function(programId, countryId) {
-              return "report/ProjectAwards?programId=" + programId + "&countryId=" + countryId;
-          },
-          getRegionAwards:  function(programId)
+          getRegionAwards:  function(programId, format)
           {
-              return "report/RegionAwards?programId=" + programId;
+              return "report/RegionAwards?programId=" + programId + "&format=" + format;
           },
-          getPostAwards:  function(programId)
+          getPostAwards:  function(programId, format)
           {
-              return "report/PostAwards?programId=" + programId;
+              return "report/PostAwards?programId=" + programId + "&format=" + format;
           },
-          getFocusAwards: function(programId)
+          getFocusAwards: function(programId, format)
           {
-              return "report/FocusAwards?programId=" + programId;
+              return "report/FocusAwards?programId=" + programId + "&format=" + format;
           },
-          getFocusCategoryAwards: function(programId)
+          getFocusCategoryAwards: function(programId, format)
           {
-              return "report/FocusCategoryAwards?programId=" + programId;
+              return "report/FocusCategoryAwards?programId=" + programId + "&format=" + format;
           },
-          getCountryAwards: function(programId)
+          getCountryAwards: function(programId, format)
           {
-              return "report/CountryAwards?programId=" + programId;
+              return "report/CountryAwards?programId=" + programId + "&format=" + format;
           },
-          getObjectiveAwards: function(programId, objectiveId)
+          getObjectiveAwards: function(programId, objectiveId, format)
           {
-              return "report/ObjectiveAwards?programId=" + programId + "&objectiveId=" + objectiveId;
+              return "report/ObjectiveAwards?programId=" + programId + "&objectiveId=" + objectiveId + "&format=" + format;
           },
-          getYearAwards: function(programId)
+          getYearAwards: function(programId, format)
           {
-            return "report/YearAwards?programId=" + programId;
+              return "report/YearAwards?programId=" + programId + "&format=" + format;
           }
       };
   });

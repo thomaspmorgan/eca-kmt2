@@ -28,51 +28,51 @@ namespace ECA.WebApi.Controllers
         }
 
         [Route("ProjectAwards")]
-        public async Task<HttpResponseMessage> GetProjectAwards(int programId, int countryId)
+        public async Task<HttpResponseMessage> GetProjectAwards(int programId, int countryId, string format)
         {
-            return await reportGenerator.ReportProjectAwardsAsync(programId, countryId);
+            return await reportGenerator.ReportProjectAwardsAsync(programId, countryId, format);
         }
 
         [Route("RegionAwards")]
-        public async Task<HttpResponseMessage> GetRegionAwards(int programId)
+        public async Task<HttpResponseMessage> GetRegionAwards(int programId, string format)
         {
-            return await reportGenerator.ReportRegionAwardsAsync(programId);
+            return await reportGenerator.ReportRegionAwardsAsync(programId, format);
         }
 
         [Route("PostAwards")]
-        public async Task<HttpResponseMessage> GetPostAwards(int programId)
+        public async Task<HttpResponseMessage> GetPostAwards(int programId, string format)
         {
-            return await reportGenerator.ReportPostAwardsAsync(programId);
+            return await reportGenerator.ReportPostAwardsAsync(programId, format);
         }
 
         [Route("FocusAwards")]
-        public async Task<HttpResponseMessage> GetFocusAwards(int programId)
+        public async Task<HttpResponseMessage> GetFocusAwards(int programId, string format)
         {
-            return await reportGenerator.ReportFocusAwardsAsync(programId);
+            return await reportGenerator.ReportFocusAwardsAsync(programId, format);
         }
 
         [Route("FocusCategoryAwards")]
-        public async Task<HttpResponseMessage> GetFocusCategoryAwards(int programId)
+        public async Task<HttpResponseMessage> GetFocusCategoryAwards(int programId, string format)
         {
-            return await reportGenerator.ReportFocusCategoryAwardsAsync(programId);
+            return await reportGenerator.ReportFocusCategoryAwardsAsync(programId, format);
         }
 
         [Route("CountryAwards")]
-        public async Task<HttpResponseMessage> GetCountryAwards(int programId)
+        public async Task<HttpResponseMessage> GetCountryAwards(int programId, string format)
         {
-            return await reportGenerator.ReportCountryAwardsAsync(programId);
+            return await reportGenerator.ReportCountryAwardsAsync(programId, format);
         }
 
         [Route("ObjectiveAwards")]
-        public async Task<HttpResponseMessage> GetObjectiveAwards(int programId, int objectiveId)
+        public async Task<HttpResponseMessage> GetObjectiveAwards(int programId, int objectiveId, string format)
         {
-            return await reportGenerator.ReportObjectiveAwardsAsync(programId, objectiveId);
+            return await reportGenerator.ReportObjectiveAwardsAsync(programId, objectiveId, format);
         }
 
         [Route("YearAwards")]
-        public async Task<HttpResponseMessage> GetYearAwards(int programId)
+        public async Task<HttpResponseMessage> GetYearAwards(int programId, string format)
         {
-            return await reportGenerator.ReportYearAwardsAsync(programId);
+            return await reportGenerator.ReportYearAwardsAsync(programId, format);
         }
     }
 }

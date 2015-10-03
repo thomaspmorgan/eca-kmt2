@@ -20,7 +20,11 @@ angular.module('staticApp')
           { Title: "Country Awards", Published: "7/2/2015", Author: "Tom Morgan", Prompts: "Program" },
           { Title: "Objective Awards", Published: "7/6/2015", Author: "Tom Morgan", Prompts: "Program, Objective" },
           { Title: "Year Awards", Published: "7/7/2015", Author: "Tom Morgan", Prompts: "Program" }
-      ]
+      ];
+      $scope.formats = [{ type: 'Portable Document Format - PDF', key: 'pdf', mimetype: 'application/pdf' },
+                        { type: 'Microsoft Excel - XLSX', key: 'xlsx', mimetype: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' },
+                        { type: 'Microsoft Word - DOCX', key: 'docx', mimetype: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }
+      ];
       $scope.parameters = [];
       $scope.currentpage = $stateParams.page || 1;
       $scope.limit = 200;
@@ -129,6 +133,7 @@ angular.module('staticApp')
          var modalInstance = $modal.open({
             templateUrl: template,
             controller: controller,
+            scope: $scope,
             resolve: {
                 parameters: function () {
                     return $scope.parameters;

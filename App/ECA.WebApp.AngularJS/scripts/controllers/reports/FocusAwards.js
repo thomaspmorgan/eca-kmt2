@@ -14,6 +14,8 @@ angular.module('staticApp')
 
       $scope.parameters.program = null;
 
+      $scope.parameters.format = ['pdf', 'excel', 'word'];
+
       var programParams = null;
       var locationParams = null;
       $scope.isRunning = false;
@@ -54,5 +56,6 @@ angular.module('staticApp')
                   return data.results;
               });
       };
+
 
   });
