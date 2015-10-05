@@ -201,7 +201,7 @@ namespace ECA.Data
         /// <summary>
         /// 
         /// </summary>
-        public ICollection<SevisCommStatus> SevisCommStatuses { get; set; }
+        public ICollection<ParticipantPersonSevisCommStatus> ParticipantPersonSevisCommStatuses { get; set; }
 
         /// <summary>
         /// create/update time and user

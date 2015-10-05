@@ -1,4 +1,5 @@
-﻿'use strict';
+﻿/// <reference path="FocusCategoryAwards.js" />
+'use strict';
 
 /**
  * @ngdoc function
@@ -13,19 +14,18 @@ angular.module('staticApp')
       $scope.parameters = parameters;
 
       $scope.parameters.program = null;
-
-      $scope.parameters.format = ['pdf', 'excel', 'word'];
+      $scope.parameters.selectedFormat = null;
 
       var programParams = null;
       var locationParams = null;
       $scope.isRunning = false;
       $scope.run = function () {
 
-          var url = ReportService.getFocusAwards(parameters.program.programId);
+          var url = ReportService.getFocusAwards(parameters.program.programId, parameters.selectedFormat.key);
           $scope.isRunning = true;
           $log.debug('Report: FocusAwards programId:[' + parameters.program.programId + ']');
           $log.info('Report: FocusAwards run at: ' + new Date());
-          DownloadService.get(url, 'application/pdf', 'FocusAwards.pdf')
+          DownloadService.get(url, parameters.selectedFormat.mimetype, 'FocusAwards.' + parameters.selectedFormat.key)
           .then(function () {
 
           }, function () {

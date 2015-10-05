@@ -86,7 +86,6 @@ namespace ECA.WebApi.Test.Security
         [TestMethod]
         public void TestGetResourceId_ToString()
         {
-            var value = 1;
             var argumentName = "id";
             var resourceType = "type";
             var permissionName = "name";

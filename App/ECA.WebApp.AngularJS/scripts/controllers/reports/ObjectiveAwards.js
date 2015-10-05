@@ -14,6 +14,7 @@ angular.module('staticApp')
 
       $scope.parameters.program = null;
       $scope.parameters.objective = null;
+      $scope.parameters.selectedFormat = null;
 
       var programParams = null;
       var locationParams = null;
@@ -22,11 +23,11 @@ angular.module('staticApp')
       $scope.isRunning = false;
       $scope.run = function () {
 
-          var url = ReportService.getObjectiveAwards(parameters.program.programId, parameters.objective.id);
+          var url = ReportService.getObjectiveAwards(parameters.program.programId, parameters.objective.id, parameters.selectedFormat.key);
           $scope.isRunning = true;
           $log.debug('Report: ObjectiveAwards programId:[' + parameters.program.programId + ']');
           $log.info('Report: ObjectiveAwards run at: ' + new Date());
-          DownloadService.get(url, 'application/pdf', 'ObjectiveAwards.pdf')
+          DownloadService.get(url, parameters.selectedFormat.mimetype, 'ObjectiveAwards.' + parameters.selectedFormat.key)
           .then(function () {
 
           }, function () {

@@ -13,17 +13,18 @@ angular.module('staticApp')
       $scope.parameters = parameters;
 
       $scope.parameters.program = null;
+      $scope.parameters.selectedFormat = null;
 
       var programParams = null;
       var locationParams = null;
       $scope.isRunning = false;
       $scope.run = function () {
 
-          var url = ReportService.getYearAwards(parameters.program.programId);
+          var url = ReportService.getYearAwards(parameters.program.programId, parameters.selectedFormat.key);
           $scope.isRunning = true;
           $log.debug('Report: YearAwards programId:[' + parameters.program.programId + ']');
           $log.info('Report: YearAwards run at: ' + new Date());
-          DownloadService.get(url, 'application/pdf', 'YearAwards.pdf')
+          DownloadService.get(url, parameters.selectedFormat.mimetype, 'YearAwards.' + parameters.selectedFormat.key)
           .then(function () {
 
           }, function () {

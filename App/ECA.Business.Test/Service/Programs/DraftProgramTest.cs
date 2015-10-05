@@ -78,7 +78,6 @@ namespace ECA.Business.Test.Service.Programs
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
             var programStatusId = ProgramStatus.Active.Id;
-            var focusId = 100;
 
             var user = new User(userId);
             var program = new DraftProgram(

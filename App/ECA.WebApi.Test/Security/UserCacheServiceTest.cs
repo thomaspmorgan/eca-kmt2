@@ -81,7 +81,7 @@ namespace ECA.WebApi.Test.Security
         public void TestGetUserCache_UserCacheDoesNotExist()
         {
             var camId = 1;
-            var isUserValid = true;
+
             var camUser = new User
             {
                 PrincipalId = camId,

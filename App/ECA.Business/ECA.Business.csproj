@@ -160,6 +160,9 @@
     <Compile Include="Service\Admin\UpdatedEmailAddress.cs" />
     <Compile Include="Service\Fundings\EditedMoneyFlow.cs" />
     <Compile Include="Service\Fundings\MoneyFlowSourceRecipientTypeService.cs" />
+    <Compile Include="Service\Lookup\ISevisCommStatusService.cs" />
+    <Compile Include="Service\Lookup\SevisCommStatusDTO.cs" />
+    <Compile Include="Service\Lookup\SevisCommStatusService.cs" />
     <Compile Include="Service\Lookup\PhoneNumberTypeService.cs" />
     <Compile Include="Service\Lookup\PhoneNumberTypeDTO.cs" />
     <Compile Include="Service\Lookup\IPhoneNumberTypeService.cs" />
