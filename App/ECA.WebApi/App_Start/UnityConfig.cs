@@ -34,22 +34,22 @@ namespace ECA.WebApi.App_Start
     public class UnityConfig
     {
         #region Unity Container
-        private static IUnityContainer CONTAINER; 
+        private static Lazy<IUnityContainer> container = new Lazy<IUnityContainer>(() =>
+        {
+            var container = new UnityContainer();
+            RegisterComponents(container);
+            return container;
+        });
 
         /// <summary>
         /// Gets the configured Unity container.
         /// </summary>
         public static IUnityContainer GetConfiguredContainer()
         {
-            if(CONTAINER == null)
-            {
-                CONTAINER = new UnityContainer();
-                RegisterComponents(CONTAINER);
-            }
-            return CONTAINER;
+            return container.Value;
         }
         #endregion
-        
+
         /// <summary>
         /// Registers the components to a UnityContainer and sets the web api dependency resolver to a UnityDependencyResolver.
         /// </summary>
