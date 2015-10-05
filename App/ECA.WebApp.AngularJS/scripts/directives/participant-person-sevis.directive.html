@@ -1,7 +1,8 @@
 ﻿<div class="table">
     <div class="row">
         <div class="col-md-5"><h5>DHS Status</h5></div>
-        <div class="col-md-5 title-label">Last Batch Date</div>
+        <div class="col-md-3 title-label">Last Batch Date</div>
+        <div class="col-md-2">3/18/2015</div>
         <div class="col-md-2">
             <a ng-click="view.DHSStatus=!view.DHSStatus">
                 <i class="material-icons md-dark md-36 pull-right" ng-show="view.DHSStatus">expand_more</i>
@@ -11,15 +12,27 @@
     </div>
     <div class="row2" ng-show="view.DHSStatus">
         <div class="row4">
-            <div class="col-md-4 title-label">Sevis Id</div>
-            <div class="col-md-8">
+            <div class="col-md-3">
+                &nbsp;
+            </div>
+            <div class="col-md-3 title-label">Sevis Id</div>
+            <div class="col-md-6">
                 {{sevisinfo.sevisId}}
             </div>
         </div>
         <div class="row4">
-            <div class="col-md-2">check</div>
-            <div class="col-md-3">status</div>
-            <div class="col-md-5">date</div>
+            <div class="col-md-3">
+                <i class="material-icons md-dark md-36 pull-right" ng-show="view.DHSStatus">check</i>
+            </div>
+            <div class="col-md-3">Sent to DHS</div>
+            <div class="col-md-6">On: 3/18/2015</div>
+        </div>
+        <div class="row4">
+            <div class="col-md-3">
+                <i class="material-icons md-dark md-36 pull-right" ng-show="view.DHSStatus">check</i>
+            </div>
+            <div class="col-md-3">Verified</div>
+            <div class="col-md-6">3/27/2015</div>
         </div>
      </div>
     <div class="row">
