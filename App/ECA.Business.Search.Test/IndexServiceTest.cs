@@ -759,6 +759,99 @@ namespace ECA.Business.Search.Test
 
         #region Search
         [TestMethod]
+        public void TestGetSuggestionParameters()
+        {
+            var searchTerm = "search";
+            var preTag = "pre";
+            var postTag = "post";
+            var instance = new ECASuggestionParameters(searchTerm, preTag, postTag);
+            using (ShimsContext.Create())
+            {
+                searchClient = new ShimSearchServiceClient();
+                var configuration = new TestDocumentConfiguration(true);
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+
+                var parameters = service.GetSuggestParameters(instance);
+                Assert.IsTrue(parameters.UseFuzzyMatching);
+                Assert.AreEqual(preTag, parameters.HighlightPreTag);
+                Assert.AreEqual(postTag, parameters.HighlightPostTag);
+
+                Assert.AreEqual(2, parameters.Select.Count);
+                Assert.AreEqual("name", parameters.Select.First());
+                Assert.AreEqual("id", parameters.Select.Last());
+
+                Assert.AreEqual(1, parameters.OrderBy.Count);
+                Assert.AreEqual("name", parameters.OrderBy.First());
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetSuggestions()
+        {
+            var suggestAsyncCalled = false;
+            var suggestCalled = false;
+            var searchTerm = "search";
+            var preTag = "pre";
+            var postTag = "post";
+            var instance = new ECASuggestionParameters(searchTerm, preTag, postTag);
+            Func<DocumentSuggestResponse<ECADocument>> createResponse = () =>
+            {
+                return new DocumentSuggestResponse<ECADocument>();
+            };
+            using (ShimsContext.Create())
+            {
+                var documentOperations = new StubIDocumentOperations
+                {
+                };
+                var searchIndexClient = new ShimSearchIndexClient
+                {
+                    DocumentsGet = () =>
+                    {
+                        return documentOperations;
+                    }
+                };
+                var indexOperations = new StubIIndexOperations
+                {
+                    GetClientString = (name) =>
+                    {
+                        return searchIndexClient;
+                    }
+                };
+
+                searchClient = new ShimSearchServiceClient();
+
+                searchClient.IndexesGet = () =>
+                {
+                    return indexOperations;
+                };
+
+                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.SuggestAsyncOf1IDocumentOperationsStringStringSuggestParameters<ECADocument>((ops, srchTerm, suggesterKey, suggestParameters) =>
+                {
+                    Assert.AreEqual(searchTerm, srchTerm);
+                    Assert.AreEqual(IndexService.DOCUMENT_NAME_SUGGESTER_KEY, suggesterKey);
+                    suggestAsyncCalled = true;
+                    return Task.FromResult<DocumentSuggestResponse<ECADocument>>(createResponse());
+                });
+                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.SuggestOf1IDocumentOperationsStringStringSuggestParameters<ECADocument>((ops, srchTerm, suggesterKey, suggestParameters) =>
+                {
+                    Assert.AreEqual(searchTerm, srchTerm);
+                    Assert.AreEqual(IndexService.DOCUMENT_NAME_SUGGESTER_KEY, suggesterKey);
+                    suggestCalled = true;
+                    return createResponse();
+                });
+                var configuration = new TestDocumentConfiguration(true);
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+
+                Assert.IsFalse(suggestCalled);
+                Assert.IsFalse(suggestAsyncCalled);
+                service.GetSuggestions(instance, null);
+                await service.GetSuggestionsAsync(instance, null);
+                Assert.IsTrue(suggestCalled);
+                Assert.IsTrue(suggestAsyncCalled);
+            }
+        }
+
+        [TestMethod]
         public void TestGetSearchParameters()
         {
             using (ShimsContext.Create())
@@ -778,6 +871,7 @@ namespace ECA.Business.Search.Test
 
                 var searchParameters = new ECASearchParameters(start, limit, filter, facets, fields, searchTerm, preTag, postTag);
                 var instance = service.GetSearchParameters(searchParameters, null);
+                Assert.IsTrue(instance.IncludeTotalResultCount);
                 Assert.AreEqual(start, instance.Skip);
                 Assert.AreEqual(limit, instance.Top);
                 Assert.AreEqual(filter, instance.Filter);
@@ -1077,16 +1171,25 @@ namespace ECA.Business.Search.Test
                 var index = service.GetIndex(testDocumentConfiguration);
                 Assert.AreEqual(this.indexName, index.Name);
 
+                Assert.AreEqual(1, index.Suggesters.Count);
+                var firstSuggester = index.Suggesters.First();
+                Assert.AreEqual(IndexService.DOCUMENT_NAME_SUGGESTER_KEY, firstSuggester.Name);
+                Assert.AreEqual(SuggesterSearchMode.AnalyzingInfixMatching, firstSuggester.SearchMode);
+                Assert.AreEqual(1, firstSuggester.SourceFields.Count);
+                Assert.AreEqual(toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(x => x.Name)), firstSuggester.SourceFields.First());
+
+
                 var idField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Id))).FirstOrDefault();
                 Assert.IsNotNull(idField);
                 Assert.IsTrue(idField.IsKey);
                 Assert.IsTrue(idField.IsRetrievable);
                 Assert.IsFalse(idField.IsSearchable);
 
-                var titleField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Name))).FirstOrDefault();
-                Assert.IsNotNull(titleField);
-                Assert.IsTrue(titleField.IsRetrievable);
-                Assert.IsTrue(titleField.IsSearchable);
+                var nameField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Name))).FirstOrDefault();
+                Assert.IsNotNull(nameField);
+                Assert.IsTrue(nameField.IsRetrievable);
+                Assert.IsTrue(nameField.IsSearchable);
+                Assert.IsTrue(nameField.IsSortable);
 
                 var descriptionField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Description))).FirstOrDefault();
                 Assert.IsNotNull(descriptionField);

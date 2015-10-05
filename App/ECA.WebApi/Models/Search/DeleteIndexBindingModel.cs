@@ -11,7 +11,7 @@ namespace ECA.WebApi.Models.Search
     public class DeleteIndexBindingModel
     {
         /// <summary>
-        /// The application the search index is associated to.
+        /// The application the search index is associated to.  KMT is 1.
         /// </summary>
         public int ApplicationId { get; set; }
 

@@ -56,6 +56,26 @@ namespace ECA.WebApi.Controllers.Search
         /// <summary>
         /// Performs a search of the ECA system.
         /// </summary>
+        /// <param name="model">The suggestion model.</param>
+        /// <returns>The responsive documents.</returns>
+        [Route("Search/Suggest")]
+        [ResponseType(typeof(DocumentSearchResponseViewModel))]
+        public async Task<IHttpActionResult> PostSuggestionsAsync([FromUri]ECASuggestionParametersBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var searchResults = await this.indexService.GetSuggestionsAsync(model.ToECASuggestionParameters(null), null);                
+                return Ok(new DocumentSuggestResponseViewModel(searchResults));
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Performs a search of the ECA system.
+        /// </summary>
         /// <param name="id">The full id of the document.</param>
         /// <returns>The responsive documents.</returns>
         [Route("Documents/{id}")]

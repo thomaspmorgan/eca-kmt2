@@ -148,6 +148,7 @@
     <Compile Include="DocumentConfigurationTest.cs" />
     <Compile Include="DocumentServiceTest.cs" />
     <Compile Include="ECASearchParametersTest.cs" />
+    <Compile Include="ECASuggestionParametersTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

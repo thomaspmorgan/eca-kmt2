@@ -486,6 +486,7 @@
     <Compile Include="Controllers\Persons\ParticipantPersonsSevisController.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonsController.cs" />
     <Compile Include="Models\Search\DeleteIndexBindingModel.cs" />
+    <Compile Include="Models\Search\DocumentSuggestResponseViewModel.cs" />
     <Compile Include="Models\Search\ECASearchParametersBindingModel.cs" />
     <Compile Include="Controllers\Search\SearchController.cs" />
     <Compile Include="Controllers\Security\PrincipalsController.cs" />
@@ -556,7 +557,9 @@
     <Compile Include="Models\Projects\ProjectCollaboratorBindingModel.cs" />
     <Compile Include="Models\Search\DocumentSearchResponseViewModel.cs" />
     <Compile Include="Models\Search\ECADocumentViewModel.cs" />
+    <Compile Include="Models\Search\ECASuggestionParametersBindingModel.cs" />
     <Compile Include="Models\Search\SearchResultViewModel.cs" />
+    <Compile Include="Models\Search\SuggestResultViewModel.cs" />
     <Compile Include="Models\Security\PermissionBindingModel.cs" />
     <Compile Include="Models\Security\IDeletedPermissionBindingModel.cs" />
     <Compile Include="Models\Security\IGrantedPermissionBindingModel.cs" />

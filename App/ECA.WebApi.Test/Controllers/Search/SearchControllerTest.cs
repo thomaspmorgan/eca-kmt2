@@ -27,6 +27,26 @@ namespace ECA.WebApi.Test.Controllers.Search
             userProvider = new Mock<IUserProvider>();
             controller = new SearchController(indexService.Object, userProvider.Object);
         }
+        [TestMethod]
+        public async Task TestPostSuggestionsAsync()
+        {
+            indexService.Setup(x => x.GetSuggestionsAsync(It.IsAny<ECASuggestionParameters>(), It.IsAny<List<DocumentKey>>())).ReturnsAsync(new DocumentSuggestResponse<ECADocument>());
+            var model = new ECASuggestionParametersBindingModel();
+            var response = await controller.PostSuggestionsAsync(model);
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<DocumentSuggestResponseViewModel>));
+            indexService.Verify(x => x.GetSuggestionsAsync(It.IsAny<ECASuggestionParameters>(), It.IsAny<List<DocumentKey>>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestPostSuggestionsAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            indexService.Setup(x => x.GetSuggestionsAsync(It.IsAny<ECASuggestionParameters>(), It.IsAny<List<DocumentKey>>())).ReturnsAsync(new DocumentSuggestResponse<ECADocument>());
+            var model = new ECASuggestionParametersBindingModel();
+            var response = await controller.PostSuggestionsAsync(model);
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
 
         [TestMethod]
         public async Task TestPostSearchDocumentsAsync()

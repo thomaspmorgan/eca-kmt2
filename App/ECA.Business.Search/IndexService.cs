@@ -22,6 +22,11 @@ namespace ECA.Business.Search
         /// The maximum length of a document type name.
         /// </summary>
         public const int MAX_DOCUMENT_TYPE_NAME_LENGTH = 25;
+
+        /// <summary>
+        /// The name of the document name suggester for azure search.
+        /// </summary>
+        public const string DOCUMENT_NAME_SUGGESTER_KEY = "nameSuggester";
         
         private SearchServiceClient searchClient;
 
@@ -135,12 +140,30 @@ namespace ECA.Business.Search
         public Index GetIndex(IDocumentConfiguration configuration)
         {
             Contract.Requires(configuration != null, "The configuration must not be null.");
+            var fields = GetFields();
+            var suggesters = GetSuggesters(fields);
             var index = new Index
             {
                 Name = this.IndexName,
-                Fields = GetFields()
+                Fields = fields,
+                Suggesters = suggesters,
             };
             return index;
+        }
+
+        private IList<Suggester> GetSuggesters(IList<Field> fields)
+        {
+            var nameField = fields.Where(x => x.Name.ToLower() == PropertyHelper.GetPropertyName<ECADocument>(y => y.Name).ToLower()).FirstOrDefault();
+            Contract.Assert(nameField != null, "The name field must not be null.");
+            return new List<Suggester>
+            {
+                new Suggester
+                {
+                    Name = DOCUMENT_NAME_SUGGESTER_KEY,
+                    SearchMode = SuggesterSearchMode.AnalyzingInfixMatching,
+                    SourceFields = new List<string> { nameField.Name }
+                }
+            };
         }
 
         private IList<Field> GetFields()
@@ -158,6 +181,7 @@ namespace ECA.Business.Search
                 Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Name),
                 Type = DataType.String,
                 IsSearchable = true,
+                IsSortable = true
             });
             fields.Add(new Field
             {
@@ -458,6 +482,53 @@ namespace ECA.Business.Search
 
         #region Search
 
+        public SuggestParameters GetSuggestParameters(ECASuggestionParameters suggestionParameters)
+        {
+            var nameField = ToCamelCase(PropertyHelper.GetPropertyName<ECADocument>(x => x.Name));
+            var idField = ToCamelCase(PropertyHelper.GetPropertyName<ECADocument>(x => x.Id));
+            return new SuggestParameters
+            {
+                Select = new List<string>
+                {
+                    nameField,
+                    idField
+                },
+                OrderBy = new List<string>
+                {
+                    nameField
+                },
+                UseFuzzyMatching = true,
+                HighlightPostTag = suggestionParameters.HighlightPostTag,
+                HighlightPreTag = suggestionParameters.HighlightPreTag
+            };
+        }
+
+        /// <summary>
+        /// Returns suggested search values given the parameters.
+        /// </summary>
+        /// <param name="suggestionParameters">The suggestion parameters.</param>
+        /// <param name="allowedDocumentKeys">The document keys the search is allowed to include.</param>
+        /// <returns>The suggested search.</returns>
+        public DocumentSuggestResponse<ECADocument> GetSuggestions(ECASuggestionParameters suggestionParameters, List<DocumentKey> allowedDocumentKeys)
+        {
+            var client = GetClient();
+            var response = client.Documents.Suggest<ECADocument>(suggestionParameters.SearchTerm, DOCUMENT_NAME_SUGGESTER_KEY, GetSuggestParameters(suggestionParameters));
+            return response;
+        }
+
+        /// <summary>
+        /// Returns suggested search values given the parameters.
+        /// </summary>
+        /// <param name="suggestionParameters">The suggestion parameters.</param>
+        /// <param name="allowedDocumentKeys">The document keys the search is allowed to include.</param>
+        /// <returns>The suggested search.</returns>
+        public async Task<DocumentSuggestResponse<ECADocument>> GetSuggestionsAsync(ECASuggestionParameters suggestionParameters, List<DocumentKey> allowedDocumentKeys)
+        {
+            var client = GetClient();
+            var response = await client.Documents.SuggestAsync<ECADocument>(suggestionParameters.SearchTerm, DOCUMENT_NAME_SUGGESTER_KEY, GetSuggestParameters(suggestionParameters));
+            return response;
+        }
+
         /// <summary>
         /// Performs a search against Azure Search using the parameters and allowed document keys.
         /// </summary>
@@ -516,6 +587,7 @@ namespace ECA.Business.Search
                 Skip = ecaSearchParameters.Start,
                 Top = ecaSearchParameters.Limit,
                 Filter = ecaSearchParameters.Filter,
+                IncludeTotalResultCount = true
             };
             if(ecaSearchParameters.HighlightPreTag != null && ecaSearchParameters.HighlightPostTag != null)
             {
