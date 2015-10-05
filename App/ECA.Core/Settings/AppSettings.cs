@@ -49,6 +49,11 @@ namespace ECA.Core.Settings
         /// The azure search service name key.
         /// </summary>
         public const string SEARCH_SERVICE_NAME_KEY = SEARCH_PREFIX + "ServiceName";
+
+        /// <summary>
+        /// The azure search index name key.
+        /// </summary>
+        public const string SEARCH_INDEX_NAME_KEY = SEARCH_PREFIX + "IndexName";
         #endregion
 
         #region Database Constants
@@ -118,6 +123,11 @@ namespace ECA.Core.Settings
         /// Gets the azure search service name.
         /// </summary>
         public string SearchServiceName { get { return GetAppSetting(SEARCH_SERVICE_NAME_KEY); } }
+
+        /// <summary>
+        /// Gets the azure search service index name.
+        /// </summary>
+        public string SearchIndexName { get { return GetAppSetting(SEARCH_INDEX_NAME_KEY); } }
 
         /// <summary>
         /// Gets the active directory client id.

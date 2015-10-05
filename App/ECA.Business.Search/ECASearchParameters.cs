@@ -20,7 +20,9 @@ namespace ECA.Business.Search
         /// <param name="facets">The search facets.</param>
         /// <param name="fields">The names of the fields to return.</param>
         /// <param name="searchTerm">The search term or keyword.</param>
-        public ECASearchParameters(int start, int limit, string filter, IEnumerable<string> facets, IEnumerable<string> fields, string searchTerm)
+        /// <param name="highlightPostTag">The hit highlight post tag.</param>
+        /// <param name="highlightPreTag">The hit highlight pre tag.</param>
+        public ECASearchParameters(int start, int limit, string filter, IEnumerable<string> facets, IEnumerable<string> fields, string searchTerm, string highlightPreTag, string highlightPostTag)
         {
             this.Start = start;
             this.Limit = limit;
@@ -28,6 +30,8 @@ namespace ECA.Business.Search
             this.Fields = fields;
             this.Filter = filter;
             this.SearchTerm = searchTerm;
+            this.HighlightPostTag = highlightPostTag;
+            this.HighlightPreTag = highlightPreTag;
         }
 
         /// <summary>
@@ -59,5 +63,17 @@ namespace ECA.Business.Search
         /// Gets OData azure search filter.
         /// </summary>
         public string Filter { get; private set; }
+
+        /// <summary>
+        /// Gets the highlight pre tag.
+        /// </summary>
+        public string HighlightPreTag { get; private set; }
+
+        /// <summary>
+        /// Gets the highlight post tag.
+        /// </summary>
+        public string HighlightPostTag { get; private set; }
+
+
     }
 }

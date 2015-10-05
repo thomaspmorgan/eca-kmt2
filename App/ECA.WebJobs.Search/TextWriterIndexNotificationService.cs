@@ -11,12 +11,9 @@ namespace ECA.WebJobs.Search
 {
     public class TextWriterIndexNotificationService : IIndexNotificationService
     {
-        private readonly TextWriter textWriter;
         private Stopwatch stopwatch;
-        public TextWriterIndexNotificationService(TextWriter textWriter)
+        public TextWriterIndexNotificationService()
         {
-            Contract.Requires(textWriter != null, "The text writer must not be null.");
-            this.textWriter = textWriter;
         }
 
         public void Finished(string documentType)

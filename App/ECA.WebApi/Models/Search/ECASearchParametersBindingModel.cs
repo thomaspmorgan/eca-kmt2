@@ -44,6 +44,16 @@ namespace ECA.WebApi.Models.Search
         public string SearchTerm { get; set; }
 
         /// <summary>
+        /// The hit highlight pre tag.
+        /// </summary>
+        public string HightlightPreTag { get; set; }
+
+        /// <summary>
+        /// The hit highlight post tag.
+        /// </summary>
+        public string HighlightPostTag { get; set; }
+
+        /// <summary>
         /// Returns an ECASearchParameters instance for use in the business layer.
         /// </summary>
         /// <param name="permissions">The current user's permissions.</param>
@@ -51,7 +61,7 @@ namespace ECA.WebApi.Models.Search
         public ECASearchParameters ToECASearchParameters(IEnumerable<IPermission> permissions)
         {
             Contract.Requires(permissions != null, "The user must not be null.");
-            return new ECASearchParameters(this.Start, this.Limit, this.Filter, this.Facets, this.Fields, this.SearchTerm);
+            return new ECASearchParameters(this.Start, this.Limit, this.Filter, this.Facets, this.Fields, this.SearchTerm, this.HightlightPreTag, this.HighlightPostTag);
         }
     }
 }

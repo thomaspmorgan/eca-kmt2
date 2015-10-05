@@ -29,13 +29,13 @@ namespace ECA.WebApi.Test.Controllers.Search
         }
 
         [TestMethod]
-        public async Task TestGetSearchDocumentsAsync()
+        public async Task TestPostSearchDocumentsAsync()
         {
             userProvider.Setup(x => x.GetCurrentUser()).Returns(new DebugWebApiUser());
             userProvider.Setup(x => x.GetPermissionsAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(new List<IPermission>());
             indexService.Setup(x => x.SearchAsync(It.IsAny<ECASearchParameters>(), It.IsAny<List<DocumentKey>>())).ReturnsAsync(new DocumentSearchResponse<ECADocument>());
             var model = new ECASearchParametersBindingModel();
-            var response = await controller.GetSearchDocumentsAsync(model);
+            var response = await controller.PostSearchDocumentsAsync(model);
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<DocumentSearchResponseViewModel>));
             indexService.Verify(x => x.SearchAsync(It.IsAny<ECASearchParameters>(), It.IsAny<List<DocumentKey>>()), Times.Once());
             userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
@@ -43,11 +43,11 @@ namespace ECA.WebApi.Test.Controllers.Search
         }
 
         [TestMethod]
-        public async Task TestTestGetSearchDocumentsAsync_InvalidModel()
+        public async Task TestPostSearchDocumentsAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
             var model = new ECASearchParametersBindingModel();
-            var response = await controller.GetSearchDocumentsAsync(model);
+            var response = await controller.PostSearchDocumentsAsync(model);
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
 
@@ -73,8 +73,8 @@ namespace ECA.WebApi.Test.Controllers.Search
         public async Task TestDeleteIndexAsync()
         {
             indexService.Setup(x => x.DeleteIndexAsync(It.IsAny<string>())).Returns(Task.FromResult<object>(null));
-            var model = new ECASearchParametersBindingModel();
-            var response = await controller.DeleteIndexAsync(1);
+            var model = new DeleteIndexBindingModel();
+            var response = await controller.DeleteIndexAsync(model);
             Assert.IsInstanceOfType(response, typeof(OkResult));
             indexService.Verify(x => x.DeleteIndexAsync(It.IsAny<string>()), Times.Once());
         }

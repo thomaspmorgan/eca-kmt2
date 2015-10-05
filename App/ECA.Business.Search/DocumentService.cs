@@ -282,5 +282,27 @@ namespace ECA.Business.Search
             }
             notificationService.Finished(documentTypeName);
         }
+
+
+        #region IDispose
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if(this.indexService is IDisposable)
+                {
+                    (this.indexService as IDisposable).Dispose();
+                    this.indexService = null;
+                }
+                if(this.notificationService is IDisposable)
+                {
+                    (this.notificationService as IDisposable).Dispose();
+                    this.notificationService = null;
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #endregion
     }
 }

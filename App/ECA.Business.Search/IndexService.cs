@@ -22,12 +22,7 @@ namespace ECA.Business.Search
         /// The maximum length of a document type name.
         /// </summary>
         public const int MAX_DOCUMENT_TYPE_NAME_LENGTH = 25;
-
-        /// <summary>
-        /// The name of the index.
-        /// </summary>
-        public const string INDEX_NAME = "ecadocs";
-
+        
         private SearchServiceClient searchClient;
 
         /// <summary>
@@ -36,12 +31,15 @@ namespace ECA.Business.Search
         /// The List of IDocumentConfigurations will be used to create azure search compatible documents from objects
         /// that are classes.
         /// </summary>
+        /// <param name="indexName">The index name.</param>
         /// <param name="searchClient">The azure search service client instance.</param>
         /// <param name="documentConfigurations">The document configurations for classes that will be indexed.</param>
-        public IndexService(SearchServiceClient searchClient, List<IDocumentConfiguration> documentConfigurations = null)
+        public IndexService(string indexName, SearchServiceClient searchClient, List<IDocumentConfiguration> documentConfigurations = null)
         {
+            Contract.Requires(!String.IsNullOrWhiteSpace(indexName), "The index name must not be null.");
             Contract.Requires(searchClient != null, "The search client must not be null.");
             this.searchClient = searchClient;
+            this.IndexName = indexName;
             if (documentConfigurations == null)
             {
                 this.Configurations = new List<IDocumentConfiguration>();
@@ -93,6 +91,14 @@ namespace ECA.Business.Search
             }
         }
 
+        /// <summary>
+        /// Gets the name of the azure search index.
+        /// </summary>
+        public string IndexName { get; private set; }
+
+        /// <summary>
+        /// Gets the document configurations.
+        /// </summary>
         public List<IDocumentConfiguration> Configurations { get; private set; }
 
         #region Exists index
@@ -131,7 +137,7 @@ namespace ECA.Business.Search
             Contract.Requires(configuration != null, "The configuration must not be null.");
             var index = new Index
             {
-                Name = INDEX_NAME,
+                Name = this.IndexName,
                 Fields = GetFields()
             };
             return index;
@@ -482,7 +488,7 @@ namespace ECA.Business.Search
 
         private SearchIndexClient GetClient()
         {
-            return GetClient(INDEX_NAME);
+            return GetClient(this.IndexName);
         }
 
         private SearchIndexClient GetClient(string indexName)
@@ -511,6 +517,11 @@ namespace ECA.Business.Search
                 Top = ecaSearchParameters.Limit,
                 Filter = ecaSearchParameters.Filter,
             };
+            if(ecaSearchParameters.HighlightPreTag != null && ecaSearchParameters.HighlightPostTag != null)
+            {
+                searchParameters.HighlightPostTag = ecaSearchParameters.HighlightPostTag;
+                searchParameters.HighlightPreTag = ecaSearchParameters.HighlightPreTag;
+            }
             if (highlightFields != null && highlightFields.Count > 0)
             {
                 searchParameters.HighlightFields = highlightFields;

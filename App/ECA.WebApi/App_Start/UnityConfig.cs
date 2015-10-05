@@ -1,41 +1,55 @@
-using CAM.Business.Service;
+using System;
 using System.Linq;
-using CAM.Data;
-using ECA.Business.Queries.Models.Programs;
+using Microsoft.Practices.Unity;
+using Microsoft.Practices.Unity.Configuration;
+using System.Diagnostics.Contracts;
+using ECA.Core.Settings;
+using ECA.Data;
+using ECA.Core.Service;
+using System.Data.Entity;
+using Microsoft.Azure.Search;
 using ECA.Business.Search;
+using System.Collections.Generic;
+using ECA.WebApi.Models.Admin;
+using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Admin;
 using ECA.Business.Service.Fundings;
-using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Persons;
 using ECA.Business.Service.Programs;
 using ECA.Business.Service.Projects;
+using ECA.Core.Generation;
 using ECA.Business.Service.Reports;
 using ECA.Business.Validation;
-using ECA.Core.Generation;
-using ECA.Core.Service;
-using ECA.Data;
-using ECA.WebApi.Models.Admin;
-using ECA.WebApi.Models.Search;
+using CAM.Data;
+using CAM.Business.Service;
 using ECA.WebApi.Security;
-using Microsoft.Azure.Search;
-using Microsoft.Practices.Unity;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.Runtime.Caching;
-using System.Web.Http;
-using Unity.WebApi;
-using ECA.Core.Settings;
+using System.Diagnostics;
 
-namespace ECA.WebApi
+namespace ECA.WebApi.App_Start
 {
     /// <summary>
-    /// The UnityConfig is used to register components through the Unity IoC container.
+    /// Specifies the Unity configuration for the main container.
     /// </summary>
-    public static class UnityConfig
+    public class UnityConfig
     {
+        #region Unity Container
+        private static Lazy<IUnityContainer> container = new Lazy<IUnityContainer>(() =>
+        {
+            var container = new UnityContainer();
+            RegisterComponents(container);
+            return container;
+        });
+
+        /// <summary>
+        /// Gets the configured Unity container.
+        /// </summary>
+        public static IUnityContainer GetConfiguredContainer()
+        {
+            return container.Value;
+        }
+        #endregion
+        
         /// <summary>
         /// Registers the components to a UnityContainer and sets the web api dependency resolver to a UnityDependencyResolver.
         /// </summary>
@@ -47,7 +61,6 @@ namespace ECA.WebApi
             RegisterSearch(container);
             RegisterSecurityConcerns(container);
             RegisterValidations(container);
-            GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
 
         /// <summary>
@@ -77,6 +90,7 @@ namespace ECA.WebApi
             var appSettings = new AppSettings();
             var serviceName = appSettings.SearchServiceName;
             var apiKey = appSettings.SearchApiKey;
+            var indexName = appSettings.SearchIndexName;
 
             container.RegisterType<SearchServiceClient>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
             {
@@ -86,9 +100,9 @@ namespace ECA.WebApi
             {
                 var configs = IndexService.GetAllConfigurations(typeof(ProgramDTODocumentConfiguration).Assembly).ToList();
                 var client = c.Resolve<SearchServiceClient>();
-                var indexService = new IndexService(client, configs);
+                var indexService = new IndexService(indexName, client, configs);
                 return indexService;
-            }));            
+            }));
         }
 
 

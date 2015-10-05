@@ -52,6 +52,58 @@ namespace ECA.Business.Search.Test
         }
 
         [TestMethod]
+        public void TestDispose_Context()
+        {
+            var testContext = new TestContext();
+            var testService = new TestDocumentService(testContext, indexService.Object, notificationService.Object, batchSize);
+
+            var contextField = typeof(TestDocumentService).GetProperty("Context", BindingFlags.Instance | BindingFlags.NonPublic);
+            var contextValue = contextField.GetValue(testService);
+            Assert.IsNotNull(contextField);
+            Assert.IsNotNull(contextValue);
+
+            testService.Dispose();
+            contextValue = contextField.GetValue(testService);
+            Assert.IsNull(contextValue);
+        }
+
+        [TestMethod]
+        public void TestDispose_NotificationService()
+        {
+            var disposableNotificationService = new Mock<IIndexNotificationService>();
+            disposableNotificationService.As<IDisposable>();
+            var testContext = new TestContext();
+            var testService = new TestDocumentService(testContext, indexService.Object, disposableNotificationService.Object, batchSize);
+
+            var notificationServiceField = typeof(TestDocumentService).BaseType.GetField("notificationService", BindingFlags.Instance | BindingFlags.NonPublic);
+            var notificationServiceValue = notificationServiceField.GetValue(testService);
+            Assert.IsNotNull(notificationServiceField);
+            Assert.IsNotNull(notificationServiceValue);
+
+            testService.Dispose();
+            notificationServiceValue = notificationServiceField.GetValue(testService);
+            Assert.IsNull(notificationServiceValue);
+        }
+
+        [TestMethod]
+        public void TestDispose_IndexService()
+        {
+            var disposableIndexService = new Mock<IIndexService>();
+            disposableIndexService.As<IDisposable>();
+            var testContext = new TestContext();
+            var testService = new TestDocumentService(testContext, disposableIndexService.Object, notificationService.Object, batchSize);
+
+            var indexServiceField = typeof(TestDocumentService).BaseType.GetField("indexService", BindingFlags.Instance | BindingFlags.NonPublic);
+            var indexServiceValue = indexServiceField.GetValue(testService);
+            Assert.IsNotNull(indexServiceField);
+            Assert.IsNotNull(indexServiceValue);
+
+            testService.Dispose();
+            indexServiceValue = indexServiceField.GetValue(testService);
+            Assert.IsNull(indexServiceValue);
+        }
+
+        [TestMethod]
         public void TestConstructor_DefaultBatchSize()
         {
             var testService = new TestDocumentService(context, indexService.Object, notificationService.Object);
