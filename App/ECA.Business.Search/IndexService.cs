@@ -576,10 +576,10 @@ namespace ECA.Business.Search
         public SearchParameters GetSearchParameters(ECASearchParameters ecaSearchParameters, List<DocumentKey> allowedDocumentKeys)
         {
             List<string> highlightFields = null;
-            if (ecaSearchParameters.Fields != null)
+            if (ecaSearchParameters.SelectFields != null)
             {
                 highlightFields = GetFields()
-                    .Where(x => x.IsSearchable && ecaSearchParameters.Fields.Select(f => f.ToLower()).ToList().Contains(x.Name.ToLower()))
+                    .Where(x => x.IsSearchable && ecaSearchParameters.SelectFields.Select(f => f.ToLower()).ToList().Contains(x.Name.ToLower()))
                     .Select(x => x.Name).ToList();
             }
             var searchParameters = new SearchParameters
@@ -587,7 +587,7 @@ namespace ECA.Business.Search
                 Skip = ecaSearchParameters.Start,
                 Top = ecaSearchParameters.Limit,
                 Filter = ecaSearchParameters.Filter,
-                IncludeTotalResultCount = true
+                IncludeTotalResultCount = true,
             };
             if(ecaSearchParameters.HighlightPreTag != null && ecaSearchParameters.HighlightPostTag != null)
             {
@@ -603,9 +603,9 @@ namespace ECA.Business.Search
                 var distinctFacets = ecaSearchParameters.Facets.Distinct().ToList();
                 searchParameters.Facets = distinctFacets;
             }
-            if (ecaSearchParameters.Fields != null)
+            if (ecaSearchParameters.SelectFields != null)
             {
-                var distinctFields = ecaSearchParameters.Fields.Distinct().ToList();
+                var distinctFields = ecaSearchParameters.SelectFields.Distinct().ToList();
                 searchParameters.Select = distinctFields;
             }
             return searchParameters;

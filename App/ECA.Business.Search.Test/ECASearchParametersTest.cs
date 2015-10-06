@@ -23,7 +23,7 @@ namespace ECA.Business.Search.Test
             Assert.AreEqual(limit, instance.Limit);
             Assert.AreEqual(preTag, instance.HighlightPreTag);
             Assert.AreEqual(postTag, instance.HighlightPostTag);
-            Assert.IsTrue(Object.ReferenceEquals(fields, instance.Fields));
+            Assert.IsTrue(Object.ReferenceEquals(fields, instance.SelectFields));
             Assert.IsTrue(Object.ReferenceEquals(facets, instance.Facets));
         }
     }
