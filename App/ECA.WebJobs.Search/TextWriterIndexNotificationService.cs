@@ -35,5 +35,17 @@ namespace ECA.WebJobs.Search
             var message = String.Format("Started processing {0} documents.", documentType);
             Console.WriteLine(message);
         }
+
+        public void UpdateFinished(string documentTypeName, object id)
+        {
+            var message = String.Format("Succesfully updated the {0} document with id {1}.", documentTypeName, id);
+            Console.WriteLine(message);
+        }
+
+        public void UpdateStarted(string documentTypeName, object id)
+        {
+            var message = String.Format("Attempting to update the {0} document with id {1}.", documentTypeName, id);
+            Console.WriteLine(message);
+        }
     }
 }
