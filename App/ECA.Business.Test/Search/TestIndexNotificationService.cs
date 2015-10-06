@@ -23,5 +23,15 @@ namespace ECA.Business.Test.Search
         {
             Console.WriteLine(String.Format("Started processing {0}", documentTypeName));
         }
+
+        public void UpdateFinished(string documentTypeName, object id)
+        {
+            
+        }
+
+        public void UpdateStarted(string documentTypeName, object id)
+        {
+            
+        }
     }
 }

@@ -1149,6 +1149,21 @@ namespace ECA.Business.Search.Test
         }
 
         [TestMethod]
+        public void TestGetDocumentFieldNames()
+        {
+            using (ShimsContext.Create())
+            {
+                searchClient = new ShimSearchServiceClient();
+                var configuration = new TestDocumentConfiguration(true);
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+
+                var fields = service.GetDocumentFieldNames();
+                var index = service.GetIndex(configuration);
+                CollectionAssert.AreEqual(index.Fields.Select(x => x.Name).OrderBy(x => x).ToList(), fields.OrderBy(x => x).ToList());
+            }
+        }
+
+        [TestMethod]
         public void TestGetIndex()
         {
             var testDocument = new TestDocument();
