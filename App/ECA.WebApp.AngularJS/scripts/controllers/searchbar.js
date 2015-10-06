@@ -14,7 +14,6 @@ angular.module('staticApp')
         $log,
         $modalInstance,
         $filter,
-        $sce,
         $sanitize,
         SearchService,
         NotificationService) {
@@ -23,24 +22,21 @@ angular.module('staticApp')
       $scope.results = [];
       $scope.docinfo = {};
       $scope.tophitinfo = {};
-      //$scope.currentpage = $stateParams.page || 1;
-      //$scope.limit = 200;
-      //$scope.totalSearchResults = -1;
-      //$scope.skippedSearchResults = -1;
-      //$scope.numberSearchResults = -1;
+      $scope.currentpage = 0;
+      $scope.pagesize = 10;
+      $scope.totalpages = 0;
       $scope.text = '';
       $scope.isLoadingResults = false;
       $scope.isLoadingDocInfo = false;
-
-      //function updatePagingDetails(total, start, count) {
-      //    $scope.totalSearchResults = total;
-      //    $scope.skippedSearchResults = start;
-      //    $scope.numberSearchResults = count;
-      //};
+      
+      var numberOfPages = function () {
+          $scope.totalpages = Math.ceil($scope.results.length / $scope.pagesize);
+          $scope.pagearray = new Array($scope.totalpages);
+          return $scope.totalpages;
+      }
 
       // Execute search as user types
       $scope.autocomplete = function () {
-
           var params = {
               Limit: 100,
               Filter: null,
@@ -49,6 +45,8 @@ angular.module('staticApp')
               SearchTerm: $scope.text
           };
 
+          $scope.currentpage = 0;
+          $scope.docinfo = null;
           $scope.isLoadingResults = true;
           SearchService.getAll(params)
           .then(function (response) {
@@ -56,6 +54,7 @@ angular.module('staticApp')
               $scope.tophitinfo = response.results.slice(0, 1);
               $scope.results = response.results.slice(1);
               $scope.totalResults = $scope.tophitinfo.length + $scope.results.length;
+              numberOfPages();
               $scope.isLoadingResults = false;
           })
           .catch(function () {
@@ -81,8 +80,8 @@ angular.module('staticApp')
 
       // Creates a group header
       $scope.currentGroup = '';
-      $scope.CreateHeader = function (group) {
-          var showHeader = (group !== $scope.currentGroup);
+      $scope.CreateHeader = function (group, index) {
+          var showHeader = (group !== $scope.currentGroup || index === 0);
           $scope.currentGroup = group;
           return showHeader;
       };
@@ -109,15 +108,11 @@ angular.module('staticApp')
     };
   });
 
-// Return document info title style
+// Sets paging start point
 angular.module('staticApp')
-  .filter('titleStyle', function () {
-      return function (doctype) {
-          if (typeof doctype !== 'undefined' && doctype !== null) {
-              return doctype.toLowerCase() + '-color';
-          }
-          return 'program-color';
-      };
+  .filter('startFrom', function () {
+      return function (input, start) {
+          start = +start;
+          return input.slice(start);
+      }
   });
-
-

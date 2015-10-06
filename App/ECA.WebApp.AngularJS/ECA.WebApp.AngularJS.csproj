@@ -311,6 +311,7 @@
     <Content Include="views\organizations\partials\editdetails.html" />
     <Content Include="views\partials\collaborators.html" />
     <Content Include="views\partials\pagination.html" />
+    <Content Include="views\partials\searchinfo.html" />
     <Content Include="views\partials\toolbaricons.html" />
     <Content Include="views\person\allpeople.html" />
     <Content Include="views\person\moneyflows.html" />
