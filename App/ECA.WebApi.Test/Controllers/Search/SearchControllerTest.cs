@@ -27,6 +27,16 @@ namespace ECA.WebApi.Test.Controllers.Search
             userProvider = new Mock<IUserProvider>();
             controller = new SearchController(indexService.Object, userProvider.Object);
         }
+
+        [TestMethod]
+        public void TestGetDocumentFieldNames()
+        {
+            indexService.Setup(x => x.GetDocumentFieldNames()).Returns(new List<string>());
+            var response = controller.GetDocumentFieldNames();
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<List<string>>));
+            indexService.Verify(x => x.GetDocumentFieldNames(), Times.Once());
+        }
+
         [TestMethod]
         public async Task TestPostSuggestionsAsync()
         {

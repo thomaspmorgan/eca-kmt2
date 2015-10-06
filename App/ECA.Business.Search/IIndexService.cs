@@ -119,6 +119,12 @@ namespace ECA.Business.Search
         /// <param name="allowedDocumentKeys">The document keys the search is allowed to include.</param>
         /// <returns>The suggested search.</returns>
         Task<DocumentSuggestResponse<ECADocument>> GetSuggestionsAsync(ECASuggestionParameters suggestionParameters, List<DocumentKey> allowedDocumentKeys);
+
+        /// <summary>
+        /// Returns the names of the document fields.
+        /// </summary>
+        /// <returns>The names of the document fields.</returns>
+        IList<string> GetDocumentFieldNames();
     }
     /// <summary>
     /// 
@@ -215,6 +221,15 @@ namespace ECA.Business.Search
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public IDocumentConfiguration GetDocumentConfiguration<T>()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public IList<string> GetDocumentFieldNames()
         {
             return null;
         }

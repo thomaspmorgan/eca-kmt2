@@ -1,10 +1,12 @@
 ﻿using ECA.Business.Search;
+using System.Linq;
 using ECA.WebApi.Models.Search;
 using ECA.WebApi.Security;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Collections.Generic;
 
 namespace ECA.WebApi.Controllers.Search
 {
@@ -71,6 +73,17 @@ namespace ECA.WebApi.Controllers.Search
             {
                 return BadRequest(ModelState);
             }
+        }
+
+        /// <summary>
+        /// Returns the names of the document fields.
+        /// </summary>
+        /// <returns>The names of the document fields.</returns>
+        [Route("Documents/Fields")]
+        [ResponseType(typeof(List<string>))]
+        public IHttpActionResult GetDocumentFieldNames()
+        {
+            return Ok(this.indexService.GetDocumentFieldNames().ToList());
         }
 
         /// <summary>

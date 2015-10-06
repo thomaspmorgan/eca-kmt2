@@ -73,7 +73,5 @@ namespace ECA.Business.Search
         /// Gets the highlight post tag.
         /// </summary>
         public string HighlightPostTag { get; private set; }
-
-
     }
 }

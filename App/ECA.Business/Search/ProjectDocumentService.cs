@@ -33,6 +33,17 @@ namespace ECA.Business.Search
         }
 
         /// <summary>
+        /// The query to get the project by id.
+        /// </summary>
+        /// <param name="id">The id of the project.</param>
+        /// <returns>The query to get the project.</returns>
+        public override IQueryable<ProjectDTO> CreateGetDocumentByIdQuery(object id)
+        {
+            Contract.Requires(id.GetType() == typeof(int), "The id of the project should be an integer.");
+            return CreateGetDocumentsQuery().Where(x => x.Id == (int)id);
+        }
+
+        /// <summary>
         /// The query to get project dtos.
         /// </summary>
         /// <returns>The query to get project dtos.</returns>
