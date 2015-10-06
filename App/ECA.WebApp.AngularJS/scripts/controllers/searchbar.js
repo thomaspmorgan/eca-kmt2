@@ -38,21 +38,25 @@ angular.module('staticApp')
       // Execute search as user types
       $scope.autocomplete = function () {
           var params = {
+              Start: 0,
               Limit: 100,
-              Filter: null,
-              Facets: null,
-              Fields: ['description', 'id', 'name', 'documentTypeName', 'officeSymbol', 'themes', 'regions', 'goals', 'websites', 'objectives', 'foci', 'status', 'pointsOfContact'],
-              SearchTerm: $scope.text
+              Filter: "",
+              Facets: [],
+              SelectFields: ['description', 'id', 'name', 'documentTypeName', 'officeSymbol', 'themes', 'regions', 'goals', 'websites', 'objectives', 'foci', 'status', 'pointsOfContact'],
+              SearchTerm: $scope.text,
+              HightlightPreTag: "<strong>",
+              HighlightPostTag: "</strong>"
           };
 
           $scope.currentpage = 0;
           $scope.docinfo = null;
           $scope.isLoadingResults = true;
-          SearchService.getAll(params)
+
+          SearchService.postSearch(params)
           .then(function (response) {
               $log.info('Loaded all search results.');
-              $scope.tophitinfo = response.results.slice(0, 1);
-              $scope.results = response.results.slice(1);
+              $scope.tophitinfo = response.data.results.slice(0, 1);
+              $scope.results = response.data.results.slice(1);
               $scope.totalResults = $scope.tophitinfo.length + $scope.results.length;
               numberOfPages();
               $scope.isLoadingResults = false;
@@ -69,13 +73,18 @@ angular.module('staticApp')
       // Gets document details on selection
       $scope.GetDocumentInfo = function (id) {
           $scope.isLoadingDocInfo = true;
-          $scope.docinfo = $filter('filter')($scope.results, id)[0];
-          $scope.isLoadingDocInfo = false;
-      };
-      $scope.GetTophitInfo = function () {
-          $scope.isLoadingDocInfo = true;
-          $scope.docinfo = $scope.tophitinfo[0];
-          $scope.isLoadingDocInfo = false;
+          SearchService.getDocInfo(id)
+          .then(function (response) {
+              $log.info('Loaded document information.');
+              $scope.docinfo = response.data;
+              $scope.isLoadingDocInfo = false;
+          })
+          .catch(function () {
+              var message = 'Unable to load document information.';
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
+              $scope.isLoadingDocInfo = false;
+          });
       };
 
       // Creates a group header
