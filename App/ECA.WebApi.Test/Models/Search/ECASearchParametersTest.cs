@@ -14,7 +14,7 @@ namespace ECA.WebApi.Test.Models.Search
         {
             var model = new ECASearchParametersBindingModel();
             model.Facets = new List<string>();
-            model.Fields = new List<string>();
+            model.SelectFields = new List<string>();
             model.Filter = "filter";
             model.Limit = 10;
             model.SearchTerm = "search";
@@ -30,7 +30,7 @@ namespace ECA.WebApi.Test.Models.Search
             Assert.AreEqual(model.HightlightPreTag, instance.HighlightPreTag);
             Assert.AreEqual(model.HighlightPostTag, instance.HighlightPostTag);
             Assert.IsTrue(Object.ReferenceEquals(model.Facets, instance.Facets));
-            Assert.IsTrue(Object.ReferenceEquals(model.Fields, instance.Fields));
+            Assert.IsTrue(Object.ReferenceEquals(model.SelectFields, instance.SelectFields));
         }
     }
 }
