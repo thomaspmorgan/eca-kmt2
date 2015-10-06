@@ -40,7 +40,7 @@ namespace ECA.WebApi.Controllers.Search
         /// <returns>The responsive documents.</returns>
         [Route("Search")]
         [ResponseType(typeof(DocumentSearchResponseViewModel))]
-        public async Task<IHttpActionResult> PostSearchDocumentsAsync([FromUri]ECASearchParametersBindingModel search)
+        public async Task<IHttpActionResult> PostSearchDocumentsAsync([FromBody]ECASearchParametersBindingModel search)
         {
             if (ModelState.IsValid)
             {
@@ -62,7 +62,7 @@ namespace ECA.WebApi.Controllers.Search
         /// <returns>The responsive documents.</returns>
         [Route("Search/Suggest")]
         [ResponseType(typeof(DocumentSearchResponseViewModel))]
-        public async Task<IHttpActionResult> PostSuggestionsAsync([FromUri]ECASuggestionParametersBindingModel model)
+        public async Task<IHttpActionResult> PostSuggestionsAsync([FromBody]ECASuggestionParametersBindingModel model)
         {
             if (ModelState.IsValid)
             {
