@@ -23,7 +23,7 @@
                                     <div class="resulticon {{tophitinfo[0].document.documentTypeName | lowercase}}">{{tophitinfo[0].document.documentTypeName | resultIconFilter}}</div>
                                 </div>
                                 <div class="col-md-9">
-                                    <a ng-click="GetTophitInfo()" ng-bind-html="tophitinfo[0].hitHighlights.name[0] != null ? tophitinfo[0].hitHighlights.name[0] : tophitinfo[0].document.name"></a>
+                                    <a ng-click="GetDocumentInfo(tophitinfo[0].document.id)" ng-bind-html="tophitinfo[0].hitHighlights.name[0] != null ? tophitinfo[0].hitHighlights.name[0] : tophitinfo[0].document.name"></a>
                                 </div>
                                 <div class="col-md-2 resultoffice">{{tophitinfo[0].document.officeSymbol}}</div>
                             </div>

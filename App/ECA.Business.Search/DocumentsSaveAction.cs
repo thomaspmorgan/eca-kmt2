@@ -81,23 +81,25 @@ namespace ECA.Business.Search
         #region ISaveAction
         public void BeforeSaveChanges(DbContext context)
         {
-            
+            OnBeforeSaveChanges(context);
         }
 
         public Task BeforeSaveChangesAsync(DbContext context)
         {
-            throw new NotImplementedException();
+            OnBeforeSaveChanges(context);
+            return Task.FromResult<object>(null);
         }
 
         public void AfterSaveChanges(DbContext context)
         {
-            throw new NotImplementedException();
+            
         }
 
         public Task AfterSaveChangesAsync(DbContext context)
         {
-            throw new NotImplementedException();
+            throw new Exception();
         }
+        
         #endregion
     }
 }
