@@ -4,7 +4,7 @@
 <div class="jumbotron person">
     <div class="toolbar" sticky offset="49">
         <div class="left">
-            <span class="detail">Last Updated {{person.revisedOn | date}}</span>
+            <span class="detail">Last Updated {{(person.revisedOn | date:"MMM dd, yyyy") || 'No revised on date.'}}</span>
         </div>
         <ng-include src="'/views/partials/toolbaricons.html'"></ng-include>
     </div>

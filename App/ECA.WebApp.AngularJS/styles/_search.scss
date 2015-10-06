@@ -20,14 +20,12 @@
 }
 
 .resultrow {
-    height: 60px;
-    vertical-align: middle;
+    height: 55px;
 }
 
 .resultrow-selected {
-    height: 60px;
+    height: 55px;
     background-color: $lightgray;
-    vertical-align: middle;
 }
 
 .search-result-wrapper {
@@ -64,15 +62,14 @@
 }
 
 .search-modal-resize .modal-body {
-    max-height: calc(100vh - 170px);
-    max-height: -webkit-calc(100vh - 170px);
-    overflow: auto;
+    max-height: calc(100vh - 150px);
+    max-height: -webkit-calc(100vh - 150px);
 }
 
 .search-result-container {
     background-color: #fff;
     display: block;
-    min-height: 1000px;
+    min-height: 650px;
     margin: 0 auto;
     overflow: hidden;
 }
