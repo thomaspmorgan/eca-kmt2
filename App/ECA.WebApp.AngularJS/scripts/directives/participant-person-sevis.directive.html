@@ -1,7 +1,8 @@
 ﻿<div class="table">
     <div class="row">
         <div class="col-md-5"><h5>DHS Status</h5></div>
-        <div class="col-md-5 title-label">Last Batch Date</div>
+        <div class="col-md-3 title-label">Last Batch Date</div>
+        <div class="col-md-2">3/18/2015</div>
         <div class="col-md-2">
             <a ng-click="view.DHSStatus=!view.DHSStatus">
                 <i class="material-icons md-dark md-36 pull-right" ng-show="view.DHSStatus">expand_more</i>
@@ -10,13 +11,33 @@
         </div>
     </div>
     <div class="row2" ng-show="view.DHSStatus">
-        <div class="col-md-2">check</div>
-        <div class="col-md-3">status</div>
-        <div class="col-md-5">date</div>
-    </div>
+        <div class="row4">
+            <div class="col-md-3">
+                &nbsp;
+            </div>
+            <div class="col-md-3 title-label">Sevis Id</div>
+            <div class="col-md-6">
+                {{sevisinfo.sevisId}}
+            </div>
+        </div>
+        <div class="row4">
+            <div class="col-md-3">
+                <i class="material-icons md-dark md-36 pull-right" ng-show="view.DHSStatus">check</i>
+            </div>
+            <div class="col-md-3">Sent to DHS</div>
+            <div class="col-md-6">On: 3/18/2015</div>
+        </div>
+        <div class="row4">
+            <div class="col-md-3">
+                <i class="material-icons md-dark md-36 pull-right" ng-show="view.DHSStatus">check</i>
+            </div>
+            <div class="col-md-3">Verified</div>
+            <div class="col-md-6">3/27/2015</div>
+        </div>
+     </div>
     <div class="row">
-        <div class="col-md-10"><h5>DoS Status</h5></div>
-        <div class="col-md-2">
+        <div class="col-md-5"><h5>DoS Status</h5></div>
+        <div class="col-md-7">
             <a ng-click="view.DoSStatus=!view.DoSStatus">
                 <i class="material-icons md-dark md-36 pull-right" ng-show="view.DoSStatus">expand_more</i>
                 <i class="material-icons md-dark md-36 pull-right" ng-show="!view.DoSStatus">expand_less</i>
@@ -92,8 +113,8 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-10"><h5>Position and Field</h5></div>
-        <div class="col-md-2">
+        <div class="col-md-5"><h5>Position and Field</h5></div>
+        <div class="col-md-7">
             <a ng-click="view.PositionAndField=!view.PositionAndField">
                 <i class="material-icons md-dark md-36 pull-right" ng-show="view.PositionAndField">expand_more</i>
                 <i class="material-icons md-dark md-36 pull-right" ng-show="!view.PositionAndField">expand_less</i>
@@ -140,8 +161,8 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-10"><h5>Funding</h5></div>
-        <div class="col-md-2">
+        <div class="col-md-5"><h5>Funding</h5></div>
+        <div class="col-md-7">
             <a ng-click="view.Funding=!view.Funding">
                 <i class="material-icons md-dark md-36 pull-right" ng-show="view.Funding">expand_more</i>
                 <i class="material-icons md-dark md-36 pull-right" ng-show="!view.Funding">expand_less</i>
@@ -157,7 +178,7 @@
             <div class="col-md-6">
                 &nbsp;
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 text-right">
                 {{sevisinfo.fundingSponsor | currency}}
             </div>
         </div>
@@ -168,7 +189,7 @@
             <div class="col-md-6">
                 &nbsp;
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 text-right">
                 {{sevisinfo.fundingPersonal | currency}}
             </div>
         </div>
@@ -179,7 +200,7 @@
             <div class="col-md-6">
                 &nbsp;
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 text-right">
                 {{sevisinfo.fundingVisGovt | currency}}
             </div>
         </div>
@@ -190,7 +211,7 @@
             <div class="col-md-6">
                 &nbsp;
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 text-right">
                 {{sevisinfo.fundingVisBNC | currency}}
             </div>
         </div><div class="row4">
@@ -200,7 +221,7 @@
             <div class="col-md-6">
                 &nbsp;
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 text-right">
                 {{sevisinfo.fundingGovtAgency1 | currency}}
             </div>
         </div><div class="row4">
@@ -210,7 +231,7 @@
             <div class="col-md-6">
                 &nbsp;
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 text-right">
                 {{sevisinfo.fundingGovtAgency2 | currency}}
             </div>
         </div><div class="row4">
@@ -220,7 +241,7 @@
             <div class="col-md-6">
                 &nbsp;
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 text-right">
                 {{sevisinfo.fundingIntlOrg1 | currency}}
             </div>
         </div><div class="row4">
@@ -230,7 +251,7 @@
             <div class="col-md-6">
                 &nbsp;
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 text-right">
                 {{sevisinfo.fundingIntlOrg2 | currency}}
             </div>
         </div><div class="row4">
@@ -240,7 +261,7 @@
             <div class="col-md-6">
                 &nbsp;
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 text-right">
                 {{sevisinfo.fundingOther | currency}}
             </div>
         </div><div class="row4">
@@ -250,7 +271,7 @@
             <div class="col-md-6">
                 &nbsp;
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 text-right">
                 {{sevisinfo.fundingTotal | currency}}
             </div>
         </div>

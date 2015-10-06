@@ -10,6 +10,7 @@ namespace ECA.Business.Queries.Models.Persons
         public int UserId { get; set; }
         public string UserName { get; set; }
         public DateTimeOffset AddedOn { get; set; }
+        public DateTimeOffset RevisedOn { get; set; }
         public string EmailAddress { get; set; }
         public string OfficeSymbol { get; set; }
     }

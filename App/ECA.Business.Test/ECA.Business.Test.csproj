@@ -96,7 +96,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.Search, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Azure.Search.0.12.0-preview\lib\net40\Microsoft.Azure.Search.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Azure.Search.0.13.0-preview\lib\net40\Microsoft.Azure.Search.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
@@ -177,6 +177,8 @@
     <Compile Include="Search\ProjectDocumentServiceTest.cs" />
     <Compile Include="Search\ProgramDocumentServiceTest.cs" />
     <Compile Include="Search\TestIndexNotificationService.cs" />
+    <Compile Include="Search\ProgramDTODocumentConfigurationTest.cs" />
+    <Compile Include="Search\ProjectDTODocumentConfigurationTest.cs" />
     <Compile Include="Service\Admin\AdditionalAddressTest.cs" />
     <Compile Include="Service\Admin\AdditionalPersonAddressTest.cs" />
     <Compile Include="Service\Admin\AdditionalOrganizationAddressTest.cs" />

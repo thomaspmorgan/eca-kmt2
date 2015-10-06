@@ -24,6 +24,7 @@ namespace ECA.WebApi.Models.Search
             this.Count = response.Count;
             this.Coverage = response.Coverage;
             this.Results = new List<SearchResultViewModel>();
+            var facetResults = response.Facets;           
             foreach (var result in response.Results)
             {
                 this.Results.Add(new SearchResultViewModel(result));

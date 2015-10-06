@@ -5,7 +5,6 @@ using ECA.Business.Service.Programs;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
-using ECA.WebApi.Common;
 using ECA.WebApi.Models.Programs;
 using ECA.WebApi.Models.Query;
 using System;

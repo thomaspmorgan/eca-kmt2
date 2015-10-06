@@ -1,4 +1,5 @@
-﻿using ECA.Data;
+﻿using System;
+using ECA.Data;
 using System.Diagnostics.Contracts;
 
 namespace ECA.Business.Service.Persons
@@ -14,7 +15,7 @@ namespace ECA.Business.Service.Persons
 
         public int PersonId { get; private set; }
         
-        public string EvaluationNote { get; set; }
+        public string EvaluationNote { get; private set; }
         
         public Create Create { get; private set; }
 

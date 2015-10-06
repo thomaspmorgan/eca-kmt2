@@ -29,13 +29,43 @@ namespace ECA.WebApi.Test.Controllers.Search
         }
 
         [TestMethod]
-        public async Task TestGetSearchDocumentsAsync()
+        public void TestGetDocumentFieldNames()
+        {
+            indexService.Setup(x => x.GetDocumentFieldNames()).Returns(new List<string>());
+            var response = controller.GetDocumentFieldNames();
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<List<string>>));
+            indexService.Verify(x => x.GetDocumentFieldNames(), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestPostSuggestionsAsync()
+        {
+            indexService.Setup(x => x.GetSuggestionsAsync(It.IsAny<ECASuggestionParameters>(), It.IsAny<List<DocumentKey>>())).ReturnsAsync(new DocumentSuggestResponse<ECADocument>());
+            var model = new ECASuggestionParametersBindingModel();
+            var response = await controller.PostSuggestionsAsync(model);
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<DocumentSuggestResponseViewModel>));
+            indexService.Verify(x => x.GetSuggestionsAsync(It.IsAny<ECASuggestionParameters>(), It.IsAny<List<DocumentKey>>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestPostSuggestionsAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            indexService.Setup(x => x.GetSuggestionsAsync(It.IsAny<ECASuggestionParameters>(), It.IsAny<List<DocumentKey>>())).ReturnsAsync(new DocumentSuggestResponse<ECADocument>());
+            var model = new ECASuggestionParametersBindingModel();
+            var response = await controller.PostSuggestionsAsync(model);
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
+
+        [TestMethod]
+        public async Task TestPostSearchDocumentsAsync()
         {
             userProvider.Setup(x => x.GetCurrentUser()).Returns(new DebugWebApiUser());
             userProvider.Setup(x => x.GetPermissionsAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(new List<IPermission>());
             indexService.Setup(x => x.SearchAsync(It.IsAny<ECASearchParameters>(), It.IsAny<List<DocumentKey>>())).ReturnsAsync(new DocumentSearchResponse<ECADocument>());
             var model = new ECASearchParametersBindingModel();
-            var response = await controller.GetSearchDocumentsAsync(model);
+            var response = await controller.PostSearchDocumentsAsync(model);
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<DocumentSearchResponseViewModel>));
             indexService.Verify(x => x.SearchAsync(It.IsAny<ECASearchParameters>(), It.IsAny<List<DocumentKey>>()), Times.Once());
             userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
@@ -43,11 +73,11 @@ namespace ECA.WebApi.Test.Controllers.Search
         }
 
         [TestMethod]
-        public async Task TestTestGetSearchDocumentsAsync_InvalidModel()
+        public async Task TestPostSearchDocumentsAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
             var model = new ECASearchParametersBindingModel();
-            var response = await controller.GetSearchDocumentsAsync(model);
+            var response = await controller.PostSearchDocumentsAsync(model);
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
 
@@ -67,6 +97,16 @@ namespace ECA.WebApi.Test.Controllers.Search
             var model = new ECASearchParametersBindingModel();
             var response = await controller.GetDocumentByIdAsync("key");
             Assert.IsInstanceOfType(response, typeof(NotFoundResult));
+        }
+
+        [TestMethod]
+        public async Task TestDeleteIndexAsync()
+        {
+            indexService.Setup(x => x.DeleteIndexAsync(It.IsAny<string>())).Returns(Task.FromResult<object>(null));
+            var model = new DeleteIndexBindingModel();
+            var response = await controller.DeleteIndexAsync(model);
+            Assert.IsInstanceOfType(response, typeof(OkResult));
+            indexService.Verify(x => x.DeleteIndexAsync(It.IsAny<string>()), Times.Once());
         }
     }
 }

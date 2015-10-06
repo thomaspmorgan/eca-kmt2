@@ -8,47 +8,51 @@ using ECA.Data;
 using ECA.Business.Search;
 using Microsoft.Azure.Search;
 using System;
+using ECA.Core.Settings;
+using System.Diagnostics.Contracts;
+using Microsoft.Practices.Unity;
 
 namespace ECA.WebJobs.Search
 {
+    /// <summary>
+    /// The starter class for the indexing operations to run in the azure search webjob.
+    /// </summary>
     public class Functions
     {
         // This function will be triggered based on the schedule you have set for this WebJob
         // This function will enqueue a message on an Azure Queue called search
+
+        /// <summary>
+        /// The manual trigger method.
+        /// </summary>
+        /// <param name="log">The log.</param>
+        /// <param name="documentServices">The document services to index with.</param>
         [NoAutomaticTrigger]
-        public static void ManualTrigger(TextWriter log, int value, [Queue("search")] out string message)
+        public void ManualTrigger(TextWriter log, IList<IDocumentService> documentServices)
         {
-            log.WriteLine("Function is invoked with value={0}", value);
-            message = value.ToString();
-            Index(log);
-            log.WriteLine("Following message will be written on the Queue={0}", message);
+            Index(log, documentServices);
         }
 
-        public static void Index(TextWriter log)
+        /// <summary>
+        /// Performs the indexing via all document services provided.
+        /// </summary>
+        /// <param name="log">The log.</param>
+        /// <param name="documentServices">The document services to use for indexing.</param>
+        public void Index(TextWriter log, IList<IDocumentService> documentServices)
         {
-            var serviceName = AppSettings.SearchServiceName;
-            var apiKey = AppSettings.SearchApiKey;
-            var connectionString = AppSettings.EcaContextConnectionString;
-            var configs = IndexService.GetAllConfigurations(typeof(ProgramDTODocumentConfiguration).Assembly).ToList();
-
-            var notificationService = new TextWriterIndexNotificationService(log);
-            using (var context = new EcaContext(connectionString.ConnectionString))
-            using (var client = new SearchServiceClient(serviceName, new SearchCredentials(apiKey)))
-            using (var indexService = new IndexService(client, configs))
-            using (var programDocumentService = new ProgramDocumentService(context, indexService, notificationService))
-            using (var projectDocumentService = new ProjectDocumentService(context, indexService, notificationService))
+            Contract.Requires(documentServices != null, "The document services must not be null.");
+            var list = documentServices.ToList();
+            list.ForEach(x =>
             {
-                Console.WriteLine(context.Database.Connection.ConnectionString);
-                Console.WriteLine(apiKey);
-                Console.WriteLine(serviceName);
-                var documentServices = new List<IDocumentService>();
-                documentServices.Add(programDocumentService);
-                documentServices.Add(projectDocumentService);
-                documentServices.ForEach((x) =>
+                x.Process();
+            });
+            list.ForEach(x =>
+            {
+                if (x is IDisposable)
                 {
-                    x.Process();
-                });
-            }
+                    (x as IDisposable).Dispose();
+                }
+            });
         }
     }
 }

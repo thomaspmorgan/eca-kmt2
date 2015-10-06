@@ -1,6 +1,7 @@
 <div class="modal-header search-modal-header">
-    <input ng-show="show" type="text" ng-model="text" placeholder="Spotlight search"
-            class="form-control col-md-12" focus-me="true" ng-change="autocomplete()" ng-model-options="{debounce: 500}" submit-required="true" />
+    <input type="search" ng-model="text" placeholder="Spotlight search"
+           class="input-lg form-control col-md-12" style="font-weight: 500" focus-me="true" 
+           ng-change="autocomplete()" ng-model-options="{debounce: 500}" submit-required="true" />
 </div>
 <div class="modal-body">
     <div class="spinner" ng-show="isLoadingResults">
@@ -10,37 +11,63 @@
     </div>
     <div class="search-result-wrapper">
         <div class="search-result-container">
-            <!--<div class="row">
-                <div class="col-md-2 search-label">Top Hit</div>
-                <div class="col-md-10 search-result">
-                    <div class="row resultrow">
-                        <div class="col-md-1">
-                            <div class="resulticon {{tophit.type}}">{{tophit.type[0]}}</div>
+            <div class="row">
+                <div class="col-md-8" style="overflow: auto;">
+                    <div class="row" ng-show="tophitinfo.length > 0">
+                        <div class="col-md-2 text-right">
+                            <span><strong>TOP HIT</strong></span>
                         </div>
-                        <div class="col-md-8 resultname">{{tophit.title}}</div>
-                        <div class="col-md-3 resultoffice">{{tophit.subtitle}}</div>
-                    </div>
-                </div>
-            </div>-->
-            <div ng-repeat="docitem in results" class="row">
-                <div class="col-md-1 text-right">
-                    <span ng-show="CreateHeader(docitem.document.documentTypeName)">{{docitem.document.documentTypeName | uppercase}}</span>
-                </div>
-                <div class="col-md-11 search-result">
-                    <div ng-repeat="content in docitem" class="row">
-                        <div class="col-md-1 text-center">
-                            <div class="resulticon {{content.documentTypeName | lowercase}}">{{content.documentTypeName | resultIconFilter}}</div>
+                        <div class="col-md-10 search-results">
+                            <div class="row" ng-class="tophitinfo[0].document.id === docinfo.document.id ? 'resultrow-selected' : 'resultrow'">
+                                <div class="col-md-1 text-center">
+                                    <div class="resulticon {{tophitinfo[0].document.documentTypeName | lowercase}}">{{tophitinfo[0].document.documentTypeName | resultIconFilter}}</div>
+                                </div>
+                                <div class="col-md-9">
+                                    <a ng-click="GetTophitInfo()" ng-bind-html="tophitinfo[0].hitHighlights.name[0] != null ? tophitinfo[0].hitHighlights.name[0] : tophitinfo[0].document.name"></a>
+                                </div>
+                                <div class="col-md-2 resultoffice">{{tophitinfo[0].document.officeSymbol}}</div>
+                            </div>
                         </div>
-                        <div class="col-md-5 resultname">{{content.name}}</div>
-                        <div class="col-md-1 resultoffice">{{content.officeSymbol}}</div>
-                        <div class="col-md-4"></div>
                     </div>
+                    <div ng-repeat="docitem in results | startFrom:currentpage * pagesize | limitTo:pagesize" class="row">
+                        <div class="col-md-2 text-right">
+                            <span ng-show="CreateHeader(docitem.document.documentTypeName, $index)">
+                                <strong>{{docitem.document.documentTypeName | uppercase}}</strong>
+                            </span>
+                        </div>
+                        <div class="col-md-10 search-results">
+                            <div class="row" ng-class="docitem.document.id === docinfo.document.id ? 'resultrow-selected' : 'resultrow'">
+                                <div class="col-md-1 text-center">
+                                    <div class="resulticon {{docitem.document.documentTypeName | lowercase}}">{{docitem.document.documentTypeName | resultIconFilter}}</div>
+                                </div>
+                                <div class="col-md-9">
+                                    <a ng-click="GetDocumentInfo(docitem.document.id)" ng-bind-html="docitem.hitHighlights.name[0] != null ? docitem.hitHighlights.name[0] : docitem.document.name"></a>
+                                </div>
+                                <div class="col-md-2 resultoffice">{{docitem.document.officeSymbol}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="text-center" ng-show="results.length > 0">
+                        <ul class="pagination">
+                            <li ng-show="currentpage > 0"><a ng-click="currentpage = 0"><i class="material-icons">arrow_back</i> First</a></li>
+                            <li ng-show="currentpage > 0"><a ng-click="currentpage = currentpage - 1"><i class="material-icons">arrow_back</i> Previous</a></li>
+                            <li ng-repeat="page in pagearray track by $index" ng-class="{active: $index == currentpage}"><a ng-click="currentpage = $index+1">{{$index+1}}</a></li>
+                            <li ng-show="currentpage < totalpages - 1"><a ng-click="currentpage = currentpage + 1">Next <i class="material-icons">arrow_forward</i></a></li>
+                            <li ng-show="currentpage < totalpages - 1"><a ng-click="currentpage = totalpages - 1">Last <i class="material-icons">arrow_forward</i></a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-md-4" style="overflow: auto;">
+                    <ng-include src="'/views/partials/searchinfo.html'"></ng-include>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <div class="modal-footer">
+    <div class="pull-left">
+        <p ng-show="totalResults > -1">Showing {{totalResults}} results</p>
+    </div>
     <div class="pull-right">
         <button class="btn btn-cancel" ng-click="onCloseSpotlightSearchClick()">Close</button>
     </div>

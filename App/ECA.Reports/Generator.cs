@@ -25,7 +25,7 @@ namespace ECA.Reports
             this.reportService = reportService;
         }
 
-        public  async Task<HttpResponseMessage> ReportRegionAwardsAsync(int programId)
+        public  async Task<HttpResponseMessage> ReportRegionAwardsAsync(int programId, string format)
         {
 
             byte[] bytes;
@@ -41,11 +41,11 @@ namespace ECA.Reports
             reportViewer.LocalReport.SetParameters(new ReportParameter("Program", programName));
 
 
-            return GetReport(reportViewer, out bytes);
+            return GetReport(reportViewer, format, out bytes);
         }
 
 
-        public async Task<HttpResponseMessage> ReportProjectAwardsAsync(int programId, int countryId)
+        public async Task<HttpResponseMessage> ReportProjectAwardsAsync(int programId, int countryId, string format)
         {
             byte[] bytes;
 
@@ -61,12 +61,12 @@ namespace ECA.Reports
             reportViewer.LocalReport.SetParameters(new ReportParameter("Country", countryName));
             reportViewer.LocalReport.SetParameters(new ReportParameter("Program", programName));
 
-            return GetReport(reportViewer, out bytes);
+            return GetReport(reportViewer, format, out bytes);
         }
 
 
 
-        public async Task<HttpResponseMessage> ReportPostAwardsAsync(int programId)
+        public async Task<HttpResponseMessage> ReportPostAwardsAsync(int programId, string format)
         {
             byte[] bytes;
 
@@ -81,10 +81,10 @@ namespace ECA.Reports
             reportViewer.LocalReport.ReportEmbeddedResource = "ECA.Reports.PostAwards.rdlc";
             reportViewer.LocalReport.SetParameters(new ReportParameter("Program", programName));
 
-            return GetReport(reportViewer, out bytes);
+            return GetReport(reportViewer, format, out bytes);
         }
 
-        public async Task<HttpResponseMessage> ReportFocusAwardsAsync(int programId)
+        public async Task<HttpResponseMessage> ReportFocusAwardsAsync(int programId, string format)
         {
             byte[] bytes;
 
@@ -99,10 +99,10 @@ namespace ECA.Reports
             reportViewer.LocalReport.ReportEmbeddedResource = "ECA.Reports.FocusAwards.rdlc";
             reportViewer.LocalReport.SetParameters(new ReportParameter("Program", programName));
 
-            return GetReport(reportViewer, out bytes);
+            return GetReport(reportViewer, format, out bytes);
         }
 
-        public async Task<HttpResponseMessage> ReportFocusCategoryAwardsAsync(int programId)
+        public async Task<HttpResponseMessage> ReportFocusCategoryAwardsAsync(int programId, string format)
         {
             byte[] bytes;
 
@@ -117,10 +117,10 @@ namespace ECA.Reports
             reportViewer.LocalReport.ReportEmbeddedResource = "ECA.Reports.FocusCategoryAwards.rdlc";
             reportViewer.LocalReport.SetParameters(new ReportParameter("Program", programName));
 
-            return GetReport(reportViewer, out bytes);
+            return GetReport(reportViewer, format, out bytes);
         }
 
-        public async Task<HttpResponseMessage> ReportCountryAwardsAsync(int programId)
+        public async Task<HttpResponseMessage> ReportCountryAwardsAsync(int programId, string format)
         {
             byte[] bytes;
 
@@ -135,11 +135,11 @@ namespace ECA.Reports
             reportViewer.LocalReport.ReportEmbeddedResource = "ECA.Reports.CountryAwards.rdlc";
             reportViewer.LocalReport.SetParameters(new ReportParameter("Program", programName));
 
-            return GetReport(reportViewer, out bytes);
+            return GetReport(reportViewer, format, out bytes);
         }
 
 
-        public async Task<HttpResponseMessage> ReportObjectiveAwardsAsync(int programId, int objectiveId)
+        public async Task<HttpResponseMessage> ReportObjectiveAwardsAsync(int programId, int objectiveId, string format)
         {
             byte[] bytes;
 
@@ -154,10 +154,10 @@ namespace ECA.Reports
             reportViewer.LocalReport.ReportEmbeddedResource = "ECA.Reports.ObjectiveAwards.rdlc";
             reportViewer.LocalReport.SetParameters(new ReportParameter("Program", programName));
 
-            return GetReport(reportViewer, out bytes);
+            return GetReport(reportViewer, format, out bytes);
         }
 
-        public async Task<HttpResponseMessage> ReportYearAwardsAsync(int programId)
+        public async Task<HttpResponseMessage> ReportYearAwardsAsync(int programId, string format)
         {
             byte[] bytes;
 
@@ -172,24 +172,36 @@ namespace ECA.Reports
             reportViewer.LocalReport.ReportEmbeddedResource = "ECA.Reports.YearAwards.rdlc";
             reportViewer.LocalReport.SetParameters(new ReportParameter("Program", programName));
 
-            return GetReport(reportViewer, out bytes);
+            return GetReport(reportViewer, format, out bytes);
         }
 
-        private HttpResponseMessage GetReport(ReportViewer reportViewer, out byte[] bytes)
+        private HttpResponseMessage GetReport(ReportViewer reportViewer, string format, out byte[] bytes)
         {
             Warning[] warnings;
             string[] streamids;
             string mimeType;
             string encoding;
             string extension;
+            if (format == "docx")
+            {
+                format = "WORDOPENXML";
+            }
+            else if (format == "xlsx")
+            {
+                format = "EXCELOPENXML";
+            }
+            else
+            {
+                format = "PDF";
+            };
 
-            bytes = reportViewer.LocalReport.Render("Pdf", null, out mimeType, out encoding, out extension, out streamids, out warnings);
+            bytes = reportViewer.LocalReport.Render(format, null, out mimeType, out encoding, out extension, out streamids, out warnings);
 
             var result = new HttpResponseMessage(HttpStatusCode.OK);
 
             Stream stream = new MemoryStream(bytes);
             result.Content = new StreamContent(stream);
-            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue(mimeType);
 
             return result;
         }

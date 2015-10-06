@@ -23,7 +23,7 @@ angular.module('staticApp')
       $scope.view.maxDescriptionLength = 255;
       $scope.view.ecaUserId = null;
       $scope.view.evaluations = [];
-
+      var tempEvalId = 0;
       $scope.showEditEvaluation = false;
       $scope.EvaluationLoading = false;
 
@@ -57,15 +57,15 @@ angular.module('staticApp')
       
       $scope.view.saveEvaluationChanges = function () {
           $scope.view.isSavingChanges = true;
-
+          $scope.evaluation.personId = $scope.view.personId;
           if (isNewEvaluation($scope.evaluation)) {
-              //var tempId = angular.copy($scope.evaluation.evaluationNoteId);
+              tempEvalId = angular.copy($scope.evaluation.evaluationNoteId);
               return EvaluationService.addEvaluationNote($scope.evaluation, $scope.view.personId)
                 .then(onSaveEvaluationSuccess)
-                //.then(function () {
-                //    updateEvaluationFormDivId(tempId);
-                //    updateEvaluations(tempId, $scope.evaluation);
-                //})
+                .then(function () {
+                    updateEvaluationFormDivId(tempEvalId);
+                    updateEvaluations(tempEvalId, $scope.evaluation);
+                })
                 .catch(onSaveEvaluationError);
           }
           else {
@@ -75,10 +75,10 @@ angular.module('staticApp')
           }
       };
 
-      //function updateEvaluations(tempId, evaluation) {
-      //    var index = $scope.view.evaluations.map(function (e) { return e.evaluationNoteId }).indexOf(tempId);
-      //    $scope.view.evaluations[index] = evaluation;
-      //};
+      function updateEvaluations(tempId, evaluation) {
+          var index = $scope.view.evaluations.map(function (e) { return e.evaluationNoteId }).indexOf(tempId);
+          $scope.view.evaluations[index] = evaluation;
+      };
 
       $scope.view.onEditEvaluationClick = function () {
           $scope.view.showEditEvaluation = true;
@@ -103,28 +103,30 @@ angular.module('staticApp')
           console.assert(entityEvaluations instanceof Array, 'The evaluation entity is defined but must be an array.');
           var note = "";
           var newEvaluation = {
-              evaluationNoteId: null,
+              evaluationNoteId: --tempEvalId,
               evaluationNote: note,
+              personId: $scope.view.personId,
+              userId: null,
               userName: null,
               addedOn: null,
-              personId: $scope.view.personId,
+              revisedOn: null,
+              emailAddress: null,
               isNew: true
           };
           entityEvaluations.splice(0, 0, newEvaluation);
           $scope.showEvalNotes = false;
       };
 
-      $scope.view.onDeleteEvaluationClick = function () {
+      $scope.view.onDeleteEvaluationClick = function (index) {
           if (isNewEvaluation($scope.evaluation)) {
-              removeEvaluationFromView($scope.evaluation);
-          }
-          else {
+              removeEvaluationFromView(index);
+          } else {
               $scope.view.isDeletingEvaluation = true;
               return EvaluationService.deleteEvaluationNote($scope.evaluation, $scope.view.personId)
               .then(function () {
                   NotificationService.showSuccessMessage("Successfully deleted evaluation.");
                   $scope.view.isDeletingEvaluation = false;
-                  removeEvaluationFromView($scope.evaluation);
+                  removeEvaluationFromView(index);
               })
               .catch(function () {
                   var message = "Unable to delete evaluation.";
@@ -150,46 +152,33 @@ angular.module('staticApp')
       }
 
       function isNewEvaluation(evalnote) {
-          if (evalnote.isNew) {
-              return true;
-          }
-          else {
-              return false;
-          }
+          return evalnote.isNew;
       }
 
-      function removeEvaluationFromView(evaluation) {
-          $scope.$emit(ConstantsService.removeNewEvaluationEventName, evaluation);
+      function removeEvaluationFromView(index) {
+          $scope.$emit(ConstantsService.removeNewEvaluationEventName, index);
       }
 
       function getEvaluationFormDivIdPrefix() {
           return 'evaluationForm';
       }
 
-      function getEvaluationFormDivId() {
-          return getEvaluationFormDivIdPrefix() + $scope.evaluation.evaluationNoteId;
-      }
-
       function updateEvaluationFormDivId(tempId) {
           var id = getEvaluationFormDivIdPrefix() + tempId;
           var e = getEvaluationFormDivElement(id);
-          e.id = getEvaluationFormDivIdPrefix() + $scope.evaluation.evaluationNoteId;
+          e.id = getEvaluationFormDivIdPrefix() + $scope.evaluation.evaluationNoteId.toString();
       }
 
       function getEvaluationFormDivElement(id) {
           return document.getElementById(id);
       }
       
-      $scope.$on(ConstantsService.removeNewEvaluationEventName, function (event, newEvaluation) {
+      $scope.$on(ConstantsService.removeNewEvaluationEventName, function (event, index) {
           console.assert($scope.view, 'The scope person must exist.  It should be set by the directive.');
           console.assert($scope.view.evaluations instanceof Array, 'The entity evaluation is defined but must be an array.');
 
-          var evaluations = $scope.view.evaluations;
-          var index = evaluations.indexOf(newEvaluation);
-          var removedItems = evaluations.splice(index, 1);
+          $scope.view.evaluations.splice(index, 1);
           $log.info('Removed one new evaluation at index ' + index);
       });
-
-
 
   });

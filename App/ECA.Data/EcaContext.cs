@@ -291,6 +291,11 @@ namespace ECA.Data
         public DbSet<Publication> Publications { get; set; }
 
         /// <summary>
+        /// Gets or sets the SevisCommStatuses.
+        /// </summary>
+        public DbSet<SevisCommStatus> SevisCommStatuses { get; set; }
+
+        /// <summary>
         /// Gets or sets social medias.
         /// </summary>
         public DbSet<SocialMedia> SocialMedias { get; set; }

@@ -23,6 +23,15 @@
         <div ng-show="objectiveAwardForm.objective.$dirty">
             <div class="error" ng-show="!parameters.objective">Please select an objective.</div>
         </div>
+        <div class="form-group">
+            <label>Output Format</label>
+            <ui-select ng-model="parameters.selectedFormat" theme="select2">
+                <ui-select-match placeholder="Select an output format...">{{$select.selected.type}}</ui-select-match>
+                <ui-select-choices repeat="format in formats">
+                    <span ng-bind-html="format.type"></span>
+                </ui-select-choices>
+            </ui-select>
+        </div>
         <div class="spinner" ng-show="isRunning">
             <div class="bounce1"></div>
             <div class="bounce2"></div>
@@ -31,7 +40,7 @@
     </div>
 </form>
 <div class="modal-footer">
-    <button ng-disabled="!parameters.program || !parameters.objective || isRunning" class="btn btn-primary" ng-click="run()">Run</button>
+    <button ng-disabled="!parameters.program || !parameters.objective || isRunning || !parameters.selectedFormat" class="btn btn-primary" ng-click="run()">Run</button>
     <button class="btn btn-cancel" ng-click="cancel()">Cancel</button>
 </div>
 

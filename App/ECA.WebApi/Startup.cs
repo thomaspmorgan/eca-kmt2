@@ -17,16 +17,9 @@ namespace ECA.WebApi
     {
         public void Configuration(IAppBuilder app)
         {
-            if (!AppSettings.PdTrackerOpenNetMode)
-            {
-                ConfigureAuth(app);
-                //ConfigureActiveDirectory();
-            }
-
+            ConfigureAuth(app);
             GlobalConfiguration.Configure(WebApiConfig.Register);
             AreaRegistration.RegisterAllAreas();
-            //FilterConfig.RegisterGlobalFilters();
-            //RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
 
     }

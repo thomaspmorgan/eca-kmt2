@@ -99,10 +99,32 @@ namespace ECA.Business.Search
         /// <summary>
         /// Performs a full text search against the index with the given parameters.
         /// </summary>
-        /// <param name="searchParameters">The search parameters.</param>
+        /// <param name="suggestionParameters">The suggestion parameters.</param>
         /// <param name="allowedDocumentKeys">The documents keys that can be searched on.</param>
         /// <returns>The search results.</returns>
         DocumentSearchResponse<ECADocument> Search(ECASearchParameters searchParameters, List<DocumentKey> allowedDocumentKeys);
+
+        /// <summary>
+        /// Returns suggested search values given the parameters.
+        /// </summary>
+        /// <param name="suggestionParameters">The suggestion parameters.</param>
+        /// <param name="allowedDocumentKeys">The document keys the search is allowed to include.</param>
+        /// <returns>The suggested search.</returns>
+        DocumentSuggestResponse<ECADocument> GetSuggestions(ECASuggestionParameters suggestionParameters, List<DocumentKey> allowedDocumentKeys);
+
+        /// <summary>
+        /// Returns suggested search values given the parameters.
+        /// </summary>
+        /// <param name="suggestionParameters">The suggestion parameters.</param>
+        /// <param name="allowedDocumentKeys">The document keys the search is allowed to include.</param>
+        /// <returns>The suggested search.</returns>
+        Task<DocumentSuggestResponse<ECADocument>> GetSuggestionsAsync(ECASuggestionParameters suggestionParameters, List<DocumentKey> allowedDocumentKeys);
+
+        /// <summary>
+        /// Returns the names of the document fields.
+        /// </summary>
+        /// <returns>The names of the document fields.</returns>
+        IList<string> GetDocumentFieldNames();
     }
     /// <summary>
     /// 
@@ -116,7 +138,7 @@ namespace ECA.Business.Search
         /// <typeparam name="T"></typeparam>
         public void CreateIndex<T>() where T : class
         {
-            
+
         }
 
         /// <summary>
@@ -201,6 +223,37 @@ namespace ECA.Business.Search
         public IDocumentConfiguration GetDocumentConfiguration<T>()
         {
             return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public IList<string> GetDocumentFieldNames()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="suggestionParameters"></param>
+        /// <returns></returns>
+        public DocumentSuggestResponse<ECADocument> GetSuggestions(ECASuggestionParameters suggestionParameters, List<DocumentKey> allowedDocumentKeys)
+        {
+            Contract.Requires(suggestionParameters != null, "The suggestion parameters must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="suggestionParameters"></param>
+        /// <returns></returns>
+        public Task<DocumentSuggestResponse<ECADocument>> GetSuggestionsAsync(ECASuggestionParameters suggestionParameters, List<DocumentKey> allowedDocumentKeys)
+        {
+            Contract.Requires(suggestionParameters != null, "The suggestion parameters must not be null.");
+            return Task.FromResult<DocumentSuggestResponse<ECADocument>>(null);
         }
 
         /// <summary>

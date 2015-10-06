@@ -18,8 +18,16 @@ namespace ECA.Business.Search
     /// </summary>
     public class IndexService : IDisposable, IIndexService
     {
-        public const string INDEX_NAME = "ecadocs";
+        /// <summary>
+        /// The maximum length of a document type name.
+        /// </summary>
+        public const int MAX_DOCUMENT_TYPE_NAME_LENGTH = 25;
 
+        /// <summary>
+        /// The name of the document name suggester for azure search.
+        /// </summary>
+        public const string DOCUMENT_NAME_SUGGESTER_KEY = "nameSuggester";
+        
         private SearchServiceClient searchClient;
 
         /// <summary>
@@ -28,12 +36,15 @@ namespace ECA.Business.Search
         /// The List of IDocumentConfigurations will be used to create azure search compatible documents from objects
         /// that are classes.
         /// </summary>
+        /// <param name="indexName">The index name.</param>
         /// <param name="searchClient">The azure search service client instance.</param>
         /// <param name="documentConfigurations">The document configurations for classes that will be indexed.</param>
-        public IndexService(SearchServiceClient searchClient, List<IDocumentConfiguration> documentConfigurations = null)
+        public IndexService(string indexName, SearchServiceClient searchClient, List<IDocumentConfiguration> documentConfigurations = null)
         {
+            Contract.Requires(!String.IsNullOrWhiteSpace(indexName), "The index name must not be null.");
             Contract.Requires(searchClient != null, "The search client must not be null.");
             this.searchClient = searchClient;
+            this.IndexName = indexName;
             if (documentConfigurations == null)
             {
                 this.Configurations = new List<IDocumentConfiguration>();
@@ -85,6 +96,14 @@ namespace ECA.Business.Search
             }
         }
 
+        /// <summary>
+        /// Gets the name of the azure search index.
+        /// </summary>
+        public string IndexName { get; private set; }
+
+        /// <summary>
+        /// Gets the document configurations.
+        /// </summary>
         public List<IDocumentConfiguration> Configurations { get; private set; }
 
         #region Exists index
@@ -114,6 +133,15 @@ namespace ECA.Business.Search
         #region Create Index
 
         /// <summary>
+        /// Returns the names of the document fields.
+        /// </summary>
+        /// <returns>The names of document fields.</returns>
+        public IList<string> GetDocumentFieldNames()
+        {
+            return GetFields().Select(x => x.Name).ToList();
+        }
+
+        /// <summary>
         /// Creates an Azure Search index schema given the document configuration.
         /// </summary>
         /// <param name="configuration">The document configuration.</param>
@@ -121,12 +149,30 @@ namespace ECA.Business.Search
         public Index GetIndex(IDocumentConfiguration configuration)
         {
             Contract.Requires(configuration != null, "The configuration must not be null.");
+            var fields = GetFields();
+            var suggesters = GetSuggesters(fields);
             var index = new Index
             {
-                Name = INDEX_NAME,
-                Fields = GetFields()
+                Name = this.IndexName,
+                Fields = fields,
+                Suggesters = suggesters,
             };
             return index;
+        }
+
+        private IList<Suggester> GetSuggesters(IList<Field> fields)
+        {
+            var nameField = fields.Where(x => x.Name.ToLower() == PropertyHelper.GetPropertyName<ECADocument>(y => y.Name).ToLower()).FirstOrDefault();
+            Contract.Assert(nameField != null, "The name field must not be null.");
+            return new List<Suggester>
+            {
+                new Suggester
+                {
+                    Name = DOCUMENT_NAME_SUGGESTER_KEY,
+                    SearchMode = SuggesterSearchMode.AnalyzingInfixMatching,
+                    SourceFields = new List<string> { nameField.Name }
+                }
+            };
         }
 
         private IList<Field> GetFields()
@@ -143,7 +189,8 @@ namespace ECA.Business.Search
                 IsKey = false,
                 Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Name),
                 Type = DataType.String,
-                IsSearchable = true
+                IsSearchable = true,
+                IsSortable = true
             });
             fields.Add(new Field
             {
@@ -173,7 +220,7 @@ namespace ECA.Business.Search
                 IsKey = false,
                 Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Foci),
                 Type = DataType.Collection(DataType.String),
-                IsSearchable = true
+                IsSearchable = true,
             });
             fields.Add(new Field
             {
@@ -206,7 +253,42 @@ namespace ECA.Business.Search
             fields.Add(new Field
             {
                 IsKey = false,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Regions),
+                Type = DataType.Collection(DataType.String),
+                IsSearchable = true,
+            });
+            fields.Add(new Field
+            {
+                IsKey = false,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Countries),
+                Type = DataType.Collection(DataType.String),
+                IsSearchable = true
+            });
+            fields.Add(new Field
+            {
+                IsKey = false,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Locations),
+                Type = DataType.Collection(DataType.String),
+                IsSearchable = true
+            });
+            fields.Add(new Field
+            {
+                IsKey = false,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Websites),
+                Type = DataType.Collection(DataType.String),
+                IsSearchable = true
+            });
+            fields.Add(new Field
+            {
+                IsKey = false,
                 Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.OfficeSymbol),
+                Type = DataType.String,
+                IsSearchable = true
+            });
+            fields.Add(new Field
+            {
+                IsKey = false,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Status),
                 Type = DataType.String,
                 IsSearchable = true
             });
@@ -409,6 +491,53 @@ namespace ECA.Business.Search
 
         #region Search
 
+        public SuggestParameters GetSuggestParameters(ECASuggestionParameters suggestionParameters)
+        {
+            var nameField = ToCamelCase(PropertyHelper.GetPropertyName<ECADocument>(x => x.Name));
+            var idField = ToCamelCase(PropertyHelper.GetPropertyName<ECADocument>(x => x.Id));
+            return new SuggestParameters
+            {
+                Select = new List<string>
+                {
+                    nameField,
+                    idField
+                },
+                OrderBy = new List<string>
+                {
+                    nameField
+                },
+                UseFuzzyMatching = true,
+                HighlightPostTag = suggestionParameters.HighlightPostTag,
+                HighlightPreTag = suggestionParameters.HighlightPreTag
+            };
+        }
+
+        /// <summary>
+        /// Returns suggested search values given the parameters.
+        /// </summary>
+        /// <param name="suggestionParameters">The suggestion parameters.</param>
+        /// <param name="allowedDocumentKeys">The document keys the search is allowed to include.</param>
+        /// <returns>The suggested search.</returns>
+        public DocumentSuggestResponse<ECADocument> GetSuggestions(ECASuggestionParameters suggestionParameters, List<DocumentKey> allowedDocumentKeys)
+        {
+            var client = GetClient();
+            var response = client.Documents.Suggest<ECADocument>(suggestionParameters.SearchTerm, DOCUMENT_NAME_SUGGESTER_KEY, GetSuggestParameters(suggestionParameters));
+            return response;
+        }
+
+        /// <summary>
+        /// Returns suggested search values given the parameters.
+        /// </summary>
+        /// <param name="suggestionParameters">The suggestion parameters.</param>
+        /// <param name="allowedDocumentKeys">The document keys the search is allowed to include.</param>
+        /// <returns>The suggested search.</returns>
+        public async Task<DocumentSuggestResponse<ECADocument>> GetSuggestionsAsync(ECASuggestionParameters suggestionParameters, List<DocumentKey> allowedDocumentKeys)
+        {
+            var client = GetClient();
+            var response = await client.Documents.SuggestAsync<ECADocument>(suggestionParameters.SearchTerm, DOCUMENT_NAME_SUGGESTER_KEY, GetSuggestParameters(suggestionParameters));
+            return response;
+        }
+
         /// <summary>
         /// Performs a search against Azure Search using the parameters and allowed document keys.
         /// </summary>
@@ -439,7 +568,7 @@ namespace ECA.Business.Search
 
         private SearchIndexClient GetClient()
         {
-            return GetClient(INDEX_NAME);
+            return GetClient(this.IndexName);
         }
 
         private SearchIndexClient GetClient(string indexName)
@@ -456,10 +585,10 @@ namespace ECA.Business.Search
         public SearchParameters GetSearchParameters(ECASearchParameters ecaSearchParameters, List<DocumentKey> allowedDocumentKeys)
         {
             List<string> highlightFields = null;
-            if (ecaSearchParameters.Fields != null)
+            if (ecaSearchParameters.SelectFields != null)
             {
                 highlightFields = GetFields()
-                    .Where(x => x.IsSearchable && ecaSearchParameters.Fields.Select(f => f.ToLower()).ToList().Contains(x.Name.ToLower()))
+                    .Where(x => x.IsSearchable && ecaSearchParameters.SelectFields.Select(f => f.ToLower()).ToList().Contains(x.Name.ToLower()))
                     .Select(x => x.Name).ToList();
             }
             var searchParameters = new SearchParameters
@@ -467,7 +596,13 @@ namespace ECA.Business.Search
                 Skip = ecaSearchParameters.Start,
                 Top = ecaSearchParameters.Limit,
                 Filter = ecaSearchParameters.Filter,
+                IncludeTotalResultCount = true,
             };
+            if(ecaSearchParameters.HighlightPreTag != null && ecaSearchParameters.HighlightPostTag != null)
+            {
+                searchParameters.HighlightPostTag = ecaSearchParameters.HighlightPostTag;
+                searchParameters.HighlightPreTag = ecaSearchParameters.HighlightPreTag;
+            }
             if (highlightFields != null && highlightFields.Count > 0)
             {
                 searchParameters.HighlightFields = highlightFields;
@@ -477,9 +612,9 @@ namespace ECA.Business.Search
                 var distinctFacets = ecaSearchParameters.Facets.Distinct().ToList();
                 searchParameters.Facets = distinctFacets;
             }
-            if (ecaSearchParameters.Fields != null)
+            if (ecaSearchParameters.SelectFields != null)
             {
-                var distinctFields = ecaSearchParameters.Fields.Distinct().ToList();
+                var distinctFields = ecaSearchParameters.SelectFields.Distinct().ToList();
                 searchParameters.Select = distinctFields;
             }
             return searchParameters;

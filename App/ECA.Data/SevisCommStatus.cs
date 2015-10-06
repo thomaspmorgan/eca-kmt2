@@ -47,6 +47,6 @@ namespace ECA.Data
         /// <summary>
         /// navigation property for person participants with this status
         /// </summary>
-        public ICollection<ParticipantPerson> ParticipantPersons { get; set; }
+        public ICollection<ParticipantPersonSevisCommStatus> ParticipantPersonSevisCommStatuses { get; set; }
     }
 }
