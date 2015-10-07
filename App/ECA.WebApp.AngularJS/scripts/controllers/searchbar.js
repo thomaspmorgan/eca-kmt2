@@ -9,9 +9,11 @@
 angular.module('staticApp')
   .controller('searchbarCtrl', function (
         $scope,
+        $rootScope,
         $stateParams,
         $q,
         $log,
+        $location,
         $modalInstance,
         $filter,
         $sanitize,
@@ -29,15 +31,18 @@ angular.module('staticApp')
       $scope.text = '';
       $scope.isLoadingResults = false;
       $scope.isLoadingDocInfo = false;
-      
+
+      // Detect array in sub group
       $scope.isArray = angular.isArray;
 
+      // Return number of pages in results
       var numberOfPages = function () {
           $scope.totalpages = Math.ceil($scope.results.length / $scope.pagesize);
           $scope.pagearray = new Array($scope.totalpages);
           return $scope.totalpages;
       }
 
+      // Set the current page when paging
       $scope.selectPage = function (index) {
           $scope.currentpage = index;
       }
@@ -77,6 +82,12 @@ angular.module('staticApp')
           });
       };
 
+      // Set the previous search term
+      if ($rootScope.searchText.length) {
+          $scope.text = $rootScope.searchText;
+          $scope.autocomplete();
+      }
+
       // Gets document details on selection
       $scope.GetDocumentInfo = function (id) {
           $scope.isLoadingDocInfo = true;
@@ -104,7 +115,15 @@ angular.module('staticApp')
       
       // Closes the search modal
       $scope.onCloseSpotlightSearchClick = function () {
+          $rootScope.searchText = $scope.text;
           $modalInstance.dismiss('close');
+      };
+
+      // Closes the search modal and reloads selection
+      $scope.onGoToSpotlightSearchClick = function (url) {
+          $rootScope.searchText = $scope.text;
+          $modalInstance.dismiss('close');
+          $location.path(url, true);
       };
 
       // Link document to details page
