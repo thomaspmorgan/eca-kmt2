@@ -3,6 +3,7 @@ using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Core.Service;
+using ECA.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +44,13 @@ namespace ECA.Business.Service.Admin
         /// <param name="organizationId">The organization id.</param>
         /// <returns>The organization.</returns>
         Task<OrganizationDTO> GetOrganizationByIdAsync(int organizationId);
+        
+        /// <summary>
+        /// Creates a new organization
+        /// </summary>
+        /// <param name="newOrganization">The organization to create</param>
+        /// <returns>The organization created</returns>
+        Task<Organization> CreateAsync(NewOrganization newOrganization);
 
         /// <summary>
         /// Updates an organization.

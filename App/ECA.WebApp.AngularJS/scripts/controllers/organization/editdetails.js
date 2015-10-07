@@ -172,7 +172,12 @@ angular.module('staticApp')
 
       var orgTypesParams = {
           start: 0,
-          limit: maxLimit
+          limit: maxLimit,
+          filter: {
+              comparison: ConstantsService.notInComparisonType,
+              property: 'id',
+              value: [ConstantsService.organizationType.office.id, ConstantsService.organizationType.branch.id, ConstantsService.organizationType.division.id]
+          }
       };
 
       var orgRolesParams = {
