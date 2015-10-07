@@ -756,4 +756,67 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="FundingIntlOrg2" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="858d312a-08bb-4e69-8fb3-ced52b58ea72" ChangeDateTime="10/06/2015 20:49:10">
+    <Property Name="ElementName" Value="[sevis].[ProgramCategory].[ProgramCategoryId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[sevis].[ProgramCategory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AgencyId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="196bceda-f0ca-4381-8e34-64814ec282f0" ChangeDateTime="10/06/2015 20:49:26">
+    <Property Name="ElementName" Value="[sevis].[ProgramCategory].[ProgramCategoryCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[sevis].[ProgramCategory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AgencyCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8d25e552-b0cb-48bf-b598-81ce290acd28" ChangeDateTime="10/06/2015 21:01:05">
+    <Property Name="ElementName" Value="[sevis].[InternationalOrganization].[AgencyId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[sevis].[InternationalOrganization]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="OrganizationId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="756b4f7b-7e8d-40fa-91dd-a2d680b997de" ChangeDateTime="10/06/2015 21:01:15">
+    <Property Name="ElementName" Value="[sevis].[InternationalOrganization].[AgencyCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[sevis].[InternationalOrganization]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="OrganizationCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0303328b-e7bf-4549-81cb-8553b85b539d" ChangeDateTime="10/06/2015 11:58:21">
+    <Property Name="ElementName" Value="[dbo].[PersonParticipantSevisCommStatus]" />
+    <Property Name="ElementType" Value="SqlTable" />
+    <Property Name="ParentElementName" Value="[dbo]" />
+    <Property Name="ParentElementType" Value="SqlSchema" />
+    <Property Name="NewName" Value="[ParticipantPersonSevisCommStatus]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="493cfb14-4303-4052-88eb-764aa9969cf4" ChangeDateTime="10/06/2015 11:58:59">
+    <Property Name="ElementName" Value="[dbo].[PK_PersonParticipantSevisCommStatus]" />
+    <Property Name="ElementType" Value="SqlPrimaryKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[ParticipantPersonSevisCommStatus]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[PK_ParticipantPersonSevisCommStatus]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4a166913-a2af-40dd-b892-d7bdb1eb8f29" ChangeDateTime="10/06/2015 11:59:15">
+    <Property Name="ElementName" Value="[dbo].[FK_PersonParticipantSevisCommStatus_ToPersonParticipant]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[ParticipantPersonSevisCommStatus]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_ParticipantPersonSevisCommStatus_ToPersonParticipant]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="373713f0-b6b5-48dc-a3d0-c22b1d3fce77" ChangeDateTime="10/06/2015 11:59:48">
+    <Property Name="ElementName" Value="[dbo].[ParticipantPersonSevisCommStatus].[IX_PersonParticipantSevisCommStatus_Participant]" />
+    <Property Name="ElementType" Value="SqlIndex" />
+    <Property Name="ParentElementName" Value="[dbo].[ParticipantPersonSevisCommStatus]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[IX_ParticipantPersonSevisCommStatus_Participant]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6481c4cd-4c46-4281-837d-1dafa03bed1f" ChangeDateTime="10/06/2015 12:00:05">
+    <Property Name="ElementName" Value="[dbo].[ParticipantPersonSevisCommStatus].[IX_PersonParticipantSevisCommStatus_SevisCommStatus]" />
+    <Property Name="ElementType" Value="SqlIndex" />
+    <Property Name="ParentElementName" Value="[dbo].[ParticipantPersonSevisCommStatus]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[IX_ParticipantPersonSevisCommStatus_SevisCommStatus]" />
+  </Operation>
 </Operations>

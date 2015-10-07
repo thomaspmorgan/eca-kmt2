@@ -102,6 +102,29 @@ namespace ECA.WebApi.Controllers.Admin
         }
 
         /// <summary>
+        /// Creates a new organization
+        /// </summary>
+        /// <param name="model">The model to create</param>
+        /// <returns>The organization created</returns>
+        [ResponseType(typeof(OrganizationDTO))]
+        [Route("Organizations")]
+        public async Task<IHttpActionResult> PostOrganizationAsync(CreateOrganizationBindingModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var organization = await organizationService.CreateAsync(model.ToNewOrganization(businessUser));
+                await organizationService.SaveChangesAsync();
+                var dto = await organizationService.GetOrganizationByIdAsync(organization.OrganizationId);
+                return Ok(dto);
+            } else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
         /// Updates the organization with the given data.
         /// </summary>
         /// <param name="model">The updated model.</param>

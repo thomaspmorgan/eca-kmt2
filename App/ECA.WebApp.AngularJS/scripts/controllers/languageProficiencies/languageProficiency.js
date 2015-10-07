@@ -52,12 +52,15 @@ angular.module('staticApp')
           else {
               return LanguageProficiencyService.updateLanguageProficiency($scope.languageProficiency, $scope.view.params.personId)
                   .then(onSaveLanguageProficiencySuccess)
+                  .then(function () {
+                      updateLanguageProficiencies($scope.languageProficiency.languageId, $scope.languageProficiency);
+                  })
                   .catch(onSaveLanguageProficiencyError);
           }
       };
       
       function updateLanguageProficiencies(tempId, languageProficiency) {
-          var index = $scope.model.languageProficiencies.map(function (e) { return e.id }).indexOf(tempId);
+          var index = $scope.model.languageProficiencies.map(function (e) { return e.languageId }).indexOf(tempId);
           $scope.model.languageProficiencies[index] = languageProficiency;
       };
 

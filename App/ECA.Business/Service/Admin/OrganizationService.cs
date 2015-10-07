@@ -117,6 +117,41 @@ namespace ECA.Business.Service.Admin
 
         #endregion
 
+        #region Create
+        /// <summary>
+        /// Create an organization
+        /// </summary>
+        /// <param name="newOrganization">The new organization to create</param>
+        /// <returns>The created organization</returns>
+        public async Task<Organization> CreateAsync(NewOrganization newOrganization)
+        {
+            var organizationType = this.Context.OrganizationTypes.Find(newOrganization.OrganizationType);
+            var organization = DoCreate(newOrganization, organizationType);
+            return await Task.FromResult<Organization>(organization);
+        }
+
+        private Organization DoCreate(NewOrganization newOrganization, OrganizationType organizationType)
+        {
+            var organization = new Organization
+            {
+                Name = newOrganization.Name,
+                Description = newOrganization.Description,
+                OrganizationType = organizationType,
+                OrganizationTypeId = newOrganization.OrganizationType,
+                Website = newOrganization.Website,
+                Status = "Active"
+            };
+
+            SetOrganizationRoles(newOrganization.OrganizationRoles.ToList(), organization);
+            SetPointOfContacts(newOrganization.PointsOfContact.ToList(), organization);
+
+            newOrganization.Audit.SetHistory(organization);
+            this.Context.Organizations.Add(organization);
+            return organization;
+
+        }
+        #endregion
+
         #region Update
         /// <summary>
         /// Updates an organization.

@@ -1441,7 +1441,7 @@ namespace ECA.Business.Search.Test
                     GetClientString = (name) =>
                     {
                         return searchIndexClient;
-                    }
+        }
                 };
 
                 searchClient = new ShimSearchServiceClient();

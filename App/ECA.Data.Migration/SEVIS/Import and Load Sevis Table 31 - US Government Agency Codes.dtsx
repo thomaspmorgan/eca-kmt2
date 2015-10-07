@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Import and Load Sevis Table 31 - US Government Agency Codes"
   DTS:PackageType="5"
-  DTS:VersionBuild="1"
-  DTS:VersionGUID="{1D29C267-CEAA-4979-B841-7A1C4B5B198C}">
+  DTS:VersionBuild="6"
+  DTS:VersionGUID="{A694577E-5475-473B-AD80-FC3FFE6BD61A}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -33,20 +33,20 @@
       DTS:ObjectName="Excel Connection Manager">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 31 - U.S. Government Agency Codes.xlsx;Extended Properties=&quot;Excel 12.0 XML;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 31 - U.S. Government Agency Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
   <DTS:Variables />
   <DTS:Executables>
     <DTS:Executable
-      DTS:refId="Package\US Government Agency Codes (Excel)"
+      DTS:refId="Package\Load US Government Agency Codes"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
       DTS:DTSID="{4845713D-08A3-4404-9CE0-8B6B8CC357A1}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
-      DTS:ObjectName="US Government Agency Codes (Excel)"
+      DTS:ObjectName="Load US Government Agency Codes"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
       <DTS:Variables />
       <DTS:ObjectData>
@@ -54,102 +54,137 @@
           version="1">
           <components>
             <component
-              refId="Package\US Government Agency Codes (Excel)\Data Conversion"
-              componentClassID="Microsoft.DataConvert"
-              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
-              description="Data Conversion"
-              name="Data Conversion"
+              refId="Package\Load US Government Agency Codes\Add Required Columns"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Add Required Columns"
               usesDispositions="true">
               <inputs>
                 <input
-                  refId="Package\US Government Agency Codes (Excel)\Data Conversion.Inputs[Data Conversion Input]"
-                  name="Data Conversion Input">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\US Government Agency Codes (Excel)\Data Conversion.Inputs[Data Conversion Input].Columns[GOVERNMENT AGENCY CODE]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="GOVERNMENT AGENCY CODE"
-                      lineageId="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Outputs[Excel Source Output].Columns[GOVERNMENT AGENCY CODE]" />
-                    <inputColumn
-                      refId="Package\US Government Agency Codes (Excel)\Data Conversion.Inputs[Data Conversion Input].Columns[GOVERNMENT AGENCY DESCRIPTION]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="GOVERNMENT AGENCY DESCRIPTION"
-                      lineageId="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Outputs[Excel Source Output].Columns[GOVERNMENT AGENCY DESCRIPTION]" />
-                  </inputColumns>
+                  refId="Package\Load US Government Agency Codes\Add Required Columns.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
                   <externalMetadataColumns />
                 </input>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\US Government Agency Codes (Excel)\Data Conversion.Outputs[Data Conversion Output]"
+                  refId="Package\Load US Government Agency Codes\Add Required Columns.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
                   exclusionGroup="1"
-                  name="Data Conversion Output"
-                  synchronousInputId="Package\US Government Agency Codes (Excel)\Data Conversion.Inputs[Data Conversion Input]">
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load US Government Agency Codes\Add Required Columns.Inputs[Derived Column Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\US Government Agency Codes (Excel)\Data Conversion.Outputs[Data Conversion Output].Columns[AGENCYCODE]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
+                      refId="Package\Load US Government Agency Codes\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      length="10"
-                      lineageId="Package\US Government Agency Codes (Excel)\Data Conversion.Outputs[Data Conversion Output].Columns[AGENCYCODE]"
-                      name="AGENCYCODE"
+                      lineageId="Package\Load US Government Agency Codes\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      name="History_CreatedBy"
                       truncationRowDisposition="FailComponent">
                       <properties>
                         <property
                           containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Outputs[Excel Source Output].Columns[GOVERNMENT AGENCY CODE]}</property>
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">1</property>
                         <property
-                          dataType="System.Boolean"
-                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
-                          name="FastParse">false</property>
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">1</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\US Government Agency Codes (Excel)\Data Conversion.Outputs[Data Conversion Output].Columns[DESCRIPTION]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
+                      refId="Package\Load US Government Agency Codes\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      length="250"
-                      lineageId="Package\US Government Agency Codes (Excel)\Data Conversion.Outputs[Data Conversion Output].Columns[DESCRIPTION]"
-                      name="DESCRIPTION"
+                      lineageId="Package\Load US Government Agency Codes\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      name="History_RevisedBy"
                       truncationRowDisposition="FailComponent">
                       <properties>
                         <property
                           containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Outputs[Excel Source Output].Columns[GOVERNMENT AGENCY DESCRIPTION]}</property>
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">1</property>
                         <property
-                          dataType="System.Boolean"
-                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
-                          name="FastParse">false</property>
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">1</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load US Government Agency Codes\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load US Government Agency Codes\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      name="History_CreatedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load US Government Agency Codes\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load US Government Agency Codes\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      name="History_RevisedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\US Government Agency Codes (Excel)\Data Conversion.Outputs[Data Conversion Error Output]"
+                  refId="Package\Load US Government Agency Codes\Add Required Columns.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
                   exclusionGroup="1"
                   isErrorOut="true"
-                  name="Data Conversion Error Output"
-                  synchronousInputId="Package\US Government Agency Codes (Excel)\Data Conversion.Inputs[Data Conversion Input]">
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load US Government Agency Codes\Add Required Columns.Inputs[Derived Column Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\US Government Agency Codes (Excel)\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      refId="Package\Load US Government Agency Codes\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\US Government Agency Codes (Excel)\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Load US Government Agency Codes\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\US Government Agency Codes (Excel)\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      refId="Package\Load US Government Agency Codes\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\US Government Agency Codes (Excel)\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Load US Government Agency Codes\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -158,11 +193,11 @@
               </outputs>
             </component>
             <component
-              refId="Package\US Government Agency Codes (Excel)\OLE DB Destination"
+              refId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency"
               componentClassID="Microsoft.OLEDBDestination"
               contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
               description="OLE DB Destination"
-              name="OLE DB Destination"
+              name="Sevis - GovernmentAgency"
               usesDispositions="true"
               version="4">
               <properties>
@@ -173,7 +208,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset"></property>
+                  name="OpenRowset">[sevis].[USGovernmentAgency]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -215,7 +250,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\US Government Agency Codes (Excel)\OLE DB Destination.Connections[OleDbConnection]"
+                  refId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[(Localdb)\v11.0.ECA_Local]"
                   connectionManagerRefId="Package.ConnectionManagers[(Localdb)\v11.0.ECA_Local]"
                   description="The OLE DB runtime connection used to access the database."
@@ -223,33 +258,106 @@
               </connections>
               <inputs>
                 <input
-                  refId="Package\US Government Agency Codes (Excel)\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  refId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Inputs[OLE DB Destination Input]"
                   errorOrTruncationOperation="Insert"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      externalMetadataColumnId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Load US Government Agency Codes\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_RevisedBy"
+                      externalMetadataColumnId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Load US Government Agency Codes\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
+                    <inputColumn
+                      refId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_CreatedOn"
+                      externalMetadataColumnId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Load US Government Agency Codes\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]" />
+                    <inputColumn
+                      refId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_RevisedOn"
+                      externalMetadataColumnId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Load US Government Agency Codes\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
+                    <inputColumn
+                      refId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Inputs[OLE DB Destination Input].Columns[GOVERNMENT AGENCY CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="GOVERNMENT AGENCY CODE"
+                      externalMetadataColumnId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Inputs[OLE DB Destination Input].ExternalColumns[AgencyCode]"
+                      lineageId="Package\Load US Government Agency Codes\US Government Agency Codes Excel.Outputs[Excel Source Output].Columns[GOVERNMENT AGENCY CODE]" />
+                    <inputColumn
+                      refId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Inputs[OLE DB Destination Input].Columns[GOVERNMENT AGENCY DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="GOVERNMENT AGENCY DESCRIPTION"
+                      externalMetadataColumnId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Load US Government Agency Codes\US Government Agency Codes Excel.Outputs[Excel Source Output].Columns[GOVERNMENT AGENCY DESCRIPTION]" />
+                  </inputColumns>
                   <externalMetadataColumns
-                    isUsed="True" />
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Inputs[OLE DB Destination Input].ExternalColumns[AgencyId]"
+                      dataType="i4"
+                      name="AgencyId" />
+                    <externalMetadataColumn
+                      refId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Inputs[OLE DB Destination Input].ExternalColumns[AgencyCode]"
+                      dataType="wstr"
+                      length="10"
+                      name="AgencyCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      dataType="wstr"
+                      length="250"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                  </externalMetadataColumns>
                 </input>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\US Government Agency Codes (Excel)\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  refId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Outputs[OLE DB Destination Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="OLE DB Destination Error Output"
-                  synchronousInputId="Package\US Government Agency Codes (Excel)\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  synchronousInputId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Inputs[OLE DB Destination Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\US Government Agency Codes (Excel)\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      refId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\US Government Agency Codes (Excel)\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\US Government Agency Codes (Excel)\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      refId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\US Government Agency Codes (Excel)\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -258,7 +366,7 @@
               </outputs>
             </component>
             <component
-              refId="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel"
+              refId="Package\Load US Government Agency Codes\US Government Agency Codes Excel"
               componentClassID="Microsoft.ExcelSource"
               contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
               description="Excel Source"
@@ -299,7 +407,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Connections[OleDbConnection]"
+                  refId="Package\Load US Government Agency Codes\US Government Agency Codes Excel.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
                   connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
                   description="The OLE DB runtime connection used to access the database."
@@ -307,71 +415,71 @@
               </connections>
               <outputs>
                 <output
-                  refId="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Outputs[Excel Source Output]"
+                  refId="Package\Load US Government Agency Codes\US Government Agency Codes Excel.Outputs[Excel Source Output]"
                   name="Excel Source Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Outputs[Excel Source Output].Columns[GOVERNMENT AGENCY CODE]"
+                      refId="Package\Load US Government Agency Codes\US Government Agency Codes Excel.Outputs[Excel Source Output].Columns[GOVERNMENT AGENCY CODE]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Outputs[Excel Source Output].ExternalColumns[GOVERNMENT AGENCY CODE]"
+                      externalMetadataColumnId="Package\Load US Government Agency Codes\US Government Agency Codes Excel.Outputs[Excel Source Output].ExternalColumns[GOVERNMENT AGENCY CODE]"
                       length="255"
-                      lineageId="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Outputs[Excel Source Output].Columns[GOVERNMENT AGENCY CODE]"
+                      lineageId="Package\Load US Government Agency Codes\US Government Agency Codes Excel.Outputs[Excel Source Output].Columns[GOVERNMENT AGENCY CODE]"
                       name="GOVERNMENT AGENCY CODE"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Outputs[Excel Source Output].Columns[GOVERNMENT AGENCY DESCRIPTION]"
+                      refId="Package\Load US Government Agency Codes\US Government Agency Codes Excel.Outputs[Excel Source Output].Columns[GOVERNMENT AGENCY DESCRIPTION]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Outputs[Excel Source Output].ExternalColumns[GOVERNMENT AGENCY DESCRIPTION]"
+                      externalMetadataColumnId="Package\Load US Government Agency Codes\US Government Agency Codes Excel.Outputs[Excel Source Output].ExternalColumns[GOVERNMENT AGENCY DESCRIPTION]"
                       length="255"
-                      lineageId="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Outputs[Excel Source Output].Columns[GOVERNMENT AGENCY DESCRIPTION]"
+                      lineageId="Package\Load US Government Agency Codes\US Government Agency Codes Excel.Outputs[Excel Source Output].Columns[GOVERNMENT AGENCY DESCRIPTION]"
                       name="GOVERNMENT AGENCY DESCRIPTION"
                       truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Outputs[Excel Source Output].ExternalColumns[GOVERNMENT AGENCY CODE]"
+                      refId="Package\Load US Government Agency Codes\US Government Agency Codes Excel.Outputs[Excel Source Output].ExternalColumns[GOVERNMENT AGENCY CODE]"
                       dataType="wstr"
                       length="255"
                       name="GOVERNMENT AGENCY CODE" />
                     <externalMetadataColumn
-                      refId="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Outputs[Excel Source Output].ExternalColumns[GOVERNMENT AGENCY DESCRIPTION]"
+                      refId="Package\Load US Government Agency Codes\US Government Agency Codes Excel.Outputs[Excel Source Output].ExternalColumns[GOVERNMENT AGENCY DESCRIPTION]"
                       dataType="wstr"
                       length="255"
                       name="GOVERNMENT AGENCY DESCRIPTION" />
                   </externalMetadataColumns>
                 </output>
                 <output
-                  refId="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Outputs[Excel Source Error Output]"
+                  refId="Package\Load US Government Agency Codes\US Government Agency Codes Excel.Outputs[Excel Source Error Output]"
                   isErrorOut="true"
                   name="Excel Source Error Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Outputs[Excel Source Error Output].Columns[GOVERNMENT AGENCY CODE]"
+                      refId="Package\Load US Government Agency Codes\US Government Agency Codes Excel.Outputs[Excel Source Error Output].Columns[GOVERNMENT AGENCY CODE]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Outputs[Excel Source Error Output].Columns[GOVERNMENT AGENCY CODE]"
+                      lineageId="Package\Load US Government Agency Codes\US Government Agency Codes Excel.Outputs[Excel Source Error Output].Columns[GOVERNMENT AGENCY CODE]"
                       name="GOVERNMENT AGENCY CODE" />
                     <outputColumn
-                      refId="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Outputs[Excel Source Error Output].Columns[GOVERNMENT AGENCY DESCRIPTION]"
+                      refId="Package\Load US Government Agency Codes\US Government Agency Codes Excel.Outputs[Excel Source Error Output].Columns[GOVERNMENT AGENCY DESCRIPTION]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Outputs[Excel Source Error Output].Columns[GOVERNMENT AGENCY DESCRIPTION]"
+                      lineageId="Package\Load US Government Agency Codes\US Government Agency Codes Excel.Outputs[Excel Source Error Output].Columns[GOVERNMENT AGENCY DESCRIPTION]"
                       name="GOVERNMENT AGENCY DESCRIPTION" />
                     <outputColumn
-                      refId="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      refId="Package\Load US Government Agency Codes\US Government Agency Codes Excel.Outputs[Excel Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Load US Government Agency Codes\US Government Agency Codes Excel.Outputs[Excel Source Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      refId="Package\Load US Government Agency Codes\US Government Agency Codes Excel.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Load US Government Agency Codes\US Government Agency Codes Excel.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -382,15 +490,15 @@
           </components>
           <paths>
             <path
-              refId="Package\US Government Agency Codes (Excel).Paths[Data Conversion Output]"
-              endId="Package\US Government Agency Codes (Excel)\OLE DB Destination.Inputs[OLE DB Destination Input]"
-              name="Data Conversion Output"
-              startId="Package\US Government Agency Codes (Excel)\Data Conversion.Outputs[Data Conversion Output]" />
+              refId="Package\Load US Government Agency Codes.Paths[Derived Column Output]"
+              endId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Load US Government Agency Codes\Add Required Columns.Outputs[Derived Column Output]" />
             <path
-              refId="Package\US Government Agency Codes (Excel).Paths[Excel Source Output]"
-              endId="Package\US Government Agency Codes (Excel)\Data Conversion.Inputs[Data Conversion Input]"
+              refId="Package\Load US Government Agency Codes.Paths[Excel Source Output]"
+              endId="Package\Load US Government Agency Codes\Add Required Columns.Inputs[Derived Column Input]"
               name="Excel Source Output"
-              startId="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel.Outputs[Excel Source Output]" />
+              startId="Package\Load US Government Agency Codes\US Government Agency Codes Excel.Outputs[Excel Source Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
@@ -409,51 +517,43 @@
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
         <NodeLayout
-          Size="258,42"
-          Id="Package\US Government Agency Codes (Excel)"
+          Size="248,42"
+          Id="Package\Load US Government Agency Codes"
           TopLeft="5.5,5.5" />
       </GraphLayout>
     </LayoutInfo>
   </Package>
   <TaskHost
-    design-time-name="Package\US Government Agency Codes (Excel)">
+    design-time-name="Package\Load US Government Agency Codes">
     <LayoutInfo>
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="250,42"
-          Id="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel"
-          TopLeft="5.5,5.5" />
+          Size="205,42"
+          Id="Package\Load US Government Agency Codes\Sevis - GovernmentAgency"
+          TopLeft="28.5,229.5" />
         <NodeLayout
-          Size="156,42"
-          Id="Package\US Government Agency Codes (Excel)\Data Conversion"
-          TopLeft="30.5,113.5" />
+          Size="186,42"
+          Id="Package\Load US Government Agency Codes\Add Required Columns"
+          TopLeft="40.5,111.5" />
+        <NodeLayout
+          Size="250,42"
+          Id="Package\Load US Government Agency Codes\US Government Agency Codes Excel"
+          TopLeft="5.5,5.5" />
         <EdgeLayout
-          Id="Package\US Government Agency Codes (Excel).Paths[Excel Source Output]"
-          TopLeft="130.5,47.5">
+          Id="Package\Load US Government Agency Codes.Paths[Excel Source Output]"
+          TopLeft="132,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-22,66"
+              EndConnector="0,64"
               Start="0,0"
-              End="-22,58.5">
+              End="0,56.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,29" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,29"
-                    Point2="0,33"
-                    Point3="-4,33" />
-                  <mssgle:LineSegment
-                    End="-18,33" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-18,33"
-                    Point2="-22,33"
-                    Point3="-22,37" />
-                  <mssgle:LineSegment
-                    End="-22,58.5" />
+                    End="0,56.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -462,36 +562,20 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="171,42"
-          Id="Package\US Government Agency Codes (Excel)\OLE DB Destination"
-          TopLeft="43.5,201.5" />
         <EdgeLayout
-          Id="Package\US Government Agency Codes (Excel).Paths[Data Conversion Output]"
-          TopLeft="108.5,155.5">
+          Id="Package\Load US Government Agency Codes.Paths[Derived Column Output]"
+          TopLeft="132.25,153.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="20.5,46"
+              EndConnector="0,76"
               Start="0,0"
-              End="20.5,38.5">
+              End="0,68.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,19" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,19"
-                    Point2="0,23"
-                    Point3="4,23" />
-                  <mssgle:LineSegment
-                    End="16.5,23" />
-                  <mssgle:CubicBezierSegment
-                    Point1="16.5,23"
-                    Point2="20.5,23"
-                    Point3="20.5,27" />
-                  <mssgle:LineSegment
-                    End="20.5,38.5" />
+                    End="0,68.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -504,7 +588,7 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\US Government Agency Codes (Excel)\US Government Agency Codes Excel">
+    design-time-name="Package\Load US Government Agency Codes\Sevis - GovernmentAgency">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -517,7 +601,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\US Government Agency Codes (Excel)\OLE DB Destination">
+    design-time-name="Package\Load US Government Agency Codes\US Government Agency Codes Excel">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

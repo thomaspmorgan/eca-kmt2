@@ -27,7 +27,7 @@ namespace ECA.Business.Search
         /// The name of the document name suggester for azure search.
         /// </summary>
         public const string DOCUMENT_NAME_SUGGESTER_KEY = "nameSuggester";
-
+        
         private SearchServiceClient searchClient;
 
         /// <summary>
@@ -727,7 +727,7 @@ namespace ECA.Business.Search
                 var response = indexClient.Documents.Index(indexBatch);
                 return response;
             }
-        }
+    }
 
         private IndexBatch<ECADocument> DoDeleteDocuments(List<DocumentKey> documentKeys)
         {

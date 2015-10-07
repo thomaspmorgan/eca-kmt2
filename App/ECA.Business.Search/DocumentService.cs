@@ -167,7 +167,7 @@ namespace ECA.Business.Search
     /// A IDocumentService that is capable of processing documents of T in batches.
     /// </summary>
     /// <typeparam name="TDocument">The type of document to process.</typeparam>
-
+    
     public interface IDocumentService<TDocument> : IDocumentService where TDocument : class
     {
         /// <summary>
@@ -227,7 +227,7 @@ namespace ECA.Business.Search
         {
             Contract.Ensures(Contract.Result<IQueryable<TDocument>>() != null, "The query must not return null.");
             return null;
-        }
+        }        
     }
 
     /// <summary>
@@ -244,7 +244,7 @@ namespace ECA.Business.Search
         /// The default batch size of documents to process.
         /// </summary>
         public const int DEFAULT_BATCH_SIZE = 100;
-
+        
         private readonly int batchSize;
         private IIndexService indexService;
         private IIndexNotificationService notificationService;
@@ -403,7 +403,7 @@ namespace ECA.Business.Search
 
             var document = CreateGetDocumentByIdQuery(id).FirstOrDefault();
             throwIfDocumentNotFound(document, documentTypeName, id);
-
+            
             indexService.AddOrUpdate(new List<TDocument> { document });
             notificationService.UpdateFinished(documentTypeName, config);
         }
@@ -416,13 +416,13 @@ namespace ECA.Business.Search
         {
             var config = indexService.GetDocumentConfiguration<TDocument>();
             throwIfDocumentConfigurationNotFound(config, typeof(TDocument));
-
+            
             var documentTypeName = config.GetDocumentTypeName();
             notificationService.UpdateStarted(documentTypeName, id);
 
             var document = await CreateGetDocumentByIdQuery(id).FirstOrDefaultAsync();
             throwIfDocumentNotFound(document, documentTypeName, id);
-
+            
             await indexService.AddOrUpdateAsync(new List<TDocument> { document });
             notificationService.UpdateFinished(documentTypeName, config);
         }

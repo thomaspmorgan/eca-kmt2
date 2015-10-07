@@ -8,13 +8,13 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('AddOrganizationModalCtrl', function ($q, $scope, $modalInstance, $log, FilterService, OrganizationService, ConstantsService, LookupService) {
+  .controller('AddOrganizationModalCtrl', function ($q, $scope, $modalInstance, $log, FilterService, OrganizationService, ConstantsService, LookupService, NotificationService) {
 
       $scope.view = {};
       $scope.view.maxNameLength = 500;
       $scope.view.maxDescriptionLength = 3000;
       $scope.view.showConfirmCancel = false;
-      $scope.view.isSavingProject = false;
+      $scope.view.isSavingOrganization = false;
       $scope.view.isLoadingLikeOrganizations = false;
       $scope.view.matchingOrganizationsByName = [];
       $scope.view.doesOrganizationExist = false;
@@ -30,7 +30,19 @@ angular.module('staticApp')
       }
 
       function saveOrganization() {
+          $scope.view.isSavingOrganization = true;
           console.log($scope.view.organization);
+          OrganizationService.create($scope.view.organization)
+            .then(function (response) {
+                $scope.view.isSavingOrganization = false;
+                $modalInstance.close(response.data);
+            })
+          .catch(function (response) {
+              $scope.view.isSavingOrganization = false;
+              var message = 'Unable to save organization.';
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
+          });
       }
 
       $scope.view.onCancelClick = function () {
@@ -77,7 +89,14 @@ angular.module('staticApp')
       }
 
       function loadOrganizationTypes() {
-          return OrganizationService.getTypes({ limit: 300 })
+          return OrganizationService.getTypes({
+              limit: 300,
+              filter: {
+                  comparison: ConstantsService.notInComparisonType,
+                  property: 'id',
+                  value: [ConstantsService.organizationType.office.id, ConstantsService.organizationType.branch.id, ConstantsService.organizationType.division.id]
+              }
+          })
             .then(function (data) {
                 $scope.view.organizationTypes = data.data.results;
             });

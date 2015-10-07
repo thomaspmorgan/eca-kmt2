@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('AllOrganizationsCtrl', function ($scope, $stateParams, $state, $log, $modal, OrganizationService, TableService, LookupService) {
+  .controller('AllOrganizationsCtrl', function ($scope, $stateParams, $state, $log, $modal, OrganizationService, TableService, LookupService, NotificationService, StateService) {
 
       $scope.organizations = [];
       $scope.start = 0;
@@ -31,34 +31,13 @@ angular.module('staticApp')
               backdrop: 'static',
               size: 'lg'
           });
-          /*
-          var addProgramModalInstance = $modal.open({
-              animation: true,
-              templateUrl: 'views/program/addprogrammodal.html',
-              controller: 'AddProgramModalCtrl',
-              backdrop: 'static',
-              size: 'lg',
-              resolve: {
-                  office: function () {
-                      return {
-                          id: $scope.view.program.ownerOrganizationId,
-                          name: $scope.view.program.ownerName
-                      }
-                  },
-                  parentProgram: function () {
-                      return $scope.view.program;
-                  }
-              }
-          });
-          addProgramModalInstance.result.then(function (addedProgram) {
-              $log.info('Finished adding program.');
-              addProgramModalInstance.close(addedProgram);
-              StateService.goToProgramState(addedProgram.id);
-
+          addOrganizationModalInstance.result.then(function (addedOrganization) {
+              $log.info('Finished adding organization.');
+              addOrganizationModalInstance.close(addedOrganization);
+              StateService.goToOrganizationState(addedOrganization.organizationId);
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });
-          */
       }
 
       $scope.getOrganizations = function (tableState) {

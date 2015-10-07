@@ -9,18 +9,21 @@
 angular.module('staticApp')
   .controller('searchbarCtrl', function (
         $scope,
+        $rootScope,
         $stateParams,
         $q,
         $log,
+        $location,
         $modalInstance,
         $filter,
         $sanitize,
         SearchService,
+        StateService,
         NotificationService) {
 
       $scope.view = {};
       $scope.results = [];
-      $scope.docinfo = {};
+      $scope.docinfo = null;
       $scope.tophitinfo = {};
       $scope.currentpage = 0;
       $scope.pagesize = 10;
@@ -28,31 +31,44 @@ angular.module('staticApp')
       $scope.text = '';
       $scope.isLoadingResults = false;
       $scope.isLoadingDocInfo = false;
-      
+
+      // Detect array in sub group
+      $scope.isArray = angular.isArray;
+
+      // Return number of pages in results
       var numberOfPages = function () {
           $scope.totalpages = Math.ceil($scope.results.length / $scope.pagesize);
           $scope.pagearray = new Array($scope.totalpages);
           return $scope.totalpages;
       }
 
+      // Set the current page when paging
+      $scope.selectPage = function (index) {
+          $scope.currentpage = index;
+      }
+
       // Execute search as user types
       $scope.autocomplete = function () {
           var params = {
+              Start: 0,
               Limit: 100,
-              Filter: null,
-              Facets: null,
-              Fields: ['description', 'id', 'name', 'documentTypeName', 'officeSymbol', 'themes', 'regions', 'goals', 'websites', 'objectives', 'foci', 'status', 'pointsOfContact'],
-              SearchTerm: $scope.text
+              Filter: "",
+              Facets: [],
+              SelectFields: ['description', 'id', 'name', 'documentTypeName', 'officeSymbol', 'themes', 'regions', 'goals', 'websites', 'objectives', 'foci', 'status', 'pointsOfContact'],
+              SearchTerm: $scope.text,
+              HightlightPreTag: "<strong>",
+              HighlightPostTag: "</strong>"
           };
 
           $scope.currentpage = 0;
           $scope.docinfo = null;
           $scope.isLoadingResults = true;
-          SearchService.getAll(params)
+
+          SearchService.postSearch(params)
           .then(function (response) {
               $log.info('Loaded all search results.');
-              $scope.tophitinfo = response.results.slice(0, 1);
-              $scope.results = response.results.slice(1);
+              $scope.tophitinfo = response.data.results.slice(0, 1);
+              $scope.results = response.data.results.slice(1);
               $scope.totalResults = $scope.tophitinfo.length + $scope.results.length;
               numberOfPages();
               $scope.isLoadingResults = false;
@@ -66,16 +82,27 @@ angular.module('staticApp')
           });
       };
 
+      // Set the previous search term
+      if ($rootScope.searchText.length) {
+          $scope.text = $rootScope.searchText;
+          $scope.autocomplete();
+      }
+
       // Gets document details on selection
       $scope.GetDocumentInfo = function (id) {
           $scope.isLoadingDocInfo = true;
-          $scope.docinfo = $filter('filter')($scope.results, id)[0];
-          $scope.isLoadingDocInfo = false;
-      };
-      $scope.GetTophitInfo = function () {
-          $scope.isLoadingDocInfo = true;
-          $scope.docinfo = $scope.tophitinfo[0];
-          $scope.isLoadingDocInfo = false;
+          SearchService.getDocInfo(id)
+          .then(function (response) {
+              $log.info('Loaded document information.');
+              $scope.docinfo = response.data;
+              $scope.isLoadingDocInfo = false;
+          })
+          .catch(function () {
+              var message = 'Unable to load document information.';
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
+              $scope.isLoadingDocInfo = false;
+          });
       };
 
       // Creates a group header
@@ -88,9 +115,36 @@ angular.module('staticApp')
       
       // Closes the search modal
       $scope.onCloseSpotlightSearchClick = function () {
+          $rootScope.searchText = $scope.text;
           $modalInstance.dismiss('close');
       };
 
+      // Closes the search modal and reloads selection
+      $scope.onGoToSpotlightSearchClick = function (url) {
+          $rootScope.searchText = $scope.text;
+          $modalInstance.dismiss('close');
+          $location.path(url, true);
+      };
+
+      // Link document to details page
+      $scope.getHref = function (docType, docId) {
+          if (docType && docId) {
+              if (docType === 'Office') {
+                  return StateService.getOfficeState(docId);
+              } else if (docType === 'Program') {
+                  return StateService.getProgramState(docId);
+              } else if (docType === 'Project') {
+                  return StateService.getProjectState(docId);
+              } else if (docType === 'Person') {
+                  return StateService.getPersonState(docId);
+              } else if (docType === 'Organization') {
+                  return StateService.getOrganizationState(docId);
+              }
+              else {
+                  throw Error('The document type is not supported.');
+              }
+          }
+      }
   });
 
 // Retuns item type icon text
@@ -107,6 +161,14 @@ angular.module('staticApp')
         return "";
     };
   });
+
+angular.module('staticApp')
+  .filter('addSpacing', function () {
+      return function (input) {
+          return input.replace(/([a-z])([A-Z])/g, '$1 $2');
+      }
+  });
+
 
 // Sets paging start point
 angular.module('staticApp')
