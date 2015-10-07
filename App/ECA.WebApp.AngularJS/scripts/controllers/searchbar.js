@@ -16,11 +16,12 @@ angular.module('staticApp')
         $filter,
         $sanitize,
         SearchService,
+        StateService,
         NotificationService) {
 
       $scope.view = {};
       $scope.results = [];
-      $scope.docinfo = {};
+      $scope.docinfo = null;
       $scope.tophitinfo = {};
       $scope.currentpage = 0;
       $scope.pagesize = 10;
@@ -29,6 +30,8 @@ angular.module('staticApp')
       $scope.isLoadingResults = false;
       $scope.isLoadingDocInfo = false;
       
+      $scope.isArray = angular.isArray;
+
       var numberOfPages = function () {
           $scope.totalpages = Math.ceil($scope.results.length / $scope.pagesize);
           $scope.pagearray = new Array($scope.totalpages);
@@ -100,6 +103,25 @@ angular.module('staticApp')
           $modalInstance.dismiss('close');
       };
 
+      // Link document to details page
+      $scope.getHref = function (docType, docId) {
+          if (docType && docId) {
+              if (docType === 'Office') {
+                  return StateService.getOfficeState(docId);
+              } else if (docType === 'Program') {
+                  return StateService.getProgramState(docId);
+              } else if (docType === 'Project') {
+                  return StateService.getProjectState(docId);
+              } else if (docType === 'Person') {
+                  return StateService.getPersonState(docId);
+              } else if (docType === 'Organization') {
+                  return StateService.getOrganizationState(docId);
+              }
+              else {
+                  throw Error('The document type is not supported.');
+              }
+          }
+      }
   });
 
 // Retuns item type icon text
