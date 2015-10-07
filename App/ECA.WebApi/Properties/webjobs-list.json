@@ -2,10 +2,10 @@
   "$schema": "http://schemastore.org/schemas/json/webjobs-list.json",
   "WebJobs": [
     {
-      "filePath": "../ECA.WebJobs.Search/ECA.WebJobs.Search.csproj"
+      "filePath": "../ECA.WebJobs.Search.Index/ECA.WebJobs.Search.Index.csproj"
     },
     {
-      "filePath": "../ECA.WebJobs.Search.Index/ECA.WebJobs.Search.Index.csproj"
+      "filePath": "../ECA.WebJobs.Search.Index.All/ECA.WebJobs.Search.Index.All.csproj"
     }
   ]
 }
