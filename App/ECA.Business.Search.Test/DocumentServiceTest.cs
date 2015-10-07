@@ -47,6 +47,7 @@ namespace ECA.Business.Search.Test
         private Mock<IIndexService> indexService;
         private Mock<IIndexNotificationService> notificationService;
 
+
         [TestInitialize]
         public void TestInit()
         {
@@ -55,6 +56,23 @@ namespace ECA.Business.Search.Test
             notificationService = new Mock<IIndexNotificationService>();
             context = new TestContext();
             service = new TestDocumentService(context, indexService.Object, notificationService.Object, batchSize);
+        }
+
+        [TestMethod]
+        public void TestGetDocumentTypeId()
+        {
+            var config = new SimpleEntityConfiguration();
+            indexService.Setup(x => x.GetDocumentConfiguration<SimpleEntity>()).Returns(config);
+            Assert.AreEqual(config.DocumentTypeId, service.GetDocumentTypeId());
+        }
+
+        [TestMethod]
+        public void TestGetDocumentTypeId_ConfigDoesNotExist()
+        {
+            SimpleEntityConfiguration config = null;
+            indexService.Setup(x => x.GetDocumentConfiguration<SimpleEntity>()).Returns(config);
+            Action a = () => service.GetDocumentTypeId();
+            a.ShouldThrow<NotSupportedException>().WithMessage(String.Format("The document configuration for the type [{0}] was not found.", typeof(SimpleEntity)));
         }
 
         [TestMethod]
@@ -179,7 +197,7 @@ namespace ECA.Business.Search.Test
         }
 
         [TestMethod]
-        public async Task TestUpdateDocument()
+        public async Task TestAddOrUpdateDocument()
         {
             Assert.AreEqual(1, batchSize);
             var instance1 = new SimpleEntity();
@@ -187,13 +205,13 @@ namespace ECA.Business.Search.Test
 
             var counter = 0;
             var counterAsync = 0;
-            Action<List<SimpleEntity>> documentsToHandleCallback = (docs) =>
+            Action<List<SimpleEntity>> documentsToAddOrUpdateCallback = (docs) =>
             {
                 Assert.AreEqual(1, docs.Count);
                 Assert.IsTrue(Object.ReferenceEquals(docs.First(), context.SimpleEntities.ToList()[counter]));
                 counter++;
             };
-            Action<List<SimpleEntity>> documentsToHandleAsyncCallback = (docs) =>
+            Action<List<SimpleEntity>> documentsToAddOrUpdateAsyncCallback = (docs) =>
             {
                 Assert.AreEqual(1, docs.Count);
                 Assert.IsTrue(Object.ReferenceEquals(docs.First(), context.SimpleEntities.ToList()[counterAsync]));
@@ -201,14 +219,14 @@ namespace ECA.Business.Search.Test
             };
             indexService.Setup(x => x.GetDocumentConfiguration<SimpleEntity>())
                 .Returns(new SimpleEntityConfiguration());
-            indexService.Setup(x => x.HandleDocuments<SimpleEntity>(It.IsAny<List<SimpleEntity>>()))
-                .Callback(documentsToHandleCallback);
-            indexService.Setup(x => x.HandleDocumentsAsync<SimpleEntity>(It.IsAny<List<SimpleEntity>>()))
+            indexService.Setup(x => x.AddOrUpdate<SimpleEntity>(It.IsAny<List<SimpleEntity>>()))
+                .Callback(documentsToAddOrUpdateCallback);
+            indexService.Setup(x => x.AddOrUpdateAsync<SimpleEntity>(It.IsAny<List<SimpleEntity>>()))
                 .ReturnsAsync(new DocumentIndexResponse())
-                .Callback(documentsToHandleAsyncCallback);
+                .Callback(documentsToAddOrUpdateAsyncCallback);
 
-            service.UpdateDocument(instance1.Id);
-            await service.UpdateDocumentAsync(instance1.Id);
+            service.AddOrUpdateDocument(instance1.Id);
+            await service.AddOrUpdateDocumentAsync(instance1.Id);
             notificationService.Verify(x => x.UpdateStarted(It.IsAny<string>(), It.IsAny<object>()), Times.Exactly(2));
             notificationService.Verify(x => x.UpdateFinished(It.IsAny<string>(), It.IsAny<object>()), Times.Exactly(2));
             indexService.Verify(x => x.CreateIndex<SimpleEntity>(), Times.Never());
@@ -217,41 +235,41 @@ namespace ECA.Business.Search.Test
 
 
         [TestMethod]
-        public async Task TestUpdateDocument_DocumentDoesNotExist()
+        public async Task TestAddOrUpdateDocument_DocumentDoesNotExist()
         {
             var configuration = new SimpleEntityConfiguration();
             var id = 1;
             var documentTypeName = configuration.GetDocumentTypeName();
             var message = String.Format("The {0} document with Id {1} was not found.", documentTypeName, id);
             indexService.Setup(x => x.GetDocumentConfiguration<SimpleEntity>()).Returns(configuration);
-            Action a = () => service.UpdateDocument(id);
+            Action a = () => service.AddOrUpdateDocument(id);
             Func<Task> f = () =>
             {
-                return service.UpdateDocumentAsync(id);
+                return service.AddOrUpdateDocumentAsync(id);
             };
             a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
             f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
         }
 
         [TestMethod]
-        public async Task TestUpdateDocument_DocumentConfigurationDoesNotExist()
+        public async Task TestAddOrUpdateDocument_DocumentConfigurationDoesNotExist()
         {
             var configuration = new SimpleEntityConfiguration();
             var id = 1;
             var documentTypeName = configuration.GetDocumentTypeName();
             var message = String.Format("The document configuration for the type [{0}] was not found.", typeof(SimpleEntity));
             indexService.Setup(x => x.GetDocumentConfiguration<SimpleEntity>()).Returns(default(SimpleEntityConfiguration));
-            Action a = () => service.UpdateDocument(id);
+            Action a = () => service.AddOrUpdateDocument(id);
             Func<Task> f = () =>
             {
-                return service.UpdateDocumentAsync(id);
+                return service.AddOrUpdateDocumentAsync(id);
             };
             a.ShouldThrow<NotSupportedException>().WithMessage(message);
             f.ShouldThrow<NotSupportedException>().WithMessage(message);
         }
 
         [TestMethod]
-        public async Task TestProcess()
+        public async Task TestAddOrUpdateAll()
         {
             Assert.AreEqual(1, batchSize);
             var instance1 = new SimpleEntity();
@@ -262,13 +280,13 @@ namespace ECA.Business.Search.Test
 
             var counter = 0;
             var counterAsync = 0;
-            Action<List<SimpleEntity>> documentsToHandleCallback = (docs) =>
+            Action<List<SimpleEntity>> documentsToAddOrUpdateCallback = (docs) =>
             {
                 Assert.AreEqual(1, docs.Count);
                 Assert.IsTrue(Object.ReferenceEquals(docs.First(), context.SimpleEntities.ToList()[counter]));
                 counter++;
             };
-            Action<List<SimpleEntity>> documentsToHandleAsyncCallback = (docs) =>
+            Action<List<SimpleEntity>> documentsToAddOrUpdateAsyncCallback = (docs) =>
             {
                 Assert.AreEqual(1, docs.Count);
                 Assert.IsTrue(Object.ReferenceEquals(docs.First(), context.SimpleEntities.ToList()[counterAsync]));
@@ -277,23 +295,23 @@ namespace ECA.Business.Search.Test
 
             indexService.Setup(x => x.GetDocumentConfiguration<SimpleEntity>())
                 .Returns(new SimpleEntityConfiguration());
-            indexService.Setup(x => x.HandleDocuments<SimpleEntity>(It.IsAny<List<SimpleEntity>>()))
-                .Callback(documentsToHandleCallback);
-            indexService.Setup(x => x.HandleDocumentsAsync<SimpleEntity>(It.IsAny<List<SimpleEntity>>()))
+            indexService.Setup(x => x.AddOrUpdate<SimpleEntity>(It.IsAny<List<SimpleEntity>>()))
+                .Callback(documentsToAddOrUpdateCallback);
+            indexService.Setup(x => x.AddOrUpdateAsync<SimpleEntity>(It.IsAny<List<SimpleEntity>>()))
                 .ReturnsAsync(new DocumentIndexResponse())
-                .Callback(documentsToHandleAsyncCallback);
+                .Callback(documentsToAddOrUpdateAsyncCallback);
 
-            service.Process();
-            await service.ProcessAsync();
-            notificationService.Verify(x => x.Started(It.IsAny<string>()), Times.Exactly(2));
-            notificationService.Verify(x => x.Processed(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(4));
-            notificationService.Verify(x => x.Finished(It.IsAny<string>()), Times.Exactly(2));
+            service.AddOrUpdateAll();
+            await service.AddOrUpdateAllAsync();
+            notificationService.Verify(x => x.StartedProcessingAllDocuments(It.IsAny<string>()), Times.Exactly(2));
+            notificationService.Verify(x => x.ProcessedSomeOfAllDocuments(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(4));
+            notificationService.Verify(x => x.ProcessAllDocumentsFinished(It.IsAny<string>()), Times.Exactly(2));
             indexService.Verify(x => x.CreateIndex<SimpleEntity>(), Times.Once());
             indexService.Verify(x => x.CreateIndexAsync<SimpleEntity>(), Times.Once());
         }
 
         [TestMethod]
-        public async Task TestProcess_DocumentConfigurationDoesNotExist()
+        public async Task TestAddOrUpdateAll_DocumentConfigurationDoesNotExist()
         {
             SimpleEntityConfiguration configuration = null;
             indexService.Setup(x => x.GetDocumentConfiguration<SimpleEntity>()).Returns(configuration);
@@ -301,12 +319,52 @@ namespace ECA.Business.Search.Test
 
             Action a = () =>
             {
-                service.Process();
+                service.AddOrUpdateAll();
             };
             Func<Task> f = () =>
             {
-                return service.ProcessAsync();
+                return service.AddOrUpdateAllAsync();
             };
+            a.ShouldThrow<NotSupportedException>().WithMessage(message);
+            f.ShouldThrow<NotSupportedException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestDeleteDocuments()
+        {
+            var list = new List<object> { 1, 2 };
+            Action<List<DocumentKey>> tester = (givenKeys) =>
+            {
+                Assert.AreEqual(2, givenKeys.Count);
+                Assert.IsTrue(givenKeys.Select(x => x.Value).ToList().Contains(list.First()));
+                Assert.IsTrue(givenKeys.Select(x => x.Value).ToList().Contains(list.Last()));
+            };
+
+            var config = new SimpleEntityConfiguration();
+            indexService.Setup(x => x.GetDocumentConfiguration<SimpleEntity>()).Returns(config);
+            indexService.Setup(x => x.DeleteDocuments(It.IsAny<List<DocumentKey>>())).Callback(tester);
+            indexService.Setup(x => x.DeleteDocumentsAsync(It.IsAny<List<DocumentKey>>())).ReturnsAsync(new DocumentIndexResponse()).Callback(tester);
+
+
+            service.DeleteDocuments(list);
+            await service.DeleteDocumentsAsync(list);
+            indexService.Verify(x => x.DeleteDocuments(It.IsAny<List<DocumentKey>>()), Times.Once());
+            indexService.Verify(x => x.DeleteDocumentsAsync(It.IsAny<List<DocumentKey>>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestDeleteDocuments_ConfigDoesNotExist()
+        {
+            SimpleEntityConfiguration config = null;
+            indexService.Setup(x => x.GetDocumentConfiguration<SimpleEntity>()).Returns(config);
+
+            var list = new List<object> { 1, 2 }; 
+            Action a = () => service.DeleteDocuments(list);
+            Func<Task> f = () =>
+            {
+                return service.DeleteDocumentsAsync(list);
+            };
+            var message = String.Format("The document configuration for the type [{0}] was not found.", typeof(SimpleEntity));
             a.ShouldThrow<NotSupportedException>().WithMessage(message);
             f.ShouldThrow<NotSupportedException>().WithMessage(message);
         }

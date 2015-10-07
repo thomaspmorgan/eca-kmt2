@@ -1,38 +1,38 @@
-﻿using ECA.Business.Search;
-using ECA.Core.Azure.WebJobs;
-using ECA.Core.Settings;
-using ECA.Data;
-using Microsoft.Azure.Search;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Practices.Unity;
-using System;
-using System.Collections.Generic;
+using ECA.Core.Azure.WebJobs;
+using ECA.Core.Settings;
+using ECA.Business.Search;
+using ECA.Data;
 using System.Data.Entity;
-using System.Linq;
+using Microsoft.Azure.Search;
 
-namespace ECA.WebJobs.Search
+namespace ECA.WebJobs.Search.Index
 {
-
     // To learn more about Microsoft Azure WebJobs SDK, please see http://go.microsoft.com/fwlink/?LinkID=320976
-
-    /// <summary>
-    /// The Program to execute as a webjob.
-    /// </summary>
-    public class Program
+    class Program
     {
         // Please set the following connection strings in app.config for this WebJob to run:
         // AzureWebJobsDashboard and AzureWebJobsStorage
-        public static void Main()
+        static void Main()
         {
             var unityContainer = new UnityContainer();
             var config = new JobHostConfiguration
             {
-                JobActivator = new UnityWebJobActivator(GetUnityContainer(unityContainer))
+                JobActivator = new UnityWebJobActivator(GetUnityContainer(unityContainer)),
+                NameResolver = new QueueNameResolver(),
             };
-            var services = unityContainer.Resolve<IList<IDocumentService>>();
-            var host = new JobHost();
-            host.Call(typeof(Functions).GetMethod("ManualTrigger"), new { documentServices = services });
+            var host = new JobHost(config);
+            // The following code ensures that the WebJob will be running continuously
+            host.RunAndBlock();
         }
+
+
 
         /// <summary>
         /// Returns the unity container with class registrations..
@@ -87,6 +87,7 @@ namespace ECA.WebJobs.Search
 
             return container;
         }
+
 
         /// <summary>
         /// Returns the azure search api key.

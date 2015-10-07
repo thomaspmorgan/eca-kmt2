@@ -26,6 +26,13 @@ namespace ECA.Business.Search
         object GetId(object instance);
 
         /// <summary>
+        /// Returns the document key type for the given instance.
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <returns>The document key type.</returns>
+        DocumentKeyType GetDocumentKeyType(object instance);
+
+        /// <summary>
         /// Returns the name of the object instance.
         /// </summary>
         /// <param name="instance">The instance.</param>
@@ -144,9 +151,14 @@ namespace ECA.Business.Search
     [ContractClassFor(typeof(IDocumentConfiguration))]
     public abstract class DocumentConfigurationContract : IDocumentConfiguration
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
         public IEnumerable<string> GetCountries(object instance)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         /// <summary>
@@ -158,6 +170,18 @@ namespace ECA.Business.Search
         {
             Contract.Requires(instance != null, "The instance must not be null.");
             return null;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public DocumentKeyType GetDocumentKeyType(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            return DocumentKeyType.Int;
         }
 
         /// <summary>
@@ -860,6 +884,25 @@ namespace ECA.Business.Search
             else
             {
                 return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns the document key type.
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <returns>The document key type.</returns>
+        public DocumentKeyType GetDocumentKeyType(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
+            if(IdDelegate != null)
+            {
+                return DocumentKey.GetDocumentKeyType(IdDelegate((TEntity)instance));
+            }
+            else
+            {
+                throw new NotSupportedException("The document key type can not be determined because the Key has not been configured on this type.");
             }
         }
     }

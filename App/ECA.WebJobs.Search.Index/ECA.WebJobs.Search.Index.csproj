@@ -4,33 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3DAA7B93-3DE6-4883-B979-D4F6499218CE}</ProjectGuid>
+    <ProjectGuid>{12472AB7-E012-445F-BCC5-E8EFADCEAAE5}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ECA.WebJobs.Search</RootNamespace>
-    <AssemblyName>ECA.WebJobs.Search</AssemblyName>
+    <RootNamespace>ECA.WebJobs.Search.Index</RootNamespace>
+    <AssemblyName>ECA.WebJobs.Search.Index</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\Users\brian\Desktop\test\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>1</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <PublishWizardCompleted>true</PublishWizardCompleted>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -93,18 +76,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestCertificateThumbprint>FEF0E0FFC386C4BCAAE94E052EC4DEDFDA258540</ManifestCertificateThumbprint>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestKeyFile>ECA.WebJobs.Search_TemporaryKey.pfx</ManifestKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -226,27 +197,16 @@
     <Compile Include="Program.cs" />
     <Compile Include="Functions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueueNameResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
-    <None Include="Properties\PublishProfiles\kmtapi-dev.pubxml">
+    <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Properties\PublishProfiles\kmtapi-pre.pubxml" />
-    <None Include="Properties\PublishProfiles\kmtapi-prod.pubxml" />
-    <None Include="Properties\PublishProfiles\kmtapi-qa.pubxml" />
     <None Include="Properties\webjob-publish-settings.json" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CAM.Business\CAM.Business.csproj">
-      <Project>{237e7109-5c66-4d4f-8ef3-f343e9897ac4}</Project>
-      <Name>CAM.Business</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CAM.Data\CAM.Data.csproj">
-      <Project>{b1d42987-aee5-431a-bdbf-480f6d8822e1}</Project>
-      <Name>CAM.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ECA.Business.Search\ECA.Business.Search.csproj">
       <Project>{7ffb7ec5-462a-4997-9704-736f5af245e9}</Project>
       <Name>ECA.Business.Search</Name>
@@ -259,10 +219,6 @@
       <Project>{0b95c37e-48fc-4514-8e55-97eb9238afbc}</Project>
       <Name>ECA.Core.Azure.WebJobs</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ECA.Core.DynamicLinq\ECA.Core.DynamicLinq.csproj">
-      <Project>{2ffe2c53-412a-43ae-840d-470901649ed8}</Project>
-      <Name>ECA.Core.DynamicLinq</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ECA.Core\ECA.Core.csproj">
       <Project>{983c0be6-5e42-494d-9947-0d67b84016c1}</Project>
       <Name>ECA.Core</Name>
@@ -272,18 +228,6 @@
       <Name>ECA.Data</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -292,9 +236,6 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
   </Target>
-  <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.7\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.7\tools\webjobs.targets')" />
-  <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.5\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.5\tools\webjobs.targets')" />
-  <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.4\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.4\tools\webjobs.targets')" />
   <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.7\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.7\tools\webjobs.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

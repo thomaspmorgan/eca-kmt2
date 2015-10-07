@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECA.WebJobs.Search
+namespace ECA.Core.Azure.WebJobs
 {
     public class UnityWebJobActivator : IJobActivator
     {

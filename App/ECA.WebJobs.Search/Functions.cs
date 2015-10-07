@@ -44,7 +44,7 @@ namespace ECA.WebJobs.Search
             var list = documentServices.ToList();
             list.ForEach(x =>
             {
-                x.Process();
+                x.AddOrUpdateAll();
             });
             list.ForEach(x =>
             {

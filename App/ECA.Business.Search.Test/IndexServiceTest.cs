@@ -388,9 +388,81 @@ namespace ECA.Business.Search.Test
         }
         #endregion
 
-        #region Handle Documents
+        #region Add Or Update Documents
         [TestMethod]
-        public async Task TestHandleDocuments()
+        public async Task TestAddOrUpdate()
+        {
+            var indexCalled = false;
+            var indexAsyncCalled = false;
+            var documentIndexResponse = new DocumentIndexResponse();
+            var configuration = new TestDocumentConfiguration(true);
+            var testDocument = new TestDocument();
+            var documents = new List<TestDocument>();
+            documents.Add(new TestDocument());
+            Action<IndexBatch<ECADocument>, TestDocument> tester = (testBatch, expectedDocument) =>
+            {
+                Assert.AreEqual(1, testBatch.Actions.Count());
+                var firstAction = testBatch.Actions.First();
+                Assert.AreEqual(IndexActionType.MergeOrUpload, firstAction.ActionType);
+                Assert.AreEqual(new DocumentKey(configuration.GetDocumentTypeId(), expectedDocument.Id).ToString(), firstAction.Document.Id);
+            };
+
+            using (ShimsContext.Create())
+            {
+                var documentOperations = new StubIDocumentOperations
+                {
+                };
+                var searchIndexClient = new ShimSearchIndexClient
+                {
+                    DocumentsGet = () =>
+                    {
+                        return documentOperations;
+                    }
+                };
+                var indexOperations = new StubIIndexOperations
+                {
+                    GetClientString = (name) =>
+                    {
+                        return searchIndexClient;
+                    }
+                };
+
+                searchClient = new ShimSearchServiceClient();
+
+                searchClient.IndexesGet = () =>
+                {
+                    return indexOperations;
+                };
+
+                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.IndexOf1IDocumentOperationsIndexBatchOfM0<ECADocument>((operations, batch) =>
+                {
+                    indexCalled = true;
+                    tester(batch, testDocument);
+                    return documentIndexResponse;
+                });
+                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.IndexAsyncOf1IDocumentOperationsIndexBatchOfM0<ECADocument>((operations, batch) =>
+                {
+                    indexAsyncCalled = true;
+                    tester(batch, testDocument);
+                    return Task.FromResult<DocumentIndexResponse>(documentIndexResponse);
+                });
+
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+
+                Assert.IsFalse(indexCalled);
+                Assert.IsFalse(indexAsyncCalled);
+                var docResponse = service.AddOrUpdate(documents);
+                var docResponseAsync = await service.AddOrUpdateAsync(documents);
+
+                Assert.IsNotNull(docResponse);
+                Assert.IsNotNull(docResponseAsync);
+                Assert.IsTrue(indexCalled);
+                Assert.IsTrue(indexAsyncCalled);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestAddOrUpdate_DocumentIdIsNull()
         {
             var indexCalled = false;
             var indexAsyncCalled = false;
@@ -440,8 +512,8 @@ namespace ECA.Business.Search.Test
                 documents.Add(new TestDocument());
                 Assert.IsFalse(indexCalled);
                 Assert.IsFalse(indexAsyncCalled);
-                var docResponse = service.HandleDocuments(documents);
-                var docResponseAsync = await service.HandleDocumentsAsync(documents);
+                var docResponse = service.AddOrUpdate(documents);
+                var docResponseAsync = await service.AddOrUpdateAsync(documents);
 
                 Assert.IsNotNull(docResponse);
                 Assert.IsNotNull(docResponseAsync);
@@ -451,7 +523,7 @@ namespace ECA.Business.Search.Test
         }
 
         [TestMethod]
-        public async Task TestHandleDocuments_DocumentIdIsNull()
+        public async Task TestAddOrUpdate_NoDocumentsProvided()
         {
             var indexCalled = false;
             var indexAsyncCalled = false;
@@ -463,97 +535,14 @@ namespace ECA.Business.Search.Test
                 };
                 var searchIndexClient = new ShimSearchIndexClient
                 {
-                    DocumentsGet = () =>
-                    {
-                        return documentOperations;
-                    }
                 };
                 var indexOperations = new StubIIndexOperations
                 {
-                    GetClientString = (name) =>
-                    {
-                        return searchIndexClient;
-                    }
                 };
 
                 searchClient = new ShimSearchServiceClient();
 
-                searchClient.IndexesGet = () =>
-                {
-                    return indexOperations;
-                };
 
-                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.IndexOf1IDocumentOperationsIndexBatchOfM0<ECADocument>((operations, batch) =>
-                {
-                    indexCalled = true;
-                    return documentIndexResponse;
-                });
-                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.IndexAsyncOf1IDocumentOperationsIndexBatchOfM0<ECADocument>((operations, batch) =>
-                {
-                    indexAsyncCalled = true;
-                    return Task.FromResult<DocumentIndexResponse>(documentIndexResponse);
-                });
-                var configuration = new TestDocumentConfiguration(true);
-                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
-
-                var testDocument = new TestDocument();
-                var documents = new List<TestDocument>();
-                documents.Add(new TestDocument());
-                Assert.IsFalse(indexCalled);
-                Assert.IsFalse(indexAsyncCalled);
-                var docResponse = service.HandleDocuments(documents);
-                var docResponseAsync = await service.HandleDocumentsAsync(documents);
-
-                Assert.IsNotNull(docResponse);
-                Assert.IsNotNull(docResponseAsync);
-                Assert.IsTrue(indexCalled);
-                Assert.IsTrue(indexAsyncCalled);
-            }
-        }
-
-        [TestMethod]
-        public async Task TestHandleDocuments_NoDocumentsProvided()
-        {
-            var indexCalled = false;
-            var indexAsyncCalled = false;
-            var documentIndexResponse = new DocumentIndexResponse();
-            using (ShimsContext.Create())
-            {
-                var documentOperations = new StubIDocumentOperations
-                {
-                };
-                var searchIndexClient = new ShimSearchIndexClient
-                {
-                    DocumentsGet = () =>
-                    {
-                        return documentOperations;
-                    }
-                };
-                var indexOperations = new StubIIndexOperations
-                {
-                    GetClientString = (name) =>
-                    {
-                        return searchIndexClient;
-                    }
-                };
-
-                searchClient = new ShimSearchServiceClient();
-
-                searchClient.IndexesGet = () =>
-                {
-                    return indexOperations;
-                };
-
-                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.IndexIDocumentOperationsIndexBatch = (operations, batch) =>
-                {
-                    indexCalled = true;
-                    return documentIndexResponse;
-                };
-                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.IndexAsyncIDocumentOperationsIndexBatch = (operations, batch) =>
-                {
-                    indexAsyncCalled = true;
-                    return Task.FromResult<DocumentIndexResponse>(documentIndexResponse);
-                };
                 var configuration = new TestDocumentConfiguration(true);
                 service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
 
@@ -561,8 +550,8 @@ namespace ECA.Business.Search.Test
                 var documents = new List<TestDocument>();
                 Assert.IsFalse(indexCalled);
                 Assert.IsFalse(indexAsyncCalled);
-                var docResponse = service.HandleDocuments(documents);
-                var docResponseAsync = await service.HandleDocumentsAsync(documents);
+                var docResponse = service.AddOrUpdate(documents);
+                var docResponseAsync = await service.AddOrUpdateAsync(documents);
 
                 Assert.IsNull(docResponse);
                 Assert.IsNull(docResponseAsync);
@@ -572,7 +561,7 @@ namespace ECA.Business.Search.Test
         }
 
         [TestMethod]
-        public async Task TestHandleDocuments_ConfigurationNotProvided()
+        public async Task TestAddOrUpdate_ConfigurationNotProvided()
         {
             var documentIndexResponse = new DocumentIndexResponse();
             using (ShimsContext.Create())
@@ -612,10 +601,10 @@ namespace ECA.Business.Search.Test
                 var message = String.Format("The configuration for the type [{0}] was not found.", typeof(TestDocument));
                 Func<Task> f = () =>
                 {
-                    return service.HandleDocumentsAsync(documents);
+                    return service.AddOrUpdateAsync(documents);
                 };
 
-                Action a = () => service.HandleDocuments(documents);
+                Action a = () => service.AddOrUpdate(documents);
                 a.ShouldThrow<NotSupportedException>().WithMessage(message);
                 f.ShouldThrow<NotSupportedException>().WithMessage(message);
             }
@@ -1130,6 +1119,363 @@ namespace ECA.Business.Search.Test
             }
         }
         #endregion
+
+        #region Delete Documents
+        [TestMethod]
+        public async Task TestDeleteDocuments_DocumentKeys()
+        {
+            var indexCalled = false;
+            var indexAsyncCalled = false;
+            var documentIndexResponse = new DocumentIndexResponse();
+            var configuration = new TestDocumentConfiguration(true);
+            var testDocument = new TestDocument();
+            var documents = new List<TestDocument>();
+            documents.Add(testDocument);
+            var keys = documents.Select(x => new DocumentKey(configuration.GetDocumentTypeId(), testDocument.Id)).ToList();
+
+            Action<IndexBatch<ECADocument>, TestDocument> tester = (testBatch, expectedDocument) =>
+            {
+                Assert.AreEqual(1, testBatch.Actions.Count());
+                var firstAction = testBatch.Actions.First();
+                Assert.AreEqual(IndexActionType.Delete, firstAction.ActionType);
+                Assert.AreEqual(keys.First().ToString(), firstAction.Document.Id);
+            };
+
+            using (ShimsContext.Create())
+            {
+                var documentOperations = new StubIDocumentOperations
+                {
+                };
+                var searchIndexClient = new ShimSearchIndexClient
+                {
+                    DocumentsGet = () =>
+                    {
+                        return documentOperations;
+                    }
+                };
+                var indexOperations = new StubIIndexOperations
+                {
+                    GetClientString = (name) =>
+                    {
+                        return searchIndexClient;
+                    }
+                };
+
+                searchClient = new ShimSearchServiceClient();
+
+                searchClient.IndexesGet = () =>
+                {
+                    return indexOperations;
+                };
+
+                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.IndexOf1IDocumentOperationsIndexBatchOfM0<ECADocument>((operations, batch) =>
+                {
+                    indexCalled = true;
+                    tester(batch, testDocument);
+
+                    return documentIndexResponse;
+                });
+                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.IndexAsyncOf1IDocumentOperationsIndexBatchOfM0<ECADocument>((operations, batch) =>
+                {
+                    indexAsyncCalled = true;
+                    tester(batch, testDocument);
+                    return Task.FromResult<DocumentIndexResponse>(documentIndexResponse);
+                });
+
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+                Assert.IsFalse(indexCalled);
+                Assert.IsFalse(indexAsyncCalled);
+                var docResponse = service.DeleteDocuments(keys);
+                var docResponseAsync = await service.DeleteDocumentsAsync(keys);
+
+                Assert.IsNotNull(docResponse);
+                Assert.IsNotNull(docResponseAsync);
+                Assert.IsTrue(indexCalled);
+                Assert.IsTrue(indexAsyncCalled);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestDeleteDocuments_DocumentKeysAsStrings()
+        {
+            var indexCalled = false;
+            var indexAsyncCalled = false;
+            var documentIndexResponse = new DocumentIndexResponse();
+            var configuration = new TestDocumentConfiguration(true);
+            var testDocument = new TestDocument();
+            var documents = new List<TestDocument>();
+            documents.Add(testDocument);
+            var keys = documents.Select(x => new DocumentKey(configuration.GetDocumentTypeId(), testDocument.Id).ToString()).ToList();
+
+            Action<IndexBatch<ECADocument>, TestDocument> tester = (testBatch, expectedDocument) =>
+            {
+                Assert.AreEqual(1, testBatch.Actions.Count());
+                var firstAction = testBatch.Actions.First();
+                Assert.AreEqual(IndexActionType.Delete, firstAction.ActionType);
+                Assert.AreEqual(keys.First().ToString(), firstAction.Document.Id);
+            };
+
+            using (ShimsContext.Create())
+            {
+                var documentOperations = new StubIDocumentOperations
+                {
+                };
+                var searchIndexClient = new ShimSearchIndexClient
+                {
+                    DocumentsGet = () =>
+                    {
+                        return documentOperations;
+                    }
+                };
+                var indexOperations = new StubIIndexOperations
+                {
+                    GetClientString = (name) =>
+                    {
+                        return searchIndexClient;
+                    }
+                };
+
+                searchClient = new ShimSearchServiceClient();
+
+                searchClient.IndexesGet = () =>
+                {
+                    return indexOperations;
+                };
+
+                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.IndexOf1IDocumentOperationsIndexBatchOfM0<ECADocument>((operations, batch) =>
+                {
+                    indexCalled = true;
+                    tester(batch, testDocument);
+
+                    return documentIndexResponse;
+                });
+                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.IndexAsyncOf1IDocumentOperationsIndexBatchOfM0<ECADocument>((operations, batch) =>
+                {
+                    indexAsyncCalled = true;
+                    tester(batch, testDocument);
+                    return Task.FromResult<DocumentIndexResponse>(documentIndexResponse);
+                });
+
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+                Assert.IsFalse(indexCalled);
+                Assert.IsFalse(indexAsyncCalled);
+                var docResponse = service.DeleteDocuments(keys);
+                var docResponseAsync = await service.DeleteDocumentsAsync(keys);
+
+                Assert.IsNotNull(docResponse);
+                Assert.IsNotNull(docResponseAsync);
+                Assert.IsTrue(indexCalled);
+                Assert.IsTrue(indexAsyncCalled);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestDeleteDocuments_CheckDistinctDocumentKeysAsStrings()
+        {
+            var indexCalled = false;
+            var indexAsyncCalled = false;
+            var documentIndexResponse = new DocumentIndexResponse();
+            var configuration = new TestDocumentConfiguration(true);
+            var testDocument = new TestDocument();
+            var documents = new List<TestDocument>();
+            documents.Add(testDocument);
+            var keys = documents.Select(x => new DocumentKey(configuration.GetDocumentTypeId(), testDocument.Id).ToString()).ToList();
+            keys.Add(keys[0]);
+
+            Action<IndexBatch<ECADocument>, TestDocument> tester = (testBatch, expectedDocument) =>
+            {
+                Assert.AreEqual(2, keys.Count);
+                Assert.AreEqual(1, testBatch.Actions.Count());
+            };
+
+            using (ShimsContext.Create())
+            {
+                var documentOperations = new StubIDocumentOperations
+                {
+                };
+                var searchIndexClient = new ShimSearchIndexClient
+                {
+                    DocumentsGet = () =>
+                    {
+                        return documentOperations;
+                    }
+                };
+                var indexOperations = new StubIIndexOperations
+                {
+                    GetClientString = (name) =>
+                    {
+                        return searchIndexClient;
+                    }
+                };
+
+                searchClient = new ShimSearchServiceClient();
+
+                searchClient.IndexesGet = () =>
+                {
+                    return indexOperations;
+                };
+
+                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.IndexOf1IDocumentOperationsIndexBatchOfM0<ECADocument>((operations, batch) =>
+                {
+                    indexCalled = true;
+                    tester(batch, testDocument);
+
+                    return documentIndexResponse;
+                });
+                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.IndexAsyncOf1IDocumentOperationsIndexBatchOfM0<ECADocument>((operations, batch) =>
+                {
+                    indexAsyncCalled = true;
+                    tester(batch, testDocument);
+                    return Task.FromResult<DocumentIndexResponse>(documentIndexResponse);
+                });
+
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+                Assert.IsFalse(indexCalled);
+                Assert.IsFalse(indexAsyncCalled);
+                var docResponse = service.DeleteDocuments(keys);
+                var docResponseAsync = await service.DeleteDocumentsAsync(keys);
+
+                Assert.IsNotNull(docResponse);
+                Assert.IsNotNull(docResponseAsync);
+                Assert.IsTrue(indexCalled);
+                Assert.IsTrue(indexAsyncCalled);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestDeleteDocuments_CheckDistinctDocumentKeys()
+        {
+            var indexCalled = false;
+            var indexAsyncCalled = false;
+            var documentIndexResponse = new DocumentIndexResponse();
+            var configuration = new TestDocumentConfiguration(true);
+            var testDocument = new TestDocument();
+            var documents = new List<TestDocument>();
+            documents.Add(testDocument);
+            var keys = documents.Select(x => new DocumentKey(configuration.GetDocumentTypeId(), testDocument.Id)).ToList();
+            keys.Add(keys[0]);
+
+            Action<IndexBatch<ECADocument>, TestDocument> tester = (testBatch, expectedDocument) =>
+            {
+                Assert.AreEqual(2, keys.Count);
+                Assert.AreEqual(1, testBatch.Actions.Count());
+            };
+
+            using (ShimsContext.Create())
+            {
+                var documentOperations = new StubIDocumentOperations
+                {
+                };
+                var searchIndexClient = new ShimSearchIndexClient
+                {
+                    DocumentsGet = () =>
+                    {
+                        return documentOperations;
+                    }
+                };
+                var indexOperations = new StubIIndexOperations
+                {
+                    GetClientString = (name) =>
+                    {
+                        return searchIndexClient;
+                    }
+                };
+
+                searchClient = new ShimSearchServiceClient();
+
+                searchClient.IndexesGet = () =>
+                {
+                    return indexOperations;
+                };
+
+                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.IndexOf1IDocumentOperationsIndexBatchOfM0<ECADocument>((operations, batch) =>
+                {
+                    indexCalled = true;
+                    tester(batch, testDocument);
+
+                    return documentIndexResponse;
+                });
+                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.IndexAsyncOf1IDocumentOperationsIndexBatchOfM0<ECADocument>((operations, batch) =>
+                {
+                    indexAsyncCalled = true;
+                    tester(batch, testDocument);
+                    return Task.FromResult<DocumentIndexResponse>(documentIndexResponse);
+                });
+
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+                Assert.IsFalse(indexCalled);
+                Assert.IsFalse(indexAsyncCalled);
+                var docResponse = service.DeleteDocuments(keys);
+                var docResponseAsync = await service.DeleteDocumentsAsync(keys);
+
+                Assert.IsNotNull(docResponse);
+                Assert.IsNotNull(docResponseAsync);
+                Assert.IsTrue(indexCalled);
+                Assert.IsTrue(indexAsyncCalled);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestDeleteDocuments_NoDocumentKeys()
+        {
+            var indexCalled = false;
+            var indexAsyncCalled = false;
+            var documentIndexResponse = new DocumentIndexResponse();
+            var configuration = new TestDocumentConfiguration(true);
+
+
+            using (ShimsContext.Create())
+            {
+                var documentOperations = new StubIDocumentOperations
+                {
+                };
+                var searchIndexClient = new ShimSearchIndexClient
+                {
+                    DocumentsGet = () =>
+                    {
+                        return documentOperations;
+                    }
+                };
+                var indexOperations = new StubIIndexOperations
+                {
+                    GetClientString = (name) =>
+                    {
+                        return searchIndexClient;
+                    }
+                };
+
+                searchClient = new ShimSearchServiceClient();
+
+                searchClient.IndexesGet = () =>
+                {
+                    return indexOperations;
+                };
+
+                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.IndexOf1IDocumentOperationsIndexBatchOfM0<ECADocument>((operations, batch) =>
+                {
+                    indexCalled = true;
+                    return documentIndexResponse;
+                });
+                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.IndexAsyncOf1IDocumentOperationsIndexBatchOfM0<ECADocument>((operations, batch) =>
+                {
+                    indexAsyncCalled = true;
+                    return Task.FromResult<DocumentIndexResponse>(documentIndexResponse);
+                });
+
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+                Assert.IsFalse(indexCalled);
+                Assert.IsFalse(indexAsyncCalled);
+                var docResponse = service.DeleteDocuments(new List<string>());
+                var docResponseAsync = await service.DeleteDocumentsAsync(new List<string>());
+
+                Assert.IsNull(docResponse);
+                Assert.IsNull(docResponseAsync);
+                Assert.IsFalse(indexCalled);
+                Assert.IsFalse(indexAsyncCalled);
+            }
+        }
+        #endregion
+
 
         [TestMethod]
         public void TestGetAllConfigurations()

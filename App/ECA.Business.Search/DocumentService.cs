@@ -9,9 +9,11 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Search
 {
+    #region IDocumentService
     /// <summary>
     /// An IDocumentService is capable of retrieving and indexing documents from a datastore.
     /// </summary>
+    [ContractClass(typeof(BasicDocumentServiceContract))]
     public interface IDocumentService
     {
         /// <summary>
@@ -27,33 +29,145 @@ namespace ECA.Business.Search
         Task<int> GetDocumentCountAsync();
 
         /// <summary>
-        /// Processes the documents.
+        /// Add or update all documents.
         /// </summary>
-        void Process();
+        void AddOrUpdateAll();
 
         /// <summary>
         /// Processes the documents.
         /// </summary>
-        Task ProcessAsync();
+        Task AddOrUpdateAllAsync();
 
         /// <summary>
-        /// Performs an update on a single document.
+        /// Performs an add or update on a single document.
         /// </summary>
-        /// <param name="id">The id of the entity whose document should be updated.</param>
-        void UpdateDocument(object id);
+        /// <param name="id">The id of the entity whose document should be updated or added.</param>
+        void AddOrUpdateDocument(object id);
 
         /// <summary>
-        /// Performs an update on a single document.
+        /// Performs an add or update on a single document.
         /// </summary>
-        /// <param name="id">The id of the entity whose document should be updated.</param>
-        Task UpdateDocumentAsync(object id);
+        /// <param name="id">The id of the entity whose document should be updated or added.</param>
+        Task AddOrUpdateDocumentAsync(object id);
+
+        /// <summary>
+        /// Deletes the documents whose entity ids are equal to the given ids.
+        /// </summary>
+        /// <param name="ids">The ids of the entities whose documents should be deleted.</param>
+        void DeleteDocuments(List<object> ids);
+
+        /// <summary>
+        /// Deletes the documents whose entity ids are equal to the given ids.
+        /// </summary>
+        /// <param name="ids">The ids of the entities whose documents should be deleted.</param>
+        Task DeleteDocumentsAsync(List<object> ids);
+
+        /// <summary>
+        /// Returns the document type id for the documents this service will handle.
+        /// </summary>
+        /// <returns>The document type id for the documents this service will handle.</returns>
+        Guid GetDocumentTypeId();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    [ContractClassFor(typeof(IDocumentService))]
+    public abstract class BasicDocumentServiceContract : IDocumentService
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public int GetDocumentCount()
+        {
+            return 1;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Task<int> GetDocumentCountAsync()
+        {
+            return Task.FromResult<int>(1);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Guid GetDocumentTypeId()
+        {
+            Contract.Ensures(Contract.Result<Guid>() != Guid.Empty, "The document type id must not be the empty guid.");
+            return Guid.Empty;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void AddOrUpdateAll()
+        {
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Task AddOrUpdateAllAsync()
+        {
+            return Task.FromResult<object>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        public void AddOrUpdateDocument(object id)
+        {
+            Contract.Requires(id != null, "The id must not be null.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Task AddOrUpdateDocumentAsync(object id)
+        {
+            Contract.Requires(id != null, "The id must not be null.");
+            return Task.FromResult<object>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ids"></param>
+        public void DeleteDocuments(List<object> ids)
+        {
+            Contract.Requires(ids != null, "The ids must not be null.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        public Task DeleteDocumentsAsync(List<object> ids)
+        {
+            Contract.Requires(ids != null, "The ids must not be null.");
+            return Task.FromResult<object>(null);
+        }
+    }
+    #endregion
+
+    #region Typed IDocumentService<TDocument>
     /// <summary>
     /// A IDocumentService that is capable of processing documents of T in batches.
     /// </summary>
     /// <typeparam name="TDocument">The type of document to process.</typeparam>
-    
+
     public interface IDocumentService<TDocument> : IDocumentService where TDocument : class
     {
         /// <summary>
@@ -72,19 +186,21 @@ namespace ECA.Business.Search
         /// <returns>The batch of documents.</returns>
         Task<List<TDocument>> GetDocumentBatchAsync(int skip, int take);
     }
+    #endregion
 
+    #region DbContext DocumentService
     /// <summary>
     /// 
     /// </summary>
     /// <typeparam name="TContext"></typeparam>
     /// <typeparam name="TDocument"></typeparam>
     [ContractClassFor(typeof(DocumentService<,>))]
-    public abstract class DocumentServiceContract<TContext, TDocument>  : DocumentService<TContext, TDocument>
+    public abstract class DocumentServiceContract<TContext, TDocument> : DocumentService<TContext, TDocument>
         where TContext : DbContext
         where TDocument : class
     {
         public DocumentServiceContract(TContext context, IIndexService indexService, IIndexNotificationService notificationService)
-            :base(context, indexService, notificationService)
+            : base(context, indexService, notificationService)
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(indexService != null, "The index service must not be null.");
@@ -111,7 +227,7 @@ namespace ECA.Business.Search
         {
             Contract.Ensures(Contract.Result<IQueryable<TDocument>>() != null, "The query must not return null.");
             return null;
-        }        
+        }
     }
 
     /// <summary>
@@ -128,7 +244,7 @@ namespace ECA.Business.Search
         /// The default batch size of documents to process.
         /// </summary>
         public const int DEFAULT_BATCH_SIZE = 100;
-        
+
         private readonly int batchSize;
         private IIndexService indexService;
         private IIndexNotificationService notificationService;
@@ -161,7 +277,7 @@ namespace ECA.Business.Search
             };
             throwIfDocumentNotFound = (doc, documentTypeName, id) =>
             {
-                if(doc == null)
+                if (doc == null)
                 {
                     throw new ModelNotFoundException(String.Format("The {0} document with Id {1} was not found.", documentTypeName, id));
                 }
@@ -232,7 +348,7 @@ namespace ECA.Business.Search
         /// <summary>
         /// Indexes all documents via batches.
         /// </summary>
-        public void Process()
+        public void AddOrUpdateAll()
         {
             var counter = 0;
             var total = GetDocumentCount();
@@ -240,21 +356,21 @@ namespace ECA.Business.Search
             throwIfDocumentConfigurationNotFound(config, typeof(TDocument));
             indexService.CreateIndex<TDocument>();
             var documentTypeName = config.GetDocumentTypeName();
-            notificationService.Started(documentTypeName);
+            notificationService.StartedProcessingAllDocuments(documentTypeName);
             while (counter < total)
             {
                 var documents = GetDocumentBatch(counter, batchSize);
-                indexService.HandleDocuments(documents);                
+                indexService.AddOrUpdate(documents);
                 counter += documents.Count;
-                notificationService.Processed(documentTypeName, total, counter);
+                notificationService.ProcessedSomeOfAllDocuments(documentTypeName, total, counter);
             }
-            notificationService.Finished(documentTypeName);
+            notificationService.ProcessAllDocumentsFinished(documentTypeName);
         }
 
         /// <summary>
         /// Indexes all documents via batches.
         /// </summary>
-        public async Task ProcessAsync()
+        public async Task AddOrUpdateAllAsync()
         {
             var counter = 0;
             var total = await GetDocumentCountAsync();
@@ -262,22 +378,22 @@ namespace ECA.Business.Search
             throwIfDocumentConfigurationNotFound(config, typeof(TDocument));
             await indexService.CreateIndexAsync<TDocument>();
             var documentTypeName = config.GetDocumentTypeName();
-            notificationService.Started(documentTypeName);
+            notificationService.StartedProcessingAllDocuments(documentTypeName);
             while (counter < total)
             {
                 var documents = await GetDocumentBatchAsync(counter, batchSize);
-                await indexService.HandleDocumentsAsync(documents);                
+                await indexService.AddOrUpdateAsync(documents);
                 counter += documents.Count;
-                notificationService.Processed(documentTypeName, total, counter);
+                notificationService.ProcessedSomeOfAllDocuments(documentTypeName, total, counter);
             }
-            notificationService.Finished(documentTypeName);
+            notificationService.ProcessAllDocumentsFinished(documentTypeName);
         }
 
         /// <summary>
-        /// Updates the document with the given id.
+        /// Performs an add or update on a single document.
         /// </summary>
-        /// <param name="id">The entity id.</param>
-        public void UpdateDocument(object id)
+        /// <param name="id">The id of the entity whose document should be updated or added.</param>
+        public void AddOrUpdateDocument(object id)
         {
             var config = indexService.GetDocumentConfiguration<TDocument>();
             throwIfDocumentConfigurationNotFound(config, typeof(TDocument));
@@ -287,27 +403,27 @@ namespace ECA.Business.Search
 
             var document = CreateGetDocumentByIdQuery(id).FirstOrDefault();
             throwIfDocumentNotFound(document, documentTypeName, id);
-            
-            indexService.HandleDocuments(new List<TDocument> { document });
+
+            indexService.AddOrUpdate(new List<TDocument> { document });
             notificationService.UpdateFinished(documentTypeName, config);
         }
 
         /// <summary>
-        /// Updates the document with the given id.
+        /// Performs an add or update on a single document.
         /// </summary>
-        /// <param name="id">The entity id.</param>
-        public async Task UpdateDocumentAsync(object id)
+        /// <param name="id">The id of the entity whose document should be updated or added.</param>
+        public async Task AddOrUpdateDocumentAsync(object id)
         {
             var config = indexService.GetDocumentConfiguration<TDocument>();
             throwIfDocumentConfigurationNotFound(config, typeof(TDocument));
-            
+
             var documentTypeName = config.GetDocumentTypeName();
             notificationService.UpdateStarted(documentTypeName, id);
 
             var document = await CreateGetDocumentByIdQuery(id).FirstOrDefaultAsync();
             throwIfDocumentNotFound(document, documentTypeName, id);
-            
-            await indexService.HandleDocumentsAsync(new List<TDocument> { document });
+
+            await indexService.AddOrUpdateAsync(new List<TDocument> { document });
             notificationService.UpdateFinished(documentTypeName, config);
         }
 
@@ -316,12 +432,12 @@ namespace ECA.Business.Search
         {
             if (disposing)
             {
-                if(this.indexService is IDisposable)
+                if (this.indexService is IDisposable)
                 {
                     (this.indexService as IDisposable).Dispose();
                     this.indexService = null;
                 }
-                if(this.notificationService is IDisposable)
+                if (this.notificationService is IDisposable)
                 {
                     (this.notificationService as IDisposable).Dispose();
                     this.notificationService = null;
@@ -329,6 +445,40 @@ namespace ECA.Business.Search
             }
             base.Dispose(disposing);
         }
+
+        /// <summary>
+        /// Returns the document type id for the documents this service will handle.
+        /// </summary>
+        /// <returns>The document type id for the documents this service will handle.</returns>
+        public Guid GetDocumentTypeId()
+        {
+            var config = indexService.GetDocumentConfiguration<TDocument>();
+            throwIfDocumentConfigurationNotFound(config, typeof(TDocument));
+            return config.GetDocumentTypeId();
+        }
+
+        /// <summary>
+        /// Deletes the documents whose entity ids are equal to the given ids.
+        /// </summary>
+        /// <param name="ids">The ids of the entities whose documents should be deleted.</param>
+        public void DeleteDocuments(List<object> ids)
+        {
+            var config = indexService.GetDocumentConfiguration<TDocument>();
+            throwIfDocumentConfigurationNotFound(config, typeof(TDocument));
+            indexService.DeleteDocuments(ids.Select(x => new DocumentKey(config.GetDocumentTypeId(), x)).ToList());
+        }
+
+        /// <summary>
+        /// Deletes the documents whose entity ids are equal to the given ids.
+        /// </summary>
+        /// <param name="ids">The ids of the entities whose documents should be deleted.</param>
+        public async Task DeleteDocumentsAsync(List<object> ids)
+        {
+            var config = indexService.GetDocumentConfiguration<TDocument>();
+            throwIfDocumentConfigurationNotFound(config, typeof(TDocument));
+            await indexService.DeleteDocumentsAsync(ids.Select(x => new DocumentKey(config.GetDocumentTypeId(), x)).ToList());
+        }
         #endregion
     }
+    #endregion
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ECA.Business.Search.Test
@@ -22,6 +23,16 @@ namespace ECA.Business.Search.Test
         }
 
         [TestMethod]
+        public void TestConstructor_UnknownDocumentKeyType()
+        {
+            var documentTypeId = Guid.NewGuid();
+            var id = 'c';
+
+            Action a = () => new DocumentKey(documentTypeId, id);
+            a.ShouldThrow<NotSupportedException>().WithMessage("The id type is not supported.");
+        }
+
+        [TestMethod]
         public void TestConstructor_DocumentTypeAndObjectKey()
         {
             var documentTypeId = Guid.NewGuid();
@@ -36,43 +47,35 @@ namespace ECA.Business.Search.Test
         [TestMethod]
         public void TestGetDocumentKeyType_IntKey()
         {
-            var documentTypeId = Guid.NewGuid();
             var id = 123;
 
-            var documentKey = new DocumentKey(documentTypeId, id);
-            var testKeyType = documentKey.GetDocumentKeyType(id);
+            var testKeyType = DocumentKey.GetDocumentKeyType(id);
             Assert.AreEqual(DocumentKeyType.Int, testKeyType);
         }
 
         [TestMethod]
         public void TestGetDocumentKeyType_StringKey()
         {
-            var documentTypeId = Guid.NewGuid();
             var id = "abc";
 
-            var documentKey = new DocumentKey(documentTypeId, id);
-            var testKeyType = documentKey.GetDocumentKeyType(id);
+            var testKeyType = DocumentKey.GetDocumentKeyType(id);
             Assert.AreEqual(DocumentKeyType.String, testKeyType);
         }
 
         [TestMethod]
         public void TestGetDocumentKeyType_GuidKey()
         {
-            var documentTypeId = Guid.NewGuid();
             var id = Guid.NewGuid();
 
-            var documentKey = new DocumentKey(documentTypeId, id);
-            var testKeyType = documentKey.GetDocumentKeyType(id);
+            var testKeyType = DocumentKey.GetDocumentKeyType(id);
             Assert.AreEqual(DocumentKeyType.Guid, testKeyType);
         }
         [TestMethod]
         public void TestGetDocumentKeyType_LongKey()
         {
-            var documentTypeId = Guid.NewGuid();
             var id = 123L;
 
-            var documentKey = new DocumentKey(documentTypeId, id);
-            var testKeyType = documentKey.GetDocumentKeyType(id);
+            var testKeyType = DocumentKey.GetDocumentKeyType(id);
             Assert.AreEqual(DocumentKeyType.Long, testKeyType);
         }
 
@@ -80,11 +83,7 @@ namespace ECA.Business.Search.Test
         [ExpectedException(typeof(NotSupportedException))]
         public void TestGetDocumentKeyType_UnknownType()
         {
-            var documentTypeId = Guid.NewGuid();
-            var id = 123;
-
-            var documentKey = new DocumentKey(documentTypeId, id);
-            var testKeyType = documentKey.GetDocumentKeyType('c');
+            var testKeyType = DocumentKey.GetDocumentKeyType('c');
         }
 
 

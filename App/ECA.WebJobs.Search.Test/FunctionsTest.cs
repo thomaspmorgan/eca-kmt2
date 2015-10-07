@@ -24,8 +24,8 @@ namespace ECA.WebJobs.Search.Test
             var writer = new Mock<TextWriter>();
             var functions = new Functions();
             functions.Index(writer.Object, documentServices);
-            firstService.Verify(x => x.Process(), Times.Once());
-            secondService.Verify(x => x.Process(), Times.Once());
+            firstService.Verify(x => x.AddOrUpdateAll(), Times.Once());
+            secondService.Verify(x => x.AddOrUpdateAll(), Times.Once());
 
             firstDisposableService.Verify(x => x.Dispose(), Times.Once());
         }
@@ -44,7 +44,7 @@ namespace ECA.WebJobs.Search.Test
             var writer = new Mock<TextWriter>();
             var functions = new Functions();
             functions.ManualTrigger(writer.Object, documentServices);
-            firstService.Verify(x => x.Process(), Times.Once());
+            firstService.Verify(x => x.AddOrUpdateAll(), Times.Once());
         }
     }
 }

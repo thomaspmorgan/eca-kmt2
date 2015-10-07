@@ -3,6 +3,9 @@
   "WebJobs": [
     {
       "filePath": "../ECA.WebJobs.Search/ECA.WebJobs.Search.csproj"
+    },
+    {
+      "filePath": "../ECA.WebJobs.Search.Index/ECA.WebJobs.Search.Index.csproj"
     }
   ]
 }

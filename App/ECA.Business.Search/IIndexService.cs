@@ -45,6 +45,30 @@ namespace ECA.Business.Search
         void DeleteIndex(string indexName);
 
         /// <summary>
+        /// Deletes the documents with the given keys.
+        /// </summary>
+        /// <param name="documentKeys">The document keys as a string.</param>
+        Task<DocumentIndexResponse> DeleteDocumentsAsync(List<string> documentKeys);
+
+        /// <summary>
+        /// Deletes the documents with the given keys.
+        /// </summary>
+        /// <param name="documentKeys">The document keys as a string.</param>
+        DocumentIndexResponse DeleteDocuments(List<string> documentKeys);
+
+        /// <summary>
+        /// Deletes the documents with the given keys.
+        /// </summary>
+        /// <param name="documentKeys">The keys.</param>
+        Task<DocumentIndexResponse> DeleteDocumentsAsync(List<DocumentKey> documentKeys);
+
+        /// <summary>
+        /// Deletes the documents with the given keys.
+        /// </summary>
+        /// <param name="documentKeys">The keys.</param>
+        DocumentIndexResponse DeleteDocuments(List<DocumentKey> documentKeys);
+
+        /// <summary>
         /// Returns the document with the given key.
         /// </summary>
         /// <param name="key">The key.</param>
@@ -78,7 +102,7 @@ namespace ECA.Business.Search
         /// <typeparam name="T">The class type of the objects to convert to documents.</typeparam>
         /// <param name="documents">The objects that will be documents.</param>
         /// <returns>The response.</returns>
-        Task<DocumentIndexResponse> HandleDocumentsAsync<T>(List<T> documents) where T : class;
+        Task<DocumentIndexResponse> AddOrUpdateAsync<T>(List<T> documents) where T : class;
 
         /// <summary>
         /// Indexes the given objects to documents for the index.
@@ -86,7 +110,7 @@ namespace ECA.Business.Search
         /// <typeparam name="T">The class type of the objects to convert to documents.</typeparam>
         /// <param name="documents">The objects that will be documents.</param>
         /// <returns>The response.</returns>
-        DocumentIndexResponse HandleDocuments<T>(List<T> documents) where T : class;
+        DocumentIndexResponse AddOrUpdate<T>(List<T> documents) where T : class;
 
         /// <summary>
         /// Performs a full text search against the index with the given parameters.
@@ -149,6 +173,48 @@ namespace ECA.Business.Search
         public Task CreateIndexAsync<T>() where T : class
         {
             return Task.FromResult<object>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="documentKeys"></param>
+        public DocumentIndexResponse DeleteDocuments(List<DocumentKey> documentKeys)
+        {
+            Contract.Requires(documentKeys != null, "The document keys must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="documentKeys"></param>
+        public DocumentIndexResponse DeleteDocuments(List<string> documentKeys)
+        {
+            Contract.Requires(documentKeys != null, "The document keys must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="documentKeys"></param>
+        /// <returns></returns>
+        public Task<DocumentIndexResponse> DeleteDocumentsAsync(List<DocumentKey> documentKeys)
+        {
+            Contract.Requires(documentKeys != null, "The document keys must not be null.");
+            return Task.FromResult<DocumentIndexResponse>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="documentKeys"></param>
+        /// <returns></returns>
+        public Task<DocumentIndexResponse> DeleteDocumentsAsync(List<string> documentKeys)
+        {
+            Contract.Requires(documentKeys != null, "The document keys must not be null.");
+            return Task.FromResult<DocumentIndexResponse>(null);
         }
 
         /// <summary>
@@ -262,7 +328,7 @@ namespace ECA.Business.Search
         /// <typeparam name="T"></typeparam>
         /// <param name="documents"></param>
         /// <returns></returns>
-        public DocumentIndexResponse HandleDocuments<T>(List<T> documents) where T : class
+        public DocumentIndexResponse AddOrUpdate<T>(List<T> documents) where T : class
         {
             Contract.Requires(documents != null, "The documents must not be null.");
             return null;
@@ -274,7 +340,7 @@ namespace ECA.Business.Search
         /// <typeparam name="T"></typeparam>
         /// <param name="documents"></param>
         /// <returns></returns>
-        public Task<DocumentIndexResponse> HandleDocumentsAsync<T>(List<T> documents) where T : class
+        public Task<DocumentIndexResponse> AddOrUpdateAsync<T>(List<T> documents) where T : class
         {
             Contract.Requires(documents != null, "The documents must not be null.");
             return Task.FromResult<DocumentIndexResponse>(null);

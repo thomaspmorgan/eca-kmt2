@@ -15,7 +15,7 @@ namespace ECA.Business.Search
         /// The method to call when a document type has begun processing.
         /// </summary>
         /// <param name="documentTypeName">The document type name.</param>
-        void Started(string documentTypeName);
+        void StartedProcessingAllDocuments(string documentTypeName);
 
         /// <summary>
         /// The method to call when a batch of documents has been processed.
@@ -23,13 +23,13 @@ namespace ECA.Business.Search
         /// <param name="documentTypeName">The document type name.</param>
         /// <param name="totalDocumentsToProcess">the total number of documents to process.</param>
         /// <param name="documentsProcessed">The number of documents processed.</param>
-        void Processed(string documentTypeName, int totalDocumentsToProcess, int documentsProcessed);
+        void ProcessedSomeOfAllDocuments(string documentTypeName, int totalDocumentsToProcess, int documentsProcessed);
 
         /// <summary>
         /// The method to call when a document type has finished processing.
         /// </summary>
         /// <param name="documentTypeName">The document type.</param>
-        void Finished(string documentTypeName);
+        void ProcessAllDocumentsFinished(string documentTypeName);
 
         /// <summary>
         /// The method to call when a single document has started updating.
@@ -44,5 +44,19 @@ namespace ECA.Business.Search
         /// <param name="documentTypeName">The document type name.</param>
         /// <param name="id">The document id.</param>
         void UpdateFinished(string documentTypeName, object id);
+
+        /// <summary>
+        /// The method to call when a single document is to be deleted.
+        /// </summary>
+        /// <param name="documentTypeName">The document type name.</param>
+        /// <param name="id">The document id.</param>
+        void DeleteStarted(string documentTypeName, object id);
+
+        /// <summary>
+        /// The method to call when a single document has been deleted.
+        /// </summary>
+        /// <param name="documentTypeName">The document type name.</param>
+        /// <param name="id">The document id.</param>
+        void DeleteFinished(string documentTypeName, object id);
     }
 }

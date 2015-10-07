@@ -399,5 +399,21 @@ namespace ECA.Business.Search.Test
             instance.Websites = new string[] { "value" };
             Assert.IsTrue(Object.ReferenceEquals(instance.Websites, configuration.GetWebsites(instance)));
         }
+
+        [TestMethod]
+        public void TestGetDocumentKeyType()
+        {
+            var instance = new TestDocument();
+            configuration.HasKey(x => x.Id);
+            Assert.AreEqual(DocumentKeyType.Int, configuration.GetDocumentKeyType(instance));
+        }
+
+        [TestMethod]
+        public void TestGetDocumentKeyType_KeyHasNotBeenConfigured()
+        {
+            var instance = new TestDocument();
+            Action a = () => configuration.GetDocumentKeyType(instance);
+            a.ShouldThrow<NotSupportedException>().WithMessage("The document key type can not be determined because the Key has not been configured on this type.");
+        }
     }
 }
