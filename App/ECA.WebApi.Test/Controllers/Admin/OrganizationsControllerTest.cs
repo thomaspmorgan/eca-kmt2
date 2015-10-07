@@ -94,6 +94,27 @@ namespace ECA.WebApi.Test.Controllers.Admin
         }
 
         [TestMethod]
+        public async Task TestPostOrganizationAsync()
+        {
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(0));
+            organizationService.Setup(x => x.CreateAsync(It.IsAny<NewOrganization>()))
+                .ReturnsAsync(new Organization());
+            organizationService.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
+            var response = await controller.PostOrganizationAsync(new CreateOrganizationBindingModel());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<OrganizationDTO>));
+            organizationService.Verify(x => x.SaveChangesAsync(), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestPostOrganizationAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var model = new CreateOrganizationBindingModel();
+            var response = await controller.PostOrganizationAsync(model);
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
+        [TestMethod]
         public async Task TestPutUpdateOrganizationAsync()
         {
             var model = new UpdatedOrganizationBindingModel();
