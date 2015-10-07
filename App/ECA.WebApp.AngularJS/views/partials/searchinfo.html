@@ -5,122 +5,23 @@
 </div>
 <div class="row" ng-show="docinfo != null">
     <div class="col-md-12">
-        <h5 class="program-color"><strong>{{docinfo.name}}</strong></h5>
+        <h5 class="program-color">
+            <strong>
+                <a ng-href="{{getHref(docinfo.documentTypeName, docinfo.key.value)}}" ng-click="onGoToSpotlightSearchClick(getHref(docinfo.documentTypeName, docinfo.key.value))">{{docinfo.name}}</a>
+            </strong>
+        </h5>
         <span class="resultoffice">{{docinfo.officeSymbol}}</span>
         <p style="margin-top: 20px;" ng-bind-html="docinfo.hitHighlights.description[0] != null ? docinfo.hitHighlights.description[0] : docinfo.description"></p>
     </div>
 </div>
-<div class="row" ng-show="docinfo.themes.length > 0">
-    <div class="col-md-12">
-        <div class="search-label">THEMES</div>
+
+<div class="row" ng-repeat="(prop, value) in docinfo" ng-init="isArr = isArray(value)">
+    <div class="col-md-12" ng-if="isArr && value.length > 0">
+        <div class="search-label">{{prop | addSpacing | uppercase}}</div>
         <div class="row">
             <div class="col-md-12 simple-list">
                 <ul>
-                    <li ng-repeat="theme in docinfo.themes | orderBy:'toString()'">{{theme}}</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row" ng-show="docinfo.regions.length > 0">
-    <div class="col-md-12">
-        <div class="search-label">REGIONS</div>
-        <div class="row">
-            <div class="col-md-12 simple-list">
-                <ul>
-                    <li ng-repeat="region in docinfo.regions | orderBy:'toString()'">{{region}}</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row" ng-show="docinfo.countries.length > 0">
-    <div class="col-md-12">
-        <div class="search-label">COUNTRIES</div>
-        <div class="row">
-            <div class="col-md-12 simple-list">
-                <ul>
-                    <li ng-repeat="country in docinfo.countries | orderBy:'toString()'">{{country}}</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row" ng-show="docinfo.locations.length > 0">
-    <div class="col-md-12">
-        <div class="search-label">LOCATIONS</div>
-        <div class="row">
-            <div class="col-md-12 simple-list">
-                <ul>
-                    <li ng-repeat="location in docinfo.locations | orderBy:'toString()'">{{location}}</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row" ng-show="docinfo.goals.length > 0">
-    <div class="col-md-12">
-        <div class="search-label">GOALS</div>
-        <div class="row">
-            <div class="col-md-12 simple-list">
-                <ul>
-                    <li ng-repeat="goal in docinfo.goals | orderBy:'toString()'">{{goal}}</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row" ng-show="docinfo.websites.length > 0">
-    <div class="col-md-12">
-        <div class="search-label">WEBSITES</div>
-        <div class="row">
-            <div class="col-md-12 simple-list">
-                <ul>
-                    <li ng-repeat="website in docinfo.websites | orderBy:'toString()'">{{website}}</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row" ng-show="docinfo.objectives.length > 0">
-    <div class="col-md-12">
-        <div class="search-label">OBJECTIVES</div>
-        <div class="row">
-            <div class="col-md-12 simple-list">
-                <ul>
-                    <li ng-repeat="objective in docinfo.objectives | orderBy:'toString()'">{{objective}}</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row" ng-show="docinfo.foci.length > 0">
-    <div class="col-md-12">
-        <div class="search-label">FOCI</div>
-        <div class="row">
-            <div class="col-md-12 simple-list">
-                <ul>
-                    <li ng-repeat="focus in docinfo.foci | orderBy:'toString()'">{{focus}}</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row" ng-show="docinfo.status.length > 0">
-    <div class="col-md-12">
-        <div class="search-label">STATUS</div>
-        <div class="row">
-            <div class="col-md-12">{{docinfo.status}}</div>
-        </div>
-    </div>
-</div>
-<div class="row" ng-show="docinfo.pointsOfContact.length > 0">
-    <div class="col-md-12">
-        <div class="search-label">POINTS OF CONTACT</div>
-        <div class="row">
-            <div class="col-md-12 simple-list">
-                <ul>
-                    <li ng-repeat="poc in docinfo.pointsOfContact | orderBy:'toString()'">{{poc}}</li>
+                    <li ng-repeat="item in value | orderBy:'toString()'">{{item}}</li>
                 </ul>
             </div>
         </div>
