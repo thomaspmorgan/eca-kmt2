@@ -305,7 +305,7 @@
     <Build Include="dbo\Tables\MoneyFlowSourceRecipientTypeSettings.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.MoneyFlowSourceRecipientTypeSettings.staticdata.sql" />
     <Build Include="dbo\Tables\SevisCommStatus.sql" />
-    <Build Include="dbo\Tables\PersonParticipantSevisCommStatus.sql" />
+    <Build Include="dbo\Tables\ParticipantPersonSevisCommStatus.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.SevisCommStatus.staticdata.sql" />
   </ItemGroup>
   <ItemGroup>

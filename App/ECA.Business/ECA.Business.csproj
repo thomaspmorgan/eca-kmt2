@@ -137,11 +137,13 @@
     <Compile Include="Queries\Models\Admin\ProgramStatusDTO.cs" />
     <Compile Include="Queries\Models\Persons\LanguageProficiencyDTO.cs" />
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
+    <Compile Include="Queries\Models\Persons\ParticipantPersonSevisCommStatusDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisDTO.cs" />
     <Compile Include="Queries\Models\Persons\SimpleParticipantPersonDTO.cs" />
     <Compile Include="Queries\Persons\EvaluationNoteQueries.cs" />
     <Compile Include="Queries\Persons\LanguageProficiencyQueries.cs" />
     <Compile Include="Queries\Persons\MembershipQueries.cs" />
+    <Compile Include="Queries\Persons\ParticipantPersonSevisCommStatusQueries.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonSevisQueries.cs" />
     <Compile Include="Queries\Persons\ProfessionEducationQueries.cs" />
     <Compile Include="Search\ProjectDocumentService.cs" />
