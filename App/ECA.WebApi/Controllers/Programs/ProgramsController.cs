@@ -73,7 +73,9 @@ namespace ECA.WebApi.Controllers.Programs
         /// <param name="programService">The program service.</param>
         /// <param name="userProvider">The user provider.</param>
         /// <param name="categoryService">The focus category service.</param>
+        /// <param name="resourceService">The resource service.</param>
         /// <param name="justificationObjectiveService">The justification objective service.</param>
+        /// <param name="authorizationHandler">the authorization handler service.</param>
         public ProgramsController(IProgramService programService, IUserProvider userProvider, IFocusCategoryService categoryService, IJustificationObjectiveService justificationObjectiveService, IResourceService resourceService, IResourceAuthorizationHandler authorizationHandler)
         {
             Contract.Requires(programService != null, "The program service must not be null.");

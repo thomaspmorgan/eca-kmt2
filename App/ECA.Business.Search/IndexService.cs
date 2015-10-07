@@ -133,6 +133,15 @@ namespace ECA.Business.Search
         #region Create Index
 
         /// <summary>
+        /// Returns the names of the document fields.
+        /// </summary>
+        /// <returns>The names of document fields.</returns>
+        public IList<string> GetDocumentFieldNames()
+        {
+            return GetFields().Select(x => x.Name).ToList();
+        }
+
+        /// <summary>
         /// Creates an Azure Search index schema given the document configuration.
         /// </summary>
         /// <param name="configuration">The document configuration.</param>

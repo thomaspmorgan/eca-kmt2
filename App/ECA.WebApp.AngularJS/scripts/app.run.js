@@ -17,6 +17,7 @@ angular.module('staticApp')
             { name: 'Partners', state: 'home.notifications' }
           ];
 
+          $rootScope.searchText = '';
           $rootScope.onSpotlightSearchClick = function () {
               var spotlightModalInstance = $modal.open({
                   animation: true,

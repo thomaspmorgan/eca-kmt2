@@ -5,14 +5,14 @@
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="BE00003308"
   DTS:CreatorName="BE00003308\Marc Setien"
-  DTS:DTSID="{ED023576-4C47-4BA9-860A-C789FB9BE4F8}"
+  DTS:DTSID="{96AD0D8F-BF5D-47E6-8761-649D9A53DF95}"
   DTS:ExecutableType="Microsoft.Package"
   DTS:LastModifiedProductVersion="12.0.2480.0"
   DTS:LocaleID="1033"
-  DTS:ObjectName="Load IVLP Data from Oracle DB"
+  DTS:ObjectName="IVLP Oracle Dataset 2 Organization and Program Load"
   DTS:PackageType="5"
-  DTS:VersionBuild="105"
-  DTS:VersionGUID="{D87F6F3B-4753-41B4-A914-D71811B21DCE}">
+  DTS:VersionBuild="110"
+  DTS:VersionGUID="{2DC57F87-50F3-4F5D-957C-24ABB009B84B}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -47,7 +47,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADyReUaWnDkM9y71ZzgS08x2l1M97LMwLvvp934ThSDFQAAAAAOgAAAAAIAACAAAAAhJzbCmRu6zTxDk4j+f1F/vpE6Ikzn4+UP/TpdoovyKyAAAAAGNASdJkGGcfYcZ0a88qOArjbYXIAgazXAoZiysXftQkAAAADDc9Zk3kkXOf7xSmZYRJPc0Big66ly5lvd81wtnrFuF+4VNE0U2eJ6ZCbc7I1/MSZwxxFQl7Q2Npoz7yOcwwd8</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAD3djagaltvNi3KR664xW7IfR9BHbArvleyBIfXX6T0wAAAAAOgAAAAAIAACAAAADdfj21MwGU6tu/IvarHdovo/IHg+VPGNt8vJyJhYheSSAAAABqd0kK/CF3E0re3Atx29etMOFWRYbxm1NRXAxnv4yIDUAAAABHw8Yg1OSlX1rdvfeHGI+fb3HyQbQdOiJjRo/1tetOJYGIbwKWy2YThL6r+npSo7r4gHsKV4UjQPKbcopjsp+J</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -7221,983 +7221,6 @@ where [refTable].[Status] = ?</property>
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\Load New Project Status (Completed)"
-      DTS:CreationName="Microsoft.Pipeline"
-      DTS:Description="Data Flow Task"
-      DTS:Disabled="True"
-      DTS:DTSID="{92BEA8E1-EC2F-43EA-96F4-22A415284137}"
-      DTS:ExecutableType="Microsoft.Pipeline"
-      DTS:LocaleID="-1"
-      DTS:ObjectName="Load New Project Status (Completed)"
-      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
-      <DTS:Variables />
-      <DTS:ObjectData>
-        <pipeline
-          version="1">
-          <components>
-            <component
-              refId="Package\Load New Project Status (Completed)\Add new ProjectStatus"
-              componentClassID="Microsoft.OLEDBDestination"
-              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
-              description="OLE DB Destination"
-              name="Add new ProjectStatus"
-              usesDispositions="true"
-              version="4">
-              <properties>
-                <property
-                  dataType="System.Int32"
-                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
-                  name="CommandTimeout">0</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[dbo].[ProjectStatus]</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the variable that contains the name of the database object used to open a rowset."
-                  name="OpenRowsetVariable"></property>
-                <property
-                  dataType="System.String"
-                  description="The SQL command to be executed."
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the column code page to use when code page information is unavailable from the data source."
-                  name="DefaultCodePage">1252</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Forces the use of the DefaultCodePage property value when describing character data."
-                  name="AlwaysUseDefaultCodePage">false</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the mode used to access the database."
-                  name="AccessMode"
-                  typeConverter="AccessMode">3</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
-                  name="FastLoadKeepIdentity">false</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
-                  name="FastLoadKeepNulls">false</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
-                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
-                  name="FastLoadMaxInsertCommitSize">2147483647</property>
-              </properties>
-              <connections>
-                <connection
-                  refId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  description="The OLE DB runtime connection used to access the database."
-                  name="OleDbConnection" />
-              </connections>
-              <inputs>
-                <input
-                  refId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Inputs[OLE DB Destination Input]"
-                  errorOrTruncationOperation="Insert"
-                  errorRowDisposition="FailComponent"
-                  hasSideEffects="true"
-                  name="OLE DB Destination Input">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Inputs[OLE DB Destination Input].Columns[ProjectStatus_KMT]"
-                      cachedDataType="wstr"
-                      cachedLength="20"
-                      cachedName="ProjectStatus_KMT"
-                      externalMetadataColumnId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Inputs[OLE DB Destination Input].ExternalColumns[Status]"
-                      lineageId="Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Output].Columns[ProjectStatus_KMT]" />
-                    <inputColumn
-                      refId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Inputs[OLE DB Destination Input].Columns[History_CreatedBy_KMT]"
-                      cachedDataType="i4"
-                      cachedName="History_CreatedBy_KMT"
-                      externalMetadataColumnId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
-                      lineageId="Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy_KMT]" />
-                    <inputColumn
-                      refId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Inputs[OLE DB Destination Input].Columns[History_CreatedOn_KMT]"
-                      cachedDataType="dbTimeStamp"
-                      cachedName="History_CreatedOn_KMT"
-                      externalMetadataColumnId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
-                      lineageId="Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn_KMT]" />
-                    <inputColumn
-                      refId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Inputs[OLE DB Destination Input].Columns[History_RevisedBy_KMT]"
-                      cachedDataType="i4"
-                      cachedName="History_RevisedBy_KMT"
-                      externalMetadataColumnId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
-                      lineageId="Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy_KMT]" />
-                    <inputColumn
-                      refId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Inputs[OLE DB Destination Input].Columns[History_RevisedOn_KMT]"
-                      cachedDataType="dbTimeStamp"
-                      cachedName="History_RevisedOn_KMT"
-                      externalMetadataColumnId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
-                      lineageId="Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn_KMT]" />
-                  </inputColumns>
-                  <externalMetadataColumns
-                    isUsed="True">
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Inputs[OLE DB Destination Input].ExternalColumns[Status]"
-                      dataType="wstr"
-                      length="20"
-                      name="Status" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
-                      dataType="i4"
-                      name="History_CreatedBy" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
-                      dataType="dbTimeStampOffset"
-                      name="History_CreatedOn"
-                      scale="7" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
-                      dataType="i4"
-                      name="History_RevisedBy" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
-                      dataType="dbTimeStampOffset"
-                      name="History_RevisedOn"
-                      scale="7" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Inputs[OLE DB Destination Input].ExternalColumns[ProjectStatusId]"
-                      dataType="i4"
-                      name="ProjectStatusId" />
-                  </externalMetadataColumns>
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Outputs[OLE DB Destination Error Output]"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="OLE DB Destination Error Output"
-                  synchronousInputId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Inputs[OLE DB Destination Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
-              refId="Package\Load New Project Status (Completed)\Add Required Columns"
-              componentClassID="Microsoft.DerivedColumn"
-              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
-              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
-              name="Add Required Columns"
-              usesDispositions="true">
-              <inputs>
-                <input
-                  refId="Package\Load New Project Status (Completed)\Add Required Columns.Inputs[Derived Column Input]"
-                  description="Input to the Derived Column Transformation"
-                  name="Derived Column Input">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\Load New Project Status (Completed)\Add Required Columns.Inputs[Derived Column Input].Columns[PROJECT_STATUS_20]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
-                      cachedLength="20"
-                      cachedName="PROJECT_STATUS_20"
-                      lineageId="Package\Load New Project Status (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[PROJECT_STATUS_20]" />
-                  </inputColumns>
-                  <externalMetadataColumns />
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Output]"
-                  description="Default Output of the Derived Column Transformation"
-                  exclusionGroup="1"
-                  name="Derived Column Output"
-                  synchronousInputId="Package\Load New Project Status (Completed)\Add Required Columns.Inputs[Derived Column Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy_KMT]"
-                      dataType="i4"
-                      errorOrTruncationOperation="Computation"
-                      errorRowDisposition="FailComponent"
-                      lineageId="Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy_KMT]"
-                      name="History_CreatedBy_KMT"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Expression"
-                          name="Expression">1</property>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Friendly Expression"
-                          expressionType="Notify"
-                          name="FriendlyExpression">1</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy_KMT]"
-                      dataType="i4"
-                      errorOrTruncationOperation="Computation"
-                      errorRowDisposition="FailComponent"
-                      lineageId="Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy_KMT]"
-                      name="History_RevisedBy_KMT"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Expression"
-                          name="Expression">1</property>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Friendly Expression"
-                          expressionType="Notify"
-                          name="FriendlyExpression">1</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Output].Columns[ProjectStatus_KMT]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Computation"
-                      errorRowDisposition="FailComponent"
-                      length="20"
-                      lineageId="Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Output].Columns[ProjectStatus_KMT]"
-                      name="ProjectStatus_KMT"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Expression"
-                          name="Expression">[TRIM](#{Package\Load New Project Status (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[PROJECT_STATUS_20]} == "Cancelled" ? "Canceled" : (#{Package\Load New Project Status (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[PROJECT_STATUS_20]} == "Postponed" ? "Project Postponed" : #{Package\Load New Project Status (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[PROJECT_STATUS_20]}))</property>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Friendly Expression"
-                          expressionType="Notify"
-                          name="FriendlyExpression">TRIM(PROJECT_STATUS_20 == "Cancelled" ? "Canceled" : (PROJECT_STATUS_20 == "Postponed" ? "Project Postponed" : PROJECT_STATUS_20))</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn_KMT]"
-                      dataType="dbTimeStamp"
-                      errorOrTruncationOperation="Computation"
-                      errorRowDisposition="FailComponent"
-                      lineageId="Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn_KMT]"
-                      name="History_CreatedOn_KMT"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Expression"
-                          name="Expression">[GETDATE]()</property>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Friendly Expression"
-                          expressionType="Notify"
-                          name="FriendlyExpression">GETDATE()</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn_KMT]"
-                      dataType="dbTimeStamp"
-                      errorOrTruncationOperation="Computation"
-                      errorRowDisposition="FailComponent"
-                      lineageId="Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn_KMT]"
-                      name="History_RevisedOn_KMT"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Expression"
-                          name="Expression">[GETDATE]()</property>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Friendly Expression"
-                          expressionType="Notify"
-                          name="FriendlyExpression">GETDATE()</property>
-                      </properties>
-                    </outputColumn>
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Error Output]"
-                  description="Error Output of the Derived Column Transformation"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="Derived Column Error Output"
-                  synchronousInputId="Package\Load New Project Status (Completed)\Add Required Columns.Inputs[Derived Column Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
-              refId="Package\Load New Project Status (Completed)\Aggregate Project Status"
-              componentClassID="Microsoft.Aggregate"
-              contactInfo="Aggregate;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;3"
-              description="Aggregates data with functions such as Average, Sum, Count, Max, and Min. For example, group data to compute the sum of sales per product or the average visits per day."
-              name="Aggregate Project Status"
-              version="3">
-              <properties>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the approximate number of group by keys that the aggregation produces. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no KeyScale value is used."
-                  name="KeyScale"
-                  typeConverter="KeyScaleType">0</property>
-                <property
-                  dataType="System.Null"
-                  description="Specifies the exact number of group by keys that the aggregation produces. If a KeyScale value is specified, the value in Keys takes precedence."
-                  name="Keys" />
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the approximate number of distinct values in a column that the aggregation counts distinctly. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no CountDistinctScale value is used."
-                  name="CountDistinctScale"
-                  typeConverter="KeyScaleType">0</property>
-                <property
-                  dataType="System.Null"
-                  description="Specifies the exact number of distinct values in a column that the aggregation counts distinctly. If a CountDistinctScale value is specified, the value in CountDistinctKeys takes precedence."
-                  name="CountDistinctKeys" />
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the percentage by which memory can be extended during the aggregation. Valid values are between 1 and 100."
-                  name="AutoExtendFactor">25</property>
-              </properties>
-              <inputs>
-                <input
-                  refId="Package\Load New Project Status (Completed)\Aggregate Project Status.Inputs[Aggregate Input 1]"
-                  name="Aggregate Input 1">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\Load New Project Status (Completed)\Aggregate Project Status.Inputs[Aggregate Input 1].Columns[PROJECT_STATUS]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
-                      cachedLength="50"
-                      cachedName="PROJECT_STATUS"
-                      lineageId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].Columns[PROJECT_STATUS]" />
-                  </inputColumns>
-                  <externalMetadataColumns />
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\Load New Project Status (Completed)\Aggregate Project Status.Outputs[Aggregate Output 1]"
-                  name="Aggregate Output 1">
-                  <properties>
-                    <property
-                      dataType="System.Int32"
-                      description="Specifies the approximate number of group by keys that the aggregation produces. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no KeyScale value is used."
-                      name="KeyScale"
-                      typeConverter="KeyScaleType">0</property>
-                    <property
-                      dataType="System.Null"
-                      description="Specifies the exact number of group by keys that the aggregation produces. If a KeyScale value is specified, the value in Keys takes precedence."
-                      name="Keys" />
-                  </properties>
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load New Project Status (Completed)\Aggregate Project Status.Outputs[Aggregate Output 1].Columns[PROJECT_STATUS]"
-                      codePage="1252"
-                      dataType="str"
-                      length="50"
-                      lineageId="Package\Load New Project Status (Completed)\Aggregate Project Status.Outputs[Aggregate Output 1].Columns[PROJECT_STATUS]"
-                      name="PROJECT_STATUS">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the ID of the input column used in the aggregation."
-                          name="AggregationColumnId">#{Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].Columns[PROJECT_STATUS]}</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the type of aggregation."
-                          name="AggregationType"
-                          typeConverter="AggregationType">0</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
-                          name="IsBig">1</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the string comparison options."
-                          name="AggregationComparisonFlags">0</property>
-                      </properties>
-                    </outputColumn>
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
-              refId="Package\Load New Project Status (Completed)\Data Conversion"
-              componentClassID="Microsoft.DataConvert"
-              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
-              description="Data Conversion"
-              name="Data Conversion"
-              usesDispositions="true">
-              <inputs>
-                <input
-                  refId="Package\Load New Project Status (Completed)\Data Conversion.Inputs[Data Conversion Input]"
-                  name="Data Conversion Input">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\Load New Project Status (Completed)\Data Conversion.Inputs[Data Conversion Input].Columns[PROJECT_STATUS]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
-                      cachedLength="50"
-                      cachedName="PROJECT_STATUS"
-                      lineageId="Package\Load New Project Status (Completed)\Aggregate Project Status.Outputs[Aggregate Output 1].Columns[PROJECT_STATUS]" />
-                  </inputColumns>
-                  <externalMetadataColumns />
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\Load New Project Status (Completed)\Data Conversion.Outputs[Data Conversion Output]"
-                  exclusionGroup="1"
-                  name="Data Conversion Output"
-                  synchronousInputId="Package\Load New Project Status (Completed)\Data Conversion.Inputs[Data Conversion Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load New Project Status (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[PROJECT_STATUS_20]"
-                      codePage="1252"
-                      dataType="str"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      length="20"
-                      lineageId="Package\Load New Project Status (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[PROJECT_STATUS_20]"
-                      name="PROJECT_STATUS_20"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\Load New Project Status (Completed)\Aggregate Project Status.Outputs[Aggregate Output 1].Columns[PROJECT_STATUS]}</property>
-                        <property
-                          dataType="System.Boolean"
-                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
-                          name="FastParse">false</property>
-                      </properties>
-                    </outputColumn>
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\Load New Project Status (Completed)\Data Conversion.Outputs[Data Conversion Error Output]"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="Data Conversion Error Output"
-                  synchronousInputId="Package\Load New Project Status (Completed)\Data Conversion.Inputs[Data Conversion Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load New Project Status (Completed)\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\Load New Project Status (Completed)\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\Load New Project Status (Completed)\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\Load New Project Status (Completed)\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
-              refId="Package\Load New Project Status (Completed)\Does Project Status Exist?"
-              componentClassID="Microsoft.Lookup"
-              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
-              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
-              name="Does Project Status Exist?"
-              usesDispositions="true"
-              version="6">
-              <properties>
-                <property
-                  dataType="System.String"
-                  description="Specifies the SQL statement that generates the lookup table."
-                  expressionType="Notify"
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[ProjectStatus]</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
-                  expressionType="Notify"
-                  name="SqlCommandParam"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[ProjectStatus]) [refTable]
-where [refTable].[Status] = ?</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the type of connection used to access the reference dataset."
-                  name="ConnectionType"
-                  typeConverter="LookupConnectionType">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the cache type of the lookup table."
-                  name="CacheType"
-                  typeConverter="CacheType">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
-                  name="NoMatchBehavior"
-                  typeConverter="LookupNoMatchBehavior">1</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
-                  name="NoMatchCachePercentage">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
-                  name="MaxMemoryUsage">25</property>
-                <property
-                  dataType="System.Int64"
-                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
-                  name="MaxMemoryUsage64">25</property>
-                <property
-                  dataType="System.String"
-                  description="Indicates whether to reference metadata in an XML format."
-                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProjectStatusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Status" dataType="DT_WSTR" length="20" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
-                <property
-                  containsID="true"
-                  dataType="System.String"
-                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
-                  name="ParameterMap">#{Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Output].Columns[ProjectStatus_KMT]};</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the column code page to use when code page information is unavailable from the data source."
-                  name="DefaultCodePage">1252</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
-                  name="TreatDuplicateKeysAsError">false</property>
-              </properties>
-              <connections>
-                <connection
-                  refId="Package\Load New Project Status (Completed)\Does Project Status Exist?.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  description="Connection manager used to access lookup data."
-                  name="OleDbConnection" />
-              </connections>
-              <inputs>
-                <input
-                  refId="Package\Load New Project Status (Completed)\Does Project Status Exist?.Inputs[Lookup Input]"
-                  name="Lookup Input">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\Load New Project Status (Completed)\Does Project Status Exist?.Inputs[Lookup Input].Columns[ProjectStatus_KMT]"
-                      cachedDataType="wstr"
-                      cachedLength="20"
-                      cachedName="ProjectStatus_KMT"
-                      lineageId="Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Output].Columns[ProjectStatus_KMT]">
-                      <properties>
-                        <property
-                          dataType="System.String"
-                          description="Specifies the column in the reference table that a column joins."
-                          name="JoinToReferenceColumn">Status</property>
-                        <property
-                          dataType="System.Null"
-                          description="Specifies the column in the reference table from which a column is copied."
-                          name="CopyFromReferenceColumn" />
-                      </properties>
-                    </inputColumn>
-                  </inputColumns>
-                  <externalMetadataColumns />
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\Load New Project Status (Completed)\Does Project Status Exist?.Outputs[Lookup Match Output]"
-                  errorOrTruncationOperation="Lookup"
-                  exclusionGroup="1"
-                  name="Lookup Match Output"
-                  synchronousInputId="Package\Load New Project Status (Completed)\Does Project Status Exist?.Inputs[Lookup Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load New Project Status (Completed)\Does Project Status Exist?.Outputs[Lookup Match Output].Columns[ProjectStatusId]"
-                      dataType="i4"
-                      errorOrTruncationOperation="Copy Column"
-                      lineageId="Package\Load New Project Status (Completed)\Does Project Status Exist?.Outputs[Lookup Match Output].Columns[ProjectStatusId]"
-                      name="ProjectStatusId"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          dataType="System.String"
-                          description="Specifies the column in the reference table from which a column is copied."
-                          name="CopyFromReferenceColumn">ProjectStatusId</property>
-                      </properties>
-                    </outputColumn>
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\Load New Project Status (Completed)\Does Project Status Exist?.Outputs[Lookup No Match Output]"
-                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
-                  exclusionGroup="1"
-                  name="Lookup No Match Output"
-                  synchronousInputId="Package\Load New Project Status (Completed)\Does Project Status Exist?.Inputs[Lookup Input]">
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\Load New Project Status (Completed)\Does Project Status Exist?.Outputs[Lookup Error Output]"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="Lookup Error Output"
-                  synchronousInputId="Package\Load New Project Status (Completed)\Does Project Status Exist?.Inputs[Lookup Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load New Project Status (Completed)\Does Project Status Exist?.Outputs[Lookup Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\Load New Project Status (Completed)\Does Project Status Exist?.Outputs[Lookup Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\Load New Project Status (Completed)\Does Project Status Exist?.Outputs[Lookup Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\Load New Project Status (Completed)\Does Project Status Exist?.Outputs[Lookup Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
-              refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle)"
-              componentClassID="Microsoft.OLEDBSource"
-              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
-              description="OLE DB Source"
-              name="IVLP Project (Oracle)"
-              usesDispositions="true"
-              version="7">
-              <properties>
-                <property
-                  dataType="System.Int32"
-                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
-                  name="CommandTimeout">0</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">"KM_IVLP"."IVLP_PROJECT"</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the variable that contains the name of the database object used to open a rowset."
-                  name="OpenRowsetVariable"></property>
-                <property
-                  dataType="System.String"
-                  description="The SQL command to be executed."
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
-                <property
-                  dataType="System.String"
-                  description="The variable that contains the SQL command to be executed."
-                  name="SqlCommandVariable"></property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the column code page to use when code page information is unavailable from the data source."
-                  name="DefaultCodePage">1252</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Forces the use of the DefaultCodePage property value when describing character data."
-                  name="AlwaysUseDefaultCodePage">true</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the mode used to access the database."
-                  name="AccessMode"
-                  typeConverter="AccessMode">0</property>
-                <property
-                  dataType="System.String"
-                  description="The mappings between the parameters in the SQL command and variables."
-                  name="ParameterMapping"></property>
-              </properties>
-              <connections>
-                <connection
-                  refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[ecaoracle2.cloudapp.net/ECA.system]"
-                  connectionManagerRefId="Package.ConnectionManagers[ecaoracle2.cloudapp.net/ECA.system]"
-                  description="The OLE DB runtime connection used to access the database."
-                  name="OleDbConnection" />
-              </connections>
-              <outputs>
-                <output
-                  refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output]"
-                  name="OLE DB Source Output">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].Columns[PROJECT_STATUS]"
-                      codePage="1252"
-                      dataType="str"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STATUS]"
-                      length="50"
-                      lineageId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].Columns[PROJECT_STATUS]"
-                      name="PROJECT_STATUS"
-                      truncationRowDisposition="FailComponent" />
-                  </outputColumns>
-                  <externalMetadataColumns
-                    isUsed="True">
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROJECT_ID]"
-                      codePage="1252"
-                      dataType="str"
-                      length="32"
-                      name="PROJECT_ID" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROGRAM]"
-                      codePage="1252"
-                      dataType="str"
-                      length="100"
-                      name="PROGRAM" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROJECT_NUMBER]"
-                      codePage="1252"
-                      dataType="str"
-                      length="15"
-                      name="PROJECT_NUMBER" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROJECT_TITLE]"
-                      codePage="1252"
-                      dataType="str"
-                      length="140"
-                      name="PROJECT_TITLE" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROJECT_TYPE]"
-                      codePage="1252"
-                      dataType="str"
-                      length="50"
-                      name="PROJECT_TYPE" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[FISCAL_YEAR]"
-                      dataType="numeric"
-                      name="FISCAL_YEAR"
-                      precision="4" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[START_DATE]"
-                      dataType="dbTimeStamp"
-                      name="START_DATE" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[END_DATE]"
-                      dataType="dbTimeStamp"
-                      name="END_DATE" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[EST_PARTICIPANT_CNT]"
-                      dataType="numeric"
-                      name="EST_PARTICIPANT_CNT"
-                      precision="6" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[EST_ARRIVAL_DATE]"
-                      dataType="dbTimeStamp"
-                      name="EST_ARRIVAL_DATE" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[EST_DEPARTURE_DATE]"
-                      dataType="dbTimeStamp"
-                      name="EST_DEPARTURE_DATE" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STATUS]"
-                      codePage="1252"
-                      dataType="str"
-                      length="50"
-                      name="PROJECT_STATUS" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROJECT_LANGUAGE]"
-                      codePage="1252"
-                      dataType="str"
-                      length="100"
-                      name="PROJECT_LANGUAGE" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[FUNDING_ID]"
-                      codePage="1252"
-                      dataType="str"
-                      length="32"
-                      name="FUNDING_ID" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[FUNDING_SOURCE]"
-                      codePage="1252"
-                      dataType="str"
-                      length="100"
-                      name="FUNDING_SOURCE" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[FUNDING_COUNTRY]"
-                      codePage="1252"
-                      dataType="str"
-                      length="100"
-                      name="FUNDING_COUNTRY" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[NOMINATED_BY_ORG_ID]"
-                      codePage="1252"
-                      dataType="str"
-                      length="32"
-                      name="NOMINATED_BY_ORG_ID" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[COUNTRY]"
-                      codePage="1252"
-                      dataType="str"
-                      length="60"
-                      name="COUNTRY" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[REGION]"
-                      codePage="1252"
-                      dataType="str"
-                      length="100"
-                      name="REGION" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[NPA_ORG_ID]"
-                      codePage="1252"
-                      dataType="str"
-                      length="32"
-                      name="NPA_ORG_ID" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[NPA_PGM_OFFICER_PERSON_ID]"
-                      codePage="1252"
-                      dataType="str"
-                      length="32"
-                      name="NPA_PGM_OFFICER_PERSON_ID" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[NPA_PGM_ASSOCIATE_PERSON_ID]"
-                      codePage="1252"
-                      dataType="str"
-                      length="32"
-                      name="NPA_PGM_ASSOCIATE_PERSON_ID" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[DOS_PGM_OFFICE_ORG_ID]"
-                      codePage="1252"
-                      dataType="str"
-                      length="32"
-                      name="DOS_PGM_OFFICE_ORG_ID" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[DOS_PGM_OFFICER_PERSON_ID]"
-                      codePage="1252"
-                      dataType="str"
-                      length="32"
-                      name="DOS_PGM_OFFICER_PERSON_ID" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[DOS_PGM_COORDINATOR_PERSON_ID]"
-                      codePage="1252"
-                      dataType="str"
-                      length="32"
-                      name="DOS_PGM_COORDINATOR_PERSON_ID" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROJECT_CREATE_ID]"
-                      codePage="1252"
-                      dataType="str"
-                      length="32"
-                      name="PROJECT_CREATE_ID" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROJECT_CREATE_DT]"
-                      dataType="dbTimeStamp"
-                      name="PROJECT_CREATE_DT" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROJECT_UPDATE_ID]"
-                      codePage="1252"
-                      dataType="str"
-                      length="32"
-                      name="PROJECT_UPDATE_ID" />
-                    <externalMetadataColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output].ExternalColumns[PROJECT_UPDATE_DT]"
-                      dataType="dbTimeStamp"
-                      name="PROJECT_UPDATE_DT" />
-                  </externalMetadataColumns>
-                </output>
-                <output
-                  refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Error Output]"
-                  isErrorOut="true"
-                  name="OLE DB Source Error Output">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                    <outputColumn
-                      refId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Error Output].Columns[PROJECT_STATUS]"
-                      codePage="1252"
-                      dataType="str"
-                      length="50"
-                      lineageId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Error Output].Columns[PROJECT_STATUS]"
-                      name="PROJECT_STATUS" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-          </components>
-          <paths>
-            <path
-              refId="Package\Load New Project Status (Completed).Paths[Aggregate Output 1]"
-              endId="Package\Load New Project Status (Completed)\Data Conversion.Inputs[Data Conversion Input]"
-              name="Aggregate Output 1"
-              startId="Package\Load New Project Status (Completed)\Aggregate Project Status.Outputs[Aggregate Output 1]" />
-            <path
-              refId="Package\Load New Project Status (Completed).Paths[Data Conversion Output]"
-              endId="Package\Load New Project Status (Completed)\Add Required Columns.Inputs[Derived Column Input]"
-              name="Data Conversion Output"
-              startId="Package\Load New Project Status (Completed)\Data Conversion.Outputs[Data Conversion Output]" />
-            <path
-              refId="Package\Load New Project Status (Completed).Paths[Derived Column Output]"
-              endId="Package\Load New Project Status (Completed)\Does Project Status Exist?.Inputs[Lookup Input]"
-              name="Derived Column Output"
-              startId="Package\Load New Project Status (Completed)\Add Required Columns.Outputs[Derived Column Output]" />
-            <path
-              refId="Package\Load New Project Status (Completed).Paths[Lookup No Match Output]"
-              endId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Inputs[OLE DB Destination Input]"
-              name="Lookup No Match Output"
-              startId="Package\Load New Project Status (Completed)\Does Project Status Exist?.Outputs[Lookup No Match Output]" />
-            <path
-              refId="Package\Load New Project Status (Completed).Paths[OLE DB Source Output]"
-              endId="Package\Load New Project Status (Completed)\Aggregate Project Status.Inputs[Aggregate Input 1]"
-              name="OLE DB Source Output"
-              startId="Package\Load New Project Status (Completed)\IVLP Project (Oracle).Outputs[OLE DB Source Output]" />
-          </paths>
-        </pipeline>
-      </DTS:ObjectData>
-    </DTS:Executable>
-    <DTS:Executable
       DTS:refId="Package\Map Source Programs to ECA Programs (Completed)"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Execute SQL Task"
@@ -9958,18 +8981,10 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint]"
       DTS:CreationName=""
-      DTS:DTSID="{69568240-BFA4-4F97-8A04-71944F0BA851}"
+      DTS:DTSID="{51B7D35D-7890-4E72-97F8-D4981C6797D9}"
       DTS:From="Package\Create Organization XREF Data (Completed)"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint"
-      DTS:To="Package\Load New Project Status (Completed)" />
-    <DTS:PrecedenceConstraint
-      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
-      DTS:CreationName=""
-      DTS:DTSID="{5AF09613-FFA5-404D-9949-2F1C31B6BF4F}"
-      DTS:From="Package\Load New Project Status (Completed)"
-      DTS:LogicalAnd="True"
-      DTS:ObjectName="Constraint 1"
       DTS:To="Package\Delete Existing Interim XREF rows (Completed)" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
@@ -10031,195 +9046,37 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="267,42"
-          Id="Package\Create IVLP Program XREF (Completed)"
-          TopLeft="39.5,195.5" />
-        <NodeLayout
-          Size="263,42"
-          Id="Package\Create New Organizations (Completed)"
-          TopLeft="36.5,16.5" />
-        <NodeLayout
-          Size="287,42"
-          Id="Package\Create Organization XREF Data (Completed)"
-          TopLeft="390,19" />
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="197,42"
           Id="Package\Create Project XRef table"
-          TopLeft="814.5,317.5" />
-        <NodeLayout
-          Size="235,42"
-          Id="Package\Load New Programs (Completed)"
-          TopLeft="57.5,277.5" />
-        <NodeLayout
-          Size="256,42"
-          Id="Package\Load New Project Status (Completed)"
-          TopLeft="46.5,109.5" />
-        <NodeLayout
-          Size="326,42"
-          Id="Package\Map Source Programs to ECA Programs (Completed)"
-          TopLeft="355.5,197.5" />
+          TopLeft="1002.5,541.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="533.5,61">
+          TopLeft="350.5,193.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-359,48.5"
+              EndConnector="407,31.5"
               Start="0,0"
-              End="-359,41">
+              End="407,24">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.25" />
+                    End="0,11.75" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,20.25"
-                    Point2="0,24.25"
-                    Point3="-4,24.25" />
+                    Point1="0,11.75"
+                    Point2="0,15.75"
+                    Point3="4,15.75" />
                   <mssgle:LineSegment
-                    End="-355,24.25" />
+                    End="403,15.75" />
                   <mssgle:CubicBezierSegment
-                    Point1="-355,24.25"
-                    Point2="-359,24.25"
-                    Point3="-359,28.25" />
+                    Point1="403,15.75"
+                    Point2="407,15.75"
+                    Point3="407,19.75" />
                   <mssgle:LineSegment
-                    End="-359,41" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="299.5,38.75">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="90.5,0"
-              Start="0,0"
-              End="83,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="83,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="306.5,217.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="49,0"
-              Start="0,0"
-              End="41.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="41.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 4]"
-          TopLeft="518.5,239.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-343.5,38"
-              Start="0,0"
-              End="-343.5,30.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,15" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,15"
-                    Point2="0,19"
-                    Point3="-4,19" />
-                  <mssgle:LineSegment
-                    End="-339.5,19" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-339.5,19"
-                    Point2="-343.5,19"
-                    Point3="-343.5,23" />
-                  <mssgle:LineSegment
-                    End="-343.5,30.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="298,42"
-          Id="Package\Update Program XREF ProgramId (Completed)"
-          TopLeft="365.5,281.5" />
-        <NodeLayout
-          Size="301,42"
-          Id="Package\Delete Existing Interim XREF rows (Completed)"
-          TopLeft="388.5,113.5" />
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="302.5,132.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="86,0"
-              Start="0,0"
-              End="78.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="78.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="289,42"
-          Id="Package\Delete Existing Final XREF rows (Completed)"
-          TopLeft="744.5,115.5" />
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 5]"
-          TopLeft="689.5,135.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="55,0"
-              Start="0,0"
-              End="47.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="47.5,0" />
+                    End="407,24" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -10230,30 +9087,102 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 6]"
-          TopLeft="889,157.5">
+          TopLeft="1091.5,267">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-716,38"
+              EndConnector="-738.5,134.5"
               Start="0,0"
-              End="-716,30.5">
+              End="-738.5,127">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,15" />
+                    End="0,63.25" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,15"
-                    Point2="0,19"
-                    Point3="-4,19" />
+                    Point1="0,63.25"
+                    Point2="0,67.25"
+                    Point3="-4,67.25" />
                   <mssgle:LineSegment
-                    End="-712,19" />
+                    End="-734.5,67.25" />
                   <mssgle:CubicBezierSegment
-                    Point1="-712,19"
-                    Point2="-716,19"
-                    Point3="-716,23" />
+                    Point1="-734.5,67.25"
+                    Point2="-738.5,67.25"
+                    Point3="-738.5,71.25" />
                   <mssgle:LineSegment
-                    End="-716,30.5" />
+                    End="-738.5,127" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="267,42"
+          Id="Package\Create IVLP Program XREF (Completed)"
+          TopLeft="219.5,401.5" />
+        <NodeLayout
+          Size="326,42"
+          Id="Package\Map Source Programs to ECA Programs (Completed)"
+          TopLeft="544.5,400.5" />
+        <NodeLayout
+          Size="235,42"
+          Id="Package\Load New Programs (Completed)"
+          TopLeft="219.5,483.5" />
+        <NodeLayout
+          Size="298,42"
+          Id="Package\Update Program XREF ProgramId (Completed)"
+          TopLeft="551.5,486.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="486.5,422">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="58,0"
+              Start="0,0"
+              End="50.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="50.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="707.5,442.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-370.5,41"
+              Start="0,0"
+              End="-370.5,33.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.5"
+                    Point2="0,20.5"
+                    Point3="-4,20.5" />
+                  <mssgle:LineSegment
+                    End="-366.5,20.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-366.5,20.5"
+                    Point2="-370.5,20.5"
+                    Point3="-370.5,24.5" />
+                  <mssgle:LineSegment
+                    End="-370.5,33.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -10264,18 +9193,90 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 7]"
-          TopLeft="292.5,300.5">
+          TopLeft="454.5,506">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="73,0"
+              EndConnector="97,0"
               Start="0,0"
-              End="65.5,0">
+              End="89.5,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="65.5,0" />
+                    End="89.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="287,42"
+          Id="Package\Create Organization XREF Data (Completed)"
+          TopLeft="207,151.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="163.5,100">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="187,51.5"
+              Start="0,0"
+              End="187,44">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.75" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,21.75"
+                    Point2="0,25.75"
+                    Point3="4,25.75" />
+                  <mssgle:LineSegment
+                    End="183,25.75" />
+                  <mssgle:CubicBezierSegment
+                    Point1="183,25.75"
+                    Point2="187,25.75"
+                    Point3="187,29.75" />
+                  <mssgle:LineSegment
+                    End="187,44" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="263,42"
+          Id="Package\Create New Organizations (Completed)"
+          TopLeft="31.5,58" />
+        <NodeLayout
+          Size="301,42"
+          Id="Package\Delete Existing Interim XREF rows (Completed)"
+          TopLeft="606.5,224.5" />
+        <NodeLayout
+          Size="289,42"
+          Id="Package\Delete Existing Final XREF rows (Completed)"
+          TopLeft="947.5,224.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="907.5,245.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="40,0"
+              Start="0,0"
+              End="32.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="32.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -11265,7 +10266,7 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">false</Value>
+          type="q2:string">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -11393,239 +10394,10 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <TaskHost
-    design-time-name="Package\Load New Project Status (Completed)">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
-        <NodeLayout
-          Size="186,42"
-          Id="Package\Load New Project Status (Completed)\Add Required Columns"
-          TopLeft="40,319" />
-        <NodeLayout
-          Size="201,42"
-          Id="Package\Load New Project Status (Completed)\Does Project Status Exist?"
-          TopLeft="343.5,312.5" />
-        <NodeLayout
-          Size="178,42"
-          Id="Package\Load New Project Status (Completed)\IVLP Project (Oracle)"
-          TopLeft="24,45" />
-        <NodeLayout
-          Size="185,42"
-          Id="Package\Load New Project Status (Completed)\Add new ProjectStatus"
-          TopLeft="662.5,313.5" />
-        <NodeLayout
-          Size="196,42"
-          Id="Package\Load New Project Status (Completed)\Aggregate Project Status"
-          TopLeft="24,134" />
-        <NodeLayout
-          Size="156,42"
-          Id="Package\Load New Project Status (Completed)\Data Conversion"
-          TopLeft="40.5,224.5" />
-        <EdgeLayout
-          Id="Package\Load New Project Status (Completed).Paths[Lookup No Match Output]"
-          TopLeft="544.5,334">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="118,0"
-              Start="0,0"
-              End="110.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="110.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-0.556386718749998,5,111.6127734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load New Project Status (Completed).Paths[Derived Column Output]"
-          TopLeft="226,336.75">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="117.5,0"
-              Start="0,0"
-              End="110,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="110,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load New Project Status (Completed).Paths[Data Conversion Output]"
-          TopLeft="118.5,266.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-15.1666666666667,52.5"
-              Start="0,0"
-              End="-15.1666666666667,45">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,27.2313432835821" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,27.2313432835821"
-                    Point2="0,31.2313432835821"
-                    Point3="-4,31.2313432835821" />
-                  <mssgle:LineSegment
-                    End="-11.1666666666667,31.2313432835821" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-11.1666666666667,31.2313432835821"
-                    Point2="-15.1666666666667,31.2313432835821"
-                    Point3="-15.1666666666667,35.2313432835821" />
-                  <mssgle:LineSegment
-                    End="-15.1666666666667,45" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load New Project Status (Completed).Paths[Aggregate Output 1]"
-          TopLeft="122,176">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-28.1666666666667,48.5"
-              Start="0,0"
-              End="-28.1666666666667,41">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,24.8045685279188" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,24.8045685279188"
-                    Point2="0,28.8045685279188"
-                    Point3="-4,28.8045685279188" />
-                  <mssgle:LineSegment
-                    End="-24.1666666666667,28.8045685279188" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-24.1666666666667,28.8045685279188"
-                    Point2="-28.1666666666667,28.8045685279188"
-                    Point3="-28.1666666666667,32.8045685279188" />
-                  <mssgle:LineSegment
-                    End="-28.1666666666667,41" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load New Project Status (Completed).Paths[OLE DB Source Output]"
-          TopLeft="113,87">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="9,47"
-              Start="0,0"
-              End="9,39.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,19.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,19.5"
-                    Point2="0,23.5"
-                    Point3="4,23.5" />
-                  <mssgle:LineSegment
-                    End="5,23.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="5,23.5"
-                    Point2="9,23.5"
-                    Point3="9,27.5" />
-                  <mssgle:LineSegment
-                    End="9,39.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load New Project Status (Completed)\Does Project Status Exist?">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:string">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[ProjectStatus]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
           type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load New Project Status (Completed)\IVLP Project (Oracle)">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load New Project Status (Completed)\Add new ProjectStatus">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
@@ -11720,25 +10492,12 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Update Program XREF ProgramId (Completed)\Program XREF Data">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
     design-time-name="Package\Update Program XREF ProgramId (Completed)\Lookup ECA-KMT ProgramId">
     <Properties>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">true</Value>
+          type="q2:string">true</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -11748,10 +10507,23 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Update Program XREF ProgramId (Completed)\Program XREF Data">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>

@@ -1,4 +1,5 @@
-﻿using ECA.Core.Service;
+﻿using ECA.Core.Exceptions;
+using ECA.Core.Service;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -34,6 +35,18 @@ namespace ECA.Business.Search
         /// Processes the documents.
         /// </summary>
         Task ProcessAsync();
+
+        /// <summary>
+        /// Performs an update on a single document.
+        /// </summary>
+        /// <param name="id">The id of the entity whose document should be updated.</param>
+        void UpdateDocument(object id);
+
+        /// <summary>
+        /// Performs an update on a single document.
+        /// </summary>
+        /// <param name="id">The id of the entity whose document should be updated.</param>
+        Task UpdateDocumentAsync(object id);
     }
 
     /// <summary>
@@ -73,7 +86,21 @@ namespace ECA.Business.Search
         public DocumentServiceContract(TContext context, IIndexService indexService, IIndexNotificationService notificationService)
             :base(context, indexService, notificationService)
         {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(indexService != null, "The index service must not be null.");
+            Contract.Requires(notificationService != null, "The notification service must not be null.");
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public override IQueryable<TDocument> CreateGetDocumentByIdQuery(object id)
+        {
+            Contract.Requires(id != null, "The id must not be null.");
+            Contract.Ensures(Contract.Result<IQueryable<TDocument>>() != null, "The query must not return null.");
+            return null;
         }
 
         /// <summary>
@@ -84,58 +111,7 @@ namespace ECA.Business.Search
         {
             Contract.Ensures(Contract.Result<IQueryable<TDocument>>() != null, "The query must not return null.");
             return null;
-        }
-
-        public List<TDocument> GetDocumentBatch(int skip, int take)
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="skip"></param>
-        /// <param name="take"></param>
-        /// <returns></returns>
-        public Task<List<TDocument>> GetDocumentBatchAsync(int skip, int take)
-        {
-            return Task.FromResult<List<TDocument>>(null);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public int GetDocumentCount()
-        {
-            return 0;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public Task<int> GetDocumentCountAsync()
-        {
-            return Task.FromResult<int>(0);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void Process()
-        {
-            
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public Task ProcessAsync()
-        {
-            return Task.FromResult<object>(null);
-        }
+        }        
     }
 
     /// <summary>
@@ -157,6 +133,7 @@ namespace ECA.Business.Search
         private IIndexService indexService;
         private IIndexNotificationService notificationService;
         private Action<IDocumentConfiguration, Type> throwIfDocumentConfigurationNotFound;
+        private Action<TDocument, string, object> throwIfDocumentNotFound;
 
         /// <summary>
         /// Creates a new DocumentService with the given context to query, the index service to index documents with and
@@ -182,6 +159,13 @@ namespace ECA.Business.Search
                     throw new NotSupportedException(String.Format("The document configuration for the type [{0}] was not found.", t));
                 }
             };
+            throwIfDocumentNotFound = (doc, documentTypeName, id) =>
+            {
+                if(doc == null)
+                {
+                    throw new ModelNotFoundException(String.Format("The {0} document with Id {1} was not found.", documentTypeName, id));
+                }
+            };
         }
 
         /// <summary>
@@ -198,6 +182,12 @@ namespace ECA.Business.Search
         /// </summary>
         /// <returns>The query to retrieve documents to process.</returns>
         public abstract IQueryable<TDocument> CreateGetDocumentsQuery();
+
+        /// <summary>
+        /// Returns a query to retrieve the document by id.
+        /// </summary>
+        /// <returns>The query to retrieve document by id to process.</returns>
+        public abstract IQueryable<TDocument> CreateGetDocumentByIdQuery(object id);
 
         /// <summary>
         /// Returns a batch of documents to process.
@@ -283,6 +273,43 @@ namespace ECA.Business.Search
             notificationService.Finished(documentTypeName);
         }
 
+        /// <summary>
+        /// Updates the document with the given id.
+        /// </summary>
+        /// <param name="id">The entity id.</param>
+        public void UpdateDocument(object id)
+        {
+            var config = indexService.GetDocumentConfiguration<TDocument>();
+            throwIfDocumentConfigurationNotFound(config, typeof(TDocument));
+
+            var documentTypeName = config.GetDocumentTypeName();
+            notificationService.UpdateStarted(documentTypeName, id);
+
+            var document = CreateGetDocumentByIdQuery(id).FirstOrDefault();
+            throwIfDocumentNotFound(document, documentTypeName, id);
+            
+            indexService.HandleDocuments(new List<TDocument> { document });
+            notificationService.UpdateFinished(documentTypeName, config);
+        }
+
+        /// <summary>
+        /// Updates the document with the given id.
+        /// </summary>
+        /// <param name="id">The entity id.</param>
+        public async Task UpdateDocumentAsync(object id)
+        {
+            var config = indexService.GetDocumentConfiguration<TDocument>();
+            throwIfDocumentConfigurationNotFound(config, typeof(TDocument));
+            
+            var documentTypeName = config.GetDocumentTypeName();
+            notificationService.UpdateStarted(documentTypeName, id);
+
+            var document = await CreateGetDocumentByIdQuery(id).FirstOrDefaultAsync();
+            throwIfDocumentNotFound(document, documentTypeName, id);
+            
+            await indexService.HandleDocumentsAsync(new List<TDocument> { document });
+            notificationService.UpdateFinished(documentTypeName, config);
+        }
 
         #region IDispose
         protected override void Dispose(bool disposing)
@@ -302,7 +329,6 @@ namespace ECA.Business.Search
             }
             base.Dispose(disposing);
         }
-
         #endregion
     }
 }

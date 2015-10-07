@@ -1,10 +1,12 @@
 ﻿using ECA.Business.Search;
+using System.Linq;
 using ECA.WebApi.Models.Search;
 using ECA.WebApi.Security;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Collections.Generic;
 
 namespace ECA.WebApi.Controllers.Search
 {
@@ -38,7 +40,7 @@ namespace ECA.WebApi.Controllers.Search
         /// <returns>The responsive documents.</returns>
         [Route("Search")]
         [ResponseType(typeof(DocumentSearchResponseViewModel))]
-        public async Task<IHttpActionResult> PostSearchDocumentsAsync([FromUri]ECASearchParametersBindingModel search)
+        public async Task<IHttpActionResult> PostSearchDocumentsAsync([FromBody]ECASearchParametersBindingModel search)
         {
             if (ModelState.IsValid)
             {
@@ -60,7 +62,7 @@ namespace ECA.WebApi.Controllers.Search
         /// <returns>The responsive documents.</returns>
         [Route("Search/Suggest")]
         [ResponseType(typeof(DocumentSearchResponseViewModel))]
-        public async Task<IHttpActionResult> PostSuggestionsAsync([FromUri]ECASuggestionParametersBindingModel model)
+        public async Task<IHttpActionResult> PostSuggestionsAsync([FromBody]ECASuggestionParametersBindingModel model)
         {
             if (ModelState.IsValid)
             {
@@ -71,6 +73,17 @@ namespace ECA.WebApi.Controllers.Search
             {
                 return BadRequest(ModelState);
             }
+        }
+
+        /// <summary>
+        /// Returns the names of the document fields.
+        /// </summary>
+        /// <returns>The names of the document fields.</returns>
+        [Route("Documents/Fields")]
+        [ResponseType(typeof(List<string>))]
+        public IHttpActionResult GetDocumentFieldNames()
+        {
+            return Ok(this.indexService.GetDocumentFieldNames().ToList());
         }
 
         /// <summary>

@@ -12,7 +12,7 @@
     <div class="search-result-wrapper">
         <div class="search-result-container">
             <div class="row">
-                <div class="col-md-8" style="overflow: auto;">
+                <div class="col-md-8" style="overflow: auto; max-height: 700px;">
                     <div class="row" ng-show="tophitinfo.length > 0">
                         <div class="col-md-2 text-right">
                             <span><strong>TOP HIT</strong></span>
@@ -23,7 +23,7 @@
                                     <div class="resulticon {{tophitinfo[0].document.documentTypeName | lowercase}}">{{tophitinfo[0].document.documentTypeName | resultIconFilter}}</div>
                                 </div>
                                 <div class="col-md-9">
-                                    <a ng-click="GetTophitInfo()" ng-bind-html="tophitinfo[0].hitHighlights.name[0] != null ? tophitinfo[0].hitHighlights.name[0] : tophitinfo[0].document.name"></a>
+                                    <a ng-click="GetDocumentInfo(tophitinfo[0].document.id)" ng-bind-html="tophitinfo[0].hitHighlights.name[0] != null ? tophitinfo[0].hitHighlights.name[0] : tophitinfo[0].document.name"></a>
                                 </div>
                                 <div class="col-md-2 resultoffice">{{tophitinfo[0].document.officeSymbol}}</div>
                             </div>
@@ -36,7 +36,7 @@
                             </span>
                         </div>
                         <div class="col-md-10 search-results">
-                            <div class="row" ng-class="docitem.document.id === docinfo.document.id ? 'resultrow-selected' : 'resultrow'">
+                            <div class="row" ng-class="docitem.document.id === docinfo.id ? 'resultrow-selected' : 'resultrow'">
                                 <div class="col-md-1 text-center">
                                     <div class="resulticon {{docitem.document.documentTypeName | lowercase}}">{{docitem.document.documentTypeName | resultIconFilter}}</div>
                                 </div>
@@ -47,17 +47,17 @@
                             </div>
                         </div>
                     </div>
-                    <nav class="text-center" ng-show="results.length > 0">
+                    <nav class="text-center" ng-show="totalpages > 1">
                         <ul class="pagination">
                             <li ng-show="currentpage > 0"><a ng-click="currentpage = 0"><i class="material-icons">arrow_back</i> First</a></li>
                             <li ng-show="currentpage > 0"><a ng-click="currentpage = currentpage - 1"><i class="material-icons">arrow_back</i> Previous</a></li>
-                            <li ng-repeat="page in pagearray track by $index" ng-class="{active: $index == currentpage}"><a ng-click="currentpage = $index+1">{{$index+1}}</a></li>
+                            <li ng-repeat="page in pagearray track by $index" ng-class="{active: $index == currentpage}"><a ng-click="selectPage($index)">{{$index + 1}}</a></li>
                             <li ng-show="currentpage < totalpages - 1"><a ng-click="currentpage = currentpage + 1">Next <i class="material-icons">arrow_forward</i></a></li>
                             <li ng-show="currentpage < totalpages - 1"><a ng-click="currentpage = totalpages - 1">Last <i class="material-icons">arrow_forward</i></a></li>
                         </ul>
                     </nav>
                 </div>
-                <div class="col-md-4" style="overflow: auto;">
+                <div class="col-md-4" style="overflow: auto; max-height: 700px;">
                     <ng-include src="'/views/partials/searchinfo.html'"></ng-include>
                 </div>
             </div>

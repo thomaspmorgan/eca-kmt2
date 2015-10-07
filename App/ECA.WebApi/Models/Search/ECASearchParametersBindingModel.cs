@@ -61,7 +61,16 @@ namespace ECA.WebApi.Models.Search
         public ECASearchParameters ToECASearchParameters(IEnumerable<IPermission> permissions)
         {
             Contract.Requires(permissions != null, "The permissions must not be null.");
-            return new ECASearchParameters(this.Start, this.Limit, this.Filter, this.Facets, this.SelectFields, this.SearchTerm, this.HightlightPreTag, this.HighlightPostTag);
+            return new ECASearchParameters(
+                this.Start, 
+                this.Limit, 
+                this.Filter, 
+                this.Facets, 
+                this.SelectFields, 
+                this.SearchTerm, 
+                this.HightlightPreTag, 
+                this.HighlightPostTag
+                );
         }
     }
 }

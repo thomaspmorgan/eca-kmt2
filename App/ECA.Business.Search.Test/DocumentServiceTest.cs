@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.Azure.Search.Models;
 using ECA.Business.Search;
+using ECA.Core.Exceptions;
 
 namespace ECA.Business.Search.Test
 {
@@ -19,7 +20,7 @@ namespace ECA.Business.Search.Test
         {
         }
 
-     
+
 
         public TestContext GetContext()
         {
@@ -29,6 +30,11 @@ namespace ECA.Business.Search.Test
         public override IQueryable<SimpleEntity> CreateGetDocumentsQuery()
         {
             return this.Context.SimpleEntities.Select(x => x);
+        }
+
+        public override IQueryable<SimpleEntity> CreateGetDocumentByIdQuery(object id)
+        {
+            return this.Context.SimpleEntities.Where(x => x.Id == (int)id);
         }
     }
 
@@ -161,7 +167,7 @@ namespace ECA.Business.Search.Test
                 Assert.IsTrue(Object.ReferenceEquals(serviceResults.First(), expectedSimpleEntity));
             };
             var counter = 0;
-            while(counter < totalCount)
+            while (counter < totalCount)
             {
                 var expectedEntity = context.SimpleEntities.ToList()[counter];
                 var batch = service.GetDocumentBatch(counter, batchSize);
@@ -170,6 +176,78 @@ namespace ECA.Business.Search.Test
                 tester(batchAsync, expectedEntity);
                 counter += batchSize;
             }
+        }
+
+        [TestMethod]
+        public async Task TestUpdateDocument()
+        {
+            Assert.AreEqual(1, batchSize);
+            var instance1 = new SimpleEntity();
+            context.SimpleEntities.Add(instance1);
+
+            var counter = 0;
+            var counterAsync = 0;
+            Action<List<SimpleEntity>> documentsToHandleCallback = (docs) =>
+            {
+                Assert.AreEqual(1, docs.Count);
+                Assert.IsTrue(Object.ReferenceEquals(docs.First(), context.SimpleEntities.ToList()[counter]));
+                counter++;
+            };
+            Action<List<SimpleEntity>> documentsToHandleAsyncCallback = (docs) =>
+            {
+                Assert.AreEqual(1, docs.Count);
+                Assert.IsTrue(Object.ReferenceEquals(docs.First(), context.SimpleEntities.ToList()[counterAsync]));
+                counterAsync++;
+            };
+            indexService.Setup(x => x.GetDocumentConfiguration<SimpleEntity>())
+                .Returns(new SimpleEntityConfiguration());
+            indexService.Setup(x => x.HandleDocuments<SimpleEntity>(It.IsAny<List<SimpleEntity>>()))
+                .Callback(documentsToHandleCallback);
+            indexService.Setup(x => x.HandleDocumentsAsync<SimpleEntity>(It.IsAny<List<SimpleEntity>>()))
+                .ReturnsAsync(new DocumentIndexResponse())
+                .Callback(documentsToHandleAsyncCallback);
+
+            service.UpdateDocument(instance1.Id);
+            await service.UpdateDocumentAsync(instance1.Id);
+            notificationService.Verify(x => x.UpdateStarted(It.IsAny<string>(), It.IsAny<object>()), Times.Exactly(2));
+            notificationService.Verify(x => x.UpdateFinished(It.IsAny<string>(), It.IsAny<object>()), Times.Exactly(2));
+            indexService.Verify(x => x.CreateIndex<SimpleEntity>(), Times.Never());
+            indexService.Verify(x => x.CreateIndexAsync<SimpleEntity>(), Times.Never());
+        }
+
+
+        [TestMethod]
+        public async Task TestUpdateDocument_DocumentDoesNotExist()
+        {
+            var configuration = new SimpleEntityConfiguration();
+            var id = 1;
+            var documentTypeName = configuration.GetDocumentTypeName();
+            var message = String.Format("The {0} document with Id {1} was not found.", documentTypeName, id);
+            indexService.Setup(x => x.GetDocumentConfiguration<SimpleEntity>()).Returns(configuration);
+            Action a = () => service.UpdateDocument(id);
+            Func<Task> f = () =>
+            {
+                return service.UpdateDocumentAsync(id);
+            };
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestUpdateDocument_DocumentConfigurationDoesNotExist()
+        {
+            var configuration = new SimpleEntityConfiguration();
+            var id = 1;
+            var documentTypeName = configuration.GetDocumentTypeName();
+            var message = String.Format("The document configuration for the type [{0}] was not found.", typeof(SimpleEntity));
+            indexService.Setup(x => x.GetDocumentConfiguration<SimpleEntity>()).Returns(default(SimpleEntityConfiguration));
+            Action a = () => service.UpdateDocument(id);
+            Func<Task> f = () =>
+            {
+                return service.UpdateDocumentAsync(id);
+            };
+            a.ShouldThrow<NotSupportedException>().WithMessage(message);
+            f.ShouldThrow<NotSupportedException>().WithMessage(message);
         }
 
         [TestMethod]
@@ -185,7 +263,7 @@ namespace ECA.Business.Search.Test
             var counter = 0;
             var counterAsync = 0;
             Action<List<SimpleEntity>> documentsToHandleCallback = (docs) =>
-            {   
+            {
                 Assert.AreEqual(1, docs.Count);
                 Assert.IsTrue(Object.ReferenceEquals(docs.First(), context.SimpleEntities.ToList()[counter]));
                 counter++;
@@ -204,7 +282,7 @@ namespace ECA.Business.Search.Test
             indexService.Setup(x => x.HandleDocumentsAsync<SimpleEntity>(It.IsAny<List<SimpleEntity>>()))
                 .ReturnsAsync(new DocumentIndexResponse())
                 .Callback(documentsToHandleAsyncCallback);
-            
+
             service.Process();
             await service.ProcessAsync();
             notificationService.Verify(x => x.Started(It.IsAny<string>()), Times.Exactly(2));

@@ -8,24 +8,14 @@
  * Service to retrieve search results.
  */
 angular.module('staticApp')
-  .factory('SearchService', function (DragonBreath, $q) {
+  .factory('SearchService', function (DragonBreath) {
 
       return {
-          getAll: function (params) {
-              var defer = $q.defer();
-              DragonBreath.get(params, 'Search')
-                .success(function (data) {
-                    defer.resolve(data);
-                });
-              return defer.promise;
+          postSearch: function (params) {
+              return DragonBreath.create(params, 'Search');
           },
-          get: function (id) {
-              var defer = $q.defer();
-              DragonBreath.get('Documents', id)
-                .success(function (data) {
-                    defer.resolve(data);
-                });
-              return defer.promise;
+          getDocInfo: function (id) {
+              return DragonBreath.get('Documents', id);
           }
       }
       
