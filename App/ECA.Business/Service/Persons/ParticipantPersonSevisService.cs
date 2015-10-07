@@ -144,21 +144,21 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="participantId">The participantId to lookup</param>
         /// <returns>The participantPersonSevis</returns>
-        public ParticipantPersonSevisCommStatusDTO GetParticipantPersonSevisCommStatusById(int participantId)
+        public PagedQueryResults<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonSevisCommStatusesById(int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator)
         {
-            var participantPersonSevisCommStatuses = ParticipantPersonSevisCommStatusQueries.CreateGetParticipantPersonSevisCommStatusDTOByIdQuery(this.Context, participantId).FirstOrDefault();
+            var participantPersonSevisCommStatuses = ParticipantPersonSevisCommStatusQueries.CreateGetParticipantPersonSevisCommStatusDTOByIdQuery(this.Context, participantId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
             this.logger.Trace("Retrieved participantPersonSevis by id [{0}].", participantId);
             return participantPersonSevisCommStatuses;
         }
 
         /// <summary>
-        /// Returns a participantPersonSevis asyncronously
+        /// Returns a participantPersonSevisCommStatus asyncronously
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>The participantPersonSevis</returns>
-        public Task<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonSevisCommStatusByIdAsync(int participantId)
+        public Task<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>> GetParticipantPersonSevisCommStatusesByIdAsync(int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator)
         {
-            var participantPersonSevisCommStatuses = ParticipantPersonSevisCommStatusQueries.CreateGetParticipantPersonSevisCommStatusDTOByIdQuery(this.Context, participantId).FirstOrDefaultAsync();
+            var participantPersonSevisCommStatuses = ParticipantPersonSevisCommStatusQueries.CreateGetParticipantPersonSevisCommStatusDTOByIdQuery(this.Context, participantId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
             this.logger.Trace("Retrieved participantPersonSevis by id [{0}].", participantId);
             return participantPersonSevisCommStatuses;
         }

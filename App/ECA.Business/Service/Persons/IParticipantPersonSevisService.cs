@@ -70,5 +70,19 @@ namespace ECA.Business.Service.Persons
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The participantPersonSevises.</returns>
         Task<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>> GetParticipantPersonSevisCommStatusesAsync(QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator);
+
+        /// <summary>
+        /// Returns a participantPersonSevisCommStatus
+        /// </summary>
+        /// <param name="participantId">The participantId to lookup</param>
+        /// <returns>The participantPersonSevis</returns>
+        PagedQueryResults<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonSevisCommStatusesById(int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator);
+
+        /// <summary>
+        /// Returns a participantPersonSevisCommStatus asyncronously
+        /// </summary>
+        /// <param name="participantId">The participant id to lookup</param>
+        /// <returns>The participantPersonSevisCommStatuses</returns>
+        Task<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>> GetParticipantPersonSevisCommStatusesByIdAsync(int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator);
     }
 }
