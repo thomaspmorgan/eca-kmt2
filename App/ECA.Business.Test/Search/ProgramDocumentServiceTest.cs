@@ -47,5 +47,12 @@ namespace ECA.Business.Test.Search
             var query = service.CreateGetDocumentsQuery();
             Assert.IsNotNull(query);
         }
+
+        [TestMethod]
+        public void TestCreateGetDocumentByIdQuery()
+        {
+            var query = service.CreateGetDocumentByIdQuery(1);
+            Assert.IsNotNull(query);
+        }
     }
 }

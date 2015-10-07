@@ -1,10 +1,12 @@
 ﻿using ECA.Business.Search;
+using System.Linq;
 using ECA.WebApi.Models.Search;
 using ECA.WebApi.Security;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Collections.Generic;
 
 namespace ECA.WebApi.Controllers.Search
 {
@@ -38,7 +40,7 @@ namespace ECA.WebApi.Controllers.Search
         /// <returns>The responsive documents.</returns>
         [Route("Search")]
         [ResponseType(typeof(DocumentSearchResponseViewModel))]
-        public async Task<IHttpActionResult> GetSearchDocumentsAsync([FromUri]ECASearchParametersBindingModel search)
+        public async Task<IHttpActionResult> PostSearchDocumentsAsync([FromBody]ECASearchParametersBindingModel search)
         {
             if (ModelState.IsValid)
             {
@@ -51,6 +53,37 @@ namespace ECA.WebApi.Controllers.Search
             {
                 return BadRequest(ModelState);
             }
+        }
+
+        /// <summary>
+        /// Performs a search of the ECA system.
+        /// </summary>
+        /// <param name="model">The suggestion model.</param>
+        /// <returns>The responsive documents.</returns>
+        [Route("Search/Suggest")]
+        [ResponseType(typeof(DocumentSearchResponseViewModel))]
+        public async Task<IHttpActionResult> PostSuggestionsAsync([FromBody]ECASuggestionParametersBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var searchResults = await this.indexService.GetSuggestionsAsync(model.ToECASuggestionParameters(null), null);                
+                return Ok(new DocumentSuggestResponseViewModel(searchResults));
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Returns the names of the document fields.
+        /// </summary>
+        /// <returns>The names of the document fields.</returns>
+        [Route("Documents/Fields")]
+        [ResponseType(typeof(List<string>))]
+        public IHttpActionResult GetDocumentFieldNames()
+        {
+            return Ok(this.indexService.GetDocumentFieldNames().ToList());
         }
 
         /// <summary>
@@ -78,13 +111,13 @@ namespace ECA.WebApi.Controllers.Search
         /// <summary>
         /// Deletes the search index and all documents in it.
         /// </summary>
-        /// <param name="id">The id of the application to delete the search index for.  KMT is 1.</param>
+        /// <param name="model">The model representing the client request to delete.</param>
         /// <returns>An Ok Result.</returns>
-        [Route("Index/{id:int}")]
-        [ResourceAuthorize(CAM.Data.Permission.ADMINISTRATOR_VALUE, CAM.Data.ResourceType.APPLICATION_VALUE)]
-        public async Task<IHttpActionResult> DeleteIndexAsync(int id)
+        [Route("Index")]
+        [ResourceAuthorize(CAM.Data.Permission.ADMINISTRATOR_VALUE, CAM.Data.ResourceType.APPLICATION_VALUE, typeof(DeleteIndexBindingModel), "ApplicationId")]
+        public async Task<IHttpActionResult> DeleteIndexAsync(DeleteIndexBindingModel model)
         {
-            await this.indexService.DeleteIndexAsync(IndexService.INDEX_NAME);
+            await this.indexService.DeleteIndexAsync(model.IndexName);
             return Ok();
         }
     }

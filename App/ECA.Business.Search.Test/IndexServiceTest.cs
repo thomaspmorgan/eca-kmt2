@@ -23,11 +23,12 @@ namespace ECA.Business.Search.Test
     {
         private ShimSearchServiceClient searchClient;
         private IndexService service;
+        private string indexName;
 
         [TestInitialize]
         public void TestInit()
         {
-
+            indexName = "index";
         }
 
         [TestCleanup]
@@ -40,7 +41,6 @@ namespace ECA.Business.Search.Test
         [TestMethod]
         public async Task TestExists()
         {
-            var actualIndexName = "index";
             bool doesExist = true;
             using (ShimsContext.Create())
             {
@@ -58,25 +58,24 @@ namespace ECA.Business.Search.Test
                 };
                 Microsoft.Azure.Search.Fakes.ShimIndexOperationsExtensions.ExistsAsyncIIndexOperationsString = (operations, indexName) =>
                 {
-                    Assert.AreEqual(actualIndexName, indexName);
+                    Assert.AreEqual(indexName, indexName);
                     return Task.FromResult<bool>(doesExist);
                 };
                 Microsoft.Azure.Search.Fakes.ShimIndexOperationsExtensions.ExistsIIndexOperationsString = (operations, indexName) =>
                 {
-                    Assert.AreEqual(actualIndexName, indexName);
+                    Assert.AreEqual(indexName, indexName);
                     return doesExist;
                 };
 
-                service = new IndexService(searchClient.Instance);
-                Assert.AreEqual(doesExist, service.Exists(actualIndexName));
-                Assert.AreEqual(doesExist, await service.ExistsAsync(actualIndexName));
+                service = new IndexService(indexName, searchClient.Instance);
+                Assert.AreEqual(doesExist, service.Exists(indexName));
+                Assert.AreEqual(doesExist, await service.ExistsAsync(indexName));
             }
         }
 
         [TestMethod]
         public async Task TestExists_IndexDoesNotExist()
         {
-            var actualIndexName = "index";
             bool doesExist = false;
             using (ShimsContext.Create())
             {
@@ -94,18 +93,18 @@ namespace ECA.Business.Search.Test
                 };
                 Microsoft.Azure.Search.Fakes.ShimIndexOperationsExtensions.ExistsAsyncIIndexOperationsString = (operations, indexName) =>
                 {
-                    Assert.AreEqual(actualIndexName, indexName);
+                    Assert.AreEqual(indexName, indexName);
                     return Task.FromResult<bool>(doesExist);
                 };
                 Microsoft.Azure.Search.Fakes.ShimIndexOperationsExtensions.ExistsIIndexOperationsString = (operations, indexName) =>
                 {
-                    Assert.AreEqual(actualIndexName, indexName);
+                    Assert.AreEqual(indexName, indexName);
                     return doesExist;
                 };
 
-                service = new IndexService(searchClient.Instance);
-                Assert.AreEqual(doesExist, service.Exists(actualIndexName));
-                Assert.AreEqual(doesExist, await service.ExistsAsync(actualIndexName));
+                service = new IndexService(indexName, searchClient.Instance);
+                Assert.AreEqual(doesExist, service.Exists(indexName));
+                Assert.AreEqual(doesExist, await service.ExistsAsync(indexName));
             }
         }
 
@@ -162,7 +161,7 @@ namespace ECA.Business.Search.Test
 
 
                 var configuration = new TestDocumentConfiguration(true);
-                service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+                service = new IndexService(indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
                 Assert.IsFalse(getAsyncCalled);
                 Assert.IsFalse(getCalled);
 
@@ -222,7 +221,7 @@ namespace ECA.Business.Search.Test
                     return documentGetResponse;
                 });
                 var configuration = new TestDocumentConfiguration(true);
-                service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+                service = new IndexService(indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
                 Assert.IsFalse(getAsyncCalled);
                 Assert.IsFalse(getCalled);
 
@@ -252,19 +251,21 @@ namespace ECA.Business.Search.Test
                     return index;
                 };
 
-                Microsoft.Azure.Search.Fakes.ShimIndexOperationsExtensions.CreateOrUpdateAsyncIIndexOperationsIndex = (operations, indexName) =>
+                Microsoft.Azure.Search.Fakes.ShimIndexOperationsExtensions.CreateOrUpdateAsyncIIndexOperationsIndex = (operations, idx) =>
                 {
+                    Assert.AreEqual(this.indexName, idx.Name);
                     calledCreateAsync = true;
                     return Task.FromResult<IndexDefinitionResponse>(indexDefinitionResponse);
                 };
-                Microsoft.Azure.Search.Fakes.ShimIndexOperationsExtensions.CreateOrUpdateIIndexOperationsIndex = (operations, indexName) =>
+                Microsoft.Azure.Search.Fakes.ShimIndexOperationsExtensions.CreateOrUpdateIIndexOperationsIndex = (operations, idx) =>
                 {
+                    Assert.AreEqual(this.indexName, idx.Name);
                     calledCreate = true;
                     return indexDefinitionResponse;
                 };
 
                 var configuration = new TestDocumentConfiguration(true);
-                service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+                service = new IndexService(indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
                 Assert.IsFalse(calledCreate);
                 Assert.IsFalse(calledCreateAsync);
                 service.CreateIndex<TestDocument>();
@@ -280,7 +281,6 @@ namespace ECA.Business.Search.Test
         [TestMethod]
         public async Task TestDeleteIndex_DocumentIndexDoesNotExist()
         {
-            var actualIndexName = "indexName";
             bool doesExist = false;
             bool calledDoesExist = false;
             bool calledDoesExistAsync = false;
@@ -299,26 +299,26 @@ namespace ECA.Business.Search.Test
                 };
                 Microsoft.Azure.Search.Fakes.ShimIndexOperationsExtensions.ExistsAsyncIIndexOperationsString = (operations, indexName) =>
                 {
-                    Assert.AreEqual(actualIndexName, indexName);
+                    Assert.AreEqual(this.indexName, indexName);
                     calledDoesExistAsync = true;
                     return Task.FromResult<bool>(doesExist);
                 };
                 Microsoft.Azure.Search.Fakes.ShimIndexOperationsExtensions.ExistsIIndexOperationsString = (operations, indexName) =>
                 {
-                    Assert.AreEqual(actualIndexName, indexName);
+                    Assert.AreEqual(this.indexName, indexName);
                     calledDoesExist = true;
                     return doesExist;
                 };
 
                 var configuration = new TestDocumentConfiguration(true);
-                service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
                 Assert.IsFalse(calledDelete);
                 Assert.IsFalse(calledDeleteAsync);
                 Assert.IsFalse(calledDoesExist);
                 Assert.IsFalse(calledDoesExistAsync);
                 var testDocument = new TestDocument();
-                service.DeleteIndex(actualIndexName);
-                await service.DeleteIndexAsync(actualIndexName);
+                service.DeleteIndex(this.indexName);
+                await service.DeleteIndexAsync(this.indexName);
                 Assert.IsFalse(calledDelete);
                 Assert.IsFalse(calledDeleteAsync);
                 Assert.IsTrue(calledDoesExist);
@@ -329,7 +329,6 @@ namespace ECA.Business.Search.Test
         [TestMethod]
         public async Task TestDeleteIndex_DocumentIndexExists()
         {
-            var actualIndexName = "index";
             bool doesExist = true;
             bool calledDoesExist = false;
             bool calledDoesExistAsync = false;
@@ -349,38 +348,38 @@ namespace ECA.Business.Search.Test
                 };
                 Microsoft.Azure.Search.Fakes.ShimIndexOperationsExtensions.ExistsAsyncIIndexOperationsString = (operations, indexName) =>
                 {
-                    Assert.AreEqual(actualIndexName, indexName);
+                    Assert.AreEqual(this.indexName, indexName);
                     calledDoesExistAsync = true;
                     return Task.FromResult<bool>(doesExist);
                 };
                 Microsoft.Azure.Search.Fakes.ShimIndexOperationsExtensions.ExistsIIndexOperationsString = (operations, indexName) =>
                 {
-                    Assert.AreEqual(actualIndexName, indexName);
+                    Assert.AreEqual(this.indexName, indexName);
                     calledDoesExist = true;
                     return doesExist;
                 };
 
                 Microsoft.Azure.Search.Fakes.ShimIndexOperationsExtensions.DeleteAsyncIIndexOperationsString = (operations, indexName) =>
                 {
-                    Assert.AreEqual(actualIndexName, indexName);
+                    Assert.AreEqual(this.indexName, indexName);
                     calledDeleteAsync = true;
                     return Task.FromResult<AzureOperationResponse>(response);
                 };
                 Microsoft.Azure.Search.Fakes.ShimIndexOperationsExtensions.DeleteIIndexOperationsString = (operations, indexName) =>
                 {
-                    Assert.AreEqual(actualIndexName, indexName);
+                    Assert.AreEqual(this.indexName, indexName);
                     calledDelete = true;
                     return response;
                 };
                 var configuration = new TestDocumentConfiguration(true);
-                service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
                 Assert.IsFalse(calledDelete);
                 Assert.IsFalse(calledDeleteAsync);
                 Assert.IsFalse(calledDoesExist);
                 Assert.IsFalse(calledDoesExistAsync);
                 var testDocument = new TestDocument();
-                service.DeleteIndex(actualIndexName);
-                await service.DeleteIndexAsync(actualIndexName);
+                service.DeleteIndex(this.indexName);
+                await service.DeleteIndexAsync(this.indexName);
                 Assert.IsTrue(calledDelete);
                 Assert.IsTrue(calledDeleteAsync);
                 Assert.IsTrue(calledDoesExist);
@@ -434,7 +433,7 @@ namespace ECA.Business.Search.Test
                     return Task.FromResult<DocumentIndexResponse>(documentIndexResponse);
                 });
                 var configuration = new TestDocumentConfiguration(true);
-                service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
 
                 var testDocument = new TestDocument();
                 var documents = new List<TestDocument>();
@@ -495,7 +494,7 @@ namespace ECA.Business.Search.Test
                     return Task.FromResult<DocumentIndexResponse>(documentIndexResponse);
                 });
                 var configuration = new TestDocumentConfiguration(true);
-                service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
 
                 var testDocument = new TestDocument();
                 var documents = new List<TestDocument>();
@@ -556,7 +555,7 @@ namespace ECA.Business.Search.Test
                     return Task.FromResult<DocumentIndexResponse>(documentIndexResponse);
                 };
                 var configuration = new TestDocumentConfiguration(true);
-                service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
 
                 var testDocument = new TestDocument();
                 var documents = new List<TestDocument>();
@@ -604,7 +603,7 @@ namespace ECA.Business.Search.Test
                 };
 
 
-                service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration>());
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration>());
 
                 var testDocument = new TestDocument();
                 var documents = new List<TestDocument>();
@@ -625,6 +624,22 @@ namespace ECA.Business.Search.Test
         #endregion
 
         #region Constructor
+        [TestMethod]
+        public void TestConstructor_CheckIndexName()
+        {
+            using (ShimsContext.Create())
+            {
+                var searchIndexClient = new ShimSearchIndexClient
+                {
+
+                };
+                searchClient = new ShimSearchServiceClient();
+                var instance = new TestDocumentConfiguration(true);
+                var service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { instance });
+                Assert.AreEqual(this.indexName, service.IndexName);
+            }
+        }
+
         [TestMethod]
         public void TestConstructor_CheckDistinctDocumentTypeIds()
         {
@@ -655,7 +670,7 @@ namespace ECA.Business.Search.Test
                         return name1;
                     }
                 };
-                Action a = () => new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { documentConfiguration1, instance });
+                Action a = () => new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { documentConfiguration1, instance });
 
                 var message = String.Format("The document type ids {0} are not unique.", instance.GetDocumentTypeId());
                 a.ShouldThrow<NotSupportedException>().WithMessage(message);
@@ -692,7 +707,7 @@ namespace ECA.Business.Search.Test
 
 
                 searchClient = new ShimSearchServiceClient();
-                Action a = () => new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { documentConfiguration1, instance });
+                Action a = () => new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { documentConfiguration1, instance });
 
                 var message = String.Format("The document type names {0} are not unique.", instance.GetDocumentTypeName());
                 a.ShouldThrow<NotSupportedException>().WithMessage(message);
@@ -715,7 +730,7 @@ namespace ECA.Business.Search.Test
                 searchClient = new ShimSearchServiceClient();
                 var instance1 = new TestDocumentConfiguration();
                 instance1.IsDocumentType(Guid.Empty, "hello");
-                Action a = () => new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { instance1 });
+                Action a = () => new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { instance1 });
                 a.ShouldThrow<NotSupportedException>().WithMessage(String.Format("The following configurations do not define a document type:  {0}.", typeof(TestDocumentConfiguration)));
             }
         }
@@ -736,7 +751,7 @@ namespace ECA.Business.Search.Test
                 searchClient = new ShimSearchServiceClient();
                 var instance1 = new TestDocumentConfiguration(true);
                 var instance2 = new OtherTestDocumentConfiguration();
-                var service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { instance1, instance2 });
+                var service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { instance1, instance2 });
                 Assert.AreEqual(2, service.Configurations.Count);
             }
         }
@@ -744,13 +759,106 @@ namespace ECA.Business.Search.Test
 
         #region Search
         [TestMethod]
+        public void TestGetSuggestionParameters()
+        {
+            var searchTerm = "search";
+            var preTag = "pre";
+            var postTag = "post";
+            var instance = new ECASuggestionParameters(searchTerm, preTag, postTag);
+            using (ShimsContext.Create())
+            {
+                searchClient = new ShimSearchServiceClient();
+                var configuration = new TestDocumentConfiguration(true);
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+
+                var parameters = service.GetSuggestParameters(instance);
+                Assert.IsTrue(parameters.UseFuzzyMatching);
+                Assert.AreEqual(preTag, parameters.HighlightPreTag);
+                Assert.AreEqual(postTag, parameters.HighlightPostTag);
+
+                Assert.AreEqual(2, parameters.Select.Count);
+                Assert.AreEqual("name", parameters.Select.First());
+                Assert.AreEqual("id", parameters.Select.Last());
+
+                Assert.AreEqual(1, parameters.OrderBy.Count);
+                Assert.AreEqual("name", parameters.OrderBy.First());
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetSuggestions()
+        {
+            var suggestAsyncCalled = false;
+            var suggestCalled = false;
+            var searchTerm = "search";
+            var preTag = "pre";
+            var postTag = "post";
+            var instance = new ECASuggestionParameters(searchTerm, preTag, postTag);
+            Func<DocumentSuggestResponse<ECADocument>> createResponse = () =>
+            {
+                return new DocumentSuggestResponse<ECADocument>();
+            };
+            using (ShimsContext.Create())
+            {
+                var documentOperations = new StubIDocumentOperations
+                {
+                };
+                var searchIndexClient = new ShimSearchIndexClient
+                {
+                    DocumentsGet = () =>
+                    {
+                        return documentOperations;
+                    }
+                };
+                var indexOperations = new StubIIndexOperations
+                {
+                    GetClientString = (name) =>
+                    {
+                        return searchIndexClient;
+                    }
+                };
+
+                searchClient = new ShimSearchServiceClient();
+
+                searchClient.IndexesGet = () =>
+                {
+                    return indexOperations;
+                };
+
+                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.SuggestAsyncOf1IDocumentOperationsStringStringSuggestParameters<ECADocument>((ops, srchTerm, suggesterKey, suggestParameters) =>
+                {
+                    Assert.AreEqual(searchTerm, srchTerm);
+                    Assert.AreEqual(IndexService.DOCUMENT_NAME_SUGGESTER_KEY, suggesterKey);
+                    suggestAsyncCalled = true;
+                    return Task.FromResult<DocumentSuggestResponse<ECADocument>>(createResponse());
+                });
+                Microsoft.Azure.Search.Fakes.ShimDocumentOperationsExtensions.SuggestOf1IDocumentOperationsStringStringSuggestParameters<ECADocument>((ops, srchTerm, suggesterKey, suggestParameters) =>
+                {
+                    Assert.AreEqual(searchTerm, srchTerm);
+                    Assert.AreEqual(IndexService.DOCUMENT_NAME_SUGGESTER_KEY, suggesterKey);
+                    suggestCalled = true;
+                    return createResponse();
+                });
+                var configuration = new TestDocumentConfiguration(true);
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+
+                Assert.IsFalse(suggestCalled);
+                Assert.IsFalse(suggestAsyncCalled);
+                service.GetSuggestions(instance, null);
+                await service.GetSuggestionsAsync(instance, null);
+                Assert.IsTrue(suggestCalled);
+                Assert.IsTrue(suggestAsyncCalled);
+            }
+        }
+
+        [TestMethod]
         public void TestGetSearchParameters()
         {
             using (ShimsContext.Create())
             {
                 searchClient = new ShimSearchServiceClient();
                 var configuration = new TestDocumentConfiguration(true);
-                service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
 
                 var start = 1;
                 var limit = 10;
@@ -758,14 +866,69 @@ namespace ECA.Business.Search.Test
                 var filter = "filter";
                 var facets = new List<string> { "facet1" };
                 var searchTerm = "search";
+                var preTag = "pre";
+                var postTag = "post";
 
-                var searchParameters = new ECASearchParameters(start, limit, filter, facets, fields, searchTerm);
+                var searchParameters = new ECASearchParameters(start, limit, filter, facets, fields, searchTerm, preTag, postTag);
                 var instance = service.GetSearchParameters(searchParameters, null);
+                Assert.IsTrue(instance.IncludeTotalResultCount);
                 Assert.AreEqual(start, instance.Skip);
                 Assert.AreEqual(limit, instance.Top);
                 Assert.AreEqual(filter, instance.Filter);
+                Assert.AreEqual(preTag, instance.HighlightPreTag);
+                Assert.AreEqual(postTag, instance.HighlightPostTag);
                 CollectionAssert.AreEqual(fields, instance.Select.ToList());
                 CollectionAssert.AreEqual(facets, instance.Facets.ToList());
+            }
+        }
+
+        [TestMethod]
+        public void TestGetSearchParameters_OnlyPreTagSupplied()
+        {
+            using (ShimsContext.Create())
+            {
+                searchClient = new ShimSearchServiceClient();
+                var configuration = new TestDocumentConfiguration(true);
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+
+                var start = 1;
+                var limit = 10;
+                var fields = new List<string> { "field1" };
+                var filter = "filter";
+                var facets = new List<string> { "facet1" };
+                var searchTerm = "search";
+                var preTag = "pre";
+                string postTag = null;
+
+                var searchParameters = new ECASearchParameters(start, limit, filter, facets, fields, searchTerm, preTag, postTag);
+                var instance = service.GetSearchParameters(searchParameters, null);
+                Assert.IsNull(instance.HighlightPreTag);
+                Assert.IsNull(instance.HighlightPostTag);
+            }
+        }
+
+        [TestMethod]
+        public void TestGetSearchParameters_OnlyPostTagSupplied()
+        {
+            using (ShimsContext.Create())
+            {
+                searchClient = new ShimSearchServiceClient();
+                var configuration = new TestDocumentConfiguration(true);
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+
+                var start = 1;
+                var limit = 10;
+                var fields = new List<string> { "field1" };
+                var filter = "filter";
+                var facets = new List<string> { "facet1" };
+                var searchTerm = "search";
+                string preTag = null;
+                string postTag = "post";
+
+                var searchParameters = new ECASearchParameters(start, limit, filter, facets, fields, searchTerm, preTag, postTag);
+                var instance = service.GetSearchParameters(searchParameters, null);
+                Assert.IsNull(instance.HighlightPreTag);
+                Assert.IsNull(instance.HighlightPostTag);
             }
         }
 
@@ -776,7 +939,7 @@ namespace ECA.Business.Search.Test
             {
                 searchClient = new ShimSearchServiceClient();
                 var configuration = new TestDocumentConfiguration(true);
-                service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
                 var allFields = service.GetIndex(configuration).Fields.ToList();
                 var searchableFields = allFields.Where(x => x.IsSearchable).OrderBy(x => x.Name).ToList();
 
@@ -786,8 +949,10 @@ namespace ECA.Business.Search.Test
                 var filter = "filter";
                 var facets = new List<string> { "facet1" };
                 var searchTerm = "search";
+                var preTag = "pre";
+                var postTag = "post";
 
-                var searchParameters = new ECASearchParameters(start, limit, filter, facets, fields, searchTerm);
+                var searchParameters = new ECASearchParameters(start, limit, filter, facets, fields, searchTerm, preTag, postTag);
                 var instance = service.GetSearchParameters(searchParameters, null);
                 CollectionAssert.AreEqual(searchableFields.Select(x => x.Name).ToList(), instance.HighlightFields.OrderBy(x => x).ToList());
             }
@@ -800,7 +965,7 @@ namespace ECA.Business.Search.Test
             {
                 searchClient = new ShimSearchServiceClient();
                 var configuration = new TestDocumentConfiguration(true);
-                service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
 
                 var start = 1;
                 var limit = 10;
@@ -808,8 +973,10 @@ namespace ECA.Business.Search.Test
                 var filter = "filter";
                 var facets = new List<string> { "facet1", "facet1" };
                 var searchTerm = "search";
+                var preTag = "pre";
+                var postTag = "post";
 
-                var searchParameters = new ECASearchParameters(start, limit, filter, facets, fields, searchTerm);
+                var searchParameters = new ECASearchParameters(start, limit, filter, facets, fields, searchTerm, preTag, postTag);
                 var instance = service.GetSearchParameters(searchParameters, null);
                 CollectionAssert.AreEqual(fields.Distinct().ToList(), instance.Select.ToList());
                 CollectionAssert.AreEqual(facets.Distinct().ToList(), instance.Facets.ToList());
@@ -823,7 +990,7 @@ namespace ECA.Business.Search.Test
             {
                 searchClient = new ShimSearchServiceClient();
                 var configuration = new TestDocumentConfiguration(true);
-                service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
 
                 var start = 1;
                 var limit = 10;
@@ -831,8 +998,10 @@ namespace ECA.Business.Search.Test
                 var filter = "filter";
                 List<string> facets = null;
                 var searchTerm = "search";
+                var preTag = "pre";
+                var postTag = "post";
 
-                var searchParameters = new ECASearchParameters(start, limit, filter, facets, fields, searchTerm);
+                var searchParameters = new ECASearchParameters(start, limit, filter, facets, fields, searchTerm, preTag, postTag);
                 var instance = service.GetSearchParameters(searchParameters, null);
                 Assert.IsNotNull(instance.Select);
                 Assert.IsNotNull(instance.Facets);
@@ -848,7 +1017,9 @@ namespace ECA.Business.Search.Test
             var searchAsyncCalled = false;
             var start = 1;
             var limit = 10;
-            var searchParameters = new ECASearchParameters(start, limit, null, null, null, "abc");
+            var preTag = "pre";
+            var postTag = "post";
+            var searchParameters = new ECASearchParameters(start, limit, null, null, null, "abc", preTag, postTag);
             var documentTypeId = Guid.NewGuid();
             var key = new DocumentKey(documentTypeId, 1);
             Func<DocumentSearchResponse<ECADocument>> createDocumentSearchResponse = () =>
@@ -904,7 +1075,7 @@ namespace ECA.Business.Search.Test
                     return createDocumentSearchResponse();
                 });
                 var configuration = new TestDocumentConfiguration(true);
-                service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
 
                 Action<DocumentSearchResponse<ECADocument>> tester = (response) =>
                 {
@@ -945,7 +1116,7 @@ namespace ECA.Business.Search.Test
                 };
 
                 var configuration = new TestDocumentConfiguration(true);
-                service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
 
                 var searchClientField = typeof(IndexService).GetField("searchClient", BindingFlags.Instance | BindingFlags.NonPublic);
                 var searchClientValue = searchClientField.GetValue(service);
@@ -978,6 +1149,21 @@ namespace ECA.Business.Search.Test
         }
 
         [TestMethod]
+        public void TestGetDocumentFieldNames()
+        {
+            using (ShimsContext.Create())
+            {
+                searchClient = new ShimSearchServiceClient();
+                var configuration = new TestDocumentConfiguration(true);
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+
+                var fields = service.GetDocumentFieldNames();
+                var index = service.GetIndex(configuration);
+                CollectionAssert.AreEqual(index.Fields.Select(x => x.Name).OrderBy(x => x).ToList(), fields.OrderBy(x => x).ToList());
+            }
+        }
+
+        [TestMethod]
         public void TestGetIndex()
         {
             var testDocument = new TestDocument();
@@ -995,10 +1181,18 @@ namespace ECA.Business.Search.Test
             {
                 searchClient = new ShimSearchServiceClient();
                 var configuration = new TestDocumentConfiguration(true);
-                service = new IndexService(searchClient.Instance, new List<IDocumentConfiguration> { configuration });
+                service = new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { configuration });
 
                 var index = service.GetIndex(testDocumentConfiguration);
-                Assert.AreEqual(IndexService.INDEX_NAME, index.Name);
+                Assert.AreEqual(this.indexName, index.Name);
+
+                Assert.AreEqual(1, index.Suggesters.Count);
+                var firstSuggester = index.Suggesters.First();
+                Assert.AreEqual(IndexService.DOCUMENT_NAME_SUGGESTER_KEY, firstSuggester.Name);
+                Assert.AreEqual(SuggesterSearchMode.AnalyzingInfixMatching, firstSuggester.SearchMode);
+                Assert.AreEqual(1, firstSuggester.SourceFields.Count);
+                Assert.AreEqual(toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(x => x.Name)), firstSuggester.SourceFields.First());
+
 
                 var idField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Id))).FirstOrDefault();
                 Assert.IsNotNull(idField);
@@ -1006,10 +1200,11 @@ namespace ECA.Business.Search.Test
                 Assert.IsTrue(idField.IsRetrievable);
                 Assert.IsFalse(idField.IsSearchable);
 
-                var titleField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Name))).FirstOrDefault();
-                Assert.IsNotNull(titleField);
-                Assert.IsTrue(titleField.IsRetrievable);
-                Assert.IsTrue(titleField.IsSearchable);
+                var nameField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Name))).FirstOrDefault();
+                Assert.IsNotNull(nameField);
+                Assert.IsTrue(nameField.IsRetrievable);
+                Assert.IsTrue(nameField.IsSearchable);
+                Assert.IsTrue(nameField.IsSortable);
 
                 var descriptionField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Description))).FirstOrDefault();
                 Assert.IsNotNull(descriptionField);
@@ -1082,45 +1277,5 @@ namespace ECA.Business.Search.Test
                 Assert.IsTrue(officeSymbolField.IsSearchable);
             }
         }
-
-        //[TestMethod]
-        //public async Task Test()
-        //{
-        //    var instance = new TestDocument
-        //    {
-        //        Description = "description",
-        //        Name = "name",
-        //        Id = 1,
-        //        AdditionalField = "additional field",
-        //        Subtitle = "subtitle"
-        //    };
-
-
-        //    service = new IndexService(
-        //        new SearchServiceClient(searchServiceName, new SearchCredentials(apikey)),
-        //        new List<IDocumentConfiguration>
-        //        {
-        //            new TestDocumentConfiguration()
-        //        }
-        //        );
-        //    if (await service.ExistsAsync(DocumentType.Program))
-        //    {
-        //        await service.DeleteIndexAsync(DocumentType.Program);
-        //    }
-        //    await service.CreateIndexAsync<TestDocument>();
-
-        //    //await service.DeleteIndexAsync(DocumentType.Program);
-        //    //await service.CreateIndexAsync<TestDocument>();
-
-
-        //    var documents = new List<TestDocument>();
-        //    documents.Add(instance);
-        //    await service.CreateIndexAsync<TestDocument>();
-        //    var response = await service.HandleDocumentsAsync(documents);
-
-        //    var search = await service.SearchAsync(instance.Name, null);
-        //    Assert.AreEqual(1, search.Results.Count);
-
-        //}
     }
 }

@@ -73,7 +73,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.Search, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Azure.Search.0.12.0-preview\lib\net40\Microsoft.Azure.Search.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Azure.Search.0.13.0-preview\lib\net40\Microsoft.Azure.Search.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.Search.0.9.0.0.Fakes">
@@ -148,6 +148,7 @@
     <Compile Include="DocumentConfigurationTest.cs" />
     <Compile Include="DocumentServiceTest.cs" />
     <Compile Include="ECASearchParametersTest.cs" />
+    <Compile Include="ECASuggestionParametersTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

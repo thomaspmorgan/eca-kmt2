@@ -1,4 +1,5 @@
 ﻿using ECA.Core.Generation;
+using ECA.Core.Settings;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,10 @@ namespace ECA.WebApi.Models
             this.LookupErrors.AddRange(camErrors);
             this.LookupErrors = this.LookupErrors.OrderBy(x => x).ToList();
 
+            var appSettings = new AppSettings();
+            this.AzureSearchIndexName = appSettings.SearchIndexName;
+            this.AzureSearchServiceName = appSettings.SearchServiceName;
+
             this.BuildConfiguration = "Release";
 #if DEBUG
             this.BuildConfiguration = "Debug";
@@ -44,6 +49,16 @@ namespace ECA.WebApi.Models
         /// Gets the build configuration.
         /// </summary>
         public string BuildConfiguration { get; private set; }
+
+        /// <summary>
+        /// Gets the name of the azure search index.
+        /// </summary>
+        public string AzureSearchIndexName { get; private set; }
+
+        /// <summary>
+        /// Gets the name of the azure search service that is hosting indexes.
+        /// </summary>
+        public string AzureSearchServiceName { get; private set; }
 
         /// <summary>
         /// Gets the lookups in code that do not align with database values and vice versa.

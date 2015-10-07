@@ -28,6 +28,7 @@ angular.module('staticApp')
       $scope.startDatePickerOpen = false;
       $scope.endDatePickerOpen = false;
       $scope.maxDate = new Date();
+      var tempEduEmpId = 0;
 
       var originalEducation = angular.copy($scope.education);
       var originalEmployment = angular.copy($scope.employment);
@@ -131,9 +132,8 @@ angular.module('staticApp')
       $scope.view.saveEducationChanges = function () {
           $scope.view.isSavingChanges = true;
           $scope.education.personId = $scope.view.personId;
-
           if (isNewEduEmp($scope.education)) {
-              var tempEduEmpId = angular.copy($scope.education.professionEducationId);
+              tempEduEmpId = angular.copy($scope.education.professionEducationId);
               return EduEmpService.addProfessionEducation($scope.education, $scope.view.personId)
                 .then(onSaveEducationSuccess)
                 .then(function () {
@@ -150,8 +150,8 @@ angular.module('staticApp')
       };
 
       function updateEducations(tempId, education) {
-          var index = $scope.educations.map(function (e) { return e.id; }).indexOf(tempId);
-          $scope.educations[index] = education;
+          var index = $scope.view.educations.map(function (e) { return e.professionEducationId; }).indexOf(tempId);
+          $scope.view.educations[index] = education;
       };
 
       $scope.view.saveEmploymentChanges = function () {
@@ -159,7 +159,7 @@ angular.module('staticApp')
           $scope.employment.personId = $scope.view.personId;
 
           if (isNewEduEmp($scope.employment)) {
-              var tempEduEmpId = angular.copy($scope.employment.professionEducationId);
+              tempEduEmpId = angular.copy($scope.employment.professionEducationId);
               return EduEmpService.addProfessionEducation($scope.employment, $scope.view.personId)
                 .then(onSaveEmploymentSuccess)
                 .then(function () {
@@ -176,8 +176,8 @@ angular.module('staticApp')
       };
 
       function updateEmployments(tempId, employment) {
-          var index = $scope.employments.map(function (e) { return e.id; }).indexOf(tempId);
-          $scope.employments[index] = employment;
+          var index = $scope.view.employments.map(function (e) { return e.professionEducationId; }).indexOf(tempId);
+          $scope.view.employments[index] = employment;
       };
 
       $scope.view.onAddEducationClick = function (entityEduEmps) {
@@ -186,7 +186,7 @@ angular.module('staticApp')
           var title = "";
           var role = "";
           var newEducation = {
-              professionEducationId: null,
+              professionEducationId: --tempEduEmpId,
               title: title,
               role: role,
               startDate: null,
@@ -207,7 +207,7 @@ angular.module('staticApp')
           var title = "";
           var role = "";
           var newEmployment = {
-              professionEducationId: null,
+              professionEducationId: --tempEduEmpId,
               title: title,
               role: role,
               startDate: null,
@@ -222,44 +222,42 @@ angular.module('staticApp')
           $scope.view.collapseEduEmp = false;
       }
       
-      $scope.view.onDeleteEducationClick = function () {
-          if (isNewEduEmp($scope.education)) {
-              removeEducationFromView($scope.education);
-          }
-          else {
+      $scope.view.onDeleteEducationClick = function (index) {
+          //if (isNewEduEmp($scope.education)) {
+          //    removeEducationFromView(index);
+          //} else {
               $scope.view.isDeletingEduEmp = true;
               return EduEmpService.deleteProfessionEducation($scope.education, $scope.view.personId)
               .then(function () {
                   NotificationService.showSuccessMessage("Successfully deleted education.");
                   $scope.view.isDeletingEduEmp = false;
-                  removeEducationFromView($scope.education);
+                  removeEducationFromView(index);
               })
               .catch(function () {
                   var message = "Unable to delete education.";
                   $log.error(message);
                   NotificationService.showErrorMessage(message);
               });
-          }
+          //}
       }
 
-      $scope.view.onDeleteEmploymentClick = function () {
-          if (isNewEduEmp($scope.employment)) {
-              removeEmploymentFromView($scope.employment);
-          }
-          else {
+      $scope.view.onDeleteEmploymentClick = function (index) {
+          //if (isNewEduEmp($scope.employment)) {
+          //    removeEmploymentFromView(index);
+          //} else {
               $scope.view.isDeletingEmployment = true;
               return EduEmpService.deleteProfessionEducation($scope.employment, $scope.view.personId)
               .then(function () {
                   NotificationService.showSuccessMessage("Successfully deleted employment.");
                   $scope.view.isDeletingEmployment = false;
-                  removeEmploymentFromView($scope.employment);
+                  removeEmploymentFromView(index);
               })
               .catch(function () {
                   var message = "Unable to delete employment.";
                   $log.error(message);
                   NotificationService.showErrorMessage(message);
               });
-          }
+          //}
       }
       
       $scope.view.cancelEducationChanges = function () {
@@ -282,12 +280,12 @@ angular.module('staticApp')
           }
       };
       
-      function removeEducationFromView(education) {
-          $scope.$emit(ConstantsService.removeNewEducationEventName, education);
+      function removeEducationFromView(index) {
+          $scope.$emit(ConstantsService.removeNewEducationEventName, index);
       }
 
-      function removeEmploymentFromView(employment) {
-          $scope.$emit(ConstantsService.removeNewEmploymentEventName, employment);
+      function removeEmploymentFromView(index) {
+          $scope.$emit(ConstantsService.removeNewEmploymentEventName, index);
       }
 
       function getEducationFormDivIdPrefix() {
@@ -313,13 +311,13 @@ angular.module('staticApp')
       function updateEducationFormDivId(EduEmpId) {
           var id = getEducationFormDivIdPrefix() + EduEmpId;
           var e = getEduEmpFormDivElement(id);
-          e.id = getEducationFormDivIdPrefix() + $scope.education.professionEducationId;
+          e.id = getEducationFormDivIdPrefix() + $scope.education.professionEducationId.toString();
       }
 
       function updateEmploymentFormDivId(EduEmpId) {
           var id = getEmploymentFormDivIdPrefix() + EduEmpId;
           var e = getEduEmpFormDivElement(id);
-          e.id = getEmploymentFormDivIdPrefix() + $scope.employment.professionEducationId;
+          e.id = getEmploymentFormDivIdPrefix() + $scope.employment.professionEducationId.toString();
       }
 
       function onSaveEducationSuccess(response) {
@@ -353,31 +351,22 @@ angular.module('staticApp')
       }
 
       function isNewEduEmp(eduemp) {
-          if (eduemp.isNew) {
-              return true;
-          }
-          else {
-              return false;
-          }
+          return eduemp.isNew;
       }
       
-      $scope.$on(ConstantsService.removeNewEducationEventName, function (event, newEducation) {
+      $scope.$on(ConstantsService.removeNewEducationEventName, function (event, index) {
           console.assert($scope.view, 'The scope person must exist.  It should be set by the directive.');
           console.assert($scope.view.educations instanceof Array, 'The entity education is defined but must be an array.');
 
-          var educations = $scope.view.educations;
-          var index = educations.indexOf(newEducation);
-          var removedItems = educations.splice(index, 1);
+          $scope.view.educations.splice(index, 1);
           $log.info('Removed one new education at index ' + index);
       });
 
-      $scope.$on(ConstantsService.removeNewEmploymentEventName, function (event, newEmployment) {
+      $scope.$on(ConstantsService.removeNewEmploymentEventName, function (event, index) {
           console.assert($scope.view, 'The scope person must exist.  It should be set by the directive.');
           console.assert($scope.view.employments instanceof Array, 'The entity employment is defined but must be an array.');
 
-          var employments = $scope.view.employments;
-          var index = employments.indexOf(newEmployment);
-          var removedItems = employments.splice(index, 1);
+          $scope.view.employments.splice(index, 1);
           $log.info('Removed one new employment at index ' + index);
       });
 

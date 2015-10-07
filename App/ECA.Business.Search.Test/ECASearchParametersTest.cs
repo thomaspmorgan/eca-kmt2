@@ -16,11 +16,14 @@ namespace ECA.Business.Search.Test
             var fields = new List<string>();
             var facets = new List<string>();
             var searchTerm = "term";
-            var instance = new ECASearchParameters(start, limit, filter, facets, fields, searchTerm);
+            var preTag = "pre";
+            var postTag = "post";
+            var instance = new ECASearchParameters(start, limit, filter, facets, fields, searchTerm, preTag, postTag);
             Assert.AreEqual(start, instance.Start);
             Assert.AreEqual(limit, instance.Limit);
-            Assert.AreEqual(filter, instance.Filter);
-            Assert.IsTrue(Object.ReferenceEquals(fields, instance.Fields));
+            Assert.AreEqual(preTag, instance.HighlightPreTag);
+            Assert.AreEqual(postTag, instance.HighlightPostTag);
+            Assert.IsTrue(Object.ReferenceEquals(fields, instance.SelectFields));
             Assert.IsTrue(Object.ReferenceEquals(facets, instance.Facets));
         }
     }

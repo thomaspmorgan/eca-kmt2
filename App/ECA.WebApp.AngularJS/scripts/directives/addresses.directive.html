@@ -70,8 +70,9 @@
                             <div class="form-group" id="addressForm{{address.addressId}}">
                                 <label class="title-label col-md-3" for="isPrimary">Is Primary</label>
                                 <div class="col-md-9">
-                                    <input type="checkbox" 
-                                           class="col-md-3" 
+                                    <input type="checkbox"
+                                           class="col-md-3"
+                                           id="isPrimary"
                                            ng-change="view.onIsPrimaryChange()"
                                            ng-model="address.isPrimary" />
                                 </div>
@@ -84,7 +85,7 @@
                                             name="addressTypeId"
                                             ng-options="t.id as t.name for t in view.addressTypes"
                                             ng-model="address.addressTypeId"
-                                            required />
+                                            required></select>
                                 </div>
                                 <div ng-show="form.addressForm.addressTypeId.$dirty || form.addressForm.addressTypeId.$error.required">
                                     <div class="error" ng-show="form.addressForm.addressTypeId.$error.required">Please select an address type.</div>

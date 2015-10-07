@@ -37,7 +37,6 @@ angular.module('staticApp')
 
       var originalAddress = angular.copy($scope.address);
       
-
       if (!isNewAddress($scope.address) && $scope.address.isPrimary) {
           $scope.$parent.view.collapseAddresses = false;
           $scope.view.collapseAddress = false;
@@ -67,7 +66,7 @@ angular.module('staticApp')
                 .then(onSaveAddressSuccess)
                 .then(function () {
                     updateAddressFormDivId(tempId);
-                    updateAddresses(tempId, $scope.address)
+                    updateAddresses(tempId, $scope.address);
                 })
                 .catch(onSaveAddressError);
           }
@@ -198,7 +197,7 @@ angular.module('staticApp')
       }
 
       function getAddressFormDivElement(id) {
-          return document.getElementById(id)
+          return document.getElementById(id);
       }
 
       function onSaveAddressSuccess(response) {

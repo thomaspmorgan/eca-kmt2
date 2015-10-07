@@ -32,7 +32,7 @@ angular.module('staticApp')
                 sort.push({
                     property: predicate.replace(/'/g, ""),
                     direction: reverse === false ? "asc" : "desc"
-                })
+                });
             }
             return sort;
         }

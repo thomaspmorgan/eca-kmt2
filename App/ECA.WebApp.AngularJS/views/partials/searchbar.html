@@ -1,6 +1,7 @@
 <div class="modal-header search-modal-header">
     <input type="search" ng-model="text" placeholder="Spotlight search"
-            class="input-lg form-control col-md-12" style="font-weight: 500" focus-me="true" ng-change="autocomplete()" ng-model-options="{debounce: 500}" submit-required="true" />
+           class="input-lg form-control col-md-12" style="font-weight: 500" focus-me="true" 
+           ng-change="autocomplete()" ng-model-options="{debounce: 500}" submit-required="true" />
 </div>
 <div class="modal-body">
     <div class="spinner" ng-show="isLoadingResults">
@@ -11,7 +12,7 @@
     <div class="search-result-wrapper">
         <div class="search-result-container">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-8" style="overflow: auto; max-height: 700px;">
                     <div class="row" ng-show="tophitinfo.length > 0">
                         <div class="col-md-2 text-right">
                             <span><strong>TOP HIT</strong></span>
@@ -22,18 +23,20 @@
                                     <div class="resulticon {{tophitinfo[0].document.documentTypeName | lowercase}}">{{tophitinfo[0].document.documentTypeName | resultIconFilter}}</div>
                                 </div>
                                 <div class="col-md-9">
-                                    <a ng-click="GetTophitInfo()" ng-bind-html="tophitinfo[0].hitHighlights.name[0] != null ? tophitinfo[0].hitHighlights.name[0] : tophitinfo[0].document.name"></a>
+                                    <a ng-click="GetDocumentInfo(tophitinfo[0].document.id)" ng-bind-html="tophitinfo[0].hitHighlights.name[0] != null ? tophitinfo[0].hitHighlights.name[0] : tophitinfo[0].document.name"></a>
                                 </div>
                                 <div class="col-md-2 resultoffice">{{tophitinfo[0].document.officeSymbol}}</div>
                             </div>
                         </div>
                     </div>
-                    <div ng-repeat="docitem in results" class="row">
+                    <div ng-repeat="docitem in results | startFrom:currentpage * pagesize | limitTo:pagesize" class="row">
                         <div class="col-md-2 text-right">
-                            <span ng-show="CreateHeader(docitem.document.documentTypeName)"><strong>{{docitem.document.documentTypeName | uppercase}}</strong></span>
+                            <span ng-show="CreateHeader(docitem.document.documentTypeName, $index)">
+                                <strong>{{docitem.document.documentTypeName | uppercase}}</strong>
+                            </span>
                         </div>
                         <div class="col-md-10 search-results">
-                            <div class="row" ng-class="docitem.document.id === docinfo.document.id ? 'resultrow-selected' : 'resultrow'">
+                            <div class="row" ng-class="docitem.document.id === docinfo.id ? 'resultrow-selected' : 'resultrow'">
                                 <div class="col-md-1 text-center">
                                     <div class="resulticon {{docitem.document.documentTypeName | lowercase}}">{{docitem.document.documentTypeName | resultIconFilter}}</div>
                                 </div>
@@ -44,136 +47,18 @@
                             </div>
                         </div>
                     </div>
+                    <nav class="text-center" ng-show="totalpages > 1">
+                        <ul class="pagination">
+                            <li ng-show="currentpage > 0"><a ng-click="currentpage = 0"><i class="material-icons">arrow_back</i> First</a></li>
+                            <li ng-show="currentpage > 0"><a ng-click="currentpage = currentpage - 1"><i class="material-icons">arrow_back</i> Previous</a></li>
+                            <li ng-repeat="page in pagearray track by $index" ng-class="{active: $index == currentpage}"><a ng-click="currentpage = $index+1">{{$index+1}}</a></li>
+                            <li ng-show="currentpage < totalpages - 1"><a ng-click="currentpage = currentpage + 1">Next <i class="material-icons">arrow_forward</i></a></li>
+                            <li ng-show="currentpage < totalpages - 1"><a ng-click="currentpage = totalpages - 1">Last <i class="material-icons">arrow_forward</i></a></li>
+                        </ul>
+                    </nav>
                 </div>
-                <div class="col-md-4">
-                    <div class="spinner" ng-show="isLoadingDocInfo">
-                        <div class="bounce1"></div>
-                        <div class="bounce2"></div>
-                        <div class="bounce3"></div>
-                    </div>
-                    <div class="row" ng-show="docinfo != null">
-                        <div class="col-md-12">
-                            <h5 ng-class="docinfo.document.documentTypeName | titleStyle"><strong>{{docinfo.document.name}}</strong></h5>
-                            <span class="resultoffice">{{docinfo.document.officeSymbol}}</span>
-                            <p style="margin-top: 20px;" ng-bind-html="docinfo.hitHighlights.description[0] != null ? docinfo.hitHighlights.description[0] : docinfo.document.description"></p>
-                        </div>
-                    </div>
-                    <div class="row" ng-show="docinfo.document.themes.length > 0">
-                        <div class="col-md-12">
-                            <div class="search-label">THEMES</div>
-                            <div class="row">
-                                <div class="col-md-12 simple-list">
-                                    <ul>
-                                        <li ng-repeat="theme in docinfo.document.themes | orderBy:'toString()'">{{theme}}</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" ng-show="docinfo.document.regions.length > 0">
-                        <div class="col-md-12">
-                            <div class="search-label">REGIONS</div>
-                            <div class="row">
-                                <div class="col-md-12 simple-list">
-                                    <ul>
-                                        <li ng-repeat="region in docinfo.document.regions | orderBy:'toString()'">{{region}}</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--<div class="row" ng-show="docinfo.document.countries.length > 0">
-                        <div class="col-md-12">
-                            <div class="search-label">COUNTRIES</div>
-                            <div class="row">
-                                <div class="col-md-12 simple-list">
-                                    <ul>
-                                        <li ng-repeat="country in docinfo.document.countries | orderBy:'toString()'">{{country}}</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" ng-show="docinfo.document.locations.length > 0">
-                        <div class="col-md-12">
-                            <div class="search-label">LOCATIONS</div>
-                            <div class="row">
-                                <div class="col-md-12 simple-list">
-                                    <ul>
-                                        <li ng-repeat="location in docinfo.document.locations | orderBy:'toString()'">{{location}}</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>-->
-                    <div class="row" ng-show="docinfo.document.goals.length > 0">
-                        <div class="col-md-12">
-                            <div class="search-label">GOALS</div>
-                            <div class="row">
-                                <div class="col-md-12 simple-list">
-                                    <ul>
-                                        <li ng-repeat="goal in docinfo.document.goals | orderBy:'toString()'">{{goal}}</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" ng-show="docinfo.document.websites.length > 0">
-                        <div class="col-md-12">
-                            <div class="search-label">WEBSITES</div>
-                            <div class="row">
-                                <div class="col-md-12 simple-list">
-                                    <ul>
-                                        <li ng-repeat="website in docinfo.document.websites | orderBy:'toString()'">{{website}}</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" ng-show="docinfo.document.objectives.length > 0">
-                        <div class="col-md-12">
-                            <div class="search-label">OBJECTIVES</div>
-                            <div class="row">
-                                <div class="col-md-12 simple-list">
-                                    <ul>
-                                        <li ng-repeat="objective in docinfo.document.objectives | orderBy:'toString()'">{{objective}}</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" ng-show="docinfo.document.foci.length > 0">
-                        <div class="col-md-12">
-                            <div class="search-label">FOCI</div>
-                            <div class="row">
-                                <div class="col-md-12 simple-list">
-                                    <ul>
-                                        <li ng-repeat="focus in docinfo.document.foci | orderBy:'toString()'">{{focus}}</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" ng-show="docinfo.document.status.length > 0">
-                        <div class="col-md-12">
-                            <div class="search-label">STATUS</div>
-                            <div class="row">
-                                <div class="col-md-12">{{docinfo.document.status}}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" ng-show="docinfo.document.pointsOfContact.length > 0">
-                        <div class="col-md-12">
-                            <div class="search-label">POINTS OF CONTACT</div>
-                            <div class="row">
-                                <div class="col-md-12 simple-list">
-                                    <ul>
-                                        <li ng-repeat="poc in docinfo.document.pointsOfContact | orderBy:'toString()'">{{poc}}</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="col-md-4" style="overflow: auto; max-height: 700px;">
+                    <ng-include src="'/views/partials/searchinfo.html'"></ng-include>
                 </div>
             </div>
         </div>

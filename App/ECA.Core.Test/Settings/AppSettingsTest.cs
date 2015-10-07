@@ -68,6 +68,14 @@ namespace ECA.Core.Test.Settings
         }
 
         [TestMethod]
+        public void TestAppSettings_SearchIndexName()
+        {
+            var value = "value";
+            appSettings.Add(AppSettings.SEARCH_INDEX_NAME_KEY, value);
+            Assert.AreEqual(value, settings.SearchIndexName);
+        }
+
+        [TestMethod]
         public void TestAppSettings_SearchServiceName()
         {
             var value = "value";

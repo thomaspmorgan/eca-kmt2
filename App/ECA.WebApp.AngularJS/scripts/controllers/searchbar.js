@@ -14,7 +14,6 @@ angular.module('staticApp')
         $log,
         $modalInstance,
         $filter,
-        $sce,
         $sanitize,
         SearchService,
         NotificationService) {
@@ -23,39 +22,43 @@ angular.module('staticApp')
       $scope.results = [];
       $scope.docinfo = {};
       $scope.tophitinfo = {};
-      //$scope.currentpage = $stateParams.page || 1;
-      //$scope.limit = 200;
-      //$scope.totalSearchResults = -1;
-      //$scope.skippedSearchResults = -1;
-      //$scope.numberSearchResults = -1;
+      $scope.currentpage = 0;
+      $scope.pagesize = 10;
+      $scope.totalpages = 0;
       $scope.text = '';
       $scope.isLoadingResults = false;
       $scope.isLoadingDocInfo = false;
-
-      //function updatePagingDetails(total, start, count) {
-      //    $scope.totalSearchResults = total;
-      //    $scope.skippedSearchResults = start;
-      //    $scope.numberSearchResults = count;
-      //};
+      
+      var numberOfPages = function () {
+          $scope.totalpages = Math.ceil($scope.results.length / $scope.pagesize);
+          $scope.pagearray = new Array($scope.totalpages);
+          return $scope.totalpages;
+      }
 
       // Execute search as user types
       $scope.autocomplete = function () {
-
           var params = {
+              Start: 0,
               Limit: 100,
-              Filter: null,
-              Facets: null,
-              Fields: ['description', 'id', 'name', 'documentTypeName', 'officeSymbol', 'themes', 'regions', 'goals', 'websites', 'objectives', 'foci', 'status', 'pointsOfContact'],
-              SearchTerm: $scope.text
+              Filter: "",
+              Facets: [],
+              SelectFields: ['description', 'id', 'name', 'documentTypeName', 'officeSymbol', 'themes', 'regions', 'goals', 'websites', 'objectives', 'foci', 'status', 'pointsOfContact'],
+              SearchTerm: $scope.text,
+              HightlightPreTag: "<strong>",
+              HighlightPostTag: "</strong>"
           };
 
+          $scope.currentpage = 0;
+          $scope.docinfo = null;
           $scope.isLoadingResults = true;
-          SearchService.getAll(params)
+
+          SearchService.postSearch(params)
           .then(function (response) {
               $log.info('Loaded all search results.');
-              $scope.tophitinfo = response.results.slice(0, 1);
-              $scope.results = response.results.slice(1);
+              $scope.tophitinfo = response.data.results.slice(0, 1);
+              $scope.results = response.data.results.slice(1);
               $scope.totalResults = $scope.tophitinfo.length + $scope.results.length;
+              numberOfPages();
               $scope.isLoadingResults = false;
           })
           .catch(function () {
@@ -70,19 +73,24 @@ angular.module('staticApp')
       // Gets document details on selection
       $scope.GetDocumentInfo = function (id) {
           $scope.isLoadingDocInfo = true;
-          $scope.docinfo = $filter('filter')($scope.results, id)[0];
-          $scope.isLoadingDocInfo = false;
-      };
-      $scope.GetTophitInfo = function () {
-          $scope.isLoadingDocInfo = true;
-          $scope.docinfo = $scope.tophitinfo[0];
-          $scope.isLoadingDocInfo = false;
+          SearchService.getDocInfo(id)
+          .then(function (response) {
+              $log.info('Loaded document information.');
+              $scope.docinfo = response.data;
+              $scope.isLoadingDocInfo = false;
+          })
+          .catch(function () {
+              var message = 'Unable to load document information.';
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
+              $scope.isLoadingDocInfo = false;
+          });
       };
 
       // Creates a group header
       $scope.currentGroup = '';
-      $scope.CreateHeader = function (group) {
-          var showHeader = (group !== $scope.currentGroup);
+      $scope.CreateHeader = function (group, index) {
+          var showHeader = (group !== $scope.currentGroup || index === 0);
           $scope.currentGroup = group;
           return showHeader;
       };
@@ -109,15 +117,11 @@ angular.module('staticApp')
     };
   });
 
-// Return document info title style
+// Sets paging start point
 angular.module('staticApp')
-  .filter('titleStyle', function () {
-      return function (doctype) {
-          if (typeof doctype !== 'undefined' && doctype !== null) {
-              return doctype.toLowerCase() + '-color';
-          }
-          return 'program-color';
-      };
+  .filter('startFrom', function () {
+      return function (input, start) {
+          start = +start;
+          return input.slice(start);
+      }
   });
-
-

@@ -9,42 +9,50 @@ using ECA.Business.Search;
 using Microsoft.Azure.Search;
 using System;
 using ECA.Core.Settings;
+using System.Diagnostics.Contracts;
+using Microsoft.Practices.Unity;
 
 namespace ECA.WebJobs.Search
 {
+    /// <summary>
+    /// The starter class for the indexing operations to run in the azure search webjob.
+    /// </summary>
     public class Functions
     {
         // This function will be triggered based on the schedule you have set for this WebJob
         // This function will enqueue a message on an Azure Queue called search
+
+        /// <summary>
+        /// The manual trigger method.
+        /// </summary>
+        /// <param name="log">The log.</param>
+        /// <param name="documentServices">The document services to index with.</param>
         [NoAutomaticTrigger]
-        public static void ManualTrigger(TextWriter log)
+        public void ManualTrigger(TextWriter log, IList<IDocumentService> documentServices)
         {
-            Index(log);
+            Index(log, documentServices);
         }
 
-        public static void Index(TextWriter log)
+        /// <summary>
+        /// Performs the indexing via all document services provided.
+        /// </summary>
+        /// <param name="log">The log.</param>
+        /// <param name="documentServices">The document services to use for indexing.</param>
+        public void Index(TextWriter log, IList<IDocumentService> documentServices)
         {
-            var appSettings = new AppSettings();
-            var serviceName = appSettings.SearchServiceName;
-            var apiKey = appSettings.SearchApiKey;
-            var connectionString = appSettings.EcaContextConnectionString;
-            var configs = IndexService.GetAllConfigurations(typeof(ProgramDTODocumentConfiguration).Assembly).ToList();
-
-            var notificationService = new TextWriterIndexNotificationService(log);
-            using (var context = new EcaContext(connectionString.ConnectionString))
-            using (var client = new SearchServiceClient(serviceName, new SearchCredentials(apiKey)))
-            using (var indexService = new IndexService(client, configs))
-            using (var programDocumentService = new ProgramDocumentService(context, indexService, notificationService, 300))
-            using (var projectDocumentService = new ProjectDocumentService(context, indexService, notificationService, 300))
+            Contract.Requires(documentServices != null, "The document services must not be null.");
+            var list = documentServices.ToList();
+            list.ForEach(x =>
             {
-                var documentServices = new List<IDocumentService>();
-                documentServices.Add(programDocumentService);
-                documentServices.Add(projectDocumentService);
-                documentServices.ForEach((x) =>
+                x.Process();
+            });
+            list.ForEach(x =>
+            {
+                if (x is IDisposable)
                 {
-                    x.Process();
-                });
-            }
+                    (x as IDisposable).Dispose();
+                }
+            });
         }
     }
 }

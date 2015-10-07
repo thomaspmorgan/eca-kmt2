@@ -34,14 +34,24 @@ namespace ECA.WebApi.Models.Search
         public IEnumerable<string> Facets { get; set; }
 
         /// <summary>
-        /// The fields to return in the search, such as id, name, description, documentType.
+        /// The fields to select and return in the search, such as id, name, description, documentType.
         /// </summary>
-        public IEnumerable<string> Fields { get; set; }
+        public IEnumerable<string> SelectFields { get; set; }
 
         /// <summary>
         /// The query.
         /// </summary>
         public string SearchTerm { get; set; }
+
+        /// <summary>
+        /// The hit highlight pre tag.
+        /// </summary>
+        public string HightlightPreTag { get; set; }
+
+        /// <summary>
+        /// The hit highlight post tag.
+        /// </summary>
+        public string HighlightPostTag { get; set; }
 
         /// <summary>
         /// Returns an ECASearchParameters instance for use in the business layer.
@@ -50,8 +60,17 @@ namespace ECA.WebApi.Models.Search
         /// <returns>The ECASearchParameters.</returns>
         public ECASearchParameters ToECASearchParameters(IEnumerable<IPermission> permissions)
         {
-            Contract.Requires(permissions != null, "The user must not be null.");
-            return new ECASearchParameters(this.Start, this.Limit, this.Filter, this.Facets, this.Fields, this.SearchTerm);
+            Contract.Requires(permissions != null, "The permissions must not be null.");
+            return new ECASearchParameters(
+                this.Start, 
+                this.Limit, 
+                this.Filter, 
+                this.Facets, 
+                this.SelectFields, 
+                this.SearchTerm, 
+                this.HightlightPreTag, 
+                this.HighlightPostTag
+                );
         }
     }
 }
