@@ -58,6 +58,7 @@ namespace ECA.WebJobs.Search.Index
         /// <returns>The document service.</returns>
         public IDocumentService GetDocumentService(string documentKeyAsString)
         {
+            Contract.Requires(documentKeyAsString != null, "The key must not be null.");
             return GetDocumentService(new DocumentKey(documentKeyAsString));
         }
 
@@ -68,6 +69,7 @@ namespace ECA.WebJobs.Search.Index
         /// <returns>The document service.</returns>
         public IDocumentService GetDocumentService(DocumentKey key)
         {
+            Contract.Requires(key != null, "The key must not be null.");
             return GetDocumentService(key.DocumentTypeId);
 
         }
@@ -79,6 +81,7 @@ namespace ECA.WebJobs.Search.Index
         /// <returns>The document service.</returns>
         public IDocumentService GetDocumentService(Guid documentTypeId)
         {
+            Contract.Requires(documentTypeId != Guid.Empty, "The document type id must not be the empty guid.");
             var documentService = this.documentServices.Where(x => x.GetDocumentTypeId() == documentTypeId).FirstOrDefault();
             throwIfDocumentServiceDoesNotExist(documentService, documentTypeId);
             return documentService;
@@ -90,6 +93,7 @@ namespace ECA.WebJobs.Search.Index
         /// <param name="updatedDocumentKeysAsStrings">The document keys as strings.</param>
         public void HandleCreatedDocuments(List<string> createdDocumentKeysAsStrings)
         {
+            Contract.Requires(createdDocumentKeysAsStrings != null, "The createdDocumentKeysAsStrings must not be null.");
             foreach (var documentKeyAsString in createdDocumentKeysAsStrings)
             {
                 var service = GetDocumentService(documentKeyAsString);
@@ -104,6 +108,7 @@ namespace ECA.WebJobs.Search.Index
         /// <param name="updatedDocumentKeysAsStrings">The document keys as strings.</param>
         public void HandleUpdatedDocuments(List<string> updatedDocumentKeysAsStrings)
         {
+            Contract.Requires(updatedDocumentKeysAsStrings != null, "The updatedDocumentKeysAsStrings must not be null.");
             HandleCreatedDocuments(updatedDocumentKeysAsStrings);
         }
 
@@ -113,6 +118,7 @@ namespace ECA.WebJobs.Search.Index
         /// <param name="deletedDocumentKeysAsStrings">The document keys as strings of documents to delete.</param>
         public void HandleDeletedDocuments(List<string> deletedDocumentKeysAsStrings)
         {
+            Contract.Requires(deletedDocumentKeysAsStrings != null, "The updatedDocumentKeysAsStrings must not be null.");
             if (deletedDocumentKeysAsStrings.Count == 0)
             {
                 return;
