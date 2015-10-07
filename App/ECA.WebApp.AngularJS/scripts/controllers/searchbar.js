@@ -25,6 +25,7 @@ angular.module('staticApp')
       $scope.results = [];
       $scope.docinfo = null;
       $scope.tophitinfo = {};
+      $scope.searchFieldNames = [];
       $scope.currentpage = 0;
       $scope.pagesize = 10;
       $scope.totalpages = 0;
@@ -32,19 +33,26 @@ angular.module('staticApp')
       $scope.isLoadingResults = false;
       $scope.isLoadingDocInfo = false;
 
-      // Detect array in sub group
-      $scope.isArray = angular.isArray;
+      // Return field names for search results
+      $scope.init = function () {
+          SearchService.getFieldNames()
+          .then(function (response) {
+              $scope.searchFieldNames = response.data;
+          })
+          .catch(function () {
+              var message = 'Unable to load search field names.';
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
+          });
+      }
+
+      $scope.init();
 
       // Return number of pages in results
       var numberOfPages = function () {
           $scope.totalpages = Math.ceil($scope.results.length / $scope.pagesize);
           $scope.pagearray = new Array($scope.totalpages);
           return $scope.totalpages;
-      }
-
-      // Set the current page when paging
-      $scope.selectPage = function (index) {
-          $scope.currentpage = index;
       }
 
       // Execute search as user types
@@ -54,7 +62,7 @@ angular.module('staticApp')
               Limit: 100,
               Filter: "",
               Facets: [],
-              SelectFields: ['description', 'id', 'name', 'documentTypeName', 'officeSymbol', 'themes', 'regions', 'goals', 'websites', 'objectives', 'foci', 'status', 'pointsOfContact'],
+              SelectFields: $scope.searchFieldNames,
               SearchTerm: $scope.text,
               HightlightPreTag: "<strong>",
               HighlightPostTag: "</strong>"
@@ -82,12 +90,6 @@ angular.module('staticApp')
           });
       };
 
-      // Set the previous search term
-      if ($rootScope.searchText.length) {
-          $scope.text = $rootScope.searchText;
-          $scope.autocomplete();
-      }
-
       // Gets document details on selection
       $scope.GetDocumentInfo = function (id) {
           $scope.isLoadingDocInfo = true;
@@ -104,6 +106,20 @@ angular.module('staticApp')
               $scope.isLoadingDocInfo = false;
           });
       };
+
+      // Detect array in sub group
+      $scope.isArray = angular.isArray;
+
+      // Set the current page when paging
+      $scope.selectPage = function (index) {
+          $scope.currentpage = index;
+      }
+
+      // Save the previous search term
+      if ($rootScope.searchText.length) {
+          $scope.text = $rootScope.searchText;
+          $scope.autocomplete();
+      }
 
       // Creates a group header
       $scope.currentGroup = '';
