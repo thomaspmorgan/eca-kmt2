@@ -66,6 +66,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.WebJobs.Search.Index", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Core.Azure.WebJobs", "ECA.Core.Azure.WebJobs\ECA.Core.Azure.WebJobs.csproj", "{0B95C37E-48FC-4514-8E55-97EB9238AFBC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.WebJobs.Search.Index.Test", "ECA.WebJobs.Search.Index.Test\ECA.WebJobs.Search.Index.Test.csproj", "{1322351A-E424-47F3-BE71-7DF06DD9E7B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -198,6 +200,12 @@ Global
 		{0B95C37E-48FC-4514-8E55-97EB9238AFBC}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{0B95C37E-48FC-4514-8E55-97EB9238AFBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B95C37E-48FC-4514-8E55-97EB9238AFBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1322351A-E424-47F3-BE71-7DF06DD9E7B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1322351A-E424-47F3-BE71-7DF06DD9E7B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1322351A-E424-47F3-BE71-7DF06DD9E7B4}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{1322351A-E424-47F3-BE71-7DF06DD9E7B4}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{1322351A-E424-47F3-BE71-7DF06DD9E7B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1322351A-E424-47F3-BE71-7DF06DD9E7B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -223,5 +231,6 @@ Global
 		{7975BC00-2453-4E63-B362-76E6CF448AF4} = {851C49BD-532B-4F4B-A7FB-E7D6E3F33BA5}
 		{12472AB7-E012-445F-BCC5-E8EFADCEAAE5} = {547CB910-1116-4A9D-A5F2-57553270C16A}
 		{0B95C37E-48FC-4514-8E55-97EB9238AFBC} = {061B7711-FC97-4254-99A6-D7965B8AA4B6}
+		{1322351A-E424-47F3-BE71-7DF06DD9E7B4} = {851C49BD-532B-4F4B-A7FB-E7D6E3F33BA5}
 	EndGlobalSection
 EndGlobal
