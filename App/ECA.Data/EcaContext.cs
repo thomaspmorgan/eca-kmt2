@@ -216,6 +216,11 @@ namespace ECA.Data
         public DbSet<ParticipantPerson> ParticipantPersons { get; set; }
 
         /// <summary>
+        /// Gets or sets participantPerson SEVIS communication Status.
+        /// </summary>
+        public DbSet<ParticipantPersonSevisCommStatus> ParticipantPersonSevisCommStatuses { get; set; }
+
+        /// <summary>
         /// Gets or sets participant statuses.
         /// </summary>
         public DbSet<ParticipantStatus> ParticipantStatuses { get; set; }

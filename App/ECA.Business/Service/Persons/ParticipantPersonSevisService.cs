@@ -110,5 +110,59 @@ namespace ECA.Business.Service.Persons
         }
         #endregion
 
+        #region ParticipantPersonSevisStatus
+
+
+        /// Sevis Comm Status
+
+        /// <summary>
+        /// Returns the participantPersonSevisCommStatus in the system.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The participantPersonSevises.</returns>
+        public PagedQueryResults<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonSevisCommStatuses(QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator)
+        {
+            var participantPersonSevisCommStatuses = ParticipantPersonSevisCommStatusQueries.CreateGetParticipantPersonSevisCommStatusDTOQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved participantPersonSevisCommStatuses with query operator [{0}].", queryOperator);
+            return participantPersonSevisCommStatuses;
+        }
+
+        /// <summary>
+        /// Returns the participantPersonSevisCommStatus in the system.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The participantPersonSevises.</returns>
+        public Task<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>> GetParticipantPersonSevisCommStatusesAsync(QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator)
+        {
+            var participantPersonSevisCommStatuses = ParticipantPersonSevisCommStatusQueries.CreateGetParticipantPersonSevisCommStatusDTOQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved participantPersonSevisCommStatuses with query operator [{0}].", queryOperator);
+            return participantPersonSevisCommStatuses;
+        }
+
+        /// <summary>
+        /// Returns a participantPersonSevis
+        /// </summary>
+        /// <param name="participantId">The participantId to lookup</param>
+        /// <returns>The participantPersonSevis</returns>
+        public ParticipantPersonSevisCommStatusDTO GetParticipantPersonSevisCommStatusById(int participantId)
+        {
+            var participantPersonSevisCommStatuses = ParticipantPersonSevisCommStatusQueries.CreateGetParticipantPersonSevisCommStatusDTOByIdQuery(this.Context, participantId).FirstOrDefault();
+            this.logger.Trace("Retrieved participantPersonSevis by id [{0}].", participantId);
+            return participantPersonSevisCommStatuses;
+        }
+
+        /// <summary>
+        /// Returns a participantPersonSevis asyncronously
+        /// </summary>
+        /// <param name="participantId">The participant id to lookup</param>
+        /// <returns>The participantPersonSevis</returns>
+        public Task<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonSevisCommStatusByIdAsync(int participantId)
+        {
+            var participantPersonSevisCommStatuses = ParticipantPersonSevisCommStatusQueries.CreateGetParticipantPersonSevisCommStatusDTOByIdQuery(this.Context, participantId).FirstOrDefaultAsync();
+            this.logger.Trace("Retrieved participantPersonSevis by id [{0}].", participantId);
+            return participantPersonSevisCommStatuses;
+        }
+        #endregion
+
     }
 }

@@ -166,7 +166,7 @@
     <Compile Include="IAddressable.cs" />
     <Compile Include="OrganizationRole.cs" />
     <Compile Include="MoneyFlowSourceRecepientTypeSetting.cs" />
-    <Compile Include="ParticipantPersonSevisComm.cs" />
+    <Compile Include="ParticipantPersonSevisCommStatus.cs" />
     <Compile Include="ProgramCategory.cs" />
     <Compile Include="SevisCommStatus.cs" />
     <Compile Include="Website.cs" />
