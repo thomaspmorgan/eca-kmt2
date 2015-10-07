@@ -38,6 +38,10 @@ angular.module('staticApp')
           return $scope.totalpages;
       }
 
+      $scope.selectPage = function (index) {
+          $scope.currentpage = index;
+      }
+
       // Execute search as user types
       $scope.autocomplete = function () {
           var params = {
@@ -138,6 +142,14 @@ angular.module('staticApp')
         return "";
     };
   });
+
+angular.module('staticApp')
+  .filter('addSpacing', function () {
+      return function (input) {
+          return input.replace(/([a-z])([A-Z])/g, '$1 $2');
+      }
+  });
+
 
 // Sets paging start point
 angular.module('staticApp')

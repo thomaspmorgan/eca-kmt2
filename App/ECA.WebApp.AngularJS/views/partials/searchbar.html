@@ -51,7 +51,7 @@
                         <ul class="pagination">
                             <li ng-show="currentpage > 0"><a ng-click="currentpage = 0"><i class="material-icons">arrow_back</i> First</a></li>
                             <li ng-show="currentpage > 0"><a ng-click="currentpage = currentpage - 1"><i class="material-icons">arrow_back</i> Previous</a></li>
-                            <li ng-repeat="page in pagearray track by $index" ng-class="{active: $index == currentpage}"><a ng-click="currentpage = $index+1">{{$index+1}}</a></li>
+                            <li ng-repeat="page in pagearray track by $index" ng-class="{active: $index == currentpage}"><a ng-click="selectPage($index)">{{$index + 1}}</a></li>
                             <li ng-show="currentpage < totalpages - 1"><a ng-click="currentpage = currentpage + 1">Next <i class="material-icons">arrow_forward</i></a></li>
                             <li ng-show="currentpage < totalpages - 1"><a ng-click="currentpage = totalpages - 1">Last <i class="material-icons">arrow_forward</i></a></li>
                         </ul>

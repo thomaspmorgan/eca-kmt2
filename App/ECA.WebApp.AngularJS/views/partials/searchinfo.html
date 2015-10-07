@@ -12,8 +12,8 @@
 </div>
 
 <div class="row" ng-repeat="(prop, value) in docinfo" ng-init="isArr = isArray(value)">
-    <div class="col-md-12" ng-if="isArr">
-        <div class="search-label">{{prop | uppercase}}</div>
+    <div class="col-md-12" ng-if="isArr && value.length > 0">
+        <div class="search-label">{{prop | addSpacing | uppercase}}</div>
         <div class="row">
             <div class="col-md-12 simple-list">
                 <ul>
