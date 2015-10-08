@@ -179,6 +179,19 @@ label {
     }
 }
 
+// ui-select overrides
+
+.select2-container-multi .select2-choices {
+    border: 1px solid #e5eae9;
+    border-radius: 4px;
+    background-image: none;
+}
+
+.select2-container-multi .select2-choices .select2-search-field input {
+    min-height: 40px;
+}
+
+
 // allows datepicker control to have a small grid of dates
 div.input-group td:first-child {
     padding: 0;
