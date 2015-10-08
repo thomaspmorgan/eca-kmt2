@@ -52,10 +52,10 @@
                     </div>
                     <div in-context-form ng-show="view.showEditLanguageProficiency">
                             <form name="form.languageProficiencyForm" class="row form-horizontal">
-                                <div class="form-group row" id="languageProficiencyForm{{languageProficiency.languageId}}">
-                                    <label class="title-label col-md-4" for="type">Language<span class="asterisk"> *</span></label>
+                                <div class="form-group row" id="languageProficiencyForm{{languageProficiency.languageId}}" name="languageProficiencyForm{{languageProficiency.languageId}}">
+                                    <label class="title-label col-md-4" for="language">Language<span class="asterisk"> *</span></label>
                                     <div class="col-md-8">
-                                        <select class="form-control" id="language" ng-model="languageProficiency.languageId" placeholder="Select a language..." 
+                                        <select class="form-control" id="language" name="language" ng-model="languageProficiency.languageId" placeholder="Select a language..."
                                                 ng-options="language.id as language.name for language in data.languages"></select>
                                     </div>
                                     <div ng-show="form.languageProficiencyForm.languageId.$dirty || form.languageProficiencyForm.languageId.$error.required">
@@ -63,7 +63,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="title-label col-md-4" for="type">Native Language?<span class="asterisk"> *</span></label>
+                                    <label class="title-label col-md-4" for="isNativeLanguage">Native Language?<span class="asterisk"> *</span></label>
                                     <div class="col-md-8">
                                         <input class="form-control" id="isNativeLanguage" type="checkbox" ng-model="languageProficiency.isNativeLanguage" ng-change="view.onIsNativeLanguageChange()" />
                                       </div>
@@ -82,7 +82,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="title-label col-md-4" for="type">Reading<span class="asterisk"> *</span></label>
+                                    <label class="title-label col-md-4" for="reading">Reading<span class="asterisk"> *</span></label>
                                     <div class="col-md-8">
                                         <select class="form-control" id="reading" ng-model="languageProficiency.readingProficiency" placeholder="SSelect a reading proficiency..."
                                                 ng-options="option.id as option.name for option in view.proficiencyOptions"></select>
