@@ -31,14 +31,13 @@ namespace ECA.Business.Search
         public void ProcessAllDocumentsFinished(string documentType)
         {
             var message = String.Format("Finished processing {0} in {1} time.", documentType, processAllDocumentsStopwatch.Elapsed);
-            Console.WriteLine();
             Console.WriteLine(message);
         }
 
         public void ProcessedSomeOfAllDocuments(string documentType, int totalDocumentsCount, int documentsProcessed)
         {
             var message = String.Format("Processed {0} of {1} {2} documents.", documentsProcessed, totalDocumentsCount, documentType);
-            Console.Write("\r{0}   ", message);
+            Console.WriteLine(message);
         }
 
         public void StartedProcessingAllDocuments(string documentType)
