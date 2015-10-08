@@ -28,11 +28,11 @@ namespace ECA.Business.Test.Service.Admin
         public void TestDoValidateUpdate_CheckNameNotNull()
         {
             var name = "name";
-            var entity = new UpdateOrganizationValidationEntity(name, 1);
+            var entity = new UpdateOrganizationValidationEntity(name, OrganizationType.USEducationalInstitution.Id);
             Assert.AreEqual(0, validator.DoValidateUpdate(entity).Count());
 
             name = null;
-            entity = new UpdateOrganizationValidationEntity(name, 1);
+            entity = new UpdateOrganizationValidationEntity(name, OrganizationType.USEducationalInstitution.Id);
             var results = validator.DoValidateUpdate(entity).ToList();
             Assert.AreEqual(1, results.Count());
             Assert.AreEqual("Name", results.First().Property);
@@ -43,11 +43,11 @@ namespace ECA.Business.Test.Service.Admin
         public void TestUpdate_CheckNameNotWhitespace()
         {
             var name = "name";
-            var entity = new UpdateOrganizationValidationEntity(name, 1);
+            var entity = new UpdateOrganizationValidationEntity(name, OrganizationType.USEducationalInstitution.Id);
             Assert.AreEqual(0, validator.DoValidateUpdate(entity).Count());
 
             name = " ";
-            entity = new UpdateOrganizationValidationEntity(name, 1);
+            entity = new UpdateOrganizationValidationEntity(name, OrganizationType.USEducationalInstitution.Id);
             var results = validator.DoValidateUpdate(entity).ToList();
             Assert.AreEqual(1, results.Count());
             Assert.AreEqual("Name", results.First().Property);
@@ -58,11 +58,11 @@ namespace ECA.Business.Test.Service.Admin
         public void TestUpdate_CheckNameNotEmpty()
         {
             var name = "name";
-            var entity = new UpdateOrganizationValidationEntity(name, 1);
+            var entity = new UpdateOrganizationValidationEntity(name, OrganizationType.USEducationalInstitution.Id);
             Assert.AreEqual(0, validator.DoValidateUpdate(entity).Count());
 
             name = String.Empty;
-            entity = new UpdateOrganizationValidationEntity(name, 1);
+            entity = new UpdateOrganizationValidationEntity(name, OrganizationType.USEducationalInstitution.Id);
             var results = validator.DoValidateUpdate(entity).ToList();
             Assert.AreEqual(1, results.Count());
             Assert.AreEqual("Name", results.First().Property);
