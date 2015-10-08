@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{909AF0E6-7262-4C02-86C8-78E28CB8FBBA}</ProjectGuid>
+    <ProjectGuid>{FE6DD618-DBFA-460E-A2EF-29419A5A2E74}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ECA.WebJobs.Search.Index.All.Test</RootNamespace>
-    <AssemblyName>ECA.WebJobs.Search.Index.All.Test</AssemblyName>
+    <RootNamespace>ECA.WebJobs.Core.Test</RootNamespace>
+    <AssemblyName>ECA.WebJobs.Core.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -16,7 +16,6 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,12 +51,8 @@
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Moq, Version=4.2.1507.118, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\packages\Moq.4.2.1507.0118\lib\net40\Moq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
+    <Reference Include="System.Configuration" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -72,35 +67,21 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="FunctionsTest.cs" />
-    <Compile Include="ProgramTest.cs" />
+    <Compile Include="UnityWebJobActivatorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ECA.Business.Search\ECA.Business.Search.csproj">
-      <Project>{7ffb7ec5-462a-4997-9704-736f5af245e9}</Project>
-      <Name>ECA.Business.Search</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">
-      <Project>{0a7b54e3-736d-47b5-92fd-31d3bb416d8d}</Project>
-      <Name>ECA.Business</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\ECA.Core\ECA.Core.csproj">
       <Project>{983c0be6-5e42-494d-9947-0d67b84016c1}</Project>
       <Name>ECA.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ECA.Data\ECA.Data.csproj">
-      <Project>{8cef11e6-50e8-4b54-a1a7-a75583ccb6ef}</Project>
-      <Name>ECA.Data</Name>
+    <ProjectReference Include="..\ECA.WebJobs.Core\ECA.WebJobs.Core.csproj">
+      <Project>{65f89926-7b89-4074-8a3c-0a72b4be68d6}</Project>
+      <Name>ECA.WebJobs.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ECA.WebJobs.Search.Index.All\ECA.WebJobs.Search.Index.All.csproj">
-      <Project>{c5f3a7cd-a0f8-4d4b-8921-f804ae5152ec}</Project>
-      <Name>ECA.WebJobs.Search.Index.All</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -9,12 +9,12 @@ namespace ECA.Business.Test.Search
 {
     public class TestIndexNotificationService : IIndexNotificationService
     {
-        public void DeleteFinished(string documentTypeName, object id)
+        public void DeleteDocumentsFinished(string documentTypeName, List<object> id)
         {
             
         }
 
-        public void DeleteStarted(string documentTypeName, object id)
+        public void DeleteDocumentsStarted(string documentTypeName, List<object> ids)
         {
             
         }

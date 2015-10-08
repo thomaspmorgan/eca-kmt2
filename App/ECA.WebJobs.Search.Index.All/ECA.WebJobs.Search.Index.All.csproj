@@ -65,6 +65,7 @@
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
     <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+    <DocumentationFile>bin\Debug\ECA.WebJobs.Search.Index.All.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -202,10 +203,6 @@
       <Project>{0a7b54e3-736d-47b5-92fd-31d3bb416d8d}</Project>
       <Name>ECA.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ECA.Core.Azure.WebJobs\ECA.Core.Azure.WebJobs.csproj">
-      <Project>{0b95c37e-48fc-4514-8e55-97eb9238afbc}</Project>
-      <Name>ECA.Core.Azure.WebJobs</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ECA.Core\ECA.Core.csproj">
       <Project>{983c0be6-5e42-494d-9947-0d67b84016c1}</Project>
       <Name>ECA.Core</Name>
@@ -213,6 +210,14 @@
     <ProjectReference Include="..\ECA.Data\ECA.Data.csproj">
       <Project>{8cef11e6-50e8-4b54-a1a7-a75583ccb6ef}</Project>
       <Name>ECA.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECA.WebJobs.Core\ECA.WebJobs.Core.csproj">
+      <Project>{65f89926-7b89-4074-8a3c-0a72b4be68d6}</Project>
+      <Name>ECA.WebJobs.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECA.WebJobs.Search.Core\ECA.WebJobs.Search.Core.csproj">
+      <Project>{72b862f7-ee50-4fd8-a7b4-0c15a7fb43cb}</Project>
+      <Name>ECA.WebJobs.Search.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,30 +1,36 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace ECA.Business.Search
 {
     public class TextWriterIndexNotificationService : IIndexNotificationService
     {
-        private Stopwatch stopwatch;
+        private Stopwatch processAllDocumentsStopwatch;
+        private Stopwatch deleteDocumentsStopwatch;
+        private Stopwatch updateDocumentStopwatch;
+
         public TextWriterIndexNotificationService()
         {
         }
 
-        public void DeleteFinished(string documentTypeName, object id)
+        public void DeleteDocumentsFinished(string documentTypeName, List<object> ids)
         {
-            var message = String.Format("Successfully deleted {0} document with id {1}.", documentTypeName, id);
+            deleteDocumentsStopwatch.Stop();
+            var message = String.Format("Successfully deleted {0} documents with ids {1} in {2} time.", documentTypeName, String.Join(", ", ids), deleteDocumentsStopwatch.Elapsed);
             Console.WriteLine(message);
         }
 
-        public void DeleteStarted(string documentTypeName, object id)
+        public void DeleteDocumentsStarted(string documentTypeName, List<object> ids)
         {
-            var message = String.Format("Attempting to delete {0} document with id {1}.", documentTypeName, id);
+            deleteDocumentsStopwatch = Stopwatch.StartNew();
+            var message = String.Format("Attempting to delete {0} documents with ids {1}.", documentTypeName, String.Join(", ", ids));
             Console.WriteLine(message);
         }
 
         public void ProcessAllDocumentsFinished(string documentType)
         {
-            var message = String.Format("Finished processing {0} in {1} time.", documentType, stopwatch.Elapsed);
+            var message = String.Format("Finished processing {0} in {1} time.", documentType, processAllDocumentsStopwatch.Elapsed);
             Console.WriteLine();
             Console.WriteLine(message);
         }
@@ -37,19 +43,21 @@ namespace ECA.Business.Search
 
         public void StartedProcessingAllDocuments(string documentType)
         {
-            stopwatch = Stopwatch.StartNew();
+            processAllDocumentsStopwatch = Stopwatch.StartNew();
             var message = String.Format("Started processing {0} documents.", documentType);
             Console.WriteLine(message);
         }
 
         public void UpdateFinished(string documentTypeName, object id)
         {
-            var message = String.Format("Succesfully updated the {0} document with id {1}.", documentTypeName, id);
+            updateDocumentStopwatch.Stop();
+            var message = String.Format("Succesfully updated the {0} document with id {1} in {2} time.", documentTypeName, id, updateDocumentStopwatch.Elapsed);
             Console.WriteLine(message);
         }
 
         public void UpdateStarted(string documentTypeName, object id)
         {
+            updateDocumentStopwatch = Stopwatch.StartNew();
             var message = String.Format("Attempting to update the {0} document with id {1}.", documentTypeName, id);
             Console.WriteLine(message);
         }

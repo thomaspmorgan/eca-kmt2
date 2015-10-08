@@ -350,6 +350,8 @@ namespace ECA.Business.Search.Test
             await service.DeleteDocumentsAsync(list);
             indexService.Verify(x => x.DeleteDocuments(It.IsAny<List<DocumentKey>>()), Times.Once());
             indexService.Verify(x => x.DeleteDocumentsAsync(It.IsAny<List<DocumentKey>>()), Times.Once());
+            notificationService.Verify(x => x.DeleteDocumentsStarted(It.IsAny<string>(), It.IsAny<List<object>>()), Times.Exactly(2));
+            notificationService.Verify(x => x.DeleteDocumentsFinished(It.IsAny<string>(), It.IsAny<List<object>>()), Times.Exactly(2));
         }
 
         [TestMethod]
@@ -367,6 +369,8 @@ namespace ECA.Business.Search.Test
             var message = String.Format("The document configuration for the type [{0}] was not found.", typeof(SimpleEntity));
             a.ShouldThrow<NotSupportedException>().WithMessage(message);
             f.ShouldThrow<NotSupportedException>().WithMessage(message);
+            notificationService.Verify(x => x.DeleteDocumentsStarted(It.IsAny<string>(), It.IsAny<List<object>>()), Times.Never());
+            notificationService.Verify(x => x.DeleteDocumentsFinished(It.IsAny<string>(), It.IsAny<List<object>>()), Times.Never());
         }
     }
 }

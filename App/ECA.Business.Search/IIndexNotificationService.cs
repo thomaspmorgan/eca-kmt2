@@ -46,17 +46,17 @@ namespace ECA.Business.Search
         void UpdateFinished(string documentTypeName, object id);
 
         /// <summary>
-        /// The method to call when a single document is to be deleted.
+        /// The method to call when a list of documents are to be deleted.
         /// </summary>
         /// <param name="documentTypeName">The document type name.</param>
-        /// <param name="id">The document id.</param>
-        void DeleteStarted(string documentTypeName, object id);
+        /// <param name="ids">The document ids.</param>
+        void DeleteDocumentsStarted(string documentTypeName, List<object> ids);
 
         /// <summary>
-        /// The method to call when a single document has been deleted.
+        /// The method to call when a list of documents are to be deleted.
         /// </summary>
         /// <param name="documentTypeName">The document type name.</param>
-        /// <param name="id">The document id.</param>
-        void DeleteFinished(string documentTypeName, object id);
+        /// <param name="ids">The document ids.</param>
+        void DeleteDocumentsFinished(string documentTypeName, List<object> ids);
     }
 }

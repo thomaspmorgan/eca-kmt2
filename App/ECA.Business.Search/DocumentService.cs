@@ -445,6 +445,7 @@ namespace ECA.Business.Search
             }
             base.Dispose(disposing);
         }
+        #endregion
 
         /// <summary>
         /// Returns the document type id for the documents this service will handle.
@@ -465,7 +466,9 @@ namespace ECA.Business.Search
         {
             var config = indexService.GetDocumentConfiguration<TDocument>();
             throwIfDocumentConfigurationNotFound(config, typeof(TDocument));
+            notificationService.DeleteDocumentsStarted(config.GetDocumentTypeName(), ids);
             indexService.DeleteDocuments(ids.Select(x => new DocumentKey(config.GetDocumentTypeId(), x)).ToList());
+            notificationService.DeleteDocumentsFinished(config.GetDocumentTypeName(), ids);
         }
 
         /// <summary>
@@ -476,9 +479,11 @@ namespace ECA.Business.Search
         {
             var config = indexService.GetDocumentConfiguration<TDocument>();
             throwIfDocumentConfigurationNotFound(config, typeof(TDocument));
+            notificationService.DeleteDocumentsStarted(config.GetDocumentTypeName(), ids);
             await indexService.DeleteDocumentsAsync(ids.Select(x => new DocumentKey(config.GetDocumentTypeId(), x)).ToList());
+            notificationService.DeleteDocumentsFinished(config.GetDocumentTypeName(), ids);
         }
-        #endregion
+        
     }
     #endregion
 }

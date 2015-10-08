@@ -10,7 +10,7 @@ using System.Diagnostics.Contracts;
 
 namespace ECA.WebJobs.Search.Index
 {
-    public class Functions
+    public class Functions : IDisposable
     {
         private IList<IDocumentService> documentServices;
         private Action<IDocumentService, Guid> throwIfDocumentServiceDoesNotExist;
@@ -91,13 +91,14 @@ namespace ECA.WebJobs.Search.Index
         /// Creates the documents with the given document keys as strings.
         /// </summary>
         /// <param name="updatedDocumentKeysAsStrings">The document keys as strings.</param>
-        public void HandleCreatedDocuments(List<string> createdDocumentKeysAsStrings)
+        public void HandleCreatedDocuments(IEnumerable<string> createdDocumentKeysAsStrings)
         {
             Contract.Requires(createdDocumentKeysAsStrings != null, "The createdDocumentKeysAsStrings must not be null.");
             foreach (var documentKeyAsString in createdDocumentKeysAsStrings)
-            {
+            {   
                 var service = GetDocumentService(documentKeyAsString);
                 var documentKey = new DocumentKey(documentKeyAsString);
+                Console.WriteLine(String.Format("Handling created or updated document with key {0}.", documentKey));
                 service.AddOrUpdateDocument(documentKey.Value);
             }
         }
@@ -106,7 +107,7 @@ namespace ECA.WebJobs.Search.Index
         /// Updates the documents with the given document keys as strings.
         /// </summary>
         /// <param name="updatedDocumentKeysAsStrings">The document keys as strings.</param>
-        public void HandleUpdatedDocuments(List<string> updatedDocumentKeysAsStrings)
+        public void HandleUpdatedDocuments(IEnumerable<string> updatedDocumentKeysAsStrings)
         {
             Contract.Requires(updatedDocumentKeysAsStrings != null, "The updatedDocumentKeysAsStrings must not be null.");
             HandleCreatedDocuments(updatedDocumentKeysAsStrings);
@@ -116,10 +117,10 @@ namespace ECA.WebJobs.Search.Index
         /// Deletes the documents with the given keys using the appropriate document services.
         /// </summary>
         /// <param name="deletedDocumentKeysAsStrings">The document keys as strings of documents to delete.</param>
-        public void HandleDeletedDocuments(List<string> deletedDocumentKeysAsStrings)
+        public void HandleDeletedDocuments(IEnumerable<string> deletedDocumentKeysAsStrings)
         {
             Contract.Requires(deletedDocumentKeysAsStrings != null, "The updatedDocumentKeysAsStrings must not be null.");
-            if (deletedDocumentKeysAsStrings.Count == 0)
+            if (deletedDocumentKeysAsStrings.Count() == 0)
             {
                 return;
             }
@@ -136,9 +137,43 @@ namespace ECA.WebJobs.Search.Index
                 foreach (var group in groupedByDocTypeIdKeys)
                 {
                     var service = GetDocumentService(group.DocumentTypeId);
-                    service.DeleteDocuments(group.Keys.Select(x => x.Value).ToList());
+                    var ids = group.Keys.Select(x => x.Value).ToList();
+                    Console.WriteLine(String.Format("Handling deleted documents of type [{0}] with ids [{1}].", group.DocumentTypeId, String.Join(", ", ids)));
+                    service.DeleteDocuments(ids);
                 }
             }
         }
+
+        #region IDispose
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                foreach (var service in this.documentServices)
+                {
+                    if (service is IDisposable)
+                    {
+                        Console.WriteLine("Disposing of service " + service.GetType());
+                        ((IDisposable)service).Dispose();
+                    }
+                }
+            }
+        }
+
+        #endregion
     }
 }
