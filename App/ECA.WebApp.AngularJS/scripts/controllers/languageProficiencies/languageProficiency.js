@@ -83,12 +83,12 @@ angular.module('staticApp')
               $scope.view.isDeletingLanguageProficiency = true;
               return LanguageProficiencyService.deleteLanguageProficiency($scope.languageProficiency, $scope.view.params.personId)
               .then(function () {
-                  NotificationService.showSuccessMessage("Successfully deleted languageProficiency.");
+                  NotificationService.showSuccessMessage("Successfully deleted language proficiency.");
                   $scope.view.isDeletingLanguageProficiency = false;
                   removeLanguageProficiencyFromView($scope.languageProficiency);
               })
               .catch(function () {
-                  var message = "Unable to delete languageProficiency.";
+                  var message = "Unable to delete language proficiency.";
                   $log.error(message);
                   NotificationService.showErrorMessage(message);
               });
@@ -97,15 +97,15 @@ angular.module('staticApp')
 
       $scope.view.onEditLanguageProficiencyClick = function () {
           $scope.view.showEditLanguageProficiency = true;
-          var id = getLanguageProficiencyFormDivId();
-          var options = {
-              duration: 500,
-              easing: 'easeIn',
-              offset: 200,
-              callbackBefore: function (element) {},
-              callbackAfter: function (element) { }
-          }
-          smoothScroll(getLanguageProficiencyFormDivElement(id), options);
+          //var id = getLanguageProficiencyFormDivId();
+          //var options = {
+          //    duration: 500,
+          //    easing: 'easeIn',
+          //    offset: 200,
+          //    callbackBefore: function (element) {},
+          //    callbackAfter: function (element) { }
+          //}
+          //smoothScroll(getLanguageProficiencyFormDivElement(id), options);
       };
 
       function removeLanguageProficiencyFromView(languageProficiency) {

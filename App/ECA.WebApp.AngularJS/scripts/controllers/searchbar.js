@@ -16,6 +16,7 @@ angular.module('staticApp')
         $location,
         $modalInstance,
         $filter,
+        $anchorScroll,
         $sanitize,
         SearchService,
         StateService,
@@ -97,6 +98,8 @@ angular.module('staticApp')
           .then(function (response) {
               $log.info('Loaded document information.');
               $scope.docinfo = response.data;
+              $location.hash('title');
+              $anchorScroll();
               $scope.isLoadingDocInfo = false;
           })
           .catch(function () {

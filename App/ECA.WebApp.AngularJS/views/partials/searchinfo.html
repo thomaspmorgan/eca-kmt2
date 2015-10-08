@@ -1,4 +1,4 @@
-﻿<div class="spinner" ng-show="isLoadingDocInfo">
+﻿<div class="spinner" ng-show="isLoadingDocInfo" id="title">
     <div class="bounce1"></div>
     <div class="bounce2"></div>
     <div class="bounce3"></div>
@@ -22,6 +22,30 @@
             <div class="col-md-12 simple-list">
                 <ul>
                     <li ng-repeat="item in value | orderBy:'toString()'">{{item}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" ng-show="docinfo.startDate">
+    <div class="col-md-12">
+        <div class="search-label">START DATE</div>
+        <div class="row">
+            <div class="col-md-12 simple-list">
+                <ul>
+                    <li>{{docinfo.startDate | date:'MMM dd, yyyy'}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" ng-show="docinfo.endDate">
+    <div class="col-md-12">
+        <div class="search-label">END DATE</div>
+        <div class="row">
+            <div class="col-md-12 simple-list">
+                <ul>
+                    <li>{{docinfo.endDate | date:'MMM dd, yyyy'}}</li>
                 </ul>
             </div>
         </div>
