@@ -26,13 +26,13 @@ namespace ECA.Business.Service.Admin
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<int, Organization> throwIfOrganizationByIdNull;
         private readonly Action<int, OrganizationType> throwIfOrganizationTypeByIdNull;
-        private IBusinessValidator<Object, UpdateOrganizationValidationEntity> organizationValidator;
+        private IBusinessValidator<OrganizationValidationEntity, OrganizationValidationEntity> organizationValidator;
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="context">Context to query</param>
         /// <param name="organizationValidator">The organization validator.</param>
-        public OrganizationService(EcaContext context, IBusinessValidator<Object, UpdateOrganizationValidationEntity> organizationValidator)
+        public OrganizationService(EcaContext context, IBusinessValidator<OrganizationValidationEntity, OrganizationValidationEntity> organizationValidator)
             : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
@@ -132,6 +132,7 @@ namespace ECA.Business.Service.Admin
 
         private Organization DoCreate(NewOrganization newOrganization, OrganizationType organizationType)
         {
+            organizationValidator.ValidateCreate(GetOrganizationValidationEntity(newOrganization));
             var organization = new Organization
             {
                 Name = newOrganization.Name,
@@ -149,6 +150,11 @@ namespace ECA.Business.Service.Admin
             this.Context.Organizations.Add(organization);
             return organization;
 
+        }
+
+        private OrganizationValidationEntity GetOrganizationValidationEntity(NewOrganization newOrganization)
+        {
+            return new OrganizationValidationEntity(name: newOrganization.Name, organizationTypeId: newOrganization.OrganizationType);
         }
         #endregion
 
@@ -194,7 +200,7 @@ namespace ECA.Business.Service.Admin
             }
 
             throwIfOrganizationTypeByIdNull(organization.OrganizationTypeId, organizationType);
-            organizationValidator.ValidateUpdate(GetUpdateOrganizationValidationEntity(organization, organizationToUpdate, parentOrganization));
+            organizationValidator.ValidateUpdate(GetOrganizationValidationEntity(organization, organizationToUpdate, parentOrganization));
             organization.Update.SetHistory(organizationToUpdate);            
             SetPointOfContacts(organization.ContactIds.ToList(), organizationToUpdate);
             SetOrganizationRoles(organization.OrganizationRoleIds.ToList(), organizationToUpdate);
@@ -236,9 +242,9 @@ namespace ECA.Business.Service.Admin
                 .Where(x=> x.OrganizationId == id);
         }
 
-        private UpdateOrganizationValidationEntity GetUpdateOrganizationValidationEntity(EcaOrganization organization, Organization organizationToUpdate, Organization parentOrganization)
+        private OrganizationValidationEntity GetOrganizationValidationEntity(EcaOrganization organization, Organization organizationToUpdate, Organization parentOrganization)
         {
-            return new UpdateOrganizationValidationEntity(name: organization.Name, organizationTypeId: organization.OrganizationTypeId);
+            return new OrganizationValidationEntity(name: organization.Name, organizationTypeId: organization.OrganizationTypeId);
         }
 
         #endregion

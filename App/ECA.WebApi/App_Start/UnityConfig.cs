@@ -183,7 +183,7 @@ namespace ECA.WebApi.App_Start
                 IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity>,
                 MoneyFlowServiceValidator>();
             container.RegisterType<
-                IBusinessValidator<Object, UpdateOrganizationValidationEntity>,
+                IBusinessValidator<OrganizationValidationEntity, OrganizationValidationEntity>,
                 OrganizationServiceValidator>();
             container.RegisterType<
                 IBusinessValidator<EcaAddressValidationEntity, EcaAddressValidationEntity>,
