@@ -1,8 +1,8 @@
 ﻿<div class="table">
     <div class="row">
         <div class="col-md-5"><h5>DHS Status</h5></div>
-        <div class="col-md-3 title-label">Last Batch Date</div>
-        <div class="col-md-2">3/18/2015</div>
+        <div class="col-md-3 title-label">Last Batch Date: </div>
+        <div class="col-md-2">{{sevisinfo.lastBatchDate | date:'short'}}</div>
         <div class="col-md-2">
             <a ng-click="view.DHSStatus=!view.DHSStatus">
                 <i class="material-icons md-dark md-36 pull-right" ng-show="view.DHSStatus">expand_more</i>
@@ -20,21 +20,15 @@
                 {{sevisinfo.sevisId}}
             </div>
         </div>
-        <div class="row4">
-            <div class="col-md-3">
-                <i class="material-icons md-dark md-36 pull-right" ng-show="view.DHSStatus">check</i>
+        <div class="row4" ng-repeat="status in sevisinfo.sevisCommStatuses">
+                <div class="col-md-3">
+                    <i class="material-icons md-dark md-36 pull-right" style="color: green" ng-show="view.DHSStatus">check</i>
+                </div>
+                <div class="col-md-3">{{status.sevisCommStatusName}}</div>
+                <div class="col-md-6">On: {{ status.addedOn | date:'short' }}</div>
             </div>
-            <div class="col-md-3">Sent to DHS</div>
-            <div class="col-md-6">On: 3/18/2015</div>
         </div>
-        <div class="row4">
-            <div class="col-md-3">
-                <i class="material-icons md-dark md-36 pull-right" ng-show="view.DHSStatus">check</i>
-            </div>
-            <div class="col-md-3">Verified</div>
-            <div class="col-md-6">3/27/2015</div>
-        </div>
-     </div>
+    </div>
     <div class="row">
         <div class="col-md-5"><h5>DoS Status</h5></div>
         <div class="col-md-7">

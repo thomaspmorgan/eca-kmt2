@@ -24,7 +24,8 @@ angular.module('staticApp')
         TableService,
         ParticipantService,
         ParticipantPersonsService,
-        ParticipantPersonsSevisService) {
+        ParticipantPersonsSevisService
+        ) {
 
       $scope.view = {};
       $scope.view.params = $stateParams;
@@ -46,6 +47,7 @@ angular.module('staticApp')
       $scope.view.dateFormat = 'dd-MMMM-yyyy';
       $scope.view.totalParticipants = 0;
       $scope.view.tabSevis = false;
+      $scope.view.sevisCommStatuses = null;
 
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;
@@ -125,7 +127,7 @@ angular.module('staticApp')
           });
           return dfd;
       }
-      
+
       $scope.view.getAvailableParticipants = function (search) {
           return loadAvailableParticipants(search, $scope.view.addParticipantFilter);
       }
@@ -167,7 +169,7 @@ angular.module('staticApp')
           }
           $scope.view.isLoadingAvailableParticipants = true;
           var dfd = null;
-          
+
 
           if (participantType === $scope.view.addPersonFilterValue) {
               dfd = PersonService.getPeople(params);
@@ -223,7 +225,7 @@ angular.module('staticApp')
                 $log.error('Unable to load user permissions in project.js controller.');
             });
       };
-      
+
       function loadCollaboratorDetails() {
           return ProjectService.getCollaboratorInfo(projectId)
           .then(function (response) {
@@ -306,7 +308,7 @@ angular.module('staticApp')
           });
       };
 
-      $scope.onSevisTabSelected = function(participantId) {
+      $scope.onSevisTabSelected = function (participantId) {
           $scope.view.tabSevis = true;
           loadSevisInfo(participantId);
       };
