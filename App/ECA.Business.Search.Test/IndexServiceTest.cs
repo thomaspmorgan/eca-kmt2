@@ -1538,89 +1538,136 @@ namespace ECA.Business.Search.Test
                 Assert.AreEqual(SuggesterSearchMode.AnalyzingInfixMatching, firstSuggester.SearchMode);
                 Assert.AreEqual(1, firstSuggester.SourceFields.Count);
                 Assert.AreEqual(toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(x => x.Name)), firstSuggester.SourceFields.First());
-
+                var allFieldNames = typeof(ECADocument).GetProperties().Select(x => toCamelCase(x.Name)).ToList();
 
                 var idField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Id))).FirstOrDefault();
                 Assert.IsNotNull(idField);
                 Assert.IsTrue(idField.IsKey);
                 Assert.IsTrue(idField.IsRetrievable);
                 Assert.IsFalse(idField.IsSearchable);
+                allFieldNames.Remove(idField.Name);
 
                 var nameField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Name))).FirstOrDefault();
                 Assert.IsNotNull(nameField);
                 Assert.IsTrue(nameField.IsRetrievable);
                 Assert.IsTrue(nameField.IsSearchable);
                 Assert.IsTrue(nameField.IsSortable);
+                Assert.AreEqual(DataType.String, nameField.Type);
+                allFieldNames.Remove(nameField.Name);
 
                 var descriptionField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Description))).FirstOrDefault();
                 Assert.IsNotNull(descriptionField);
                 Assert.IsTrue(descriptionField.IsRetrievable);
                 Assert.IsTrue(descriptionField.IsSearchable);
+                Assert.AreEqual(DataType.String, descriptionField.Type);
+                allFieldNames.Remove(descriptionField.Name);
 
                 var fociField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Foci))).FirstOrDefault();
                 Assert.IsNotNull(fociField);
                 Assert.IsTrue(fociField.IsRetrievable);
                 Assert.IsTrue(fociField.IsSearchable);
+                Assert.AreEqual(DataType.Collection(DataType.String), fociField.Type);
+                allFieldNames.Remove(fociField.Name);
 
                 var objectivesField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Objectives))).FirstOrDefault();
                 Assert.IsNotNull(objectivesField);
                 Assert.IsTrue(objectivesField.IsRetrievable);
                 Assert.IsTrue(objectivesField.IsSearchable);
+                Assert.AreEqual(DataType.Collection(DataType.String), objectivesField.Type);
+                allFieldNames.Remove(objectivesField.Name);
 
                 var themesField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Themes))).FirstOrDefault();
                 Assert.IsNotNull(themesField);
                 Assert.IsTrue(themesField.IsRetrievable);
                 Assert.IsTrue(themesField.IsSearchable);
+                Assert.AreEqual(DataType.Collection(DataType.String), themesField.Type);
+                allFieldNames.Remove(themesField.Name);
 
                 var goalsField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Goals))).FirstOrDefault();
                 Assert.IsNotNull(goalsField);
                 Assert.IsTrue(goalsField.IsRetrievable);
                 Assert.IsTrue(goalsField.IsSearchable);
+                Assert.AreEqual(DataType.Collection(DataType.String), goalsField.Type);
+                allFieldNames.Remove(goalsField.Name);
 
                 var pocField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.PointsOfContact))).FirstOrDefault();
                 Assert.IsNotNull(pocField);
                 Assert.IsTrue(pocField.IsRetrievable);
                 Assert.IsTrue(pocField.IsSearchable);
+                Assert.AreEqual(DataType.Collection(DataType.String), pocField.Type);
+                allFieldNames.Remove(pocField.Name);
 
                 var regionsField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Regions))).FirstOrDefault();
                 Assert.IsNotNull(regionsField);
                 Assert.IsTrue(regionsField.IsRetrievable);
                 Assert.IsTrue(regionsField.IsSearchable);
+                Assert.AreEqual(DataType.Collection(DataType.String), regionsField.Type);
+                allFieldNames.Remove(regionsField.Name);
 
                 var countriesField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Countries))).FirstOrDefault();
                 Assert.IsNotNull(countriesField);
                 Assert.IsTrue(countriesField.IsRetrievable);
                 Assert.IsTrue(countriesField.IsSearchable);
+                Assert.AreEqual(DataType.Collection(DataType.String), countriesField.Type);
+                allFieldNames.Remove(countriesField.Name);
 
                 var locationsField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Locations))).FirstOrDefault();
                 Assert.IsNotNull(locationsField);
                 Assert.IsTrue(locationsField.IsRetrievable);
                 Assert.IsTrue(locationsField.IsSearchable);
+                Assert.AreEqual(DataType.Collection(DataType.String), locationsField.Type);
+                allFieldNames.Remove(locationsField.Name);
 
                 var websitesField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Websites))).FirstOrDefault();
                 Assert.IsNotNull(websitesField);
                 Assert.IsTrue(websitesField.IsRetrievable);
                 Assert.IsTrue(websitesField.IsSearchable);
+                Assert.AreEqual(DataType.Collection(DataType.String), websitesField.Type);
+                allFieldNames.Remove(websitesField.Name);
 
                 var docTypeNameField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.DocumentTypeName))).FirstOrDefault();
                 Assert.IsNotNull(docTypeNameField);
                 Assert.IsTrue(docTypeNameField.IsRetrievable);
                 Assert.IsTrue(docTypeNameField.IsSearchable);
+                Assert.AreEqual(DataType.String, docTypeNameField.Type);
+                allFieldNames.Remove(docTypeNameField.Name);
 
                 var statusField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Status))).FirstOrDefault();
                 Assert.IsNotNull(statusField);
                 Assert.IsTrue(statusField.IsRetrievable);
                 Assert.IsTrue(statusField.IsSearchable);
+                Assert.AreEqual(DataType.String, statusField.Type);
+                allFieldNames.Remove(statusField.Name);
 
                 var docTypeIdField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.DocumentTypeId))).FirstOrDefault();
                 Assert.IsNotNull(docTypeIdField);
                 Assert.IsTrue(docTypeIdField.IsRetrievable);
                 Assert.IsFalse(docTypeIdField.IsSearchable);
+                Assert.AreEqual(DataType.String, docTypeIdField.Type);
+                allFieldNames.Remove(docTypeIdField.Name);
 
                 var officeSymbolField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.OfficeSymbol))).FirstOrDefault();
                 Assert.IsNotNull(officeSymbolField);
                 Assert.IsTrue(officeSymbolField.IsRetrievable);
                 Assert.IsTrue(officeSymbolField.IsSearchable);
+                Assert.AreEqual(DataType.String, officeSymbolField.Type);
+                allFieldNames.Remove(officeSymbolField.Name);
+
+                var startDateField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.StartDate))).FirstOrDefault();
+                Assert.IsNotNull(startDateField);
+                Assert.IsTrue(startDateField.IsRetrievable);
+                Assert.IsTrue(startDateField.IsFilterable);
+                Assert.AreEqual(DataType.DateTimeOffset, startDateField.Type);
+                allFieldNames.Remove(startDateField.Name);
+
+                var endDateField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.EndDate))).FirstOrDefault();
+                Assert.IsNotNull(endDateField);
+                Assert.IsTrue(endDateField.IsRetrievable);
+                Assert.IsTrue(endDateField.IsFilterable);
+                Assert.AreEqual(DataType.DateTimeOffset, endDateField.Type);
+                allFieldNames.Remove(endDateField.Name);
+
+                Assert.AreEqual(0, allFieldNames.Count, "Make sure all fields are checked from ECADocument and the index.  Some have not been checked.");
             }
         }
     }

@@ -138,7 +138,7 @@ namespace ECA.Business.Search
         /// <returns>The names of document fields.</returns>
         public IList<string> GetDocumentFieldNames()
         {
-            return GetFields().Select(x => x.Name).ToList();
+            return GetFields().Select(x => x.Name).OrderBy(x => x).ToList();
         }
 
         /// <summary>
@@ -291,6 +291,22 @@ namespace ECA.Business.Search
                 Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Status),
                 Type = DataType.String,
                 IsSearchable = true
+            });
+            fields.Add(new Field
+            {
+                IsKey = false,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.StartDate),
+                Type = DataType.DateTimeOffset,
+                IsSearchable = false,
+                IsFilterable = true
+            });
+            fields.Add(new Field
+            {
+                IsKey = false,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.EndDate),
+                Type = DataType.DateTimeOffset,
+                IsSearchable = false,
+                IsFilterable = true
             });
             foreach (var field in fields)
             {

@@ -25,6 +25,8 @@ namespace ECA.Business.Test.Search
             Assert.IsNotNull(instance.DocumentTypeId);
             Assert.IsNotNull(instance.DocumentTypeName);
             Assert.IsNotNull(instance.LocationsDelegate);
+            Assert.IsNotNull(instance.StartDateDelegate);
+            Assert.IsNotNull(instance.EndDateDelegate);
 
             Assert.IsNull(instance.RegionsDelegate);
             Assert.IsNull(instance.CountriesDelegate);

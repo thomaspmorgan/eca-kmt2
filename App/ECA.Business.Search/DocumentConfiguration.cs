@@ -141,6 +141,20 @@ namespace ECA.Business.Search
         /// </summary>
         /// <returns>A display name of the document type.</returns>
         string GetDocumentTypeName();
+
+        /// <summary>
+        /// Returns the start date from the given instance.
+        /// </summary>
+        /// <param name="instance">The given instance.</param>
+        /// <returns>The start date.</returns>
+        DateTimeOffset? GetStartDate(object instance);
+
+        /// <summary>
+        /// Returns the end date from the given instance.
+        /// </summary>
+        /// <param name="instance">The given instance.</param>
+        /// <returns>The end date.</returns>
+        DateTimeOffset? GetEndDate(object instance);
     }
     #endregion
 
@@ -203,6 +217,17 @@ namespace ECA.Business.Search
             Contract.Ensures(!String.IsNullOrWhiteSpace(Contract.Result<string>()), "The document type name must have a value.");
             Contract.Ensures(Contract.Result<string>().Length <= IndexService.MAX_DOCUMENT_TYPE_NAME_LENGTH, "The document type name must not be more than the max length.");
             Contract.Ensures(Regex.IsMatch(Contract.Result<string>(), @"^[a-zA-Z]+$"), "The document name may only have characters in it.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public DateTimeOffset? GetEndDate(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
             return null;
         }
 
@@ -301,6 +326,17 @@ namespace ECA.Business.Search
         /// <param name="instance"></param>
         /// <returns></returns>
         public IEnumerable<string> GetRegions(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public DateTimeOffset? GetStartDate(object instance)
         {
             Contract.Requires(instance != null, "The instance must not be null.");
             return null;
@@ -441,7 +477,17 @@ namespace ECA.Business.Search
         /// Gets the points of contact delegate to return the object points of contact.
         /// </summary>
         public Func<TEntity, IEnumerable<string>> PointsOfContactDelegate { get; private set; }
-        
+
+        /// <summary>
+        /// Gets the start delegate to return the object start date.
+        /// </summary>
+        public Func<TEntity, DateTimeOffset?> StartDateDelegate { get; private set; }
+
+        /// <summary>
+        /// Gets the end delegate to return the object start date.
+        /// </summary>
+        public Func<TEntity, DateTimeOffset?> EndDateDelegate { get; private set; }
+
         /// <summary>
         /// Returns the id of the object.
         /// </summary>
@@ -597,6 +643,26 @@ namespace ECA.Business.Search
         {
             Contract.Requires(pocSelector != null, "The pocSelector must not be null.");
             this.PointsOfContactDelegate = pocSelector.Compile();
+        }
+
+        /// <summary>
+        /// Enables start date to be documented using the given expression.
+        /// </summary>
+        /// <param name="startDateSelector">The expression to select a start date.</param>
+        public void HasStartDate(Expression<Func<TEntity, DateTimeOffset?>> startDateSelector)
+        {
+            Contract.Requires(startDateSelector != null, "The startDateSelector must not be null.");
+            this.StartDateDelegate = startDateSelector.Compile();
+        }
+
+        /// <summary>
+        /// Enables end date to be documented using the given expression.
+        /// </summary>
+        /// <param name="endDateSelector">The expression to select an end date.</param>
+        public void HasEndDate(Expression<Func<TEntity, DateTimeOffset?>> endDateSelector)
+        {
+            Contract.Requires(endDateSelector != null, "The endDateSelector must not be null.");
+            this.EndDateDelegate = endDateSelector.Compile();
         }
 
         /// <summary>
@@ -903,6 +969,44 @@ namespace ECA.Business.Search
             else
             {
                 throw new NotSupportedException("The document key type can not be determined because the Key has not been configured on this type.");
+            }
+        }
+
+        /// <summary>
+        /// Returns the start date of the given object.
+        /// </summary>
+        /// <param name="instance">The instance of the object.</param>
+        /// <returns>The object start date.</returns>
+        public DateTimeOffset? GetStartDate(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
+            if (StartDateDelegate != null)
+            {
+                return StartDateDelegate((TEntity)instance);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns the end date of the given object.
+        /// </summary>
+        /// <param name="instance">The instance of the object.</param>
+        /// <returns>The object end date.</returns>
+        public DateTimeOffset? GetEndDate(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
+            if (EndDateDelegate != null)
+            {
+                return EndDateDelegate((TEntity)instance);
+            }
+            else
+            {
+                return null;
             }
         }
     }

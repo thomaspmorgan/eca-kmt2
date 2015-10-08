@@ -39,6 +39,8 @@ namespace ECA.Business.Search
             HasGoals(x => x.Goals.Select(c => c.Value).ToList());
             HasObjectives(x => x.Objectives.Select(y => y.Name).ToList());
             HasThemes(x => x.Themes.Select(t => t.Value).ToList());
+            HasStartDate(x => x.StartDate);
+            HasEndDate(x => x.EndDate);
         }
     }
 }
