@@ -166,7 +166,7 @@ namespace ECA.Business.Test.Service.Admin
             primaryAddress.Organization = organization;
 
             context.Addresses.Add(secondaryAddress);
-            context.Addresses.Add(primaryAddress);            
+            context.Addresses.Add(primaryAddress);
             context.Locations.Add(addressLocation);
             context.Locations.Add(country);
             context.Locations.Add(city);
@@ -661,6 +661,70 @@ namespace ECA.Business.Test.Service.Admin
             tester(dtoAsync);
         }
 
+        #endregion
+
+        #region Create
+        [TestMethod]
+        public async Task TestCreateAsync_CheckProperties()
+        {
+            var user = new User(1);
+            var name = "name";
+            var description = "description";
+            var organizationType = OrganizationType.USEducationalInstitution.Id;
+            var website = "http://google.com";
+            var newOrganization = new NewOrganization(user, name, description, organizationType, new List<int>(), website, new List<int>());
+            var organization = await service.CreateAsync(newOrganization);
+
+            Assert.AreEqual(name, organization.Name);
+            Assert.AreEqual(description, organization.Description);
+            Assert.AreEqual(organizationType, organization.OrganizationTypeId);
+            Assert.AreEqual(website, organization.Website);
+            Assert.AreEqual("Active", organization.Status);
+        }
+
+        [TestMethod]
+        public async Task TestCreateAsync_CheckRoles()
+        {
+            var organizationRole = new OrganizationRole
+            {
+                OrganizationRoleId = 1,
+            };
+
+            context.OrganizationRoles.Add(organizationRole);
+
+            var user = new User(1);
+            var name = "name";
+            var description = "description";
+            var organizationType = OrganizationType.USEducationalInstitution.Id;
+            var website = "http://google.com";
+            var newOrganization = new NewOrganization(user, name, description, organizationType, new List<int> { organizationRole.OrganizationRoleId }, website, new List<int>());
+            var organization = await service.CreateAsync(newOrganization);
+
+            var role = organization.OrganizationRoles.FirstOrDefault();
+            Assert.AreEqual(organizationRole.OrganizationRoleId, role.OrganizationRoleId);
+        }
+
+        [TestMethod]
+        public async Task TestCreateAsync_CheckContacts()
+        {
+            var organizationContact = new Contact
+            {
+                ContactId = 1
+            };
+
+            context.Contacts.Add(organizationContact);
+
+            var user = new User(1);
+            var name = "name";
+            var description = "description";
+            var organizationType = OrganizationType.USEducationalInstitution.Id;
+            var website = "http://google.com";
+            var newOrganization = new NewOrganization(user, name, description, organizationType, new List<int>(), website, new List<int> { organizationContact.ContactId });
+            var organization = await service.CreateAsync(newOrganization);
+
+            var contact = organization.Contacts.FirstOrDefault();
+            Assert.AreEqual(organizationContact.ContactId, contact.ContactId);
+        }
         #endregion
 
         #region Update
