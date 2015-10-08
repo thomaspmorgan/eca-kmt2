@@ -213,6 +213,7 @@ namespace ECA.WebJobs.Search.Index.Test
             services.Add(service.Object);
 
             var message = new IndexDocumentBatchMessage();
+            message.IsDebugMessage = false;
             message.CreatedDocuments = keysAsStrings;
             var functions = new Functions(services);
             functions.ProcessQueueMessage(message, new Mock<TextWriter>().Object);
@@ -232,6 +233,7 @@ namespace ECA.WebJobs.Search.Index.Test
             services.Add(service.Object);
 
             var message = new IndexDocumentBatchMessage();
+            message.IsDebugMessage = false;
             message.ModifiedDocuments = keysAsStrings;
             var functions = new Functions(services);
             functions.ProcessQueueMessage(message, new Mock<TextWriter>().Object);
@@ -251,10 +253,34 @@ namespace ECA.WebJobs.Search.Index.Test
             services.Add(service.Object);
 
             var message = new IndexDocumentBatchMessage();
+            message.IsDebugMessage = false;
             message.DeletedDocuments = keysAsStrings;
             var functions = new Functions(services);
             functions.ProcessQueueMessage(message, new Mock<TextWriter>().Object);
             service.Verify(x => x.DeleteDocuments(It.IsAny<List<object>>()), Times.Once());
+        }
+
+        [TestMethod]
+        public void TestProcessQueueMessage_IsDebugMessage()
+        {
+            var documentTypeId = Guid.NewGuid();
+            var key = new DocumentKey(documentTypeId, 1);
+            var keys = new List<DocumentKey> { key };
+            var keysAsStrings = keys.Select(x => x.ToString()).ToList();
+
+            var service = new Mock<IDocumentService>();
+            service.Setup(x => x.GetDocumentTypeId()).Returns(documentTypeId);
+            services.Add(service.Object);
+
+            var message = new IndexDocumentBatchMessage();
+            message.IsDebugMessage = true;
+            message.DeletedDocuments = keysAsStrings;
+            message.CreatedDocuments = keysAsStrings;
+            message.ModifiedDocuments = keysAsStrings;
+            var functions = new Functions(services);
+            functions.ProcessQueueMessage(message, new Mock<TextWriter>().Object);
+            service.Verify(x => x.DeleteDocuments(It.IsAny<List<object>>()), Times.Never());
+            service.Verify(x => x.AddOrUpdateDocument(It.IsAny<List<object>>()), Times.Never());
         }
 
     }

@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using ECA.Business.Search;
 using System.Diagnostics.Contracts;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ECA.WebJobs.Search.Index
 {
@@ -46,9 +48,31 @@ namespace ECA.WebJobs.Search.Index
             TextWriter log)
         {
             Contract.Requires(message != null, "The message batch must not be null.");
-            HandleCreatedDocuments(message.CreatedDocuments.Distinct().ToList());
-            HandleUpdatedDocuments(message.ModifiedDocuments.Distinct().ToList());
-            HandleDeletedDocuments(message.DeletedDocuments.Distinct().ToList());
+            if (message.IsDebugMessage)
+            {
+                HandleDebugMessage(message);
+            }
+            else
+            {
+                HandleCreatedDocuments(message.CreatedDocuments.Distinct().ToList());
+                HandleUpdatedDocuments(message.ModifiedDocuments.Distinct().ToList());
+                HandleDeletedDocuments(message.DeletedDocuments.Distinct().ToList());
+            }
+        }
+
+        /// <summary>
+        /// Handles a debug message.  Debug messages are structurally the same; however, documents are not updated, deleted, or created.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        public void HandleDebugMessage(IndexDocumentBatchMessage message)
+        {
+            Contract.Requires(message != null, "The message must not be null.");
+            Contract.Requires(message.IsDebugMessage, "The message must be a debug message.");
+            Console.WriteLine("Debug message received.  This message will not be handled.");
+            Console.WriteLine("The message received is as follows...");
+            var messageAsJson = JsonConvert.SerializeObject(message);
+            var prettyJson = JValue.Parse(messageAsJson).ToString(Formatting.Indented);
+            Console.WriteLine(prettyJson);
         }
 
         /// <summary>

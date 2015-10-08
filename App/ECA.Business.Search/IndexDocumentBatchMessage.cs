@@ -13,12 +13,19 @@ namespace ECA.Business.Search
     {
         /// <summary>
         /// Creates a new default instance and initializes the document key properties.
+        /// 
+        /// If the code is built in debug mode the IsDebugMessage property will be set to true.  Debug Messages
+        /// will be ignored via the webjob.
         /// </summary>
         public IndexDocumentBatchMessage()
         {
             this.CreatedDocuments = new List<string>();
             this.DeletedDocuments = new List<string>();
             this.ModifiedDocuments = new List<string>();
+            this.IsDebugMessage = false;
+#if DEBUG
+            this.IsDebugMessage = true;
+#endif
         }
 
         /// <summary>
@@ -35,6 +42,11 @@ namespace ECA.Business.Search
         /// Gets or sets the document keys of entities that have been deleted.
         /// </summary>
         public IEnumerable<string> DeletedDocuments { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether this message was generated in debug configured code.
+        /// </summary>
+        public bool IsDebugMessage { get; set; }
 
         /// <summary>
         /// Returns true if this message has documents to index.
