@@ -54,8 +54,8 @@ namespace ECA.WebApi.Models.Person
                 languageId: this.LanguageId,
                 personId: this.PersonId,
                 isNativeLanguage: this.IsNativeLanguage,
-                readingProficiency: this.ReadingProficiency,
                 speakingProficiency: this.SpeakingProficiency,
+                readingProficiency: this.ReadingProficiency,
                 comprehensionProficiency: this.ComprehensionProficiency
                 );
         }
