@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Validation;
+using ECA.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace ECA.Business.Service.Admin
         /// The error message to display when the name of the organization is not valid.
         /// </summary>
         public const string INVALID_ORGANIZATION_NAME_ERROR_MESSAGE = "The name of the organization is invalid.";
+        public const string INVALID_ORGANIZATION_TYPE_ERROR_MESSAGE = "The type of the organization is invalid.";
 
         /// <summary>
         /// Not Implemented.
@@ -37,6 +39,10 @@ namespace ECA.Business.Service.Admin
             if (String.IsNullOrWhiteSpace(validationEntity.Name))
             {
                 yield return new BusinessValidationResult<UpdateOrganizationValidationEntity>(x => x.Name, INVALID_ORGANIZATION_NAME_ERROR_MESSAGE);
+            }
+            if (Organization.OFFICE_ORGANIZATION_TYPE_IDS.Contains(validationEntity.OrganizationTypeId))
+            {
+                yield return new BusinessValidationResult<UpdateOrganizationValidationEntity>(x => x.OrganizationTypeId, INVALID_ORGANIZATION_TYPE_ERROR_MESSAGE);
             }
         }
     }
