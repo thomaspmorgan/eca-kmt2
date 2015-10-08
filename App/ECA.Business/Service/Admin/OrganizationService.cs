@@ -238,7 +238,7 @@ namespace ECA.Business.Service.Admin
 
         private UpdateOrganizationValidationEntity GetUpdateOrganizationValidationEntity(EcaOrganization organization, Organization organizationToUpdate, Organization parentOrganization)
         {
-            return new UpdateOrganizationValidationEntity(name: organization.Name);
+            return new UpdateOrganizationValidationEntity(name: organization.Name, organizationTypeId: organization.OrganizationTypeId);
         }
 
         #endregion
