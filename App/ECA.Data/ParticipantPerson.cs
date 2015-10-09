@@ -12,7 +12,7 @@ namespace ECA.Data
     /// <summary>
     /// A person participant on a project
     /// </summary>
-    public class ParticipantPerson
+    public class ParticipantPerson : IHistorical
     {
 
         /// <summary>
@@ -38,7 +38,6 @@ namespace ECA.Data
         /// The key, and foreign key to the participant
         /// </summary>
         [Key]
-        [ForeignKey("Participant")]
         public int ParticipantId { get; set; }
 
         /// <summary>

@@ -26,6 +26,7 @@ namespace ECA.Business.Queries.Persons
             Contract.Requires(context != null, "The context must not be null.");
             var query = from participant in context.Participants
                         let person = participant.Person
+                        let participantPerson = participant.ParticipantPerson
                         let location = person == null ? null : person.Addresses.OrderByDescending(x => x.IsPrimary).FirstOrDefault()
                         let participantType = participant.ParticipantType
                         where participant.PersonId.HasValue
@@ -50,7 +51,7 @@ namespace ECA.Business.Queries.Persons
                             ProjectId = participant.ProjectId,
                             RevisedOn = participant.History.RevisedOn,
                             ParticipantStatus = participant.Status == null ? null : participant.Status.Status,
-                            SevisStatus = "None"
+                            SevisStatus = participantPerson == null ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName
         };
             return query;
         }
