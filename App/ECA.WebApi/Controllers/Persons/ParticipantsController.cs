@@ -30,15 +30,19 @@ namespace ECA.WebApi.Controllers.Persons
         private static readonly ExpressionSorter<SimpleParticipantDTO> DEFAULT_SORTER = new ExpressionSorter<SimpleParticipantDTO>(x => x.Name, SortDirection.Ascending);
 
         private IParticipantService service;
+        private IParticipantPersonSevisService sevisService;
 
         /// <summary>
         /// Creates a new ParticipantsController with the given service.
         /// </summary>
         /// <param name="service">The service.</param>
-        public ParticipantsController(IParticipantService service)
+        /// <param name="sevisService">the service to retrieve sevis Info</param>
+        public ParticipantsController(IParticipantService service, IParticipantPersonSevisService sevisService)
         {
             Contract.Requires(service != null, "The participant service must not be null.");
+            Contract.Requires(service != null, "The participantPersonSevis service must not be null.");
             this.service = service;
+            this.sevisService = sevisService;
         }
 
         /// <summary>
@@ -79,6 +83,12 @@ namespace ECA.WebApi.Controllers.Persons
             if (ModelState.IsValid)
             {
                 var results = await this.service.GetParticipantsByProjectIdAsync(projectId, queryModel.ToQueryableOperator(DEFAULT_SORTER));
+                var commStatuses = sevisService.GetParticipantPersonSevisCommStatusesByParticipantIds(results.Results.Select(x => x.ParticipantId).ToArray());
+                foreach (var result in results.Results)
+                {
+                    var commStatus = commStatuses.Where(p => p.ParticipantId == result.ParticipantId).FirstOrDefault();
+                    result.SevisStatus = commStatus == null ? "None" : commStatus.SevisCommStatusName;
+                } 
                 return Ok(results);
             }
             else

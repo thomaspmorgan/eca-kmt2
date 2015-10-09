@@ -16,6 +16,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
     public class ParticipantsControllerTest
     {
         private Mock<IParticipantService> serviceMock;
+        private Mock<IParticipantPersonSevisService> sevisServiceMock;
         private ParticipantsController controller;
 
         [TestInitialize]
@@ -28,7 +29,9 @@ namespace ECA.WebApi.Test.Controllers.Persons
             serviceMock.Setup(x => x.GetParticipantsByProjectIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<SimpleParticipantDTO>>())).
                 ReturnsAsync(new PagedQueryResults<SimpleParticipantDTO>(1, new List<SimpleParticipantDTO>()));
 
-            controller = new ParticipantsController(serviceMock.Object);
+            sevisServiceMock = new Mock<IParticipantPersonSevisService>();
+
+            controller = new ParticipantsController(serviceMock.Object, sevisServiceMock.Object);
         }
 
         #region Get

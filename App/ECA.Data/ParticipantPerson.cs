@@ -31,12 +31,14 @@ namespace ECA.Data
         public ParticipantPerson()
         {
             this.History = new History();
+            ParticipantPersonSevisCommStatuses = new HashSet<ParticipantPersonSevisCommStatus>();
         }
 
         /// <summary>
         /// The key, and foreign key to the participant
         /// </summary>
         [Key]
+        [ForeignKey("Participant")]
         public int ParticipantId { get; set; }
 
         /// <summary>
@@ -207,5 +209,6 @@ namespace ECA.Data
         /// create/update time and user
         /// </summary>
         public History History { get; set; }
+
     }
 }

@@ -27,7 +27,7 @@ namespace ECA.Data
         /// </summary>
         public EcaContext() : base() 
         {
-        
+            Database.SetInitializer<EcaContext>(null);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace ECA.Data
         public EcaContext(string connectionStringOrKey)
             : base(connectionStringOrKey)
         {
-
+            Database.SetInitializer<EcaContext>(null);
         }
 
         /// <summary>
