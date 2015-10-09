@@ -24,7 +24,7 @@ angular.module('staticApp')
           $scope.isRunning = true;
           $log.debug('Report: FocusCategoryAwards programId:[' + parameters.program.programId + ']');
           $log.info('Report: FocusCategoryAwards run at: ' + new Date());
-          DownloadService.get(url, parameters.selectedFormat.key, 'FocusCategoryAwards.' + parameters.selectedFormat.key)
+          DownloadService.get(url, parameters.selectedFormat.mimetype, 'FocusCategoryAwards.' + parameters.selectedFormat.key)
           .then(function () {
 
           }, function () {

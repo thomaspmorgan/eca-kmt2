@@ -8,13 +8,18 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Search.Test
 {
-    public class SimpleEntity
+    public class SimpleEntity : IIdentifiable
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
 
         public string Description { get; set; }
+
+        public int GetId()
+        {
+            return this.Id;
+        }
     }
 
     public class SimpleEntityConfiguration : DocumentConfiguration<SimpleEntity, int>

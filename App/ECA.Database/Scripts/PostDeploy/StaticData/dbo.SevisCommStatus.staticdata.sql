@@ -27,7 +27,8 @@ DECLARE @tblTempTable TABLE (
 [History_CreatedBy] int,
 [History_CreatedOn] datetimeoffset,
 [History_RevisedBy] int,
-[History_RevisedOn] datetimeoffset
+[History_RevisedOn] datetimeoffset,
+[IsActive] bit
 )
 
 -- 2: Populate the table variable with data
@@ -37,13 +38,15 @@ DECLARE @tblTempTable TABLE (
 -- removed entries. If you remove an entry then it will no longer
 -- be added to new databases based on your schema, but the entry
 -- will not be deleted from databases in which the value already exists.
-INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('1', 'Sent To DHS', '0', '2/17/2015 12:00:00 AM -05:00', '0', '2/17/2015 12:00:00 AM -05:00')
-INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('2', 'Validated', '0', '2/17/2015 12:00:00 AM -05:00', '0', '2/17/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn], [IsActive]) VALUES ('1', 'Information Required', '0', '2/17/2015 12:00:00 AM -05:00', '0', '2/17/2015 12:00:00 AM -05:00', '1')
+INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn], [IsActive]) VALUES ('2', 'Ready To Submit', '0', '2/17/2015 12:00:00 AM -05:00', '0', '2/17/2015 12:00:00 AM -05:00', '1')
+INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn], [IsActive]) VALUES ('3', 'Sent To DHS', '0', '2/17/2015 12:00:00 AM -05:00', '0', '2/17/2015 12:00:00 AM -05:00', '1')
+INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn], [IsActive]) VALUES ('4', 'Validated', '0', '2/17/2015 12:00:00 AM -05:00', '0', '2/17/2015 12:00:00 AM -05:00', '1')
 
 -- 3: Insert any new items into the table from the table variable
 SET IDENTITY_INSERT [dbo].[SevisCommStatus] ON
-INSERT INTO [dbo].[SevisCommStatus] ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn])
-SELECT tmp.[SevisCommStatusId], tmp.[SevisCommStatusName], tmp.[History_CreatedBy], tmp.[History_CreatedOn], tmp.[History_RevisedBy], tmp.[History_RevisedOn]
+INSERT INTO [dbo].[SevisCommStatus] ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn], [IsActive])
+SELECT tmp.[SevisCommStatusId], tmp.[SevisCommStatusName], tmp.[History_CreatedBy], tmp.[History_CreatedOn], tmp.[History_RevisedBy], tmp.[History_RevisedOn], tmp.[IsActive]
 FROM @tblTempTable tmp
 LEFT JOIN [dbo].[SevisCommStatus] tbl ON tbl.[SevisCommStatusId] = tmp.[SevisCommStatusId]
 WHERE tbl.[SevisCommStatusId] IS NULL
@@ -55,7 +58,8 @@ LiveTable.[SevisCommStatusName] = tmp.[SevisCommStatusName],
 LiveTable.[History_CreatedBy] = tmp.[History_CreatedBy],
 LiveTable.[History_CreatedOn] = tmp.[History_CreatedOn],
 LiveTable.[History_RevisedBy] = tmp.[History_RevisedBy],
-LiveTable.[History_RevisedOn] = tmp.[History_RevisedOn]
+LiveTable.[History_RevisedOn] = tmp.[History_RevisedOn],
+LiveTable.[IsActive] = tmp.[IsActive]
 FROM [dbo].[SevisCommStatus] LiveTable 
 INNER JOIN @tblTempTable tmp ON LiveTable.[SevisCommStatusId] = tmp.[SevisCommStatusId]
 

@@ -138,7 +138,7 @@ namespace ECA.Business.Search
         /// <returns>The names of document fields.</returns>
         public IList<string> GetDocumentFieldNames()
         {
-            return GetFields().Select(x => x.Name).ToList();
+            return GetFields().Select(x => x.Name).OrderBy(x => x).ToList();
         }
 
         /// <summary>
@@ -292,6 +292,22 @@ namespace ECA.Business.Search
                 Type = DataType.String,
                 IsSearchable = true
             });
+            fields.Add(new Field
+            {
+                IsKey = false,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.StartDate),
+                Type = DataType.DateTimeOffset,
+                IsSearchable = false,
+                IsFilterable = true
+            });
+            fields.Add(new Field
+            {
+                IsKey = false,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.EndDate),
+                Type = DataType.DateTimeOffset,
+                IsSearchable = false,
+                IsFilterable = true
+            });
             foreach (var field in fields)
             {
                 field.Name = ToCamelCase(field.Name);
@@ -361,7 +377,7 @@ namespace ECA.Business.Search
         }
         #endregion
 
-        #region Handle Documents
+        #region Add or Update Documents
 
         /// <summary>
         /// Indexes the given documents to Azure Search.
@@ -369,7 +385,7 @@ namespace ECA.Business.Search
         /// <typeparam name="T">The type of documents to index.</typeparam>
         /// <param name="documents">The documents.</param>
         /// <returns>The indexing response, or null if no documents to index.</returns>
-        public async Task<DocumentIndexResponse> HandleDocumentsAsync<T>(List<T> documents) where T : class
+        public async Task<DocumentIndexResponse> AddOrUpdateAsync<T>(List<T> documents) where T : class
         {
             if (documents.Count == 0)
             {
@@ -378,7 +394,7 @@ namespace ECA.Business.Search
             else
             {
                 var configuration = GetDocumentConfiguration<T>();
-                var indexBatch = DoHandleDocuments(documents, configuration);
+                var indexBatch = DoAddOrupdate(documents, configuration);
                 var indexClient = GetClient();
                 var response = await indexClient.Documents.IndexAsync(indexBatch);
                 return response;
@@ -391,7 +407,7 @@ namespace ECA.Business.Search
         /// <typeparam name="T">The type of documents to index.</typeparam>
         /// <param name="documents">The documents.</param>
         /// <returns>The indexing response, or null if no documents to index.</returns>
-        public DocumentIndexResponse HandleDocuments<T>(List<T> documents) where T : class
+        public DocumentIndexResponse AddOrUpdate<T>(List<T> documents) where T : class
         {
             if (documents.Count == 0)
             {
@@ -400,16 +416,15 @@ namespace ECA.Business.Search
             else
             {
                 var configuration = GetDocumentConfiguration<T>();
-                var indexBatch = DoHandleDocuments(documents, configuration);
+                var indexBatch = DoAddOrupdate(documents, configuration);
                 var indexClient = GetClient();
                 var response = indexClient.Documents.Index(indexBatch);
                 return response;
             }
         }
 
-        private IndexBatch<ECADocument> DoHandleDocuments<T>(List<T> documents, IDocumentConfiguration configuration) where T : class
+        private IndexBatch<ECADocument> DoAddOrupdate<T>(List<T> documents, IDocumentConfiguration configuration) where T : class
         {
-            var responses = new List<DocumentIndexResponse>();
             if (configuration == null)
             {
                 throw new NotSupportedException(String.Format("The configuration for the type [{0}] was not found.", typeof(T)));
@@ -598,7 +613,7 @@ namespace ECA.Business.Search
                 Filter = ecaSearchParameters.Filter,
                 IncludeTotalResultCount = true,
             };
-            if(ecaSearchParameters.HighlightPreTag != null && ecaSearchParameters.HighlightPostTag != null)
+            if (ecaSearchParameters.HighlightPreTag != null && ecaSearchParameters.HighlightPostTag != null)
             {
                 searchParameters.HighlightPostTag = ecaSearchParameters.HighlightPostTag;
                 searchParameters.HighlightPreTag = ecaSearchParameters.HighlightPreTag;
@@ -659,6 +674,7 @@ namespace ECA.Business.Search
         /// <returns>Instances of all concrete classes that implmement the IDocumentConfiguration.</returns>
         public static IEnumerable<IDocumentConfiguration> GetAllConfigurations(Assembly assembly)
         {
+            Contract.Requires(assembly != null, "The assembly must not be null.");
             var types = assembly.GetTypes()
                 .Where(x => typeof(IDocumentConfiguration).IsAssignableFrom(x) && !x.IsAbstract && x.IsClass && !x.IsInterface)
                 .ToList();
@@ -669,6 +685,82 @@ namespace ECA.Business.Search
             });
             return configs;
         }
+
+
+
+        #region Delete document
+
+        /// <summary>
+        /// Deletes the documents with the given keys.
+        /// </summary>
+        /// <param name="documentKeys">The keys as strings.</param>
+        public Task<DocumentIndexResponse> DeleteDocumentsAsync(List<string> documentKeys)
+        {
+            return DeleteDocumentsAsync(documentKeys.Distinct().Select(x => new DocumentKey(x)).ToList());
+        }
+        /// <summary>
+        /// Deletes the documents with the given keys.
+        /// </summary>
+        /// <param name="documentKeys">The keys as strings.</param>
+        public DocumentIndexResponse DeleteDocuments(List<string> documentKeys)
+        {
+            return DeleteDocuments(documentKeys.Distinct().Select(x => new DocumentKey(x)).ToList());
+        }
+
+        /// <summary>
+        /// Deletes the documents with the given keys.
+        /// </summary>
+        /// <param name="documentKeys">The keys.</param>
+        public async Task<DocumentIndexResponse> DeleteDocumentsAsync(List<DocumentKey> documentKeys)
+        {
+            if (documentKeys.Count == 0)
+            {
+                return null;
+            }
+            else
+            {
+                var indexBatch = DoDeleteDocuments(documentKeys);
+                var indexClient = GetClient();
+                var response = await indexClient.Documents.IndexAsync(indexBatch);
+                return response;
+            }
+        }
+
+        /// <summary>
+        /// Deletes the documents with the given keys.
+        /// </summary>
+        /// <param name="documentKeys">The keys.</param>
+        public DocumentIndexResponse DeleteDocuments(List<DocumentKey> documentKeys)
+        {
+            if(documentKeys.Count == 0)
+            {
+                return null;
+            }
+            else
+            {
+                var indexBatch = DoDeleteDocuments(documentKeys);
+                var indexClient = GetClient();
+                var response = indexClient.Documents.Index(indexBatch);
+                return response;
+            }
+    }
+
+        private IndexBatch<ECADocument> DoDeleteDocuments(List<DocumentKey> documentKeys)
+        {
+
+            var actions = new List<IndexAction>();
+            var documents = new List<ECADocument>();
+            documentKeys.Distinct().ToList().ForEach(x =>
+            {
+                documents.Add(new ECADocument
+                {
+                    Id = x.ToString()
+                });
+            });
+
+            return IndexBatch.Create(documents.Select(d => IndexAction.Create(IndexActionType.Delete, d)));
+        }
+        #endregion
     }
 }
 

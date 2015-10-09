@@ -41,7 +41,16 @@ namespace ECA.Data
         public ICollection<ItineraryStop> ItineraryStops { get; set; }
         public ICollection<MoneyFlow> SourceParticipantMoneyFlows { get; set; }
         public ICollection<MoneyFlow> RecipientParticipantMoneyFlows { get; set; }
+        
+        [ForeignKey("ParticipantId")]
+        /// <summary>
+        /// reference to the ParticipantPerson record for this Participant if a person
+        /// </summary>
+        public ParticipantPerson ParticipantPerson { get; set; }
 
+        /// <summary>
+        /// History data for this participant
+        /// </summary>
         public History History { get; set; }
     }
 }

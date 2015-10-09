@@ -9,19 +9,29 @@ namespace ECA.Business.Test.Search
 {
     public class TestIndexNotificationService : IIndexNotificationService
     {
-        public void Finished(string documentTypeName)
+        public void DeleteDocumentsFinished(string documentTypeName, List<object> id)
         {
-            Console.WriteLine(String.Format("Finished processing {0}", documentTypeName));
+            
         }
 
-        public void Processed(string documentTypeName, int totalDocumentsCount, int documentsProcessed)
+        public void DeleteDocumentsStarted(string documentTypeName, List<object> ids)
         {
-            Console.WriteLine("Processed {0} of {1} documents of type {2}", documentsProcessed, totalDocumentsCount, documentTypeName);
+            
         }
 
-        public void Started(string documentTypeName)
+        public void ProcessAllDocumentsFinished(string documentTypeName)
         {
-            Console.WriteLine(String.Format("Started processing {0}", documentTypeName));
+            
+        }
+
+        public void ProcessedSomeOfAllDocuments(string documentTypeName, int totalDocumentsCount, int documentsProcessed)
+        {
+            
+        }
+
+        public void StartedProcessingAllDocuments(string documentTypeName)
+        {
+            
         }
 
         public void UpdateFinished(string documentTypeName, object id)

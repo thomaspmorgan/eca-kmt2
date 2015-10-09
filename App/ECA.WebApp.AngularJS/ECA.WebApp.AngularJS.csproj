@@ -20,7 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <TypeScriptToolsVersion>1.0</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.6</TypeScriptToolsVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <ApplicationInsightsResourceId>/subscriptions/3d6f9d9a-0854-47e7-a31e-c6838bcb192f/resourcegroups/DevGroup/providers/microsoft.insights/components/kmt-dev</ApplicationInsightsResourceId>
@@ -174,6 +174,7 @@
     <Content Include="gulpfile.js" />
     <Content Include="images\contract.png" />
     <Content Include="images\intl-tel-input\flags.png" />
+    <Content Include="images\select2.png" />
     <Content Include="karma.conf.js" />
     <Content Include="scripts\app.config.js" />
     <Content Include="scripts\app.run.js" />
@@ -237,6 +238,7 @@
     <Content Include="scripts\controllers\reports\CountryAwards.js" />
     <Content Include="scripts\controllers\reports\YearAwards.js" />
     <Content Include="scripts\controllers\reports\RegionAwards.js" />
+    <Content Include="scripts\controllers\snapshots.js" />
     <Content Include="scripts\controllers\socialmedia\socialmedia.js" />
     <Content Include="scripts\controllers\socialmedia\socialmedias.js" />
     <Content Include="scripts\directives\participant-person-sevis.directive.html" />
@@ -247,6 +249,8 @@
     <Content Include="scripts\directives\memberships.directive.js" />
     <Content Include="scripts\directives\moneyflows.directive.js" />
     <Content Include="scripts\directives\email-addresses.directive.js" />
+    <Content Include="scripts\directives\snapshots.directive.html" />
+    <Content Include="scripts\directives\snapshots.directive.js" />
     <Content Include="scripts\directives\social-medias.directive.js" />
     <Content Include="scripts\directives\addresses.directive.js" />
     <Content Include="scripts\controllers\toolbaricons.js" />
@@ -420,6 +424,7 @@
     <Content Include="styles\fonts\MaterialIcons-Regular.woff2" />
     <Content Include="views\person\partials\evaluationNotesEdit.html" />
     <Content Include="Service References\Application Insights\ConnectedService.json" />
+    <Content Include="scripts\services\snapshot.service.js" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -23,15 +23,15 @@ angular.module('staticApp')
 
       $scope.add = function () {
 
-          if ($scope.duplicates.length === 0) {
+          var newParticipant = getNewParticipant();
 
-              var newParticipant = getNewParticipant();
+          if ($scope.duplicates.length === 0) {
 
               var params = {
                   limit: 300,
                   filter: [{ property: 'firstName', comparison: 'eq', value: newParticipant.firstName },
-                           { property: 'lastName', comparison: 'eq', value: newParticipant.lastName },
-                           { property: 'genderId', comparison: 'eq', value: newParticipant.gender }]
+                           { property: 'lastName', comparison: 'eq', value: newParticipant.lastName }]
+                  //{ property: 'genderId', comparison: 'eq', value: newParticipant.gender }
               };
               
               if (newParticipant.dateOfBirth) {
@@ -93,7 +93,7 @@ angular.module('staticApp')
           newParticipant.participantTypeId = $scope.newParticipant.participantType.id;
           newParticipant.firstName = $scope.newParticipant.firstName;
           newParticipant.lastName = $scope.newParticipant.lastName;
-          newParticipant.gender = $scope.newParticipant.gender.id;
+          //newParticipant.gender = $scope.newParticipant.gender.id;
           newParticipant.isDateOfBirthUnknown = $scope.newParticipant.isDateOfBirthUnknown;
 
           if ($scope.newParticipant.dateOfBirth) {
@@ -172,12 +172,12 @@ angular.module('staticApp')
           loadCities();
       }
 
-      function loadGenders() {
-          return LookupService.getAllGenders({ limit: 300 })
-            .then(function (data) {
-                $scope.genders = data.results;
-            });
-      }
+      //function loadGenders() {
+      //    return LookupService.getAllGenders({ limit: 300 })
+      //      .then(function (data) {
+      //          $scope.genders = data.results;
+      //      });
+      //}
 
       function loadParticipantTypes() {
 
@@ -260,6 +260,6 @@ angular.module('staticApp')
               }
       }
 
-      $q.all([loadGenders(), loadParticipantTypes()]);
-
+      $q.all([loadParticipantTypes()]);
+      //loadGenders()
   });

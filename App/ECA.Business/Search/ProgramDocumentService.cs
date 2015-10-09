@@ -37,7 +37,6 @@ namespace ECA.Business.Search
         /// <returns>The query to get the program.</returns>
         public override IQueryable<ProgramDTO> CreateGetDocumentByIdQuery(object id)
         {
-            Contract.Requires(id.GetType() == typeof(int), "The id of the program should be an integer.");
             return CreateGetDocumentsQuery().Where(x => x.Id == (int)id);
         }
 

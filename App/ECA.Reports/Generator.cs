@@ -16,15 +16,28 @@ using ECA.Business.Service;
 
 namespace ECA.Reports
 {
+    /// <summary>
+    /// Generates reports for the data supplied by the report service, for the report controller
+    /// </summary>
     public class Generator
     {
         private IReportService reportService;
 
+        /// <summary>
+        /// The constructor for the report generator
+        /// </summary>
+        /// <param name="reportService">the service that gets the data for the reports</param>
         public Generator(IReportService reportService)
         {
             this.reportService = reportService;
         }
 
+        /// <summary>
+        /// Generates a report for Regions by program
+        /// </summary>
+        /// <param name="programId">the program id</param>
+        /// <param name="format">the format of the report (pdf, xlsx, docx)</param>
+        /// <returns></returns>
         public  async Task<HttpResponseMessage> ReportRegionAwardsAsync(int programId, string format)
         {
 
@@ -44,7 +57,13 @@ namespace ECA.Reports
             return GetReport(reportViewer, format, out bytes);
         }
 
-
+        /// <summary>
+        /// Generates a report for a program by country
+        /// </summary>
+        /// <param name="programId">the program id</param>
+        /// <param name="countryId">the country id</param>
+        /// <param name="format">the format of the report (pdf, xlsx, docx)</param>
+        /// <returns></returns>
         public async Task<HttpResponseMessage> ReportProjectAwardsAsync(int programId, int countryId, string format)
         {
             byte[] bytes;
@@ -65,7 +84,12 @@ namespace ECA.Reports
         }
 
 
-
+        /// <summary>
+        /// Generates a report of Awards by Posts for a program
+        /// </summary>
+        /// <param name="programId">the program id</param>
+        /// <param name="format">the format of the report (pdf, xlsx, docx)</param>
+        /// <returns></returns>
         public async Task<HttpResponseMessage> ReportPostAwardsAsync(int programId, string format)
         {
             byte[] bytes;
@@ -84,6 +108,12 @@ namespace ECA.Reports
             return GetReport(reportViewer, format, out bytes);
         }
 
+        /// <summary>
+        /// Generates a report of Awards by focus for a program
+        /// </summary>
+        /// <param name="programId">the program id</param>
+        /// <param name="format">the format of the report (pdf, xlsx, docx)</param>
+        /// <returns></returns>
         public async Task<HttpResponseMessage> ReportFocusAwardsAsync(int programId, string format)
         {
             byte[] bytes;
@@ -102,6 +132,12 @@ namespace ECA.Reports
             return GetReport(reportViewer, format, out bytes);
         }
 
+        /// <summary>
+        /// Generates a report of Awards by Focus and Category for a program
+        /// </summary>
+        /// <param name="programId">the program id</param>
+        /// <param name="format">the format of the report (pdf, xlsx, docx)</param>
+        /// <returns></returns>
         public async Task<HttpResponseMessage> ReportFocusCategoryAwardsAsync(int programId, string format)
         {
             byte[] bytes;
@@ -120,6 +156,12 @@ namespace ECA.Reports
             return GetReport(reportViewer, format, out bytes);
         }
 
+        /// <summary>
+        /// Generates a report of Awards by country for a program
+        /// </summary>
+        /// <param name="programId">the program id</param>
+        /// <param name="format">the format of the report (pdf, xlsx, docx)</param>
+        /// <returns></returns>
         public async Task<HttpResponseMessage> ReportCountryAwardsAsync(int programId, string format)
         {
             byte[] bytes;
@@ -138,7 +180,13 @@ namespace ECA.Reports
             return GetReport(reportViewer, format, out bytes);
         }
 
-
+        /// <summary>
+        /// Generates a report of Awards for a give objective for a program
+        /// </summary>
+        /// <param name="programId">the program id</param>
+        /// <param name="objectiveId">the objective id<</param>
+        /// <param name="format">the format of the report (pdf, xlsx, docx)</param>
+        /// <returns></returns>
         public async Task<HttpResponseMessage> ReportObjectiveAwardsAsync(int programId, int objectiveId, string format)
         {
             byte[] bytes;
@@ -157,6 +205,12 @@ namespace ECA.Reports
             return GetReport(reportViewer, format, out bytes);
         }
 
+        /// <summary>
+        /// Generates a report of Awards by Year for a program
+        /// </summary>
+        /// <param name="programId">the program id<</param>
+        /// <param name="format">the format of the report (pdf, xlsx, docx)</param>
+        /// <returns></returns>
         public async Task<HttpResponseMessage> ReportYearAwardsAsync(int programId, string format)
         {
             byte[] bytes;
@@ -175,6 +229,13 @@ namespace ECA.Reports
             return GetReport(reportViewer, format, out bytes);
         }
 
+        /// <summary>
+        /// private function to generate the report with the data source set
+        /// </summary>
+        /// <param name="reportViewer"></param>
+        /// <param name="format"></param>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
         private HttpResponseMessage GetReport(ReportViewer reportViewer, string format, out byte[] bytes)
         {
             Warning[] warnings;

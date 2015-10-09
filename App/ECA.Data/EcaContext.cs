@@ -27,7 +27,7 @@ namespace ECA.Data
         /// </summary>
         public EcaContext() : base() 
         {
-        
+            Database.SetInitializer<EcaContext>(null);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace ECA.Data
         public EcaContext(string connectionStringOrKey)
             : base(connectionStringOrKey)
         {
-
+            Database.SetInitializer<EcaContext>(null);
         }
 
         /// <summary>
@@ -214,6 +214,11 @@ namespace ECA.Data
         /// Gets or sets participantPersons.
         /// </summary>
         public DbSet<ParticipantPerson> ParticipantPersons { get; set; }
+
+        /// <summary>
+        /// Gets or sets participantPerson SEVIS communication Status.
+        /// </summary>
+        public DbSet<ParticipantPersonSevisCommStatus> ParticipantPersonSevisCommStatuses { get; set; }
 
         /// <summary>
         /// Gets or sets participant statuses.

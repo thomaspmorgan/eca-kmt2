@@ -1,18 +1,19 @@
 <div class="modal-header search-modal-header">
     <input type="search" ng-model="text" placeholder="Spotlight search"
-           class="input-lg form-control col-md-12" style="font-weight: 500" focus-me="true" 
-           ng-change="autocomplete()" ng-model-options="{debounce: 500}" submit-required="true" />
+           class="input-lg form-control col-md-12" style="font-weight: 500" focus-me="true"
+           ng-change="autocomplete()" ng-model-options="{debounce: 500}" submit-required="true"/>
+    <i class="material-icons md-18 contextual" style="top:12px" ng-show="!view.isLoadingResults">search</i>
 </div>
 <div class="modal-body">
-    <div class="spinner" ng-show="isLoadingResults">
-        <div class="bounce1"></div>
-        <div class="bounce2"></div>
-        <div class="bounce3"></div>
-    </div>
     <div class="search-result-wrapper">
         <div class="search-result-container">
             <div class="row">
-                <div class="col-md-8" style="overflow: auto;">
+                <div class="col-md-8" style="overflow: auto; max-height: 700px;">
+                    <div class="spinner" ng-show="isLoadingResults">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>
                     <div class="row" ng-show="tophitinfo.length > 0">
                         <div class="col-md-2 text-right">
                             <span><strong>TOP HIT</strong></span>
@@ -36,7 +37,7 @@
                             </span>
                         </div>
                         <div class="col-md-10 search-results">
-                            <div class="row" ng-class="docitem.document.id === docinfo.document.id ? 'resultrow-selected' : 'resultrow'">
+                            <div class="row" ng-class="docitem.document.id === docinfo.id ? 'resultrow-selected' : 'resultrow'">
                                 <div class="col-md-1 text-center">
                                     <div class="resulticon {{docitem.document.documentTypeName | lowercase}}">{{docitem.document.documentTypeName | resultIconFilter}}</div>
                                 </div>
@@ -47,17 +48,17 @@
                             </div>
                         </div>
                     </div>
-                    <nav class="text-center" ng-show="results.length > 0">
+                    <nav class="text-center" ng-show="totalpages > 1">
                         <ul class="pagination">
                             <li ng-show="currentpage > 0"><a ng-click="currentpage = 0"><i class="material-icons">arrow_back</i> First</a></li>
                             <li ng-show="currentpage > 0"><a ng-click="currentpage = currentpage - 1"><i class="material-icons">arrow_back</i> Previous</a></li>
-                            <li ng-repeat="page in pagearray track by $index" ng-class="{active: $index == currentpage}"><a ng-click="currentpage = $index+1">{{$index+1}}</a></li>
+                            <li ng-repeat="page in pagearray track by $index" ng-class="{active: $index == currentpage}"><a ng-click="selectPage($index)">{{$index + 1}}</a></li>
                             <li ng-show="currentpage < totalpages - 1"><a ng-click="currentpage = currentpage + 1">Next <i class="material-icons">arrow_forward</i></a></li>
                             <li ng-show="currentpage < totalpages - 1"><a ng-click="currentpage = totalpages - 1">Last <i class="material-icons">arrow_forward</i></a></li>
                         </ul>
                     </nav>
                 </div>
-                <div class="col-md-4" style="overflow: auto;">
+                <div class="col-md-4" style="overflow: auto; max-height: 700px;">
                     <ng-include src="'/views/partials/searchinfo.html'"></ng-include>
                 </div>
             </div>

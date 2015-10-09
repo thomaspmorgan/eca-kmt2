@@ -110,5 +110,68 @@ namespace ECA.Business.Service.Persons
         }
         #endregion
 
+        #region ParticipantPersonSevisStatus
+
+
+        /// Sevis Comm Status
+
+        /// <summary>
+        /// Returns the participantPersonSevisCommStatus in the system.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The participantPersonSevises.</returns>
+        public PagedQueryResults<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonSevisCommStatuses(QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator)
+        {
+            var participantPersonSevisCommStatuses = ParticipantPersonSevisCommStatusQueries.CreateGetParticipantPersonSevisCommStatusDTOQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved participantPersonSevisCommStatuses with query operator [{0}].", queryOperator);
+            return participantPersonSevisCommStatuses;
+        }
+
+        /// <summary>
+        /// Returns the participantPersonSevisCommStatus in the system.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The participantPersonSevises.</returns>
+        public Task<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>> GetParticipantPersonSevisCommStatusesAsync(QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator)
+        {
+            var participantPersonSevisCommStatuses = ParticipantPersonSevisCommStatusQueries.CreateGetParticipantPersonSevisCommStatusDTOQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved participantPersonSevisCommStatuses with query operator [{0}].", queryOperator);
+            return participantPersonSevisCommStatuses;
+        }
+
+        /// <summary>
+        /// Returns a participantPersonSevis
+        /// </summary>
+        /// <param name="participantId">The participantId to lookup</param>
+        /// <returns>The participantPersonSevis</returns>
+        public PagedQueryResults<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonSevisCommStatusesById(int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator)
+        {
+            var participantPersonSevisCommStatuses = ParticipantPersonSevisCommStatusQueries.CreateGetParticipantPersonSevisCommStatusDTOByIdQuery(this.Context, participantId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved participantPersonSevis by id [{0}].", participantId);
+            return participantPersonSevisCommStatuses;
+        }
+
+        /// <summary>
+        /// Returns a participantPersonSevisCommStatus asyncronously
+        /// </summary>
+        /// <param name="participantId">The participant id to lookup</param>
+        /// <returns>The participantPersonSevis</returns>
+        public Task<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>> GetParticipantPersonSevisCommStatusesByIdAsync(int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator)
+        {
+            var participantPersonSevisCommStatuses = ParticipantPersonSevisCommStatusQueries.CreateGetParticipantPersonSevisCommStatusDTOByIdQuery(this.Context, participantId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved participantPersonSevis by id [{0}].", participantId);
+            return participantPersonSevisCommStatuses;
+        }
+
+
+        public IQueryable<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonSevisCommStatusesByParticipantIds(int[] participantIds)
+        {
+            var results = ParticipantPersonSevisCommStatusQueries.CreateParticipantPersonSevisCommStatusesDTOsByParticipantIdsQuery(Context, participantIds);
+            logger.Trace("Retrieved participantPersonSevises by array of participant Ids");
+            return results;
+        }
+            
+        #endregion
+
     }
 }

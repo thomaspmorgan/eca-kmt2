@@ -24,6 +24,22 @@ namespace ECA.Core.Test.Settings
         }
 
         [TestMethod]
+        public void TestAzureWebJobsDashboardConnectionString()
+        {
+            var value = "connection string";
+            connectionStrings.Add(new ConnectionStringSettings(AppSettings.AZURE_WEB_JOBS_DASHBOARD_KEY, value));
+            Assert.AreEqual(value, settings.AzureWebJobsDashboardConnectionString.ConnectionString);
+        }
+
+        [TestMethod]
+        public void TestAzureWebJobsStorageConnectionString()
+        {
+            var value = "connection string";
+            connectionStrings.Add(new ConnectionStringSettings(AppSettings.AZURE_WEB_JOBS_STORAGE_KEY, value));
+            Assert.AreEqual(value, settings.AzureWebJobsStorageConnectionString.ConnectionString);
+        }
+
+        [TestMethod]
         public void TestCamContextConnectionString()
         {
             var value = "connection string";
@@ -89,6 +105,14 @@ namespace ECA.Core.Test.Settings
             var value = "value";
             appSettings.Add(AppSettings.SEARCH_API_KEY, value);
             Assert.AreEqual(value, settings.SearchApiKey);
+        }
+
+        [TestMethod]
+        public void TestAppSettings_SearchDocumentQueueName()
+        {
+            var value = "value";
+            appSettings.Add(AppSettings.SEARCH_INDEX_QUEUE_NAME_KEY, value);
+            Assert.AreEqual(value, settings.SearchDocumentQueueName);
         }
 
         [TestMethod]

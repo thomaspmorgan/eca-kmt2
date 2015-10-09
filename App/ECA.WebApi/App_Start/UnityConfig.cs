@@ -77,6 +77,8 @@ namespace ECA.WebApi.App_Start
             {
                 var list = new List<ISaveAction>();
                 list.Add(new PermissableSaveAction(c.Resolve<IPermissableService>()));
+                list.Add(new DocumentsSaveAction<Program>(ProgramDTODocumentConfiguration.PROGRAM_DTO_DOCUMENT_TYPE_ID, new AppSettings()));
+                list.Add(new DocumentsSaveAction<Project>(ProjectDTODocumentConfiguration.PROJECT_DTO_DOCUMENT_TYPE_ID, new AppSettings()));
                 return list;
             }));
         }
@@ -160,6 +162,7 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<IPhoneNumberTypeService, PhoneNumberTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPhoneNumberHandler, PhoneNumberHandler>(new HierarchicalLifetimeManager());
             container.RegisterType<IParticipantPersonSevisService, ParticipantPersonSevisService>(new HierarchicalLifetimeManager());
+            container.RegisterType<ISnapshotService, SnapshotService>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>
@@ -181,7 +184,7 @@ namespace ECA.WebApi.App_Start
                 IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity>,
                 MoneyFlowServiceValidator>();
             container.RegisterType<
-                IBusinessValidator<Object, UpdateOrganizationValidationEntity>,
+                IBusinessValidator<OrganizationValidationEntity, OrganizationValidationEntity>,
                 OrganizationServiceValidator>();
             container.RegisterType<
                 IBusinessValidator<EcaAddressValidationEntity, EcaAddressValidationEntity>,

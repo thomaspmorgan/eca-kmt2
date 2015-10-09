@@ -12,7 +12,7 @@ namespace ECA.Data
     /// <summary>
     /// A person participant on a project
     /// </summary>
-    public class ParticipantPerson
+    public class ParticipantPerson : IHistorical
     {
 
         /// <summary>
@@ -31,6 +31,7 @@ namespace ECA.Data
         public ParticipantPerson()
         {
             this.History = new History();
+            ParticipantPersonSevisCommStatuses = new HashSet<ParticipantPersonSevisCommStatus>();
         }
 
         /// <summary>
@@ -207,5 +208,6 @@ namespace ECA.Data
         /// create/update time and user
         /// </summary>
         public History History { get; set; }
+
     }
 }

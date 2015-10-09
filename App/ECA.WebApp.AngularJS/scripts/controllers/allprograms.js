@@ -118,7 +118,8 @@ angular.module('staticApp')
               params.filter = [];
           }
 
-          $scope.view.programFilter = params.keyword;
+          $scope.view.programFilter = params.keyword === null ? params.keyword : params.keyword.join(" ");
+
           if ($scope.view.showDraftsOnly) {
               params.filter.push({ property: 'programStatusId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.programStatus.draft.id });
               params.filter.push({ property: 'createdByUserId', comparison: ConstantsService.equalComparisonType, value: $scope.view.ecaUserId });
@@ -140,7 +141,7 @@ angular.module('staticApp')
           .then(function (data) {
               angular.forEach(data.results, function (program, index) {
                   program.isRoot = true;
-              })
+              });
               processData(data, tableState, params);
           })
           .catch(function(response){

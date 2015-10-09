@@ -12,6 +12,10 @@ namespace ECA.Business.Queries.Models.Persons
     /// </summary>
     public class ParticipantPersonSevisDTO
     {
+        public ParticipantPersonSevisDTO()
+        {
+            SevisCommStatuses = new List<ParticipantPersonSevisCommStatusDTO>();
+        }
         /// <summary>
         /// Gets or sets the participant id.
         /// </summary>
@@ -161,6 +165,16 @@ namespace ECA.Business.Queries.Models.Persons
         /// Total funding
         /// </summary>
         public decimal? FundingTotal { get; set; }
+
+        /// <summary>
+        /// List of Sevis Communication Statuses for this participant
+        /// </summary>
+        public IEnumerable<ParticipantPersonSevisCommStatusDTO> SevisCommStatuses { get; set; }
+
+        /// <summary>
+        /// the most recent date of a batch status record being written for this participant
+        /// </summary>
+        public DateTimeOffset? LastBatchDate { get; set; }
 
     }
 }

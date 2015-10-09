@@ -69,6 +69,30 @@ namespace ECA.Business.Search.Test
         }
 
         [TestMethod]
+        public void TestHasStartDate()
+        {
+            Assert.IsNull(configuration.StartDateDelegate);
+            configuration.HasStartDate(x => x.StartDate);
+            Assert.IsNotNull(configuration.StartDateDelegate);
+
+            var instance = new TestDocument();
+            instance.StartDate = DateTimeOffset.Now;
+            Assert.AreEqual(instance.StartDate, configuration.StartDateDelegate(instance));
+        }
+
+        [TestMethod]
+        public void TestHasEndDate()
+        {
+            Assert.IsNull(configuration.EndDateDelegate);
+            configuration.HasEndDate(x => x.EndDate);
+            Assert.IsNotNull(configuration.EndDateDelegate);
+
+            var instance = new TestDocument();
+            instance.EndDate = DateTimeOffset.Now;
+            Assert.AreEqual(instance.EndDate, configuration.EndDateDelegate(instance));
+        }
+
+        [TestMethod]
         public void TestHasName()
         {
             Assert.IsNull(configuration.NameDelegate);
@@ -398,6 +422,57 @@ namespace ECA.Business.Search.Test
 
             instance.Websites = new string[] { "value" };
             Assert.IsTrue(Object.ReferenceEquals(instance.Websites, configuration.GetWebsites(instance)));
+        }
+
+
+        [TestMethod]
+        public void TestGetStartDate()
+        {
+            var instance = new TestDocument();
+            Assert.IsNull(configuration.GetStartDate(instance));
+
+            configuration.HasStartDate(x => x.StartDate);
+            Assert.IsNull(configuration.GetStartDate(instance));
+
+            instance.StartDate = null;
+            Assert.IsNull(configuration.GetStartDate(instance));
+
+            var now = DateTimeOffset.Now;
+            instance.StartDate = now;
+            Assert.AreEqual(now, configuration.GetStartDate(instance));
+        }
+
+        [TestMethod]
+        public void TestGetEndDate()
+        {
+            var instance = new TestDocument();
+            Assert.IsNull(configuration.GetEndDate(instance));
+
+            configuration.HasEndDate(x => x.EndDate);
+            Assert.IsNull(configuration.GetEndDate(instance));
+
+            instance.EndDate = null;
+            Assert.IsNull(configuration.GetEndDate(instance));
+
+            var now = DateTimeOffset.Now;
+            instance.EndDate = now;
+            Assert.AreEqual(now, configuration.GetEndDate(instance));
+        }
+
+        [TestMethod]
+        public void TestGetDocumentKeyType()
+        {
+            var instance = new TestDocument();
+            configuration.HasKey(x => x.Id);
+            Assert.AreEqual(DocumentKeyType.Int, configuration.GetDocumentKeyType(instance));
+        }
+
+        [TestMethod]
+        public void TestGetDocumentKeyType_KeyHasNotBeenConfigured()
+        {
+            var instance = new TestDocument();
+            Action a = () => configuration.GetDocumentKeyType(instance);
+            a.ShouldThrow<NotSupportedException>().WithMessage("The document key type can not be determined because the Key has not been configured on this type.");
         }
     }
 }

@@ -65,5 +65,10 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the participant status
         /// </summary>
         public string ParticipantStatus { get; set; }
+
+        /// <summary>
+        /// Sevis Status (person participants only)
+        /// </summary>
+        public string SevisStatus { get; set; }
     }
 }

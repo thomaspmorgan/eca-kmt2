@@ -11,7 +11,8 @@
         var service = {
             getParticipantPersonsSevis: getParticipantPersonsSevis,
             getParticipantPersonsSevisByProject: getParticipantPersonsSevisByProject,
-            getParticipantPersonsSevisById: getParticipantPersonsSevisById
+            getParticipantPersonsSevisById: getParticipantPersonsSevisById,
+            getParticipantPersonsSevisCommStatusesById: getParticipantPersonsSevisCommStatusesById
         };
 
         return service;
@@ -37,6 +38,11 @@
 
         function getParticipantPersonsSevisById(id) {
             return DragonBreath.get('participantPersonsSevis', id);
-        }
+        };
+
+        function getParticipantPersonsSevisCommStatusesById(id, params) {
+            var path = 'participantPersonSevis/' + id + '/sevisCommStatuses';
+            return DragonBreath.get(params, path);
+        };
     }
 })();

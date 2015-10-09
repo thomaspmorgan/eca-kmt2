@@ -41,5 +41,9 @@ namespace ECA.Business.Search.Test
 
         public IEnumerable<string> Websites { get; set; }
 
+        public DateTimeOffset? StartDate { get; set; }
+
+        public DateTimeOffset? EndDate { get; set; }
+
     }
 }
