@@ -41,6 +41,8 @@ namespace ECA.Business.Search
             HasThemes(x => x.Themes.Select(t => t.Value).ToList());
             HasRegions(x => x.Regions.Select(r => r.Name).ToList());
             HasWebsites(x => x.Websites.Select(w => w.Value).ToList());
+            HasStartDate(x => x.StartDate);
+            HasEndDate(x => x.EndDate);
         }
     }
 }

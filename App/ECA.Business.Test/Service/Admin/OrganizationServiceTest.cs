@@ -27,12 +27,12 @@ namespace ECA.Business.Test.Service.Admin
     {
         private TestEcaContext context;
         private OrganizationService service;
-        private Mock<IBusinessValidator<Object, UpdateOrganizationValidationEntity>> validator;
+        private Mock<IBusinessValidator<OrganizationValidationEntity, OrganizationValidationEntity>> validator;
 
         [TestInitialize]
         public void TestInit()
         {
-            validator = new Mock<IBusinessValidator<object, UpdateOrganizationValidationEntity>>();
+            validator = new Mock<IBusinessValidator<OrganizationValidationEntity, OrganizationValidationEntity>>();
             context = new TestEcaContext();
             service = new OrganizationService(context, validator.Object);
         }
@@ -166,7 +166,7 @@ namespace ECA.Business.Test.Service.Admin
             primaryAddress.Organization = organization;
 
             context.Addresses.Add(secondaryAddress);
-            context.Addresses.Add(primaryAddress);            
+            context.Addresses.Add(primaryAddress);
             context.Locations.Add(addressLocation);
             context.Locations.Add(country);
             context.Locations.Add(city);
@@ -663,6 +663,70 @@ namespace ECA.Business.Test.Service.Admin
 
         #endregion
 
+        #region Create
+        [TestMethod]
+        public async Task TestCreateAsync_CheckProperties()
+        {
+            var user = new User(1);
+            var name = "name";
+            var description = "description";
+            var organizationType = OrganizationType.USEducationalInstitution.Id;
+            var website = "http://google.com";
+            var newOrganization = new NewOrganization(user, name, description, organizationType, new List<int>(), website, new List<int>());
+            var organization = await service.CreateAsync(newOrganization);
+
+            Assert.AreEqual(name, organization.Name);
+            Assert.AreEqual(description, organization.Description);
+            Assert.AreEqual(organizationType, organization.OrganizationTypeId);
+            Assert.AreEqual(website, organization.Website);
+            Assert.AreEqual("Active", organization.Status);
+        }
+
+        [TestMethod]
+        public async Task TestCreateAsync_CheckRoles()
+        {
+            var organizationRole = new OrganizationRole
+            {
+                OrganizationRoleId = 1,
+            };
+
+            context.OrganizationRoles.Add(organizationRole);
+
+            var user = new User(1);
+            var name = "name";
+            var description = "description";
+            var organizationType = OrganizationType.USEducationalInstitution.Id;
+            var website = "http://google.com";
+            var newOrganization = new NewOrganization(user, name, description, organizationType, new List<int> { organizationRole.OrganizationRoleId }, website, new List<int>());
+            var organization = await service.CreateAsync(newOrganization);
+
+            var role = organization.OrganizationRoles.FirstOrDefault();
+            Assert.AreEqual(organizationRole.OrganizationRoleId, role.OrganizationRoleId);
+        }
+
+        [TestMethod]
+        public async Task TestCreateAsync_CheckContacts()
+        {
+            var organizationContact = new Contact
+            {
+                ContactId = 1
+            };
+
+            context.Contacts.Add(organizationContact);
+
+            var user = new User(1);
+            var name = "name";
+            var description = "description";
+            var organizationType = OrganizationType.USEducationalInstitution.Id;
+            var website = "http://google.com";
+            var newOrganization = new NewOrganization(user, name, description, organizationType, new List<int>(), website, new List<int> { organizationContact.ContactId });
+            var organization = await service.CreateAsync(newOrganization);
+
+            var contact = organization.Contacts.FirstOrDefault();
+            Assert.AreEqual(organizationContact.ContactId, contact.ContactId);
+        }
+        #endregion
+
         #region Update
         [TestMethod]
         public async Task TestUpdate_OrganizationDoesNotExist()
@@ -1031,15 +1095,15 @@ namespace ECA.Business.Test.Service.Admin
             var updaterId = 20;
             var updater = new User(updaterId);
 
-            validator.Verify(x => x.ValidateUpdate(It.IsAny<UpdateOrganizationValidationEntity>()), Times.Never());
+            validator.Verify(x => x.ValidateUpdate(It.IsAny<OrganizationValidationEntity>()), Times.Never());
             var instance = new EcaOrganization(updater, orgId, organization.Website, organization.OrganizationTypeId, null, null, null, organization.Name, organization.Description);
             context.Revert();
             service.Update(instance);
-            validator.Verify(x => x.ValidateUpdate(It.IsAny<UpdateOrganizationValidationEntity>()), Times.Once());
+            validator.Verify(x => x.ValidateUpdate(It.IsAny<OrganizationValidationEntity>()), Times.Once());
 
             context.Revert();
             await service.UpdateAsync(instance);
-            validator.Verify(x => x.ValidateUpdate(It.IsAny<UpdateOrganizationValidationEntity>()), Times.Exactly(2));
+            validator.Verify(x => x.ValidateUpdate(It.IsAny<OrganizationValidationEntity>()), Times.Exactly(2));
         }
         #endregion
     }

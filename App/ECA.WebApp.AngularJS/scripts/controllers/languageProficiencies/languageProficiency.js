@@ -34,20 +34,24 @@ angular.module('staticApp')
       ];
 
       var originalLanguageProficiency = angular.copy($scope.languageProficiency);
-
-
+      
       $scope.view.saveLanguageProficiencyChanges = function () {
           $scope.view.isSavingChanges = true;
 
           if (isNewLanguageProficiency($scope.languageProficiency)) {
-              var tempId = angular.copy($scope.languageProficiency.languageId);
-              return LanguageProficiencyService.addLanguageProficiency($scope.languageProficiency, $scope.view.params.personId)
-                .then(onSaveLanguageProficiencySuccess)
-                .then(function () {
-                    updateLanguageProficiencyFormDivId(tempId);
-                    updateLanguageProficiencies(tempId, $scope.languageProficiency);
-                })
-                .catch(onSaveLanguageProficiencyError);
+              if (isLanguageAlreadyAdded($scope.languageProficiency.languageId)) {
+                  NotificationService.showErrorMessage("The selected language is already listed");
+                  $scope.view.isSavingChanges = false;
+              } else {
+                  var tempId = angular.copy($scope.languageProficiency.languageId);
+                  return LanguageProficiencyService.addLanguageProficiency($scope.languageProficiency, $scope.view.params.personId)
+                    .then(onSaveLanguageProficiencySuccess)
+                    .then(function () {
+                        updateLanguageProficiencyFormDivId(tempId);
+                        updateLanguageProficiencies(tempId, $scope.languageProficiency);
+                    })
+                    .catch(onSaveLanguageProficiencyError);
+              }
           }
           else {
               return LanguageProficiencyService.updateLanguageProficiency($scope.languageProficiency, $scope.view.params.personId)
@@ -57,7 +61,7 @@ angular.module('staticApp')
       };
       
       function updateLanguageProficiencies(tempId, languageProficiency) {
-          var index = $scope.model.languageProficiencies.map(function (e) { return e.id }).indexOf(tempId);
+          var index = $scope.model.languageProficiencies.map(function (e) { return e.languageId }).indexOf(tempId);
           $scope.model.languageProficiencies[index] = languageProficiency;
       };
 
@@ -79,12 +83,12 @@ angular.module('staticApp')
               $scope.view.isDeletingLanguageProficiency = true;
               return LanguageProficiencyService.deleteLanguageProficiency($scope.languageProficiency, $scope.view.params.personId)
               .then(function () {
-                  NotificationService.showSuccessMessage("Successfully deleted languageProficiency.");
+                  NotificationService.showSuccessMessage("Successfully deleted language proficiency.");
                   $scope.view.isDeletingLanguageProficiency = false;
                   removeLanguageProficiencyFromView($scope.languageProficiency);
               })
               .catch(function () {
-                  var message = "Unable to delete languageProficiency.";
+                  var message = "Unable to delete language proficiency.";
                   $log.error(message);
                   NotificationService.showErrorMessage(message);
               });
@@ -93,15 +97,15 @@ angular.module('staticApp')
 
       $scope.view.onEditLanguageProficiencyClick = function () {
           $scope.view.showEditLanguageProficiency = true;
-          var id = getLanguageProficiencyFormDivId();
-          var options = {
-              duration: 500,
-              easing: 'easeIn',
-              offset: 200,
-              callbackBefore: function (element) {},
-              callbackAfter: function (element) { }
-          }
-          smoothScroll(getLanguageProficiencyFormDivElement(id), options);
+          //var id = getLanguageProficiencyFormDivId();
+          //var options = {
+          //    duration: 500,
+          //    easing: 'easeIn',
+          //    offset: 200,
+          //    callbackBefore: function (element) {},
+          //    callbackAfter: function (element) { }
+          //}
+          //smoothScroll(getLanguageProficiencyFormDivElement(id), options);
       };
 
       function removeLanguageProficiencyFromView(languageProficiency) {
@@ -123,7 +127,7 @@ angular.module('staticApp')
       }
 
       function getLanguageProficiencyFormDivElement(id) {
-          return document.getElementById(id)
+          return document.getElementById(id);
       }
 
       function onSaveLanguageProficiencySuccess(response) {
@@ -142,12 +146,22 @@ angular.module('staticApp')
       }
 
       function isNewLanguageProficiency(languageProficiency) {
-          if (languageProficiency.isNew) {
-              return languageProficiency.isNew = true;
-          }
-          else {
-              return false;
-          }
+          return languageProficiency.isNew;
+      }
+
+      function isLanguageAlreadyAdded(id) {
+          var keepLoop = true;
+          var found = false;
+          angular.forEach($scope.model.languageProficiencies, function (optLanguage, index) {
+              if (keepLoop) {
+                  if (id === optLanguage.languageId && !optLanguage.isNew) {
+                      found = true;
+                      keepLoop = false;
+                  }
+              }
+          });
+
+          return found;
       }
 
       $scope.view.onIsNativeLanguageChange = function () {

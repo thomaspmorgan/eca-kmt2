@@ -35,6 +35,8 @@ namespace ECA.WebApi.Models.Search
             this.Countries = ecaDocument.Countries;
             this.Locations = ecaDocument.Locations;
             this.Status = ecaDocument.Status;
+            this.StartDate = ecaDocument.StartDate;
+            this.EndDate = ecaDocument.EndDate;
         }
 
         /// <summary>

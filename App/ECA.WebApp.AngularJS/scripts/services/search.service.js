@@ -16,6 +16,9 @@ angular.module('staticApp')
           },
           getDocInfo: function (id) {
               return DragonBreath.get('Documents', id);
+          },
+          getFieldNames: function () {
+              return DragonBreath.get('Documents/Fields');
           }
       }
       

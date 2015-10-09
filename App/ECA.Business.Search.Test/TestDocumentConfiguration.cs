@@ -23,6 +23,8 @@ namespace ECA.Business.Search.Test
                 HasGoals(x => x.Goals);
                 HasKey(x => x.Id);
                 HasName(x => x.Name);
+                HasStartDate(x => x.StartDate);
+                HasEndDate(x => x.EndDate);
                 HasStatus(x => x.Status);
                 HasRegions(x => x.Regions);
                 HasCountries(x => x.Countries);

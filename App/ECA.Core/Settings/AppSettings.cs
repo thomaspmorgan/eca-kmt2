@@ -54,6 +54,11 @@ namespace ECA.Core.Settings
         /// The azure search index name key.
         /// </summary>
         public const string SEARCH_INDEX_NAME_KEY = SEARCH_PREFIX + "IndexName";
+
+        /// <summary>
+        /// The azure search webjob queue name for receiving queue messages detailing updated entities.
+        /// </summary>
+        public const string SEARCH_INDEX_QUEUE_NAME_KEY = SEARCH_PREFIX + "IndexQueueName";
         #endregion
 
         #region Database Constants
@@ -71,6 +76,19 @@ namespace ECA.Core.Settings
         /// The eca context configuration key.
         /// </summary>
         public const string CAM_CONTEXT_KEY = ECA_CONTEXT_KEY;
+        #endregion
+
+        #region Azure
+
+        /// <summary>
+        /// The azure web jobs dashboard connection string key.
+        /// </summary>
+        public const string AZURE_WEB_JOBS_DASHBOARD_KEY = "AzureWebJobsDashboard";
+
+        /// <summary>
+        /// The azure web jobs storage connection string key.
+        /// </summary>
+        public const string AZURE_WEB_JOBS_STORAGE_KEY = "AzureWebJobsStorage";
         #endregion
 
         private NameValueCollection appSettings;
@@ -115,6 +133,11 @@ namespace ECA.Core.Settings
         }
         #region App Settings
         /// <summary>
+        /// Gets the name of the azure queue that will hold messages detailing updated entities that should be indexed for searching.
+        /// </summary>
+        public string SearchDocumentQueueName { get { return GetAppSetting(SEARCH_INDEX_QUEUE_NAME_KEY); } }
+
+        /// <summary>
         /// Gets the azure search api key.
         /// </summary>
         public string SearchApiKey { get { return GetAppSetting(SEARCH_API_KEY); } }
@@ -150,6 +173,16 @@ namespace ECA.Core.Settings
         /// Gets the Cam context connection string.
         /// </summary>
         public ConnectionStringSettings CamContextConnectionString { get { return GetConnectionString(ECA_CONTEXT_KEY); } }
+
+        /// <summary>
+        /// Gets the azure web jobs storage connection string key.
+        /// </summary>
+        public ConnectionStringSettings AzureWebJobsStorageConnectionString { get { return GetConnectionString(AZURE_WEB_JOBS_STORAGE_KEY); } }
+
+        /// <summary>
+        /// Gets the azure web jobs dashboard connection string key.
+        /// </summary>
+        public ConnectionStringSettings AzureWebJobsDashboardConnectionString { get { return GetConnectionString(AZURE_WEB_JOBS_DASHBOARD_KEY); } }
         #endregion
     }
 }

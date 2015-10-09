@@ -98,6 +98,16 @@ namespace ECA.Business.Search
         public IEnumerable<string> Websites { get; set; }
 
         /// <summary>
+        /// Gets or sets the start date.
+        /// </summary>
+        public DateTimeOffset? StartDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the end date.
+        /// </summary>
+        public DateTimeOffset? EndDate { get; set; }
+
+        /// <summary>
         /// Sets the Id and DocumentTypeId given the document key as a string.
         /// </summary>
         /// <param name="key">The document key.</param>
@@ -191,6 +201,8 @@ namespace ECA.Business.Search
             this.Regions = configuration.GetRegions(instance);
             this.Countries = configuration.GetCountries(instance);
             this.Locations = configuration.GetLocations(instance);
+            this.StartDate = configuration.GetStartDate(instance);
+            this.EndDate = configuration.GetEndDate(instance);
         }
     }
 }

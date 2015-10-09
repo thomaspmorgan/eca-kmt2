@@ -11,8 +11,9 @@ namespace ECA.Business.Test.Service.Admin
         public void TestConstructor()
         {
             var name = "name";
-            var entity = new UpdateOrganizationValidationEntity(name);
+            var entity = new OrganizationValidationEntity(name, 1);
             Assert.AreEqual(name, entity.Name);
+            Assert.AreEqual(1, entity.OrganizationTypeId);
         }
     }
 }

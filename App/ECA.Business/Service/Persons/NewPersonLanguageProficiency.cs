@@ -28,7 +28,7 @@ namespace ECA.Business.Service.Persons
         {
             this.PersonId = personId;
             this.LanguageId = languageId;
-            this.IsNativeLanguage = IsNativeLanguage;
+            this.IsNativeLanguage = isNativeLanguage;
             this.SpeakingProficiency = speakingProficiency;
             this.ReadingProficiency = readingProficiency;
             this.ComprehensionProficiency = comprehensionProficiency;

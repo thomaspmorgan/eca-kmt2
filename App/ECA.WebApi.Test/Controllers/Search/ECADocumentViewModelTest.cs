@@ -33,6 +33,8 @@ namespace ECA.WebApi.Test.Controllers.Search
             document.Locations = new List<string> { "local" };
             document.DocumentTypeId = "type id";
             document.DocumentTypeName = "type name";
+            document.StartDate = DateTimeOffset.Now.AddDays(-1.0);
+            document.EndDate = DateTimeOffset.Now.AddDays(1.0);
 
             var model = new ECADocumentViewModel(document);
             Assert.AreEqual(key, model.Key);
@@ -43,6 +45,8 @@ namespace ECA.WebApi.Test.Controllers.Search
             Assert.AreEqual(document.Name, model.Name);
             Assert.AreEqual(document.Status, model.Status);
             Assert.AreEqual(document.OfficeSymbol, model.OfficeSymbol);
+            Assert.AreEqual(document.StartDate, model.StartDate);
+            Assert.AreEqual(document.EndDate, model.EndDate);
 
             Assert.IsTrue(Object.ReferenceEquals(document.Foci, model.Foci));
             Assert.IsTrue(Object.ReferenceEquals(document.Goals, model.Goals));

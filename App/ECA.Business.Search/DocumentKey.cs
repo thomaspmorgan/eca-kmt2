@@ -7,25 +7,57 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Search
 {
-
+    /// <summary>
+    /// The DocumentKeyType details the object type of the document id.
+    /// </summary>
     public enum DocumentKeyType
     {
+        /// <summary>
+        /// A String key.
+        /// </summary>
         String,
+        /// <summary>
+        /// An integer key.
+        /// </summary>
         Int,
+
+        /// <summary>
+        /// An Int64, or Long, key.
+        /// </summary>
         Long,
+
+        /// <summary>
+        /// A guid key.
+        /// </summary>
         Guid
     }
 
+    /// <summary>
+    /// The DocumentKey is an object used to keep enough details about an entity id to be parsed later when a document is returned from the search service.  It keeps the value of the
+    /// Id and the type of the key.
+    /// </summary>
     public class DocumentKey
     {
+        /// <summary>
+        /// The split character between different segments of a document key.
+        /// </summary>
         public const char DOCUMENT_KEY_SPLIT_CHAR = '_';
 
+        /// <summary>
+        /// Creates a new DocumentKey instance by parsing the given string.
+        /// </summary>
+        /// <param name="key">The document key as a string, usually created by callling ToString on another DocumentKey instance.</param>
         public DocumentKey(string key)
         {
             Contract.Requires(key != null, "The key must not be null.");
             ParseKey(key);
         }
 
+        /// <summary>
+        /// Creates and initializes a new DocumentKey with the given parameters.
+        /// </summary>
+        /// <param name="documentTypeId">The document type id.</param>
+        /// <param name="id">The id.</param>
         public DocumentKey(Guid documentTypeId, object id)
         {
             Contract.Requires(id != null, "The id must not be null.");
@@ -34,13 +66,27 @@ namespace ECA.Business.Search
             this.KeyType = GetDocumentKeyType(id);
         }
 
+        /// <summary>
+        /// Gets or sets the document key type.
+        /// </summary>
         public DocumentKeyType KeyType { get; set; }
 
+        /// <summary>
+        /// Gets or sets the document type id.
+        /// </summary>
         public Guid DocumentTypeId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the id value.
+        /// </summary>
         public object Value { get; set; }
 
-        public DocumentKeyType GetDocumentKeyType(object id)
+        /// <summary>
+        /// Returns the document key type given id value.
+        /// </summary>
+        /// <param name="id">The id to retrieve the document key type for.</param>
+        /// <returns>The document key type.</returns>
+        public static DocumentKeyType GetDocumentKeyType(object id)
         {
             var idType = id.GetType();
             var dictionary = new Dictionary<Type, DocumentKeyType>();
@@ -55,6 +101,10 @@ namespace ECA.Business.Search
             return dictionary[idType];
         }
 
+        /// <summary>
+        /// Returns the formatted document key string.  Use this string when the key must be parsed later.
+        /// </summary>
+        /// <returns>The document key as a string.</returns>
         public override string ToString()
         {
             return string.Format("{0}{1}{2}{1}{3}",
@@ -90,6 +140,12 @@ namespace ECA.Business.Search
             this.Value = ParseId(this.KeyType, idString);
         }
 
+        /// <summary>
+        /// Returns an object instance of the given id.
+        /// </summary>
+        /// <param name="keyType">The document key type.</param>
+        /// <param name="idAsString">The id as a string.</param>
+        /// <returns>The object key.</returns>
         public object ParseId(DocumentKeyType keyType, string idAsString)
         {
             if (keyType == DocumentKeyType.String)
