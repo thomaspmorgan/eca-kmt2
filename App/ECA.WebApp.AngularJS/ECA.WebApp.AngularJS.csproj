@@ -238,6 +238,7 @@
     <Content Include="scripts\controllers\reports\CountryAwards.js" />
     <Content Include="scripts\controllers\reports\YearAwards.js" />
     <Content Include="scripts\controllers\reports\RegionAwards.js" />
+    <Content Include="scripts\controllers\snapshots.js" />
     <Content Include="scripts\controllers\socialmedia\socialmedia.js" />
     <Content Include="scripts\controllers\socialmedia\socialmedias.js" />
     <Content Include="scripts\directives\participant-person-sevis.directive.html" />
@@ -248,6 +249,8 @@
     <Content Include="scripts\directives\memberships.directive.js" />
     <Content Include="scripts\directives\moneyflows.directive.js" />
     <Content Include="scripts\directives\email-addresses.directive.js" />
+    <Content Include="scripts\directives\snapshots.directive.html" />
+    <Content Include="scripts\directives\snapshots.directive.js" />
     <Content Include="scripts\directives\social-medias.directive.js" />
     <Content Include="scripts\directives\addresses.directive.js" />
     <Content Include="scripts\controllers\toolbaricons.js" />
@@ -421,6 +424,7 @@
     <Content Include="styles\fonts\MaterialIcons-Regular.woff2" />
     <Content Include="views\person\partials\evaluationNotesEdit.html" />
     <Content Include="Service References\Application Insights\ConnectedService.json" />
+    <Content Include="scripts\services\snapshot.service.js" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

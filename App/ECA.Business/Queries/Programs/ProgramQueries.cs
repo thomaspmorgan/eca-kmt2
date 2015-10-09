@@ -145,5 +145,27 @@ namespace ECA.Business.Queries.Programs
                         };
             return query;
         }
+
+
+        public static IQueryable<ProgramSnapshotDTO> CreateGetProgramSnapshotDTOQuery(EcaContext context, int programId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var countryQuery = from country in context.Locations
+                               where country.LocationTypeId == LocationType.Country.Id
+                               select country;
+
+            var query = from project in context.Projects
+                        let regions = project.Regions
+                        let countries = countryQuery.Where(x => regions.Select(y => y.LocationId).Contains(x.Region.LocationId))
+                        where project.ProgramId == programId
+                        select new ProgramSnapshotDTO
+                        {
+                            ProgramId = project.ProgramId,
+                            Countries = countries.Distinct().Count()
+                        };
+
+            return query;
+        }
+
     }
 }

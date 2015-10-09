@@ -18,7 +18,6 @@ namespace ECA.Business.Queries.Admin
         /// Returns a query to retrieve simple projects.
         /// </summary>
         /// <param name="context">The context to query.</param>
-        /// <param name="queryOperator">The query operator.</param>
         /// <returns>The query to retrieve the projects.</returns>
         public static IQueryable<SimpleProjectDTO> CreateGetProjectsQuery(EcaContext context)
         {
