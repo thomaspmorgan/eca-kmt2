@@ -18,6 +18,7 @@ angular.module('staticApp')
         $filter,
         $anchorScroll,
         $sanitize,
+        $state,
         SearchService,
         StateService,
         NotificationService) {
@@ -143,6 +144,7 @@ angular.module('staticApp')
           $rootScope.searchText = $scope.text;
           $modalInstance.dismiss('close');
           $location.path(url, true);
+          
       };
 
       // Link document to details page
