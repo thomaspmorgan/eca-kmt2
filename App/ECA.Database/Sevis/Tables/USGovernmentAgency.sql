@@ -2,7 +2,7 @@
 (
 	[AgencyId] INT IDENTITY(1,1) NOT NULL, 
     [AgencyCode] NVARCHAR(10) NOT NULL, 
-    [Description] NVARCHAR(250) NOT NULL, 
+    [Description] NVARCHAR(250) NULL, 
     [History_CreatedBy] INT NOT NULL, 
     [History_CreatedOn] DATETIMEOFFSET NOT NULL, 
     [History_RevisedBy] INT NOT NULL, 
