@@ -2,9 +2,9 @@
 
 /**
  * @ngdoc directive
- * @name staticApp.directive:addresses
+ * @name staticApp.directive:moneyflows
  * @description
- * # addresses
+ * # moneyflows
  */
 angular.module('staticApp')
   .directive('moneyflows', function ($log) {
