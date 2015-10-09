@@ -31,7 +31,6 @@ angular.module('staticApp')
 
       function saveOrganization() {
           $scope.view.isSavingOrganization = true;
-          console.log($scope.view.organization);
           OrganizationService.create($scope.view.organization)
             .then(function (response) {
                 $scope.view.isSavingOrganization = false;
@@ -72,7 +71,6 @@ angular.module('staticApp')
                   .take(1)
                   .equal('name', organizationName);
               $scope.view.isLoadingLikeOrganizations = true;
-              console.log(organizationsWithSameNameFilter.toParams());
               return OrganizationService.getOrganizations(organizationsWithSameNameFilter.toParams())
                   .then(function (response) {
                       $scope.view.matchingOrganizationsByName = response.results;
