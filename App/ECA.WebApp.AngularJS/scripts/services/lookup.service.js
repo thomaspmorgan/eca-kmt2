@@ -126,7 +126,9 @@ angular.module('staticApp')
           },
           getAllLanguages: function (params) {
               return DragonBreath.getCached(params, 'languages');
+          },
+          getSevisCommStatuses: function(params) {
+              return DragonBreath.getCached(params,'seviscommstatuses');
           }
-
       };
   });

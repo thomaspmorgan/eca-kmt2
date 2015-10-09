@@ -162,6 +162,15 @@ namespace ECA.Business.Service.Persons
             this.logger.Trace("Retrieved participantPersonSevis by id [{0}].", participantId);
             return participantPersonSevisCommStatuses;
         }
+
+
+        public IQueryable<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonSevisCommStatusesByParticipantIds(int[] participantIds)
+        {
+            var results = ParticipantPersonSevisCommStatusQueries.CreateParticipantPersonSevisCommStatusesDTOsByParticipantIdsQuery(Context, participantIds);
+            logger.Trace("Retrieved participantPersonSevises by array of participant Ids");
+            return results;
+        }
+            
         #endregion
 
     }

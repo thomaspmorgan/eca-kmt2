@@ -475,6 +475,7 @@
     <Compile Include="Controllers\Admin\LanguagesController.cs" />
     <Compile Include="Controllers\Admin\EmailAddressesController .cs" />
     <Compile Include="Controllers\Admin\ProgramStatusesController.cs" />
+    <Compile Include="Controllers\Admin\SevisCommStatusesController.cs" />
     <Compile Include="Controllers\Admin\SnapshotController.cs" />
     <Compile Include="Controllers\Persons\EduEmpController.cs" />
     <Compile Include="Controllers\Persons\EvaluationNoteController.cs" />

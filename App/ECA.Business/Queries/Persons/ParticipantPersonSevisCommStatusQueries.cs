@@ -65,5 +65,12 @@ namespace ECA.Business.Queries.Persons
             query = query.Apply(queryOperator);
             return query;
         }
+
+        public static IQueryable<ParticipantPersonSevisCommStatusDTO> CreateParticipantPersonSevisCommStatusesDTOsByParticipantIdsQuery(EcaContext context, int[] participantIds)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var query = CreateGetParticipantPersonSevisCommStatusDTOQuery(context).Where(p => participantIds.Contains(p.ParticipantId));
+            return query;
+        }
     }
 }

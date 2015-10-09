@@ -3,6 +3,7 @@ using ECA.Business.Queries.Models.Persons;
 using ECA.Core.Query;
 using System.Threading.Tasks;
 using ECA.Core.DynamicLinq;
+using System.Linq;
 
 namespace ECA.Business.Service.Persons
 {
@@ -84,5 +85,9 @@ namespace ECA.Business.Service.Persons
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>The participantPersonSevisCommStatuses</returns>
         Task<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>> GetParticipantPersonSevisCommStatusesByIdAsync(int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator);
+
+
+        IQueryable<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonSevisCommStatusesByParticipantIds(int[] participantIds);
+
     }
 }
