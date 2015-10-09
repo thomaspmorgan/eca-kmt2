@@ -52,11 +52,8 @@ angular.module('staticApp')
             setSelectedPointsOfContact();
         });
 
-      $scope.view.onSelectPointsOfContactChange = function () {
+      $scope.view.updateCollections = function () {
           updatePointsOfContactIds();
-      }
-
-      $scope.view.onSelectOrganizationRolesChange = function () {
           updateOrganizationRoleIds();
       }
 
