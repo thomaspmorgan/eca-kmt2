@@ -172,6 +172,7 @@
     <Content Include="app\activities\activities.routes.js" />
     <Content Include="app\app.config.js" />
     <Content Include="app\auth\auth.routes.js" />
+    <Content Include="app\errors\error.routes.js" />
     <Content Include="app\home\home.routes.js" />
     <Content Include="app\offices\offices.routes.js" />
     <Content Include="app\organizations\organizations.routes.js" />
@@ -371,7 +372,7 @@
     <Content Include="styles\_static.scss" />
     <Content Include="styles\_table.scss" />
     <Content Include="styles\_variables.scss" />
-    <Content Include="app\auth\error.html" />
+    <Content Include="app\errors\error.html" />
     <Content Include="app\auth\forbidden.html" />
     <Content Include="app\offices\test.hs" />
     <Content Include="styles\main.scss" />
