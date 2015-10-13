@@ -16,20 +16,24 @@ namespace ECA.Business.Queries.Admin
         public static IQueryable<ProgramSnapshotDTO> CreateGetProgramSnapshotDTOQuery(EcaContext context, int programId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var countryQuery = from country in context.Locations
-                               where country.LocationTypeId == LocationType.Country.Id
-                               select country;
+            var allLocations = LocationQueries.CreateGetLocationsQuery(context);
 
-            var query = from project in context.Projects
-                        let regions = project.Regions
-                        let countries = countryQuery.Where(x => regions.Select(y => y.LocationId).Contains(x.Region.LocationId))
-                        where project.ProgramId == programId
+            var query = from program in context.Programs
+                        let regions = from location in allLocations
+                                      join programRegion in program.Regions
+                                      on location.Id equals programRegion.LocationId
+                                      select location
+                        let countries = from country in allLocations
+                                        join region in regions
+                                        on country.RegionId equals region.Id
+                                        where country.LocationTypeId == LocationType.Country.Id
+                                        select country
+                        where program.ProgramId == programId
                         select new ProgramSnapshotDTO
                         {
-                            ProgramId = project.ProgramId,
-                            Countries = countries.Distinct().Count()
+                            ProgramId = program.ProgramId,
+                            Countries = countries.Count()
                         };
-
             return query;
         }
 

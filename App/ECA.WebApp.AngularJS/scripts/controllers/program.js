@@ -132,6 +132,7 @@ angular.module('staticApp')
                 else {
                     $scope.program.endDate = null;
                 }
+
                 $scope.data.loadProgramPromise.resolve($scope.program);
             })
             .catch(function (response) {
@@ -147,11 +148,29 @@ angular.module('staticApp')
           return $q.all([loadProgramById(programId)])
               .then(function () {
 
-              })
+              });
       })
       .catch(function () {
           var message = "Unable to load program required data.";
           $log.error(message);
           NotificationService.showErrorMessage(message);
-      })
+      });
+
+
+      function loadSnapshots () {
+          $scope.view.isSnapshotLoading = true;
+          SnapshotService.getProgramSnapshot(programId)
+          .then(function (response) {
+              $scope.view.snapshot = response.data;
+              $scope.view.isSnapshotLoading = false;
+          })
+          .catch(function () {
+              var message = 'Unable to load shapshot.';
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
+              $scope.view.isSnapshotLoading = false;
+          });
+      };
+
+
   });

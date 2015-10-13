@@ -25,7 +25,6 @@ angular.module('staticApp')
         OfficeService,
         ProgramService,
         orderByFilter
-
       ) {
 
       console.assert($scope.$parent.view.isEditButtonEnabled !== undefined, 'The parent should have a flag to determine the enabled state of the edit button.');
@@ -254,7 +253,7 @@ angular.module('staticApp')
           $scope.$parent.view.isEditButtonEnabled = true;
           $scope.view.program = $scope.view.originalProgram;
           setAllUiSelectValues();
-          StateService.goToProgramState($scope.view.program.id, { reload: true })
+          StateService.goToProgramState($scope.view.program.id, { reload: true });
       }
 
       function saveProgram() {
@@ -519,7 +518,7 @@ angular.module('staticApp')
       function setSelectedParentProgram() {
           $scope.view.program.parentProgram = {
               programId: $scope.view.program.parentProgramId,
-              name: $scope.view.program.parentProgramName,
+              name: $scope.view.program.parentProgramName
           };
       }
 
@@ -602,7 +601,7 @@ angular.module('staticApp')
               $log.error(message);
               NotificationService.showErrorMessage(message);
               $scope.view.isLoadingRequiredData = false;
-          })
+          });
       })
       .catch(function (response) {
           $scope.view.isLoadingProgram = false;
