@@ -53,7 +53,11 @@ namespace ECA.Business.Queries.Persons
                              FundingSponsor = p.FundingSponsor ?? 0,
                              FundingTotal = p.FundingTotal ?? 0,
                              FundingVisBNC = p.FundingVisBNC ?? 0,
-                             FundingVisGovt = p.FundingVisGovt ?? 0
+                             FundingVisGovt = p.FundingVisGovt ?? 0,
+                             SevisCommStatuses = p.ParticipantPersonSevisCommStatuses.Select(s => new ParticipantPersonSevisCommStatusDTO()
+                             { Id = s.Id, ParticipantId = s.ParticipantId, SevisCommStatusId = s.SevisCommStatusId, SevisCommStatusName = s.SevisCommStatus.SevisCommStatusName, AddedOn = s.AddedOn
+                             }).OrderBy(s => s.AddedOn),
+                             LastBatchDate =  p.ParticipantPersonSevisCommStatuses.Max(s => s.AddedOn)
                          });
             return query;
         }

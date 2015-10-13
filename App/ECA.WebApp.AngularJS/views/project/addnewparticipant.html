@@ -10,7 +10,7 @@
                 <div class="row">
                     <div class="form-group">
                         <label for="">PARTICIPANT TYPE<span class="asterisk"> *</span></label>
-                        <ui-select ng-model="newParticipant.participantType" theme="select2" style="min-width: 300px;" ng-required="true">
+                        <ui-select ng-model="newParticipant.participantType" theme="select2" style="min-width: 300px;" tabindex="1" ng-required="true">
                             <ui-select-match placeholder="Select a participant type...">{{$select.selected.name}}</ui-select-match>
                             <ui-select-choices repeat="participantType in participantTypes | filter: {name: $select.search} track by participantType.id">
                                 <div ng-bind-html="participantType.name | highlight: $select.search"></div>
@@ -22,20 +22,11 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="">FIRST / GIVEN NAME<span class="asterisk"> *</span></label>
-                            <input ng-model="newParticipant.firstName" form-element guidance="First or given name of the participant." type="text" class="form-control" required ng-disabled="newParticipant.selectedDuplicate">
-                        </div>
-                        <div class="form-group">
-                            <label for="">GENDER<span class="asterisk"> *</span></label>
-                            <ui-select ng-model="newParticipant.gender" theme="select2" style="min-width: 300px;" ng-required="true" ng-disabled="newParticipant.selectedDuplicate">
-                                <ui-select-match placeholder="Select a gender...">{{$select.selected.value}}</ui-select-match>
-                                <ui-select-choices repeat="gender in genders | filter: {value: $select.search} track by gender.id">
-                                    <div ng-bind-html="gender.value | highlight: $select.search"></div>
-                                </ui-select-choices>
-                            </ui-select>
+                            <input ng-model="newParticipant.firstName" form-element guidance="First or given name of the participant." type="text" tabindex="2" class="form-control" required ng-disabled="newParticipant.selectedDuplicate">
                         </div>
                         <div class="form-group">
                             <label for="">PLACE OF BIRTH - COUNTRY</label>
-                            <ui-select ng-model="newParticipant.countryOfBirth" theme="select2" style="min-width: 300px;" on-select="countryOfBirthSelected()" ng-disabled="newParticipant.selectedDuplicate">
+                            <ui-select ng-model="newParticipant.countryOfBirth" theme="select2" style="min-width: 300px;" tabindex="4" on-select="countryOfBirthSelected()" ng-disabled="newParticipant.selectedDuplicate">
                                 <ui-select-match placeholder="Select a country of birth...">{{$select.selected.name}}</ui-select-match>
                                 <ui-select-choices refresh="searchCountries($select.search)" refresh-delay="250" repeat="country in countries track by country.id">
                                     <div ng-bind-html="country.name | highlight: $select.search"></div>
@@ -44,7 +35,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">PLACE OF BIRTH - CITY</label>
-                            <ui-select ng-model="newParticipant.cityOfBirth" theme="select2" style="min-width: 300px;" ng-disabled="newParticipant.selectedDuplicate">
+                            <ui-select ng-model="newParticipant.cityOfBirth" theme="select2" style="min-width: 300px;" tabindex="5" ng-disabled="newParticipant.selectedDuplicate">
                                 <ui-select-match placeholder="Select a city of birth...">{{$select.selected.name}}{{$select.selected.division ? ', ' + $select.selected.division : ''}}</ui-select-match>
                                 <ui-select-choices refresh="searchCities($select.search)" refresh-delay="250" repeat="city in cities track by city.id">
                                     <span ng-bind-html="city.name | highlight: $select.search"></span><span ng-show="city.division" ng-bind-html="', ' + city.division"></span>
@@ -55,7 +46,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="">SURNAME / PRIMARY NAME<span class="asterisk"> *</span></label>
-                            <input ng-model="newParticipant.lastName" form-element guidance="Surname or primary name of the participant." type="text" class="form-control" required ng-disabled="newParticipant.selectedDuplicate">
+                            <input ng-model="newParticipant.lastName" form-element guidance="Surname or primary name of the participant." tabindex="3" type="text" class="form-control" required ng-disabled="newParticipant.selectedDuplicate">
                         </div>
                         <div class="form-group" style="min-width: 300px;">
                             <label for="dobDate">DATE OF BIRTH</label>
@@ -64,11 +55,14 @@
                                         class="form-control"
                                         datepicker-popup="{{dateFormat}}"
                                         max-date="maxDate"
+                                        id="dobDate"
                                         ng-model="newParticipant.dateOfBirth"
                                         is-open="isDobDatePickerOpen"
                                         close-text="Close"
+                                        tabindex="6"
                                         form-element guidance="Date of birth of the participant."
-                                        ng-disabled="newParticipant.selectedDuplicate" placeholder="{{dateOfBirthPlaceholder}}" />
+                                       ng-disabled="newParticipant.selectedDuplicate" placeholder="{{dateOfBirthPlaceholder}}"
+                                        tooltip-placement="top" tooltip="MM/DD/YYYY" />
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" ng-click="openDobDatePicker($event)" ng-disabled="newParticipant.selectedDuplicate"><i class="material-icons md-18">event</i></button>
                                 </span>
@@ -79,7 +73,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">COUNTRIES OF CITIZENSHIP</label>
-                            <ui-select multiple ng-model="newParticipant.countriesOfCitizenship" theme="select2" style="min-width: 300px;" ng-disabled="newParticipant.selectedDuplicate">
+                            <ui-select multiple ng-model="newParticipant.countriesOfCitizenship" theme="select2" style="min-width: 300px;" tabindex="7" ng-disabled="newParticipant.selectedDuplicate">
                                 <ui-select-match placeholder="Select countries of citizenship...">{{$item.name}}</ui-select-match>
                                 <ui-select-choices refresh="searchCountriesCopy($select.search)" refresh-delay="250" repeat="country in countriesCopy track by country.id">
                                     <div ng-bind-html="country.name | highlight: $select.search"></div>
@@ -94,9 +88,7 @@
                     <strong>Warning!</strong> This person may already exist. You may continue adding the person or add an existing person to the project from the list below.`
                 </div>
                 <style>
-                    td:first-child {
-                        padding: 0;
-                    }
+                    td:first-child {padding: 0;}
                 </style>
                 <table class="table">
                     <thead>

@@ -38,6 +38,7 @@ namespace ECA.WebApi.Controllers.Persons
         public ParticipantsController(IParticipantService service)
         {
             Contract.Requires(service != null, "The participant service must not be null.");
+            Contract.Requires(service != null, "The participantPersonSevis service must not be null.");
             this.service = service;
         }
 

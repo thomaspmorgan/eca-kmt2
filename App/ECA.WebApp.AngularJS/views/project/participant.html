@@ -63,11 +63,12 @@
             <table class="col-md-12 alt">
                 <thead>
                     <tr>
-                        <th st-sort="'name'" st-sort-default="true" class="col-md-5 sort-label medium">Name</th>
-                        <th st-sort="'participantType'" class="col-md-3 sort-label medium">Type</th>
+                        <th st-sort="'name'" st-sort-default="true" class="col-md-3 sort-label medium">Name</th>
+                        <th st-sort="'participantType'" class="col-md-2 sort-label medium">Type</th>
                         <th class="col-md-2 sort-label medium">Status</th>
+                        <th class="col-md-2 sort-label medium">Sevis Status</th>
                         <th class="col-md-2">&nbsp;</th>
-                        <th class="col-md-2">&nbsp;</th>
+                        <th class="col-md-1">&nbsp;</th>
                     </tr>
                     <tr>
                         <th>
@@ -78,6 +79,9 @@
                         </th>
                         <th>
                             <input st-search="'status'" placeholder="" type="search" class="input-lg form-control" />
+                        </th>
+                        <th>
+                            <input st-search="'sevisStatus'" placeholder="" type="search" class="input-lg form-control" />
                         </th>
                         <th>
                             &nbsp;
@@ -94,6 +98,7 @@
                         </td>
                         <td>{{participant.participantType}}</td>
                         <td>{{participant.participantStatus}}</td>
+                        <td>{{participant.sevisStatus}}</td>
                         <td>
                             <img class="icon" src="images/duplicateA.png" alt="">
                             <img class="icon" src="images/editA.png" alt="">
@@ -237,7 +242,7 @@
                             </tabset>
                         </td>
                     </tr>
-                    <tr id="participantInfo" ng-repeat-end ng-show="participantInfo[participant.participantId].show && participantInfo[participant.participantId].participantId === undefined">
+                    <tr id="participantMoreInfo" ng-repeat-end ng-show="participantInfo[participant.participantId].show && participantInfo[participant.participantId].participantId === undefined">
                         <td colspan="5">
                             <div class="col-md-12 text-center">
                                 There is no additional information for this participant.

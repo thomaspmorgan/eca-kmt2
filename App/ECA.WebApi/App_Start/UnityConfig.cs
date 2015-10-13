@@ -162,6 +162,7 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<IPhoneNumberTypeService, PhoneNumberTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPhoneNumberHandler, PhoneNumberHandler>(new HierarchicalLifetimeManager());
             container.RegisterType<IParticipantPersonSevisService, ParticipantPersonSevisService>(new HierarchicalLifetimeManager());
+            container.RegisterType<ISnapshotService, SnapshotService>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>
@@ -183,7 +184,7 @@ namespace ECA.WebApi.App_Start
                 IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity>,
                 MoneyFlowServiceValidator>();
             container.RegisterType<
-                IBusinessValidator<Object, UpdateOrganizationValidationEntity>,
+                IBusinessValidator<OrganizationValidationEntity, OrganizationValidationEntity>,
                 OrganizationServiceValidator>();
             container.RegisterType<
                 IBusinessValidator<EcaAddressValidationEntity, EcaAddressValidationEntity>,

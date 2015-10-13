@@ -27,12 +27,12 @@ namespace ECA.Business.Test.Service.Admin
     {
         private TestEcaContext context;
         private OrganizationService service;
-        private Mock<IBusinessValidator<Object, UpdateOrganizationValidationEntity>> validator;
+        private Mock<IBusinessValidator<OrganizationValidationEntity, OrganizationValidationEntity>> validator;
 
         [TestInitialize]
         public void TestInit()
         {
-            validator = new Mock<IBusinessValidator<object, UpdateOrganizationValidationEntity>>();
+            validator = new Mock<IBusinessValidator<OrganizationValidationEntity, OrganizationValidationEntity>>();
             context = new TestEcaContext();
             service = new OrganizationService(context, validator.Object);
         }
@@ -1095,15 +1095,15 @@ namespace ECA.Business.Test.Service.Admin
             var updaterId = 20;
             var updater = new User(updaterId);
 
-            validator.Verify(x => x.ValidateUpdate(It.IsAny<UpdateOrganizationValidationEntity>()), Times.Never());
+            validator.Verify(x => x.ValidateUpdate(It.IsAny<OrganizationValidationEntity>()), Times.Never());
             var instance = new EcaOrganization(updater, orgId, organization.Website, organization.OrganizationTypeId, null, null, null, organization.Name, organization.Description);
             context.Revert();
             service.Update(instance);
-            validator.Verify(x => x.ValidateUpdate(It.IsAny<UpdateOrganizationValidationEntity>()), Times.Once());
+            validator.Verify(x => x.ValidateUpdate(It.IsAny<OrganizationValidationEntity>()), Times.Once());
 
             context.Revert();
             await service.UpdateAsync(instance);
-            validator.Verify(x => x.ValidateUpdate(It.IsAny<UpdateOrganizationValidationEntity>()), Times.Exactly(2));
+            validator.Verify(x => x.ValidateUpdate(It.IsAny<OrganizationValidationEntity>()), Times.Exactly(2));
         }
         #endregion
     }
