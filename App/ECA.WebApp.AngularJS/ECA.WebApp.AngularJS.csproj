@@ -174,6 +174,7 @@
     <Content Include="app\auth\auth.routes.js" />
     <Content Include="app\home\home.routes.js" />
     <Content Include="app\offices\offices.routes.js" />
+    <Content Include="app\organizations\organizations.routes.js" />
     <Content Include="app\people\people.routes.js" />
     <Content Include="app\programs\programs.routes.js" />
     <Content Include="app\projects\projects.routes.js" />
@@ -198,7 +199,7 @@
     <Content Include="app\controllers\address\addresses.js" />
     <Content Include="app\controllers\address\address.js" />
     <Content Include="app\people\all-people.controller.js" />
-    <Content Include="app\controllers\allorganizations.js" />
+    <Content Include="app\organizations\all-organizations.controller.js" />
     <Content Include="app\controllers\collaborators.js" />
     <Content Include="app\controllers\confirm.js" />
     <Content Include="app\controllers\emailAddresses\emailaddress.js" />
@@ -213,7 +214,7 @@
     <Content Include="app\controllers\moneyflow.js" />
     <Content Include="app\controllers\moneyflows.js" />
     <Content Include="app\offices\branches-and-programs.controller.js" />
-    <Content Include="app\controllers\organization\addorganizationmodal.js" />
+    <Content Include="app\organizations\add-organization-modal.controller.js" />
     <Content Include="app\people\evaluation-notes-edit.controller.js" />
     <Content Include="app\people\pii-edit.controller.js" />
     <Content Include="app\people\pii.controller.js" />
@@ -223,12 +224,12 @@
     <Content Include="app\people\education-employment-edit.controller.js" />
     <Content Include="app\programs\add-program-modal.controller.js" />
     <Content Include="app\offices\overview.controller.js" />
-    <Content Include="app\controllers\organization\activities.js" />
-    <Content Include="app\controllers\organization\impact.js" />
-    <Content Include="app\controllers\organization\artifacts.js" />
-    <Content Include="app\controllers\organization\editdetails.js" />
-    <Content Include="app\controllers\organization\organization.js" />
-    <Content Include="app\controllers\organization\overview.js" />
+    <Content Include="app\organizations\activities.controller.js" />
+    <Content Include="app\organizations\impact.controller.js" />
+    <Content Include="app\organizations\artifacts.controller.js" />
+    <Content Include="app\organizations\edit-details.controller.js" />
+    <Content Include="app\organizations\organization.controller.js" />
+    <Content Include="app\organizations\overview.controller.js" />
     <Content Include="app\people\contact-edit.controller.js" />
     <Content Include="app\people\contact.controller.js" />
     <Content Include="app\people\general-edit.controller.js" />
@@ -313,13 +314,13 @@
     <Content Include="views\locations\addlocationmodal.html" />
     <Content Include="views\locations\marker.html" />
     <Content Include="views\locations\searchlocations.html" />
-    <Content Include="views\organizations\activities.html" />
-    <Content Include="views\organizations\addorganizationmodal.html" />
-    <Content Include="views\organizations\impact.html" />
-    <Content Include="views\organizations\artifacts.html" />
-    <Content Include="views\organizations\moneyflows.html" />
-    <Content Include="views\organizations\overview.html" />
-    <Content Include="views\organizations\partials\editdetails.html" />
+    <Content Include="app\organizations\activities.html" />
+    <Content Include="app\organizations\add-organization-modal.html" />
+    <Content Include="app\organizations\impact.html" />
+    <Content Include="app\organizations\artifacts.html" />
+    <Content Include="app\organizations\moneyflows.html" />
+    <Content Include="app\organizations\overview.html" />
+    <Content Include="app\organizations\edit-details.html" />
     <Content Include="views\partials\collaborators.html" />
     <Content Include="views\partials\pagination.html" />
     <Content Include="views\partials\searchinfo.html" />
@@ -333,7 +334,7 @@
     <Content Include="app\people\general-edit.html" />
     <Content Include="app\people\contact.html" />
     <Content Include="app\people\general.html" />
-    <Content Include="views\organization.html" />
+    <Content Include="app\organizations\organization.html" />
     <Content Include="app\people\pii-edit.html" />
     <Content Include="app\people\pii.html" />
     <Content Include="app\programs\edit.html" />
@@ -343,7 +344,7 @@
     <Content Include="app\projects\add-new-participant.html" />
     <Content Include="app\projects\select-participant-type.html" />
     <Content Include="app\services\organization.service.js" />
-    <Content Include="views\organizations\allorganizations.html" />
+    <Content Include="app\organizations\all-organizations.html" />
     <Content Include="app\projects\unsaved-changes.html" />
     <Content Include="app\reports\project-awards.controller.js" />
     <Content Include="app\controllers\simple_test.js" />
@@ -639,12 +640,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="app\controllers\person\" />
-    <Folder Include="app\controllers\project\" />
-    <Folder Include="views\office\" />
-    <Folder Include="views\project\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>

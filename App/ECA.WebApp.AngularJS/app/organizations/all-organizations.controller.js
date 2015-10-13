@@ -26,7 +26,7 @@ angular.module('staticApp')
       $scope.addOrganization = function () {
           var addOrganizationModalInstance = $modal.open({
               animation: true,
-              templateUrl: 'views/organizations/addorganizationmodal.html',
+              templateUrl: 'app/organizations/add-organization-modal.html',
               controller: 'AddOrganizationModalCtrl',
               backdrop: 'static',
               size: 'lg'
