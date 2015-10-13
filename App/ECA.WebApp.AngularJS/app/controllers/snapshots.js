@@ -11,34 +11,37 @@ angular.module('staticApp')
       $stateParams,
       $q,
       $log,
-      PersonService,
       SnapshotService,
       NotificationService) {
       
       $scope.view = {};
-      $scope.view.isSnapshotLoading = false;
+      //$scope.view.isSnapshotLoading = false;
       $scope.view.params = $stateParams;
       $scope.view.snapshot = {};
 
-      $scope.programIdDeferred.promise
-      .then(function (programId) {
-          loadSnapshots(programId);
-      });
+      //$scope.programIdDeferred = $q.defer();
 
-      function loadSnapshots(programId) {
-          $scope.view.isSnapshotLoading = true;
-          SnapshotService.getProgramSnapshot(programId)
-          .then(function (data) {
-              $scope.view.snapshot = data;
-              $scope.view.isSnapshotLoading = false;
+      //$scope.programIdDeferred.promise
+      //.then(function () {
+      //    loadSnapshots();
+      //});
+
+      $scope.init = function () {
+          //$scope.isSnapshotLoading = true;
+          SnapshotService.getProgramSnapshot($scope.view.params.programId)
+          .then(function (response) {
+              $scope.view.snapshot = response.data;
+              //$scope.programIdDeferred.resolve(response.data.programId);
+              //$scope.isSnapshotLoading = false;
           })
           .catch(function () {
               var message = 'Unable to load shapshot.';
               NotificationService.showErrorMessage(message);
               $log.error(message);
-              $scope.view.isSnapshotLoading = false;
+              //$scope.isSnapshotLoading = false;
           });
       };
 
-
+      $scope.init();
+      
   });

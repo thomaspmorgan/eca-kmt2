@@ -3,9 +3,9 @@
 angular.module('staticApp')
   .config(function ($stateProvider) {
 
-      $stateProvider.state('forbidden', {
-          url: '/forbidden',
-          templateUrl: 'app/auth/forbidden.html',
+      $stateProvider.state('error', {
+          url: '/error',
+          templateUrl: 'app/errors/error.html',
           requireADLogin: false
       })
   });

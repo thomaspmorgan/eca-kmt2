@@ -156,7 +156,7 @@ angular.module('staticApp')
       function showEditMoneyFlow(moneyFlow) {
           var modalInstance = $modal.open({
               animation: true,
-              templateUrl: 'scripts/directives/moneyflow.directive.html',
+              templateUrl: 'app/directives/moneyflow.directive.html',
               controller: 'MoneyFlowCtrl',
               size: 'lg',
               resolve: {

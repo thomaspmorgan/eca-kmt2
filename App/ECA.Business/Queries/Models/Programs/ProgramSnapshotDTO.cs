@@ -28,18 +28,6 @@ namespace ECA.Business.Queries.Models.Programs
 
         public int Prominence { get; set; }
         
-
-        public byte[] RowVersion
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public byte[] RowVersion { get; set; }
     }
 }

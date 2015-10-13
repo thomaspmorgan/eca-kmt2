@@ -180,6 +180,8 @@
     <script src="app/auth/auth.routes.js"></script>
     <script src="app/auth/logout.controller.js"></script>
 
+    <script src="app/errors/error.routes.js"></script>
+
     <script src="app/reports/archive.controller.js"></script>
     <script src="app/reports/country-awards.controller.js"></script>
     <script src="app/reports/custom.controller.js"></script>
@@ -209,46 +211,53 @@
     <script src="app/people/pii.controller.js"></script>
     <script src="app/people/timeline.controller.js"></script>
 
+    <script src="app/programs/add-program-modal.controller.js"></script>
+    <script src="app/programs/all-programs.controller.js"></script>
+    <script src="app/programs/edit.controller.js"></script>
+    <script src="app/programs/overview.controller.js"></script>
+    <script src="app/programs/program.controller.js"></script>
+    <script src="app/programs/programs.routes.js"></script>
+    <script src="app/programs/subprograms-and-projects.controller.js"></script>
+
+    <script src="app/projects/add-new-participant.controller.js"></script>
+    <script src="app/projects/add-project-modal.controller.js"></script>
+    <script src="app/projects/edit.controller.js"></script>
+    <script src="app/projects/overview.controller.js"></script>
+    <script src="app/projects/project-participant.controller.js"></script>
+    <script src="app/projects/project.controller.js"></script>
+    <script src="app/projects/projects.routes.js"></script>
+    <script src="app/projects/select-participant-type.controller.js"></script>
+    <script src="app/projects/unsaved-changes.controller.js"></script>
+
+    <script src="app/offices/all-offices.controller.js"></script>
+    <script src="app/offices/branches-and-programs.controller.js"></script>
+    <script src="app/offices/office.controller.js"></script>
+    <script src="app/offices/offices.routes.js"></script>
+    <script src="app/offices/overview.controller.js"></script>
+
+    <script src="app/organizations/activities.controller.js"></script>
+    <script src="app/organizations/add-organization-modal.controller.js"></script>
+    <script src="app/organizations/all-organizations.controller.js"></script>
+    <script src="app/organizations/artifacts.controller.js"></script>
+    <script src="app/organizations/edit-details.controller.js"></script>
+    <script src="app/organizations/impact.controller.js"></script>
+    <script src="app/organizations/organization.controller.js"></script>
+    <script src="app/organizations/organizations.routes.js"></script>
+    <script src="app/organizations/overview.controller.js"></script>
+
     <!-- Controllers -->
     <script src="app/controllers/confirm.js"></script>
-    <script src="app/controllers/allprograms.js"></script>
-    <script src="app/controllers/office.js"></script>
     <script src="app/controllers/socialmedia/socialmedia.js"></script>
     <script src="app/controllers/socialmedia/socialmedias.js"></script>
-    <script src="app/controllers/organization/organization.js"></script>
-    <script src="app/controllers/organization/overview.js"></script>
-    <script src="app/controllers/organization/editdetails.js"></script>
-    <script src="app/controllers/organization/activities.js"></script>
-    <script src="app/controllers/organization/artifacts.js"></script>
-    <script src="app/controllers/organization/impact.js"></script>
-    <script src="app/controllers/organization/addorganizationmodal.js"></script>
     <script src="app/controllers/address/address.js"></script>
     <script src="app/controllers/address/addresses.js"></script>
     <script src="app/controllers/moneyflows.js"></script>
     <script src="app/controllers/moneyflow.js"></script>
-    <script src="app/controllers/project.js"></script>
-    <script src="app/controllers/project/overview.js"></script>
-    <script src="app/controllers/project/addprojectmodal.js"></script>
-    <script src="app/controllers/project/projectparticipant.js"></script>
-    <script src="app/controllers/project/selectparticipanttype.js"></script>
-    <script src="app/controllers/project/unsavedchanges.js"></script>
-    <script src="app/controllers/project/addnewparticipant.js"></script>
-    <script src="app/controllers/project/edit.js"></script>
     <script src="app/controllers/toolbaricons.js"></script>
     <script src="app/controllers/collaborators.js"></script>
     <script src="app/controllers/locations/searchlocations.js"></script>
     <script src="app/controllers/locations/addlocation.js"></script>
     <script src="app/controllers/locations/marker.js"></script>
-    <script src="app/controllers/securetest.js"></script>
-    <script src="app/controllers/program.js"></script>
-    <script src="app/controllers/program/subprogramsandprojects.js"></script>
-    <script src="app/controllers/program/edit.js"></script>
-    <script src="app/controllers/program/overview.js"></script>
-    <script src="app/controllers/alloffices.js"></script>
-    <script src="app/controllers/office/overview.js"></script>
-    <script src="app/controllers/office/branchesandprograms.js"></script>
-    <script src="app/controllers/program/addprogrammodal.js"></script>
-    <script src="app/controllers/allorganizations.js"></script>
     <script src="app/controllers/searchbar.js"></script>
     <script src="app/controllers/membership/membership.js"></script>
     <script src="app/controllers/membership/memberships.js"></script>
@@ -258,6 +267,7 @@
     <script src="app/controllers/emailAddresses/emailaddresses.js"></script>
     <script src="app/controllers/phoneNumbers/phonenumber.js"></script>
     <script src="app/controllers/phoneNumbers/phonenumbers.js"></script>
+    <script src="app/controllers/snapshots.js"></script>
 
     <!-- Directives -->
     <script src="app/directives/addresses.directive.js"></script>
@@ -280,6 +290,7 @@
     <script src="app/directives/tab-bar.directive.js"></script>
     <script src="app/directives/ui-select-st-search.directive.js"></script>
     <script src="app/directives/year-dropdown.directive.js"></script>
+    <script src="app/directives/snapshots.directive.js"></script>
 
     <!-- Filters -->
     <script src="app/filters/group-by.filter.js"></script>
@@ -323,6 +334,7 @@
     <script src="app/services/state.service.js"></script>
     <script src="app/services/table.service.js"></script>
     <script src="app/services/user.service.js"></script>
+    <script src="app/services/snapshot.service.js"></script>
 
     <!-- endbuild -->
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=onGoogleReady"></script>

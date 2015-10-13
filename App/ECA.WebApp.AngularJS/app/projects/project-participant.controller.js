@@ -84,7 +84,7 @@ angular.module('staticApp')
 
       function addParticipant(clientModel) {
           var modalInstance = $modal.open({
-              templateUrl: '/views/project/selectparticipanttype.html',
+              templateUrl: '/app/projects/select-participant-type.html',
               controller: 'SelectParticipantTypeCtrl',
               backdrop: 'static',
               resolve: {
@@ -330,7 +330,7 @@ angular.module('staticApp')
 
       $scope.openAddNewParticipant = function () {
           var modalInstance = $modal.open({
-              templateUrl: '/views/project/addnewparticipant.html',
+              templateUrl: '/app/projects/add-new-participant.html',
               controller: 'AddNewParticipantCtrl',
               backdrop: 'static',
               size: 'lg'
