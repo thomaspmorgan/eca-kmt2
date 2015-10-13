@@ -26,27 +26,6 @@ namespace ECA.Business.Search
         where TDocument : class
     {
         /// <summary>
-        /// Creates a new instance with the given IDocumentConfiguration instance.  The rules will be initialized
-        /// but have no items.
-        /// </summary>
-        /// <param name="configuration">The document configuration to use for the save action.  This configuration does have to be configured for TDocument.</param>
-        public DocumentSaveActionConfiguration(IDocumentConfiguration configuration)
-        {
-            Contract.Requires(configuration != null, "The configuration must not be null.");
-            this.IdDelegate = (instance) =>
-            {
-                return configuration.GetId(instance);
-            };
-            this.DocumentTypeIdDelegate = (instance) =>
-            {
-                return configuration.GetDocumentTypeId();
-            };
-            this.CreatedExclusionRules = new List<Func<TDocument, bool>>();
-            this.ModifiedExclusionRules = new List<Func<TDocument, bool>>();
-            this.DeletedExclusionRules = new List<Func<TDocument, bool>>();
-        }
-
-        /// <summary>
         /// Creates a new instance with the functions for selecting the proper Id and document type id.  The rules will be initialized
         /// but have no items.
         /// </summary>

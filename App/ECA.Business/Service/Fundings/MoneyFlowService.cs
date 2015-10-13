@@ -17,6 +17,7 @@ using ECA.Core.Exceptions;
 using ECA.Business.Exceptions;
 using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Persons;
+using ECA.Core.Service;
 
 namespace ECA.Business.Service.Fundings
 {
@@ -37,8 +38,13 @@ namespace ECA.Business.Service.Fundings
         /// </summary>
         /// <param name="context">The context to perform crud operations on.</param>
         /// <param name="validator">The business validator.</param>
-        public MoneyFlowService(EcaContext context, IMoneyFlowSourceRecipientTypeService moneyFlowSourceRecipientTypeService, IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity> validator)
-            : base(context)
+        /// <param name="saveActions">The save actions.</param>
+        public MoneyFlowService(
+            EcaContext context, 
+            IMoneyFlowSourceRecipientTypeService moneyFlowSourceRecipientTypeService, 
+            IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity> validator,
+            List<ISaveAction> saveActions = null)
+            : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(validator != null, "The validator must not be null.");

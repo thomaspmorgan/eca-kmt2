@@ -5,6 +5,7 @@ using ECA.Core.Service;
 using ECA.Data;
 using NLog;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -26,8 +27,9 @@ namespace ECA.Business.Service.Admin
         /// Creates a new instance and initializes the context..
         /// </summary>
         /// <param name="context">The context to operate against.</param>
-        public PhoneNumberService(EcaContext context)
-            : base(context)
+        /// <param name="saveActions">The save actions.</param>
+        public PhoneNumberService(EcaContext context, List<ISaveAction> saveActions = null)
+            : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
             throwIfPhoneNumberableEntityNotFound = (phoneNumberableEntity, id) =>

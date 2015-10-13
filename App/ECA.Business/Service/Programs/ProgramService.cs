@@ -41,9 +41,14 @@ namespace ECA.Business.Service.Programs
         /// </summary>
         /// <param name="officeService">The office service.</param>
         /// <param name="context">The context to operate on.</param>
+        /// <param name="saveActions">The save actions.</param>
         /// <param name="programServiceValidator">The program service validator.</param>
-        public ProgramService(EcaContext context, IOfficeService officeService, IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity> programServiceValidator)
-            : base(context)
+        public ProgramService(
+            EcaContext context, 
+            IOfficeService officeService, 
+            IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity> programServiceValidator,
+            List<ISaveAction> saveActions = null)
+            : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(programServiceValidator != null, "The program service validator must not be null.");

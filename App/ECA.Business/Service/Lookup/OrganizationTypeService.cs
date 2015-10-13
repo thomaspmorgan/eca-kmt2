@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Lookup;
+using ECA.Core.Service;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,10 @@ namespace ECA.Business.Service.Lookup
         /// <summary>
         /// Creates a new OrganizationTypeService.
         /// </summary>
+        /// <param name="saveActions">The save actions.</param>
         /// <param name="context">The context to operate against.</param>
-        public OrganizationTypeService(EcaContext context)
-            : base(context)
+        public OrganizationTypeService(EcaContext context, List<ISaveAction> saveActions = null)
+            : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
         }

@@ -4,12 +4,13 @@ using ECA.Data;
 using System.Data.Entity;
 using System.Threading.Tasks;
 using ECA.Business.Queries.Admin;
+using System.Collections.Generic;
 
 namespace ECA.Business.Service.Admin
 {
     public class SnapshotService : DbContextService<EcaContext>, ISnapshotService
     {
-        public SnapshotService(EcaContext context) : base(context)
+        public SnapshotService(EcaContext context, List<ISaveAction> saveActions = null) : base(context, saveActions)
         {
             
         }

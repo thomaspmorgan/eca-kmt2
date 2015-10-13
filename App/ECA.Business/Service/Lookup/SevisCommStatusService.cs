@@ -1,4 +1,6 @@
-﻿using ECA.Data;
+﻿using ECA.Core.Service;
+using ECA.Data;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
@@ -13,9 +15,10 @@ namespace ECA.Business.Service.Lookup
         /// <summary>
         /// Creates a new instance with the context to query.
         /// </summary>
+        /// <param name="saveActions">The save actions.</param>
         /// <param name="context">The context to query.</param>
-        public SevisCommStatusService(EcaContext context)
-            : base(context)
+        public SevisCommStatusService(EcaContext context, List<ISaveAction> saveActions = null)
+            : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
         }

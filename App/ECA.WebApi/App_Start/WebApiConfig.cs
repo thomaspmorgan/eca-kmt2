@@ -43,9 +43,6 @@ namespace ECA.WebApi
             settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             settings.NullValueHandling = NullValueHandling.Ignore;
 
-            var userProvider = config.DependencyResolver.GetService(typeof(IUserProvider)) as IUserProvider;
-            Debug.Assert(userProvider != null, "The user provider must not be null.");
-
             config.Services.Add(typeof(IExceptionLogger), new LoggerExceptionHandler());
 
             config.Filters.Add(new ModelNotFoundExceptionFilter());

@@ -27,8 +27,9 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Creates a new ParticipantPersonService with the given context to operate against.
         /// </summary>
+        /// <param name="saveActions">The save actions.</param>
         /// <param name="context">The context to operate against.</param>
-        public ParticipantPersonSevisService(EcaContext context) : base(context)
+        public ParticipantPersonSevisService(EcaContext context, List<ISaveAction> saveActions = null) : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
         }

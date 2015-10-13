@@ -24,9 +24,9 @@ namespace ECA.Business.Service.Admin
         /// Constructor
         /// </summary>
         /// <param name="context">The context to query</param>
-        /// <param name="logger">The logger to use</param>
-        public GenderService(EcaContext context) 
-            : base(context)
+        /// <param name = "saveActions" > The save actions.</param>
+        public GenderService(EcaContext context, List<ISaveAction> saveActions = null) 
+            : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
         }

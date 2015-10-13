@@ -21,24 +21,7 @@ namespace ECA.Business.Search.Test
 
             Assert.AreEqual(entity.Id, instance.GetId(entity));
             Assert.AreEqual(SimpleEntityConfiguration.SIMPLE_ENTITY_DOCUMENT_TYPE_ID, instance.GetDocumentTypeId(entity));
-        }
-
-        [TestMethod]
-        public void TestConstructor_IDocumentConfigurationConstructor()
-        {
-            var instance = new DocumentSaveActionConfiguration<SimpleEntity>(new SimpleEntityConfiguration());
-            Assert.IsNotNull(instance.CreatedExclusionRules);
-            Assert.IsNotNull(instance.ModifiedExclusionRules);
-            Assert.IsNotNull(instance.DeletedExclusionRules);
-            Assert.IsNotNull(instance.IdDelegate);
-            Assert.IsNotNull(instance.DocumentTypeIdDelegate);
-
-            var entity = new SimpleEntity();
-            entity.Id = 10;
-
-            Assert.AreEqual(entity.Id, instance.GetId(entity));
-            Assert.AreEqual(SimpleEntityConfiguration.SIMPLE_ENTITY_DOCUMENT_TYPE_ID, instance.GetDocumentTypeId(entity));
-        }
+        }        
 
         [TestMethod]
         public void TestConstructor_IdExpressionAndGuidExpressionConstructor()
