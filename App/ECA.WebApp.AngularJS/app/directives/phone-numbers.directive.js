@@ -9,7 +9,7 @@
 angular.module('staticApp')
   .directive('phonenumbers', function ($log) {
       var directive = {
-          templateUrl: 'scripts/directives/phone-numbers.directive.html',
+          templateUrl: 'app/directives/phone-numbers.directive.html',
           scope: {
               phoneNumberable: '=model',
               modelId: '=modelid',
