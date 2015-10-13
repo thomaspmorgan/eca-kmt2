@@ -16,6 +16,10 @@ namespace ECA.Business.Search
         /// Creates a default instance.
         /// </summary>
         public OfficeDocumentSaveActionConfiguration()
+            : base(
+                  x => x.OrganizationId,
+                  OfficeDTODocumentConfiguration.OFFICE_DTO_DOCUMENT_TYPE_ID
+                  )
         {
             Func<Organization, bool> isNotOfficeDelegate = (org) =>
             {

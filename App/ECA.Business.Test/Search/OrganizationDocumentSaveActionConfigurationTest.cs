@@ -101,5 +101,27 @@ namespace ECA.Business.Test.Search
 
             Assert.IsFalse(instance.DeletedExclusionRules.First()(fei));
         }
+
+        [TestMethod]
+        public void TestGetId()
+        {
+            var organization = new Organization
+            {
+                OrganizationId = 10
+            };
+            var instance = new OrganizationDocumentSaveActionConfiguration();
+            Assert.AreEqual(organization.OrganizationId, instance.GetId(organization));
+        }
+
+        [TestMethod]
+        public void TestDocumentTypeId()
+        {
+            var organization = new Organization
+            {
+                OrganizationId = 10
+            };
+            var instance = new OrganizationDocumentSaveActionConfiguration();
+            Assert.AreEqual(OrganizationDTODocumentConfiguration.ORGANIZATION_DTO_DOCUMENT_TYPE_ID, instance.GetDocumentTypeId(organization));
+        }
     }
 }

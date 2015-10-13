@@ -186,6 +186,7 @@
     <Compile Include="Search\OfficeDTODocumentConfigurationTest.cs" />
     <Compile Include="Search\OfficeDocumentServiceTest.cs" />
     <Compile Include="Search\OfficeDocumentSaveActionConfigurationTest.cs" />
+    <Compile Include="Search\AddressDocumentSaveActionConfigurationTest.cs" />
     <Compile Include="Service\Admin\AdditionalAddressTest.cs" />
     <Compile Include="Service\Admin\AdditionalPersonAddressTest.cs" />
     <Compile Include="Service\Admin\AdditionalOrganizationAddressTest.cs" />

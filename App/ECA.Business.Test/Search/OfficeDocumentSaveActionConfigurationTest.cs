@@ -10,6 +10,24 @@ namespace ECA.Business.Test.Search
     public class OfficeDocumentSaveActionConfigurationTest
     {
         [TestMethod]
+        public void TestGetDocumentTypeId()
+        {
+            var office = new Organization();
+            office.OrganizationId = 10;
+            var instance = new OfficeDocumentSaveActionConfiguration();
+            Assert.AreEqual(OfficeDTODocumentConfiguration.OFFICE_DTO_DOCUMENT_TYPE_ID, instance.GetDocumentTypeId(office));
+        }
+
+        [TestMethod]
+        public void TestGetDocumentId()
+        {
+            var office = new Organization();
+            office.OrganizationId = 10;
+            var instance = new OfficeDocumentSaveActionConfiguration();
+            Assert.AreEqual(office.OrganizationId, instance.GetId(office));
+        }
+
+        [TestMethod]
         public void TestCreatedExclusionRules()
         {
             Assert.AreEqual(3, Organization.OFFICE_ORGANIZATION_TYPE_IDS.Count());

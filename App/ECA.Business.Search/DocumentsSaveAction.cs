@@ -19,9 +19,8 @@ namespace ECA.Business.Search
     /// </summary>
     /// <typeparam name="TDocument"></typeparam>
     public class DocumentsSaveAction<TDocument> : ISaveAction
-        where TDocument : class, IIdentifiable
+        where TDocument : class
     {
-        private Guid documentTypeId;
         private AppSettings appSettings;
 
         /// <summary>
@@ -30,11 +29,10 @@ namespace ECA.Business.Search
         /// <param name="documentTypeId">The document type id.  This id should correspond to the same guid
         /// as the document type in the document configuration.</param>
         /// <param name="appSettings">The app settings.</param>
-        public DocumentsSaveAction(Guid documentTypeId, AppSettings appSettings, DocumentSaveActionConfiguration<TDocument> configuration = null)
+        public DocumentsSaveAction(AppSettings appSettings, DocumentSaveActionConfiguration<TDocument> configuration)
         {
             Contract.Requires(appSettings != null, "The app settings must not be null.");
-            Contract.Requires(documentTypeId != Guid.Empty, "The document type id must not be empty.");
-            this.documentTypeId = documentTypeId;
+            Contract.Requires(configuration != null, "The save action configuration must not be null.");
             this.appSettings = appSettings;
             this.CreatedDocuments = new List<TDocument>();
             this.DeletedDocuments = new List<TDocument>();
@@ -71,7 +69,7 @@ namespace ECA.Business.Search
         {
             Contract.Requires(context != null, "The context must not be null.");
             var createdDocuments = GetDocumentEntities(context, EntityState.Added).ToList();
-            if (this.Configuration != null && this.Configuration.CreatedExclusionRules != null)
+            if (this.Configuration.CreatedExclusionRules != null)
             {
                 var excludedDocuments = GetDocumentsToExclude(createdDocuments, this.Configuration.CreatedExclusionRules.ToList());
                 excludedDocuments.ForEach(x => createdDocuments.Remove(x));
@@ -88,7 +86,7 @@ namespace ECA.Business.Search
         {
             Contract.Requires(context != null, "The context must not be null.");
             var modifiedDocuments = GetDocumentEntities(context, EntityState.Modified).ToList();
-            if (this.Configuration != null && this.Configuration.ModifiedExclusionRules != null)
+            if (this.Configuration.ModifiedExclusionRules != null)
             {
                 var excludedDocuments = GetDocumentsToExclude(modifiedDocuments, this.Configuration.ModifiedExclusionRules.ToList());
                 excludedDocuments.ForEach(x => modifiedDocuments.Remove(x));
@@ -105,7 +103,7 @@ namespace ECA.Business.Search
         {
             Contract.Requires(context != null, "The context must not be null.");
             var deletedDocuments = GetDocumentEntities(context, EntityState.Deleted).ToList();
-            if (this.Configuration != null && this.Configuration.DeletedExclusionRules != null)
+            if (this.Configuration.DeletedExclusionRules != null)
             {
                 var excludedDocuments = GetDocumentsToExclude(deletedDocuments, this.Configuration.DeletedExclusionRules.ToList());
                 excludedDocuments.ForEach(x => deletedDocuments.Remove(x));
@@ -228,9 +226,9 @@ namespace ECA.Business.Search
         public IndexDocumentBatchMessage GetBatchMessage()
         {
             var batch = new IndexDocumentBatchMessage();
-            batch.CreatedDocuments = this.CreatedDocuments.Select(x => new DocumentKey(documentTypeId, x.GetId()).ToString()).ToList();
-            batch.DeletedDocuments = this.DeletedDocuments.Select(x => new DocumentKey(documentTypeId, x.GetId()).ToString()).ToList();
-            batch.ModifiedDocuments = this.ModifiedDocuments.Select(x => new DocumentKey(documentTypeId, x.GetId()).ToString()).ToList();
+            batch.CreatedDocuments = this.CreatedDocuments.Select(x => new DocumentKey(this.Configuration.GetDocumentTypeId(x), this.Configuration.GetId(x)).ToString()).ToList();
+            batch.DeletedDocuments = this.DeletedDocuments.Select(x => new DocumentKey(this.Configuration.GetDocumentTypeId(x), this.Configuration.GetId(x)).ToString()).ToList();
+            batch.ModifiedDocuments = this.ModifiedDocuments.Select(x => new DocumentKey(this.Configuration.GetDocumentTypeId(x), this.Configuration.GetId(x)).ToString()).ToList();
             return batch;
         }
 

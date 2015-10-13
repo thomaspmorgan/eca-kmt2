@@ -15,15 +15,16 @@ namespace ECA.Business.Search
         /// <summary>
         /// Creates a default instance.
         /// </summary>
-        public OrganizationDocumentSaveActionConfiguration()
+        public OrganizationDocumentSaveActionConfiguration() : base(x => x.OrganizationId, OrganizationDTODocumentConfiguration.ORGANIZATION_DTO_DOCUMENT_TYPE_ID)
         {
+           
             Func<Organization, bool> isNotOrganizationDelegate = (org) =>
             {
                 return Organization.OFFICE_ORGANIZATION_TYPE_IDS.Contains(org.OrganizationTypeId);
             };
+
             var rules = new List<Func<Organization, bool>>();
             rules.Add(isNotOrganizationDelegate);
-
             this.CreatedExclusionRules = rules;
             this.DeletedExclusionRules = rules;
             this.ModifiedExclusionRules = rules;

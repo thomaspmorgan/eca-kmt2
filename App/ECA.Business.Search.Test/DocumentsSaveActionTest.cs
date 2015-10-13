@@ -22,33 +22,17 @@ namespace ECA.Business.Search.Test
         private TestContext context;
         private DocumentsSaveAction<SimpleEntity> saveAction;
         private DocumentSaveActionConfiguration<SimpleEntity> configuration;
-        private Guid documentTypeId;
 
 
         [TestInitialize]
         public void TestInit()
         {
-            configuration = new DocumentSaveActionConfiguration<SimpleEntity>();
+            configuration = new DocumentSaveActionConfiguration<SimpleEntity>(x => x.Id, SimpleEntityConfiguration.SIMPLE_ENTITY_DOCUMENT_TYPE_ID);
             appSettings = new NameValueCollection();
             connectionStrings = new ConnectionStringSettingsCollection();
             settings = new AppSettings(appSettings, connectionStrings);
-            documentTypeId = Guid.NewGuid();
             context = new TestContext();
-            saveAction = new DocumentsSaveAction<SimpleEntity>(documentTypeId, settings, configuration);
-        }
-
-        [TestMethod]
-        public void TestConstructor_HasConfiguration()
-        {
-            var instance = new DocumentsSaveAction<SimpleEntity>(documentTypeId, settings, configuration);
-            Assert.IsTrue(Object.ReferenceEquals(configuration, instance.Configuration));
-        }
-
-        [TestMethod]
-        public void TestConstructor_DoesNotHaveConfiguration()
-        {
-            var instance = new DocumentsSaveAction<SimpleEntity>(documentTypeId, settings, null);
-            Assert.IsNull(instance.Configuration);
+            saveAction = new DocumentsSaveAction<SimpleEntity>(settings, configuration);
         }
 
         [TestMethod]
@@ -72,9 +56,9 @@ namespace ECA.Business.Search.Test
                 Id = 3
             });
 
-            var createdKey = new DocumentKey(documentTypeId, created.First().Id);
-            var deletedKey = new DocumentKey(documentTypeId, deleted.First().Id);
-            var modifiedKey = new DocumentKey(documentTypeId, modified.First().Id);
+            var createdKey = new DocumentKey(SimpleEntityConfiguration.SIMPLE_ENTITY_DOCUMENT_TYPE_ID, created.First().Id);
+            var deletedKey = new DocumentKey(SimpleEntityConfiguration.SIMPLE_ENTITY_DOCUMENT_TYPE_ID, deleted.First().Id);
+            var modifiedKey = new DocumentKey(SimpleEntityConfiguration.SIMPLE_ENTITY_DOCUMENT_TYPE_ID, modified.First().Id);
 
             saveAction.CreatedDocuments.AddRange(created);
             saveAction.DeletedDocuments.AddRange(deleted);
@@ -88,7 +72,6 @@ namespace ECA.Business.Search.Test
             Assert.AreEqual(createdKey.ToString(), message.CreatedDocuments.First());
             Assert.AreEqual(deletedKey.ToString(), message.DeletedDocuments.First());
             Assert.AreEqual(modifiedKey.ToString(), message.ModifiedDocuments.First());
-
         }
 
         #region Document Entities
