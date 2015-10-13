@@ -173,6 +173,7 @@
     <Content Include="app\app.config.js" />
     <Content Include="app\auth\auth.routes.js" />
     <Content Include="app\home\home.routes.js" />
+    <Content Include="app\offices\offices.routes.js" />
     <Content Include="app\people\people.routes.js" />
     <Content Include="app\programs\programs.routes.js" />
     <Content Include="app\projects\projects.routes.js" />
@@ -211,7 +212,7 @@
     <Content Include="app\controllers\membership\membership.js" />
     <Content Include="app\controllers\moneyflow.js" />
     <Content Include="app\controllers\moneyflows.js" />
-    <Content Include="app\controllers\office\branchesandprograms.js" />
+    <Content Include="app\offices\branches-and-programs.controller.js" />
     <Content Include="app\controllers\organization\addorganizationmodal.js" />
     <Content Include="app\people\evaluation-notes-edit.controller.js" />
     <Content Include="app\people\pii-edit.controller.js" />
@@ -221,7 +222,7 @@
     <Content Include="app\controllers\phoneNumbers\phonenumbers.js" />
     <Content Include="app\people\education-employment-edit.controller.js" />
     <Content Include="app\programs\add-program-modal.controller.js" />
-    <Content Include="app\controllers\office\overview.js" />
+    <Content Include="app\offices\overview.controller.js" />
     <Content Include="app\controllers\organization\activities.js" />
     <Content Include="app\controllers\organization\impact.js" />
     <Content Include="app\controllers\organization\artifacts.js" />
@@ -372,7 +373,7 @@
     <Content Include="styles\_variables.scss" />
     <Content Include="app\auth\error.html" />
     <Content Include="app\auth\forbidden.html" />
-    <Content Include="views\office\test.hs" />
+    <Content Include="app\offices\test.hs" />
     <Content Include="styles\main.scss" />
     <Content Include="packages.config" />
     <Content Include="bower.json" />
@@ -533,12 +534,12 @@
     <Content Include="images\yeoman.png" />
     <Content Include="index.html" />
     <Content Include="app\app.module.js" />
-    <Content Include="app\controllers\alloffices.js" />
+    <Content Include="app\offices\all-offices.controller.js" />
     <Content Include="app\controllers\allparticipants.js" />
     <Content Include="app\programs\all-programs.controller.js" />
     <Content Include="app\home\home.controller.js" />
     <Content Include="app\auth\logout.controller.js" />
-    <Content Include="app\controllers\office.js" />
+    <Content Include="app\offices\office.controller.js" />
     <Content Include="app\people\people.controller.js" />
     <Content Include="app\programs\program.controller.js" />
     <Content Include="app\projects\project.controller.js" />
@@ -572,13 +573,13 @@
     <Content Include="app\home\offshoot.html" />
     <Content Include="app\home\shortcuts.html" />
     <Content Include="views\lastupdated.html" />
-    <Content Include="views\offices.html" />
-    <Content Include="views\office\activity.html" />
-    <Content Include="views\office\alloffices.html" />
-    <Content Include="views\office\artifacts.html" />
-    <Content Include="views\office\branches.html" />
-    <Content Include="views\office\moneyflows.html" />
-    <Content Include="views\office\overview.html" />
+    <Content Include="app\offices\offices.html" />
+    <Content Include="app\offices\activity.html" />
+    <Content Include="app\offices\all-offices.html" />
+    <Content Include="app\offices\artifacts.html" />
+    <Content Include="app\offices\branches.html" />
+    <Content Include="app\offices\moneyflows.html" />
+    <Content Include="app\offices\overview.html" />
     <Content Include="views\partials\searchbar.html" />
     <Content Include="views\partials\tabbar.html" />
     <Content Include="views\partner.html" />
@@ -641,6 +642,7 @@
   <ItemGroup>
     <Folder Include="app\controllers\person\" />
     <Folder Include="app\controllers\project\" />
+    <Folder Include="views\office\" />
     <Folder Include="views\project\" />
   </ItemGroup>
   <ItemGroup>

@@ -13,47 +13,8 @@ angular.module('staticApp')
 
       $urlRouterProvider.otherwise('/');
 
-        $stateProvider.state('offices', {
-            url: '/offices/:officeId',
-            templateUrl: 'views/offices.html',
-            controller: 'OfficeCtrl',
-            requireADLogin: true
-        })
-        .state('offices.overview', {
-            url: '/overview',
-            templateUrl: 'views/office/overview.html',
-            controller: 'OfficeOverviewCtrl',
-            requireADLogin: true
-        })
-        .state('offices.branches', {
-            url: '/branches',
-            templateUrl: 'views/office/branches.html',
-            controller: 'BranchesAndProgramsCtrl',
-            requireADLogin: true
-        })
-        .state('offices.activity', {
-            url: '/activity',
-            templateUrl: 'views/office/activity.html',
-            requireADLogin: true
-        })
-        .state('offices.artifacts', {
-            url: '/artifacts',
-            templateUrl: 'views/office/artifacts.html',
-            requireADLogin: true
-        })
-        .state('offices.moneyflows', {
-            url: '/moneyflows',
-            templateUrl: 'views/office/moneyflows.html',
-            requireADLogin: true
-        })
-
-        .state('alloffices', {
-            url: '/alloffices',
-            templateUrl: 'views/office/alloffices.html',
-            controller: 'AllOfficesCtrl',
-            requireADLogin: true
-        })
-        .state('allorganizations', {
+       
+        $stateProvider.state('allorganizations', {
             url: '/allorganizations',
             templateUrl: 'views/organizations/allorganizations.html',
             controller: 'AllOrganizationsCtrl',
