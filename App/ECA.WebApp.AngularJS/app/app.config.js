@@ -13,69 +13,7 @@ angular.module('staticApp')
 
       $urlRouterProvider.otherwise('/');
 
-        $stateProvider.state('projects', {
-            url: '/projects/:projectId',
-            templateUrl: 'views/project.html',
-            controller: 'ProjectCtrl',
-            requireADLogin: true
-        })
-        .state('projects.overview', {
-            url: '/overview',
-            templateUrl: 'views/project/overview.html',
-            controller: 'ProjectOverviewCtrl',
-            requireADLogin: true
-        })
-        .state('projects.edit', {
-            url: '/edit',
-            templateUrl: 'views/project/edit.html',
-            controller: 'ProjectEditCtrl',
-            requireADLogin: true
-        })
-        .state('projects.participants', {
-            url: '/participant',
-            templateUrl: 'views/project/participant.html',
-            controller: 'ProjectParticipantCtrl',
-            requireADLogin: true
-        })
-        .state('projects.artifacts', {
-            url: '/artifact',
-            templateUrl: 'views/project/artifact.html',
-            requireADLogin: true
-        })
-        .state('projects.activity', {
-            url: '/activity',
-            templateUrl: 'views/project/activity.html',
-            requireADLogin: true
-        })
-        .state('projects.itineraries', {
-            url: '/itinerary',
-            templateUrl: 'views/project/itinerary.html',
-            requireADLogin: true
-        })
-        .state('projects.implementers', {
-            url: '/implementers',
-            templateUrl: 'views/project/implementer.html',
-            requireADLogin: true
-        })
-        .state('projects.partners', {
-            url: '/partners',
-            templateUrl: 'views/project/partners.html',
-            requireADLogin: true
-        })
-
-        .state('projects.moneyflows', {
-            url: '/moneyflows',
-            templateUrl: 'views/project/moneyflows.html',
-            requireADLogin: true
-        })
-
-        .state('projects.impact', {
-            url: '/impact',
-            templateUrl: 'views/project/impact.html',
-            requireADLogin: true
-        })
-
-        .state('offices', {
+        $stateProvider.state('offices', {
             url: '/offices/:officeId',
             templateUrl: 'views/offices.html',
             controller: 'OfficeCtrl',

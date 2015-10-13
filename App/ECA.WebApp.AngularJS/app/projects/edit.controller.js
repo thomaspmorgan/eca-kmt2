@@ -200,7 +200,7 @@ angular.module('staticApp')
       function cancelEdit() {
           if ($scope.form.projectForm.$dirty) {
               var modalInstance = $modal.open({
-                  templateUrl: '/views/project/unsavedchanges.html',
+                  templateUrl: '/app/projects/unsaved-changes.html',
                   controller: 'UnsavedChangesCtrl',
                   windowClass: 'modal-center-small',
                   backdrop: 'static',

@@ -175,6 +175,7 @@
     <Content Include="app\home\home.routes.js" />
     <Content Include="app\people\people.routes.js" />
     <Content Include="app\programs\programs.routes.js" />
+    <Content Include="app\projects\projects.routes.js" />
     <Content Include="app\reports\reports.routes.js" />
     <Content Include="app\services\constants.service.js">
       <AutoGen>True</AutoGen>
@@ -237,14 +238,13 @@
     <Content Include="app\programs\edit.controller.js" />
     <Content Include="app\programs\overview.controller.js" />
     <Content Include="app\programs\subprograms-and-projects.controller.js" />
-    <Content Include="app\controllers\project\addprojectmodal.js" />
-    <Content Include="app\controllers\project\addnewparticipant.js" />
-    <Content Include="app\controllers\project\selectparticipanttype.js" />
-    <Content Include="app\controllers\project\edit.js" />
-    <Content Include="app\controllers\project\overview.js" />
-    <Content Include="app\controllers\project\overview_test.js" />
-    <Content Include="app\controllers\project\projectparticipant.js" />
-    <Content Include="app\controllers\project\unsavedchanges.js" />
+    <Content Include="app\projects\add-project-modal.controller.js" />
+    <Content Include="app\projects\add-new-participant.controller.js" />
+    <Content Include="app\projects\select-participant-type.controller.js" />
+    <Content Include="app\projects\edit.controller.js" />
+    <Content Include="app\projects\overview.controller.js" />
+    <Content Include="app\projects\project-participant.controller.js" />
+    <Content Include="app\projects\unsaved-changes.controller.js" />
     <Content Include="app\reports\custom.controller.js" />
     <Content Include="app\reports\objective-awards.controller.js" />
     <Content Include="app\reports\focus-category-awards.controller.js" />
@@ -338,12 +338,12 @@
     <Content Include="app\programs\edit.html" />
     <Content Include="app\programs\moneyflows.html" />
     <Content Include="app\programs\add-program-modal.html" />
-    <Content Include="views\project\addprojectmodal.html" />
-    <Content Include="views\project\addnewparticipant.html" />
-    <Content Include="views\project\selectparticipanttype.html" />
+    <Content Include="app\projects\add-project-modal.html" />
+    <Content Include="app\projects\add-new-participant.html" />
+    <Content Include="app\projects\select-participant-type.html" />
     <Content Include="app\services\organization.service.js" />
     <Content Include="views\organizations\allorganizations.html" />
-    <Content Include="views\project\unsavedchanges.html" />
+    <Content Include="app\projects\unsaved-changes.html" />
     <Content Include="app\reports\project-awards.controller.js" />
     <Content Include="app\controllers\simple_test.js" />
     <Content Include="app\directives\date-picker-popup.directive.js" />
@@ -541,7 +541,7 @@
     <Content Include="app\controllers\office.js" />
     <Content Include="app\people\people.controller.js" />
     <Content Include="app\programs\program.controller.js" />
-    <Content Include="app\controllers\project.js" />
+    <Content Include="app\projects\project.controller.js" />
     <Content Include="app\reports\reports.controller.js" />
     <Content Include="app\reports\archive.controller.js" />
     <Content Include="app\controllers\securetest.js" />
@@ -594,17 +594,17 @@
     <Content Include="app\programs\impact.html" />
     <Content Include="app\programs\overview.html" />
     <Content Include="app\programs\projects.html" />
-    <Content Include="views\project.html" />
-    <Content Include="views\project\activity.html" />
-    <Content Include="views\project\artifact.html" />
-    <Content Include="views\project\edit.html" />
-    <Content Include="views\project\impact.html" />
-    <Content Include="views\project\implementer.html" />
-    <Content Include="views\project\itinerary.html" />
-    <Content Include="views\project\moneyflows.html" />
-    <Content Include="views\project\overview.html" />
-    <Content Include="views\project\participant.html" />
-    <Content Include="views\project\partners.html" />
+    <Content Include="app\projects\project.html" />
+    <Content Include="app\projects\activity.html" />
+    <Content Include="app\projects\artifact.html" />
+    <Content Include="app\projects\edit.html" />
+    <Content Include="app\projects\impact.html" />
+    <Content Include="app\projects\implementer.html" />
+    <Content Include="app\projects\itinerary.html" />
+    <Content Include="app\projects\moneyflows.html" />
+    <Content Include="app\projects\overview.html" />
+    <Content Include="app\projects\participant.html" />
+    <Content Include="app\projects\partners.html" />
     <Content Include="app\reports\reports.html" />
     <Content Include="app\reports\custom.html" />
     <Content Include="app\reports\archive.html" />
@@ -640,6 +640,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app\controllers\person\" />
+    <Folder Include="app\controllers\project\" />
+    <Folder Include="views\project\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
