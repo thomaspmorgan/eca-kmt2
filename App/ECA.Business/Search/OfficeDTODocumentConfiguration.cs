@@ -34,7 +34,7 @@ namespace ECA.Business.Search
             HasDescription(x => x.Description);
             HasThemes(x => x.Themes.Select(t => t.Value).ToList());
             HasGoals(x => x.Goals.Select(t => t.Value).ToList());
-            HasPointsOfContact(x => x.Contacts.Select(c => c.Value).ToList());
+            HasPointsOfContact(x => x.Contacts.Where(c => !String.IsNullOrWhiteSpace(c.Value)).Select(c => c.Value).ToList());
         }
     }
 }

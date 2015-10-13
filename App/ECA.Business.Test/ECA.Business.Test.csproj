@@ -175,6 +175,7 @@
     <Compile Include="Queries\Persons\ParticipantQueriesTest.cs" />
     <Compile Include="Queries\Persons\PersonQueriesTest.cs" />
     <Compile Include="Queries\Projects\ProjectQueriesTest.cs" />
+    <Compile Include="Search\OrganizationDocumentSaveActionConfigurationTest.cs" />
     <Compile Include="Search\ProjectDocumentServiceTest.cs" />
     <Compile Include="Search\ProgramDocumentServiceTest.cs" />
     <Compile Include="Search\TestIndexNotificationService.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="Search\OrganizationDocumentServiceTest.cs" />
     <Compile Include="Search\OfficeDTODocumentConfigurationTest.cs" />
     <Compile Include="Search\OfficeDocumentServiceTest.cs" />
+    <Compile Include="Search\OfficeDocumentSaveActionConfigurationTest.cs" />
     <Compile Include="Service\Admin\AdditionalAddressTest.cs" />
     <Compile Include="Service\Admin\AdditionalPersonAddressTest.cs" />
     <Compile Include="Service\Admin\AdditionalOrganizationAddressTest.cs" />

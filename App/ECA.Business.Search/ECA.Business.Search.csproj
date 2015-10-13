@@ -181,6 +181,7 @@
   <ItemGroup>
     <Compile Include="DocumentConfiguration.cs" />
     <Compile Include="DocumentKey.cs" />
+    <Compile Include="DocumentSaveActionConfiguration.cs" />
     <Compile Include="DocumentService.cs" />
     <Compile Include="DocumentsSaveAction.cs" />
     <Compile Include="ECADocument.cs" />

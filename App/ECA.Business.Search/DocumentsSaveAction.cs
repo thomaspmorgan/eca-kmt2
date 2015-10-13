@@ -30,7 +30,7 @@ namespace ECA.Business.Search
         /// <param name="documentTypeId">The document type id.  This id should correspond to the same guid
         /// as the document type in the document configuration.</param>
         /// <param name="appSettings">The app settings.</param>
-        public DocumentsSaveAction(Guid documentTypeId, AppSettings appSettings)
+        public DocumentsSaveAction(Guid documentTypeId, AppSettings appSettings, DocumentSaveActionConfiguration<TDocument> configuration = null)
         {
             Contract.Requires(appSettings != null, "The app settings must not be null.");
             Contract.Requires(documentTypeId != Guid.Empty, "The document type id must not be empty.");
@@ -39,7 +39,13 @@ namespace ECA.Business.Search
             this.CreatedDocuments = new List<TDocument>();
             this.DeletedDocuments = new List<TDocument>();
             this.ModifiedDocuments = new List<TDocument>();
+            this.Configuration = configuration;
         }
+
+        /// <summary>
+        /// Gets the save action configuration.
+        /// </summary>
+        public DocumentSaveActionConfiguration<TDocument> Configuration { get; private set; }
 
         /// <summary>
         /// Gets the added documents.
@@ -64,7 +70,13 @@ namespace ECA.Business.Search
         public IList<TDocument> GetCreatedDocumentEntities(DbContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            return GetDocumentEntities(context, EntityState.Added);
+            var createdDocuments = GetDocumentEntities(context, EntityState.Added).ToList();
+            if (this.Configuration != null && this.Configuration.CreatedExclusionRules != null)
+            {
+                var excludedDocuments = GetDocumentsToExclude(createdDocuments, this.Configuration.CreatedExclusionRules.ToList());
+                excludedDocuments.ForEach(x => createdDocuments.Remove(x));
+            }
+            return createdDocuments;
         }
 
         /// <summary>
@@ -75,7 +87,13 @@ namespace ECA.Business.Search
         public IList<TDocument> GetModifiedDocumentEntities(DbContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            return GetDocumentEntities(context, EntityState.Modified);
+            var modifiedDocuments = GetDocumentEntities(context, EntityState.Modified).ToList();
+            if (this.Configuration != null && this.Configuration.ModifiedExclusionRules != null)
+            {
+                var excludedDocuments = GetDocumentsToExclude(modifiedDocuments, this.Configuration.ModifiedExclusionRules.ToList());
+                excludedDocuments.ForEach(x => modifiedDocuments.Remove(x));
+            }
+            return modifiedDocuments;
         }
 
         /// <summary>
@@ -86,7 +104,13 @@ namespace ECA.Business.Search
         public IList<TDocument> GetDeletedDocumentEntities(DbContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            return GetDocumentEntities(context, EntityState.Deleted);
+            var deletedDocuments = GetDocumentEntities(context, EntityState.Deleted).ToList();
+            if (this.Configuration != null && this.Configuration.DeletedExclusionRules != null)
+            {
+                var excludedDocuments = GetDocumentsToExclude(deletedDocuments, this.Configuration.DeletedExclusionRules.ToList());
+                excludedDocuments.ForEach(x => deletedDocuments.Remove(x));
+            }
+            return deletedDocuments;
         }
 
         /// <summary>
@@ -113,6 +137,24 @@ namespace ECA.Business.Search
             this.CreatedDocuments = GetCreatedDocumentEntities(context).ToList();
             this.ModifiedDocuments = GetModifiedDocumentEntities(context).ToList();
             this.DeletedDocuments = GetDeletedDocumentEntities(context).ToList();
+        }
+
+        private List<TDocument> GetDocumentsToExclude(List<TDocument> allDocuments, List<Func<TDocument, bool>> exclusionRules)
+        {
+            var excludedDocuments = new List<TDocument>();
+            foreach (var document in allDocuments)
+            {
+                foreach (var exclusionRule in exclusionRules)
+                {
+                    var exclude = exclusionRule(document);
+                    if (exclude)
+                    {
+                        excludedDocuments.Add(document);
+                        break;
+                    }
+                }
+            }
+            return excludedDocuments;
         }
 
         #region ISaveAction
@@ -167,7 +209,7 @@ namespace ECA.Business.Search
         }
 
         private CloudQueue GetCloudQueueClient()
-        {   
+        {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(appSettings.AzureWebJobsStorageConnectionString.ConnectionString);
             CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
             var queue = queueClient.GetQueueReference(appSettings.SearchDocumentQueueName);

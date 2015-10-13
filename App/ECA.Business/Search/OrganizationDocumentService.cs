@@ -38,7 +38,7 @@ namespace ECA.Business.Search
         public override IQueryable<OrganizationDTO> CreateGetDocumentByIdQuery(object id)
         {
             Contract.Requires(id.GetType() == typeof(int), "The id type must be an int.");
-            return OrganizationQueries.CreateGetOrganizationDTOByOrganizationIdQuery(this.Context, (int)id);
+            return CreateGetDocumentsQuery().Where(x => x.OrganizationId == (int)id);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace ECA.Business.Search
         /// <returns>The query.</returns>
         public override IQueryable<OrganizationDTO> CreateGetDocumentsQuery()
         {
-            return OrganizationQueries.CreateGetOrganizationDTOsQuery(this.Context);
+            return OrganizationQueries.CreateGetOrganizationDTOsQuery(this.Context).OrderBy(x => x.OrganizationId);
         }
     }
 }

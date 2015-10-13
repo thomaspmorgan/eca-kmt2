@@ -31,8 +31,8 @@ namespace ECA.Business.Search
             HasKey(x => x.OrganizationId);
             HasName(x => x.Name);
             HasDescription(x => x.Description);
-            HasAddresses(x => x.Addresses.Select(a => a.ToString()).ToList());            
-            HasWebsites(x => new List<string> { x.Website });
+            HasAddresses(x => x.Addresses.Where(a => !String.IsNullOrWhiteSpace(a.ToString())).Select(a => a.ToString()).ToList());            
+            HasWebsites(x => !String.IsNullOrWhiteSpace(x.Website) ? new List<string> { x.Website } : null);
         }
     }
 }

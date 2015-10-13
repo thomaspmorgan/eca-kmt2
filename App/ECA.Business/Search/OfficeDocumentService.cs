@@ -47,7 +47,7 @@ namespace ECA.Business.Search
         /// <returns>The query to get office dtos.</returns>
         public override IQueryable<OfficeDTO> CreateGetDocumentsQuery()
         {
-            return OfficeQueries.CreateGetOfficesQuery(this.Context);
+            return OfficeQueries.CreateGetOfficesQuery(this.Context).OrderBy(x => x.Id);
         }
     }
 }

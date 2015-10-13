@@ -114,7 +114,7 @@ namespace ECA.WebJobs.Search.Index
         /// <summary>
         /// Creates the documents with the given document keys as strings.
         /// </summary>
-        /// <param name="updatedDocumentKeysAsStrings">The document keys as strings.</param>
+        /// <param name="createdDocumentKeysAsStrings">The document keys as strings.</param>
         public void HandleCreatedDocuments(IEnumerable<string> createdDocumentKeysAsStrings)
         {
             Contract.Requires(createdDocumentKeysAsStrings != null, "The createdDocumentKeysAsStrings must not be null.");
