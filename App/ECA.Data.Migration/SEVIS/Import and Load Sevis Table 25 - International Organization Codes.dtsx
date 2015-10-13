@@ -7,12 +7,12 @@
   DTS:CreatorName="BE00003308\Marc Setien"
   DTS:DTSID="{5EBFD501-741D-4EA2-B238-B1AA38C68914}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
   DTS:LocaleID="1033"
   DTS:ObjectName="Import and Load Sevis Table 25 - International Organization Codes"
   DTS:PackageType="5"
-  DTS:VersionBuild="2"
-  DTS:VersionGUID="{708E5347-2D51-4786-BABE-4EA313D87966}">
+  DTS:VersionBuild="3"
+  DTS:VersionGUID="{8A56B8E3-2E51-4B8C-9B14-362627D52529}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,13 +27,28 @@
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[eca.database.windows.net.ECA_KMT_DEV.eca]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{77E940E8-44CF-401D-9C45-9D60EC571D9C}"
+      DTS:ObjectName="eca.database.windows.net.ECA_KMT_DEV.eca">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=eca.database.windows.net;User ID=eca;Initial Catalog=ECA_KMT_DEV;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAD1H3+4qq3dDYb/0vuqnmlArchZe0OXGbhdUsFFH1sTnwAAAAAOgAAAAAIAACAAAAA38rSz6kceVOcv/mrL0lHEP6rjzWxyUPP+WVRHlQ7kLSAAAADslwSUsfduvVrYXRqHp6BQsDptrkBzONV+ccwpHIu65EAAAABE/d2IApnzCvPkggFi35NfEg608OL4EdxYpQu4FXr+k03iHAhTRuaOorfGnt7z+q7LyNKt2dZiaKCFGfXM7zy2</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
       DTS:CreationName="EXCEL"
       DTS:DTSID="{543D70EA-A955-4A50-98BF-91DBB8ACCAAB}"
       DTS:ObjectName="Excel Connection Manager">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 25 - International Organization Codes.xlsx;Extended Properties=&quot;Excel 12.0 XML;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 25 - International Organization Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -373,8 +388,8 @@
               <connections>
                 <connection
                   refId="Package\Load Sevis International Organization Codes\Sevis - InternationalOrganization.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[eca.database.windows.net.ECA_KMT_DEV.eca]"
+                  connectionManagerRefId="Package.ConnectionManagers[eca.database.windows.net.ECA_KMT_DEV.eca]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -412,18 +427,20 @@
                       lineageId="Package\Load Sevis International Organization Codes\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
                     <inputColumn
                       refId="Package\Load Sevis International Organization Codes\Sevis - InternationalOrganization.Inputs[OLE DB Destination Input].Columns[INTERNATIONAL ORGANIZATION CODE]"
+                      cachedComparisonFlags="1"
                       cachedDataType="wstr"
                       cachedLength="255"
                       cachedName="INTERNATIONAL ORGANIZATION CODE"
+                      cachedSortKeyPosition="1"
                       externalMetadataColumnId="Package\Load Sevis International Organization Codes\Sevis - InternationalOrganization.Inputs[OLE DB Destination Input].ExternalColumns[OrganizationCode]"
-                      lineageId="Package\Load Sevis International Organization Codes\International Organization Codes Excel Source.Outputs[Excel Source Output].Columns[INTERNATIONAL ORGANIZATION CODE]" />
+                      lineageId="Package\Load Sevis International Organization Codes\Sort.Outputs[Sort Output].Columns[INTERNATIONAL ORGANIZATION CODE]" />
                     <inputColumn
                       refId="Package\Load Sevis International Organization Codes\Sevis - InternationalOrganization.Inputs[OLE DB Destination Input].Columns[INTERNATIONAL ORGANIZATION  DESCRIPTION]"
                       cachedDataType="wstr"
                       cachedLength="255"
                       cachedName="INTERNATIONAL ORGANIZATION  DESCRIPTION"
                       externalMetadataColumnId="Package\Load Sevis International Organization Codes\Sevis - InternationalOrganization.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
-                      lineageId="Package\Load Sevis International Organization Codes\International Organization Codes Excel Source.Outputs[Excel Source Output].Columns[INTERNATIONAL ORGANIZATION  DESCRIPTION]" />
+                      lineageId="Package\Load Sevis International Organization Codes\Sort.Outputs[Sort Output].Columns[INTERNATIONAL ORGANIZATION  DESCRIPTION]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -487,6 +504,108 @@
                 </output>
               </outputs>
             </component>
+            <component
+              refId="Package\Load Sevis International Organization Codes\Sort"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="Sort"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Load Sevis International Organization Codes\Sort.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Sevis International Organization Codes\Sort.Inputs[Sort Input].Columns[INTERNATIONAL ORGANIZATION CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="INTERNATIONAL ORGANIZATION CODE"
+                      lineageId="Package\Load Sevis International Organization Codes\International Organization Codes Excel Source.Outputs[Excel Source Output].Columns[INTERNATIONAL ORGANIZATION CODE]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Sevis International Organization Codes\Sort.Inputs[Sort Input].Columns[INTERNATIONAL ORGANIZATION  DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="INTERNATIONAL ORGANIZATION  DESCRIPTION"
+                      lineageId="Package\Load Sevis International Organization Codes\International Organization Codes Excel Source.Outputs[Excel Source Output].Columns[INTERNATIONAL ORGANIZATION  DESCRIPTION]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Sevis International Organization Codes\Sort.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sevis International Organization Codes\Sort.Outputs[Sort Output].Columns[INTERNATIONAL ORGANIZATION CODE]"
+                      comparisonFlags="1"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Sevis International Organization Codes\Sort.Outputs[Sort Output].Columns[INTERNATIONAL ORGANIZATION CODE]"
+                      name="INTERNATIONAL ORGANIZATION CODE"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load Sevis International Organization Codes\International Organization Codes Excel Source.Outputs[Excel Source Output].Columns[INTERNATIONAL ORGANIZATION CODE]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Sevis International Organization Codes\Sort.Outputs[Sort Output].Columns[INTERNATIONAL ORGANIZATION  DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Sevis International Organization Codes\Sort.Outputs[Sort Output].Columns[INTERNATIONAL ORGANIZATION  DESCRIPTION]"
+                      name="INTERNATIONAL ORGANIZATION  DESCRIPTION">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load Sevis International Organization Codes\International Organization Codes Excel Source.Outputs[Excel Source Output].Columns[INTERNATIONAL ORGANIZATION  DESCRIPTION]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
           </components>
           <paths>
             <path
@@ -496,9 +615,14 @@
               startId="Package\Load Sevis International Organization Codes\Add Required Columns.Outputs[Derived Column Output]" />
             <path
               refId="Package\Load Sevis International Organization Codes.Paths[Excel Source Output]"
-              endId="Package\Load Sevis International Organization Codes\Add Required Columns.Inputs[Derived Column Input]"
+              endId="Package\Load Sevis International Organization Codes\Sort.Inputs[Sort Input]"
               name="Excel Source Output"
               startId="Package\Load Sevis International Organization Codes\International Organization Codes Excel Source.Outputs[Excel Source Output]" />
+            <path
+              refId="Package\Load Sevis International Organization Codes.Paths[Sort Output]"
+              endId="Package\Load Sevis International Organization Codes\Add Required Columns.Inputs[Derived Column Input]"
+              name="Sort Output"
+              startId="Package\Load Sevis International Organization Codes\Sort.Outputs[Sort Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
@@ -533,35 +657,13 @@
           Id="Package\Load Sevis International Organization Codes\International Organization Codes Excel Source"
           TopLeft="5.5,5.5" />
         <NodeLayout
-          Size="186,42"
-          Id="Package\Load Sevis International Organization Codes\Add Required Columns"
-          TopLeft="56,125" />
-        <EdgeLayout
-          Id="Package\Load Sevis International Organization Codes.Paths[Excel Source Output]"
-          TopLeft="151.5,47.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,77.5"
-              Start="0,0"
-              End="0,70">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,70" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
           Size="233,42"
           Id="Package\Load Sevis International Organization Codes\Sevis - InternationalOrganization"
           TopLeft="35.5,243.5" />
+        <NodeLayout
+          Size="186,42"
+          Id="Package\Load Sevis International Organization Codes\Add Required Columns"
+          TopLeft="56,125" />
         <EdgeLayout
           Id="Package\Load Sevis International Organization Codes.Paths[Derived Column Output]"
           TopLeft="150.5,167">
@@ -576,6 +678,78 @@
                   Capacity="5">
                   <mssgle:LineSegment
                     End="0,69" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="98,42"
+          Id="Package\Load Sevis International Organization Codes\Sort"
+          TopLeft="386.5,69.5" />
+        <EdgeLayout
+          Id="Package\Load Sevis International Organization Codes.Paths[Excel Source Output]"
+          TopLeft="302.5,26.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="84,58.3333333333333"
+              Start="0,0"
+              End="76.5,58.3333333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="44.5504587155963,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="44.5504587155963,0"
+                    Point2="48.5504587155963,0"
+                    Point3="48.5504587155963,4" />
+                  <mssgle:LineSegment
+                    End="48.5504587155963,54.3333333333333" />
+                  <mssgle:CubicBezierSegment
+                    Point1="48.5504587155963,54.3333333333333"
+                    Point2="48.5504587155963,58.3333333333333"
+                    Point3="52.5504587155963,58.3333333333333" />
+                  <mssgle:LineSegment
+                    End="76.5,58.3333333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Sevis International Organization Codes.Paths[Sort Output]"
+          TopLeft="386.5,96.1666666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-144.5,49.8333333333333"
+              Start="0,0"
+              End="-137,49.8333333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-56.9816513761468,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-56.9816513761468,0"
+                    Point2="-60.9816513761468,0"
+                    Point3="-60.9816513761468,4" />
+                  <mssgle:LineSegment
+                    End="-60.9816513761468,45.8333333333333" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-60.9816513761468,45.8333333333333"
+                    Point2="-60.9816513761468,49.8333333333333"
+                    Point3="-64.9816513761468,49.8333333333333" />
+                  <mssgle:LineSegment
+                    End="-137,49.8333333333333" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>

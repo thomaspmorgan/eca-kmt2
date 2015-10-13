@@ -7,23 +7,28 @@
   DTS:CreatorName="BE00003308\Marc Setien"
   DTS:DTSID="{DE0EC28D-BE28-4086-AA58-FB1025FAB9A2}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
   DTS:LocaleID="1033"
   DTS:ObjectName="Import and Load Sevis Table 31 - US Government Agency Codes"
   DTS:PackageType="5"
-  DTS:VersionBuild="6"
-  DTS:VersionGUID="{A694577E-5475-473B-AD80-FC3FFE6BD61A}">
+  DTS:VersionBuild="8"
+  DTS:VersionGUID="{CF243D7A-07A1-45BE-8C8C-E4CFB77189FF}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
     <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[(Localdb)\v11.0.ECA_Local]"
+      DTS:refId="Package.ConnectionManagers[eca.database.windows.net.ECA_KMT_DEV.eca]"
       DTS:CreationName="OLEDB"
-      DTS:DTSID="{6D0F0D8D-5DD5-4190-82F3-1A1AAAD04108}"
-      DTS:ObjectName="(Localdb)\v11.0.ECA_Local">
+      DTS:DTSID="{9BB639AD-10DE-40E9-AD69-A6B409C7E8D7}"
+      DTS:ObjectName="eca.database.windows.net.ECA_KMT_DEV.eca">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Data Source=(Localdb)\v11.0;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+          DTS:ConnectionString="Data Source=eca.database.windows.net;User ID=eca;Initial Catalog=ECA_KMT_DEV;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAx044WsMAcTJdD8Ay/mpAfXi7B0Q2/c//6od1dZDlBHgAAAAAOgAAAAAIAACAAAABhl9lmZ/P5KIvh1vebJVVtv4esAtBwwwreoPb28v8YFCAAAAAEbbptNDYgdwcqV8ZknYPR55Te0TutbxinrFWabbmlLUAAAABFEyNBtfxlprVohTsGeJzCnI9dJMD5EYCOu2wcfT/9+toESr/uefAndxfrly0HNRu5mIajxPLCnKokVZs7D+zR</DTS:Password>
+        </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -251,8 +256,8 @@
               <connections>
                 <connection
                   refId="Package\Load US Government Agency Codes\Sevis - GovernmentAgency.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(Localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(Localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[eca.database.windows.net.ECA_KMT_DEV.eca]"
+                  connectionManagerRefId="Package.ConnectionManagers[eca.database.windows.net.ECA_KMT_DEV.eca]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -541,28 +546,6 @@
           Id="Package\Load US Government Agency Codes\US Government Agency Codes Excel"
           TopLeft="5.5,5.5" />
         <EdgeLayout
-          Id="Package\Load US Government Agency Codes.Paths[Excel Source Output]"
-          TopLeft="132,47.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,64"
-              Start="0,0"
-              End="0,56.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,56.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
           Id="Package\Load US Government Agency Codes.Paths[Derived Column Output]"
           TopLeft="132.25,153.5">
           <EdgeLayout.Curve>
@@ -576,6 +559,28 @@
                   Capacity="5">
                   <mssgle:LineSegment
                     End="0,68.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load US Government Agency Codes.Paths[Excel Source Output]"
+          TopLeft="132,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,64"
+              Start="0,0"
+              End="0,56.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,56.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>

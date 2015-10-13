@@ -11,21 +11,11 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="IVLP Oracle Dataset 2 Organization and Program Load"
   DTS:PackageType="5"
-  DTS:VersionBuild="127"
-  DTS:VersionGUID="{48EBCD4B-9D70-47CA-A6B3-7609FF08FB84}">
+  DTS:VersionBuild="148"
+  DTS:VersionGUID="{EEFF7ADB-79C6-4C67-93AF-7568496C1671}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
-    <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-      DTS:CreationName="OLEDB"
-      DTS:DTSID="{1584C0FB-71AD-4E22-8F9A-DD42DE45F1B0}"
-      DTS:ObjectName="(localdb)\v11.0.ECA_Local">
-      <DTS:ObjectData>
-        <DTS:ConnectionManager
-          DTS:ConnectionString="Data Source=(localdb)\v11.0;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
-      </DTS:ObjectData>
-    </DTS:ConnectionManager>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[BE00003308.ECA_Local]"
       DTS:CreationName="OLEDB"
@@ -37,13 +27,13 @@
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
+      DTS:refId="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
       DTS:CreationName="OLEDB"
-      DTS:DTSID="{3586F998-537B-44A7-A93F-1DA363DF0DA2}"
-      DTS:ObjectName="BE00003308\SQLEXPRESS2014.IVLP_XREF">
+      DTS:DTSID="{D024B15A-5694-4183-A306-FDF29165B2F8}"
+      DTS:ObjectName="BE00003308.IVLP_XREF">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Data Source=BE00003308\SQLEXPRESS2014;Initial Catalog=IVLP_XREF;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+          DTS:ConnectionString="Data Source=BE00003308;Initial Catalog=IVLP_XREF;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -57,7 +47,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACjvSmZY4CYmhP20ngtx+eSWNeveqvvLN0Z0pZXN0zZogAAAAAOgAAAAAIAACAAAABvgIeIFO1Kfpj+3EvceP0k6qNU6VqjfcTQ6VPHaWNnUiAAAACCYEhN1OrBQnDIQxcfr5FjCIP05P9Iwrcucb/uA+NwVUAAAAAvyoBeyRcQ9QUBLFFR8z1biLx5tHdqD2LHCr4NSAxfBiqiBCKfzKvOr0aTq1/a2nJuPLAocCKCoYZvaZ5Dx3ej</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABq1iYKuXSlZK7usGJHpYwEmPLX5MQXbTObkVzNy4iioAAAAAAOgAAAAAIAACAAAAB8X+LJHQIQ7E1q9LjcWGeScHXjAI/CUO9tSzW9syn4DCAAAADOotH9hOvxeqzxpIJIHSyBStJymtY+G+8kf2Q11vYWukAAAABHRCfubo1kF5mR2R5QzZF9E5QAxhDRF1BC254KSIcx6yXo/3yP09ZVDed9d5WFWEup9suc+kUFJ7zxkU98FKRF</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -180,7 +170,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[Local_IVLP_Program_Mapping_XREF_Interim]</property>
+                  name="OpenRowset">[dbo].[Local_IVLP_Program_Mapping_XREF_Interim]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -223,8 +213,8 @@
               <connections>
                 <connection
                   refId="Package\Create IVLP Program XREF (Completed)\IVLP Program Mapping XREF.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -3097,7 +3087,7 @@ where [refTable].[OrganizationTypeName] = ?</property>
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[Local_IVLP_Organization_XREF]</property>
+                  name="OpenRowset">[dbo].[Local_IVLP_Organization_XREF]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -3140,8 +3130,8 @@ where [refTable].[OrganizationTypeName] = ?</property>
               <connections>
                 <connection
                   refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -3480,8 +3470,8 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
               <connections>
                 <connection
                   refId="Package\Create Organization XREF Data (Completed)\Lookup ECA Organization Name.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -4396,7 +4386,7 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[Local_IVLP_Organization_XREF]</property>
+                  name="OpenRowset">[dbo].[Local_IVLP_Organization_XREF]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -4439,8 +4429,8 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
               <connections>
                 <connection
                   refId="Package\Create Organization XREF Data (Includes Parent)\Load IVLP_Organization XREF table.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -4779,8 +4769,8 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
               <connections>
                 <connection
                   refId="Package\Create Organization XREF Data (Includes Parent)\Lookup ECA Organization Name.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -5099,8 +5089,8 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
               <connections>
                 <connection
                   refId="Package\Create Organization XREF Data (Includes Parent)\Lookup ECA Parent OrganizationId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -6741,7 +6731,7 @@ where [refTable].[Name] = ?</property>
                 <property
                   dataType="System.String"
                   description="Indicates whether to reference metadata in an XML format."
-                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProgramId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProgramStatusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Name" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Description" dataType="DT_WSTR" length="3000" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Website" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StartDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="EndDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="ParentProgram_ProgramId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Owner_OrganizationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="RowVersion" dataType="DT_BYTES" length="8" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProgramId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProgramStatusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Name" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Description" dataType="DT_WSTR" length="3000" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StartDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="EndDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="ParentProgram_ProgramId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Owner_OrganizationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="RowVersion" dataType="DT_BYTES" length="8" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
                 <property
                   containsID="true"
                   dataType="System.String"
@@ -6759,8 +6749,8 @@ where [refTable].[Name] = ?</property>
               <connections>
                 <connection
                   refId="Package\Create Project XRef table\Lookup ProgramId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -6918,8 +6908,8 @@ where [refTable].[Status] = ?</property>
               <connections>
                 <connection
                   refId="Package\Create Project XRef table\Lookup Project Status.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -7047,7 +7037,7 @@ where [refTable].[Status] = ?</property>
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{3586F998-537B-44A7-A93F-1DA363DF0DA2}"
+          SQLTask:Connection="{E15AF347-3800-4A3D-8B4B-52178107B40A}"
           SQLTask:SqlStatementSource="DELETE FROM IVLP_XREF.dbo.Local_IVLP_Organization_XREF" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
@@ -7065,7 +7055,7 @@ where [refTable].[Status] = ?</property>
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{3586F998-537B-44A7-A93F-1DA363DF0DA2}"
+          SQLTask:Connection="{D024B15A-5694-4183-A306-FDF29165B2F8}"
           SQLTask:SqlStatementSource="DELETE FROM ivlp_xref.dbo.Local_IVLP_Program_Map_XREF_Final" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
@@ -7083,7 +7073,7 @@ where [refTable].[Status] = ?</property>
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{3586F998-537B-44A7-A93F-1DA363DF0DA2}"
+          SQLTask:Connection="{D024B15A-5694-4183-A306-FDF29165B2F8}"
           SQLTask:SqlStatementSource="DELETE FROM IVLP_XREF.dbo.Local_IVLP_Program_Mapping_XREF_Interim" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
@@ -7161,8 +7151,8 @@ where [refTable].[Status] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load New Programs (Completed)\Add new program.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -7619,7 +7609,7 @@ where [refTable].[Status] = ?</property>
                       dataType="wstr"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      length="20"
+                      length="25"
                       lineageId="Package\Load New Programs (Completed)\Add Required Columns.Outputs[Derived Column Output].Columns[Website_KMT]"
                       name="Website_KMT"
                       truncationRowDisposition="FailComponent">
@@ -7628,13 +7618,13 @@ where [refTable].[Status] = ?</property>
                           containsID="true"
                           dataType="System.String"
                           description="Derived Column Expression"
-                          name="Expression">"http://eca.state.gov"</property>
+                          name="Expression">"http://eca.state.gov/ivlp"</property>
                         <property
                           containsID="true"
                           dataType="System.String"
                           description="Derived Column Friendly Expression"
                           expressionType="Notify"
-                          name="FriendlyExpression">"http://eca.state.gov"</property>
+                          name="FriendlyExpression">"http://eca.state.gov/ivlp"</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
@@ -7829,8 +7819,8 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
               <connections>
                 <connection
                   refId="Package\Load New Programs (Completed)\Does Program Exist?.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -7968,8 +7958,8 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
               <connections>
                 <connection
                   refId="Package\Load New Programs (Completed)\IVLP Program Mapping XREF.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -8256,8 +8246,8 @@ where [refTable].[OrganizationTypeName] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load New Programs (Completed)\Lookup Office Organization TypeId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -8415,8 +8405,8 @@ where [refTable].[Name] = ? and [refTable].[OrganizationTypeId] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load New Programs (Completed)\Lookup Owner OrganizationId (default).Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -8572,7 +8562,7 @@ where [refTable].[Name] = ?</property>
                 <property
                   dataType="System.String"
                   description="Indicates whether to reference metadata in an XML format."
-                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProgramId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProgramStatusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Name" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Description" dataType="DT_WSTR" length="3000" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Website" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StartDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="EndDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="ParentProgram_ProgramId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Owner_OrganizationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="RowVersion" dataType="DT_BYTES" length="8" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProgramId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProgramStatusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Name" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Description" dataType="DT_WSTR" length="3000" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StartDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="EndDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="ParentProgram_ProgramId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Owner_OrganizationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="RowVersion" dataType="DT_BYTES" length="8" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
                 <property
                   containsID="true"
                   dataType="System.String"
@@ -8590,8 +8580,8 @@ where [refTable].[Name] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load New Programs (Completed)\Lookup Parent Program Id (default).Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -8749,8 +8739,8 @@ where [refTable].[Status] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load New Programs (Completed)\Lookup Program StatusId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -8897,7 +8887,7 @@ where [refTable].[Status] = ?</property>
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{3586F998-537B-44A7-A93F-1DA363DF0DA2}"
+          SQLTask:Connection="{D024B15A-5694-4183-A306-FDF29165B2F8}"
           SQLTask:BypassPrepare="False"
           SQLTask:SqlStatementSource="/* Update IVLP Program Mappings per C. Remsen email */&#xA;&#xA;/* &#xA;Our office used to have a Multi-Regional Program Division but it was absorbed a couple of years ago by the IVLP Division &#xA;(and our application was never updated to reflect this change). &#xA;So all projects with the project number prefix E/VM are owned by the IVLP Division.  &#xA;*/&#xA;&#xA;/*&#xA;All PL-402 (they should start with the prefix VCR or VCP) –with the exception of the &#xA;entries with “Gold Star” in the project title – should map to Global Government-to-Government Partnership (G3P)&#xA;*/&#xA;&#xA;/*&#xA;The projects with Gold Star in the project title should map to the Gold Star sub-program. &#xA;We do not have this project-program type in our current application so they were tagged with PL-402.&#xA;*/&#xA;&#xA;&#xA;/* One update */&#xA;UPDATE ivlp_xref.dbo.local_ivlp_Program_Mapping_xref_interim&#xA;SET IVLP_MappedProgramName =&#xA;CASE&#xA;WHEN UPPER(PROJECT_NUMBER) LIKE '%E/VM%' OR UPPER(PROJECT_NUMBER) LIKE '%E/VP%' &#xA;   THEN 'International Vistor Leadership Program (IVLP)'&#xA;WHEN UPPER(PROGRAM) = 'PL-402' AND (PROJECT_NUMBER LIKE '%VCR%' OR PROJECT_NUMBER LIKE '%VCP%') AND UPPER(PROJECT_TITLE) NOT LIKE '%GOLD STAR%'&#xA;   THEN 'IVLP Global Government-to-Government Partnership (G3P)'&#xA;WHEN UPPER(PROGRAM) = 'PL-402' AND (PROJECT_NUMBER LIKE '%VCR%' OR PROJECT_NUMBER LIKE '%VCP%') AND UPPER(PROJECT_TITLE) LIKE '%GOLD STAR%'&#xA;   THEN 'IVLP Gold Stars'&#xA;WHEN UPPER(PROGRAM) = UPPER('Voluntary Visitors') AND UPPER(Project_Number) LIKE '%VFA%'&#xA;   THEN 'IVLP On Demand - EAP, NEA, SCA, WHA'&#xA;WHEN UPPER(PROGRAM) = UPPER('Voluntary Visitors') AND UPPER(Project_Number) LIKE '%VFE%'&#xA;   THEN 'IVLP On Demand - Africa and Europe'&#xA;WHEN UPPER(PROGRAM) = UPPER('Voluntary Visitors') AND (UPPER(Project_Number) NOT LIKE '%VFE%' AND UPPER(Project_Number) NOT LIKE '%VFA%')&#xA;   THEN 'IVLP On Demand'&#xA;WHEN UPPER(PROGRAM) = 'IV Regional Visitors'&#xA;   THEN 'Regional Programs'&#xA;END&#xA;&#xA;&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
@@ -8951,7 +8941,7 @@ where [refTable].[Status] = ?</property>
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[Local_IVLP_Program_Map_XREF_Final]</property>
+                  name="OpenRowset">[dbo].[Local_IVLP_Program_Map_XREF_Final]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -8994,8 +8984,8 @@ where [refTable].[Status] = ?</property>
               <connections>
                 <connection
                   refId="Package\Update Program XREF ProgramId (Completed)\Completed Program XREF.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -9630,8 +9620,8 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
               <connections>
                 <connection
                   refId="Package\Update Program XREF ProgramId (Completed)\Lookup ECA-KMT ProgramId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -9929,8 +9919,8 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
               <connections>
                 <connection
                   refId="Package\Update Program XREF ProgramId (Completed)\Program XREF Data.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -10739,69 +10729,53 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         <NodeLayout
           Size="267,42"
           Id="Package\Create IVLP Program XREF (Completed)"
-          TopLeft="35.5,322.5" />
+          TopLeft="439.5,424.5" />
         <NodeLayout
           Size="263,42"
           Id="Package\Create New Organizations (Completed)"
-          TopLeft="36.5,23" />
+          TopLeft="36.5,128" />
         <NodeLayout
           Size="287,42"
           Id="Package\Create Organization XREF Data (Completed)"
-          TopLeft="32,116.5" />
-        <NodeLayout
-          Size="197,42"
-          Id="Package\Create Project XRef table"
-          TopLeft="1002.5,541.5" />
+          TopLeft="31,279.5" />
         <NodeLayout
           Size="265,42"
           Id="Package\Delete Existing Organization XREF rows"
-          TopLeft="438,50" />
+          TopLeft="35,201" />
         <NodeLayout
           Size="332,42"
           Id="Package\Delete Existing Program Final XREF rows (Completed)"
-          TopLeft="385.5,209.5" />
+          TopLeft="20.5,426.5" />
         <NodeLayout
           Size="345,42"
           Id="Package\Delete Existing Program Interim XREF rows (Completed)"
-          TopLeft="32.5,207.5" />
+          TopLeft="7.5,347.5" />
         <NodeLayout
           Size="235,42"
           Id="Package\Load New Programs (Completed)"
-          TopLeft="36.5,431.5" />
+          TopLeft="451.5,268.5" />
         <NodeLayout
           Size="326,42"
           Id="Package\Map Source Programs to ECA Programs (Completed)"
-          TopLeft="381.5,322.5" />
+          TopLeft="407.5,349.5" />
         <NodeLayout
           Size="298,42"
           Id="Package\Update Program XREF ProgramId (Completed)"
-          TopLeft="408.5,440.5" />
+          TopLeft="417.5,184.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="299.5,44">
+          TopLeft="167.75,170">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="138.5,27"
+              EndConnector="0,31"
               Start="0,0"
-              End="131,27">
+              End="0,23.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="65.25,0" />
-                  <mssgle:CubicBezierSegment
-                    Point1="65.25,0"
-                    Point2="69.25,0"
-                    Point3="69.25,4" />
-                  <mssgle:LineSegment
-                    End="69.25,23" />
-                  <mssgle:CubicBezierSegment
-                    Point1="69.25,23"
-                    Point2="69.25,27"
-                    Point3="73.25,27" />
-                  <mssgle:LineSegment
-                    End="131,27" />
+                    End="0,23.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -10812,30 +10786,18 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="570.5,92">
+          TopLeft="171,243">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-395,24.5"
+              EndConnector="0,36.5"
               Start="0,0"
-              End="-395,17">
+              End="0,29">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,8.25" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,8.25"
-                    Point2="0,12.25"
-                    Point3="-4,12.25" />
-                  <mssgle:LineSegment
-                    End="-391,12.25" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-391,12.25"
-                    Point2="-395,12.25"
-                    Point3="-395,16.25" />
-                  <mssgle:LineSegment
-                    End="-395,17" />
+                    End="0,29" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -10846,30 +10808,18 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="175.5,158.5">
+          TopLeft="177.25,321.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-26.6666666666667,49"
+              EndConnector="0,26"
               Start="0,0"
-              End="-26.6666666666667,41.5">
+              End="0,18.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,25.264281592614" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,25.264281592614"
-                    Point2="0,29.264281592614"
-                    Point3="-4,29.264281592614" />
-                  <mssgle:LineSegment
-                    End="-22.6666666666667,29.264281592614" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-22.6666666666667,29.264281592614"
-                    Point2="-26.6666666666667,29.264281592614"
-                    Point3="-26.6666666666667,33.264281592614" />
-                  <mssgle:LineSegment
-                    End="-26.6666666666667,41.5" />
+                    End="0,18.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -10880,18 +10830,18 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="302.5,343.5">
+          TopLeft="571.75,424.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="79,0"
+              EndConnector="0,-33"
               Start="0,0"
-              End="71.5,0">
+              End="0,-25.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="71.5,0" />
+                    End="0,-25.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -10902,30 +10852,18 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 4]"
-          TopLeft="544.5,364.5">
+          TopLeft="569.75,349.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-390.5,67"
+              EndConnector="0,-39"
               Start="0,0"
-              End="-390.5,59.5">
+              End="0,-31.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,29.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,29.5"
-                    Point2="0,33.5"
-                    Point3="-4,33.5" />
-                  <mssgle:LineSegment
-                    End="-386.5,33.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-386.5,33.5"
-                    Point2="-390.5,33.5"
-                    Point3="-390.5,37.5" />
-                  <mssgle:LineSegment
-                    End="-390.5,59.5" />
+                    End="0,-31.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -10936,30 +10874,18 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 5]"
-          TopLeft="261.166666666667,207.5">
+          TopLeft="183.25,389.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="290.333333333333,2"
+              EndConnector="0,37"
               Start="0,0"
-              End="290.333333333333,-5.5">
+              End="0,29.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,-18.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,-18.5"
-                    Point2="0,-22.5"
-                    Point3="4,-22.5" />
-                  <mssgle:LineSegment
-                    End="286.333333333333,-22.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="286.333333333333,-22.5"
-                    Point2="290.333333333333,-22.5"
-                    Point3="290.333333333333,-18.5" />
-                  <mssgle:LineSegment
-                    End="290.333333333333,-5.5" />
+                    End="0,29.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -10970,30 +10896,18 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 6]"
-          TopLeft="551.5,251.5">
+          TopLeft="352.5,446.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-382.5,71"
+              EndConnector="87,0"
               Start="0,0"
-              End="-382.5,63.5">
+              End="79.5,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,31.5"
-                    Point2="0,35.5"
-                    Point3="-4,35.5" />
-                  <mssgle:LineSegment
-                    End="-378.5,35.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-378.5,35.5"
-                    Point2="-382.5,35.5"
-                    Point3="-382.5,39.5" />
-                  <mssgle:LineSegment
-                    End="-382.5,63.5" />
+                    End="79.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -11004,30 +10918,18 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 7]"
-          TopLeft="271.5,452.5">
+          TopLeft="567.75,268.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="137,9"
+              EndConnector="0,-42"
               Start="0,0"
-              End="129.5,9">
+              End="0,-34.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="64.5,0" />
-                  <mssgle:CubicBezierSegment
-                    Point1="64.5,0"
-                    Point2="68.5,0"
-                    Point3="68.5,4" />
-                  <mssgle:LineSegment
-                    End="68.5,5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="68.5,5"
-                    Point2="68.5,9"
-                    Point3="72.5,9" />
-                  <mssgle:LineSegment
-                    End="129.5,9" />
+                    End="0,-34.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -11044,18 +10946,23 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
           Size="310,42"
           Id="Package\Create Organization XREF Data (Includes Parent)"
           TopLeft="5.5,67" />
+        <NodeLayout
+          Size="197,42"
+          Id="Package\Create Project XRef table"
+          TopLeft="91.5,142.5" />
         <GroupLayout
-          Text="Not Applicable"
+          Text="Not Used - kept for reference only"
           ParentId="Package"
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="320,164"
-          Size="320,207"
-          Id="817e51ee-d131-4c16-be2b-f1484a73205f"
-          TopLeft="775.5,5.5">
+          PanelSize="320,240"
+          Size="320,283"
+          Id="eec151ad-45de-411d-b5ff-32b9087a1f42"
+          TopLeft="768,119.5">
           <GroupLayout.ChildrenIds>
             <s:String>Package\Update Parent Organization</s:String>
             <s:String>Package\Create Organization XREF Data (Includes Parent)</s:String>
+            <s:String>Package\Create Project XRef table</s:String>
           </GroupLayout.ChildrenIds>
         </GroupLayout>
       </GraphLayout>
@@ -11203,7 +11110,9 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -11225,7 +11134,9 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -11259,7 +11170,9 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -11341,7 +11254,9 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -11363,7 +11278,7 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -11402,7 +11317,7 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">false</Value>
+          type="q2:string">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -11412,7 +11327,7 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -11433,13 +11348,13 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
           Id="Package\Create Organization XREF Data (Completed)\Lookup ECA Organization Name"
           TopLeft="25.5,191.5" />
         <NodeLayout
-          Size="246,42"
-          Id="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table"
-          TopLeft="40.5,283.5" />
-        <NodeLayout
           Size="156,42"
           Id="Package\Create Organization XREF Data (Completed)\Data Conversion"
           TopLeft="40.5,101.5" />
+        <NodeLayout
+          Size="246,42"
+          Id="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table"
+          TopLeft="40.5,283.5" />
         <EdgeLayout
           Id="Package\Create Organization XREF Data (Completed).Paths[OLE DB Source Output]"
           TopLeft="115.75,66.5">
@@ -11459,41 +11374,9 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Create Organization XREF Data (Completed).Paths[Data Conversion Output]"
-          TopLeft="118.5,143.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-15.6666666666667,48"
-              Start="0,0"
-              End="-15.6666666666667,40.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,24.5993031358885" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,24.5993031358885"
-                    Point2="0,28.5993031358885"
-                    Point3="-4,28.5993031358885" />
-                  <mssgle:LineSegment
-                    End="-11.6666666666667,28.5993031358885" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-11.6666666666667,28.5993031358885"
-                    Point2="-15.6666666666667,28.5993031358885"
-                    Point3="-15.6666666666667,32.5993031358885" />
-                  <mssgle:LineSegment
-                    End="-15.6666666666667,40.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -11529,6 +11412,42 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
               BoundingBox="-36.19138671875,30,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create Organization XREF Data (Completed).Paths[Data Conversion Output]"
+          TopLeft="118.5,143.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-15.6666666666667,48"
+              Start="0,0"
+              End="-15.6666666666667,40.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.5993031358885" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,24.5993031358885"
+                    Point2="0,28.5993031358885"
+                    Point3="-4,28.5993031358885" />
+                  <mssgle:LineSegment
+                    End="-11.6666666666667,28.5993031358885" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-11.6666666666667,28.5993031358885"
+                    Point2="-15.6666666666667,28.5993031358885"
+                    Point3="-15.6666666666667,32.5993031358885" />
+                  <mssgle:LineSegment
+                    End="-15.6666666666667,40.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -11824,6 +11743,78 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create Organization XREF Data (Includes Parent)\Lookup IVLP Parent Organization Name">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">"KM_IVLP"."IVLP_ORGANIZATION"</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create Organization XREF Data (Includes Parent)\Lookup ECA Parent OrganizationId">
+    <Properties>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q2:string">[dbo].[Organization]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q3:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create Organization XREF Data (Includes Parent)\Lookup ECA Organization Name">
+    <Properties>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q2:string">[dbo].[Organization]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q3:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create Organization XREF Data (Includes Parent)\Load IVLP_Organization XREF table">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <TaskHost
     design-time-name="Package\Create Project XRef table">
     <LayoutInfo>
@@ -12027,15 +12018,15 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         <NodeLayout
           Size="199,42"
           Id="Package\Load New Programs (Completed)\Lookup Program StatusId"
-          TopLeft="316.5,329.330882352941" />
+          TopLeft="268.5,278.330882352941" />
         <NodeLayout
           Size="264,42"
           Id="Package\Load New Programs (Completed)\Lookup Owner OrganizationId (default)"
-          TopLeft="273.5,40.3308823529412" />
+          TopLeft="562.5,283.330882352941" />
         <NodeLayout
           Size="186,42"
           Id="Package\Load New Programs (Completed)\Add Required Columns"
-          TopLeft="42,331.830882352941" />
+          TopLeft="274,200.830882352941" />
         <NodeLayout
           Size="215,42"
           Id="Package\Load New Programs (Completed)\IVLP Program Mapping XREF"
@@ -12043,49 +12034,37 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         <NodeLayout
           Size="247,42"
           Id="Package\Load New Programs (Completed)\Lookup Parent Program Id (default)"
-          TopLeft="289.5,228.330882352941" />
+          TopLeft="250.5,368.330882352941" />
         <NodeLayout
           Size="243,42"
           Id="Package\Load New Programs (Completed)\Lookup Office Organization TypeId"
-          TopLeft="287.5,130.414953149401" />
+          TopLeft="580.5,366.414953149401" />
         <NodeLayout
           Size="163,42"
           Id="Package\Load New Programs (Completed)\Add new program"
-          TopLeft="627.5,45.330882352941" />
+          TopLeft="882.5,282.330882352941" />
         <NodeLayout
           Size="170,42"
           Id="Package\Load New Programs (Completed)\Aggregate Program"
-          TopLeft="34.5,138" />
+          TopLeft="283.5,47" />
         <NodeLayout
           Size="176,42"
           Id="Package\Load New Programs (Completed)\Does Program Exist?"
-          TopLeft="24.5,230.330882352941" />
+          TopLeft="278.5,120.330882352941" />
         <EdgeLayout
           Id="Package\Load New Programs (Completed).Paths[OLE DB Source Output]"
-          TopLeft="132,85.3308823529412">
+          TopLeft="239.5,66.1654411764706">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-12.5,52.6691176470588"
+              EndConnector="44,0"
               Start="0,0"
-              End="-12.5,45.1691176470588">
+              End="36.5,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,22.3345588235294" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,22.3345588235294"
-                    Point2="0,26.3345588235294"
-                    Point3="-4,26.3345588235294" />
-                  <mssgle:LineSegment
-                    End="-8.5,26.3345588235294" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-8.5,26.3345588235294"
-                    Point2="-12.5,26.3345588235294"
-                    Point3="-12.5,30.3345588235294" />
-                  <mssgle:LineSegment
-                    End="-12.5,45.1691176470588" />
+                    End="36.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -12096,150 +12075,138 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load New Programs (Completed).Paths[Lookup No Match Output]"
-          TopLeft="112.5,272.330882352941">
+          TopLeft="366.75,162.330882352941">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="22.5,59.4999999999998"
+              EndConnector="0,38.5"
               Start="0,0"
-              End="22.5,51.9999999999998">
+              End="0,31">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,25.7499999999999" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,25.7499999999999"
-                    Point2="0,29.7499999999999"
-                    Point3="4,29.7499999999999" />
-                  <mssgle:LineSegment
-                    End="18.5,29.7499999999999" />
-                  <mssgle:CubicBezierSegment
-                    Point1="18.5,29.7499999999999"
-                    Point2="22.5,29.7499999999999"
-                    Point3="22.5,33.7499999999999" />
-                  <mssgle:LineSegment
-                    End="22.5,51.9999999999998" />
+                    End="0,31" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-44.55638671875,34.7499999999999,111.6127734375,11.609375"
+              BoundingBox="-55.80638671875,9.6953125,111.6127734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load New Programs (Completed).Paths[Lookup Match Output3]"
-          TopLeft="537.5,63.8308823529411">
+          TopLeft="826.5,303.830882352941">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="90,0"
+              EndConnector="56,0"
               Start="0,0"
-              End="82.5,0">
+              End="48.5,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="82.5,0" />
+                    End="48.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-6.94138671875,5,96.3827734375,11.609375"
+              BoundingBox="-23.94138671875,5,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load New Programs (Completed).Paths[Lookup Match Output2]"
-          TopLeft="407.25,130.414953149401">
+          TopLeft="698.25,366.414953149401">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,-48.0840707964602"
+              EndConnector="0,-41.0840707964597"
               Start="0,0"
-              End="0,-40.5840707964602">
+              End="0,-33.5840707964597">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,-40.5840707964602" />
+                    End="0,-33.5840707964597" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-48.19138671875,-26.0967228982301,96.3827734375,11.609375"
+              BoundingBox="-48.19138671875,-22.5967228982299,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load New Programs (Completed).Paths[Lookup Match Output1]"
-          TopLeft="411,228.330882352941">
+          TopLeft="497.5,388.372917751171">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,-55.9159292035398"
+              EndConnector="83,0"
               Start="0,0"
-              End="0,-48.4159292035398">
+              End="75.5,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,-48.4159292035398" />
+                    End="75.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-48.19138671875,-30.0126521017699,96.3827734375,11.609375"
+              BoundingBox="-10.44138671875,5,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load New Programs (Completed).Paths[Lookup Match Output]"
-          TopLeft="414.5,329.330882352941">
+          TopLeft="371,320.330882352941">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,-59"
+              EndConnector="0,48"
               Start="0,0"
-              End="0,-51.5">
+              End="0,40.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,-51.5" />
+                    End="0,40.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-48.19138671875,-31.5546875,96.3827734375,11.609375"
+              BoundingBox="-48.19138671875,14.4453125,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load New Programs (Completed).Paths[Derived Column Output]"
-          TopLeft="228,351.580882352941">
+          TopLeft="367.5,242.830882352941">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="88.5,0"
+              EndConnector="0,35.5"
               Start="0,0"
-              End="81,0">
+              End="0,28">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="81,0" />
+                    End="0,28" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -12250,18 +12217,18 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load New Programs (Completed).Paths[Aggregate Output 1]"
-          TopLeft="116,180">
+          TopLeft="367.5,89">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,50.330882352941"
+              EndConnector="0,31.330882352941"
               Start="0,0"
-              End="0,42.830882352941">
+              End="0,23.830882352941">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,42.830882352941" />
+                    End="0,23.830882352941" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -12338,7 +12305,7 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">false</Value>
+          type="q2:boolean">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -12462,9 +12429,7 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
