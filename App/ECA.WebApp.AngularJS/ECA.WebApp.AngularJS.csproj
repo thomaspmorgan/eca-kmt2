@@ -347,7 +347,6 @@
     <Content Include="app\organizations\all-organizations.html" />
     <Content Include="app\projects\unsaved-changes.html" />
     <Content Include="app\reports\project-awards.controller.js" />
-    <Content Include="app\controllers\simple_test.js" />
     <Content Include="app\directives\date-picker-popup.directive.js" />
     <Content Include="app\filters\highlight.filter.js" />
     <Content Include="app\services\download.service.js" />
@@ -536,7 +535,6 @@
     <Content Include="index.html" />
     <Content Include="app\app.module.js" />
     <Content Include="app\offices\all-offices.controller.js" />
-    <Content Include="app\controllers\allparticipants.js" />
     <Content Include="app\programs\all-programs.controller.js" />
     <Content Include="app\home\home.controller.js" />
     <Content Include="app\auth\logout.controller.js" />
@@ -546,7 +544,6 @@
     <Content Include="app\projects\project.controller.js" />
     <Content Include="app\reports\reports.controller.js" />
     <Content Include="app\reports\archive.controller.js" />
-    <Content Include="app\controllers\securetest.js" />
     <Content Include="app\directives\form-element.directive.js" />
     <Content Include="app\directives\guidance.directive.js" />
     <Content Include="app\directives\in-context-form.directive.js" />
