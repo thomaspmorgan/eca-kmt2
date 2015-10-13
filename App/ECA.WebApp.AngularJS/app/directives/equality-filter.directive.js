@@ -2,7 +2,7 @@
   .directive('equalityFilter', ['stConfig', '$timeout', '$filter', '$parse', 'ConstantsService', function (stConfig, $timeout, $filter, $parse, ConstantsService) {
       return {
           require: '^stTable',
-          templateUrl: 'scripts/directives/equality-filter.directive.html',
+          templateUrl: 'app/directives/equality-filter.directive.html',
           scope: {
               property: '=property',
               propertyType: '=propertytype'

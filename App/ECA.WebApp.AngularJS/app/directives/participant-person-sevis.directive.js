@@ -20,7 +20,7 @@
                 sevisinfo: '=',
                 active: '='
             },
-            templateUrl: 'scripts/directives/participant-person-sevis.directive.html'
+            templateUrl: 'app/directives/participant-person-sevis.directive.html'
         };
         return directive;
 

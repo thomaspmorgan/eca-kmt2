@@ -17,8 +17,8 @@
         </div>
     </div>
     <div collapse="!showGeneral">
-        <div ng-if="!edit.General"><ng-include src="'/views/person/partials/generalView.html'"></ng-include></div>
-        <div ng-if="edit.General"><ng-include src="'/views/person/partials/generalEdit.html'"></ng-include></div>
+        <div ng-if="!edit.General"><ng-include src="'/app/people/general.html'"></ng-include></div>
+        <div ng-if="edit.General"><ng-include src="'/app/people/general-edit.html'"></ng-include></div>
     </div>
 
     <div class="row">
@@ -36,8 +36,8 @@
         </div>
     </div>
     <div collapse="!showPii">
-        <div ng-if="!edit.Pii"><ng-include src="'/views/person/partials/piiView.html'"></ng-include></div>
-        <div ng-if="edit.Pii"><ng-include src="'/views/person/partials/piiEdit.html'"></ng-include></div>
+        <div ng-if="!edit.Pii"><ng-include src="'/app/people/pii.html'"></ng-include></div>
+        <div ng-if="edit.Pii"><ng-include src="'/app/people/pii-edit.html'"></ng-include></div>
     </div>
 
     <div class="row">
@@ -55,8 +55,8 @@
         </div>
     </div>
     <div collapse="!showContact">
-        <div ng-if="!edit.Contact"><ng-include src="'/views/person/partials/contactView.html'"></ng-include></div>
-        <div ng-if="edit.Contact"><ng-include src="'/views/person/partials/contactEdit.html'"></ng-include></div>
+        <div ng-if="!edit.Contact"><ng-include src="'/app/people/contact.html'"></ng-include></div>
+        <div ng-if="edit.Contact"><ng-include src="'/app/people/contact-edit.html'"></ng-include></div>
     </div>
 
     <div class="row">
@@ -74,8 +74,8 @@
         </div>
     </div>
     <div collapse="!view.collapseEduEmp">
-        <div ng-if="!edit.EduEmp"><ng-include src="'/views/person/partials/eduempView.html'"></ng-include></div>
-        <div ng-if="edit.EduEmp"><ng-include src="'/views/person/partials/eduempEdit.html'"></ng-include></div>
+        <div ng-if="!edit.EduEmp"><ng-include src="'/app/people/education-employment.html'"></ng-include></div>
+        <div ng-if="edit.EduEmp"><ng-include src="'/app/people/education-employment-edit.html'"></ng-include></div>
     </div>
 
     <div class="row">
@@ -93,7 +93,7 @@
         </div>
     </div>
     <div collapse="!showEvalNotes">
-        <div ng-if="!edit.Evaluation"><ng-include src="'/views/person/partials/evaluationNotesView.html'"></ng-include></div>
-        <div ng-if="edit.Evaluation"><ng-include src="'/views/person/partials/evaluationNotesEdit.html'"></ng-include></div>
+        <div ng-if="!edit.Evaluation"><ng-include src="'/app/people/evaluation-notes.html'"></ng-include></div>
+        <div ng-if="edit.Evaluation"><ng-include src="'/app/people/evaluation-notes-edit.html'"></ng-include></div>
     </div>
 </div>

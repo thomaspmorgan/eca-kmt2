@@ -172,6 +172,7 @@
     <Content Include="app\activities\activities.routes.js" />
     <Content Include="app\auth\auth.routes.js" />
     <Content Include="app\home\home.routes.js" />
+    <Content Include="app\people\people.routes.js" />
     <Content Include="app\reports\reports.routes.js" />
     <Content Include="app\services\constants.service.js">
       <AutoGen>True</AutoGen>
@@ -193,7 +194,7 @@
     <Content Include="app\app.run.js" />
     <Content Include="app\controllers\address\addresses.js" />
     <Content Include="app\controllers\address\address.js" />
-    <Content Include="app\controllers\allpeople.js" />
+    <Content Include="app\people\all-people.controller.js" />
     <Content Include="app\controllers\allorganizations.js" />
     <Content Include="app\controllers\collaborators.js" />
     <Content Include="app\controllers\confirm.js" />
@@ -210,13 +211,13 @@
     <Content Include="app\controllers\moneyflows.js" />
     <Content Include="app\controllers\office\branchesandprograms.js" />
     <Content Include="app\controllers\organization\addorganizationmodal.js" />
-    <Content Include="app\controllers\person\personEvaluationNoteEdit.js" />
-    <Content Include="app\controllers\person\personPiiEdit.js" />
-    <Content Include="app\controllers\person\personPii.js" />
-    <Content Include="app\controllers\person\information.js" />
+    <Content Include="app\people\evaluation-notes-edit.controller.js" />
+    <Content Include="app\people\pii-edit.controller.js" />
+    <Content Include="app\people\pii.controller.js" />
+    <Content Include="app\people\personal-information.controller.js" />
     <Content Include="app\controllers\phoneNumbers\phonenumber.js" />
     <Content Include="app\controllers\phoneNumbers\phonenumbers.js" />
-    <Content Include="app\controllers\person\personEduEmpEdit.js" />
+    <Content Include="app\people\education-employment-edit.controller.js" />
     <Content Include="app\controllers\program\addprogrammodal.js" />
     <Content Include="app\controllers\office\overview.js" />
     <Content Include="app\controllers\organization\activities.js" />
@@ -225,13 +226,13 @@
     <Content Include="app\controllers\organization\editdetails.js" />
     <Content Include="app\controllers\organization\organization.js" />
     <Content Include="app\controllers\organization\overview.js" />
-    <Content Include="app\controllers\person\personContactEdit.js" />
-    <Content Include="app\controllers\person\personContact.js" />
-    <Content Include="app\controllers\person\personGeneralEdit.js" />
-    <Content Include="app\controllers\person\timeline.js" />
-    <Content Include="app\controllers\person\personEduEmp.js" />
-    <Content Include="app\controllers\person\personEvaluationNotes.js" />
-    <Content Include="app\controllers\person\personGeneral.js" />
+    <Content Include="app\people\contact-edit.controller.js" />
+    <Content Include="app\people\contact.controller.js" />
+    <Content Include="app\people\general-edit.controller.js" />
+    <Content Include="app\people\timeline.controller.js" />
+    <Content Include="app\people\education-employment.controller.js" />
+    <Content Include="app\people\evaluation-notes.controller.js" />
+    <Content Include="app\people\general.controller.js" />
     <Content Include="app\controllers\program\edit.js" />
     <Content Include="app\controllers\program\overview.js" />
     <Content Include="app\controllers\program\subprogramsandprojects.js" />
@@ -321,18 +322,18 @@
     <Content Include="views\partials\pagination.html" />
     <Content Include="views\partials\searchinfo.html" />
     <Content Include="views\partials\toolbaricons.html" />
-    <Content Include="views\person\allpeople.html" />
-    <Content Include="views\person\moneyflows.html" />
-    <Content Include="views\person\partials\contactEdit.html" />
-    <Content Include="views\person\partials\eduempEdit.html" />
-    <Content Include="views\person\partials\evaluationNotesView.html" />
-    <Content Include="views\person\partials\eduempView.html" />
-    <Content Include="views\person\partials\generalEdit.html" />
-    <Content Include="views\person\partials\contactView.html" />
-    <Content Include="views\person\partials\generalView.html" />
+    <Content Include="app\people\all-people.html" />
+    <Content Include="app\people\moneyflows.html" />
+    <Content Include="app\people\contact-edit.html" />
+    <Content Include="app\people\education-employment-edit.html" />
+    <Content Include="app\people\evaluation-notes.html" />
+    <Content Include="app\people\education-employment.html" />
+    <Content Include="app\people\general-edit.html" />
+    <Content Include="app\people\contact.html" />
+    <Content Include="app\people\general.html" />
     <Content Include="views\organization.html" />
-    <Content Include="views\person\partials\piiEdit.html" />
-    <Content Include="views\person\partials\piiView.html" />
+    <Content Include="app\people\pii-edit.html" />
+    <Content Include="app\people\pii.html" />
     <Content Include="views\program\edit.html" />
     <Content Include="views\program\moneyflows.html" />
     <Content Include="views\program\addprogrammodal.html" />
@@ -426,7 +427,7 @@
     <Content Include="styles\fonts\MaterialIcons-Regular.ttf" />
     <Content Include="styles\fonts\MaterialIcons-Regular.woff" />
     <Content Include="styles\fonts\MaterialIcons-Regular.woff2" />
-    <Content Include="views\person\partials\evaluationNotesEdit.html" />
+    <Content Include="app\people\evaluation-notes-edit.html" />
     <Content Include="Service References\Application Insights\ConnectedService.json" />
     <Content Include="app\services\snapshot.service.js" />
     <None Include="Web.Debug.config">
@@ -538,13 +539,12 @@
     <Content Include="app\home\home.controller.js" />
     <Content Include="app\auth\logout.controller.js" />
     <Content Include="app\controllers\office.js" />
-    <Content Include="app\controllers\people.js" />
+    <Content Include="app\people\people.controller.js" />
     <Content Include="app\controllers\program.js" />
     <Content Include="app\controllers\project.js" />
     <Content Include="app\reports\reports.controller.js" />
     <Content Include="app\reports\archive.controller.js" />
     <Content Include="app\controllers\securetest.js" />
-    <Content Include="app\controllers\settings.js" />
     <Content Include="app\directives\form-element.directive.js" />
     <Content Include="app\directives\guidance.directive.js" />
     <Content Include="app\directives\in-context-form.directive.js" />
@@ -582,11 +582,11 @@
     <Content Include="views\partials\searchbar.html" />
     <Content Include="views\partials\tabbar.html" />
     <Content Include="views\partner.html" />
-    <Content Include="views\person.html" />
-    <Content Include="views\person\timeline.html" />
-    <Content Include="views\person\impact.html" />
-    <Content Include="views\person\personalinformation.html" />
-    <Content Include="views\person\relatedreports.html" />
+    <Content Include="app\people\people.html" />
+    <Content Include="app\people\timeline.html" />
+    <Content Include="app\people\impact.html" />
+    <Content Include="app\people\personal-information.html" />
+    <Content Include="app\people\related-reports.html" />
     <Content Include="views\programs.html" />
     <Content Include="views\program\activity.html" />
     <Content Include="views\program\allprograms.html" />
@@ -617,7 +617,6 @@
     <Content Include="app\reports\post-awards.html" />
     <Content Include="app\reports\region-awards.html" />
     <Content Include="views\securetest.html" />
-    <Content Include="views\settings.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -639,7 +638,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="app\controllers\person\" />
+  </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
