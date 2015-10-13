@@ -13,22 +13,5 @@ angular.module('staticApp')
 
       $urlRouterProvider.otherwise('/');
 
-        $stateProvider.state('partner', {
-            url: '/partner',
-            templateUrl: 'views/partner.html',
-            requireADLogin: true
-        })
-
-        .state('offshoot', {
-            url: '/clearance',
-            templateUrl: 'views/offshoot.html',
-            requireADLogin: true
-        })
-
-        .state('lastupdated', {
-            url: '/lastupdated',
-            templateUrl: 'views/lastupdated.html',
-            requireADLogin: true
-        });
       $httpProvider.interceptors.push('ErrorInterceptor');
   });
