@@ -170,6 +170,7 @@
     </Compile>
     <Compile Include="Queries\Admin\BookmarkQueriesTest.cs" />
     <Compile Include="Queries\Fundings\MoneyFlowQueriesTest.cs" />
+    <Compile Include="Queries\Model\Admin\AddressDTOTest.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonQueriesTest.cs" />
     <Compile Include="Queries\Persons\ParticipantQueriesTest.cs" />
     <Compile Include="Queries\Persons\PersonQueriesTest.cs" />
@@ -179,6 +180,10 @@
     <Compile Include="Search\TestIndexNotificationService.cs" />
     <Compile Include="Search\ProgramDTODocumentConfigurationTest.cs" />
     <Compile Include="Search\ProjectDTODocumentConfigurationTest.cs" />
+    <Compile Include="Search\OrganizationDTODocumentConfigurationTest.cs" />
+    <Compile Include="Search\OrganizationDocumentServiceTest.cs" />
+    <Compile Include="Search\OfficeDTODocumentConfigurationTest.cs" />
+    <Compile Include="Search\OfficeDocumentServiceTest.cs" />
     <Compile Include="Service\Admin\AdditionalAddressTest.cs" />
     <Compile Include="Service\Admin\AdditionalPersonAddressTest.cs" />
     <Compile Include="Service\Admin\AdditionalOrganizationAddressTest.cs" />

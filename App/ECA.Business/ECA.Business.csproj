@@ -146,6 +146,10 @@
     <Compile Include="Queries\Persons\ParticipantPersonSevisCommStatusQueries.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonSevisQueries.cs" />
     <Compile Include="Queries\Persons\ProfessionEducationQueries.cs" />
+    <Compile Include="Search\OfficeDocumentService.cs" />
+    <Compile Include="Search\OfficeDTODocumentConfiguration.cs" />
+    <Compile Include="Search\OrganizationDocumentService.cs" />
+    <Compile Include="Search\OrganizationDTODocumentConfiguration.cs" />
     <Compile Include="Search\ProjectDocumentService.cs" />
     <Compile Include="Search\ProgramDocumentService.cs" />
     <Compile Include="Search\ProgramDTODocumentConfiguration.cs" />

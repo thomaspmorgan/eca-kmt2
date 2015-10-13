@@ -1667,6 +1667,20 @@ namespace ECA.Business.Search.Test
                 Assert.AreEqual(DataType.DateTimeOffset, endDateField.Type);
                 allFieldNames.Remove(endDateField.Name);
 
+                var addressesField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.Addresses))).FirstOrDefault();
+                Assert.IsNotNull(addressesField);
+                Assert.IsTrue(addressesField.IsRetrievable);
+                Assert.IsFalse(addressesField.IsFilterable);
+                Assert.AreEqual(DataType.Collection(DataType.String), addressesField.Type);
+                allFieldNames.Remove(addressesField.Name);
+
+                var phoneNumbersField = index.Fields.Where(x => x.Name == toCamelCase(PropertyHelper.GetPropertyName<ECADocument>(y => y.PhoneNumbers))).FirstOrDefault();
+                Assert.IsNotNull(phoneNumbersField);
+                Assert.IsTrue(phoneNumbersField.IsRetrievable);
+                Assert.IsFalse(phoneNumbersField.IsFilterable);
+                Assert.AreEqual(DataType.Collection(DataType.String), phoneNumbersField.Type);
+                allFieldNames.Remove(phoneNumbersField.Name);
+
                 Assert.AreEqual(0, allFieldNames.Count, "Make sure all fields are checked from ECADocument and the index.  Some have not been checked.");
             }
         }

@@ -34,6 +34,8 @@ namespace ECA.Business.Search.Test
                 HasOfficeSymbol(x => x.OfficeSymbol);
                 HasPointsOfContact(x => x.PointsOfContact);
                 HasThemes(x => x.Themes);
+                HasAddresses(x => x.Addresses);
+                HasPhoneNumbers(x => x.PhoneNumbers);
                 IsDocumentType(TEST_DOCUMENT_DOCUMENT_TYPE_ID, TEST_DOCUMENT_DOCUMENT_TYPE_NAME);
             }
                        

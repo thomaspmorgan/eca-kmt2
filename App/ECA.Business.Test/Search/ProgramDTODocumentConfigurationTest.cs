@@ -31,6 +31,8 @@ namespace ECA.Business.Test.Search
 
             Assert.IsNull(instance.CountriesDelegate);
             Assert.IsNull(instance.LocationsDelegate);
+            Assert.IsNull(instance.AddressesDelegate);
+            Assert.IsNull(instance.PhoneNumbersDelegate);
         }
     }
 }
