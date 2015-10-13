@@ -8,10 +8,23 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ReportsArchiveCtrl', function ($scope, $stateParams, $q, $modal, ReportService, TableService, $log, $window) {
+  .controller('ReportsCustomCtrl', function ($scope, $stateParams, $q, $modal, ReportService, TableService, $log, $window) {
 
       $scope.$log = $log;
-      $scope.reports = [];
+      $scope.reports = [
+          { Title: "Project Awards By Year", Published: "4/28/2015", Author: "Tom Morgan", Prompts: "Program, Country" },
+          { Title: "Region Awards", Published: "6/22/2015", Author: "Tom Morgan", Prompts: "Program" },
+          { Title: "Post Awards", Published: "6/22/2015", Author: "Tom Morgan", Prompts: "Program" },
+          { Title: "Focus Awards", Published: "6/23/2015", Author: "Tom Morgan", Prompts: "Program" },
+          { Title: "Focus-Category Awards", Published: "6/23/2015", Author: "Tom Morgan", Prompts: "Program" },
+          { Title: "Country Awards", Published: "7/2/2015", Author: "Tom Morgan", Prompts: "Program" },
+          { Title: "Objective Awards", Published: "7/6/2015", Author: "Tom Morgan", Prompts: "Program, Objective" },
+          { Title: "Year Awards", Published: "7/7/2015", Author: "Tom Morgan", Prompts: "Program" }
+      ];
+      $scope.formats = [{ type: 'Portable Document Format - PDF', key: 'pdf', mimetype: 'application/pdf' },
+                        { type: 'Microsoft Excel - XLSX', key: 'xlsx', mimetype: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' },
+                        { type: 'Microsoft Word - DOCX', key: 'docx', mimetype: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }
+      ];
       $scope.parameters = [];
       $scope.currentpage = $stateParams.page || 1;
       $scope.limit = 200;
@@ -57,6 +70,8 @@ angular.module('staticApp')
 
           getReportsFiltered(params)
             .then(function (data) {
+                //var reports = data.results;
+                //var total = data.total;
                 var reports = data;
                 var total = data.length;
                 var start = 0;
@@ -76,27 +91,39 @@ angular.module('staticApp')
       };
 
       $scope.openReport = function (title) {
-          if (title == 'Project Awards')
+          if (title == 'Project Awards By Year')
           {
-              var template = "/views/reports/projectAwards.html";
+              var template = "/app/reports/project-awards.html";
               var controller = "ProjectAwardsCtrl";
           }
           else if (title == 'Region Awards')
           {
-              var template = "/views/reports/regionAwards.html";
+              var template = "/app/reports/region-awards.html";
               var controller = "RegionAwardsCtrl";
           }
           else if (title == 'Post Awards') {
-              var template = "/views/reports/postAwards.html";
+              var template = "/app/reports/post-awards.html";
               var controller = "PostAwardsCtrl";
           }
           else if (title == 'Focus Awards') {
-              var template = "/views/reports/focusAwards.html";
+              var template = "/app/reports/focus-awards.html";
               var controller = "FocusAwardsCtrl";
           }
           else if (title == 'Focus-Category Awards') {
-              var template = "/views/reports/focusCategoryAwards.html";
+              var template = "/app/reports/focus-category-awards.html";
               var controller = "FocusCategoryAwardsCtrl";
+          }
+          else if (title == 'Country Awards') {
+              var template = "/app/reports/country-awards.html";
+              var controller = "CountryAwardsCtrl";
+          }
+          else if (title == 'Objective Awards') {
+              var template = "/app/reports/objective-awards.html";
+              var controller = "ObjectiveAwardsCtrl";
+          }
+          else if (title == 'Year Awards') {
+              var template = "/app/reports/year-awards.html";
+              var controller = "YearAwardsCtrl";
           }
           else
           {
@@ -106,6 +133,7 @@ angular.module('staticApp')
          var modalInstance = $modal.open({
             templateUrl: template,
             controller: controller,
+            scope: $scope,
             resolve: {
                 parameters: function () {
                     return $scope.parameters;
