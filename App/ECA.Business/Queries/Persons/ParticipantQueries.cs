@@ -51,7 +51,7 @@ namespace ECA.Business.Queries.Persons
                             ProjectId = participant.ProjectId,
                             RevisedOn = participant.History.RevisedOn,
                             ParticipantStatus = participant.Status == null ? null : participant.Status.Status,
-                            SevisStatus = participantPerson == null ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName
+                            SevisStatus = participantPerson == null ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName
         };
             return query;
         }
