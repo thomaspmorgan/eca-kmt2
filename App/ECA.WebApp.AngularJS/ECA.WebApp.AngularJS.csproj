@@ -170,9 +170,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\activities\activities.routes.js" />
+    <Content Include="app\app.config.js" />
     <Content Include="app\auth\auth.routes.js" />
     <Content Include="app\home\home.routes.js" />
     <Content Include="app\people\people.routes.js" />
+    <Content Include="app\programs\programs.routes.js" />
     <Content Include="app\reports\reports.routes.js" />
     <Content Include="app\services\constants.service.js">
       <AutoGen>True</AutoGen>
@@ -190,7 +192,6 @@
     <Content Include="images\intl-tel-input\flags.png" />
     <Content Include="images\select2.png" />
     <Content Include="karma.conf.js" />
-    <Content Include="app\app.config.js" />
     <Content Include="app\app.run.js" />
     <Content Include="app\controllers\address\addresses.js" />
     <Content Include="app\controllers\address\address.js" />
@@ -218,7 +219,7 @@
     <Content Include="app\controllers\phoneNumbers\phonenumber.js" />
     <Content Include="app\controllers\phoneNumbers\phonenumbers.js" />
     <Content Include="app\people\education-employment-edit.controller.js" />
-    <Content Include="app\controllers\program\addprogrammodal.js" />
+    <Content Include="app\programs\add-program-modal.controller.js" />
     <Content Include="app\controllers\office\overview.js" />
     <Content Include="app\controllers\organization\activities.js" />
     <Content Include="app\controllers\organization\impact.js" />
@@ -233,9 +234,9 @@
     <Content Include="app\people\education-employment.controller.js" />
     <Content Include="app\people\evaluation-notes.controller.js" />
     <Content Include="app\people\general.controller.js" />
-    <Content Include="app\controllers\program\edit.js" />
-    <Content Include="app\controllers\program\overview.js" />
-    <Content Include="app\controllers\program\subprogramsandprojects.js" />
+    <Content Include="app\programs\edit.controller.js" />
+    <Content Include="app\programs\overview.controller.js" />
+    <Content Include="app\programs\subprograms-and-projects.controller.js" />
     <Content Include="app\controllers\project\addprojectmodal.js" />
     <Content Include="app\controllers\project\addnewparticipant.js" />
     <Content Include="app\controllers\project\selectparticipanttype.js" />
@@ -334,9 +335,9 @@
     <Content Include="views\organization.html" />
     <Content Include="app\people\pii-edit.html" />
     <Content Include="app\people\pii.html" />
-    <Content Include="views\program\edit.html" />
-    <Content Include="views\program\moneyflows.html" />
-    <Content Include="views\program\addprogrammodal.html" />
+    <Content Include="app\programs\edit.html" />
+    <Content Include="app\programs\moneyflows.html" />
+    <Content Include="app\programs\add-program-modal.html" />
     <Content Include="views\project\addprojectmodal.html" />
     <Content Include="views\project\addnewparticipant.html" />
     <Content Include="views\project\selectparticipanttype.html" />
@@ -372,7 +373,6 @@
     <Content Include="app\auth\error.html" />
     <Content Include="app\auth\forbidden.html" />
     <Content Include="views\office\test.hs" />
-    <Content Include="views\program\activity.html.orig" />
     <Content Include="styles\main.scss" />
     <Content Include="packages.config" />
     <Content Include="bower.json" />
@@ -535,12 +535,12 @@
     <Content Include="app\app.module.js" />
     <Content Include="app\controllers\alloffices.js" />
     <Content Include="app\controllers\allparticipants.js" />
-    <Content Include="app\controllers\allprograms.js" />
+    <Content Include="app\programs\all-programs.controller.js" />
     <Content Include="app\home\home.controller.js" />
     <Content Include="app\auth\logout.controller.js" />
     <Content Include="app\controllers\office.js" />
     <Content Include="app\people\people.controller.js" />
-    <Content Include="app\controllers\program.js" />
+    <Content Include="app\programs\program.controller.js" />
     <Content Include="app\controllers\project.js" />
     <Content Include="app\reports\reports.controller.js" />
     <Content Include="app\reports\archive.controller.js" />
@@ -587,13 +587,13 @@
     <Content Include="app\people\impact.html" />
     <Content Include="app\people\personal-information.html" />
     <Content Include="app\people\related-reports.html" />
-    <Content Include="views\programs.html" />
-    <Content Include="views\program\activity.html" />
-    <Content Include="views\program\allprograms.html" />
-    <Content Include="views\program\artifacts.html" />
-    <Content Include="views\program\impact.html" />
-    <Content Include="views\program\overview.html" />
-    <Content Include="views\program\projects.html" />
+    <Content Include="app\programs\programs.html" />
+    <Content Include="app\programs\activity.html" />
+    <Content Include="app\programs\all-programs.html" />
+    <Content Include="app\programs\artifacts.html" />
+    <Content Include="app\programs\impact.html" />
+    <Content Include="app\programs\overview.html" />
+    <Content Include="app\programs\projects.html" />
     <Content Include="views\project.html" />
     <Content Include="views\project\activity.html" />
     <Content Include="views\project\artifact.html" />

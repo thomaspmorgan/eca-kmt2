@@ -13,61 +13,7 @@ angular.module('staticApp')
 
       $urlRouterProvider.otherwise('/');
 
-        $stateProvider.state('allprograms', {
-            url: '/allprograms',
-            templateUrl: 'views/program/allprograms.html',
-            controller: 'AllProgramsCtrl',
-            requireADLogin: true
-        })
-
-        .state('programs', {
-            url: '/programs/:programId',
-            templateUrl: 'views/programs.html',
-            controller: 'ProgramCtrl',
-            requireADLogin: true
-        })
-        .state('programs.overview', {
-            url: '/overview',
-            controller: 'ProgramOverviewCtrl',
-            templateUrl: 'views/program/overview.html',
-            requireADLogin: true
-        })
-        .state('programs.edit', {
-            url: '/edit',
-            controller: 'ProgramEditCtrl',
-            templateUrl: 'views/program/edit.html',
-            requireADLogin: true
-        })
-        .state('programs.projects', {
-            url: '/projects',
-            templateUrl: 'views/program/projects.html',
-            controller: 'SubProgramsAndProjectsCtrl',
-            requireADLogin: true
-        })
-
-        .state('programs.activity', {
-            url: '/activity',
-            templateUrl: 'views/program/activity.html',
-            requireADLogin: true
-        })
-        .state('programs.artifacts', {
-            url: '/artifacts',
-            templateUrl: 'views/program/artifacts.html',
-            requireADLogin: true
-        })
-
-        .state('programs.impact', {
-            url: '/impact',
-            templateUrl: 'views/program/impact.html',
-            requireADLogin: true
-        })
-        .state('programs.moneyflows', {
-            url: '/moneyflows',
-            templateUrl: 'views/program/moneyflows.html',
-            requireADLogin: true
-        })
-
-        .state('projects', {
+        $stateProvider.state('projects', {
             url: '/projects/:projectId',
             templateUrl: 'views/project.html',
             controller: 'ProjectCtrl',
