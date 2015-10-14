@@ -24,6 +24,8 @@ namespace ECA.WebJobs.Search.Index.All
         /// </summary>
         /// <param name="log">The log.</param>
         /// <param name="documentServices">The document services to index with.</param>
+        /// <param name="indexService">The index service.</param>
+        /// <param name="settings">The app settings.</param>
         [NoAutomaticTrigger]
         public void ManualTrigger(TextWriter log, IList<IDocumentService> documentServices, IIndexService indexService, AppSettings settings)
         {
@@ -49,6 +51,12 @@ namespace ECA.WebJobs.Search.Index.All
             indexService.DeleteIndex(indexName);
             Console.WriteLine("Deleted search index.");
             var list = documentServices.ToList();
+            var totalDocuments = 0;
+            list.ForEach(x =>
+            {
+                totalDocuments += x.GetDocumentCount();
+            });
+            Console.WriteLine(String.Format("Found a total of {0} documents to process.", totalDocuments));
             list.ForEach(x =>
             {
                 Console.WriteLine(String.Format("Processing documents via {0}.", x.GetType()));
@@ -67,7 +75,7 @@ namespace ECA.WebJobs.Search.Index.All
                 Console.WriteLine(String.Format("Disposing {0}.", indexService.GetType()));
                 ((IDisposable)indexService).Dispose();
             }
-            Console.WriteLine("Finished indexing all documents.");
+            Console.WriteLine(String.Format("Finished indexing {0} documents.", totalDocuments));
         }
     }
 }
