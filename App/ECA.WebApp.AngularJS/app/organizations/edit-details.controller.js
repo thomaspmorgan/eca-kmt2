@@ -50,6 +50,8 @@ angular.module('staticApp')
       $scope.data.loadedOrganizationPromise.promise
         .then(function (org) {
             setSelectedPointsOfContact();
+            setSelectedOrganizationRoles();
+            $scope.view.updateCollections();
         });
 
       $scope.view.updateCollections = function () {
@@ -59,6 +61,10 @@ angular.module('staticApp')
 
       function setSelectedPointsOfContact() {
           setSelectedItems('contacts', 'selectedPointsOfContact');
+      }
+
+      function setSelectedOrganizationRoles() {
+          setSelectedItems('organizationRoles', 'selectedOrganizationRoles');
       }
 
       function setSelectedItems(projectPropertyName, viewSelectedPropertyName) {
@@ -198,10 +204,6 @@ angular.module('staticApp')
               $log.error(message);
           }
           $scope.view.organizationRoles = orgRoles.data.results;
-          for (var i = 0; i < $scope.organization.organizationRoles.length; i++) {
-              var role = $scope.view.organizationRoles.filter(function (role) { return role.id === $scope.organization.organizationRoles[i].id })[0];
-              $scope.view.selectedOrganizationRoles.push(role);
-          }
       }
 
       $q.all([LookupService.getOrganizationTypes(orgTypesParams), LookupService.getOrganizationRoles(orgRolesParams)])
