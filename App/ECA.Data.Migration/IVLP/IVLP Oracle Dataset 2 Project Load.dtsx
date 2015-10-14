@@ -7,48 +7,33 @@
   DTS:CreatorName="BE00003308\Marc Setien"
   DTS:DTSID="{FE562AF0-DF22-408F-AF72-4900823B508C}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
   DTS:LocaleID="1033"
   DTS:ObjectName="IVLP Oracle Dataset 2 Project Load"
   DTS:PackageType="5"
-  DTS:VersionBuild="42"
-  DTS:VersionGUID="{0DB2EF45-8FF6-4759-A731-091B7177120F}">
+  DTS:VersionBuild="48"
+  DTS:VersionGUID="{F15F3D92-B2F9-4BB0-B41C-B8B9BBA9CAAB}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
     <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+      DTS:refId="Package.ConnectionManagers[BE00003308.ECA_Local]"
       DTS:CreationName="OLEDB"
-      DTS:DTSID="{1584C0FB-71AD-4E22-8F9A-DD42DE45F1B0}"
-      DTS:ObjectName="(localdb)\v11.0.ECA_Local">
+      DTS:DTSID="{AC25B696-A907-4B57-B929-83377C46ABFB}"
+      DTS:ObjectName="BE00003308.ECA_Local">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Data Source=(localdb)\v11.0;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+          DTS:ConnectionString="Data Source=BE00003308;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
+      DTS:refId="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
       DTS:CreationName="OLEDB"
-      DTS:DTSID="{3586F998-537B-44A7-A93F-1DA363DF0DA2}"
-      DTS:ObjectName="BE00003308\SQLEXPRESS2014.IVLP_XREF">
+      DTS:DTSID="{EEE8DD4F-C584-43E4-88F1-4DEBC2EC522B}"
+      DTS:ObjectName="BE00003308.IVLP_XREF">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Data Source=BE00003308\SQLEXPRESS2014;User ID=msetien;Initial Catalog=IVLP_XREF;Provider=SQLNCLI11.1;Auto Translate=False;">
-          <DTS:Password
-            DTS:Name="Password"
-            Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAYyOQ+2CM8Nc9bAoXNxlOdfAbf/okyUJ0fYvds0gnouwAAAAAOgAAAAAIAACAAAAAgAJYsVF4wWW5ZhYr8pwahEgOxjTZ/ossrU+G/yyBp2CAAAAAnP9dGBinpXQnV76zKZBzk3vDxQlhzUDcJlmlweuSvYEAAAABp4BgI39nxhqGdRCoa+9O5XVQ/dIfo8t6VM3R447YJY8X9kjADNkCI03YmQ3gSPd16nS/LVeATs7Sbbr0h0RaM</DTS:Password>
-        </DTS:ConnectionManager>
-      </DTS:ObjectData>
-    </DTS:ConnectionManager>
-    <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF 1]"
-      DTS:CreationName="OLEDB"
-      DTS:DTSID="{AC119AEA-8A74-4B07-B477-397E1B0CBC19}"
-      DTS:ObjectName="BE00003308\SQLEXPRESS2014.IVLP_XREF 1">
-      <DTS:ObjectData>
-        <DTS:ConnectionManager
-          DTS:ConnectionString="Data Source=BE00003308\SQLEXPRESS2014;Initial Catalog=IVLP_XREF;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+          DTS:ConnectionString="Data Source=BE00003308;Initial Catalog=IVLP_XREF;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -62,7 +47,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADGWK8NnK/XmkS/3v49nFG1+ILC6Kke2ddUUNQrsjSg8AAAAAAOgAAAAAIAACAAAAAR6hzHGOMSXaddbYwnJ98xOphu/1oQCbOj8/+M6lzqViAAAAAsWLkJNBhwW5XVhjYqPz1JLQXtuwWhPVCAchn2/mzd/0AAAACL/ocPmSiXJcGPRnNh17VpRuFYkR2vJSPctGyeVIG+kXF7ZL4hrC9tv6GL/njcB1hwGQ/Q+yBi3TETKJgLHekz</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADkGZL6Rme0MhmcVwmgDZXa+Ven1aMegSFvi6fcXffrpwAAAAAOgAAAAAIAACAAAABQxcyqLOpXVrNnWSKeqdH9U00I/gBzWSHVZwYbk5vYQiAAAAC2rhx9PLCDVYXts5EPHKMiP89ktTI8KmR7gxbTi4DUxkAAAADPbpIlJPoWsohdYyngGo6X7P7wEfqSYIYH3hZ/kCJv0p7Xywd2dCTpIsiCDFWmyPz9LOVX+2dQkuE/Gfa/BQH0</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -352,8 +337,8 @@
               <connections>
                 <connection
                   refId="Package\Create IVLP Project XREF Interim (Completed)\IVLP Program XREF Final.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -1314,7 +1299,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[Local_IVLP_Project_Mapping_XREF_Interim]</property>
+                  name="OpenRowset">[dbo].[Local_IVLP_Project_Mapping_XREF_Interim]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -1357,8 +1342,8 @@
               <connections>
                 <connection
                   refId="Package\Create IVLP Project XREF Interim (Completed)\IVLP Project Mapping XREF Interim.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -2002,7 +1987,7 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Delete Existing Final Project XREF rows"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="2">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -2024,7 +2009,7 @@
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{3586F998-537B-44A7-A93F-1DA363DF0DA2}"
+          SQLTask:Connection="{EEE8DD4F-C584-43E4-88F1-4DEBC2EC522B}"
           SQLTask:SqlStatementSource="DELETE FROM IVLP_XREF.dbo.Local_IVLP_Project_Mapping_XREF_Interim" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
@@ -2102,8 +2087,8 @@
               <connections>
                 <connection
                   refId="Package\Load New Project Status (Completed)\Add new ProjectStatus.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -2507,8 +2492,8 @@ where [refTable].[Status] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load New Project Status (Completed)\Does Project Status Exist?.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -2646,8 +2631,8 @@ where [refTable].[Status] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load New Project Status (Completed)\IVLP Project XREF Interim.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -2893,6 +2878,21 @@ where [refTable].[Status] = ?</property>
                       dataType="wstr"
                       length="20"
                       name="ProjectStatus_KMT" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Project Status (Completed)\IVLP Project XREF Interim.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STATUS_Unicode]"
+                      dataType="wstr"
+                      length="20"
+                      name="PROJECT_STATUS_Unicode" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Project Status (Completed)\IVLP Project XREF Interim.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_TYPE_Unicode]"
+                      dataType="wstr"
+                      length="100"
+                      name="PROJECT_TYPE_Unicode" />
+                    <externalMetadataColumn
+                      refId="Package\Load New Project Status (Completed)\IVLP Project XREF Interim.Outputs[OLE DB Source Output].ExternalColumns[ProjectType_KMT]"
+                      dataType="wstr"
+                      length="100"
+                      name="ProjectType_KMT" />
                   </externalMetadataColumns>
                 </output>
                 <output
@@ -3023,8 +3023,8 @@ where [refTable].[Status] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load New Project Type (Completed)\Add new Project Type.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -3095,7 +3095,7 @@ where [refTable].[Status] = ?</property>
                     <externalMetadataColumn
                       refId="Package\Load New Project Type (Completed)\Add new Project Type.Inputs[OLE DB Destination Input].ExternalColumns[ProjectTypeName]"
                       dataType="wstr"
-                      length="100"
+                      length="20"
                       name="ProjectTypeName" />
                   </externalMetadataColumns>
                 </input>
@@ -3410,7 +3410,7 @@ where [refTable].[ProjectTypeName] = ?</property>
                 <property
                   dataType="System.String"
                   description="Indicates whether to reference metadata in an XML format."
-                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProjectTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProjectTypeName" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProjectTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProjectTypeName" dataType="DT_WSTR" length="20" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
                 <property
                   containsID="true"
                   dataType="System.String"
@@ -3428,8 +3428,8 @@ where [refTable].[ProjectTypeName] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load New Project Type (Completed)\Does Project Type Exist?.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -3567,8 +3567,8 @@ where [refTable].[ProjectTypeName] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load New Project Type (Completed)\IVLP Project Mapping XREF Interim.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -3959,8 +3959,8 @@ where [refTable].[ProjectTypeName] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load New Projects\Add New Project.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -4029,12 +4029,6 @@ where [refTable].[ProjectTypeName] = ?</property>
                       externalMetadataColumnId="Package\Load New Projects\Add New Project.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
                       lineageId="Package\Load New Projects\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn_KMT]" />
                     <inputColumn
-                      refId="Package\Load New Projects\Add New Project.Inputs[OLE DB Destination Input].Columns[ECA_OrganizationId]"
-                      cachedDataType="i4"
-                      cachedName="ECA_OrganizationId"
-                      externalMetadataColumnId="Package\Load New Projects\Add New Project.Inputs[OLE DB Destination Input].ExternalColumns[NominationSource_OrganizationId]"
-                      lineageId="Package\Load New Projects\Lookup Nominating OrganizationId.Outputs[Lookup Match Output].Columns[ECA_OrganizationId]" />
-                    <inputColumn
                       refId="Package\Load New Projects\Add New Project.Inputs[OLE DB Destination Input].Columns[KMT_ProgramId]"
                       cachedDataType="i4"
                       cachedName="KMT_ProgramId"
@@ -4060,6 +4054,18 @@ where [refTable].[ProjectTypeName] = ?</property>
                       cachedName="PROJECT_NUMBER_Unicode"
                       externalMetadataColumnId="Package\Load New Projects\Add New Project.Inputs[OLE DB Destination Input].ExternalColumns[ProjectNumberIVLP]"
                       lineageId="Package\Load New Projects\Data Conversion.Outputs[Data Conversion Output].Columns[PROJECT_NUMBER_Unicode]" />
+                    <inputColumn
+                      refId="Package\Load New Projects\Add New Project.Inputs[OLE DB Destination Input].Columns[ECA_NominatingOrganizationId]"
+                      cachedDataType="i4"
+                      cachedName="ECA_NominatingOrganizationId"
+                      externalMetadataColumnId="Package\Load New Projects\Add New Project.Inputs[OLE DB Destination Input].ExternalColumns[NominationSource_OrganizationId]"
+                      lineageId="Package\Load New Projects\Lookup Nominating OrganizationId.Outputs[Lookup Match Output].Columns[ECA_NominatingOrganizationId]" />
+                    <inputColumn
+                      refId="Package\Load New Projects\Add New Project.Inputs[OLE DB Destination Input].Columns[KMT_LanguageId]"
+                      cachedDataType="i4"
+                      cachedName="KMT_LanguageId"
+                      externalMetadataColumnId="Package\Load New Projects\Add New Project.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
+                      lineageId="Package\Load New Projects\Lookup Project Language.Outputs[Lookup Match Output].Columns[KMT_LanguageId]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -4381,6 +4387,13 @@ where [refTable].[ProjectTypeName] = ?</property>
                       cachedLength="140"
                       cachedName="PROJECT_TITLE"
                       lineageId="Package\Load New Projects\IVLP Project Mapping XREF Interim.Outputs[OLE DB Source Output].Columns[PROJECT_TITLE]" />
+                    <inputColumn
+                      refId="Package\Load New Projects\Data Conversion.Inputs[Data Conversion Input].Columns[PROJECT_LANGUAGE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="PROJECT_LANGUAGE"
+                      lineageId="Package\Load New Projects\IVLP Project Mapping XREF Interim.Outputs[OLE DB Source Output].Columns[PROJECT_LANGUAGE]" />
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
@@ -4449,6 +4462,27 @@ where [refTable].[ProjectTypeName] = ?</property>
                           dataType="System.Int32"
                           description="Specifies the input column used as the source of data for the conversion."
                           name="SourceInputColumnLineageID">#{Package\Load New Projects\IVLP Project Mapping XREF Interim.Outputs[OLE DB Source Output].Columns[PROJECT_TITLE]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load New Projects\Data Conversion.Outputs[Data Conversion Output].Columns[PROJECT_LANGUAGE_Unicode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\Load New Projects\Data Conversion.Outputs[Data Conversion Output].Columns[PROJECT_LANGUAGE_Unicode]"
+                      name="PROJECT_LANGUAGE_Unicode"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load New Projects\IVLP Project Mapping XREF Interim.Outputs[OLE DB Source Output].Columns[PROJECT_LANGUAGE]}</property>
                         <property
                           dataType="System.Boolean"
                           description="Indicates whether the column uses the faster, locale-neutral parsing routines."
@@ -4552,8 +4586,8 @@ where UPPER([refTable].[ProjectNumberIVLP]) = UPPER( ? )</property>
               <connections>
                 <connection
                   refId="Package\Load New Projects\Does Project Exist?.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -4691,8 +4725,8 @@ where UPPER([refTable].[ProjectNumberIVLP]) = UPPER( ? )</property>
               <connections>
                 <connection
                   refId="Package\Load New Projects\IVLP Project Mapping XREF Interim.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -5791,8 +5825,8 @@ where [refTable].[ProjectNumberIVLP] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load New Projects\Lookup Existing Project.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -5949,8 +5983,8 @@ where [refTable].[IVLP_ORG_ID] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load New Projects\Lookup Nominating OrganizationId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -5990,11 +6024,11 @@ where [refTable].[IVLP_ORG_ID] = ?</property>
                   synchronousInputId="Package\Load New Projects\Lookup Nominating OrganizationId.Inputs[Lookup Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load New Projects\Lookup Nominating OrganizationId.Outputs[Lookup Match Output].Columns[ECA_OrganizationId]"
+                      refId="Package\Load New Projects\Lookup Nominating OrganizationId.Outputs[Lookup Match Output].Columns[ECA_NominatingOrganizationId]"
                       dataType="i4"
                       errorOrTruncationOperation="Copy Column"
-                      lineageId="Package\Load New Projects\Lookup Nominating OrganizationId.Outputs[Lookup Match Output].Columns[ECA_OrganizationId]"
-                      name="ECA_OrganizationId"
+                      lineageId="Package\Load New Projects\Lookup Nominating OrganizationId.Outputs[Lookup Match Output].Columns[ECA_NominatingOrganizationId]"
+                      name="ECA_NominatingOrganizationId"
                       truncationRowDisposition="FailComponent">
                       <properties>
                         <property
@@ -6039,11 +6073,11 @@ where [refTable].[IVLP_ORG_ID] = ?</property>
               </outputs>
             </component>
             <component
-              refId="Package\Load New Projects\Lookup Office Organization TypeId"
+              refId="Package\Load New Projects\Lookup Project Language"
               componentClassID="Microsoft.Lookup"
               contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
               description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
-              name="Lookup Office Organization TypeId"
+              name="Lookup Project Language"
               usesDispositions="true"
               version="6">
               <properties>
@@ -6052,14 +6086,14 @@ where [refTable].[IVLP_ORG_ID] = ?</property>
                   description="Specifies the SQL statement that generates the lookup table."
                   expressionType="Notify"
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[OrganizationType]</property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Language]</property>
                 <property
                   dataType="System.String"
                   description="Specifies a SQL statement that uses parameters to generate the lookup table."
                   expressionType="Notify"
                   name="SqlCommandParam"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[OrganizationType]) [refTable]
-where [refTable].[OrganizationTypeName] = ?</property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Language]) [refTable]
+where [refTable].[LanguageName] = ?</property>
                 <property
                   dataType="System.Int32"
                   description="Specifies the type of connection used to access the reference dataset."
@@ -6090,12 +6124,12 @@ where [refTable].[OrganizationTypeName] = ?</property>
                 <property
                   dataType="System.String"
                   description="Indicates whether to reference metadata in an XML format."
-                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="OrganizationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="OrganizationTypeName" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LanguageId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LanguageName" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
                 <property
                   containsID="true"
                   dataType="System.String"
                   description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
-                  name="ParameterMap">#{Package\Load New Projects\345:invalid};</property>
+                  name="ParameterMap">#{Package\Load New Projects\Data Conversion.Outputs[Data Conversion Output].Columns[PROJECT_LANGUAGE_Unicode]};</property>
                 <property
                   dataType="System.Int32"
                   description="Specifies the column code page to use when code page information is unavailable from the data source."
@@ -6107,28 +6141,28 @@ where [refTable].[OrganizationTypeName] = ?</property>
               </properties>
               <connections>
                 <connection
-                  refId="Package\Load New Projects\Lookup Office Organization TypeId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  refId="Package\Load New Projects\Lookup Project Language.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
               <inputs>
                 <input
-                  refId="Package\Load New Projects\Lookup Office Organization TypeId.Inputs[Lookup Input]"
+                  refId="Package\Load New Projects\Lookup Project Language.Inputs[Lookup Input]"
                   name="Lookup Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Load New Projects\Lookup Office Organization TypeId.Inputs[Lookup Input].Columns[Owner_OrganizationTypeName_KMT]"
+                      refId="Package\Load New Projects\Lookup Project Language.Inputs[Lookup Input].Columns[PROJECT_LANGUAGE_Unicode]"
                       cachedDataType="wstr"
-                      cachedLength="6"
-                      cachedName="Owner_OrganizationTypeName_KMT"
-                      lineageId="Package\Load New Projects\345:invalid">
+                      cachedLength="100"
+                      cachedName="PROJECT_LANGUAGE_Unicode"
+                      lineageId="Package\Load New Projects\Data Conversion.Outputs[Data Conversion Output].Columns[PROJECT_LANGUAGE_Unicode]">
                       <properties>
                         <property
                           dataType="System.String"
                           description="Specifies the column in the reference table that a column joins."
-                          name="JoinToReferenceColumn">OrganizationTypeName</property>
+                          name="JoinToReferenceColumn">LanguageName</property>
                         <property
                           dataType="System.Null"
                           description="Specifies the column in the reference table from which a column is copied."
@@ -6141,214 +6175,55 @@ where [refTable].[OrganizationTypeName] = ?</property>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Load New Projects\Lookup Office Organization TypeId.Outputs[Lookup Match Output]"
+                  refId="Package\Load New Projects\Lookup Project Language.Outputs[Lookup Match Output]"
                   errorOrTruncationOperation="Lookup"
                   errorRowDisposition="FailComponent"
                   exclusionGroup="1"
                   name="Lookup Match Output"
-                  synchronousInputId="Package\Load New Projects\Lookup Office Organization TypeId.Inputs[Lookup Input]">
+                  synchronousInputId="Package\Load New Projects\Lookup Project Language.Inputs[Lookup Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load New Projects\Lookup Office Organization TypeId.Outputs[Lookup Match Output].Columns[OrganizationTypeId_KMT]"
+                      refId="Package\Load New Projects\Lookup Project Language.Outputs[Lookup Match Output].Columns[KMT_LanguageId]"
                       dataType="i4"
                       errorOrTruncationOperation="Copy Column"
-                      lineageId="Package\Load New Projects\Lookup Office Organization TypeId.Outputs[Lookup Match Output].Columns[OrganizationTypeId_KMT]"
-                      name="OrganizationTypeId_KMT"
+                      lineageId="Package\Load New Projects\Lookup Project Language.Outputs[Lookup Match Output].Columns[KMT_LanguageId]"
+                      name="KMT_LanguageId"
                       truncationRowDisposition="FailComponent">
                       <properties>
                         <property
                           dataType="System.String"
                           description="Specifies the column in the reference table from which a column is copied."
-                          name="CopyFromReferenceColumn">OrganizationTypeId</property>
+                          name="CopyFromReferenceColumn">LanguageId</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Load New Projects\Lookup Office Organization TypeId.Outputs[Lookup No Match Output]"
+                  refId="Package\Load New Projects\Lookup Project Language.Outputs[Lookup No Match Output]"
                   description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
                   exclusionGroup="1"
                   name="Lookup No Match Output"
-                  synchronousInputId="Package\Load New Projects\Lookup Office Organization TypeId.Inputs[Lookup Input]">
+                  synchronousInputId="Package\Load New Projects\Lookup Project Language.Inputs[Lookup Input]">
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Load New Projects\Lookup Office Organization TypeId.Outputs[Lookup Error Output]"
+                  refId="Package\Load New Projects\Lookup Project Language.Outputs[Lookup Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Lookup Error Output"
-                  synchronousInputId="Package\Load New Projects\Lookup Office Organization TypeId.Inputs[Lookup Input]">
+                  synchronousInputId="Package\Load New Projects\Lookup Project Language.Inputs[Lookup Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load New Projects\Lookup Office Organization TypeId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      refId="Package\Load New Projects\Lookup Project Language.Outputs[Lookup Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Load New Projects\Lookup Office Organization TypeId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Load New Projects\Lookup Project Language.Outputs[Lookup Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Load New Projects\Lookup Office Organization TypeId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      refId="Package\Load New Projects\Lookup Project Language.Outputs[Lookup Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Load New Projects\Lookup Office Organization TypeId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
-              refId="Package\Load New Projects\Lookup Parent Program Id (default)"
-              componentClassID="Microsoft.Lookup"
-              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
-              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
-              name="Lookup Parent Program Id (default)"
-              usesDispositions="true"
-              version="6">
-              <properties>
-                <property
-                  dataType="System.String"
-                  description="Specifies the SQL statement that generates the lookup table."
-                  expressionType="Notify"
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Program]</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
-                  expressionType="Notify"
-                  name="SqlCommandParam"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Program]) [refTable]
-where [refTable].[Name] = ?</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the type of connection used to access the reference dataset."
-                  name="ConnectionType"
-                  typeConverter="LookupConnectionType">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the cache type of the lookup table."
-                  name="CacheType"
-                  typeConverter="CacheType">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
-                  name="NoMatchBehavior"
-                  typeConverter="LookupNoMatchBehavior">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
-                  name="NoMatchCachePercentage">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
-                  name="MaxMemoryUsage">25</property>
-                <property
-                  dataType="System.Int64"
-                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
-                  name="MaxMemoryUsage64">25</property>
-                <property
-                  dataType="System.String"
-                  description="Indicates whether to reference metadata in an XML format."
-                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProgramId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProgramStatusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Name" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Description" dataType="DT_WSTR" length="3000" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Website" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StartDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="EndDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="ParentProgram_ProgramId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Owner_OrganizationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="RowVersion" dataType="DT_BYTES" length="8" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
-                <property
-                  containsID="true"
-                  dataType="System.String"
-                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
-                  name="ParameterMap">#{Package\Load New Projects\347:invalid};</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the column code page to use when code page information is unavailable from the data source."
-                  name="DefaultCodePage">1252</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
-                  name="TreatDuplicateKeysAsError">false</property>
-              </properties>
-              <connections>
-                <connection
-                  refId="Package\Load New Projects\Lookup Parent Program Id (default).Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  description="Connection manager used to access lookup data."
-                  name="OleDbConnection" />
-              </connections>
-              <inputs>
-                <input
-                  refId="Package\Load New Projects\Lookup Parent Program Id (default).Inputs[Lookup Input]"
-                  name="Lookup Input">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\Load New Projects\Lookup Parent Program Id (default).Inputs[Lookup Input].Columns[ParentProgram_ProgramName_KMT]"
-                      cachedDataType="wstr"
-                      cachedLength="46"
-                      cachedName="ParentProgram_ProgramName_KMT"
-                      lineageId="Package\Load New Projects\347:invalid">
-                      <properties>
-                        <property
-                          dataType="System.String"
-                          description="Specifies the column in the reference table that a column joins."
-                          name="JoinToReferenceColumn">Name</property>
-                        <property
-                          dataType="System.Null"
-                          description="Specifies the column in the reference table from which a column is copied."
-                          name="CopyFromReferenceColumn" />
-                      </properties>
-                    </inputColumn>
-                  </inputColumns>
-                  <externalMetadataColumns />
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\Load New Projects\Lookup Parent Program Id (default).Outputs[Lookup Match Output]"
-                  errorOrTruncationOperation="Lookup"
-                  errorRowDisposition="FailComponent"
-                  exclusionGroup="1"
-                  name="Lookup Match Output"
-                  synchronousInputId="Package\Load New Projects\Lookup Parent Program Id (default).Inputs[Lookup Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load New Projects\Lookup Parent Program Id (default).Outputs[Lookup Match Output].Columns[ParentProgram_ProgramId_KMT]"
-                      dataType="i4"
-                      errorOrTruncationOperation="Copy Column"
-                      lineageId="Package\Load New Projects\Lookup Parent Program Id (default).Outputs[Lookup Match Output].Columns[ParentProgram_ProgramId_KMT]"
-                      name="ParentProgram_ProgramId_KMT"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          dataType="System.String"
-                          description="Specifies the column in the reference table from which a column is copied."
-                          name="CopyFromReferenceColumn">ProgramId</property>
-                      </properties>
-                    </outputColumn>
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\Load New Projects\Lookup Parent Program Id (default).Outputs[Lookup No Match Output]"
-                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
-                  exclusionGroup="1"
-                  name="Lookup No Match Output"
-                  synchronousInputId="Package\Load New Projects\Lookup Parent Program Id (default).Inputs[Lookup Input]">
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\Load New Projects\Lookup Parent Program Id (default).Outputs[Lookup Error Output]"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="Lookup Error Output"
-                  synchronousInputId="Package\Load New Projects\Lookup Parent Program Id (default).Inputs[Lookup Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load New Projects\Lookup Parent Program Id (default).Outputs[Lookup Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\Load New Projects\Lookup Parent Program Id (default).Outputs[Lookup Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\Load New Projects\Lookup Parent Program Id (default).Outputs[Lookup Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\Load New Projects\Lookup Parent Program Id (default).Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Load New Projects\Lookup Project Language.Outputs[Lookup Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -6426,8 +6301,8 @@ where UPPER( [refTable].[Status] ) = UPPER( ? )</property>
               <connections>
                 <connection
                   refId="Package\Load New Projects\Lookup ProjectStatusId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -6566,7 +6441,7 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
                 <property
                   dataType="System.String"
                   description="Indicates whether to reference metadata in an XML format."
-                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProjectTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProjectTypeName" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProjectTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProjectTypeName" dataType="DT_WSTR" length="20" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
                 <property
                   containsID="true"
                   dataType="System.String"
@@ -6584,8 +6459,8 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
               <connections>
                 <connection
                   refId="Package\Load New Projects\Lookup ProjectTypeId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -6697,9 +6572,14 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
               startId="Package\Load New Projects\Lookup ProjectTypeId.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Load New Projects.Paths[Lookup Match Output2]"
-              endId="Package\Load New Projects\Lookup Existing Project.Inputs[Lookup Input]"
+              endId="Package\Load New Projects\Lookup Project Language.Inputs[Lookup Input]"
               name="Lookup Match Output"
               startId="Package\Load New Projects\Lookup Nominating OrganizationId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load New Projects.Paths[Lookup Match Output3]"
+              endId="Package\Load New Projects\Lookup Existing Project.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load New Projects\Lookup Project Language.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Load New Projects.Paths[Lookup No Match Output]"
               endId="Package\Load New Projects\Add Required Columns.Inputs[Derived Column Input]"
@@ -6729,7 +6609,7 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
       DTS:LocaleID="-1"
       DTS:ObjectName="Map Source Programs to ECA Programs (Completed)"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="2">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -6812,8 +6692,8 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
               <connections>
                 <connection
                   refId="Package\Update Program XREF ProgramId (Completed)\Completed Program XREF.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
+                  connectionManagerID="{3586F998-537B-44A7-A93F-1DA363DF0DA2}:invalid"
+                  connectionManagerRefId="{3586F998-537B-44A7-A93F-1DA363DF0DA2}:invalid"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -7448,8 +7328,8 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
               <connections>
                 <connection
                   refId="Package\Update Program XREF ProgramId (Completed)\Lookup ECA-KMT ProgramId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="{1584C0FB-71AD-4E22-8F9A-DD42DE45F1B0}:invalid"
+                  connectionManagerRefId="{1584C0FB-71AD-4E22-8F9A-DD42DE45F1B0}:invalid"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -7747,8 +7627,8 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
               <connections>
                 <connection
                   refId="Package\Update Program XREF ProgramId (Completed)\Program XREF Data.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLEXPRESS2014.IVLP_XREF]"
+                  connectionManagerID="{3586F998-537B-44A7-A93F-1DA363DF0DA2}:invalid"
+                  connectionManagerRefId="{3586F998-537B-44A7-A93F-1DA363DF0DA2}:invalid"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -8545,7 +8425,7 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         <NodeLayout
           Size="166,42"
           Id="Package\Load New Projects"
-          TopLeft="90,366" />
+          TopLeft="104,364" />
         <NodeLayout
           Size="326,42"
           Id="Package\Map Source Programs to ECA Programs (Completed)"
@@ -8622,30 +8502,18 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="181,312">
+          TopLeft="184,312">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-8,54"
+              EndConnector="0,52"
               Start="0,0"
-              End="-8,46.5">
+              End="0,44.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,23" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,23"
-                    Point2="0,27"
-                    Point3="-4,27" />
-                  <mssgle:LineSegment
-                    End="-4,27" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-4,27"
-                    Point2="-8,27"
-                    Point3="-8,31" />
-                  <mssgle:LineSegment
-                    End="-8,46.5" />
+                    End="0,44.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -8663,6 +8531,14 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
+          Size="245,42"
+          Id="Package\Create IVLP Project XREF Interim (Completed)\IVLP Project Mapping XREF Interim"
+          TopLeft="66.5,311.5" />
+        <NodeLayout
+          Size="197,42"
+          Id="Package\Create IVLP Project XREF Interim (Completed)\IVLP Program XREF Final"
+          TopLeft="63.5,12.5" />
+        <NodeLayout
           Size="156,42"
           Id="Package\Create IVLP Project XREF Interim (Completed)\Data Conversion"
           TopLeft="79,116" />
@@ -8670,14 +8546,6 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
           Size="186,42"
           Id="Package\Create IVLP Project XREF Interim (Completed)\Add Required Columns"
           TopLeft="68,224" />
-        <NodeLayout
-          Size="197,42"
-          Id="Package\Create IVLP Project XREF Interim (Completed)\IVLP Program XREF Final"
-          TopLeft="63.5,12.5" />
-        <NodeLayout
-          Size="245,42"
-          Id="Package\Create IVLP Project XREF Interim (Completed)\IVLP Project Mapping XREF Interim"
-          TopLeft="66.5,311.5" />
         <EdgeLayout
           Id="Package\Create IVLP Project XREF Interim (Completed).Paths[OLE DB Source Output]"
           TopLeft="159.5,54.5">
@@ -8692,28 +8560,6 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
                   Capacity="5">
                   <mssgle:LineSegment
                     End="0,54" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Create IVLP Project XREF Interim (Completed).Paths[Data Conversion Output]"
-          TopLeft="159,158">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,66"
-              Start="0,0"
-              End="0,58.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,58.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -8756,11 +8602,33 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create IVLP Project XREF Interim (Completed).Paths[Data Conversion Output]"
+          TopLeft="159,158">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,66"
+              Start="0,0"
+              End="0,58.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,58.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Create IVLP Project XREF Interim (Completed)\IVLP Program XREF Final">
+    design-time-name="Package\Create IVLP Project XREF Interim (Completed)\IVLP Project Mapping XREF Interim">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -8773,7 +8641,7 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Create IVLP Project XREF Interim (Completed)\IVLP Project Mapping XREF Interim">
+    design-time-name="Package\Create IVLP Project XREF Interim (Completed)\IVLP Program XREF Final">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -8934,7 +8802,7 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">false</Value>
+          type="q2:boolean">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -8944,7 +8812,7 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -8970,69 +8838,45 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="190,42"
-          Id="Package\Load New Project Type (Completed)\Aggregate Project Type"
-          TopLeft="76,126" />
-        <NodeLayout
           Size="195,42"
           Id="Package\Load New Project Type (Completed)\Does Project Type Exist?"
           TopLeft="77.5,320.5" />
         <NodeLayout
-          Size="182,42"
-          Id="Package\Load New Project Type (Completed)\Add new Project Type"
-          TopLeft="439.5,318.5" />
+          Size="154,42"
+          Id="Package\Load New Project Type (Completed)\Derived Column"
+          TopLeft="93.5,222.5" />
         <NodeLayout
           Size="245,42"
           Id="Package\Load New Project Type (Completed)\IVLP Project Mapping XREF Interim"
           TopLeft="47.5,42.5" />
+        <NodeLayout
+          Size="190,42"
+          Id="Package\Load New Project Type (Completed)\Aggregate Project Type"
+          TopLeft="76,126" />
+        <NodeLayout
+          Size="182,42"
+          Id="Package\Load New Project Type (Completed)\Add new Project Type"
+          TopLeft="439.5,318.5" />
         <EdgeLayout
-          Id="Package\Load New Project Type (Completed).Paths[OLE DB Source Output]"
-          TopLeft="170.5,84.5">
+          Id="Package\Load New Project Type (Completed).Paths[Derived Column Output]"
+          TopLeft="172.75,264.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,41.5"
+              EndConnector="0,56"
               Start="0,0"
-              End="0,34">
+              End="0,48.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,34" />
+                    End="0,48.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="154,42"
-          Id="Package\Load New Project Type (Completed)\Derived Column"
-          TopLeft="93.5,222.5" />
-        <EdgeLayout
-          Id="Package\Load New Project Type (Completed).Paths[Lookup No Match Output]"
-          TopLeft="272.5,340.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="167,0"
-              Start="0,0"
-              End="159.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="159.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="23.94361328125,5,111.6127734375,11.609375"
-              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -9058,19 +8902,19 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load New Project Type (Completed).Paths[Derived Column Output]"
-          TopLeft="172.75,264.5">
+          Id="Package\Load New Project Type (Completed).Paths[OLE DB Source Output]"
+          TopLeft="170.5,84.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,56"
+              EndConnector="0,41.5"
               Start="0,0"
-              End="0,48.5">
+              End="0,34">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,48.5" />
+                    End="0,34" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -9079,9 +8923,46 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load New Project Type (Completed).Paths[Lookup No Match Output]"
+          TopLeft="272.5,340.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="167,0"
+              Start="0,0"
+              End="159.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="159.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="23.94361328125,5,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load New Project Type (Completed)\IVLP Project Mapping XREF Interim">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Load New Project Type (Completed)\Does Project Type Exist?">
     <Properties>
@@ -9124,37 +9005,111 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
+          Size="245,42"
+          Id="Package\Load New Projects\IVLP Project Mapping XREF Interim"
+          TopLeft="13.5,33.5" />
+        <NodeLayout
           Size="188,42"
           Id="Package\Load New Projects\Lookup ProjectStatusId"
           TopLeft="316.5,329.330882352941" />
-        <NodeLayout
-          Size="169,42"
-          Id="Package\Load New Projects\Does Project Exist?"
-          TopLeft="44.5,221.5" />
         <NodeLayout
           Size="243,42"
           Id="Package\Load New Projects\Lookup Nominating OrganizationId"
           TopLeft="293.5,153.330882352941" />
         <NodeLayout
-          Size="186,42"
-          Id="Package\Load New Projects\Add Required Columns"
-          TopLeft="39,324" />
-        <NodeLayout
-          Size="247,42"
-          Id="Package\Load New Projects\Lookup Parent Program Id (default)"
-          TopLeft="812.5,303.330882352941" />
-        <NodeLayout
-          Size="245,42"
-          Id="Package\Load New Projects\IVLP Project Mapping XREF Interim"
-          TopLeft="13.5,33.5" />
+          Size="169,42"
+          Id="Package\Load New Projects\Does Project Exist?"
+          TopLeft="44.5,221.5" />
         <NodeLayout
           Size="156,42"
           Id="Package\Load New Projects\Data Conversion"
           TopLeft="50.5,118.669117647059" />
         <NodeLayout
-          Size="243,42"
-          Id="Package\Load New Projects\Lookup Office Organization TypeId"
-          TopLeft="807.5,216.414953149401" />
+          Size="189,42"
+          Id="Package\Load New Projects\Lookup Existing Project"
+          TopLeft="564.5,122.5" />
+        <NodeLayout
+          Size="182,42"
+          Id="Package\Load New Projects\Lookup ProjectTypeId"
+          TopLeft="319.5,251.5" />
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Load New Projects\Add New Project"
+          TopLeft="736.5,22.5" />
+        <NodeLayout
+          Size="186,42"
+          Id="Package\Load New Projects\Add Required Columns"
+          TopLeft="39,324" />
+        <EdgeLayout
+          Id="Package\Load New Projects.Paths[Lookup Match Output1]"
+          TopLeft="412.75,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-56.1691176470588"
+              Start="0,0"
+              End="0,-48.6691176470588">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-48.6691176470588" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,-30.1392463235294,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load New Projects.Paths[Lookup Match Output]"
+          TopLeft="410.5,329.330882352941">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-35.830882352941"
+              Start="0,0"
+              End="0,-28.330882352941">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-28.330882352941" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,-19.9701286764705,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load New Projects.Paths[Derived Column Output]"
+          TopLeft="225,347.66544117647">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="91.5,0"
+              Start="0,0"
+              End="84,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="84,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <EdgeLayout
           Id="Package\Load New Projects.Paths[Data Conversion Output]"
           TopLeft="128.75,160.669117647059">
@@ -9200,6 +9155,42 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
+          Id="Package\Load New Projects.Paths[Lookup No Match Output1]"
+          TopLeft="659,122.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="156,-58"
+              Start="0,0"
+              End="156,-50.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-25"
+                    Point2="0,-29"
+                    Point3="4,-29" />
+                  <mssgle:LineSegment
+                    End="152,-29" />
+                  <mssgle:CubicBezierSegment
+                    Point1="152,-29"
+                    Point2="156,-29"
+                    Point3="156,-33" />
+                  <mssgle:LineSegment
+                    End="156,-50.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="22.19361328125,-24,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
           Id="Package\Load New Projects.Paths[Lookup No Match Output]"
           TopLeft="130.5,263.5">
           <EdgeLayout.Curve>
@@ -9223,151 +9214,98 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load New Projects.Paths[Derived Column Output]"
-          TopLeft="225,347.66544117647">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="91.5,0"
-              Start="0,0"
-              End="84,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="84,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
         <NodeLayout
-          Size="182,42"
-          Id="Package\Load New Projects\Lookup ProjectTypeId"
-          TopLeft="319.5,251.5" />
-        <EdgeLayout
-          Id="Package\Load New Projects.Paths[Lookup Match Output]"
-          TopLeft="410.5,329.330882352941">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,-35.830882352941"
-              Start="0,0"
-              End="0,-28.330882352941">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,-28.330882352941" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-48.19138671875,-19.9701286764705,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load New Projects.Paths[Lookup Match Output1]"
-          TopLeft="412.75,251.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,-56.1691176470588"
-              Start="0,0"
-              End="0,-48.6691176470588">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,-48.6691176470588" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-48.19138671875,-30.1392463235294,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="157,42"
-          Id="Package\Load New Projects\Add New Project"
-          TopLeft="703.5,43.5" />
-        <NodeLayout
-          Size="189,42"
-          Id="Package\Load New Projects\Lookup Existing Project"
-          TopLeft="383.5,50.5" />
+          Size="198,42"
+          Id="Package\Load New Projects\Lookup Project Language"
+          TopLeft="560.5,251.5" />
         <EdgeLayout
           Id="Package\Load New Projects.Paths[Lookup Match Output2]"
-          TopLeft="415,153.330882352941">
+          TopLeft="454.166666666667,195.330882352941">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="63,-60.8308823529412"
+              EndConnector="173.666666666667,56.169117647059"
               Start="0,0"
-              End="63,-53.3308823529412">
+              End="173.666666666667,48.669117647059">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,-26.4154411764706" />
+                    End="0,24.032970728703" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,-26.4154411764706"
-                    Point2="0,-30.4154411764706"
-                    Point3="4,-30.4154411764706" />
+                    Point1="0,24.032970728703"
+                    Point2="0,28.032970728703"
+                    Point3="4,28.032970728703" />
                   <mssgle:LineSegment
-                    End="59,-30.4154411764706" />
+                    End="169.666666666667,28.032970728703" />
                   <mssgle:CubicBezierSegment
-                    Point1="59,-30.4154411764706"
-                    Point2="63,-30.4154411764706"
-                    Point3="63,-34.4154411764706" />
+                    Point1="169.666666666667,28.032970728703"
+                    Point2="173.666666666667,28.032970728703"
+                    Point3="173.666666666667,32.032970728703" />
                   <mssgle:LineSegment
-                    End="63,-53.3308823529412" />
+                    End="173.666666666667,48.669117647059" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-16.69138671875,-25.4154411764706,96.3827734375,11.609375"
+              BoundingBox="38.6419466145834,33.032970728703,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load New Projects.Paths[Lookup No Match Output1]"
-          TopLeft="572.5,68">
+          Id="Package\Load New Projects.Paths[Lookup Match Output3]"
+          TopLeft="691.166666666667,251.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="131,0"
+              EndConnector="-32.1666666666666,-87"
               Start="0,0"
-              End="123.5,0">
+              End="-32.1666666666666,-79.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="123.5,0" />
+                    End="0,-31.2184368737475" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-31.2184368737475"
+                    Point2="0,-35.2184368737475"
+                    Point3="-4,-35.2184368737475" />
+                  <mssgle:LineSegment
+                    End="-28.1666666666666,-35.2184368737475" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-28.1666666666666,-35.2184368737475"
+                    Point2="-32.1666666666666,-35.2184368737475"
+                    Point3="-32.1666666666666,-39.2184368737475" />
+                  <mssgle:LineSegment
+                    End="-32.1666666666666,-79.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="5.94361328125,5,111.6127734375,11.609375"
+              BoundingBox="-64.2747200520833,-30.2184368737475,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load New Projects\IVLP Project Mapping XREF Interim">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Load New Projects\Lookup ProjectStatusId">
     <Properties>
@@ -9380,29 +9318,6 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         <Name>TableInfoObjectType</Name>
         <Value
           type="q3:int">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q4:boolean">true</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load New Projects\Does Project Exist?">
-    <Properties>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q2:string">[dbo].[Project]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q3:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -9438,7 +9353,76 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load New Projects\IVLP Project Mapping XREF Interim">
+    design-time-name="Package\Load New Projects\Does Project Exist?">
+    <Properties>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q2:string">[dbo].[Project]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q3:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q4:string">true</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load New Projects\Lookup Existing Project">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Project]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load New Projects\Lookup ProjectTypeId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">true</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[ProjectType]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load New Projects\Add New Project">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -9543,56 +9527,7 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Load New Project Type (Completed)\IVLP Project Mapping XREF Interim">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load New Projects\Lookup ProjectTypeId">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">true</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[ProjectType]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:int">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load New Projects\Add New Project">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load New Projects\Lookup Existing Project">
+    design-time-name="Package\Load New Projects\Lookup Project Language">
     <Properties>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
@@ -9602,7 +9537,7 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
       <Property>
         <Name>UsedTableName</Name>
         <Value
-          type="q3:string">[dbo].[Project]</Value>
+          type="q3:string">[dbo].[Language]</Value>
       </Property>
       <Property>
         <Name>TableInfoObjectType</Name>
