@@ -8,13 +8,13 @@ namespace ECA.Business.Queries.Models.Programs
 
         public int ProgramId { get; set; }
 
-        public int RelatedReports { get; set; }
+        public int RelatedProjects { get; set; }
 
         public int Participants { get; set; }
 
-        public int Budget { get; set; }
+        public decimal Budget { get; set; }
 
-        public int CostPerParticipant { get; set; }
+        public decimal CostPerParticipant { get; set; }
 
         public int FundingSources { get; set; }
 
