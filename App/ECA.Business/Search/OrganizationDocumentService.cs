@@ -47,7 +47,9 @@ namespace ECA.Business.Search
         /// <returns>The query.</returns>
         public override IQueryable<OrganizationDTO> CreateGetDocumentsQuery()
         {
-            return OrganizationQueries.CreateGetOrganizationDTOsQuery(this.Context).OrderBy(x => x.OrganizationId);
+            return OrganizationQueries.CreateGetOrganizationDTOsQuery(this.Context)
+                .Where(x => !Organization.OFFICE_ORGANIZATION_TYPE_IDS.Contains(x.OrganizationTypeId))
+                .OrderBy(x => x.OrganizationId);
         }
     }
 }
