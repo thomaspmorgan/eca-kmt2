@@ -197,31 +197,31 @@
     <Content Include="images\select2.png" />
     <Content Include="karma.conf.js" />
     <Content Include="app\app.run.js" />
-    <Content Include="app\controllers\address\addresses.js" />
-    <Content Include="app\controllers\address\address.js" />
+    <Content Include="app\directives\addresses.controller.js" />
+    <Content Include="app\directives\address.controller.js" />
     <Content Include="app\people\all-people.controller.js" />
     <Content Include="app\organizations\all-organizations.controller.js" />
-    <Content Include="app\controllers\collaborators.js" />
-    <Content Include="app\controllers\confirm.js" />
-    <Content Include="app\controllers\emailAddresses\emailaddress.js" />
-    <Content Include="app\controllers\emailAddresses\emailaddresses.js" />
-    <Content Include="app\controllers\languageProficiencies\languageProficiency.js" />
-    <Content Include="app\controllers\languageProficiencies\languageProficiencies.js" />
+    <Content Include="app\collaborators\collaborators.controller.js" />
+    <Content Include="app\directives\confirm-dialog.controller.js" />
+    <Content Include="app\directives\email-address.controller.js" />
+    <Content Include="app\directives\email-addresses.controller.js" />
+    <Content Include="app\directives\language-proficiency.controller.js" />
+    <Content Include="app\directives\language-proficiencies.controller.js" />
     <Content Include="app\locations\add-location-modal.controller.js" />
     <Content Include="app\locations\marker.controller.js" />
     <Content Include="app\locations\search-locations.controller.js" />
-    <Content Include="app\controllers\membership\memberships.js" />
-    <Content Include="app\controllers\membership\membership.js" />
-    <Content Include="app\controllers\moneyflow.js" />
-    <Content Include="app\controllers\moneyflows.js" />
+    <Content Include="app\directives\memberships.controller.js" />
+    <Content Include="app\directives\membership.controller.js" />
+    <Content Include="app\directives\moneyflow.controller.js" />
+    <Content Include="app\directives\moneyflows.controller.js" />
     <Content Include="app\offices\branches-and-programs.controller.js" />
     <Content Include="app\organizations\add-organization-modal.controller.js" />
     <Content Include="app\people\evaluation-notes-edit.controller.js" />
     <Content Include="app\people\pii-edit.controller.js" />
     <Content Include="app\people\pii.controller.js" />
     <Content Include="app\people\personal-information.controller.js" />
-    <Content Include="app\controllers\phoneNumbers\phonenumber.js" />
-    <Content Include="app\controllers\phoneNumbers\phonenumbers.js" />
+    <Content Include="app\directives\phone-number.controller.js" />
+    <Content Include="app\directives\phone-numbers.controller.js" />
     <Content Include="app\people\education-employment-edit.controller.js" />
     <Content Include="app\programs\add-program-modal.controller.js" />
     <Content Include="app\offices\overview.controller.js" />
@@ -256,9 +256,9 @@
     <Content Include="app\reports\country-awards.controller.js" />
     <Content Include="app\reports\year-awards.controller.js" />
     <Content Include="app\reports\region-awards.controller.js" />
-    <Content Include="app\controllers\snapshots.js" />
-    <Content Include="app\controllers\socialmedia\socialmedia.js" />
-    <Content Include="app\controllers\socialmedia\socialmedias.js" />
+    <Content Include="app\directives\snapshots.controller.js" />
+    <Content Include="app\directives\social-media.controller.js" />
+    <Content Include="app\directives\social-medias.controller.js" />
     <Content Include="app\directives\participant-person-sevis.directive.html" />
     <Content Include="app\directives\participant-person-sevis.directive.js" />
     <Content Include="app\directives\phone-numbers.directive.js" />
@@ -322,7 +322,7 @@
     <Content Include="app\organizations\moneyflows.html" />
     <Content Include="app\organizations\overview.html" />
     <Content Include="app\organizations\edit-details.html" />
-    <Content Include="views\partials\collaborators.html" />
+    <Content Include="app\collaborators\collaborators.html" />
     <Content Include="views\partials\pagination.html" />
     <Content Include="views\partials\searchinfo.html" />
     <Content Include="views\partials\toolbaricons.html" />
@@ -633,9 +633,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="app\controllers\locations\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
