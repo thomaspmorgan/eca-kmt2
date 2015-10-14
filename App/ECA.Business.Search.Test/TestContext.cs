@@ -1,4 +1,5 @@
 ﻿using ECA.Core.Data;
+using ECA.Core.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,6 +9,40 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Search.Test
 {
+    public class SimpleEntityDocumentSaveAction : DocumentSaveAction<SimpleEntity>
+    {
+        public SimpleEntityDocumentSaveAction(AppSettings settings) : base(settings)
+        {
+            DocumentKeys = new Dictionary<SimpleEntity, DocumentKey>();
+        }
+
+        public bool IsCreatedEntityActuallyExcluded { get; set; }
+        public bool IsModifiedEntityActuallyExcluded { get; set; }
+        public bool IsDeletedEntityActuallyExcluded { get; set; }
+
+        public Dictionary<SimpleEntity, DocumentKey> DocumentKeys { get; set; }
+
+        public override DocumentKey GetDocumentKey(SimpleEntity entity)
+        {
+            return DocumentKeys[entity];
+        }
+
+        public override bool IsCreatedEntityExcluded(SimpleEntity createdEntity)
+        {
+            return IsCreatedEntityActuallyExcluded;
+        }
+
+        public override bool IsDeletedEntityExcluded(SimpleEntity deletedEntity)
+        {
+            return IsDeletedEntityActuallyExcluded;
+        }
+
+        public override bool IsModifiedEntityExcluded(SimpleEntity modifiedEntity)
+        {
+            return IsModifiedEntityActuallyExcluded;
+        }
+    }
+
     public class SimpleEntity : IIdentifiable
     {
         public int Id { get; set; }

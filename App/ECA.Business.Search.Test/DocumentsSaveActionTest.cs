@@ -20,19 +20,17 @@ namespace ECA.Business.Search.Test
         private ConnectionStringSettingsCollection connectionStrings;
         private AppSettings settings;
         private TestContext context;
-        private DocumentsSaveAction<SimpleEntity> saveAction;
-        private DocumentSaveActionConfiguration<SimpleEntity> configuration;
+        private SimpleEntityDocumentSaveAction saveAction;
 
 
         [TestInitialize]
         public void TestInit()
         {
-            configuration = new DocumentSaveActionConfiguration<SimpleEntity>(x => x.Id, SimpleEntityConfiguration.SIMPLE_ENTITY_DOCUMENT_TYPE_ID);
             appSettings = new NameValueCollection();
             connectionStrings = new ConnectionStringSettingsCollection();
             settings = new AppSettings(appSettings, connectionStrings);
             context = new TestContext();
-            saveAction = new DocumentsSaveAction<SimpleEntity>(settings, configuration);
+            saveAction = new SimpleEntityDocumentSaveAction(settings);
         }
 
         [TestMethod]
@@ -60,9 +58,13 @@ namespace ECA.Business.Search.Test
             var deletedKey = new DocumentKey(SimpleEntityConfiguration.SIMPLE_ENTITY_DOCUMENT_TYPE_ID, deleted.First().Id);
             var modifiedKey = new DocumentKey(SimpleEntityConfiguration.SIMPLE_ENTITY_DOCUMENT_TYPE_ID, modified.First().Id);
 
-            saveAction.CreatedDocuments.AddRange(created);
-            saveAction.DeletedDocuments.AddRange(deleted);
-            saveAction.ModifiedDocuments.AddRange(modified);
+            saveAction.CreatedEntities.AddRange(created);
+            saveAction.DeletedEntities.AddRange(deleted);
+            saveAction.ModifiedEntities.AddRange(modified);
+
+            saveAction.DocumentKeys[created.First()] = createdKey;
+            saveAction.DocumentKeys[modified.First()] = modifiedKey;
+            saveAction.DocumentKeys[deleted.First()] = deletedKey;
 
             var message = saveAction.GetBatchMessage();
             Assert.AreEqual(1, message.CreatedDocuments.Count());
@@ -77,7 +79,7 @@ namespace ECA.Business.Search.Test
         #region Document Entities
 
         [TestMethod]
-        public void TestGetCreatedDocumentEntities()
+        public void TestGetCreatedDocumentEntities_NoEntitiesExcluded()
         {
             using (ShimsContext.Create())
             {
@@ -85,6 +87,7 @@ namespace ECA.Business.Search.Test
                 {
                     Id = 1,
                 };
+                saveAction.IsCreatedEntityActuallyExcluded = false;
                 System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
                 {
                     var entries = new List<DbEntityEntry>();
@@ -103,52 +106,15 @@ namespace ECA.Business.Search.Test
         }
 
         [TestMethod]
-        public void TestGetCreatedDocumentEntities_HasRules_ShouldNotBeExcluded()
+        public void TestGetCreatedDocumentEntities_EntitiesExcluded()
         {
             using (ShimsContext.Create())
             {
-                var rules = new List<Func<SimpleEntity, bool>>();
-                rules.Add((instance) =>
-                {
-                    return false;
-                });
-                configuration.CreatedExclusionRules = rules;
                 var entity = new SimpleEntity
                 {
                     Id = 1,
                 };
-                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
-                {
-                    var entries = new List<DbEntityEntry>();
-                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
-                    {
-                        EntityGet = () => entity,
-                        StateGet = () => EntityState.Added
-                    });
-                    return entries;
-                };
-                context.SimpleEntities.Add(entity);
-                var entities = saveAction.GetCreatedDocumentEntities(context);
-                Assert.AreEqual(1, entities.Count);
-                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
-            }
-        }
-
-        [TestMethod]
-        public void TestGetCreatedDocumentEntities_HasRules_ShouldBeExcluded()
-        {
-            using (ShimsContext.Create())
-            {
-                var rules = new List<Func<SimpleEntity, bool>>();
-                rules.Add((instance) =>
-                {
-                    return true;
-                });
-                configuration.CreatedExclusionRules = rules;
-                var entity = new SimpleEntity
-                {
-                    Id = 1,
-                };
+                saveAction.IsCreatedEntityActuallyExcluded = true;
                 System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
                 {
                     var entries = new List<DbEntityEntry>();
@@ -165,8 +131,9 @@ namespace ECA.Business.Search.Test
             }
         }
 
+
         [TestMethod]
-        public void TestGetModifiedDocumentEntities()
+        public void TestGetModifiedDocumentEntities_NoEntitiesExcluded()
         {
             using (ShimsContext.Create())
             {
@@ -174,6 +141,7 @@ namespace ECA.Business.Search.Test
                 {
                     Id = 1,
                 };
+                saveAction.IsModifiedEntityActuallyExcluded = false;
                 System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
                 {
                     var entries = new List<DbEntityEntry>();
@@ -192,52 +160,15 @@ namespace ECA.Business.Search.Test
         }
 
         [TestMethod]
-        public void TestGetModifiedDocumentEntities_HasRules_ShouldNotBeExcluded()
+        public void TestGetModifiedDocumentEntities_EntitiesExcluded()
         {
             using (ShimsContext.Create())
             {
-                var rules = new List<Func<SimpleEntity, bool>>();
-                rules.Add((instance) =>
-                {
-                    return false;
-                });
-                configuration.ModifiedExclusionRules = rules;
                 var entity = new SimpleEntity
                 {
                     Id = 1,
                 };
-                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
-                {
-                    var entries = new List<DbEntityEntry>();
-                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
-                    {
-                        EntityGet = () => entity,
-                        StateGet = () => EntityState.Modified
-                    });
-                    return entries;
-                };
-                context.SimpleEntities.Add(entity);
-                var entities = saveAction.GetModifiedDocumentEntities(context);
-                Assert.AreEqual(1, entities.Count);
-                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
-            }
-        }
-
-        [TestMethod]
-        public void TestGetModifiedDocumentEntities_HasRules_ShouldBeExcluded()
-        {
-            using (ShimsContext.Create())
-            {
-                var rules = new List<Func<SimpleEntity, bool>>();
-                rules.Add((instance) =>
-                {
-                    return true;
-                });
-                configuration.ModifiedExclusionRules = rules;
-                var entity = new SimpleEntity
-                {
-                    Id = 1,
-                };
+                saveAction.IsModifiedEntityActuallyExcluded = true;
                 System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
                 {
                     var entries = new List<DbEntityEntry>();
@@ -255,7 +186,7 @@ namespace ECA.Business.Search.Test
         }
 
         [TestMethod]
-        public void TestGetDeletedDocumentEntities()
+        public void TestGetDeletedDocumentEntities_NoEntitiesExcluded()
         {
             using (ShimsContext.Create())
             {
@@ -263,6 +194,7 @@ namespace ECA.Business.Search.Test
                 {
                     Id = 1,
                 };
+                saveAction.IsDeletedEntityActuallyExcluded = false;
                 System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
                 {
                     var entries = new List<DbEntityEntry>();
@@ -281,52 +213,15 @@ namespace ECA.Business.Search.Test
         }
 
         [TestMethod]
-        public void TestGetDeletedDocumentEntities_HasRules_ShouldNotBeExcluded()
+        public void TestGetDeletedDocumentEntities_EntitiesExcluded()
         {
             using (ShimsContext.Create())
             {
-                var rules = new List<Func<SimpleEntity, bool>>();
-                rules.Add((instance) =>
-                {
-                    return false;
-                });
-                configuration.DeletedExclusionRules = rules;
                 var entity = new SimpleEntity
                 {
                     Id = 1,
                 };
-                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
-                {
-                    var entries = new List<DbEntityEntry>();
-                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
-                    {
-                        EntityGet = () => entity,
-                        StateGet = () => EntityState.Deleted
-                    });
-                    return entries;
-                };
-                context.SimpleEntities.Add(entity);
-                var entities = saveAction.GetDeletedDocumentEntities(context);
-                Assert.AreEqual(1, entities.Count);
-                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
-            }
-        }
-
-        [TestMethod]
-        public void TestGetDeletedDocumentEntities_HasRules_ShouldBeExcluded()
-        {
-            using (ShimsContext.Create())
-            {
-                var rules = new List<Func<SimpleEntity, bool>>();
-                rules.Add((instance) =>
-                {
-                    return true;
-                });
-                configuration.DeletedExclusionRules = rules;
-                var entity = new SimpleEntity
-                {
-                    Id = 1,
-                };
+                saveAction.IsDeletedEntityActuallyExcluded = true;
                 System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
                 {
                     var entries = new List<DbEntityEntry>();
@@ -417,8 +312,8 @@ namespace ECA.Business.Search.Test
                 };
                 context.SimpleEntities.Add(entity);
                 saveAction.BeforeSaveChanges((DbContext)context);
-                Assert.AreEqual(1, saveAction.CreatedDocuments.Count);
-                Assert.IsTrue(Object.ReferenceEquals(entity, saveAction.CreatedDocuments.First()));
+                Assert.AreEqual(1, saveAction.CreatedEntities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, saveAction.CreatedEntities.First()));
             }
         }
 
@@ -443,8 +338,8 @@ namespace ECA.Business.Search.Test
                 };
                 context.SimpleEntities.Add(entity);
                 await saveAction.BeforeSaveChangesAsync((DbContext)context);
-                Assert.AreEqual(1, saveAction.CreatedDocuments.Count);
-                Assert.IsTrue(Object.ReferenceEquals(entity, saveAction.CreatedDocuments.First()));
+                Assert.AreEqual(1, saveAction.CreatedEntities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, saveAction.CreatedEntities.First()));
             }
         }
 
@@ -466,7 +361,8 @@ namespace ECA.Business.Search.Test
                     Id = 1,
                 });
 
-                saveAction.CreatedDocuments.AddRange(created);
+                saveAction.CreatedEntities.AddRange(created);
+                saveAction.DocumentKeys[created.First()] = new DocumentKey(SimpleEntityConfiguration.SIMPLE_ENTITY_DOCUMENT_TYPE_ID, created.First().Id);
                 var fakeQueue = new Microsoft.WindowsAzure.Storage.Queue.Fakes.ShimCloudQueue
                 {   
                     CreateIfNotExistsAsync = () =>
@@ -519,7 +415,8 @@ namespace ECA.Business.Search.Test
                     Id = 1,
                 });
 
-                saveAction.CreatedDocuments.AddRange(created);
+                saveAction.CreatedEntities.AddRange(created);
+                saveAction.DocumentKeys[created.First()] = new DocumentKey(SimpleEntityConfiguration.SIMPLE_ENTITY_DOCUMENT_TYPE_ID, created.First().Id);
                 var fakeQueue = new Microsoft.WindowsAzure.Storage.Queue.Fakes.ShimCloudQueue
                 {
                     CreateIfNotExistsQueueRequestOptionsOperationContext = (opt, ctx) =>
