@@ -37,6 +37,8 @@ namespace ECA.WebApi.Models.Search
             this.Status = ecaDocument.Status;
             this.StartDate = ecaDocument.StartDate;
             this.EndDate = ecaDocument.EndDate;
+            this.Addresses = ecaDocument.Addresses;
+            this.PhoneNumbers = ecaDocument.PhoneNumbers;
         }
 
         /// <summary>

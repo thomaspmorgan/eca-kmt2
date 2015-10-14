@@ -100,5 +100,54 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or sets the postal code.
         /// </summary>
         public string PostalCode { get; set; }
+
+        /// <summary>
+        /// Returns this address as a formatted string.
+        /// </summary>
+        /// <returns>The address as a formatted string.</returns>
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            if (!String.IsNullOrEmpty(this.Street1))
+            {
+                sb.AppendLine(this.Street1);
+            }
+            if (!String.IsNullOrEmpty(this.Street2))
+            {
+                sb.AppendLine(this.Street2);
+            }
+            if (!String.IsNullOrEmpty(this.Street3))
+            {
+                sb.AppendLine(this.Street3);
+            }
+            if (!String.IsNullOrWhiteSpace(this.City) 
+                && !String.IsNullOrWhiteSpace(this.Division) 
+                && !String.IsNullOrWhiteSpace(this.Country)
+                && !String.IsNullOrWhiteSpace(this.PostalCode))
+            {
+                sb.AppendFormat("{0}, {1} {2}", this.City, this.Division, this.PostalCode);
+                sb.AppendLine(this.Country);
+            }
+            else
+            {
+                if (!String.IsNullOrWhiteSpace(this.City))
+                {
+                    sb.AppendLine(this.City);
+                }
+                if (!String.IsNullOrWhiteSpace(this.Division))
+                {
+                    sb.AppendLine(this.Division);
+                }
+                if (!String.IsNullOrWhiteSpace(this.Country))
+                {
+                    sb.AppendLine(this.Country);
+                }
+                if (!String.IsNullOrWhiteSpace(this.PostalCode))
+                {
+                    sb.AppendLine(this.PostalCode);
+                }
+            }
+            return sb.ToString();
+        }
     }
 }

@@ -195,6 +195,7 @@
     <Compile Include="ECASuggestionParametersTest.cs" />
     <Compile Include="IndexDocumentBatchMessageTest.cs" />
     <Compile Include="DocumentsSaveActionTest.cs" />
+    <Compile Include="GenericDocumentSaveActionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

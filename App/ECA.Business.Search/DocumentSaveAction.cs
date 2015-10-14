@@ -14,14 +14,14 @@ using System.Threading.Tasks;
 namespace ECA.Business.Search
 {
     /// <summary>
-    /// The DocumentsSaveAction is used to handle created, modified, and deleted entities that 
-    /// are also used as azure search document entities, such as program, or project.
+    /// The DocumentSaveAction is used to handle created, modified, and deleted entities that 
+    /// are the basis of an indexed document.  For example, the creation of a project should trigger a new project dto 
+    /// document to be created.
     /// </summary>
-    /// <typeparam name="TDocument"></typeparam>
-    public class DocumentsSaveAction<TDocument> : ISaveAction
-        where TDocument : class, IIdentifiable
+    /// <typeparam name="TEntity">The entity type in the context that has been created, modified, or deleted.</typeparam>
+    public abstract class DocumentSaveAction<TEntity> : ISaveAction
+        where TEntity : class
     {
-        private Guid documentTypeId;
         private AppSettings appSettings;
 
         /// <summary>
@@ -30,41 +30,42 @@ namespace ECA.Business.Search
         /// <param name="documentTypeId">The document type id.  This id should correspond to the same guid
         /// as the document type in the document configuration.</param>
         /// <param name="appSettings">The app settings.</param>
-        public DocumentsSaveAction(Guid documentTypeId, AppSettings appSettings)
+        public DocumentSaveAction(AppSettings appSettings)
         {
             Contract.Requires(appSettings != null, "The app settings must not be null.");
-            Contract.Requires(documentTypeId != Guid.Empty, "The document type id must not be empty.");
-            this.documentTypeId = documentTypeId;
             this.appSettings = appSettings;
-            this.CreatedDocuments = new List<TDocument>();
-            this.DeletedDocuments = new List<TDocument>();
-            this.ModifiedDocuments = new List<TDocument>();
+            this.CreatedEntities = new List<TEntity>();
+            this.DeletedEntities = new List<TEntity>();
+            this.ModifiedEntities = new List<TEntity>();
         }
 
         /// <summary>
-        /// Gets the added documents.
+        /// Gets the added entities.
         /// </summary>
-        public List<TDocument> CreatedDocuments { get; private set; }
+        public List<TEntity> CreatedEntities { get; private set; }
 
         /// <summary>
-        /// Gets the modified documents.
+        /// Gets the modified entities.
         /// </summary>
-        public List<TDocument> ModifiedDocuments { get; private set; }
+        public List<TEntity> ModifiedEntities { get; private set; }
 
         /// <summary>
-        /// Gets the deleted documents.
+        /// Gets the deleted entities.
         /// </summary>
-        public List<TDocument> DeletedDocuments { get; private set; }
+        public List<TEntity> DeletedEntities { get; private set; }
 
         /// <summary>
         /// Retrieves the added entities from the given context.
         /// </summary>
         /// <param name="context">The context to retrieve added entities.</param>
         /// <returns>The added entities.</returns>
-        public IList<TDocument> GetCreatedDocumentEntities(DbContext context)
+        public IList<TEntity> GetCreatedDocumentEntities(DbContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            return GetDocumentEntities(context, EntityState.Added);
+            var createdDocuments = GetDocumentEntities(context, EntityState.Added)
+                .Where(x => !IsCreatedEntityExcluded(x))
+                .ToList();
+            return createdDocuments;
         }
 
         /// <summary>
@@ -72,10 +73,13 @@ namespace ECA.Business.Search
         /// </summary>
         /// <param name="context">The context to retrieve modified entities.</param>
         /// <returns>The modified entities.</returns>
-        public IList<TDocument> GetModifiedDocumentEntities(DbContext context)
+        public IList<TEntity> GetModifiedDocumentEntities(DbContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            return GetDocumentEntities(context, EntityState.Modified);
+            var modifiedDocuments = GetDocumentEntities(context, EntityState.Modified)
+                .Where(x => !IsModifiedEntityExcluded(x))
+                .ToList();
+            return modifiedDocuments;
         }
 
         /// <summary>
@@ -83,10 +87,13 @@ namespace ECA.Business.Search
         /// </summary>
         /// <param name="context">The context to retrieve modified entities.</param>
         /// <returns>The modified entities.</returns>
-        public IList<TDocument> GetDeletedDocumentEntities(DbContext context)
+        public IList<TEntity> GetDeletedDocumentEntities(DbContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            return GetDocumentEntities(context, EntityState.Deleted);
+            var deletedDocuments = GetDocumentEntities(context, EntityState.Deleted)
+                .Where(x => !IsDeletedEntityExcluded(x))
+                .ToList();
+            return deletedDocuments;
         }
 
         /// <summary>
@@ -95,14 +102,14 @@ namespace ECA.Business.Search
         /// <param name="context">The context to retrieve the entities from.</param>
         /// <param name="state">The entity state.</param>
         /// <returns>The entities with the given state.</returns>
-        public IList<TDocument> GetDocumentEntities(DbContext context, EntityState state)
+        public IList<TEntity> GetDocumentEntities(DbContext context, EntityState state)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var changedEntities = context.ChangeTracker.Entries().Where(x => x.State == state).ToList();
-            var documentType = typeof(TDocument);
+            var documentType = typeof(TEntity);
             var changeDocumentEntities = changedEntities
                 .Where(a => documentType.IsAssignableFrom(a.Entity.GetType()))
-                .Select(x => (TDocument)x.Entity)
+                .Select(x => (TEntity)x.Entity)
                 .ToList();
             return changeDocumentEntities;
         }
@@ -110,9 +117,9 @@ namespace ECA.Business.Search
 
         private void OnBeforeSaveChanges(DbContext context)
         {
-            this.CreatedDocuments = GetCreatedDocumentEntities(context).ToList();
-            this.ModifiedDocuments = GetModifiedDocumentEntities(context).ToList();
-            this.DeletedDocuments = GetDeletedDocumentEntities(context).ToList();
+            this.CreatedEntities = GetCreatedDocumentEntities(context).ToList();
+            this.ModifiedEntities = GetModifiedDocumentEntities(context).ToList();
+            this.DeletedEntities = GetDeletedDocumentEntities(context).ToList();
         }
 
         #region ISaveAction
@@ -167,7 +174,7 @@ namespace ECA.Business.Search
         }
 
         private CloudQueue GetCloudQueueClient()
-        {   
+        {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(appSettings.AzureWebJobsStorageConnectionString.ConnectionString);
             CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
             var queue = queueClient.GetQueueReference(appSettings.SearchDocumentQueueName);
@@ -183,15 +190,43 @@ namespace ECA.Business.Search
         /// Returns the message to send to the azure queue.
         /// </summary>
         /// <returns>The azure queue message.</returns>
-        public IndexDocumentBatchMessage GetBatchMessage()
+        public virtual IndexDocumentBatchMessage GetBatchMessage()
         {
             var batch = new IndexDocumentBatchMessage();
-            batch.CreatedDocuments = this.CreatedDocuments.Select(x => new DocumentKey(documentTypeId, x.GetId()).ToString()).ToList();
-            batch.DeletedDocuments = this.DeletedDocuments.Select(x => new DocumentKey(documentTypeId, x.GetId()).ToString()).ToList();
-            batch.ModifiedDocuments = this.ModifiedDocuments.Select(x => new DocumentKey(documentTypeId, x.GetId()).ToString()).ToList();
+            batch.CreatedDocuments = this.CreatedEntities.Select(x => GetDocumentKey(x).ToString()).ToList();
+            batch.DeletedDocuments = this.DeletedEntities.Select(x => GetDocumentKey(x).ToString()).ToList();
+            batch.ModifiedDocuments = this.ModifiedEntities.Select(x => GetDocumentKey(x).ToString()).ToList();
             return batch;
         }
 
         #endregion
+
+        /// <summary>
+        /// Returns true if the given entity should be excluded from the indexing process.
+        /// </summary>
+        /// <param name="createdEntity">The created entity.</param>
+        /// <returns>True, if the given created entity should be excluded from the indexing process.</returns>
+        public abstract bool IsCreatedEntityExcluded(TEntity createdEntity);
+
+        /// <summary>
+        /// Returns true if the given entity should be excluded from the indexing process.
+        /// </summary>
+        /// <param name="modifiedEntity">The modified entity.</param>
+        /// <returns>True, if the given modified entity should be excluded from the indexing process.</returns>
+        public abstract bool IsModifiedEntityExcluded(TEntity modifiedEntity);
+
+        /// <summary>
+        /// Returns true if the given entity should be excluded from the indexing process.
+        /// </summary>
+        /// <param name="deletedEntity">The deleted entity.</param>
+        /// <returns>True, if the given deleted entity should be excluded from the indexing process.</returns>
+        public abstract bool IsDeletedEntityExcluded(TEntity deletedEntity);
+
+        /// <summary>
+        /// Returns the document key of the given entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns>The document key.</returns>
+        public abstract DocumentKey GetDocumentKey(TEntity entity);
     }
 }

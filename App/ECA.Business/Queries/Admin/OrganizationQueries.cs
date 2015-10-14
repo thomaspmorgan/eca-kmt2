@@ -72,12 +72,11 @@ namespace ECA.Business.Queries.Admin
         }
 
         /// <summary>
-        /// Creates a query that returns and organization dto from the organization with the given id.
+        /// Creates a query that returns and organization dto from the eca organizations.
         /// </summary>
         /// <param name="context">The context to query.</param>
-        /// <param name="organizationId">The organization id.</param>
         /// <returns>The query.</returns>
-        public static IQueryable<OrganizationDTO> CreateGetOrganizationDTOByOrganizationIdQuery(EcaContext context, int organizationId)
+        public static IQueryable<OrganizationDTO> CreateGetOrganizationDTOsQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var query = from org in context.Organizations
@@ -87,7 +86,6 @@ namespace ECA.Business.Queries.Admin
                         let addresses = org.Addresses
                         let parentOrg = org.ParentOrganization
                         let orgRoles = org.OrganizationRoles
-                        where org.OrganizationId == organizationId
                         select new OrganizationDTO
                         {
                             Contacts = contacts.Select(x => new SimpleLookupDTO { Id = x.ContactId, Value = x.FullName }),
@@ -152,6 +150,20 @@ namespace ECA.Business.Queries.Admin
                                 })
                         };
             return query;
+        }
+
+        /// <summary>
+        /// Creates a query that returns and organization dto from the organization with the given id.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="organizationId">The organization id.</param>
+        /// <returns>The query.</returns>
+        public static IQueryable<OrganizationDTO> CreateGetOrganizationDTOByOrganizationIdQuery(EcaContext context, int organizationId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var query = CreateGetOrganizationDTOsQuery(context).Where(x => x.OrganizationId == organizationId);
+            return query;
+           
         }
 
         /// <summary>

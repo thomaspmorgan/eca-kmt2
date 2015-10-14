@@ -281,6 +281,20 @@ namespace ECA.Business.Search
             fields.Add(new Field
             {
                 IsKey = false,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.Addresses),
+                Type = DataType.Collection(DataType.String),
+                IsSearchable = true
+            });
+            fields.Add(new Field
+            {
+                IsKey = false,
+                Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.PhoneNumbers),
+                Type = DataType.Collection(DataType.String),
+                IsSearchable = true
+            });
+            fields.Add(new Field
+            {
+                IsKey = false,
                 Name = PropertyHelper.GetPropertyName<ECADocument>(x => x.OfficeSymbol),
                 Type = DataType.String,
                 IsSearchable = true

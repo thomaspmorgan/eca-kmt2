@@ -1,6 +1,8 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Lookup;
+using ECA.Core.Service;
 using ECA.Data;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
@@ -14,9 +16,10 @@ namespace ECA.Business.Service.Projects
         /// <summary>
         /// Creates a new ProjectStatusService with the context.
         /// </summary>
+        /// <param name="saveActions">The save actions.</param>
         /// <param name="context">The context to operate against.</param>
-        public ProjectStatusService(EcaContext context)
-            : base(context)
+        public ProjectStatusService(EcaContext context, List<ISaveAction> saveActions = null)
+            : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
         }

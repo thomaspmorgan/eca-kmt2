@@ -1,4 +1,5 @@
-﻿using ECA.Data;
+﻿using ECA.Core.Service;
+using ECA.Data;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -16,9 +17,10 @@ namespace ECA.Business.Service.Lookup
         /// <summary>
         /// Creates a new instance with the context to query.
         /// </summary>
+        /// <param name="saveActions">The save actions.</param>
         /// <param name="context">The context to query.</param>
-        public PhoneNumberTypeService(EcaContext context)
-            : base(context)
+        public PhoneNumberTypeService(EcaContext context, List<ISaveAction> saveActions = null)
+            : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
         }

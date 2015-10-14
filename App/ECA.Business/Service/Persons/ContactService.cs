@@ -25,9 +25,9 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Creates a new ContactService with the given context to operate against.
         /// </summary>
+        /// <param name="saveActions">The save actions.</param>
         /// <param name="context">The context to operate against.</param>
-        /// <param name="logger">The logger.</param>
-        public ContactService(EcaContext context) : base(context)
+        public ContactService(EcaContext context, List<ISaveAction> saveActions = null) : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
         }

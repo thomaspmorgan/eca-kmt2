@@ -9,8 +9,6 @@ using System.Reflection;
 
 namespace ECA.Business.Search.Test
 {
-
-
     [TestClass]
     public class DocumentConfigurationTest
     {
@@ -21,6 +19,7 @@ namespace ECA.Business.Search.Test
         {
             configuration = new TestDocumentConfiguration(false);
         }
+
 
         [TestMethod]
         public void TestGetId()
@@ -138,6 +137,31 @@ namespace ECA.Business.Search.Test
             var instance = new TestDocument();
             instance.Countries = new string[] { "value1", "value2" };
             Assert.IsTrue(Object.ReferenceEquals(instance.Countries, configuration.CountriesDelegate(instance)));
+        }
+
+
+        [TestMethod]
+        public void TestHasAddresses()
+        {
+            Assert.IsNull(configuration.AddressesDelegate);
+            configuration.HasAddresses(x => x.Addresses);
+            Assert.IsNotNull(configuration.AddressesDelegate);
+
+            var instance = new TestDocument();
+            instance.Addresses = new string[] { "value1", "value2" };
+            Assert.IsTrue(Object.ReferenceEquals(instance.Addresses, configuration.AddressesDelegate(instance)));
+        }
+
+        [TestMethod]
+        public void TestHasPhoneNumbers()
+        {
+            Assert.IsNull(configuration.PhoneNumbersDelegate);
+            configuration.HasPhoneNumbers(x => x.PhoneNumbers);
+            Assert.IsNotNull(configuration.PhoneNumbersDelegate);
+
+            var instance = new TestDocument();
+            instance.PhoneNumbers = new string[] { "value1", "value2" };
+            Assert.IsTrue(Object.ReferenceEquals(instance.PhoneNumbers, configuration.PhoneNumbersDelegate(instance)));
         }
 
         [TestMethod]
@@ -318,6 +342,32 @@ namespace ECA.Business.Search.Test
 
             instance.Goals = new string[] { "value" };
             Assert.IsTrue(Object.ReferenceEquals(instance.Goals, configuration.GetGoals(instance)));
+        }
+
+        [TestMethod]
+        public void TestGetAddresses()
+        {
+            var instance = new TestDocument();
+            Assert.IsNull(configuration.GetAddresses(instance));
+
+            configuration.HasAddresses(x => x.Addresses);
+            Assert.IsNull(configuration.GetAddresses(instance));
+
+            instance.Addresses = new string[] { "value" };
+            Assert.IsTrue(Object.ReferenceEquals(instance.Addresses, configuration.GetAddresses(instance)));
+        }
+
+        [TestMethod]
+        public void TestGetPhoneNumbers()
+        {
+            var instance = new TestDocument();
+            Assert.IsNull(configuration.GetPhoneNumbers(instance));
+
+            configuration.HasPhoneNumbers(x => x.PhoneNumbers);
+            Assert.IsNull(configuration.GetPhoneNumbers(instance));
+
+            instance.Addresses = new string[] { "value" };
+            Assert.IsTrue(Object.ReferenceEquals(instance.PhoneNumbers, configuration.GetPhoneNumbers(instance)));
         }
 
         [TestMethod]

@@ -31,6 +31,8 @@ namespace ECA.WebApi.Test.Controllers.Search
             document.Regions = new List<string> { "region" };
             document.Countries = new List<string> { "country" };
             document.Locations = new List<string> { "local" };
+            document.PhoneNumbers = new List<string> { "phone number" };
+            document.Addresses = new List<string> { "addresses" };
             document.DocumentTypeId = "type id";
             document.DocumentTypeName = "type name";
             document.StartDate = DateTimeOffset.Now.AddDays(-1.0);

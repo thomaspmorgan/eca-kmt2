@@ -65,6 +65,8 @@ namespace ECA.WebJobs.Search.Core
                 var notificationService = c.Resolve<IIndexNotificationService>();
                 list.Add(new ProgramDocumentService(context, indexService, notificationService, 300));
                 list.Add(new ProjectDocumentService(context, indexService, notificationService, 300));
+                list.Add(new OfficeDocumentService(context, indexService, notificationService, 300));
+                list.Add(new OrganizationDocumentService(context, indexService, notificationService, 300));
                 return list;
             }));
         }
