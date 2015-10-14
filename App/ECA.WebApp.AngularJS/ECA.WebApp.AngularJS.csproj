@@ -374,7 +374,6 @@
     <Content Include="styles\_variables.scss" />
     <Content Include="app\errors\error.html" />
     <Content Include="app\auth\forbidden.html" />
-    <Content Include="app\offices\test.hs" />
     <Content Include="styles\main.scss" />
     <Content Include="packages.config" />
     <Content Include="bower.json" />
