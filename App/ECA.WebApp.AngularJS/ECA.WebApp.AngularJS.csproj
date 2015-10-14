@@ -207,9 +207,9 @@
     <Content Include="app\controllers\emailAddresses\emailaddresses.js" />
     <Content Include="app\controllers\languageProficiencies\languageProficiency.js" />
     <Content Include="app\controllers\languageProficiencies\languageProficiencies.js" />
-    <Content Include="app\controllers\locations\addlocation.js" />
-    <Content Include="app\controllers\locations\marker.js" />
-    <Content Include="app\controllers\locations\searchlocations.js" />
+    <Content Include="app\locations\add-location-modal.controller.js" />
+    <Content Include="app\locations\marker.controller.js" />
+    <Content Include="app\locations\search-locations.controller.js" />
     <Content Include="app\controllers\membership\memberships.js" />
     <Content Include="app\controllers\membership\membership.js" />
     <Content Include="app\controllers\moneyflow.js" />
@@ -312,9 +312,9 @@
     <Content Include="app\directives\moneyflows.directive.html" />
     <Content Include="app\directives\phone-numbers.directive.html" />
     <Content Include="app\directives\social-medias.directive.html" />
-    <Content Include="views\locations\addlocationmodal.html" />
-    <Content Include="views\locations\marker.html" />
-    <Content Include="views\locations\searchlocations.html" />
+    <Content Include="app\locations\add-location-modal.html" />
+    <Content Include="app\locations\marker.html" />
+    <Content Include="app\locations\search-locations.html" />
     <Content Include="app\organizations\activities.html" />
     <Content Include="app\organizations\add-organization-modal.html" />
     <Content Include="app\organizations\impact.html" />
@@ -633,7 +633,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="app\controllers\locations\" />
+  </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>

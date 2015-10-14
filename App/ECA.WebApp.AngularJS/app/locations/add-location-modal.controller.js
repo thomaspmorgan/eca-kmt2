@@ -239,7 +239,7 @@ angular.module('staticApp')
           var map = getNewLocationMap();
 
           $scope.geocodeResult = geocodeResult;
-          var content = '<div><ng-include src="\'views/locations/marker.html\'"></ng-include></div>';
+          var content = '<div><ng-include src="\'app/locations/marker.html\'"></ng-include></div>';
           var compiled = $compile(content)($scope);
           if (infoWindow) {
               infoWindow.close();
