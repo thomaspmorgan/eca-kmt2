@@ -23,9 +23,9 @@ angular.module('staticApp')
       $scope.view.params = $stateParams;
       $scope.view.showEditLanguageProficiency = false;
       $scope.view.isSavingChanges = false;
-
+      
       $scope.view.proficiencyOptions = [
-          { id: 0, name: '0'},
+          { id: 0, name: '0' },
           { id: 1, name: '1' },
           { id: 2, name: '2' },
           { id: 3, name: '3' },
@@ -34,24 +34,20 @@ angular.module('staticApp')
       ];
 
       var originalLanguageProficiency = angular.copy($scope.languageProficiency);
-      
+      var originalProficiencyLanguages = angular.copy($scope.model.languageProficiencies);
+
       $scope.view.saveLanguageProficiencyChanges = function () {
           $scope.view.isSavingChanges = true;
 
           if (isNewLanguageProficiency($scope.languageProficiency)) {
-              if (isLanguageAlreadyAdded($scope.languageProficiency.languageId)) {
-                  NotificationService.showErrorMessage("The selected language is already listed");
-                  $scope.view.isSavingChanges = false;
-              } else {
-                  var tempId = angular.copy($scope.languageProficiency.languageId);
-                  return LanguageProficiencyService.addLanguageProficiency($scope.languageProficiency, $scope.view.params.personId)
-                    .then(onSaveLanguageProficiencySuccess)
-                    .then(function () {
-                        updateLanguageProficiencyFormDivId(tempId);
-                        updateLanguageProficiencies(tempId, $scope.languageProficiency);
-                    })
-                    .catch(onSaveLanguageProficiencyError);
-              }
+              var tempId = angular.copy($scope.languageProficiency.languageId);
+              return LanguageProficiencyService.addLanguageProficiency($scope.languageProficiency, $scope.view.params.personId)
+              .then(onSaveLanguageProficiencySuccess)
+              .then(function () {
+                  updateLanguageProficiencyFormDivId(tempId);
+                  updateLanguageProficiencies(tempId, $scope.languageProficiency);
+              })
+              .catch(onSaveLanguageProficiencyError);
           }
           else {
               return LanguageProficiencyService.updateLanguageProficiency($scope.languageProficiency, $scope.view.params.personId)
@@ -59,7 +55,7 @@ angular.module('staticApp')
                   .catch(onSaveLanguageProficiencyError);
           }
       };
-      
+
       function updateLanguageProficiencies(tempId, languageProficiency) {
           var index = $scope.model.languageProficiencies.map(function (e) { return e.languageId }).indexOf(tempId);
           $scope.model.languageProficiencies[index] = languageProficiency;
@@ -119,7 +115,7 @@ angular.module('staticApp')
       function getLanguageProficiencyFormDivId() {
           return getLanguageProficiencyFormDivIdPrefix() + $scope.languageProficiency.languageId;
       }
-      
+
       function updateLanguageProficiencyFormDivId(tempId) {
           var id = getLanguageProficiencyFormDivIdPrefix() + tempId;
           var e = getLanguageProficiencyFormDivElement(id);
@@ -133,6 +129,7 @@ angular.module('staticApp')
       function onSaveLanguageProficiencySuccess(response) {
           $scope.languageProficiency = response.data;
           originalLanguageProficiency = angular.copy($scope.languageProficiency);
+          originalProficiencyLanguages = angular.copy($scope.model.languageProficiencies);
           NotificationService.showSuccessMessage("Successfully saved changes to languageProficiency.");
           $scope.view.showEditLanguageProficiency = false;
           $scope.view.isSavingChanges = false;
@@ -149,19 +146,17 @@ angular.module('staticApp')
           return languageProficiency.isNew;
       }
 
-      function isLanguageAlreadyAdded(id) {
-          var keepLoop = true;
-          var found = false;
-          angular.forEach($scope.model.languageProficiencies, function (optLanguage, index) {
-              if (keepLoop) {
-                  if (id === optLanguage.languageId && !optLanguage.isNew) {
-                      found = true;
-                      keepLoop = false;
-                  }
-              }
-          });
+      $scope.isLanguageAlreadyAdded = function (oldId, newId) {
+          if (oldId !== newId) {
+              var index = originalProficiencyLanguages.map(function (e) { return e.languageId }).indexOf(newId);
 
-          return found;
+              if (index !== -1) {
+                  $scope.languageProficiency.languageId = parseInt(oldId);
+              } else {
+                  $scope.languageProficiency.languageId = newId;
+                  originalProficiencyLanguages = angular.copy($scope.model.languageProficiencies);
+              }
+          }
       }
 
       $scope.view.onIsNativeLanguageChange = function () {
