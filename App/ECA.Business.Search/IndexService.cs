@@ -56,14 +56,8 @@ namespace ECA.Business.Search
                     .Select(x => x.First())
                     .ToList();
                 var configurationsWithoutDocumentType = distinctConfigurations.Where(x => x.GetDocumentTypeId() == Guid.Empty).ToList();
-                if (configurationsWithoutDocumentType.Count > 0)
-                {
-                    throw new NotSupportedException(String.Format("The following configurations do not define a document type:  {0}.",
-                        String.Join(", ",
-                        configurationsWithoutDocumentType.Select(x => x.GetType()).ToList()
-                        )));
-                }
-
+                Contract.Assert(configurationsWithoutDocumentType.Count == 0, "There should not be any document configurations with an empty guid document type.");
+                
                 var distinctDocumentTypeIdConfigurations = from config in distinctConfigurations
                                                            group config by config.GetDocumentTypeId() into g
                                                            select new

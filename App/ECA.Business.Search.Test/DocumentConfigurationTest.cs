@@ -56,9 +56,6 @@ namespace ECA.Business.Search.Test
         [TestMethod]
         public void TestIsDocumentType()
         {
-            Assert.AreEqual(Guid.Empty, configuration.GetDocumentTypeId());
-            Assert.IsNull(configuration.GetDocumentTypeName());
-
             var documentTypeId = Guid.NewGuid();
             var documentTypeName = "hello";
             configuration.IsDocumentType(documentTypeId, documentTypeName);

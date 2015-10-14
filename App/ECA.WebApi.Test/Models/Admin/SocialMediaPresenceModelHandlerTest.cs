@@ -9,6 +9,7 @@ using ECA.Data;
 using ECA.WebApi.Test.Security;
 using System.Web.Http.Results;
 using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Service;
 
 namespace ECA.WebApi.Test.Models.Admin
 {
@@ -66,6 +67,7 @@ namespace ECA.WebApi.Test.Models.Admin
             {
                 SocialMediaTypeId = SocialMediaType.Facebook.Id
             };
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(1));
             var response = await handler.HandleUpdateSocialMediaAsync(model, controller);
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<SocialMediaDTO>));
             userProvider.Verify(x => x.GetCurrentUser(), Times.Once());

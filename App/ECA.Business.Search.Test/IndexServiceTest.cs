@@ -704,27 +704,6 @@ namespace ECA.Business.Search.Test
         }
 
         [TestMethod]
-        public void TestConstructor_ConfigurationDoesNotDefineDocumentType()
-        {
-            using (ShimsContext.Create())
-            {
-                var documentOperations = new StubIDocumentOperations
-                {
-                };
-                var searchIndexClient = new ShimSearchIndexClient
-                {
-
-                };
-
-                searchClient = new ShimSearchServiceClient();
-                var instance1 = new TestDocumentConfiguration();
-                instance1.IsDocumentType(Guid.Empty, "hello");
-                Action a = () => new IndexService(this.indexName, searchClient.Instance, new List<IDocumentConfiguration> { instance1 });
-                a.ShouldThrow<NotSupportedException>().WithMessage(String.Format("The following configurations do not define a document type:  {0}.", typeof(TestDocumentConfiguration)));
-            }
-        }
-
-        [TestMethod]
         public void TestConstructor_DifferentConfigurations()
         {
             using (ShimsContext.Create())

@@ -69,7 +69,7 @@ namespace ECA.Business.Search.Test
     {
         public static Guid SIMPLE_ENTITY_DOCUMENT_TYPE_ID = Guid.Parse("76545b33-f560-41ae-837f-80e8793b4b2a");
 
-        public const string SIMPLE_ENTITY_DOCUMENT_NAME = "document name";
+        public const string SIMPLE_ENTITY_DOCUMENT_NAME = "documentname";
 
         public SimpleEntityConfiguration()
         {
