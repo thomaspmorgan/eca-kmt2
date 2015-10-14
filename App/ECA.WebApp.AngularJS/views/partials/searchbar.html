@@ -14,37 +14,37 @@
                         <div class="bounce2"></div>
                         <div class="bounce3"></div>
                     </div>
-                    <div class="row" ng-show="tophitinfo.length > 0">
-                        <div class="col-md-2 text-right">
+                    <div class="row-fluid" ng-show="tophitinfo.length > 0">
+                        <div class="col-md-2 col-sm-3 text-right">
                             <span><strong>TOP HIT</strong></span>
                         </div>
-                        <div class="col-md-10 search-results">
+                        <div class="col-md-10 col-sm-9 search-results">
                             <div class="row" ng-class="tophitinfo[0].document.id === docinfo.document.id ? 'resultrow-selected' : 'resultrow'">
-                                <div class="col-md-1 text-center">
+                                <div class="col-md-1 col-sm-1 text-center">
                                     <div class="resulticon {{tophitinfo[0].document.documentTypeName | lowercase}}">{{tophitinfo[0].document.documentTypeName | resultIconFilter}}</div>
                                 </div>
-                                <div class="col-md-9">
+                                <div class="col-md-9 col-sm-8">
                                     <a ng-click="GetDocumentInfo(tophitinfo[0].document.id)" ng-bind-html="tophitinfo[0].hitHighlights.name[0] != null ? tophitinfo[0].hitHighlights.name[0] : tophitinfo[0].document.name"></a>
                                 </div>
-                                <div class="col-md-2 resultoffice">{{tophitinfo[0].document.officeSymbol}}</div>
+                                <div class="col-md-2 col-sm-3 resultoffice">{{tophitinfo[0].document.officeSymbol}}</div>
                             </div>
                         </div>
                     </div>
-                    <div ng-repeat="docitem in results | startFrom:currentpage * pagesize | limitTo:pagesize" class="row">
-                        <div class="col-md-2 text-right">
+                    <div ng-repeat="docitem in results | startFrom:currentpage * pagesize | limitTo:pagesize" class="row-fluid">
+                        <div class="col-md-2 col-sm-3 text-right">
                             <span ng-show="CreateHeader(docitem.document.documentTypeName, $index)">
                                 <strong>{{docitem.document.documentTypeName | uppercase}}</strong>
                             </span>
                         </div>
-                        <div class="col-md-10 search-results">
+                        <div class="col-md-10 col-sm-9 search-results">
                             <div class="row" ng-class="docitem.document.id === docinfo.id ? 'resultrow-selected' : 'resultrow'">
-                                <div class="col-md-1 text-center">
+                                <div class="col-md-1 col-sm-1 text-center">
                                     <div class="resulticon {{docitem.document.documentTypeName | lowercase}}">{{docitem.document.documentTypeName | resultIconFilter}}</div>
                                 </div>
-                                <div class="col-md-9">
+                                <div class="col-md-9 col-sm-8">
                                     <a ng-click="GetDocumentInfo(docitem.document.id)" ng-bind-html="docitem.hitHighlights.name[0] != null ? docitem.hitHighlights.name[0] : docitem.document.name"></a>
                                 </div>
-                                <div class="col-md-2 resultoffice">{{docitem.document.officeSymbol}}</div>
+                                <div class="col-md-2 col-sm-3 resultoffice">{{docitem.document.officeSymbol}}</div>
                             </div>
                         </div>
                     </div>
