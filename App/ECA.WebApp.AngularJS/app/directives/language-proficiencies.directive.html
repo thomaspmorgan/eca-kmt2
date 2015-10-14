@@ -56,7 +56,8 @@
                                     <label class="title-label col-md-4" for="language">Language<span class="asterisk"> *</span></label>
                                     <div class="col-md-8">
                                         <select class="form-control" id="language" name="language" ng-model="languageProficiency.languageId" placeholder="Select a language..."
-                                                ng-options="language.id as language.name for language in data.languages"></select>
+                                                ng-options="language.id as language.name for language in data.languages" 
+                                                ng-change="isLanguageAlreadyAdded('{{languageProficiency.languageId}}', languageProficiency.languageId)"></select>
                                     </div>
                                     <div ng-show="form.languageProficiencyForm.languageId.$dirty || form.languageProficiencyForm.languageId.$error.required">
                                         <div class="error" ng-show="form.languageProficiencyForm.languageId.$error.required">Please select a language.</div>
