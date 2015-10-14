@@ -271,7 +271,7 @@
     <Content Include="app\directives\snapshots.directive.js" />
     <Content Include="app\directives\social-medias.directive.js" />
     <Content Include="app\directives\addresses.directive.js" />
-    <Content Include="app\controllers\toolbaricons.js" />
+    <Content Include="app\toolbar\toolbar-icons.controller.js" />
     <Content Include="app\directives\expose-table-state.directive.js" />
     <Content Include="app\directives\social-media-link.directive.js" />
     <Content Include="app\directives\ui-select-st-search.directive.js" />
@@ -323,9 +323,9 @@
     <Content Include="app\organizations\overview.html" />
     <Content Include="app\organizations\edit-details.html" />
     <Content Include="app\collaborators\collaborators.html" />
-    <Content Include="views\partials\pagination.html" />
-    <Content Include="views\partials\searchinfo.html" />
-    <Content Include="views\partials\toolbaricons.html" />
+    <Content Include="app\partials\pagination.html" />
+    <Content Include="app\search\search-info.html" />
+    <Content Include="app\toolbar\toolbar-icons.html" />
     <Content Include="app\people\all-people.html" />
     <Content Include="app\people\moneyflows.html" />
     <Content Include="app\people\contact-edit.html" />
@@ -548,7 +548,7 @@
     <Content Include="app\directives\guidance.directive.js" />
     <Content Include="app\directives\in-context-form.directive.js" />
     <Content Include="app\directives\map.directive.js" />
-    <Content Include="app\controllers\searchbar.js" />
+    <Content Include="app\search\search-bar.controller.js" />
     <Content Include="app\directives\static-switcher.directive.js" />
     <Content Include="app\directives\tab-bar.directive.js" />
     <Content Include="app\filters\tab.filter.js" />
@@ -575,8 +575,8 @@
     <Content Include="app\offices\branches.html" />
     <Content Include="app\offices\moneyflows.html" />
     <Content Include="app\offices\overview.html" />
-    <Content Include="views\partials\searchbar.html" />
-    <Content Include="views\partials\tabbar.html" />
+    <Content Include="app\search\search-bar.html" />
+    <Content Include="app\directives\tab-bar.directive.html" />
     <Content Include="app\people\people.html" />
     <Content Include="app\people\timeline.html" />
     <Content Include="app\people\impact.html" />

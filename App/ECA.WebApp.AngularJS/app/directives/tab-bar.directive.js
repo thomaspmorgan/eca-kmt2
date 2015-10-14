@@ -9,7 +9,7 @@
 angular.module('staticApp')
   .directive('tabBar', function () {
       return {
-          templateUrl: 'views/partials/tabbar.html',
+          templateUrl: 'app/directives/tab-bar.directive.html',
           restrict: 'E',
           replace: true,
           scope: {
