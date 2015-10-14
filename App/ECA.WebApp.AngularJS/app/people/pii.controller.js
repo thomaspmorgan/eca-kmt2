@@ -20,7 +20,7 @@ angular.module('staticApp')
             $scope.person = data;
             loadPii(data.personId);
             $scope.personIdDeferred.resolve(data.personId);
-        })
+        });
 
       function loadPii(personId) {
           $scope.piiLoading = true;
@@ -32,7 +32,7 @@ angular.module('staticApp')
                      $scope.pii.isDateOfBirthUnknown = false;
                      $scope.dateOfBirthPlaceholder = '';
                  } else if ($scope.pii.isDateOfBirthUnknown) {
-                     $scope.dateOfBirthPlaceholder = 'Unknown'
+                     $scope.dateOfBirthPlaceholder = 'Unknown';
                      $scope.pii.dateOfBirth = undefined;
                  }
                  $scope.selectedCountriesOfCitizenship = $scope.pii.countriesOfCitizenship.map(function (obj) {

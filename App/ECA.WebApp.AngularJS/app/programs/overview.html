@@ -66,11 +66,13 @@
         <div class="col-md-6">
             <div class="row" ng-show="program.ownerOrganizationId && program.ownerDescription">
                 <div class="col-md-4 title-label">Office</div>
-                <div class="col-md-8"><a ui-sref="offices.overview({officeId: program.ownerOrganizationId})">{{program.ownerName}}</a></div>
+                <div class="col-md-8"><a ui-sref="offices.overview({officeId: program.ownerOrganizationId})">{{program.ownerName}}</a>
+                </div>
             </div>
             <div class="row" ng-show="program.parentProgramId">
                 <div class="col-md-4 title-label">Parent Program</div>
-                <div class="col-md-8"><a ui-sref="programs.overview({programId: program.parentProgramId})">{{program.parentProgramName}}</a></div>
+                <div class="col-md-8"><a ui-sref="programs.overview({programId: program.parentProgramId})">{{program.parentProgramName}}</a>
+                </div>
             </div>
             <div class="row" ng-show="program.categories">
                 <div class="col-md-4 title-label">{{view.categoryLabel}}</div>
@@ -78,7 +80,8 @@
                     <ul>
                         <li ng-repeat="category in program.categories | orderBy:['focusName','name']">
                             <ng-switch on="$first || category.focusName !== view.sortedCategories[$index-1].focusName">
-                                <div ng-switch-when="true" class="title-label"><strong>{{category.focusName}}</strong></div>
+                                <div ng-switch-when="true" class="title-label"><strong>{{category.focusName}}</strong>
+                                </div>
                             </ng-switch>
                             <div>{{category.name}}</div>
                         </li>
@@ -91,7 +94,8 @@
                     <ul>
                         <li ng-repeat="objective in program.objectives | orderBy:['justificationName','name']">
                             <ng-switch on="$first || objective.justificationName !== view.sortedObjectives[$index - 1].justificationName">
-                                <div ng-switch-when="true" class="title-label"><strong>{{objective.justificationName}}</strong></div>
+                                <div ng-switch-when="true" class="title-label"><strong>{{objective.justificationName}}</strong>
+                                </div>
                             </ng-switch>
                             <div>{{objective.name}}</div>
                         </li>
@@ -99,7 +103,8 @@
                 </div>
             </div>
             <div class="row" ng-show="program.contacts">
-                <div class="col-md-4 title-label"><ng-pluralize count="program.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
+                <div class="col-md-4 title-label"><ng-pluralize count="program.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact
+                </div>
                 <div class="col-md-8 simple-list">
                     <ul>
                         <li ng-repeat="contact in program.contacts | orderBy:'value'">{{contact.value}}</li>
@@ -110,11 +115,12 @@
     </div>
     <div class="row">
         <h4 class="tab-subheader">Snapshot</h4>
-        <div class="col-md-4">
-            <p class="stat text-center">{{program.countryIsos.length}}</p>
-            <p class="title-label text-center">Countries</p>
+        <div class="col-md-12">
+            <snapshots programId="program.programId"></snapshots>
         </div>
-        <div class="col-md-8">
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <map width="600" height="300" countries="program.countryIsos"></map>
         </div>
     </div>

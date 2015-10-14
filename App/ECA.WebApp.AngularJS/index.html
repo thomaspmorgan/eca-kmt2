@@ -5,7 +5,7 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-     
+
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
@@ -112,7 +112,7 @@
                 <p>Promoting Mutual Understanding</p>
             </div>
         </div>
-    </div>    
+    </div>
     <!-- build:js(.) scripts/oldieshim.js -->
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -166,20 +166,16 @@
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js(.) scripts/scripts.js -->
-
     <!-- App -->
     <script src="app/app.module.js"></script>
     <script src="app/app.config.js"></script>
     <script src="app/app.run.js"></script>
-
     <script src="app/home/home.routes.js"></script>
     <script src="app/home/home.controller.js"></script>
-
     <script src="app/activities/activities.routes.js"></script>
-
     <script src="app/auth/auth.routes.js"></script>
     <script src="app/auth/logout.controller.js"></script>
-
+    <script src="app/errors/error.routes.js"></script>
     <script src="app/reports/archive.controller.js"></script>
     <script src="app/reports/country-awards.controller.js"></script>
     <script src="app/reports/custom.controller.js"></script>
@@ -192,7 +188,6 @@
     <script src="app/reports/reports.controller.js"></script>
     <script src="app/reports/reports.routes.js"></script>
     <script src="app/reports/year-awards.controller.js"></script>
-
     <script src="app/people/all-people.controller.js"></script>
     <script src="app/people/contact-edit.controller.js"></script>
     <script src="app/people/contact.controller.js"></script>
@@ -208,7 +203,6 @@
     <script src="app/people/pii-edit.controller.js"></script>
     <script src="app/people/pii.controller.js"></script>
     <script src="app/people/timeline.controller.js"></script>
-
     <script src="app/programs/add-program-modal.controller.js"></script>
     <script src="app/programs/all-programs.controller.js"></script>
     <script src="app/programs/edit.controller.js"></script>
@@ -216,7 +210,6 @@
     <script src="app/programs/program.controller.js"></script>
     <script src="app/programs/programs.routes.js"></script>
     <script src="app/programs/subprograms-and-projects.controller.js"></script>
-
     <script src="app/projects/add-new-participant.controller.js"></script>
     <script src="app/projects/add-project-modal.controller.js"></script>
     <script src="app/projects/edit.controller.js"></script>
@@ -226,71 +219,69 @@
     <script src="app/projects/projects.routes.js"></script>
     <script src="app/projects/select-participant-type.controller.js"></script>
     <script src="app/projects/unsaved-changes.controller.js"></script>
-
-    <!-- Controllers -->
-    <script src="app/controllers/confirm.js"></script>
-    <script src="app/controllers/office.js"></script>
-    <script src="app/controllers/socialmedia/socialmedia.js"></script>
-    <script src="app/controllers/socialmedia/socialmedias.js"></script>
-    <script src="app/controllers/organization/organization.js"></script>
-    <script src="app/controllers/organization/overview.js"></script>
-    <script src="app/controllers/organization/editdetails.js"></script>
-    <script src="app/controllers/organization/activities.js"></script>
-    <script src="app/controllers/organization/artifacts.js"></script>
-    <script src="app/controllers/organization/impact.js"></script>
-    <script src="app/controllers/organization/addorganizationmodal.js"></script>
-    <script src="app/controllers/address/address.js"></script>
-    <script src="app/controllers/address/addresses.js"></script>
-    <script src="app/controllers/moneyflows.js"></script>
-    <script src="app/controllers/moneyflow.js"></script>
-    <script src="app/controllers/toolbaricons.js"></script>
-    <script src="app/controllers/collaborators.js"></script>
-    <script src="app/controllers/locations/searchlocations.js"></script>
-    <script src="app/controllers/locations/addlocation.js"></script>
-    <script src="app/controllers/locations/marker.js"></script>
-    <script src="app/controllers/securetest.js"></script>
-    <script src="app/controllers/alloffices.js"></script>
-    <script src="app/controllers/office/overview.js"></script>
-    <script src="app/controllers/office/branchesandprograms.js"></script>
-    <script src="app/controllers/allorganizations.js"></script>
-    <script src="app/controllers/searchbar.js"></script>
-    <script src="app/controllers/membership/membership.js"></script>
-    <script src="app/controllers/membership/memberships.js"></script>
-    <script src="app/controllers/languageProficiencies/languageProficiency.js"></script>
-    <script src="app/controllers/languageProficiencies/languageProficiencies.js"></script>
-    <script src="app/controllers/emailAddresses/emailaddress.js"></script>
-    <script src="app/controllers/emailAddresses/emailaddresses.js"></script>
-    <script src="app/controllers/phoneNumbers/phonenumber.js"></script>
-    <script src="app/controllers/phoneNumbers/phonenumbers.js"></script>
-
+    <script src="app/offices/all-offices.controller.js"></script>
+    <script src="app/offices/branches-and-programs.controller.js"></script>
+    <script src="app/offices/office.controller.js"></script>
+    <script src="app/offices/offices.routes.js"></script>
+    <script src="app/offices/overview.controller.js"></script>
+    <script src="app/organizations/activities.controller.js"></script>
+    <script src="app/organizations/add-organization-modal.controller.js"></script>
+    <script src="app/organizations/all-organizations.controller.js"></script>
+    <script src="app/organizations/artifacts.controller.js"></script>
+    <script src="app/organizations/edit-details.controller.js"></script>
+    <script src="app/organizations/impact.controller.js"></script>
+    <script src="app/organizations/organization.controller.js"></script>
+    <script src="app/organizations/organizations.routes.js"></script>
+    <script src="app/organizations/overview.controller.js"></script>
+    <script src="app/locations/add-location-modal.controller.js"></script>
+    <script src="app/locations/marker.controller.js"></script>
+    <script src="app/locations/search-locations.controller.js"></script>
+    <script src="app/collaborators/collaborators.controller.js"></script>
+    <script src="app/search/search-bar.controller.js"></script>
+    <script src="app/toolbar/toolbar-icons.controller.js"></script>
     <!-- Directives -->
+    <script src="app/directives/address.controller.js"></script>
+    <script src="app/directives/addresses.controller.js"></script>
     <script src="app/directives/addresses.directive.js"></script>
+    <script src="app/directives/confirm-dialog.controller.js"></script>
     <script src="app/directives/date-picker-popup.directive.js"></script>
+    <script src="app/directives/email-addresses.controller.js"></script>
+    <script src="app/directives/email-address.controller.js"></script>
     <script src="app/directives/email-addresses.directive.js"></script>
     <script src="app/directives/equality-filter.directive.js"></script>
     <script src="app/directives/expose-table-state.directive.js"></script>
     <script src="app/directives/form-element.directive.js"></script>
     <script src="app/directives/guidance.directive.js"></script>
     <script src="app/directives/in-context-form.directive.js"></script>
+    <script src="app/directives/language-proficiencies.controller.js"></script>
     <script src="app/directives/language-proficiencies.directive.js"></script>
+    <script src="app/directives/language-proficiency.controller.js"></script>
     <script src="app/directives/map.directive.js"></script>
+    <script src="app/directives/memberships.controller.js"></script>
+    <script src="app/directives/membership.controller.js"></script>
     <script src="app/directives/memberships.directive.js"></script>
+    <script src="app/directives/moneyflow.controller.js"></script>
     <script src="app/directives/moneyflows.directive.js"></script>
+    <script src="app/directives/moneyflows.controller.js"></script>
     <script src="app/directives/participant-person-sevis.directive.js"></script>
+    <script src="app/directives/phone-numbers.controller.js"></script>
+    <script src="app/directives/phone-number.controller.js"></script>
     <script src="app/directives/phone-numbers.directive.js"></script>
+    <script src="app/directives/snapshots.directive.js"></script>
+    <script src="app/directives/snapshots.controller.js"></script>
+    <script src="app/directives/social-media.controller.js"></script>
+    <script src="app/directives/social-medias.controller.js"></script>
     <script src="app/directives/social-media-link.directive.js"></script>
     <script src="app/directives/social-medias.directive.js"></script>
     <script src="app/directives/static-switcher.directive.js"></script>
     <script src="app/directives/tab-bar.directive.js"></script>
     <script src="app/directives/ui-select-st-search.directive.js"></script>
     <script src="app/directives/year-dropdown.directive.js"></script>
-
     <!-- Filters -->
     <script src="app/filters/group-by.filter.js"></script>
     <script src="app/filters/highlight.filter.js"></script>
     <script src="app/filters/props.filter.js"></script>
     <script src="app/filters/tab.filter.js"></script>
-
     <!-- Services -->
     <script src="app/services/address.service.js"></script>
     <script src="app/services/auth.service.js"></script>
@@ -327,7 +318,332 @@
     <script src="app/services/state.service.js"></script>
     <script src="app/services/table.service.js"></script>
     <script src="app/services/user.service.js"></script>
+    <script src="app/services/snapshot.service.js"></script>
+    <!-- endbuild -->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=onGoogleReady"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
 
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/isteven-angular-multiselect/isteven-multi-select.css" />
+    <link rel="stylesheet" href="bower_components/angular-xeditable/dist/css/xeditable.css">
+    <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css">
+    <link rel="stylesheet" href="bower_components/select2/select2.css">
+    <link rel="stylesheet" href="bower_components/select2/select2-bootstrap.css">
+    <link rel="stylesheet" href="bower_components/angularjs-toaster/toaster.min.css">
+    <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css" />
+    <link rel="stylesheet" href="bower_components/intl-tel-input/build/css/intlTelInput.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+    <!--
+    To collect end-user usage analytics about your application,
+    insert the following script into each page you want to track.
+    Place this code immediately before the closing </head> tag,
+    and before any other scripts. Your first data will appear
+    automatically in just a few seconds.
+    -->
+    <script type="text/javascript">
+        var appInsights = window.appInsights || function (config) {
+            function s(config) { t[config] = function () { var i = arguments; t.queue.push(function () { t[config].apply(t, i) }) } } var t = { config: config }, r = document, f = window, e = "script", o = r.createElement(e), i, u; for (o.src = config.url || "//az416426.vo.msecnd.net/scripts/a/ai.0.js", r.getElementsByTagName(e)[0].parentNode.appendChild(o), t.cookie = r.cookie, t.queue = [], i = ["Event", "Exception", "Metric", "PageView", "Trace"]; i.length;) s("track" + i.pop()); return config.disableExceptionTracking || (i = "onerror", s("_" + i), u = f[i], f[i] = function (config, r, f, e, o) { var s = u && u(config, r, f, e, o); return s !== !0 && t["_" + i](config, r, f, e, o), s }), t
+        }({
+            instrumentationKey: "c99f6659-bf36-4f1f-92b4-8a6159feb13e"
+        });
+
+        window.appInsights = appInsights;
+        appInsights.trackPageView();
+    </script>
+</head>
+<body ng-app="staticApp" class="cbp-spmenu-push">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+      <![endif]-->
+    <!-- Add your site or application content here -->
+    <toaster-container style="margin-top:53px;" toaster-options="{'position-class': 'toast-top-full-width', 'time-out': 5000}"></toaster-container>
+    <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
+        <a ng-repeat="state in rootStates" ng-click="closeMenu()" ui-sref="{{state.state}}">{{state.name}}</a>
+        <a class="foot" ui-sref="settings"><img class="icon" src="images/settings.png" height="14" width="14" alt="">Settings</a>
+    </nav>
+    <nav style="overflow-y: scroll" class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
+        <img src="images/placeholders/sidebar.png" height="1110" width="266" alt="">
+    </nav>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="row navbar-header">
+                <button ng-click="pushMenu($event)" type="button" class="navbar-toggle collapsed">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div style="margin-right: 50px; margin-top:14px; cursor: pointer;" class="navbar-right right">
+                    <a ng-click="onSpotlightSearchClick()">
+                        <i class="material-icons md-18 col-sd-1">search</i>
+                    </a>
+                </div>
+                <div ng-show="userInfo.isAuthenticated">
+                    <span style="margin-right:25px;margin-top:14px;"
+                          class="dropdown pull-right user"
+                          dropdown on-toggle="currentUser.userMenuToggled(open)"
+                          data-ng-model="userInfo">
+                        <div class="pull-left">
+                            <i class="material-icons md-18" style="margin-right:10px;">account_circle</i>
+                        </div>
+                        <a href="#" class="dropdown-toggle" dropdown-toggle ng-bind-template="{{userInfo.profile.given_name}} {{userInfo.profile.family_name}}">
+                        </a>
+                        <ul class="dropdown-menu user">
+                            <li><a href="#" ng-click="currentUser.logout()">Logout</a></li>
+                        </ul>
+                    </span>
+                </div>
+                <div ng-show="currentUser.isBusy" class=" pull-right" style="margin-top:14px;">
+                    <i class="material-icons md-18 material-icons-spin">autorenew</i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ui-view id="top" autoscroll="true"></div>
+    <div class="footer">
+        <div class="top">
+            <p>
+                <a href="">About ECA KMT</a>   |
+                <a href="">Get Started</a>   |
+                <a href="">Send Feedback</a>   |
+                <a href="">FAQs</a>   |
+                <a href="">Contact</a>   |
+                <a href="">Terms & Conditions</a>   |
+                <a href="">Accessibility</a>   |
+                <a href="">Copyright</a>
+            </p>
+        </div>
+        <div class="bottom">
+            <img class="flag" src="images/flag.png" height="35" width="66" alt="">
+            <img class="seal" src="images/state-logo-seal.png" height="60" width="60" alt="">
+            <div class="text-stack">
+                <h5>Bureau of Educational and Cultural Affairs</h5>
+                <p>Promoting Mutual Understanding</p>
+            </div>
+        </div>
+    </div>
+    <!-- build:js(.) scripts/oldieshim.js -->
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.js"></script>
+    <![endif]-->
+    <!-- endbuild -->
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/affix.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/alert.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/button.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/carousel.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/collapse.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/modal.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/tab.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/transition.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap/popover.js"></script>
+    <script src="bower_components/angular-ui-utils/ui-utils.min.js"></script>
+    <script src="bower_components/angular-ui-map/ui-map.min.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/angular-ui-validate/dist/validate.min.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/isteven-angular-multiselect/isteven-multi-select.js"></script>
+    <script src="bower_components/d3/d3.js"></script>
+    <script src="bower_components/topojson/topojson.js"></script>
+    <script src="bower_components/datamaps/dist/datamaps.all.js"></script>
+    <script src="bower_components/matchmedia/matchMedia.js"></script>
+    <script src="bower_components/ngSticky/lib/sticky.js"></script>
+    <script src="bower_components/adal-angular/dist/adal.min.js"></script>
+    <script src="bower_components/adal-angular/dist/adal-angular.min.js"></script>
+    <script src="bower_components/angular-smart-table/dist/smart-table.js"></script>
+    <script src="bower_components/angular-xeditable/dist/js/xeditable.js"></script>
+    <script src="bower_components/angular-ui-date/src/date.js"></script>
+    <script src="bower_components/angular-ui-select/dist/select.js"></script>
+    <script src="bower_components/angularjs-toaster/toaster.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/file-saver-saveas-js/FileSaver.js"></script>
+    <script src="bower_components/ngSmoothScroll/angular-smooth-scroll.min.js"></script>
+    <script src="bower_components/intl-tel-input/build/js/intlTelInput.js"></script>
+    <script src="bower_components/intl-tel-input/lib/libphonenumber/build/utils.js"></script>
+    <script src="bower_components/international-phone-number/releases/international-phone-number.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:js(.) scripts/scripts.js -->
+    <!-- App -->
+    <script src="app/app.module.js"></script>
+    <script src="app/app.config.js"></script>
+    <script src="app/app.run.js"></script>
+    <script src="app/home/home.routes.js"></script>
+    <script src="app/home/home.controller.js"></script>
+    <script src="app/activities/activities.routes.js"></script>
+    <script src="app/auth/auth.routes.js"></script>
+    <script src="app/auth/logout.controller.js"></script>
+    <script src="app/errors/error.routes.js"></script>
+    <script src="app/reports/archive.controller.js"></script>
+    <script src="app/reports/country-awards.controller.js"></script>
+    <script src="app/reports/custom.controller.js"></script>
+    <script src="app/reports/focus-awards.controller.js"></script>
+    <script src="app/reports/focus-category-awards.controller.js"></script>
+    <script src="app/reports/objective-awards.controller.js"></script>
+    <script src="app/reports/post-awards.controller.js"></script>
+    <script src="app/reports/project-awards.controller.js"></script>
+    <script src="app/reports/region-awards.controller.js"></script>
+    <script src="app/reports/reports.controller.js"></script>
+    <script src="app/reports/reports.routes.js"></script>
+    <script src="app/reports/year-awards.controller.js"></script>
+    <script src="app/people/all-people.controller.js"></script>
+    <script src="app/people/contact-edit.controller.js"></script>
+    <script src="app/people/contact.controller.js"></script>
+    <script src="app/people/education-employment-edit.controller.js"></script>
+    <script src="app/people/education-employment.controller.js"></script>
+    <script src="app/people/evaluation-notes-edit.controller.js"></script>
+    <script src="app/people/evaluation-notes.controller.js"></script>
+    <script src="app/people/general-edit.controller.js"></script>
+    <script src="app/people/general.controller.js"></script>
+    <script src="app/people/people.controller.js"></script>
+    <script src="app/people/people.routes.js"></script>
+    <script src="app/people/personal-information.controller.js"></script>
+    <script src="app/people/pii-edit.controller.js"></script>
+    <script src="app/people/pii.controller.js"></script>
+    <script src="app/people/timeline.controller.js"></script>
+    <script src="app/programs/add-program-modal.controller.js"></script>
+    <script src="app/programs/all-programs.controller.js"></script>
+    <script src="app/programs/edit.controller.js"></script>
+    <script src="app/programs/overview.controller.js"></script>
+    <script src="app/programs/program.controller.js"></script>
+    <script src="app/programs/programs.routes.js"></script>
+    <script src="app/programs/subprograms-and-projects.controller.js"></script>
+    <script src="app/projects/add-new-participant.controller.js"></script>
+    <script src="app/projects/add-project-modal.controller.js"></script>
+    <script src="app/projects/edit.controller.js"></script>
+    <script src="app/projects/overview.controller.js"></script>
+    <script src="app/projects/project-participant.controller.js"></script>
+    <script src="app/projects/project.controller.js"></script>
+    <script src="app/projects/projects.routes.js"></script>
+    <script src="app/projects/select-participant-type.controller.js"></script>
+    <script src="app/projects/unsaved-changes.controller.js"></script>
+    <script src="app/offices/all-offices.controller.js"></script>
+    <script src="app/offices/branches-and-programs.controller.js"></script>
+    <script src="app/offices/office.controller.js"></script>
+    <script src="app/offices/offices.routes.js"></script>
+    <script src="app/offices/overview.controller.js"></script>
+    <script src="app/organizations/activities.controller.js"></script>
+    <script src="app/organizations/add-organization-modal.controller.js"></script>
+    <script src="app/organizations/all-organizations.controller.js"></script>
+    <script src="app/organizations/artifacts.controller.js"></script>
+    <script src="app/organizations/edit-details.controller.js"></script>
+    <script src="app/organizations/impact.controller.js"></script>
+    <script src="app/organizations/organization.controller.js"></script>
+    <script src="app/organizations/organizations.routes.js"></script>
+    <script src="app/organizations/overview.controller.js"></script>
+    <script src="app/locations/add-location-modal.controller.js"></script>
+    <script src="app/locations/marker.controller.js"></script>
+    <script src="app/locations/search-locations.controller.js"></script>
+    <script src="app/collaborators/collaborators.controller.js"></script>
+    <script src="app/search/search-bar.controller.js"></script>
+    <script src="app/toolbar/toolbar-icons.controller.js"></script>
+    <!-- Directives -->
+    <script src="app/directives/address.controller.js"></script>
+    <script src="app/directives/addresses.controller.js"></script>
+    <script src="app/directives/addresses.directive.js"></script>
+    <script src="app/directives/confirm-dialog.controller.js"></script>
+    <script src="app/directives/date-picker-popup.directive.js"></script>
+    <script src="app/directives/email-addresses.controller.js"></script>
+    <script src="app/directives/email-address.controller.js"></script>
+    <script src="app/directives/email-addresses.directive.js"></script>
+    <script src="app/directives/equality-filter.directive.js"></script>
+    <script src="app/directives/expose-table-state.directive.js"></script>
+    <script src="app/directives/form-element.directive.js"></script>
+    <script src="app/directives/guidance.directive.js"></script>
+    <script src="app/directives/in-context-form.directive.js"></script>
+    <script src="app/directives/language-proficiencies.controller.js"></script>
+    <script src="app/directives/language-proficiencies.directive.js"></script>
+    <script src="app/directives/language-proficiency.controller.js"></script>
+    <script src="app/directives/map.directive.js"></script>
+    <script src="app/directives/memberships.controller.js"></script>
+    <script src="app/directives/membership.controller.js"></script>
+    <script src="app/directives/memberships.directive.js"></script>
+    <script src="app/directives/moneyflow.controller.js"></script>
+    <script src="app/directives/moneyflows.directive.js"></script>
+    <script src="app/directives/moneyflows.controller.js"></script>
+    <script src="app/directives/participant-person-sevis.directive.js"></script>
+    <script src="app/directives/phone-numbers.controller.js"></script>
+    <script src="app/directives/phone-number.controller.js"></script>
+    <script src="app/directives/phone-numbers.directive.js"></script>
+    <script src="app/directives/snapshots.directive.js"></script>
+    <script src="app/directives/snapshots.controller.js"></script>
+    <script src="app/directives/social-media.controller.js"></script>
+    <script src="app/directives/social-medias.controller.js"></script>
+    <script src="app/directives/social-media-link.directive.js"></script>
+    <script src="app/directives/social-medias.directive.js"></script>
+    <script src="app/directives/static-switcher.directive.js"></script>
+    <script src="app/directives/tab-bar.directive.js"></script>
+    <script src="app/directives/ui-select-st-search.directive.js"></script>
+    <script src="app/directives/year-dropdown.directive.js"></script>
+    <!-- Filters -->
+    <script src="app/filters/group-by.filter.js"></script>
+    <script src="app/filters/highlight.filter.js"></script>
+    <script src="app/filters/props.filter.js"></script>
+    <script src="app/filters/tab.filter.js"></script>
+    <!-- Services -->
+    <script src="app/services/address.service.js"></script>
+    <script src="app/services/auth.service.js"></script>
+    <script src="app/services/bookmark.service.js"></script>
+    <script src="app/services/constants.service.js"></script>
+    <script src="app/services/download.service.js"></script>
+    <script src="app/services/dragon-breath.service.js"></script>
+    <script src="app/services/education-employment.service.js"></script>
+    <script src="app/services/email-address.service.js"></script>
+    <script src="app/services/error-interceptor.service.js"></script>
+    <script src="app/services/filter.service.js"></script>
+    <script src="app/services/language-proficiency.service.js"></script>
+    <script src="app/services/location.service.js"></script>
+    <script src="app/services/logout-event.service.js"></script>
+    <script src="app/services/lookup.service.js"></script>
+    <script src="app/services/membership.service.js"></script>
+    <script src="app/services/message-box.service.js"></script>
+    <script src="app/services/moneyflow.service.js"></script>
+    <script src="app/services/notification.service.js"></script>
+    <script src="app/services/office.service.js"></script>
+    <script src="app/services/organization.service.js"></script>
+    <script src="app/services/participant-person.service.js"></script>
+    <script src="app/services/participant-person-sevis.service.js"></script>
+    <script src="app/services/participant.service.js"></script>
+    <script src="app/services/person.service.js"></script>
+    <script src="app/services/person-evaluation.service.js"></script>
+    <script src="app/services/phone-number.service.js"></script>
+    <script src="app/services/program.service.js"></script>
+    <script src="app/services/project.service.js"></script>
+    <script src="app/services/register-user-event.service.js"></script>
+    <script src="app/services/report.service.js"></script>
+    <script src="app/services/search.service.js"></script>
+    <script src="app/services/social-media.service.js"></script>
+    <script src="app/services/state.service.js"></script>
+    <script src="app/services/table.service.js"></script>
+    <script src="app/services/user.service.js"></script>
+    <script src="app/services/snapshot.service.js"></script>
     <!-- endbuild -->
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=onGoogleReady"></script>
 </body>

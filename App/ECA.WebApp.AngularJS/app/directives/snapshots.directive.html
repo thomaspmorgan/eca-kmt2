@@ -1,9 +1,55 @@
 ﻿<div ng-controller="SnapshotsCtrl">
-
-
-
-
-
-
-
+    <div ng-show="view.isSnapshotLoading">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+    <div class="row stat-row">
+        <div class="col-md-3">
+            <p class="stat text-center">{{view.snapshot.relatedProjects}}</p>
+            <p class="title-label text-center">RELATED PROJECTS</p>
+        </div>
+        <div class="col-md-3">
+            <p class="stat text-center">{{view.snapshot.participants}}</p>
+            <p class="title-label text-center">PARTICIPANTS</p>
+        </div>
+        <div class="col-md-3">
+            <p class="stat text-center">{{view.snapshot.budget | currency:fractionSize:0}}</p>
+            <p class="title-label text-center">BUDGET</p>
+        </div>
+        <div class="col-md-3">
+            <p class="stat text-center">{{view.snapshot.costPerParticipant | currency:fractionSize:0}}</p>
+            <p class="title-label text-center">COST PER PARTICIPANT</p>
+        </div>
+    </div>
+    <div class="row stat-row">
+        <div class="col-md-3">
+            <p class="stat text-center">{{view.snapshot.fundingSources}}</p>
+            <p class="title-label text-center">FUNDING SOURCES</p>
+        </div>
+        <div class="col-md-3">
+            <p class="stat text-center">{{view.snapshot.countries}}</p>
+            <p class="title-label text-center">COUNTRIES</p>
+        </div>
+        <div class="col-md-3">
+            <p class="stat text-center">{{view.snapshot.beneficiaries}}</p>
+            <p class="title-label text-center">BENEFICIARIES</p>
+        </div>
+        <div class="col-md-3">
+            <p class="stat text-center">{{view.snapshot.impactStories}}</p>
+            <p class="title-label text-center">IMPACT STORIES</p>
+        </div>
+    </div>
+    <div class="row stat-row">
+        <div class="col-md-3">
+            <p class="stat text-center">{{view.snapshot.alumni}}</p>
+            <p class="title-label text-center">ALUMNI</p>
+        </div>
+        <div class="col-md-3">
+            <p class="stat text-center">{{view.snapshot.prominence}}</p>
+            <p class="title-label text-center">PROMINENCE</p>
+        </div>
+    </div>
 </div>

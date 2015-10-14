@@ -125,6 +125,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core.4.0.0.0.Fakes">
@@ -169,16 +170,25 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Queries\Admin\BookmarkQueriesTest.cs" />
+    <Compile Include="Queries\Admin\SnapshotQueriesTest.cs" />
     <Compile Include="Queries\Fundings\MoneyFlowQueriesTest.cs" />
+    <Compile Include="Queries\Model\Admin\AddressDTOTest.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonQueriesTest.cs" />
     <Compile Include="Queries\Persons\ParticipantQueriesTest.cs" />
     <Compile Include="Queries\Persons\PersonQueriesTest.cs" />
     <Compile Include="Queries\Projects\ProjectQueriesTest.cs" />
+    <Compile Include="Search\OrganizationDocumentSaveActionTest.cs" />
     <Compile Include="Search\ProjectDocumentServiceTest.cs" />
     <Compile Include="Search\ProgramDocumentServiceTest.cs" />
     <Compile Include="Search\TestIndexNotificationService.cs" />
     <Compile Include="Search\ProgramDTODocumentConfigurationTest.cs" />
     <Compile Include="Search\ProjectDTODocumentConfigurationTest.cs" />
+    <Compile Include="Search\OrganizationDTODocumentConfigurationTest.cs" />
+    <Compile Include="Search\OrganizationDocumentServiceTest.cs" />
+    <Compile Include="Search\OfficeDTODocumentConfigurationTest.cs" />
+    <Compile Include="Search\OfficeDocumentServiceTest.cs" />
+    <Compile Include="Search\AddressDocumentSaveActionTest.cs" />
+    <Compile Include="Search\OfficeDocumentSaveActionTest.cs" />
     <Compile Include="Service\Admin\AdditionalAddressTest.cs" />
     <Compile Include="Service\Admin\AdditionalPersonAddressTest.cs" />
     <Compile Include="Service\Admin\AdditionalOrganizationAddressTest.cs" />

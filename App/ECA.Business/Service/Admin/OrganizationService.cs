@@ -27,13 +27,15 @@ namespace ECA.Business.Service.Admin
         private readonly Action<int, Organization> throwIfOrganizationByIdNull;
         private readonly Action<int, OrganizationType> throwIfOrganizationTypeByIdNull;
         private IBusinessValidator<OrganizationValidationEntity, OrganizationValidationEntity> organizationValidator;
+
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="context">Context to query</param>
         /// <param name="organizationValidator">The organization validator.</param>
-        public OrganizationService(EcaContext context, IBusinessValidator<OrganizationValidationEntity, OrganizationValidationEntity> organizationValidator)
-            : base(context)
+        /// <param name="saveActions">The save actions.</param>
+        public OrganizationService(EcaContext context, IBusinessValidator<OrganizationValidationEntity, OrganizationValidationEntity> organizationValidator, List<ISaveAction> saveActions = null)
+            : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(organizationValidator != null, "The validator must not be null.");
@@ -201,7 +203,7 @@ namespace ECA.Business.Service.Admin
 
             throwIfOrganizationTypeByIdNull(organization.OrganizationTypeId, organizationType);
             organizationValidator.ValidateUpdate(GetOrganizationValidationEntity(organization, organizationToUpdate, parentOrganization));
-            organization.Update.SetHistory(organizationToUpdate);            
+            organization.Update.SetHistory(organizationToUpdate);
             SetPointOfContacts(organization.ContactIds.ToList(), organizationToUpdate);
             SetOrganizationRoles(organization.OrganizationRoleIds.ToList(), organizationToUpdate);
             organizationToUpdate.Name = organization.Name;
@@ -239,7 +241,7 @@ namespace ECA.Business.Service.Admin
                 .Include(x => x.Contacts)
                 .Include(x => x.OrganizationRoles)
                 .Include(x => x.ParentOrganization)
-                .Where(x=> x.OrganizationId == id);
+                .Where(x => x.OrganizationId == id);
         }
 
         private OrganizationValidationEntity GetOrganizationValidationEntity(EcaOrganization organization, Organization organizationToUpdate, Organization parentOrganization)

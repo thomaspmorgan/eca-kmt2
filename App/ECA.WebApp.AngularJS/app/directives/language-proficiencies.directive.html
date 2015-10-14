@@ -30,7 +30,7 @@
                         <div class="col-md-2">{{languageProficiency.speakingProficiency}}</div>
                         <div class="col-md-2">{{languageProficiency.readingProficiency}}</div>
                         <div class="col-md-2">{{languageProficiency.comprehensionProficiency}}</div>
-                        <div ng-class="{true: 'col-md-2', false: 'col-md-4'}[editMode == 'edit']"><input type="checkbox" ng-model="languageProficiency.isNativeLanguage" disabled></input></div>
+                        <div ng-class="{true: 'col-md-2', false: 'col-md-4'}[editMode == 'edit']"><input type="checkbox" ng-model="languageProficiency.isNativeLanguage" disabled /></div>
                         <div class="col-md-2" ng-show="!view.showEditLanguageProficiency && editMode">
                             <a ng-show="!view.showEditLanguageProficiency && editMode && !view.isDeletingLanguageProficiency" ng-click="view.showConfirmDelete = true">
                             <i class="material-icons md-dark">delete</i>

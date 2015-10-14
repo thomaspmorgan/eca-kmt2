@@ -1,0 +1,133 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Search Locations</h3>
+</div>
+<div class="modal-body">
+    <div>
+        <p>Showing {{view.start}} - {{view.end}} of {{view.total}} locations.</p>
+        <div st-pipe="view.getLocations" st-table="view.locations" exposetablestate="getLocationsTableState" id="sort-list" >
+            <table>
+                <thead>
+                    <tr class="row">
+                        <th>&nbsp;</th>
+                        <th st-sort="'name'" class="col-md-4 sort-label medium">Name</th>
+                        <th st-sort="'locationTypeName'" class="col-md-2 sort-label medium">Type</th>
+                        <th st-sort="'division'" class="col-md-2 sort-label medium">Division</th>
+                        <th st-sort="'country'" class="col-md-2 sort-label medium">Country</th>
+                        <th st-sort="'region'" class="col-md-2 sort-label medium">Region</th>
+                    </tr>
+                    <tr class="row">
+                        <th>
+                            &nbsp;
+                        </th>
+                        <th>
+                            <input st-search="'name'" placeholder="" type="search" class="form-control" />
+                        </th>
+                        <th>
+                            <ui-select multiple
+                                       ui-select-st-search
+                                       ui-select-st-search-model-id="id"
+                                       ui-select-st-search-property="locationTypeId"
+                                       ui-select-st-search-comparison-type="in"
+                                       close-on-select="false"
+                                       ng-model="view.selectedLocationTypes"
+                                       theme="select2"
+                                       title="Choose location types to filter."
+                                       style="min-width: 150px;">
+                                <ui-select-match placeholder="Filter types...">
+                                    <div>{{$item.value}}</div>
+                                </ui-select-match>
+                                <ui-select-choices repeat="t in view.locationTypes | filter: select.search track by t.id">
+                                    <div ng-bind-html="t.value | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </th>
+                        <th>
+                            <input st-search="'division'" placeholder="" type="search" class="form-control" />
+                        </th>
+                        <th>
+                            <ui-select multiple
+                                       ui-select-st-search
+                                       ui-select-st-search-model-id="id"
+                                       ui-select-st-search-property="countryId"
+                                       ui-select-st-search-comparison-type="in"
+                                       close-on-select="false"
+                                       ng-model="view.selectedCountries"
+                                       theme="select2"
+                                       title="Choose countries to filter."
+                                       style="min-width: 150px;">
+                                <ui-select-match placeholder="Filter countries...">
+                                    <div>{{$item.name}}</div>
+                                </ui-select-match>
+                                <ui-select-choices repeat="c in view.countries | propsFilter: {name: $select.search} track by c.id">
+                                    <div ng-bind-html="c.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </th>
+                        <th>
+                            <ui-select multiple
+                                       ui-select-st-search
+                                       ui-select-st-search-model-id="id"
+                                       ui-select-st-search-property="regionId"
+                                       ui-select-st-search-comparison-type="in"
+                                       close-on-select="false"
+                                       ng-model="view.selectedRegions"
+                                       theme="select2"
+                                       title="Choose regions to filter."
+                                       style="min-width: 150px;">
+                                <ui-select-match placeholder="Filter regions...">
+                                    <div>{{$item.name}}</div>
+                                </ui-select-match>
+                                <ui-select-choices repeat="r in view.regions | propsFilter: {name: $select.search} track by r.id">
+                                    <div ng-bind-html="r.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="list2" ng-repeat="location in view.locations" ng-show="!view.isLoadingRequiredData && !view.isLoadingLocations">
+                    <tr class="row">
+                        <td>
+                            <input type="checkbox" ng-model="location.isSelected" />
+                        </td>
+                        <td>
+                            {{location.name}}
+                        </td>
+                        <td>
+                            {{location.locationTypeName}}
+                        </td>
+                        <td>
+                            {{location.division}}
+                        </td>
+                        <td>
+                            {{location.country}}
+                        </td>
+                        <td>
+                            {{location.region}}
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody ng-show="view.isLoadingRequiredData || view.isLoadingLocations" id="spinner">
+                    <tr>
+                        <td colspan="5">
+                            <div class="spinner">
+                                <div class="bounce1"></div>
+                                <div class="bounce2"></div>
+                                <div class="bounce3"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div st-template="app/partials/pagination.html" st-pagination="" st-items-by-page="view.limit" st-displayed-pages="10" ng-show="!view.isLoadingLocations"></div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="left">
+        <button class="btn btn-default" ng-click="view.onAddClick()">Add</button>
+    </div>
+    <div>
+        <button class="btn btn-success" ng-click="view.onSelectClick()">Select</button>
+        <button class="btn btn-cancel" ng-click="view.onCancelClick()">Cancel</button>
+    </div>
+</div>

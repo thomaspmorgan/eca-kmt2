@@ -21,9 +21,10 @@ namespace ECA.Business.Service.Lookup
         /// <summary>
         /// Creates a new ThemeService.
         /// </summary>
+        /// <param name="saveActions">The save actions.</param>
         /// <param name="context">The context to operate against.</param>
-        public ThemeService(EcaContext context)
-            : base(context)
+        public ThemeService(EcaContext context, List<ISaveAction> saveActions = null)
+            : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
         }

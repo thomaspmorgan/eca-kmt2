@@ -25,8 +25,8 @@ namespace ECA.Business.Service.Admin
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
-        public JustificationObjectiveService(EcaContext context)
-            : base(context)
+        public JustificationObjectiveService(EcaContext context, List<ISaveAction> saveActions = null)
+            : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
         }

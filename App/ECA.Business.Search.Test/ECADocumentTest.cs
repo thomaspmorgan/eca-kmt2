@@ -90,6 +90,8 @@ namespace ECA.Business.Search.Test
             instance.Regions = new List<string> { "region" };
             instance.Countries = new List<string> { "country" };
             instance.Locations = new List<string> { "local" };
+            instance.Addresses = new List<string> { "address1" };
+            instance.PhoneNumbers = new List<string> { "phone1" };
             instance.StartDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             instance.EndDate = DateTimeOffset.UtcNow.AddDays(1.0);
 
@@ -114,6 +116,9 @@ namespace ECA.Business.Search.Test
             Assert.AreEqual(instance.Status, document.Status);
             Assert.AreEqual(instance.StartDate, document.StartDate);
             Assert.AreEqual(instance.EndDate, document.EndDate);
+
+            CollectionAssert.AreEqual(instance.Addresses.ToList(), document.Addresses.ToList());
+            CollectionAssert.AreEqual(instance.PhoneNumbers.ToList(), document.PhoneNumbers.ToList());
             CollectionAssert.AreEqual(instance.Foci.ToList(), document.Foci.ToList());
             CollectionAssert.AreEqual(instance.Goals.ToList(), document.Goals.ToList());
             CollectionAssert.AreEqual(instance.Objectives.ToList(), document.Objectives.ToList());

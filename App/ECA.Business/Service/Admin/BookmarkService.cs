@@ -21,7 +21,7 @@ namespace ECA.Business.Service.Admin
     /// </summary>
     public class BookmarkService : DbContextService<EcaContext>, IBookmarkService
     {
-        
+
         /// <summary>
         /// Model has less than or more than one resource error
         /// </summary>
@@ -46,9 +46,10 @@ namespace ECA.Business.Service.Admin
         /// Constructor
         /// </summary>
         /// <param name="context">The context to query</param>
-        public BookmarkService(EcaContext context) : base(context)
+        /// <param name="saveActions">The save actions.</param>
+        public BookmarkService(EcaContext context, List<ISaveAction> saveActions = null) : base(context, saveActions)
         {
-          Contract.Requires(context != null, "The context must not be null");
+            Contract.Requires(context != null, "The context must not be null");
         }
 
         /// <summary>
@@ -76,9 +77,9 @@ namespace ECA.Business.Service.Admin
 
             if (!resourceExists)
             {
-                throw new ModelNotFoundException(RESOURCE_DOES_NOT_EXIST_ERROR); 
+                throw new ModelNotFoundException(RESOURCE_DOES_NOT_EXIST_ERROR);
             }
-            
+
             var bookmark = DoCreate(newBookmark);
             return bookmark;
         }
@@ -101,7 +102,7 @@ namespace ECA.Business.Service.Admin
 
         private bool BookmarkAlreadyExists(NewBookmark newBookmark)
         {
-            var bookmark = Context.Bookmarks.Where(x => x.OfficeId == newBookmark.OfficeId && 
+            var bookmark = Context.Bookmarks.Where(x => x.OfficeId == newBookmark.OfficeId &&
                                                         x.ProgramId == newBookmark.ProgramId &&
                                                         x.ProjectId == newBookmark.ProjectId &&
                                                         x.PersonId == newBookmark.PersonId &&
@@ -110,7 +111,8 @@ namespace ECA.Business.Service.Admin
             return bookmark != null;
         }
 
-        private async Task<bool> ResourceExists(NewBookmark newBookmark) {
+        private async Task<bool> ResourceExists(NewBookmark newBookmark)
+        {
 
             Object resource = null;
 

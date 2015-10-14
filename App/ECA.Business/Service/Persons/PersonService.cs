@@ -30,9 +30,10 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="saveActions">The save actions.</param>
         /// <param name="context">The context to query</param>
-        public PersonService(EcaContext context, IBusinessValidator<PersonServiceValidationEntity, PersonServiceValidationEntity> validator)
-            : base(context)
+        public PersonService(EcaContext context, IBusinessValidator<PersonServiceValidationEntity, PersonServiceValidationEntity> validator, List<ISaveAction> saveActions = null)
+            : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(validator != null, "The validator must not be null.");

@@ -16,6 +16,7 @@ using ECA.WebApi.Models.Fundings;
 using ECA.Data;
 using ECA.Business.Models.Fundings;
 using ECA.WebApi.Controllers.Fundings;
+using ECA.Business.Service;
 
 namespace ECA.WebApi.Test.Controllers.Fundings
 {
@@ -162,6 +163,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
                 MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
                 PeerEntityTypeId = MoneyFlowSourceRecipientType.Organization.Id,
             };
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(1));
             var response = await controller.PostCreateOfficeMoneyFlowAsync(model);
             Assert.IsInstanceOfType(response, typeof(OkResult));
             userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
@@ -191,6 +193,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
                 MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
                 PeerEntityTypeId = MoneyFlowSourceRecipientType.Organization.Id,
             };
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(1));
             var response = await controller.PostCreateOrganizationMoneyFlowAsync(model);
             Assert.IsInstanceOfType(response, typeof(OkResult));
             userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
@@ -221,6 +224,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
                 MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
                 PeerEntityTypeId = MoneyFlowSourceRecipientType.Project.Id,
             };
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(1));
             var response = await controller.PostCreateProjectMoneyFlowAsync(model);
             Assert.IsInstanceOfType(response, typeof(OkResult));
             userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
@@ -250,6 +254,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
                 MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
                 PeerEntityTypeId = MoneyFlowSourceRecipientType.Project.Id,
             };
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(1));
             var response = await controller.PostCreateProgramMoneyFlowAsync(model);
             Assert.IsInstanceOfType(response, typeof(OkResult));
             userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
@@ -282,6 +287,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             {
                 MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
             };
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(1));
             SetExpectedEditedMoneyFlow(model.Id, entityId, MoneyFlowSourceRecipientType.Office.Id);
             var response = await controller.PutUpdateOfficeMoneyFlowAsync(model, entityId);
             Assert.IsInstanceOfType(response, typeof(OkResult));
@@ -312,6 +318,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             {
                 MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
             };
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(1));
             SetExpectedEditedMoneyFlow(model.Id, entityId, MoneyFlowSourceRecipientType.Organization.Id);
             var response = await controller.PutUpdateOrganizationMoneyFlowAsync(model, entityId);
             Assert.IsInstanceOfType(response, typeof(OkResult));
@@ -343,6 +350,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             {
                 MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
             };
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(1));
             SetExpectedEditedMoneyFlow(model.Id, entityId, MoneyFlowSourceRecipientType.Project.Id);
             var response = await controller.PutUpdateProjectMoneyFlowAsync(model, entityId);
             Assert.IsInstanceOfType(response, typeof(OkResult));
@@ -373,6 +381,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             {
                 MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
             };
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(1));
             SetExpectedEditedMoneyFlow(model.Id, entityId, MoneyFlowSourceRecipientType.Program.Id);
             var response = await controller.PutUpdateProgramMoneyFlowAsync(model, entityId);
             Assert.IsInstanceOfType(response, typeof(OkResult));
@@ -402,6 +411,8 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         {
             var moneyFlowId = 100;
             var entityId = 200;
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(1));
+
             SetExpectedEditedMoneyFlow(moneyFlowId, entityId, MoneyFlowSourceRecipientType.Office.Id);
             var response = await controller.DeleteOfficeMoneyFlowAsync(moneyFlowId, entityId);
             Assert.IsInstanceOfType(response, typeof(OkResult));
@@ -416,6 +427,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         {
             var moneyFlowId = 100;
             var entityId = 200;
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(1));
             SetExpectedEditedMoneyFlow(moneyFlowId, entityId, MoneyFlowSourceRecipientType.Organization.Id);
             var response = await controller.DeleteOrganizationMoneyFlowAsync(moneyFlowId, entityId);
             Assert.IsInstanceOfType(response, typeof(OkResult));
@@ -430,6 +442,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         {
             var moneyFlowId = 1;
             var entityId = 2;
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(1));
             SetExpectedEditedMoneyFlow(moneyFlowId, entityId, MoneyFlowSourceRecipientType.Project.Id);
             var response = await controller.DeleteProjectMoneyFlowAsync(moneyFlowId, entityId);
             Assert.IsInstanceOfType(response, typeof(OkResult));
@@ -444,6 +457,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         {
             var moneyFlowId = 100;
             var entityId = 200;
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(1));
             SetExpectedEditedMoneyFlow(moneyFlowId, entityId, MoneyFlowSourceRecipientType.Program.Id);
             var response = await controller.DeleteProgramMoneyFlowAsync(moneyFlowId, entityId);
             Assert.IsInstanceOfType(response, typeof(OkResult));

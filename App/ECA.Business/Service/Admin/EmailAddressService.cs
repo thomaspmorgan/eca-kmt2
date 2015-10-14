@@ -5,6 +5,7 @@ using ECA.Core.Service;
 using ECA.Data;
 using NLog;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -26,8 +27,9 @@ namespace ECA.Business.Service.Admin
         /// Creates a new instance and initializes the context..
         /// </summary>
         /// <param name="context">The context to operate against.</param>
-        public EmailAddressService(EcaContext context)
-            : base(context)
+        /// <param name="saveActions">The save actions.</param>
+        public EmailAddressService(EcaContext context, List<ISaveAction> saveActions = null)
+            : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
             throwIfEMailAddressableEntityNotFound = (emailAddressableEntity, id) =>
@@ -99,7 +101,7 @@ namespace ECA.Business.Service.Admin
 
         private EmailAddress DoCreate<T>(NewEmailAddress<T> newEmailAddress, IEmailAddressable emailAddressable) where T : class, IEmailAddressable
         {
-            throwIfEMailAddressableEntityNotFound(emailAddressable, newEmailAddress.GetEmailAddressableEntityId());            
+            throwIfEMailAddressableEntityNotFound(emailAddressable, newEmailAddress.GetEmailAddressableEntityId());
             return newEmailAddress.AddEmailAddress(emailAddressable);
         }
         #endregion

@@ -34,6 +34,8 @@ namespace ECA.Business.Search.Test
                 HasOfficeSymbol(x => x.OfficeSymbol);
                 HasPointsOfContact(x => x.PointsOfContact);
                 HasThemes(x => x.Themes);
+                HasAddresses(x => x.Addresses);
+                HasPhoneNumbers(x => x.PhoneNumbers);
                 IsDocumentType(TEST_DOCUMENT_DOCUMENT_TYPE_ID, TEST_DOCUMENT_DOCUMENT_TYPE_NAME);
             }
                        
@@ -44,7 +46,7 @@ namespace ECA.Business.Search.Test
     {
         public static Guid OTHER_TEST_DOCUMENT_DOCUMENT_TYPE_ID = Guid.Parse("4dcea74b-9cf5-41f6-a3b9-315f8a6686f2");
 
-        public const string OTHER_TEST_DOCUMENT_DOCUMENT_TYPE_NAME = "other test document";
+        public const string OTHER_TEST_DOCUMENT_DOCUMENT_TYPE_NAME = "othertestdocument";
 
         public OtherTestDocumentConfiguration()
         {

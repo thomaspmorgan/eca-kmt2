@@ -27,8 +27,9 @@ namespace ECA.Business.Service.Admin
         /// Creates a new FocusCategorySerivce with the given context.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
-        public FocusCategoryService(EcaContext context)
-            : base(context)
+        /// <param name="saveActions">The save actions.</param>
+        public FocusCategoryService(EcaContext context, List<ISaveAction> saveActions = null)
+            : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
         }

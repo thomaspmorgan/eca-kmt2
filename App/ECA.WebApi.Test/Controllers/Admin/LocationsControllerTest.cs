@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Models.Programs;
+using ECA.Business.Service;
 using ECA.Business.Service.Admin;
 using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Programs;
@@ -82,6 +83,7 @@ namespace ECA.WebApi.Test.Controllers.Admin
             {
                 LocationTypeId = LocationType.Building.Id,
             };
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(1));
             serviceMock.Setup(x => x.CreateAsync(It.IsAny<AdditionalLocation>())).ReturnsAsync(new Location());
             serviceMock.Setup(x => x.GetLocationByIdAsync(It.IsAny<int>())).ReturnsAsync(new LocationDTO());
             var response = await controller.PostCreateLocationAsync(model);
@@ -114,6 +116,7 @@ namespace ECA.WebApi.Test.Controllers.Admin
             {
                 LocationTypeId = LocationType.Building.Id,
             };
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(1));
             serviceMock.Setup(x => x.GetLocationByIdAsync(It.IsAny<int>())).ReturnsAsync(new LocationDTO());
             var response = await controller.PutUpdateLocationAsync(model);
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<LocationDTO>));
