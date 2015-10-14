@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Service.Lookup;
+using ECA.Core.Service;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
@@ -18,8 +19,9 @@ namespace ECA.Business.Service.Lookup
         /// Creates a new LocationTypeService.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
-        public LocationTypeService(EcaContext context)
-            : base(context)
+        /// <param name="saveActions">The save actions.</param>
+        public LocationTypeService(EcaContext context, List<ISaveAction> saveActions = null)
+            : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
         }

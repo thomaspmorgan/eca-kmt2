@@ -182,10 +182,11 @@
     <Compile Include="DocumentConfiguration.cs" />
     <Compile Include="DocumentKey.cs" />
     <Compile Include="DocumentService.cs" />
-    <Compile Include="DocumentsSaveAction.cs" />
+    <Compile Include="DocumentSaveAction.cs" />
     <Compile Include="ECADocument.cs" />
     <Compile Include="ECASearchParameters.cs" />
     <Compile Include="ECASuggestionParameters.cs" />
+    <Compile Include="GenericDocumentSaveAction.cs" />
     <Compile Include="IIndexNotificationService.cs" />
     <Compile Include="IIndexService.cs" />
     <Compile Include="IndexDocumentBatchMessage.cs" />

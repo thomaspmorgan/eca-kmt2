@@ -7,13 +7,11 @@
  * # data snapshots
  */
 angular.module('staticApp')
-  .directive('snapshots', function ($log) {
-      var directive = {
+  .directive('snapshots', function () {
+      return {
           templateUrl: 'scripts/directives/snapshots.directive.html',
           scope: {
-              model: '=model',
               programId: '=programid'
           }
       };
-      return directive;
   });

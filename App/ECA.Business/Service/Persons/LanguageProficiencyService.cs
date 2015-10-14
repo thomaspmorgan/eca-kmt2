@@ -13,6 +13,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using ECA.Business.Queries.Models.Persons;
+using System.Collections.Generic;
 
 namespace ECA.Business.Service.Persons
 {
@@ -28,9 +29,10 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Creates a new instance and initializes the context..
         /// </summary>
+        /// <param name="saveActions">The save actions.</param>
         /// <param name="context">The context to operate against.</param>
-        public LanguageProficiencyService(EcaContext context)
-            : base(context)
+        public LanguageProficiencyService(EcaContext context, List<ISaveAction> saveActions = null)
+            : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
             throwIfLanguageProficiencyNotFound = (languageProficiency, id) =>

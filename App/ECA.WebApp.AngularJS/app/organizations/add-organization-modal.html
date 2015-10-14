@@ -1,0 +1,126 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Create New Organization</h3>
+</div>
+<div class="modal-body">
+    <div class="spinner" ng-show="view.isSavingOrganization">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+    <div ng-show="!view.isSavingOrganization">
+        <div class="tip">
+            <img src="images/tip.png">Any changes you make to the organization will be live after saving.
+            <div class="required">* Marks required fields</div>
+        </div>
+        <div id="modal" class="row" in-context-form>
+            <div class="col-md-10">
+                <form name="form.organizationForm" ng-show="!view.isSavingOrganization">
+                    <div class="form-group" ng-class="{ 'has-error': view.doesOrganizationExist, 'has-feedback': view.doesOrganizationExist}">
+                        <label>
+                            Organization Title<span class="asterisk"> *</span>
+                            <i style="margin-left:30px;"
+                               class="material-icons md-18 material-icons-spin contextual-busy"
+                               ng-show="view.isLoadingLikeProjects">autorenew</i>
+                        </label>
+                        <input name="name"
+                               maxlength="{{view.maxNameLength}}"
+                               ng-model="view.organization.name"
+                               form-element guidance="This is the name of your organization."
+                               type="text"
+                               class="form-control"
+                               ng-change="view.onOrganizationNameChange()"
+                               ng-model-options="{debounce: 500}"
+                               placeholder="Enter organization title..."
+                               required>
+                        <span class="form-control-feedback" ng-show="view.doesOrganizationExist"><i class="material-icons md-24">error</i></span>
+                        <p class="mute" style="margin-top:5px;">{{view.organization.name.length}} of {{view.maxNameLength}} characters remaining.</p>
+                        <div ng-show="view.doesOrganizationExist" class="error">
+                            There is already an organization named {{view.organization.name}}.
+                        </div>
+                        <div ng-show="form.organizationForm.name.$dirty">
+                            <div class="error" ng-show="form.organizationForm.name.$error.required">Please enter a organization name.</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Organization Description<span class="asterisk"> *</span></label>
+                        <textarea name="description"
+                                  class="form-control"
+                                  ng-model="view.organization.description"
+                                  form-element guidance="This briefly summarizes what this organization is about."
+                                  type="text"
+                                  placeholder="Enter description..."
+                                  required />
+                        <p class="mute" style="margin-top:5px;">{{view.organization.description.length}} of {{view.maxDescriptionLength}} characters remaining.</p>
+                        <div ng-show="form.organizationForm.description.$dirty">
+                            <span class="error" ng-show="form.organizationForm.description.$error.required">Organization description is required.</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Organization Type<span class="asterisk"> *</span></label>
+                        <ui-select ng-model="view.organization.organizationType" theme="select2" style="min-width: 300px;" ng-required="true">
+                            <ui-select-match placeholder="Select an organization type...">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices repeat="organizationType.id as organizationType in view.organizationTypes | filter: {name: $select.search} track by organizationType.id">
+                                <div ng-bind-html="organizationType.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class="form-group">
+                        <label>Roles</label>
+                        <ui-select multiple
+                                   ng-model="view.organization.organizationRoles"
+                                   theme="select2"
+                                   style="min-width: 300px;">
+                            <ui-select-match placeholder="Select organization roles...">
+                                {{$item.value}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="role.id as role in view.organizationRoles">
+                                {{role.value}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class="form-group">
+                        <label>Website</label>
+                        <input type="url" class="form-control" ng-model="view.organization.website" placeholder="Enter website address (e.g. http://www.google.com)..."/>
+                    </div>
+                    <div class="form-group">
+                        <label>Points of Contact</label>
+                        <ui-select multiple
+                                   ng-model="view.organization.pointsOfContact"
+                                   theme="select2"
+                                   title="Choose a point of contact."
+                                   style="min-width: 300px;">
+                            <ui-select-match placeholder="Select points of contact...">
+                                {{$item.fullName}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="contact.id as contact in view.pointsOfContact">
+                                {{contact.fullName}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-2">
+                <guidance></guidance>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div ng-show="!view.showConfirmCancel">
+        <button class="btn btn-success"
+                ng-click="view.onSaveClick()"
+                ng-disabled="form.organizationForm.$invalid || view.isSavingOrganization || view.doesOrganizationExist || view.isLoadingLikeOrganizations">
+            Save
+        </button>
+        <button class="btn btn-cancel" ng-click="view.onCancelClick()">Cancel</button>
+    </div>
+    <div ng-show="view.showConfirmCancel">
+        <div class="col-md-6">
+            <p class="text-left">There are unsaved changes to this new project.  Are you sure you wish to cancel?</p>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-success" ng-click="view.onYesCancelChangesClick()">Yes, Cancel Changes</button>
+            <button class="btn btn-cancel" ng-click="view.onNoDoNotCancelChangesClick()">No</button>
+        </div>
+    </div>
+</div>

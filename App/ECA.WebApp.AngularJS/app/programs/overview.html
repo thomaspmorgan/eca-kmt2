@@ -1,0 +1,127 @@
+<h2 class="program-color tab-header">Overview</h2>
+<div class="spinner" ng-show="view.isLoadingProgram">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+</div>
+<div ng-show="!view.isLoadingProgram">
+    <div class="row">
+        <h5 editable-textarea="program.description" e-form="editDescription" e-rows="5" e-cols="150" onaftersave="updateProgram()">
+            {{program.description}}
+        </h5>
+    </div>
+    <div class="row tags" ng-show="program.tags">
+        <span ng-repeat="tag in program.tags" class="tag">#{{tag}}</span>
+    </div>
+    <div class="row table">
+        <h4 class="tab-subheader">Details</h4>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4 title-label">Status</div>
+                <div class="col-md-8">{{program.programStatusName}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 title-label">Start Date</div>
+                <div class="col-md-8">{{(program.startDate | date:"MMMM dd, yyyy") || 'No start date.'}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 title-label">End Date</div>
+                <div class="col-md-8">{{(program.endDate | date:"MMMM dd, yyyy") || 'No end date.'}}</div>
+            </div>
+            <div class="row" ng-show="program.themes">
+                <div class="col-md-4 title-label">Themes</div>
+                <div class="col-md-8 simple-list">
+                    <ul>
+                        <li ng-repeat="theme in program.themes | orderBy:'value'">{{theme.value}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row" ng-show="program.goals">
+                <div class="col-md-4 title-label">Strategic Goals</div>
+                <div class="col-md-8 simple-list">
+                    <ul>
+                        <li ng-repeat="goal in program.goals | orderBy:'value'">{{goal.value}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row" ng-show="program.regionIsos">
+                <div class="col-md-4 title-label">Regions</div>
+                <div class="col-md-8 simple-list">
+                    <ul>
+                        <li ng-repeat="region in program.regions | orderBy:'name'">{{region.name}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row" ng-show="program.websites.length > 0">
+                <div class="col-md-4 title-label">Websites</div>
+                <div class="col-md-8 simple-list">
+                    <ul>
+                        <li ng-repeat="website in program.websites">
+                            <a href="{{website.value}}" target="_blank">{{website.value}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row" ng-show="program.ownerOrganizationId && program.ownerDescription">
+                <div class="col-md-4 title-label">Office</div>
+                <div class="col-md-8"><a ui-sref="offices.overview({officeId: program.ownerOrganizationId})">{{program.ownerName}}</a>
+                </div>
+            </div>
+            <div class="row" ng-show="program.parentProgramId">
+                <div class="col-md-4 title-label">Parent Program</div>
+                <div class="col-md-8"><a ui-sref="programs.overview({programId: program.parentProgramId})">{{program.parentProgramName}}</a>
+                </div>
+            </div>
+            <div class="row" ng-show="program.categories">
+                <div class="col-md-4 title-label">{{view.categoryLabel}}</div>
+                <div class="col-md-8 grouped-list">
+                    <ul>
+                        <li ng-repeat="category in program.categories | orderBy:['focusName','name']">
+                            <ng-switch on="$first || category.focusName !== view.sortedCategories[$index-1].focusName">
+                                <div ng-switch-when="true" class="title-label"><strong>{{category.focusName}}</strong>
+                                </div>
+                            </ng-switch>
+                            <div>{{category.name}}</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row" ng-show="program.objectives">
+                <div class="col-md-4 title-label">{{view.objectiveLabel}}</div>
+                <div class="col-md-8 grouped-list">
+                    <ul>
+                        <li ng-repeat="objective in program.objectives | orderBy:['justificationName','name']">
+                            <ng-switch on="$first || objective.justificationName !== view.sortedObjectives[$index - 1].justificationName">
+                                <div ng-switch-when="true" class="title-label"><strong>{{objective.justificationName}}</strong>
+                                </div>
+                            </ng-switch>
+                            <div>{{objective.name}}</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row" ng-show="program.contacts">
+                <div class="col-md-4 title-label"><ng-pluralize count="program.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact
+                </div>
+                <div class="col-md-8 simple-list">
+                    <ul>
+                        <li ng-repeat="contact in program.contacts | orderBy:'value'">{{contact.value}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h4 class="tab-subheader">Snapshot</h4>
+        <div class="col-md-12">
+            <snapshots programId="program.programId"></snapshots>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <map width="600" height="300" countries="program.countryIsos"></map>
+        </div>
+    </div>
+</div>

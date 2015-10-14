@@ -77,8 +77,11 @@ namespace ECA.WebApi.App_Start
             {
                 var list = new List<ISaveAction>();
                 list.Add(new PermissableSaveAction(c.Resolve<IPermissableService>()));
-                list.Add(new DocumentsSaveAction<Program>(ProgramDTODocumentConfiguration.PROGRAM_DTO_DOCUMENT_TYPE_ID, new AppSettings()));
-                list.Add(new DocumentsSaveAction<Project>(ProjectDTODocumentConfiguration.PROJECT_DTO_DOCUMENT_TYPE_ID, new AppSettings()));
+                list.Add(new GenericDocumentSaveAction<Program>(new AppSettings(), ProgramDTODocumentConfiguration.PROGRAM_DTO_DOCUMENT_TYPE_ID, x => x.ProgramId));
+                list.Add(new GenericDocumentSaveAction<Project>(new AppSettings(), ProjectDTODocumentConfiguration.PROJECT_DTO_DOCUMENT_TYPE_ID, x => x.ProjectId));
+                list.Add(new OfficeDocumentSaveAction(new AppSettings()));
+                list.Add(new OrganizationDocumentSaveAction(new AppSettings()));
+                list.Add(new AddressDocumentSaveAction(new AppSettings()));
                 return list;
             }));
         }

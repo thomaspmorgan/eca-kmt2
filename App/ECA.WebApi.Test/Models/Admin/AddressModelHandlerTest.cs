@@ -9,6 +9,7 @@ using ECA.Data;
 using ECA.WebApi.Test.Security;
 using System.Web.Http.Results;
 using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Service;
 
 namespace ECA.WebApi.Test.Models.Admin
 {
@@ -74,6 +75,7 @@ namespace ECA.WebApi.Test.Models.Admin
             {
                 AddressTypeId = AddressType.Business.Id,
             };
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(1));
             var response = await handler.HandleUpdateAddressAsync(model, controller);
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<AddressDTO>));
             userProvider.Verify(x => x.GetCurrentUser(), Times.Once());

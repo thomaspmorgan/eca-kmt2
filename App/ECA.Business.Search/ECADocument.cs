@@ -51,6 +51,16 @@ namespace ECA.Business.Search
         /// Gets or sets the status.
         /// </summary>
         public string Status { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the addresses.
+        /// </summary>
+        public IEnumerable<string> Addresses { get; set; }        
+
+        /// <summary>
+        /// Gets or sets the phone numbers.
+        /// </summary>
+        public IEnumerable<string> PhoneNumbers { get; set; }
 
         /// <summary>
         /// Gets or sets the points of contact.
@@ -203,6 +213,8 @@ namespace ECA.Business.Search
             this.Locations = configuration.GetLocations(instance);
             this.StartDate = configuration.GetStartDate(instance);
             this.EndDate = configuration.GetEndDate(instance);
+            this.PhoneNumbers = configuration.GetPhoneNumbers(instance);
+            this.Addresses = configuration.GetAddresses(instance);
         }
     }
 }

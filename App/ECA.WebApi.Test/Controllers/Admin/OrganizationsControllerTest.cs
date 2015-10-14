@@ -16,6 +16,7 @@ using ECA.WebApi.Security;
 using ECA.WebApi.Models.Admin;
 using ECA.Data;
 using System.Web.Http;
+using ECA.Business.Service;
 
 namespace ECA.WebApi.Test.Controllers.Admin
 {
@@ -117,6 +118,7 @@ namespace ECA.WebApi.Test.Controllers.Admin
         [TestMethod]
         public async Task TestPutUpdateOrganizationAsync()
         {
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(1));
             var model = new UpdatedOrganizationBindingModel();
             model.OrganizationTypeId = OrganizationType.USEducationalInstitution.Id;
             var response = await controller.PutUpdateOrganizationAsync(model);

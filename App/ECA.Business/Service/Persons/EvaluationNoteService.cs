@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ECA.Business.Queries.Models.Persons;
 using NLog;
+using System.Collections.Generic;
 
 namespace ECA.Business.Service.Persons
 {
@@ -20,7 +21,7 @@ namespace ECA.Business.Service.Persons
         private readonly Action<Person, int> throwIfPersonEntityNotFound;
         private readonly Action<PersonEvaluationNote, int> throwIfEvaluationNoteNotFound;
 
-        public EvaluationNoteService(EcaContext context) : base(context)
+        public EvaluationNoteService(EcaContext context, List<ISaveAction> saveActions = null) : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
             throwIfEvaluationNoteNotFound = (evalnote, id) =>

@@ -26,9 +26,9 @@ namespace ECA.Business.Service.Lookup
         /// Creates a new LookupService with theg vien context and logger.
         /// </summary>
         /// <param name="context">The context to query.</param>
-        /// <param name="logger">The logger.</param>
-        public LookupService(EcaContext context)
-            : base(context)
+        /// <param name = "saveActions" > The save actions.</param>
+        public LookupService(EcaContext context, List<ISaveAction> saveActions = null)
+            : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
         }

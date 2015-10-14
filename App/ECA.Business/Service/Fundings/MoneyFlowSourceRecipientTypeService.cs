@@ -8,6 +8,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECA.Core.Service;
 
 namespace ECA.Business.Service.Fundings
 {
@@ -21,8 +22,9 @@ namespace ECA.Business.Service.Fundings
         /// Creates a new ProjectTypeService with the context and logger.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
-        public MoneyFlowSourceRecipientTypeService(EcaContext context)
-            : base(context)
+        /// <param name="saveActions">The save actions.</param>
+        public MoneyFlowSourceRecipientTypeService(EcaContext context, List<ISaveAction> saveActions = null)
+            : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
         }

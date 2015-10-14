@@ -45,5 +45,8 @@ namespace ECA.Business.Search.Test
 
         public DateTimeOffset? EndDate { get; set; }
 
+        public IEnumerable<string> Addresses { get; set; }
+
+        public IEnumerable<string> PhoneNumbers { get; set; }
     }
 }

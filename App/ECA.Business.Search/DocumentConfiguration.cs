@@ -124,6 +124,20 @@ namespace ECA.Business.Search
         IEnumerable<string> GetWebsites(object instance);
 
         /// <summary>
+        /// Returns the addresses of the given instance.
+        /// </summary>
+        /// <param name="instance">The given instances.</param>
+        /// <returns>The addresses.</returns>
+        IEnumerable<string> GetAddresses(object instance);
+        
+        /// <summary>
+        /// Returns the phone numbers of the given instance.
+        /// </summary>
+        /// <param name="instance">The given instances.</param>
+        /// <returns>The phone numbers.</returns>
+        IEnumerable<string> GetPhoneNumbers(object instance);        
+
+        /// <summary>
         /// Returns true if this configuration is used for the given class type.
         /// </summary>
         /// <param name="type">The type.</param>
@@ -170,8 +184,20 @@ namespace ECA.Business.Search
         /// </summary>
         /// <param name="instance"></param>
         /// <returns></returns>
+        public IEnumerable<string> GetAddresses(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
         public IEnumerable<string> GetCountries(object instance)
         {
+            Contract.Requires(instance != null, "The instance must not be null.");
             return null;
         }
 
@@ -385,6 +411,17 @@ namespace ECA.Business.Search
             Contract.Requires(type != null, "The given type must not be null.");
             return false;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public IEnumerable<string> GetPhoneNumbers(object instance)
+        {
+            Contract.Requires(instance != null, "The instance must not be null.");
+            return null;
+        }
     }
     #endregion
 
@@ -406,7 +443,7 @@ namespace ECA.Business.Search
         /// <summary>
         /// Gets the document type id.
         /// </summary>
-        public Guid DocumentTypeId { get; protected set; }
+        public Guid DocumentTypeId { get; protected set; }        
 
         /// <summary>
         /// Gets the id delegate to return the object id.
@@ -431,7 +468,7 @@ namespace ECA.Business.Search
         /// <summary>
         /// Gets the office symbol delegate to return the object office symbol.
         /// </summary>
-        public Func<TEntity, string> OfficeSymbolDelegate { get; private set; }
+        public Func<TEntity, string> OfficeSymbolDelegate { get; private set; }        
 
         /// <summary>
         /// Gets the website delegate to return the object websites.
@@ -477,6 +514,16 @@ namespace ECA.Business.Search
         /// Gets the points of contact delegate to return the object points of contact.
         /// </summary>
         public Func<TEntity, IEnumerable<string>> PointsOfContactDelegate { get; private set; }
+
+        /// <summary>
+        /// Gets the addresses degate to return the object addresses.
+        /// </summary>
+        public Func<TEntity, IEnumerable<string>> AddressesDelegate { get; private set; }        
+
+        /// <summary>
+        /// Gets the phone numbers delegate to return the object phone numbers.
+        /// </summary>
+        public Func<TEntity, IEnumerable<string>> PhoneNumbersDelegate { get; private set; }
 
         /// <summary>
         /// Gets the start delegate to return the object start date.
@@ -616,6 +663,26 @@ namespace ECA.Business.Search
         }
 
         /// <summary>
+        /// Enables phone numbers to be documented using the given expression.
+        /// </summary>
+        /// <param name="phonenumbersSelector">The expression to select phone numbers.</param>
+        public void HasPhoneNumbers(Expression<Func<TEntity, IEnumerable<string>>> phonenumbersSelector)
+        {
+            Contract.Requires(phonenumbersSelector != null, "The phonenumbersSelector must not be null.");
+            this.PhoneNumbersDelegate = phonenumbersSelector.Compile();
+        }
+
+        /// <summary>
+        /// Enables addresses to be documented using the given expression.
+        /// </summary>
+        /// <param name="addressesSelector">The expression to select addresses.</param>
+        public void HasAddresses(Expression<Func<TEntity, IEnumerable<string>>> addressesSelector)
+        {
+            Contract.Requires(addressesSelector != null, "The addressesSelector must not be null.");
+            this.AddressesDelegate = addressesSelector.Compile();
+        }
+
+        /// <summary>
         /// Enables goals to be documented using the given expression.
         /// </summary>
         /// <param name="goalsSelector">The expression to retrieve goal names.</param>
@@ -672,7 +739,6 @@ namespace ECA.Business.Search
         /// <param name="documentTypeName">The document type name.</param>
         public void IsDocumentType(Guid documentTypeId, string documentTypeName)
         {
-            Contract.Requires(documentTypeName != null, "The document type name must not be null.");
             Contract.Requires(documentTypeId != Guid.Empty, "The document type id must not be the empty guid.");
             this.DocumentTypeId = documentTypeId;
             this.DocumentTypeName = documentTypeName;
@@ -695,7 +761,6 @@ namespace ECA.Business.Search
         /// <returns>The object name.</returns>
         public string GetName(object instance)
         {
-            Contract.Requires(instance != null, "The instance must not be null.");
             Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
             if (NameDelegate != null)
             {
@@ -714,7 +779,6 @@ namespace ECA.Business.Search
         /// <returns>The object office symbol.</returns>
         public string GetOfficeSymbol(object instance)
         {
-            Contract.Requires(instance != null, "The instance must not be null.");
             Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
             if (OfficeSymbolDelegate != null)
             {
@@ -733,7 +797,6 @@ namespace ECA.Business.Search
         /// <returns>The object description.</returns>
         public string GetDescription(object instance)
         {
-            Contract.Requires(instance != null, "The instance must not be null.");
             Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
             if (DescriptionDelegate != null)
             {
@@ -752,7 +815,6 @@ namespace ECA.Business.Search
         /// <returns>The object themes.</returns>
         public IEnumerable<string> GetThemes(object instance)
         {
-            Contract.Requires(instance != null, "The instance must not be null.");
             Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
             if (ThemesDelegate != null)
             {
@@ -771,7 +833,6 @@ namespace ECA.Business.Search
         /// <returns>The object goals.</returns>
         public IEnumerable<string> GetGoals(object instance)
         {
-            Contract.Requires(instance != null, "The instance must not be null.");
             Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
             if (GoalsDelegate != null)
             {
@@ -790,7 +851,6 @@ namespace ECA.Business.Search
         /// <returns>The object foci.</returns>
         public IEnumerable<string> GetFoci(object instance)
         {
-            Contract.Requires(instance != null, "The instance must not be null.");
             Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
             if (FociDelegate != null)
             {
@@ -809,7 +869,6 @@ namespace ECA.Business.Search
         /// <returns>The object objectives.</returns>
         public IEnumerable<string> GetObjectives(object instance)
         {
-            Contract.Requires(instance != null, "The instance must not be null.");
             Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
             if(ObjectivesDelegate != null)
             {
@@ -828,7 +887,6 @@ namespace ECA.Business.Search
         /// <returns>The object points of contact.</returns>
         public IEnumerable<string> GetPointsOfContact(object instance)
         {
-            Contract.Requires(instance != null, "The instance must not be null.");
             Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
             if (PointsOfContactDelegate != null)
             {
@@ -865,7 +923,6 @@ namespace ECA.Business.Search
         /// <returns>The object description.</returns>
         public string GetStatus(object instance)
         {
-            Contract.Requires(instance != null, "The instance must not be null.");
             Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
             if (StatusDelegate != null)
             {
@@ -884,7 +941,6 @@ namespace ECA.Business.Search
         /// <returns>The object regions.</returns>
         public IEnumerable<string> GetRegions(object instance)
         {
-            Contract.Requires(instance != null, "The instance must not be null.");
             Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
             if (RegionsDelegate != null)
             {
@@ -903,7 +959,6 @@ namespace ECA.Business.Search
         /// <returns>The object countries.</returns>
         public IEnumerable<string> GetCountries(object instance)
         {
-            Contract.Requires(instance != null, "The instance must not be null.");
             Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
             if (CountriesDelegate != null)
             {
@@ -922,7 +977,6 @@ namespace ECA.Business.Search
         /// <returns>The object locations.</returns>
         public IEnumerable<string> GetLocations(object instance)
         {
-            Contract.Requires(instance != null, "The instance must not be null.");
             Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
             if (LocationsDelegate != null)
             {
@@ -941,7 +995,6 @@ namespace ECA.Business.Search
         /// <returns>The object websites.</returns>
         public IEnumerable<string> GetWebsites(object instance)
         {
-            Contract.Requires(instance != null, "The instance must not be null.");
             Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
             if (WebsitesDelegate != null)
             {
@@ -960,7 +1013,6 @@ namespace ECA.Business.Search
         /// <returns>The document key type.</returns>
         public DocumentKeyType GetDocumentKeyType(object instance)
         {
-            Contract.Requires(instance != null, "The instance must not be null.");
             Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
             if(IdDelegate != null)
             {
@@ -979,7 +1031,6 @@ namespace ECA.Business.Search
         /// <returns>The object start date.</returns>
         public DateTimeOffset? GetStartDate(object instance)
         {
-            Contract.Requires(instance != null, "The instance must not be null.");
             Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
             if (StartDateDelegate != null)
             {
@@ -998,11 +1049,46 @@ namespace ECA.Business.Search
         /// <returns>The object end date.</returns>
         public DateTimeOffset? GetEndDate(object instance)
         {
-            Contract.Requires(instance != null, "The instance must not be null.");
             Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
             if (EndDateDelegate != null)
             {
                 return EndDateDelegate((TEntity)instance);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns the addresses of the given object.
+        /// </summary>
+        /// <param name="instance">The instance of the object.</param>
+        /// <returns>The object addresses.</returns>
+        public IEnumerable<string> GetAddresses(object instance)
+        {
+            Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
+            if (AddressesDelegate != null)
+            {
+                return AddressesDelegate((TEntity)instance);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns the phone number of the given object.
+        /// </summary>
+        /// <param name="instance">The instance of the object.</param>
+        /// <returns>The object phone numbers.</returns>
+        public IEnumerable<string> GetPhoneNumbers(object instance)
+        {
+            Contract.Requires(instance.GetType() == typeof(TEntity), "The instance must be a TEntity.");
+            if (PhoneNumbersDelegate != null)
+            {
+                return PhoneNumbersDelegate((TEntity)instance);
             }
             else
             {

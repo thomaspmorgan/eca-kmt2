@@ -1,6 +1,7 @@
 ﻿using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
+using ECA.Core.Service;
 using ECA.Data;
 using NLog;
 using System;
@@ -23,8 +24,9 @@ namespace ECA.Business.Service.Admin
         /// Constructor
         /// </summary>
         /// <param name="context">The context to query</param>
-        public MaritalStatusService(EcaContext context) 
-            : base(context)
+        /// <param name="saveActions">The save actions.</param>
+        public MaritalStatusService(EcaContext context, List<ISaveAction> saveActions = null) 
+            : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
         }

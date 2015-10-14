@@ -40,11 +40,13 @@ namespace ECA.Business.Service.Admin
         /// <param name="context">The context.</param>
         /// <param name="addressValidator">The address create and update validator.</param>
         /// <param name="locationValidator">The location validator.</param>
+        /// <param name="saveActions">The save actions.</param>
         public LocationService(
             EcaContext context,
             IBusinessValidator<LocationValidationEntity, LocationValidationEntity> locationValidator,
-            IBusinessValidator<EcaAddressValidationEntity, EcaAddressValidationEntity> addressValidator)
-            : base(context)
+            IBusinessValidator<EcaAddressValidationEntity, EcaAddressValidationEntity> addressValidator,
+            List<ISaveAction> saveActions = null)
+            : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(addressValidator != null, "The address validator must not be null.");

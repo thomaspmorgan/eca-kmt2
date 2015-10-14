@@ -35,8 +35,9 @@ namespace ECA.Business.Service.Admin
         /// Creates a new OfficeService with the context and logger implementations.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
-        public OfficeService(EcaContext context)
-            : base(context)
+        /// <param name="saveActions">The save actions.</param>
+        public OfficeService(EcaContext context, List<ISaveAction> saveActions = null)
+            : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
         }
@@ -207,7 +208,7 @@ namespace ECA.Business.Service.Admin
         private string DoGetValue(int officeId, string name, IEnumerable<OfficeSettingDTO> settings)
         {
             var value = settings.Where(x => x.OfficeId == officeId && x.Name.ToLower().Trim() == name.ToLower().Trim()).FirstOrDefault();
-            
+
             if (value == null)
             {
                 logger.Trace("Office with id [{0}] does NOT have a setting with key [{1}].", officeId, name);
@@ -355,7 +356,7 @@ namespace ECA.Business.Service.Admin
             officeSettings.CategoryLabel = GetStringValue(OfficeSetting.CATEGORY_SETTING_KEY, settings, OfficeSettings.CATEGORY_DEFAULT_LABEL);
             officeSettings.FocusLabel = GetStringValue(OfficeSetting.FOCUS_SETTING_KEY, settings, OfficeSettings.FOCUS_DEFAULT_LABEL);
             officeSettings.JustificationLabel = GetStringValue(OfficeSetting.JUSTIFICATION_SETTING_KEY, settings, OfficeSettings.JUSTIFICATION_DEFAULT_LABEL);
-            
+
             officeSettings.IsObjectiveRequired = HasSetting(OfficeSetting.OBJECTIVE_SETTING_KEY, settings) || HasSetting(OfficeSetting.JUSTIFICATION_SETTING_KEY, settings);
             officeSettings.IsCategoryRequired = HasSetting(OfficeSetting.CATEGORY_SETTING_KEY, settings) || HasSetting(OfficeSetting.FOCUS_SETTING_KEY, settings);
 
