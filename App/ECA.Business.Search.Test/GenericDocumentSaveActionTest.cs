@@ -31,7 +31,7 @@ namespace ECA.Business.Search.Test
             var instance = new SimpleEntity();
             instance.Id = 10;
             var expectedKey = new DocumentKey(SimpleEntityConfiguration.SIMPLE_ENTITY_DOCUMENT_TYPE_ID, instance.Id);
-            Assert.AreEqual(expectedKey, saveAction.GetDocumentKey(instance));
+            Assert.AreEqual(expectedKey, saveAction.GetDocumentKey(instance, null));
         }
 
         [TestMethod]

@@ -286,5 +286,30 @@ namespace ECA.Business.Search.Test
             var documentKey = new DocumentKey(docTypeId, id);
             Assert.IsNotNull(documentKey.GetHashCode());
         }
+
+        [TestMethod]
+        public void TestTryParse_IsValidDocumentKey()
+        {
+            var documentKey = new DocumentKey(Guid.NewGuid(), 1);
+            var documentKeyAsString = documentKey.ToString();
+
+            DocumentKey testKey;
+            var result = DocumentKey.TryParse(documentKeyAsString, out testKey);
+            Assert.IsTrue(result);
+            Assert.IsNotNull(testKey);
+            Assert.AreEqual(documentKey, testKey);
+        }
+
+        [TestMethod]
+        public void TestTryParse_IsNotValidDocumentKey()
+        {
+            var documentKey = new DocumentKey(Guid.NewGuid(), 1);
+            var documentKeyAsString = documentKey.ToString();
+
+            DocumentKey testKey = null;
+            var result = DocumentKey.TryParse("abc", out testKey);
+            Assert.IsFalse(result);
+            Assert.IsNull(testKey);
+        }
     }
 }

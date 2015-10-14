@@ -1,7 +1,9 @@
-﻿using ECA.Core.Settings;
+﻿using ECA.Core.DynamicLinq;
+using ECA.Core.Settings;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
@@ -11,6 +13,10 @@ namespace ECA.Business.Search
 {
     public class AddressDocumentSaveAction : DocumentSaveAction<Address>
     {
+        private static string ORGANIZATION_ID_PROPERTY_NAME = PropertyHelper.GetPropertyName<Address>(x => x.OrganizationId);
+
+        private static string PERSON_ID_PROPERTY_NAME = PropertyHelper.GetPropertyName<Address>(x => x.PersonId);
+
         /// <summary>
         /// An AddressDocumentSaveAction is used to craft proper index batch messages saying
         /// the address' related entity (organization, person, etc.) must be updated.
@@ -37,7 +43,7 @@ namespace ECA.Business.Search
                 .Union(deletedDocuments);
 
             var baseMessage = new IndexDocumentBatchMessage();
-            baseMessage.ModifiedDocuments = allDocuments.Select(x => GetDocumentKey(x).ToString()).ToList();
+            baseMessage.ModifiedDocuments = allDocuments.Select(x => GetDocumentKey(x, GetEntityEntry(x)).ToString()).ToList();
             return baseMessage;
         }
 
@@ -46,16 +52,14 @@ namespace ECA.Business.Search
         /// </summary>
         /// <param name="entity">The address entity.</param>
         /// <returns>A document key for the address's organization or person depending on the related entities.</returns>
-        public override DocumentKey GetDocumentKey(Address entity)
+        public override DocumentKey GetDocumentKey(Address entity, DbEntityEntry<Address> addressEntry)
         {
             var organizationDocumentTypeId = OrganizationDTODocumentConfiguration.ORGANIZATION_DTO_DOCUMENT_TYPE_ID;
-            if (entity.OrganizationId.HasValue)
+            var originalOrganizationId = addressEntry.OriginalValues.GetValue<int?>(ORGANIZATION_ID_PROPERTY_NAME);
+            var originalPersonId = addressEntry.OriginalValues.GetValue<int?>(PERSON_ID_PROPERTY_NAME);
+            if (originalOrganizationId.HasValue)
             {
-                return new DocumentKey(organizationDocumentTypeId, entity.OrganizationId.Value);
-            }
-            if (entity.Organization != null)
-            {
-                return new DocumentKey(organizationDocumentTypeId, entity.Organization.OrganizationId);
+                return new DocumentKey(organizationDocumentTypeId, originalOrganizationId.Value);
             }
             else
             {

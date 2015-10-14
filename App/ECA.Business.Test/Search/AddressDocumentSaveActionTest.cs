@@ -7,6 +7,9 @@ using System.Collections.Specialized;
 using ECA.Core.Settings;
 using System.Configuration;
 using ECA.Data;
+using Microsoft.QualityTools.Testing.Fakes;
+using ECA.Core.DynamicLinq;
+using System.Collections.Generic;
 
 namespace ECA.Business.Test.Search
 {
@@ -17,11 +20,13 @@ namespace ECA.Business.Test.Search
         private ConnectionStringSettingsCollection connectionStrings;
         private AppSettings settings;
         private AddressDocumentSaveAction saveAction;
+        private InMemoryEcaContext context;
 
 
         [TestInitialize]
         public void TestInit()
         {
+            context = new InMemoryEcaContext();
             appSettings = new NameValueCollection();
             connectionStrings = new ConnectionStringSettingsCollection();
             settings = new AppSettings(appSettings, connectionStrings);
@@ -50,102 +55,216 @@ namespace ECA.Business.Test.Search
         [TestMethod]
         public void TestGetDocumentKey_HasOrganizationId()
         {
-            var orgId = 10;
-            var address = new Address
+            using (ShimsContext.Create())
             {
-                OrganizationId = orgId
-            };
-            var expectedKey = new DocumentKey(OrganizationDTODocumentConfiguration.ORGANIZATION_DTO_DOCUMENT_TYPE_ID, orgId);
-            var testKey = saveAction.GetDocumentKey(address);
-            Assert.AreEqual(expectedKey, testKey);
-        }
-        [TestMethod]
-        public void TestGetDocumentKey_HasOrganizationReference()
-        {
-            var orgId = 10;
-            var address = new Address
-            {
-                Organization = new Organization
+                var orgId = 10;
+                var address = new Address
                 {
                     OrganizationId = orgId
-                }
-            };
-            var expectedKey = new DocumentKey(OrganizationDTODocumentConfiguration.ORGANIZATION_DTO_DOCUMENT_TYPE_ID, orgId);
-            var testKey = saveAction.GetDocumentKey(address);
-            Assert.AreEqual(expectedKey, testKey);
+                };
+                var entityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<Address>
+                {
+                    OriginalValuesGet = () =>
+                    {
+                        var values = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
+                        values.GetValueOf1String<int?>((propertyName) =>
+                        {
+                            var allowedPropertyNames = new List<string>
+                            {
+                                PropertyHelper.GetPropertyName<Address>(x => x.OrganizationId),
+                                PropertyHelper.GetPropertyName<Address>(x => x.PersonId),
+                            };
+                            Assert.IsTrue(allowedPropertyNames.Contains(propertyName));
+                            return orgId;
+                        });
+                        return values;
+                    }
+                };
+
+                var expectedKey = new DocumentKey(OrganizationDTODocumentConfiguration.ORGANIZATION_DTO_DOCUMENT_TYPE_ID, orgId);
+                var testKey = saveAction.GetDocumentKey(address, entityEntry);
+                Assert.AreEqual(expectedKey, testKey);
+            }
+
         }
 
         [TestMethod]
-        public void TestGetDocumentKey_IsNotOrganizationAddress()
+        public void TestGetDocumentKey_HasPersonId()
         {
-            var personId = 10;
-            var address = new Address
+            using (ShimsContext.Create())
             {
-                PersonId = personId
-               
-            };
-            Action a = () => saveAction.GetDocumentKey(address);
-            a.ShouldThrow<NotSupportedException>().WithMessage("Currently people are not indexed for searching; therefore, addresses related to people should not be indexed.  These address should be excluded.");
-        }
+                var personId = 10;
+                var address = new Address
+                {
+                    PersonId = personId
+                };
+                var entityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<Address>
+                {
+                    OriginalValuesGet = () =>
+                    {
+                        var values = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
+                        values.GetValueOf1String<int?>((propertyName) =>
+                        {
+                            var allowedPropertyNames = new List<string>
+                            {
+                                PropertyHelper.GetPropertyName<Address>(x => x.OrganizationId),
+                                PropertyHelper.GetPropertyName<Address>(x => x.PersonId),
+                            };
+                            Assert.IsTrue(allowedPropertyNames.Contains(propertyName));
+                            //return null because I'm faking the organizationid does not have a value
+                            return null;
+                        });
+                        return values;
+                    }
+                };
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<Address>((ctx, add) =>
+                {
+                    return entityEntry;
+                });
+                saveAction.Context = context;
+                Action a = () => saveAction.GetDocumentKey(address, entityEntry);
+                a.ShouldThrow<NotSupportedException>().WithMessage("Currently people are not indexed for searching; therefore, addresses related to people should not be indexed.  These address should be excluded.");
+            }
 
+        }
+        
         [TestMethod]
         public void TestGetBatchMessage_CreatedEntity()
         {
-            var orgId = 10;
-            var address = new Address
+            using (ShimsContext.Create())
             {
-                OrganizationId = orgId
-            };
+                var orgId = 10;
+                var address = new Address
+                {
+                    OrganizationId = orgId
+                };
+                var entityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<Address>
+                {
+                    OriginalValuesGet = () =>
+                    {
+                        var values = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
+                        values.GetValueOf1String<int?>((propertyName) =>
+                        {
+                            var allowedPropertyNames = new List<string>
+                            {
+                                PropertyHelper.GetPropertyName<Address>(x => x.OrganizationId),
+                                PropertyHelper.GetPropertyName<Address>(x => x.PersonId),
+                            };
+                            Assert.IsTrue(allowedPropertyNames.Contains(propertyName));
+                            return orgId;
+                        });
+                        return values;
+                    }
+                };
+                
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<Address>((ctx, add) =>
+                {
+                    return entityEntry;
+                });
+                saveAction.Context = context;
+                saveAction.CreatedEntities.Add(address);
 
-            saveAction.CreatedEntities.Add(address);
+                var message = saveAction.GetBatchMessage();
+                Assert.AreEqual(0, message.CreatedDocuments.Count());
+                Assert.AreEqual(1, message.ModifiedDocuments.Count());
+                Assert.AreEqual(0, message.DeletedDocuments.Count());
 
-            var message = saveAction.GetBatchMessage();
-            Assert.AreEqual(0, message.CreatedDocuments.Count());
-            Assert.AreEqual(1, message.ModifiedDocuments.Count());
-            Assert.AreEqual(0, message.DeletedDocuments.Count());
-
-            var expectedKey = new DocumentKey(OrganizationDTODocumentConfiguration.ORGANIZATION_DTO_DOCUMENT_TYPE_ID, orgId);
-            Assert.AreEqual(expectedKey.ToString(), message.ModifiedDocuments.First());
+                var expectedKey = new DocumentKey(OrganizationDTODocumentConfiguration.ORGANIZATION_DTO_DOCUMENT_TYPE_ID, orgId);
+                Assert.AreEqual(expectedKey.ToString(), message.ModifiedDocuments.First());
+            }
+                
         }
 
         [TestMethod]
         public void TestGetBatchMessage_DeletedEntity()
         {
-            var orgId = 10;
-            var address = new Address
+            using (ShimsContext.Create())
             {
-                OrganizationId = orgId
-            };
+                var orgId = 10;
+                var address = new Address
+                {
+                    OrganizationId = orgId
+                };
+                var entityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<Address>
+                {
+                    OriginalValuesGet = () =>
+                    {
+                        var values = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
+                        values.GetValueOf1String<int?>((propertyName) =>
+                        {
+                            var allowedPropertyNames = new List<string>
+                            {
+                                PropertyHelper.GetPropertyName<Address>(x => x.OrganizationId),
+                                PropertyHelper.GetPropertyName<Address>(x => x.PersonId),
+                            };
+                            Assert.IsTrue(allowedPropertyNames.Contains(propertyName));
+                            return orgId;
+                        });
+                        return values;
+                    }
+                };
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<Address>((ctx, add) =>
+                {
+                    return entityEntry;
+                });
+                saveAction.Context = context;
+                saveAction.DeletedEntities.Add(address);
 
-            saveAction.DeletedEntities.Add(address);
+                var message = saveAction.GetBatchMessage();
+                Assert.AreEqual(0, message.CreatedDocuments.Count());
+                Assert.AreEqual(1, message.ModifiedDocuments.Count());
+                Assert.AreEqual(0, message.DeletedDocuments.Count());
 
-            var message = saveAction.GetBatchMessage();
-            Assert.AreEqual(0, message.CreatedDocuments.Count());
-            Assert.AreEqual(1, message.ModifiedDocuments.Count());
-            Assert.AreEqual(0, message.DeletedDocuments.Count());
-
-            var expectedKey = new DocumentKey(OrganizationDTODocumentConfiguration.ORGANIZATION_DTO_DOCUMENT_TYPE_ID, orgId);
-            Assert.AreEqual(expectedKey.ToString(), message.ModifiedDocuments.First());
+                var expectedKey = new DocumentKey(OrganizationDTODocumentConfiguration.ORGANIZATION_DTO_DOCUMENT_TYPE_ID, orgId);
+                Assert.AreEqual(expectedKey.ToString(), message.ModifiedDocuments.First());
+            }
+            
         }
 
         [TestMethod]
         public void TestGetBatchMessage_ModifiedEntity()
         {
-            var orgId = 10;
-            var address = new Address
+            using (ShimsContext.Create())
             {
-                OrganizationId = orgId
-            };
+                var orgId = 10;
+                var address = new Address
+                {
+                    OrganizationId = orgId
+                };
+                var entityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<Address>
+                {
+                    OriginalValuesGet = () =>
+                    {
+                        var values = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
+                        values.GetValueOf1String<int?>((propertyName) =>
+                        {
+                            var allowedPropertyNames = new List<string>
+                            {
+                                PropertyHelper.GetPropertyName<Address>(x => x.OrganizationId),
+                                PropertyHelper.GetPropertyName<Address>(x => x.PersonId),
+                            };
+                            Assert.IsTrue(allowedPropertyNames.Contains(propertyName));
+                            return orgId;
+                        });
+                        return values;
+                    }
+                };
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<Address>((ctx, add) =>
+                {
+                    return entityEntry;
+                });
+                saveAction.Context = context;
+                saveAction.ModifiedEntities.Add(address);
 
-            saveAction.ModifiedEntities.Add(address);
+                var message = saveAction.GetBatchMessage();
+                Assert.AreEqual(0, message.CreatedDocuments.Count());
+                Assert.AreEqual(1, message.ModifiedDocuments.Count());
+                Assert.AreEqual(0, message.DeletedDocuments.Count());
 
-            var message = saveAction.GetBatchMessage();
-            Assert.AreEqual(0, message.CreatedDocuments.Count());
-            Assert.AreEqual(1, message.ModifiedDocuments.Count());
-            Assert.AreEqual(0, message.DeletedDocuments.Count());
-
-            var expectedKey = new DocumentKey(OrganizationDTODocumentConfiguration.ORGANIZATION_DTO_DOCUMENT_TYPE_ID, orgId);
-            Assert.AreEqual(expectedKey.ToString(), message.ModifiedDocuments.First());
+                var expectedKey = new DocumentKey(OrganizationDTODocumentConfiguration.ORGANIZATION_DTO_DOCUMENT_TYPE_ID, orgId);
+                Assert.AreEqual(expectedKey.ToString(), message.ModifiedDocuments.First());
+            }
+                
         }
     }
 }

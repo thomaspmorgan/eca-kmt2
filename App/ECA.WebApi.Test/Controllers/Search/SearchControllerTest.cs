@@ -32,7 +32,7 @@ namespace ECA.WebApi.Test.Controllers.Search
         public void TestGetDocumentFieldNames()
         {
             indexService.Setup(x => x.GetDocumentFieldNames()).Returns(new List<string>());
-            var response = controller.GetDocumentFieldNames();
+            var response = controller.GetDocumentFieldNames(1);
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<List<string>>));
             indexService.Verify(x => x.GetDocumentFieldNames(), Times.Once());
         }
@@ -42,7 +42,7 @@ namespace ECA.WebApi.Test.Controllers.Search
         {
             indexService.Setup(x => x.GetSuggestionsAsync(It.IsAny<ECASuggestionParameters>(), It.IsAny<List<DocumentKey>>())).ReturnsAsync(new DocumentSuggestResponse<ECADocument>());
             var model = new ECASuggestionParametersBindingModel();
-            var response = await controller.PostSuggestionsAsync(model);
+            var response = await controller.PostSuggestionsAsync(1, model);
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<DocumentSuggestResponseViewModel>));
             indexService.Verify(x => x.GetSuggestionsAsync(It.IsAny<ECASuggestionParameters>(), It.IsAny<List<DocumentKey>>()), Times.Once());
         }
@@ -53,7 +53,7 @@ namespace ECA.WebApi.Test.Controllers.Search
             controller.ModelState.AddModelError("key", "error");
             indexService.Setup(x => x.GetSuggestionsAsync(It.IsAny<ECASuggestionParameters>(), It.IsAny<List<DocumentKey>>())).ReturnsAsync(new DocumentSuggestResponse<ECADocument>());
             var model = new ECASuggestionParametersBindingModel();
-            var response = await controller.PostSuggestionsAsync(model);
+            var response = await controller.PostSuggestionsAsync(1, model);
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
 
@@ -65,7 +65,7 @@ namespace ECA.WebApi.Test.Controllers.Search
             userProvider.Setup(x => x.GetPermissionsAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(new List<IPermission>());
             indexService.Setup(x => x.SearchAsync(It.IsAny<ECASearchParameters>(), It.IsAny<List<DocumentKey>>())).ReturnsAsync(new DocumentSearchResponse<ECADocument>());
             var model = new ECASearchParametersBindingModel();
-            var response = await controller.PostSearchDocumentsAsync(model);
+            var response = await controller.PostSearchDocumentsAsync(1, model);
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<DocumentSearchResponseViewModel>));
             indexService.Verify(x => x.SearchAsync(It.IsAny<ECASearchParameters>(), It.IsAny<List<DocumentKey>>()), Times.Once());
             userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
@@ -77,7 +77,7 @@ namespace ECA.WebApi.Test.Controllers.Search
         {
             controller.ModelState.AddModelError("key", "error");
             var model = new ECASearchParametersBindingModel();
-            var response = await controller.PostSearchDocumentsAsync(model);
+            var response = await controller.PostSearchDocumentsAsync(1, model);
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
 
@@ -86,7 +86,7 @@ namespace ECA.WebApi.Test.Controllers.Search
         {
             indexService.Setup(x => x.GetDocumentByIdAsync(It.IsAny<string>())).ReturnsAsync(new ECADocument());
             var model = new ECASearchParametersBindingModel();
-            var response = await controller.GetDocumentByIdAsync("key");
+            var response = await controller.GetDocumentByIdAsync(1, "key");
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ECADocumentViewModel>));
         }
 
@@ -95,7 +95,7 @@ namespace ECA.WebApi.Test.Controllers.Search
         {
             indexService.Setup(x => x.GetDocumentByIdAsync(It.IsAny<string>())).ReturnsAsync(null);
             var model = new ECASearchParametersBindingModel();
-            var response = await controller.GetDocumentByIdAsync("key");
+            var response = await controller.GetDocumentByIdAsync(1, "key");
             Assert.IsInstanceOfType(response, typeof(NotFoundResult));
         }
 
