@@ -73,8 +73,8 @@
                             <ui-select-match placeholder="Select organization roles...">
                                 {{$item.value}}
                             </ui-select-match>
-                            <ui-select-choices repeat="role.id as role in view.organizationRoles">
-                                {{role.value}}
+                            <ui-select-choices repeat="role.id as role in view.organizationRoles | filter:$select.search">
+                                <div ng-bind-html="role.value | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
                     </div>
@@ -92,8 +92,8 @@
                             <ui-select-match placeholder="Select points of contact...">
                                 {{$item.fullName}}
                             </ui-select-match>
-                            <ui-select-choices repeat="contact.id as contact in view.pointsOfContact">
-                                {{contact.fullName}}
+                            <ui-select-choices repeat="contact.id as contact in view.pointsOfContact | filter:$select.search">
+                                <div ng-bind-html="contact.fullName | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
                     </div>

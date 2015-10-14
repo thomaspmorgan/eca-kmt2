@@ -133,7 +133,7 @@ angular.module('staticApp')
       $scope.openCollaboratorModal = function() {
           var modalInstance = $modal.open({
               animation: true,
-              templateUrl: '/views/partials/collaborators.html',
+              templateUrl: '/app/collaborators/collaborators.html',
               controller: 'CollaboratorCtrl',
               size: 'lg',
               resolve: {

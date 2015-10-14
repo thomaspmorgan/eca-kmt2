@@ -66,8 +66,8 @@
                                on-remove="view.updateCollections()"
                                style="min-width: 200px;">
                         <ui-select-match placeholder="Select organization roles...">{{$item.value}}</ui-select-match>
-                        <ui-select-choices repeat="role in view.organizationRoles">
-                            {{role.value}}
+                        <ui-select-choices repeat="role in view.organizationRoles | filter:$select.search">
+                            <div ng-bind-html="role.value | highlight: $select.search"></div>
                         </ui-select-choices>
                     </ui-select>
                 </div>
