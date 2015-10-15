@@ -63,6 +63,8 @@ angular.module('staticApp')
 
       var organizationsWithSameNameFilter = FilterService.add('addorganizationmodal_organizationswithsamename');
       $scope.view.onOrganizationNameChange = function () {
+          // Reset 
+          $scope.view.doesOrganizationExist = false;
           var organizationName = $scope.view.organization.name;
           if (organizationName && organizationName.length > 0) {
               organizationsWithSameNameFilter.reset();

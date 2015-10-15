@@ -5,12 +5,14 @@ angular.module('staticApp')
     .filter('highlight', function () {
         return function (text, search, caseSensitive) {
             var searchTerms = [];
-            if (!angular.isArray(search)) {
-                searchTerms = [search];
+            if (search && search.length > 0) {
+                searchTerms = search.split(" ");
             }
-            else {
+            
+            if (!angular.isArray(searchTerms)) {
                 searchTerms = search;
             }
+
             text = text.toString();
             for (var i = 0; i < searchTerms.length; i++) {
 

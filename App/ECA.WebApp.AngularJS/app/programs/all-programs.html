@@ -37,13 +37,14 @@
                     <th>
                         <div style="margin-left:20px;">
                             <div>
-                                <input ng-change="view.onSearchChange()"
+                                <input id="searchBar" name="searchBar" ng-change="view.onSearchChange()"
                                        st-search type="search"
                                        ng-model="view.programFilter"
                                        ng-model-options="{debounce: 500}"
+                                       ng-disabled="view.programsLoading"
                                        placeholder="Search Programs"
                                        class="search-contextual"
-                                       maxlength="100" />
+                                       maxlength="100" auto-focus="focusMe" />
                                 <i class="material-icons md-18 contextual">search</i>
                             </div>
                             <div style="margin-top:25px;margin-bottom:-25px">
@@ -73,10 +74,10 @@
                                        class="material-icons md-18 flip-horizontal">keyboard_return</i>
                                 </div>
                                 <div ng-class="{'col-md-12': program.isRoot, 'col-md-11': !program.isRoot}">
-                                    <span class="owner-office" ng-bind-html="program.officeSymbol | highlight:view.programFilter">{{program.officeSymbol}}</span>
+                                    <span class="owner-office" ng-bind-html="program.officeSymbol | highlight:view.programFilter || ''">{{program.officeSymbol}}</span>
                                     <span class="owner-office"> - {{program.status}}</span>
                                     <h4>
-                                        <a ng-bind-html="program.name | highlight:view.programFilter" ui-sref="programs.overview({programId: program.programId})">{{program.name}}</a>
+                                        <a ng-bind-html="program.name | highlight:view.programFilter || ''" ui-sref="programs.overview({programId: program.programId})">{{program.name}}</a>
                                     </h4>
                                 </div>
                             </div>
@@ -95,7 +96,7 @@
                                     &nbsp;
                                 </div>
                                 <div ng-class="{'col-md-12': program.isRoot, 'col-md-11': !program.isRoot}">
-                                    <p ng-bind-html="program.description | highlight:view.programFilter">{{program.description}}</p>
+                                    <p ng-bind-html="program.description | highlight:view.programFilter || ''">{{program.description}}</p>
                                 </div>
                             </div>
                             <div class="col-md-2">
