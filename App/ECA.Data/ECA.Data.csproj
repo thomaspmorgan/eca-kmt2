@@ -167,7 +167,10 @@
     <Compile Include="IAddressable.cs" />
     <Compile Include="OrganizationRole.cs" />
     <Compile Include="MoneyFlowSourceRecepientTypeSetting.cs" />
+    <Compile Include="ParticipantStudentVisitor.cs" />
     <Compile Include="ParticipantPersonSevisCommStatus.cs" />
+    <Compile Include="EducationLevel.cs" />
+    <Compile Include="StudentCreation.cs" />
     <Compile Include="ProgramCategory.cs" />
     <Compile Include="SevisCommStatus.cs" />
     <Compile Include="Website.cs" />

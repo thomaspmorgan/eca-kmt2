@@ -1,0 +1,2045 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/14/2015 3:09:11 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{A0B270C5-1501-4D8A-8EF2-2F663846E854}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Import ISO 639-3 Language List"
+  DTS:PackageType="5"
+  DTS:VersionBuild="11"
+  DTS:VersionGUID="{1FB47151-935A-4C49-BEED-7ABBC1BE583C}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308.ECA_Data_Migration]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{F90633B9-B93C-4F3C-85E7-E9DCC66AB2FF}"
+      DTS:ObjectName="BE00003308.ECA_Data_Migration">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308;Initial Catalog=ECA_Data_Migration;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{3A81EB8F-C388-4650-B74B-7AFC944E5CBC}"
+      DTS:ObjectName="BE00003308.ECA_Local">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{32FBA3A9-4826-49EF-8980-9854B2BC5F47}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\ECA\ISO639-3 Language List.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Import ISO 639-3 Language List"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{BAF34200-0B8E-4DE5-85DD-EA7DE5246632}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Import ISO 639-3 Language List"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Import ISO 639-3 Language List\Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">Sheet2$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import ISO 639-3 Language List\Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].Columns[Code3]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].ExternalColumns[639-3]"
+                      length="255"
+                      lineageId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].Columns[Code3]"
+                      name="Code3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].Columns[Code2]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].ExternalColumns[639-2/]"
+                      length="255"
+                      lineageId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].Columns[Code2]"
+                      name="Code2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].Columns[Code1]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].ExternalColumns[639-1]"
+                      length="255"
+                      lineageId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].Columns[Code1]"
+                      name="Code1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].Columns[LanguageName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].ExternalColumns[Language Name]"
+                      length="255"
+                      lineageId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].Columns[LanguageName]"
+                      name="LanguageName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].Columns[Scope]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].ExternalColumns[Scope]"
+                      length="255"
+                      lineageId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].Columns[Scope]"
+                      name="Scope"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].Columns[Type]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].ExternalColumns[Type]"
+                      length="255"
+                      lineageId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].Columns[Type]"
+                      name="Type"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].Columns[More]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].ExternalColumns[F7]"
+                      length="255"
+                      lineageId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].Columns[More]"
+                      name="More"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].ExternalColumns[639-3]"
+                      dataType="wstr"
+                      length="255"
+                      name="639-3" />
+                    <externalMetadataColumn
+                      refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].ExternalColumns[639-2/]"
+                      dataType="wstr"
+                      length="255"
+                      name="639-2/" />
+                    <externalMetadataColumn
+                      refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].ExternalColumns[639-1]"
+                      dataType="wstr"
+                      length="255"
+                      name="639-1" />
+                    <externalMetadataColumn
+                      refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].ExternalColumns[Language Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Language Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].ExternalColumns[Scope]"
+                      dataType="wstr"
+                      length="255"
+                      name="Scope" />
+                    <externalMetadataColumn
+                      refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].ExternalColumns[Type]"
+                      dataType="wstr"
+                      length="255"
+                      name="Type" />
+                    <externalMetadataColumn
+                      refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].ExternalColumns[F7]"
+                      dataType="wstr"
+                      length="255"
+                      name="F7" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Error Output].Columns[639-3]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Error Output].Columns[639-3]"
+                      name="639-3" />
+                    <outputColumn
+                      refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Error Output].Columns[639-2/]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Error Output].Columns[639-2/]"
+                      name="639-2/" />
+                    <outputColumn
+                      refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Error Output].Columns[639-1]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Error Output].Columns[639-1]"
+                      name="639-1" />
+                    <outputColumn
+                      refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Error Output].Columns[Language Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Error Output].Columns[Language Name]"
+                      name="Language Name" />
+                    <outputColumn
+                      refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Error Output].Columns[Scope]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Error Output].Columns[Scope]"
+                      name="Scope" />
+                    <outputColumn
+                      refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Error Output].Columns[Type]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Error Output].Columns[Type]"
+                      name="Type" />
+                    <outputColumn
+                      refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Error Output].Columns[F7]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Error Output].Columns[F7]"
+                      name="F7" />
+                    <outputColumn
+                      refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Import ISO 639-3 Language List\ISO639_Languages"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="ISO639_Languages"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[ISO639_Languages]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import ISO 639-3 Language List\ISO639_Languages.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Data_Migration]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Data_Migration]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input].Columns[Code3]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Code3"
+                      externalMetadataColumnId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input].ExternalColumns[Code3]"
+                      lineageId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].Columns[Code3]" />
+                    <inputColumn
+                      refId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input].Columns[Code2]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Code2"
+                      externalMetadataColumnId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input].ExternalColumns[Code2]"
+                      lineageId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].Columns[Code2]" />
+                    <inputColumn
+                      refId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input].Columns[Code1]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Code1"
+                      externalMetadataColumnId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input].ExternalColumns[Code1]"
+                      lineageId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].Columns[Code1]" />
+                    <inputColumn
+                      refId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input].Columns[LanguageName]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LanguageName"
+                      externalMetadataColumnId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input].ExternalColumns[LanguageName]"
+                      lineageId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].Columns[LanguageName]" />
+                    <inputColumn
+                      refId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input].Columns[Scope]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Scope"
+                      externalMetadataColumnId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input].ExternalColumns[Scope]"
+                      lineageId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].Columns[Scope]" />
+                    <inputColumn
+                      refId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input].Columns[Type]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Type"
+                      externalMetadataColumnId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input].ExternalColumns[Type]"
+                      lineageId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].Columns[Type]" />
+                    <inputColumn
+                      refId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input].Columns[More]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="More"
+                      externalMetadataColumnId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input].ExternalColumns[More]"
+                      lineageId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output].Columns[More]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input].ExternalColumns[Code3]"
+                      dataType="wstr"
+                      length="255"
+                      name="Code3" />
+                    <externalMetadataColumn
+                      refId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input].ExternalColumns[Code2]"
+                      dataType="wstr"
+                      length="255"
+                      name="Code2" />
+                    <externalMetadataColumn
+                      refId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input].ExternalColumns[Code1]"
+                      dataType="wstr"
+                      length="255"
+                      name="Code1" />
+                    <externalMetadataColumn
+                      refId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input].ExternalColumns[LanguageName]"
+                      dataType="wstr"
+                      length="255"
+                      name="LanguageName" />
+                    <externalMetadataColumn
+                      refId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input].ExternalColumns[Scope]"
+                      dataType="wstr"
+                      length="255"
+                      name="Scope" />
+                    <externalMetadataColumn
+                      refId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input].ExternalColumns[Type]"
+                      dataType="wstr"
+                      length="255"
+                      name="Type" />
+                    <externalMetadataColumn
+                      refId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input].ExternalColumns[More]"
+                      dataType="wstr"
+                      length="255"
+                      name="More" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Import ISO 639-3 Language List\ISO639_Languages.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import ISO 639-3 Language List\ISO639_Languages.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import ISO 639-3 Language List\ISO639_Languages.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import ISO 639-3 Language List\ISO639_Languages.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import ISO 639-3 Language List\ISO639_Languages.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Import ISO 639-3 Language List.Paths[Excel Source Output]"
+              endId="Package\Import ISO 639-3 Language List\ISO639_Languages.Inputs[OLE DB Destination Input]"
+              name="Excel Source Output"
+              startId="Package\Import ISO 639-3 Language List\Excel Source.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Languages"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{A2D34E23-7137-4440-A11A-5358778E7E6B}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Languages"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Languages\Add required table columns"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Add required table columns"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Languages\Add required table columns.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Languages\Add required table columns.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load Languages\Add required table columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Languages\Add required table columns.Outputs[Derived Column Output].Columns[HistoryCreatedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Languages\Add required table columns.Outputs[Derived Column Output].Columns[HistoryCreatedBy]"
+                      name="HistoryCreatedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">1</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Languages\Add required table columns.Outputs[Derived Column Output].Columns[HistoryRevisedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Languages\Add required table columns.Outputs[Derived Column Output].Columns[HistoryRevisedBy]"
+                      name="HistoryRevisedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">1</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Languages\Add required table columns.Outputs[Derived Column Output].Columns[HistoryCreatedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Languages\Add required table columns.Outputs[Derived Column Output].Columns[HistoryCreatedOn]"
+                      name="HistoryCreatedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Languages\Add required table columns.Outputs[Derived Column Output].Columns[HistoryRevisedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Languages\Add required table columns.Outputs[Derived Column Output].Columns[HistoryRevisedOn]"
+                      name="HistoryRevisedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Languages\Add required table columns.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load Languages\Add required table columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Languages\Add required table columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Languages\Add required table columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Languages\Add required table columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Languages\Add required table columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Languages\Aggregate Language Name"
+              componentClassID="Microsoft.Aggregate"
+              contactInfo="Aggregate;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;3"
+              description="Aggregates data with functions such as Average, Sum, Count, Max, and Min. For example, group data to compute the sum of sales per product or the average visits per day."
+              name="Aggregate Language Name"
+              version="3">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the approximate number of group by keys that the aggregation produces. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no KeyScale value is used."
+                  name="KeyScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the exact number of group by keys that the aggregation produces. If a KeyScale value is specified, the value in Keys takes precedence."
+                  name="Keys" />
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the approximate number of distinct values in a column that the aggregation counts distinctly. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no CountDistinctScale value is used."
+                  name="CountDistinctScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the exact number of distinct values in a column that the aggregation counts distinctly. If a CountDistinctScale value is specified, the value in CountDistinctKeys takes precedence."
+                  name="CountDistinctKeys" />
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage by which memory can be extended during the aggregation. Valid values are between 1 and 100."
+                  name="AutoExtendFactor">25</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Load Languages\Aggregate Language Name.Inputs[Aggregate Input 1]"
+                  name="Aggregate Input 1">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Languages\Aggregate Language Name.Inputs[Aggregate Input 1].Columns[LanguageName]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LanguageName"
+                      lineageId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].Columns[LanguageName]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Languages\Aggregate Language Name.Outputs[Aggregate Output 1]"
+                  name="Aggregate Output 1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the approximate number of group by keys that the aggregation produces. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no KeyScale value is used."
+                      name="KeyScale"
+                      typeConverter="KeyScaleType">0</property>
+                    <property
+                      dataType="System.Null"
+                      description="Specifies the exact number of group by keys that the aggregation produces. If a KeyScale value is specified, the value in Keys takes precedence."
+                      name="Keys" />
+                  </properties>
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Languages\Aggregate Language Name.Outputs[Aggregate Output 1].Columns[LanguageName]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Languages\Aggregate Language Name.Outputs[Aggregate Output 1].Columns[LanguageName]"
+                      name="LanguageName">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].Columns[LanguageName]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">65537</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Languages\Data Conversion to 100 Char"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion to 100 Char"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Languages\Data Conversion to 100 Char.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Languages\Data Conversion to 100 Char.Inputs[Data Conversion Input].Columns[LanguageName]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LanguageName"
+                      lineageId="Package\Load Languages\Aggregate Language Name.Outputs[Aggregate Output 1].Columns[LanguageName]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Languages\Data Conversion to 100 Char.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Load Languages\Data Conversion to 100 Char.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Languages\Data Conversion to 100 Char.Outputs[Data Conversion Output].Columns[LanguageName100]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\Load Languages\Data Conversion to 100 Char.Outputs[Data Conversion Output].Columns[LanguageName100]"
+                      name="LanguageName100"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load Languages\Aggregate Language Name.Outputs[Aggregate Output 1].Columns[LanguageName]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Languages\Data Conversion to 100 Char.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Load Languages\Data Conversion to 100 Char.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Languages\Data Conversion to 100 Char.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Languages\Data Conversion to 100 Char.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Languages\Data Conversion to 100 Char.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Languages\Data Conversion to 100 Char.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Languages\Is Individual Language Name"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Is Individual Language Name"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Languages\Is Individual Language Name.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Languages\Is Individual Language Name.Inputs[Conditional Split Input].Columns[Scope]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Scope"
+                      lineageId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].Columns[Scope]" />
+                    <inputColumn
+                      refId="Package\Load Languages\Is Individual Language Name.Inputs[Conditional Split Input].Columns[Type]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Type"
+                      lineageId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].Columns[Type]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Languages\Is Individual Language Name.Outputs[NULLScope]"
+                  description="Output 2 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="NULLScope"
+                  synchronousInputId="Package\Load Languages\Is Individual Language Name.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">[ISNULL](#{Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].Columns[Scope]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ISNULL(Scope)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Languages\Is Individual Language Name.Outputs[NULLType]"
+                  description="Output 3 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="NULLType"
+                  synchronousInputId="Package\Load Languages\Is Individual Language Name.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">[ISNULL](#{Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].Columns[Type]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ISNULL(Type)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">1</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Languages\Is Individual Language Name.Outputs[IndividualLanguage]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="IndividualLanguage"
+                  synchronousInputId="Package\Load Languages\Is Individual Language Name.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">([LOWER](#{Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].Columns[Scope]}) == "individual" || [LOWER](#{Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].Columns[Scope]}) == "macrolanguage") &amp;&amp; [LOWER](#{Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].Columns[Type]}) == "living"</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">(LOWER(Scope) == "individual" || LOWER(Scope) == "macrolanguage") &amp;&amp; LOWER(Type) == "living"</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">2</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Languages\Is Individual Language Name.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\Load Languages\Is Individual Language Name.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Languages\Is Individual Language Name.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\Load Languages\Is Individual Language Name.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Languages\Is Individual Language Name.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Languages\Is Individual Language Name.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Languages\Is Individual Language Name.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Languages\Is Individual Language Name.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Languages\ISO Language Staging"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="ISO Language Staging"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[ISO639_Languages]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Languages\ISO Language Staging.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Data_Migration]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Data_Migration]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].Columns[Code3]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].ExternalColumns[Code3]"
+                      length="255"
+                      lineageId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].Columns[Code3]"
+                      name="Code3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].Columns[Code2]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].ExternalColumns[Code2]"
+                      length="255"
+                      lineageId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].Columns[Code2]"
+                      name="Code2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].Columns[Code1]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].ExternalColumns[Code1]"
+                      length="255"
+                      lineageId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].Columns[Code1]"
+                      name="Code1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].Columns[LanguageName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].ExternalColumns[LanguageName]"
+                      length="255"
+                      lineageId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].Columns[LanguageName]"
+                      name="LanguageName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].Columns[Scope]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].ExternalColumns[Scope]"
+                      length="255"
+                      lineageId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].Columns[Scope]"
+                      name="Scope"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].Columns[Type]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].ExternalColumns[Type]"
+                      length="255"
+                      lineageId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].Columns[Type]"
+                      name="Type"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].ExternalColumns[Code3]"
+                      dataType="wstr"
+                      length="255"
+                      name="Code3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].ExternalColumns[Code2]"
+                      dataType="wstr"
+                      length="255"
+                      name="Code2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].ExternalColumns[Code1]"
+                      dataType="wstr"
+                      length="255"
+                      name="Code1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].ExternalColumns[LanguageName]"
+                      dataType="wstr"
+                      length="255"
+                      name="LanguageName" />
+                    <externalMetadataColumn
+                      refId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].ExternalColumns[Scope]"
+                      dataType="wstr"
+                      length="255"
+                      name="Scope" />
+                    <externalMetadataColumn
+                      refId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].ExternalColumns[Type]"
+                      dataType="wstr"
+                      length="255"
+                      name="Type" />
+                    <externalMetadataColumn
+                      refId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output].ExternalColumns[More]"
+                      dataType="wstr"
+                      length="255"
+                      name="More" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Error Output].Columns[Code3]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Error Output].Columns[Code3]"
+                      name="Code3" />
+                    <outputColumn
+                      refId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Error Output].Columns[Code2]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Error Output].Columns[Code2]"
+                      name="Code2" />
+                    <outputColumn
+                      refId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Error Output].Columns[Code1]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Error Output].Columns[Code1]"
+                      name="Code1" />
+                    <outputColumn
+                      refId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Error Output].Columns[LanguageName]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Error Output].Columns[LanguageName]"
+                      name="LanguageName" />
+                    <outputColumn
+                      refId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Error Output].Columns[Scope]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Error Output].Columns[Scope]"
+                      name="Scope" />
+                    <outputColumn
+                      refId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Error Output].Columns[Type]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Error Output].Columns[Type]"
+                      name="Type" />
+                    <outputColumn
+                      refId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Languages\Load New Language"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Load New Language"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Language]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Languages\Load New Language.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Languages\Load New Language.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Languages\Load New Language.Inputs[OLE DB Destination Input].Columns[HistoryCreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="HistoryCreatedBy"
+                      externalMetadataColumnId="Package\Load Languages\Load New Language.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Load Languages\Add required table columns.Outputs[Derived Column Output].Columns[HistoryCreatedBy]" />
+                    <inputColumn
+                      refId="Package\Load Languages\Load New Language.Inputs[OLE DB Destination Input].Columns[HistoryCreatedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="HistoryCreatedOn"
+                      externalMetadataColumnId="Package\Load Languages\Load New Language.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Load Languages\Add required table columns.Outputs[Derived Column Output].Columns[HistoryCreatedOn]" />
+                    <inputColumn
+                      refId="Package\Load Languages\Load New Language.Inputs[OLE DB Destination Input].Columns[HistoryRevisedBy]"
+                      cachedDataType="i4"
+                      cachedName="HistoryRevisedBy"
+                      externalMetadataColumnId="Package\Load Languages\Load New Language.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Load Languages\Add required table columns.Outputs[Derived Column Output].Columns[HistoryRevisedBy]" />
+                    <inputColumn
+                      refId="Package\Load Languages\Load New Language.Inputs[OLE DB Destination Input].Columns[HistoryRevisedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="HistoryRevisedOn"
+                      externalMetadataColumnId="Package\Load Languages\Load New Language.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Load Languages\Add required table columns.Outputs[Derived Column Output].Columns[HistoryRevisedOn]" />
+                    <inputColumn
+                      refId="Package\Load Languages\Load New Language.Inputs[OLE DB Destination Input].Columns[LanguageName100]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="LanguageName100"
+                      cachedSortKeyPosition="1"
+                      externalMetadataColumnId="Package\Load Languages\Load New Language.Inputs[OLE DB Destination Input].ExternalColumns[LanguageName]"
+                      lineageId="Package\Load Languages\Sort Language Names.Outputs[Sort Output].Columns[LanguageName100]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Languages\Load New Language.Inputs[OLE DB Destination Input].ExternalColumns[LanguageId]"
+                      dataType="i4"
+                      name="LanguageId" />
+                    <externalMetadataColumn
+                      refId="Package\Load Languages\Load New Language.Inputs[OLE DB Destination Input].ExternalColumns[LanguageName]"
+                      dataType="wstr"
+                      length="100"
+                      name="LanguageName" />
+                    <externalMetadataColumn
+                      refId="Package\Load Languages\Load New Language.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Languages\Load New Language.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Languages\Load New Language.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Languages\Load New Language.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Languages\Load New Language.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Languages\Load New Language.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Languages\Load New Language.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Languages\Load New Language.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Languages\Load New Language.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Languages\Load New Language.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Languages\Lookup Existing Language"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup Existing Language"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Language]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Language]) [refTable]
+where [refTable].[LanguageName] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LanguageId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LanguageName" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load Languages\Sort Language Names.Outputs[Sort Output].Columns[LanguageName100]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Languages\Lookup Existing Language.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Languages\Lookup Existing Language.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Languages\Lookup Existing Language.Inputs[Lookup Input].Columns[LanguageName100]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="LanguageName100"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Load Languages\Sort Language Names.Outputs[Sort Output].Columns[LanguageName100]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">LanguageName</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Languages\Lookup Existing Language.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load Languages\Lookup Existing Language.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Languages\Lookup Existing Language.Outputs[Lookup Match Output].Columns[LanguageId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load Languages\Lookup Existing Language.Outputs[Lookup Match Output].Columns[LanguageId]"
+                      name="LanguageId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">LanguageId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Languages\Lookup Existing Language.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load Languages\Lookup Existing Language.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Languages\Lookup Existing Language.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load Languages\Lookup Existing Language.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Languages\Lookup Existing Language.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Languages\Lookup Existing Language.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Languages\Lookup Existing Language.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Languages\Lookup Existing Language.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Languages\Sort Language Names"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="Sort Language Names"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Load Languages\Sort Language Names.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Languages\Sort Language Names.Inputs[Sort Input].Columns[LanguageName]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LanguageName"
+                      lineageId="Package\Load Languages\Aggregate Language Name.Outputs[Aggregate Output 1].Columns[LanguageName]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Languages\Sort Language Names.Inputs[Sort Input].Columns[LanguageName100]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="LanguageName100"
+                      lineageId="Package\Load Languages\Data Conversion to 100 Char.Outputs[Data Conversion Output].Columns[LanguageName100]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Languages\Sort Language Names.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Languages\Sort Language Names.Outputs[Sort Output].Columns[LanguageName]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Languages\Sort Language Names.Outputs[Sort Output].Columns[LanguageName]"
+                      name="LanguageName">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load Languages\Aggregate Language Name.Outputs[Aggregate Output 1].Columns[LanguageName]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Languages\Sort Language Names.Outputs[Sort Output].Columns[LanguageName100]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Load Languages\Sort Language Names.Outputs[Sort Output].Columns[LanguageName100]"
+                      name="LanguageName100"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load Languages\Data Conversion to 100 Char.Outputs[Data Conversion Output].Columns[LanguageName100]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Languages.Paths[Aggregate Output 1]"
+              endId="Package\Load Languages\Data Conversion to 100 Char.Inputs[Data Conversion Input]"
+              name="Aggregate Output 1"
+              startId="Package\Load Languages\Aggregate Language Name.Outputs[Aggregate Output 1]" />
+            <path
+              refId="Package\Load Languages.Paths[Data Conversion Output]"
+              endId="Package\Load Languages\Sort Language Names.Inputs[Sort Input]"
+              name="Data Conversion Output"
+              startId="Package\Load Languages\Data Conversion to 100 Char.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Load Languages.Paths[Derived Column Output]"
+              endId="Package\Load Languages\Load New Language.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Load Languages\Add required table columns.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load Languages.Paths[IndividualLanguage]"
+              endId="Package\Load Languages\Aggregate Language Name.Inputs[Aggregate Input 1]"
+              name="IndividualLanguage"
+              startId="Package\Load Languages\Is Individual Language Name.Outputs[IndividualLanguage]" />
+            <path
+              refId="Package\Load Languages.Paths[Lookup No Match Output]"
+              endId="Package\Load Languages\Add required table columns.Inputs[Derived Column Input]"
+              name="Lookup No Match Output"
+              startId="Package\Load Languages\Lookup Existing Language.Outputs[Lookup No Match Output]" />
+            <path
+              refId="Package\Load Languages.Paths[OLE DB Source Output]"
+              endId="Package\Load Languages\Is Individual Language Name.Inputs[Conditional Split Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load Languages\ISO Language Staging.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Load Languages.Paths[Sort Output]"
+              endId="Package\Load Languages\Lookup Existing Language.Inputs[Lookup Input]"
+              name="Sort Output"
+              startId="Package\Load Languages\Sort Language Names.Outputs[Sort Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{C84415AA-D2D0-4CB9-A65F-48E1398B7F34}"
+      DTS:From="Package\Import ISO 639-3 Language List"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load Languages" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="231,42"
+          Id="Package\Import ISO 639-3 Language List"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Load Languages"
+          TopLeft="57.5,115.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="121,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="14,68"
+              Start="0,0"
+              End="14,60.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,30"
+                    Point2="0,34"
+                    Point3="4,34" />
+                  <mssgle:LineSegment
+                    End="10,34" />
+                  <mssgle:CubicBezierSegment
+                    Point1="10,34"
+                    Point2="14,34"
+                    Point3="14,38" />
+                  <mssgle:LineSegment
+                    End="14,60.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Import ISO 639-3 Language List">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="139,42"
+          Id="Package\Import ISO 639-3 Language List\Excel Source"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Import ISO 639-3 Language List\ISO639_Languages"
+          TopLeft="31.5,138.5" />
+        <EdgeLayout
+          Id="Package\Import ISO 639-3 Language List.Paths[Excel Source Output]"
+          TopLeft="75,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="41.5,91"
+              Start="0,0"
+              End="41.5,83.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,41.5"
+                    Point2="0,45.5"
+                    Point3="4,45.5" />
+                  <mssgle:LineSegment
+                    End="37.5,45.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="37.5,45.5"
+                    Point2="41.5,45.5"
+                    Point3="41.5,49.5" />
+                  <mssgle:LineSegment
+                    End="41.5,83.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import ISO 639-3 Language List\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import ISO 639-3 Language List\ISO639_Languages">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Load Languages">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="184,42"
+          Id="Package\Load Languages\ISO Language Staging"
+          TopLeft="51.5,28.5" />
+        <NodeLayout
+          Size="208,42"
+          Id="Package\Load Languages\Add required table columns"
+          TopLeft="376.5,118.5" />
+        <NodeLayout
+          Size="217,42"
+          Id="Package\Load Languages\Is Individual Language Name"
+          TopLeft="34.5,107.5" />
+        <NodeLayout
+          Size="202,42"
+          Id="Package\Load Languages\Lookup Existing Language"
+          TopLeft="377.5,197.5" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\Load Languages\Load New Language"
+          TopLeft="390.5,33.5" />
+        <NodeLayout
+          Size="207,42"
+          Id="Package\Load Languages\Aggregate Language Name"
+          TopLeft="45.5,188.5" />
+        <NodeLayout
+          Size="215,42"
+          Id="Package\Load Languages\Data Conversion to 100 Char"
+          TopLeft="44.5,274.589108910891" />
+        <NodeLayout
+          Size="183,42"
+          Id="Package\Load Languages\Sort Language Names"
+          TopLeft="384.5,279.5" />
+        <EdgeLayout
+          Id="Package\Load Languages.Paths[Aggregate Output 1]"
+          TopLeft="150.5,230.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44.0891089108911"
+              Start="0,0"
+              End="0,36.5891089108911">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.5891089108911" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Languages.Paths[Sort Output]"
+          TopLeft="477.25,279.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-40"
+              Start="0,0"
+              End="0,-32.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-32.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Languages.Paths[OLE DB Source Output]"
+          TopLeft="143.25,70.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37"
+              Start="0,0"
+              End="0,29.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Languages.Paths[Lookup No Match Output]"
+          TopLeft="479.5,197.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-37"
+              Start="0,0"
+              End="0,-29.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-29.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-55.80638671875,-20.5546875,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Languages.Paths[IndividualLanguage]"
+          TopLeft="146,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39"
+              Start="0,0"
+              End="0,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-43.64794921875,9.91845703125,87.2958984375,11.6630859375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Languages.Paths[Derived Column Output]"
+          TopLeft="479.25,118.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-43"
+              Start="0,0"
+              End="0,-35.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-35.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Languages.Paths[Data Conversion Output]"
+          TopLeft="259.5,298.044554455446">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="125,0"
+              Start="0,0"
+              End="117.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="117.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Languages\ISO Language Staging">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Languages\Lookup Existing Language">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Language]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Languages\Load New Language">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
