@@ -64,8 +64,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <div style="margin-right: 50px; margin-top:14px; cursor: pointer;" class="navbar-right right">
-                    <a ng-click="onSpotlightSearchClick()">
+                <div style="margin-right: 50px;margin-top:14px;cursor: pointer;"
+                     class="navbar-right right"
+                     ng-controller="SpotlightCtrl">
+                    <a ng-click="view.onSpotlightSearchClick()" ng-show="view.isSpotlightIconVisible">
                         <i class="material-icons md-18 col-sd-1">search</i>
                     </a>
                 </div>
@@ -238,6 +240,7 @@
     <script src="app/locations/search-locations.controller.js"></script>
     <script src="app/collaborators/collaborators.controller.js"></script>
     <script src="app/search/search-bar.controller.js"></script>
+    <script src="app/search/spotlight-controller.js"></script>
     <script src="app/toolbar/toolbar-icons.controller.js"></script>
     <!-- Directives -->
     <script src="app/directives/address.controller.js"></script>

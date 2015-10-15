@@ -18,15 +18,15 @@ angular.module('staticApp')
           ];
 
           $rootScope.searchText = '';
-          $rootScope.onSpotlightSearchClick = function () {
-              var spotlightModalInstance = $modal.open({
-                  animation: true,
-                  templateUrl: 'app/search/search-bar.html',
-                  controller: 'searchbarCtrl',
-                  windowClass: 'search-modal-resize',
-                  resolve: {}
-              });
-          };
+          //$rootScope.onSpotlightSearchClick = function () {
+          //    var spotlightModalInstance = $modal.open({
+          //        animation: true,
+          //        templateUrl: 'app/search/search-bar.html',
+          //        controller: 'searchbarCtrl',
+          //        windowClass: 'search-modal-resize',
+          //        resolve: {}
+          //    });
+          //};
 
           var leftOpen = false;
           $rootScope.pushMenu = function ($event) {

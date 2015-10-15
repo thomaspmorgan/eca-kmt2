@@ -9,7 +9,7 @@
         <div class="search-result-container">
             <div class="row">
                 <div class="col-md-8" style="overflow: auto; max-height: 700px;">
-                    <div class="spinner" ng-show="isLoadingResults">
+                    <div class="spinner" ng-show="view.isLoadingResults">
                         <div class="bounce1"></div>
                         <div class="bounce2"></div>
                         <div class="bounce3"></div>
@@ -30,7 +30,7 @@
                             </div>
                         </div>
                     </div>
-                    <div ng-repeat="docitem in results | startFrom:currentpage * pagesize | limitTo:pagesize" class="row-fluid">
+                    <div ng-repeat="docitem in results" class="row-fluid">
                         <div class="col-md-2 col-sm-3 text-right">
                             <span ng-show="CreateHeader(docitem.document.documentTypeName, $index)">
                                 <strong>{{docitem.document.documentTypeName | uppercase}}</strong>
@@ -48,26 +48,27 @@
                             </div>
                         </div>
                     </div>
-                    <nav class="text-center" ng-show="totalpages > 1">
-                        <ul class="pagination">
-                            <li ng-show="currentpage > 0"><a ng-click="currentpage = 0"><i class="material-icons">arrow_back</i> First</a></li>
-                            <li ng-show="currentpage > 0"><a ng-click="currentpage = currentpage - 1"><i class="material-icons">arrow_back</i> Previous</a></li>
-                            <li ng-repeat="page in pagearray track by $index" ng-class="{active: $index == currentpage}"><a ng-click="selectPage($index)">{{$index + 1}}</a></li>
-                            <li ng-show="currentpage < totalpages - 1"><a ng-click="currentpage = currentpage + 1">Next <i class="material-icons">arrow_forward</i></a></li>
-                            <li ng-show="currentpage < totalpages - 1"><a ng-click="currentpage = totalpages - 1">Last <i class="material-icons">arrow_forward</i></a></li>
-                        </ul>
-                    </nav>
+                    
                 </div>
                 <div class="col-md-4" style="overflow: auto; max-height: 700px;">
                     <ng-include src="'/app/search/search-info.html'"></ng-include>
                 </div>
             </div>
+            <nav class="text-center" ng-show="totalpages > 1">
+                <ul class="pagination">
+                    <li ng-show="currentpage > 0"><a ng-click="selectPage(0)"><i class="material-icons">arrow_back</i> First</a></li>
+                    <li ng-show="currentpage > 0"><a ng-click="selectPage(currentpage - 1)"><i class="material-icons">arrow_back</i> Previous</a></li>
+                    <li ng-repeat="page in pagearray track by $index" ng-class="{active: $index == currentpage}"><a ng-click="selectPage($index)">{{$index + 1}}</a></li>
+                    <li ng-show="currentpage < totalpages - 1"><a ng-click="selectPage(currentpage + 1)">Next <i class="material-icons">arrow_forward</i></a></li>
+                    <li ng-show="currentpage < totalpages - 1"><a ng-click="selectPage(totalpages - 1)">Last <i class="material-icons">arrow_forward</i></a></li>
+                </ul>
+            </nav>
         </div>
     </div>
 </div>
 <div class="modal-footer">
     <div class="pull-left">
-        <p ng-show="totalResults > -1">Showing {{totalResults}} results</p>
+        <p ng-show="totalResults > -1">Showing {{currentParams.Start + 1}} - {{pagesize * (currentpage + 1)}} of {{totalResults}} results.</p>
     </div>
     <div class="pull-right">
         <button class="btn btn-cancel" ng-click="onCloseSpotlightSearchClick()">Close</button>

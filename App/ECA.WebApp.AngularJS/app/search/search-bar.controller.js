@@ -23,6 +23,8 @@ angular.module('staticApp')
         StateService,
         NotificationService) {
 
+      var limit = 10;
+
       $scope.view = {};
       $scope.results = [];
       $scope.docinfo = null;
@@ -34,6 +36,16 @@ angular.module('staticApp')
       $scope.text = '';
       $scope.isLoadingResults = false;
       $scope.isLoadingDocInfo = false;
+      $scope.currentParams = {
+          Start: 0,
+          Limit: limit,
+          Filter: "",
+          Facets: [],
+          SelectFields: $scope.searchFieldNames,
+          SearchTerm: '',
+          HightlightPreTag: "<strong>",
+          HighlightPostTag: "</strong>"
+      };
 
       // Return field names for search results
       $scope.init = function () {
@@ -52,44 +64,27 @@ angular.module('staticApp')
 
       // Return number of pages in results
       var numberOfPages = function () {
-          $scope.totalpages = Math.ceil($scope.results.length / $scope.pagesize);
+          $scope.totalpages = Math.ceil($scope.totalResults / $scope.pagesize);
           $scope.pagearray = new Array($scope.totalpages);
           return $scope.totalpages;
       }
 
+
       // Execute search as user types
       $scope.autocomplete = function () {
-          var params = {
-              Start: 0,
-              Limit: 100,
-              Filter: "",
-              Facets: [],
-              SelectFields: $scope.searchFieldNames,
-              SearchTerm: $scope.text,
-              HightlightPreTag: "<strong>",
-              HighlightPostTag: "</strong>"
-          };
-
-          $scope.currentpage = 0;
+          //var params = {
+          //    Start: 0,
+          //    Limit: limit,
+          //    Filter: "",
+          //    Facets: [],
+          //    SelectFields: $scope.searchFieldNames,
+          //    SearchTerm: $scope.text,
+          //    HightlightPreTag: "<strong>",
+          //    HighlightPostTag: "</strong>"
+          //};
+          $scope.currentParams.SearchTerm = $scope.text;
           $scope.docinfo = null;
-          $scope.isLoadingResults = true;
-
-          SearchService.postSearch(params)
-          .then(function (response) {
-              $log.info('Loaded all search results.');
-              $scope.tophitinfo = response.data.results.slice(0, 1);
-              $scope.results = response.data.results.slice(1);
-              $scope.totalResults = $scope.tophitinfo.length + $scope.results.length;
-              numberOfPages();
-              $scope.isLoadingResults = false;
-          })
-          .catch(function () {
-              var message = 'Unable to load search results.';
-              NotificationService.showErrorMessage(message);
-              $log.error(message);
-              $scope.totalResults = -1;
-              $scope.isLoadingResults = false;
-          });
+          return doSearch($scope.currentParams);
       };
 
       // Gets document details on selection
@@ -117,6 +112,8 @@ angular.module('staticApp')
       // Set the current page when paging
       $scope.selectPage = function (index) {
           $scope.currentpage = index;
+          $scope.currentParams.Start = $scope.currentpage * limit;
+          return doSearch($scope.currentParams);
       }
 
       // Save the previous search term
@@ -132,7 +129,7 @@ angular.module('staticApp')
           $scope.currentGroup = group;
           return showHeader;
       };
-      
+
       // Closes the search modal
       $scope.onCloseSpotlightSearchClick = function () {
           $rootScope.searchText = $scope.text;
@@ -144,7 +141,6 @@ angular.module('staticApp')
           $rootScope.searchText = $scope.text;
           $modalInstance.dismiss('close');
           $location.path(url, true);
-          
       };
 
       // Link document to details page
@@ -166,21 +162,49 @@ angular.module('staticApp')
               }
           }
       }
+
+      function doSearch(params) {
+          $scope.isLoadingResults = true;
+          return SearchService.postSearch(params)
+            .then(function (response) {
+                $log.info('Loaded all search results.');
+                if ($scope.currentpage === 0) {
+                    $scope.tophitinfo = response.data.results.slice(0, 1);
+                    $scope.results = response.data.results.slice(1);
+                    $scope.count = $scope.tophitinfo.length + $scope.results.length;
+                }
+                else {
+                    $scope.tophitinfo = null;
+                    $scope.results = response.data.results;
+                    $scope.count = $scope.results.length;
+                }
+                $scope.totalResults = response.data.count;
+                numberOfPages();
+                $scope.isLoadingResults = false;
+            })
+            .catch(function () {
+                var message = 'Unable to load search results.';
+                NotificationService.showErrorMessage(message);
+                $log.error(message);
+                $scope.totalResults = -1;
+                $scope.isLoadingResults = false;
+            });
+      }
   });
 
 // Retuns item type icon text
 angular.module('staticApp')
-  .filter('resultIconFilter', function() {
-    return function(item) {
-        if (typeof item !== 'undefined' && item !== null) {
-            if (item === "Project") {
-                return item.substring(0, 2);
-            } else {
-                return item.substring(0, 1);
-            }
-        }
-        return "";
-    };
+  .filter('resultIconFilter', function () {
+      return function (item) {
+          if (typeof item !== 'undefined' && item !== null) {
+              if (item === "Project") {
+                  return item.substring(0, 2);
+              } else {
+                  return item.substring(0, 1);
+              }
+          }
+          return "";
+      };
   });
 
 angular.module('staticApp')
