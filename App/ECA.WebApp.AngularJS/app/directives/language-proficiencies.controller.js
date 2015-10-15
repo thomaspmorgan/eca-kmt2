@@ -26,10 +26,10 @@ angular.module('staticApp')
       $scope.data = {};
       $scope.data.loadLanguagesPromise = $q.defer();
       $scope.data.languages = [];
-
+      
       $scope.view.onAddLanguageProficiencyClick = function (entityLanguageProficiencies, personId) {
-          console.assert(entityLanguageProficiencies, 'The entity languageProficiencies is not defined.');
-          console.assert(entityLanguageProficiencies instanceof Array, 'The entity languageProficiencies is defined but must be an array.');
+          console.assert(entityLanguageProficiencies, 'The entity language proficiencies is not defined.');
+          console.assert(entityLanguageProficiencies instanceof Array, 'The entity language proficiencies is defined but must be an array.');
           var newLanguageProficiency = {
               languageId: null,
               personId: personId,
@@ -44,18 +44,18 @@ angular.module('staticApp')
       }
 
       $scope.$on(ConstantsService.removeNewLanguageProficiencyEventName, function (event, newLanguageProficiency) {
-          console.assert($scope.model, 'The scope person must exist.  It should be set by the directive.');
-          console.assert($scope.model.languageProficiencies instanceof Array, 'The entity languageProficiencies is defined but must be an array.');
+          console.assert($scope.model, 'The scope person must exist. It should be set by the directive.');
+          console.assert($scope.model.languageProficiencies instanceof Array, 'The entity language proficiencies is defined but must be an array.');
 
           var languageProficiencies = $scope.model.languageProficiencies;
-          var index = languageProficiencies.indexOf(newLanguageProficiency);
+          var index = languageProficiencies.map(function (e) { return e.languageId }).indexOf(newLanguageProficiency.languageId);
           var removedItems = languageProficiencies.splice(index, 1);
           $log.info('Removed one new languageProficiencies at index ' + index);
       });
 
       $scope.$on(ConstantsService.primaryLanguageProficiencyChangedEventName, function (event, primaryLanguageProficiency) {
-          console.assert($scope.model, 'The scope model property must exist.  It should be set by the directive.');
-          console.assert($scope.model.languageProficiencies instanceof Array, 'The entity languageProficiencies is defined but must be an array.');
+          console.assert($scope.model, 'The scope model property must exist. It should be set by the directive.');
+          console.assert($scope.model.languageProficiencies instanceof Array, 'The entity language proficiencies is defined but must be an array.');
 
           var primaryLanguageProficiencyIndex = $scope.model.languageProficiencies.map(function (e) { return e.languageId }).indexOf(primaryLanguageProficiency.languageId);
           angular.forEach($scope.model.languageProficiencies, function (languageProficiency, index) {
