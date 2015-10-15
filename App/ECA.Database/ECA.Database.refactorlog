@@ -791,4 +791,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="[IX_ParticipantPersonSevisCommStatus_SevisCommStatus]" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="95be45dd-584f-4649-887d-aed21b425be7" ChangeDateTime="10/15/2015 02:27:10">
+    <Property Name="ElementName" Value="[dbo].[StudentVisitor]" />
+    <Property Name="ElementType" Value="SqlTable" />
+    <Property Name="ParentElementName" Value="[dbo]" />
+    <Property Name="ParentElementType" Value="SqlSchema" />
+    <Property Name="NewName" Value="[ParticipantStudentVisitor]" />
+  </Operation>
 </Operations>
