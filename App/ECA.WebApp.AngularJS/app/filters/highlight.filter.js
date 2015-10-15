@@ -4,7 +4,11 @@
 angular.module('staticApp')
     .filter('highlight', function () {
         return function (text, search, caseSensitive) {
-            var searchTerms = search.split(" ");
+            var searchTerms = [];
+            if (search && search.length > 0) {
+                searchTerms = search.split(" ");
+            }
+            
             if (!angular.isArray(searchTerms)) {
                 searchTerms = search;
             }
