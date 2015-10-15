@@ -21,7 +21,9 @@
         <div class="row">
             <div class="col-md-12 simple-list">
                 <ul>
-                    <li ng-repeat="item in value | orderBy:'toString()'">{{item}}</li>
+                    <li ng-repeat="item in value track by $index | orderBy:'toString()' | newline">
+                        <span ng-bind-html="item | newline"></span>
+                    </li>
                 </ul>
             </div>
         </div>

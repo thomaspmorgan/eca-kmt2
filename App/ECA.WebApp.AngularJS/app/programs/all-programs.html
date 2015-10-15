@@ -74,10 +74,10 @@
                                        class="material-icons md-18 flip-horizontal">keyboard_return</i>
                                 </div>
                                 <div ng-class="{'col-md-12': program.isRoot, 'col-md-11': !program.isRoot}">
-                                    <span class="owner-office" ng-bind-html="program.officeSymbol | highlight:view.programFilter || ''">{{program.officeSymbol}}</span>
+                                    <span class="owner-office" ng-bind-html="program.officeSymbol | highlight:view.programFilter">{{program.officeSymbol}}</span>
                                     <span class="owner-office"> - {{program.status}}</span>
                                     <h4>
-                                        <a ng-bind-html="program.name | highlight:view.programFilter || ''" ui-sref="programs.overview({programId: program.programId})">{{program.name}}</a>
+                                        <a ng-bind-html="program.name | highlight:view.programFilter" ui-sref="programs.overview({programId: program.programId})">{{program.name}}</a>
                                     </h4>
                                 </div>
                             </div>
@@ -96,7 +96,7 @@
                                     &nbsp;
                                 </div>
                                 <div ng-class="{'col-md-12': program.isRoot, 'col-md-11': !program.isRoot}">
-                                    <p ng-bind-html="program.description | highlight:view.programFilter || ''">{{program.description}}</p>
+                                    <p ng-bind-html="program.description | highlight:view.programFilter">{{program.description}}</p>
                                 </div>
                             </div>
                             <div class="col-md-2">
