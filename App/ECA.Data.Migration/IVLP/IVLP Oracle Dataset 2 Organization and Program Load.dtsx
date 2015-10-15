@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="IVLP Oracle Dataset 2 Organization and Program Load"
   DTS:PackageType="5"
-  DTS:VersionBuild="148"
-  DTS:VersionGUID="{EEFF7ADB-79C6-4C67-93AF-7568496C1671}">
+  DTS:VersionBuild="149"
+  DTS:VersionGUID="{2CD21683-2723-4992-B348-8AFF0CDC26D9}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -47,7 +47,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABq1iYKuXSlZK7usGJHpYwEmPLX5MQXbTObkVzNy4iioAAAAAAOgAAAAAIAACAAAAB8X+LJHQIQ7E1q9LjcWGeScHXjAI/CUO9tSzW9syn4DCAAAADOotH9hOvxeqzxpIJIHSyBStJymtY+G+8kf2Q11vYWukAAAABHRCfubo1kF5mR2R5QzZF9E5QAxhDRF1BC254KSIcx6yXo/3yP09ZVDed9d5WFWEup9suc+kUFJ7zxkU98FKRF</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABryOWzp/PWco2RJrVSWrjlYYW4eycXjKZk0/DCbKGqLgAAAAAOgAAAAAIAACAAAADmwGJsXdDRc6Jy6mHpEdpsWag2/4LYKpMNYyKXPyd2yiAAAAC2szeLRor17eJIC8C8O7OXqX1zDHMZWzBJPTDzkCVkdUAAAADQQ2s/bnUmIs0TuNg3Ck8WQr9WDEa7P1zRYO1SFYcI1TgGxdSftZ6z2fahWBin9dLIgNCyiEx9IN3Qqd2Lv/zg</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -10729,53 +10729,53 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         <NodeLayout
           Size="267,42"
           Id="Package\Create IVLP Program XREF (Completed)"
-          TopLeft="439.5,424.5" />
+          TopLeft="427.5,353.5" />
         <NodeLayout
           Size="263,42"
           Id="Package\Create New Organizations (Completed)"
-          TopLeft="36.5,128" />
+          TopLeft="22.5,23" />
         <NodeLayout
           Size="287,42"
           Id="Package\Create Organization XREF Data (Completed)"
-          TopLeft="31,279.5" />
+          TopLeft="17,185.5" />
         <NodeLayout
           Size="265,42"
           Id="Package\Delete Existing Organization XREF rows"
-          TopLeft="35,201" />
+          TopLeft="21,103" />
         <NodeLayout
           Size="332,42"
           Id="Package\Delete Existing Program Final XREF rows (Completed)"
-          TopLeft="20.5,426.5" />
+          TopLeft="16.5,339.5" />
         <NodeLayout
           Size="345,42"
           Id="Package\Delete Existing Program Interim XREF rows (Completed)"
-          TopLeft="7.5,347.5" />
+          TopLeft="1.5,264.5" />
         <NodeLayout
           Size="235,42"
           Id="Package\Load New Programs (Completed)"
-          TopLeft="451.5,268.5" />
+          TopLeft="439.5,186.5" />
         <NodeLayout
           Size="326,42"
           Id="Package\Map Source Programs to ECA Programs (Completed)"
-          TopLeft="407.5,349.5" />
+          TopLeft="407.5,269.5" />
         <NodeLayout
           Size="298,42"
           Id="Package\Update Program XREF ProgramId (Completed)"
-          TopLeft="417.5,184.5" />
+          TopLeft="412.5,112.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="167.75,170">
+          TopLeft="153.75,65">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,31"
+              EndConnector="0,38"
               Start="0,0"
-              End="0,23.5">
+              End="0,30.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,23.5" />
+                    End="0,30.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -10786,18 +10786,18 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="171,243">
+          TopLeft="157,145">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,36.5"
+              EndConnector="0,40.5"
               Start="0,0"
-              End="0,29">
+              End="0,33">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,29" />
+                    End="0,33" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -10808,18 +10808,30 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="177.25,321.5">
+          TopLeft="160.5,227.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,26"
+              EndConnector="13.5,37"
               Start="0,0"
-              End="0,18.5">
+              End="13.5,29.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,18.5" />
+                    End="0,14.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,14.5"
+                    Point2="0,18.5"
+                    Point3="4,18.5" />
+                  <mssgle:LineSegment
+                    End="9.5,18.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="9.5,18.5"
+                    Point2="13.5,18.5"
+                    Point3="13.5,22.5" />
+                  <mssgle:LineSegment
+                    End="13.5,29.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -10830,18 +10842,30 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="571.75,424.5">
+          TopLeft="561,353.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,-33"
+              EndConnector="9.5,-42"
               Start="0,0"
-              End="0,-25.5">
+              End="9.5,-34.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,-25.5" />
+                    End="0,-17" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-17"
+                    Point2="0,-21"
+                    Point3="4,-21" />
+                  <mssgle:LineSegment
+                    End="5.5,-21" />
+                  <mssgle:CubicBezierSegment
+                    Point1="5.5,-21"
+                    Point2="9.5,-21"
+                    Point3="9.5,-25" />
+                  <mssgle:LineSegment
+                    End="9.5,-34.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -10852,18 +10876,30 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 4]"
-          TopLeft="569.75,349.5">
+          TopLeft="570.5,269.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,-39"
+              EndConnector="-13.5,-41"
               Start="0,0"
-              End="0,-31.5">
+              End="-13.5,-33.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,-31.5" />
+                    End="0,-16.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-16.5"
+                    Point2="0,-20.5"
+                    Point3="-4,-20.5" />
+                  <mssgle:LineSegment
+                    End="-9.5,-20.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-9.5,-20.5"
+                    Point2="-13.5,-20.5"
+                    Point3="-13.5,-24.5" />
+                  <mssgle:LineSegment
+                    End="-13.5,-33.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -10874,18 +10910,30 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 5]"
-          TopLeft="183.25,389.5">
+          TopLeft="174,306.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,37"
+              EndConnector="8.5,33"
               Start="0,0"
-              End="0,29.5">
+              End="8.5,25.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,29.5" />
+                    End="0,12.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,12.5"
+                    Point2="0,16.5"
+                    Point3="4,16.5" />
+                  <mssgle:LineSegment
+                    End="4.5,16.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="4.5,16.5"
+                    Point2="8.5,16.5"
+                    Point3="8.5,20.5" />
+                  <mssgle:LineSegment
+                    End="8.5,25.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -10896,18 +10944,30 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 6]"
-          TopLeft="352.5,446.5">
+          TopLeft="348.5,360.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="87,0"
+              EndConnector="79,14"
               Start="0,0"
-              End="79.5,0">
+              End="71.5,14">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="79.5,0" />
+                    End="35.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="35.5,0"
+                    Point2="39.5,0"
+                    Point3="39.5,4" />
+                  <mssgle:LineSegment
+                    End="39.5,10" />
+                  <mssgle:CubicBezierSegment
+                    Point1="39.5,10"
+                    Point2="39.5,14"
+                    Point3="43.5,14" />
+                  <mssgle:LineSegment
+                    End="71.5,14" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -10918,18 +10978,18 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 7]"
-          TopLeft="567.75,268.5">
+          TopLeft="559.25,186.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,-42"
+              EndConnector="0,-32"
               Start="0,0"
-              End="0,-34.5">
+              End="0,-24.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,-34.5" />
+                    End="0,-24.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -11110,9 +11170,7 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -11134,9 +11192,7 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -11170,9 +11226,7 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -11254,9 +11308,7 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -11374,9 +11426,7 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -11446,9 +11496,7 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -12305,7 +12353,7 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">false</Value>
+          type="q2:string">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>

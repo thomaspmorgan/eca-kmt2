@@ -48,7 +48,7 @@ angular.module('staticApp')
           console.assert($scope.model.languageProficiencies instanceof Array, 'The entity language proficiencies is defined but must be an array.');
 
           var languageProficiencies = $scope.model.languageProficiencies;
-          var index = languageProficiencies.indexOf(newLanguageProficiency);
+          var index = languageProficiencies.map(function (e) { return e.languageId }).indexOf(newLanguageProficiency.languageId);
           var removedItems = languageProficiencies.splice(index, 1);
           $log.info('Removed one new languageProficiencies at index ' + index);
       });

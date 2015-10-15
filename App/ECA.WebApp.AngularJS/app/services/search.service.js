@@ -8,20 +8,20 @@
  * Service to retrieve search results.
  */
 angular.module('staticApp')
-  .factory('SearchService', function (DragonBreath) {
+  .factory('SearchService', function (DragonBreath, ConstantsService) {
 
+      var kmtId = ConstantsService.kmtApplicationResourceId;
       return {
           postSearch: function (params) {
-              return DragonBreath.create(params, 'Search');
+              return DragonBreath.create(params, 'Search/' + kmtId);
           },
           getDocInfo: function (id) {
-              return DragonBreath.get('Documents', id);
+              return DragonBreath.get('Documents/' + kmtId + '/' , id);
           },
           getFieldNames: function () {
-              return DragonBreath.get('Documents/Fields');
+              return DragonBreath.get('Documents/' + kmtId + '/Fields');
           }
       }
-      
   });
 
 

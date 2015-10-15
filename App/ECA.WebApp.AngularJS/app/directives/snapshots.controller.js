@@ -24,7 +24,9 @@ angular.module('staticApp')
           SnapshotService.getProgramSnapshot($scope.view.params.programId)
           .then(function (response) {
               $scope.view.snapshot = response.data;
-              $scope.view.snapshot.costPerParticipant = $scope.view.snapshot.budget / $scope.view.snapshot.participants;
+              if ($scope.view.snapshot.budget !== null && $scope.view.snapshot.participants !== null) {
+                  $scope.view.snapshot.costPerParticipant = $scope.view.snapshot.budget / $scope.view.snapshot.participants;
+              }
               $scope.view.isSnapshotLoading = false;
           })
           .catch(function () {

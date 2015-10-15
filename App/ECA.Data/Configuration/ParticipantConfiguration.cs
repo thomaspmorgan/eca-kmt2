@@ -20,6 +20,8 @@ namespace ECA.Data.Configuration
             HasRequired(a => a.Project).WithMany(a => a.Participants).HasForeignKey(a => a.ProjectId).WillCascadeOnDelete(false);
 
             HasOptional(a => a.ParticipantPerson).WithRequired(p => p.Participant).WillCascadeOnDelete(false);
+
+            HasOptional(a => a.ParticipantStudentVisitor).WithRequired(p => p.Participant).WillCascadeOnDelete(false);
         }
     }
 }
