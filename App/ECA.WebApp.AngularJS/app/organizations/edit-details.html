@@ -115,7 +115,7 @@
                            typeahead-wait-ms="400"
                            ng-blur="view.onSelectParentOrganizationBlur($event)"
                            typeahead-loading="view.isLoadingParentOrganizations"
-                           typeahead="org as org.name for org in view.getAvailableParentOrganizations($viewValue) | filter : $viewValue | limitTo : view.searchAvailableOrganizationsLimit"
+                           typeahead="org as org.name for org in view.getAvailableParentOrganizations($viewValue) | limitTo : view.searchAvailableOrganizationsLimit"
                            typeahead-on-select="view.onSelectAvailableParentOrganization($item, $model, $label)"
                            typeahead-template-url="selectParentOrganizationTemplate.html"
                            typeahead-editable="false">
