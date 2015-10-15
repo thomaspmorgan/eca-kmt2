@@ -120,7 +120,6 @@ namespace ECA.Business.Search
             return changeDocumentEntities;
         }
 
-
         private void OnBeforeSaveChanges(DbContext context)
         {
             this.Context = context;
@@ -135,7 +134,7 @@ namespace ECA.Business.Search
         /// Finds created, modified, and deleted entities.
         /// </summary>
         /// <param name="context">The context.</param>
-        public void BeforeSaveChanges(DbContext context)
+        public virtual void BeforeSaveChanges(DbContext context)
         {
             OnBeforeSaveChanges(context);
         }
@@ -144,7 +143,7 @@ namespace ECA.Business.Search
         /// Finds created, modified, and deleted entities.
         /// </summary>
         /// <param name="context">The context.</param>
-        public Task BeforeSaveChangesAsync(DbContext context)
+        public virtual Task BeforeSaveChangesAsync(DbContext context)
         {
             OnBeforeSaveChanges(context);
             return Task.FromResult<object>(null);
@@ -154,7 +153,7 @@ namespace ECA.Business.Search
         /// Sends a message to the azure queue if there are entities whose documents should be updated.
         /// </summary>
         /// <param name="context">The context.</param>
-        public void AfterSaveChanges(DbContext context)
+        public virtual void AfterSaveChanges(DbContext context)
         {
             var batchMessage = GetBatchMessage();
             if (batchMessage.HasDocumentsToHandle())
@@ -169,7 +168,7 @@ namespace ECA.Business.Search
         /// Sends a message to the azure queue if there are entities whose documents should be updated.
         /// </summary>
         /// <param name="context">The context.</param>
-        public async Task AfterSaveChangesAsync(DbContext context)
+        public virtual async Task AfterSaveChangesAsync(DbContext context)
         {
             var batchMessage = GetBatchMessage();
             if (batchMessage.HasDocumentsToHandle())
@@ -207,10 +206,10 @@ namespace ECA.Business.Search
         }
 
         /// <summary>
-        /// Returns
+        /// Returns the entity entry from the context.
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entity">The entity to get the entry for.</param>
+        /// <returns>The DbEntityEntry for the given entity.</returns>
         protected DbEntityEntry<TEntity> GetEntityEntry(TEntity entity)
         {
             return this.Context.Entry<TEntity>(entity);
