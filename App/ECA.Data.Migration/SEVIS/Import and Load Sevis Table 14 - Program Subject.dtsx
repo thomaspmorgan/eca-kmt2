@@ -7,12 +7,12 @@
   DTS:CreatorName="BE00003308\Marc Setien"
   DTS:DTSID="{63B2CDCF-A0C3-4E17-9BE5-293D5E94686E}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
   DTS:LocaleID="1033"
   DTS:ObjectName="Import and Load Sevis Table 14 - Program Subject"
   DTS:PackageType="5"
-  DTS:VersionBuild="11"
-  DTS:VersionGUID="{3BA3F63C-EED8-4E25-BCE6-9EAEB6478FD9}">
+  DTS:VersionBuild="12"
+  DTS:VersionGUID="{926CBE66-1DB5-4A28-89CB-7C0B2062546F}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,6 +27,16 @@
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{E1BB5439-D558-4209-A299-41DCDCDD8EB2}"
+      DTS:ObjectName="BE00003308.ECA_Local">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
       DTS:CreationName="OLEDB"
       DTS:DTSID="{B2D4C0BA-6A14-46E8-82BE-608558073BA9}"
@@ -37,7 +47,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAD8MzoJlUmomXSnnWdX6Tl/VzPRCtwiriiBjfFfTU05EwAAAAAOgAAAAAIAACAAAADw3UuFPlB7S3euSk3HbkY9l6j43nLq5rBpevE+GXm66iAAAAD5GKKkyh4K5y4/wlQcRVcrp8MvUCHd2QeF5FxpKzA2jUAAAACrSsrk5XCL5JkE1ZKUOk8u9sXomn2MOQRh+PmWAs5TUzorwGHRV1SP7ggHSBSrEfueMAFw9i4HxUkWx3IYxyFa</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACZHp3I8MXVh5dj0VhT1PCmjXO7coc7FG2EEhXkswCV/QAAAAAOgAAAAAIAACAAAAAn5HwzfqoY7J1shyVtxoMkLGV6CRNEbB+y8xpy6p2JeiAAAADngSrt4JoX+ZIMoX7l4K9p9Zx82cr8/7Yk8Pne8wD3h0AAAAAEDAknbP9FOECSoX0D2Kdy9xdo78Z+fd2Y7dQPvszOXTINHfx9tPCjCIRUOglz/ufhGfMcPCyhM5w+yV6RgRLH</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -62,7 +72,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADdGKbIR25YyHieT6HYG3/bg9bTHj8Kl2iYxbPOTI6a6AAAAAAOgAAAAAIAACAAAADXWtMwekKi/s20bR1BNu9+dBadYTK6Xw8dirGJ7v6KNSAAAADRR6PhgA9SDGTdFCH+eUjWuF7eyNBSz2KqvjMP2sg0w0AAAADfAluoOe7XdTLbSLPelUSqgNIqps12H7Zm/+1O75gCET8/yQOELDvBPXbW5VH2tzOcwptojXUIik2YxqlSvC2A</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABZyBOjYQwpRHsRbDSGbmX1cgNhAtfs5y9KXMHdms35awAAAAAOgAAAAAIAACAAAAC4K+xvwKCW/wLUzMpneJAQDwvTGFt07VGrw+you6o0uiAAAACoDYbU+J54biifky26xcXj44XgTAPOlyoOpooakg9/pkAAAAApVyv6SKZuVzEugMKWW7mxU0FE0z90Huzra4d2sCtHCdNdxe6J5lBpxfYDDJc0Z3VCJwiimBVvy1eKxhXKOxWw</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -735,8 +745,8 @@
               <connections>
                 <connection
                   refId="Package\Load ProgramSubject\ProgramSubject.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -985,7 +995,7 @@
     design-time-name="Package\Import Sevis Program Subject Excel Source">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="247,42"
           Id="Package\Import Sevis Program Subject Excel Source\Sevis Program Subject Excel Source"
@@ -1025,9 +1035,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -1075,7 +1083,7 @@
         <NodeLayout
           Size="154,42"
           Id="Package\Load ProgramSubject\ProgramSubject"
-          TopLeft="52.5,200.5" />
+          TopLeft="65.5,264.5" />
         <EdgeLayout
           Id="Package\Load ProgramSubject.Paths[OLE DB Source Output]"
           TopLeft="108,47.5">
@@ -1112,18 +1120,30 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load ProgramSubject.Paths[Derived Column Output]"
-          TopLeft="126.5,155.5">
+          TopLeft="123.5,155.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,45"
+              EndConnector="19,109"
               Start="0,0"
-              End="0,37.5">
+              End="19,101.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,37.5" />
+                    End="0,50.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,50.5"
+                    Point2="0,54.5"
+                    Point3="4,54.5" />
+                  <mssgle:LineSegment
+                    End="15,54.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="15,54.5"
+                    Point2="19,54.5"
+                    Point3="19,58.5" />
+                  <mssgle:LineSegment
+                    End="19,101.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
