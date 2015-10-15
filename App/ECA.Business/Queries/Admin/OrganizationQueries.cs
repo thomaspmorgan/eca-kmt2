@@ -34,7 +34,10 @@ namespace ECA.Business.Queries.Admin
                                             && address.Location != null
                                             && address.Location.City != null
                                             && address.Location.City.LocationName != null
-
+                        let addressHasDivision = address != null
+                                            && address.Location != null
+                                            && address.Location.Division != null
+                                            && address.Location.Division.LocationName != null
                         let addressHasCountry = address != null
                                             && address.Location != null
                                             && address.Location.Country != null
@@ -50,8 +53,10 @@ namespace ECA.Business.Queries.Admin
                             OrganizationRoleNames = organizationRoles.Select(x => x.OrganizationRoleName),
                             Status = organization.Status,
                             Location = (addressHasCity ? address.Location.City.LocationName : String.Empty)
-                                        + (addressHasCity && addressHasCountry ? ", " : String.Empty)
-                                        + (addressHasCountry ? address.Location.Country.LocationName : String.Empty)
+                                       + (addressHasCity && (addressHasDivision || addressHasCountry) ? ", " : String.Empty)
+                                       + (addressHasDivision ? address.Location.Division.LocationName : String.Empty)
+                                       + (addressHasCity && addressHasDivision && addressHasCountry ? ", " : String.Empty)
+                                       + (addressHasCountry ? address.Location.Country.LocationName : String.Empty)
                         };
             return query;
         }
