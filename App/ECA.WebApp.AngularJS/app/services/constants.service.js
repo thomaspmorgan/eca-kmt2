@@ -69,7 +69,8 @@
 			projectOwner: {id: 8, value: "Project Owner"},
 			programOwner: {id: 9, value: "Program Owner"},
 			officeOwner: {id: 10, value: "Office Owner"},
-			administrator: {id: 11, value: "Administrator"}
+			administrator: {id: 11, value: "Administrator"},
+			search: {id: 12, value: "Search"}
 		},
 		phoneNumberType: {
 			home: {id: 1, value: "Home"},
@@ -122,6 +123,7 @@
 		inComparisonType: 'in',
 		isNotNullComparisonType: 'notnull',
 		isNullComparisonType: 'null',
+		kmtApplicationResourceId: '1',
 		lessThanComparisonType: 'lt',
 		likeComparisonType: 'like',
 		logoutEventName: 'logout',
