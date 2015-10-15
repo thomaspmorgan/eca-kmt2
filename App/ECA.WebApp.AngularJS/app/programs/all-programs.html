@@ -37,13 +37,14 @@
                     <th>
                         <div style="margin-left:20px;">
                             <div>
-                                <input ng-change="view.onSearchChange()"
+                                <input id="searchBar" name="searchBar" ng-change="view.onSearchChange()"
                                        st-search type="search"
                                        ng-model="view.programFilter"
                                        ng-model-options="{debounce: 500}"
+                                       ng-disabled="view.programsLoading"
                                        placeholder="Search Programs"
                                        class="search-contextual"
-                                       maxlength="100" />
+                                       maxlength="100" auto-focus="focusMe" />
                                 <i class="material-icons md-18 contextual">search</i>
                             </div>
                             <div style="margin-top:25px;margin-bottom:-25px">
