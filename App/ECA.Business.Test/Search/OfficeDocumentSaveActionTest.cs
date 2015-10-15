@@ -37,7 +37,7 @@ namespace ECA.Business.Test.Search
                 OrganizationId = 10
             };
             var expectedKey = new DocumentKey(documentTypeId, office.OrganizationId);
-            var testKey = saveAction.GetDocumentKey(office);
+            var testKey = saveAction.GetDocumentKey(office, null);
             Assert.AreEqual(expectedKey, testKey);
         }
 

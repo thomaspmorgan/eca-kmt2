@@ -38,8 +38,9 @@ namespace ECA.WebJobs.Search.Index.All
         /// <summary>
         /// Performs the indexing via all document services provided.
         /// </summary>
-        /// <param name="log">The log.</param>
         /// <param name="documentServices">The document services to use for indexing.</param>
+        /// <param name="indexService">The index service.</param>
+        /// <param name="settings">The app settings.</param>
         public void Index(IList<IDocumentService> documentServices, IIndexService indexService, AppSettings settings)
         {
             Contract.Requires(documentServices != null, "The document services must not be null.");

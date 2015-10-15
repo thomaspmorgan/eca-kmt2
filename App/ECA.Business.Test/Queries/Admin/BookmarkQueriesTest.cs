@@ -35,13 +35,13 @@ namespace ECA.Business.Test.Queries.Admin
                 OfficeSymbol = "officeSymbol",
                 Name = "name"
             };
-
+            var now = DateTimeOffset.Now;
             var bookmark = new Bookmark
             {
                 BookmarkId = 1,
                 OfficeId = office.OrganizationId,
                 PrincipalId = 1,
-                AddedOn = DateTimeOffset.Now,
+                AddedOn = now,
                 Automatic = false
             };
 
@@ -56,7 +56,7 @@ namespace ECA.Business.Test.Queries.Admin
             Assert.AreEqual(bookmark.OfficeId, firstResult.OfficeId);
             Assert.AreEqual(bookmark.PrincipalId, firstResult.PrincipalId);
             Assert.AreEqual(bookmark.Automatic, firstResult.Automatic);
-            bookmark.AddedOn.Should().BeCloseTo(DateTimeOffset.Now, 3000);
+            Assert.AreEqual(now, bookmark.AddedOn);
             Assert.AreEqual("Office", firstResult.Type);
             Assert.AreEqual(office.OfficeSymbol, firstResult.OfficeSymbolOrStatus);
             Assert.AreEqual(office.Name, firstResult.Name);

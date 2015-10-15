@@ -81,7 +81,7 @@ namespace ECA.WebApi.App_Start
                 list.Add(new GenericDocumentSaveAction<Project>(new AppSettings(), ProjectDTODocumentConfiguration.PROJECT_DTO_DOCUMENT_TYPE_ID, x => x.ProjectId));
                 list.Add(new OfficeDocumentSaveAction(new AppSettings()));
                 list.Add(new OrganizationDocumentSaveAction(new AppSettings()));
-                list.Add(new AddressDocumentSaveAction(new AppSettings()));
+                list.Add(new AddressToOrganizationDocumentSaveAction(new AppSettings()));
                 return list;
             }));
         }

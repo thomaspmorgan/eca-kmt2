@@ -2,6 +2,7 @@
 using ECA.Data;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,7 @@ namespace ECA.Business.Search
             Contract.Requires(settings != null, "The settings must not be null.");
         }
 
-        public override DocumentKey GetDocumentKey(Organization entity)
+        public override DocumentKey GetDocumentKey(Organization entity, DbEntityEntry<Organization> entityEntry)
         {
             return new DocumentKey(OrganizationDTODocumentConfiguration.ORGANIZATION_DTO_DOCUMENT_TYPE_ID, entity.OrganizationId);
         }

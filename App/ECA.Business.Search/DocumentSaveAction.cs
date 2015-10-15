@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
@@ -53,6 +54,11 @@ namespace ECA.Business.Search
         /// Gets the deleted entities.
         /// </summary>
         public List<TEntity> DeletedEntities { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the Context used in this save action.  It will automatically get set by the BeforeSaveChanges methods.
+        /// </summary>
+        public DbContext Context { get; set; }
 
         /// <summary>
         /// Retrieves the added entities from the given context.
@@ -114,9 +120,9 @@ namespace ECA.Business.Search
             return changeDocumentEntities;
         }
 
-
         private void OnBeforeSaveChanges(DbContext context)
         {
+            this.Context = context;
             this.CreatedEntities = GetCreatedDocumentEntities(context).ToList();
             this.ModifiedEntities = GetModifiedDocumentEntities(context).ToList();
             this.DeletedEntities = GetDeletedDocumentEntities(context).ToList();
@@ -128,7 +134,7 @@ namespace ECA.Business.Search
         /// Finds created, modified, and deleted entities.
         /// </summary>
         /// <param name="context">The context.</param>
-        public void BeforeSaveChanges(DbContext context)
+        public virtual void BeforeSaveChanges(DbContext context)
         {
             OnBeforeSaveChanges(context);
         }
@@ -137,7 +143,7 @@ namespace ECA.Business.Search
         /// Finds created, modified, and deleted entities.
         /// </summary>
         /// <param name="context">The context.</param>
-        public Task BeforeSaveChangesAsync(DbContext context)
+        public virtual Task BeforeSaveChangesAsync(DbContext context)
         {
             OnBeforeSaveChanges(context);
             return Task.FromResult<object>(null);
@@ -147,7 +153,7 @@ namespace ECA.Business.Search
         /// Sends a message to the azure queue if there are entities whose documents should be updated.
         /// </summary>
         /// <param name="context">The context.</param>
-        public void AfterSaveChanges(DbContext context)
+        public virtual void AfterSaveChanges(DbContext context)
         {
             var batchMessage = GetBatchMessage();
             if (batchMessage.HasDocumentsToHandle())
@@ -162,7 +168,7 @@ namespace ECA.Business.Search
         /// Sends a message to the azure queue if there are entities whose documents should be updated.
         /// </summary>
         /// <param name="context">The context.</param>
-        public async Task AfterSaveChangesAsync(DbContext context)
+        public virtual async Task AfterSaveChangesAsync(DbContext context)
         {
             var batchMessage = GetBatchMessage();
             if (batchMessage.HasDocumentsToHandle())
@@ -193,12 +199,21 @@ namespace ECA.Business.Search
         public virtual IndexDocumentBatchMessage GetBatchMessage()
         {
             var batch = new IndexDocumentBatchMessage();
-            batch.CreatedDocuments = this.CreatedEntities.Select(x => GetDocumentKey(x).ToString()).ToList();
-            batch.DeletedDocuments = this.DeletedEntities.Select(x => GetDocumentKey(x).ToString()).ToList();
-            batch.ModifiedDocuments = this.ModifiedEntities.Select(x => GetDocumentKey(x).ToString()).ToList();
+            batch.CreatedDocuments = this.CreatedEntities.Select(x => GetDocumentKey(x, GetEntityEntry(x)).ToString()).ToList();
+            batch.DeletedDocuments = this.DeletedEntities.Select(x => GetDocumentKey(x, GetEntityEntry(x)).ToString()).ToList();
+            batch.ModifiedDocuments = this.ModifiedEntities.Select(x => GetDocumentKey(x, GetEntityEntry(x)).ToString()).ToList();
             return batch;
         }
 
+        /// <summary>
+        /// Returns the entity entry from the context.
+        /// </summary>
+        /// <param name="entity">The entity to get the entry for.</param>
+        /// <returns>The DbEntityEntry for the given entity.</returns>
+        protected DbEntityEntry<TEntity> GetEntityEntry(TEntity entity)
+        {
+            return this.Context.Entry<TEntity>(entity);
+        }
         #endregion
 
         /// <summary>
@@ -226,7 +241,8 @@ namespace ECA.Business.Search
         /// Returns the document key of the given entity.
         /// </summary>
         /// <param name="entity">The entity.</param>
+        /// <param name="entityEntry">The entity entry from the DbContext.</param>
         /// <returns>The document key.</returns>
-        public abstract DocumentKey GetDocumentKey(TEntity entity);
+        public abstract DocumentKey GetDocumentKey(TEntity entity, DbEntityEntry<TEntity> entityEntry);
     }
 }
