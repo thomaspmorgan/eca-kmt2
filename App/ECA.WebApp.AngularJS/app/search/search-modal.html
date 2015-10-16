@@ -79,7 +79,8 @@
 </div>
 <div class="modal-footer">
     <div class="pull-left">
-        <p ng-show="totalResults > -1 && !isLoadingResults">Showing {{currentParams.Start + 1}} - {{currentParams.Start + count}} of {{totalResults}} results.</p>
+        <p ng-show="totalResults > 0 && !isLoadingResults">Showing {{currentParams.Start + 1}} - {{currentParams.Start + count}} of {{totalResults}} results.</p>
+        <p ng-show="totalResults === 0 && !isLoadingResults">Found {{totalResults}} results.</p>
     </div>
     <div class="pull-right">
         <button class="btn btn-cancel" ng-click="onCloseSpotlightSearchClick()">Close</button>
