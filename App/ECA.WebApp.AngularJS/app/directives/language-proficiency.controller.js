@@ -23,6 +23,7 @@ angular.module('staticApp')
       $scope.view.params = $stateParams;
       $scope.view.showEditLanguageProficiency = false;
       $scope.view.isSavingChanges = false;
+      $scope.view.showLanguageAlreadyUsedError = false;
       
       $scope.view.proficiencyOptions = [
           { id: 0, name: '0' },
@@ -152,9 +153,11 @@ angular.module('staticApp')
 
               if (index !== -1) {
                   $scope.languageProficiency.languageId = parseInt(oldId);
+                  $scope.view.showLanguageAlreadyUsedError = true;
               } else {
                   $scope.languageProficiency.languageId = newId;
                   originalProficiencyLanguages = angular.copy($scope.model.languageProficiencies);
+                  $scope.view.showLanguageAlreadyUsedError = false;
               }
           }
       }
