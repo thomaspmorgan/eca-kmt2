@@ -1,10 +1,21 @@
 ﻿using ECA.Core.Data;
 using System;
+using System.Collections.Generic;
+using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Service.Lookup;
 
 namespace ECA.Business.Queries.Models.Programs
 {
     public class ProgramSnapshotDTO : IConcurrent
     {
+        public ProgramSnapshotDTO()
+        {
+            this.Themes = new List<SimpleLookupDTO>();
+            this.FiscalBudget = new List<MoneyFlowDTO>();
+
+
+
+        }
 
         public int ProgramId { get; set; }
 
@@ -27,7 +38,15 @@ namespace ECA.Business.Queries.Models.Programs
         public int Alumni { get; set; }
 
         public int Prominence { get; set; }
-        
+
+        public IEnumerable<SimpleLookupDTO> Themes { get; set; }
+
+        public IEnumerable<MoneyFlowDTO> FiscalBudget { get; set; }
+
+
+
+
+
         public byte[] RowVersion { get; set; }
     }
 }

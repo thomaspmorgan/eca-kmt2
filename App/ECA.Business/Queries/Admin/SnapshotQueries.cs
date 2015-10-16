@@ -3,6 +3,7 @@ using ECA.Business.Queries.Models.Programs;
 using ECA.Data;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Models.Reports;
 
 namespace ECA.Business.Queries.Admin
@@ -24,7 +25,7 @@ namespace ECA.Business.Queries.Admin
                                     where pc.ProgramId == programId
                                     orderby pc.Categories.GroupBy(x => x.CategoryId).Count() descending
                                     select pc.Categories.GroupBy(x => x.CategoryId).Count();
-
+            
             var query = from program in context.Programs
 
                         let regions = from location in allLocations
