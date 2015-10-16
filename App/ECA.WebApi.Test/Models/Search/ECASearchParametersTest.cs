@@ -19,7 +19,7 @@ namespace ECA.WebApi.Test.Models.Search
             model.Limit = 10;
             model.SearchTerm = "search";
             model.Start = 1;
-            model.HightlightPreTag = "pre";
+            model.HighlightPreTag = "pre";
             model.HighlightPostTag = "post";
 
             var permissions = new List<IPermission>();
@@ -27,7 +27,7 @@ namespace ECA.WebApi.Test.Models.Search
             Assert.AreEqual(model.Limit, instance.Limit);
             Assert.AreEqual(model.Start, instance.Start);
             Assert.AreEqual(model.Filter, instance.Filter);
-            Assert.AreEqual(model.HightlightPreTag, instance.HighlightPreTag);
+            Assert.AreEqual(model.HighlightPreTag, instance.HighlightPreTag);
             Assert.AreEqual(model.HighlightPostTag, instance.HighlightPostTag);
             Assert.IsTrue(Object.ReferenceEquals(model.Facets, instance.Facets));
             Assert.IsTrue(Object.ReferenceEquals(model.SelectFields, instance.SelectFields));

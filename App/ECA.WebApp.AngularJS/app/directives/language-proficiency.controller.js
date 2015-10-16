@@ -131,13 +131,13 @@ angular.module('staticApp')
           $scope.languageProficiency = response.data;
           originalLanguageProficiency = angular.copy($scope.languageProficiency);
           originalProficiencyLanguages = angular.copy($scope.model.languageProficiencies);
-          NotificationService.showSuccessMessage("Successfully saved changes to languageProficiency.");
+          NotificationService.showSuccessMessage("Successfully saved changes to language proficiency.");
           $scope.view.showEditLanguageProficiency = false;
           $scope.view.isSavingChanges = false;
       }
 
       function onSaveLanguageProficiencyError() {
-          var message = "Failed to save languageProficiency changes.";
+          var message = "Failed to save language proficiency changes.";
           NotificationService.showErrorMessage(message);
           $log.error(message);
           $scope.view.isSavingChanges = false;
