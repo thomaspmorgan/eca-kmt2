@@ -10,11 +10,15 @@ namespace ECA.Business.Queries.Models.Programs
     {
         public ProgramSnapshotDTO()
         {
-            this.Themes = new List<SimpleLookupDTO>();
-            this.FiscalBudget = new List<MoneyFlowDTO>();
-
-
-
+            this.BudgetByYear = new List<SnapshotDTO>();
+            this.MostFundedCountries = new List<SnapshotDTO>();
+            this.TopThemes = new List<string>();
+            this.ParticipantLocations = new List<SnapshotDTO>();
+            this.ParticipantsByYear = new List<SnapshotDTO>();
+            this.ParticipantGenders = new List<SnapshotDTO>();
+            this.ParticipantAges = new List<SnapshotDTO>();
+            this.ParticipantEducation = new List<SnapshotDTO>();
+            this.ParticipantAudienceReach = new List<Tuple<int, int>>();
         }
 
         public int ProgramId { get; set; }
@@ -39,14 +43,24 @@ namespace ECA.Business.Queries.Models.Programs
 
         public int Prominence { get; set; }
 
-        public IEnumerable<SimpleLookupDTO> Themes { get; set; }
+        public IEnumerable<SnapshotDTO> BudgetByYear { get; set; }
 
-        public IEnumerable<MoneyFlowDTO> FiscalBudget { get; set; }
+        public IEnumerable<SnapshotDTO> MostFundedCountries { get; set; }
 
+        public IEnumerable<string> TopThemes { get; set; }
 
+        public IEnumerable<SnapshotDTO> ParticipantLocations { get; set; }
 
+        public IEnumerable<SnapshotDTO> ParticipantsByYear { get; set; }
 
+        public IEnumerable<SnapshotDTO> ParticipantGenders { get; set; }
 
+        public IEnumerable<SnapshotDTO> ParticipantAges { get; set; }
+
+        public IEnumerable<SnapshotDTO> ParticipantEducation { get; set; }
+
+        public IEnumerable<Tuple<int, int>> ParticipantAudienceReach { get; set; }
+        
         public byte[] RowVersion { get; set; }
     }
 }

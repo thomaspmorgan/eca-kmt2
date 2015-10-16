@@ -7,7 +7,7 @@ namespace ECA.Business.Queries.Models.Admin
 
         public string DataLabel { get; set; }
 
-        public string DataValue { get; set; }
+        public int DataValue { get; set; }
 
 
     }
