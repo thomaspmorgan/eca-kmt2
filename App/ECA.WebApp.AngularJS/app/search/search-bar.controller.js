@@ -25,14 +25,14 @@ angular.module('staticApp')
 
       var limit = 10;
 
-      $scope.view = {};
+      $scope.isLoadingRequiredData = true;
       $scope.results = [];
       $scope.docinfo = null;
       $scope.tophitinfo = {};
-      $scope.searchFieldNames = [];
-      $scope.currentpage = 0;
-      $scope.pagesize = 10;
+      $scope.currentPage = 0;
+      $scope.pageSize = 10;
       $scope.totalpages = 0;
+      $scope.numberOfDisplayedPages = 10;
       $scope.text = '';
       $scope.isLoadingResults = false;
       $scope.isLoadingDocInfo = false;
@@ -41,48 +41,47 @@ angular.module('staticApp')
           Limit: limit,
           Filter: "",
           Facets: [],
-          SelectFields: $scope.searchFieldNames,
+          SelectFields: [],
           SearchTerm: '',
           HightlightPreTag: "<strong>",
           HighlightPostTag: "</strong>"
       };
 
-      // Return field names for search results
-      $scope.init = function () {
-          SearchService.getFieldNames()
+      function loadFieldNames() {
+          $scope.isLoadingRequiredData = true;
+          return SearchService.getFieldNames()
           .then(function (response) {
-              $scope.searchFieldNames = response.data;
+              $scope.currentParams.SelectFields = response.data;
+              $scope.isLoadingRequiredData = false;
           })
           .catch(function () {
               var message = 'Unable to load search field names.';
+              $scope.isLoadingRequiredData = false;
               NotificationService.showErrorMessage(message);
               $log.error(message);
           });
       }
 
-      $scope.init();
-
-      // Return number of pages in results
-      var numberOfPages = function () {
-          $scope.totalpages = Math.ceil($scope.totalResults / $scope.pagesize);
-          $scope.pagearray = new Array($scope.totalpages);
-          return $scope.totalpages;
+      function calculatePageDetails() {
+          $scope.totalPages = Math.ceil($scope.totalResults / $scope.pageSize);
+          $scope.pages = [];
+          var start = Math.max(1, $scope.currentPage - Math.abs(Math.floor($scope.numberOfDisplayedPages / 2)));
+          var end = start + $scope.numberOfDisplayedPages;
+          if (end > $scope.totalPages) {
+              end = $scope.totalPages;
+              start = Math.max(1, end - $scope.numberOfDisplayedPages);
+          }
+          for (var i = start; i < end; i++) {
+              $scope.pages.push(i);
+          }
       }
 
 
       // Execute search as user types
       $scope.autocomplete = function () {
-          //var params = {
-          //    Start: 0,
-          //    Limit: limit,
-          //    Filter: "",
-          //    Facets: [],
-          //    SelectFields: $scope.searchFieldNames,
-          //    SearchTerm: $scope.text,
-          //    HightlightPreTag: "<strong>",
-          //    HighlightPostTag: "</strong>"
-          //};
           $scope.currentParams.SearchTerm = $scope.text;
+          $scope.currentParams.Start = 0;
+          $scope.currentPage = 0;
           $scope.docinfo = null;
           return doSearch($scope.currentParams);
       };
@@ -110,9 +109,9 @@ angular.module('staticApp')
       $scope.isArray = angular.isArray;
 
       // Set the current page when paging
-      $scope.selectPage = function (index) {
-          $scope.currentpage = index;
-          $scope.currentParams.Start = $scope.currentpage * limit;
+      $scope.selectPage = function (page) {
+          $scope.currentPage = page;
+          $scope.currentParams.Start = $scope.currentPage * limit;
           return doSearch($scope.currentParams);
       }
 
@@ -163,23 +162,33 @@ angular.module('staticApp')
           }
       }
 
+      function getDocumentTypeAbbreviation(documentTypeName) {
+          if (documentTypeName === "Project") {
+              return documentTypeName.substring(0, 2);
+          }
+          else {
+              return documentTypeName.substring(0, 1);
+          }
+      }
+
       function doSearch(params) {
           $scope.isLoadingResults = true;
           return SearchService.postSearch(params)
             .then(function (response) {
-                $log.info('Loaded all search results.');
-                if ($scope.currentpage === 0) {
+                $scope.count = response.data.results.length;
+                angular.forEach(response.data.results, function (result, index) {
+                    result.document.documentTypeNameAbbreviation = getDocumentTypeAbbreviation(result.document.documentTypeName);
+                })
+                if ($scope.currentPage === 0) {
                     $scope.tophitinfo = response.data.results.slice(0, 1);
                     $scope.results = response.data.results.slice(1);
-                    $scope.count = $scope.tophitinfo.length + $scope.results.length;
                 }
                 else {
                     $scope.tophitinfo = null;
                     $scope.results = response.data.results;
-                    $scope.count = $scope.results.length;
                 }
                 $scope.totalResults = response.data.count;
-                numberOfPages();
+                calculatePageDetails();
                 $scope.isLoadingResults = false;
             })
             .catch(function () {
@@ -190,36 +199,16 @@ angular.module('staticApp')
                 $scope.isLoadingResults = false;
             });
       }
-  });
 
-// Retuns item type icon text
-angular.module('staticApp')
-  .filter('resultIconFilter', function () {
-      return function (item) {
-          if (typeof item !== 'undefined' && item !== null) {
-              if (item === "Project") {
-                  return item.substring(0, 2);
-              } else {
-                  return item.substring(0, 1);
-              }
-          }
-          return "";
-      };
+      $q.all([loadFieldNames()])
+      .then(function () {
+
+      });
   });
 
 angular.module('staticApp')
   .filter('addSpacing', function () {
       return function (input) {
           return input.replace(/([a-z])([A-Z])/g, '$1 $2');
-      }
-  });
-
-
-// Sets paging start point
-angular.module('staticApp')
-  .filter('startFrom', function () {
-      return function (input, start) {
-          start = +start;
-          return input.slice(start);
       }
   });
