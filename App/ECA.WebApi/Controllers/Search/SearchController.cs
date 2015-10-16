@@ -37,10 +37,12 @@ namespace ECA.WebApi.Controllers.Search
         /// Performs a search of the ECA system.
         /// </summary>
         /// <param name="search">The search parameters.</param>
+        /// <param name="id">The name of the application resource to search.  KMT is 1.</param>
         /// <returns>The responsive documents.</returns>
-        [Route("Search")]
+        [Route("Search/{id}")]
         [ResponseType(typeof(DocumentSearchResponseViewModel))]
-        public async Task<IHttpActionResult> PostSearchDocumentsAsync([FromBody]ECASearchParametersBindingModel search)
+        [ResourceAuthorize(CAM.Data.Permission.SEARCH_VALUE, CAM.Data.ResourceType.APPLICATION_VALUE)]
+        public async Task<IHttpActionResult> PostSearchDocumentsAsync([FromUri] int id, [FromBody]ECASearchParametersBindingModel search)
         {
             if (ModelState.IsValid)
             {
@@ -59,10 +61,12 @@ namespace ECA.WebApi.Controllers.Search
         /// Performs a search of the ECA system.
         /// </summary>
         /// <param name="model">The suggestion model.</param>
+        /// <param name="id">The name of the application resource to search.  KMT is 1.</param>
         /// <returns>The responsive documents.</returns>
-        [Route("Search/Suggest")]
+        [Route("Search/{id}/Suggest")]
         [ResponseType(typeof(DocumentSearchResponseViewModel))]
-        public async Task<IHttpActionResult> PostSuggestionsAsync([FromBody]ECASuggestionParametersBindingModel model)
+        [ResourceAuthorize(CAM.Data.Permission.SEARCH_VALUE, CAM.Data.ResourceType.APPLICATION_VALUE)]
+        public async Task<IHttpActionResult> PostSuggestionsAsync([FromUri] int id, [FromBody]ECASuggestionParametersBindingModel model)
         {
             if (ModelState.IsValid)
             {
@@ -78,10 +82,12 @@ namespace ECA.WebApi.Controllers.Search
         /// <summary>
         /// Returns the names of the document fields.
         /// </summary>
+        /// <param name="id">The name of the application resource to search.  KMT is 1.</param>
         /// <returns>The names of the document fields.</returns>
-        [Route("Documents/Fields")]
+        [Route("Documents/{id}/Fields")]
         [ResponseType(typeof(List<string>))]
-        public IHttpActionResult GetDocumentFieldNames()
+        [ResourceAuthorize(CAM.Data.Permission.SEARCH_VALUE, CAM.Data.ResourceType.APPLICATION_VALUE)]
+        public IHttpActionResult GetDocumentFieldNames(int id)
         {
             return Ok(this.indexService.GetDocumentFieldNames().ToList());
         }
@@ -89,15 +95,17 @@ namespace ECA.WebApi.Controllers.Search
         /// <summary>
         /// Performs a search of the ECA system.
         /// </summary>
-        /// <param name="id">The full id of the document.</param>
+        /// <param name="key">The full id of the document.</param>
+        /// <param name="id">The name of the application resource to search.  KMT is 1.</param>
         /// <returns>The responsive documents.</returns>
-        [Route("Documents/{id}")]
+        [Route("Documents/{id}/{key}")]
         [ResponseType(typeof(ECADocumentViewModel))]
-        public async Task<IHttpActionResult> GetDocumentByIdAsync(string id)
+        [ResourceAuthorize(CAM.Data.Permission.SEARCH_VALUE, CAM.Data.ResourceType.APPLICATION_VALUE)]
+        public async Task<IHttpActionResult> GetDocumentByIdAsync(int id, string key)
         {
             //var currentUser = this.userProvider.GetCurrentUser();
             //var businessUser = this.userProvider.GetBusinessUser(currentUser);
-            var document = await this.indexService.GetDocumentByIdAsync(id);
+            var document = await this.indexService.GetDocumentByIdAsync(key);
             if (document == null)
             {
                 return NotFound();

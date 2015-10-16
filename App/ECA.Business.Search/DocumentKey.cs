@@ -239,5 +239,27 @@ namespace ECA.Business.Search
         {
             return !(a == b);
         }
+
+        /// <summary>
+        /// Returns a boolean value indicating whether the given string is a document key and if so, the document key is returned in the out
+        /// parameter.
+        /// </summary>
+        /// <param name="keyAsString">The document key to parse.</param>
+        /// <param name="value">The value of the document key to parse.</param>
+        /// <returns>True, if the given value is a document key.</returns>
+        public static bool TryParse(string value, out DocumentKey key)
+        {
+            try
+            {
+                var testKey = new DocumentKey(value);
+                key = testKey;
+                return true;
+            }
+            catch(Exception)
+            {
+                key = null;
+                return false;
+            }
+        }
     }
 }

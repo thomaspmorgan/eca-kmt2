@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity.Infrastructure;
 
 namespace ECA.Business.Search
 {
@@ -42,8 +43,9 @@ namespace ECA.Business.Search
         /// Returns the document key of TEntity.
         /// </summary>
         /// <param name="entity">The instance.</param>
+        /// <param name="entityEntry">The DbContext entity entry.</param>
         /// <returns>The document key.</returns>
-        public override DocumentKey GetDocumentKey(TEntity entity)
+        public override DocumentKey GetDocumentKey(TEntity entity, DbEntityEntry<TEntity> entityEntry)
         {
             return new DocumentKey(this.documentTypeId, idDelegate(entity));
         }

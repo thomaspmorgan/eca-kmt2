@@ -31,49 +31,63 @@ namespace ECA.Business.Search.Test
             settings = new AppSettings(appSettings, connectionStrings);
             context = new TestContext();
             saveAction = new SimpleEntityDocumentSaveAction(settings);
+            saveAction.Context = context;
         }
 
         [TestMethod]
         public void TestGetBatchMessage()
         {
-            var created = new List<SimpleEntity>();
-            created.Add(new SimpleEntity
+            using (ShimsContext.Create())
             {
-                Id = 1,
-            });
+                var entityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<SimpleEntity>
+                {
+                };
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<SimpleEntity>((ctx, add) =>
+                {
+                    return entityEntry;
+                });
 
-            var modified = new List<SimpleEntity>();
-            modified.Add(new SimpleEntity
-            {
-                Id = 2
-            });
 
-            var deleted = new List<SimpleEntity>();
-            deleted.Add(new SimpleEntity
-            {
-                Id = 3
-            });
+                var created = new List<SimpleEntity>();
+                created.Add(new SimpleEntity
+                {
+                    Id = 1,
+                });
 
-            var createdKey = new DocumentKey(SimpleEntityConfiguration.SIMPLE_ENTITY_DOCUMENT_TYPE_ID, created.First().Id);
-            var deletedKey = new DocumentKey(SimpleEntityConfiguration.SIMPLE_ENTITY_DOCUMENT_TYPE_ID, deleted.First().Id);
-            var modifiedKey = new DocumentKey(SimpleEntityConfiguration.SIMPLE_ENTITY_DOCUMENT_TYPE_ID, modified.First().Id);
+                var modified = new List<SimpleEntity>();
+                modified.Add(new SimpleEntity
+                {
+                    Id = 2
+                });
 
-            saveAction.CreatedEntities.AddRange(created);
-            saveAction.DeletedEntities.AddRange(deleted);
-            saveAction.ModifiedEntities.AddRange(modified);
+                var deleted = new List<SimpleEntity>();
+                deleted.Add(new SimpleEntity
+                {
+                    Id = 3
+                });
 
-            saveAction.DocumentKeys[created.First()] = createdKey;
-            saveAction.DocumentKeys[modified.First()] = modifiedKey;
-            saveAction.DocumentKeys[deleted.First()] = deletedKey;
+                var createdKey = new DocumentKey(SimpleEntityConfiguration.SIMPLE_ENTITY_DOCUMENT_TYPE_ID, created.First().Id);
+                var deletedKey = new DocumentKey(SimpleEntityConfiguration.SIMPLE_ENTITY_DOCUMENT_TYPE_ID, deleted.First().Id);
+                var modifiedKey = new DocumentKey(SimpleEntityConfiguration.SIMPLE_ENTITY_DOCUMENT_TYPE_ID, modified.First().Id);
 
-            var message = saveAction.GetBatchMessage();
-            Assert.AreEqual(1, message.CreatedDocuments.Count());
-            Assert.AreEqual(1, message.DeletedDocuments.Count());
-            Assert.AreEqual(1, message.ModifiedDocuments.Count());
+                saveAction.CreatedEntities.AddRange(created);
+                saveAction.DeletedEntities.AddRange(deleted);
+                saveAction.ModifiedEntities.AddRange(modified);
 
-            Assert.AreEqual(createdKey.ToString(), message.CreatedDocuments.First());
-            Assert.AreEqual(deletedKey.ToString(), message.DeletedDocuments.First());
-            Assert.AreEqual(modifiedKey.ToString(), message.ModifiedDocuments.First());
+                saveAction.DocumentKeys[created.First()] = createdKey;
+                saveAction.DocumentKeys[modified.First()] = modifiedKey;
+                saveAction.DocumentKeys[deleted.First()] = deletedKey;
+
+                var message = saveAction.GetBatchMessage();
+                Assert.AreEqual(1, message.CreatedDocuments.Count());
+                Assert.AreEqual(1, message.DeletedDocuments.Count());
+                Assert.AreEqual(1, message.ModifiedDocuments.Count());
+
+                Assert.AreEqual(createdKey.ToString(), message.CreatedDocuments.First());
+                Assert.AreEqual(deletedKey.ToString(), message.DeletedDocuments.First());
+                Assert.AreEqual(modifiedKey.ToString(), message.ModifiedDocuments.First());
+            }
+            
         }
 
         #region Document Entities
@@ -396,6 +410,14 @@ namespace ECA.Business.Search.Test
                     return new Microsoft.WindowsAzure.Storage.Fakes.ShimCloudStorageAccount();
                 };
 
+                var entityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<SimpleEntity>
+                {
+                };
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<SimpleEntity>((ctx, add) =>
+                {
+                    return entityEntry;
+                });
+
                 await saveAction.AfterSaveChangesAsync((DbContext)context);
             }
         }
@@ -448,7 +470,13 @@ namespace ECA.Business.Search.Test
                     Assert.AreEqual(connectionString, s);
                     return new Microsoft.WindowsAzure.Storage.Fakes.ShimCloudStorageAccount();
                 };
-
+                var entityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<SimpleEntity>
+                {
+                };
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<SimpleEntity>((ctx, add) =>
+                {
+                    return entityEntry;
+                });
                 saveAction.AfterSaveChanges((DbContext)context);
             }
         }

@@ -192,6 +192,7 @@
     <Compile Include="IndexDocumentBatchMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IndexService.cs" />
+    <Compile Include="RelatedEntityDocumentSaveAction.cs" />
     <Compile Include="TextWriterIndexNotificationService.cs" />
   </ItemGroup>
   <ItemGroup>
