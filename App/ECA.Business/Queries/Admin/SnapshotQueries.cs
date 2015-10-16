@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Design.Serialization;
 using ECA.Business.Queries.Models.Programs;
 using ECA.Data;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Models.Reports;
+using ECA.Business.Queries.Programs;
 
 namespace ECA.Business.Queries.Admin
 {
@@ -29,7 +32,11 @@ namespace ECA.Business.Queries.Admin
                                     where pc.ProgramId == programId && pc.EndDate >= oldestDate
                                     orderby pc.Categories.GroupBy(x => x.CategoryId).Count() descending
                                     select pc.Categories.GroupBy(x => x.CategoryId).Count();
-            
+
+            var allThemes = ThemeQueries.CreateGetThemesQuery(context);
+
+            var projectThemes = allThemes.GroupBy(theme => theme.Name).OrderByDescending(group => group.Count()).Select(group => group.Key);
+
             var query = from program in context.Programs
 
                         let regions = from location in allLocations
@@ -42,8 +49,8 @@ namespace ECA.Business.Queries.Admin
                                         on country.RegionId equals region.Id
                                         where country.LocationTypeId == LocationType.Country.Id
                                         select country
-                                        
-                                        where program.ProgramId == programId
+
+                        where program.ProgramId == programId
                         select new ProgramSnapshotDTO
                         {
                             ProgramId = program.ProgramId,
@@ -55,7 +62,8 @@ namespace ECA.Business.Queries.Admin
                             Budget = context.MoneyFlows.Join(context.Projects, mf => mf.SourceProjectId.Value, proj => proj.ProjectId, (mf, proj) => new { MoneyFlow = mf, Project = proj }).Where(mfProj => mfProj.Project.ProgramId == programId && mfProj.MoneyFlow.TransactionDate >= oldestDate).Select(b => b.MoneyFlow.Value).DefaultIfEmpty(0).Sum(),
                             ImpactStories = context.Impacts.Count(i => i.ProgramId == program.ProgramId && i.Project.EndDate >= oldestDate),
                             Beneficiaries = 0,
-                            Prominence = prominentCategory.FirstOrDefault()
+                            Prominence = prominentCategory.FirstOrDefault(),
+                            TopThemes = projectThemes.ToList().Take(3)
                         };
             return query;
         }

@@ -38,6 +38,7 @@
                         <div style="margin-left:20px;">
                             <div>
                                 <input id="searchBar" name="searchBar" ng-change="view.onSearchChange()"
+                                       ng-disabled="view.programsLoading"
                                        st-search type="search"
                                        ng-model="view.programFilter"
                                        ng-model-options="{debounce: 500}"
