@@ -34,9 +34,9 @@
                                     <div class="resulticon {{tophitinfo[0].document.documentTypeName | lowercase}}">{{tophitinfo[0].document.documentTypeNameAbbreviation}}</div>
                                 </div>
                                 <div class="col-md-9 col-sm-8">
-                                    <a ng-click="GetDocumentInfo(tophitinfo[0].document.id)" ng-bind-html="tophitinfo[0].hitHighlights.name[0] != null ? tophitinfo[0].hitHighlights.name[0] : tophitinfo[0].document.name"></a>
+                                    <a ng-click="GetDocumentInfo(tophitinfo[0])" ng-bind-html="tophitinfo[0].document.name"></a>
                                 </div>
-                                <div class="col-md-2 col-sm-3 resultoffice">{{tophitinfo[0].document.officeSymbol}}</div>
+                                <div class="col-md-2 col-sm-3 resultoffice" ng-bind-html="tophitinfo[0].document.officeSymbol"></div>
                             </div>
                         </div>
                     </div>
@@ -52,13 +52,12 @@
                                     <div class="resulticon {{docitem.document.documentTypeName | lowercase}}">{{docitem.document.documentTypeNameAbbreviation}}</div>
                                 </div>
                                 <div class="col-md-9 col-sm-8">
-                                    <a ng-click="GetDocumentInfo(docitem.document.id)" ng-bind-html="docitem.hitHighlights.name[0] != null ? docitem.hitHighlights.name[0] : docitem.document.name"></a>
+                                    <a ng-click="GetDocumentInfo(docitem)" ng-bind-html="docitem.document.name"></a>
                                 </div>
-                                <div class="col-md-2 col-sm-3 resultoffice">{{docitem.document.officeSymbol}}</div>
+                                <div class="col-md-2 col-sm-3 resultoffice" ng-bind-html="docitem.document.officeSymbol"></div>
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div class="col-md-4" style="overflow: auto; max-height: 700px;">
                     <ng-include src="'/app/search/search-info.html'"></ng-include>

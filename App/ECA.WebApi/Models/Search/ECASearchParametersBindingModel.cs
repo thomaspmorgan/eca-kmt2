@@ -46,7 +46,7 @@ namespace ECA.WebApi.Models.Search
         /// <summary>
         /// The hit highlight pre tag.
         /// </summary>
-        public string HightlightPreTag { get; set; }
+        public string HighlightPreTag { get; set; }
 
         /// <summary>
         /// The hit highlight post tag.
@@ -68,7 +68,7 @@ namespace ECA.WebApi.Models.Search
                 this.Facets, 
                 this.SelectFields, 
                 this.SearchTerm, 
-                this.HightlightPreTag, 
+                this.HighlightPreTag, 
                 this.HighlightPostTag
                 );
         }
