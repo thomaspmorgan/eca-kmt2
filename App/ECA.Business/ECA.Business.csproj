@@ -136,6 +136,7 @@
     <Compile Include="Queries\Models\Admin\PhoneNumberDTO.cs" />
     <Compile Include="Queries\Models\Admin\EmailAddressDTO.cs" />
     <Compile Include="Queries\Models\Admin\ProgramStatusDTO.cs" />
+    <Compile Include="Queries\Models\Admin\SnapshotDTO.cs" />
     <Compile Include="Queries\Models\Persons\LanguageProficiencyDTO.cs" />
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisCommStatusDTO.cs" />
