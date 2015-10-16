@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc directive
- * @name staticApp.controller:searchbarCtrl
+ * @name staticApp.controller:SearchModalCtrl
  * @description
  * # searchbar
  */
 angular.module('staticApp')
-  .controller('searchbarCtrl', function (
+  .controller('SearchModalCtrl', function (
         $scope,
         $rootScope,
         $stateParams,
@@ -43,9 +43,11 @@ angular.module('staticApp')
           Facets: [],
           SelectFields: [],
           SearchTerm: '',
-          HightlightPreTag: "<strong>",
+          HighlightPreTag: "<strong>",
           HighlightPostTag: "</strong>"
       };
+
+      var htmlRegex = /(<([^>]+)>)/ig;
 
       function loadFieldNames() {
           $scope.isLoadingRequiredData = true;
@@ -68,14 +70,13 @@ angular.module('staticApp')
           var start = Math.max(1, $scope.currentPage - Math.abs(Math.floor($scope.numberOfDisplayedPages / 2)));
           var end = start + $scope.numberOfDisplayedPages;
           if (end > $scope.totalPages) {
-              end = $scope.totalPages;
+              end = $scope.totalPages + 1;
               start = Math.max(1, end - $scope.numberOfDisplayedPages);
           }
           for (var i = start; i < end; i++) {
               $scope.pages.push(i);
           }
       }
-
 
       // Execute search as user types
       $scope.autocomplete = function () {
@@ -87,12 +88,14 @@ angular.module('staticApp')
       };
 
       // Gets document details on selection
-      $scope.GetDocumentInfo = function (id) {
+      $scope.GetDocumentInfo = function (docItem) {
           $scope.isLoadingDocInfo = true;
-          SearchService.getDocInfo(id)
+
+          SearchService.getDocInfo(docItem.document.id)
           .then(function (response) {
               $log.info('Loaded document information.');
               $scope.docinfo = response.data;
+              replacePlainTextWithHighlights(docItem.hitHighlights, $scope.docinfo);
               $location.hash('title');
               $anchorScroll();
               $scope.isLoadingDocInfo = false;
@@ -104,6 +107,24 @@ angular.module('staticApp')
               $scope.isLoadingDocInfo = false;
           });
       };
+
+      function replacePlainTextWithHighlights(highlights, document) {
+          for (var property in highlights) {
+              var propertyHighlights = highlights[property];
+              for (var i = 0; i < propertyHighlights.length; i++) {
+                  var highlight = propertyHighlights[i];
+                  var originalText = highlight.replace(htmlRegex, '');
+                  if (angular.isArray(document[property])) {
+                      for (var j = 0; j < document[property].length; j++) {
+                          document[property][j] = document[property][j].replace(originalText, highlight);
+                      }
+                  }
+                  else {
+                      document[property] = document[property].replace(originalText, highlight);
+                  }
+              }
+          }
+      }
 
       // Detect array in sub group
       $scope.isArray = angular.isArray;
@@ -178,6 +199,7 @@ angular.module('staticApp')
                 $scope.count = response.data.results.length;
                 angular.forEach(response.data.results, function (result, index) {
                     result.document.documentTypeNameAbbreviation = getDocumentTypeAbbreviation(result.document.documentTypeName);
+                    replacePlainTextWithHighlights(result.hitHighlights, result.document);
                 })
                 if ($scope.currentPage === 0) {
                     $scope.tophitinfo = response.data.results.slice(0, 1);

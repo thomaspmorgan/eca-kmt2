@@ -25,6 +25,15 @@
                             <input ng-model="newParticipant.firstName" form-element guidance="First or given name of the participant." type="text" tabindex="2" class="form-control" required ng-disabled="newParticipant.selectedDuplicate">
                         </div>
                         <div class="form-group">
+                            <label for="">GENDER<span class="asterisk"> *</span></label>
+                            <ui-select ng-model="newParticipant.gender" theme="select2" style="min-width: 300px;" ng-required="true" ng-disabled="newParticipant.selectedDuplicate">
+                                <ui-select-match placeholder="Select a gender...">{{$select.selected.value}}</ui-select-match>
+                                <ui-select-choices repeat="gender in genders | filter: {value: $select.search} track by gender.id">
+                                    <div ng-bind-html="gender.value | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <div class="form-group">
                             <label for="">PLACE OF BIRTH - COUNTRY</label>
                             <ui-select ng-model="newParticipant.countryOfBirth" theme="select2" style="min-width: 300px;" tabindex="4" on-select="countryOfBirthSelected()" ng-disabled="newParticipant.selectedDuplicate">
                                 <ui-select-match placeholder="Select a country of birth...">{{$select.selected.name}}</ui-select-match>

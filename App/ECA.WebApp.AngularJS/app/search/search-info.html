@@ -5,13 +5,11 @@
 </div>
 <div class="row" ng-show="docinfo != null">
     <div class="col-md-12">
-        <h5 class="program-color">
-            <strong>
-                <a ng-href="{{getHref(docinfo.documentTypeName, docinfo.key.value)}}" ng-click="onGoToSpotlightSearchClick(getHref(docinfo.documentTypeName, docinfo.key.value))">{{docinfo.name}}</a>
-            </strong>
+        <h5>
+            <a ng-href="{{getHref(docinfo.documentTypeName, docinfo.key.value)}}" ng-click="onGoToSpotlightSearchClick(getHref(docinfo.documentTypeName, docinfo.key.value))" ng-bind-html="docinfo.name"></a>
         </h5>
-        <span class="resultoffice">{{docinfo.officeSymbol}}</span>
-        <p style="margin-top: 20px;" ng-bind-html="docinfo.hitHighlights.description[0] != null ? docinfo.hitHighlights.description[0] : docinfo.description"></p>
+        <span class="resultoffice" ng-bind-html="docinfo.officeSymbol"></span>
+        <p style="margin-top: 20px;" ng-bind-html="docinfo.description"></p>
     </div>
 </div>
 

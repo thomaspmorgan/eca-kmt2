@@ -23,8 +23,8 @@ angular.module('staticApp')
       $scope.view.onSpotlightSearchClick = function () {
           var spotlightModalInstance = $modal.open({
               animation: true,
-              templateUrl: 'app/search/search-bar.html',
-              controller: 'searchbarCtrl',
+              templateUrl: 'app/search/search-modal.html',
+              controller: 'SearchModalCtrl',
               windowClass: 'search-modal-resize',
               resolve: {}
           });

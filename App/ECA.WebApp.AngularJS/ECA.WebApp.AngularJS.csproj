@@ -550,7 +550,7 @@
     <Content Include="app\directives\guidance.directive.js" />
     <Content Include="app\directives\in-context-form.directive.js" />
     <Content Include="app\directives\map.directive.js" />
-    <Content Include="app\search\search-bar.controller.js" />
+    <Content Include="app\search\search-modal.controller.js" />
     <Content Include="app\directives\static-switcher.directive.js" />
     <Content Include="app\directives\tab-bar.directive.js" />
     <Content Include="app\filters\tab.filter.js" />
@@ -577,7 +577,7 @@
     <Content Include="app\offices\branches.html" />
     <Content Include="app\offices\moneyflows.html" />
     <Content Include="app\offices\overview.html" />
-    <Content Include="app\search\search-bar.html" />
+    <Content Include="app\search\search-modal.html" />
     <Content Include="app\directives\tab-bar.directive.html" />
     <Content Include="app\people\people.html" />
     <Content Include="app\people\timeline.html" />
