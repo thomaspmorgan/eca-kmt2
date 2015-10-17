@@ -271,6 +271,19 @@ namespace ECA.Business.Queries.Fundings
         }
 
         /// <summary>
+        /// Returns a query to get all money flows for the program with the given id.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="programId">The program id.</param>
+        /// <returns>The query to get all program money flows.</returns>
+        public static IQueryable<MoneyFlowDTO> CreateGetMoneyFlowDTOsByProgramId(EcaContext context, int programId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var query = CreateGetMoneyFlowsDTOsByEntityType(context, programId, MoneyFlowSourceRecipientType.Program.Id);
+            return query;
+        }
+
+        /// <summary>
         /// Returns a query to get all money flows for the organization with the given id.
         /// </summary>
         /// <param name="context">The context to query.</param>
