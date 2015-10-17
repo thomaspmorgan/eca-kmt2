@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ECA.Business.Queries.Models.Fundings
+{
+    public class SourceMoneyFlowDTO
+    {
+        public int MoneyFlowId { get; set; }
+
+        public int EntityId { get; set; }
+
+        public int EntityTypeId { get; set; }
+
+        public string SourceRecipientName { get; set; }
+
+        public decimal RemainingAmount { get; set; }
+
+        public decimal Amount { get; set; }
+    }
+}
