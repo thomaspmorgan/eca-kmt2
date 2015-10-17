@@ -1,12 +1,11 @@
 ﻿using ECA.Business.Models.Fundings;
-using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Queries.Models.Fundings;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
-using System;
 
 namespace ECA.Business.Service.Fundings
 {

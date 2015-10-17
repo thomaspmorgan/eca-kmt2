@@ -105,11 +105,16 @@ namespace ECA.Data
         [MaxLength(DESCRIPTION_MAX_LENGTH)]
         public string Description { get; set; }
 
-        //relations
+        /// <summary>
+        /// Gets or sets the parent money flow id.
+        /// </summary>
+        [Column("Parent_MoneyFlowId")]
+        public int? ParentMoneyFlowId { get; set; }
 
         /// <summary>
         /// Gets or sets the parent.
         /// </summary>
+        [ForeignKey("ParentMoneyFlowId")]
         public MoneyFlow Parent { get; set; }
 
         /// <summary>

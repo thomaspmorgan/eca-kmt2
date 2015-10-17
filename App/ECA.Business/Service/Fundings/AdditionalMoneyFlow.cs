@@ -28,12 +28,14 @@ namespace ECA.Business.Models.Fundings
         /// <param name="moneyFlowStatusId">The money flow status id.</param>
         /// <param name="transactionDate">The transaction date.</param>
         /// <param name="fiscalYear">The fiscal year.</param>
+        /// <param name="parentMoneyFlowId">The parent money flow id.  This is the line item that this money flow is getting money from.</param>
         /// <param name="sourceEntityId">The source entity id.</param>
         /// <param name="recipientEntityId">The recipient entity id.</param>
         /// <param name="sourceEntityTypeId">The source entity type id.</param>
         /// <param name="recipientEntityTypeId">The recipient entity type id.</param>
         public AdditionalMoneyFlow(
             User createdBy,
+            int? parentMoneyFlowId,
             string description,
             decimal value,
             int moneyFlowStatusId,
@@ -64,6 +66,7 @@ namespace ECA.Business.Models.Fundings
 
             this.Audit = new Create(createdBy);
             this.Description = description;
+            this.ParentMoneyFlowId = parentMoneyFlowId;
             this.Value = value;
             this.MoneyFlowStatusId = moneyFlowStatusId;
             this.TransactionDate = transactionDate;
@@ -84,6 +87,11 @@ namespace ECA.Business.Models.Fundings
         /// Gets the create audit details.
         /// </summary>
         public Audit Audit { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the parent money flow id.
+        /// </summary>
+        public int? ParentMoneyFlowId { get; private set; }
 
         /// <summary>
         /// Gets the money flow description.
@@ -148,6 +156,7 @@ namespace ECA.Business.Models.Fundings
             moneyFlow.Value = this.Value;
             moneyFlow.SourceTypeId = this.SourceEntityTypeId;
             moneyFlow.RecipientTypeId = this.RecipientEntityTypeId;
+            moneyFlow.ParentMoneyFlowId = this.ParentMoneyFlowId;
 
             var sourcePropertyDictionary = new Dictionary<int, Expression<Func<MoneyFlow, int?>>>();
             sourcePropertyDictionary.Add(MoneyFlowSourceRecipientType.ItineraryStop.Id, x => x.SourceItineraryStopId);

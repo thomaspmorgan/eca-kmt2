@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Data;
 using ECA.Business.Queries.Fundings;
 using ECA.Core.DynamicLinq;
-using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Queries.Models.Fundings;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.DynamicLinq.Filter;
 
@@ -137,7 +137,6 @@ namespace ECA.Business.Test.Queries.Fundings
                 ProjectId = recipientId,
                 Name = "project"
             };
-
             var moneyFlow = new MoneyFlow
             {
                 SourceProgramId = sourceId,
@@ -154,7 +153,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 Value = 1.00m,
                 Description = "desc",
                 FiscalYear = 1995,
-                MoneyFlowId = 10
+                MoneyFlowId = 10,
+                ParentMoneyFlowId = 100
             };
             context.MoneyFlows.Add(moneyFlow);
             context.Projects.Add(recipientProject);
@@ -175,6 +175,7 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(moneyFlow.MoneyFlowStatusId, dto.MoneyFlowStatusId);
             Assert.AreEqual(moneyFlow.TransactionDate, dto.TransactionDate);
             Assert.AreEqual(outgoing.MoneyFlowTypeName, dto.MoneyFlowType);
+            Assert.AreEqual(moneyFlow.ParentMoneyFlowId, dto.ParentMoneyFlowId);
 
             Assert.AreEqual(sourceId, dto.EntityId);
             Assert.AreEqual(programType.MoneyFlowSourceRecipientTypeId, dto.EntityTypeId);
@@ -736,7 +737,6 @@ namespace ECA.Business.Test.Queries.Fundings
                 ProjectId = recipientId,
                 Name= "project"
             };
-
             var moneyFlow = new MoneyFlow
             {
                 SourceProgramId = sourceId,
@@ -753,8 +753,9 @@ namespace ECA.Business.Test.Queries.Fundings
                 Value = 1.00m,
                 Description = "desc",
                 FiscalYear = 1995,
-                MoneyFlowId = 10
-            };
+                MoneyFlowId = 10,
+                ParentMoneyFlowId = 100
+            };;
             context.MoneyFlows.Add(moneyFlow);
             context.Programs.Add(sourceProgram);
             context.Projects.Add(recipientProject);
@@ -770,6 +771,7 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(moneyFlow.MoneyFlowStatusId, dto.MoneyFlowStatusId);
             Assert.AreEqual(moneyFlow.TransactionDate, dto.TransactionDate);
             Assert.AreEqual(incoming.MoneyFlowTypeName, dto.MoneyFlowType);
+            Assert.AreEqual(moneyFlow.ParentMoneyFlowId, dto.ParentMoneyFlowId);
 
             Assert.AreEqual(recipientId, dto.EntityId);
             Assert.AreEqual(projectType.MoneyFlowSourceRecipientTypeId, dto.EntityTypeId);
@@ -1175,7 +1177,6 @@ namespace ECA.Business.Test.Queries.Fundings
                 ProgramId = recipientId,
                 Name = "Program"
             };
-
             var moneyFlow = new MoneyFlow
             {
                 SourceProjectId = sourceId,
@@ -1192,7 +1193,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 Value = 1.00m,
                 Description = "desc",
                 FiscalYear = 1995,
-                MoneyFlowId = 10
+                MoneyFlowId = 10,                
+                ParentMoneyFlowId = 100
             };
             context.MoneyFlows.Add(moneyFlow);
             context.Projects.Add(sourceProject);
