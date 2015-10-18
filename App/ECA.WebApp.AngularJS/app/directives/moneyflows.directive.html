@@ -3,7 +3,7 @@
         Funding List
         <button class="btn btn-primary right" ng-show="!view.isLoadingRequiredData && !view.isLoadingMoneyFlows && view.canEditMoneyFlows" ng-click="view.onAddFundingItemClick()">ADD FUNDING ITEM</button>
     </h4>
-    <p class="subheader listCount">Showing {{view.start}} - {{view.end}} of {{view.total}} funding items.</p>
+    <p class="subheader listCount" ng-show="view.total > 0">Showing {{view.start}} - {{view.end}} of {{view.total}} funding items.</p>
     <div st-pipe="view.getMoneyFlows" st-table="view.moneyFlows" exposetablestate="getMoneyFlowsTableState" id="sort-list">
         <table class="col-md-12">
             <thead>
