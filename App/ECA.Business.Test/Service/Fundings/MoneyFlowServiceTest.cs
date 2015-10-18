@@ -707,6 +707,98 @@ namespace ECA.Business.Test.Service.Fundings
         }
         #endregion
 
+        #region Get Maximum
+        [TestMethod]
+        public async Task TestGetMoneyFlowWithdrawalMaximum()
+        {
+            var projectType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Project.Id,
+                TypeName = MoneyFlowSourceRecipientType.Project.Value,
+
+            };
+            var programType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Program.Id,
+                TypeName = MoneyFlowSourceRecipientType.Program.Value,
+            };
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceProject = new Project
+            {
+                ProjectId = sourceId,
+                Name = "Project"
+            };
+            var recipientProgram = new Program
+            {
+                ProgramId = recipientId,
+                Name = "Program"
+            };
+            var moneyFlow = new MoneyFlow
+            {
+                SourceProjectId = sourceId,
+                RecipientProgramId = recipientId,
+                SourceProject = sourceProject,
+                RecipientProgram = recipientProgram,
+                SourceType = projectType,
+                SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = programType,
+                RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 100.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10,
+            };
+            var childMoneyFlow = new MoneyFlow
+            {
+                SourceProjectId = sourceId,
+                RecipientProgramId = recipientId,
+                SourceProject = sourceProject,
+                RecipientProgram = recipientProgram,
+                SourceType = projectType,
+                SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = programType,
+                RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 20,
+                Value = 10.0m,
+                Parent = moneyFlow,
+                ParentMoneyFlowId = moneyFlow.MoneyFlowId
+            };
+            context.MoneyFlows.Add(childMoneyFlow);
+            context.MoneyFlows.Add(moneyFlow);
+            context.Projects.Add(sourceProject);
+            context.Programs.Add(recipientProgram);
+            context.MoneyFlowSourceRecipientTypes.Add(programType);
+            context.MoneyFlowSourceRecipientTypes.Add(projectType);
+
+            var results = service.GetMoneyFlowWithdrawalMaximum(moneyFlow.MoneyFlowId);
+            var resultsAsync = await service.GetMoneyFlowWithdrawalMaximumAsync(moneyFlow.MoneyFlowId);
+            Assert.AreEqual(moneyFlow.Value - childMoneyFlow.Value, results);
+            Assert.AreEqual(moneyFlow.Value - childMoneyFlow.Value, resultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetMoneyFlowWithdrawalMaximum_MoneyFlowDoesNotExist()
+        {
+            var results = service.GetMoneyFlowWithdrawalMaximum(-1);
+            var resultsAsync = await service.GetMoneyFlowWithdrawalMaximumAsync(-1);
+            Assert.AreEqual(default(decimal), results);
+            Assert.AreEqual(default(decimal), resultsAsync);
+        }
+        #endregion
+
         #region Create
         [TestMethod]
         public async Task TestCreate_CheckProperties_DoesNotHaveParent()
@@ -812,6 +904,18 @@ namespace ECA.Business.Test.Service.Fundings
         {
             using (ShimsContext.Create())
             {
+                var sourceProject = new Project
+                {
+                    ProjectId = 1,
+                };
+                var recipientProject = new Project
+                {
+                    ProjectId = 2
+                };
+                var parentMoneyFlow = new MoneyFlow
+                {
+                    MoneyFlowId = 3
+                };
                 System.Data.Entity.Fakes.ShimDbContext.AllInstances.SetType = (c, type) =>
                 {
                     Debug.Assert(type == typeof(Project));
@@ -826,18 +930,16 @@ namespace ECA.Business.Test.Service.Fundings
                     };
                     return dbSet;
                 };
-                var sourceProject = new Project
+                var maximum = 100m;
+                ECA.Business.Service.Fundings.Fakes.ShimMoneyFlowService.AllInstances.GetMoneyFlowWithdrawalMaximumAsyncInt32 = (s, mfId) =>
                 {
-                    ProjectId = 1,
+                    return Task.FromResult<decimal>(maximum);
                 };
-                var recipientProject = new Project
+                ECA.Business.Service.Fundings.Fakes.ShimMoneyFlowService.AllInstances.GetMoneyFlowWithdrawalMaximumInt32 = (s, mfId) =>
                 {
-                    ProjectId = 2
+                    return maximum;
                 };
-                var parentMoneyFlow = new MoneyFlow
-                {
-                    MoneyFlowId = 3
-                };
+
                 context.SetupActions.Add(() =>
                 {
                     context.MoneyFlows.Add(parentMoneyFlow);
@@ -1912,94 +2014,107 @@ namespace ECA.Business.Test.Service.Fundings
         [TestMethod]
         public async Task TestUpdate_HasParent()
         {
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
-            var creatorId = 1;
-            var revisorId = 2;
-            var moneyFlowId = 1;
-            var parentMoneyFlowId = 2;
-            var sourceEntityId = 3;
-            MoneyFlow moneyFlowToUpdate = null;
-            MoneyFlow parentMoneyFlow = null;
-
-            var parentDescription = "parent desc";
-            var parentFiscalYear = -1;
-            var parentMoneyFlowStatusId = -2;
-            var value = -3.0m;
-
-            var entityTypeId = MoneyFlowSourceRecipientType.Project.Id;
-            context.SetupActions.Add(() =>
+            using (ShimsContext.Create())
             {
-                parentMoneyFlow = new MoneyFlow
+                var maximum = 100m;
+                ECA.Business.Service.Fundings.Fakes.ShimMoneyFlowService.AllInstances.GetMoneyFlowWithdrawalMaximumAsyncInt32 = (s, mfId) =>
                 {
-                    MoneyFlowId = parentMoneyFlowId,
-                    Description = parentDescription,
-                    FiscalYear = parentFiscalYear,
-                    MoneyFlowStatusId = parentMoneyFlowStatusId,
-                    Value = value
+                    return Task.FromResult<decimal>(maximum);
                 };
-                moneyFlowToUpdate = new MoneyFlow
+                ECA.Business.Service.Fundings.Fakes.ShimMoneyFlowService.AllInstances.GetMoneyFlowWithdrawalMaximumInt32 = (s, mfId) =>
                 {
-                    MoneyFlowId = moneyFlowId,
-                    Description = "old desc",
-                    FiscalYear = 1900,
-                    MoneyFlowStatusId = -1,
-                    MoneyFlowTypeId = -1,
-                    TransactionDate = lastWeek,
-                    Value = -1.0m,
-                    SourceProjectId = sourceEntityId,
-                    SourceTypeId = entityTypeId,
-                    Parent= parentMoneyFlow,
-                    ParentMoneyFlowId = parentMoneyFlowId
+                    return maximum;
                 };
-                moneyFlowToUpdate.History.CreatedBy = creatorId;
-                moneyFlowToUpdate.History.RevisedBy = creatorId;
-                moneyFlowToUpdate.History.CreatedOn = yesterday;
-                moneyFlowToUpdate.History.RevisedOn = yesterday;
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+                var creatorId = 1;
+                var revisorId = 2;
+                var moneyFlowId = 1;
+                var parentMoneyFlowId = 2;
+                var sourceEntityId = 3;
+                MoneyFlow moneyFlowToUpdate = null;
+                MoneyFlow parentMoneyFlow = null;
 
-                parentMoneyFlow.History.CreatedBy = creatorId;
-                parentMoneyFlow.History.RevisedBy = creatorId;
-                parentMoneyFlow.History.CreatedOn = yesterday;
-                parentMoneyFlow.History.RevisedOn = yesterday;
-                context.MoneyFlows.Add(moneyFlowToUpdate);
-                context.MoneyFlows.Add(parentMoneyFlow);
-            });
+                var parentDescription = "parent desc";
+                var parentFiscalYear = -1;
+                var parentMoneyFlowStatusId = -2;
+                var value = -3.0m;
 
-            var updatedMoneyFlow = new UpdatedMoneyFlow(
-                updator: new User(revisorId),
-                id: moneyFlowId,
-                description: "new description",
-                value: 10.00m,
-                moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
-                transactionDate: DateTimeOffset.UtcNow,
-                fiscalYear: 2015,
-                sourceOrRecipientEntityId: sourceEntityId,
-                sourceOrRecipientEntityTypeId: entityTypeId
-                );
+                var entityTypeId = MoneyFlowSourceRecipientType.Project.Id;
+                context.SetupActions.Add(() =>
+                {
+                    parentMoneyFlow = new MoneyFlow
+                    {
+                        MoneyFlowId = parentMoneyFlowId,
+                        Description = parentDescription,
+                        FiscalYear = parentFiscalYear,
+                        MoneyFlowStatusId = parentMoneyFlowStatusId,
+                        TransactionDate = lastWeek,
+                        Value = value
+                    };
+                    moneyFlowToUpdate = new MoneyFlow
+                    {
+                        MoneyFlowId = moneyFlowId,
+                        Description = "old desc",
+                        FiscalYear = 1900,
+                        MoneyFlowStatusId = -1,
+                        MoneyFlowTypeId = -1,
+                        TransactionDate = lastWeek,
+                        Value = -1.0m,
+                        SourceProjectId = sourceEntityId,
+                        SourceTypeId = entityTypeId,
+                        Parent = parentMoneyFlow,
+                        ParentMoneyFlowId = parentMoneyFlowId
+                    };
+                    moneyFlowToUpdate.History.CreatedBy = creatorId;
+                    moneyFlowToUpdate.History.RevisedBy = creatorId;
+                    moneyFlowToUpdate.History.CreatedOn = yesterday;
+                    moneyFlowToUpdate.History.RevisedOn = yesterday;
 
-            Action tester = () =>
-            {
-                Assert.AreEqual(2, context.MoneyFlows.Count());
-                Assert.AreEqual(parentDescription, parentMoneyFlow.Description);
-                Assert.AreEqual(value, parentMoneyFlow.Value);
-                Assert.AreEqual(parentMoneyFlowStatusId, parentMoneyFlow.MoneyFlowStatusId);
-                Assert.AreEqual(lastWeek, parentMoneyFlow.TransactionDate);
-                Assert.AreEqual(parentFiscalYear, parentMoneyFlow.FiscalYear);
-                Assert.AreEqual(creatorId, parentMoneyFlow.History.CreatedBy);
-                Assert.AreEqual(revisorId, parentMoneyFlow.History.RevisedBy);
-                Assert.AreEqual(yesterday, parentMoneyFlow.History.CreatedOn);
-                Assert.AreEqual(yesterday, parentMoneyFlow.History.RevisedOn);
-            };
-            context.Revert();
-            service.Update(updatedMoneyFlow);
-            tester();
-            validator.Verify(x => x.ValidateUpdate(It.IsAny<MoneyFlowServiceUpdateValidationEntity>()), Times.Once());
+                    parentMoneyFlow.History.CreatedBy = creatorId;
+                    parentMoneyFlow.History.RevisedBy = creatorId;
+                    parentMoneyFlow.History.CreatedOn = yesterday;
+                    parentMoneyFlow.History.RevisedOn = yesterday;
+                    context.MoneyFlows.Add(moneyFlowToUpdate);
+                    context.MoneyFlows.Add(parentMoneyFlow);
+                });
+
+                var updatedMoneyFlow = new UpdatedMoneyFlow(
+                    updator: new User(revisorId),
+                    id: moneyFlowId,
+                    description: "new description",
+                    value: 10.00m,
+                    moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
+                    transactionDate: DateTimeOffset.UtcNow,
+                    fiscalYear: 2015,
+                    sourceOrRecipientEntityId: sourceEntityId,
+                    sourceOrRecipientEntityTypeId: entityTypeId
+                    );
+
+                Action tester = () =>
+                {
+                    Assert.AreEqual(2, context.MoneyFlows.Count());
+                    Assert.AreEqual(parentDescription, parentMoneyFlow.Description);
+                    Assert.AreEqual(value, parentMoneyFlow.Value);
+                    Assert.AreEqual(parentMoneyFlowStatusId, parentMoneyFlow.MoneyFlowStatusId);
+                    Assert.AreEqual(lastWeek, parentMoneyFlow.TransactionDate);
+                    Assert.AreEqual(parentFiscalYear, parentMoneyFlow.FiscalYear);
+                    Assert.AreEqual(creatorId, parentMoneyFlow.History.CreatedBy);
+                    Assert.AreEqual(creatorId, parentMoneyFlow.History.RevisedBy);
+                    Assert.AreEqual(yesterday, parentMoneyFlow.History.CreatedOn);
+                    Assert.AreEqual(yesterday, parentMoneyFlow.History.RevisedOn);
+                };
+                context.Revert();
+                service.Update(updatedMoneyFlow);
+                tester();
+                validator.Verify(x => x.ValidateUpdate(It.IsAny<MoneyFlowServiceUpdateValidationEntity>()), Times.Once());
 
 
-            context.Revert();
-            await service.UpdateAsync(updatedMoneyFlow);
-            tester();
-            validator.Verify(x => x.ValidateUpdate(It.IsAny<MoneyFlowServiceUpdateValidationEntity>()), Times.Exactly(2));
+                context.Revert();
+                await service.UpdateAsync(updatedMoneyFlow);
+                tester();
+                validator.Verify(x => x.ValidateUpdate(It.IsAny<MoneyFlowServiceUpdateValidationEntity>()), Times.Exactly(2));
+            }
         }
 
         [TestMethod]

@@ -8,13 +8,19 @@ namespace ECA.Business.Queries.Models.Fundings
 {
     public class SourceMoneyFlowDTO
     {
-        public int MoneyFlowId { get; set; }
+        public int Id { get; set; }
 
         public int EntityId { get; set; }
 
         public int EntityTypeId { get; set; }
 
-        public string SourceRecipientName { get; set; }
+        public string SourceName { get; set; }
+
+        public int SourceEntityTypeId { get; set; }
+
+        public string SourceEntityTypeName { get; set; }
+
+        public int? SourceEntityId { get; set; }
 
         public decimal RemainingAmount { get; set; }
 

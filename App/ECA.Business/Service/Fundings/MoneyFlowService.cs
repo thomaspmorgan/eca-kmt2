@@ -80,30 +80,31 @@ namespace ECA.Business.Service.Fundings
         }
 
         #region Get
+
         /// <summary>
-        /// Returns the current unassigned funding from a money flow by money flow id.  This is used
-        /// when another money flow has a parent money flow whose id is equal to the given id and needs
-        /// to be validated.
+        /// Returns the remaining amount of money from the moneyflow with the given id.
         /// </summary>
-        /// <param name="moneyFlowId">The money flow id.</param>
-        /// <returns>The total of the money flow minus other child money flows that have withdrawn from the given money flow.</returns>
+        /// <param name="moneyFlowId">The id of the money flow.</param>
+        /// <returns>The remaining amount of money in the moneyflow.</returns>
         public decimal GetMoneyFlowWithdrawalMaximum(int moneyFlowId)
         {
-            throw new NotImplementedException();
+            return CreateGetSourceMoneyFlowDTOByIdQuery(moneyFlowId).FirstOrDefault();
         }
 
         /// <summary>
-        /// Returns the current unassigned funding from a money flow by money flow id.  This is used
-        /// when another money flow has a parent money flow whose id is equal to the given id and needs
-        /// to be validated.
+        /// Returns the remaining amount of money from the moneyflow with the given id.
         /// </summary>
-        /// <param name="moneyFlowId">The money flow id.</param>
-        /// <returns>The total of the money flow minus other child money flows that have withdrawn from the given money flow.</returns>
+        /// <param name="moneyFlowId">The id of the money flow.</param>
+        /// <returns>The remaining amount of money in the moneyflow.</returns>
         public Task<decimal> GetMoneyFlowWithdrawalMaximumAsync(int moneyFlowId)
         {
-            throw new NotImplementedException();
+            return CreateGetSourceMoneyFlowDTOByIdQuery(moneyFlowId).FirstOrDefaultAsync();
         }
 
+        private IQueryable<decimal> CreateGetSourceMoneyFlowDTOByIdQuery(int moneyFlowId)
+        {
+            return MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsQuery(this.Context).Where(x => x.Id == moneyFlowId).Select(x => x.RemainingAmount);
+        }
 
         /// <summary>
         /// Returns the money flows for the project with the given id.
