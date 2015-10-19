@@ -145,8 +145,10 @@ angular.module('staticApp')
       // Creates a group header
       $scope.currentGroup = '';
       $scope.CreateHeader = function (group, index) {
-          var showHeader = (group !== $scope.currentGroup || index === 0);
-          $scope.currentGroup = group;
+          //need to strip html because the highlights may have highlighted the documentType on property
+          var groupPlainText = group.replace(htmlRegex, '');
+          var showHeader = (groupPlainText !== $scope.currentGroup || index === 0);
+          $scope.currentGroup = groupPlainText;
           return showHeader;
       };
 

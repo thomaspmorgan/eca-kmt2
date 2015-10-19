@@ -404,7 +404,6 @@ angular.module('staticApp')
               dfd.resolve();
               return dfd.promise;
           }
-
       }
 
       function getPermissionsConfig(resourceTypeId, hasEditPermissionCallback, notAuthorizedCallback) {
@@ -459,7 +458,7 @@ angular.module('staticApp')
           var message = "Unable to load user permissions.";
           $log.error(message);
           NotificationService.showErrorMessage(message);
-      })
+      });
 
 
   });

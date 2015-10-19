@@ -150,7 +150,7 @@
     <Compile Include="Queries\Persons\ParticipantPersonSevisCommStatusQueries.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonSevisQueries.cs" />
     <Compile Include="Queries\Persons\ProfessionEducationQueries.cs" />
-    <Compile Include="Search\AddressToOrganizationDocumentSaveAction.cs" />
+    <Compile Include="Search\AddressToEntityDocumentSaveAction.cs" />
     <Compile Include="Search\OrganizationDocumentSaveAction.cs" />
     <Compile Include="Search\OfficeDocumentSaveAction.cs" />
     <Compile Include="Search\OfficeDocumentService.cs" />
