@@ -24,7 +24,7 @@ angular.module('staticApp')
       $scope.view.showEditLanguageProficiency = false;
       $scope.view.isSavingChanges = false;
       $scope.view.showLanguageAlreadyUsedError = false;
-      
+
       $scope.view.proficiencyOptions = [
           { id: 0, name: '0' },
           { id: 1, name: '1' },
@@ -92,8 +92,9 @@ angular.module('staticApp')
           }
       }
 
-      $scope.view.onEditLanguageProficiencyClick = function () {
+      $scope.view.onEditLanguageProficiencyClick = function (proficiency) {
           $scope.view.showEditLanguageProficiency = true;
+          //isLanguageExists(proficiency);
           //var id = getLanguageProficiencyFormDivId();
           //var options = {
           //    duration: 500,
@@ -147,22 +148,38 @@ angular.module('staticApp')
           return languageProficiency.isNew;
       }
 
-      $scope.isLanguageAlreadyAdded = function (oldId, newId) {
-          if (oldId !== newId) {
-              var index = originalProficiencyLanguages.map(function (e) { return e.languageId }).indexOf(newId);
+      function isLanguageExists(language) {
+          if (language) {
+              var editIndex = $scope.data.languages.map(function (e) { return e.languageId }).indexOf(language.languageId);
 
-              if (index !== -1) {
-                  $scope.languageProficiency.languageId = parseInt(oldId);
-                  $scope.view.showLanguageAlreadyUsedError = true;
-              } else {
-                  $scope.languageProficiency.languageId = newId;
-                  originalProficiencyLanguages = angular.copy($scope.model.languageProficiencies);
-                  $scope.view.showLanguageAlreadyUsedError = false;
+              if (editIndex === -1) {
+                  $scope.data.languages.push({
+                      id: language.languageId,
+                      name: language.languageName
+                  });
               }
+
+              $scope.languageProficiency.languageId = language.languageId;
           }
       }
 
       $scope.view.onIsNativeLanguageChange = function () {
           $scope.$emit(ConstantsService.primaryLanguageProficiencyChangedEventName, $scope.languageProficiency);
       }
-  });
+  })
+.filter("filterExisting", function () {
+    return function (languages, proficiencies, scope) {
+        var filtered = [];
+
+        if (proficiencies) {
+            for (var i = 0; i < languages.length; i++) {
+                var lindex = proficiencies.map(function (e) { return e.languageId }).indexOf(languages[i].id);
+
+                if (lindex === -1 || scope.languageProficiency.languageId === languages[i].id) {
+                    filtered.push(languages[i]);
+                }
+            }
+        }
+        return filtered;
+    };
+});
