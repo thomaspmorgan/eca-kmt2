@@ -38,7 +38,6 @@ namespace ECA.Business.Queries.Admin
 
             var allThemes = ThemeQueries.CreateGetThemesQuery(context);
             var programMoneyFlows = MoneyFlowQueries.CreateGetMoneyFlowDTOsByProgramId(context, programId);
-
             var projectThemes = allThemes.GroupBy(theme => theme.Name).OrderByDescending(group => group.Count()).Select(group => group.Key);
 
             var query = from program in context.Programs
@@ -55,14 +54,14 @@ namespace ECA.Business.Queries.Admin
                                         select country
 
                         let budgetByYear = (from pc in context.Projects
-                                           join moneyflow in programMoneyFlows
-                                           on pc.SourceProjectMoneyFlows.Select(x => x.MoneyFlowId).FirstOrDefault() equals moneyflow.Id
-                                           group moneyflow by moneyflow.FiscalYear into g
-                                           select new SnapshotDTO()
-                                           {
-                                               DataLabel = g.Key.ToString(),
-                                               DataValue = g.ToList().Sum(m => (int)m.Amount)
-                                           }).ToList()
+                                            join moneyflow in programMoneyFlows
+                                            on pc.SourceProjectMoneyFlows.Select(x => x.MoneyFlowId).FirstOrDefault() equals moneyflow.Id
+                                            group moneyflow by moneyflow.FiscalYear into g
+                                            select new SnapshotDTO()
+                                            {
+                                                DataLabel = g.Key.ToString(),
+                                                DataValue = g.ToList().Sum(m => (int)m.Amount)
+                                            }).OrderBy(m => m.DataLabel).ToList()
 
                         where program.ProgramId == programId
                         select new ProgramSnapshotDTO
@@ -78,7 +77,8 @@ namespace ECA.Business.Queries.Admin
                             Beneficiaries = 0,
                             Prominence = prominentCategory.FirstOrDefault(),
                             TopThemes = projectThemes.ToList().Take(3),
-                            BudgetByYear = budgetByYear
+                            BudgetByYear = budgetByYear,
+                            ParticipantsByYear = context.Participants.Where(p => p.Project.ProgramId == programId).GroupBy(x => x.Project.StartDate.Year).Select(r => new SnapshotDTO() { DataLabel = r.Key.ToString(), DataValue = r.Count() }).OrderByDescending(p => p.DataLabel).ToList().Take(5)
                         };
 
             return query;

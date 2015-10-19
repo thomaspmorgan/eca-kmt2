@@ -56,10 +56,15 @@
         <div class="col-md-4">
             <p class="graph-stat-header">BUDGET</p>
             <ul>
-                <li ng-repeat="graphyear in view.snapshot.budgetByYear" style="padding-bottom: 6px;">{{graphyear.DataLabel}}: {{graphyear.DataValue | currency:fractionSize:0}}</li>
+                <li ng-repeat="graphyear in view.snapshot.budgetByYear" style="padding-bottom: 6px;">{{graphyear.dataLabel}}: {{graphyear.dataValue | currency:fractionSize:0}}</li>
             </ul>
         </div>
-        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <p class="graph-stat-header">NUMBER OF PARTICIPANTS</p>
+            <ul>
+                <li ng-repeat="partyear in view.snapshot.participantsByYear" style="padding-bottom: 6px;">{{partyear.dataLabel}}: {{partyear.dataValue}}</li>
+            </ul>
+        </div>
         <div class="col-md-4">
             <p class="graph-stat-header">TOP THEMES</p>
             <ul>
