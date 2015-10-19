@@ -4,8 +4,10 @@ using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
+using System;
 
 namespace ECA.Business.Service.Fundings
 {
@@ -133,6 +135,70 @@ namespace ECA.Business.Service.Fundings
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The person's money flows.</returns>
         Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByPersonIdAsync(int personId, QueryableOperator<MoneyFlowDTO> queryOperator);
+
+        /// <summary>
+        /// Returns the source money flows of the project with the given id.  The source money flows will detail the original money flow amount
+        /// and remaining money available to withdrawl.
+        /// </summary>
+        /// <param name="projectId">The id of the project to get source money flows for.</param>
+        /// <returns>The source money flows.</returns>
+        List<SourceMoneyFlowDTO> GetSourceMoneyFlowsByProjectId(int projectId);
+
+        /// <summary>
+        /// Returns the source money flows of the project with the given id.  The source money flows will detail the original money flow amount
+        /// and remaining money available to withdrawl.
+        /// </summary>
+        /// <param name="projectId">The id of the project to get source money flows for.</param>
+        /// <returns>The source money flows.</returns>
+        Task<List<SourceMoneyFlowDTO>> GetSourceMoneyFlowsByProjectIdAsync(int projectId);
+
+        /// <summary>
+        /// Returns the source money flows of the program with the given id.  The source money flows will detail the original money flow amount
+        /// and remaining money available to withdrawl.
+        /// </summary>
+        /// <param name="programId">The id of the program to get source money flows for.</param>
+        /// <returns>The source money flows.</returns>
+        List<SourceMoneyFlowDTO> GetSourceMoneyFlowsByProgramId(int programId);
+
+        /// <summary>
+        /// Returns the source money flows of the program with the given id.  The source money flows will detail the original money flow amount
+        /// and remaining money available to withdrawl.
+        /// </summary>
+        /// <param name="programId">The id of the program to get source money flows for.</param>
+        /// <returns>The source money flows.</returns>
+        Task<List<SourceMoneyFlowDTO>> GetSourceMoneyFlowsByProgramIdAsync(int programId);
+
+        /// <summary>
+        /// Returns the source money flows of the organization with the given id.  The source money flows will detail the original money flow amount
+        /// and remaining money available to withdrawl.
+        /// </summary>
+        /// <param name="organizationId">The id of the organization to get source money flows for.</param>
+        /// <returns>The source money flows.</returns>
+        List<SourceMoneyFlowDTO> GetSourceMoneyFlowsByOrganizationId(int organizationId);
+
+        /// <summary>
+        /// Returns the source money flows of the organization with the given id.  The source money flows will detail the original money flow amount
+        /// and remaining money available to withdrawl.
+        /// </summary>
+        /// <param name="organizationId">The id of the organization to get source money flows for.</param>
+        /// <returns>The source money flows.</returns>
+        Task<List<SourceMoneyFlowDTO>> GetSourceMoneyFlowsByOrganizationIdAsync(int organizationId);
+
+        /// <summary>
+        /// Returns the source money flows of the office with the given id.  The source money flows will detail the original money flow amount
+        /// and remaining money available to withdrawl.
+        /// </summary>
+        /// <param name="officeId">The id of the office to get source money flows for.</param>
+        /// <returns>The source money flows.</returns>
+        List<SourceMoneyFlowDTO> GetSourceMoneyFlowsByOfficeId(int officeId);
+
+        /// <summary>
+        /// Returns the source money flows of the office with the given id.  The source money flows will detail the original money flow amount
+        /// and remaining money available to withdrawl.
+        /// </summary>
+        /// <param name="officeId">The id of the office to get source money flows for.</param>
+        /// <returns>The source money flows.</returns>
+        Task<List<SourceMoneyFlowDTO>> GetSourceMoneyFlowsByOfficeIdAsync(int officeId);
     }
 
     /// <summary>
@@ -339,6 +405,86 @@ namespace ECA.Business.Service.Fundings
         {
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
             return Task.FromResult<PagedQueryResults<MoneyFlowDTO>>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
+        public List<SourceMoneyFlowDTO> GetSourceMoneyFlowsByProjectId(int projectId)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
+        public Task<List<SourceMoneyFlowDTO>> GetSourceMoneyFlowsByProjectIdAsync(int projectId)
+        {
+            return Task.FromResult<List<SourceMoneyFlowDTO>>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
+        public List<SourceMoneyFlowDTO> GetSourceMoneyFlowsByProgramId(int programId)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
+        public Task<List<SourceMoneyFlowDTO>> GetSourceMoneyFlowsByProgramIdAsync(int programId)
+        {
+            return Task.FromResult<List<SourceMoneyFlowDTO>>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="organizationId"></param>
+        /// <returns></returns>
+        public List<SourceMoneyFlowDTO> GetSourceMoneyFlowsByOrganizationId(int organizationId)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="organizationId"></param>
+        /// <returns></returns>
+        public Task<List<SourceMoneyFlowDTO>> GetSourceMoneyFlowsByOrganizationIdAsync(int organizationId)
+        {
+            return Task.FromResult<List<SourceMoneyFlowDTO>>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="officeId"></param>
+        /// <returns></returns>
+        public List<SourceMoneyFlowDTO> GetSourceMoneyFlowsByOfficeId(int officeId)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="officeId"></param>
+        /// <returns></returns>
+        public Task<List<SourceMoneyFlowDTO>> GetSourceMoneyFlowsByOfficeIdAsync(int officeId)
+        {
+            return Task.FromResult<List<SourceMoneyFlowDTO>>(null); 
         }
     }
 }

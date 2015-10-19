@@ -57,7 +57,6 @@ namespace ECA.Business.Models.Fundings
             {
                 throw new UnknownStaticLookupException(String.Format("The recipient type [{0}] is not supported.", recipientEntityTypeId));
             }
-
             var sourceEntityType = MoneyFlowSourceRecipientType.GetStaticLookup(sourceEntityTypeId);
             if (sourceEntityType == null)
             {

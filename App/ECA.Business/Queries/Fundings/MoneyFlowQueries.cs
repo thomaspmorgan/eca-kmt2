@@ -355,17 +355,19 @@ namespace ECA.Business.Queries.Fundings
         {
             var query = from incomingMoneyFlow in CreateIncomingMoneyFlowDTOsQuery(context)
                         let childMoneyFlows = context.MoneyFlows.Where(x => x.ParentMoneyFlowId == incomingMoneyFlow.Id)
+                        orderby incomingMoneyFlow.SourceRecipientName
                         select new SourceMoneyFlowDTO
                         {
                             Amount = incomingMoneyFlow.Amount,
+                            ChildMoneyFlowIds = childMoneyFlows.Select(x => x.MoneyFlowId),
                             EntityId = incomingMoneyFlow.EntityId,
                             EntityTypeId = incomingMoneyFlow.EntityTypeId,
                             Id = incomingMoneyFlow.Id,
-                            RemainingAmount = incomingMoneyFlow.Amount - childMoneyFlows.Sum(x => x.Value),
+                            RemainingAmount = incomingMoneyFlow.Amount - childMoneyFlows.Select(x => x.Value).DefaultIfEmpty().Sum(),
                             SourceName = incomingMoneyFlow.SourceRecipientName,
                             SourceEntityId = incomingMoneyFlow.SourceRecipientEntityId,
                             SourceEntityTypeId = incomingMoneyFlow.SourceRecipientEntityTypeId,
-                            SourceEntityTypeName = incomingMoneyFlow.SourceRecipientTypeName
+                            SourceEntityTypeName = incomingMoneyFlow.SourceRecipientTypeName,
                         };
             return query;
         }

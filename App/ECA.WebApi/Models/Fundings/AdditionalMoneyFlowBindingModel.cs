@@ -64,6 +64,11 @@ namespace ECA.WebApi.Models.Fundings
         public bool IsOutgoing { get; set; }
 
         /// <summary>
+        /// The parent money flow by id.
+        /// </summary>
+        public int? ParentMoneyFlowId { get; set; }
+
+        /// <summary>
         /// Returns the permissable entity type id.
         /// </summary>
         /// <returns>The permissable entity type id, i.e. Project, Post, Organization, etc.</returns>
@@ -87,6 +92,7 @@ namespace ECA.WebApi.Models.Fundings
             {
                 return new AdditionalMoneyFlow(
                 createdBy: user,
+                parentMoneyFlowId: this.ParentMoneyFlowId,
                 description: this.Description,
                 value: this.Value,
                 moneyFlowStatusId: this.MoneyFlowStatusId,
@@ -103,6 +109,7 @@ namespace ECA.WebApi.Models.Fundings
                 return new AdditionalMoneyFlow(
                     createdBy: user,
                     description: this.Description,
+                    parentMoneyFlowId: this.ParentMoneyFlowId,
                     value: this.Value,
                     moneyFlowStatusId: this.MoneyFlowStatusId,
                     transactionDate: this.TransactionDate,

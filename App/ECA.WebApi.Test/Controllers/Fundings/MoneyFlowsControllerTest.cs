@@ -1,22 +1,20 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using ECA.Business.Service.Admin;
-using ECA.WebApi.Controllers.Admin;
-using ECA.Business.Queries.Models.Admin;
+﻿using ECA.Business.Models.Fundings;
+using ECA.Business.Queries.Models.Fundings;
+using ECA.Business.Service;
+using ECA.Business.Service.Fundings;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
-using System.Collections.Generic;
-using ECA.WebApi.Models.Query;
-using System.Web.Http.Results;
-using System.Threading.Tasks;
-using ECA.Business.Service.Fundings;
-using ECA.WebApi.Security;
-using ECA.WebApi.Models.Fundings;
 using ECA.Data;
-using ECA.Business.Models.Fundings;
 using ECA.WebApi.Controllers.Fundings;
-using ECA.Business.Service;
+using ECA.WebApi.Models.Fundings;
+using ECA.WebApi.Models.Query;
+using ECA.WebApi.Security;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Http.Results;
 
 namespace ECA.WebApi.Test.Controllers.Fundings
 {
@@ -61,6 +59,13 @@ namespace ECA.WebApi.Test.Controllers.Fundings
 
         #region Get moneyflows by project
         [TestMethod]
+        public async Task TestGetSourceMoneyFlowsByProjectIdAsync()
+        {
+            var response = await controller.GetSourceMoneyFlowsByProjectIdAsync(1);
+            moneyFlowService.Verify(x => x.GetSourceMoneyFlowsByProjectIdAsync(It.IsAny<int>()), Times.Once());
+        }
+
+        [TestMethod]
         public async Task TestGetMoneyFlowsByProjectAsync()
         {
             moneyFlowService.Setup(x => x.GetMoneyFlowsByProjectIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<MoneyFlowDTO>>()))
@@ -79,6 +84,13 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         #endregion
 
         #region Get moneyflows by program
+        [TestMethod]
+        public async Task TestGetSourceMoneyFlowsByProgramIdAsync()
+        {
+            var response = await controller.GetSourceMoneyFlowsByProgramIdAsync(1);
+            moneyFlowService.Verify(x => x.GetSourceMoneyFlowsByProgramIdAsync(It.IsAny<int>()), Times.Once());
+        }
+
         [TestMethod]
         public async Task TestGetMoneyFlowsByProgramAsync()
         {
@@ -99,6 +111,13 @@ namespace ECA.WebApi.Test.Controllers.Fundings
 
         #region Get moneyflows by office
         [TestMethod]
+        public async Task TestGetSourceMoneyFlowsByOfficeIdAsync()
+        {
+            var response = await controller.GetSourceMoneyFlowsByOfficeIdAsync(1);
+            moneyFlowService.Verify(x => x.GetSourceMoneyFlowsByOfficeIdAsync(It.IsAny<int>()), Times.Once());
+        }
+
+        [TestMethod]
         public async Task TestGetMoneyFlowsByOfficeAsync()
         {
             moneyFlowService.Setup(x => x.GetMoneyFlowsByOfficeIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<MoneyFlowDTO>>()))
@@ -117,6 +136,13 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         #endregion
 
         #region Get moneyflows by organization
+        [TestMethod]
+        public async Task TestGetSourceMoneyFlowsByOrganizationIdAsync()
+        {
+            var response = await controller.GetSourceMoneyFlowsByOrganizationIdAsync(1);
+            moneyFlowService.Verify(x => x.GetSourceMoneyFlowsByOrganizationIdAsync(It.IsAny<int>()), Times.Once());
+        }
+
         [TestMethod]
         public async Task TestGetMoneyFlowsByOrganizationAsync()
         {

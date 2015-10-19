@@ -25,5 +25,7 @@ namespace ECA.Business.Queries.Models.Fundings
         public decimal RemainingAmount { get; set; }
 
         public decimal Amount { get; set; }
+
+        public IEnumerable<int> ChildMoneyFlowIds { get; set; }
     }
 }

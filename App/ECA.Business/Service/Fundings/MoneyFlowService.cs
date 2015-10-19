@@ -86,9 +86,10 @@ namespace ECA.Business.Service.Fundings
         /// </summary>
         /// <param name="moneyFlowId">The id of the money flow.</param>
         /// <returns>The remaining amount of money in the moneyflow.</returns>
-        public decimal GetMoneyFlowWithdrawalMaximum(int moneyFlowId)
+        public decimal? GetMoneyFlowWithdrawalMaximum(int moneyFlowId)
         {
-            return CreateGetSourceMoneyFlowDTOByIdQuery(moneyFlowId).FirstOrDefault();
+            var dto = CreateGetSourceMoneyFlowDTOByIdQuery(moneyFlowId).FirstOrDefault();
+            return DoGetMoneyFlowWithdrawalMaximum(dto);
         }
 
         /// <summary>
@@ -96,14 +97,118 @@ namespace ECA.Business.Service.Fundings
         /// </summary>
         /// <param name="moneyFlowId">The id of the money flow.</param>
         /// <returns>The remaining amount of money in the moneyflow.</returns>
-        public Task<decimal> GetMoneyFlowWithdrawalMaximumAsync(int moneyFlowId)
+        public async Task<decimal?> GetMoneyFlowWithdrawalMaximumAsync(int moneyFlowId)
         {
-            return CreateGetSourceMoneyFlowDTOByIdQuery(moneyFlowId).FirstOrDefaultAsync();
+            var dto = await CreateGetSourceMoneyFlowDTOByIdQuery(moneyFlowId).FirstOrDefaultAsync();
+            return DoGetMoneyFlowWithdrawalMaximum(dto);
         }
 
-        private IQueryable<decimal> CreateGetSourceMoneyFlowDTOByIdQuery(int moneyFlowId)
+        private decimal? DoGetMoneyFlowWithdrawalMaximum(SourceMoneyFlowDTO sourceMoneyFlowDTO)
         {
-            return MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsQuery(this.Context).Where(x => x.Id == moneyFlowId).Select(x => x.RemainingAmount);
+            if (sourceMoneyFlowDTO == null)
+            {
+                return null;
+            }
+            else {
+                return sourceMoneyFlowDTO.RemainingAmount;
+            }
+        }
+
+        private IQueryable<SourceMoneyFlowDTO> CreateGetSourceMoneyFlowDTOByIdQuery(int moneyFlowId)
+        {
+            return MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsQuery(this.Context).Where(x => x.Id == moneyFlowId);
+        }
+
+        /// <summary>
+        /// Returns the source money flows of the program with the given id.  The source money flows will detail the original money flow amount
+        /// and remaining money available to withdrawl.
+        /// </summary>
+        /// <param name="programId">The id of the program to get source money flows for.</param>
+        /// <returns>The source money flows.</returns>
+        public List<SourceMoneyFlowDTO> GetSourceMoneyFlowsByProjectId(int projectId)
+        {
+            return MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByProjectId(this.Context, projectId).ToList();
+        }
+
+        /// <summary>
+        /// Returns the source money flows of the program with the given id.  The source money flows will detail the original money flow amount
+        /// and remaining money available to withdrawl.
+        /// </summary>
+        /// <param name="programId">The id of the program to get source money flows for.</param>
+        /// <returns>The source money flows.</returns>
+        public Task<List<SourceMoneyFlowDTO>> GetSourceMoneyFlowsByProjectIdAsync(int projectId)
+        {
+            return MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByProjectId(this.Context, projectId).ToListAsync();
+        }
+
+        /// <summary>
+        /// Returns the source money flows of the program with the given id.  The source money flows will detail the original money flow amount
+        /// and remaining money available to withdrawl.
+        /// </summary>
+        /// <param name="programId">The id of the program to get source money flows for.</param>
+        /// <returns>The source money flows.</returns>
+        public List<SourceMoneyFlowDTO> GetSourceMoneyFlowsByProgramId(int programId)
+        {
+            return MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByProgramId(this.Context, programId).ToList();
+        }
+
+        /// <summary>
+        /// Returns the source money flows of the program with the given id.  The source money flows will detail the original money flow amount
+        /// and remaining money available to withdrawl.
+        /// </summary>
+        /// <param name="programId">The id of the program to get source money flows for.</param>
+        /// <returns>The source money flows.</returns>
+        public Task<List<SourceMoneyFlowDTO>> GetSourceMoneyFlowsByProgramIdAsync(int programId)
+        {
+            return MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByProgramId(this.Context, programId).ToListAsync();
+        }
+
+        /// <summary>
+        /// Returns the source money flows of the organization with the given id.  The source money flows will detail the original money flow amount
+        /// and remaining money available to withdrawl.
+        /// </summary>
+        /// <param name="organizationId">The id of the organization to get source money flows for.</param>
+        /// <returns>The source money flows.</returns>
+        public List<SourceMoneyFlowDTO> GetSourceMoneyFlowsByOrganizationId(int organizationId)
+        {
+            var office = CreateGetOfficeByOrganizationIdQuery(organizationId).FirstOrDefault();
+            throwSecurityViolationIfOrgIsOffice(organizationId, office);
+            return MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByOrganizationId(this.Context, organizationId).ToList();
+        }
+
+        /// <summary>
+        /// Returns the source money flows of the organization with the given id.  The source money flows will detail the original money flow amount
+        /// and remaining money available to withdrawl.
+        /// </summary>
+        /// <param name="organizationId">The id of the organization to get source money flows for.</param>
+        /// <returns>The source money flows.</returns>
+        public async Task<List<SourceMoneyFlowDTO>> GetSourceMoneyFlowsByOrganizationIdAsync(int organizationId)
+        {
+            var office = await CreateGetOfficeByOrganizationIdQuery(organizationId).FirstOrDefaultAsync();
+            throwSecurityViolationIfOrgIsOffice(organizationId, office);
+            return await MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByOrganizationId(this.Context, organizationId).ToListAsync();
+        }
+
+        /// <summary>
+        /// Returns the source money flows of the office with the given id.  The source money flows will detail the original money flow amount
+        /// and remaining money available to withdrawl.
+        /// </summary>
+        /// <param name="officeId">The id of the office to get source money flows for.</param>
+        /// <returns>The source money flows.</returns>
+        public List<SourceMoneyFlowDTO> GetSourceMoneyFlowsByOfficeId(int officeId)
+        {
+            return MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByOfficeId(this.Context, officeId).ToList();
+        }
+
+        /// <summary>
+        /// Returns the source money flows of the office with the given id.  The source money flows will detail the original money flow amount
+        /// and remaining money available to withdrawl.
+        /// </summary>
+        /// <param name="officeId">The id of the office to get source money flows for.</param>
+        /// <returns>The source money flows.</returns>
+        public async Task<List<SourceMoneyFlowDTO>> GetSourceMoneyFlowsByOfficeIdAsync(int officeId)
+        {
+            return await MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByOfficeId(this.Context, officeId).ToListAsync();
         }
 
         /// <summary>
@@ -196,7 +301,6 @@ namespace ECA.Business.Service.Fundings
         /// <returns>The office's money flows.</returns>
         public PagedQueryResults<MoneyFlowDTO> GetMoneyFlowsByOfficeId(int officeId, QueryableOperator<MoneyFlowDTO> queryOperator)
         {
-            var office = CreateGetOfficeByOrganizationIdQuery(officeId).FirstOrDefault();
             var moneyFlows = MoneyFlowQueries.CreateGetMoneyFlowDTOsByOfficeId(this.Context, officeId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
             this.logger.Trace("Retrieved money flows by organization id {0} with query operator {1}.", officeId, queryOperator);
             return moneyFlows;

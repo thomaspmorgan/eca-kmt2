@@ -583,6 +583,9 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(sourceId, testParentMoneyFlow.SourceEntityId);
             Assert.AreEqual(projectType.MoneyFlowSourceRecipientTypeId, testParentMoneyFlow.SourceEntityTypeId);
             Assert.AreEqual(projectType.TypeName, testParentMoneyFlow.SourceEntityTypeName);
+
+            Assert.AreEqual(1, testParentMoneyFlow.ChildMoneyFlowIds.Count());
+            Assert.IsTrue(testParentMoneyFlow.ChildMoneyFlowIds.Contains(childMoneyFlow.MoneyFlowId));
         }
 
         [TestMethod]
@@ -671,6 +674,10 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(sourceId, testParentMoneyFlow.SourceEntityId);
             Assert.AreEqual(projectType.MoneyFlowSourceRecipientTypeId, testParentMoneyFlow.SourceEntityTypeId);
             Assert.AreEqual(projectType.TypeName, testParentMoneyFlow.SourceEntityTypeName);
+
+            Assert.AreEqual(2, testParentMoneyFlow.ChildMoneyFlowIds.Count());
+            Assert.IsTrue(testParentMoneyFlow.ChildMoneyFlowIds.Contains(childMoneyFlow1.MoneyFlowId));
+            Assert.IsTrue(testParentMoneyFlow.ChildMoneyFlowIds.Contains(childMoneyFlow2.MoneyFlowId));
         }
 
         [TestMethod]
@@ -721,6 +728,7 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(sourceId, testParentMoneyFlow.SourceEntityId);
             Assert.AreEqual(projectType.MoneyFlowSourceRecipientTypeId, testParentMoneyFlow.SourceEntityTypeId);
             Assert.AreEqual(projectType.TypeName, testParentMoneyFlow.SourceEntityTypeName);
+            Assert.AreEqual(0, testParentMoneyFlow.ChildMoneyFlowIds.Count());
         }
         #endregion
 
