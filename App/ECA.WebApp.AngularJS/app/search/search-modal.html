@@ -43,7 +43,7 @@
                     <div ng-repeat="docitem in results" class="row-fluid">
                         <div class="col-md-2 col-sm-3 text-right">
                             <span ng-show="CreateHeader(docitem.document.documentTypeName, $index)">
-                                <strong>{{docitem.document.documentTypeName | uppercase}}</strong>
+                                <strong>{{currentGroup | uppercase}}</strong>
                             </span>
                         </div>
                         <div class="col-md-10 col-sm-9 search-results">
