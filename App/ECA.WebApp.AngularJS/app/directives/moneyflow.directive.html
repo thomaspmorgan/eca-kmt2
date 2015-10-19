@@ -127,6 +127,29 @@
             </div>
         </div>
         <div class="row">
+            <div class="form-group">
+                <label>Select a Funding Item that will be the Source for the new Funding Item</label>
+                <ui-select 
+                           ng-model="view.moneyFlow.parentMoneyFlowId" 
+                           on-select="view.onSelectSourceMoneyFlow($item, $model)">
+                    <ui-select-match placeholder="Select a source funding item..." allow-clear="true">
+                        <div class="row">
+                            <div class="col-md-4" ng-bind-html="source.sourceName"></div>
+                            <div class="col-md-4" ng-bind-html="source.amount"></div>
+                            <div class="col-md-4" ng-bind-html="source.remainingAmount"></div>
+                        </div>
+                    </ui-select-match>
+                    <ui-select-choices repeat="source in view.sourceMoneyFlows track by source.id">
+                        <div class="row">
+                            <div class="col-md-4" ng-bind-html="source.sourceName"></div>
+                            <div class="col-md-4" ng-bind-html="source.amount"></div>
+                            <div class="col-md-4" ng-bind-html="source.remainingAmount"></div>
+                        </div>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+        <div class="row">
             <div class="form-group col-md-12">
                 <label>Description<span class="asterisk"> *</span></label>
                 <div>
