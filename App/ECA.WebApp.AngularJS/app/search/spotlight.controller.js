@@ -41,7 +41,7 @@ angular.module('staticApp')
                   $scope.view.isSpotlightIconVisible = true;
               },
               notAuthorized: function () {
-                  
+
               }
           };
           return AuthService.getResourcePermissions(resourceType, kmtId, config)
@@ -52,8 +52,16 @@ angular.module('staticApp')
             });
       }
 
-      $q.all([loadPermissions()])
-      .then(function () {
+      var hasLoaded = false;
+      $scope.$watch(function () {
+          return $rootScope.userInfo;
+      }, function (newValue, oldValue) {
+          if (newValue.isAuthenticated) {
+              loadPermissions()
+              .then(function () {
+                  hasLoaded = true;
+              });
+          }
 
-      });
+      })
   });
