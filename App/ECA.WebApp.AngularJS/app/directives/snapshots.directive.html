@@ -60,16 +60,41 @@
             </ul>
         </div>
         <div class="col-md-4">
-            <p class="graph-stat-header">NUMBER OF PARTICIPANTS</p>
-            <ul>
-                <li ng-repeat="partyear in view.snapshot.participantsByYear" style="padding-bottom: 6px;">{{partyear.dataLabel}}: {{partyear.dataValue}}</li>
-            </ul>
+            <p class="graph-stat-header">MOST FUNDED COUNTRIES</p>
         </div>
         <div class="col-md-4">
             <p class="graph-stat-header">TOP THEMES</p>
             <ul>
                 <li ng-repeat="theme in view.snapshot.topThemes" style="padding-bottom: 6px;">{{theme}}</li>
             </ul>
+        </div>
+    </div>
+    <div class="row stat-row">
+        <div class="col-md-6">
+            <p class="graph-stat-header">PARTICIPANT LOCATIONS</p>
+            <ul>
+                <li ng-repeat="location in view.snapshot.participantLocations" style="padding-bottom: 6px;">{{location}}</li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <p class="graph-stat-header">NUMBER OF PARTICIPANTS</p>
+            <ul>
+                <li ng-repeat="partyear in view.snapshot.participantsByYear" style="padding-bottom: 6px;">{{partyear.dataLabel}}: {{partyear.dataValue}}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row stat-row">
+        <div class="col-md-4">
+            <p class="graph-stat-header">GENDER</p>
+
+        </div>
+        <div class="col-md-4">
+            <p class="graph-stat-header">AGE</p>
+
+        </div>
+        <div class="col-md-4">
+            <p class="graph-stat-header">EDUCATION</p>
+
         </div>
     </div>
 </div>
