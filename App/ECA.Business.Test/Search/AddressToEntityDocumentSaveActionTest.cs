@@ -16,12 +16,12 @@ using System.Data.Entity.Infrastructure;
 namespace ECA.Business.Test.Search
 {
     [TestClass]
-    public class AddressToOrganizationDocumentSaveActionTest
+    public class AddressToEntityDocumentSaveActionTest
     {
         private NameValueCollection appSettings;
         private ConnectionStringSettingsCollection connectionStrings;
         private AppSettings settings;
-        private AddressToOrganizationDocumentSaveAction saveAction;
+        private AddressToEntityDocumentSaveAction saveAction;
         private InMemoryEcaContext context;
 
 
@@ -32,7 +32,7 @@ namespace ECA.Business.Test.Search
             appSettings = new NameValueCollection();
             connectionStrings = new ConnectionStringSettingsCollection();
             settings = new AppSettings(appSettings, connectionStrings);
-            saveAction = new AddressToOrganizationDocumentSaveAction(settings);
+            saveAction = new AddressToEntityDocumentSaveAction(settings);
         }
 
 
@@ -111,8 +111,8 @@ namespace ECA.Business.Test.Search
             var address = new Address();
             Assert.IsFalse(address.OrganizationId.HasValue);
             Assert.IsNull(address.Organization);
-            Action a = () => saveAction.GetOrganizationDocumentKeys(address);
-            a.ShouldThrow<NotSupportedException>().WithMessage("Unable to determine organization document key from the given address.");
+            var keys = saveAction.GetOrganizationDocumentKeys(address);
+            Assert.AreEqual(0, keys.Count);
         }
 
         [TestMethod]
