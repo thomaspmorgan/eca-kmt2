@@ -4,6 +4,7 @@ using ECA.Business.Queries.Programs;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,30 +23,35 @@ namespace ECA.Business.Queries.Admin
         /// <returns>Bookmark dtos</returns>
         public static IQueryable<BookmarkDTO> CreateGetBookmarksQuery(EcaContext context)
         {
-            var allOffices = OfficeQueries.CreateGetOfficesQuery(context);
-            var allPrograms = ProgramQueries.CreateGetPublishedProgramsQuery(context);
-            var allProjects = ProjectQueries.CreateGetProjectsQuery(context);
+            Contract.Requires(context != null, "The context must not be null.");
             var allPeople = PersonQueries.CreateGetSimplePersonDTOsQuery(context);
-            var allOrganizations = OrganizationQueries.CreateGetSimpleOrganizationsDTOQuery(context);
-
             var query = from bookmark in context.Bookmarks
 
                         let hasOffice = bookmark.OfficeId.HasValue
-                        let office = allOffices.Where(x => x.Id == bookmark.OfficeId).FirstOrDefault()
+                        let office = bookmark.Office
+
                         let hasProgram = bookmark.ProgramId.HasValue
-                        let program = allPrograms.Where(x => x.Id == bookmark.ProgramId).FirstOrDefault()
+                        let program = bookmark.Program
+
                         let hasProject = bookmark.ProjectId.HasValue
-                        let project = allProjects.Where(x => x.ProjectId == bookmark.ProjectId).FirstOrDefault()
+                        let project = bookmark.Project
+
                         let hasPerson = bookmark.PersonId.HasValue
                         let person = allPeople.Where(x => x.PersonId == bookmark.PersonId).FirstOrDefault()
+
                         let hasOrganization = bookmark.OrganizationId.HasValue
-                        let organization = allOrganizations.Where(x => x.OrganizationId == bookmark.OrganizationId).FirstOrDefault()
+                        let organization = bookmark.Organization
+
+                        let ownerSymbol = hasProject ? project.ParentProgram.Owner.OfficeSymbol : 
+                                    hasProgram ? program.Owner.OfficeSymbol :
+                                    hasOffice ? office.OfficeSymbol : "UNKNOWN OFFICE SYMBOL"
+
 
                         select new BookmarkDTO
                         {
                             BookmarkId = bookmark.BookmarkId,
-                            OfficeId = hasProject ? project.OwnerId : bookmark.OfficeId,
-                            ProgramId = hasProject ? project.ProgramId : bookmark.ProgramId,
+                            OfficeId = bookmark.OfficeId,
+                            ProgramId = bookmark.ProgramId,
                             ProjectId = bookmark.ProjectId,
                             PersonId = bookmark.PersonId,
                             OrganizationId = bookmark.OrganizationId,
@@ -57,13 +63,11 @@ namespace ECA.Business.Queries.Admin
                                    hasProgram ? "Program" :
                                    hasPerson ? "Person" :
                                    hasOrganization ? "Organization" : "Unknown",
-                            OfficeSymbolOrStatus = hasProject ? project.OwnerOfficeSymbol :
-                                                   hasOffice ? office.OfficeSymbol :
-                                                   hasProgram ? program.OwnerOfficeSymbol :
+                            OfficeSymbolOrStatus = (hasProject || hasProgram || hasOffice) ? ownerSymbol :
                                                    hasPerson ? person.CurrentStatus :
                                                    hasOrganization ? organization.Status : "",
-                            Name = hasProject ? project.ProjectName :
-                                   hasOffice ? office.Name : 
+                            Name = hasProject ? project.Name :
+                                   hasOffice ? office.Name :
                                    hasProgram ? program.Name :
                                    hasPerson ? person.FullName :
                                    hasOrganization ? organization.Name : ""
