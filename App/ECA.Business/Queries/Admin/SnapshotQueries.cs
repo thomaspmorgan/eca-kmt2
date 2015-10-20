@@ -1,21 +1,54 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design.Serialization;
 using ECA.Business.Queries.Models.Programs;
 using ECA.Data;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using ECA.Business.Queries.Fundings;
 using ECA.Business.Queries.Models.Admin;
-using ECA.Business.Queries.Models.Reports;
 using ECA.Business.Queries.Programs;
-using ECA.Core.DynamicLinq;
+using ECA.Business.Service.Programs;
 
 namespace ECA.Business.Queries.Admin
 {
     public static class SnapshotQueries
     {
+        private static ProgramService service;
+
+        public static async Task<SnapshotDTO> CreateGetProgramCountryCountQuery(EcaContext context, int programId)
+        {
+            var allChildPrograms = await service.GetAllChildProgramsAsync(programId);
+            var allLocations = await Task.Factory.StartNew(() => LocationQueries.CreateGetLocationsQuery(context));
+
+            var query = from parent in allChildPrograms
+                        from program in context.Programs
+
+                        let regions = from location in allLocations
+                                      join programRegion in program.Regions
+                                      on location.Id equals programRegion.LocationId
+                                      select location
+
+                        let countries = from country in allLocations
+                                        join region in regions
+                                        on country.RegionId equals region.Id
+                                        where country.LocationTypeId == LocationType.Country.Id
+                                        select country
+
+                        where program.ProgramId == programId
+                        select new SnapshotDTO()
+                        {
+                            DataLabel = "COUNTRIES",
+                            DataValue = countries.Count()
+                        };
+
+            return query.FirstOrDefault();
+        }
+
+
+
+
+
+
         /// <summary>
         /// Get program snapshot
         /// </summary>

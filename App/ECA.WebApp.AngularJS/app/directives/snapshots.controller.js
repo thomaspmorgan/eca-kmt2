@@ -18,23 +18,36 @@ angular.module('staticApp')
       $scope.view.isSnapshotLoading = false;
       $scope.view.params = $stateParams;
       $scope.view.snapshot = {};
+      $scope.view.snapshot.totalCountries = 0;
 
       $scope.init = function () {
           $scope.view.isSnapshotLoading = true;
-          SnapshotService.getProgramSnapshot($scope.view.params.programId)
+          //SnapshotService.getProgramSnapshot($scope.view.params.programId)
+          //.then(function (response) {
+          //    $scope.view.snapshot = response.data;
+          //    if ($scope.view.snapshot.budget !== null && $scope.view.snapshot.participants !== null) {
+          //        $scope.view.snapshot.costPerParticipant = $scope.view.snapshot.budget / $scope.view.snapshot.participants;
+          //    }
+          //    $scope.view.isSnapshotLoading = false;
+          //})
+          //.catch(function () {
+          //    var message = 'Unable to load shapshot.';
+          //    NotificationService.showErrorMessage(message);
+          //    $log.error(message);
+          //    $scope.view.isSnapshotLoading = false;
+          //});
+
+          SnapshotService.getProgramCountryCount($scope.view.params.programId)
           .then(function (response) {
-              $scope.view.snapshot = response.data;
-              if ($scope.view.snapshot.budget !== null && $scope.view.snapshot.participants !== null) {
-                  $scope.view.snapshot.costPerParticipant = $scope.view.snapshot.budget / $scope.view.snapshot.participants;
-              }
-              $scope.view.isSnapshotLoading = false;
+              $scope.view.totalCountries = response.data;
           })
           .catch(function () {
-              var message = 'Unable to load shapshot.';
+              var message = 'Unable to load countries.';
               NotificationService.showErrorMessage(message);
               $log.error(message);
-              $scope.view.isSnapshotLoading = false;
           });
+
+          $scope.view.isSnapshotLoading = false;
       };
 
       $scope.init();

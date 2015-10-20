@@ -8,93 +8,48 @@
     </div>
     <div class="row stat-row">
         <div class="col-md-3">
-            <p class="stat text-center">{{view.snapshot.relatedProjects}}</p>
+            <p class="stat text-center">0</p>
             <p class="title-label text-center">RELATED PROJECTS</p>
         </div>
         <div class="col-md-3">
-            <p class="stat text-center">{{view.snapshot.participants}}</p>
+            <p class="stat text-center">0</p>
             <p class="title-label text-center">PARTICIPANTS</p>
         </div>
         <div class="col-md-3">
-            <p class="stat text-center">{{view.snapshot.budget | currency:fractionSize:0}}</p>
+            <p class="stat text-center">0</p>
             <p class="title-label text-center">BUDGET</p>
         </div>
         <div class="col-md-3">
-            <p class="stat text-center">{{view.snapshot.costPerParticipant | currency:fractionSize:0}}</p>
+            <p class="stat text-center">0</p>
             <p class="title-label text-center">COST PER PARTICIPANT</p>
         </div>
     </div>
     <div class="row stat-row">
         <div class="col-md-3">
-            <p class="stat text-center">{{view.snapshot.fundingSources}}</p>
+            <p class="stat text-center">0</p>
             <p class="title-label text-center">FUNDING SOURCES</p>
         </div>
         <div class="col-md-3">
-            <p class="stat text-center">{{view.snapshot.countries}}</p>
+            <p class="stat text-center">{{view.snapshot.totalCountries}}</p>
             <p class="title-label text-center">COUNTRIES</p>
         </div>
         <div class="col-md-3">
-            <p class="stat text-center">{{view.snapshot.beneficiaries}}</p>
+            <p class="stat text-center">0</p>
             <p class="title-label text-center">BENEFICIARIES</p>
         </div>
         <div class="col-md-3">
-            <p class="stat text-center">{{view.snapshot.impactStories}}</p>
+            <p class="stat text-center">0</p>
             <p class="title-label text-center">IMPACT STORIES</p>
         </div>
     </div>
     <div class="row stat-row">
         <div class="col-md-3">
-            <p class="stat text-center">{{view.snapshot.alumni}}</p>
+            <p class="stat text-center">0</p>
             <p class="title-label text-center">ALUMNI</p>
         </div>
         <div class="col-md-3">
-            <p class="stat text-center">{{view.snapshot.prominence}}</p>
+            <p class="stat text-center">0</p>
             <p class="title-label text-center">PROMINENCE</p>
-        </div>
-    </div>
-    <div class="row stat-row" style="padding-top: 25px;">
-        <div class="col-md-4">
-            <p class="graph-stat-header">BUDGET</p>
-            <ul>
-                <li ng-repeat="graphyear in view.snapshot.budgetByYear" style="padding-bottom: 6px;">{{graphyear.dataLabel}}: {{graphyear.dataValue | currency:fractionSize:0}}</li>
-            </ul>
-        </div>
-        <div class="col-md-4">
-            <p class="graph-stat-header">MOST FUNDED COUNTRIES</p>
-        </div>
-        <div class="col-md-4">
-            <p class="graph-stat-header">TOP THEMES</p>
-            <ul>
-                <li ng-repeat="theme in view.snapshot.topThemes" style="padding-bottom: 6px;">{{theme}}</li>
-            </ul>
-        </div>
-    </div>
-    <div class="row stat-row">
-        <div class="col-md-6">
-            <p class="graph-stat-header">PARTICIPANT LOCATIONS</p>
-            <ul>
-                <li ng-repeat="location in view.snapshot.participantLocations" style="padding-bottom: 6px;">{{location}}</li>
-            </ul>
-        </div>
-        <div class="col-md-6">
-            <p class="graph-stat-header">NUMBER OF PARTICIPANTS</p>
-            <ul>
-                <li ng-repeat="partyear in view.snapshot.participantsByYear" style="padding-bottom: 6px;">{{partyear.dataLabel}}: {{partyear.dataValue}}</li>
-            </ul>
-        </div>
-    </div>
-    <div class="row stat-row">
-        <div class="col-md-4">
-            <p class="graph-stat-header">GENDER</p>
-
-        </div>
-        <div class="col-md-4">
-            <p class="graph-stat-header">AGE</p>
-
-        </div>
-        <div class="col-md-4">
-            <p class="graph-stat-header">EDUCATION</p>
-
         </div>
     </div>
 </div>

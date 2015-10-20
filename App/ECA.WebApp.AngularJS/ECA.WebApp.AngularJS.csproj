@@ -172,6 +172,7 @@
     <Content Include="app\activities\activities.routes.js" />
     <Content Include="app\app.config.js" />
     <Content Include="app\auth\auth.routes.js" />
+    <Content Include="app\directives\snapshots-graphs.directive.html" />
     <Content Include="app\errors\error.routes.js" />
     <Content Include="app\filters\newline.filter.js" />
     <Content Include="app\home\home.routes.js" />

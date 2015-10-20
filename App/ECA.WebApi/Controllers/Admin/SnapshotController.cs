@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Service.Admin;
 
@@ -20,6 +21,24 @@ namespace ECA.WebApi.Controllers.Admin
             this.userProvider = userProvider;
         }
 
+        /// <summary>
+        /// Get number of countries associated with program
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(SnapshotDTO))]
+        [Route("ProgramCountryCount/{programId:int}")]
+        public async Task<SnapshotDTO> GetCountryCount(int programId)
+        {
+            var dto = await service.GetProgramCountryCount(programId);
+            return dto;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
         [ResponseType(typeof(ProgramSnapshotDTO))]
         [Route("ProgramSnapshot/{programId:int}")]
         public async Task<IHttpActionResult> GetAsync(int programId)
