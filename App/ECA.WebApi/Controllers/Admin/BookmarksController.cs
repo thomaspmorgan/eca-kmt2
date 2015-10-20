@@ -19,7 +19,7 @@ using System.Web.Http.Description;
 using System.Web.Http.Results;
 
 namespace ECA.WebApi.Controllers.Admin
-{ 
+{
     /// <summary>
     /// Bookmarks controllerC:\Workspace\ECA-KMT\App\ECA.WebApp.AngularJS\scripts\controllers\program\
     /// </summary>
@@ -52,14 +52,18 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="model">The model to create</param>
         /// <returns>OkResult</returns>
         [ResponseType(typeof(OkResult))]
-        public async Task<IHttpActionResult> PostBookmarkAsync(BookmarkBindingModel model) {
-            if(ModelState.IsValid) {
+        public async Task<IHttpActionResult> PostBookmarkAsync(BookmarkBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
                 var currentUser = userProvider.GetCurrentUser();
                 var businessUser = userProvider.GetBusinessUser(currentUser);
                 await service.CreateBookmarkAsync(model.ToNewBookmark(businessUser));
                 await service.SaveChangesAsync();
                 return Ok();
-            } else {
+            }
+            else
+            {
                 return BadRequest(ModelState);
             }
         }
@@ -70,7 +74,8 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="id">The id to delete</param>
         /// <returns>OkResult</returns>
         [ResponseType(typeof(OkResult))]
-        public async Task<IHttpActionResult> DeleteBookmarkAsync(int id) {
+        public async Task<IHttpActionResult> DeleteBookmarkAsync(int id)
+        {
             await service.DeleteBookmarkAsync(id);
             await service.SaveChangesAsync();
             return Ok();
