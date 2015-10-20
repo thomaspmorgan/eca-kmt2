@@ -159,19 +159,20 @@ angular.module('staticApp')
       // Link document to details page
       $scope.getHref = function (docType, docId) {
           if (docType && docId) {
-              if (docType === 'Office') {
+              var plainTextDocType = docType.replace(htmlRegex, '')
+              if (plainTextDocType === 'Office') {
                   return StateService.getOfficeState(docId);
-              } else if (docType === 'Program') {
+              } else if (plainTextDocType === 'Program') {
                   return StateService.getProgramState(docId);
-              } else if (docType === 'Project') {
+              } else if (plainTextDocType === 'Project') {
                   return StateService.getProjectState(docId);
-              } else if (docType === 'Person') {
+              } else if (plainTextDocType === 'Person') {
                   return StateService.getPersonState(docId);
-              } else if (docType === 'Organization') {
+              } else if (plainTextDocType === 'Organization') {
                   return StateService.getOrganizationState(docId);
               }
               else {
-                  throw Error('The document type is not supported.');
+                  throw Error('The document type ' + docType + ' is not supported.');
               }
           }
       }
