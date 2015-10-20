@@ -55,7 +55,7 @@ angular.module('staticApp')
       $scope.$watch(function () {
           return $rootScope.userInfo.isAuthenticated;
       }, function (newValue, oldValue) {
-          if (newValue) {
+          if (newValue && !hasLoaded) {
               loadPermissions()
               .then(function () {
                   hasLoaded = true;
