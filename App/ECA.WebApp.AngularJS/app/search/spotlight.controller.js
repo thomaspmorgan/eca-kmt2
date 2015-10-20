@@ -25,7 +25,8 @@ angular.module('staticApp')
               animation: true,
               templateUrl: 'app/search/search-modal.html',
               controller: 'SearchModalCtrl',
-              windowClass: 'search-modal-resize',
+              //windowClass: 'search-modal-resize',
+              windowClass: 'modal-center-large',
               resolve: {}
           });
       }

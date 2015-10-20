@@ -33,6 +33,7 @@ angular.module('staticApp')
       $scope.pageSize = 10;
       $scope.totalpages = 0;
       $scope.numberOfDisplayedPages = 10;
+      $scope.suggestions = [];
       $scope.text = '';
       $scope.isLoadingResults = false;
       $scope.isLoadingDocInfo = false;
@@ -88,10 +89,10 @@ angular.module('staticApp')
       };
 
       // Gets document details on selection
-      $scope.GetDocumentInfo = function (docItem) {
+      $scope.getDocumentInfo = function (docItem) {
           $scope.isLoadingDocInfo = true;
-
-          SearchService.getDocInfo(docItem.document.id)
+          $scope.docinfo = null;
+          return SearchService.getDocInfo(docItem.document.id)
           .then(function (response) {
               $log.info('Loaded document information.');
               $scope.docinfo = response.data;
@@ -142,16 +143,6 @@ angular.module('staticApp')
           $scope.autocomplete();
       }
 
-      // Creates a group header
-      $scope.currentGroup = '';
-      $scope.CreateHeader = function (group, index) {
-          //need to strip html because the highlights may have highlighted the documentType on property
-          var groupPlainText = group.replace(htmlRegex, '');
-          var showHeader = (groupPlainText !== $scope.currentGroup || index === 0);
-          $scope.currentGroup = groupPlainText;
-          return showHeader;
-      };
-
       // Closes the search modal
       $scope.onCloseSpotlightSearchClick = function () {
           $rootScope.searchText = $scope.text;
@@ -201,6 +192,7 @@ angular.module('staticApp')
                 $scope.count = response.data.results.length;
                 angular.forEach(response.data.results, function (result, index) {
                     result.document.documentTypeNameAbbreviation = getDocumentTypeAbbreviation(result.document.documentTypeName);
+                    result.document.plaintTextDocumentTypeName = result.document.documentTypeName;
                     replacePlainTextWithHighlights(result.hitHighlights, result.document);
                 })
                 if ($scope.currentPage === 0) {
