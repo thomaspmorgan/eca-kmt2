@@ -181,7 +181,7 @@
     <Content Include="app\programs\programs.routes.js" />
     <Content Include="app\projects\projects.routes.js" />
     <Content Include="app\reports\reports.routes.js" />
-    <Content Include="app\search\spotlight-controller.js" />
+    <Content Include="app\search\spotlight.controller.js" />
     <Content Include="app\services\constants.service.js">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

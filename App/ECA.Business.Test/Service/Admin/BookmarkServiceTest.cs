@@ -154,6 +154,7 @@ namespace ECA.Business.Test.Service.Admin
             {
                 BookmarkId = 1,
                 OfficeId = office.OrganizationId,
+                Office = office,
                 PrincipalId = 1,
                 AddedOn = DateTimeOffset.Now,
                 Automatic = false
