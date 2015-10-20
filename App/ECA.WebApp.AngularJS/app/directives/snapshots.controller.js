@@ -17,7 +17,6 @@ angular.module('staticApp')
       $scope.view = {};
       $scope.view.isSnapshotLoading = false;
       $scope.view.params = $stateParams;
-      $scope.view.snapshot = {};
       $scope.view.snapshot.totalCountries = 0;
 
       $scope.init = function () {
@@ -37,18 +36,24 @@ angular.module('staticApp')
           //    $scope.view.isSnapshotLoading = false;
           //});
 
-          SnapshotService.getProgramCountryCount($scope.view.params.programId)
-          .then(function (response) {
-              $scope.view.totalCountries = response.data;
-          })
-          .catch(function () {
-              var message = 'Unable to load countries.';
-              NotificationService.showErrorMessage(message);
-              $log.error(message);
-          });
+          GetProgramCountryCount();
+
 
           $scope.view.isSnapshotLoading = false;
       };
+
+      function GetProgramCountryCount () {
+          SnapshotService.getProgramCountryCount($scope.view.params.programId)
+            .then(function (response) {
+                $scope.view.snapshot.totalCountries = response.data;
+            })
+            .catch(function () {
+                var message = 'Unable to load country count.';
+                NotificationService.showErrorMessage(message);
+                $log.error(message);
+            });
+      }
+
 
       $scope.init();
       

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using ECA.Business.Queries.Models.Admin;
-using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Service.Admin;
 
 namespace ECA.WebApi.Controllers.Admin
@@ -34,19 +33,14 @@ namespace ECA.WebApi.Controllers.Admin
             return dto;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="programId"></param>
-        /// <returns></returns>
-        [ResponseType(typeof(ProgramSnapshotDTO))]
-        [Route("ProgramSnapshot/{programId:int}")]
-        public async Task<IHttpActionResult> GetAsync(int programId)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var dto = await service.GetProgramSnapshotAsync(programId);
-            return Ok(dto);
-        }
+        //[ResponseType(typeof(ProgramSnapshotDTO))]
+        //[Route("ProgramSnapshot/{programId:int}")]
+        //public async Task<IHttpActionResult> GetAsync(int programId)
+        //{
+        //    if (!ModelState.IsValid) return BadRequest(ModelState);
+        //    var dto = await service.GetProgramSnapshotAsync(programId);
+        //    return Ok(dto);
+        //}
 
 
     }
