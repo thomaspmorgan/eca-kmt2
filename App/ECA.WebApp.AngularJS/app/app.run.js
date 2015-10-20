@@ -1,11 +1,10 @@
 ﻿'use strict';
 
 angular.module('staticApp')
-    .run(['$rootScope', '$location', '$state', '$modal', 'editableOptions', '$anchorScroll', 'LogoutEventService', 'ConstantsService', 'RegisterUserEventService', 'NotificationService',
-      function ($rootScope, $location, $state, $modal, editableOptions, $anchorScroll, LogoutEventService, ConstantsService, RegisterUserEventService, NotificationService) {
+    .run(['$rootScope', '$location', '$state', '$modal', '$anchorScroll', 'LogoutEventService', 'ConstantsService', 'RegisterUserEventService', 'NotificationService',
+      function ($rootScope, $location, $state, $modal, $anchorScroll, LogoutEventService, ConstantsService, RegisterUserEventService, NotificationService) {
 
           console.assert(RegisterUserEventService, "The RegisterUserEventService is needed so that we can register on rootscope the handler to automatically register the user.");
-          editableOptions.theme = 'bs3';
           $rootScope.rootStates = [
             { name: 'Home', state: 'home.shortcuts' },
             { name: 'Offices', state: 'alloffices' },
