@@ -18,8 +18,6 @@ angular
     'ui.map',
     'ui.validate',
     'ui.event',
-    'isteven-multi-select',
-    'xeditable',
     'sticky',
     'AdalAngular',
     'smart-table',
