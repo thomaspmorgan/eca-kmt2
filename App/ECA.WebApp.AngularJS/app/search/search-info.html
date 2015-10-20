@@ -7,7 +7,7 @@
     <div ng-show="docinfo != null">
         <div class="col-md-12">
             <h5> 
-                <a ng-href="{{getHref(docinfo.documentTypeName, docinfo.key.value)}}" ng-click="onGoToSpotlightSearchClick(getHref(docinfo.documentTypeName, docinfo.key.value))" ng-bind-html="docinfo.name"></a>
+                <a ng-href="{{getHref(docinfo.plaintTextDocumentTypeName, docinfo.key.value)}}" ng-click="onGoToSpotlightSearchClick(getHref(docinfo.plaintTextDocumentTypeName, docinfo.key.value))" ng-bind-html="docinfo.name"></a>
             </h5>
             <span class="resultoffice" ng-bind-html="docinfo.officeSymbol"></span>
             <p style="margin-top: 20px;" ng-bind-html="docinfo.description"></p>
