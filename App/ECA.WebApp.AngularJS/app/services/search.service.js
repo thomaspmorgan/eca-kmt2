@@ -20,6 +20,9 @@ angular.module('staticApp')
           },
           getFieldNames: function () {
               return DragonBreath.get('Documents/' + kmtId + '/Fields');
+          },
+          getSuggestions: function (params) {
+              return DragonBreath.create(params, 'Search/' + kmtId + '/Suggest');
           }
       }
   });

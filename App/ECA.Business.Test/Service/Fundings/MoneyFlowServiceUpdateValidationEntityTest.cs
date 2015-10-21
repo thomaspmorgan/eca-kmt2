@@ -20,10 +20,12 @@ namespace ECA.Business.Test.Service.Fundings
             var value = 1.00m;
             var description = "description";
             var fiscalYear = 2015;
-            var entity = new MoneyFlowServiceUpdateValidationEntity(description, value, fiscalYear);
+            var withdrawalLimit = 100m;
+            var entity = new MoneyFlowServiceUpdateValidationEntity(description, value, withdrawalLimit, fiscalYear);
             Assert.AreEqual(value, entity.Value);
             Assert.AreEqual(description, entity.Description);
             Assert.AreEqual(fiscalYear, entity.FiscalYear);
+            Assert.AreEqual(withdrawalLimit, entity.ParentMoneyFlowWithdrawlMaximum);
         }
     }
 }

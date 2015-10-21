@@ -30,6 +30,22 @@ angular.module('staticApp')
               var path = 'people/' + id + '/moneyFlows';
               return DragonBreath.get(params, path);
           },
+          getSourceMoneyFlowsByProjectId: function(id, params){
+              var path = 'projects/' + id + '/moneyflows/sources';
+              return DragonBreath.get(params, path);
+          },
+          getSourceMoneyFlowsByProgramId: function (id, params) {
+              var path = 'programs/' + id + '/moneyflows/sources';
+              return DragonBreath.get(params, path);
+          },
+          getSourceMoneyFlowsByOfficeId: function (id, params) {
+              var path = 'offices/' + id + '/moneyflows/sources';
+              return DragonBreath.get(params, path);
+          },
+          getSourceMoneyFlowsByOrganizationsId: function (id, params) {
+              var path = 'organizations/' + id + '/moneyflows/sources';
+              return DragonBreath.get(params, path);
+          },
           remove: function(moneyFlow, entityId) {
               var path = '';
               if (moneyFlow.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.project.id) {
