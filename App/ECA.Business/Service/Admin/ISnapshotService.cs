@@ -6,7 +6,7 @@ namespace ECA.Business.Service.Admin
 {
     public interface ISnapshotService
     {
-        SnapshotDTO GetProgramCountryCount(int programId);
+        Task<SnapshotDTO> GetProgramCountryCount(int programId);
 
         SnapshotDTO GetProgramRelatedProjectsCount(int programId);
 

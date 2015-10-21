@@ -8,48 +8,48 @@
     </div>
     <div class="row stat-row">
         <div class="col-md-3">
-            <p class="stat text-center">0</p>
-            <p class="title-label text-center">RELATED PROJECTS</p>
+            <p class="stat text-center">{{view.totalRelatedProjects.dataValue}}</p>
+            <p class="title-label text-center">{{view.totalRelatedProjects.dataLabel}}</p>
         </div>
         <div class="col-md-3">
-            <p class="stat text-center">0</p>
-            <p class="title-label text-center">PARTICIPANTS</p>
+            <p class="stat text-center">{{view.totalParticipants.dataValue}}</p>
+            <p class="title-label text-center">{{view.totalParticipants.dataLabel}}</p>
         </div>
         <div class="col-md-3">
-            <p class="stat text-center">0</p>
-            <p class="title-label text-center">BUDGET</p>
+            <p class="text-center" style="font-size: 1.80em">{{view.totalBudget.dataValue | currency:fractionSize:0}}</p>
+            <p class="title-label text-center">{{view.totalBudget.dataLabel}}</p>
         </div>
         <div class="col-md-3">
-            <p class="stat text-center">0</p>
+            <p class="text-center" style="font-size: 1.80em">{{view.totalCostByParticipant | currency:fractionSize:0}}</p>
             <p class="title-label text-center">COST PER PARTICIPANT</p>
         </div>
     </div>
     <div class="row stat-row">
         <div class="col-md-3">
-            <p class="stat text-center">0</p>
-            <p class="title-label text-center">FUNDING SOURCES</p>
+            <p class="stat text-center">{{view.totalFundingSources.dataValue}}</p>
+            <p class="title-label text-center">{{view.totalFundingSources.dataLabel}}</p>
         </div>
         <div class="col-md-3">
-            <p class="stat text-center">{{view.snapshot.totalCountries.dataValue}}</p>
-            <p class="title-label text-center">{{view.snapshot.totalCountries.dataLabel}}</p>
+            <p class="stat text-center">{{view.totalCountries.dataValue}}</p>
+            <p class="title-label text-center">{{view.totalCountries.dataLabel}}</p>
         </div>
         <div class="col-md-3">
             <p class="stat text-center">0</p>
             <p class="title-label text-center">BENEFICIARIES</p>
         </div>
         <div class="col-md-3">
-            <p class="stat text-center">0</p>
-            <p class="title-label text-center">IMPACT STORIES</p>
+            <p class="stat text-center">{{view.totalImpactStories.dataValue}}</p>
+            <p class="title-label text-center">{{view.totalImpactStories.dataLabel}}</p>
         </div>
     </div>
     <div class="row stat-row">
         <div class="col-md-3">
-            <p class="stat text-center">0</p>
-            <p class="title-label text-center">ALUMNI</p>
+            <p class="stat text-center">{{view.totalAlumni.dataValue}}</p>
+            <p class="title-label text-center">{{view.totalAlumni.dataLabel}}</p>
         </div>
         <div class="col-md-3">
-            <p class="stat text-center">0</p>
-            <p class="title-label text-center">PROMINENCE</p>
+            <p class="stat text-center">{{view.totalProminence.dataValue}}</p>
+            <p class="title-label text-center">{{view.totalProminence.dataLabel}}</p>
         </div>
     </div>
 </div>

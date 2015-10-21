@@ -14,24 +14,44 @@ namespace ECA.Business.Service.Admin
         {
         }
 
+        /// <summary>
+        /// Count of related projects
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
         public SnapshotDTO GetProgramRelatedProjectsCount(int programId)
         {
             var dto = SnapshotQueries.CreateGetProgramRelatedProjectsCountQuery(Context, programId);
             return dto;
         }
 
+        /// <summary>
+        /// Count of participants
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
         public SnapshotDTO GetProgramParticipantCount(int programId)
         {
             var dto = SnapshotQueries.CreateGetProgramParticipantsCountQuery(Context, programId);
             return dto;
         }
 
+        /// <summary>
+        /// Total budget
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
         public SnapshotDTO GetProgramBudgetTotal(int programId)
         {
             var dto = SnapshotQueries.CreateGetProgramBudgetTotalQuery(Context, programId);
             return dto;
         }
 
+        /// <summary>
+        /// Count of funding sources
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
         public SnapshotDTO GetProgramFundingSourcesCount(int programId)
         {
             var dto = SnapshotQueries.CreateGetProgramFundingSourceCountQuery(Context, programId);
@@ -39,76 +59,139 @@ namespace ECA.Business.Service.Admin
         }
 
         /// <summary>
-        /// Get number of countries associated with program
+        /// Count of countries
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public SnapshotDTO GetProgramCountryCount(int programId)
+        public async Task<SnapshotDTO> GetProgramCountryCount(int programId)
         {
-            var dto = SnapshotQueries.CreateGetProgramCountryCountQuery(Context, programId);
+            var dto = await SnapshotQueries.CreateGetProgramCountryCountQuery(Context, programId);
             return dto;
         }
 
+        /// <summary>
+        /// Count of beneficiaries
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
         public SnapshotDTO GetProgramBeneficiaryCount(int programId)
         {
             var dto = SnapshotQueries.CreateGetProgramBeneficiaryCountQuery(Context, programId);
             return dto;
         }
 
+        /// <summary>
+        /// Count of impact stories
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
         public SnapshotDTO GetProgramImpactStoryCount(int programId)
         {
             var dto = SnapshotQueries.CreateGetProgramImpactStoryCountQuery(Context, programId);
             return dto;
         }
 
+        /// <summary>
+        /// Count of alumni
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
         public SnapshotDTO GetProgramAlumniCount(int programId)
         {
             var dto = SnapshotQueries.CreateGetProgramAlumniCountQuery(Context, programId);
             return dto;
         }
 
+        /// <summary>
+        /// Count of prominence
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
         public SnapshotDTO GetProgramProminenceCount(int programId)
         {
             var dto = SnapshotQueries.CreateGetProgramProminenceCountQuery(Context, programId);
             return dto;
         }
 
+        /// <summary>
+        /// Budget total by year
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<SnapshotDTO>> GetProgramBudgetByYear(int programId)
         {
             var dto = await SnapshotQueries.CreateGetProgramBudgetByYearQuery(Context, programId);
             return dto;
         }
 
+        /// <summary>
+        /// Most funded countries
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
         public Task<IEnumerable<SnapshotDTO>> GetProgramMostFundedCountries(int programId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<string>> GetProgramTopThemes(int programId)
+        /// <summary>
+        /// Top themes
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<string>> GetProgramTopThemes(int programId)
         {
-            throw new NotImplementedException();
+            var dto = await SnapshotQueries.CreateGetProgramTopThemesQuery(Context, programId);
+            return dto;
         }
 
-        public Task<IEnumerable<SnapshotDTO>> GetProgramParticipantLocations(int programId)
+        /// <summary>
+        /// Count of participants by location
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<SnapshotDTO>> GetProgramParticipantLocations(int programId)
         {
-            throw new NotImplementedException();
+            var dto = await SnapshotQueries.CreateGetProgramParticipantLocationsQuery(Context, programId);
+            return dto;
         }
 
-        public Task<IEnumerable<SnapshotDTO>> GetProgramParticipantsByYear(int programId)
+        /// <summary>
+        /// Count of participants by year
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<SnapshotDTO>> GetProgramParticipantsByYear(int programId)
         {
-            throw new NotImplementedException();
+            var dto = await SnapshotQueries.CreateGetProgramParticipantsByYearQuery(Context, programId);
+            return dto;
         }
-
+        
+        /// <summary>
+        /// Count of participants by gender
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
         public Task<IEnumerable<SnapshotDTO>> GetProgramParticipantGender(int programId)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Count of participants by age range
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
         public Task<IEnumerable<SnapshotDTO>> GetProgramParticipantAge(int programId)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Count of participants by education level
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
         public Task<IEnumerable<SnapshotDTO>> GetProgramParticipantEducation(int programId)
         {
             throw new NotImplementedException();

@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using ECA.Business.Queries.Models.Programs;
-using ECA.Data;
 using System.Diagnostics.Contracts;
+using ECA.Data;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using ECA.Business.Queries.Fundings;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Programs;
 
@@ -17,14 +14,9 @@ namespace ECA.Business.Queries.Admin
     {
         static DateTime oldestDate = DateTime.UtcNow.AddYears(-5);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="programId"></param>
-        /// <returns></returns>
         public static SnapshotDTO CreateGetProgramRelatedProjectsCountQuery(EcaContext context, int programId)
         {
+            Contract.Requires(context != null, "The context must not be null.");
             return new SnapshotDTO()
             {
                 DataLabel = "RELATED PROJECTS",
@@ -34,6 +26,7 @@ namespace ECA.Business.Queries.Admin
 
         public static SnapshotDTO CreateGetProgramParticipantsCountQuery(EcaContext context, int programId)
         {
+            Contract.Requires(context != null, "The context must not be null.");
             return new SnapshotDTO()
             {
                 DataLabel = "PARTICIPANTS",
@@ -43,6 +36,7 @@ namespace ECA.Business.Queries.Admin
 
         public static SnapshotDTO CreateGetProgramBudgetTotalQuery(EcaContext context, int programId)
         {
+            Contract.Requires(context != null, "The context must not be null.");
             return new SnapshotDTO()
             {
                 DataLabel = "BUDGET",
@@ -52,6 +46,7 @@ namespace ECA.Business.Queries.Admin
 
         public static SnapshotDTO CreateGetProgramFundingSourceCountQuery(EcaContext context, int programId)
         {
+            Contract.Requires(context != null, "The context must not be null.");
             return new SnapshotDTO()
             {
                 DataLabel = "FUNDING SOURCES",
@@ -66,8 +61,9 @@ namespace ECA.Business.Queries.Admin
         /// <param name="context"></param>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public static SnapshotDTO CreateGetProgramCountryCountQuery(EcaContext context, int programId)
+        public static async Task<SnapshotDTO> CreateGetProgramCountryCountQuery(EcaContext context, int programId)
         {
+            Contract.Requires(context != null, "The context must not be null.");
             var allLocations = LocationQueries.CreateGetLocationsQuery(context);
 
             var query = from parents in context.Programs
@@ -92,12 +88,13 @@ namespace ECA.Business.Queries.Admin
                             DataValue = countries.Count()
                         };
 
-            return query.FirstOrDefault();
+            return await query.FirstOrDefaultAsync();
         }
 
         public static SnapshotDTO CreateGetProgramBeneficiaryCountQuery(EcaContext context, int programId)
         {
             // TODO: Calculate beneficiary count
+            Contract.Requires(context != null, "The context must not be null.");
             return new SnapshotDTO()
             {
                 DataLabel = "BENEFICIARIES",
@@ -107,6 +104,7 @@ namespace ECA.Business.Queries.Admin
 
         public static SnapshotDTO CreateGetProgramImpactStoryCountQuery(EcaContext context, int programId)
         {
+            Contract.Requires(context != null, "The context must not be null.");
             return new SnapshotDTO()
             {
                 DataLabel = "IMPACT STORIES",
@@ -116,6 +114,7 @@ namespace ECA.Business.Queries.Admin
 
         public static SnapshotDTO CreateGetProgramAlumniCountQuery(EcaContext context, int programId)
         {
+            Contract.Requires(context != null, "The context must not be null.");
             return new SnapshotDTO()
             {
                 DataLabel = "ALUMNI",
@@ -125,6 +124,7 @@ namespace ECA.Business.Queries.Admin
 
         public static SnapshotDTO CreateGetProgramProminenceCountQuery(EcaContext context, int programId)
         {
+            Contract.Requires(context != null, "The context must not be null.");
             var prominentCategory = from pc in context.Projects
                                     where pc.ProgramId == programId && pc.EndDate.Value.Year >= oldestDate.Year
                                     orderby pc.Categories.GroupBy(x => x.CategoryId).Count() descending
@@ -139,6 +139,7 @@ namespace ECA.Business.Queries.Admin
 
         public static async Task<List<SnapshotDTO>> CreateGetProgramBudgetByYearQuery(EcaContext context, int programId)
         {
+            Contract.Requires(context != null, "The context must not be null.");
             var budgetByYear = await (from mf in context.MoneyFlows
                                 where mf.RecipientProgramId == programId && mf.FiscalYear >= oldestDate.Year
                                 group mf by mf.FiscalYear into g
@@ -151,18 +152,25 @@ namespace ECA.Business.Queries.Admin
             return budgetByYear;
         }
 
-        public static IEnumerable<string> CreateGetProgramTopThemesQuery(EcaContext context, int programId)
+        public static IEnumerable<SnapshotDTO> CreateGetProgramMostFundedCountriesQuery(EcaContext context, int programId)
         {
+            throw new NotImplementedException();
+        }
+
+        public static async Task<IEnumerable<string>> CreateGetProgramTopThemesQuery(EcaContext context, int programId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
             var allThemes = ThemeQueries.CreateGetThemesQuery(context);
             var projectThemes = allThemes.GroupBy(theme => theme.Name).OrderByDescending(group => group.Count()).Select(group => group.Key);
 
-            return projectThemes.ToList().Take(5);
+            return await projectThemes.ToListAsync();
         }
 
-        public static IEnumerable<SnapshotDTO> CreateGetProgramParticipantLocationsQuery(EcaContext context, int programId)
+        public static async Task<IEnumerable<SnapshotDTO>> CreateGetProgramParticipantLocationsQuery(EcaContext context, int programId)
         {
+            Contract.Requires(context != null, "The context must not be null.");
             var ranges = new[] { 10, 20, 30, 40, 100 };
-            var participantLocation = context.Participants.Where(p => p.Project.ProgramId == programId).GroupBy(x => x.Project.Locations.Select(l => l.LocationId).FirstOrDefault()).Select(r => r).OrderByDescending(p => p.Key).ToList();
+            var participantLocation = await context.Participants.Where(p => p.Project.ProgramId == programId).GroupBy(x => x.Project.Locations.Select(l => l.LocationId).FirstOrDefault()).Select(r => r).OrderByDescending(p => p.Key).ToListAsync();
 
             var locationGroups = ranges.Select(r => new SnapshotDTO()
             {
@@ -173,10 +181,10 @@ namespace ECA.Business.Queries.Admin
             return locationGroups.OrderByDescending(m => m.DataLabel).ToList();
         }
 
-        public static IEnumerable<SnapshotDTO> CreateGetProgramParticipantsByYearQuery(EcaContext context, int programId)
+        public static async Task<IEnumerable<SnapshotDTO>> CreateGetProgramParticipantsByYearQuery(EcaContext context, int programId)
         {
-            var pby = context.Participants.Where(p => p.Project.ProgramId == programId && p.Project.StartDate.Year >= oldestDate.Year).GroupBy(x => x.Project.StartDate.Year).Select(r => new SnapshotDTO() { DataLabel = r.Key.ToString(), DataValue = r.Count() }).OrderByDescending(p => p.DataLabel).ToList();
-
+            Contract.Requires(context != null, "The context must not be null.");
+            var pby = await context.Participants.Where(p => p.Project.ProgramId == programId && p.Project.StartDate.Year >= oldestDate.Year).GroupBy(x => x.Project.StartDate.Year).Select(r => new SnapshotDTO() { DataLabel = r.Key.ToString(), DataValue = r.Count() }).OrderByDescending(p => p.DataLabel).ToListAsync();
             return pby;
         }
 
