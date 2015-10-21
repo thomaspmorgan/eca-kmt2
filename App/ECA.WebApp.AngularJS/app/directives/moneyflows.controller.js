@@ -448,6 +448,7 @@ angular.module('staticApp')
         .then($q.all([getMoneyFlowSourceRecipientTypes(), getAllMoneyFlowTypes(), getAllMoneyFlowStati()])
           .then(function () {
               $scope.view.isLoadingRequiredData = false;
+              $scope.view.onAddFundingItemClick();
           })
           .catch(function () {
               $scope.view.isLoadingRequiredData = false;

@@ -26,7 +26,7 @@ angular.module('staticApp')
         ParticipantService,
         NotificationService
         ) {
-      
+
       console.assert(entity.entityName && entity.entityName.length > 0, "The entity.entityName value must be defined.");
 
       $scope.view = {};
@@ -34,7 +34,7 @@ angular.module('staticApp')
       $scope.view.entityNameMaxLength = 100;
       $scope.view.entityName = entity.entityName;
       $scope.view.searchLimit = 10;
-      $scope.view.params = $stateParams;      
+      $scope.view.params = $stateParams;
       $scope.view.allowedRecipientMoneyFlowSourceRecipientTypes = [];
       $scope.view.allowedSourceMoneyFlowSourceRecipientTypes = [];
       $scope.view.sourceMoneyFlows = [];
@@ -90,11 +90,23 @@ angular.module('staticApp')
               $log.error('Direction key ]' + directionKey + '] is not recognized.');
           }
           $scope.view.moneyFlow.parentMoneyFlowId = null;
+          $scope.view.selectedSourceMoneyFlow = null;
           loadSourceMoneyFlows($scope.view.moneyFlow);
       }
 
       $scope.view.moneyFlow = toMoneyFlow(entity);
       onModelChange($scope.view.moneyFlow);
+
+      $scope.view.validateSourceRemainingAmount = function ($value) {
+          if ($value
+              && $scope.view.selectedSourceMoneyFlow !== null
+              && $scope.view.selectedSourceMoneyFlow.remainingAmount - $value < 0) {
+              return false;
+          }
+          else {
+              return true;
+          }
+      }
 
       $scope.view.getPeers = function ($viewValue) {
           var peerEntityTypeId = $scope.view.moneyFlow.peerEntityTypeId;
@@ -207,7 +219,7 @@ angular.module('staticApp')
               dfd.resolve();
               return dfd.promise;
           }
-          
+
       }
 
       function onModelChange(moneyFlow) {
@@ -245,7 +257,7 @@ angular.module('staticApp')
           else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.office.id) {
               return handleOfficesSearchResponse(response);
           }
-          else if(peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.participant.id) {
+          else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.participant.id) {
               return handleParticipantSearchResponse(response);
           }
           else {
@@ -360,7 +372,7 @@ angular.module('staticApp')
           else {
               throw Error("The peer entity type id [" + peerEntityTypeId + "] is not yet supported.");
           }
-          
+
           searchFilter = searchFilter
             .skip(0)
             .take($scope.view.searchLimit)
@@ -371,7 +383,7 @@ angular.module('staticApp')
               if (!angular.isNumber(id)) {
                   id = parseInt(entity.entityId, 10);
               }
-              
+
               searchFilter = searchFilter.notEqual(idPropertyName, id);
           }
           return searchFilter.toParams();
