@@ -79,6 +79,7 @@ angular.module('staticApp')
       $scope.view.toggleIncomingOutgoing = function (directionKey) {
           if (directionKey === $scope.view.outgoingDirectionKey) {
               $scope.view.moneyFlow.isOutgoing = true;
+              return loadSourceMoneyFlows($scope.view.moneyFlow);
           }
           else if (directionKey === $scope.view.incomingDirectionKey) {
               $scope.view.moneyFlow.isOutgoing = false;
@@ -125,7 +126,7 @@ angular.module('staticApp')
           console.assert($model.peerEntityId, "The $model must have the peer entity id defined.");
           console.assert($scope.view.moneyFlow.peerEntityTypeId, "The money flow must have the peer entity type id defined.");
           $scope.view.moneyFlow.peerEntityId = $model.peerEntityId;
-          loadSourceMoneyFlows($scope.view.moneyFlow.peerEntityTypeId, $model.peerEntityId);
+          loadSourceMoneyFlows($scope.view.moneyFlow);
       }
 
       $scope.view.formatPeerEntity = function ($item, $model, $label) {
@@ -151,8 +152,18 @@ angular.module('staticApp')
           }
       }
 
-      function loadSourceMoneyFlows(peerEntityTypeId, entityId) {
+      function loadSourceMoneyFlows(moneyFlow) {
           var loadFn = null;
+          var peerEntityTypeId = 0;
+          var entityId = 0;
+          if (moneyFlow.isOutgoing) {
+              peerEntityTypeId = moneyFlow.entityTypeId;
+              entityId = entity.entityId;
+          }
+          else {
+              peerEntityTypeId = moneyFlow.peerEntityTypeId;
+              entityId = moneyFlow.peerEntityId;
+          }
           if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id) {
               loadFn = MoneyFlowService.getSourceMoneyFlowsByProgramId(entityId, {});
           }

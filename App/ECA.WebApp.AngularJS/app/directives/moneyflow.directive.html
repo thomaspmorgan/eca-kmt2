@@ -17,6 +17,22 @@
             </span>
         </div>
         <div class="row">
+            <div class="form-group col-md-12">
+                <label>Status<span class="asterisk"> *</span></label>
+                <div>
+                    <select class="form-control"
+                            id="moneyFlowStatus"
+                            name="moneyFlowStatusId"
+                            ng-options="t.id as t.name for t in view.moneyFlowStatii"
+                            ng-model="view.moneyFlow.moneyFlowStatusId"
+                            required></select>
+                </div>
+                <div ng-show="form.newMoneyFlow.moneyFlowStatusId.$dirty">
+                    <div class="error" ng-show="form.newMoneyFlow.moneyFlowStatusId.$error.required">Please select a status.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="form-group col-md-6">
                 <label>Transaction Date<span class="asterisk"> *</span></label>
                 <p class="input-group">
@@ -39,39 +55,6 @@
                 </div>
             </div>
             <div class="form-group col-md-6">
-                <label>Status<span class="asterisk"> *</span></label>
-                <div>
-                    <select class="form-control"
-                            id="moneyFlowStatus"
-                            name="moneyFlowStatusId"
-                            ng-options="t.id as t.name for t in view.moneyFlowStatii"
-                            ng-model="view.moneyFlow.moneyFlowStatusId"
-                            required></select>
-                </div>
-                <div ng-show="form.newMoneyFlow.moneyFlowStatusId.$dirty">
-                    <div class="error" ng-show="form.newMoneyFlow.moneyFlowStatusId.$error.required">Please select a status.</div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-6">
-                <label>Amount<span class="asterisk"> *</span></label>
-                <input type="number"
-                       step="any"
-                       id="amount"
-                       name="amount"
-                       max="{{view.maxAmount}}"
-                       min="0"
-                       class="form-control"
-                       ng-model="view.moneyFlow.value"
-                       placeholder="Enter amount."
-                       ng-required="true"
-                       form-element guidance="The USD amount of the transaction." />
-                <div ng-show="form.newMoneyFlow.amount.$dirty">
-                    <div class="error" ng-show="form.newMoneyFlow.amount.$error.required">Please enter a transaction amount.</div>
-                </div>
-            </div>
-            <div class="form-group col-md-6">
                 <label>Reference Fiscal Year<span class="asterisk"> *</span></label>
                 <year-dropdown name="fiscalYear" id="fiscalYear" model="view.moneyFlow.fiscalYear"
                                offset="-10" range="2" class="yearDropdown" required></year-dropdown>
@@ -80,6 +63,7 @@
                 </div>
             </div>
         </div>
+        
         <div class="row">
             <div class="form-group col-md-6">
                 <label ng-show="!view.moneyFlow.isOutgoing">Source Type<span class="asterisk"> *</span></label>
@@ -126,29 +110,61 @@
                 </div>
             </div>
         </div>
+        <hr />
         <div class="row">
-            <div class="form-group">
+            <div class="col-md-12 form-group">
                 <label>Select a Funding Item that will be the Source for the new Funding Item</label>
-                <ui-select 
-                           ng-model="view.moneyFlow.parentMoneyFlowId" 
+                <div>
+                    <label class="col-md-4">Source Name</label>
+                    <label class="col-md-4 text-right">Total Funding Amount</label>
+                    <label class="col-md-4 text-right">Currently Unassigned</label>
+                </div>
+                <ui-select theme="select2"
+                           ng-model="view.moneyFlow.parentMoneyFlowId"
                            on-select="view.onSelectSourceMoneyFlow($item, $model)">
                     <ui-select-match placeholder="Select a source funding item..." allow-clear="true">
-                        <div class="row">
-                            <div class="col-md-4" ng-bind-html="source.sourceName"></div>
-                            <div class="col-md-4" ng-bind-html="source.amount"></div>
-                            <div class="col-md-4" ng-bind-html="source.remainingAmount"></div>
+                        <div>
+                            <div class="col-md-4">{{view.selectedSourceMoneyFlow.sourceName}}</div>
+                            <div class="col-md-4 text-right">{{view.selectedSourceMoneyFlow.amount | currency}}</div>
+                            <div class="col-md-4 text-right">{{view.selectedSourceMoneyFlow.remainingAmount | currency}}</div>
                         </div>
                     </ui-select-match>
-                    <ui-select-choices repeat="source in view.sourceMoneyFlows track by source.id">
+                    <ui-select-choices repeat="source.id as source in view.sourceMoneyFlows | propsFilter: {sourceName: $select.search} track by source.id ">
                         <div class="row">
-                            <div class="col-md-4" ng-bind-html="source.sourceName"></div>
-                            <div class="col-md-4" ng-bind-html="source.amount"></div>
-                            <div class="col-md-4" ng-bind-html="source.remainingAmount"></div>
+                            <div class="col-md-4" ng-bind-html="source.sourceName | highlight: $select.search"></div>
+                            <div class="col-md-4 text-right" ng-bind-html="source.amount | currency | highlight: $select.search"></div>
+                            <div class="col-md-4 text-right" ng-bind-html="source.remainingAmount | currency | highlight: $select.search"></div>
                         </div>
                     </ui-select-choices>
                 </ui-select>
             </div>
         </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <label>Remaining Unassigned Funds From Source</label>
+                <p ng-show="view.selectedSourceMoneyFlow !== null">{{view.selectedSourceMoneyFlow.amount - view.moneyFlow.value | currency}}</p>
+                <p ng-show="view.selectedSourceMoneyFlow === null">No Source Funding Item Selected</p>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Amount<span class="asterisk"> *</span></label>
+                <input type="number"
+                       step="any"
+                       id="amount"
+                       name="amount"
+                       max="{{view.selectedSourceMoneyFlow === null ? view.maxAmount : view.selectedSourceMoneyFlow.amount - view.moneyFlow.value}}"
+                       min="0"
+                       class="form-control"
+                       ng-model="view.moneyFlow.value"
+                       placeholder="Enter amount."
+                       ng-required="true"
+                       form-element guidance="The USD amount of the transaction." />
+                <div ng-show="form.newMoneyFlow.amount.$dirty">
+                    <div class="error" ng-show="form.newMoneyFlow.amount.$error.required">Please enter a transaction amount.</div>
+                </div>
+            </div>
+        </div>
+        <hr />
         <div class="row">
             <div class="form-group col-md-12">
                 <label>Description<span class="asterisk"> *</span></label>
