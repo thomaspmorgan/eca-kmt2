@@ -137,6 +137,7 @@
     <Compile Include="Queries\Models\Admin\EmailAddressDTO.cs" />
     <Compile Include="Queries\Models\Admin\ProgramStatusDTO.cs" />
     <Compile Include="Queries\Models\Admin\SnapshotDTO.cs" />
+    <Compile Include="Queries\Models\Fundings\SourceMoneyFlowDTO.cs" />
     <Compile Include="Queries\Models\Persons\LanguageProficiencyDTO.cs" />
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisCommStatusDTO.cs" />
@@ -229,9 +230,9 @@
     <Compile Include="Queries\Models\Admin\FocusCategoryDTO.cs" />
     <Compile Include="Queries\Models\Admin\FocusDTO.cs" />
     <Compile Include="Queries\Models\Admin\JustificationObjectiveDTO.cs" />
-    <Compile Include="Queries\Models\Admin\MoneyFlowDTO.cs" />
+    <Compile Include="Queries\Models\Fundings\MoneyFlowDTO.cs" />
     <Compile Include="Queries\Models\Admin\OfficeDTO.cs" />
-    <Compile Include="Queries\Models\Admin\MoneyFlowHelpersDTO.cs" />
+    <Compile Include="Queries\Models\Fundings\MoneyFlowHelpersDTO.cs" />
     <Compile Include="Queries\Models\Admin\OrganizationDTO.cs" />
     <Compile Include="Queries\Models\Admin\ParticipantTimelineDTO.cs" />
     <Compile Include="Queries\Models\Admin\SimpleOrganizationDTO.cs" />

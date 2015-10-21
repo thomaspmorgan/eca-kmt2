@@ -1,10 +1,7 @@
-﻿using ECA.Business.Queries.Models.Admin;
+﻿using ECA.Business.Queries.Models.Fundings;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Fundings

@@ -33,11 +33,13 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
+            var parentMoneyFlowWithdrawalMaximum = 100m;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceCreateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
                 description: description,
                 transactionDate: transactionDate,
                 hasRecipientEntityType: hasRecipientEntityType,
@@ -76,11 +78,13 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
+            var parentMoneyFlowWithdrawalMaximum = 100m;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceCreateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
                 description: description,
                 transactionDate: transactionDate,
                 hasRecipientEntityType: hasRecipientEntityType,
@@ -120,11 +124,13 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
+            var parentMoneyFlowWithdrawalMaximum = 100m;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceCreateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
                 description: description,
                 transactionDate: transactionDate,
                 hasRecipientEntityType: hasRecipientEntityType,
@@ -163,11 +169,13 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
+            var parentMoneyFlowWithdrawalMaximum = 100m;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceCreateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
                 description: description,
                 transactionDate: transactionDate,
                 hasRecipientEntityType: hasRecipientEntityType,
@@ -206,11 +214,13 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
+            var parentMoneyFlowWithdrawalMaximum = 100m;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceCreateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
                 description: description,
                 transactionDate: transactionDate,
                 hasRecipientEntityType: hasRecipientEntityType,
@@ -249,11 +259,13 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
+            var parentMoneyFlowWithdrawalMaximum = 100m;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceCreateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
                 description: description,
                 transactionDate: transactionDate,
                 hasRecipientEntityType: hasRecipientEntityType,
@@ -292,11 +304,13 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
+            var parentMoneyFlowWithdrawalMaximum = 100m;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceCreateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
                 description: description,
                 transactionDate: transactionDate,
                 hasRecipientEntityType: hasRecipientEntityType,
@@ -335,11 +349,13 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
+            var parentMoneyFlowWithdrawalMaximum = 100m;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceCreateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
                 description: description,
                 transactionDate: transactionDate,
                 hasRecipientEntityType: hasRecipientEntityType,
@@ -377,11 +393,13 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
+            var parentMoneyFlowWithdrawalMaximum = 100m;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceCreateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
                 description: description,
                 transactionDate: transactionDate,
                 hasRecipientEntityType: hasRecipientEntityType,
@@ -420,11 +438,13 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
+            var parentMoneyFlowWithdrawalMaximum = 100m;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceCreateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
                 description: description,
                 transactionDate: transactionDate,
                 hasRecipientEntityType: hasRecipientEntityType,
@@ -463,11 +483,13 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
+            var parentMoneyFlowWithdrawalMaximum = 100m;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceCreateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
                 description: description,
                 transactionDate: transactionDate,
                 hasRecipientEntityType: hasRecipientEntityType,
@@ -506,11 +528,13 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId, sourceEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
+            var parentMoneyFlowWithdrawalMaximum = 100m;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceCreateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
                 description: description,
                 transactionDate: transactionDate,
                 hasRecipientEntityType: hasRecipientEntityType,
@@ -551,11 +575,13 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId, MoneyFlowSourceRecipientType.Project.Id };
             var allowedProjectParticipantIds = new List<int>();
+            var parentMoneyFlowWithdrawalMaximum = 100m;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceCreateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
                 description: description,
                 transactionDate: transactionDate,
                 hasRecipientEntityType: hasRecipientEntityType,
@@ -594,11 +620,13 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
+            var parentMoneyFlowWithdrawalMaximum = 100m;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceCreateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
                 description: description,
                 transactionDate: transactionDate,
                 hasRecipientEntityType: hasRecipientEntityType,
@@ -638,11 +666,13 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
+            var parentMoneyFlowWithdrawalMaximum = 100m;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceCreateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
                 description: description,
                 transactionDate: transactionDate,
                 hasRecipientEntityType: hasRecipientEntityType,
@@ -681,11 +711,13 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
+            var parentMoneyFlowWithdrawalMaximum = 100m;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceCreateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
                 description: description,
                 transactionDate: transactionDate,
                 hasRecipientEntityType: hasRecipientEntityType,
@@ -724,11 +756,13 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int> { recipientEntityId.Value };
+            var parentMoneyFlowWithdrawalMaximum = 100m;
 
             Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceCreateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
                 description: description,
                 transactionDate: transactionDate,
                 hasRecipientEntityType: hasRecipientEntityType,
@@ -752,9 +786,217 @@ namespace ECA.Business.Test.Service.Fundings
             Assert.AreEqual("RecipientEntityId", validationErrors.First().Property);
         }
 
+        [TestMethod]
+        public void TestDoValidateCreate_ParentMoneyFlowWithdrawlLimit_GreaterThanLimit()
+        {
+            var value = 5.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            var hasSourceEntityType = true;
+            var hasRecipientEntityType = true;
+            int? sourceEntityId = 1;
+            int? recipientEntityId = 2;
+            var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
+            int fiscalYear = 2000;
+            var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedProjectParticipantIds = new List<int>();
+            var parentMoneyFlowWithdrawalMaximum = 10m;
+
+            Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceCreateValidationEntity(
+                value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
+                description: description,
+                transactionDate: transactionDate,
+                hasRecipientEntityType: hasRecipientEntityType,
+                hasSourceEntityType: hasSourceEntityType,
+                sourceEntityId: sourceEntityId,
+                recipientEntityId: recipientEntityId,
+                sourceEntityTypeId: sourceEntityTypeId,
+                recipientEntityTypeId: recipientEntityTypeId,
+                fiscalYear: fiscalYear,
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
+                );
+            };
+            Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
+
+            parentMoneyFlowWithdrawalMaximum = 4.00m;
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateCreate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(MoneyFlowServiceValidator.VALUE_EXCEEDS_PARENT_MONEY_FLOW_WITHDRAWAL_LIMIT, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("Value", validationErrors.First().Property);
+        }
+
+        [TestMethod]
+        public void TestDoValidateCreate_ParentMoneyFlowWithdrawlLimit_EqualToLimit()
+        {
+            var value = 5.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            var hasSourceEntityType = true;
+            var hasRecipientEntityType = true;
+            int? sourceEntityId = 1;
+            int? recipientEntityId = 2;
+            var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
+            int fiscalYear = 2000;
+            var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedProjectParticipantIds = new List<int>();
+            var parentMoneyFlowWithdrawalMaximum = 10m;
+
+            Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceCreateValidationEntity(
+                value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
+                description: description,
+                transactionDate: transactionDate,
+                hasRecipientEntityType: hasRecipientEntityType,
+                hasSourceEntityType: hasSourceEntityType,
+                sourceEntityId: sourceEntityId,
+                recipientEntityId: recipientEntityId,
+                sourceEntityTypeId: sourceEntityTypeId,
+                recipientEntityTypeId: recipientEntityTypeId,
+                fiscalYear: fiscalYear,
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
+                );
+            };
+            Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
+
+            value = parentMoneyFlowWithdrawalMaximum;
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateCreate(entity).ToList();
+            Assert.AreEqual(0, validationErrors.Count);
+        }
+
+        [TestMethod]
+        public void TestDoValidateCreate_NullParentMoneyFlowWithdrawlLimit()
+        {
+            var value = 5.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            var hasSourceEntityType = true;
+            var hasRecipientEntityType = true;
+            int? sourceEntityId = 1;
+            int? recipientEntityId = 2;
+            var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
+            int fiscalYear = 2000;
+            var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedProjectParticipantIds = new List<int>();
+            decimal? parentMoneyFlowWithdrawalMaximum = 10m;
+
+            Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceCreateValidationEntity(
+                value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
+                description: description,
+                transactionDate: transactionDate,
+                hasRecipientEntityType: hasRecipientEntityType,
+                hasSourceEntityType: hasSourceEntityType,
+                sourceEntityId: sourceEntityId,
+                recipientEntityId: recipientEntityId,
+                sourceEntityTypeId: sourceEntityTypeId,
+                recipientEntityTypeId: recipientEntityTypeId,
+                fiscalYear: fiscalYear,
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
+                );
+            };
+            Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
+
+            parentMoneyFlowWithdrawalMaximum = null;
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateCreate(entity).ToList();
+            Assert.AreEqual(0, validationErrors.Count);
+        }
+
         #endregion
 
         #region Update
+        [TestMethod]
+        public void TestDoValidateUpdate_ValueExceedsParentMoneyFlowWithdrawalLimit()
+        {
+            var value = 1.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            int fiscalYear = 2000;
+            decimal? withdrawalLimit = 100m;
+            Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceUpdateValidationEntity(
+                value: value,
+                parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
+                description: description,
+                fiscalYear: fiscalYear
+                );
+            };
+            Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
+
+            withdrawalLimit = 0m;
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(MoneyFlowServiceValidator.VALUE_EXCEEDS_PARENT_MONEY_FLOW_WITHDRAWAL_LIMIT, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("Value", validationErrors.First().Property);
+        }
+
+        [TestMethod]
+        public void TestDoValidateUpdate_ValueIsEqualParentMoneyFlowWithdrawalLimit()
+        {
+            var value = 1.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            int fiscalYear = 2000;
+            decimal? withdrawalLimit = 100m;
+            Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceUpdateValidationEntity(
+                value: value,
+                parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
+                description: description,
+                fiscalYear: fiscalYear
+                );
+            };
+            Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
+
+            value = withdrawalLimit.Value;
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(0, validationErrors.Count);
+        }
+
+        [TestMethod]
+        public void TestDoValidateUpdate_ParentMoneyFlowWithdrawalLimitNotProvided()
+        {
+            var value = 1.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            int fiscalYear = 2000;
+            decimal? withdrawalLimit = 100m;
+            Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceUpdateValidationEntity(
+                value: value,
+                parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
+                description: description,
+                fiscalYear: fiscalYear
+                );
+            };
+            Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
+
+            withdrawalLimit = null;
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(0, validationErrors.Count);
+        }
+
         [TestMethod]
         public void TestDoValidateUpdate_FiscalYearLessThanZero()
         {
@@ -762,11 +1004,12 @@ namespace ECA.Business.Test.Service.Fundings
             var description = "description";
             var transactionDate = DateTimeOffset.UtcNow;
             int fiscalYear = 2000;
-
+            decimal? withdrawalLimit = 100m;
             Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceUpdateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
                 description: description,
                 fiscalYear: fiscalYear
                 );
@@ -788,11 +1031,12 @@ namespace ECA.Business.Test.Service.Fundings
             var description = "description";
             var transactionDate = DateTimeOffset.UtcNow;
             int fiscalYear = 2000;
-
+            decimal? withdrawalLimit = 100m;
             Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceUpdateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
                 description: description,
                 fiscalYear: fiscalYear
                 );
@@ -814,11 +1058,12 @@ namespace ECA.Business.Test.Service.Fundings
             var description = "description";
             var transactionDate = DateTimeOffset.UtcNow;
             int fiscalYear = 2000;
-
+            decimal? withdrawalLimit = 100m;
             Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceUpdateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
                 description: description,
                 fiscalYear: fiscalYear              
                 );
@@ -840,11 +1085,12 @@ namespace ECA.Business.Test.Service.Fundings
             var description = "description";
             var transactionDate = DateTimeOffset.UtcNow;
             int fiscalYear = 2000;
-
+            decimal? withdrawalLimit = 100m;
             Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceUpdateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
                 description: description,
                 fiscalYear: fiscalYear
                 );
@@ -866,11 +1112,12 @@ namespace ECA.Business.Test.Service.Fundings
             var description = "description";
             var transactionDate = DateTimeOffset.UtcNow;
             int fiscalYear = 2000;
-
+            decimal? withdrawalLimit = 100m;
             Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceUpdateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
                 description: description,
                 fiscalYear: fiscalYear
                 );
@@ -892,11 +1139,12 @@ namespace ECA.Business.Test.Service.Fundings
             var description = "description";
             var transactionDate = DateTimeOffset.UtcNow;
             int fiscalYear = 2000;
-
+            decimal? withdrawalLimit = 100m;
             Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceUpdateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
                 description: description,
                 fiscalYear: fiscalYear
                 );
@@ -918,11 +1166,12 @@ namespace ECA.Business.Test.Service.Fundings
             var description = "description";
             var transactionDate = DateTimeOffset.UtcNow;
             int fiscalYear = 2000;
-
+            decimal? withdrawalLimit = 100m;
             Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
             {
                 return new MoneyFlowServiceUpdateValidationEntity(
                 value: value,
+                parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
                 description: description,
                 fiscalYear: fiscalYear
                 );

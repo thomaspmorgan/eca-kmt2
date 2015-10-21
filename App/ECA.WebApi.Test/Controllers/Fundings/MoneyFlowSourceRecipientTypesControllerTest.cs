@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ECA.WebApi.Models.Query;
 using System.Web.Http.Results;
+using ECA.Business.Queries.Models.Fundings;
 
 namespace ECA.WebApi.Test.Controllers.Fundings
 {
