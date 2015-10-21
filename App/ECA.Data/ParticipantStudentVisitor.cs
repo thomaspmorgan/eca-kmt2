@@ -44,7 +44,7 @@ namespace ECA.Data
         /// The Issue Reason Id
         /// </summary>
         [ForeignKey("IssueReasonId")]
-        public StudentCreation StudentCreation { get; set; }
+        public StudentCreation IssueReason { get; set; }
 
         /// <summary>
         /// The educational level ID of the student
