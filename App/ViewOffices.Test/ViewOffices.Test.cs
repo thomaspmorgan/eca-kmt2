@@ -15,6 +15,8 @@ using ECA.Core.DynamicLinq;
 using ECA.Business.Queries.Models.Office;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.DynamicLinq.Filter;
+using UITest.Core;
+using Microsoft.VisualStudio.TestTools.UITesting.HtmlControls;
 
 
 namespace ViewOffices.Test
@@ -24,34 +26,34 @@ namespace ViewOffices.Test
     /// Verifies the login to QA; navigate to office page; use search offices box; search results returned; office returned from search; office description; office name; office acronym; and the office name being a hyperlink to navigate to the office.
     /// </summary>
     [CodedUITest]
-    public class ViewOfficesCodedUITest1
-    {
+    public class ViewOffices
+    { /*
         private OfficeService officeService;
-        private EcaContext context;
+        private EcaContext context; */
 
-        public ViewOfficesCodedUITest1()
+        public ViewOffices()
         {
         }
 
         [TestInitialize]
         public void TestInit()
-        {
-            var connectionString = @"Server=tcp:dx4ykgy2iu.database.windows.net,1433;Database=ECA_Dev;Persist Security Info=True;User ID=ECA@dx4ykgy2iu;Password=wisconsin-89;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;MultipleActiveResultSets=True";
+        {/*
+            var connectionString = @"Server=tcp:BE00003110,1433;Database=ECA_Local;Persist Security Info=True;User ID=ECA;Password=wisconsin-89;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;MultipleActiveResultSets=True";
             context = new EcaContext(connectionString);
-            officeService = new OfficeService(context);
+            officeService = new OfficeService(context); */
         }
 
         [TestCleanup]
         public void TestCleanup()
         {
-            officeService.Dispose();
-            officeService = null;
+            /* officeService.Dispose();
+             officeService = null; */
         }
 
         [TestMethod]
-        public void ViewOfficesCodedUITestMethod1()
+        public void ViewOfficesPage()
         {
-            var defaultSorter = new ExpressionSorter<SimpleOfficeDTO>(x => x.Name, SortDirection.Ascending);
+            /* var defaultSorter = new ExpressionSorter<SimpleOfficeDTO>(x => x.Name, SortDirection.Ascending);
             var nameFilter = new ExpressionFilter<SimpleOfficeDTO>(x => x.Name, ComparisonType.Like, "Cultural Heritage");
             var queryOperator = new QueryableOperator<SimpleOfficeDTO>(0, 100, defaultSorter, new List<IFilter> { nameFilter }, null);
 
@@ -59,9 +61,64 @@ namespace ViewOffices.Test
             var testOffice = dtos.Results.First();
             var searchText = testOffice.Name;
             var linkText = testOffice.Name;
-            var total = dtos.Total;
+            var total = dtos.Total; */
 
-            this.UIMap.LogintoQA_ExistingUser();
+             var browserWindow = AuthHelper.KMTLogin();
+             ContentMenu.AccessMenu(browserWindow);
+
+             //select offices section
+             HtmlHyperlink offices = new HtmlHyperlink(browserWindow);
+             offices.SearchProperties.Add(HtmlHyperlink.PropertyNames.InnerText, "Offices", HtmlHyperlink.PropertyNames.ControlType, "Hyperlink", HtmlHyperlink.PropertyNames.TagInstance, "2");
+             offices.WaitForControlReady();
+             Mouse.Click(offices);
+
+             //Verify office directory
+             HtmlDiv officeDirect = new HtmlDiv(browserWindow);
+             officeDirect.SearchProperties.Add(HtmlDiv.PropertyNames.InnerText, "ECA Office Directory", HtmlDiv.PropertyNames.TagName, "DIV");
+             officeDirect.WaitForControlReady();
+             Assert.AreEqual(true, officeDirect.Exists);
+
+             //search field
+             HtmlEdit offSearch = new HtmlEdit(browserWindow);
+             offSearch.SearchProperties.Add(HtmlEdit.PropertyNames.TagName, "INPUT", HtmlEdit.PropertyNames.ControlType, "Edit", HtmlEdit.PropertyNames.TagInstance, "1");
+             offSearch.WaitForControlReady();
+             Assert.AreEqual(true, offSearch.Exists);
+
+             //showing count
+             HtmlDiv showingOff = new HtmlDiv(browserWindow);
+             showingOff.SearchProperties.Add(HtmlDiv.PropertyNames.TagName, "DIV", HtmlDiv.PropertyNames.InnerText, "Showing 1 - 25 of 56 offices");
+             showingOff.WaitForControlReady();
+             Assert.AreEqual(true, showingOff.Exists);
+
+            //showingOff DB Verify-- use sql connection for verifying the office count
+            var connectionString = "Data Source=(local);User Id=ECA;Password=wisconsin-89;Database=ECA_Local;Pooling=False";
+            using (var context = new EcaContext(connectionString))
+            using (var service = new OfficeService(context))
+            {
+                var defaultSorter = new ExpressionSorter<SimpleOfficeDTO>(x => x.OfficeSymbol, SortDirection.Ascending);
+                var queryOperator = new QueryableOperator<SimpleOfficeDTO>(0, 10, defaultSorter);
+                var results = service.GetOffices(queryOperator);
+                Assert.AreEqual(results.Total, 56);
+            }
+            
+            //verify the view count of Offices with Cultural in the name
+            using (var context = new EcaContext(connectionString))
+            using (var service = new OfficeService(context))
+            {
+                var defaultSorter = new ExpressionSorter<SimpleOfficeDTO>(x => x.OfficeSymbol, SortDirection.Ascending);
+                var filter = new ExpressionFilter<SimpleOfficeDTO>(x => x.Name, ComparisonType.Like, "Cultural");
+                var queryOperator = new QueryableOperator<SimpleOfficeDTO>(0, 10, defaultSorter, new List<IFilter> { filter });
+                var results = service.GetOffices(queryOperator);
+                Assert.AreEqual(results.Total, 3);
+            }
+
+
+
+
+
+
+            //old code
+            /* this.UIMap.LogintoQA_ExistingUser();
             //this.UIMap.LogintoQA();
             this.UIMap.AssertContentMenuButton();
             this.UIMap.SelectContentMenuButton();
@@ -79,9 +136,9 @@ namespace ViewOffices.Test
             this.UIMap.AssertSearchOfficesTextResults();
             this.UIMap.AssertAvailableOfficeinList();
             //this.UIMap.AssertOfficeAvailableinList();
-            this.UIMap.CloseBrowserWindow();
+            this.UIMap.CloseBrowserWindow(); */
+            //end old code
 
-            // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
         }
 
         #region Additional test attributes
