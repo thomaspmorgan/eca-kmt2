@@ -127,7 +127,7 @@ namespace ECA.Business.Service.Fundings
         /// <returns>The source money flows.</returns>
         public List<SourceMoneyFlowDTO> GetSourceMoneyFlowsByProjectId(int projectId)
         {
-            return MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByProjectId(this.Context, projectId).ToList();
+            return CreateGetSourceMoneyFlowsByProjectIdQuery(projectId).ToList();
         }
 
         /// <summary>
@@ -138,7 +138,12 @@ namespace ECA.Business.Service.Fundings
         /// <returns>The source money flows.</returns>
         public Task<List<SourceMoneyFlowDTO>> GetSourceMoneyFlowsByProjectIdAsync(int projectId)
         {
-            return MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByProjectId(this.Context, projectId).ToListAsync();
+            return CreateGetSourceMoneyFlowsByProjectIdQuery(projectId).ToListAsync();
+        }
+
+        private IQueryable<SourceMoneyFlowDTO> CreateGetSourceMoneyFlowsByProjectIdQuery(int projectId)
+        {
+            return MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByProjectId(this.Context, projectId).Where(x => x.RemainingAmount > 0m);
         }
 
         /// <summary>
@@ -149,7 +154,7 @@ namespace ECA.Business.Service.Fundings
         /// <returns>The source money flows.</returns>
         public List<SourceMoneyFlowDTO> GetSourceMoneyFlowsByProgramId(int programId)
         {
-            return MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByProgramId(this.Context, programId).ToList();
+            return CreateGetSourceMoneyFlowsByProgramIdQuery(programId).ToList();
         }
 
         /// <summary>
@@ -160,7 +165,12 @@ namespace ECA.Business.Service.Fundings
         /// <returns>The source money flows.</returns>
         public Task<List<SourceMoneyFlowDTO>> GetSourceMoneyFlowsByProgramIdAsync(int programId)
         {
-            return MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByProgramId(this.Context, programId).ToListAsync();
+            return CreateGetSourceMoneyFlowsByProgramIdQuery(programId).ToListAsync();
+        }
+
+        private IQueryable<SourceMoneyFlowDTO> CreateGetSourceMoneyFlowsByProgramIdQuery(int programId)
+        {
+            return MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByProgramId(this.Context, programId).Where(x => x.RemainingAmount > 0m);
         }
 
         /// <summary>
@@ -173,7 +183,7 @@ namespace ECA.Business.Service.Fundings
         {
             var office = CreateGetOfficeByOrganizationIdQuery(organizationId).FirstOrDefault();
             throwSecurityViolationIfOrgIsOffice(organizationId, office);
-            return MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByOrganizationId(this.Context, organizationId).ToList();
+            return CreateCreateGetSourceMoneyFlowDTOsByOrganizationIdQuery(organizationId).ToList();
         }
 
         /// <summary>
@@ -186,7 +196,12 @@ namespace ECA.Business.Service.Fundings
         {
             var office = await CreateGetOfficeByOrganizationIdQuery(organizationId).FirstOrDefaultAsync();
             throwSecurityViolationIfOrgIsOffice(organizationId, office);
-            return await MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByOrganizationId(this.Context, organizationId).ToListAsync();
+            return await CreateCreateGetSourceMoneyFlowDTOsByOrganizationIdQuery(organizationId).ToListAsync();
+        }
+
+        private IQueryable<SourceMoneyFlowDTO> CreateCreateGetSourceMoneyFlowDTOsByOrganizationIdQuery(int organizationId)
+        {
+            return MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByOrganizationId(this.Context, organizationId).Where(x => x.RemainingAmount > 0m);
         }
 
         /// <summary>
@@ -197,7 +212,7 @@ namespace ECA.Business.Service.Fundings
         /// <returns>The source money flows.</returns>
         public List<SourceMoneyFlowDTO> GetSourceMoneyFlowsByOfficeId(int officeId)
         {
-            return MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByOfficeId(this.Context, officeId).ToList();
+            return CreateCreateGetSourceMoneyFlowDTOsByOfficeIdQuery(officeId).ToList();
         }
 
         /// <summary>
@@ -206,9 +221,14 @@ namespace ECA.Business.Service.Fundings
         /// </summary>
         /// <param name="officeId">The id of the office to get source money flows for.</param>
         /// <returns>The source money flows.</returns>
-        public async Task<List<SourceMoneyFlowDTO>> GetSourceMoneyFlowsByOfficeIdAsync(int officeId)
+        public Task<List<SourceMoneyFlowDTO>> GetSourceMoneyFlowsByOfficeIdAsync(int officeId)
         {
-            return await MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByOfficeId(this.Context, officeId).ToListAsync();
+            return CreateCreateGetSourceMoneyFlowDTOsByOfficeIdQuery(officeId).ToListAsync();
+        }
+
+        private IQueryable<SourceMoneyFlowDTO> CreateCreateGetSourceMoneyFlowDTOsByOfficeIdQuery(int officeId)
+        {
+            return MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByOfficeId(this.Context, officeId).Where(x => x.RemainingAmount > 0m);
         }
 
         /// <summary>

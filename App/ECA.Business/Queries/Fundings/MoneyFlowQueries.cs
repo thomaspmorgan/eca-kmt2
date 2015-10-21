@@ -353,22 +353,22 @@ namespace ECA.Business.Queries.Fundings
         /// <returns>The query returning source money flow dtos detailing the original money flow amount, the remaining amount, and source entity information.</returns>
         public static IQueryable<SourceMoneyFlowDTO> CreateGetSourceMoneyFlowDTOsQuery(EcaContext context)
         {
-            var query = from incomingMoneyFlow in CreateIncomingMoneyFlowDTOsQuery(context)
-                        let childMoneyFlows = context.MoneyFlows.Where(x => x.ParentMoneyFlowId == incomingMoneyFlow.Id)
-                        orderby incomingMoneyFlow.SourceRecipientName
-                        select new SourceMoneyFlowDTO
-                        {
-                            Amount = incomingMoneyFlow.Amount,
-                            ChildMoneyFlowIds = childMoneyFlows.Select(x => x.MoneyFlowId),
-                            EntityId = incomingMoneyFlow.EntityId,
-                            EntityTypeId = incomingMoneyFlow.EntityTypeId,
-                            Id = incomingMoneyFlow.Id,
-                            RemainingAmount = incomingMoneyFlow.Amount - childMoneyFlows.Select(x => x.Value).DefaultIfEmpty().Sum(),
-                            SourceName = incomingMoneyFlow.SourceRecipientName,
-                            SourceEntityId = incomingMoneyFlow.SourceRecipientEntityId,
-                            SourceEntityTypeId = incomingMoneyFlow.SourceRecipientEntityTypeId,
-                            SourceEntityTypeName = incomingMoneyFlow.SourceRecipientTypeName,
-                        };
+            var query = (from incomingMoneyFlow in CreateIncomingMoneyFlowDTOsQuery(context)
+                         let childMoneyFlows = context.MoneyFlows.Where(x => x.ParentMoneyFlowId == incomingMoneyFlow.Id)
+                         orderby incomingMoneyFlow.SourceRecipientName
+                         select new SourceMoneyFlowDTO
+                         {
+                             Amount = incomingMoneyFlow.Amount,
+                             ChildMoneyFlowIds = childMoneyFlows.Select(x => x.MoneyFlowId),
+                             EntityId = incomingMoneyFlow.EntityId,
+                             EntityTypeId = incomingMoneyFlow.EntityTypeId,
+                             Id = incomingMoneyFlow.Id,
+                             RemainingAmount = incomingMoneyFlow.Amount - childMoneyFlows.Select(x => x.Value).DefaultIfEmpty().Sum(),
+                             SourceName = incomingMoneyFlow.SourceRecipientName,
+                             SourceEntityId = incomingMoneyFlow.SourceRecipientEntityId,
+                             SourceEntityTypeId = incomingMoneyFlow.SourceRecipientEntityTypeId,
+                             SourceEntityTypeName = incomingMoneyFlow.SourceRecipientTypeName,
+                         });
             return query;
         }
 

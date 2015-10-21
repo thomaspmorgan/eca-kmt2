@@ -113,6 +113,71 @@ namespace ECA.Business.Test.Service.Fundings
         }
 
         [TestMethod]
+        public async Task TestCreateGetSourceMoneyFlowDTOsByOrganizationId_ZeroRemainingAmount()
+        {
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceProject = new Project
+            {
+                ProjectId = sourceId,
+                Name = "Project"
+            };
+            var recipientOrg = new Organization
+            {
+                OrganizationId = recipientId,
+                Name = "Recip office"
+            };
+            var projectType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Project.Id,
+                TypeName = MoneyFlowSourceRecipientType.Project.Value
+            };
+            var organizationType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Organization.Id,
+                TypeName = MoneyFlowSourceRecipientType.Organization.Value
+            };
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+            var moneyFlow = new MoneyFlow
+            {
+                SourceProjectId = sourceId,
+                RecipientOrganizationId = recipientId,
+                SourceProject = sourceProject,
+                RecipientOrganization = recipientOrg,
+                SourceType = projectType,
+                SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = organizationType,
+                RecipientTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 0m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10,
+            };
+            context.MoneyFlowStatuses.Add(actual);
+            context.MoneyFlowSourceRecipientTypes.Add(projectType);
+            context.MoneyFlowSourceRecipientTypes.Add(organizationType);
+            context.MoneyFlows.Add(moneyFlow);
+            context.Projects.Add(sourceProject);
+            context.Organizations.Add(recipientOrg);
+
+            Action<List<SourceMoneyFlowDTO>> tester = (dtos) =>
+            {
+                Assert.AreEqual(0, dtos.Count);
+            };
+            var results = service.GetSourceMoneyFlowsByOrganizationId(recipientId);
+            var resultsAsync = await service.GetSourceMoneyFlowsByOrganizationIdAsync(recipientId);
+            tester(results);
+            tester(resultsAsync);
+        }
+
+        [TestMethod]
         public async Task TestCreateGetSourceMoneyFlowDTOsByOfficeId()
         {
             var sourceId = 1;
@@ -170,6 +235,71 @@ namespace ECA.Business.Test.Service.Fundings
             Action<List<SourceMoneyFlowDTO>> tester = (dtos) =>
             {
                 Assert.AreEqual(1, dtos.Count);
+            };
+            var results = service.GetSourceMoneyFlowsByOfficeId(recipientId);
+            var resultsAsync = await service.GetSourceMoneyFlowsByOfficeIdAsync(recipientId);
+            tester(results);
+            tester(resultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestCreateGetSourceMoneyFlowDTOsByOfficeId_ZeroRemainingAmount()
+        {
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceProject = new Project
+            {
+                ProjectId = sourceId,
+                Name = "Project"
+            };
+            var recipientOrg = new Organization
+            {
+                OrganizationId = recipientId,
+                Name = "Recip office"
+            };
+            var projectType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Project.Id,
+                TypeName = MoneyFlowSourceRecipientType.Project.Value
+            };
+            var officeType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Office.Id,
+                TypeName = MoneyFlowSourceRecipientType.Office.Value
+            };
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+            var moneyFlow = new MoneyFlow
+            {
+                SourceProjectId = sourceId,
+                RecipientOrganizationId = recipientId,
+                SourceProject = sourceProject,
+                RecipientOrganization = recipientOrg,
+                SourceType = projectType,
+                SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = officeType,
+                RecipientTypeId = officeType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 0m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10,
+            };
+            context.MoneyFlowStatuses.Add(actual);
+            context.MoneyFlowSourceRecipientTypes.Add(projectType);
+            context.MoneyFlowSourceRecipientTypes.Add(officeType);
+            context.MoneyFlows.Add(moneyFlow);
+            context.Projects.Add(sourceProject);
+            context.Organizations.Add(recipientOrg);
+
+            Action<List<SourceMoneyFlowDTO>> tester = (dtos) =>
+            {
+                Assert.AreEqual(0, dtos.Count);
             };
             var results = service.GetSourceMoneyFlowsByOfficeId(recipientId);
             var resultsAsync = await service.GetSourceMoneyFlowsByOfficeIdAsync(recipientId);
@@ -243,6 +373,71 @@ namespace ECA.Business.Test.Service.Fundings
         }
 
         [TestMethod]
+        public async Task TestCreateGetSourceMoneyFlowDTOsByProgramId_ZeroRemainingAmount()
+        {
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceProject = new Project
+            {
+                ProjectId = sourceId,
+                Name = "Project"
+            };
+            var recipientProgram = new Program
+            {
+                ProgramId = recipientId,
+                Name = "Recip prog"
+            };
+            var projectType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Project.Id,
+                TypeName = MoneyFlowSourceRecipientType.Project.Value
+            };
+            var programType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Program.Id,
+                TypeName = MoneyFlowSourceRecipientType.Program.Value
+            };
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+            var moneyFlow = new MoneyFlow
+            {
+                SourceProjectId = sourceId,
+                RecipientProgramId = recipientId,
+                SourceProject = sourceProject,
+                RecipientProgram = recipientProgram,
+                SourceType = projectType,
+                SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = programType,
+                RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 0m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10,
+            };
+            context.MoneyFlowStatuses.Add(actual);
+            context.MoneyFlowSourceRecipientTypes.Add(projectType);
+            context.MoneyFlowSourceRecipientTypes.Add(programType);
+            context.MoneyFlows.Add(moneyFlow);
+            context.Projects.Add(sourceProject);
+            context.Programs.Add(recipientProgram);
+
+            Action<List<SourceMoneyFlowDTO>> tester = (dtos) =>
+            {
+                Assert.AreEqual(0, dtos.Count);
+            };
+            var results = service.GetSourceMoneyFlowsByProgramId(recipientId);
+            var resultsAsync = await service.GetSourceMoneyFlowsByProgramIdAsync(recipientId);
+            tester(results);
+            tester(resultsAsync);
+        }
+
+        [TestMethod]
         public async Task TestCreateGetSourceMoneyFlowDTOsByProjectId()
         {
             var sourceId = 1;
@@ -294,6 +489,65 @@ namespace ECA.Business.Test.Service.Fundings
             Action<List<SourceMoneyFlowDTO>> tester = (dtos) =>
             {
                 Assert.AreEqual(1, dtos.Count);
+            };
+            var results = service.GetSourceMoneyFlowsByProjectId(recipientId);
+            var resultsAsync = await service.GetSourceMoneyFlowsByProjectIdAsync(recipientId);
+            tester(results);
+            tester(resultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestCreateGetSourceMoneyFlowDTOsByProjectId_ZeroRemainingAmount()
+        {
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceProject = new Project
+            {
+                ProjectId = sourceId,
+                Name = "Project"
+            };
+            var recipientProject = new Project
+            {
+                ProjectId = recipientId,
+                Name = "Recip proj"
+            };
+            var projectType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Project.Id,
+                TypeName = MoneyFlowSourceRecipientType.Project.Value
+            };
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+            var moneyFlow = new MoneyFlow
+            {
+                SourceProjectId = sourceId,
+                RecipientProgramId = recipientId,
+                SourceProject = sourceProject,
+                RecipientProject = recipientProject,
+                SourceType = projectType,
+                SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = projectType,
+                RecipientTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 0m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10,
+            };
+            context.MoneyFlowStatuses.Add(actual);
+            context.MoneyFlowSourceRecipientTypes.Add(projectType);
+            context.MoneyFlows.Add(moneyFlow);
+            context.Projects.Add(sourceProject);
+            context.Projects.Add(recipientProject);
+
+            Action<List<SourceMoneyFlowDTO>> tester = (dtos) =>
+            {
+                Assert.AreEqual(0, dtos.Count);
             };
             var results = service.GetSourceMoneyFlowsByProjectId(recipientId);
             var resultsAsync = await service.GetSourceMoneyFlowsByProjectIdAsync(recipientId);

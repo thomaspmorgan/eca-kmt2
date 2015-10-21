@@ -113,30 +113,40 @@
         <hr />
         <div class="row">
             <div class="col-md-12 form-group">
-                <label>Select a Funding Item that will be the Source for the new Funding Item</label>
+                <div>
+                    <label>
+                        Select a Funding Item that will be the Source for the new Funding Item
+                    </label>
+                </div>
                 <div>
                     <label class="col-md-4">Source Name</label>
                     <label class="col-md-4 text-right">Total Funding Amount</label>
                     <label class="col-md-4 text-right">Currently Unassigned</label>
                 </div>
-                <ui-select theme="select2"
-                           ng-model="view.moneyFlow.parentMoneyFlowId"
-                           on-select="view.onSelectSourceMoneyFlow($item, $model)">
-                    <ui-select-match placeholder="Select a source funding item..." allow-clear="true">
-                        <div>
-                            <div class="col-md-4">{{view.selectedSourceMoneyFlow.sourceName}}</div>
-                            <div class="col-md-4 text-right">{{view.selectedSourceMoneyFlow.amount | currency}}</div>
-                            <div class="col-md-4 text-right">{{view.selectedSourceMoneyFlow.remainingAmount | currency}}</div>
-                        </div>
-                    </ui-select-match>
-                    <ui-select-choices repeat="source.id as source in view.sourceMoneyFlows | propsFilter: {sourceName: $select.search} track by source.id ">
-                        <div class="row">
-                            <div class="col-md-4" ng-bind-html="source.sourceName | highlight: $select.search"></div>
-                            <div class="col-md-4 text-right" ng-bind-html="source.amount | currency | highlight: $select.search"></div>
-                            <div class="col-md-4 text-right" ng-bind-html="source.remainingAmount | currency | highlight: $select.search"></div>
-                        </div>
-                    </ui-select-choices>
-                </ui-select>
+                <div>
+                    <ui-select theme="select2"
+                               ng-model="view.moneyFlow.parentMoneyFlowId"
+                               on-select="view.onSelectSourceMoneyFlow($item, $model)">
+                        <ui-select-match placeholder="Select a source funding item..." allow-clear="true">
+                            <div ng-show="source.id > 0">
+                                <div class="col-md-4">{{view.selectedSourceMoneyFlow.sourceName}}</div>
+                                <div class="col-md-4 text-right">{{view.selectedSourceMoneyFlow.amount | currency}}</div>
+                                <div class="col-md-4 text-right">{{view.selectedSourceMoneyFlow.remainingAmount | currency}}</div>
+                            </div>
+                        </ui-select-match>
+                        <ui-select-choices repeat="source.id as source in view.sourceMoneyFlows | propsFilter: {sourceName: $select.search} track by source.id ">
+                            <div ng-show="source.id === 0">
+                                <i class="material-icons md-12 material-icons-spin" style="margin-top:10px;">autorenew</i>
+                                Loading...
+                            </div>
+                            <div class="row" ng-show="source.id !== 0">
+                                <div class="col-md-4" ng-bind-html="source.sourceName | highlight: $select.search"></div>
+                                <div class="col-md-4 text-right" ng-bind-html="source.amount | currency"></div>
+                                <div class="col-md-4 text-right" ng-bind-html="source.remainingAmount | currency"></div>
+                            </div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
             </div>
         </div>
         <hr />
