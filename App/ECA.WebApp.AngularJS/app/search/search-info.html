@@ -1,19 +1,21 @@
-﻿<div class="spinner" ng-show="isLoadingDocInfo" id="title">
-    <div class="bounce1"></div>
-    <div class="bounce2"></div>
-    <div class="bounce3"></div>
-</div>
-<div class="row" ng-show="docinfo != null">
-    <div class="col-md-12">
-        <h5>
-            <a ng-href="{{getHref(docinfo.documentTypeName, docinfo.key.value)}}" ng-click="onGoToSpotlightSearchClick(getHref(docinfo.documentTypeName, docinfo.key.value))" ng-bind-html="docinfo.name"></a>
-        </h5>
-        <span class="resultoffice" ng-bind-html="docinfo.officeSymbol"></span>
-        <p style="margin-top: 20px;" ng-bind-html="docinfo.description"></p>
+﻿<div style="margin-top:50px;">
+    <div class="spinner" ng-show="isLoadingDocInfo" id="title">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+    <div ng-show="docinfo != null">
+        <div class="col-md-12">
+            <h5> 
+                <a ng-href="{{getHref(docinfo.documentTypeName, docinfo.key.value)}}" ng-click="onGoToSpotlightSearchClick(getHref(docinfo.documentTypeName, docinfo.key.value))" ng-bind-html="docinfo.name"></a>
+            </h5>
+            <span class="resultoffice" ng-bind-html="docinfo.officeSymbol"></span>
+            <p style="margin-top: 20px;" ng-bind-html="docinfo.description"></p>
+        </div>
     </div>
 </div>
 
-<div class="row" ng-repeat="(prop, value) in docinfo" ng-init="isArr = isArray(value)">
+<div ng-repeat="(prop, value) in docinfo" ng-init="isArr = isArray(value)">
     <div class="col-md-12" ng-if="isArr && value.length > 0">
         <div class="search-label">{{prop | addSpacing | uppercase}}</div>
         <div class="row">
@@ -27,7 +29,7 @@
         </div>
     </div>
 </div>
-<div class="row" ng-show="docinfo.startDate">
+<div ng-show="docinfo.startDate">
     <div class="col-md-12">
         <div class="search-label">START DATE</div>
         <div class="row">
@@ -39,7 +41,7 @@
         </div>
     </div>
 </div>
-<div class="row" ng-show="docinfo.endDate">
+<div ng-show="docinfo.endDate">
     <div class="col-md-12">
         <div class="search-label">END DATE</div>
         <div class="row">

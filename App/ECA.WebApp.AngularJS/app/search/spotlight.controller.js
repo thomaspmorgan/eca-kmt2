@@ -25,7 +25,7 @@ angular.module('staticApp')
               animation: true,
               templateUrl: 'app/search/search-modal.html',
               controller: 'SearchModalCtrl',
-              windowClass: 'search-modal-resize',
+              windowClass: 'modal-center-large',
               resolve: {}
           });
       }
@@ -51,12 +51,11 @@ angular.module('staticApp')
                 $log.error('Unable to load user permissions.');
             });
       }
-
       var hasLoaded = false;
       $scope.$watch(function () {
-          return $rootScope.userInfo;
+          return $rootScope.userInfo.isAuthenticated;
       }, function (newValue, oldValue) {
-          if (newValue.isAuthenticated) {
+          if (newValue && !hasLoaded) {
               loadPermissions()
               .then(function () {
                   hasLoaded = true;

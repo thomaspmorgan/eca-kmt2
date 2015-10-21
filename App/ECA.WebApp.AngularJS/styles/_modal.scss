@@ -1,72 +1,71 @@
 .ng-modal {
-  height: 100%;
-  left: 0;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 9999;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
 }
 
 .ng-modal-overlay {
-  background-color: rgba(0, 0, 0, .8);
-  height: 100%;
-  left: 0;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 9999;
+    background-color: rgba(0, 0, 0, .8);
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
 }
 
 .ng-modal-dialog {
-  background-color: #fff;
-  border-radius: 3px;
-  box-shadow: 4px 4px 80px #000;
-  left: 50%;
-  max-height: 85%;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  padding: 30px 40px;
-  position: absolute;
-  top: 50%; 
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  width: 80%;
-  z-index: 10000;
-
+    background-color: #fff;
+    border-radius: 3px;
+    box-shadow: 4px 4px 80px #000;
+    left: 50%;
+    max-height: 85%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding: 30px 40px;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    width: 80%;
+    z-index: 10000;
 }
 
 .ng-modal-dialog-content {
-  height: 100%;
+    height: 100%;
 
-  .col-md-10 {
-    padding-left: 0;
-  }
+    .col-md-10 {
+        padding-left: 0;
+    }
 
-  .row {
-    margin-bottom: 20px;
-  }
+    .row {
+        margin-bottom: 20px;
+    }
 }
 
 .ng-modal-close {
-  cursor: pointer;
-  display: inline-block;
-  opacity: 1;
-  padding: 30px;
-  position: absolute;
-  right: 0;
-  top: 0;
+    cursor: pointer;
+    display: inline-block;
+    opacity: 1;
+    padding: 30px;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 .ng-modal-title {
-  display: block;
-  font-size: 200%;
-  margin-bottom: 20px;
+    display: block;
+    font-size: 200%;
+    margin-bottom: 20px;
 }
 
-.search-modal {
-  .ng-modal-dialog {
-    height: 95%;
-    width: 95%;
-  }
-}
+/*.search-modal {
+    .ng-modal-dialog {
+        height: 95%;
+        width: 95%;
+    }
+}*/
