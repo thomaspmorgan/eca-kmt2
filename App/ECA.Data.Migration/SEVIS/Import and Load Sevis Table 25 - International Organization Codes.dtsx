@@ -11,21 +11,11 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Import and Load Sevis Table 25 - International Organization Codes"
   DTS:PackageType="5"
-  DTS:VersionBuild="3"
-  DTS:VersionGUID="{8A56B8E3-2E51-4B8C-9B14-362627D52529}">
+  DTS:VersionBuild="4"
+  DTS:VersionGUID="{5FC75067-715F-48A5-88FC-A78C9D1D82BB}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
-    <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-      DTS:CreationName="OLEDB"
-      DTS:DTSID="{1B7B2A0B-1D26-4C29-A3D8-56187415C572}"
-      DTS:ObjectName="(localdb)\v11.0.ECA_Local">
-      <DTS:ObjectData>
-        <DTS:ConnectionManager
-          DTS:ConnectionString="Data Source=(localdb)\v11.0;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
-      </DTS:ObjectData>
-    </DTS:ConnectionManager>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[eca.database.windows.net.ECA_KMT_DEV.eca]"
       DTS:CreationName="OLEDB"
@@ -37,7 +27,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAD1H3+4qq3dDYb/0vuqnmlArchZe0OXGbhdUsFFH1sTnwAAAAAOgAAAAAIAACAAAAA38rSz6kceVOcv/mrL0lHEP6rjzWxyUPP+WVRHlQ7kLSAAAADslwSUsfduvVrYXRqHp6BQsDptrkBzONV+ccwpHIu65EAAAABE/d2IApnzCvPkggFi35NfEg608OL4EdxYpQu4FXr+k03iHAhTRuaOorfGnt7z+q7LyNKt2dZiaKCFGfXM7zy2</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACf3nDs9N7XbEG6CCKcSWWOBPckI6QkYU+KtJw1JvbxHgAAAAAOgAAAAAIAACAAAABYMZGqMe2MURRMJo2Kunn7R96Yb2NkzptnDtlgwnesBSAAAACHAkPYR9D5sVUJTyo/CKwPRhuUTMibGEe5un+nQ1jV4EAAAADAOvqYS4IlqHEqurS2BYQoHUkLEaUgANobXcmPi4v8SphbJXTCRppCJhcrXtnIMhEMaA31IDhezmlt35wHDZ59</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -661,23 +651,39 @@
           Id="Package\Load Sevis International Organization Codes\Sevis - InternationalOrganization"
           TopLeft="35.5,243.5" />
         <NodeLayout
+          Size="98,42"
+          Id="Package\Load Sevis International Organization Codes\Sort"
+          TopLeft="386.5,69.5" />
+        <NodeLayout
           Size="186,42"
           Id="Package\Load Sevis International Organization Codes\Add Required Columns"
           TopLeft="56,125" />
         <EdgeLayout
-          Id="Package\Load Sevis International Organization Codes.Paths[Derived Column Output]"
-          TopLeft="150.5,167">
+          Id="Package\Load Sevis International Organization Codes.Paths[Sort Output]"
+          TopLeft="386.5,96.1666666666667">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,76.5"
+              EndConnector="-144.5,49.8333333333333"
               Start="0,0"
-              End="0,69">
+              End="-137,49.8333333333333">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,69" />
+                    End="-56.9816513761468,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-56.9816513761468,0"
+                    Point2="-60.9816513761468,0"
+                    Point3="-60.9816513761468,4" />
+                  <mssgle:LineSegment
+                    End="-60.9816513761468,45.8333333333333" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-60.9816513761468,45.8333333333333"
+                    Point2="-60.9816513761468,49.8333333333333"
+                    Point3="-64.9816513761468,49.8333333333333" />
+                  <mssgle:LineSegment
+                    End="-137,49.8333333333333" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -686,10 +692,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="98,42"
-          Id="Package\Load Sevis International Organization Codes\Sort"
-          TopLeft="386.5,69.5" />
         <EdgeLayout
           Id="Package\Load Sevis International Organization Codes.Paths[Excel Source Output]"
           TopLeft="302.5,26.5">
@@ -725,31 +727,19 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load Sevis International Organization Codes.Paths[Sort Output]"
-          TopLeft="386.5,96.1666666666667">
+          Id="Package\Load Sevis International Organization Codes.Paths[Derived Column Output]"
+          TopLeft="150.5,167">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-144.5,49.8333333333333"
+              EndConnector="0,76.5"
               Start="0,0"
-              End="-137,49.8333333333333">
+              End="0,69">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="-56.9816513761468,0" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-56.9816513761468,0"
-                    Point2="-60.9816513761468,0"
-                    Point3="-60.9816513761468,4" />
-                  <mssgle:LineSegment
-                    End="-60.9816513761468,45.8333333333333" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-60.9816513761468,45.8333333333333"
-                    Point2="-60.9816513761468,49.8333333333333"
-                    Point3="-64.9816513761468,49.8333333333333" />
-                  <mssgle:LineSegment
-                    End="-137,49.8333333333333" />
+                    End="0,69" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
