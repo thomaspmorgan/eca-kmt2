@@ -199,6 +199,20 @@ namespace ECA.Business.Service.Fundings
         /// <param name="officeId">The id of the office to get source money flows for.</param>
         /// <returns>The source money flows.</returns>
         Task<List<SourceMoneyFlowDTO>> GetSourceMoneyFlowsByOfficeIdAsync(int officeId);
+
+        /// <summary>
+        /// Returns the source money flow with the given id or null if not found.
+        /// </summary>
+        /// <param name="moneyFlowId">The money flow id.</param>
+        /// <returns>The source money flow dto.</returns>
+        SourceMoneyFlowDTO GetSourceMoneyFlowDTOById(int moneyFlowId);
+
+        /// <summary>
+        /// Returns the source money flow with the given id or null if not found.
+        /// </summary>
+        /// <param name="moneyFlowId">The money flow id.</param>
+        /// <returns>The source money flow dto.</returns>
+        Task<SourceMoneyFlowDTO> GetSourceMoneyFlowDTOByIdAsync(int moneyFlowId);
     }
 
     /// <summary>
@@ -485,6 +499,26 @@ namespace ECA.Business.Service.Fundings
         public Task<List<SourceMoneyFlowDTO>> GetSourceMoneyFlowsByOfficeIdAsync(int officeId)
         {
             return Task.FromResult<List<SourceMoneyFlowDTO>>(null); 
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="moneyFlowId"></param>
+        /// <returns></returns>
+        public SourceMoneyFlowDTO GetSourceMoneyFlowDTOById(int moneyFlowId)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="moneyFlowId"></param>
+        /// <returns></returns>
+        public Task<SourceMoneyFlowDTO> GetSourceMoneyFlowDTOByIdAsync(int moneyFlowId)
+        {
+            return Task.FromResult<SourceMoneyFlowDTO>(null);
         }
     }
 }

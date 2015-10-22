@@ -120,6 +120,42 @@ namespace ECA.Business.Service.Fundings
         }
 
         /// <summary>
+        /// Returns the source money flow with the given id or null if not found.
+        /// </summary>
+        /// <param name="moneyFlowId">The money flow id.</param>
+        /// <returns>The source money flow dto.</returns>
+        public SourceMoneyFlowDTO GetSourceMoneyFlowDTOById(int moneyFlowId)
+        {
+            var moneyFlow = Context.MoneyFlows.Find(moneyFlowId);
+            if (moneyFlow != null && moneyFlow.ParentMoneyFlowId.HasValue)
+            {
+                return CreateGetSourceMoneyFlowDTOByIdQuery(moneyFlow.ParentMoneyFlowId.Value).FirstOrDefault();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns the source money flow with the given id or null if not found.
+        /// </summary>
+        /// <param name="moneyFlowId">The money flow id.</param>
+        /// <returns>The source money flow dto.</returns>
+        public async Task<SourceMoneyFlowDTO> GetSourceMoneyFlowDTOByIdAsync(int moneyFlowId)
+        {
+            var moneyFlow = await Context.MoneyFlows.FindAsync(moneyFlowId);
+            if (moneyFlow != null && moneyFlow.ParentMoneyFlowId.HasValue)
+            {
+                return await CreateGetSourceMoneyFlowDTOByIdQuery(moneyFlow.ParentMoneyFlowId.Value).FirstOrDefaultAsync();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Returns the source money flows of the program with the given id.  The source money flows will detail the original money flow amount
         /// and remaining money available to withdrawl.
         /// </summary>
@@ -539,7 +575,7 @@ namespace ECA.Business.Service.Fundings
             decimal? parentMoneyFlowWithdrawalMaximum = null;
             if (moneyFlowToUpdate != null && moneyFlowToUpdate.Parent != null)
             {
-                parentMoneyFlowWithdrawalMaximum = GetMoneyFlowWithdrawalMaximum(moneyFlowToUpdate.ParentMoneyFlowId.Value);
+                parentMoneyFlowWithdrawalMaximum = moneyFlowToUpdate.Value + GetMoneyFlowWithdrawalMaximum(moneyFlowToUpdate.ParentMoneyFlowId.Value);
             }
             DoUpdate(updatedMoneyFlow, moneyFlowToUpdate, parentMoneyFlowWithdrawalMaximum);
         }
@@ -557,7 +593,7 @@ namespace ECA.Business.Service.Fundings
             decimal? parentMoneyFlowWithdrawalMaximum = null;
             if (moneyFlowToUpdate != null && moneyFlowToUpdate.Parent != null)
             {
-                parentMoneyFlowWithdrawalMaximum = await GetMoneyFlowWithdrawalMaximumAsync(moneyFlowToUpdate.ParentMoneyFlowId.Value);
+                parentMoneyFlowWithdrawalMaximum = moneyFlowToUpdate.Value + await GetMoneyFlowWithdrawalMaximumAsync(moneyFlowToUpdate.ParentMoneyFlowId.Value);
             }
             DoUpdate(updatedMoneyFlow, moneyFlowToUpdate, parentMoneyFlowWithdrawalMaximum);
         }

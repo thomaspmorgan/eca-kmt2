@@ -43,6 +43,27 @@ namespace ECA.WebApi.Controllers.Fundings
             this.userProvider = userProvider;
             this.moneyFlowService = moneyFlowService;
         }
+
+        /// <summary>
+        /// Returns the source or parent money dto for the money flow with the given id.
+        /// </summary>
+        /// <param name="id">The id of the money flow.</param>
+        /// <returns>The source or parent money flow dto of the money flow with the given id.</returns>
+        [ResponseType(typeof(SourceMoneyFlowDTO))]
+        [Route("MoneyFlows/{id}/Source")]
+        public async Task<IHttpActionResult> GetSourceMoneyFlowByIdAsync(int id)
+        {
+            var source = await moneyFlowService.GetSourceMoneyFlowDTOByIdAsync(id);
+            if(source == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(source);
+            }
+        }
+
         #region Organization
         /// <summary>
         /// Returns the source money flows of the organization with the given id.  The source money flows will detail the original money flow amount
