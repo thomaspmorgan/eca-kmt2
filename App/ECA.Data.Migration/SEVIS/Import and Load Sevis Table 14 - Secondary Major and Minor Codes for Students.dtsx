@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Import and Load Sevis Table 14 - Secondary Major and Minor Codes for Students"
   DTS:PackageType="5"
-  DTS:VersionBuild="13"
-  DTS:VersionGUID="{8F5B6539-FBF3-448B-B7FA-3A0EDC1930BE}">
+  DTS:VersionBuild="15"
+  DTS:VersionGUID="{2E016E21-99EF-4754-8109-A36E66CE65B8}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -352,7 +352,6 @@
       DTS:refId="Package\Load ProgramSubject"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
-      DTS:Disabled="True"
       DTS:DTSID="{EC87E915-482A-4F86-931A-4F05CFEAF5DF}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -495,6 +494,83 @@
                       refId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       dataType="i4"
                       lineageId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load ProgramSubject\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load ProgramSubject\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load ProgramSubject\Data Conversion.Inputs[Data Conversion Input].Columns[Description]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Description"
+                      lineageId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Output].Columns[Description]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load ProgramSubject\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Load ProgramSubject\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load ProgramSubject\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Description]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="200"
+                      lineageId="Package\Load ProgramSubject\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Description]"
+                      name="Copy of Description"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Output].Columns[Description]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load ProgramSubject\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Load ProgramSubject\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load ProgramSubject\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load ProgramSubject\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load ProgramSubject\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load ProgramSubject\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -657,11 +733,11 @@
               </outputs>
             </component>
             <component
-              refId="Package\Load ProgramSubject\ProgramSubject"
+              refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor"
               componentClassID="Microsoft.OLEDBDestination"
               contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
               description="OLE DB Destination"
-              name="ProgramSubject"
+              name="SEVIS StudentSecondaryMajorMinor"
               usesDispositions="true"
               version="4">
               <properties>
@@ -672,7 +748,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[sevis].[ProgramSubject]</property>
+                  name="OpenRowset">[sevis].[StudentSecondaryMajorMinor]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -714,7 +790,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Load ProgramSubject\ProgramSubject.Connections[OleDbConnection]"
+                  refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="The OLE DB runtime connection used to access the database."
@@ -722,84 +798,84 @@
               </connections>
               <inputs>
                 <input
-                  refId="Package\Load ProgramSubject\ProgramSubject.Inputs[OLE DB Destination Input]"
+                  refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input]"
                   errorOrTruncationOperation="Insert"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Load ProgramSubject\ProgramSubject.Inputs[OLE DB Destination Input].Columns[Description]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="Description"
-                      externalMetadataColumnId="Package\Load ProgramSubject\ProgramSubject.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
-                      lineageId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Output].Columns[Description]" />
-                    <inputColumn
-                      refId="Package\Load ProgramSubject\ProgramSubject.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
                       cachedDataType="i4"
                       cachedName="History_CreatedBy"
-                      externalMetadataColumnId="Package\Load ProgramSubject\ProgramSubject.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      externalMetadataColumnId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
                       lineageId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
                     <inputColumn
-                      refId="Package\Load ProgramSubject\ProgramSubject.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
                       cachedDataType="dbTimeStamp"
                       cachedName="History_CreatedOn"
-                      externalMetadataColumnId="Package\Load ProgramSubject\ProgramSubject.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      externalMetadataColumnId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
                       lineageId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]" />
                     <inputColumn
-                      refId="Package\Load ProgramSubject\ProgramSubject.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
                       cachedDataType="i4"
                       cachedName="History_RevisedBy"
-                      externalMetadataColumnId="Package\Load ProgramSubject\ProgramSubject.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      externalMetadataColumnId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
                       lineageId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
                     <inputColumn
-                      refId="Package\Load ProgramSubject\ProgramSubject.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
                       cachedDataType="dbTimeStamp"
                       cachedName="History_RevisedOn"
-                      externalMetadataColumnId="Package\Load ProgramSubject\ProgramSubject.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      externalMetadataColumnId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
                       lineageId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
                     <inputColumn
-                      refId="Package\Load ProgramSubject\ProgramSubject.Inputs[OLE DB Destination Input].Columns[FormattedProgramSubjectCode]"
+                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].Columns[FormattedProgramSubjectCode]"
                       cachedCodepage="1252"
                       cachedDataType="str"
                       cachedLength="7"
                       cachedName="FormattedProgramSubjectCode"
-                      externalMetadataColumnId="Package\Load ProgramSubject\ProgramSubject.Inputs[OLE DB Destination Input].ExternalColumns[ProgramSubjectCode]"
+                      externalMetadataColumnId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[ProgramSubjectCode]"
                       lineageId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Output].Columns[FormattedProgramSubjectCode]" />
+                    <inputColumn
+                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].Columns[Copy of Description]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="Copy of Description"
+                      externalMetadataColumnId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Load ProgramSubject\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Description]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Load ProgramSubject\ProgramSubject.Inputs[OLE DB Destination Input].ExternalColumns[ProgramSubjectId]"
+                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[ProgramSubjectId]"
                       dataType="i4"
                       name="ProgramSubjectId" />
                     <externalMetadataColumn
-                      refId="Package\Load ProgramSubject\ProgramSubject.Inputs[OLE DB Destination Input].ExternalColumns[ProgramSubjectCode]"
+                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[ProgramSubjectCode]"
                       codePage="1252"
                       dataType="str"
                       length="7"
                       name="ProgramSubjectCode" />
                     <externalMetadataColumn
-                      refId="Package\Load ProgramSubject\ProgramSubject.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
                       dataType="wstr"
                       length="200"
                       name="Description" />
                     <externalMetadataColumn
-                      refId="Package\Load ProgramSubject\ProgramSubject.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
                       dataType="i4"
                       name="History_CreatedBy" />
                     <externalMetadataColumn
-                      refId="Package\Load ProgramSubject\ProgramSubject.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
                       dataType="dbTimeStampOffset"
                       name="History_CreatedOn"
                       scale="7" />
                     <externalMetadataColumn
-                      refId="Package\Load ProgramSubject\ProgramSubject.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
                       dataType="i4"
                       name="History_RevisedBy" />
                     <externalMetadataColumn
-                      refId="Package\Load ProgramSubject\ProgramSubject.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
                       dataType="dbTimeStampOffset"
                       name="History_RevisedOn"
                       scale="7" />
@@ -808,22 +884,22 @@
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Load ProgramSubject\ProgramSubject.Outputs[OLE DB Destination Error Output]"
+                  refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Outputs[OLE DB Destination Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="OLE DB Destination Error Output"
-                  synchronousInputId="Package\Load ProgramSubject\ProgramSubject.Inputs[OLE DB Destination Input]">
+                  synchronousInputId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load ProgramSubject\ProgramSubject.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Load ProgramSubject\ProgramSubject.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Load ProgramSubject\ProgramSubject.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Load ProgramSubject\ProgramSubject.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -834,13 +910,18 @@
           </components>
           <paths>
             <path
+              refId="Package\Load ProgramSubject.Paths[Data Conversion Output]"
+              endId="Package\Load ProgramSubject\Add Required Columns.Inputs[Derived Column Input]"
+              name="Data Conversion Output"
+              startId="Package\Load ProgramSubject\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
               refId="Package\Load ProgramSubject.Paths[Derived Column Output]"
-              endId="Package\Load ProgramSubject\ProgramSubject.Inputs[OLE DB Destination Input]"
+              endId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input]"
               name="Derived Column Output"
               startId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Output]" />
             <path
               refId="Package\Load ProgramSubject.Paths[OLE DB Source Output]"
-              endId="Package\Load ProgramSubject\Add Required Columns.Inputs[Derived Column Input]"
+              endId="Package\Load ProgramSubject\Data Conversion.Inputs[Data Conversion Input]"
               name="OLE DB Source Output"
               startId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Output]" />
           </paths>
@@ -881,7 +962,7 @@
         <NodeLayout
           Size="266,42"
           Id="Package\Create Formatted ProgramSubject Code"
-          TopLeft="60.5,134.5" />
+          TopLeft="82.5,133.5" />
         <NodeLayout
           Size="427,42"
           Id="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source"
@@ -889,33 +970,21 @@
         <NodeLayout
           Size="180,42"
           Id="Package\Load ProgramSubject"
-          TopLeft="85.5,240.5" />
+          TopLeft="132.5,245.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="219,47.5">
+          TopLeft="217.25,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-25.5,87"
+              EndConnector="0,86"
               Start="0,0"
-              End="-25.5,79.5">
+              End="0,78.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,39.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,39.5"
-                    Point2="0,43.5"
-                    Point3="-4,43.5" />
-                  <mssgle:LineSegment
-                    End="-21.5,43.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-21.5,43.5"
-                    Point2="-25.5,43.5"
-                    Point3="-25.5,47.5" />
-                  <mssgle:LineSegment
-                    End="-25.5,79.5" />
+                    End="0,78.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -926,30 +995,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="193.5,176.5">
+          TopLeft="219,175.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-18,64"
+              EndConnector="0,70"
               Start="0,0"
-              End="-18,56.5">
+              End="0,62.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,28" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,28"
-                    Point2="0,32"
-                    Point3="-4,32" />
-                  <mssgle:LineSegment
-                    End="-14,32" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-14,32"
-                    Point2="-18,32"
-                    Point3="-18,36" />
-                  <mssgle:LineSegment
-                    End="-18,56.5" />
+                    End="0,62.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1045,41 +1102,55 @@
         <NodeLayout
           Size="205,42"
           Id="Package\Load ProgramSubject\Local SevisProgramSubject"
-          TopLeft="5.5,5.5" />
+          TopLeft="28.5,39.5" />
         <NodeLayout
           Size="186,42"
           Id="Package\Load ProgramSubject\Add Required Columns"
-          TopLeft="30.5,113.5" />
+          TopLeft="360.5,152.5" />
         <NodeLayout
-          Size="154,42"
-          Id="Package\Load ProgramSubject\ProgramSubject"
-          TopLeft="65.5,264.5" />
+          Size="249,42"
+          Id="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor"
+          TopLeft="643.5,148.5" />
         <EdgeLayout
-          Id="Package\Load ProgramSubject.Paths[OLE DB Source Output]"
-          TopLeft="108,47.5">
+          Id="Package\Load ProgramSubject.Paths[Derived Column Output]"
+          TopLeft="546.5,171.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="15.5,66"
+              EndConnector="97,0"
               Start="0,0"
-              End="15.5,58.5">
+              End="89.5,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,29" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,29"
-                    Point2="0,33"
-                    Point3="4,33" />
+                    End="89.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Load ProgramSubject\Data Conversion"
+          TopLeft="377.5,43.5" />
+        <EdgeLayout
+          Id="Package\Load ProgramSubject.Paths[OLE DB Source Output]"
+          TopLeft="233.5,62.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="144,0"
+              Start="0,0"
+              End="136.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
                   <mssgle:LineSegment
-                    End="11.5,33" />
-                  <mssgle:CubicBezierSegment
-                    Point1="11.5,33"
-                    Point2="15.5,33"
-                    Point3="15.5,37" />
-                  <mssgle:LineSegment
-                    End="15.5,58.5" />
+                    End="136.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1089,31 +1160,19 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load ProgramSubject.Paths[Derived Column Output]"
-          TopLeft="123.5,155.5">
+          Id="Package\Load ProgramSubject.Paths[Data Conversion Output]"
+          TopLeft="454.5,85.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="19,109"
+              EndConnector="0,67"
               Start="0,0"
-              End="19,101.5">
+              End="0,59.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,50.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,50.5"
-                    Point2="0,54.5"
-                    Point3="4,54.5" />
-                  <mssgle:LineSegment
-                    End="15,54.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="15,54.5"
-                    Point2="19,54.5"
-                    Point3="19,58.5" />
-                  <mssgle:LineSegment
-                    End="19,101.5" />
+                    End="0,59.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1139,7 +1198,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load ProgramSubject\ProgramSubject">
+    design-time-name="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

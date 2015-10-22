@@ -5,40 +5,35 @@
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="BE00003308"
   DTS:CreatorName="BE00003308\Marc Setien"
-  DTS:DTSID="{B140E46A-EE58-4458-9F6D-A8B78A39B4F8}"
+  DTS:DTSID="{E8EEDE93-FB3F-4B0C-B29C-11DC37CC2CAF}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
   DTS:LocaleID="1033"
-  DTS:ObjectName="Import and Load Sevis Table 28 - Position"
+  DTS:ObjectName="Import and Load Sevis Table 28 - Exchange Visitor Position Codes"
   DTS:PackageType="5"
-  DTS:VersionBuild="8"
-  DTS:VersionGUID="{21087092-F38A-4121-A7A3-7E3A2D106938}">
+  DTS:VersionBuild="11"
+  DTS:VersionGUID="{071B909F-D957-4133-8E75-8C882E55508C}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
     <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+      DTS:refId="Package.ConnectionManagers[BE00003308.ECA_Local]"
       DTS:CreationName="OLEDB"
-      DTS:DTSID="{D663B53D-5441-4698-8B8A-5F6C38AC069E}"
-      DTS:ObjectName="(localdb)\v11.0.ECA_Local">
+      DTS:DTSID="{8FFF2F0A-2F94-4F2B-9AC8-D5CE0983518C}"
+      DTS:ObjectName="BE00003308.ECA_Local">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Data Source=(localdb)\v11.0;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+          DTS:ConnectionString="Data Source=BE00003308;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
+      DTS:refId="Package.ConnectionManagers[BE00003308.SEVIS]"
       DTS:CreationName="OLEDB"
-      DTS:DTSID="{8BD2BEEE-CD0A-493F-9B73-EF4CCD05BA16}"
-      DTS:ObjectName="BE00003308\SQLExpress2014.SEVIS.msetien">
+      DTS:DTSID="{32B9BBE4-1F85-4A20-9C92-F28F21833D1C}"
+      DTS:ObjectName="BE00003308.SEVIS">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=SEVIS;Provider=SQLNCLI11.1;Auto Translate=False;">
-          <DTS:Password
-            DTS:Name="Password"
-            Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACqGASsxN963ZEJjsWPd7tSkF/K2c+SvbbXhGQObwjewQAAAAAOgAAAAAIAACAAAAAZJ02+ZP68gINr/noA12nrn6+JqZOH2qq98R5btE3H1yAAAABT2IV7OQH00zhiyX9iY08ybINt4W0cdPWhSL/XpzBDZEAAAAC/pH+Z0tESbu3ALQYtExghHqH4AwMJvkFUQEiEXxiowdzdAaqKZvU8UMdGaBcZdCscEVP4nRE2x3bEP/HC81fO</DTS:Password>
-        </DTS:ConnectionManager>
+          DTS:ConnectionString="Data Source=BE00003308;Initial Catalog=SEVIS;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -49,21 +44,6 @@
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 28 - Exchange Visitor Position Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
-      </DTS:ObjectData>
-    </DTS:ConnectionManager>
-    <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-      DTS:CreationName="OLEDB"
-      DTS:DTSID="{91B3C594-0A65-4E63-A3F9-7165A0704845}"
-      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu">
-      <DTS:ObjectData>
-        <DTS:ConnectionManager
-          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
-          <DTS:Password
-            DTS:Name="Password"
-            Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAD1S1EtkdYpHBJhfp7tKL1vw6Q3z3CnKu3GYTlnCTY0uQAAAAAOgAAAAAIAACAAAABQrIq2CjWKNQmTRDys/94fJ/nX9AaBE3PFTqLP+OUs+iAAAABn/LqMnbtR7xfAro3ZwEdJDoIY6RcbKnLCPV8XM8M98kAAAABbYrJOdoubrTMnn3RqBZ/oSEu+tWfhfwDvhUhjiMglzgHxRat3SwRxYk1Psq0a0G/PiegeBH16zJcsGXBVPkc3</DTS:Password>
-        </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -219,7 +199,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[SevisPosition]</property>
+                  name="OpenRowset">[dbo].[SevisPosition]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -262,8 +242,8 @@
               <connections>
                 <connection
                   refId="Package\Import Sevis Position Excel Source\SevisPosition.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.SEVIS]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.SEVIS]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -569,6 +549,83 @@
               </outputs>
             </component>
             <component
+              refId="Package\Load Sevis Position\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Sevis Position\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Sevis Position\Data Conversion.Inputs[Data Conversion Input].Columns[Description]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Description"
+                      lineageId="Package\Load Sevis Position\Local Sevis Position.Outputs[OLE DB Source Output].Columns[Description]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Sevis Position\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Load Sevis Position\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sevis Position\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Description]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="200"
+                      lineageId="Package\Load Sevis Position\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Description]"
+                      name="Copy of Description"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load Sevis Position\Local Sevis Position.Outputs[OLE DB Source Output].Columns[Description]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Sevis Position\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Load Sevis Position\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sevis Position\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis Position\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Sevis Position\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis Position\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
               refId="Package\Load Sevis Position\Local Sevis Position"
               componentClassID="Microsoft.OLEDBSource"
               contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
@@ -619,8 +676,8 @@
               <connections>
                 <connection
                   refId="Package\Load Sevis Position\Local Sevis Position.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.SEVIS]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.SEVIS]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -754,8 +811,8 @@
               <connections>
                 <connection
                   refId="Package\Load Sevis Position\Position.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -767,13 +824,6 @@
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
                   <inputColumns>
-                    <inputColumn
-                      refId="Package\Load Sevis Position\Position.Inputs[OLE DB Destination Input].Columns[Description]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="Description"
-                      externalMetadataColumnId="Package\Load Sevis Position\Position.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
-                      lineageId="Package\Load Sevis Position\Local Sevis Position.Outputs[OLE DB Source Output].Columns[Description]" />
                     <inputColumn
                       refId="Package\Load Sevis Position\Position.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
                       cachedDataType="i4"
@@ -804,6 +854,13 @@
                       cachedName="PositionCode"
                       externalMetadataColumnId="Package\Load Sevis Position\Position.Inputs[OLE DB Destination Input].ExternalColumns[PositionCode]"
                       lineageId="Package\Load Sevis Position\Convert Position Code to INT.Outputs[Data Conversion Output].Columns[PositionCode]" />
+                    <inputColumn
+                      refId="Package\Load Sevis Position\Position.Inputs[OLE DB Destination Input].Columns[Copy of Description]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="Copy of Description"
+                      externalMetadataColumnId="Package\Load Sevis Position\Position.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Load Sevis Position\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Description]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -813,7 +870,8 @@
                       name="PositionId" />
                     <externalMetadataColumn
                       refId="Package\Load Sevis Position\Position.Inputs[OLE DB Destination Input].ExternalColumns[PositionCode]"
-                      dataType="i4"
+                      dataType="wstr"
+                      length="4"
                       name="PositionCode" />
                     <externalMetadataColumn
                       refId="Package\Load Sevis Position\Position.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
@@ -870,9 +928,14 @@
           <paths>
             <path
               refId="Package\Load Sevis Position.Paths[Data Conversion Output]"
-              endId="Package\Load Sevis Position\Position.Inputs[OLE DB Destination Input]"
+              endId="Package\Load Sevis Position\Data Conversion.Inputs[Data Conversion Input]"
               name="Data Conversion Output"
               startId="Package\Load Sevis Position\Convert Position Code to INT.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Load Sevis Position.Paths[Data Conversion Output1]"
+              endId="Package\Load Sevis Position\Position.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Load Sevis Position\Data Conversion.Outputs[Data Conversion Output]" />
             <path
               refId="Package\Load Sevis Position.Paths[Derived Column Output]"
               endId="Package\Load Sevis Position\Convert Position Code to INT.Inputs[Data Conversion Input]"
@@ -947,7 +1010,7 @@
     design-time-name="Package\Import Sevis Position Excel Source">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="206,42"
           Id="Package\Import Sevis Position Excel Source\Sevis Position Excel Source"
@@ -987,9 +1050,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -1025,7 +1086,7 @@
     design-time-name="Package\Load Sevis Position">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="216,42"
           Id="Package\Load Sevis Position\Convert Position Code to INT"
@@ -1041,7 +1102,7 @@
         <NodeLayout
           Size="116,42"
           Id="Package\Load Sevis Position\Position"
-          TopLeft="90.5,300.5" />
+          TopLeft="97.5,488.5" />
         <EdgeLayout
           Id="Package\Load Sevis Position.Paths[OLE DB Source Output]"
           TopLeft="90.5,47.5">
@@ -1098,20 +1159,70 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Load Sevis Position\Data Conversion"
+          TopLeft="231.5,329.5" />
         <EdgeLayout
           Id="Package\Load Sevis Position.Paths[Data Conversion Output]"
-          TopLeft="151,249.5">
+          TopLeft="153.5,249.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,51"
+              EndConnector="156,80"
               Start="0,0"
-              End="0,43.5">
+              End="156,72.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,43.5" />
+                    End="0,36" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,36"
+                    Point2="0,40"
+                    Point3="4,40" />
+                  <mssgle:LineSegment
+                    End="152,40" />
+                  <mssgle:CubicBezierSegment
+                    Point1="152,40"
+                    Point2="156,40"
+                    Point3="156,44" />
+                  <mssgle:LineSegment
+                    End="156,72.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Sevis Position.Paths[Data Conversion Output1]"
+          TopLeft="309.5,371.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-154,117"
+              Start="0,0"
+              End="-154,109.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,54.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,54.5"
+                    Point2="0,58.5"
+                    Point3="-4,58.5" />
+                  <mssgle:LineSegment
+                    End="-150,58.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-150,58.5"
+                    Point2="-154,58.5"
+                    Point3="-154,62.5" />
+                  <mssgle:LineSegment
+                    End="-154,109.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
