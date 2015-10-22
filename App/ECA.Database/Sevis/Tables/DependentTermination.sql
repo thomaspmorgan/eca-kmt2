@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [sevis].[DependentTermination]
 (
 	[DependentTerminationId] INT IDENTITY(1,1) NOT NULL, 
-    [TerminationCode] NVARCHAR(2) NOT NULL, 
+    [TerminationCode] CHAR(2) NOT NULL, 
     [Description] NVARCHAR(100) NOT NULL, 
     [History_CreatedBy] INT NOT NULL, 
     [History_CreatedOn] DATETIMEOFFSET NOT NULL, 
