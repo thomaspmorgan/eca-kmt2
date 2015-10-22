@@ -68,7 +68,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="UIMap.uitest" />
     <None Include="ViewOffices_ProgramsandBranches.config" />
@@ -89,6 +88,10 @@
     <ProjectReference Include="..\ECA.Data\ECA.Data.csproj">
       <Project>{8cef11e6-50e8-4b54-a1a7-a75583ccb6ef}</Project>
       <Name>ECA.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UITest.Core\UITest.Core.csproj">
+      <Project>{ec8fe480-4beb-4a16-ad1a-45a308c09107}</Project>
+      <Name>UITest.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

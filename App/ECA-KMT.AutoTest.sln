@@ -25,7 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EditProject.Test", "EditPro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewOffices.Test", "ViewOffices.Test\ViewOffices.Test.csproj", "{8209490A-8670-4657-AEFC-7C6F1E78D25F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewOffices_ProgramsandBranches.Test", "ViewOffices_ProgramsandBranches.Test\ViewOffices_ProgramsandBranches.Test.csproj", "{69CB21DF-DB95-45D7-BB03-F5AA8DBAD00B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewOfficesProgramsandBranches.Test", "ViewOffices_ProgramsandBranches.Test\ViewOfficesProgramsandBranches.Test.csproj", "{69CB21DF-DB95-45D7-BB03-F5AA8DBAD00B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewParticipantProfile.Test", "ViewParticipant_PersonalInformation.Test\ViewParticipantProfile.Test.csproj", "{0FF1D6FE-E4FB-4CC6-929E-7E5F9296B3C3}"
 EndProject
