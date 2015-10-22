@@ -1,0 +1,65 @@
+﻿<div ng-controller="SnapshotsGraphsCtrl">
+    <style>
+        .nv-legend-symbol {
+            display: none;
+        }
+    </style>
+
+    <div ng-show="view.isSnapshotGraphLoading">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+    <div class="row stat-row" style="padding-top: 25px;">
+        <div class="col-md-4">
+            <p class="graph-stat-header">BUDGET</p>
+            <line-graph data="view.budgetByYear"></line-graph>
+            <nvd3 options="view.budgetByYear.options" data="view.budgetByYear.data"></nvd3>
+        </div>
+        <div class="col-md-4">
+            <p class="graph-stat-header">MOST FUNDED COUNTRIES</p>
+        </div>
+        <div class="col-md-4">
+            <p class="graph-stat-header">TOP THEMES</p>
+            <ul>
+                <li ng-repeat="theme in view.topThemes" style="padding-bottom: 6px;">{{theme}}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row stat-row">
+        <div class="col-md-6">
+            <p class="graph-stat-header">PARTICIPANT LOCATIONS</p>
+            <ul>
+                <li ng-repeat="location in view.participantLocations" style="padding-bottom: 6px;">{{location.dataLabel}}: {{location.dataValue}}</li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <p class="graph-stat-header">NUMBER OF PARTICIPANTS</p>
+            <ul>
+                <li ng-repeat="partyear in view.participantsByYear" style="padding-bottom: 6px;">{{partyear.dataLabel}}: {{partyear.dataValue}}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row stat-row">
+        <div class="col-md-4">
+            <p class="graph-stat-header">GENDER</p>
+            <ul>
+                <li ng-repeat="gender in view.participantGenders" style="padding-bottom: 6px;">{{gender.dataLabel}}: {{gender.dataValue}}</li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <p class="graph-stat-header">AGE</p>
+            <ul>
+                <li ng-repeat="age in view.participantAges" style="padding-bottom: 6px;">{{age.dataLabel}}: {{age.dataValue}}</li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <p class="graph-stat-header">EDUCATION</p>
+            <ul>
+                <li ng-repeat="education in view.participantEducation" style="padding-bottom: 6px;">{{education.dataLabel}}: {{education.dataValue}}</li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -8,63 +8,48 @@
     </div>
     <div class="row stat-row">
         <div class="col-md-3">
-            <p class="stat text-center">{{view.snapshot.relatedProjects}}</p>
-            <p class="title-label text-center">RELATED PROJECTS</p>
+            <p class="stat text-center">{{view.totalRelatedProjects.dataValue}}</p>
+            <p class="title-label text-center">{{view.totalRelatedProjects.dataLabel}}</p>
         </div>
         <div class="col-md-3">
-            <p class="stat text-center">{{view.snapshot.participants}}</p>
-            <p class="title-label text-center">PARTICIPANTS</p>
+            <p class="stat text-center">{{view.totalParticipants.dataValue}}</p>
+            <p class="title-label text-center">{{view.totalParticipants.dataLabel}}</p>
         </div>
         <div class="col-md-3">
-            <p class="stat text-center">{{view.snapshot.budget | currency:fractionSize:0}}</p>
-            <p class="title-label text-center">BUDGET</p>
+            <p class="text-center" style="font-size: 1.80em">{{view.totalBudget.dataValue | currency:fractionSize:0}}</p>
+            <p class="title-label text-center">{{view.totalBudget.dataLabel}}</p>
         </div>
         <div class="col-md-3">
-            <p class="stat text-center">{{view.snapshot.costPerParticipant | currency:fractionSize:0}}</p>
+            <p class="text-center" style="font-size: 1.80em">{{view.totalCostByParticipant | currency:fractionSize:0}}</p>
             <p class="title-label text-center">COST PER PARTICIPANT</p>
         </div>
     </div>
     <div class="row stat-row">
         <div class="col-md-3">
-            <p class="stat text-center">{{view.snapshot.fundingSources}}</p>
-            <p class="title-label text-center">FUNDING SOURCES</p>
+            <p class="stat text-center">{{view.totalFundingSources.dataValue}}</p>
+            <p class="title-label text-center">{{view.totalFundingSources.dataLabel}}</p>
         </div>
         <div class="col-md-3">
-            <p class="stat text-center">{{view.snapshot.countries}}</p>
-            <p class="title-label text-center">COUNTRIES</p>
+            <p class="stat text-center">{{view.totalCountries.dataValue}}</p>
+            <p class="title-label text-center">{{view.totalCountries.dataLabel}}</p>
         </div>
         <div class="col-md-3">
-            <p class="stat text-center">{{view.snapshot.beneficiaries}}</p>
+            <p class="stat text-center">0</p>
             <p class="title-label text-center">BENEFICIARIES</p>
         </div>
         <div class="col-md-3">
-            <p class="stat text-center">{{view.snapshot.impactStories}}</p>
-            <p class="title-label text-center">IMPACT STORIES</p>
+            <p class="stat text-center">{{view.totalImpactStories.dataValue}}</p>
+            <p class="title-label text-center">{{view.totalImpactStories.dataLabel}}</p>
         </div>
     </div>
     <div class="row stat-row">
         <div class="col-md-3">
-            <p class="stat text-center">{{view.snapshot.alumni}}</p>
-            <p class="title-label text-center">ALUMNI</p>
+            <p class="stat text-center">{{view.totalAlumni.dataValue}}</p>
+            <p class="title-label text-center">{{view.totalAlumni.dataLabel}}</p>
         </div>
         <div class="col-md-3">
-            <p class="stat text-center">{{view.snapshot.prominence}}</p>
-            <p class="title-label text-center">PROMINENCE</p>
-        </div>
-    </div>
-    <div class="row stat-row" style="padding-top: 25px;">
-        <div class="col-md-4">
-            <p class="graph-stat-header">BUDGET</p>
-            <ul>
-                <li ng-repeat="graphyear in view.snapshot.budgetByYear" style="padding-bottom: 6px;">{{graphyear.DataLabel}}: {{graphyear.DataValue | currency:fractionSize:0}}</li>
-            </ul>
-        </div>
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
-            <p class="graph-stat-header">TOP THEMES</p>
-            <ul>
-                <li ng-repeat="theme in view.snapshot.topThemes" style="padding-bottom: 6px;">{{theme}}</li>
-            </ul>
+            <p class="stat text-center">{{view.totalProminence.dataValue}}</p>
+            <p class="title-label text-center">{{view.totalProminence.dataLabel}}</p>
         </div>
     </div>
 </div>

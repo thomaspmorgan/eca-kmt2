@@ -2,14 +2,14 @@
 
 /**
  * @ngdoc directive
- * @name staticApp.directive: snapshots
+ * @name staticApp.directive: snapshots-graphs
  * @description
- * # data snapshots
+ * # data snapshots-graphs
  */
 angular.module('staticApp')
-  .directive('snapshots', function () {
+  .directive('snapshotsGraphs', function () {
       var directive = {
-          templateUrl: 'app/directives/snapshots.directive.html',
+          templateUrl: 'app/directives/snapshots-graphs.directive.html',
           scope: {
               model: '=model',
               programId: '=programid'

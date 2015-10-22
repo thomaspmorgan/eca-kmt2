@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="bower_components/select2/select2-bootstrap.css">
     <link rel="stylesheet" href="bower_components/angularjs-toaster/toaster.min.css">
     <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css" />
-    <link rel="stylesheet" href="bower_components/intl-tel-input/build/css/intlTelInput.css" />
+    <link rel="stylesheet" href="bower_components/intl-tel-input/build/css/intlTelInput.css"/>
+    <link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.) styles/main.css -->
@@ -144,7 +145,10 @@
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="bower_components/angular-ui-validate/dist/validate.min.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/fastdom/index.js"></script>
     <script src="bower_components/d3/d3.js"></script>
+    <script src="bower_components/nvd3/build/nv.d3.js"></script>
+    <script src="bower_components/angular-nvd3/dist/angular-nvd3.js"></script>
     <script src="bower_components/topojson/topojson.js"></script>
     <script src="bower_components/datamaps/dist/datamaps.all.js"></script>
     <script src="bower_components/matchmedia/matchMedia.js"></script>
@@ -268,6 +272,8 @@
     <script src="app/directives/phone-numbers.directive.js"></script>
     <script src="app/directives/snapshots.directive.js"></script>
     <script src="app/directives/snapshots.controller.js"></script>
+    <script src="app/directives/snapshots-graphs.directive.js"></script>
+    <script src="app/directives/snapshots-graphs.controller.js"></script>
     <script src="app/directives/social-media.controller.js"></script>
     <script src="app/directives/social-medias.controller.js"></script>
     <script src="app/directives/social-media-link.directive.js"></script>
@@ -314,11 +320,11 @@
     <script src="app/services/register-user-event.service.js"></script>
     <script src="app/services/report.service.js"></script>
     <script src="app/services/search.service.js"></script>
+    <script src="app/services/snapshot.service.js"></script>
     <script src="app/services/social-media.service.js"></script>
     <script src="app/services/state.service.js"></script>
     <script src="app/services/table.service.js"></script>
     <script src="app/services/user.service.js"></script>
-    <script src="app/services/snapshot.service.js"></script>
     <!-- endbuild -->
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=onGoogleReady"></script>
 </body>
