@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity.Infrastructure;
 
 namespace ECA.Business.Search.Test
 {
@@ -22,10 +23,7 @@ namespace ECA.Business.Search.Test
 
         public Dictionary<SimpleEntity, DocumentKey> DocumentKeys { get; set; }
 
-        public override DocumentKey GetDocumentKey(SimpleEntity entity)
-        {
-            return DocumentKeys[entity];
-        }
+
 
         public override bool IsCreatedEntityExcluded(SimpleEntity createdEntity)
         {
@@ -40,6 +38,11 @@ namespace ECA.Business.Search.Test
         public override bool IsModifiedEntityExcluded(SimpleEntity modifiedEntity)
         {
             return IsModifiedEntityActuallyExcluded;
+        }
+
+        public override DocumentKey GetDocumentKey(SimpleEntity entity, DbEntityEntry<SimpleEntity> entityEntry)
+        {
+            return DocumentKeys[entity];
         }
     }
 

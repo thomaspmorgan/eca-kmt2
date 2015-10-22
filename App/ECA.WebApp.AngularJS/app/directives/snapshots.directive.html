@@ -52,4 +52,19 @@
             <p class="title-label text-center">PROMINENCE</p>
         </div>
     </div>
+    <div class="row stat-row" style="padding-top: 25px;">
+        <div class="col-md-4">
+            <p class="graph-stat-header">BUDGET</p>
+            <ul>
+                <li ng-repeat="graphyear in view.snapshot.budgetByYear" style="padding-bottom: 6px;">{{graphyear.DataLabel}}: {{graphyear.DataValue | currency:fractionSize:0}}</li>
+            </ul>
+        </div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <p class="graph-stat-header">TOP THEMES</p>
+            <ul>
+                <li ng-repeat="theme in view.snapshot.topThemes" style="padding-bottom: 6px;">{{theme}}</li>
+            </ul>
+        </div>
+    </div>
 </div>

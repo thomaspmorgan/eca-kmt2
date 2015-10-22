@@ -66,6 +66,11 @@ namespace ECA.Business.Service.Fundings
         public const string RECIPIENT_PARTICIPANT_IS_NOT_A_PARTICIPANT_OF_THE_PROJECT = "The recipient participant is not a participant of the source project.";
 
         /// <summary>
+        /// The error message to return when the created or updated money flow value exceeds the allowable limit of the parent money flow.
+        /// </summary>
+        public const string VALUE_EXCEEDS_PARENT_MONEY_FLOW_WITHDRAWAL_LIMIT = "The money flow value exceeds the parent money flow withdrawal limit.";
+
+        /// <summary>
         /// Returns enumerated validation results for a MoneyFlow create.
         /// </summary>
         /// <param name="validationEntity">The create entity.</param>
@@ -86,7 +91,7 @@ namespace ECA.Business.Service.Fundings
             }
             if (validationEntity.SourceEntityTypeId == MoneyFlowSourceRecipientType.Accomodation.Id)
             {
-                yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.SourceEntityTypeId, 
+                yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.SourceEntityTypeId,
                     String.Format(INVALID_SOURCE_TYPE_MESSAGE_FORMAT, MoneyFlowSourceRecipientType.Accomodation.Value));
             }
             if (validationEntity.SourceEntityTypeId == MoneyFlowSourceRecipientType.Expense.Id)
@@ -106,7 +111,7 @@ namespace ECA.Business.Service.Fundings
             {
                 yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.FiscalYear, FISCAL_YEAR_LESS_THAN_ZERO_MESSAGE);
             }
-            if(validationEntity.SourceEntityTypeId == validationEntity.RecipientEntityTypeId
+            if (validationEntity.SourceEntityTypeId == validationEntity.RecipientEntityTypeId
                 && validationEntity.RecipientEntityId == validationEntity.SourceEntityId)
             {
                 yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.SourceEntityId, SOURCE_AND_RECIPIENT_ENTITIES_EQUAL_ERROR_MESSAGE);
@@ -121,6 +126,11 @@ namespace ECA.Business.Service.Fundings
                 && !validationEntity.AllowedProjectParticipantIds.Contains(validationEntity.RecipientEntityId.Value))
             {
                 yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.RecipientEntityId, RECIPIENT_PARTICIPANT_IS_NOT_A_PARTICIPANT_OF_THE_PROJECT);
+            }
+            if (validationEntity.ParentMoneyFlowWithdrawlMaximum.HasValue
+                && validationEntity.ParentMoneyFlowWithdrawlMaximum.Value < validationEntity.Value)
+            {
+                yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.Value, VALUE_EXCEEDS_PARENT_MONEY_FLOW_WITHDRAWAL_LIMIT);
             }
         }
         /// <summary>
@@ -146,6 +156,11 @@ namespace ECA.Business.Service.Fundings
             if (validationEntity.FiscalYear <= 0)
             {
                 yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.FiscalYear, FISCAL_YEAR_LESS_THAN_ZERO_MESSAGE);
+            }
+            if (validationEntity.ParentMoneyFlowWithdrawlMaximum.HasValue
+                && validationEntity.ParentMoneyFlowWithdrawlMaximum.Value < validationEntity.Value)
+            {
+                yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.Value, VALUE_EXCEEDS_PARENT_MONEY_FLOW_WITHDRAWAL_LIMIT);
             }
         }
     }

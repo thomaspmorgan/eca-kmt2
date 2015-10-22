@@ -10,8 +10,6 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/isteven-angular-multiselect/isteven-multi-select.css" />
-    <link rel="stylesheet" href="bower_components/angular-xeditable/dist/css/xeditable.css">
     <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css">
     <link rel="stylesheet" href="bower_components/select2/select2.css">
     <link rel="stylesheet" href="bower_components/select2/select2-bootstrap.css">
@@ -64,8 +62,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <div style="margin-right: 50px; margin-top:14px; cursor: pointer;" class="navbar-right right">
-                    <a ng-click="onSpotlightSearchClick()">
+                <div style="margin-right: 50px;margin-top:14px;cursor: pointer;"
+                     class="navbar-right right"
+                     ng-controller="SpotlightCtrl">
+                    <a ng-click="view.onSpotlightSearchClick()" ng-if="view.isSpotlightIconVisible">
                         <i class="material-icons md-18 col-sd-1">search</i>
                     </a>
                 </div>
@@ -144,7 +144,6 @@
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="bower_components/angular-ui-validate/dist/validate.min.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="bower_components/isteven-angular-multiselect/isteven-multi-select.js"></script>
     <script src="bower_components/d3/d3.js"></script>
     <script src="bower_components/topojson/topojson.js"></script>
     <script src="bower_components/datamaps/dist/datamaps.all.js"></script>
@@ -153,7 +152,6 @@
     <script src="bower_components/adal-angular/dist/adal.min.js"></script>
     <script src="bower_components/adal-angular/dist/adal-angular.min.js"></script>
     <script src="bower_components/angular-smart-table/dist/smart-table.js"></script>
-    <script src="bower_components/angular-xeditable/dist/js/xeditable.js"></script>
     <script src="bower_components/angular-ui-date/src/date.js"></script>
     <script src="bower_components/angular-ui-select/dist/select.js"></script>
     <script src="bower_components/angularjs-toaster/toaster.js"></script>
@@ -237,7 +235,8 @@
     <script src="app/locations/marker.controller.js"></script>
     <script src="app/locations/search-locations.controller.js"></script>
     <script src="app/collaborators/collaborators.controller.js"></script>
-    <script src="app/search/search-bar.controller.js"></script>
+    <script src="app/search/search-modal.controller.js"></script>
+    <script src="app/search/spotlight.controller.js"></script>
     <script src="app/toolbar/toolbar-icons.controller.js"></script>
     <!-- Directives -->
     <script src="app/directives/address.controller.js"></script>
@@ -282,6 +281,7 @@
     <script src="app/filters/highlight.filter.js"></script>
     <script src="app/filters/props.filter.js"></script>
     <script src="app/filters/tab.filter.js"></script>
+    <script src="app/filters/newline.filter.js"></script>
     <!-- Services -->
     <script src="app/services/address.service.js"></script>
     <script src="app/services/auth.service.js"></script>

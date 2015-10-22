@@ -50,7 +50,7 @@ angular.module('staticApp')
           var languageProficiencies = $scope.model.languageProficiencies;
           var index = languageProficiencies.map(function (e) { return e.languageId }).indexOf(newLanguageProficiency.languageId);
           var removedItems = languageProficiencies.splice(index, 1);
-          $log.info('Removed one new languageProficiencies at index ' + index);
+          $log.info('Removed one new language proficiency at index ' + index);
       });
 
       $scope.$on(ConstantsService.primaryLanguageProficiencyChangedEventName, function (event, primaryLanguageProficiency) {

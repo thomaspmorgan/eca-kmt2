@@ -28,7 +28,7 @@ angular.module('staticApp')
       $scope.view.totalNumberOfPrograms = 0;
       $scope.view.skippedNumberOfPrograms = 0;
       $scope.view.numberOfPrograms = 0;
-      $scope.view.ecaUserId = null;  
+      $scope.view.ecaUserId = null;
       $scope.view.showDraftsOnly = false;
       $scope.view.programs = [];
       $scope.view.programsLoading = false;
@@ -118,7 +118,7 @@ angular.module('staticApp')
               params.filter = [];
           }
 
-          //$scope.view.programFilter = params.keyword === null ? params.keyword : params.keyword.join(" ");
+          $scope.view.programFilter = params.keyword === null ? params.keyword : params.keyword.join(" ");
 
           if ($scope.view.showDraftsOnly) {
               params.filter.push({ property: 'programStatusId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.programStatus.draft.id });
@@ -132,7 +132,7 @@ angular.module('staticApp')
           }
           else {
               return loadProgramsInHierarchy(params, tableState);
-          };
+          }
       };
 
       function loadProgramsAlphabetically(params, tableState) {
@@ -144,7 +144,7 @@ angular.module('staticApp')
               });
               processData(data, tableState, params);
           })
-          .catch(function(response){
+          .catch(function (response) {
               var message = "Unable to load programs.";
               $log.error(message);
               NotificationService.showErrorMessage(message);
@@ -186,6 +186,9 @@ angular.module('staticApp')
 
           $scope.view.programs = programs;
           $scope.view.programsLoading = false;
+          $timeout(function () {
+              angular.element('#searchBar').focus();
+          }, 500);
           return programs;
       };
 
@@ -203,5 +206,22 @@ angular.module('staticApp')
       .catch(function () {
 
       });
-  });
+  })
+.directive('autoFocus', function ($timeout) {
+    return {
+        restrict: 'AC',
+        link: function (_scope, _element) {
+            $timeout(function () {
+                _element[0].focus();
+            }, 500);
+        }
+    };
+})
+.factory('focus', function ($rootScope, $timeout) {
+    return function (name) {
+        $timeout(function () {
+            $rootScope.$broadcast('autoFocus', name);
+        }, 500);
+    }
+});
 

@@ -35,13 +35,14 @@ namespace ECA.Business.Test.Queries.Admin
                 OfficeSymbol = "officeSymbol",
                 Name = "name"
             };
-
+            var now = DateTimeOffset.Now;
             var bookmark = new Bookmark
             {
                 BookmarkId = 1,
                 OfficeId = office.OrganizationId,
+                Office = office,
                 PrincipalId = 1,
-                AddedOn = DateTimeOffset.Now,
+                AddedOn = now,
                 Automatic = false
             };
 
@@ -56,7 +57,7 @@ namespace ECA.Business.Test.Queries.Admin
             Assert.AreEqual(bookmark.OfficeId, firstResult.OfficeId);
             Assert.AreEqual(bookmark.PrincipalId, firstResult.PrincipalId);
             Assert.AreEqual(bookmark.Automatic, firstResult.Automatic);
-            bookmark.AddedOn.Should().BeCloseTo(DateTimeOffset.Now, 3000);
+            Assert.AreEqual(now, bookmark.AddedOn);
             Assert.AreEqual("Office", firstResult.Type);
             Assert.AreEqual(office.OfficeSymbol, firstResult.OfficeSymbolOrStatus);
             Assert.AreEqual(office.Name, firstResult.Name);
@@ -104,6 +105,7 @@ namespace ECA.Business.Test.Queries.Admin
             {
                 BookmarkId = 1,
                 ProgramId = program1.ProgramId,
+                Program = program1,
                 PrincipalId = 1,
                 AddedOn = DateTimeOffset.Now,
                 Automatic = false
@@ -185,9 +187,8 @@ namespace ECA.Business.Test.Queries.Admin
             var bookmark = new Bookmark
             {
                 BookmarkId = 1,
-                OfficeId = owner1.OrganizationId,
-                ProgramId = program1.ProgramId,
                 ProjectId = project.ProjectId,
+                Project = project,
                 PrincipalId = 1,
                 AddedOn = DateTimeOffset.Now,
                 Automatic = false
@@ -256,6 +257,7 @@ namespace ECA.Business.Test.Queries.Admin
             {
                 BookmarkId = 1,
                 PersonId = person.PersonId,
+                Person = person,
                 PrincipalId = 1,
                 AddedOn = DateTimeOffset.Now,
                 Automatic = false
@@ -310,6 +312,7 @@ namespace ECA.Business.Test.Queries.Admin
             {
                 BookmarkId = 1,
                 OrganizationId = organization.OrganizationId,
+                Organization = organization,
                 PrincipalId = 1,
                 AddedOn = DateTimeOffset.Now,
                 Automatic = false

@@ -26,16 +26,19 @@ angular.module('staticApp')
         ParticipantService,
         NotificationService
         ) {
-      
+
       console.assert(entity.entityName && entity.entityName.length > 0, "The entity.entityName value must be defined.");
 
       $scope.view = {};
+      $scope.view.isLoadingSourceMoneyFlows = false;
       $scope.view.entityNameMaxLength = 100;
       $scope.view.entityName = entity.entityName;
       $scope.view.searchLimit = 10;
-      $scope.view.params = $stateParams;      
+      $scope.view.params = $stateParams;
       $scope.view.allowedRecipientMoneyFlowSourceRecipientTypes = [];
       $scope.view.allowedSourceMoneyFlowSourceRecipientTypes = [];
+      $scope.view.sourceMoneyFlows = [];
+      $scope.view.selectedSourceMoneyFlow = null;
       $scope.view.moneyFlowStatii = [];
       $scope.view.moneyFlowTypes = [];
       $scope.view.isLoadingRequiredData = false;
@@ -47,6 +50,7 @@ angular.module('staticApp')
       $scope.view.isSaving = false;
       $scope.view.isSourceRecipientFieldEnabled = false;
       $scope.view.isSourceRecipientFieldRequired = true;
+      $scope.view.loadingMoneyFlowSourcesLoadingText = "Loading";
 
       $scope.view.openTransactionDatePicker = function ($event) {
           $event.preventDefault();
@@ -85,10 +89,24 @@ angular.module('staticApp')
           else {
               $log.error('Direction key ]' + directionKey + '] is not recognized.');
           }
+          $scope.view.moneyFlow.parentMoneyFlowId = null;
+          $scope.view.selectedSourceMoneyFlow = null;
+          loadSourceMoneyFlows($scope.view.moneyFlow);
       }
 
       $scope.view.moneyFlow = toMoneyFlow(entity);
       onModelChange($scope.view.moneyFlow);
+
+      $scope.view.validateSourceRemainingAmount = function ($value) {
+          if ($value
+              && $scope.view.selectedSourceMoneyFlow !== null
+              && $scope.view.selectedSourceMoneyFlow.remainingAmount - $value < 0) {
+              return false;
+          }
+          else {
+              return true;
+          }
+      }
 
       $scope.view.getPeers = function ($viewValue) {
           var peerEntityTypeId = $scope.view.moneyFlow.peerEntityTypeId;
@@ -121,7 +139,9 @@ angular.module('staticApp')
 
       $scope.view.onSelectPeer = function ($item, $model, $label) {
           console.assert($model.peerEntityId, "The $model must have the peer entity id defined.");
+          console.assert($scope.view.moneyFlow.peerEntityTypeId, "The money flow must have the peer entity type id defined.");
           $scope.view.moneyFlow.peerEntityId = $model.peerEntityId;
+          loadSourceMoneyFlows($scope.view.moneyFlow);
       }
 
       $scope.view.formatPeerEntity = function ($item, $model, $label) {
@@ -133,6 +153,11 @@ angular.module('staticApp')
           }
       }
 
+      $scope.view.onSelectSourceMoneyFlow = function ($item, $model) {
+          $scope.view.selectedSourceMoneyFlow = $item;
+      }
+
+
       $scope.view.getAllowedMoneyFlowSourceRecipientTypes = function (mf) {
           if (mf.isOutgoing) {
               return $scope.view.allowedRecipientMoneyFlowSourceRecipientTypes;
@@ -140,6 +165,61 @@ angular.module('staticApp')
           else {
               return $scope.view.allowedSourceMoneyFlowSourceRecipientTypes;
           }
+      }
+
+      function loadSourceMoneyFlows(moneyFlow) {
+          var loadFn = null;
+          var peerEntityTypeId = 0;
+          var entityId = 0;
+          if (moneyFlow.isOutgoing) {
+              peerEntityTypeId = moneyFlow.entityTypeId;
+              entityId = entity.entityId;
+          }
+          else {
+              peerEntityTypeId = moneyFlow.peerEntityTypeId;
+              entityId = moneyFlow.peerEntityId;
+          }
+          if (peerEntityTypeId && entityId) {
+              if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id) {
+                  loadFn = MoneyFlowService.getSourceMoneyFlowsByProgramId(entityId, {});
+              }
+              else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.project.id) {
+                  loadFn = MoneyFlowService.getSourceMoneyFlowsByProjectId(entityId, {});
+              }
+              else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id) {
+                  loadFn = MoneyFlowService.getSourceMoneyFlowsByOrganizationsId(entityId, {});
+              }
+              else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.office.id) {
+                  loadFn = MoneyFlowService.getSourceMoneyFlowsByOfficeId(entityId, {});
+              }
+              else {
+                  throw Error("The peer entity type id [" + peerEntityTypeId + "] is not supported.");
+              }
+              $scope.view.sourceMoneyFlows = [];
+              $scope.view.sourceMoneyFlows.push({
+                  id: 0,
+                  sourceName: ''
+              });
+              $scope.view.isLoadingSourceMoneyFlows = true;
+              loadFn.then(function (response) {
+                  var sources = response.data;
+                  $scope.view.isLoadingSourceMoneyFlows = false;
+                  $scope.view.sourceMoneyFlows = sources;
+                  return sources;
+              })
+              .catch(function (response) {
+                  $scope.view.isLoadingSourceMoneyFlows = false;
+                  var message = "Unable to load source money flows.";
+                  $log.error(message);
+                  NotificationService.showErrorMessage(message);
+              })
+          }
+          else {
+              var dfd = $q.defer();
+              dfd.resolve();
+              return dfd.promise;
+          }
+
       }
 
       function onModelChange(moneyFlow) {
@@ -177,7 +257,7 @@ angular.module('staticApp')
           else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.office.id) {
               return handleOfficesSearchResponse(response);
           }
-          else if(peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.participant.id) {
+          else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.participant.id) {
               return handleParticipantSearchResponse(response);
           }
           else {
@@ -292,7 +372,7 @@ angular.module('staticApp')
           else {
               throw Error("The peer entity type id [" + peerEntityTypeId + "] is not yet supported.");
           }
-          
+
           searchFilter = searchFilter
             .skip(0)
             .take($scope.view.searchLimit)
@@ -303,7 +383,7 @@ angular.module('staticApp')
               if (!angular.isNumber(id)) {
                   id = parseInt(entity.entityId, 10);
               }
-              
+
               searchFilter = searchFilter.notEqual(idPropertyName, id);
           }
           return searchFilter.toParams();
