@@ -54,14 +54,15 @@ angular.module('staticApp')
                 $scope.view.budgetByYear.options = {
                     chart: {
                         type: 'lineChart',
-                        height: 300,
+                        height: 220,
                         width: 350,
                         margin : {
                             top: 10,
                             right: 10,
-                            bottom: 40,
+                            bottom: 20,
                             left: 75
                         },
+                        showLegend: false,
                         x: function(d){ return d.key; },
                         y: function(d){ return d.value; },
                         useInteractiveGuideline: true,
@@ -73,12 +74,15 @@ angular.module('staticApp')
                         },
                         xAxis: {
                             tickSize: (1,0),
-                            tickValues: graphXAxisTickValues
+                            tickValues: graphXAxisTickValues,
+                            tickPadding: 15,
+                            showMaxMin: false
                         },
                         yAxis: {
                             tickFormat: function (d) {
                                 return d3.format('$,d')(d);
-                            }
+                            },
+                            showMaxMin: false
                         },
                         callback: function(chart){
                         }
@@ -140,10 +144,62 @@ angular.module('staticApp')
       function GetProgramParticipantsByYear() {
           SnapshotService.GetProgramParticipantsByYear($scope.view.params.programId)
             .then(function (response) {
-                $scope.view.participantsByYear = response.data;
+                var graphData = [];
+                graphData.push(response.data);
+                $scope.view.participantsByYear.data = graphData;
+                var graphXAxisTickValues = response.data.values.map(function (item) {
+                    return item['key'];
+                });
+
+                $scope.view.participantsByYear.options = {
+                    chart: {
+                        type: 'lineChart',
+                        height: 150,
+                        width: 350,
+                        margin: {
+                            top: 10,
+                            right: 10,
+                            bottom: 20,
+                            left: 35
+                        },
+                        showLegend: false,
+                        x: function (d) { return d.key; },
+                        y: function (d) { return d.value; },
+                        useInteractiveGuideline: true,
+                        dispatch: {
+                            stateChange: function (e) { },
+                            changeState: function (e) { },
+                            tooltipShow: function (e) { },
+                            tooltipHide: function (e) { }
+                        },
+                        xAxis: {
+                            tickSize: (1, 0),
+                            tickValues: graphXAxisTickValues,
+                            tickPadding: 15,
+                            showMaxMin: false
+                        },
+                        yAxis: {
+                            tickFormat: function (d) {
+                                return d3.format(',d')(d);
+                            },
+                            showMaxMin: false
+                        },
+                        callback: function (chart) {
+                        }
+                    },
+                    title: {
+                        enable: false
+                    },
+                    subtitle: {
+                        enable: false
+                    },
+                    caption: {
+                        enable: false
+                    }
+                };
             })
             .catch(function () {
-                var message = 'Unable to load participant counts by year.';
+                var message = 'Unable to load participant counts by year chart.';
                 NotificationService.showErrorMessage(message);
                 $log.error(message);
             });
