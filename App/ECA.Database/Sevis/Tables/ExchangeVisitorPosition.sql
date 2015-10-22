@@ -16,4 +16,4 @@ CREATE INDEX [IX_ExchangeVisitorPositionCode] ON [sevis].[ExchangeVisitorPositio
 
 GO
 
-CREATE INDEX [IX_Description] ON [sevis].[Position] ([Description])
+CREATE INDEX [IX_ExchangeVisitorDescription] ON [sevis].[ExchangeVisitorPosition] ([Description])
