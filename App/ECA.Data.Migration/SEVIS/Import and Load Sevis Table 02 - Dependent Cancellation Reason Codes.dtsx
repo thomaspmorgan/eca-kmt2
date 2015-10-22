@@ -5,14 +5,14 @@
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="BE00003308"
   DTS:CreatorName="BE00003308\Marc Setien"
-  DTS:DTSID="{37A13AEC-D74D-4A79-B996-B391A2126C68}"
+  DTS:DTSID="{414D4A95-35A5-4192-851E-B76FDEBF746D}"
   DTS:ExecutableType="Microsoft.Package"
   DTS:LastModifiedProductVersion="12.0.4100.1"
   DTS:LocaleID="1033"
-  DTS:ObjectName="Import and Load Sevis Table 2 - Dependent Cancellation Reason Codes"
+  DTS:ObjectName="Import and Load Sevis Table 02 - Dependent Cancellation Reason Codes"
   DTS:PackageType="5"
-  DTS:VersionBuild="7"
-  DTS:VersionGUID="{C043D2F2-1A8C-490C-875B-30C7E9D9A244}">
+  DTS:VersionBuild="9"
+  DTS:VersionGUID="{5CD81430-5F9A-4210-ABA7-CB6CDF0EDA2C}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -100,7 +100,8 @@
                   <outputColumns>
                     <outputColumn
                       refId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\Data Conversion.Outputs[Data Conversion Output].Columns[CancellationCode]"
-                      dataType="wstr"
+                      codePage="1252"
+                      dataType="str"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       length="2"
@@ -322,7 +323,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[Sevis].[DependentCancellationReason]</property>
+                  name="OpenRowset">[sevis].[DependentCancellationReason]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -386,14 +387,6 @@
                       externalMetadataColumnId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\SEVIS Dependent Cancellation Reason.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
                       lineageId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\Sort by Code.Outputs[Sort Output].Columns[Description]" />
                     <inputColumn
-                      refId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\SEVIS Dependent Cancellation Reason.Inputs[OLE DB Destination Input].Columns[CancellationCode]"
-                      cachedDataType="wstr"
-                      cachedLength="2"
-                      cachedName="CancellationCode"
-                      cachedSortKeyPosition="1"
-                      externalMetadataColumnId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\SEVIS Dependent Cancellation Reason.Inputs[OLE DB Destination Input].ExternalColumns[CancellationCode]"
-                      lineageId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\Sort by Code.Outputs[Sort Output].Columns[CancellationCode]" />
-                    <inputColumn
                       refId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\SEVIS Dependent Cancellation Reason.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
                       cachedDataType="i4"
                       cachedName="History_CreatedBy"
@@ -417,6 +410,15 @@
                       cachedName="History_RevisedOn"
                       externalMetadataColumnId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\SEVIS Dependent Cancellation Reason.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
                       lineageId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\Derived Column.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
+                    <inputColumn
+                      refId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\SEVIS Dependent Cancellation Reason.Inputs[OLE DB Destination Input].Columns[CancellationCode]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="CancellationCode"
+                      cachedSortKeyPosition="1"
+                      externalMetadataColumnId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\SEVIS Dependent Cancellation Reason.Inputs[OLE DB Destination Input].ExternalColumns[ReasonCode]"
+                      lineageId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\Sort by Code.Outputs[Sort Output].Columns[CancellationCode]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -426,26 +428,33 @@
                       length="100"
                       name="Description" />
                     <externalMetadataColumn
-                      refId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\SEVIS Dependent Cancellation Reason.Inputs[OLE DB Destination Input].ExternalColumns[CancellationCode]"
-                      dataType="wstr"
-                      length="2"
-                      name="CancellationCode" />
-                    <externalMetadataColumn
                       refId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\SEVIS Dependent Cancellation Reason.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
                       dataType="i4"
                       name="History_CreatedBy" />
                     <externalMetadataColumn
                       refId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\SEVIS Dependent Cancellation Reason.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
-                      dataType="dbTimeStamp"
-                      name="History_CreatedOn" />
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
                     <externalMetadataColumn
                       refId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\SEVIS Dependent Cancellation Reason.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
                       dataType="i4"
                       name="History_RevisedBy" />
                     <externalMetadataColumn
                       refId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\SEVIS Dependent Cancellation Reason.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
-                      dataType="dbTimeStamp"
-                      name="History_RevisedOn" />
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\SEVIS Dependent Cancellation Reason.Inputs[OLE DB Destination Input].ExternalColumns[DependentCancellationReasonId]"
+                      dataType="i4"
+                      name="DependentCancellationReasonId" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\SEVIS Dependent Cancellation Reason.Inputs[OLE DB Destination Input].ExternalColumns[ReasonCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="ReasonCode" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -638,7 +647,8 @@
                     </inputColumn>
                     <inputColumn
                       refId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\Sort by Code.Inputs[Sort Input].Columns[CancellationCode]"
-                      cachedDataType="wstr"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
                       cachedLength="2"
                       cachedName="CancellationCode"
                       lineageId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\Data Conversion.Outputs[Data Conversion Output].Columns[CancellationCode]">
@@ -679,7 +689,8 @@
                     </outputColumn>
                     <outputColumn
                       refId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\Sort by Code.Outputs[Sort Output].Columns[CancellationCode]"
-                      dataType="wstr"
+                      codePage="1252"
+                      dataType="str"
                       length="2"
                       lineageId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\Sort by Code.Outputs[Sort Output].Columns[CancellationCode]"
                       name="CancellationCode"
@@ -749,13 +760,13 @@
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
+          Size="154,42"
+          Id="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\Derived Column"
+          TopLeft="470,299" />
+        <NodeLayout
           Size="140,42"
           Id="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\Sort by Code"
           TopLeft="471.5,167.5" />
-        <NodeLayout
-          Size="260,42"
-          Id="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\SEVIS Dependent Cancellation Reason"
-          TopLeft="731.5,293.5" />
         <NodeLayout
           Size="354,42"
           Id="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\SEVIS Dependent Cancellation Reason Codes Excel Source"
@@ -764,28 +775,10 @@
           Size="156,42"
           Id="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\Data Conversion"
           TopLeft="470.5,57.5" />
-        <EdgeLayout
-          Id="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes.Paths[Excel Source Output]"
-          TopLeft="377.5,76.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="93,0"
-              Start="0,0"
-              End="85.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="85.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+        <NodeLayout
+          Size="260,42"
+          Id="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\SEVIS Dependent Cancellation Reason"
+          TopLeft="731.5,293.5" />
         <EdgeLayout
           Id="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes.Paths[Data Conversion Output]"
           TopLeft="545,99.5">
@@ -808,10 +801,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="154,42"
-          Id="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\Derived Column"
-          TopLeft="470,299" />
         <EdgeLayout
           Id="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes.Paths[Sort Output]"
           TopLeft="544.25,209.5">
@@ -826,6 +815,28 @@
                   Capacity="5">
                   <mssgle:LineSegment
                     End="0,82" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes.Paths[Excel Source Output]"
+          TopLeft="377.5,76.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="93,0"
+              Start="0,0"
+              End="85.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="85.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>

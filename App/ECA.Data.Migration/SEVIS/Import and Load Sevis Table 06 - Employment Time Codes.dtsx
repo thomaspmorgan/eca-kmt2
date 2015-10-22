@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Import and Load Sevis Table 06 - Employment Time Codes"
   DTS:PackageType="5"
-  DTS:VersionBuild="7"
-  DTS:VersionGUID="{E56DBD5B-3572-463C-8428-D21DEFF3D658}">
+  DTS:VersionBuild="8"
+  DTS:VersionGUID="{4FC9C03B-47D8-4CD8-A7AE-AEFFF3279563}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -33,7 +33,7 @@
       DTS:ObjectName="Excel Connection Manager 1">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 6 - Employment Time Codes.xlsx;Extended Properties=&quot;Excel 12.0 XML;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 6 - Employment Time Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -90,7 +90,8 @@
                   <outputColumns>
                     <outputColumn
                       refId="Package\Load Sevis Table 6 - Employment Time Codes\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of EMPLOYMENT TIME CODE]"
-                      dataType="wstr"
+                      codePage="1252"
+                      dataType="str"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       length="2"
@@ -114,7 +115,7 @@
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      length="100"
+                      length="50"
                       lineageId="Package\Load Sevis Table 6 - Employment Time Codes\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of EMPLOYMENT TIME DESCRIPTION]"
                       name="Copy of EMPLOYMENT TIME DESCRIPTION"
                       truncationRowDisposition="FailComponent">
@@ -493,7 +494,7 @@
                     <inputColumn
                       refId="Package\Load Sevis Table 6 - Employment Time Codes\SEVIS Employment Time Codes.Inputs[OLE DB Destination Input].Columns[Description]"
                       cachedDataType="wstr"
-                      cachedLength="100"
+                      cachedLength="50"
                       cachedName="Description"
                       cachedSortKeyPosition="2"
                       externalMetadataColumnId="Package\Load Sevis Table 6 - Employment Time Codes\SEVIS Employment Time Codes.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
@@ -524,7 +525,8 @@
                       lineageId="Package\Load Sevis Table 6 - Employment Time Codes\Derived Column.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
                     <inputColumn
                       refId="Package\Load Sevis Table 6 - Employment Time Codes\SEVIS Employment Time Codes.Inputs[OLE DB Destination Input].Columns[EmploymentTimeCode]"
-                      cachedDataType="wstr"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
                       cachedLength="2"
                       cachedName="EmploymentTimeCode"
                       cachedSortKeyPosition="1"
@@ -536,7 +538,7 @@
                     <externalMetadataColumn
                       refId="Package\Load Sevis Table 6 - Employment Time Codes\SEVIS Employment Time Codes.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
                       dataType="wstr"
-                      length="100"
+                      length="50"
                       name="Description" />
                     <externalMetadataColumn
                       refId="Package\Load Sevis Table 6 - Employment Time Codes\SEVIS Employment Time Codes.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
@@ -544,21 +546,28 @@
                       name="History_CreatedBy" />
                     <externalMetadataColumn
                       refId="Package\Load Sevis Table 6 - Employment Time Codes\SEVIS Employment Time Codes.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
-                      dataType="dbTimeStamp"
-                      name="History_CreatedOn" />
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
                     <externalMetadataColumn
                       refId="Package\Load Sevis Table 6 - Employment Time Codes\SEVIS Employment Time Codes.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
                       dataType="i4"
                       name="History_RevisedBy" />
                     <externalMetadataColumn
                       refId="Package\Load Sevis Table 6 - Employment Time Codes\SEVIS Employment Time Codes.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
-                      dataType="dbTimeStamp"
-                      name="History_RevisedOn" />
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
                     <externalMetadataColumn
                       refId="Package\Load Sevis Table 6 - Employment Time Codes\SEVIS Employment Time Codes.Inputs[OLE DB Destination Input].ExternalColumns[EmploymentTimeCode]"
-                      dataType="wstr"
+                      codePage="1252"
+                      dataType="str"
                       length="2"
                       name="EmploymentTimeCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Table 6 - Employment Time Codes\SEVIS Employment Time Codes.Inputs[OLE DB Destination Input].ExternalColumns[EmploymentTimeId]"
+                      dataType="i4"
+                      name="EmploymentTimeId" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -612,7 +621,8 @@
                   <inputColumns>
                     <inputColumn
                       refId="Package\Load Sevis Table 6 - Employment Time Codes\Sort by Code.Inputs[Sort Input].Columns[Copy of EMPLOYMENT TIME CODE]"
-                      cachedDataType="wstr"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
                       cachedLength="2"
                       cachedName="Copy of EMPLOYMENT TIME CODE"
                       lineageId="Package\Load Sevis Table 6 - Employment Time Codes\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of EMPLOYMENT TIME CODE]">
@@ -630,7 +640,7 @@
                     <inputColumn
                       refId="Package\Load Sevis Table 6 - Employment Time Codes\Sort by Code.Inputs[Sort Input].Columns[Copy of EMPLOYMENT TIME DESCRIPTION]"
                       cachedDataType="wstr"
-                      cachedLength="100"
+                      cachedLength="50"
                       cachedName="Copy of EMPLOYMENT TIME DESCRIPTION"
                       lineageId="Package\Load Sevis Table 6 - Employment Time Codes\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of EMPLOYMENT TIME DESCRIPTION]">
                       <properties>
@@ -656,7 +666,8 @@
                   <outputColumns>
                     <outputColumn
                       refId="Package\Load Sevis Table 6 - Employment Time Codes\Sort by Code.Outputs[Sort Output].Columns[EmploymentTimeCode]"
-                      dataType="wstr"
+                      codePage="1252"
+                      dataType="str"
                       length="2"
                       lineageId="Package\Load Sevis Table 6 - Employment Time Codes\Sort by Code.Outputs[Sort Output].Columns[EmploymentTimeCode]"
                       name="EmploymentTimeCode"
@@ -672,7 +683,7 @@
                     <outputColumn
                       refId="Package\Load Sevis Table 6 - Employment Time Codes\Sort by Code.Outputs[Sort Output].Columns[Description]"
                       dataType="wstr"
-                      length="100"
+                      length="50"
                       lineageId="Package\Load Sevis Table 6 - Employment Time Codes\Sort by Code.Outputs[Sort Output].Columns[Description]"
                       name="Description"
                       sortKeyPosition="2">
@@ -749,39 +760,17 @@
           Id="Package\Load Sevis Table 6 - Employment Time Codes\Sort by Code"
           TopLeft="396.5,163.5" />
         <NodeLayout
-          Size="289,42"
-          Id="Package\Load Sevis Table 6 - Employment Time Codes\SEVIS Cap-Gap Extension Type Excel Source"
-          TopLeft="22.5,49.5" />
+          Size="227,42"
+          Id="Package\Load Sevis Table 6 - Employment Time Codes\SEVIS Employment Time Codes"
+          TopLeft="650.5,266.5" />
         <NodeLayout
           Size="156,42"
           Id="Package\Load Sevis Table 6 - Employment Time Codes\Data Conversion"
           TopLeft="400.5,54.5" />
         <NodeLayout
-          Size="227,42"
-          Id="Package\Load Sevis Table 6 - Employment Time Codes\SEVIS Employment Time Codes"
-          TopLeft="650.5,266.5" />
-        <EdgeLayout
-          Id="Package\Load Sevis Table 6 - Employment Time Codes.Paths[Excel Source Output]"
-          TopLeft="311.5,73">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="89,0"
-              Start="0,0"
-              End="81.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="81.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+          Size="289,42"
+          Id="Package\Load Sevis Table 6 - Employment Time Codes\SEVIS Cap-Gap Extension Type Excel Source"
+          TopLeft="22.5,49.5" />
         <EdgeLayout
           Id="Package\Load Sevis Table 6 - Employment Time Codes.Paths[Data Conversion Output]"
           TopLeft="478.5,96.5">
@@ -851,6 +840,28 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
+          Id="Package\Load Sevis Table 6 - Employment Time Codes.Paths[Excel Source Output]"
+          TopLeft="311.5,73">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="89,0"
+              Start="0,0"
+              End="81.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="81.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
           Id="Package\Load Sevis Table 6 - Employment Time Codes.Paths[Derived Column Output]"
           TopLeft="557.5,287.5">
           <EdgeLayout.Curve>
@@ -876,7 +887,7 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Load Sevis Table 6 - Employment Time Codes\SEVIS Employment Time Codes">
+    design-time-name="Package\Load Sevis Table 6 - Employment Time Codes\SEVIS Cap-Gap Extension Type Excel Source">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -889,7 +900,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load Sevis Table 6 - Employment Time Codes\SEVIS Cap-Gap Extension Type Excel Source">
+    design-time-name="Package\Load Sevis Table 6 - Employment Time Codes\SEVIS Employment Time Codes">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

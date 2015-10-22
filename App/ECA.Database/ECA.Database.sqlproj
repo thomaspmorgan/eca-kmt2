@@ -319,6 +319,9 @@
     <Build Include="Sevis\Tables\DependentTermination.sql" />
     <Build Include="Sevis\Tables\DropBelowFullCourseReason.sql" />
     <Build Include="Sevis\Tables\EmploymentTime.sql" />
+    <Build Include="Sevis\Tables\StudentSecondaryMajorMinor.sql" />
+    <Build Include="Sevis\Tables\EndProgramReason.sql" />
+    <Build Include="Sevis\Tables\ExhangeVisitorTerminationReason.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ECA.Database.refactorlog" />

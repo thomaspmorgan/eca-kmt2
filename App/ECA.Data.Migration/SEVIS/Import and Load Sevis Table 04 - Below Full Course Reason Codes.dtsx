@@ -1,0 +1,1240 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/22/2015 11:29:30 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{7136B044-8EE6-4BC4-8194-F8776179600C}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Import and Load Sevis Table 04 - Below Full Course Reason Codes"
+  DTS:PackageType="5"
+  DTS:VersionBuild="6"
+  DTS:VersionGUID="{46633E28-4E58-4682-8375-2D4BDE812F82}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{68CD9BBA-2035-4430-A8D7-A2258B47DCAF}"
+      DTS:ObjectName="BE00003308.ECA_Local">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{3B41C380-700E-485E-930C-E956EFF4118A}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 4 - Below Full Course Reason Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{7D79C403-C059-4BE8-8B3E-49908E36FF8E}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Import and Load Sevis Table 4 - Below Full Course Reason Codes"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Change Char to Bool values"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Inputs[Derived Column Input].Columns[F-1]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="F-1"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].Columns[F-1]" />
+                    <inputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Inputs[Derived Column Input].Columns[M-1]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="M-1"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].Columns[M-1]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[F_1_IND]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[F_1_IND]"
+                      name="F_1_IND"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[UPPER](#{Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].Columns[F-1]}) == "Y" ? 1 : 0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">UPPER([F-1]) == "Y" ? 1 : 0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[M_1_IND]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[M_1_IND]"
+                      name="M_1_IND"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[UPPER](#{Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].Columns[M-1]}) == "Y" ? 1 : 0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">UPPER([M-1]) == "Y" ? 1 : 0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      name="History_CreatedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">1</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      name="History_RevisedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">1</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      name="History_CreatedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      name="History_RevisedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Inputs[Data Conversion Input].Columns[DROP BELOW FULL TIME CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="DROP BELOW FULL TIME CODE"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].Columns[DROP BELOW FULL TIME CODE]" />
+                    <inputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Inputs[Data Conversion Input].Columns[DROP BELOW FULL TIME DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="DROP BELOW FULL TIME DESCRIPTION"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].Columns[DROP BELOW FULL TIME DESCRIPTION]" />
+                    <inputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Inputs[Data Conversion Input].Columns[F_1_IND]"
+                      cachedDataType="i4"
+                      cachedName="F_1_IND"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[F_1_IND]" />
+                    <inputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Inputs[Data Conversion Input].Columns[M_1_IND]"
+                      cachedDataType="i4"
+                      cachedName="M_1_IND"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[M_1_IND]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of DROP BELOW FULL TIME CODE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="2"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of DROP BELOW FULL TIME CODE]"
+                      name="Copy of DROP BELOW FULL TIME CODE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].Columns[DROP BELOW FULL TIME CODE]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of DROP BELOW FULL TIME DESCRIPTION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="250"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of DROP BELOW FULL TIME DESCRIPTION]"
+                      name="Copy of DROP BELOW FULL TIME DESCRIPTION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].Columns[DROP BELOW FULL TIME DESCRIPTION]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of F_1_IND]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of F_1_IND]"
+                      name="Copy of F_1_IND"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[F_1_IND]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of M_1_IND]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of M_1_IND]"
+                      name="Copy of M_1_IND"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[M_1_IND]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Sevis Below Full Time Course Reason Codes Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">Sheet1$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].Columns[DROP BELOW FULL TIME CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[DROP BELOW FULL TIME CODE]"
+                      length="255"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].Columns[DROP BELOW FULL TIME CODE]"
+                      name="DROP BELOW FULL TIME CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].Columns[DROP BELOW FULL TIME DESCRIPTION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[DROP BELOW FULL TIME DESCRIPTION]"
+                      length="255"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].Columns[DROP BELOW FULL TIME DESCRIPTION]"
+                      name="DROP BELOW FULL TIME DESCRIPTION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].Columns[F-1]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[F-1]"
+                      length="255"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].Columns[F-1]"
+                      name="F-1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].Columns[M-1]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[M-1]"
+                      length="255"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].Columns[M-1]"
+                      name="M-1"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[DROP BELOW FULL TIME CODE]"
+                      dataType="wstr"
+                      length="255"
+                      name="DROP BELOW FULL TIME CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[DROP BELOW FULL TIME DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="DROP BELOW FULL TIME DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[F-1]"
+                      dataType="wstr"
+                      length="255"
+                      name="F-1" />
+                    <externalMetadataColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[M-1]"
+                      dataType="wstr"
+                      length="255"
+                      name="M-1" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Error Output].Columns[DROP BELOW FULL TIME CODE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Error Output].Columns[DROP BELOW FULL TIME CODE]"
+                      name="DROP BELOW FULL TIME CODE" />
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Error Output].Columns[DROP BELOW FULL TIME DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Error Output].Columns[DROP BELOW FULL TIME DESCRIPTION]"
+                      name="DROP BELOW FULL TIME DESCRIPTION" />
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Error Output].Columns[F-1]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Error Output].Columns[F-1]"
+                      name="F-1" />
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Error Output].Columns[M-1]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Error Output].Columns[M-1]"
+                      name="M-1" />
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Sevis-DropBelowFullTimeReason"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[sevis].[DropBelowFullCourseReason]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].Columns[Copy of DROP BELOW FULL TIME DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="Copy of DROP BELOW FULL TIME DESCRIPTION"
+                      cachedSortKeyPosition="2"
+                      externalMetadataColumnId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[Copy of DROP BELOW FULL TIME DESCRIPTION]" />
+                    <inputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      externalMetadataColumnId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_CreatedOn"
+                      externalMetadataColumnId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[History_CreatedOn]" />
+                    <inputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_RevisedBy"
+                      externalMetadataColumnId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[History_RevisedBy]" />
+                    <inputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_RevisedOn"
+                      externalMetadataColumnId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[History_RevisedOn]" />
+                    <inputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].Columns[Copy of DROP BELOW FULL TIME CODE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="Copy of DROP BELOW FULL TIME CODE"
+                      cachedSortKeyPosition="1"
+                      externalMetadataColumnId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].ExternalColumns[ReasonCode]"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[Copy of DROP BELOW FULL TIME CODE]" />
+                    <inputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].Columns[Copy of F_1_IND]"
+                      cachedDataType="bool"
+                      cachedName="Copy of F_1_IND"
+                      cachedSortKeyPosition="3"
+                      externalMetadataColumnId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].ExternalColumns[F_1_Ind]"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[Copy of F_1_IND]" />
+                    <inputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].Columns[Copy of M_1_IND]"
+                      cachedDataType="bool"
+                      cachedName="Copy of M_1_IND"
+                      cachedSortKeyPosition="4"
+                      externalMetadataColumnId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].ExternalColumns[M_1_Ind]"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[Copy of M_1_IND]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      dataType="wstr"
+                      length="250"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].ExternalColumns[DropBelowFullCourseReasonId]"
+                      dataType="i4"
+                      name="DropBelowFullCourseReasonId" />
+                    <externalMetadataColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].ExternalColumns[ReasonCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="ReasonCode" />
+                    <externalMetadataColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].ExternalColumns[F_1_Ind]"
+                      dataType="bool"
+                      name="F_1_Ind" />
+                    <externalMetadataColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input].ExternalColumns[M_1_Ind]"
+                      dataType="bool"
+                      name="M_1_Ind" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="Sort"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Inputs[Sort Input].Columns[Copy of DROP BELOW FULL TIME CODE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="Copy of DROP BELOW FULL TIME CODE"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of DROP BELOW FULL TIME CODE]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Inputs[Sort Input].Columns[Copy of DROP BELOW FULL TIME DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="Copy of DROP BELOW FULL TIME DESCRIPTION"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of DROP BELOW FULL TIME DESCRIPTION]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">2</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Inputs[Sort Input].Columns[Copy of F_1_IND]"
+                      cachedDataType="bool"
+                      cachedName="Copy of F_1_IND"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of F_1_IND]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">3</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Inputs[Sort Input].Columns[Copy of M_1_IND]"
+                      cachedDataType="bool"
+                      cachedName="Copy of M_1_IND"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of M_1_IND]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">4</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Inputs[Sort Input].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[History_CreatedBy]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Inputs[Sort Input].Columns[History_RevisedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_RevisedBy"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[History_RevisedBy]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Inputs[Sort Input].Columns[History_CreatedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_CreatedOn"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[History_CreatedOn]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Inputs[Sort Input].Columns[History_RevisedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_RevisedOn"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[History_RevisedOn]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[Copy of DROP BELOW FULL TIME CODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[Copy of DROP BELOW FULL TIME CODE]"
+                      name="Copy of DROP BELOW FULL TIME CODE"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of DROP BELOW FULL TIME CODE]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[Copy of DROP BELOW FULL TIME DESCRIPTION]"
+                      dataType="wstr"
+                      length="250"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[Copy of DROP BELOW FULL TIME DESCRIPTION]"
+                      name="Copy of DROP BELOW FULL TIME DESCRIPTION"
+                      sortKeyPosition="2">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of DROP BELOW FULL TIME DESCRIPTION]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[Copy of F_1_IND]"
+                      dataType="bool"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[Copy of F_1_IND]"
+                      name="Copy of F_1_IND"
+                      sortKeyPosition="3">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of F_1_IND]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[Copy of M_1_IND]"
+                      dataType="bool"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[Copy of M_1_IND]"
+                      name="Copy of M_1_IND"
+                      sortKeyPosition="4">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of M_1_IND]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[History_CreatedBy]"
+                      dataType="i4"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[History_CreatedBy]"
+                      name="History_CreatedBy">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[History_CreatedBy]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[History_RevisedBy]"
+                      dataType="i4"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[History_RevisedBy]"
+                      name="History_RevisedBy">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[History_RevisedBy]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[History_CreatedOn]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[History_CreatedOn]"
+                      name="History_CreatedOn">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[History_CreatedOn]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[History_RevisedOn]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output].Columns[History_RevisedOn]"
+                      name="History_RevisedOn">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output].Columns[History_RevisedOn]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes.Paths[Data Conversion Output]"
+              endId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Inputs[Sort Input]"
+              name="Data Conversion Output"
+              startId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes.Paths[Derived Column Output]"
+              endId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion.Inputs[Data Conversion Input]"
+              name="Derived Column Output"
+              startId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes.Paths[Excel Source Output]"
+              endId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values.Inputs[Derived Column Input]"
+              name="Excel Source Output"
+              startId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source.Outputs[Excel Source Output]" />
+            <path
+              refId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes.Paths[Sort Output]"
+              endId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason.Inputs[OLE DB Destination Input]"
+              name="Sort Output"
+              startId="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort.Outputs[Sort Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="387,42"
+          Id="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="349,42"
+          Id="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source"
+          TopLeft="21.5,34.5" />
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Data Conversion"
+          TopLeft="487.5,132.5" />
+        <NodeLayout
+          Size="232,42"
+          Id="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason"
+          TopLeft="710.5,232.5" />
+        <NodeLayout
+          Size="98,42"
+          Id="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sort"
+          TopLeft="517.5,232.5" />
+        <NodeLayout
+          Size="209,42"
+          Id="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Change Char to Bool values"
+          TopLeft="455.5,40.5" />
+        <EdgeLayout
+          Id="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes.Paths[Data Conversion Output]"
+          TopLeft="566,174.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,58"
+              Start="0,0"
+              End="0,50.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,50.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes.Paths[Sort Output]"
+          TopLeft="615.5,253.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="95,0"
+              Start="0,0"
+              End="87.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="87.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes.Paths[Excel Source Output]"
+          TopLeft="370.5,58.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="85,0"
+              Start="0,0"
+              End="77.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="77.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes.Paths[Derived Column Output]"
+          TopLeft="562.75,82.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,50"
+              Start="0,0"
+              End="0,42.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,42.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis-DropBelowFullTimeReason">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import and Load Sevis Table 4 - Below Full Course Reason Codes\Sevis Below Full Time Course Reason Codes Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
