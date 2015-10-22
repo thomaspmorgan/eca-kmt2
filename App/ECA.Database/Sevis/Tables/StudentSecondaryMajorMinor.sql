@@ -7,7 +7,7 @@
     [History_CreatedOn] DATETIMEOFFSET NOT NULL, 
     [History_RevisedBy] INT NOT NULL, 
     [History_RevisedOn] DATETIMEOFFSET NOT NULL, 
-    CONSTRAINT [PK_sevis.ProgramSubject] PRIMARY KEY ([ProgramSubjectId])
+    CONSTRAINT [PK_sevis.SecondaryMajorMinor] PRIMARY KEY ([ProgramSubjectId])
 )
 
 GO
