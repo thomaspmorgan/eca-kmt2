@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[ProgramType] (
     [ProgramTypeId]     INT                IDENTITY (1, 1) NOT NULL,
-    [ProgramTypeName]   NVARCHAR (20)      NOT NULL,
+    [ProgramTypeName]   NVARCHAR (50)      NOT NULL,
     [History_CreatedBy] INT                NOT NULL,
     [History_CreatedOn] DATETIMEOFFSET (7) NOT NULL,
     [History_RevisedBy] INT                NOT NULL,
