@@ -1,4 +1,10 @@
 ﻿<div ng-controller="SnapshotsGraphsCtrl">
+    <style>
+        .nv-legend-symbol {
+            display: none;
+        }
+    </style>
+
     <div ng-show="view.isSnapshotGraphLoading">
         <div class="spinner">
             <div class="bounce1"></div>
@@ -9,10 +15,8 @@
     <div class="row stat-row" style="padding-top: 25px;">
         <div class="col-md-4">
             <p class="graph-stat-header">BUDGET</p>
-            <line-graph height="350px" width="450px" data="view.budgetByYear"></line-graph>
-            <!--<ul>
-                <li ng-repeat="graphyear in view.budgetByYear" style="padding-bottom: 6px;">{{graphyear.dataLabel}}: {{graphyear.dataValue | currency:fractionSize:0}}</li>
-            </ul>-->
+            <line-graph data="view.budgetByYear"></line-graph>
+            <nvd3 options="view.budgetByYear.options" data="view.budgetByYear.data"></nvd3>
         </div>
         <div class="col-md-4">
             <p class="graph-stat-header">MOST FUNDED COUNTRIES</p>

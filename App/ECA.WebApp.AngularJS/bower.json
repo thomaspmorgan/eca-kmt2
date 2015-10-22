@@ -13,6 +13,8 @@
     "angular-bootstrap": "0.13.3",
     "d3": "3.5.6",
     "nvd3": "1.8.1",
+    "angular-nvd3": "1.0.2",
+    "fastdom": "0.8.6",
     "datamaps": "0.3.6",
     "bower": "*",
     "ngSticky": "1.7.9",

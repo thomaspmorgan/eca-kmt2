@@ -44,10 +44,58 @@ angular.module('staticApp')
       function GetProgramBudgetByYear() {
           SnapshotService.GetProgramBudgetByYear($scope.view.params.programId)
             .then(function (response) {
-                $scope.view.budgetByYear = response.data;
+                var graphData = [];
+                graphData.push(response.data);
+                $scope.view.budgetByYear.data = graphData;
+                var graphXAxisTickValues = response.data.values.map(function (item) {
+                    return item['key'];
+                });
+
+                $scope.view.budgetByYear.options = {
+                    chart: {
+                        type: 'lineChart',
+                        height: 300,
+                        width: 350,
+                        margin : {
+                            top: 10,
+                            right: 10,
+                            bottom: 40,
+                            left: 75
+                        },
+                        x: function(d){ return d.key; },
+                        y: function(d){ return d.value; },
+                        useInteractiveGuideline: true,
+                        dispatch: {
+                            stateChange: function(e){ },
+                            changeState: function(e){ },
+                            tooltipShow: function(e){ },
+                            tooltipHide: function(e){ }
+                        },
+                        xAxis: {
+                            tickSize: (1,0),
+                            tickValues: graphXAxisTickValues
+                        },
+                        yAxis: {
+                            tickFormat: function (d) {
+                                return d3.format('$,d')(d);
+                            }
+                        },
+                        callback: function(chart){
+                        }
+                    },
+                    title: {
+                        enable: false
+                    },
+                    subtitle: {
+                        enable: false
+                    },
+                    caption: {
+                        enable: false
+                    }
+                };
             })
             .catch(function () {
-                var message = 'Unable to load budget by year.';
+                var message = 'Unable to load budget by year chart.';
                 NotificationService.showErrorMessage(message);
                 $log.error(message);
             });

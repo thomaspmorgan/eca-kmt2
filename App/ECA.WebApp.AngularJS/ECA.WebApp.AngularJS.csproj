@@ -172,7 +172,6 @@
     <Content Include="app\activities\activities.routes.js" />
     <Content Include="app\app.config.js" />
     <Content Include="app\auth\auth.routes.js" />
-    <Content Include="app\directives\snapshot.line-graph.directive.js" />
     <Content Include="app\directives\snapshots-graphs.controller.js" />
     <Content Include="app\directives\snapshots-graphs.directive.html" />
     <Content Include="app\directives\snapshots-graphs.directive.js" />

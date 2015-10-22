@@ -149,7 +149,7 @@ namespace ECA.Business.Queries.Admin
 
             SnapshotGraphDTO graphValues = new SnapshotGraphDTO
             {
-                key = "Bugdet",
+                key = "",
                 values = budgetByYear.Select(g => new KeyValuePair<int, int>(g.Key, g.ToList().Sum(m => (int)m.Value))).OrderBy(o => o.Key).ToList()
             };
 
@@ -205,7 +205,7 @@ namespace ECA.Business.Queries.Admin
             var pby = await context.Participants.Where(p => p.Project.ProgramId == programId && p.Project.StartDate.Year >= oldestDate.Year).GroupBy(x => x.Project.StartDate.Year).ToListAsync();
             SnapshotGraphDTO graphValues = new SnapshotGraphDTO
             {
-                key = "Budget",
+                key = "",
                 values = pby.Select(r => new KeyValuePair<int, int>(r.Key, r.Count())).OrderByDescending(p => p.Key).ToList()
             };
 
