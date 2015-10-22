@@ -1,14 +1,9 @@
-﻿using ECA.Data;
-using ECA.Business.Queries.Models.Admin;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECA.Core.DynamicLinq;
-using System.Diagnostics.Contracts;
-using NLog;
+﻿using ECA.Business.Queries.Models.Fundings;
 using ECA.Business.Queries.Persons;
+using ECA.Core.DynamicLinq;
+using ECA.Data;
+using System.Diagnostics.Contracts;
+using System.Linq;
 
 namespace ECA.Business.Queries.Fundings
 {
@@ -36,6 +31,8 @@ namespace ECA.Business.Queries.Fundings
         /// The default incoming money flow entity name.
         /// </summary>
         public const string UNKNOWN_INCOMING_ENTITY_NAME = "UNKNOWN INCOMING ENTITY NAME";
+
+        #region Money Flow DTOs
 
         /// <summary>
         /// Returns a query to get all outgoing money flows currently in the system.  This would be
@@ -109,22 +106,23 @@ namespace ECA.Business.Queries.Fundings
 
                         select new MoneyFlowDTO
                         {
-                            Id = moneyFlow.MoneyFlowId,
-                            EntityId = sourceEntityId,
-                            EntityTypeId = sourceEntityTypeId,
                             Amount = -moneyFlow.Value,
                             Description = moneyFlow.Description,
+                            EntityId = sourceEntityId,
+                            EntityTypeId = sourceEntityTypeId,
                             FiscalYear = moneyFlow.FiscalYear,
+                            Id = moneyFlow.MoneyFlowId,
                             MoneyFlowStatus = status,
                             MoneyFlowStatusId = statusId,
-                            TransactionDate = moneyFlow.TransactionDate,
                             MoneyFlowType = outgoingMoneyFlowType,
                             ParticipantTypeId = participantType == null ? default(int?) : participantType.ParticipantTypeId,
                             ParticipantTypeName = participantType == null ? null : participantType.Name,
+                            ParentMoneyFlowId = moneyFlow.ParentMoneyFlowId,
                             SourceRecipientTypeName = recipientTypeName,
                             SourceRecipientEntityTypeId = recipientTypeId,
                             SourceRecipientEntityId = isExpense ? default(int?) : recipientEntityId,
-                            SourceRecipientName = isExpense ? null : recipientEntityName
+                            SourceRecipientName = isExpense ? null : recipientEntityName,
+                            TransactionDate = moneyFlow.TransactionDate,
                         };
             return query;
 
@@ -179,7 +177,7 @@ namespace ECA.Business.Queries.Fundings
                         let participantType = participant == null ? null : participant.ParticipantType
                         let orgParticipant = isOrgParticipant ? participant.Organization : null
                         let personParticipant = isPersonParticipant ? participant.Person : null
-                        
+
 
                         let sourceEntityName = moneyFlow.SourceItineraryStopId.HasValue ? itinerary
                             : moneyFlow.SourceOrganizationId.HasValue ? organization.Name
@@ -194,22 +192,23 @@ namespace ECA.Business.Queries.Fundings
 
                         select new MoneyFlowDTO
                         {
-                            Id = moneyFlow.MoneyFlowId,
-                            EntityId = recipientEntityId,
-                            EntityTypeId = recipientEntityTypeId,
                             Amount = moneyFlow.Value,
                             Description = moneyFlow.Description,
+                            EntityId = recipientEntityId,
+                            EntityTypeId = recipientEntityTypeId,
                             FiscalYear = moneyFlow.FiscalYear,
+                            Id = moneyFlow.MoneyFlowId,
                             MoneyFlowStatus = status,
                             MoneyFlowStatusId = statusId,
-                            TransactionDate = moneyFlow.TransactionDate,
                             MoneyFlowType = incomingMoneyFlowType,
                             ParticipantTypeId = participantType == null ? default(int?) : participantType.ParticipantTypeId,
                             ParticipantTypeName = participantType == null ? null : participantType.Name,
+                            ParentMoneyFlowId = moneyFlow.ParentMoneyFlowId,
                             SourceRecipientTypeName = sourceTypeName,
                             SourceRecipientEntityTypeId = sourceTypeId,
                             SourceRecipientEntityId = sourceEntityId,
-                            SourceRecipientName = sourceEntityName
+                            SourceRecipientName = sourceEntityName,
+                            TransactionDate = moneyFlow.TransactionDate,
                         };
             return query;
 
@@ -341,5 +340,102 @@ namespace ECA.Business.Queries.Fundings
             query = query.Distinct().Apply(queryOperator);
             return query;
         }
+
+        #endregion
+
+        #region Source Money Flow DTOs
+
+        /// <summary>
+        /// Creates a query to retrieve incoming money flow dtos and return the original amount for the incoming money flow
+        /// minus all child money flows.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>The query returning source money flow dtos detailing the original money flow amount, the remaining amount, and source entity information.</returns>
+        public static IQueryable<SourceMoneyFlowDTO> CreateGetSourceMoneyFlowDTOsQuery(EcaContext context)
+        {
+            var query = (from incomingMoneyFlow in CreateIncomingMoneyFlowDTOsQuery(context)
+                         let childMoneyFlows = context.MoneyFlows.Where(x => x.ParentMoneyFlowId == incomingMoneyFlow.Id)
+                         orderby incomingMoneyFlow.SourceRecipientName
+                         select new SourceMoneyFlowDTO
+                         {
+                             Amount = incomingMoneyFlow.Amount,
+                             ChildMoneyFlowIds = childMoneyFlows.Select(x => x.MoneyFlowId),
+                             EntityId = incomingMoneyFlow.EntityId,
+                             EntityTypeId = incomingMoneyFlow.EntityTypeId,
+                             Id = incomingMoneyFlow.Id,
+                             RemainingAmount = incomingMoneyFlow.Amount - childMoneyFlows.Select(x => x.Value).DefaultIfEmpty().Sum(),
+                             SourceName = incomingMoneyFlow.SourceRecipientName,
+                             SourceEntityId = incomingMoneyFlow.SourceRecipientEntityId,
+                             SourceEntityTypeId = incomingMoneyFlow.SourceRecipientEntityTypeId,
+                             SourceEntityTypeName = incomingMoneyFlow.SourceRecipientTypeName,
+                         });
+            return query;
+        }
+
+        /// <summary>
+        /// Returns a query to retrieve source money flow dtos by entity type id and entity id.  The query looks for incoming moneyflows by entity type and id
+        /// and details the original money flow amount and the remaining amount.  The query also returns source entity information.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="entityId">The entity id.</param>
+        /// <param name="entityTypeId">The entity type id.</param>
+        /// <returns>The query.</returns>
+        public static IQueryable<SourceMoneyFlowDTO> CreateGetSourceMoneyFlowDTOsByEntityIdAndEntityTypeId(EcaContext context, int entityId, int entityTypeId)
+        {
+            return CreateGetSourceMoneyFlowDTOsQuery(context).Where(x => x.EntityId == entityId && x.EntityTypeId == entityTypeId);
+        }
+
+        /// <summary>
+        /// Returns a query to retrieve source money flows for the project with the given project id.  The source money flows
+        /// will details the original amount of money and the remaining amounts of money from that money flow, i.e. other money
+        /// flows that have withdrawn from that source.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="projectId">The id of the project to get source money flows.</param>
+        /// <returns>The source money flows.</returns>
+        public static IQueryable<SourceMoneyFlowDTO> CreateGetSourceMoneyFlowDTOsByProjectId(EcaContext context, int projectId)
+        {
+            return CreateGetSourceMoneyFlowDTOsByEntityIdAndEntityTypeId(context, projectId, MoneyFlowSourceRecipientType.Project.Id);
+        }
+
+        /// <summary>
+        /// Returns a query to retrieve source money flows for the program with the given program id.  The source money flows
+        /// will details the original amount of money and the remaining amounts of money from that money flow, i.e. other money
+        /// flows that have withdrawn from that source.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="projectId">The id of the program to get source money flows.</param>
+        /// <returns>The source money flows.</returns>
+        public static IQueryable<SourceMoneyFlowDTO> CreateGetSourceMoneyFlowDTOsByProgramId(EcaContext context, int programId)
+        {
+            return CreateGetSourceMoneyFlowDTOsByEntityIdAndEntityTypeId(context, programId, MoneyFlowSourceRecipientType.Program.Id);
+        }
+
+        /// <summary>
+        /// Returns a query to retrieve source money flows for the organization with the given organization id.  The source money flows
+        /// will details the original amount of money and the remaining amounts of money from that money flow, i.e. other money
+        /// flows that have withdrawn from that source.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="projectId">The id of the organization to get source money flows.</param>
+        /// <returns>The source money flows.</returns>
+        public static IQueryable<SourceMoneyFlowDTO> CreateGetSourceMoneyFlowDTOsByOrganizationId(EcaContext context, int organizationId)
+        {
+            return CreateGetSourceMoneyFlowDTOsByEntityIdAndEntityTypeId(context, organizationId, MoneyFlowSourceRecipientType.Organization.Id);
+        }
+
+        /// <summary>
+        /// Returns a query to retrieve source money flows for the office with the given office id.  The source money flows
+        /// will details the original amount of money and the remaining amounts of money from that money flow, i.e. other money
+        /// flows that have withdrawn from that source.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="projectId">The id of the office to get source money flows.</param>
+        /// <returns>The source money flows.</returns>
+        public static IQueryable<SourceMoneyFlowDTO> CreateGetSourceMoneyFlowDTOsByOfficeId(EcaContext context, int officeId)
+        {
+            return CreateGetSourceMoneyFlowDTOsByEntityIdAndEntityTypeId(context, officeId, MoneyFlowSourceRecipientType.Office.Id);
+        }
+        #endregion
     }
 }

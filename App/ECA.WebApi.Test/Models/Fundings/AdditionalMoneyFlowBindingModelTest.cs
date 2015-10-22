@@ -34,6 +34,7 @@ namespace ECA.WebApi.Test.Models.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowStatusId = 1,
+                ParentMoneyFlowId = 5,
                 PeerEntityId = 2,
                 PeerEntityTypeId = MoneyFlowSourceRecipientType.Project.Id,
                 SourceEntityId = 3,
@@ -49,6 +50,7 @@ namespace ECA.WebApi.Test.Models.Fundings
             Assert.AreEqual(model.MoneyFlowStatusId, instance.MoneyFlowStatusId);
             Assert.AreEqual(model.Value, instance.Value);
 
+            Assert.AreEqual(model.ParentMoneyFlowId, instance.ParentMoneyFlowId);
             Assert.AreEqual(model.SourceEntityId, instance.SourceEntityId);
             Assert.AreEqual(model.GetEntityTypeId(), instance.SourceEntityTypeId);
             Assert.AreEqual(model.PeerEntityId, instance.RecipientEntityId);
@@ -56,7 +58,7 @@ namespace ECA.WebApi.Test.Models.Fundings
         }
 
         [TestMethod]
-        public void TestToAdditionalMoneyFlow_IsInComing()
+        public void TestToAdditionalMoneyFlow_IsIncoming()
         {
             var model = new AdditionalMoneyFlowBindingModelTestClass
             {
@@ -66,6 +68,7 @@ namespace ECA.WebApi.Test.Models.Fundings
                 PeerEntityId = 2,
                 PeerEntityTypeId = MoneyFlowSourceRecipientType.Project.Id,
                 SourceEntityId = 3,
+                ParentMoneyFlowId = 5,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 IsOutgoing = false
@@ -78,6 +81,7 @@ namespace ECA.WebApi.Test.Models.Fundings
             Assert.AreEqual(model.MoneyFlowStatusId, instance.MoneyFlowStatusId);
             Assert.AreEqual(model.Value, instance.Value);
 
+            Assert.AreEqual(model.ParentMoneyFlowId, instance.ParentMoneyFlowId);
             Assert.AreEqual(model.PeerEntityId, instance.SourceEntityId);
             Assert.AreEqual(model.PeerEntityTypeId, instance.SourceEntityTypeId);
             Assert.AreEqual(model.SourceEntityId, instance.RecipientEntityId);
