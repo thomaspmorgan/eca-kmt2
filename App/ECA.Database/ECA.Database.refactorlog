@@ -798,4 +798,67 @@
     <Property Name="ParentElementType" Value="SqlSchema" />
     <Property Name="NewName" Value="[ParticipantStudentVisitor]" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="9d5ec000-0056-4276-bf22-09a8275da112" ChangeDateTime="10/22/2015 16:32:23">
+    <Property Name="ElementName" Value="[dbo].[CapGapExtensionType].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[CapGapExtensionType]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CapGapExtensionTypeId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="274a7fb7-18f1-4cf1-a296-b169e8c606f2" ChangeDateTime="10/22/2015 16:33:46">
+    <Property Name="ElementName" Value="[dbo].[CapGapExtensionType].[History_CreateBy]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[CapGapExtensionType]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="History_CreatedBy" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="49fe5e35-49f2-48dd-89a4-30123c0adccc" ChangeDateTime="10/22/2015 16:37:15">
+    <Property Name="ElementName" Value="[dbo].[CapGapExtensionType].[IX_CapGapExtensionType_Column]" />
+    <Property Name="ElementType" Value="SqlIndex" />
+    <Property Name="ParentElementName" Value="[dbo].[CapGapExtensionType]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[IX_ExtensionTypeCode]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7710e719-f972-4e12-9991-63b17361077e" ChangeDateTime="10/22/2015 16:50:30">
+    <Property Name="ElementName" Value="[sevis].[DependentCancellationReason].[DependentCancellationReasonId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[sevis].[DependentCancellationReason]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DependentTerminationId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="647e6422-75ff-437c-a020-e5f8399ebbe7" ChangeDateTime="10/22/2015 16:50:43">
+    <Property Name="ElementName" Value="[sevis].[DependentCancellationReason].[ReasonCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[sevis].[DependentCancellationReason]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TerminationCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="77c93a26-5279-4275-ad52-adf06f8300c0" ChangeDateTime="10/22/2015 16:55:23">
+    <Property Name="ElementName" Value="[sevis].[DropBelowFullCourseReason].[EducationLevelId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[sevis].[DropBelowFullCourseReason]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DropBelowFullCourseReasonId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ff617f09-440d-490d-b2cb-a24bdee5983c" ChangeDateTime="10/22/2015 16:55:34">
+    <Property Name="ElementName" Value="[sevis].[DropBelowFullCourseReason].[EducationLevelCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[sevis].[DropBelowFullCourseReason]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ReasonCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f2f3aea4-c2ed-48ac-8331-9fbd4e81ecc5" ChangeDateTime="10/22/2015 16:59:15">
+    <Property Name="ElementName" Value="[sevis].[EmploymentTime].[EducationLevelId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[sevis].[EmploymentTime]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="EmploymentTimeId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c937283f-63b9-45c0-b8a1-d56f2b416a29" ChangeDateTime="10/22/2015 16:59:27">
+    <Property Name="ElementName" Value="[sevis].[EmploymentTime].[EducationLevelCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[sevis].[EmploymentTime]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="EmploymentTimeCode" />
+  </Operation>
 </Operations>

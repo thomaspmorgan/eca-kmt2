@@ -314,6 +314,11 @@
     <Build Include="Sevis\Tables\USGovernmentAgency.sql" />
     <Build Include="Sevis\Tables\InternationalOrganization.sql" />
     <Build Include="dbo\Tables\ParticipantStudentVisitor.sql" />
+    <Build Include="Sevis\Tables\CapGapExtensionType.sql" />
+    <Build Include="Sevis\Tables\DependentCancellationReason.sql" />
+    <Build Include="Sevis\Tables\DependentTermination.sql" />
+    <Build Include="Sevis\Tables\DropBelowFullCourseReason.sql" />
+    <Build Include="Sevis\Tables\EmploymentTime.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ECA.Database.refactorlog" />
