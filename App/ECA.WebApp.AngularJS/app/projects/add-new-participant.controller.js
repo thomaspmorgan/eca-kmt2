@@ -8,127 +8,47 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('AddNewParticipantCtrl', function ($q, $scope, $stateParams, $modalInstance, LookupService, LocationService, ConstantsService, PersonService, ProjectService, NotificationService) {
+  .controller('AddNewParticipantCtrl', function ($q, $scope, $stateParams, $modalInstance, LookupService, LocationService, ConstantsService, PersonService, ProjectService, NotificationService, OrganizationService) {
+    
+      $scope.personTabActive = true;
+
+      // Initialize model for person tab
+      $scope.newPerson = {};
+      $scope.newPerson.countriesOfCitizenship = [];
+      $scope.newPerson.selectedDuplicate = undefined;
+      $scope.newPerson.isDateOfBirthUnknown = false;
+
+      // Initialize model for organization tab
+      $scope.newOrganization = {};
+      $scope.newOrganization.organizationRoles = [];
+      $scope.newOrganization.pointsOfContact = [];
+
+      $scope.personDuplicates = [];
+      $scope.organizationDuplicates = [];
 
       $scope.isDobDatePickerOpen = false;
       $scope.dateFormat = 'MM/dd/yyyy';
       $scope.maxDate = new Date();
 
-      $scope.newParticipant = {};
-      $scope.newParticipant.countriesOfCitizenship = [];
-      $scope.newParticipant.selectedDuplicate = undefined;
-      $scope.newParticipant.isDateOfBirthUnknown = false;
-
-      $scope.duplicates = [];
-
-      $scope.add = function () {
-
-          var newParticipant = getNewParticipant();
-
-          console.log(newParticipant);
-
-          if ($scope.duplicates.length === 0) {
-
-              var params = {
-                  limit: 300,
-                  filter: [{ property: 'firstName', comparison: 'eq', value: newParticipant.firstName },
-                           { property: 'lastName', comparison: 'eq', value: newParticipant.lastName },
-                           { property: 'genderId', comparison: 'eq', value: newParticipant.gender }]
-              };
-              
-              if (newParticipant.dateOfBirth) {
-                  params.filter.push({ property: 'dateOfBirth', comparison: 'eq', value: newParticipant.dateOfBirth });
-              }
-
-              if (newParticipant.cityOfBirth) {
-                  params.filter.push({ property: 'cityOfBirthId', comparison: 'eq', value: newParticipant.cityOfBirth });
-              }
-
-              PersonService.getPeople(params)
-                .then(function (response) {
-                    if (response.data.total > 0) {
-                        $scope.duplicates = response.data.results;
-                    } else {
-                        createNewParticipant(newParticipant);
-                    }
-                }, function () {
-                    NotificationService.showErrorMessage('Unable to load people.');
-                });
-          } else {
-              if ($scope.newParticipant.selectedDuplicate) {
-                  var existingParticipant = getExistingParticipant();
-                  addExistingParticipant(existingParticipant);
-              } else {
-                  createNewParticipant(newParticipant);
-              }
-              
-          };
-      }
-
-      function createNewParticipant(newParticipant) {
-          PersonService.create(newParticipant)
-               .then(function () {
-                   NotificationService.showSuccessMessage('The participant was created successfully.');
-               }, function () {
-                   NotificationService.showErrorMessage('There was an error creating the new participant.');
-               }).finally(function () {
-                   $modalInstance.close(newParticipant);
-               });
-      }
-
-      function addExistingParticipant(existingParticipant) {
-          ProjectService.addPersonParticipant(existingParticipant)
-            .then(function () {
-                NotificationService.showSuccessMessage('The participant was added successfully.');
-            }, function () {
-                NotificationService.showErrorMessage('There was an error creating the new participant.');
-            }).finally(function () {
-                $modalInstance.close(existingParticipant);
-            });
-      }
-
-      function getNewParticipant() {
-
-          var newParticipant = {};
-
-          newParticipant.projectId = $stateParams.projectId;
-          newParticipant.participantTypeId = $scope.newParticipant.participantType.id;
-          newParticipant.firstName = $scope.newParticipant.firstName;
-          newParticipant.lastName = $scope.newParticipant.lastName;
-          newParticipant.gender = $scope.newParticipant.gender.id;
-          newParticipant.isDateOfBirthUnknown = $scope.newParticipant.isDateOfBirthUnknown;
-
-          if ($scope.newParticipant.dateOfBirth) {
-              newParticipant.dateOfBirth = $scope.newParticipant.dateOfBirth;
-              newParticipant.dateOfBirth.setUTCHours(0, 0, 0, 0);
+      $scope.selectPersonTab = function () {
+          if (!$scope.personTabActive) {
+              // Reset person form
+              $scope.newPerson = {};
+              $scope.newPerson.countriesOfCitizenship = [];
+              resetDuplicates();
+              $scope.personTabActive = true;
           }
-          
-          if ($scope.newParticipant.cityOfBirth) {
-              newParticipant.cityOfBirth = $scope.newParticipant.cityOfBirth.id;
-          }
-
-          if ($scope.newParticipant.countriesOfCitizenship) {
-              newParticipant.countriesOfCitizenship = $scope.newParticipant.countriesOfCitizenship.map(function (obj) {
-                  return obj.id;
-              });
-          }
-
-          return newParticipant;
       }
 
-      function getExistingParticipant() {
-
-          var existingParticipant = {};
-
-          existingParticipant.projectId = $stateParams.projectId;
-          existingParticipant.personId = $scope.newParticipant.selectedDuplicate.personId;
-          existingParticipant.participantTypeId = $scope.newParticipant.participantType.id;
-    
-          return existingParticipant;
-      }
-
-      $scope.cancel = function () {
-          $modalInstance.close();
+      $scope.selectOrganizationTab = function () {
+          if ($scope.personTabActive) {
+              // Reset organization form
+              $scope.newOrganization = {};
+              $scope.newOrganization.organizationRoles = [];
+              $scope.newOrganization.pointsOfContact = [];
+              resetDuplicates();
+              $scope.personTabActive = false;
+          }
       }
 
       $scope.openDobDatePicker = function ($event) {
@@ -137,20 +57,20 @@ angular.module('staticApp')
           $scope.isDobDatePickerOpen = true;
       }
 
-      $scope.$watch('newParticipant.dateOfBirth', function () {
-          var date = $scope.newParticipant.dateOfBirth;
+      $scope.$watch('newPerson.dateOfBirth', function () {
+          var date = $scope.newPerson.dateOfBirth;
           if (date) {
-              $scope.newParticipant.isDateOfBirthUnknown = false;
+              $scope.newPerson.isDateOfBirthUnknown = false;
           }
       });
 
       $scope.toggleDobUnknown = function ($event) {
           $event.preventDefault();
           $event.stopPropagation();
-          $scope.newParticipant.isDateOfBirthUnknown = $scope.newParticipant.isDateOfBirthUnknown === false ? true : false;
-          if ($scope.newParticipant.isDateOfBirthUnknown === true) {
+          $scope.newPerson.isDateOfBirthUnknown = $scope.newPerson.isDateOfBirthUnknown === false ? true : false;
+          if ($scope.newPerson.isDateOfBirthUnknown === true) {
               $scope.dateOfBirthPlaceholder = 'Unknown'
-              $scope.newParticipant.dateOfBirth = undefined;
+              $scope.newPerson.dateOfBirth = undefined;
               $scope.isDobDatePickerOpen = false;
           } else {
               $scope.dateOfBirthPlaceholder = '';
@@ -170,8 +90,167 @@ angular.module('staticApp')
       }
 
       $scope.countryOfBirthSelected = function () {
-          $scope.newParticipant.cityOfBirth = undefined;
+          $scope.newPerson.cityOfBirth = undefined;
           loadCities();
+      }
+
+      $scope.add = function () {
+          if ($scope.personTabActive) {
+              // Add person
+              addNewOrExistingPerson();
+              console.log($scope.newPerson);
+          } else {
+              // Add organization
+              addNewOrExistingOrganization();
+              console.log($scope.newOrganization);
+          }
+      }
+
+      $scope.cancel = function () {
+          $modalInstance.close();
+      }
+
+      function resetDuplicates() {
+          $scope.personDuplicates = [];
+          $scope.organizationDuplicates = [];
+      }
+
+      function setupNewPerson() {
+          $scope.newPerson.projectId = parseInt($stateParams.projectId);
+          if ($scope.newPerson.dateOfBirth) {
+              $scope.newPerson.dateOfBirth.setUTCHours(0, 0, 0, 0);
+          }
+      }
+
+      function addNewOrExistingPerson() {
+          if ($scope.personDuplicates.length === 0) {
+              var params = getPersonDuplicateParams();
+              PersonService.getPeople(params)
+              .then(function (response) {
+                  if(response.data.total > 0) {
+                      $scope.personDuplicates = response.data.results;
+                  } else {
+                      addNewPerson();
+                  }
+              });
+          } else {
+              if ($scope.newPerson.selectedDuplicate) {
+                  addExistingPerson();
+              } else {
+                  addNewPerson();
+              }
+          }
+      }
+
+      function getPersonDuplicateParams() {
+          var params = {
+              limit: 300,
+              filter: [{ property: 'firstName', comparison: 'eq', value: $scope.newPerson.firstName },
+                       { property: 'lastName', comparison: 'eq', value: $scope.newPerson.lastName },
+                       { property: 'genderId', comparison: 'eq', value: $scope.newPerson.gender }]
+          };
+          if ($scope.newPerson.dateOfBirth) {
+              params.filter.push({ property: 'dateOfBirth', comparison: 'eq', value: $scope.newPerson.dateOfBirth });
+          }
+          if ($scope.newPerson.cityOfBirth) {
+              params.filter.push({ property: 'cityOfBirthId', comparison: 'eq', value: $scope.newPerson.cityOfBirth });
+          }
+          return params;
+      }
+
+      function addNewPerson() {
+          setupNewPerson();
+          console.log($scope.newPerson);
+          PersonService.create($scope.newPerson)
+          .then(showSuccess, showError)
+          .finally(reloadParticipantTable($scope.newPerson));
+      }
+
+      function setupNewPerson() {
+          $scope.newPerson.projectId = parseInt($stateParams.projectId);
+          if ($scope.newPerson.dateOfBirth) {
+              $scope.newPerson.dateOfBirth.setUTCHours(0, 0, 0, 0);
+          }
+      }
+
+      function showSuccess() {
+          NotificationService.showSuccessMessage('The participant was added successfully.');
+      }
+
+      function showError() {
+          NotificationService.showErrorMessage('There was an error adding the participant.');
+      }
+      
+      function reloadParticipantTable(participant) {
+          $modalInstance.close(participant);
+      }
+
+      function addExistingPerson() {
+          var existingPerson = {
+              projectId: $stateParams.projectId,
+              personId: $scope.newPerson.selectedDuplicate.personId,
+              participantTypeId: $scope.newPerson.participantTypeId
+          };
+          ProjectService.addPersonParticipant(existingPerson)
+          .then(showSuccess, showError)
+          .finally(reloadParticipantTable(existingPerson));
+      }
+
+      function addNewOrExistingOrganization() {
+          if ($scope.organizationDuplicates.length === 0) {
+              var params = getOrganizationDuplicateParams();
+              OrganizationService.getOrganizations(params)
+              .then(function (response) {
+                  if (response.total > 0) {
+                      $scope.organizationDuplicates = response.results;
+                  } else {
+                      addNewOrganization();
+                  }
+              });
+          } else {
+              if ($scope.newOrganization.selectedDuplicate) {
+                  addExistingOrganization();
+              } else {
+                  addNewOrganization();
+              }
+          }
+      }
+
+      function getOrganizationDuplicateParams() {
+          var params = {
+              limit: 300,
+              filter: [{ property: 'name', comparison: 'eq', value: $scope.newOrganization.name }]
+          };
+          return params;
+      }
+
+      function addNewOrganization() {
+          console.log("Add new organization");
+      }
+
+      function addExistingOrganization() {
+          var existingOrganization = {
+              projectId: $stateParams.projectId,
+              organizationId: $scope.newOrganization.selectedDuplicate.organizationId,
+              participantTypeId: $scope.newOrganization.participantTypeId
+          };
+          ProjectService.addOrganizationParticipant(existingOrganization)
+          .then(showSuccess, showError)
+          .finally(reloadParticipantTable(existingOrganization));
+      }
+
+      function setupNewOrganization() {
+          $scope.newOrganization.projectId = parseInt($stateParams.projectId);
+      }
+
+      function loadPersonParticipantTypes() {
+        return LookupService.getParticipantTypes({
+            limit: 300,
+            filter: [{ property: 'isPerson', comparison: ConstantsService.equalComparisonType, value: true }]
+        })
+        .then(function (data) {
+            $scope.personParticipantTypes = data.data.results;
+        });
       }
 
       function loadGenders() {
@@ -181,21 +260,7 @@ angular.module('staticApp')
             });
       }
 
-      function loadParticipantTypes() {
-
-          return LookupService.getParticipantTypes({
-              limit: 300,
-              filter: [
-                  { property: 'isPerson', comparison: ConstantsService.equalComparisonType, value: true }
-              ]
-          })
-            .then(function (data) {
-                $scope.participantTypes = data.data.results;
-            });
-      }
-
       function loadCountries(search) {
-
           var params = {
               limit: 300,
               filter: [
@@ -212,7 +277,6 @@ angular.module('staticApp')
       }
 
       function loadCountriesCopy(search) {
-
           var params = {
               limit: 300,
               filter: [
@@ -222,8 +286,8 @@ angular.module('staticApp')
               ]
           };
 
-          if ($scope.newParticipant.countriesOfCitizenship.length > 0) {
-              var idsToRemove = $scope.newParticipant.countriesOfCitizenship.map(function (c) { return c.id; });
+          if ($scope.newPerson.countriesOfCitizenship.length > 0) {
+              var idsToRemove = $scope.newPerson.countriesOfCitizenship.map(function (c) { return c.id; });
               params.filter.push({
                   comparison: ConstantsService.notInComparisonType,
                   property: 'id',
@@ -238,13 +302,12 @@ angular.module('staticApp')
       }
 
       function loadCities(search) {
-
-          if ($scope.newParticipant.countryOfBirth) {
+          if ($scope.newPerson.countryOfBirth) {
 
               var params = {
                   limit: 300,
                   filter: [
-                    { property: 'countryId', comparison: 'eq', value: $scope.newParticipant.countryOfBirth.id },
+                    { property: 'countryId', comparison: 'eq', value: $scope.newPerson.countryOfBirth },
                     { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.city.id },
                     { property: 'name', comparison: ConstantsService.isNotNullComparisonType }
                   ]
@@ -259,8 +322,35 @@ angular.module('staticApp')
                     $scope.cities = data.results;
                 });
 
-              }
+          }
       }
 
-      $q.all([loadGenders(), loadParticipantTypes()]);
-  });
+      function loadOrganizationParticipantTypes() {
+          return LookupService.getParticipantTypes({
+              limit: 300,
+              filter: [{ property: 'isPerson', comparison: ConstantsService.equalComparisonType, value: false }]
+          })
+          .then(function (data) {
+              $scope.organizationParticipantTypes = data.data.results;
+          });
+      }
+
+      function loadOrganizationRoles() {
+          return LookupService.getOrganizationRoles({ limit: 300 })
+            .then(function (data) {
+                $scope.organizationRoles = data.data.results;
+            });
+      }
+
+      function loadPointsOfContact() {
+          return LookupService.getAllContacts({ limit: 300 })
+            .then(function (data) {
+                $scope.pointsOfContact = data.results;
+            });
+      }
+
+      // Lookups for person
+      $q.all([loadPersonParticipantTypes(), loadGenders()]);
+      // Lookups for organization
+      $q.all([loadOrganizationParticipantTypes(), loadOrganizationRoles(), loadPointsOfContact()]);
+});
