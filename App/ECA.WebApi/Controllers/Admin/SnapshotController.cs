@@ -151,9 +151,9 @@ namespace ECA.WebApi.Controllers.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        [ResponseType(typeof(SnapshotDTO))]
+        [ResponseType(typeof(SnapshotGraphDTO))]
         [Route("ProgramBudgetByYear/{programId:int}")]
-        public async Task<IEnumerable<SnapshotDTO>> GetProgramBudgetByYear(int programId)
+        public async Task<SnapshotGraphDTO> GetProgramBudgetByYear(int programId)
         {
             var dto = await service.GetProgramBudgetByYear(programId);
             return dto;
@@ -177,7 +177,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        [ResponseType(typeof(SnapshotDTO))]
+        [ResponseType(typeof(IEnumerable<string>))]
         [Route("ProgramTopThemes/{programId:int}")]
         public async Task<IEnumerable<string>> GetProgramTopThemes(int programId)
         {
@@ -190,9 +190,9 @@ namespace ECA.WebApi.Controllers.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        [ResponseType(typeof(SnapshotDTO))]
+        [ResponseType(typeof(SnapshotGraphDTO))]
         [Route("ProgramParticipantLocations/{programId:int}")]
-        public async Task<IEnumerable<SnapshotDTO>> GetProgramParticipantLocations(int programId)
+        public async Task<SnapshotGraphDTO> GetProgramParticipantLocations(int programId)
         {
             var dto = await service.GetProgramParticipantLocations(programId);
             return dto;
@@ -203,9 +203,9 @@ namespace ECA.WebApi.Controllers.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        [ResponseType(typeof(SnapshotDTO))]
+        [ResponseType(typeof(SnapshotGraphDTO))]
         [Route("ProgramParticipantsByYear/{programId:int}")]
-        public async Task<IEnumerable<SnapshotDTO>> GetProgramParticipantsByYear(int programId)
+        public async Task<SnapshotGraphDTO> GetProgramParticipantsByYear(int programId)
         {
             var dto = await service.GetProgramParticipantsByYear(programId);
             return dto;
@@ -216,9 +216,9 @@ namespace ECA.WebApi.Controllers.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        [ResponseType(typeof(SnapshotDTO))]
+        [ResponseType(typeof(SnapshotGraphDTO))]
         [Route("ProgramParticipantGender/{programId:int}")]
-        public async Task<IEnumerable<SnapshotDTO>> GetProgramParticipantGender(int programId)
+        public async Task<SnapshotGraphDTO> GetProgramParticipantGender(int programId)
         {
             var dto = await service.GetProgramParticipantGender(programId);
             return dto;
@@ -229,9 +229,9 @@ namespace ECA.WebApi.Controllers.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        [ResponseType(typeof(SnapshotDTO))]
+        [ResponseType(typeof(SnapshotGraphDTO))]
         [Route("ProgramParticipantAge/{programId:int}")]
-        public async Task<IEnumerable<SnapshotDTO>> GetProgramParticipantAge(int programId)
+        public async Task<SnapshotGraphDTO> GetProgramParticipantAge(int programId)
         {
             var dto = await service.GetProgramParticipantAge(programId);
             return dto;
@@ -242,9 +242,9 @@ namespace ECA.WebApi.Controllers.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        [ResponseType(typeof(SnapshotDTO))]
+        [ResponseType(typeof(SnapshotGraphDTO))]
         [Route("ProgramParticipantEducation/{programId:int}")]
-        public async Task<IEnumerable<SnapshotDTO>> GetProgramParticipantEducation(int programId)
+        public async Task<SnapshotGraphDTO> GetProgramParticipantEducation(int programId)
         {
             var dto = await service.GetProgramParticipantEducation(programId);
             return dto;

@@ -24,21 +24,21 @@ namespace ECA.Business.Service.Admin
 
         SnapshotDTO GetProgramProminenceCount(int programId);
 
-        Task<IEnumerable<SnapshotDTO>> GetProgramBudgetByYear(int programId);
+        Task<SnapshotGraphDTO> GetProgramBudgetByYear(int programId);
 
-        Task<IEnumerable<SnapshotDTO>> GetProgramMostFundedCountries(int programId);
+        Task<List<SnapshotDTO>> GetProgramMostFundedCountries(int programId);
 
         Task<IEnumerable<string>> GetProgramTopThemes(int programId);
 
-        Task<IEnumerable<SnapshotDTO>> GetProgramParticipantLocations(int programId);
+        Task<SnapshotGraphDTO> GetProgramParticipantLocations(int programId);
 
-        Task<IEnumerable<SnapshotDTO>> GetProgramParticipantsByYear(int programId);
+        Task<SnapshotGraphDTO> GetProgramParticipantsByYear(int programId);
 
-        Task<IEnumerable<SnapshotDTO>> GetProgramParticipantGender(int programId);
+        Task<SnapshotGraphDTO> GetProgramParticipantGender(int programId);
 
-        Task<IEnumerable<SnapshotDTO>> GetProgramParticipantAge(int programId);
+        Task<SnapshotGraphDTO> GetProgramParticipantAge(int programId);
 
-        Task<IEnumerable<SnapshotDTO>> GetProgramParticipantEducation(int programId);
+        Task<SnapshotGraphDTO> GetProgramParticipantEducation(int programId);
         
     }
 }

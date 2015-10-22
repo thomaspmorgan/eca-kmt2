@@ -5,6 +5,7 @@ using ECA.Business.Queries.Admin;
 using System.Collections.Generic;
 using ECA.Business.Queries.Models.Admin;
 using System;
+using System.Linq;
 
 namespace ECA.Business.Service.Admin
 {
@@ -118,7 +119,7 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<SnapshotDTO>> GetProgramBudgetByYear(int programId)
+        public async Task<SnapshotGraphDTO> GetProgramBudgetByYear(int programId)
         {
             var dto = await SnapshotQueries.CreateGetProgramBudgetByYearQuery(Context, programId);
             return dto;
@@ -129,7 +130,7 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public Task<IEnumerable<SnapshotDTO>> GetProgramMostFundedCountries(int programId)
+        public Task<List<SnapshotDTO>> GetProgramMostFundedCountries(int programId)
         {
             throw new NotImplementedException();
         }
@@ -142,7 +143,7 @@ namespace ECA.Business.Service.Admin
         public async Task<IEnumerable<string>> GetProgramTopThemes(int programId)
         {
             var dto = await SnapshotQueries.CreateGetProgramTopThemesQuery(Context, programId);
-            return dto;
+            return dto.Take(5);
         }
 
         /// <summary>
@@ -150,10 +151,11 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<SnapshotDTO>> GetProgramParticipantLocations(int programId)
+        public Task<SnapshotGraphDTO> GetProgramParticipantLocations(int programId)
         {
-            var dto = await SnapshotQueries.CreateGetProgramParticipantLocationsQuery(Context, programId);
-            return dto;
+            //var dto = await SnapshotQueries.CreateGetProgramParticipantLocationsQuery(Context, programId);
+            //return dto;
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -161,7 +163,7 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<SnapshotDTO>> GetProgramParticipantsByYear(int programId)
+        public async Task<SnapshotGraphDTO> GetProgramParticipantsByYear(int programId)
         {
             var dto = await SnapshotQueries.CreateGetProgramParticipantsByYearQuery(Context, programId);
             return dto;
@@ -172,7 +174,7 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public Task<IEnumerable<SnapshotDTO>> GetProgramParticipantGender(int programId)
+        public Task<SnapshotGraphDTO> GetProgramParticipantGender(int programId)
         {
             throw new NotImplementedException();
         }
@@ -182,7 +184,7 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public Task<IEnumerable<SnapshotDTO>> GetProgramParticipantAge(int programId)
+        public Task<SnapshotGraphDTO> GetProgramParticipantAge(int programId)
         {
             throw new NotImplementedException();
         }
@@ -192,7 +194,7 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public Task<IEnumerable<SnapshotDTO>> GetProgramParticipantEducation(int programId)
+        public Task<SnapshotGraphDTO> GetProgramParticipantEducation(int programId)
         {
             throw new NotImplementedException();
         }
