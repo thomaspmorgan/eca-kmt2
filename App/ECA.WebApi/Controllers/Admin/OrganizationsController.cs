@@ -125,6 +125,28 @@ namespace ECA.WebApi.Controllers.Admin
         }
 
         /// <summary>
+        /// Creates a new participant organization
+        /// </summary>
+        /// <param name="model">The model to create</param>
+        /// <returns>Success or failure</returns>
+        [Route("Participants/Organizations")]
+        public async Task<IHttpActionResult> PostParticipantOrganizationAsync(ParticipantOrganizationBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var organization = organizationService.CreateParticipantOrganizationAsync(model.ToParticipantOrganization(businessUser));
+                await organizationService.SaveChangesAsync();
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
         /// Updates the organization with the given data.
         /// </summary>
         /// <param name="model">The updated model.</param>

@@ -110,6 +110,15 @@
                                 </ui-select-choices>
                             </ui-select>
                         </div>
+                        <div class="form-group">
+                            <label for="">ORGANIZATION TYPE<span class="asterisk"> *</span></label>
+                            <ui-select ng-model="newOrganization.organizationType" theme="select2" ng-required="true">
+                                <ui-select-match placeholder="Select a organization type...">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices repeat="organizationType.id as organizationType in organizationTypes | filter: {name: $select.search} track by organizationType.id">
+                                    <div ng-bind-html="organizationType.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="">ORGANIZATION NAME<span class="asterisk"> *</span></label>

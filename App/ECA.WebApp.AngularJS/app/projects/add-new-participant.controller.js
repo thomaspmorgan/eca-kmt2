@@ -160,10 +160,11 @@ angular.module('staticApp')
 
       function addNewPerson() {
           setupNewPerson();
-          console.log($scope.newPerson);
           PersonService.create($scope.newPerson)
           .then(showSuccess, showError)
-          .finally(reloadParticipantTable($scope.newPerson));
+          .finally(function () {
+              $modalInstance.close($scope.newPerson);
+          });
       }
 
       function setupNewPerson() {
@@ -181,10 +182,6 @@ angular.module('staticApp')
           NotificationService.showErrorMessage('There was an error adding the participant.');
       }
       
-      function reloadParticipantTable(participant) {
-          $modalInstance.close(participant);
-      }
-
       function addExistingPerson() {
           var existingPerson = {
               projectId: $stateParams.projectId,
@@ -193,7 +190,9 @@ angular.module('staticApp')
           };
           ProjectService.addPersonParticipant(existingPerson)
           .then(showSuccess, showError)
-          .finally(reloadParticipantTable(existingPerson));
+          .finally(function () {
+              $modalInstance.close(existingPerson);
+          });
       }
 
       function addNewOrExistingOrganization() {
@@ -225,7 +224,13 @@ angular.module('staticApp')
       }
 
       function addNewOrganization() {
-          console.log("Add new organization");
+          setupNewOrganization();
+          console.log($scope.newOrganization);
+          OrganizationService.createParticipantOrganization($scope.newOrganization)
+          .then(showSuccess, showError)
+          .finally(function () {
+              $modalInstance.close($scope.newOrganization);
+          });
       }
 
       function addExistingOrganization() {
@@ -236,7 +241,9 @@ angular.module('staticApp')
           };
           ProjectService.addOrganizationParticipant(existingOrganization)
           .then(showSuccess, showError)
-          .finally(reloadParticipantTable(existingOrganization));
+          .finally(function () {
+              $modalInstance.close(existingOrganization);
+          });
       }
 
       function setupNewOrganization() {
@@ -335,6 +342,20 @@ angular.module('staticApp')
           });
       }
 
+      function loadOrganizationTypes() {
+          return OrganizationService.getTypes({
+              limit: 300,
+              filter: {
+                  comparison: ConstantsService.notInComparisonType,
+                  property: 'id',
+                  value: [ConstantsService.organizationType.office.id, ConstantsService.organizationType.branch.id, ConstantsService.organizationType.division.id]
+              }
+          })
+           .then(function (data) {
+               $scope.organizationTypes = data.data.results;
+           });
+      }
+
       function loadOrganizationRoles() {
           return LookupService.getOrganizationRoles({ limit: 300 })
             .then(function (data) {
@@ -352,5 +373,5 @@ angular.module('staticApp')
       // Lookups for person
       $q.all([loadPersonParticipantTypes(), loadGenders()]);
       // Lookups for organization
-      $q.all([loadOrganizationParticipantTypes(), loadOrganizationRoles(), loadPointsOfContact()]);
+      $q.all([loadOrganizationParticipantTypes(), loadOrganizationTypes(), loadOrganizationRoles(), loadPointsOfContact()]);
 });

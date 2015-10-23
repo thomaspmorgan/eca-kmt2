@@ -161,6 +161,7 @@
     <Compile Include="Search\ProgramDTODocumentConfiguration.cs" />
     <Compile Include="Search\ProjectDTODocumentConfiguration.cs" />
     <Compile Include="Service\Admin\NewOrganization.cs" />
+    <Compile Include="Service\Admin\ParticipantOrganization.cs" />
     <Compile Include="Service\Admin\PhoneNumberService.cs" />
     <Compile Include="Service\Admin\IPhoneNumberService.cs" />
     <Compile Include="Service\Admin\IEmailAddressService.cs" />
