@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Import and Load Sevis Table 28 - Exchange Visitor Position Codes"
   DTS:PackageType="5"
-  DTS:VersionBuild="11"
-  DTS:VersionGUID="{071B909F-D957-4133-8E75-8C882E55508C}">
+  DTS:VersionBuild="13"
+  DTS:VersionGUID="{919E9F34-01DE-4D9D-A8DF-1897FD904491}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -626,6 +626,178 @@
               </outputs>
             </component>
             <component
+              refId="Package\Load Sevis Position\ExchangeVisitorPosition"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="ExchangeVisitorPosition"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[sevis].[ExchangeVisitorPosition]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Sevis Position\ExchangeVisitorPosition.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Sevis Position\ExchangeVisitorPosition.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Sevis Position\ExchangeVisitorPosition.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      externalMetadataColumnId="Package\Load Sevis Position\ExchangeVisitorPosition.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Load Sevis Position\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Load Sevis Position\ExchangeVisitorPosition.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_CreatedOn"
+                      externalMetadataColumnId="Package\Load Sevis Position\ExchangeVisitorPosition.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Load Sevis Position\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedOn]" />
+                    <inputColumn
+                      refId="Package\Load Sevis Position\ExchangeVisitorPosition.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_RevisedBy"
+                      externalMetadataColumnId="Package\Load Sevis Position\ExchangeVisitorPosition.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Load Sevis Position\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
+                    <inputColumn
+                      refId="Package\Load Sevis Position\ExchangeVisitorPosition.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_RevisedOn"
+                      externalMetadataColumnId="Package\Load Sevis Position\ExchangeVisitorPosition.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Load Sevis Position\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
+                    <inputColumn
+                      refId="Package\Load Sevis Position\ExchangeVisitorPosition.Inputs[OLE DB Destination Input].Columns[PositionCode]"
+                      cachedDataType="i4"
+                      cachedName="PositionCode"
+                      externalMetadataColumnId="Package\Load Sevis Position\ExchangeVisitorPosition.Inputs[OLE DB Destination Input].ExternalColumns[PositionCode]"
+                      lineageId="Package\Load Sevis Position\Convert Position Code to INT.Outputs[Data Conversion Output].Columns[PositionCode]" />
+                    <inputColumn
+                      refId="Package\Load Sevis Position\ExchangeVisitorPosition.Inputs[OLE DB Destination Input].Columns[Copy of Description]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="Copy of Description"
+                      externalMetadataColumnId="Package\Load Sevis Position\ExchangeVisitorPosition.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Load Sevis Position\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Description]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Position\ExchangeVisitorPosition.Inputs[OLE DB Destination Input].ExternalColumns[ExchangeVisitorPositionId]"
+                      dataType="i4"
+                      name="ExchangeVisitorPositionId" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Position\ExchangeVisitorPosition.Inputs[OLE DB Destination Input].ExternalColumns[PositionCode]"
+                      dataType="wstr"
+                      length="4"
+                      name="PositionCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Position\ExchangeVisitorPosition.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      dataType="wstr"
+                      length="200"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Position\ExchangeVisitorPosition.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Position\ExchangeVisitorPosition.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Position\ExchangeVisitorPosition.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Position\ExchangeVisitorPosition.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Sevis Position\ExchangeVisitorPosition.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Sevis Position\ExchangeVisitorPosition.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sevis Position\ExchangeVisitorPosition.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis Position\ExchangeVisitorPosition.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Sevis Position\ExchangeVisitorPosition.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis Position\ExchangeVisitorPosition.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
               refId="Package\Load Sevis Position\Local Sevis Position"
               componentClassID="Microsoft.OLEDBSource"
               contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
@@ -748,6 +920,44 @@
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Sevis Position\Multicast"
+              componentClassID="Microsoft.Multicast"
+              contactInfo="Multicast;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Distributes every input row to every row in one or more outputs. For example, branch your data flow to make a copy of data so that some values can be masked before sharing with external partners."
+              name="Multicast">
+              <inputs>
+                <input
+                  refId="Package\Load Sevis Position\Multicast.Inputs[Multicast Input 1]"
+                  name="Multicast Input 1">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Sevis Position\Multicast.Outputs[Multicast Output 1]"
+                  deleteOutputOnPathDetached="true"
+                  name="Multicast Output 1"
+                  synchronousInputId="Package\Load Sevis Position\Multicast.Inputs[Multicast Input 1]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Sevis Position\Multicast.Outputs[Multicast Output 2]"
+                  deleteOutputOnPathDetached="true"
+                  name="Multicast Output 2"
+                  synchronousInputId="Package\Load Sevis Position\Multicast.Inputs[Multicast Input 1]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Sevis Position\Multicast.Outputs[Multicast Output 3]"
+                  dangling="true"
+                  deleteOutputOnPathDetached="true"
+                  name="Multicast Output 3"
+                  synchronousInputId="Package\Load Sevis Position\Multicast.Inputs[Multicast Input 1]">
                   <externalMetadataColumns />
                 </output>
               </outputs>
@@ -933,7 +1143,7 @@
               startId="Package\Load Sevis Position\Convert Position Code to INT.Outputs[Data Conversion Output]" />
             <path
               refId="Package\Load Sevis Position.Paths[Data Conversion Output1]"
-              endId="Package\Load Sevis Position\Position.Inputs[OLE DB Destination Input]"
+              endId="Package\Load Sevis Position\Multicast.Inputs[Multicast Input 1]"
               name="Data Conversion Output"
               startId="Package\Load Sevis Position\Data Conversion.Outputs[Data Conversion Output]" />
             <path
@@ -941,6 +1151,16 @@
               endId="Package\Load Sevis Position\Convert Position Code to INT.Inputs[Data Conversion Input]"
               name="Derived Column Output"
               startId="Package\Load Sevis Position\Add required columns.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load Sevis Position.Paths[Multicast Output 1]"
+              endId="Package\Load Sevis Position\Position.Inputs[OLE DB Destination Input]"
+              name="Multicast Output 1"
+              startId="Package\Load Sevis Position\Multicast.Outputs[Multicast Output 1]" />
+            <path
+              refId="Package\Load Sevis Position.Paths[Multicast Output 2]"
+              endId="Package\Load Sevis Position\ExchangeVisitorPosition.Inputs[OLE DB Destination Input]"
+              name="Multicast Output 2"
+              startId="Package\Load Sevis Position\Multicast.Outputs[Multicast Output 2]" />
             <path
               refId="Package\Load Sevis Position.Paths[OLE DB Source Output]"
               endId="Package\Load Sevis Position\Add required columns.Inputs[Derived Column Input]"
@@ -1088,47 +1308,51 @@
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
+          Size="156,42"
+          Id="Package\Load Sevis Position\Data Conversion"
+          TopLeft="231.5,329.5" />
+        <NodeLayout
+          Size="116,42"
+          Id="Package\Load Sevis Position\Position"
+          TopLeft="97.5,513.5" />
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Load Sevis Position\Local Sevis Position"
+          TopLeft="54.5,11.5" />
+        <NodeLayout
           Size="216,42"
           Id="Package\Load Sevis Position\Convert Position Code to INT"
           TopLeft="45.5,207.5" />
         <NodeLayout
-          Size="170,42"
-          Id="Package\Load Sevis Position\Local Sevis Position"
-          TopLeft="5.5,5.5" />
-        <NodeLayout
           Size="182,42"
           Id="Package\Load Sevis Position\Add required columns"
           TopLeft="61.5,119.5" />
-        <NodeLayout
-          Size="116,42"
-          Id="Package\Load Sevis Position\Position"
-          TopLeft="97.5,488.5" />
         <EdgeLayout
           Id="Package\Load Sevis Position.Paths[OLE DB Source Output]"
-          TopLeft="90.5,47.5">
+          TopLeft="139.5,53.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="62,72"
+              EndConnector="13,66"
               Start="0,0"
-              End="62,64.5">
+              End="13,58.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,32" />
+                    End="0,29" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,32"
-                    Point2="0,36"
-                    Point3="4,36" />
+                    Point1="0,29"
+                    Point2="0,33"
+                    Point3="4,33" />
                   <mssgle:LineSegment
-                    End="58,36" />
+                    End="9,33" />
                   <mssgle:CubicBezierSegment
-                    Point1="58,36"
-                    Point2="62,36"
-                    Point3="62,40" />
+                    Point1="9,33"
+                    Point2="13,33"
+                    Point3="13,37" />
                   <mssgle:LineSegment
-                    End="62,64.5" />
+                    End="13,58.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1159,10 +1383,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="156,42"
-          Id="Package\Load Sevis Position\Data Conversion"
-          TopLeft="231.5,329.5" />
         <EdgeLayout
           Id="Package\Load Sevis Position.Paths[Data Conversion Output]"
           TopLeft="153.5,249.5">
@@ -1197,32 +1417,108 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <NodeLayout
+          Size="120,42"
+          Id="Package\Load Sevis Position\Multicast"
+          TopLeft="240.5,410.5" />
         <EdgeLayout
           Id="Package\Load Sevis Position.Paths[Data Conversion Output1]"
           TopLeft="309.5,371.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-154,117"
+              EndConnector="-9,39"
               Start="0,0"
-              End="-154,109.5">
+              End="-9,31.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,54.5" />
+                    End="0,15.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,54.5"
-                    Point2="0,58.5"
-                    Point3="-4,58.5" />
+                    Point1="0,15.5"
+                    Point2="0,19.5"
+                    Point3="-4,19.5" />
                   <mssgle:LineSegment
-                    End="-150,58.5" />
+                    End="-5,19.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="-150,58.5"
-                    Point2="-154,58.5"
-                    Point3="-154,62.5" />
+                    Point1="-5,19.5"
+                    Point2="-9,19.5"
+                    Point3="-9,23.5" />
                   <mssgle:LineSegment
-                    End="-154,109.5" />
+                    End="-9,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Sevis Position.Paths[Multicast Output 1]"
+          TopLeft="281.833333333333,452.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-126.333333333333,61"
+              Start="0,0"
+              End="-126.333333333333,53.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.8815789473684" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.8815789473684"
+                    Point2="0,24.8815789473684"
+                    Point3="-4,24.8815789473684" />
+                  <mssgle:LineSegment
+                    End="-122.333333333333,24.8815789473684" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-122.333333333333,24.8815789473684"
+                    Point2="-126.333333333333,24.8815789473684"
+                    Point3="-126.333333333333,28.8815789473684" />
+                  <mssgle:LineSegment
+                    End="-126.333333333333,53.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="190,42"
+          Id="Package\Load Sevis Position\ExchangeVisitorPosition"
+          TopLeft="328.5,512.5" />
+        <EdgeLayout
+          Id="Package\Load Sevis Position.Paths[Multicast Output 2]"
+          TopLeft="319.166666666667,452.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="104.333333333333,60"
+              Start="0,0"
+              End="104.333333333333,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.4736842105263" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.4736842105263"
+                    Point2="0,24.4736842105263"
+                    Point3="4,24.4736842105263" />
+                  <mssgle:LineSegment
+                    End="100.333333333333,24.4736842105263" />
+                  <mssgle:CubicBezierSegment
+                    Point1="100.333333333333,24.4736842105263"
+                    Point2="104.333333333333,24.4736842105263"
+                    Point3="104.333333333333,28.4736842105263" />
+                  <mssgle:LineSegment
+                    End="104.333333333333,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1249,6 +1545,19 @@
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Load Sevis Position\Position">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Sevis Position\ExchangeVisitorPosition">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
