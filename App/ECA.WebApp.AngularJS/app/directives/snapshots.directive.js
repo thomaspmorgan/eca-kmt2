@@ -7,7 +7,7 @@
  * # data snapshots
  */
 angular.module('staticApp')
-  .directive('snapshots', function ($log) {
+  .directive('snapshots', function () {
       var directive = {
           templateUrl: 'app/directives/snapshots.directive.html',
           scope: {

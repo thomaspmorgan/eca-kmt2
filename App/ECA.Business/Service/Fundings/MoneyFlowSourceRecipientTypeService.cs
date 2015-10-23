@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECA.Core.Service;
+using ECA.Business.Queries.Models.Fundings;
 
 namespace ECA.Business.Service.Fundings
 {

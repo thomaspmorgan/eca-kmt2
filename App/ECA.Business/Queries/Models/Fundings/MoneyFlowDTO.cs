@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ECA.Business.Queries.Models.Admin
+namespace ECA.Business.Queries.Models.Fundings
 {
     /// <summary>
     /// The money flow dto is used to represent a transfer of money from entity to another in the eca system for a business layer client.
@@ -99,5 +95,10 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or sets the participant type name.
         /// </summary>
         public string ParticipantTypeName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parent money flow id.
+        /// </summary>
+        public int? ParentMoneyFlowId { get; set; }
     }
 }

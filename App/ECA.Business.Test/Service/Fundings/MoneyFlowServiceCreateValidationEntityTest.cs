@@ -26,10 +26,12 @@ namespace ECA.Business.Test.Service.Fundings
             var fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { 1, 2, 3, 3 };
             var allowedProjectParticipantIds = new List<int> { 5, 6, 7, 7 };
+            var parentMoneyFlowWithdrawalMaximum = 100m;
 
             var instance = new MoneyFlowServiceCreateValidationEntity(
                 description, 
                 value, 
+                parentMoneyFlowWithdrawalMaximum,
                 sourceEntityTypeId,
                 recipientEntityTypeId,
                 allowedRecipientEntityTypeIds,
@@ -41,6 +43,7 @@ namespace ECA.Business.Test.Service.Fundings
                 transactionDate,
                 fiscalYear);
             Assert.AreEqual(value, instance.Value);
+            Assert.AreEqual(parentMoneyFlowWithdrawalMaximum, instance.ParentMoneyFlowWithdrawlMaximum);
             Assert.AreEqual(description, instance.Description);
             Assert.AreEqual(transactionDate, instance.TransactionDate);
             Assert.AreEqual(hasSourceEntityType, instance.HasSourceEntityType);
@@ -68,6 +71,7 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             var fiscalYear = 2000;
+            var parentMoneyFlowWithdrawalMaximum = 100m;
             List<int> allowedRecipientEntityTypeIds = null;
             List<int> allowedProjectParticipantIds = null;
 
@@ -75,6 +79,7 @@ namespace ECA.Business.Test.Service.Fundings
             var instance = new MoneyFlowServiceCreateValidationEntity(
                 description,
                 value,
+                parentMoneyFlowWithdrawalMaximum,
                 sourceEntityTypeId,
                 recipientEntityTypeId,
                 allowedRecipientEntityTypeIds,

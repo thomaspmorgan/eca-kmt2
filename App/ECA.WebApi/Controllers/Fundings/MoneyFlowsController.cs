@@ -1,27 +1,18 @@
-﻿using CAM.Business.Model;
-using CAM.Business.Queries.Models;
-using CAM.Business.Service;
-using CAM.Data;
-using ECA.Business.Queries.Models.Admin;
-using ECA.Business.Service.Admin;
+﻿using CAM.Data;
+using ECA.Business.Queries.Models.Fundings;
 using ECA.Business.Service.Fundings;
 using ECA.Core.DynamicLinq;
-using ECA.Core.DynamicLinq.Filter;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
 using ECA.Data;
 using ECA.WebApi.Models.Fundings;
-using ECA.WebApi.Models.Projects;
 using ECA.WebApi.Models.Query;
-using ECA.WebApi.Models.Security;
 using ECA.WebApi.Security;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using System.Web.Http.Results;
 
 namespace ECA.WebApi.Controllers.Fundings
 {
@@ -53,6 +44,20 @@ namespace ECA.WebApi.Controllers.Fundings
             this.moneyFlowService = moneyFlowService;
         }
         #region Organization
+        /// <summary>
+        /// Returns the source money flows of the organization with the given id.  The source money flows will detail the original money flow amount
+        /// and remaining money available to withdrawl.
+        /// </summary>
+        /// <param name="organizationId">The id of the organization to get source money flows for.</param>
+        /// <returns>The source money flows.</returns>
+        [ResponseType(typeof(List<SourceMoneyFlowDTO>))]
+        [Route("Organizations/{organizationId:int}/MoneyFlows/Sources")]
+        public async Task<IHttpActionResult> GetSourceMoneyFlowsByOrganizationIdAsync(int organizationId)
+        {
+            var results = await this.moneyFlowService.GetSourceMoneyFlowsByOrganizationIdAsync(organizationId);
+            return Ok(results);
+        }
+
         /// <summary>
         /// Returns the money flows for the organization with the given id.
         /// </summary>
@@ -112,6 +117,21 @@ namespace ECA.WebApi.Controllers.Fundings
         #endregion
 
         #region Office
+        /// <summary>
+        /// Returns the source money flows of the office with the given id.  The source money flows will detail the original money flow amount
+        /// and remaining money available to withdrawl.
+        /// </summary>
+        /// <param name="officeId">The id of the office to get source money flows for.</param>
+        /// <returns>The source money flows.</returns>
+        [ResponseType(typeof(List<SourceMoneyFlowDTO>))]
+        [Route("Offices/{officeId:int}/MoneyFlows/Sources")]
+        [ResourceAuthorize(Permission.VIEW_OFFICE_VALUE, ResourceType.OFFICE_VALUE, "officeId")]
+        public async Task<IHttpActionResult> GetSourceMoneyFlowsByOfficeIdAsync(int officeId)
+        {
+            var results = await this.moneyFlowService.GetSourceMoneyFlowsByOfficeIdAsync(officeId);
+            return Ok(results);
+        }
+
         /// <summary>
         /// Returns the money for the office with the given id.
         /// </summary>
@@ -175,6 +195,22 @@ namespace ECA.WebApi.Controllers.Fundings
         #endregion
 
         #region Project
+
+        /// <summary>
+        /// Returns the source money flows of the project with the given id.  The source money flows will detail the original money flow amount
+        /// and remaining money available to withdrawl.
+        /// </summary>
+        /// <param name="projectId">The id of the project to get source money flows for.</param>
+        /// <returns>The source money flows.</returns>
+        [ResponseType(typeof(List<SourceMoneyFlowDTO>))]
+        [Route("Projects/{projectId:int}/MoneyFlows/Sources")]
+        [ResourceAuthorize(Permission.VIEW_PROJECT_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
+        public async Task<IHttpActionResult> GetSourceMoneyFlowsByProjectIdAsync(int projectId)
+        {
+            var results = await this.moneyFlowService.GetSourceMoneyFlowsByProjectIdAsync(projectId);
+            return Ok(results);
+        }
+
         /// <summary>
         /// Returns the money for the project with the given id.
         /// </summary>
@@ -238,6 +274,20 @@ namespace ECA.WebApi.Controllers.Fundings
         #endregion
 
         #region Program
+        /// <summary>
+        /// Returns the source money flows of the program with the given id.  The source money flows will detail the original money flow amount
+        /// and remaining money available to withdrawl.
+        /// </summary>
+        /// <param name="programId">The id of the program to get source money flows for.</param>
+        /// <returns>The source money flows.</returns>
+        [ResponseType(typeof(List<SourceMoneyFlowDTO>))]
+        [Route("Programs/{programId:int}/MoneyFlows/Sources")]
+        [ResourceAuthorize(Permission.VIEW_PROGRAM_VALUE, ResourceType.PROGRAM_VALUE, "programId")]
+        public async Task<IHttpActionResult> GetSourceMoneyFlowsByProgramIdAsync(int programId)
+        {
+            var results = await this.moneyFlowService.GetSourceMoneyFlowsByProgramIdAsync(programId);
+            return Ok(results);
+        }
 
         /// <summary>
         /// Returns the money flows for the program with the given id.
