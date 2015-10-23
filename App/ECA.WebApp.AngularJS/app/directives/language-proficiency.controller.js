@@ -148,24 +148,24 @@ angular.module('staticApp')
           return languageProficiency.isNew;
       }
 
-      function isLanguageExists(language) {
-          if (language) {
-              var editIndex = $scope.data.languages.map(function (e) { return e.languageId }).indexOf(language.languageId);
+      //function isLanguageExists(language) {
+      //    if (language) {
+      //        var editIndex = $scope.data.languages.map(function (e) { return e.languageId }).indexOf(language.languageId);
 
-              if (editIndex === -1) {
-                  $scope.data.languages.push({
-                      id: language.languageId,
-                      name: language.languageName
-                  });
-              }
+      //        if (editIndex === -1) {
+      //            $scope.data.languages.push({
+      //                id: language.languageId,
+      //                name: language.languageName
+      //            });
+      //        }
 
-              $scope.languageProficiency.languageId = language.languageId;
-          }
-      }
+      //        $scope.languageProficiency.languageId = language.languageId;
+      //    }
+      //}
 
-      $scope.view.onIsNativeLanguageChange = function () {
-          $scope.$emit(ConstantsService.primaryLanguageProficiencyChangedEventName, $scope.languageProficiency);
-      }
+      //$scope.view.onIsNativeLanguageChange = function () {
+      //    $scope.$emit(ConstantsService.primaryLanguageProficiencyChangedEventName, $scope.languageProficiency);
+      //}
   })
 .filter("filterExisting", function () {
     return function (languages, proficiencies, scope) {
