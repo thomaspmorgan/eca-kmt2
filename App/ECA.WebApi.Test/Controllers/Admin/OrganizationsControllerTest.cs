@@ -116,6 +116,26 @@ namespace ECA.WebApi.Test.Controllers.Admin
         }
 
         [TestMethod]
+        public async Task TestPostParticipantOrganizationAsync()
+        {
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(0));
+            organizationService.Setup(x => x.CreateParticipantOrganizationAsync(It.IsAny<ParticipantOrganization>()))
+                .ReturnsAsync(new Organization());
+            organizationService.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
+            var response = await controller.PostParticipantOrganizationAsync(new ParticipantOrganizationBindingModel());
+            organizationService.Verify(x => x.SaveChangesAsync(), Times.Once);
+            Assert.IsInstanceOfType(response, typeof(OkResult));
+        }
+
+        [TestMethod]
+        public async Task TestPostParticipantOrganizationAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.PostParticipantOrganizationAsync(new ParticipantOrganizationBindingModel());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
+        [TestMethod]
         public async Task TestPutUpdateOrganizationAsync()
         {
             userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(1));
