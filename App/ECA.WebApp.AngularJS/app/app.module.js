@@ -26,5 +26,6 @@ angular
     'toaster',
     'ngAnimate',
     'smoothScroll',
-    'internationalPhoneNumber'
+    'internationalPhoneNumber',
+    'angular-appinsights'
   ]);
