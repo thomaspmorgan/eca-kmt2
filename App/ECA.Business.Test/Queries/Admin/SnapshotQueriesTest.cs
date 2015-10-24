@@ -17,7 +17,7 @@ namespace ECA.Business.Test.Queries.Admin
         }
 
         [TestMethod]
-        public void TestCreateGetProgramSnapshotDTOQuery()
+        public void TestCreateGetProgramCountryCountQuery()
         {
 
             var active = new ProgramStatus
@@ -60,8 +60,8 @@ namespace ECA.Business.Test.Queries.Admin
             context.Organizations.Add(owner1);
             context.ProgramStatuses.Add(active);
 
-            var results = SnapshotQueries.CreateGetProgramSnapshotDTOQuery(context, program1.ProgramId);
-            Assert.AreNotEqual(0, results.Count());
+            var results = SnapshotQueries.CreateGetProgramCountryCountQuery(context, program1.ProgramId);
+            Assert.AreNotEqual(0, results);
         }
     }
 }

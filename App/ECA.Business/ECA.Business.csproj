@@ -138,6 +138,7 @@
     <Compile Include="Queries\Models\Admin\ProgramStatusDTO.cs" />
     <Compile Include="Queries\Models\Admin\SnapshotDTO.cs" />
     <Compile Include="Queries\Models\Fundings\SourceMoneyFlowDTO.cs" />
+    <Compile Include="Queries\Models\Admin\SnapshotGraphDTO.cs" />
     <Compile Include="Queries\Models\Persons\LanguageProficiencyDTO.cs" />
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisCommStatusDTO.cs" />
@@ -164,6 +165,7 @@
     <Compile Include="Search\ProgramDTODocumentConfiguration.cs" />
     <Compile Include="Search\ProjectDTODocumentConfiguration.cs" />
     <Compile Include="Service\Admin\NewOrganization.cs" />
+    <Compile Include="Service\Admin\ParticipantOrganization.cs" />
     <Compile Include="Service\Admin\PhoneNumberService.cs" />
     <Compile Include="Service\Admin\IPhoneNumberService.cs" />
     <Compile Include="Service\Admin\IEmailAddressService.cs" />

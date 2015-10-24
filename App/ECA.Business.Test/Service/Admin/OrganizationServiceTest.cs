@@ -788,9 +788,80 @@ namespace ECA.Business.Test.Service.Admin
             var contact = organization.Contacts.FirstOrDefault();
             Assert.AreEqual(organizationContact.ContactId, contact.ContactId);
         }
+
+        [TestMethod]
+        public async Task TestCreateParticipantOrganizationAsync_CheckProperties()
+        {
+            var participantOrganization = new ParticipantOrganization(new User(0), 1, 1, "name", "description", 1, new List<int>(), "http://google.com", new List<int>());
+            var organization = await service.CreateParticipantOrganizationAsync(participantOrganization);
+            Assert.AreEqual(participantOrganization.Name, organization.Name);
+            Assert.AreEqual(participantOrganization.Description, organization.Description);
+            Assert.AreEqual(participantOrganization.Website, organization.Website);
+        }
+
+        [TestMethod]
+        public async Task TestCreateParticipantOrganizationAsync_CheckOrganizationRoles()
+        {
+
+            var organizationRole = new OrganizationRole
+            {
+                OrganizationRoleId = 1,
+                OrganizationRoleName = "organizationRole"
+            };
+
+            context.OrganizationRoles.Add(organizationRole);
+
+            var participantOrganization = new ParticipantOrganization(new User(0), 1, 1, "name", "description", 1, new List<int> { organizationRole.OrganizationRoleId }, "http://google.com", new List<int>());
+            var organization = await service.CreateParticipantOrganizationAsync(participantOrganization);
+
+            var orgRole = organization.OrganizationRoles.First();
+
+            Assert.AreEqual(organizationRole.OrganizationRoleId, orgRole.OrganizationRoleId);
+            Assert.AreEqual(organizationRole.OrganizationRoleName, orgRole.OrganizationRoleName);
+        }
+
+        [TestMethod]
+        public async Task TestCreateParticipantOrganizationAsync_CheckPointsOfContact()
+        {
+            var pointOfContact = new Contact
+            {
+                ContactId = 1
+            };
+
+            context.Contacts.Add(pointOfContact);
+
+            var participantOrganization = new ParticipantOrganization(new User(0), 1, 1, "name", "description", 1, new List<int>(), "http://google.com", new List<int> { pointOfContact.ContactId });
+            var organization = await service.CreateParticipantOrganizationAsync(participantOrganization);
+
+            var contact = organization.Contacts.First();
+
+            Assert.AreEqual(pointOfContact.ContactId, contact.ContactId);
+        }
+
+        [TestMethod]
+        public async Task TestCreateParticipantOrganizationAsync_CheckAssociations()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+
+            context.Projects.Add(project);
+            var participantTypeId = ParticipantType.USEducationalInstitution.Id;
+            var organizationType = OrganizationType.USEducationalInstitution.Id;
+            var participantOrganization = new ParticipantOrganization(new User(0), project.ProjectId, participantTypeId, "name", "description", organizationType, new List<int>(), "http://google.com", new List<int>());
+            var organization = await service.CreateParticipantOrganizationAsync(participantOrganization);
+            // Check that participant is associated to organization
+            var participant = context.Participants.Where(x => x.OrganizationId == organization.OrganizationId).FirstOrDefault();
+            Assert.AreEqual(organization.OrganizationId, participant.OrganizationId);
+            Assert.AreEqual(participantTypeId, participant.ParticipantTypeId);
+            // Check that participant is associated to project
+            var participantProject = participant.Project;
+            Assert.IsTrue(Object.ReferenceEquals(project, participant.Project));
+        }
         #endregion
 
-        #region Update
+            #region Update
         [TestMethod]
         public async Task TestUpdate_OrganizationDoesNotExist()
         {

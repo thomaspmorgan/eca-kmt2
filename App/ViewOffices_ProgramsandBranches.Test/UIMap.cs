@@ -1,4 +1,4 @@
-﻿namespace ViewOffices_ProgramsandBranches.Test
+﻿namespace ViewOfficesProgramsandBranches.Test
 {
     using Microsoft.VisualStudio.TestTools.UITesting.HtmlControls;
     using Microsoft.VisualStudio.TestTools.UITesting.WinControls;

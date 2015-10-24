@@ -53,6 +53,13 @@ namespace ECA.Business.Service.Admin
         Task<Organization> CreateAsync(NewOrganization newOrganization);
 
         /// <summary>
+        /// Creates a new participant organization
+        /// </summary>
+        /// <param name="participantOrganization">The participant organization to create</param>
+        /// <returns>The organization created</returns>
+        Task<Organization> CreateParticipantOrganizationAsync(ParticipantOrganization participantOrganization);
+
+        /// <summary>
         /// Updates an organization.
         /// </summary>
         /// <param name="organization">The updated organization.</param>

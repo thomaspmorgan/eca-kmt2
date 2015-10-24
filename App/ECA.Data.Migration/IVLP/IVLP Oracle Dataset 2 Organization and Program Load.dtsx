@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="IVLP Oracle Dataset 2 Organization and Program Load"
   DTS:PackageType="5"
-  DTS:VersionBuild="166"
-  DTS:VersionGUID="{EA8B8C0B-DB02-4652-863E-C36A1FA4005D}">
+  DTS:VersionBuild="170"
+  DTS:VersionGUID="{24077F41-517D-47A4-BC1C-5376EBB71745}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -47,7 +47,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAB/dOKmdICqF8CMjj64xzf7L6zsHKUrKC5B5j36JM+I9QAAAAAOgAAAAAIAACAAAAAnWSd32hG6rOo4M9bfq2eId8T6mcUKC8ubViQI7+vb9CAAAAB8Bv0ZtJYlPGw3fgX1UP1RTrVBEx1p2KduivW++hsAXkAAAACx9hPm3uMrpVg1bBRX6GRak9762ej/UaaGvhPlgDpyQG1wavvsi5lvvP/VzUWdhY5St+BrJlxVzM+ho4rdw7o+</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADx/Wjen5muUF16vMo1ADS5B+tuZPzT7x4xObcYJUjTrwAAAAAOgAAAAAIAACAAAACkUZgQchT9SzV9fslLQZbyIoMifKvSv47Du1dqOoPNhiAAAABm79CGcpHhoTgTJyZW6nR0TI1F5hTF03XW+RsXMFdBuEAAAAB5IBogG/5vfW2xzSOzQK3OkMrLBIQYxVys0cjwoG02U8uIKdKRwEIdRKcNRWLNoAB8CgaWJQ3r06cuchMj1RZK</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -2016,7 +2016,7 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Create IVLP to KMT Organization Mapping XREF Table"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="3">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -3806,7 +3806,7 @@ where UPPER([refTable].[OrganizationTypeName]) = UPPER(?)</property>
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[dbo].[ECA_Local_IVLP_KMT_Organization_XREF]</property>
+                  name="OpenRowset">[dbo].[ECA_Local_IVLP_KMT_Organization_XREF_Final]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -9384,12 +9384,12 @@ where [refTable].[Status] = ?</property>
       DTS:LocaleID="-1"
       DTS:ObjectName="Delete Existing Organization XREF rows (Completed)"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{D024B15A-5694-4183-A306-FDF29165B2F8}"
-          SQLTask:SqlStatementSource="DELETE FROM IVLP_XREF.dbo.ECA_Local_IVLP_KMT_Organization_XREF" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="DELETE FROM IVLP_XREF.dbo.ECA_Local_IVLP_KMT_Organization_XREF_Final" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -9402,7 +9402,7 @@ where [refTable].[Status] = ?</property>
       DTS:LocaleID="-1"
       DTS:ObjectName="Delete Existing Program Final XREF rows (Completed)"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -9420,7 +9420,7 @@ where [refTable].[Status] = ?</property>
       DTS:LocaleID="-1"
       DTS:ObjectName="Delete Existing Program Interim XREF rows (Completed)"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -11665,7 +11665,7 @@ where [refTable].[Status] = ?</property>
       DTS:LocaleID="-1"
       DTS:ObjectName="Map Source Programs to ECA Programs (Completed)"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -11684,7 +11684,7 @@ where [refTable].[Status] = ?</property>
       DTS:LocaleID="-1"
       DTS:ObjectName="Update Parent Organization"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="3">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -11784,6 +11784,10 @@ where [refTable].[Status] = ?</property>
           Id="Package\Create Organization XREF Data (Completed)"
           TopLeft="40,187.5" />
         <NodeLayout
+          Size="321,42"
+          Id="Package\Create Program Final XREF ProgramId (Completed)"
+          TopLeft="778.5,568.5" />
+        <NodeLayout
           Size="326,42"
           Id="Package\Delete Existing Organization XREF rows (Completed)"
           TopLeft="21,103" />
@@ -11803,10 +11807,6 @@ where [refTable].[Status] = ?</property>
           Size="326,42"
           Id="Package\Map Source Programs to ECA Programs (Completed)"
           TopLeft="432.5,464.5" />
-        <NodeLayout
-          Size="321,42"
-          Id="Package\Create Program Final XREF ProgramId (Completed)"
-          TopLeft="778.5,568.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="184,67">
@@ -12015,7 +12015,7 @@ where [refTable].[Status] = ?</property>
           PanelSize="320,240"
           Size="320,283"
           Id="eec151ad-45de-411d-b5ff-32b9087a1f42"
-          TopLeft="1211,27.5">
+          TopLeft="1810,19.5">
           <GroupLayout.ChildrenIds>
             <s:String>Package\Update Parent Organization</s:String>
             <s:String>Package\Create Organization XREF Data (Includes Parent)</s:String>
@@ -12038,7 +12038,7 @@ where [refTable].[Status] = ?</property>
           PanelSize="387,192"
           Size="387,235"
           Id="f82ed9fd-cdec-4ca9-8e2b-0a4e1eb5cfcb"
-          TopLeft="1236,378">
+          TopLeft="1777,349">
           <GroupLayout.ChildrenIds>
             <s:String>Package\Create IVLP to KMT Program Mapping  XREF Table</s:String>
             <s:String>Package\Create IVLP to KMT Organization Mapping XREF Table</s:String>
@@ -12051,7 +12051,15 @@ where [refTable].[Status] = ?</property>
     design-time-name="Package\Create IVLP Program Interim XREF (Completed)">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="183,42"
+          Id="Package\Create IVLP Program Interim XREF (Completed)\IVLP Projects (Oracle)"
+          TopLeft="63.5,12.5" />
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Create IVLP Program Interim XREF (Completed)\Data Conversion"
+          TopLeft="91.5,100.5" />
         <NodeLayout
           Size="215,42"
           Id="Package\Create IVLP Program Interim XREF (Completed)\IVLP Program Mapping XREF"
@@ -12060,48 +12068,6 @@ where [refTable].[Status] = ?</property>
           Size="250,42"
           Id="Package\Create IVLP Program Interim XREF (Completed)\Add Mapped Program Name Column"
           TopLeft="39.5,199.5" />
-        <NodeLayout
-          Size="183,42"
-          Id="Package\Create IVLP Program Interim XREF (Completed)\IVLP Projects (Oracle)"
-          TopLeft="63.5,12.5" />
-        <EdgeLayout
-          Id="Package\Create IVLP Program Interim XREF (Completed).Paths[Derived Column Output]"
-          TopLeft="164.5,241.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-20.5,38"
-              Start="0,0"
-              End="-20.5,30.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,15" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,15"
-                    Point2="0,19"
-                    Point3="-4,19" />
-                  <mssgle:LineSegment
-                    End="-16.5,19" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-16.5,19"
-                    Point2="-20.5,19"
-                    Point3="-20.5,23" />
-                  <mssgle:LineSegment
-                    End="-20.5,30.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="156,42"
-          Id="Package\Create IVLP Program Interim XREF (Completed)\Data Conversion"
-          TopLeft="91.5,100.5" />
         <EdgeLayout
           Id="Package\Create IVLP Program Interim XREF (Completed).Paths[OLE DB Source Output]"
           TopLeft="155,54.5">
@@ -12133,7 +12099,45 @@ where [refTable].[Status] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create IVLP Program Interim XREF (Completed).Paths[Derived Column Output]"
+          TopLeft="164.5,241.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-20.5,38"
+              Start="0,0"
+              End="-20.5,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,15"
+                    Point2="0,19"
+                    Point3="-4,19" />
+                  <mssgle:LineSegment
+                    End="-16.5,19" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-16.5,19"
+                    Point2="-20.5,19"
+                    Point3="-20.5,23" />
+                  <mssgle:LineSegment
+                    End="-20.5,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -12155,14 +12159,16 @@ where [refTable].[Status] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Create IVLP Program Interim XREF (Completed)\IVLP Program Mapping XREF">
+    design-time-name="Package\Create IVLP Program Interim XREF (Completed)\IVLP Projects (Oracle)">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -12175,7 +12181,7 @@ where [refTable].[Status] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Create IVLP Program Interim XREF (Completed)\IVLP Projects (Oracle)">
+    design-time-name="Package\Create IVLP Program Interim XREF (Completed)\IVLP Program Mapping XREF">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -12201,6 +12207,10 @@ where [refTable].[Status] = ?</property>
           Id="Package\Create New Organizations (Completed)\Data Conversion"
           TopLeft="72.5,92.5" />
         <NodeLayout
+          Size="98,42"
+          Id="Package\Create New Organizations (Completed)\Sort"
+          TopLeft="101.5,249.5" />
+        <NodeLayout
           Size="209,42"
           Id="Package\Create New Organizations (Completed)\Write to Organization Table"
           TopLeft="641.5,409.5" />
@@ -12221,25 +12231,27 @@ where [refTable].[Status] = ?</property>
           Id="Package\Create New Organizations (Completed)\Add Required Columns"
           TopLeft="60.5,414.5" />
         <EdgeLayout
-          Id="Package\Create New Organizations (Completed).Paths[Data Conversion Output]"
-          TopLeft="151.75,134.5">
+          Id="Package\Create New Organizations (Completed).Paths[Sort Output]"
+          TopLeft="149,291.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,36"
+              EndConnector="0,38"
               Start="0,0"
-              End="0,28.5">
+              End="0,30.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,28.5" />
+                    End="0,30.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -12273,7 +12285,33 @@ where [refTable].[Status] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create New Organizations (Completed).Paths[Lookup No Match Output]"
+          TopLeft="150.5,371.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,43"
+              Start="0,0"
+              End="0,35.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-55.80638671875,11.9453125,111.6127734375,11.609375"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -12319,13 +12357,35 @@ where [refTable].[Status] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="98,42"
-          Id="Package\Create New Organizations (Completed)\Sort"
-          TopLeft="101.5,249.5" />
+        <EdgeLayout
+          Id="Package\Create New Organizations (Completed).Paths[Data Conversion Output]"
+          TopLeft="151.75,134.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36"
+              Start="0,0"
+              End="0,28.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <EdgeLayout
           Id="Package\Create New Organizations (Completed).Paths[Aggregate Output 1]"
           TopLeft="151.75,212.5">
@@ -12345,52 +12405,8 @@ where [refTable].[Status] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Create New Organizations (Completed).Paths[Sort Output]"
-          TopLeft="149,291.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,38"
-              Start="0,0"
-              End="0,30.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,30.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Create New Organizations (Completed).Paths[Lookup No Match Output]"
-          TopLeft="150.5,371.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,43"
-              Start="0,0"
-              End="0,35.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,35.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-55.80638671875,11.9453125,111.6127734375,11.609375"
+              BoundingBox="0,0,0,0"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -12403,7 +12419,7 @@ where [refTable].[Status] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">true</Value>
+          type="q2:string">true</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -12452,7 +12468,7 @@ where [refTable].[Status] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">true</Value>
+          type="q2:string">true</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -12616,7 +12632,7 @@ where [refTable].[Status] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">true</Value>
+          type="q2:string">true</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -12626,7 +12642,7 @@ where [refTable].[Status] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -12959,6 +12975,123 @@ where [refTable].[Status] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
+    design-time-name="Package\Create Program Final XREF ProgramId (Completed)">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="210,42"
+          Id="Package\Create Program Final XREF ProgramId (Completed)\Program Interim XREF Data"
+          TopLeft="30.5,65.5" />
+        <NodeLayout
+          Size="213,42"
+          Id="Package\Create Program Final XREF ProgramId (Completed)\Lookup ECA-KMT ProgramId"
+          TopLeft="286.5,67.5" />
+        <NodeLayout
+          Size="172,42"
+          Id="Package\Create Program Final XREF ProgramId (Completed)\Program Final XREF"
+          TopLeft="560.5,68.5" />
+        <EdgeLayout
+          Id="Package\Create Program Final XREF ProgramId (Completed).Paths[OLE DB Source Output]"
+          TopLeft="240.5,87.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="46,0"
+              Start="0,0"
+              End="38.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="38.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create Program Final XREF ProgramId (Completed).Paths[Lookup Match Output]"
+          TopLeft="499.5,89">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="61,0"
+              Start="0,0"
+              End="53.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="53.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-21.44138671875,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create Program Final XREF ProgramId (Completed)\Program Interim XREF Data">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create Program Final XREF ProgramId (Completed)\Lookup ECA-KMT ProgramId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">true</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Program]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create Program Final XREF ProgramId (Completed)\Program Final XREF">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
     design-time-name="Package\Create Project XRef table">
     <LayoutInfo>
       <GraphLayout
@@ -13159,13 +13292,17 @@ where [refTable].[Status] = ?</property>
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="199,42"
-          Id="Package\Load New Programs (Completed)\Lookup Program StatusId"
-          TopLeft="268.5,278.330882352941" />
-        <NodeLayout
           Size="264,42"
           Id="Package\Load New Programs (Completed)\Lookup Owner OrganizationId (default)"
           TopLeft="576.5,454.330882352941" />
+        <NodeLayout
+          Size="247,42"
+          Id="Package\Load New Programs (Completed)\Lookup Parent Program Id (default)"
+          TopLeft="250.5,368.330882352941" />
+        <NodeLayout
+          Size="243,42"
+          Id="Package\Load New Programs (Completed)\Lookup Office Organization TypeId"
+          TopLeft="580.5,366.414953149401" />
         <NodeLayout
           Size="186,42"
           Id="Package\Load New Programs (Completed)\Add Required Columns"
@@ -13175,13 +13312,9 @@ where [refTable].[Status] = ?</property>
           Id="Package\Load New Programs (Completed)\IVLP Program Mapping XREF"
           TopLeft="24.5,43.3308823529412" />
         <NodeLayout
-          Size="247,42"
-          Id="Package\Load New Programs (Completed)\Lookup Parent Program Id (default)"
-          TopLeft="250.5,368.330882352941" />
-        <NodeLayout
-          Size="243,42"
-          Id="Package\Load New Programs (Completed)\Lookup Office Organization TypeId"
-          TopLeft="580.5,366.414953149401" />
+          Size="199,42"
+          Id="Package\Load New Programs (Completed)\Lookup Program StatusId"
+          TopLeft="268.5,278.330882352941" />
         <NodeLayout
           Size="163,42"
           Id="Package\Load New Programs (Completed)\Add new program"
@@ -13194,30 +13327,6 @@ where [refTable].[Status] = ?</property>
           Size="176,42"
           Id="Package\Load New Programs (Completed)\Does Program Exist?"
           TopLeft="278.5,120.330882352941" />
-        <EdgeLayout
-          Id="Package\Load New Programs (Completed).Paths[Lookup Match Output3]"
-          TopLeft="840.5,474.330882352941">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="68,0"
-              Start="0,0"
-              End="60.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="60.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-17.94138671875,5,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
         <EdgeLayout
           Id="Package\Load New Programs (Completed).Paths[Lookup Match Output2]"
           TopLeft="702,408.414953149401">
@@ -13303,25 +13412,27 @@ where [refTable].[Status] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load New Programs (Completed).Paths[OLE DB Source Output]"
-          TopLeft="239.5,66.1654411764706">
+          Id="Package\Load New Programs (Completed).Paths[Derived Column Output]"
+          TopLeft="367.5,242.830882352941">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="44,0"
+              EndConnector="0,35.5"
               Start="0,0"
-              End="36.5,0">
+              End="0,28">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="36.5,0" />
+                    End="0,28" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -13343,7 +13454,33 @@ where [refTable].[Status] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load New Programs (Completed).Paths[OLE DB Source Output]"
+          TopLeft="239.5,66.1654411764706">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="44,0"
+              Start="0,0"
+              End="36.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="36.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -13371,53 +13508,32 @@ where [refTable].[Status] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load New Programs (Completed).Paths[Derived Column Output]"
-          TopLeft="367.5,242.830882352941">
+          Id="Package\Load New Programs (Completed).Paths[Lookup Match Output3]"
+          TopLeft="840.5,474.330882352941">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,35.5"
+              EndConnector="68,0"
               Start="0,0"
-              End="0,28">
+              End="60.5,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,28" />
+                    End="60.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="-17.94138671875,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load New Programs (Completed)\Lookup Program StatusId">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[ProgramStatus]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:string">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Load New Programs (Completed)\Lookup Owner OrganizationId (default)">
     <Properties>
@@ -13438,19 +13554,6 @@ where [refTable].[Status] = ?</property>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load New Programs (Completed)\IVLP Program Mapping XREF">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
@@ -13501,6 +13604,42 @@ where [refTable].[Status] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
+    design-time-name="Package\Load New Programs (Completed)\IVLP Program Mapping XREF">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load New Programs (Completed)\Lookup Program StatusId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[ProgramStatus]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
     design-time-name="Package\Load New Programs (Completed)\Add new program">
     <Properties>
       <Property>
@@ -13519,7 +13658,7 @@ where [refTable].[Status] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">true</Value>
+          type="q2:string">true</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -13529,125 +13668,10 @@ where [refTable].[Status] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <TaskHost
-    design-time-name="Package\Create Program Final XREF ProgramId (Completed)">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
-        <NodeLayout
-          Size="213,42"
-          Id="Package\Create Program Final XREF ProgramId (Completed)\Lookup ECA-KMT ProgramId"
-          TopLeft="286.5,67.5" />
-        <NodeLayout
-          Size="210,42"
-          Id="Package\Create Program Final XREF ProgramId (Completed)\Program Interim XREF Data"
-          TopLeft="30.5,65.5" />
-        <NodeLayout
-          Size="172,42"
-          Id="Package\Create Program Final XREF ProgramId (Completed)\Program Final XREF"
-          TopLeft="560.5,68.5" />
-        <EdgeLayout
-          Id="Package\Create Program Final XREF ProgramId (Completed).Paths[OLE DB Source Output]"
-          TopLeft="240.5,87.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="46,0"
-              Start="0,0"
-              End="38.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="38.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Create Program Final XREF ProgramId (Completed).Paths[Lookup Match Output]"
-          TopLeft="499.5,89">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="61,0"
-              Start="0,0"
-              End="53.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="53.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-21.44138671875,5,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Create Program Final XREF ProgramId (Completed)\Lookup ECA-KMT ProgramId">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">true</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[Program]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:int">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Create Program Final XREF ProgramId (Completed)\Program Interim XREF Data">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Create Program Final XREF ProgramId (Completed)\Program Final XREF">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
