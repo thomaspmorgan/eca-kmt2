@@ -34,17 +34,30 @@
     </div>
     <div class="row stat-row" style="padding-top: 25px;">
         <div class="col-md-7">
-            <p class="graph-stat-header">PARTICIPANT LOCATIONS</p>
-            <ul>
-                <li ng-repeat="location in view.participantLocations" style="padding-bottom: 6px;">{{location.dataLabel}}: {{location.dataValue}}</li>
-            </ul>
+            <p class=" graph-stat-header">PARTICIPANT LOCATIONS</p>
+            <div class="row">
+                <div class="col-md-4">
+                    <ul>
+                        <li>100+</li>
+                        <li>81-99</li>
+                        <li>61-80</li>
+                        <li>41-60</li>
+                        <li>21-40</li>
+                        <li>11-20</li>
+                        <li>0-10</li>
+                    </ul>
+                </div>
+                <div class="col-md-8">
+                    <!--<nvd3 options="view.participantsByLocation.options" data="view.participantsByLocation.data"></nvd3>-->
+                </div>
+            </div>
         </div>
         <div class="col-md-5">
             <p class="graph-stat-header">NUMBER OF PARTICIPANTS</p>
             <nvd3 options="view.participantsByYear.options" data="view.participantsByYear.data"></nvd3>
         </div>
     </div>
-    <div class="row stat-row" style="padding-top: 25px;">
+    <!--<div class="row stat-row" style="padding-top: 25px;">
         <div class="col-md-4">
             <p class="graph-stat-header">GENDER</p>
             <ul>
@@ -63,5 +76,5 @@
                 <li ng-repeat="education in view.participantEducation" style="padding-bottom: 6px;">{{education.dataLabel}}: {{education.dataValue}}</li>
             </ul>
         </div>
-    </div>
+    </div>-->
 </div>
