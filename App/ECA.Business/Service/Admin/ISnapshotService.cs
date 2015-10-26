@@ -30,7 +30,7 @@ namespace ECA.Business.Service.Admin
 
         Task<IEnumerable<string>> GetProgramTopThemes(int programId);
 
-        Task<SnapshotGraphDTO> GetProgramParticipantLocations(int programId);
+        Task<IEnumerable<SnapshotDTO>> GetProgramParticipantsByLocation(int programId);
 
         Task<SnapshotGraphDTO> GetProgramParticipantsByYear(int programId);
 

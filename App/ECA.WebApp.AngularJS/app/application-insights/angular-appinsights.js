@@ -9,16 +9,13 @@
             var _appId,
                 _appName;
 
-            this.start = function (appId, appName) {
+            this.config = function (appId, appName) {
 
                 _appId = appId;
                 _appName = appName || '(Application Root)';
 
-                if (appInsights && appId && appInsights.start) {
-                    appInsights.start(appId);
-                }
-                if (appInsights && appId && !appInsights.start) {
-                    appInsights = appInsights({ instrumentationKey: appId });
+                if (appInsights && appId && !appInsights.config) {
+                    appInsights=appInsights({ instrumentationKey: appId });
                 }
 
             };

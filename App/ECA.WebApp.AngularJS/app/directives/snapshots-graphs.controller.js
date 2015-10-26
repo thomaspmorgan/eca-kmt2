@@ -20,7 +20,7 @@ angular.module('staticApp')
       $scope.view.budgetByYear = [];
       $scope.view.mostFundedCountries = [];
       $scope.view.topThemes = [];
-      $scope.view.participantLocations = [];
+      $scope.view.participantsByLocation = [];
       $scope.view.participantsByYear = [];
       $scope.view.participantGenders = [];
       $scope.view.participantAges = [];
@@ -31,8 +31,8 @@ angular.module('staticApp')
 
           GetProgramBudgetByYear();
           //GetProgramMostFundedCountries();
-          GetProgramTopThemes();
-          //GetProgramParticipantLocations();
+          //GetProgramTopThemes();
+          //GetProgramParticipantsByLocation();
           GetProgramParticipantsByYear();
           //GetProgramParticipantGender();
           //GetProgramParticipantAge();
@@ -129,13 +129,13 @@ angular.module('staticApp')
             });
       }
 
-      function GetProgramParticipantLocations() {
-          SnapshotService.GetProgramParticipantLocations($scope.view.params.programId)
+      function GetProgramParticipantsByLocation() {
+          SnapshotService.GetProgramParticipantsByLocation($scope.view.params.programId)
             .then(function (response) {
-                $scope.view.participantLocations = response.data;
+                $scope.view.participantsByLocation = response.data;
             })
             .catch(function () {
-                var message = 'Unable to load participant locations.';
+                var message = 'Unable to load participants by location.';
                 NotificationService.showErrorMessage(message);
                 $log.error(message);
             });

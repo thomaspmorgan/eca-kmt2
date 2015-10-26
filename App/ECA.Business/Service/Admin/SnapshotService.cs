@@ -147,15 +147,14 @@ namespace ECA.Business.Service.Admin
         }
 
         /// <summary>
-        /// Count of participants by location
+        /// Count of participants by top 5 location
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public Task<SnapshotGraphDTO> GetProgramParticipantLocations(int programId)
+        public async Task<IEnumerable<SnapshotDTO>> GetProgramParticipantsByLocation(int programId)
         {
-            //var dto = await SnapshotQueries.CreateGetProgramParticipantLocationsQuery(Context, programId);
-            //return dto;
-            throw new NotImplementedException();
+            var dto = await SnapshotQueries.CreateGetProgramParticipantsByLocationQuery(Context, programId);
+            return dto;
         }
 
         /// <summary>
