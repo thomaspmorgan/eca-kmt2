@@ -48,6 +48,7 @@ namespace ECA.Business.Queries.Admin
                         {
                             OrganizationId = organization.OrganizationId,
                             Name = organization.Name,
+                            Description = organization.Description,
                             OrganizationType = organizationType.OrganizationTypeName,
                             OrganizationRoleIds = organizationRoles.Select(x => x.OrganizationRoleId),
                             OrganizationRoleNames = organizationRoles.Select(x => x.OrganizationRoleName),

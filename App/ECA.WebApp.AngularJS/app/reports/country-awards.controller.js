@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('CountryAwardsCtrl', function ($scope, $modalInstance, $log, ProgramService, LocationService, parameters, ReportService, DownloadService) {
+  .controller('CountryAwardsCtrl', function ($scope, $modalInstance, $log, ProgramService, LocationService, parameters, ReportService, DownloadService, insights) {
 
       $scope.parameters = parameters;
 
@@ -24,6 +24,7 @@ angular.module('staticApp')
           $scope.isRunning = true;
           $log.debug('Report: CountryAwards programId:[' + parameters.program.programId + ']');
           $log.info('Report: CountryAwards run at: ' + new Date());
+          insights.logEvent('CustomReport', { report: 'CountryAwards', format: parameters.selectedFormat.key });
           DownloadService.get(url, parameters.selectedFormat.mimetype, 'CountryAwards.' + parameters.selectedFormat.key)
           .then(function () {
 

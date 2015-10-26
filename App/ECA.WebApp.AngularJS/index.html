@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="bower_components/select2/select2-bootstrap.css">
     <link rel="stylesheet" href="bower_components/angularjs-toaster/toaster.min.css">
     <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css" />
-    <link rel="stylesheet" href="bower_components/intl-tel-input/build/css/intlTelInput.css" />
+    <link rel="stylesheet" href="bower_components/intl-tel-input/build/css/intlTelInput.css"/>
+    <link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.) styles/main.css -->
@@ -28,16 +29,6 @@
     and before any other scripts. Your first data will appear
     automatically in just a few seconds.
     -->
-    <script type="text/javascript">
-        var appInsights = window.appInsights || function (config) {
-            function s(config) { t[config] = function () { var i = arguments; t.queue.push(function () { t[config].apply(t, i) }) } } var t = { config: config }, r = document, f = window, e = "script", o = r.createElement(e), i, u; for (o.src = config.url || "//az416426.vo.msecnd.net/scripts/a/ai.0.js", r.getElementsByTagName(e)[0].parentNode.appendChild(o), t.cookie = r.cookie, t.queue = [], i = ["Event", "Exception", "Metric", "PageView", "Trace"]; i.length;) s("track" + i.pop()); return config.disableExceptionTracking || (i = "onerror", s("_" + i), u = f[i], f[i] = function (config, r, f, e, o) { var s = u && u(config, r, f, e, o); return s !== !0 && t["_" + i](config, r, f, e, o), s }), t
-        }({
-            instrumentationKey: "c99f6659-bf36-4f1f-92b4-8a6159feb13e"
-        });
-
-        window.appInsights = appInsights;
-        appInsights.trackPageView();
-    </script>
 </head>
 <body ng-app="staticApp" class="cbp-spmenu-push">
     <!--[if lt IE 8]>
@@ -144,7 +135,10 @@
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="bower_components/angular-ui-validate/dist/validate.min.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/fastdom/index.js"></script>
     <script src="bower_components/d3/d3.js"></script>
+    <script src="bower_components/nvd3/build/nv.d3.js"></script>
+    <script src="bower_components/angular-nvd3/dist/angular-nvd3.js"></script>
     <script src="bower_components/topojson/topojson.js"></script>
     <script src="bower_components/datamaps/dist/datamaps.all.js"></script>
     <script src="bower_components/matchmedia/matchMedia.js"></script>
@@ -263,11 +257,14 @@
     <script src="app/directives/moneyflows.directive.js"></script>
     <script src="app/directives/moneyflows.controller.js"></script>
     <script src="app/directives/participant-person-sevis.directive.js"></script>
+    <script src="app/directives/participant-student-visitor.directive.js"></script>
     <script src="app/directives/phone-numbers.controller.js"></script>
     <script src="app/directives/phone-number.controller.js"></script>
     <script src="app/directives/phone-numbers.directive.js"></script>
     <script src="app/directives/snapshots.directive.js"></script>
     <script src="app/directives/snapshots.controller.js"></script>
+    <script src="app/directives/snapshots-graphs.directive.js"></script>
+    <script src="app/directives/snapshots-graphs.controller.js"></script>
     <script src="app/directives/social-media.controller.js"></script>
     <script src="app/directives/social-medias.controller.js"></script>
     <script src="app/directives/social-media-link.directive.js"></script>
@@ -277,6 +274,7 @@
     <script src="app/directives/ui-select-st-search.directive.js"></script>
     <script src="app/directives/year-dropdown.directive.js"></script>
     <!-- Filters -->
+    <script src="app/filters/boolYesNo.filter.js"></script>
     <script src="app/filters/group-by.filter.js"></script>
     <script src="app/filters/highlight.filter.js"></script>
     <script src="app/filters/props.filter.js"></script>
@@ -305,6 +303,7 @@
     <script src="app/services/organization.service.js"></script>
     <script src="app/services/participant-person.service.js"></script>
     <script src="app/services/participant-person-sevis.service.js"></script>
+    <script src="app/services/participant-student-visitor.service.js"></script>
     <script src="app/services/participant.service.js"></script>
     <script src="app/services/person.service.js"></script>
     <script src="app/services/person-evaluation.service.js"></script>
@@ -314,11 +313,11 @@
     <script src="app/services/register-user-event.service.js"></script>
     <script src="app/services/report.service.js"></script>
     <script src="app/services/search.service.js"></script>
+    <script src="app/services/snapshot.service.js"></script>
     <script src="app/services/social-media.service.js"></script>
     <script src="app/services/state.service.js"></script>
     <script src="app/services/table.service.js"></script>
     <script src="app/services/user.service.js"></script>
-    <script src="app/services/snapshot.service.js"></script>
     <!-- endbuild -->
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=onGoogleReady"></script>
 </body>
