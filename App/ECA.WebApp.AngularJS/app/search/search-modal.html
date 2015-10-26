@@ -60,9 +60,9 @@
     </div>
 </div>
 <div class="modal-footer">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-1">
-            <div>
+    <nav>
+        <div class="row">
+            <div class="col-md-10 text-center">
                 <ul class="pagination">
                     <li ng-show="currentPage > 0"><a ng-click="selectPage(0)"><i class="material-icons">arrow_back</i> First</a></li>
                     <li ng-show="currentPage > numberOfDisplayedPages"><a ng-click="selectPage(currentPage - numberOfDisplayedPages)"><i class="material-icons">more_horiz</i></a></li>
@@ -73,9 +73,9 @@
                     <li ng-show="currentPage < totalPages - 1"><a ng-click="selectPage(totalPages - 1)">Last <i class="material-icons">arrow_forward</i></a></li>
                 </ul>
             </div>
+            <div class="col-md-2 pull-right">
+                <button class="btn btn-cancel" ng-click="onCloseSpotlightSearchClick()">Close</button>
+            </div>
         </div>
-        <div class="col-md-2 pull-right">
-            <button class="btn btn-cancel" ng-click="onCloseSpotlightSearchClick()">Close</button>
-        </div>
-    </div>
+    </nav>
 </div>
