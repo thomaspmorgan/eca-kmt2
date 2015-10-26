@@ -1,157 +1,68 @@
 <div class="table">
-    <div class="row">
+    <div class="row row2">
         <div class="col-md-5">
             <h5>Educational Information</h5>
         </div>
         <div class="col-md-7">
-            <a ng-click="view.DHSStatus=!view.EducationalInformation">
+            <a ng-click="view.EducationalInformation=!view.EducationalInformation">
                 <i class="material-icons md-dark md-36 pull-right" ng-show="view.EducationalInformation">expand_more</i>
                 <i class="material-icons md-dark md-36 pull-right" ng-show="!view.EducationalInformation">expand_less</i>
             </a>
         </div>
     </div>
     <div ng-show="view.EducationalInformation">
-        <div class="row">
+        <div class="row row4">
             <div class="col-md-3 title-label">Education Level</div>
             <div class="col-md-3">
                 {{studentvisitorinfo.educationLevel}}
             </div>
-            <div class="col-md-3 title-label">'Other Remarks'</div>
-            <div class="col-md-3"><textarea ng-model="studentvisitorinfo.otherRemarks"></textarea>
+            <div class="col-md-3 title-label">'Other' Remarks</div>
+            <div class="col-md-3">
+                <textarea ng-model="studentvisitorinfo.educationLevelOtherRemarks"></textarea>
+            </div>
+        </div>
+        <div class="row row4">
+            <div class="col-md-3 title-label">Primary Major</div>
+            <div class="col-md-3">
+                {{studentvisitorinfo.primaryMajor}}
+            </div>
+            <div class="col-md-3 title-label">English Proficiency Required?</div>
+            <div class="col-md-3">
+                {{studentvisitorinfo.isEnglishLanguageProficiencyReqd | boolYesNo}}
+            </div>
+        </div>
+        <div class="row row4">
+            <div class="col-md-3 title-label">Secondary Major</div>
+            <div class="col-md-3">
+                {{studentvisitorinfo.secondaryMajor}}
+            </div>
+            <div class="col-md-3 title-label">English Proficiency Requirements Met?</div>
+            <div class="col-md-3">
+                {{studentvisitorinfo.isEnglishLanguageProficiencyMet | boolYesNo}}
+            </div>
+        </div>
+        <div class="row row4">
+            <div class="col-md-3 title-label">Minor</div>
+            <div class="col-md-3">
+                {{studentvisitorinfo.minor}}
+            </div>
+            <div class="col-md-3 title-label">Reason if Eng. Prof. Not Reqd</div>
+            <div class="col-md-3">
+                <textarea ng-model="studentvisitorinfo.englishLanguageProficiencyNotReqdReason"></textarea>
+            </div>
+        </div>
+        <div class="row row4">
+            <div class="col-md-3 title-label">Length Of Study</div>
+            <div class="col-md-3">
+                {{studentvisitorinfo.lengthOfStudy}} Months
+            </div>
+            <div class="col-md-3 title-label">&nbsp;</div>
+            <div class="col-md-3">&nbsp;</div>
         </div>
     </div>
 
-    </div>
-    <div class="row">
-        <div class="col-md-5"><h5>DoS Status</h5></div>
-        <div class="col-md-7">
-            <a ng-click="view.DoSStatus=!view.DoSStatus">
-                <i class="material-icons md-dark md-36 pull-right" ng-show="view.DoSStatus">expand_more</i>
-                <i class="material-icons md-dark md-36 pull-right" ng-show="!view.DoSStatus">expand_less</i>
-            </a>
-        </div>
-    </div>
-    <div class="row" ng-show="view.DoSStatus">
-        <div class="col-md-3">&nbsp;</div>
-        <div class="form-group col-md-3">
-            <input type="checkbox" ng-model="sevisinfo.isSentToSevisViaRTI" /> Sent to DHS via RTI
-        </div>
-        <div class="form-group col-md-6">
-            <input type="checkbox" ng-model="sevisinfo.isCancelled" /> Cancelled
-        </div>
-        <div class="col-md-3">&nbsp;</div>
-        <div class="form-group col-md-3">
-            <input type="checkbox" ng-model="sevisinfo.isValidatedViaRTI" /> Validated via RTI
-        </div>
-        <div class="form-group col-md-6">
-            <input type="checkbox" ng-model="sevisinfo.isNeedsUpdate" /> Needs Update
-        </div>
-        <div class="col-md-3">&nbsp;</div>
-        <div class="form-group col-md-3">
-            <input type="checkbox" ng-model="sevisinfo.isdS2019Printed" /> DS 2019 Printed
-        </div>
-        <div class="form-group col-md-6">
-            <input type="checkbox" ng-model="sevisinfo.isdS2019SentToTraveler" /> DS 2019 Sent to Traveler
-        </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-md-1 title-label">Start Date</label>
-        <div class="col-md-3">
-            <p class="input-group">
-                <input type="text"
-                       id="startDate"
-                       class="form-control"
-                       datepicker-popup="MM-dd-yyyy"
-                       ng-model="sevisinfo.startDate"
-                       is-open="view.isStartDatePickerOpen"
-                       ng-required="true"
-                       close-text="Close" />
-                <span class="input-group-btn">
-                    <button type="button"
-                            class="btn btn-inlist"
-                            style="height: 42px;"
-                            ng-click="view.openStartDatePicker($event)">
-                        <i class="material-icons md-18">event</i>
-                    </button>
-                </span>
-            </p>
-        </div>
-        <label class="col-md-1 title-label">End Date</label>
-        <div class="col-md-3 ">
-            <p class="input-group">
-                <input type="text"
-                       id="endDate"
-                       class="form-control"
-                       datepicker-popup="MM-dd-yyyy"
-                       ng-model="sevisinfo.endDate"
-                       is-open="view.isEndDatePickerOpen"
-                       ng-required="true"
-                       close-text="Close" />
-                <span class="input-group-btn">
-                    <button type="button"
-                            class="btn btn-inlist"
-                            style="height: 42px;"
-                            ng-click="view.openEndDatePicker($event)">
-                        <i class="material-icons md-18">event</i>
-                    </button>
-                </span>
-            </p>
-        </div>
-        <div class="col-md-4">
-            <i class="material-icons md-dark md-36 pull-right">group</i>
-            <i class="material-icons md-dark md-36 pull-right">add</i>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-5"><h5>Position and Field</h5></div>
-        <div class="col-md-7">
-            <a ng-click="view.PositionAndField=!view.PositionAndField">
-                <i class="material-icons md-dark md-36 pull-right" ng-show="view.PositionAndField">expand_more</i>
-                <i class="material-icons md-dark md-36 pull-right" ng-show="!view.PositionAndField">expand_less</i>
-                <i class="material-icons md-dark md-24 pull-right" ng-show="view.PositionAndField">edit</i>
-            </a>
-        </div>
-    </div>
-    <div class="row" ng-show="view.PositionAndField">
-        <div class="row4">
-            <div class="col-md-3">
-                <label class="title-label">Position</label>
-            </div>
-            <div class="col-md-6">
-                {{sevisinfo.position}}
-            </div>
-            <div class="col-md-3">
-                <i class="material-icons md-dark md-36 pull-right">group</i>
-                <i class="material-icons md-dark md-36 pull-right">add</i>
-            </div>
-        </div>
-        <div class="row4">
-            <div class="col-md-3">
-                <label class="title-label">Program Category</label>
-            </div>
-            <div class="col-md-6">
-                {{sevisinfo.programCategory}}
-            </div>
-            <div class="col-md-3">
-                <i class="material-icons md-dark md-36 pull-right">group</i>
-                <i class="material-icons md-dark md-36 pull-right">add</i>
-            </div>
-        </div>
-        <div class="row4">
-            <div class="col-md-3">
-                <label class="title-label">Field Of Study</label>
-            </div>
-            <div class="col-md-6">
-                {{sevisinfo.fieldOfStudy}}
-            </div>
-            <div class="col-md-3">
-                <i class="material-icons md-dark md-36 pull-right">group</i>
-                <i class="material-icons md-dark md-36 pull-right">add</i>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-5"><h5>Funding</h5></div>
+    <div class="row row2">
+        <div class="col-md-5"><h5>Financial Information</h5></div>
         <div class="col-md-7">
             <a ng-click="view.Funding=!view.Funding">
                 <i class="material-icons md-dark md-36 pull-right" ng-show="view.Funding">expand_more</i>
@@ -160,19 +71,66 @@
             </a>
         </div>
     </div>
-    <div class="row" ng-show="view.Funding">
-        <div class="row4">
+    <div ng-show="view.Funding">
+        <div class="row row3">
+            <div class="col-md-3"><h5>Expense</h5></div>
+        </div>
+        <div class="row row4">
             <div class="col-md-3">
-                <label class="title-label">Sponsor</label>
+                <label class="title-label">Tuition</label>
             </div>
             <div class="col-md-8 text-right">
                 $
             </div>
             <div class="col-md-1 text-right">
-                {{sevisinfo.fundingSponsor | number:0}}
+                {{studentvisitorinfo.tuitionExpense | number:0}}
             </div>
         </div>
-        <div class="row4">
+        <div class="row row4">
+            <div class="col-md-3">
+                <label class="title-label">Living Expense</label>
+            </div>
+            <div class="col-md-8 text-right">
+                $
+            </div>
+            <div class="col-md-1 text-right">
+                {{studentvisitorinfo.livingExpense | number:0}}
+            </div>
+        </div>
+        <div class="row row4">
+            <div class="col-md-3">
+                <label class="title-label">Dependant Expense</label>
+            </div>
+            <div class="col-md-8 text-right">
+                $
+            </div>
+            <div class="col-md-1 text-right">
+                {{studentvisitorinfo.dependentExpense | number:0}}
+            </div>
+        </div>
+        <div class="row row4">
+            <div class="col-md-3">
+                <label class="title-label">Other</label>
+            </div>
+            <div class="col-md-8 text-right">
+                $
+            </div>
+            <div class="col-md-1 text-right">
+                {{studentvisitorinfo.otherExpense | number:0}}
+            </div>
+        </div>
+        <div class="row row4">
+            <div class="col-md-3">
+                <label class="title-label">Remarks</label>
+            </div>
+            <div class="col-md-9">
+                <textarea class="textareaFull" ng-model="studentvisitorinfo.expenseRemarks"></textarea>
+            </div>
+        </div>
+        <div class="row row3">
+            <div class="col-md-3"><h5>Funding</h5></div>
+        </div>
+        <div class="row row4">
             <div class="col-md-3">
                 <label class="title-label">Personal</label>
             </div>
@@ -180,89 +138,56 @@
                 $
             </div>
             <div class="col-md-1 text-right">
-                {{sevisinfo.fundingPersonal | number:0}}
+                {{studentvisitorinfo.personalFunding | number:0}}
             </div>
         </div>
-        <div class="row4">
+        <div class="row row4">
             <div class="col-md-3">
-                <label class="title-label">Vis. Gov't</label>
+                <label class="title-label">School</label>
             </div>
             <div class="col-md-8 text-right">
                 $
             </div>
             <div class="col-md-1 text-right">
-                {{sevisinfo.fundingVisGovt | number:0}}
+                {{studentvisitorinfo.schoolFunding | number:0}}
             </div>
         </div>
-        <div class="row4">
+        <div class="row row4 expandIndent">
+            <div class="col-md-3" style="padding-left: 40px">
+                <label class="title-label">Remarks</label>
+            </div>
+            <div class="col-md-9">
+                <textarea class="textareaFull" ng-model="studentvisitorinfo.schoolFundingRemarks"></textarea>
+            </div>
+        </div>
+        <div class="row row4">
             <div class="col-md-3">
-                <label class="title-label">Vis.BNC</label>
+                <label class="title-label">Other</label>
             </div>
             <div class="col-md-8 text-right">
                 $
             </div>
             <div class="col-md-1 text-right">
-                {{sevisinfo.fundingVisBNC | number:0}}
+                {{studentvisitorinfo.otherFunding | number:0}}
             </div>
-        </div><div class="row4">
+        </div>
+        <div class="row row4">
+            <div class="col-md-3" style="padding-left: 40px">
+                <label class="title-label">Remarks</label>
+            </div>
+            <div class="col-md-9">
+                <textarea class="textareaFull" ng-model="studentvisitorinfo.otherFundingRemarks"></textarea>
+            </div>
+        </div>
+        <div class="row row4">
             <div class="col-md-3">
-                <label class="title-label">Gov't Agency 1</label>
+                <label class="title-label">Employment</label>
             </div>
             <div class="col-md-8 text-right">
                 $
             </div>
             <div class="col-md-1 text-right">
-                {{sevisinfo.fundingGovtAgency1 | number:0}}
-            </div>
-        </div><div class="row4">
-            <div class="col-md-3">
-                <label class="title-label">Gov't Agency 2</label>
-            </div>
-            <div class="col-md-8 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                {{sevisinfo.fundingGovtAgency2 | number:0}}
-            </div>
-        </div><div class="row4">
-            <div class="col-md-3">
-                <label class="title-label">Int'l Org 1</label>
-            </div>
-            <div class="col-md-8 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                {{sevisinfo.fundingIntlOrg1 | number:0}}
-            </div>
-        </div><div class="row4">
-            <div class="col-md-3">
-                <label class="title-label">Int'l Org 2</label>
-            </div>
-            <div class="col-md-8 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                {{sevisinfo.fundingIntlOrg2 | number:0}}
-            </div>
-        </div><div class="row4">
-            <div class="col-md-3">
-                <label class="title-label">Other Org.</label>
-            </div>
-            <div class="col-md-8 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                {{sevisinfo.fundingOther | number:0}}
-            </div>
-        </div><div class="row4">
-            <div class="col-md-3">
-                <label class="title-label">Total</label>
-            </div>
-            <div class="col-md-8 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                {{sevisinfo.fundingTotal | number:0}}
+                {{studentvisitorinfo.employmentFunding | number:0}}
             </div>
         </div>
     </div>

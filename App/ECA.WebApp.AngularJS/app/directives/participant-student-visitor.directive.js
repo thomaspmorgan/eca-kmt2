@@ -17,7 +17,7 @@
             restrict: 'E',
             scope: {
                 participantid: '@',
-                studentinfo: '=',
+                studentvisitorinfo: '=',
                 active: '='
             },
             templateUrl: 'app/directives/participant-student-visitor.directive.html'
