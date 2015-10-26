@@ -4,8 +4,6 @@ using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using ECA.Data;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Programs;
@@ -176,32 +174,20 @@ namespace ECA.Business.Queries.Admin
         public static async Task<IEnumerable<SnapshotDTO>> CreateGetProgramParticipantsByLocationQuery(EcaContext context, int programId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var locationValues = await context.Locations
-                                        .SelectMany(l => l.LocationProjects)
-                                        .Where(p => p.ProgramId == programId)
-                                        .SelectMany(pa => pa.Participants)
-                                    .Select(g => new LocationParticipants
-                                    {
-                                        locations = g.Project.Locations.ToList(),
-                                        participantCount = g.Project.Participants.Count()
-                                    }).ToListAsync();
+            var programProjects = context.Projects.Where(p => p.ProgramId == programId || p.ParentProgram.ProgramId == programId);
 
-            List<SnapshotDTO> locations = new List<SnapshotDTO>();
-            foreach (LocationParticipants item in locationValues)
+            List<SnapshotDTO> graphValues = new List<SnapshotDTO>();
+            foreach (var project in programProjects)
             {
-                foreach (Location location in item.locations)
+                foreach (var loc in project.Locations)
                 {
-                    locations.Add(new SnapshotDTO { DataLabel = location.LocationName, DataValue = item.participantCount });
+                    graphValues.Add(new SnapshotDTO
+                    {
+                        DataLabel = loc.LocationIso,
+                        DataValue = programProjects.Select(p => p.Participants.Select(a => a.Person.Addresses.Select(x => x.LocationId == loc.LocationId))).Count()
+                    });
                 }
             }
-
-            var graphValues = from location in locations
-                              group location by location.DataLabel into g
-                              select new SnapshotDTO
-                              {
-                                  DataLabel = g.Key,
-                                  DataValue = g.Select(p => p.DataValue).Sum()
-                              };
 
             return graphValues;
         }
@@ -239,11 +225,13 @@ namespace ECA.Business.Queries.Admin
             throw new NotImplementedException();
         }
 
+
     }
 
-    public class LocationParticipants
+    public class LocationProjectList
     {
-        public List<Location> locations { get; set; }
-        public int participantCount { get; set; }
+        public string LocationIso { get; set; }
+        public List<Project> LocationProjects { get; set; }
     }
+
 }

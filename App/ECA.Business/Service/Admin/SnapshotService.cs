@@ -154,7 +154,7 @@ namespace ECA.Business.Service.Admin
         public async Task<IEnumerable<SnapshotDTO>> GetProgramParticipantsByLocation(int programId)
         {
             var dto = await SnapshotQueries.CreateGetProgramParticipantsByLocationQuery(Context, programId);
-            return dto.OrderByDescending(x => x.DataValue).Take(5);
+            return dto;
         }
 
         /// <summary>
