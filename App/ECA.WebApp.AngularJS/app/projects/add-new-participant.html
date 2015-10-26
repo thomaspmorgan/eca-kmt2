@@ -15,7 +15,7 @@
                         <a ng-click="selectOrganizationTab()">Organization</a>
                     </div>
                 </div>
-                <div ng-if="personTabActive">
+                <div ng-show="personTabActive">
                     <div class="row">
                         <div class="form-group">
                             <label for="">PARTICIPANT TYPE<span class="asterisk"> *</span></label>
@@ -99,7 +99,7 @@
                         </div>
                     </div>
                 </div>
-                <div ng-if="!personTabActive">
+                <div ng-show="!personTabActive">
                     <div class="row">
                         <div class="form-group">
                             <label for="">PARTICIPANT TYPE<span class="asterisk"> *</span></label>
