@@ -19,16 +19,38 @@ angular.module('staticApp')
 
       $scope.view = {};
       $scope.view.isSpotlightIconVisible = false;
+      $scope.view.previousSearch = '';
+      $scope.view.isSpotlightSearchOpen = false;
 
       $scope.view.onSpotlightSearchClick = function () {
+          $scope.view.isSpotlightSearchOpen = true;
           var spotlightModalInstance = $modal.open({
               animation: true,
               templateUrl: 'app/search/search-modal.html',
               controller: 'SearchModalCtrl',
-              windowClass: 'modal-center-large',
-              resolve: {}
+              windowClass: 'search-modal',
+              resolve: {
+                  previousSearch: function () {
+                      return $scope.view.previousSearch;
+                  }
+              }
+          });
+          spotlightModalInstance.result.then(function (previousText) {
+              $log.info('Finished searching.');
+              $scope.view.previousSearch = previousText;
+              $scope.view.isSpotlightSearchOpen = false;
+          }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+              $scope.view.isSpotlightSearchOpen = false;
           });
       }
+
+      angular.element(document).on('keypress', function (event) {
+          if (event.ctrlKey && event.shiftKey && event.keyCode === 6 && !$scope.view.isSpotlightSearchOpen) {
+              $scope.view.onSpotlightSearchClick();
+          }
+      });
+
 
       function loadPermissions() {
           console.assert(ConstantsService.resourceType.application.value, 'The constants service must have the application resource type value.');

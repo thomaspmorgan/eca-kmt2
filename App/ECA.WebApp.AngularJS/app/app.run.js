@@ -16,8 +16,6 @@ angular.module('staticApp')
             { name: 'Partners', state: 'home.notifications' }
           ];
 
-          $rootScope.searchText = '';
-
           var leftOpen = false;
           $rootScope.pushMenu = function ($event) {
               var self = $event.target;
