@@ -25,11 +25,11 @@ angular.module('staticApp')
         TableService,
         StateService
         ) {
-      
+
       console.assert($scope.stateParamName !== undefined, 'The stateParamName must be defined in the directive, i.e. the state parameter name that has the id of the entity showing money flows.');
       console.assert($scope.sourceEntityTypeId !== undefined, 'The sourceEntityTypeId i.e. the money flow source recipient type id of the object that is current showing funding must be set in the directive.');
       console.assert($scope.resourceTypeId !== undefined, 'The resourceTypeId i.e. the cam resource type id must be set in the directive..');
-      
+
       $scope.view = {};
       $scope.view.params = $stateParams;
       $scope.view.moneyFlows = [];
@@ -79,6 +79,11 @@ angular.module('staticApp')
       $scope.view.onEditClick = function (moneyFlow) {
           moneyFlow.original = angular.copy(moneyFlow);
           moneyFlow.currentlyEditing = true;
+          moneyFlow.editableAmount = moneyFlow.editableAmount < 0 ? -moneyFlow.editableAmount : moneyFlow.editableAmount;
+          if (moneyFlow.parentMoneyFlowId) {
+              loadSourceMoneyFlow(moneyFlow);
+          }
+
           var options = {
               duration: 500,
               easing: 'easeIn',
@@ -90,6 +95,21 @@ angular.module('staticApp')
           var id = $scope.view.getMoneyFlowDivId(moneyFlow)
           var e = document.getElementById(id);
           smoothScroll(e, options);
+      }
+
+      $scope.view.onEditableAmountChange = function ($event, moneyFlow) {
+          if (moneyFlow.amount !== moneyFlow.editableAmount) {
+              var newValue = moneyFlow.editableAmount;
+              var positiveAmount = newValue > 0 ? newValue : -newValue;
+              var negativeAmount = newValue < 0 ? newValue : -newValue;
+              moneyFlow.editableAmount = positiveAmount;
+              if (moneyFlow.isOutgoing) {
+                  moneyFlow.amount = negativeAmount;
+              }
+              else {
+                  moneyFlow.amount = positiveAmount;
+              }
+          }
       }
 
       $scope.view.saveMoneyFlowChanges = function (moneyFlow) {
@@ -149,8 +169,47 @@ angular.module('staticApp')
       }
 
       $scope.view.onCopyClick = function (moneyFlow) {
-          var copiedMoneyFlow = getCopiedMoneyFlow(moneyFlow);
-          showEditMoneyFlow(copiedMoneyFlow);
+          return getCopiedMoneyFlow(moneyFlow)
+          .then(function (copiedMoneyFlow) {
+              showEditMoneyFlow(copiedMoneyFlow);
+          })
+          .catch(function () {
+              var message = "Unable to copy funding item.";
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
+          });
+      }
+
+      $scope.view.validateSourceRemainingAmount = function ($value, moneyFlow) {
+          if (moneyFlow.parentMoneyFlow) {
+              if ($value && $value > moneyFlow.parentMoneyFlow.moneyFlowLineItemMaximumAmount) {
+                  return false;
+              }
+              else {
+                  return true;
+              }
+          }
+          else {
+              return true;
+          }
+      }
+
+      function loadSourceMoneyFlow(moneyFlow) {
+          console.assert(moneyFlow.parentMoneyFlowId, "The given money flow should have a parent id.");
+          moneyFlow.isLoadingSource = true;
+          return MoneyFlowService.getSourceMoneyFlowById(moneyFlow.id)
+          .then(function (response) {
+              moneyFlow.isLoadingSource = false;
+              var positiveAmount = moneyFlow.amount < 0 ? -moneyFlow.amount : moneyFlow.amount;
+              moneyFlow.parentMoneyFlow = response.data;
+              moneyFlow.parentMoneyFlow.moneyFlowLineItemMaximumAmount = positiveAmount + moneyFlow.parentMoneyFlow.remainingAmount;
+          })
+          .catch(function (response) {
+              moneyFlow.isLoadingSource = false;
+              var message = "Unable to load parent money flow.";
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
+          });
       }
 
       function showEditMoneyFlow(moneyFlow) {
@@ -189,7 +248,26 @@ angular.module('staticApp')
               primaryText: moneyFlow.sourceRecipientName
           };
           copiedMoneyFlow.entityName = $scope.entityName;
-          return copiedMoneyFlow;
+
+          if (moneyFlow.parentMoneyFlowId) {
+              moneyFlow.isCopyingMoneyFlow = true;
+              copiedMoneyFlow.parentMoneyFlowId = moneyFlow.parentMoneyFlowId;
+              $log.info("Copied money flow has parent money flow.");
+              return MoneyFlowService.getSourceMoneyFlowById(moneyFlow.id)
+              .then(function (response) {
+                  var parentMoneyFlow = response.data;
+                  copiedMoneyFlow.parentMoneyFlow = parentMoneyFlow;
+                  copiedMoneyFlow.isSourceMoneyFlowAmountExpended = parentMoneyFlow.remainingAmount === 0;
+                  copiedMoneyFlow.copiedMoneyFlowExceedsSourceLimit = parentMoneyFlow.remainingAmount < copiedMoneyFlow.value;
+                  moneyFlow.isCopyingMoneyFlow = false;
+                  return copiedMoneyFlow;
+              });
+          }
+          else {
+              var dfd = $q.defer();
+              dfd.resolve(copiedMoneyFlow);
+              return dfd.promise;
+          }
       }
 
       function deleteMoneyFlow(moneyFlow) {
@@ -267,11 +345,11 @@ angular.module('staticApp')
 
       function getMoneyFlowHref(moneyFlow) {
           var dfd = $q.defer();
-          
+
           if (moneyFlow.sourceRecipientEntityTypeId !== ConstantsService.moneyFlowSourceRecipientType.participant.id) {
               dfd.resolve(StateService.getStateByMoneyFlowSourceRecipientType(moneyFlow.sourceRecipientEntityId, moneyFlow.sourceRecipientEntityTypeId));
           }
-          else{
+          else {
               StateService.getStateByMoneyFlowSourceRecipientType(moneyFlow.sourceRecipientEntityId, moneyFlow.sourceRecipientEntityTypeId)
               .then(function (result) {
                   dfd.resolve(result);
@@ -298,7 +376,9 @@ angular.module('staticApp')
                   moneyFlow.currentlyEditing = false;
                   moneyFlow.isOutgoing = moneyFlow.amount < 0;
                   moneyFlow.isSavingUpdate = false;
+                  moneyFlow.isLoadingSource = false;
                   moneyFlow.isDeleting = false;
+                  moneyFlow.isCopyingMoneyFlow = false;
                   moneyFlow.editableAmount = moneyFlow.amount < 0 ? -moneyFlow.amount : moneyFlow.amount;
                   moneyFlow.isTransactionDatePickerOpen = false;
                   moneyFlow.loadingEntityState = false;
@@ -314,22 +394,7 @@ angular.module('staticApp')
                   if (!isNaN(transactionDate.getTime())) {
                       moneyFlow.transactionDate = transactionDate;
                   }
-                  $scope.$watch(function () {
-                      return moneyFlow.editableAmount;
-                  },
-                  function (newValue, oldValue) {
-                      if (newValue !== oldValue) {
-                          var positiveAmount = newValue > 0 ? newValue : -newValue;
-                          var negativeAmount = newValue < 0 ? newValue : -newValue;
-                          moneyFlow.editableAmount = positiveAmount;
-                          if (moneyFlow.isOutgoing) {
-                              moneyFlow.amount = negativeAmount;
-                          }
-                          else {
-                              moneyFlow.amount = positiveAmount;
-                          }
-                      }
-                  });
+
               });
               var total = response.data.total;
               var limit = TableService.getLimit();

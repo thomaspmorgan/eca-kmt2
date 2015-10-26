@@ -170,12 +170,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\activities\activities.routes.js" />
+    <Content Include="app\application-insights\angular-appinsights.js" />
     <Content Include="app\app.config.js" />
+    <Content Include="app\application-insights\appinsightsinit.js" />
     <Content Include="app\auth\auth.routes.js" />
     <Content Include="app\directives\snapshots-graphs.controller.js" />
     <Content Include="app\directives\snapshots-graphs.directive.html" />
     <Content Include="app\directives\snapshots-graphs.directive.js" />
+    <Content Include="app\directives\participant-student-visitor.directive.js" />
+    <Content Include="app\directives\participant-student-visitor.directive.html" />
     <Content Include="app\errors\error.routes.js" />
+    <Content Include="app\filters\boolYesNo.filter.js" />
     <Content Include="app\filters\newline.filter.js" />
     <Content Include="app\home\home.routes.js" />
     <Content Include="app\offices\offices.routes.js" />
@@ -194,6 +199,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>constants.service.js</LastGenOutput>
     </Content>
+    <Content Include="app\services\participant-student-visitor.service.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="gulpfile.js" />

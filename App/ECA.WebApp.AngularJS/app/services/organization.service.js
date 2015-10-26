@@ -29,6 +29,9 @@ angular.module('staticApp')
           },
           create: function (organization) {
               return DragonBreath.create(organization, 'organizations');
+          },
+          createParticipantOrganization: function (organization) {
+              return DragonBreath.create(organization, 'participants/organizations');
           }
       };
   });

@@ -49,7 +49,7 @@ namespace ECA.Business.Queries.Persons
                              DependentExpense = p.DependentExpense,
                              OtherExpense = p.OtherExpense,
                              ExpenseRemarks = p.ExpenseRemarks,
-                             PersonFunding = p.PersonalFunding,
+                             PersonalFunding = p.PersonalFunding,
                              SchoolFunding = p.SchoolFunding,
                              SchoolFundingRemarks = p.SchoolFundingRemarks,
                              OtherFunding = p.OtherFunding,

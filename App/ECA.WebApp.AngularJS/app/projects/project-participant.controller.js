@@ -24,7 +24,8 @@ angular.module('staticApp')
         TableService,
         ParticipantService,
         ParticipantPersonsService,
-        ParticipantPersonsSevisService
+        ParticipantPersonsSevisService,
+        ParticipantStudentVisitorService
         ) {
 
       $scope.view = {};
@@ -48,6 +49,10 @@ angular.module('staticApp')
       $scope.view.totalParticipants = 0;
       $scope.view.tabSevis = false;
       $scope.view.sevisCommStatuses = null;
+
+      $scope.sevisInfo = {};
+      $scope.studentVisitorInfo = {};
+      $scope.participantInfo = {};
 
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;
@@ -308,13 +313,31 @@ angular.module('staticApp')
           });
       };
 
+      function loadStudentVisitorInfo(participantId) {
+          return ParticipantStudentVisitorService.getParticipantStudentVisitorById(participantId)
+          .then(function (data) {
+              $scope.studentVisitorInfo[participantId] = data.data;
+              $scope.studentVisitorInfo[participantId].show = true;
+          }, function (error) {
+              if (error.status === 404) {
+                  $scope.studentVisitorInfo[participantId] = {};
+                  $scope.studentVisitorInfo[participantId].show = true;
+              } else {
+                  $log.error('Unable to load participant student visitor info for ' + participantId + '.');
+                  NotificationService.showErrorMessage('Unable to load participant student visitor info for ' + participantId + '.');
+              }
+          });
+      };
+
       $scope.onSevisTabSelected = function (participantId) {
           $scope.view.tabSevis = true;
           loadSevisInfo(participantId);
       };
 
-      $scope.sevisInfo = {};
-      $scope.participantInfo = {};
+      $scope.onStudentVisitorTabSelected = function (participantId) {
+          $scope.view.tabStudentVisitor = true;
+          loadStudentVisitorInfo(participantId)
+      }
 
       $scope.toggleParticipantInfo = function (participantId) {
           if ($scope.participantInfo[participantId]) {

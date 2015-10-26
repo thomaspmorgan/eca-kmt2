@@ -6,12 +6,12 @@ angular.module('staticApp')
         .state('home', {
             templateUrl: 'app/home/home.html',
             controller: 'HomeCtrl',
-            requireADLogin: true
+            requireADLogin: false
         })
         .state('home.shortcuts', {
             url: '/',
             templateUrl: 'app/home/shortcuts.html',
-            requireADLogin: true
+            requireADLogin: false
         })
         .state('home.notifications', {
             url: '/',

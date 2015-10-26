@@ -8,7 +8,7 @@
 //  </auto-generated>
 // ------------------------------------------------------------------------------
 
-namespace ViewOffices_ProgramsandBranches.Test
+namespace ViewOfficesProgramsandBranches.Test
 {
     using System;
     using System.CodeDom.Compiler;

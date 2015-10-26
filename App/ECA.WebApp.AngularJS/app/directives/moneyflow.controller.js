@@ -42,6 +42,7 @@ angular.module('staticApp')
       $scope.view.moneyFlowStatii = [];
       $scope.view.moneyFlowTypes = [];
       $scope.view.isLoadingRequiredData = false;
+      $scope.view.isCopyingMoneyFlow = false;
       $scope.view.maxDescriptionLength = 255;
       $scope.view.maxAmount = ConstantsService.maxNumericValue;
       $scope.view.incomingDirectionKey = "incoming";
@@ -50,7 +51,8 @@ angular.module('staticApp')
       $scope.view.isSaving = false;
       $scope.view.isSourceRecipientFieldEnabled = false;
       $scope.view.isSourceRecipientFieldRequired = true;
-      $scope.view.loadingMoneyFlowSourcesLoadingText = "Loading";
+      $scope.view.isSourceMoneyFlowAmountExpended = false;
+      $scope.view.copiedMoneyFlowExceedsSourceLimit = false;
 
       $scope.view.openTransactionDatePicker = function ($event) {
           $event.preventDefault();
@@ -201,7 +203,7 @@ angular.module('staticApp')
                   sourceName: ''
               });
               $scope.view.isLoadingSourceMoneyFlows = true;
-              loadFn.then(function (response) {
+              return loadFn.then(function (response) {
                   var sources = response.data;
                   $scope.view.isLoadingSourceMoneyFlows = false;
                   $scope.view.sourceMoneyFlows = sources;
@@ -393,9 +395,12 @@ angular.module('staticApp')
           var moneyFlow = null;
           console.assert(entity.entityTypeId, 'The entity must have at the entityTypeId defined.');
           console.assert(entity.entityId, 'The entity must have at the entityId defined.');
-
+          
           if (entity.isCopy) {
               moneyFlow = entity;
+              $scope.view.isSourceMoneyFlowAmountExpended = moneyFlow.isSourceMoneyFlowAmountExpended;
+              $scope.view.copiedMoneyFlowExceedsSourceLimit = moneyFlow.copiedMoneyFlowExceedsSourceLimit;
+              $scope.view.selectedSourceMoneyFlow = moneyFlow.parentMoneyFlow;
           }
           else {
               moneyFlow = {
@@ -498,6 +503,8 @@ angular.module('staticApp')
       $q.all([getAllowedRecipientMoneyFlowSourceRecipientTypes(), getAllowedSourceMoneyFlowSourceRecipientTypes(), getAllMoneyFlowTypes(), getAllMoneyFlowStati()])
         .then(function () {
             $scope.view.isLoadingRequiredData = false;
+            if (entity.isCopy) {                
+            }
         })
         .catch(function () {
             $scope.view.isLoadingRequiredData = false;
