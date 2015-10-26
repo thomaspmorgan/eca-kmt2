@@ -286,7 +286,6 @@
     <Content Include="app\directives\expose-table-state.directive.js" />
     <Content Include="app\directives\social-media-link.directive.js" />
     <Content Include="app\directives\ui-select-st-search.directive.js" />
-    <Content Include="app\directives\year-dropdown.directive.js" />
     <Content Include="app\filters\group-by.filter.js" />
     <Content Include="app\filters\props.filter.js" />
     <Content Include="app\services\bookmark.service.js" />

@@ -15,6 +15,7 @@ angular.module('staticApp')
         $log,
         $modalInstance,
         entity,
+        fiscalYears,
         FilterService,
         MoneyFlowService,
         LookupService,
@@ -30,6 +31,7 @@ angular.module('staticApp')
       console.assert(entity.entityName && entity.entityName.length > 0, "The entity.entityName value must be defined.");
 
       $scope.view = {};
+      $scope.view.fiscalYears = fiscalYears;
       $scope.view.isLoadingSourceMoneyFlows = false;
       $scope.view.entityNameMaxLength = 100;
       $scope.view.entityName = entity.entityName;

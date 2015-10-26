@@ -29,7 +29,6 @@ angular.module('staticApp')
       console.assert($scope.stateParamName !== undefined, 'The stateParamName must be defined in the directive, i.e. the state parameter name that has the id of the entity showing money flows.');
       console.assert($scope.sourceEntityTypeId !== undefined, 'The sourceEntityTypeId i.e. the money flow source recipient type id of the object that is current showing funding must be set in the directive.');
       console.assert($scope.resourceTypeId !== undefined, 'The resourceTypeId i.e. the cam resource type id must be set in the directive..');
-
       $scope.view = {};
       $scope.view.params = $stateParams;
       $scope.view.moneyFlows = [];
@@ -194,6 +193,29 @@ angular.module('staticApp')
           }
       }
 
+      $scope.view.getFiscalYears = function (moneyFlow) {
+          var currentYear = new Date().getFullYear();
+          var startYear = currentYear - 10;
+          var maxYear = currentYear + 2;
+          var allYears = [];
+          for (var i = startYear; i <= maxYear; i++) {
+              allYears.push(i);
+          }
+          
+          if (moneyFlow.hasOwnProperty('fiscalYear')) {
+              var containsMoneyFlowFiscalYear = false;
+              angular.forEach(allYears, function (year, index) {
+                  if (year === moneyFlow.fiscalYear) {
+                      containsMoneyFlowFiscalYear = true;
+                  }
+              });
+              if (!containsMoneyFlowFiscalYear) {
+                  allYears.splice(0, 0, moneyFlow.fiscalYear);
+              }
+          }          
+          return allYears;
+      }
+
       function loadSourceMoneyFlow(moneyFlow) {
           console.assert(moneyFlow.parentMoneyFlowId, "The given money flow should have a parent id.");
           moneyFlow.isLoadingSource = true;
@@ -213,6 +235,7 @@ angular.module('staticApp')
       }
 
       function showEditMoneyFlow(moneyFlow) {
+          var fiscalYears = $scope.view.getFiscalYears(moneyFlow);
           var modalInstance = $modal.open({
               animation: true,
               templateUrl: 'app/directives/moneyflow.directive.html',
@@ -221,6 +244,9 @@ angular.module('staticApp')
               resolve: {
                   entity: function () {
                       return moneyFlow;
+                  },
+                  fiscalYears: function () {
+                      return fiscalYears;
                   }
               }
           });
