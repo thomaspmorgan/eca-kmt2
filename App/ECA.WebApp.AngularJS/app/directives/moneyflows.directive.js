@@ -15,6 +15,9 @@ angular.module('staticApp')
               sourceEntityTypeId: '=sourceentitytypeid',
               resourceTypeId: '=resourcetypeid',
               entityName: '=entityname'
+          },
+          link: function (scope, element, attrs) {
+
           }
       };
       return directive;
