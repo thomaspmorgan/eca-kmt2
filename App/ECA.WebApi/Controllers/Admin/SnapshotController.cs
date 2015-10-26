@@ -190,11 +190,11 @@ namespace ECA.WebApi.Controllers.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        [ResponseType(typeof(SnapshotGraphDTO))]
-        [Route("ProgramParticipantLocations/{programId:int}")]
-        public async Task<SnapshotGraphDTO> GetProgramParticipantLocations(int programId)
+        [ResponseType(typeof(IEnumerable<SnapshotDTO>))]
+        [Route("ProgramParticipantsByLocation/{programId:int}")]
+        public async Task<IEnumerable<SnapshotDTO>> GetProgramParticipantsByLocation(int programId)
         {
-            var dto = await service.GetProgramParticipantLocations(programId);
+            var dto = await service.GetProgramParticipantsByLocation(programId);
             return dto;
         }
 

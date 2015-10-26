@@ -46,6 +46,10 @@ angular.module('staticApp')
               var path = 'organizations/' + id + '/moneyflows/sources';
               return DragonBreath.get(params, path);
           },
+          getSourceMoneyFlowById: function(moneyFlowId, params){
+              var path = 'moneyflows/' + moneyFlowId + '/source';
+              return DragonBreath.get(params, path);
+          },
           remove: function(moneyFlow, entityId) {
               var path = '';
               if (moneyFlow.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.project.id) {

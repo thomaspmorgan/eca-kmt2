@@ -9,15 +9,15 @@
 angular.module('staticApp')
   .controller('SearchModalCtrl', function (
         $scope,
-        $rootScope,
         $stateParams,
         $q,
         $log,
         $location,
+        previousSearch,
         $modalInstance,
         $filter,
         $anchorScroll,
-        $sanitize,
+        $timeout,
         $state,
         SearchService,
         StateService,
@@ -34,7 +34,7 @@ angular.module('staticApp')
       $scope.totalpages = 0;
       $scope.numberOfDisplayedPages = 10;
       $scope.suggestions = [];
-      $scope.text = '';
+      $scope.text = previousSearch;
       $scope.isLoadingResults = false;
       $scope.isLoadingDocInfo = false;
       $scope.currentParams = {
@@ -77,6 +77,14 @@ angular.module('staticApp')
           for (var i = start; i < end; i++) {
               $scope.pages.push(i);
           }
+      }
+
+      function focusSearchField() {
+          var searchFieldId = '#spotlightSearchTextField';
+          var element = angular.element(searchFieldId);
+          $timeout(function () {
+              element[0].focus();
+          }, 300);
       }
 
       // Execute search as user types
@@ -138,21 +146,18 @@ angular.module('staticApp')
       }
 
       // Save the previous search term
-      if ($rootScope.searchText.length) {
-          $scope.text = $rootScope.searchText;
+      if (previousSearch) {
           $scope.autocomplete();
       }
 
       // Closes the search modal
       $scope.onCloseSpotlightSearchClick = function () {
-          $rootScope.searchText = $scope.text;
-          $modalInstance.dismiss('close');
+          $modalInstance.close($scope.text);
       };
 
       // Closes the search modal and reloads selection
       $scope.onGoToSpotlightSearchClick = function (url) {
-          $rootScope.searchText = $scope.text;
-          $modalInstance.dismiss('close');
+          $modalInstance.close($scope.text);
           $location.path(url, true);
       };
 
@@ -219,7 +224,7 @@ angular.module('staticApp')
 
       $q.all([loadFieldNames()])
       .then(function () {
-
+          focusSearchField();
       });
   });
 

@@ -4,11 +4,10 @@ using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using ECA.Data;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Programs;
+using ECA.Core.DynamicLinq.Filter;
 
 namespace ECA.Business.Queries.Admin
 {
@@ -56,7 +55,7 @@ namespace ECA.Business.Queries.Admin
             };
         }
 
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -143,9 +142,9 @@ namespace ECA.Business.Queries.Admin
         {
             Contract.Requires(context != null, "The context must not be null.");
             var budgetByYear = await (from mf in context.MoneyFlows
-                                where mf.RecipientProgramId == programId && mf.FiscalYear >= oldestDate.Year
-                                group mf by mf.FiscalYear into g
-                                select g).ToListAsync();
+                                      where mf.RecipientProgramId == programId && mf.FiscalYear >= oldestDate.Year
+                                      group mf by mf.FiscalYear into g
+                                      select g).ToListAsync();
 
             SnapshotGraphDTO graphValues = new SnapshotGraphDTO
             {
@@ -172,32 +171,26 @@ namespace ECA.Business.Queries.Admin
             return await projectThemes.ToListAsync();
         }
 
-        //public static async Task<SnapshotGraphDTO> CreateGetProgramParticipantLocationsQuery(EcaContext context, int programId)
-        //{
-        //    //Contract.Requires(context != null, "The context must not be null.");
-        //    //var ranges = new[] { 10, 20, 30, 40, 100 };
-        //    ////var participantLocations = await context.Participants.Where(p => p.Project.ProgramId == programId)
-        //    ////                                        .GroupBy(x => x.Project.Locations.Select(l => l.LocationId).FirstOrDefault())
-        //    ////                                        .Select(r => r).ToListAsync();
+        public static async Task<IEnumerable<SnapshotDTO>> CreateGetProgramParticipantsByLocationQuery(EcaContext context, int programId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var programProjects = context.Projects.Where(p => p.ProgramId == programId || p.ParentProgram.ProgramId == programId);
 
-        //    //var projectParticipants = context.Participants.Join(context.Projects, part => part.ProjectId, proj => proj.ProjectId, (part, proj) => new { Participant = part, Project = proj })
-        //    //                            .Where(partProj => partProj.Project.ProgramId == programId && partProj.Participant.StatusDate.Value.Year >= oldestDate.Year)
-        //    //                            .Select(objPart => new SnapshotDTO()
-        //    //                            {
-        //    //                                DataLabel = objPart.Project.Locations.Where(c => c.LocationProjects.Contains(objPart.Project)).FirstOrDefault().LocationName,
-        //    //                                DataValue = objPart.Participant.Project.Locations.Where(c => c.LocationProjects.Contains(objPart.Project)).Distinct().Count()
-        //    //                            });
-            
-        //    //var locationGroups = ranges.Select(r => new SnapshotDTO()
-        //    //{
-        //    //    DataLabel = projectParticipants.Where(x => x.DataValue >= r).Select(c => c.DataLabel).FirstOrDefault(),
-        //    //    DataValue = r
-        //    //});
+            List<SnapshotDTO> graphValues = new List<SnapshotDTO>();
+            foreach (var project in programProjects)
+            {
+                foreach (var loc in project.Locations)
+                {
+                    graphValues.Add(new SnapshotDTO
+                    {
+                        DataLabel = loc.LocationIso,
+                        DataValue = programProjects.Select(p => p.Participants.Select(a => a.Person.Addresses.Select(x => x.LocationId == loc.LocationId))).Count()
+                    });
+                }
+            }
 
-        //    //return locationGroups.OrderByDescending(m => m.DataValue).ToList();
-
-        //    throw new NotImplementedException();
-        //}
+            return graphValues;
+        }
 
         public static async Task<SnapshotGraphDTO> CreateGetProgramParticipantsByYearQuery(EcaContext context, int programId)
         {
@@ -231,6 +224,14 @@ namespace ECA.Business.Queries.Admin
             // TODO: get participant education
             throw new NotImplementedException();
         }
-        
+
+
     }
+
+    public class LocationProjectList
+    {
+        public string LocationIso { get; set; }
+        public List<Project> LocationProjects { get; set; }
+    }
+
 }

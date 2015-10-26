@@ -151,6 +151,8 @@
     <Compile Include="Configuration\ParticipantPersonConfiguration.cs" />
     <Compile Include="Configuration\PersonConfiguration.cs" />
     <Compile Include="Configuration\PositionConfiguration.cs" />
+    <Compile Include="Configuration\EducationLevelConfiguration.cs" />
+    <Compile Include="Configuration\StudentCreationConfiguration.cs" />
     <Compile Include="Configuration\ProgramConfiguration.cs" />
     <Compile Include="Configuration\ProgramCategoryConfiguration.cs" />
     <Compile Include="Configuration\ProgramSubjectConfiguration.cs" />

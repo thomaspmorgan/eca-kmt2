@@ -130,7 +130,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Get or sets the Personal funding
         /// </summary>
-        public decimal? PersonFunding { get; set; }
+        public decimal? PersonalFunding { get; set; }
 
         /// <summary>
         /// Get or sets the School Funding

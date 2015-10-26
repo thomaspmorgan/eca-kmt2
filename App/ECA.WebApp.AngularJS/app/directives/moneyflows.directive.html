@@ -105,14 +105,18 @@
                     </td>
                     <td ng-show="!view.moneyFlowsLoading && !moneyFlow.currentlyEditing && view.canEditMoneyFlows">
                         <div class="right" style="display:none;" showonparentrow>
-                            <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy" ng-click="view.onCopyClick(moneyFlow)">
-                                <i class="material-icons md-24 copyEditDeleteOption">content_copy</i>
+                            <div>
+                                <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy" ng-click="view.onCopyClick(moneyFlow)">
+                                    <i class="material-icons md-24 copyEditDeleteOption" ng-show="!moneyFlow.isCopyingMoneyFlow">content_copy</i>
+                                    <i class="material-icons md-24 material-icons-spin copyEditDeleteOption" ng-show="moneyFlow.isCopyingMoneyFlow">autorenew</i>
+                                </div>
                             </div>
                             <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Edit" ng-click="view.onEditClick(moneyFlow)">
                                 <i class="material-icons md-24 copyEditDeleteOption">edit</i>
                             </div>
                             <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Delete" ng-click="view.onDeleteClick(moneyFlow)">
-                                <i class="material-icons md-24 copyEditDeleteOption">delete</i>
+                                <i class="material-icons md-24 copyEditDeleteOption"ng-show="!moneyFlow.isDeleting">delete</i>
+                                <i class="material-icons md-24 material-icons-spin copyEditDeleteOption" ng-show="moneyFlow.isDeleting">autorenew</i>
                             </div>
                         </div>
                     </td>
@@ -179,22 +183,41 @@
                                         <label for="amount{{moneyFlow.id}}">Amount<span class="asterisk"> *</span></label>
                                         <input name="amount"
                                                ng-model="moneyFlow.editableAmount"
-                                               max="{{view.maxAmount}}"
+                                               max="{{moneyFlow.parentMoneyFlow ? moneyFlow.parentMoneyFlow.moneyFlowLineItemMaximumAmount : view.maxAmount}}"
                                                type="number"
+                                               ng-blur="view.onEditableAmountChange($event, moneyFlow)"
                                                step="any"
                                                min="0"
                                                class="form-control"
+                                               ui-validate="{exceedsSourceAmount: 'view.validateSourceRemainingAmount($value, moneyFlow)'}"
                                                placeholder="Enter amount."
                                                id="amount{{moneyFlow.id}}"
-                                               required />
-                                        <div ng-show="form.moneyFlowForm.amount.$dirty || form.moneyFlowForm.amount.$error.required">
+                                               ng-required="true" />
+                                        <div ng-show="form.moneyFlowForm.amount.$dirty">
                                             <div class="error" ng-show="form.moneyFlowForm.amount.$error.required">Please enter a transaction amount.</div>
+                                            <div class="error" ng-show="form.moneyFlowForm.amount.$error.exceedsSourceAmount">The amount exceeds the remaining source funding.</div>
+                                        </div>
+                                        <div ng-show="moneyFlow.isLoadingSource">
+                                            <i class="material-icons material-icons-spin md-24">autorenew</i>
+                                        </div>
+                                        <div ng-show="moneyFlow.parentMoneyFlow && !moneyFlow.isLoadingSource">
+                                            <div>
+                                                <p>Source:  {{moneyFlow.parentMoneyFlow.sourceName}}</p>
+                                            </div>
+                                            <div>
+                                                <p ng-class="{error: form.moneyFlowForm.amount.$error.exceedsSourceAmount}">Remaining Amount:  {{moneyFlow.parentMoneyFlow.moneyFlowLineItemMaximumAmount - moneyFlow.editableAmount | currency}}</p>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="fiscalYear">Reference Fiscal Year<span class="asterisk"> *</span></label>
-                                        <year-dropdown name="fiscalYear" id="fiscalYear" model="moneyFlow.fiscalYear" 
-                                                       offset="-10" range="2" class="yearDropdown" required></year-dropdown>
+                                        <select class="form-control"
+                                                id="fiscalYear{{moneyFlow.id}}"
+                                                name="fiscalYear"
+                                                ng-options="fiscalYear as fiscalYear for fiscalYear in view.getFiscalYears(moneyFlow)"
+                                                ng-model="moneyFlow.fiscalYear"
+                                                required>
+                                        </select>
                                         <div ng-show="form.moneyFlowForm.fiscalYear.$dirty || form.moneyFlowForm.fiscalYear.$error.required">
                                             <div class="error" ng-show="form.moneyFlowForm.fiscalYear.$error.required">Please enter a fiscal year.</div>
                                         </div>

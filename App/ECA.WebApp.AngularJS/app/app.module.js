@@ -27,5 +27,6 @@ angular
     'ngAnimate',
     'smoothScroll',
     'internationalPhoneNumber',
-    'nvd3'
+    'nvd3',
+    'angular-appinsights'
   ]);
