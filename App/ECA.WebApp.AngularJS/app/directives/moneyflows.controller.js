@@ -196,13 +196,16 @@ angular.module('staticApp')
 
       function loadSourceMoneyFlow(moneyFlow) {
           console.assert(moneyFlow.parentMoneyFlowId, "The given money flow should have a parent id.");
+          moneyFlow.isLoadingSource = true;
           return MoneyFlowService.getSourceMoneyFlowById(moneyFlow.id)
           .then(function (response) {
+              moneyFlow.isLoadingSource = false;
               var positiveAmount = moneyFlow.amount < 0 ? -moneyFlow.amount : moneyFlow.amount;
               moneyFlow.parentMoneyFlow = response.data;
               moneyFlow.parentMoneyFlow.moneyFlowLineItemMaximumAmount = positiveAmount + moneyFlow.parentMoneyFlow.remainingAmount;
           })
           .catch(function (response) {
+              moneyFlow.isLoadingSource = false;
               var message = "Unable to load parent money flow.";
               NotificationService.showErrorMessage(message);
               $log.error(message);
@@ -230,7 +233,6 @@ angular.module('staticApp')
       }
 
       function getCopiedMoneyFlow(moneyFlow) {
-
           var copiedMoneyFlow = angular.copy(moneyFlow);
           delete copiedMoneyFlow.id;
           copiedMoneyFlow.description = 'COPY:  ' + copiedMoneyFlow.description;
@@ -248,15 +250,16 @@ angular.module('staticApp')
           copiedMoneyFlow.entityName = $scope.entityName;
 
           if (moneyFlow.parentMoneyFlowId) {
+              moneyFlow.isCopyingMoneyFlow = true;
               copiedMoneyFlow.parentMoneyFlowId = moneyFlow.parentMoneyFlowId;
               $log.info("Copied money flow has parent money flow.");
-              $scope.view.isCopyingMoneyFlow = true;
               return MoneyFlowService.getSourceMoneyFlowById(moneyFlow.id)
               .then(function (response) {
                   var parentMoneyFlow = response.data;
                   copiedMoneyFlow.parentMoneyFlow = parentMoneyFlow;
                   copiedMoneyFlow.isSourceMoneyFlowAmountExpended = parentMoneyFlow.remainingAmount === 0;
                   copiedMoneyFlow.copiedMoneyFlowExceedsSourceLimit = parentMoneyFlow.remainingAmount < copiedMoneyFlow.value;
+                  moneyFlow.isCopyingMoneyFlow = false;
                   return copiedMoneyFlow;
               });
           }
@@ -373,7 +376,9 @@ angular.module('staticApp')
                   moneyFlow.currentlyEditing = false;
                   moneyFlow.isOutgoing = moneyFlow.amount < 0;
                   moneyFlow.isSavingUpdate = false;
+                  moneyFlow.isLoadingSource = false;
                   moneyFlow.isDeleting = false;
+                  moneyFlow.isCopyingMoneyFlow = false;
                   moneyFlow.editableAmount = moneyFlow.amount < 0 ? -moneyFlow.amount : moneyFlow.amount;
                   moneyFlow.isTransactionDatePickerOpen = false;
                   moneyFlow.loadingEntityState = false;

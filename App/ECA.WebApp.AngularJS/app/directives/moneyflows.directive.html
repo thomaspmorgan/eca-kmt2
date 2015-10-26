@@ -105,14 +105,18 @@
                     </td>
                     <td ng-show="!view.moneyFlowsLoading && !moneyFlow.currentlyEditing && view.canEditMoneyFlows">
                         <div class="right" style="display:none;" showonparentrow>
-                            <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy" ng-click="view.onCopyClick(moneyFlow)">
-                                <i class="material-icons md-24 copyEditDeleteOption">content_copy</i>
+                            <div>
+                                <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy" ng-click="view.onCopyClick(moneyFlow)">
+                                    <i class="material-icons md-24 copyEditDeleteOption" ng-show="!moneyFlow.isCopyingMoneyFlow">content_copy</i>
+                                    <i class="material-icons md-24 material-icons-spin copyEditDeleteOption" ng-show="moneyFlow.isCopyingMoneyFlow">autorenew</i>
+                                </div>
                             </div>
                             <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Edit" ng-click="view.onEditClick(moneyFlow)">
                                 <i class="material-icons md-24 copyEditDeleteOption">edit</i>
                             </div>
                             <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Delete" ng-click="view.onDeleteClick(moneyFlow)">
-                                <i class="material-icons md-24 copyEditDeleteOption">delete</i>
+                                <i class="material-icons md-24 copyEditDeleteOption"ng-show="!moneyFlow.isDeleting">delete</i>
+                                <i class="material-icons md-24 material-icons-spin copyEditDeleteOption" ng-show="moneyFlow.isDeleting">autorenew</i>
                             </div>
                         </div>
                     </td>
@@ -193,7 +197,10 @@
                                             <div class="error" ng-show="form.moneyFlowForm.amount.$error.required">Please enter a transaction amount.</div>
                                             <div class="error" ng-show="form.moneyFlowForm.amount.$error.exceedsSourceAmount">The amount exceeds the remaining source funding.</div>
                                         </div>
-                                        <div ng-show="moneyFlow.parentMoneyFlow">
+                                        <div ng-show="moneyFlow.isLoadingSource">
+                                            <i class="material-icons material-icons-spin md-24">autorenew</i>
+                                        </div>
+                                        <div ng-show="moneyFlow.parentMoneyFlow && !moneyFlow.isLoadingSource">
                                             <div>
                                                 <p>Source:  {{moneyFlow.parentMoneyFlow.sourceName}}</p>
                                             </div>
