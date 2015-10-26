@@ -51,6 +51,13 @@ angular.module('staticApp')
           }
       }
 
+      $scope.organizationNameChanged = function () {
+          // Reset duplicates if organization name changes
+          if ($scope.organizationDuplicates.length > 0) {
+              $scope.organizationDuplicates = [];
+          }
+      }
+
       $scope.openDobDatePicker = function ($event) {
           $event.preventDefault();
           $event.stopPropagation();
