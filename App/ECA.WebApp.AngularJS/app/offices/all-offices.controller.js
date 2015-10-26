@@ -48,7 +48,6 @@ angular.module('staticApp')
         return dfd.promise;
     };
 
-
     $scope.getOffices = function (tableState) {
         reset();
         $scope.officesLoading = true;
@@ -61,7 +60,7 @@ angular.module('staticApp')
             keyword: TableService.getKeywords()
         };
 
-        $scope.officeFilter = params.keyword;
+        $scope.officeFilter = params.keyword === null ? params.keyword : params.keyword.join(" ");;
 
         getOfficesFiltered(params)
           .then(function (data) {
