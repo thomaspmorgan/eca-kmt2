@@ -119,7 +119,7 @@ angular.module('staticApp')
               params.filter = [];
           }
 
-          //$scope.view.programFilter = params.keyword === null ? params.keyword : params.keyword.join(" ");
+          $scope.view.programFilter = params.keyword === null ? params.keyword : params.keyword.join(" ");;
 
           if ($scope.view.showDraftsOnly) {
               params.filter.push({ property: 'programStatusId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.programStatus.draft.id });
