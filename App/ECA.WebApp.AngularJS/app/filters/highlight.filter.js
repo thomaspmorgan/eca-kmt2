@@ -5,6 +5,8 @@ angular.module('staticApp')
     .filter('highlight', function () {
         return function (text, search, caseSensitive) {
             var searchTerms = [];
+            search = search + '';
+
             if (search && search.length > 0) {
                 searchTerms = search.split(" ");
             }

@@ -15,7 +15,7 @@
                         <a ng-click="selectOrganizationTab()">Organization</a>
                     </div>
                 </div>
-                <div ng-if="personTabActive">
+                <div ng-show="personTabActive">
                     <div class="row">
                         <div class="form-group">
                             <label for="">PARTICIPANT TYPE<span class="asterisk"> *</span></label>
@@ -99,7 +99,7 @@
                         </div>
                     </div>
                 </div>
-                <div ng-if="!personTabActive">
+                <div ng-show="!personTabActive">
                     <div class="row">
                         <div class="form-group">
                             <label for="">PARTICIPANT TYPE<span class="asterisk"> *</span></label>
@@ -122,7 +122,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="">ORGANIZATION NAME<span class="asterisk"> *</span></label>
-                                <input ng-model="newOrganization.name" form-element guidance="The name of the organization." type="text" class="form-control" required ng-disabled="newOrganization.selectedDuplicate">
+                                <input ng-model="newOrganization.name" form-element guidance="The name of the organization." type="text" class="form-control" required ng-disabled="newOrganization.selectedDuplicate" ng-change="organizationNameChanged()">
                             </div>
                             <div class="form-group">
                                 <label>ROLES</label>

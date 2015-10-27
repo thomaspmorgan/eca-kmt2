@@ -174,7 +174,7 @@ namespace ECA.Business.Queries.Admin
         public static async Task<IEnumerable<SnapshotDTO>> CreateGetProgramParticipantsByLocationQuery(EcaContext context, int programId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var programProjects = context.Projects.Where(p => p.ProgramId == programId || p.ParentProgram.ProgramId == programId);
+            var programProjects = await context.Projects.Where(p => p.ProgramId == programId).ToListAsync();
 
             List<SnapshotDTO> graphValues = new List<SnapshotDTO>();
             foreach (var project in programProjects)
@@ -184,7 +184,7 @@ namespace ECA.Business.Queries.Admin
                     graphValues.Add(new SnapshotDTO
                     {
                         DataLabel = loc.LocationIso,
-                        DataValue = programProjects.Select(p => p.Participants.Select(a => a.Person.Addresses.Select(x => x.LocationId == loc.LocationId))).Count()
+                        DataValue = programProjects.Select(p => p.Participants.Select(x => x.ParticipantPerson.HomeInstitution.Addresses.Select(a => a.LocationId == loc.LocationId))).Count()
                     });
                 }
             }
