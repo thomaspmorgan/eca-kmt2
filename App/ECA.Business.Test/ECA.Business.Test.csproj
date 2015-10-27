@@ -225,6 +225,9 @@
     <Compile Include="Service\Persons\EvaluationServiceTest.cs" />
     <Compile Include="Service\Persons\MembershipServiceTest.cs" />
     <Compile Include="Service\Persons\ParticipantPersonServiceTest.cs" />
+    <Compile Include="Service\Persons\ParticipantPersonServiceValidatorTest.cs" />
+    <Compile Include="Service\Persons\UpdatedParticipantPersonValidationEntityTest.cs" />
+    <Compile Include="Service\Persons\UpdatedParticipantPersonTest.cs" />
     <Compile Include="Service\Programs\ProgramStatusServiceTest.cs" />
     <Compile Include="Service\Projects\AdditionalOrganizationProjectParticipantTest.cs" />
     <Compile Include="Service\Projects\AdditionalPersonProjectParticipantTest.cs" />
