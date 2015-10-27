@@ -7,7 +7,7 @@
                placeholder="Spotlight search"
                class="input-lg form-control col-md-12"
                style="font-weight: 500"
-               ng-change="autocomplete()"
+               ng-change="search()"
                ng-model-options="{debounce: 500}"
                submit-required="true" />
         <i class="material-icons md-18 contextual" style="top:12px" ng-show="!isLoadingResults">search</i>
@@ -21,36 +21,42 @@
             <p ng-show="totalResults === 0 && !isLoadingResults">Found {{totalResults}} results.</p>
         </div>
         <div ng-show="tophitinfo.length > 0">
-            <div class="col-md-3 text-right">
+            <div class="col-md-3 text-right" style="padding:10px;">
                 <span><strong>TOP HIT</strong></span>
             </div>
-            <div class="col-md-9 search-results">
-                <div class="row" ng-class="tophitinfo[0].document.id === docinfo.document.id ? 'resultrow-selected' : 'resultrow'">
-                    <div class="col-md-1 text-center">
-                        <div class="resulticon {{tophitinfo[0].document.plaintTextDocumentTypeName | lowercase}}">{{tophitinfo[0].document.documentTypeNameAbbreviation}}</div>
+            <div class="col-md-9 search-results" style="padding:10px;">
+                <div class="row" ng-class="tophitinfo[0].document.id === docinfo.id ? 'resultrow-selected' : 'resultrow'">
+                    <div class="col-md-1">
+                        <div class="search circle {{tophitinfo[0].document.plaintTextDocumentTypeName | lowercase}}">
+                            {{tophitinfo[0].document.documentTypeNameAbbreviation | uppercase}}
+                        </div>
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-11">
                         <a ng-click="getDocumentInfo(tophitinfo[0])" ng-bind-html="tophitinfo[0].document.name"></a>
+                        <div class="mute" ng-bind-html="tophitinfo[0].document.officeSymbol"></div>
                     </div>
-                    <div class="col-md-2 pull-right" ng-bind-html="tophitinfo[0].document.officeSymbol"></div>
+
                 </div>
             </div>
         </div>
         <div ng-repeat="docitem in results">
-            <div class="col-md-3 text-right">
+            <div class="col-md-3 text-right" style="padding:10px;">
                 <span ng-show="$index === 0 || results[$index-1].document.plaintTextDocumentTypeName !== results[$index].document.plaintTextDocumentTypeName">
                     <strong>{{results[$index].document.plaintTextDocumentTypeName | uppercase}}</strong>
                 </span>
             </div>
-            <div class="col-md-9 search-results">
+            <div class="col-md-9 search-results" style="padding:10px;">
                 <div class="row" ng-class="docitem.document.id === docinfo.id ? 'resultrow-selected' : 'resultrow'">
-                    <div class="col-md-1 text-center">
-                        <div class="resulticon {{docitem.document.plaintTextDocumentTypeName | lowercase}}">{{docitem.document.documentTypeNameAbbreviation}}</div>
+                    <div class="col-md-1">
+                        <div class="search circle {{docitem.document.plaintTextDocumentTypeName | lowercase}}">
+                            {{docitem.document.documentTypeNameAbbreviation | uppercase}}
+                        </div>
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-11">
                         <a ng-click="getDocumentInfo(docitem)" ng-bind-html="docitem.document.name"></a>
+                        <div class="mute" ng-bind-html="docitem.document.officeSymbol"></div>
                     </div>
-                    <div class="col-md-2 pull-right" ng-bind-html="docitem.document.officeSymbol"></div>
+
                 </div>
             </div>
         </div>
@@ -63,7 +69,7 @@
     <nav>
         <div class="row">
             <div class="col-md-10 text-center">
-                <ul class="pagination">
+                <ul class="search pagination">
                     <li ng-show="currentPage > 0"><a ng-click="selectPage(0)"><i class="material-icons">arrow_back</i> First</a></li>
                     <li ng-show="currentPage > numberOfDisplayedPages"><a ng-click="selectPage(currentPage - numberOfDisplayedPages)"><i class="material-icons">more_horiz</i></a></li>
                     <li ng-show="currentPage > 0"><a ng-click="selectPage(currentPage - 1)"><i class="material-icons">arrow_back</i> Previous</a></li>

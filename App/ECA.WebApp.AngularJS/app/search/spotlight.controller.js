@@ -29,6 +29,8 @@ angular.module('staticApp')
               templateUrl: 'app/search/search-modal.html',
               controller: 'SearchModalCtrl',
               windowClass: 'search-modal',
+              backdrop: 'static',
+              keyboard: false,
               resolve: {
                   previousSearch: function () {
                       return $scope.view.previousSearch;
