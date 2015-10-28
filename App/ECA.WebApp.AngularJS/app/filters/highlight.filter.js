@@ -22,12 +22,14 @@ angular.module('staticApp')
                 if (text && (searchTerm || angular.isNumber(searchTerm))) {
                     
                     searchTerm = searchTerm.toString();
-                    if (caseSensitive) {
-                        text = text.split(searchTerm).join('<strong>' + searchTerm + '</strong>');
-                    }
-                    else {
-                        text = text.replace(new RegExp(searchTerm, 'gi'), '<strong>$&</strong>');
-                    }
+                    if (searchTerm.length > 1) {
+                        if (caseSensitive) {
+                            text = text.split(searchTerm).join('<strong>' + searchTerm + '</strong>');
+                        }
+                        else {
+                            text = text.replace(new RegExp(searchTerm, 'gi'), '<strong>$&</strong>');
+                        }
+                    }                    
                 }
             }
             return text;

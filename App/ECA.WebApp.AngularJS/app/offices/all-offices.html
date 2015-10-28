@@ -15,7 +15,13 @@
         <tr>
             <th class="col-md-7">
                 <div>
-                    <input st-search type="search" placeholder="Search Offices" ng-model="officeFilter" class="search-contextual" maxlength="100">
+                    <input id="searchBar" name="searchBar" 
+                           st-search type="search"
+                           ng-model="officeFilter"
+                           ng-model-options="{debounce: 500}"
+                           placeholder="Search Offices"
+                           class="search-contextual"
+                           maxlength="100" />
                     <i class="material-icons md-18 contextual">search</i>
                 </div>
                 <div style="margin-top: 25px; margin-bottom: -25px">
