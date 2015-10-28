@@ -131,10 +131,10 @@ namespace ViewOfficesProgramsandBranches.Test
             Mouse.Click(chcBranchProgTab);
 
             //Identify Showing # - # of ##
-            HtmlDiv showBPList = new HtmlDiv(browserWindow);
-            showBPList.SearchProperties.Add(HtmlDiv.PropertyNames.TagName, "DIV", HtmlDiv.PropertyNames.InnerText, "Showing 1 - 10 of 10 programs", HtmlDiv.PropertyNames.TagInstance, "33");
-            showBPList.WaitForControlReady();
-            Assert.AreEqual(true, showBPList.Exists);
+            //HtmlDiv showBPList = new HtmlDiv(browserWindow);
+            //showBPList.SearchProperties.Add(HtmlDiv.PropertyNames.TagName, "DIV", HtmlDiv.PropertyNames.InnerText, "Showing 1 -", PropertyExpressionOperator.Contains, HtmlDiv.PropertyNames.TagInstance, "33");
+            //showBPList.WaitForControlReady();
+            //Assert.AreEqual(true, showBPList.Exists);
 
             //verify branches and programs tab section
             var connectionString = "Data Source=(local);User Id=ECA;Password=wisconsin-89;Database=ECA_Local;Pooling=False";
@@ -147,10 +147,15 @@ namespace ViewOfficesProgramsandBranches.Test
                 //var officeId = 1036;
 
                 var defaultSorter = new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending);
-                var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, defaultSorter);
+                var queryOperator = new QueryableOperator<OrganizationProgramDTO>(start, limit, defaultSorter);
                 var results = service.GetPrograms(1036, queryOperator);
                 var expectedString = String.Format("Showing {0} - {1} of {2} programs", start +1, limit, results.Total);
-                    Assert.AreEqual(expectedString, showBPList.InnerText);
+                //Identify Showing # - # of ##
+                HtmlDiv showBPList = new HtmlDiv(browserWindow);
+                showBPList.SearchProperties.Add(HtmlDiv.PropertyNames.TagName, "DIV", HtmlDiv.PropertyNames.InnerText, expectedString, HtmlDiv.PropertyNames.TagInstance, "33");
+                showBPList.WaitForControlReady();
+                Assert.AreEqual(true, showBPList.Exists);
+                Assert.AreEqual(expectedString, showBPList.InnerText);
 
             }
 

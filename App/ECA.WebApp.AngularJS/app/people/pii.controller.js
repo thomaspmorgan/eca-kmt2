@@ -35,6 +35,11 @@ angular.module('staticApp')
                      $scope.dateOfBirthPlaceholder = 'Unknown';
                      $scope.pii.dateOfBirth = undefined;
                  }
+                 if ($scope.pii.cityOfBirthId !== null) {
+                     $scope.pii.IsPlaceOfBirthUnknown = false;
+                 } else {
+                     $scope.pii.IsPlaceOfBirthUnknown = true;
+                 }
                  $scope.selectedCountriesOfCitizenship = $scope.pii.countriesOfCitizenship.map(function (obj) {
                      var location = {};
                      location.id = obj.id;

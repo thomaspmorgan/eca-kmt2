@@ -17,6 +17,7 @@ angular.module('staticApp')
       $scope.newPerson.countriesOfCitizenship = [];
       $scope.newPerson.selectedDuplicate = undefined;
       $scope.newPerson.isDateOfBirthUnknown = false;
+      $scope.newPerson.IsPlaceOfBirthUnknown = false;
 
       // Initialize model for organization tab
       $scope.newOrganization = {};
@@ -71,6 +72,13 @@ angular.module('staticApp')
           }
       });
 
+      $scope.$watch('newPerson.cityOfBirth', function () {
+          var city = $scope.newPerson.cityOfBirth;
+          if (city) {
+              $scope.newPerson.IsPlaceOfBirthUnknown = false;
+          }
+      });
+
       $scope.toggleDobUnknown = function ($event) {
           $event.preventDefault();
           $event.stopPropagation();
@@ -105,11 +113,9 @@ angular.module('staticApp')
           if ($scope.personTabActive) {
               // Add person
               addNewOrExistingPerson();
-              console.log($scope.newPerson);
           } else {
               // Add organization
               addNewOrExistingOrganization();
-              console.log($scope.newOrganization);
           }
       }
 

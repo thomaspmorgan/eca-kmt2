@@ -2,9 +2,6 @@
 using ECA.Business.Service.Lookup;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Queries.Models.Persons
 {
@@ -118,6 +115,21 @@ namespace ECA.Business.Queries.Models.Persons
         public IEnumerable<AddressDTO> Addresses { get; set; }
 
         /// <summary>
+        /// Gets and sets country of birth 
+        /// </summary>
+        public string CountryOfBirth { get; set; }
+
+        /// <summary>
+        /// Gets and sets country of birth id
+        /// </summary>
+        public int? CountryOfBirthId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the place of birth unknown flag.
+        /// </summary>
+        public bool? IsPlaceOfBirthUnknown { get; set; }
+
+        /// <summary>
         /// Gets and sets city of birth
         /// </summary>
         public string CityOfBirth { get; set; }
@@ -127,14 +139,5 @@ namespace ECA.Business.Queries.Models.Persons
         /// </summary>
         public int? CityOfBirthId { get; set; }
 
-        /// <summary>
-        /// Gets and sets country of birth 
-        /// </summary>
-        public string CountryOfBirth { get; set; }
-
-        /// <summary>
-        /// Gets and sets country of birth id
-        /// </summary>
-        public int? CountryOfBirthId { get; set; }
     }
 }

@@ -143,7 +143,7 @@ namespace ECA.Business.Service.Admin
         public async Task<IEnumerable<string>> GetProgramTopThemes(int programId)
         {
             var dto = await SnapshotQueries.CreateGetProgramTopThemesQuery(Context, programId);
-            return dto.Take(5);
+            return dto;
         }
 
         /// <summary>
