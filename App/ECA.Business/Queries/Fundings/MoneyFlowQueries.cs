@@ -368,8 +368,7 @@ namespace ECA.Business.Queries.Fundings
                              SourceName = incomingMoneyFlow.SourceRecipientName,
                              SourceEntityId = incomingMoneyFlow.SourceRecipientEntityId,
                              SourceEntityTypeId = incomingMoneyFlow.SourceRecipientEntityTypeId,
-                             SourceEntityTypeName = incomingMoneyFlow.SourceRecipientTypeName,
-                             FiscalYear = incomingMoneyFlow.FiscalYear
+                             SourceEntityTypeName = incomingMoneyFlow.SourceRecipientTypeName
                          });
             return query;
         }
