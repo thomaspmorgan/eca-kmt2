@@ -861,4 +861,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="EmploymentTimeCode" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="7a81d3c4-8069-40c1-945a-c6d726022c9a" ChangeDateTime="10/27/2015 15:22:25">
+    <Property Name="ElementName" Value="[dbo].[ParticipantPerson].[HomeAddressInstitutionId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ParticipantPerson]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="HomeInstitutionAddressId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f5ccdbed-28d3-4970-b06c-49ed2d0d1d82" ChangeDateTime="10/27/2015 15:22:33">
+    <Property Name="ElementName" Value="[dbo].[ParticipantPerson].[HostAddressInstitutionId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ParticipantPerson]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="HostInstitutionAddressId" />
+  </Operation>
 </Operations>

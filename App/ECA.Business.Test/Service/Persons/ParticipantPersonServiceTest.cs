@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Service.Persons;
@@ -8,6 +9,10 @@ using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using System.Threading.Tasks;
 using ECA.Data;
+using ECA.Business.Service;
+using ECA.Business.Validation;
+using Moq;
+using ECA.Core.Exceptions;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -16,13 +21,17 @@ namespace ECA.Business.Test.Service.Persons
     {
         private TestEcaContext context;
         private ParticipantPersonService service;
+        private Mock<IBusinessValidator<Object, UpdatedParticipantPersonValidationEntity>> validator;
 
         [TestInitialize]
         public void TestInit()
         {
+            validator = new Mock<IBusinessValidator<object, UpdatedParticipantPersonValidationEntity>>();
             context = new TestEcaContext();
-            service = new ParticipantPersonService(context);
+            service = new ParticipantPersonService(context, validator.Object);
         }
+
+        #region Get
 
         [TestMethod]
         public async Task TestGetParticipantPersons_CheckProperties()
@@ -239,5 +248,669 @@ namespace ECA.Business.Test.Service.Persons
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
+
+        #endregion
+
+
+        #region Update
+        [TestMethod]
+        public async Task TestUpdate_CheckProperties()
+        {
+            var participantId = 1;
+            Participant participant = null;
+            ParticipantPerson participantPerson = null;
+            ParticipantType individual = new ParticipantType
+            {
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value,
+                ParticipantTypeId = ParticipantType.Individual.Id
+            };
+            ParticipantStatus status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id,
+                Status = ParticipantStatus.Active.Value
+            };
+            Organization host = new Organization
+            {
+                OrganizationId = 1
+            };
+            Organization home = new Organization
+            {
+                OrganizationId = 2
+            };
+            var hostAddress = new Address
+            {
+                AddressId = 1,
+                OrganizationId = host.OrganizationId,
+                Organization = host
+            };
+            var homeAddress = new Address
+            {
+                AddressId = 2,
+                Organization = home,
+                OrganizationId = home.OrganizationId
+            };
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var createrId = 1;
+            var updaterId = 2;
+            var updater = new User(updaterId);
+
+            context.SetupActions.Add(() =>
+            {
+                participant = new Participant
+                {
+                    ParticipantId = participantId,
+                };
+                participant.History.CreatedBy = createrId;
+                participant.History.RevisedBy = createrId;
+                participant.History.CreatedOn = yesterday;
+                participant.History.RevisedOn = yesterday;
+
+                participantPerson = new ParticipantPerson
+                {
+                    Participant = participant,
+                    ParticipantId = participantId,
+                };
+                participantPerson.History.CreatedBy = createrId;
+                participantPerson.History.RevisedBy = createrId;
+                participantPerson.History.CreatedOn = yesterday;
+                participantPerson.History.RevisedOn = yesterday;
+
+                context.ParticipantPersons.Add(participantPerson);
+                context.Participants.Add(participant);
+                context.ParticipantStatuses.Add(status);
+                context.ParticipantTypes.Add(individual);
+                context.Organizations.Add(home);
+                context.Organizations.Add(host);
+                context.Addresses.Add(hostAddress);
+                context.Addresses.Add(homeAddress);
+            });
+
+            var updatedPersonParticipant = new UpdatedParticipantPerson(
+                updater: updater,
+                homeInstitutionAddressId: homeAddress.AddressId,
+                homeInstitutionId: home.OrganizationId,
+                hostInstitutionAddressId: hostAddress.AddressId,
+                hostInstitutionId: host.OrganizationId,
+                participantId: participantId,
+                participantStatusId: status.ParticipantStatusId,
+                participantTypeId: individual.ParticipantTypeId
+                );
+            Action beforeUpdateTester = () =>
+            {
+                Assert.AreEqual(1, context.Participants.Count());
+                Assert.AreEqual(1, context.ParticipantPersons.Count());
+                Assert.AreEqual(2, context.Addresses.Count());
+                Assert.AreEqual(2, context.Organizations.Count());
+                Assert.AreEqual(yesterday, participant.History.RevisedOn);
+                Assert.AreEqual(yesterday, participant.History.CreatedOn);
+                Assert.AreEqual(createrId, participant.History.RevisedBy);
+                Assert.AreEqual(createrId, participant.History.CreatedBy);
+
+                Assert.AreEqual(yesterday, participantPerson.History.RevisedOn);
+                Assert.AreEqual(yesterday, participantPerson.History.CreatedOn);
+                Assert.AreEqual(createrId, participantPerson.History.RevisedBy);
+                Assert.AreEqual(createrId, participantPerson.History.CreatedBy);
+
+                Assert.IsFalse(participant.ParticipantStatusId.HasValue);
+                Assert.IsFalse(participantPerson.HomeInstitutionAddressId.HasValue);
+                Assert.IsFalse(participantPerson.HostInstitutionAddressId.HasValue);
+                Assert.IsFalse(participantPerson.HomeInstitutionId.HasValue);
+                Assert.IsFalse(participantPerson.HostInstitutionId.HasValue);
+
+            };
+
+            Action tester = () =>
+            {
+                Assert.AreEqual(1, context.Participants.Count());
+                Assert.AreEqual(1, context.ParticipantPersons.Count());
+                Assert.AreEqual(2, context.Addresses.Count());
+                Assert.AreEqual(2, context.Organizations.Count());
+
+                Assert.AreEqual(createrId, participant.History.CreatedBy);
+                Assert.AreEqual(yesterday, participant.History.CreatedOn);
+                Assert.AreEqual(createrId, participantPerson.History.CreatedBy);
+                Assert.AreEqual(yesterday, participantPerson.History.CreatedOn);                
+                
+
+                DateTimeOffset.UtcNow.Should().BeCloseTo(participant.History.RevisedOn, 20000);
+                Assert.AreEqual(updaterId, participant.History.RevisedBy);
+
+                DateTimeOffset.UtcNow.Should().BeCloseTo(participantPerson.History.RevisedOn, 20000);              
+                Assert.AreEqual(updaterId, participantPerson.History.RevisedBy);
+
+                Assert.AreEqual(home.OrganizationId, participantPerson.HomeInstitutionId);
+                Assert.AreEqual(host.OrganizationId, participantPerson.HostInstitutionId);
+                Assert.AreEqual(homeAddress.AddressId, participantPerson.HomeInstitutionAddressId);
+                Assert.AreEqual(hostAddress.AddressId, participantPerson.HostInstitutionAddressId);
+            };
+
+            Action<UpdatedParticipantPersonValidationEntity> validationEntityTester = (entity) =>
+            {
+                Assert.IsNotNull(entity);
+                Assert.IsTrue(Object.ReferenceEquals(individual, entity.ParticipantType));
+            };
+            validator.Setup(x => x.ValidateUpdate(It.IsAny<UpdatedParticipantPersonValidationEntity>())).Callback(validationEntityTester);
+
+            context.Revert();
+            beforeUpdateTester();
+            service.Update(updatedPersonParticipant);
+            tester();
+            validator.Verify(x => x.ValidateUpdate(It.IsAny<UpdatedParticipantPersonValidationEntity>()), Times.Once());
+
+            context.Revert();
+            beforeUpdateTester();
+            await service.UpdateAsync(updatedPersonParticipant);
+            tester();
+            validator.Verify(x => x.ValidateUpdate(It.IsAny<UpdatedParticipantPersonValidationEntity>()), Times.Exactly(2));
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_DoesNotHaveHomeOrHostInstitutions()
+        {
+            var participantId = 1;
+            Participant participant = null;
+            ParticipantPerson participantPerson = null;
+            ParticipantType individual = new ParticipantType
+            {
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value,
+                ParticipantTypeId = ParticipantType.Individual.Id
+            };
+            ParticipantStatus status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id,
+                Status = ParticipantStatus.Active.Value
+            };
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var createrId = 1;
+            var updaterId = 2;
+            var updater = new User(updaterId);
+
+            context.SetupActions.Add(() =>
+            {
+                participant = new Participant
+                {
+                    ParticipantId = participantId,
+                };
+                participant.History.CreatedBy = createrId;
+                participant.History.RevisedBy = createrId;
+                participant.History.CreatedOn = yesterday;
+                participant.History.RevisedOn = yesterday;
+
+                participantPerson = new ParticipantPerson
+                {
+                    Participant = participant,
+                    ParticipantId = participantId,
+                };
+                participantPerson.History.CreatedBy = createrId;
+                participantPerson.History.RevisedBy = createrId;
+                participantPerson.History.CreatedOn = yesterday;
+                participantPerson.History.RevisedOn = yesterday;
+
+                context.ParticipantPersons.Add(participantPerson);
+                context.Participants.Add(participant);
+                context.ParticipantStatuses.Add(status);
+                context.ParticipantTypes.Add(individual);
+            });
+
+            var updatedPersonParticipant = new UpdatedParticipantPerson(
+                updater: updater,
+                homeInstitutionAddressId: null,
+                homeInstitutionId: null,
+                hostInstitutionAddressId: null,
+                hostInstitutionId: null,
+                participantId: participantId,
+                participantStatusId: status.ParticipantStatusId,
+                participantTypeId: individual.ParticipantTypeId
+                );
+
+            Action tester = () =>
+            {
+                Assert.IsFalse(participantPerson.HomeInstitutionId.HasValue);
+                Assert.IsFalse(participantPerson.HostInstitutionId.HasValue);
+                Assert.IsFalse(participantPerson.HomeInstitutionAddressId.HasValue);
+                Assert.IsFalse(participantPerson.HostInstitutionAddressId.HasValue);
+            };
+            context.Revert();
+            service.Update(updatedPersonParticipant);
+            tester();
+
+            context.Revert();
+            await service.UpdateAsync(updatedPersonParticipant);
+            tester();
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_HasHomeAndHostNoAddresses()
+        {
+            var participantId = 1;
+            Participant participant = null;
+            ParticipantPerson participantPerson = null;
+            ParticipantType individual = new ParticipantType
+            {
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value,
+                ParticipantTypeId = ParticipantType.Individual.Id
+            };
+            ParticipantStatus status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id,
+                Status = ParticipantStatus.Active.Value
+            };
+            Organization host = new Organization
+            {
+                OrganizationId = 1
+            };
+            Organization home = new Organization
+            {
+                OrganizationId = 2
+            };
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var createrId = 1;
+            var updaterId = 2;
+            var updater = new User(updaterId);
+
+            context.SetupActions.Add(() =>
+            {
+                participant = new Participant
+                {
+                    ParticipantId = participantId,
+                };
+                participant.History.CreatedBy = createrId;
+                participant.History.RevisedBy = createrId;
+                participant.History.CreatedOn = yesterday;
+                participant.History.RevisedOn = yesterday;
+
+                participantPerson = new ParticipantPerson
+                {
+                    Participant = participant,
+                    ParticipantId = participantId,
+                };
+                participantPerson.History.CreatedBy = createrId;
+                participantPerson.History.RevisedBy = createrId;
+                participantPerson.History.CreatedOn = yesterday;
+                participantPerson.History.RevisedOn = yesterday;
+
+                context.ParticipantPersons.Add(participantPerson);
+                context.Participants.Add(participant);
+                context.ParticipantStatuses.Add(status);
+                context.ParticipantTypes.Add(individual);
+                context.Organizations.Add(home);
+                context.Organizations.Add(host);
+            });
+
+            var updatedPersonParticipant = new UpdatedParticipantPerson(
+                updater: updater,
+                homeInstitutionAddressId: null,
+                homeInstitutionId: home.OrganizationId,
+                hostInstitutionAddressId: null,
+                hostInstitutionId: host.OrganizationId,
+                participantId: participantId,
+                participantStatusId: status.ParticipantStatusId,
+                participantTypeId: individual.ParticipantTypeId
+                );
+
+            Action tester = () =>
+            {   
+                Assert.AreEqual(home.OrganizationId, participantPerson.HomeInstitutionId);
+                Assert.AreEqual(host.OrganizationId, participantPerson.HostInstitutionId);
+                Assert.IsFalse(participantPerson.HomeInstitutionAddressId.HasValue);
+                Assert.IsFalse(participantPerson.HostInstitutionAddressId.HasValue);
+            };
+            
+
+            context.Revert();
+            service.Update(updatedPersonParticipant);
+            tester();
+
+            context.Revert();
+            await service.UpdateAsync(updatedPersonParticipant);
+            tester();
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_HomeInstitutionDoesNotExist()
+        {
+            var participantId = 1;
+            Participant participant = null;
+            ParticipantPerson participantPerson = null;
+            ParticipantType individual = new ParticipantType
+            {
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value,
+                ParticipantTypeId = ParticipantType.Individual.Id
+            };
+            ParticipantStatus status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id,
+                Status = ParticipantStatus.Active.Value
+            };
+            Organization host = new Organization
+            {
+                OrganizationId = 1
+            };
+            var hostAddress = new Address
+            {
+                AddressId = 1,
+                OrganizationId = host.OrganizationId,
+                Organization = host
+            };
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var createrId = 1;
+            var updaterId = 2;
+            var updater = new User(updaterId);
+
+            context.SetupActions.Add(() =>
+            {
+                participant = new Participant
+                {
+                    ParticipantId = participantId,
+                };
+                participant.History.CreatedBy = createrId;
+                participant.History.RevisedBy = createrId;
+                participant.History.CreatedOn = yesterday;
+                participant.History.RevisedOn = yesterday;
+
+                participantPerson = new ParticipantPerson
+                {
+                    Participant = participant,
+                    ParticipantId = participantId,
+                };
+                participantPerson.History.CreatedBy = createrId;
+                participantPerson.History.RevisedBy = createrId;
+                participantPerson.History.CreatedOn = yesterday;
+                participantPerson.History.RevisedOn = yesterday;
+
+                context.ParticipantPersons.Add(participantPerson);
+                context.Participants.Add(participant);
+                context.ParticipantStatuses.Add(status);
+                context.ParticipantTypes.Add(individual);
+                context.Organizations.Add(host);
+                context.Addresses.Add(hostAddress);
+            });
+
+            var updatedPersonParticipant = new UpdatedParticipantPerson(
+                updater: updater,
+                homeInstitutionAddressId: null,
+                homeInstitutionId: -1,
+                hostInstitutionAddressId: hostAddress.AddressId,
+                hostInstitutionId: host.OrganizationId,
+                participantId: participantId,
+                participantStatusId: status.ParticipantStatusId,
+                participantTypeId: individual.ParticipantTypeId
+                );
+
+            context.Revert();
+            Action a = () => service.Update(updatedPersonParticipant);
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(updatedPersonParticipant);
+            };
+            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Organization).Name, updatedPersonParticipant.HomeInstitutionId);
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_HostInstitutionDoesNotExist()
+        {
+            var participantId = 1;
+            Participant participant = null;
+            ParticipantPerson participantPerson = null;
+            ParticipantType individual = new ParticipantType
+            {
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value,
+                ParticipantTypeId = ParticipantType.Individual.Id
+            };
+            ParticipantStatus status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id,
+                Status = ParticipantStatus.Active.Value
+            };
+            Organization home = new Organization
+            {
+                OrganizationId = 2
+            };
+            var homeAddress = new Address
+            {
+                AddressId = 2,
+                Organization = home,
+                OrganizationId = home.OrganizationId
+            };
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var createrId = 1;
+            var updaterId = 2;
+            var updater = new User(updaterId);
+
+            context.SetupActions.Add(() =>
+            {
+                participant = new Participant
+                {
+                    ParticipantId = participantId,
+                };
+                participant.History.CreatedBy = createrId;
+                participant.History.RevisedBy = createrId;
+                participant.History.CreatedOn = yesterday;
+                participant.History.RevisedOn = yesterday;
+
+                participantPerson = new ParticipantPerson
+                {
+                    Participant = participant,
+                    ParticipantId = participantId,
+                };
+                participantPerson.History.CreatedBy = createrId;
+                participantPerson.History.RevisedBy = createrId;
+                participantPerson.History.CreatedOn = yesterday;
+                participantPerson.History.RevisedOn = yesterday;
+
+                context.ParticipantPersons.Add(participantPerson);
+                context.Participants.Add(participant);
+                context.ParticipantStatuses.Add(status);
+                context.ParticipantTypes.Add(individual);
+                context.Organizations.Add(home);
+                context.Addresses.Add(homeAddress);
+            });
+
+            var updatedPersonParticipant = new UpdatedParticipantPerson(
+                updater: updater,
+                homeInstitutionAddressId: homeAddress.AddressId,
+                homeInstitutionId: home.OrganizationId,
+                hostInstitutionAddressId: null,
+                hostInstitutionId: -1,
+                participantId: participantId,
+                participantStatusId: status.ParticipantStatusId,
+                participantTypeId: individual.ParticipantTypeId
+                );
+
+            context.Revert();
+            Action a = () => service.Update(updatedPersonParticipant);
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(updatedPersonParticipant);
+            };
+            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Organization).Name, updatedPersonParticipant.HostInstitutionId);
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_HostInstitutionAddressDoesNotExist()
+        {
+            var participantId = 1;
+            Participant participant = null;
+            ParticipantPerson participantPerson = null;
+            ParticipantType individual = new ParticipantType
+            {
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value,
+                ParticipantTypeId = ParticipantType.Individual.Id
+            };
+            ParticipantStatus status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id,
+                Status = ParticipantStatus.Active.Value
+            };
+            Organization host = new Organization
+            {
+                OrganizationId = 1
+            };
+            Organization home = new Organization
+            {
+                OrganizationId = 2
+            };
+            var homeAddress = new Address
+            {
+                AddressId = 2,
+                Organization = home,
+                OrganizationId = home.OrganizationId
+            };
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var createrId = 1;
+            var updaterId = 2;
+            var updater = new User(updaterId);
+
+            context.SetupActions.Add(() =>
+            {
+                participant = new Participant
+                {
+                    ParticipantId = participantId,
+                };
+                participant.History.CreatedBy = createrId;
+                participant.History.RevisedBy = createrId;
+                participant.History.CreatedOn = yesterday;
+                participant.History.RevisedOn = yesterday;
+
+                participantPerson = new ParticipantPerson
+                {
+                    Participant = participant,
+                    ParticipantId = participantId,
+                };
+                participantPerson.History.CreatedBy = createrId;
+                participantPerson.History.RevisedBy = createrId;
+                participantPerson.History.CreatedOn = yesterday;
+                participantPerson.History.RevisedOn = yesterday;
+
+                context.ParticipantPersons.Add(participantPerson);
+                context.Participants.Add(participant);
+                context.ParticipantStatuses.Add(status);
+                context.ParticipantTypes.Add(individual);
+                context.Organizations.Add(home);
+                context.Organizations.Add(host);
+                context.Addresses.Add(homeAddress);
+            });
+
+            var updatedPersonParticipant = new UpdatedParticipantPerson(
+                updater: updater,
+                homeInstitutionAddressId: homeAddress.AddressId,
+                homeInstitutionId: home.OrganizationId,
+                hostInstitutionAddressId: -1,
+                hostInstitutionId: host.OrganizationId,
+                participantId: participantId,
+                participantStatusId: status.ParticipantStatusId,
+                participantTypeId: individual.ParticipantTypeId
+                );
+
+            context.Revert();
+            Action a = () => service.Update(updatedPersonParticipant);
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(updatedPersonParticipant);
+            };
+            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Address).Name, updatedPersonParticipant.HostInstitutionAddressId);
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_HomeInstitutionAddressDoesNotExist()
+        {
+            var participantId = 1;
+            Participant participant = null;
+            ParticipantPerson participantPerson = null;
+            ParticipantType individual = new ParticipantType
+            {
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value,
+                ParticipantTypeId = ParticipantType.Individual.Id
+            };
+            ParticipantStatus status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id,
+                Status = ParticipantStatus.Active.Value
+            };
+            Organization host = new Organization
+            {
+                OrganizationId = 1
+            };
+            Organization home = new Organization
+            {
+                OrganizationId = 2
+            };
+            var hostAddress = new Address
+            {
+                AddressId = 1,
+                OrganizationId = host.OrganizationId,
+                Organization = host
+            };
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var createrId = 1;
+            var updaterId = 2;
+            var updater = new User(updaterId);
+
+            context.SetupActions.Add(() =>
+            {
+                participant = new Participant
+                {
+                    ParticipantId = participantId,
+                };
+                participant.History.CreatedBy = createrId;
+                participant.History.RevisedBy = createrId;
+                participant.History.CreatedOn = yesterday;
+                participant.History.RevisedOn = yesterday;
+
+                participantPerson = new ParticipantPerson
+                {
+                    Participant = participant,
+                    ParticipantId = participantId,
+                };
+                participantPerson.History.CreatedBy = createrId;
+                participantPerson.History.RevisedBy = createrId;
+                participantPerson.History.CreatedOn = yesterday;
+                participantPerson.History.RevisedOn = yesterday;
+
+                context.ParticipantPersons.Add(participantPerson);
+                context.Participants.Add(participant);
+                context.ParticipantStatuses.Add(status);
+                context.ParticipantTypes.Add(individual);
+                context.Organizations.Add(home);
+                context.Organizations.Add(host);
+                context.Addresses.Add(hostAddress);
+            });
+
+            var updatedPersonParticipant = new UpdatedParticipantPerson(
+                updater: updater,
+                homeInstitutionAddressId: -1,
+                homeInstitutionId: home.OrganizationId,
+                hostInstitutionAddressId: hostAddress.AddressId,
+                hostInstitutionId: host.OrganizationId,
+                participantId: participantId,
+                participantStatusId: status.ParticipantStatusId,
+                participantTypeId: individual.ParticipantTypeId
+                );
+
+            context.Revert();
+            Action a = () => service.Update(updatedPersonParticipant);
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(updatedPersonParticipant);
+            };
+            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Address).Name, updatedPersonParticipant.HomeInstitutionAddressId);
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+        
+        #endregion
     }
 }

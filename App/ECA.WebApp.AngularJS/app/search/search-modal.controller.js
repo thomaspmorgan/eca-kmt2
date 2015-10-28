@@ -88,12 +88,17 @@ angular.module('staticApp')
       }
 
       // Execute search as user types
-      $scope.autocomplete = function () {
-          $scope.currentParams.SearchTerm = $scope.text;
-          $scope.currentParams.Start = 0;
-          $scope.currentPage = 0;
-          $scope.docinfo = null;
-          return doSearch($scope.currentParams);
+      $scope.search = function () {
+          if ($scope.text.length > 0) {
+              $scope.currentParams.SearchTerm = $scope.text;
+              $scope.currentParams.Start = 0;
+              $scope.currentPage = 0;
+              $scope.docinfo = null;
+              return doSearch($scope.currentParams);
+          }
+          else {
+
+          }
       };
 
       // Gets document details on selection
@@ -147,7 +152,7 @@ angular.module('staticApp')
 
       // Save the previous search term
       if (previousSearch) {
-          $scope.autocomplete();
+          $scope.search();
       }
 
       // Closes the search modal
