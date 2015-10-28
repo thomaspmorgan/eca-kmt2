@@ -168,9 +168,13 @@ namespace ECA.Data
         [MaxLength(ALIAS_NAME_MAX_LENGTH)]
         public string Alias { get; set; }
 
+        /// <summary>
+        /// Gets or sets the place of birth.
+        /// </summary>
         public int? PlaceOfBirthId { get; set; }
         public Location PlaceOfBirth { get; set; }
-       
+        public bool? IsPlaceOfBirthUnknown { get; set; }
+
         public string MedicalConditions { get; set; }
 
         /// <summary>

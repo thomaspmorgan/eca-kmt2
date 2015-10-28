@@ -144,6 +144,11 @@ namespace ECA.Business.Service.Persons
         public int? CityOfBirthId { get; private set; }
 
         /// <summary>
+        /// Gets or sets the place of birth unknown flag.
+        /// </summary>
+        public bool? IsPlaceOfBirthUnknown { get; set; }
+
+        /// <summary>
         /// Gets or sets the date of birth
         /// </summary>
         public DateTime? DateOfBirth { get; private set; }
