@@ -552,7 +552,7 @@ namespace ECA.Business.Test.Queries.Fundings
                 RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
                 MoneyFlowStatus = actual,
                 Description = "desc",
-                FiscalYear = 1995,
+                FiscalYear = 2005,
                 MoneyFlowId = 20,
                 Value = 10.0m,
                 Parent = moneyFlow,
@@ -573,6 +573,7 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(moneyFlow.SourceProject.Name, testParentMoneyFlow.SourceName);
             Assert.AreEqual(projectType.MoneyFlowSourceRecipientTypeId, testParentMoneyFlow.SourceEntityTypeId);
             Assert.AreEqual(projectType.TypeName, testParentMoneyFlow.SourceEntityTypeName);
+            Assert.AreEqual(moneyFlow.FiscalYear, testParentMoneyFlow.FiscalYear);
 
             var testChildMoneyFlow = results.Where(x => x.Id == childMoneyFlow.MoneyFlowId).First();
             Assert.AreEqual(childMoneyFlow.Value, testChildMoneyFlow.Amount);
@@ -583,6 +584,7 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(sourceId, testParentMoneyFlow.SourceEntityId);
             Assert.AreEqual(projectType.MoneyFlowSourceRecipientTypeId, testParentMoneyFlow.SourceEntityTypeId);
             Assert.AreEqual(projectType.TypeName, testParentMoneyFlow.SourceEntityTypeName);
+            Assert.AreEqual(childMoneyFlow.FiscalYear, testChildMoneyFlow.FiscalYear);
 
             Assert.AreEqual(1, testParentMoneyFlow.ChildMoneyFlowIds.Count());
             Assert.IsTrue(testParentMoneyFlow.ChildMoneyFlowIds.Contains(childMoneyFlow.MoneyFlowId));
@@ -618,7 +620,7 @@ namespace ECA.Business.Test.Queries.Fundings
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 100.00m,
                 Description = "desc",
-                FiscalYear = 1995,
+                FiscalYear = 1994,
                 MoneyFlowId = 10,
             };
             var childMoneyFlow1 = new MoneyFlow
@@ -633,7 +635,7 @@ namespace ECA.Business.Test.Queries.Fundings
                 RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
                 MoneyFlowStatus = actual,
                 Description = "desc",
-                FiscalYear = 1995,
+                FiscalYear = 1996,
                 MoneyFlowId = 20,
                 Value = 10.0m,
                 Parent = moneyFlow,
@@ -651,7 +653,7 @@ namespace ECA.Business.Test.Queries.Fundings
                 RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
                 MoneyFlowStatus = actual,
                 Description = "desc",
-                FiscalYear = 1995,
+                FiscalYear = 1997,
                 MoneyFlowId = 20,
                 Value = 90.0m,
                 Parent = moneyFlow,
@@ -674,6 +676,7 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(sourceId, testParentMoneyFlow.SourceEntityId);
             Assert.AreEqual(projectType.MoneyFlowSourceRecipientTypeId, testParentMoneyFlow.SourceEntityTypeId);
             Assert.AreEqual(projectType.TypeName, testParentMoneyFlow.SourceEntityTypeName);
+            Assert.AreEqual(moneyFlow.FiscalYear, testParentMoneyFlow.FiscalYear);
 
             Assert.AreEqual(2, testParentMoneyFlow.ChildMoneyFlowIds.Count());
             Assert.IsTrue(testParentMoneyFlow.ChildMoneyFlowIds.Contains(childMoneyFlow1.MoneyFlowId));
@@ -729,6 +732,7 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(projectType.MoneyFlowSourceRecipientTypeId, testParentMoneyFlow.SourceEntityTypeId);
             Assert.AreEqual(projectType.TypeName, testParentMoneyFlow.SourceEntityTypeName);
             Assert.AreEqual(0, testParentMoneyFlow.ChildMoneyFlowIds.Count());
+            Assert.AreEqual(moneyFlow.FiscalYear, testParentMoneyFlow.FiscalYear);
         }
         #endregion
 

@@ -19,7 +19,7 @@ namespace ECA.Business.Test.Service.Fundings
         }
         #region Create
         [TestMethod]
-        public void TestDoValidateCreate_FiscalYearIsZero()
+        public void TestDoValidateCreate_FiscalYearIsNotEqualToParentMoneyFlow()
         {
             var value = 1.00m;
             var description = "description";
@@ -31,6 +31,7 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
@@ -49,6 +50,54 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
+                );
+            };
+            Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
+
+            parentFiscalYear++;
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateCreate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(MoneyFlowServiceValidator.FISCAL_YEARS_MUST_BE_EQUAL_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("FiscalYear", validationErrors.First().Property);
+        }
+
+        [TestMethod]
+        public void TestDoValidateCreate_FiscalYearIsZero()
+        {
+            var value = 1.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            var hasSourceEntityType = true;
+            var hasRecipientEntityType = true;
+            int? sourceEntityId = 1;
+            int? recipientEntityId = 2;
+            var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
+            int fiscalYear = 2000;
+            int? parentFiscalYear = null;
+            var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedProjectParticipantIds = new List<int>();
+            var parentMoneyFlowWithdrawalMaximum = 100m;
+
+            Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceCreateValidationEntity(
+                value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
+                description: description,
+                transactionDate: transactionDate,
+                hasRecipientEntityType: hasRecipientEntityType,
+                hasSourceEntityType: hasSourceEntityType,
+                sourceEntityId: sourceEntityId,
+                recipientEntityId: recipientEntityId,
+                sourceEntityTypeId: sourceEntityTypeId,
+                recipientEntityTypeId: recipientEntityTypeId,
+                fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
@@ -76,6 +125,7 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
+            int? parentFiscalYear = null;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
@@ -94,6 +144,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
@@ -122,6 +173,7 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
@@ -140,6 +192,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
@@ -167,6 +220,7 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
@@ -185,6 +239,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
@@ -212,6 +267,7 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
@@ -230,6 +286,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
@@ -257,6 +314,7 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
@@ -275,6 +333,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
@@ -302,6 +361,7 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
@@ -320,6 +380,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
@@ -347,6 +408,7 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
@@ -365,6 +427,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
@@ -391,6 +454,7 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
@@ -409,6 +473,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
@@ -436,6 +501,7 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
@@ -454,6 +520,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
@@ -481,6 +548,7 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
@@ -499,6 +567,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
@@ -526,6 +595,7 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId, sourceEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
@@ -544,6 +614,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
@@ -573,6 +644,7 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId, MoneyFlowSourceRecipientType.Project.Id };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
@@ -591,6 +663,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
@@ -618,6 +691,7 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
@@ -636,6 +710,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
@@ -664,6 +739,7 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
@@ -682,6 +758,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
@@ -709,6 +786,7 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
@@ -727,6 +805,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
@@ -754,6 +833,7 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Participant.Id;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int> { recipientEntityId.Value };
             var parentMoneyFlowWithdrawalMaximum = 100m;
@@ -772,6 +852,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
@@ -799,6 +880,7 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 10m;
@@ -817,6 +899,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
@@ -844,6 +927,7 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 10m;
@@ -862,6 +946,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
@@ -887,6 +972,7 @@ namespace ECA.Business.Test.Service.Fundings
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             decimal? parentMoneyFlowWithdrawalMaximum = 10m;
@@ -905,6 +991,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId: sourceEntityTypeId,
                 recipientEntityTypeId: recipientEntityTypeId,
                 fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
@@ -927,6 +1014,7 @@ namespace ECA.Business.Test.Service.Fundings
             var description = "description";
             var transactionDate = DateTimeOffset.UtcNow;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             decimal? withdrawalLimit = 100m;
             Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
             {
@@ -934,7 +1022,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: value,
                 parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
                 description: description,
-                fiscalYear: fiscalYear
+                fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear
                 );
             };
             Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
@@ -954,6 +1043,7 @@ namespace ECA.Business.Test.Service.Fundings
             var description = "description";
             var transactionDate = DateTimeOffset.UtcNow;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             decimal? withdrawalLimit = 100m;
             Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
             {
@@ -961,7 +1051,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: value,
                 parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
                 description: description,
-                fiscalYear: fiscalYear
+                fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear
                 );
             };
             Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
@@ -979,6 +1070,7 @@ namespace ECA.Business.Test.Service.Fundings
             var description = "description";
             var transactionDate = DateTimeOffset.UtcNow;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             decimal? withdrawalLimit = 100m;
             Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
             {
@@ -986,7 +1078,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: value,
                 parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
                 description: description,
-                fiscalYear: fiscalYear
+                fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear
                 );
             };
             Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
@@ -1004,6 +1097,7 @@ namespace ECA.Business.Test.Service.Fundings
             var description = "description";
             var transactionDate = DateTimeOffset.UtcNow;
             int fiscalYear = 2000;
+            int? parentFiscalYear = null;
             decimal? withdrawalLimit = 100m;
             Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
             {
@@ -1011,7 +1105,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: value,
                 parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
                 description: description,
-                fiscalYear: fiscalYear
+                fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear
                 );
             };
             Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
@@ -1031,6 +1126,7 @@ namespace ECA.Business.Test.Service.Fundings
             var description = "description";
             var transactionDate = DateTimeOffset.UtcNow;
             int fiscalYear = 2000;
+            int? parentFiscalYear = null;
             decimal? withdrawalLimit = 100m;
             Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
             {
@@ -1038,7 +1134,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: value,
                 parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
                 description: description,
-                fiscalYear: fiscalYear
+                fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear
                 );
             };
             Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
@@ -1058,6 +1155,7 @@ namespace ECA.Business.Test.Service.Fundings
             var description = "description";
             var transactionDate = DateTimeOffset.UtcNow;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             decimal? withdrawalLimit = 100m;
             Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
             {
@@ -1065,7 +1163,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: value,
                 parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
                 description: description,
-                fiscalYear: fiscalYear              
+                fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear
                 );
             };
             Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
@@ -1085,6 +1184,7 @@ namespace ECA.Business.Test.Service.Fundings
             var description = "description";
             var transactionDate = DateTimeOffset.UtcNow;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             decimal? withdrawalLimit = 100m;
             Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
             {
@@ -1092,7 +1192,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: value,
                 parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
                 description: description,
-                fiscalYear: fiscalYear
+                fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear
                 );
             };
             Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
@@ -1112,6 +1213,7 @@ namespace ECA.Business.Test.Service.Fundings
             var description = "description";
             var transactionDate = DateTimeOffset.UtcNow;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             decimal? withdrawalLimit = 100m;
             Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
             {
@@ -1119,7 +1221,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: value,
                 parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
                 description: description,
-                fiscalYear: fiscalYear
+                fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear
                 );
             };
             Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
@@ -1139,6 +1242,7 @@ namespace ECA.Business.Test.Service.Fundings
             var description = "description";
             var transactionDate = DateTimeOffset.UtcNow;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             decimal? withdrawalLimit = 100m;
             Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
             {
@@ -1146,7 +1250,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: value,
                 parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
                 description: description,
-                fiscalYear: fiscalYear
+                fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear
                 );
             };
             Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
@@ -1166,6 +1271,7 @@ namespace ECA.Business.Test.Service.Fundings
             var description = "description";
             var transactionDate = DateTimeOffset.UtcNow;
             int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
             decimal? withdrawalLimit = 100m;
             Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
             {
@@ -1173,7 +1279,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: value,
                 parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
                 description: description,
-                fiscalYear: fiscalYear
+                fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear
                 );
             };
             Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
@@ -1184,6 +1291,35 @@ namespace ECA.Business.Test.Service.Fundings
             Assert.AreEqual(1, validationErrors.Count);
             Assert.AreEqual(String.Format(MoneyFlowServiceValidator.DESCRIPTION_EXCEEDS_MAX_LENGTH_FORMAT, MoneyFlow.DESCRIPTION_MAX_LENGTH), validationErrors.First().ErrorMessage);
             Assert.AreEqual("Description", validationErrors.First().Property);
+        }
+
+        [TestMethod]
+        public void TestDoValidateUpdate_FiscalYearDoesNotEqualParentFiscalYear()
+        {
+            var value = 1.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
+            decimal? withdrawalLimit = 100m;
+            Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceUpdateValidationEntity(
+                value: value,
+                parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
+                description: description,
+                fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear
+                );
+            };
+            Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
+
+            parentFiscalYear++;
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(MoneyFlowServiceValidator.FISCAL_YEARS_MUST_BE_EQUAL_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("FiscalYear", validationErrors.First().Property);
         }
         #endregion
     }

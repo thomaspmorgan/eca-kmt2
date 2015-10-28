@@ -95,9 +95,9 @@
                         </p>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6 title-label">Themes</div>
-                    <div class="col-md-6">
+                <div class="form-group row">
+                    <div class="col-md-3 title-label">Themes</div>
+                    <div class="col-md-9">
                         <ui-select multiple close-on-select="true" ng-model="editView.selectedThemes" theme="select2" title="Choose a theme." style="min-width: 200px;">
                             <ui-select-match placeholder="Select themes...">
                                 <div>{{$item.value}}</div>
@@ -108,9 +108,9 @@
                         </ui-select>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6 title-label">Strategic Goals</div>
-                    <div class="col-md-6">
+                <div class="form-group row">
+                    <div class="col-md-3 title-label">Strategic Goals</div>
+                    <div class="col-md-9">
                         <ui-select multiple close-on-select="true" ng-model="editView.selectedGoals" theme="select2" title="Choose a goal." style="min-width: 200px;">
                             <ui-select-match placeholder="Select goals...">
                                 <div>{{$item.value}}</div>
@@ -124,17 +124,17 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-6 title-label">Office</div>
-                    <div class="col-md-6">{{program.ownerName}}</div>
+                <div class="form-group row">
+                    <div class="col-md-3 title-label">Office</div>
+                    <div class="col-md-9">{{program.ownerName}}</div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6 title-label">Program</div>
-                    <div class="col-md-6">{{program.name}}</div>
+                <div class="form-group row">
+                    <div class="col-md-3 title-label">Program</div>
+                    <div class="col-md-9">{{program.name}}</div>
                 </div>
-                <div class="row" ng-show="editView.showCategoryFocus">
-                    <div class="col-md-6 title-label">{{editView.categoryLabel}} <span class="asterisk"> *</span></div>
-                    <div class="col-md-6">
+                <div class="form-group row" ng-show="editView.showCategoryFocus">
+                    <div class="col-md-3 title-label">{{editView.categoryLabel}} <span class="asterisk"> *</span></div>
+                    <div class="col-md-9">
                         <ui-select multiple close-on-select="true" ng-model="editView.selectedCategories" theme="select2" title="Choose a category." style="min-width: 200px;">
                             <ui-select-match placeholder="Select categories...">
                                 <div>{{$item.value}}</div>
@@ -145,9 +145,9 @@
                         </ui-select>
                     </div>
                 </div>
-                <div class="row" ng-show="editView.showObjectiveJustification">
-                    <div class="col-md-6 title-label">{{editView.objectiveLabel}} <span class="asterisk"> *</span></div>
-                    <div class="col-md-6">
+                <div class="form-group row" ng-show="editView.showObjectiveJustification">
+                    <div class="col-md-3 title-label">{{editView.objectiveLabel}} <span class="asterisk"> *</span></div>
+                    <div class="col-md-9">
                         <ui-select multiple close-on-select="true" ng-model="editView.selectedObjectives" theme="select2" title="Choose an objective." style="min-width: 200px;">
                             <ui-select-match placeholder="Select objectives...">
                                 <div>{{$item.value}}</div>
@@ -158,9 +158,9 @@
                         </ui-select>
                     </div>
                 </div>
-                <div class="row" ng-show="project.contacts">
-                    <div class="col-md-6 title-label"><ng-pluralize count="project.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
-                    <div class="col-md-6">
+                <div class="form-group row" ng-show="project.contacts">
+                    <div class="col-md-3 title-label"><ng-pluralize count="project.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
+                    <div class="col-md-9">
                         <ui-select multiple close-on-select="true" ng-model="editView.selectedPointsOfContact" theme="select2" title="Choose a point of contact." style="min-width: 200px;">
                             <ui-select-match placeholder="Select points of contact...">
                                 <div>{{$item.value}}</div>
@@ -173,11 +173,11 @@
                         </ui-select>
                     </div>
                 </div>
-                <div class="row" ng-show="project.locations">
-                    <div class="col-md-6 title-label">
+                <div class="form-group row" ng-show="project.locations">
+                    <div class="col-md-3 title-label">
                         <ng-pluralize count="project.locations.length" when="{'1':'Location','other':'Locations'}"></ng-pluralize>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-9">
                         <ui-select multiple
                                    id="{{editView.locationUiSelectId}}"
                                    close-on-select="true"

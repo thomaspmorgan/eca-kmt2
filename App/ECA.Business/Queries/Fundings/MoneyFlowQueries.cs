@@ -362,6 +362,7 @@ namespace ECA.Business.Queries.Fundings
                              ChildMoneyFlowIds = childMoneyFlows.Select(x => x.MoneyFlowId),
                              EntityId = incomingMoneyFlow.EntityId,
                              EntityTypeId = incomingMoneyFlow.EntityTypeId,
+                             FiscalYear = incomingMoneyFlow.FiscalYear,
                              Id = incomingMoneyFlow.Id,
                              RemainingAmount = incomingMoneyFlow.Amount - childMoneyFlows.Select(x => x.Value).DefaultIfEmpty().Sum(),
                              SourceName = incomingMoneyFlow.SourceRecipientName,

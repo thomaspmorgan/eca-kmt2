@@ -459,17 +459,20 @@ namespace ECA.Business.Service.Fundings
             List<int> allowedMoneyFlowRecipientTypeIds = moneyFlowSourceRecipientTypeService.GetRecipientMoneyFlowTypes(moneyFlow.SourceEntityTypeId).Select(x => x.Id).ToList();
             List<int> allowedProjectParticipantIds = null;
             decimal? parentMoneyFlowWithdrawalLimit = null;
+            MoneyFlow parentMoneyFlow = null;
+            int? parentFiscalYear = null;
             if (moneyFlow.SourceEntityTypeId == MoneyFlowSourceRecipientType.Project.Id && moneyFlow.RecipientEntityTypeId == MoneyFlowSourceRecipientType.Participant.Id)
             {
                 allowedProjectParticipantIds = ParticipantQueries.CreateGetSimpleParticipantsDTOByProjectIdQuery(this.Context, moneyFlow.SourceEntityId.Value).Select(x => x.ParticipantId).ToList();
             }
             if (moneyFlow.ParentMoneyFlowId.HasValue)
             {
-                var parentMoneyFlow = this.Context.MoneyFlows.Find(moneyFlow.ParentMoneyFlowId.Value);
+                parentMoneyFlow = this.Context.MoneyFlows.Find(moneyFlow.ParentMoneyFlowId.Value);                
                 throwIfEntityNotFound(parentMoneyFlow, moneyFlow.ParentMoneyFlowId.Value, typeof(MoneyFlow));
+                parentFiscalYear = parentMoneyFlow.FiscalYear;
                 parentMoneyFlowWithdrawalLimit = GetMoneyFlowWithdrawalMaximum(parentMoneyFlow.MoneyFlowId);
             }
-            validator.ValidateCreate(GetCreateValidationEntity(moneyFlow, parentMoneyFlowWithdrawalLimit, hasSourceEntityType, hasRecipientEntityType, allowedMoneyFlowRecipientTypeIds, allowedProjectParticipantIds));
+            validator.ValidateCreate(GetCreateValidationEntity(moneyFlow, parentMoneyFlowWithdrawalLimit, parentFiscalYear, hasSourceEntityType, hasRecipientEntityType, allowedMoneyFlowRecipientTypeIds, allowedProjectParticipantIds));
             if (hasSourceEntityType)
             {
                 Contract.Assert(moneyFlow.SourceEntityId.HasValue, "The source entity id should have a value here.  This should be checked by validator.");
@@ -501,17 +504,20 @@ namespace ECA.Business.Service.Fundings
             List<int> allowedMoneyFlowRecipientTypeIds = (await moneyFlowSourceRecipientTypeService.GetRecipientMoneyFlowTypesAsync(moneyFlow.SourceEntityTypeId)).Select(x => x.Id).ToList();
             List<int> allowedProjectParticipantIds = null;
             decimal? parentMoneyFlowWithdrawalLimit = null;
+            MoneyFlow parentMoneyFlow = null;
+            int? parentFiscalYear = null;
             if (moneyFlow.SourceEntityTypeId == MoneyFlowSourceRecipientType.Project.Id && moneyFlow.RecipientEntityTypeId == MoneyFlowSourceRecipientType.Participant.Id)
             {
                 allowedProjectParticipantIds = await ParticipantQueries.CreateGetSimpleParticipantsDTOByProjectIdQuery(this.Context, moneyFlow.SourceEntityId.Value).Select(x => x.ParticipantId).ToListAsync();
             }
             if (moneyFlow.ParentMoneyFlowId.HasValue)
             {
-                var parentMoneyFlow = await this.Context.MoneyFlows.FindAsync(moneyFlow.ParentMoneyFlowId.Value);
+                parentMoneyFlow = await this.Context.MoneyFlows.FindAsync(moneyFlow.ParentMoneyFlowId.Value);                
                 throwIfEntityNotFound(parentMoneyFlow, moneyFlow.ParentMoneyFlowId.Value, typeof(MoneyFlow));
+                parentFiscalYear = parentMoneyFlow.FiscalYear;
                 parentMoneyFlowWithdrawalLimit = await GetMoneyFlowWithdrawalMaximumAsync(parentMoneyFlow.MoneyFlowId);
             }
-            validator.ValidateCreate(GetCreateValidationEntity(moneyFlow, parentMoneyFlowWithdrawalLimit, hasSourceEntityType, hasRecipientEntityType, allowedMoneyFlowRecipientTypeIds, allowedProjectParticipantIds));
+            validator.ValidateCreate(GetCreateValidationEntity(moneyFlow, parentMoneyFlowWithdrawalLimit, parentFiscalYear, hasSourceEntityType, hasRecipientEntityType, allowedMoneyFlowRecipientTypeIds, allowedProjectParticipantIds));
             if (hasSourceEntityType)
             {
                 Contract.Assert(moneyFlow.SourceEntityId.HasValue, "The source entity id should have a value here.  This should be checked by validator.");
@@ -539,6 +545,7 @@ namespace ECA.Business.Service.Fundings
         private MoneyFlowServiceCreateValidationEntity GetCreateValidationEntity(
             AdditionalMoneyFlow moneyFlow, 
             decimal? parentMoneyFlowWithdrawalMaximum,
+            int? parentFiscalYear,
             bool hasSourceEntityType, 
             bool hasRecipientEntityType, 
             List<int> allowedRecipientEntityTypeIds,
@@ -557,7 +564,8 @@ namespace ECA.Business.Service.Fundings
                 hasSourceEntityType: hasSourceEntityType,
                 sourceEntityId: moneyFlow.SourceEntityId,
                 recipientEntityId: moneyFlow.RecipientEntityId,
-                fiscalYear: moneyFlow.FiscalYear);
+                fiscalYear: moneyFlow.FiscalYear,
+                parentFiscalYear: parentFiscalYear);
         }
         #endregion
 
@@ -573,11 +581,13 @@ namespace ECA.Business.Service.Fundings
             var permissableMoneyFlow = CreateGetMoneyFlowByIdAndEntityIdQuery(updatedMoneyFlow).FirstOrDefault();
             throwSecurityViolationIfNull(updatedMoneyFlow.Audit.User.Id, permissableMoneyFlow, moneyFlowToUpdate);
             decimal? parentMoneyFlowWithdrawalMaximum = null;
+            MoneyFlow parentMoneyFlow = null;
             if (moneyFlowToUpdate != null && moneyFlowToUpdate.Parent != null)
             {
                 parentMoneyFlowWithdrawalMaximum = moneyFlowToUpdate.Value + GetMoneyFlowWithdrawalMaximum(moneyFlowToUpdate.ParentMoneyFlowId.Value);
+                parentMoneyFlow = Context.MoneyFlows.Find(moneyFlowToUpdate.ParentMoneyFlowId.Value);
             }
-            DoUpdate(updatedMoneyFlow, moneyFlowToUpdate, parentMoneyFlowWithdrawalMaximum);
+            DoUpdate(updatedMoneyFlow, moneyFlowToUpdate, parentMoneyFlow, parentMoneyFlowWithdrawalMaximum);
         }
 
         /// <summary>
@@ -591,11 +601,13 @@ namespace ECA.Business.Service.Fundings
             var permissableMoneyFlow = await CreateGetMoneyFlowByIdAndEntityIdQuery(updatedMoneyFlow).FirstOrDefaultAsync();
             throwSecurityViolationIfNull(updatedMoneyFlow.Audit.User.Id, permissableMoneyFlow, moneyFlowToUpdate);
             decimal? parentMoneyFlowWithdrawalMaximum = null;
+            MoneyFlow parentMoneyFlow = null;
             if (moneyFlowToUpdate != null && moneyFlowToUpdate.Parent != null)
             {
                 parentMoneyFlowWithdrawalMaximum = moneyFlowToUpdate.Value + await GetMoneyFlowWithdrawalMaximumAsync(moneyFlowToUpdate.ParentMoneyFlowId.Value);
+                parentMoneyFlow = await Context.MoneyFlows.FindAsync(moneyFlowToUpdate.ParentMoneyFlowId.Value);
             }
-            DoUpdate(updatedMoneyFlow, moneyFlowToUpdate, parentMoneyFlowWithdrawalMaximum);
+            DoUpdate(updatedMoneyFlow, moneyFlowToUpdate, parentMoneyFlow, parentMoneyFlowWithdrawalMaximum);
         }
 
         private IQueryable<MoneyFlow> CreateGetMoneyFlowByIdQuery(int moneyFlowId)
@@ -604,7 +616,7 @@ namespace ECA.Business.Service.Fundings
             return this.Context.MoneyFlows.Include(x => x.Parent).Where(x => x.MoneyFlowId == moneyFlowId);
         }
 
-        private void DoUpdate(UpdatedMoneyFlow updatedMoneyFlow, MoneyFlow moneyFlowToUpdate, decimal? parentMoneyFlowWithdrawalMaximum)
+        private void DoUpdate(UpdatedMoneyFlow updatedMoneyFlow, MoneyFlow moneyFlowToUpdate, MoneyFlow parentMoneyFlow, decimal? parentMoneyFlowWithdrawalMaximum)
         {
             if (moneyFlowToUpdate == null)
             {
@@ -613,7 +625,7 @@ namespace ECA.Business.Service.Fundings
                     updatedMoneyFlow.Id, 
                     updatedMoneyFlow.SourceOrRecipientEntityId));
             }
-            validator.ValidateUpdate(GetUpdateValidationEntity(updatedMoneyFlow, parentMoneyFlowWithdrawalMaximum));
+            validator.ValidateUpdate(GetUpdateValidationEntity(updatedMoneyFlow, parentMoneyFlowWithdrawalMaximum, parentMoneyFlow == null ? default(int?) : parentMoneyFlow.FiscalYear));
             moneyFlowToUpdate.Description = updatedMoneyFlow.Description;
             moneyFlowToUpdate.FiscalYear = updatedMoneyFlow.FiscalYear;
             moneyFlowToUpdate.MoneyFlowStatusId = updatedMoneyFlow.MoneyFlowStatusId;
@@ -623,13 +635,14 @@ namespace ECA.Business.Service.Fundings
             updatedMoneyFlow.Audit.SetHistory(moneyFlowToUpdate);
         }
 
-        private MoneyFlowServiceUpdateValidationEntity GetUpdateValidationEntity(UpdatedMoneyFlow moneyFlow, decimal? parentMoneyFlowWithdrawalMaximum)
+        private MoneyFlowServiceUpdateValidationEntity GetUpdateValidationEntity(UpdatedMoneyFlow moneyFlow, decimal? parentMoneyFlowWithdrawalMaximum, int? parentFiscalYear)
         {
             return new MoneyFlowServiceUpdateValidationEntity(
                 description: moneyFlow.Description, 
                 parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
                 value: moneyFlow.Value, 
-                fiscalYear: moneyFlow.FiscalYear);
+                fiscalYear: moneyFlow.FiscalYear,
+                parentFiscalYear: parentFiscalYear);
         }
         #endregion
 
