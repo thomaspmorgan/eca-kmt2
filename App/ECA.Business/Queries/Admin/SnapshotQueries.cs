@@ -43,7 +43,7 @@ namespace ECA.Business.Queries.Admin
                 DataValue = context.Programs.Include("ChildPrograms")
                                 .Where(x => x.ProgramId == programId || x.ParentProgramId == programId)
                                 .Select(p => p.Projects.Where(d => d.EndDate.Value.Year >= oldestDate.Year))
-                                .Sum(c => c.Select(t => t.Participants.Count).Sum())
+                                                        .Sum(c => (int?)c.Sum(t => (int?)t.Participants.Count ?? 0) ?? 0)
             };
         }
 
@@ -61,10 +61,11 @@ namespace ECA.Business.Queries.Admin
                 DataLabel = "BUDGET",
                 DataValue = (int)context.Programs.Include("ChildPrograms")
                                 .Where(x => x.ProgramId == programId || x.ParentProgramId == programId)
-                                .Sum(p => p.Projects.Select(r => r.RecipientProjectMoneyFlows
+                                .Sum(p => (decimal?)p.Projects.Sum(r => (decimal?)r.RecipientProjectMoneyFlows
                                                                 .Where(m => m.MoneyFlowTypeId == MoneyFlowType.Incoming.Id
-                                                                        && m.TransactionDate.Year >= oldestDate.Year)
-                                                                        .Select(m => m.Value).Sum()).Sum())
+                                                                        && m.TransactionDate.Year >= oldestDate.Year 
+                                                                        && m.Value > 0)
+                                                                        .Sum(m => (decimal?)m.Value ?? 0) ?? 0) ?? 0)
             };
         }
 
@@ -166,8 +167,8 @@ namespace ECA.Business.Queries.Admin
                 DataValue = context.Programs.Include("ChildPrograms")
                                 .Where(x => x.ProgramId == programId || x.ParentProgramId == programId)
                                 .Select(p => p.Projects.Where(d => d.EndDate.Value.Year >= oldestDate.Year))
-                                .Sum(c => c.Select(t => t.Participants.Count(s => s.ParticipantStatusId == ParticipantStatus.Alumnus.Id
-                                                                                && s.StatusDate.Value.Year >= oldestDate.Year)).Sum())
+                                .Sum(c => (int?)c.Sum(t => (int?)t.Participants.Where(d => d.StatusDate.Value.Year >= oldestDate.Year)
+                                                        .Count(s => s.ParticipantStatusId == ParticipantStatus.Alumnus.Id) ?? 0) ?? 0)
             };
         }
 
