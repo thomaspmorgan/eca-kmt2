@@ -26,6 +26,8 @@ namespace ECA.Business.Queries.Models.Fundings
 
         public decimal Amount { get; set; }
 
+        public int FiscalYear { get; set; }
+
         public IEnumerable<int> ChildMoneyFlowIds { get; set; }
     }
 }

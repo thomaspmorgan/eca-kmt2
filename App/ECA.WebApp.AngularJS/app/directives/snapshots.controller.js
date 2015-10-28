@@ -39,6 +39,7 @@ angular.module('staticApp')
           GetProgramImpactStoryCount();
           GetProgramAlumniCount();
           GetProgramProminenceCount();
+          GetProgramCostPerParticipant();
 
           $scope.view.isSnapshotLoading = false;
       };
@@ -59,7 +60,6 @@ angular.module('staticApp')
           SnapshotService.GetProgramParticipantCount($scope.view.params.programId)
             .then(function (response) {
                 $scope.view.totalParticipants = response.data;
-                GetProgramCostPerParticipant();
             })
             .catch(function () {
                 var message = 'Unable to load participant count.';
