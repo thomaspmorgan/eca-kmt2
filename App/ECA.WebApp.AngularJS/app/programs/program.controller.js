@@ -102,7 +102,7 @@ angular.module('staticApp')
                   $scope.view.showEditProgramButton = true;
               },
               notAuthorized: function () {
-                  StateService.goToForbiddenState();
+                  $scope.view.showEditProgramButton = false;
               }
           };
           return AuthService.getResourcePermissions(resourceType, programId, config)
