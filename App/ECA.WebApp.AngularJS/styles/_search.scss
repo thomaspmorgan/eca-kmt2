@@ -1,14 +1,9 @@
-.resulticon {
-    border-radius: 20px;
-    color: #fff;
-    display: inline-block;
-    font-size: 14px;
-    font-weight: 600;
-    height: 27px;
-    line-height: 27px;
-    text-align: center;
-    text-transform: uppercase;
-    width: 27px;
+.search.circle {
+    float:none;
+}
+
+.search.pagination{
+    margin:0;
 }
 
 .search-label {
@@ -68,9 +63,9 @@ div.search-modal .modal-content .modal-body {
     border-right: 1px solid $bordergray;
 }
 
-.resultoffice {
+/*.resultoffice {
     font-size: 13px;
-}
+}*/
 
 .material-icons.flip-horizontal {
     transform: rotateY(180deg);

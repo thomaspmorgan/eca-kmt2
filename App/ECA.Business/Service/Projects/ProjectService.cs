@@ -28,7 +28,6 @@ namespace ECA.Business.Service.Projects
 
         private readonly Action<int, Project> throwIfProjectDoesNotExist;
         private readonly Action<ParticipantType> throwIfParticipantTypeDoesNotExist;
-        private readonly Action<int?, Location> throwIfLocationDoesNotExist;
 
 
         /// <summary>
@@ -61,13 +60,6 @@ namespace ECA.Business.Service.Projects
                 if (participantType == null)
                 {
                     throw new ModelNotFoundException("The participant type does not exist.");
-                }
-            };
-            throwIfLocationDoesNotExist = (locationId, location) =>
-            {
-                if (location == null)
-                {
-                    throw new ModelNotFoundException(String.Format("The location with id [{0}] does not exist.", locationId));
                 }
             };
         }

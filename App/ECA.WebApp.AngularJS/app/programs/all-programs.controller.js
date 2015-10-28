@@ -100,6 +100,7 @@ angular.module('staticApp')
                   $log.error('Unable to load user info.');
               });
       }
+
       $scope.view.getPrograms = function (tableState) {
           //remove keyword search parameter if viewing programs in hiearchy
           if ($scope.view.listType === $scope.view.hierarchyKey && tableState.search && tableState.search.predicateObject) {
@@ -119,7 +120,7 @@ angular.module('staticApp')
               params.filter = [];
           }
 
-          $scope.view.programFilter = params.keyword === null ? params.keyword : params.keyword.join(" ");;
+          $scope.view.programFilter = document.getElementById('searchBar').value;
 
           if ($scope.view.showDraftsOnly) {
               params.filter.push({ property: 'programStatusId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.programStatus.draft.id });
