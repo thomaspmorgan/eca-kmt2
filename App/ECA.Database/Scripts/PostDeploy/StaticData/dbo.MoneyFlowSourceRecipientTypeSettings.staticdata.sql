@@ -44,7 +44,7 @@ DECLARE @tblTempTable TABLE (
 INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('1', '2', 'True', 'True')
 INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('1', '3', 'True', 'True')
 INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('1', '8', 'False', 'True')
-INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('1', '10', 'True', 'False')
+INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('1', '10', 'True', 'True')
 INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('2', '1', 'True', 'True')
 INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('2', '2', 'True', 'True')
 INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [PeerMoneyFlowSourceRecipientTypeId], [IsSource], [IsRecipient]) VALUES ('2', '3', 'False', 'True')

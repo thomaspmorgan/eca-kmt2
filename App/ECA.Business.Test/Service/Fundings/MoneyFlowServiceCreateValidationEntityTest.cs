@@ -26,6 +26,7 @@ namespace ECA.Business.Test.Service.Fundings
             var fiscalYear = 2000;
             var allowedRecipientEntityTypeIds = new List<int> { 1, 2, 3, 3 };
             var allowedProjectParticipantIds = new List<int> { 5, 6, 7, 7 };
+            var allowedSourceEntityTypeIds = new List<int> { 8, 8, 9, 9 };
             var parentMoneyFlowWithdrawalMaximum = 100m;
             var parentFiscalYear = 2100;
 
@@ -36,6 +37,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId,
                 recipientEntityTypeId,
                 allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds,
                 sourceEntityId, 
                 recipientEntityId, 
@@ -58,6 +60,7 @@ namespace ECA.Business.Test.Service.Fundings
             Assert.AreEqual(parentFiscalYear, instance.ParentFiscalYear);
 
             CollectionAssert.AreEqual(allowedRecipientEntityTypeIds.Distinct().ToList(), instance.AllowedRecipientEntityTypeIds.ToList());
+            CollectionAssert.AreEqual(allowedSourceEntityTypeIds.Distinct().ToList(), instance.AllowedSourceEntityTypeIds.ToList());
             CollectionAssert.AreEqual(allowedProjectParticipantIds.Distinct().ToList(), instance.AllowedProjectParticipantIds.ToList());
         }
 
@@ -78,6 +81,7 @@ namespace ECA.Business.Test.Service.Fundings
             var parentMoneyFlowWithdrawalMaximum = 100m;
             List<int> allowedRecipientEntityTypeIds = null;
             List<int> allowedProjectParticipantIds = null;
+            List<int> allowedSourceEntityTypeIds = null;
 
 
             var instance = new MoneyFlowServiceCreateValidationEntity(
@@ -87,6 +91,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceEntityTypeId,
                 recipientEntityTypeId,
                 allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds,
                 sourceEntityId,
                 recipientEntityId,
@@ -97,7 +102,8 @@ namespace ECA.Business.Test.Service.Fundings
                 parentFiscalYear);
             Assert.IsNotNull(instance.AllowedRecipientEntityTypeIds);
             Assert.IsNotNull(instance.AllowedProjectParticipantIds);
-           
+            Assert.IsNotNull(instance.AllowedSourceEntityTypeIds);
+
         }
     }
 }

@@ -56,9 +56,9 @@ namespace ECA.Business.Service.Fundings
         public const string SOURCE_AND_RECIPIENT_ENTITIES_EQUAL_ERROR_MESSAGE = "The source and recipient must not be the same.";
 
         /// <summary>
-        /// The error message to return when the recipient entity type is not valid for the given source entity type.
+        /// The error message to return when the recipient and source entities are not valid.
         /// </summary>
-        public const string RECIPIENT_ENTITY_TYPE_IS_NOT_VALID_FOR_SOURCE_ENTITY_TYPE = "The recipient entity type is not valid for the given source entity type.";
+        public const string SOURCE_AND_RECIPIENT_ENTITY_TYPES_ARE_INVALID_ERROR_MESSAGE = "The recipient and source entity types are not valid.";
 
         /// <summary>
         /// The error message to return when the recipient is not a participant of the source project.
@@ -121,9 +121,12 @@ namespace ECA.Business.Service.Fundings
             {
                 yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.SourceEntityId, SOURCE_AND_RECIPIENT_ENTITIES_EQUAL_ERROR_MESSAGE);
             }
-            if (!validationEntity.AllowedRecipientEntityTypeIds.Contains(validationEntity.RecipientEntityTypeId))
+
+            var isRecipientAllowed = validationEntity.AllowedRecipientEntityTypeIds.Contains(validationEntity.RecipientEntityTypeId);
+            var isSourceAllowed = validationEntity.AllowedSourceEntityTypeIds.Contains(validationEntity.SourceEntityTypeId);
+            if (!isRecipientAllowed && !isSourceAllowed)
             {
-                yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.RecipientEntityTypeId, RECIPIENT_ENTITY_TYPE_IS_NOT_VALID_FOR_SOURCE_ENTITY_TYPE);
+                yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.RecipientEntityTypeId, SOURCE_AND_RECIPIENT_ENTITY_TYPES_ARE_INVALID_ERROR_MESSAGE);
             }
             if (validationEntity.SourceEntityTypeId == MoneyFlowSourceRecipientType.Project.Id
                 && validationEntity.RecipientEntityTypeId == MoneyFlowSourceRecipientType.Participant.Id

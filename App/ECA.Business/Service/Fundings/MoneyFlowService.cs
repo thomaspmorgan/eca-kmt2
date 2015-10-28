@@ -457,6 +457,7 @@ namespace ECA.Business.Service.Fundings
             object sourceEntity = null;
             object recipientEntity = null;
             List<int> allowedMoneyFlowRecipientTypeIds = moneyFlowSourceRecipientTypeService.GetRecipientMoneyFlowTypes(moneyFlow.SourceEntityTypeId).Select(x => x.Id).ToList();
+            List<int> allowedMoneyFlowSourceTypeIds = moneyFlowSourceRecipientTypeService.GetSourceMoneyFlowTypes(moneyFlow.RecipientEntityTypeId).Select(x => x.Id).ToList();
             List<int> allowedProjectParticipantIds = null;
             decimal? parentMoneyFlowWithdrawalLimit = null;
             MoneyFlow parentMoneyFlow = null;
@@ -472,7 +473,16 @@ namespace ECA.Business.Service.Fundings
                 parentFiscalYear = parentMoneyFlow.FiscalYear;
                 parentMoneyFlowWithdrawalLimit = GetMoneyFlowWithdrawalMaximum(parentMoneyFlow.MoneyFlowId);
             }
-            validator.ValidateCreate(GetCreateValidationEntity(moneyFlow, parentMoneyFlowWithdrawalLimit, parentFiscalYear, hasSourceEntityType, hasRecipientEntityType, allowedMoneyFlowRecipientTypeIds, allowedProjectParticipantIds));
+            validator.ValidateCreate(GetCreateValidationEntity(
+                moneyFlow: moneyFlow,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalLimit,
+                parentFiscalYear: parentFiscalYear,
+                hasSourceEntityType: hasSourceEntityType,
+                hasRecipientEntityType: hasRecipientEntityType,
+                allowedRecipientEntityTypeIds: allowedMoneyFlowRecipientTypeIds,
+                allowedSourceEntityTypeIds: allowedMoneyFlowSourceTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
+                ));
             if (hasSourceEntityType)
             {
                 Contract.Assert(moneyFlow.SourceEntityId.HasValue, "The source entity id should have a value here.  This should be checked by validator.");
@@ -502,6 +512,7 @@ namespace ECA.Business.Service.Fundings
             object sourceEntity = null;
             object recipientEntity = null;
             List<int> allowedMoneyFlowRecipientTypeIds = (await moneyFlowSourceRecipientTypeService.GetRecipientMoneyFlowTypesAsync(moneyFlow.SourceEntityTypeId)).Select(x => x.Id).ToList();
+            List<int> allowedMoneyFlowSourceTypeIds = (await moneyFlowSourceRecipientTypeService.GetSourceMoneyFlowTypesAsync(moneyFlow.RecipientEntityTypeId)).Select(x => x.Id).ToList();
             List<int> allowedProjectParticipantIds = null;
             decimal? parentMoneyFlowWithdrawalLimit = null;
             MoneyFlow parentMoneyFlow = null;
@@ -517,7 +528,17 @@ namespace ECA.Business.Service.Fundings
                 parentFiscalYear = parentMoneyFlow.FiscalYear;
                 parentMoneyFlowWithdrawalLimit = await GetMoneyFlowWithdrawalMaximumAsync(parentMoneyFlow.MoneyFlowId);
             }
-            validator.ValidateCreate(GetCreateValidationEntity(moneyFlow, parentMoneyFlowWithdrawalLimit, parentFiscalYear, hasSourceEntityType, hasRecipientEntityType, allowedMoneyFlowRecipientTypeIds, allowedProjectParticipantIds));
+            validator.ValidateCreate(GetCreateValidationEntity(
+                moneyFlow: moneyFlow,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalLimit,
+                parentFiscalYear: parentFiscalYear,
+                hasSourceEntityType: hasSourceEntityType,
+                hasRecipientEntityType: hasRecipientEntityType,
+                allowedRecipientEntityTypeIds: allowedMoneyFlowRecipientTypeIds,
+                allowedSourceEntityTypeIds: allowedMoneyFlowSourceTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
+                ));
+
             if (hasSourceEntityType)
             {
                 Contract.Assert(moneyFlow.SourceEntityId.HasValue, "The source entity id should have a value here.  This should be checked by validator.");
@@ -549,6 +570,7 @@ namespace ECA.Business.Service.Fundings
             bool hasSourceEntityType, 
             bool hasRecipientEntityType, 
             List<int> allowedRecipientEntityTypeIds,
+            List<int> allowedSourceEntityTypeIds,
             List<int> allowedProjectParticipantIds)
         {
             return new MoneyFlowServiceCreateValidationEntity(
@@ -556,6 +578,7 @@ namespace ECA.Business.Service.Fundings
                 parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
                 recipientEntityTypeId: moneyFlow.RecipientEntityTypeId,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds,
                 description: moneyFlow.Description, 
                 transactionDate: moneyFlow.TransactionDate, 

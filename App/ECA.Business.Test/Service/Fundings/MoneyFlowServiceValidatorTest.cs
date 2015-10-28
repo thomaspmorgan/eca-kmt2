@@ -33,6 +33,7 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
 
@@ -52,7 +53,8 @@ namespace ECA.Business.Test.Service.Fundings
                 fiscalYear: fiscalYear,
                 parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
-                allowedProjectParticipantIds: allowedProjectParticipantIds
+                allowedProjectParticipantIds: allowedProjectParticipantIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds
                 );
             };
             Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
@@ -80,6 +82,7 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             int? parentFiscalYear = null;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
 
@@ -99,6 +102,7 @@ namespace ECA.Business.Test.Service.Fundings
                 fiscalYear: fiscalYear,
                 parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
@@ -127,6 +131,7 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             int? parentFiscalYear = null;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
 
@@ -146,6 +151,7 @@ namespace ECA.Business.Test.Service.Fundings
                 fiscalYear: fiscalYear,
                 parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
@@ -175,6 +181,7 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
 
@@ -194,6 +201,7 @@ namespace ECA.Business.Test.Service.Fundings
                 fiscalYear: fiscalYear,
                 parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
@@ -222,6 +230,7 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
 
@@ -241,6 +250,7 @@ namespace ECA.Business.Test.Service.Fundings
                 fiscalYear: fiscalYear,
                 parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
@@ -269,6 +279,7 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
 
@@ -288,6 +299,7 @@ namespace ECA.Business.Test.Service.Fundings
                 fiscalYear: fiscalYear,
                 parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
@@ -316,6 +328,7 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
 
@@ -335,6 +348,7 @@ namespace ECA.Business.Test.Service.Fundings
                 fiscalYear: fiscalYear,
                 parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
@@ -363,6 +377,7 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
 
@@ -382,6 +397,7 @@ namespace ECA.Business.Test.Service.Fundings
                 fiscalYear: fiscalYear,
                 parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
@@ -410,6 +426,7 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
 
@@ -429,6 +446,7 @@ namespace ECA.Business.Test.Service.Fundings
                 fiscalYear: fiscalYear,
                 parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
@@ -456,6 +474,7 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
 
@@ -475,6 +494,7 @@ namespace ECA.Business.Test.Service.Fundings
                 fiscalYear: fiscalYear,
                 parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
@@ -503,6 +523,7 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
 
@@ -522,6 +543,7 @@ namespace ECA.Business.Test.Service.Fundings
                 fiscalYear: fiscalYear,
                 parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
@@ -550,6 +572,7 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
 
@@ -569,6 +592,7 @@ namespace ECA.Business.Test.Service.Fundings
                 fiscalYear: fiscalYear,
                 parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
@@ -597,6 +621,7 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId, sourceEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
 
@@ -616,6 +641,7 @@ namespace ECA.Business.Test.Service.Fundings
                 fiscalYear: fiscalYear,
                 parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
@@ -646,6 +672,7 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId, MoneyFlowSourceRecipientType.Project.Id };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
 
@@ -665,6 +692,7 @@ namespace ECA.Business.Test.Service.Fundings
                 fiscalYear: fiscalYear,
                 parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
@@ -693,6 +721,7 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
 
@@ -712,6 +741,7 @@ namespace ECA.Business.Test.Service.Fundings
                 fiscalYear: fiscalYear,
                 parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
@@ -723,6 +753,106 @@ namespace ECA.Business.Test.Service.Fundings
             recipientEntityId = 2;
             validationErrors = validator.DoValidateCreate(createEntity()).ToList();
             Assert.AreEqual(0, validationErrors.Count);
+        }
+
+        [TestMethod]
+        public void TestDoValidateCreate_SourceAndRecipientEntityTypesAreNotAllowed()
+        {
+            var value = 1.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            var hasSourceEntityType = true;
+            var hasRecipientEntityType = true;
+            int? sourceEntityId = 1;
+            int? recipientEntityId = 2;
+            var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            var recipientEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
+            var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
+            var allowedProjectParticipantIds = new List<int>();
+            var parentMoneyFlowWithdrawalMaximum = 100m;
+
+            Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceCreateValidationEntity(
+                value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
+                description: description,
+                transactionDate: transactionDate,
+                hasRecipientEntityType: hasRecipientEntityType,
+                hasSourceEntityType: hasSourceEntityType,
+                sourceEntityId: sourceEntityId,
+                recipientEntityId: recipientEntityId,
+                sourceEntityTypeId: sourceEntityTypeId,
+                recipientEntityTypeId: recipientEntityTypeId,
+                fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
+                );
+            };
+            Assert.AreEqual(0, validator.DoValidateCreate(createEntity()).Count());            
+
+            allowedRecipientEntityTypeIds = new List<int> { MoneyFlowSourceRecipientType.Organization.Id };
+            allowedSourceEntityTypeIds = new List<int> { MoneyFlowSourceRecipientType.Organization.Id };
+
+            var validationErrors = validator.DoValidateCreate(createEntity()).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(MoneyFlowServiceValidator.SOURCE_AND_RECIPIENT_ENTITY_TYPES_ARE_INVALID_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("RecipientEntityTypeId", validationErrors.First().Property);
+        }
+
+        [TestMethod]
+        public void TestDoValidateCreate_NoSourceAndRecipientEntityTypesAreNotAllowed()
+        {
+            var value = 1.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            var hasSourceEntityType = true;
+            var hasRecipientEntityType = true;
+            int? sourceEntityId = 1;
+            int? recipientEntityId = 2;
+            var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            var recipientEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
+            var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
+            var allowedProjectParticipantIds = new List<int>();
+            var parentMoneyFlowWithdrawalMaximum = 100m;
+
+            Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceCreateValidationEntity(
+                value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
+                description: description,
+                transactionDate: transactionDate,
+                hasRecipientEntityType: hasRecipientEntityType,
+                hasSourceEntityType: hasSourceEntityType,
+                sourceEntityId: sourceEntityId,
+                recipientEntityId: recipientEntityId,
+                sourceEntityTypeId: sourceEntityTypeId,
+                recipientEntityTypeId: recipientEntityTypeId,
+                fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
+                );
+            };
+            Assert.AreEqual(0, validator.DoValidateCreate(createEntity()).Count());
+
+            allowedRecipientEntityTypeIds = new List<int>();
+            allowedSourceEntityTypeIds = new List<int>();
+
+            var validationErrors = validator.DoValidateCreate(createEntity()).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(MoneyFlowServiceValidator.SOURCE_AND_RECIPIENT_ENTITY_TYPES_ARE_INVALID_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("RecipientEntityTypeId", validationErrors.First().Property);
         }
 
 
@@ -741,6 +871,7 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
 
@@ -760,6 +891,7 @@ namespace ECA.Business.Test.Service.Fundings
                 fiscalYear: fiscalYear,
                 parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
@@ -768,9 +900,54 @@ namespace ECA.Business.Test.Service.Fundings
 
             allowedRecipientEntityTypeIds = new List<int> { MoneyFlowSourceRecipientType.Accomodation.Id };
             validationErrors = validator.DoValidateCreate(createEntity()).ToList();
-            Assert.AreEqual(1, validationErrors.Count);
-            Assert.AreEqual(MoneyFlowServiceValidator.RECIPIENT_ENTITY_TYPE_IS_NOT_VALID_FOR_SOURCE_ENTITY_TYPE, validationErrors.First().ErrorMessage);
-            Assert.AreEqual("RecipientEntityTypeId", validationErrors.First().Property);
+            Assert.AreEqual(0, validationErrors.Count);
+        }
+
+        [TestMethod]
+        public void TestDoValidateCreate_SourceEntityTypeIdIsNotAllowed()
+        {
+            var value = 1.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            var hasSourceEntityType = true;
+            var hasRecipientEntityType = true;
+            int? sourceEntityId = 1;
+            int? recipientEntityId = 2;
+            var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            var recipientEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
+            var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
+            var allowedProjectParticipantIds = new List<int>();
+            var parentMoneyFlowWithdrawalMaximum = 100m;
+
+            Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceCreateValidationEntity(
+                value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
+                description: description,
+                transactionDate: transactionDate,
+                hasRecipientEntityType: hasRecipientEntityType,
+                hasSourceEntityType: hasSourceEntityType,
+                sourceEntityId: sourceEntityId,
+                recipientEntityId: recipientEntityId,
+                sourceEntityTypeId: sourceEntityTypeId,
+                recipientEntityTypeId: recipientEntityTypeId,
+                fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
+                );
+            };
+            var validationErrors = validator.DoValidateCreate(createEntity()).ToList();
+            Assert.AreEqual(0, validationErrors.Count);
+
+            allowedSourceEntityTypeIds = new List<int> { MoneyFlowSourceRecipientType.Accomodation.Id };
+            validationErrors = validator.DoValidateCreate(createEntity()).ToList();
+            Assert.AreEqual(0, validationErrors.Count);
         }
 
         [TestMethod]
@@ -788,6 +965,7 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 100m;
 
@@ -807,6 +985,7 @@ namespace ECA.Business.Test.Service.Fundings
                 fiscalYear: fiscalYear,
                 parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
@@ -815,9 +994,54 @@ namespace ECA.Business.Test.Service.Fundings
 
             allowedRecipientEntityTypeIds = new List<int>();
             validationErrors = validator.DoValidateCreate(createEntity()).ToList();
-            Assert.AreEqual(1, validationErrors.Count);
-            Assert.AreEqual(MoneyFlowServiceValidator.RECIPIENT_ENTITY_TYPE_IS_NOT_VALID_FOR_SOURCE_ENTITY_TYPE, validationErrors.First().ErrorMessage);
-            Assert.AreEqual("RecipientEntityTypeId", validationErrors.First().Property);
+            Assert.AreEqual(0, validationErrors.Count);
+        }
+
+        [TestMethod]
+        public void TestDoValidateCreate_NoSourceEntityTypeIdsAllowed()
+        {
+            var value = 1.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            var hasSourceEntityType = true;
+            var hasRecipientEntityType = true;
+            int? sourceEntityId = 1;
+            int? recipientEntityId = 2;
+            var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            var recipientEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+            int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
+            var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
+            var allowedProjectParticipantIds = new List<int>();
+            var parentMoneyFlowWithdrawalMaximum = 100m;
+
+            Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceCreateValidationEntity(
+                value: value,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
+                description: description,
+                transactionDate: transactionDate,
+                hasRecipientEntityType: hasRecipientEntityType,
+                hasSourceEntityType: hasSourceEntityType,
+                sourceEntityId: sourceEntityId,
+                recipientEntityId: recipientEntityId,
+                sourceEntityTypeId: sourceEntityTypeId,
+                recipientEntityTypeId: recipientEntityTypeId,
+                fiscalYear: fiscalYear,
+                parentFiscalYear: parentFiscalYear,
+                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
+                allowedProjectParticipantIds: allowedProjectParticipantIds
+                );
+            };
+            var validationErrors = validator.DoValidateCreate(createEntity()).ToList();
+            Assert.AreEqual(0, validationErrors.Count);
+
+            allowedSourceEntityTypeIds = new List<int>();
+            validationErrors = validator.DoValidateCreate(createEntity()).ToList();
+            Assert.AreEqual(0, validationErrors.Count);
         }
 
         [TestMethod]
@@ -835,6 +1059,7 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
             var allowedProjectParticipantIds = new List<int> { recipientEntityId.Value };
             var parentMoneyFlowWithdrawalMaximum = 100m;
 
@@ -854,6 +1079,7 @@ namespace ECA.Business.Test.Service.Fundings
                 fiscalYear: fiscalYear,
                 parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
@@ -882,6 +1108,7 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 10m;
 
@@ -901,6 +1128,7 @@ namespace ECA.Business.Test.Service.Fundings
                 fiscalYear: fiscalYear,
                 parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
@@ -929,6 +1157,7 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             var parentMoneyFlowWithdrawalMaximum = 10m;
 
@@ -948,6 +1177,7 @@ namespace ECA.Business.Test.Service.Fundings
                 fiscalYear: fiscalYear,
                 parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };
@@ -974,6 +1204,7 @@ namespace ECA.Business.Test.Service.Fundings
             int fiscalYear = 2000;
             int? parentFiscalYear = fiscalYear;
             var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
             var allowedProjectParticipantIds = new List<int>();
             decimal? parentMoneyFlowWithdrawalMaximum = 10m;
 
@@ -993,6 +1224,7 @@ namespace ECA.Business.Test.Service.Fundings
                 fiscalYear: fiscalYear,
                 parentFiscalYear: parentFiscalYear,
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds
                 );
             };

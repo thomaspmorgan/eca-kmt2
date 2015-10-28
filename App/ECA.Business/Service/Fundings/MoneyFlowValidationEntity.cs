@@ -37,6 +37,7 @@ namespace ECA.Business.Service.Fundings
             int sourceEntityTypeId,
             int recipientEntityTypeId,
             IEnumerable<int> allowedRecipientEntityTypeIds,
+            IEnumerable<int> allowedSourceEntityTypeIds,
             IEnumerable<int> allowedProjectParticipantIds,
             int? sourceEntityId,
             int? recipientEntityId,
@@ -59,6 +60,7 @@ namespace ECA.Business.Service.Fundings
             this.SourceEntityTypeId = sourceEntityTypeId;
             this.FiscalYear = fiscalYear;
             this.AllowedRecipientEntityTypeIds = allowedRecipientEntityTypeIds == null ? new List<int>() : allowedRecipientEntityTypeIds.Distinct();
+            this.AllowedSourceEntityTypeIds = allowedSourceEntityTypeIds == null ? new List<int>() : allowedSourceEntityTypeIds.Distinct();
             this.AllowedProjectParticipantIds = allowedProjectParticipantIds == null ? new List<int>() : allowedProjectParticipantIds.Distinct();
         }
 
@@ -96,6 +98,11 @@ namespace ECA.Business.Service.Fundings
         /// Gets the allowed recipient entity type ids.
         /// </summary>
         public IEnumerable<int> AllowedRecipientEntityTypeIds { get; private set; }
+
+        /// <summary>
+        /// Gets the allowed source entity type ids.
+        /// </summary>
+        public IEnumerable<int> AllowedSourceEntityTypeIds { get; private set; }
 
         /// <summary>
         /// Gets the allowed participants by Id for a project.
