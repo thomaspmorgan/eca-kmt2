@@ -103,6 +103,7 @@ angular.module('staticApp')
                  });
                  if ($scope.pii.countryOfBirthId) {
                      $scope.getCities("");
+                     $scope.pii.IsPlaceOfBirthUnknown = false;
                  } else if ($scope.pii.IsPlaceOfBirthUnknown) {
                      $scope.pii.countryOfBirthId = 0;
                  }
@@ -177,7 +178,7 @@ angular.module('staticApp')
           $scope.pii.countriesOfCitizenship = $scope.selectedCountriesOfCitizenship.map(function (obj) {
               return obj.id;
           });
-          if ($scope.pii.cityOfBirthId !== null) {
+          if ($scope.pii.countryOfBirth !== null && $scope.pii.countryOfBirth !== "Unknown") {
               $scope.pii.IsPlaceOfBirthUnknown = false;
           } else {
               $scope.pii.IsPlaceOfBirthUnknown = true;

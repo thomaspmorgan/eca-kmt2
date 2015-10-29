@@ -47,11 +47,17 @@ angular.module('staticApp')
           });
       }
 
-      angular.element(document).on('keypress', function (event) {
-          if (event.ctrlKey && event.shiftKey && event.keyCode === 6 && !$scope.view.isSpotlightSearchOpen) {
-              $scope.view.onSpotlightSearchClick();
-          }
-      });
+      function addHokeyEventListener() {
+          angular.element(document).on('keypress', function (event) {
+              var fKeyCode = 6;
+              if (event.ctrlKey
+                  && event.shiftKey
+                  && event.keyCode === fKeyCode
+                  && !$scope.view.isSpotlightSearchOpen) {
+                  $scope.view.onSpotlightSearchClick();
+              }
+          });
+      }
 
 
       function loadPermissions() {
@@ -63,9 +69,10 @@ angular.module('staticApp')
               hasPermission: function () {
                   $log.info('User has search permission in spotlight-controller.js controller.');
                   $scope.view.isSpotlightIconVisible = true;
+                  addHokeyEventListener();
               },
               notAuthorized: function () {
-
+                  $scope.view.isSpotlightIconVisible = false;
               }
           };
           return AuthService.getResourcePermissions(resourceType, kmtId, config)
@@ -75,6 +82,7 @@ angular.module('staticApp')
                 $log.error('Unable to load user permissions.');
             });
       }
+      
       var hasLoaded = false;
       $scope.$watch(function () {
           return $rootScope.userInfo.isAuthenticated;
@@ -85,6 +93,5 @@ angular.module('staticApp')
                   hasLoaded = true;
               });
           }
-
       })
   });
