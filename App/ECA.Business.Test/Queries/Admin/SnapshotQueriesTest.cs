@@ -3,6 +3,7 @@ using ECA.Business.Queries.Admin;
 using ECA.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using ECA.Business.Queries.Models.Admin;
 
 namespace ECA.Business.Test.Queries.Admin
 {
@@ -32,12 +33,12 @@ namespace ECA.Business.Test.Queries.Admin
         //        OrganizationTypeName = OrganizationType.Office.Value
         //    };
 
-        //    var owner1 = new Organization
+        //    var org1 = new Organization
         //    {
         //        OrganizationId = 1,
         //        OrganizationTypeId = organizationType.OrganizationTypeId,
-        //        Name = "owner 1",
-        //        OfficeSymbol = "owner 1 symbol",
+        //        Name = "prog owner 1",
+        //        OfficeSymbol = "officesymbol",
         //    };
 
         //    var locations = new List<Location>();
@@ -46,7 +47,7 @@ namespace ECA.Business.Test.Queries.Admin
         //    var region1 = new Location()
         //    {
         //        LocationId = 1,
-        //        LocationTypeId = LocationType.Region.Id
+        //        LocationTypeId = 2
         //    };
         //    regions.Add(region1);
 
@@ -54,7 +55,7 @@ namespace ECA.Business.Test.Queries.Admin
         //    {
         //        LocationId = 2,
         //        RegionId = 1,
-        //        LocationTypeId = LocationType.Country.Id
+        //        LocationTypeId = 3
         //    };
         //    locations.Add(country1);
 
@@ -62,7 +63,7 @@ namespace ECA.Business.Test.Queries.Admin
         //    {
         //        LocationId = 3,
         //        RegionId = 1,
-        //        LocationTypeId = LocationType.Country.Id
+        //        LocationTypeId = 3
         //    };
         //    locations.Add(country2);
 
@@ -70,21 +71,16 @@ namespace ECA.Business.Test.Queries.Admin
         //    {
         //        LocationId = 4,
         //        RegionId = 1,
-        //        LocationTypeId = LocationType.Country.Id
+        //        LocationTypeId = 3
         //    };
         //    locations.Add(country3);
 
         //    var program1 = new Program
         //    {
         //        ProgramId = 1008,
-        //        Description = "desc1",
-        //        History = new History
-        //        {
-        //            CreatedBy = 1,
-        //        },
         //        Name = "program 1",
-        //        Owner = owner1,
-        //        OwnerId = owner1.OrganizationId,
+        //        Owner = org1,
+        //        OwnerId = org1.OrganizationId,
         //        ProgramStatus = active,
         //        ProgramStatusId = active.ProgramStatusId,
         //        Regions = regions,
@@ -92,9 +88,9 @@ namespace ECA.Business.Test.Queries.Admin
         //    };
 
         //    context.OrganizationTypes.Add(organizationType);
-        //    context.Programs.Add(program1);
-        //    context.Organizations.Add(owner1);
+        //    context.Organizations.Add(org1);
         //    context.ProgramStatuses.Add(active);
+        //    context.Programs.Add(program1);
         //    context.Locations.Add(region1);
         //    context.Locations.Add(country1);
         //    context.Locations.Add(country2);
