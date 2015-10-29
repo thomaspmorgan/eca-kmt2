@@ -196,6 +196,9 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<
                 IBusinessValidator<LocationValidationEntity, LocationValidationEntity>,
                 LocationServiceValidator>();
+            container.RegisterType<
+                IBusinessValidator<object, UpdatedParticipantPersonValidationEntity>,
+                ParticipantPersonServiceValidator>();
         }
 
         public static void RegisterSecurityConcerns(IUnityContainer container)
