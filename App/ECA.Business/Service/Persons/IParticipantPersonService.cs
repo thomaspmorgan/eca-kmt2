@@ -4,6 +4,7 @@ using ECA.Business.Queries.Models.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using System.Diagnostics.Contracts;
+using ECA.Core.Service;
 
 namespace ECA.Business.Service.Persons
 {
@@ -11,7 +12,7 @@ namespace ECA.Business.Service.Persons
     /// An IParticipantService is capable of performing crud operations on participants.
     /// </summary>
     [ContractClass(typeof(ParticipantPersonServiceContract))]
-    public interface IParticipantPersonService
+    public interface IParticipantPersonService : ISaveable
     {
         /// <summary>
         /// Returns the participantPersons in the system.
@@ -141,6 +142,24 @@ namespace ECA.Business.Service.Persons
         {
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
             return Task.FromResult<PagedQueryResults<SimpleParticipantPersonDTO>>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public int SaveChanges()
+        {
+            return 1;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Task<int> SaveChangesAsync()
+        {
+            return Task.FromResult<int>(1);
         }
 
         /// <summary>
