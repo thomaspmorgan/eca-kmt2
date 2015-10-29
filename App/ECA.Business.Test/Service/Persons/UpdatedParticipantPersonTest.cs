@@ -99,5 +99,31 @@ namespace ECA.Business.Test.Service.Persons
             var message = String.Format("The participant status id [{0}] is not recognized.", participantStatusId);
             a.ShouldThrow<UnknownStaticLookupException>().WithMessage(message);
         }
+
+        [TestMethod]
+        public void TestConstructor_DoesNotHaveParticipantStatusId()
+        {
+            var user = new User(1);
+            var participantId = 100;
+            var hostInstitutionId = 200;
+            var hostInstitutionAddressId = 300;
+            var homeInstitutionId = 400;
+            var homeInstitutionAddressId = 500;
+            var participantTypeId = ParticipantType.Individual.Id;
+            int? participantStatusId = null;
+            Assert.AreNotEqual(participantTypeId, participantStatusId);
+            Action a = () => new UpdatedParticipantPerson(
+                user,
+                participantId,
+                hostInstitutionId,
+                homeInstitutionId,
+                hostInstitutionAddressId,
+                homeInstitutionAddressId,
+                participantTypeId,
+                participantStatusId
+                );
+
+            a.ShouldNotThrow<UnknownStaticLookupException>();
+        }
     }
 }
