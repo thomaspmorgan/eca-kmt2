@@ -96,11 +96,9 @@ namespace ECA.Business.Queries.Admin
         public static async Task<SnapshotDTO> CreateGetProgramCountryCountQuery(EcaContext context, int programId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            //var allLocations = LocationQueries.CreateGetLocationsQuery(context);
+            var allLocations = LocationQueries.CreateGetLocationsQuery(context);
 
             var query = from program in context.Programs.Include("ChildPrograms")
-
-                        let allLocations = LocationQueries.CreateGetLocationsQuery(context)
 
                         let regions = from location in allLocations
                                       join programRegion in program.Regions
