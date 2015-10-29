@@ -34,13 +34,8 @@ DECLARE @tblTempTable TABLE (
 -- removed entries. If you remove an entry then it will no longer
 -- be added to new databases based on your schema, but the entry
 -- will not be deleted from databases in which the value already exists.
-INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('1', 'Foreign Educational Institution', 'false')
-INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('2', 'Foreign Government', 'false')
-INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('3', 'U.S. Educational Institution', 'false')
-INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('4', 'Public International Organization (PIO)', 'false')
-INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('5', 'U.S. Non-Profit Organization (501(c)(3))', 'false')
+INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('1', 'Organizational Participant', 'false')
 INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('6', 'Individual', 'true')
-INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('7', 'Foreign NGO/PVO', 'false')
 INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('8', 'Other', 'false')
 INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('9', 'Other', 'true')
 INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('10','Foreign Non Traveling Participant', 'true')
