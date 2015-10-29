@@ -99,6 +99,11 @@ namespace ECA.WebApi.Models.Person
         public List<int> CountriesOfCitizenship { get; set; }
 
         /// <summary>
+        /// Gets or sets the place of birth unknown flag.
+        /// </summary>
+        public bool? IsPlaceOfBirthUnknown { get; set; }
+
+        /// <summary>
         /// Gets or sets the medical conditions
         /// </summary>
         public string MedicalConditions { get; set; }
@@ -133,6 +138,7 @@ namespace ECA.WebApi.Models.Person
                 dateOfBirth: this.DateOfBirth,
                 isDateOfBirthUnknown: this.IsDateOfBirthUnknown,
                 countriesOfCitizenship: this.CountriesOfCitizenship,
+                isPlaceOfBirthUnknown: this.IsPlaceOfBirthUnknown,
                 medicalConditions: this.MedicalConditions,
                 maritalStatusId: this.MaritalStatusId
                 );

@@ -22,6 +22,9 @@ angular.module('staticApp')
 
       $scope.updateCountryOfBirth = function () {
           $scope.pii.countryOfBirth = getObjectById($scope.pii.countryOfBirthId, $scope.countries).name;
+          if ($scope.pii.countryOfBirthId === 0) {
+              $scope.pii.isPlaceOfBirthUnknown = true;
+          }
           $scope.getCities("");
           clearCityOfBirth();
       }
@@ -103,8 +106,9 @@ angular.module('staticApp')
                  });
                  if ($scope.pii.countryOfBirthId) {
                      $scope.getCities("");
-                 } else if ($scope.pii.IsPlaceOfBirthUnknown) {
-                     $scope.pii.countryOfBirthId = 0;
+                     $scope.pii.isPlaceOfBirthUnknown = false;
+                 } else if ($scope.pii.isPlaceOfBirthUnknown) {
+                     $scope.pii.countryOfBirthId = 1;
                  }
                  $scope.piiLoading = false;
              });
@@ -177,11 +181,6 @@ angular.module('staticApp')
           $scope.pii.countriesOfCitizenship = $scope.selectedCountriesOfCitizenship.map(function (obj) {
               return obj.id;
           });
-          if ($scope.pii.cityOfBirthId !== null) {
-              $scope.pii.IsPlaceOfBirthUnknown = false;
-          } else {
-              $scope.pii.IsPlaceOfBirthUnknown = true;
-          }
       };
 
       $scope.openDatePicker = function ($event) {
