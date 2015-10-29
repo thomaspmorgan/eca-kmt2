@@ -7,12 +7,12 @@
   DTS:CreatorName="BE00003308\Marc Setien"
   DTS:DTSID="{050356D9-977B-4D79-8A9C-E1D209771E37}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
   DTS:LocaleID="1033"
   DTS:ObjectName="Import IVLP_Itinerary Source"
   DTS:PackageType="5"
-  DTS:VersionBuild="12"
-  DTS:VersionGUID="{3C1E5F85-2B55-4E43-8607-4F71BCB1820E}">
+  DTS:VersionBuild="17"
+  DTS:VersionGUID="{AA6D6880-E965-4DE7-93C1-48F217A50F63}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAA+/pMWmZI7dpaJXwi5r+PDEvQlxh+oyrW9V5yC0rF5oQAAAAAOgAAAAAIAACAAAABpZ6QIuSNf3uY1HXeGThv7nY0/G32851MoIsRUeyqL/iAAAAAKo0lNu0XE8UROmINg75bWzDjMCSRZGvLzI/BfxL1290AAAABLgCXcFQoc2YXfl9/QNXWtsO80+5E1Xs/KcrzwtYokMArrtk35NWgTi8YaAaVv5YbjhnP4iKAR6BUJSkM8IkMc</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABRPy4ZzQkMVILTO9T/sUjAyf2y1dGG6G0tiKqy8vVNSQAAAAAOgAAAAAIAACAAAAAVH3Wy7oefplEsKFBfPpz8nSDgOJW56JsAAgC5OvtteSAAAAAN8BiSkO1BgTWmBQ7+cVu0/aJ3bkWHVAxe93/AMhY7S0AAAADM/RiJNmyyG7NnoBYVRg+WhmT2X39P/76tD85kNI7tNiNl9ZqxfIapIVy/QZa0d6CpZsfu9xdmKjmUUHv2JK5w</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -38,7 +38,7 @@
       DTS:ObjectName="Excel IVLP_Itinerary Connection Manager">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_ITINERARY.xls;Extended Properties=&quot;Excel 8.0;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_ITINERARY.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -48,7 +48,7 @@
       DTS:ObjectName="Excel IVLP_Itinerary_Stop Connection Manager">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_ITINERARY_STOP.xls;Extended Properties=&quot;Excel 8.0;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_ITINERARY_STOP.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -58,7 +58,7 @@
       DTS:ObjectName="Excel IVLP_Itinerary_Stop_Appt Connection Manager">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_ITINERARY_STOP_APPT.xls;Extended Properties=&quot;Excel 8.0;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_ITINERARY_STOP_APPT.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -68,7 +68,7 @@
       DTS:ObjectName="Excel IVLP_Itinerary_Stop_Person Connection Manager">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_ITINERARY_STOP_PERSON.xls;Extended Properties=&quot;Excel 8.0;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_ITINERARY_STOP_PERSON.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -78,7 +78,7 @@
       DTS:ObjectName="Excel IVLP_Itinerary_Stop_Theme Connection Manager">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_ITINERARY_STOP_THEME.xls;Extended Properties=&quot;Excel 8.0;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_ITINERARY_STOP_THEME.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -357,7 +357,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[IVLP_Itinerary]</property>
+                  name="OpenRowset">[dbo].[IVLP_Itinerary]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -400,8 +400,8 @@
               <connections>
                 <connection
                   refId="Package\Import IVLP_Itinerary Source\IVLP_Itinerary.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerID="{47928535-BCC3-4562-A70D-D8349A69E719}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_Source_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -940,7 +940,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[IVLP_Itinerary_Stop]</property>
+                  name="OpenRowset">[dbo].[IVLP_Itinerary_Stop]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -983,8 +983,8 @@
               <connections>
                 <connection
                   refId="Package\Import IVLP_Itinerary_Stop Source\IVLP_Itinerary_Stop.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerID="{47928535-BCC3-4562-A70D-D8349A69E719}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_Source_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -1450,7 +1450,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[IVLP_Itinerary_Stop_Appt]</property>
+                  name="OpenRowset">[dbo].[IVLP_Itinerary_Stop_Appt]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -1493,8 +1493,8 @@
               <connections>
                 <connection
                   refId="Package\Import IVLP_Itinerary_Stop_Appt\IVLP_Itinerary_Stop_Appt.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerID="{47928535-BCC3-4562-A70D-D8349A69E719}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_Source_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -1880,7 +1880,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[IVLP_Itinerary_Stop_Person]</property>
+                  name="OpenRowset">[dbo].[IVLP_Itinerary_Stop_Person]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -1923,8 +1923,8 @@
               <connections>
                 <connection
                   refId="Package\Import IVLP_Itinerary_Stop_Person\IVLP_Itinerary_Stop_Person.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerID="{47928535-BCC3-4562-A70D-D8349A69E719}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_Source_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -2328,7 +2328,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[IVLP_Itinerary_Stop_Theme]</property>
+                  name="OpenRowset">[dbo].[IVLP_Itinerary_Stop_Theme]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -2371,8 +2371,8 @@
               <connections>
                 <connection
                   refId="Package\Import IVLP_Itinerary_Stop_Theme Source\IVLP_Itinerary_Stop_Theme.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerID="{47928535-BCC3-4562-A70D-D8349A69E719}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_Source_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -2572,13 +2572,17 @@
           Id="Package\Import IVLP_Itinerary_Stop Source"
           TopLeft="14.5,79.5" />
         <NodeLayout
-          Size="282,42"
-          Id="Package\Import IVLP_Itinerary_Stop_Theme Source"
-          TopLeft="23.5,148.5" />
+          Size="236,42"
+          Id="Package\Import IVLP_Itinerary_Stop_Appt"
+          TopLeft="85.5,308.5" />
         <NodeLayout
           Size="247,42"
           Id="Package\Import IVLP_Itinerary_Stop_Person"
           TopLeft="29.5,231.5" />
+        <NodeLayout
+          Size="282,42"
+          Id="Package\Import IVLP_Itinerary_Stop_Theme Source"
+          TopLeft="23.5,148.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="114,47.5">
@@ -2681,10 +2685,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="236,42"
-          Id="Package\Import IVLP_Itinerary_Stop_Appt"
-          TopLeft="85.5,308.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
           TopLeft="153,273.5">
@@ -2728,13 +2728,13 @@
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="209,42"
-          Id="Package\Import IVLP_Itinerary Source\Excel IVLP_Itinerary Source"
-          TopLeft="5.5,5.5" />
-        <NodeLayout
           Size="146,42"
           Id="Package\Import IVLP_Itinerary Source\IVLP_Itinerary"
           TopLeft="81.5,167.5" />
+        <NodeLayout
+          Size="209,42"
+          Id="Package\Import IVLP_Itinerary Source\Excel IVLP_Itinerary Source"
+          TopLeft="5.5,5.5" />
         <EdgeLayout
           Id="Package\Import IVLP_Itinerary Source.Paths[Excel Source Output]"
           TopLeft="110,47.5">
@@ -2875,158 +2875,6 @@
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
-    design-time-name="Package\Import IVLP_Itinerary_Stop_Theme Source">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="275,42"
-          Id="Package\Import IVLP_Itinerary_Stop_Theme Source\Excel IVLP_Itinerary_Stop_Theme Source"
-          TopLeft="5.5,5.5" />
-        <NodeLayout
-          Size="212,42"
-          Id="Package\Import IVLP_Itinerary_Stop_Theme Source\IVLP_Itinerary_Stop_Theme"
-          TopLeft="66.5,121.5" />
-        <EdgeLayout
-          Id="Package\Import IVLP_Itinerary_Stop_Theme Source.Paths[Excel Source Output]"
-          TopLeft="143,47.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="29.5,74"
-              Start="0,0"
-              End="29.5,66.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,33" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,33"
-                    Point2="0,37"
-                    Point3="4,37" />
-                  <mssgle:LineSegment
-                    End="25.5,37" />
-                  <mssgle:CubicBezierSegment
-                    Point1="25.5,37"
-                    Point2="29.5,37"
-                    Point3="29.5,41" />
-                  <mssgle:LineSegment
-                    End="29.5,66.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Import IVLP_Itinerary_Stop_Theme Source\Excel IVLP_Itinerary_Stop_Theme Source">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Import IVLP_Itinerary_Stop_Theme Source\IVLP_Itinerary_Stop_Theme">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <TaskHost
-    design-time-name="Package\Import IVLP_Itinerary_Stop_Person">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="274,42"
-          Id="Package\Import IVLP_Itinerary_Stop_Person\Excel IVLP_Itinerary_Stop_Person Source"
-          TopLeft="5.5,4.5" />
-        <NodeLayout
-          Size="211,42"
-          Id="Package\Import IVLP_Itinerary_Stop_Person\IVLP_Itinerary_Stop_Person"
-          TopLeft="53.5,81.5" />
-        <EdgeLayout
-          Id="Package\Import IVLP_Itinerary_Stop_Person.Paths[Excel Source Output]"
-          TopLeft="142.5,46.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="16.5,35"
-              Start="0,0"
-              End="16.5,27.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,13.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,13.5"
-                    Point2="0,17.5"
-                    Point3="4,17.5" />
-                  <mssgle:LineSegment
-                    End="12.5,17.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="12.5,17.5"
-                    Point2="16.5,17.5"
-                    Point3="16.5,21.5" />
-                  <mssgle:LineSegment
-                    End="16.5,27.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Import IVLP_Itinerary_Stop_Person\Excel IVLP_Itinerary_Stop_Person Source">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Import IVLP_Itinerary_Stop_Person\IVLP_Itinerary_Stop_Person">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <TaskHost
     design-time-name="Package\Import IVLP_Itinerary_Stop_Appt">
     <LayoutInfo>
       <GraphLayout
@@ -3091,6 +2939,146 @@
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Import IVLP_Itinerary_Stop_Appt\IVLP_Itinerary_Stop_Appt">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Import IVLP_Itinerary_Stop_Person">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="274,42"
+          Id="Package\Import IVLP_Itinerary_Stop_Person\Excel IVLP_Itinerary_Stop_Person Source"
+          TopLeft="26.5,3.5" />
+        <NodeLayout
+          Size="211,42"
+          Id="Package\Import IVLP_Itinerary_Stop_Person\IVLP_Itinerary_Stop_Person"
+          TopLeft="65.5,81.5" />
+        <EdgeLayout
+          Id="Package\Import IVLP_Itinerary_Stop_Person.Paths[Excel Source Output]"
+          TopLeft="167.25,45.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36"
+              Start="0,0"
+              End="0,28.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import IVLP_Itinerary_Stop_Person\Excel IVLP_Itinerary_Stop_Person Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import IVLP_Itinerary_Stop_Person\IVLP_Itinerary_Stop_Person">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Import IVLP_Itinerary_Stop_Theme Source">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="212,42"
+          Id="Package\Import IVLP_Itinerary_Stop_Theme Source\IVLP_Itinerary_Stop_Theme"
+          TopLeft="66.5,121.5" />
+        <NodeLayout
+          Size="275,42"
+          Id="Package\Import IVLP_Itinerary_Stop_Theme Source\Excel IVLP_Itinerary_Stop_Theme Source"
+          TopLeft="5.5,5.5" />
+        <EdgeLayout
+          Id="Package\Import IVLP_Itinerary_Stop_Theme Source.Paths[Excel Source Output]"
+          TopLeft="143,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="29.5,74"
+              Start="0,0"
+              End="29.5,66.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,33"
+                    Point2="0,37"
+                    Point3="4,37" />
+                  <mssgle:LineSegment
+                    End="25.5,37" />
+                  <mssgle:CubicBezierSegment
+                    Point1="25.5,37"
+                    Point2="29.5,37"
+                    Point3="29.5,41" />
+                  <mssgle:LineSegment
+                    End="29.5,66.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import IVLP_Itinerary_Stop_Theme Source\Excel IVLP_Itinerary_Stop_Theme Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import IVLP_Itinerary_Stop_Theme Source\IVLP_Itinerary_Stop_Theme">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
