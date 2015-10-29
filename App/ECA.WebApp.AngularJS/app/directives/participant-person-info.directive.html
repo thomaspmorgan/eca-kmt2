@@ -1,277 +1,72 @@
 <div class="row row2">
-    <div class="col-md-2">
-        <h5>DHS Status</h5>
+    <div class="col-md-6">
+        <div class="col-md-4 title-label">Status</div>
+        <div class="col-md-8" ng-show="personinfo.participantStatus">{{personinfo.participantStatus}}</div>
+        <div class="col-md-8" ng-show="!personinfo.participantStatus">Unknown</div>
     </div>
-    <div class="col-md-5">
-        <span class="title-label"> Last Batch Date: </span>{{sevisinfo.lastBatchDate | date:'short'}}
-    </div>
-    <div class="col-md-5">
-        <a ng-click="view.DHSStatus=!view.DHSStatus">
-            <i class="material-icons md-dark md-36 pull-right" ng-show="view.DHSStatus">expand_more</i>
-            <i class="material-icons md-dark md-36 pull-right" ng-show="!view.DHSStatus">expand_less</i>
-        </a>
-    </div>
-</div>
-<div class="row row2" ng-show="view.DHSStatus">
-    <div class="row4">
-        <div class="col-md-3">
-            &nbsp;
-        </div>
-        <div class="col-md-3 title-label">Sevis Id</div>
-        <div class="col-md-6">
-            {{sevisinfo.sevisId}}
-        </div>
-    </div>
-    <div class="row4" ng-repeat="status in sevisinfo.sevisCommStatuses">
-        <div class="col-md-3">
-            <i class="material-icons md-dark md-24 pull-right" style="color: green" ng-show="view.DHSStatus">check</i>
-        </div>
-        <div class="col-md-3">{{status.sevisCommStatusName}}</div>
-        <div class="col-md-6">On: {{ status.addedOn | date:'short' }}</div>
+    <div class="col-md-6">
+        <div class="col-md-4 title-label">Participant Type</div>
+        <div class="col-md-8" ng-show="personinfo.participantType">{{personinfo.participantType}}</div>
+        <div class="col-md-8" ng-show="!personinfo.participantType">Unknown</div>
     </div>
 </div>
 <div class="row row2">
-    <div class="col-md-5"><h5>DoS Status</h5></div>
-    <div class="col-md-7">
-        <a ng-click="view.DoSStatus=!view.DoSStatus">
-            <i class="material-icons md-dark md-36 pull-right" ng-show="view.DoSStatus">expand_more</i>
-            <i class="material-icons md-dark md-36 pull-right" ng-show="!view.DoSStatus">expand_less</i>
-        </a>
-    </div>
-</div>
-<div class="row row2" ng-show="view.DoSStatus">
-    <div class="col-md-3">&nbsp;</div>
-    <div class="form-group col-md-3">
-        <input type="checkbox" ng-model="sevisinfo.isSentToSevisViaRTI" /> Sent to DHS via RTI
-    </div>
-    <div class="form-group col-md-6">
-        <input type="checkbox" ng-model="sevisinfo.isCancelled" /> Cancelled
-    </div>
-    <div class="col-md-3">&nbsp;</div>
-    <div class="form-group col-md-3">
-        <input type="checkbox" ng-model="sevisinfo.isValidatedViaRTI" /> Validated via RTI
-    </div>
-    <div class="form-group col-md-6">
-        <input type="checkbox" ng-model="sevisinfo.isNeedsUpdate" /> Needs Update
-    </div>
-    <div class="col-md-3">&nbsp;</div>
-    <div class="form-group col-md-3">
-        <input type="checkbox" ng-model="sevisinfo.isdS2019Printed" /> DS 2019 Printed
-    </div>
-    <div class="form-group col-md-6">
-        <input type="checkbox" ng-model="sevisinfo.isdS2019SentToTraveler" /> DS 2019 Sent to Traveler
-    </div>
-</div>
-<div class="form-group row row2">
-    <label class="col-md-1 title-label">Start Date</label>
-    <div class="col-md-3">
-        <p class="input-group">
-            <input type="text"
-                   id="startDate"
-                   class="form-control"
-                   datepicker-popup="MM-dd-yyyy"
-                   ng-model="sevisinfo.startDate"
-                   is-open="view.isStartDatePickerOpen"
-                   ng-required="true"
-                   close-text="Close" />
-            <span class="input-group-btn">
-                <button type="button"
-                        class="btn btn-inlist"
-                        style="height: 42px;"
-                        ng-click="view.openStartDatePicker($event)">
-                    <i class="material-icons md-18">event</i>
-                </button>
-            </span>
-        </p>
-    </div>
-    <label class="col-md-1 title-label">End Date</label>
-    <div class="col-md-3 ">
-        <p class="input-group">
-            <input type="text"
-                   id="endDate"
-                   class="form-control"
-                   datepicker-popup="MM-dd-yyyy"
-                   ng-model="sevisinfo.endDate"
-                   is-open="view.isEndDatePickerOpen"
-                   ng-required="true"
-                   close-text="Close" />
-            <span class="input-group-btn">
-                <button type="button"
-                        class="btn btn-inlist"
-                        style="height: 42px;"
-                        ng-click="view.openEndDatePicker($event)">
-                    <i class="material-icons md-18">event</i>
-                </button>
-            </span>
-        </p>
-    </div>
-    <div class="col-md-4">
-        <i class="material-icons md-dark md-36 pull-right">group</i>
-        <i class="material-icons md-dark md-36 pull-right">add</i>
-    </div>
-</div>
-<div class="row row2">
-    <div class="col-md-5"><h5>Position and Field</h5></div>
-    <div class="col-md-7">
-        <a ng-click="view.PositionAndField=!view.PositionAndField">
-            <i class="material-icons md-dark md-36 pull-right" ng-show="view.PositionAndField">expand_more</i>
-            <i class="material-icons md-dark md-36 pull-right" ng-show="!view.PositionAndField">expand_less</i>
-            <i class="material-icons md-dark md-24 pull-right" ng-show="view.PositionAndField">edit</i>
-        </a>
-    </div>
-</div>
-<div class="row row2" ng-show="view.PositionAndField">
-    <div class="row4">
-        <div class="col-md-3">
-            <label class="title-label">Position</label>
+    <div class="col-md-6">
+        <div class="col-md-4 title-label">Home Institution</div>
+        <div class="col-md-8" ng-show="!personinfo.homeInstitution">
+            None
         </div>
-        <div class="col-md-6">
-            {{sevisinfo.position}}
-        </div>
-        <div class="col-md-3">
-            <i class="material-icons md-dark md-36 pull-right">group</i>
-            <i class="material-icons md-dark md-36 pull-right">add</i>
+        <div class="col-md-8" ng-show="personinfo.homeInstitution">
+            <a ng-show="personinfo.homeInstitution.href" href="{{personinfo.homeInstitution.href}}">{{personinfo.homeInstitution.name}}</a>
+            <div style="margin-top:10px;">
+                <div ng-show="personinfo.homeInstitutionAddress.street1">
+                    {{personinfo.homeInstitutionAddress.street1}}
+                </div>
+                <div ng-show="personinfo.homeInstitutionAddress.street2">
+                    {{personinfo.homeInstitutionAddress.street2}}
+                </div>
+                <div ng-show="personinfo.homeInstitutionAddress.street3">
+                    {{personinfo.homeInstitutionAddress.street3}}
+                </div>
+                <div>
+                    <span ng-show="personinfo.homeInstitutionAddress.city">{{personinfo.homeInstitutionAddress.city}}</span>
+                    <span ng-show="personinfo.homeInstitutionAddress.city && personinfo.homeInstitutionAddress.division">, </span>
+                    <span ng-show="personinfo.homeInstitutionAddress.division">{{personinfo.homeInstitutionAddress.division}}</span>
+                    <span ng-show="personinfo.homeInstitutionAddress.postalCode">{{personinfo.homeInstitutionAddress.postalCode}}</span>
+                </div>
+                <div>
+                    <span ng-show="personinfo.homeInstitutionAddress.country">{{personinfo.homeInstitutionAddress.country}}</span>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row4">
-        <div class="col-md-3">
-            <label class="title-label">Program Category</label>
+    <div class="col-md-6">
+        <div class="col-md-4 title-label">Host Institution</div>
+        <div class="col-md-8" ng-show="!personinfo.hostInstitution">
+            None
         </div>
-        <div class="col-md-6">
-            {{sevisinfo.programCategory}}
-        </div>
-        <div class="col-md-3">
-            <i class="material-icons md-dark md-36 pull-right">group</i>
-            <i class="material-icons md-dark md-36 pull-right">add</i>
-        </div>
-    </div>
-    <div class="row4">
-        <div class="col-md-3">
-            <label class="title-label">Field Of Study</label>
-        </div>
-        <div class="col-md-6">
-            {{sevisinfo.fieldOfStudy}}
-        </div>
-        <div class="col-md-3">
-            <i class="material-icons md-dark md-36 pull-right">group</i>
-            <i class="material-icons md-dark md-36 pull-right">add</i>
+        <div class="col-md-8" ng-show="personinfo.hostInstitution">
+            <a ng-show="personinfo.hostInstitution.href" href="{{personinfo.hostInstitution.href}}">{{personinfo.hostInstitution.name}}</a>
+            <div style="margin-top:10px;">
+                <div ng-show="personinfo.hostInstitutionAddress.street1">
+                    {{personinfo.hostInstitutionAddress.street1}}
+                </div>
+                <div ng-show="personinfo.hostInstitutionAddress.street2">
+                    {{personinfo.hostInstitutionAddress.street2}}
+                </div>
+                <div ng-show="personinfo.hostInstitutionAddress.street3">
+                    {{personinfo.hostInstitutionAddress.street3}}
+                </div>
+                <div>
+                    <span ng-show="personinfo.hostInstitutionAddress.city">{{personinfo.hostInstitutionAddress.city}}</span>
+                    <span ng-show="personinfo.hostInstitutionAddress.city && personinfo.hostInstitutionAddress.division">, </span>
+                    <span ng-show="personinfo.hostInstitutionAddress.division">{{personinfo.hostInstitutionAddress.division}}</span>
+                    <span ng-show="personinfo.hostInstitutionAddress.postalCode">{{personinfo.hostInstitutionAddress.postalCode}}</span>
+                </div>
+                <div>
+                    <span ng-show="personinfo.hostInstitutionAddress.country">{{personinfo.hostInstitutionAddress.country}}</span>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-<div class="row row2">
-    <div class="col-md-5"><h5>Funding</h5></div>
-    <div class="col-md-7">
-        <a ng-click="view.Funding=!view.Funding">
-            <i class="material-icons md-dark md-36 pull-right" ng-show="view.Funding">expand_more</i>
-            <i class="material-icons md-dark md-36 pull-right" ng-show="!view.Funding">expand_less</i>
-            <i class="material-icons md-dark md-24 pull-right" ng-show="view.Funding">edit</i>
-        </a>
-    </div>
-</div>
-<div class="row" ng-show="view.Funding">
-    <div class="row4">
-        <div class="col-md-3">
-            <label class="title-label">Sponsor</label>
-        </div>
-        <div class="col-md-8 text-right">
-            $
-        </div>
-        <div class="col-md-1 text-right">
-            {{sevisinfo.fundingSponsor | number:0}}
-        </div>
-    </div>
-    <div class="row4">
-        <div class="col-md-3">
-            <label class="title-label">Personal</label>
-        </div>
-        <div class="col-md-8 text-right">
-            $
-        </div>
-        <div class="col-md-1 text-right">
-            {{sevisinfo.fundingPersonal | number:0}}
-        </div>
-    </div>
-    <div class="row4">
-        <div class="col-md-3">
-            <label class="title-label">Vis. Gov't</label>
-        </div>
-        <div class="col-md-8 text-right">
-            $
-        </div>
-        <div class="col-md-1 text-right">
-            {{sevisinfo.fundingVisGovt | number:0}}
-        </div>
-    </div>
-    <div class="row4">
-        <div class="col-md-3">
-            <label class="title-label">Vis.BNC</label>
-        </div>
-        <div class="col-md-8 text-right">
-            $
-        </div>
-        <div class="col-md-1 text-right">
-            {{sevisinfo.fundingVisBNC | number:0}}
-        </div>
-    </div><div class="row4">
-        <div class="col-md-3">
-            <label class="title-label">Gov't Agency 1</label>
-        </div>
-        <div class="col-md-8 text-right">
-            $
-        </div>
-        <div class="col-md-1 text-right">
-            {{sevisinfo.fundingGovtAgency1 | number:0}}
-        </div>
-    </div><div class="row4">
-        <div class="col-md-3">
-            <label class="title-label">Gov't Agency 2</label>
-        </div>
-        <div class="col-md-8 text-right">
-            $
-        </div>
-        <div class="col-md-1 text-right">
-            {{sevisinfo.fundingGovtAgency2 | number:0}}
-        </div>
-    </div><div class="row4">
-        <div class="col-md-3">
-            <label class="title-label">Int'l Org 1</label>
-        </div>
-        <div class="col-md-8 text-right">
-            $
-        </div>
-        <div class="col-md-1 text-right">
-            {{sevisinfo.fundingIntlOrg1 | number:0}}
-        </div>
-    </div><div class="row4">
-        <div class="col-md-3">
-            <label class="title-label">Int'l Org 2</label>
-        </div>
-        <div class="col-md-8 text-right">
-            $
-        </div>
-        <div class="col-md-1 text-right">
-            {{sevisinfo.fundingIntlOrg2 | number:0}}
-        </div>
-    </div><div class="row4">
-        <div class="col-md-3">
-            <label class="title-label">Other Org.</label>
-        </div>
-        <div class="col-md-8 text-right">
-            $
-        </div>
-        <div class="col-md-1 text-right">
-            {{sevisinfo.fundingOther | number:0}}
-        </div>
-    </div><div class="row4">
-        <div class="col-md-3">
-            <label class="title-label">Total</label>
-        </div>
-        <div class="col-md-8 text-right">
-            $
-        </div>
-        <div class="col-md-1 text-right">
-            {{sevisinfo.fundingTotal | number:0}}
-        </div>
-    </div>
-</div>
-

@@ -17,6 +17,7 @@
             restrict: 'E',
             scope: {
                 participantid: '@',
+                personinfo: '=',
                 active: '='
             },
             templateUrl: 'app/directives/participant-person-info.directive.html'

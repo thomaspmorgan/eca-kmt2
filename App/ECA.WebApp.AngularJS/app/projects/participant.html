@@ -114,7 +114,7 @@
                     <tr id="participantInfo" ng-show="participantInfo[participant.participantId].show && participantInfo[participant.participantId].participantId">
                         <td colspan="5">
                             <tabset>
-                                <tab class="tab">
+                                <!--<tab class="tab">
                                     <tab-heading>Participant Information</tab-heading>
                                     <div class="row">
                                         <div ng-show="participantInfo[participant.participantId].participantStatus">
@@ -232,9 +232,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                </tab>
+                                </tab>-->
                                 <tab heading="Participant Information" class="tab" select="onInfoTabSelected(participant.participantId)" deselect="view.tabInfo=false">
-                                    <participant-person-info participantid="{{participant.participantId}}" active="view.tabInfo" />
+                                    <participant-person-info participantid="{{participant.participantId}}" active="view.tabInfo" personinfo="participantInfo[participant.participantId]"/>
                                 </tab>
                                 <tab heading="SEVIS Information" class="tab" select="onSevisTabSelected(participant.participantId)" deselect="view.tabSevis=false">
                                     <participant-person-sevis participantid="{{participant.participantId}}" active="view.tabSevis" sevisinfo="sevisInfo[participant.participantId]"/>
