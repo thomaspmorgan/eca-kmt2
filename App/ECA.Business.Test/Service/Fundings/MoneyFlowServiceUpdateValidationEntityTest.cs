@@ -21,11 +21,13 @@ namespace ECA.Business.Test.Service.Fundings
             var description = "description";
             var fiscalYear = 2015;
             var withdrawalLimit = 100m;
-            var entity = new MoneyFlowServiceUpdateValidationEntity(description, value, withdrawalLimit, fiscalYear);
+            var parentFiscalYear = 2100;
+            var entity = new MoneyFlowServiceUpdateValidationEntity(description, value, withdrawalLimit, fiscalYear, parentFiscalYear);
             Assert.AreEqual(value, entity.Value);
             Assert.AreEqual(description, entity.Description);
             Assert.AreEqual(fiscalYear, entity.FiscalYear);
             Assert.AreEqual(withdrawalLimit, entity.ParentMoneyFlowWithdrawlMaximum);
+            Assert.AreEqual(parentFiscalYear, entity.ParentFiscalYear);
         }
     }
 }

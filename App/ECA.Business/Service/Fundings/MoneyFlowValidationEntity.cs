@@ -26,6 +26,7 @@ namespace ECA.Business.Service.Fundings
         /// <param name="parentMoneyFlowWithdrawalMaximum">The withdrawal maximum of the parent money flow, if a parent money flow is provided.</param>
         /// <param name="transactionDate">The transaction date.</param>
         /// <param name="fiscalYear">The fiscal year.</param>
+        /// <param name="parentFiscalYear">The fiscal year of the parent money flow if a parent money flow is set.</param>
         /// <param name="allowedRecipientEntityTypeIds">The collection of MoneyFlowSourceRecipientEntityTypes by id that are allowed by the source and settings.</param>
         /// <param name="allowedProjectParticipantIds">The collection of by participants by id that are valid for a project.  This is needed when a money flow source is a project
         /// and the recipient is a participant.</param>
@@ -36,14 +37,17 @@ namespace ECA.Business.Service.Fundings
             int sourceEntityTypeId,
             int recipientEntityTypeId,
             IEnumerable<int> allowedRecipientEntityTypeIds,
+            IEnumerable<int> allowedSourceEntityTypeIds,
             IEnumerable<int> allowedProjectParticipantIds,
             int? sourceEntityId,
             int? recipientEntityId,
             bool hasSourceEntityType,
             bool hasRecipientEntityType,
             DateTimeOffset transactionDate,
-            int fiscalYear)
+            int fiscalYear,
+            int? parentFiscalYear)
         {
+            this.ParentFiscalYear = parentFiscalYear;
             this.ParentMoneyFlowWithdrawlMaximum = parentMoneyFlowWithdrawalMaximum;
             this.Description = description;
             this.Value = value;
@@ -56,8 +60,14 @@ namespace ECA.Business.Service.Fundings
             this.SourceEntityTypeId = sourceEntityTypeId;
             this.FiscalYear = fiscalYear;
             this.AllowedRecipientEntityTypeIds = allowedRecipientEntityTypeIds == null ? new List<int>() : allowedRecipientEntityTypeIds.Distinct();
+            this.AllowedSourceEntityTypeIds = allowedSourceEntityTypeIds == null ? new List<int>() : allowedSourceEntityTypeIds.Distinct();
             this.AllowedProjectParticipantIds = allowedProjectParticipantIds == null ? new List<int>() : allowedProjectParticipantIds.Distinct();
         }
+
+        /// <summary>
+        /// Gets the parent money flow fiscal year.
+        /// </summary>
+        public int? ParentFiscalYear { get; private set; }
 
         /// <summary>
         /// Gets the withdrawal maximum of a parent money flow, if a parent money flow was provided.
@@ -88,6 +98,11 @@ namespace ECA.Business.Service.Fundings
         /// Gets the allowed recipient entity type ids.
         /// </summary>
         public IEnumerable<int> AllowedRecipientEntityTypeIds { get; private set; }
+
+        /// <summary>
+        /// Gets the allowed source entity type ids.
+        /// </summary>
+        public IEnumerable<int> AllowedSourceEntityTypeIds { get; private set; }
 
         /// <summary>
         /// Gets the allowed participants by Id for a project.
@@ -141,13 +156,20 @@ namespace ECA.Business.Service.Fundings
             string description,
             decimal value,
             decimal? parentMoneyFlowWithdrawalMaximum,
-            int fiscalYear)
+            int fiscalYear,
+            int? parentFiscalYear)
         {
             this.Description = description;
             this.Value = value;
             this.FiscalYear = fiscalYear;
             this.ParentMoneyFlowWithdrawlMaximum = parentMoneyFlowWithdrawalMaximum;
+            this.ParentFiscalYear = parentFiscalYear;
         }
+
+        /// <summary>
+        /// Gets the parent fiscal year.
+        /// </summary>
+        public int? ParentFiscalYear { get; private set; }
 
         /// <summary>
         /// Gets the fiscal year.

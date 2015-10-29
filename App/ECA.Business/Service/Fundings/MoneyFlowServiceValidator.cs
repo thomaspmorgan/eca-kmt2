@@ -56,9 +56,9 @@ namespace ECA.Business.Service.Fundings
         public const string SOURCE_AND_RECIPIENT_ENTITIES_EQUAL_ERROR_MESSAGE = "The source and recipient must not be the same.";
 
         /// <summary>
-        /// The error message to return when the recipient entity type is not valid for the given source entity type.
+        /// The error message to return when the recipient and source entities are not valid.
         /// </summary>
-        public const string RECIPIENT_ENTITY_TYPE_IS_NOT_VALID_FOR_SOURCE_ENTITY_TYPE = "The recipient entity type is not valid for the given source entity type.";
+        public const string SOURCE_AND_RECIPIENT_ENTITY_TYPES_ARE_INVALID_ERROR_MESSAGE = "The recipient and source entity types are not valid.";
 
         /// <summary>
         /// The error message to return when the recipient is not a participant of the source project.
@@ -69,6 +69,11 @@ namespace ECA.Business.Service.Fundings
         /// The error message to return when the created or updated money flow value exceeds the allowable limit of the parent money flow.
         /// </summary>
         public const string VALUE_EXCEEDS_PARENT_MONEY_FLOW_WITHDRAWAL_LIMIT = "The money flow value exceeds the parent money flow withdrawal limit.";
+
+        /// <summary>
+        /// The error message to return when the fiscal year of a money flow does not equal its parent money flow fiscal year.
+        /// </summary>
+        public const string FISCAL_YEARS_MUST_BE_EQUAL_ERROR_MESSAGE = "The fiscal year of the money flow must be equal to its parent fiscal year.";
 
         /// <summary>
         /// Returns enumerated validation results for a MoneyFlow create.
@@ -116,9 +121,12 @@ namespace ECA.Business.Service.Fundings
             {
                 yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.SourceEntityId, SOURCE_AND_RECIPIENT_ENTITIES_EQUAL_ERROR_MESSAGE);
             }
-            if (!validationEntity.AllowedRecipientEntityTypeIds.Contains(validationEntity.RecipientEntityTypeId))
+
+            var isRecipientAllowed = validationEntity.AllowedRecipientEntityTypeIds.Contains(validationEntity.RecipientEntityTypeId);
+            var isSourceAllowed = validationEntity.AllowedSourceEntityTypeIds.Contains(validationEntity.SourceEntityTypeId);
+            if (!isRecipientAllowed && !isSourceAllowed)
             {
-                yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.RecipientEntityTypeId, RECIPIENT_ENTITY_TYPE_IS_NOT_VALID_FOR_SOURCE_ENTITY_TYPE);
+                yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.RecipientEntityTypeId, SOURCE_AND_RECIPIENT_ENTITY_TYPES_ARE_INVALID_ERROR_MESSAGE);
             }
             if (validationEntity.SourceEntityTypeId == MoneyFlowSourceRecipientType.Project.Id
                 && validationEntity.RecipientEntityTypeId == MoneyFlowSourceRecipientType.Participant.Id
@@ -131,6 +139,10 @@ namespace ECA.Business.Service.Fundings
                 && validationEntity.ParentMoneyFlowWithdrawlMaximum.Value < validationEntity.Value)
             {
                 yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.Value, VALUE_EXCEEDS_PARENT_MONEY_FLOW_WITHDRAWAL_LIMIT);
+            }
+            if(validationEntity.ParentFiscalYear.HasValue && validationEntity.FiscalYear != validationEntity.ParentFiscalYear.Value)
+            {
+                yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.FiscalYear, FISCAL_YEARS_MUST_BE_EQUAL_ERROR_MESSAGE);
             }
         }
         /// <summary>
@@ -147,7 +159,7 @@ namespace ECA.Business.Service.Fundings
             }
             if (validationEntity.Description != null && validationEntity.Description.Length > MoneyFlow.DESCRIPTION_MAX_LENGTH)
             {
-                yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.Description, String.Format(DESCRIPTION_EXCEEDS_MAX_LENGTH_FORMAT, MoneyFlow.DESCRIPTION_MAX_LENGTH));
+                yield return new BusinessValidationResult<UpdatedMoneyFlow>(x => x.Description, String.Format(DESCRIPTION_EXCEEDS_MAX_LENGTH_FORMAT, MoneyFlow.DESCRIPTION_MAX_LENGTH));
             }
             if ((int)validationEntity.Value < 0)
             {
@@ -155,12 +167,16 @@ namespace ECA.Business.Service.Fundings
             }
             if (validationEntity.FiscalYear <= 0)
             {
-                yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.FiscalYear, FISCAL_YEAR_LESS_THAN_ZERO_MESSAGE);
+                yield return new BusinessValidationResult<UpdatedMoneyFlow>(x => x.FiscalYear, FISCAL_YEAR_LESS_THAN_ZERO_MESSAGE);
             }
             if (validationEntity.ParentMoneyFlowWithdrawlMaximum.HasValue
                 && validationEntity.ParentMoneyFlowWithdrawlMaximum.Value < validationEntity.Value)
             {
-                yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.Value, VALUE_EXCEEDS_PARENT_MONEY_FLOW_WITHDRAWAL_LIMIT);
+                yield return new BusinessValidationResult<UpdatedMoneyFlow>(x => x.Value, VALUE_EXCEEDS_PARENT_MONEY_FLOW_WITHDRAWAL_LIMIT);
+            }
+            if (validationEntity.ParentFiscalYear.HasValue && validationEntity.FiscalYear != validationEntity.ParentFiscalYear.Value)
+            {
+                yield return new BusinessValidationResult<UpdatedMoneyFlow>(x => x.FiscalYear, FISCAL_YEARS_MUST_BE_EQUAL_ERROR_MESSAGE);
             }
         }
     }

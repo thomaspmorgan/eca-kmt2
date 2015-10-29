@@ -10,12 +10,15 @@ angular.module('staticApp')
             if (search && search.length > 0) {
                 searchTerms = search.split(" ");
             }
+
+            if (text && text.length > 0) {
+                text = text.toString();
+            }
             
             if (!angular.isArray(searchTerms)) {
                 searchTerms = search;
             }
 
-            text = text.toString();
             for (var i = 0; i < searchTerms.length; i++) {
 
                 var searchTerm = searchTerms[i];

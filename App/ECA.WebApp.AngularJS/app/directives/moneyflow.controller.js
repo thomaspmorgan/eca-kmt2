@@ -62,6 +62,10 @@ angular.module('staticApp')
           $scope.view.isTransactionDatePickerOpen = true;
       };
 
+      $scope.view.onFiscalYearChange = function () {
+          resetParentMoneyFlow();
+      }
+
       $scope.view.save = function () {
           $scope.view.isSaving = true;
           return MoneyFlowService.create($scope.view.moneyFlow)
@@ -93,9 +97,13 @@ angular.module('staticApp')
           else {
               $log.error('Direction key ]' + directionKey + '] is not recognized.');
           }
+          resetParentMoneyFlow();
+          loadSourceMoneyFlows($scope.view.moneyFlow);
+      }
+
+      function resetParentMoneyFlow() {
           $scope.view.moneyFlow.parentMoneyFlowId = null;
           $scope.view.selectedSourceMoneyFlow = null;
-          loadSourceMoneyFlows($scope.view.moneyFlow);
       }
 
       $scope.view.moneyFlow = toMoneyFlow(entity);
@@ -103,6 +111,7 @@ angular.module('staticApp')
 
       $scope.view.validateSourceRemainingAmount = function ($value) {
           if ($value
+              && $scope.view.selectedSourceMoneyFlow
               && $scope.view.selectedSourceMoneyFlow !== null
               && $scope.view.selectedSourceMoneyFlow.remainingAmount - $value < 0) {
               return false;
@@ -402,7 +411,7 @@ angular.module('staticApp')
               moneyFlow = entity;
               $scope.view.isSourceMoneyFlowAmountExpended = moneyFlow.isSourceMoneyFlowAmountExpended;
               $scope.view.copiedMoneyFlowExceedsSourceLimit = moneyFlow.copiedMoneyFlowExceedsSourceLimit;
-              $scope.view.selectedSourceMoneyFlow = moneyFlow.parentMoneyFlow;
+              $scope.view.selectedSourceMoneyFlow = moneyFlow.parentMoneyFlow ? moneyFlow.parentMoneyFlow : null;
           }
           else {
               moneyFlow = {
