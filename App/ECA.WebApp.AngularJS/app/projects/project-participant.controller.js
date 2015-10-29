@@ -329,6 +329,11 @@ angular.module('staticApp')
           });
       };
 
+      $scope.onInfoTabSelected = function (participantId) {
+          $scope.view.tabInfo = true;
+          $scope.toggleParticipantInfo(participantId);
+      }
+
       $scope.onSevisTabSelected = function (participantId) {
           $scope.view.tabSevis = true;
           loadSevisInfo(participantId);
