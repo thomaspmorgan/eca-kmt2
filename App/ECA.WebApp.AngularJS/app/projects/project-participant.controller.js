@@ -307,7 +307,6 @@ angular.module('staticApp')
                   data.data.hostInstitution.href = StateService.getOrganizationState(data.data.hostInstitution.organizationId);
                   data.data.hostInstitutionAddress = getPreferredAddress(data.data.hostInstitution, data.data.hostInstitutionAddressId);
               }
-
               $scope.participantInfo[participantId] = data.data;
               $scope.participantInfo[participantId].show = true;
           }, function (error) {

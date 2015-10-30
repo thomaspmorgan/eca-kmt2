@@ -40,7 +40,9 @@ namespace ECA.Business.Queries.Persons
                              ProgramCategory = p.ProgramCategory != null ? p.ProgramCategory.Description : null,
                              Position = p.Position != null ? p.Position.Description : null,
                              ParticipantType = p.Participant.ParticipantType != null ? p.Participant.ParticipantType.Name : null,
+                             ParticipantTypeId = p.Participant.ParticipantTypeId,
                              ParticipantStatus = p.Participant.Status != null ? p.Participant.Status.Status : null,
+                             ParticipantStatusId = p.Participant.ParticipantStatusId,
                              HomeInstitution = organizationQuery.Where(x => x.OrganizationId == p.HomeInstitutionId).FirstOrDefault(),
                              HostInstitution = organizationQuery.Where(x => x.OrganizationId == p.HostInstitutionId).FirstOrDefault(),
                          });

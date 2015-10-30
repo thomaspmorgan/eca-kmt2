@@ -53,6 +53,8 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(participantPerson.HomeInstitutionAddressId, participantPersonResult.HomeInstitutionAddressId);
             Assert.AreEqual(participantPerson.HostInstitutionAddressId, participantPersonResult.HostInstitutionAddressId);
 
+            Assert.AreEqual(0, participantPersonResult.ParticipantTypeId);
+            Assert.IsFalse(participantPersonResult.ParticipantStatusId.HasValue);
             Assert.IsNull(participantPersonResult.FieldOfStudy);
             Assert.IsNull(participantPersonResult.ProgramCategory);
             Assert.IsNull(participantPersonResult.Position);
@@ -427,7 +429,8 @@ namespace ECA.Business.Test.Queries.Persons
                 ParticipantId = participantPerson.ParticipantId,
                 ProjectId = project.ProjectId,
                 Project = project,
-                ParticipantType = participantType
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId
             };
             participantPerson.Participant = participant;
             project.Participants.Add(participant);
@@ -438,6 +441,7 @@ namespace ECA.Business.Test.Queries.Persons
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
 
             Assert.AreEqual(participantType.Name, participantPersonResult.ParticipantType);
+            Assert.AreEqual(participantType.ParticipantTypeId, participantPersonResult.ParticipantTypeId);
         }
 
 
@@ -463,7 +467,8 @@ namespace ECA.Business.Test.Queries.Persons
                 ParticipantId = participantPerson.ParticipantId,
                 ProjectId = project.ProjectId,
                 Project = project,
-                Status = participantStatus
+                Status = participantStatus,
+                ParticipantStatusId = participantStatus.ParticipantStatusId,
             };
             participantPerson.Participant = participant;
             project.Participants.Add(participant);
@@ -474,6 +479,7 @@ namespace ECA.Business.Test.Queries.Persons
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
 
             Assert.AreEqual(participantStatus.Status, participantPersonResult.ParticipantStatus);
+            Assert.AreEqual(participantStatus.ParticipantStatusId, participantPersonResult.ParticipantStatusId);
         }
     }
 }

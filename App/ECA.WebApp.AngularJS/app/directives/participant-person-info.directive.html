@@ -1,70 +1,116 @@
-<div class="row row2">
-    <div class="col-md-6">
-        <div class="col-md-4 title-label">Status</div>
-        <div class="col-md-8" ng-show="personinfo.participantStatus">{{personinfo.participantStatus}}</div>
-        <div class="col-md-8" ng-show="!personinfo.participantStatus">Unknown</div>
-    </div>
-    <div class="col-md-6">
-        <div class="col-md-4 title-label">Participant Type</div>
-        <div class="col-md-8" ng-show="personinfo.participantType">{{personinfo.participantType}}</div>
-        <div class="col-md-8" ng-show="!personinfo.participantType">Unknown</div>
-    </div>
-</div>
-<div class="row row2">
-    <div class="col-md-6">
-        <div class="col-md-4 title-label">Home Institution</div>
-        <div class="col-md-8" ng-show="!personinfo.homeInstitution">
-            None
+<div ng-if="personinfo.isInfoTabInEditMode" ng-controller="ProjectParticipantEditInfoCtrl">
+    <div class="row row2">
+        <div class="col-md-8">
+            <h5>General</h5>
         </div>
-        <div class="col-md-8" ng-show="personinfo.homeInstitution">
-            <a ng-show="personinfo.homeInstitution.href" href="{{personinfo.homeInstitution.href}}">{{personinfo.homeInstitution.name}}</a>
-            <div style="margin-top:10px;">
-                <div ng-show="personinfo.homeInstitutionAddress.street1">
-                    {{personinfo.homeInstitutionAddress.street1}}
+        <div class="col-md-4 text-right">
+            <button class="btn btn-success">
+                Save
+            </button>
+            <button class="btn btn-cancel">
+                Cancel
+            </button>
+        </div>
+    </div>
+    <form>
+        <div class="row row2">
+            <div class="col-md-6">
+                <div class="col-md-4 title-label">Status</div>
+                <div class="col-md-8" ng-show="personinfo.participantStatus">
+
+
                 </div>
-                <div ng-show="personinfo.homeInstitutionAddress.street2">
-                    {{personinfo.homeInstitutionAddress.street2}}
-                </div>
-                <div ng-show="personinfo.homeInstitutionAddress.street3">
-                    {{personinfo.homeInstitutionAddress.street3}}
-                </div>
-                <div>
-                    <span ng-show="personinfo.homeInstitutionAddress.city">{{personinfo.homeInstitutionAddress.city}}</span>
-                    <span ng-show="personinfo.homeInstitutionAddress.city && personinfo.homeInstitutionAddress.division">, </span>
-                    <span ng-show="personinfo.homeInstitutionAddress.division">{{personinfo.homeInstitutionAddress.division}}</span>
-                    <span ng-show="personinfo.homeInstitutionAddress.postalCode">{{personinfo.homeInstitutionAddress.postalCode}}</span>
-                </div>
-                <div>
-                    <span ng-show="personinfo.homeInstitutionAddress.country">{{personinfo.homeInstitutionAddress.country}}</span>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-4 title-label">Participant Type</div>
+                <div class="col-md-8" ng-show="personinfo.participantType">
+                    <select ng-options="participantType.participantTypeId as participantType.name for participantType in view.participantTypes"
+                            ng-model="personinfo.participantTypeId" />
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-6">
-        <div class="col-md-4 title-label">Host Institution</div>
-        <div class="col-md-8" ng-show="!personinfo.hostInstitution">
-            None
+    </form>
+    
+</div>
+<div ng-show="!personinfo.isInfoTabInEditMode">
+    <div class="row row2">
+        <div class="col-md-8">
+            <h5>General</h5>
         </div>
-        <div class="col-md-8" ng-show="personinfo.hostInstitution">
-            <a ng-show="personinfo.hostInstitution.href" href="{{personinfo.hostInstitution.href}}">{{personinfo.hostInstitution.name}}</a>
-            <div style="margin-top:10px;">
-                <div ng-show="personinfo.hostInstitutionAddress.street1">
-                    {{personinfo.hostInstitutionAddress.street1}}
+        <div class="col-md-4 text-right">
+            <a ng-click="personinfo.isInfoTabInEditMode = !personinfo.isInfoTabInEditMode">
+                <i class="material-icons md-dark md-24">edit</i>
+            </a>
+        </div>
+    </div>
+    <div class="row row2">
+        <div class="col-md-6">
+            <div class="col-md-4 title-label">Status</div>
+            <div class="col-md-8" ng-show="personinfo.participantStatus">{{personinfo.participantStatus}}</div>
+            <div class="col-md-8" ng-show="!personinfo.participantStatus">Unknown</div>
+        </div>
+        <div class="col-md-6">
+            <div class="col-md-4 title-label">Participant Type</div>
+            <div class="col-md-8" ng-show="personinfo.participantType">{{personinfo.participantType}}</div>
+            <div class="col-md-8" ng-show="!personinfo.participantType">Unknown</div>
+        </div>
+    </div>
+    <div class="row row2">
+        <div class="col-md-6">
+            <div class="col-md-4 title-label">Home Institution</div>
+            <div class="col-md-8" ng-show="!personinfo.homeInstitution">
+                None
+            </div>
+            <div class="col-md-8" ng-show="personinfo.homeInstitution">
+                <a ng-show="personinfo.homeInstitution.href" href="{{personinfo.homeInstitution.href}}">{{personinfo.homeInstitution.name}}</a>
+                <div style="margin-top:10px;">
+                    <div ng-show="personinfo.homeInstitutionAddress.street1">
+                        {{personinfo.homeInstitutionAddress.street1}}
+                    </div>
+                    <div ng-show="personinfo.homeInstitutionAddress.street2">
+                        {{personinfo.homeInstitutionAddress.street2}}
+                    </div>
+                    <div ng-show="personinfo.homeInstitutionAddress.street3">
+                        {{personinfo.homeInstitutionAddress.street3}}
+                    </div>
+                    <div>
+                        <span ng-show="personinfo.homeInstitutionAddress.city">{{personinfo.homeInstitutionAddress.city}}</span>
+                        <span ng-show="personinfo.homeInstitutionAddress.city && personinfo.homeInstitutionAddress.division">, </span>
+                        <span ng-show="personinfo.homeInstitutionAddress.division">{{personinfo.homeInstitutionAddress.division}}</span>
+                        <span ng-show="personinfo.homeInstitutionAddress.postalCode">{{personinfo.homeInstitutionAddress.postalCode}}</span>
+                    </div>
+                    <div>
+                        <span ng-show="personinfo.homeInstitutionAddress.country">{{personinfo.homeInstitutionAddress.country}}</span>
+                    </div>
                 </div>
-                <div ng-show="personinfo.hostInstitutionAddress.street2">
-                    {{personinfo.hostInstitutionAddress.street2}}
-                </div>
-                <div ng-show="personinfo.hostInstitutionAddress.street3">
-                    {{personinfo.hostInstitutionAddress.street3}}
-                </div>
-                <div>
-                    <span ng-show="personinfo.hostInstitutionAddress.city">{{personinfo.hostInstitutionAddress.city}}</span>
-                    <span ng-show="personinfo.hostInstitutionAddress.city && personinfo.hostInstitutionAddress.division">, </span>
-                    <span ng-show="personinfo.hostInstitutionAddress.division">{{personinfo.hostInstitutionAddress.division}}</span>
-                    <span ng-show="personinfo.hostInstitutionAddress.postalCode">{{personinfo.hostInstitutionAddress.postalCode}}</span>
-                </div>
-                <div>
-                    <span ng-show="personinfo.hostInstitutionAddress.country">{{personinfo.hostInstitutionAddress.country}}</span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="col-md-4 title-label">Host Institution</div>
+            <div class="col-md-8" ng-show="!personinfo.hostInstitution">
+                None
+            </div>
+            <div class="col-md-8" ng-show="personinfo.hostInstitution">
+                <a ng-show="personinfo.hostInstitution.href" href="{{personinfo.hostInstitution.href}}">{{personinfo.hostInstitution.name}}</a>
+                <div style="margin-top:10px;">
+                    <div ng-show="personinfo.hostInstitutionAddress.street1">
+                        {{personinfo.hostInstitutionAddress.street1}}
+                    </div>
+                    <div ng-show="personinfo.hostInstitutionAddress.street2">
+                        {{personinfo.hostInstitutionAddress.street2}}
+                    </div>
+                    <div ng-show="personinfo.hostInstitutionAddress.street3">
+                        {{personinfo.hostInstitutionAddress.street3}}
+                    </div>
+                    <div>
+                        <span ng-show="personinfo.hostInstitutionAddress.city">{{personinfo.hostInstitutionAddress.city}}</span>
+                        <span ng-show="personinfo.hostInstitutionAddress.city && personinfo.hostInstitutionAddress.division">, </span>
+                        <span ng-show="personinfo.hostInstitutionAddress.division">{{personinfo.hostInstitutionAddress.division}}</span>
+                        <span ng-show="personinfo.hostInstitutionAddress.postalCode">{{personinfo.hostInstitutionAddress.postalCode}}</span>
+                    </div>
+                    <div>
+                        <span ng-show="personinfo.hostInstitutionAddress.country">{{personinfo.hostInstitutionAddress.country}}</span>
+                    </div>
                 </div>
             </div>
         </div>
