@@ -1797,6 +1797,7 @@ namespace ECA.Business.Test.Service.Persons
                                     DateTime.Now,
                                     false,
                                     new List<int>(),
+                                    false,
                                     "medicalConditions",
                                     default(int));
             var updatedPerson = await service.UpdatePiiAsync(pii);
@@ -1852,6 +1853,7 @@ namespace ECA.Business.Test.Service.Persons
                                     DateTime.Now,
                                     false,
                                     new List<int>(),
+                                    false,
                                     "medicalConditions",
                                     default(int));
             var updatedPerson = await service.UpdatePiiAsync(pii);
@@ -1896,6 +1898,7 @@ namespace ECA.Business.Test.Service.Persons
                                     DateTime.Now,
                                     false,
                                     new List<int>(),
+                                    false,
                                     "medicalConditions",
                                     default(int));
             var updatedPerson = await service.UpdatePiiAsync(pii);
@@ -1943,6 +1946,7 @@ namespace ECA.Business.Test.Service.Persons
                                     DateTime.Now,
                                     false,
                                     countriesOfCitizenship,
+                                    false,
                                     "medicalConditions",
                                     default(int));
             var updatedPerson = await service.UpdatePiiAsync(pii);
@@ -1989,6 +1993,7 @@ namespace ECA.Business.Test.Service.Persons
                                     DateTime.Now,
                                     false,
                                     new List<int>(),
+                                    false,
                                     "medicalConditions",
                                     maritalStatus.MaritalStatusId);
             var updatedPerson = await service.UpdatePiiAsync(pii);
@@ -2032,6 +2037,7 @@ namespace ECA.Business.Test.Service.Persons
                                     DateTime.Now,
                                     false,
                                     new List<int>(),
+                                    false,
                                     "medicalConditions",
                                     default(int));
             var updatedPerson = await service.UpdatePiiAsync(pii);
@@ -2092,6 +2098,7 @@ namespace ECA.Business.Test.Service.Persons
                                     dateOfBirth,
                                     false,
                                     new List<int>(),
+                                    false,
                                     null,
                                     default(int));
             var updatedPerson = await service.UpdatePiiAsync(pii);

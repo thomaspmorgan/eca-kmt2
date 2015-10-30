@@ -494,6 +494,7 @@
     <Compile Include="Controllers\Persons\ParticipantPersonsController.cs" />
     <Compile Include="Models\Admin\CreateOrganizationBindingModel.cs" />
     <Compile Include="Models\Admin\ParticipantOrganizationBindingModel.cs" />
+    <Compile Include="Models\Person\UpdatedParticipantPersonBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedParticipantPersonSevisBindingModel.cs" />
     <Compile Include="Models\Search\DeleteIndexBindingModel.cs" />
     <Compile Include="Models\Search\DocumentSuggestResponseViewModel.cs" />

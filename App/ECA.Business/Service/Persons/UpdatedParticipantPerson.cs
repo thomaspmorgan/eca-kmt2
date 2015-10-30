@@ -32,13 +32,13 @@ namespace ECA.Business.Service.Persons
             int? hostInstitutionAddressId,
             int? homeInstitutionAddressId,
             int participantTypeId,
-            int participantStatusId)
+            int? participantStatusId)
         {
             if(ParticipantType.GetStaticLookup(participantTypeId) == null)
             {
                 throw new UnknownStaticLookupException(String.Format("The participant type id [{0}] is not recognized.", participantTypeId));
             }
-            if (ParticipantStatus.GetStaticLookup(participantStatusId) == null)
+            if (participantStatusId.HasValue && ParticipantStatus.GetStaticLookup(participantStatusId.Value) == null)
             {
                 throw new UnknownStaticLookupException(String.Format("The participant status id [{0}] is not recognized.", participantStatusId));
             }
