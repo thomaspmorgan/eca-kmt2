@@ -207,6 +207,7 @@
     <Compile Include="Service\Persons\ParticipantPersonServiceValidator.cs" />
     <Compile Include="Service\Persons\ParticipantStudentVisitorService.cs" />
     <Compile Include="Service\Persons\ParticipantPersonSevisService.cs" />
+    <Compile Include="Service\Persons\UpdatedParticipantPersonSevis.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPerson.cs" />
     <Compile Include="Service\Persons\UpdatedPersonEduEmp.cs" />
     <Compile Include="Service\Persons\UpdatedPersonEvaluationNote.cs" />

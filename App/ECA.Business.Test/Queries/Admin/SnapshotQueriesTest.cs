@@ -18,86 +18,83 @@ namespace ECA.Business.Test.Queries.Admin
             context = new TestEcaContext();
         }
 
-        //[TestMethod]
-        //public void TestCreateGetProgramCountryCountQuery()
-        //{
-        //    var active = new ProgramStatus
-        //    {
-        //        ProgramStatusId = ProgramStatus.Active.Id,
-        //        Status = ProgramStatus.Active.Value
-        //    };
+        [TestMethod]
+        public void TestCreateGetProgramCountryCountQuery()
+        {
+            var active = new ProgramStatus
+            {
+                ProgramStatusId = ProgramStatus.Active.Id,
+                Status = ProgramStatus.Active.Value
+            };
 
-        //    var organizationType = new OrganizationType
-        //    {
-        //        OrganizationTypeId = OrganizationType.Office.Id,
-        //        OrganizationTypeName = OrganizationType.Office.Value
-        //    };
+            var typeRegion = new LocationType
+            {
+                LocationTypeId = LocationType.Region.Id,
+                LocationTypeName = LocationType.Region.Value
+            };
+            var typeCountry = new LocationType
+            {
+                LocationTypeId = LocationType.Country.Id,
+                LocationTypeName = LocationType.Country.Value
+            };
 
-        //    var org1 = new Organization
-        //    {
-        //        OrganizationId = 1,
-        //        OrganizationTypeId = organizationType.OrganizationTypeId,
-        //        Name = "prog owner 1",
-        //        OfficeSymbol = "officesymbol",
-        //    };
+            var region1 = new Location()
+            {
+                LocationId = 1,
+                LocationType = typeRegion,
+                LocationTypeId = typeRegion.LocationTypeId
+            };
 
-        //    var locations = new List<Location>();
-        //    var regions = new List<Location>();
+            var country1 = new Location()
+            {
+                LocationId = 2,
+                RegionId = 1,
+                LocationType = typeCountry,
+                LocationTypeId = typeCountry.LocationTypeId
+            };
 
-        //    var region1 = new Location()
-        //    {
-        //        LocationId = 1,
-        //        LocationTypeId = 2
-        //    };
-        //    regions.Add(region1);
+            var country2 = new Location()
+            {
+                LocationId = 3,
+                RegionId = 1,
+                LocationType = typeCountry,
+                LocationTypeId = typeCountry.LocationTypeId
+            };
 
-        //    var country1 = new Location()
-        //    {
-        //        LocationId = 2,
-        //        RegionId = 1,
-        //        LocationTypeId = 3
-        //    };
-        //    locations.Add(country1);
+            var country3 = new Location()
+            {
+                LocationId = 4,
+                RegionId = 1,
+                LocationType = typeCountry,
+                LocationTypeId = typeCountry.LocationTypeId
+            };
 
-        //    var country2 = new Location()
-        //    {
-        //        LocationId = 3,
-        //        RegionId = 1,
-        //        LocationTypeId = 3
-        //    };
-        //    locations.Add(country2);
+            var program1 = new Program
+            {
+                ProgramId = 1,
+                Name = "program 1",
+                ProgramStatus = active,
+                ProgramStatusId = active.ProgramStatusId
+            };
 
-        //    var country3 = new Location()
-        //    {
-        //        LocationId = 4,
-        //        RegionId = 1,
-        //        LocationTypeId = 3
-        //    };
-        //    locations.Add(country3);
+            program1.Regions.Add(region1);
+            program1.Locations.Add(country1);
+            program1.Locations.Add(country2);
+            program1.Locations.Add(country3);
+            context.ProgramStatuses.Add(active);
+            context.Programs.Add(program1);
+            context.LocationTypes.Add(typeRegion);
+            context.LocationTypes.Add(typeCountry);
+            context.Locations.Add(region1);
+            context.Locations.Add(country1);
+            context.Locations.Add(country2);
+            context.Locations.Add(country3);
 
-        //    var program1 = new Program
-        //    {
-        //        ProgramId = 1008,
-        //        Name = "program 1",
-        //        Owner = org1,
-        //        OwnerId = org1.OrganizationId,
-        //        ProgramStatus = active,
-        //        ProgramStatusId = active.ProgramStatusId,
-        //        Regions = regions,
-        //        Locations = locations
-        //    };
+            List<int> programIds = new List<int>();
+            programIds.Add(program1.ProgramId);
 
-        //    context.OrganizationTypes.Add(organizationType);
-        //    context.Organizations.Add(org1);
-        //    context.ProgramStatuses.Add(active);
-        //    context.Programs.Add(program1);
-        //    context.Locations.Add(region1);
-        //    context.Locations.Add(country1);
-        //    context.Locations.Add(country2);
-        //    context.Locations.Add(country3);
-
-        //    var results = SnapshotQueries.CreateGetProgramCountryCountQuery(context, program1.ProgramId);
-        //    Assert.AreEqual(3, results.Result.DataValue);
-        //}
+            var results = SnapshotQueries.CreateGetProgramCountriesByProgramIdsQuery(context, programIds);
+            Assert.AreEqual(3, results.Count());
+        }
     }
 }

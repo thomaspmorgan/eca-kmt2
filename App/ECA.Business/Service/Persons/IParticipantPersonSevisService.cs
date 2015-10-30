@@ -1,16 +1,16 @@
-﻿using System;
-using ECA.Business.Queries.Models.Persons;
+﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Core.Query;
 using System.Threading.Tasks;
 using ECA.Core.DynamicLinq;
 using System.Linq;
+using ECA.Core.Service;
 
 namespace ECA.Business.Service.Persons
 {
     /// <summary>
     /// An IParticipantPersonSevisService is capable of performing crud operations on participants and their SEVIS information.
     /// </summary>
-    public interface IParticipantPersonSevisService
+    public interface IParticipantPersonSevisService: ISaveable 
     {
         /// <summary>
         /// Returns the participantPersonSevises in the system.
@@ -88,6 +88,19 @@ namespace ECA.Business.Service.Persons
 
 
         IQueryable<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonSevisCommStatusesByParticipantIds(int[] participantIds);
+
+        /// <summary>
+        /// Updates a participant person SEVIS info with given updated SEVIS information.
+        /// </summary>
+        /// <param name="updatedParticipantPersonSevis">The updated participant person SEVIS info.</param>
+        ParticipantPersonSevisDTO Update(UpdatedParticipantPersonSevis updatedPerson);
+
+        /// <summary>
+        /// Updates a participant person SEVIS info with given updated SEVIS information.
+        /// </summary>
+        /// <param name="updatedParticipantPersonSevis">The updated participant person SEVIS info.</param>
+        /// <returns>The task.</returns>
+        Task<ParticipantPersonSevisDTO> UpdateAsync(UpdatedParticipantPersonSevis updatedParticipantPersonSevis);
 
     }
 }
