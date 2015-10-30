@@ -7,12 +7,12 @@
   DTS:CreatorName="BE00003308\Marc Setien"
   DTS:DTSID="{C56F23D4-8CD5-4300-A698-27B88F311E96}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
   DTS:LocaleID="1033"
   DTS:ObjectName="Import IVLP_Person Source"
   DTS:PackageType="5"
-  DTS:VersionBuild="16"
-  DTS:VersionGUID="{E4AC0BEF-FB4D-43F9-A010-03B5C81BDECE}">
+  DTS:VersionBuild="21"
+  DTS:VersionGUID="{81CE45B8-75DE-4C69-BFC1-70283F5E1A2B}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAgvBIj2un10muYX6KoZO+FwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABhcVaDFZSAogItfwsw9F8V8hB9eg9RPYkZujD46q6JAAAAAAAOgAAAAAIAACAAAABJL0zmJNEn10WodTYTocEE4ftL7RTCtHt67VKp30LVuCAAAAD6LqnYlja4bwjarbTP8CZWSnwue6RF8yCSBLh82kf6LEAAAADWrQb9cnB9ecy4PUVa5AzB6v/n7QLOrMk2GCaTTWHsn6Mj66Ivc7XdqkRntoJOfQHaSiFQNls/ifBTHRrM1Z1E</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADf2lYAo1qjjVxR3kkmx6m6CpSb9ddX2rZmWw1Dj6hbsQAAAAAOgAAAAAIAACAAAADgOhDu9gXl7WIlM4LxFGsZSVud/CkcQrXaHvCeLVsWqCAAAAAt+h9KdeAbzq2uzWB0AXMStUlMktyV9SkMqn+VBbBNCEAAAACM5FffWuDb6ty5pjSP70v+yl+DR+8V4JOtU/KCTu7uQmTdYlX3ONtevqhVM84MHZF+2i5SBk7WPW+VfyXMWVkl</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -48,7 +48,7 @@
       DTS:ObjectName="Excel IVLP_Person_Comment Connection">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_PERSON_COMMENT.xls;Extended Properties=&quot;Excel 8.0;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_PERSON_COMMENT.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -58,7 +58,7 @@
       DTS:ObjectName="Excel IVLP_Person_Expert Connection">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_PERSON_EXPERT.xls;Extended Properties=&quot;Excel 8.0;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_PERSON_EXPERT.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -68,7 +68,7 @@
       DTS:ObjectName="Excel IVLP_Person_Indicator Connection">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_PERSON_INDICATOR.xls;Extended Properties=&quot;Excel 8.0;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_PERSON_INDICATOR.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -78,7 +78,7 @@
       DTS:ObjectName="Excel IVLP_Person_Language Connection">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_PERSON_LANGUAGE.xls;Extended Properties=&quot;Excel 8.0;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_PERSON_LANGUAGE.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -114,7 +114,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[IVLP_Person]</property>
+                  name="OpenRowset">[dbo].[IVLP_Person]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -157,8 +157,8 @@
               <connections>
                 <connection
                   refId="Package\Import IVLP_Person\IVLP_Person.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerID="{47928535-BCC3-4562-A70D-D8349A69E719}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_Source_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -1177,7 +1177,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[IVLP_Person_Comment]</property>
+                  name="OpenRowset">[dbo].[IVLP_Person_Comment]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -1220,8 +1220,8 @@
               <connections>
                 <connection
                   refId="Package\Import IVLP_Person_Comment\IVLP_Person_Comment.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerID="{47928535-BCC3-4562-A70D-D8349A69E719}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_Source_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -1661,7 +1661,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[IVLP_Person_Expert]</property>
+                  name="OpenRowset">[dbo].[IVLP_Person_Expert]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -1704,8 +1704,8 @@
               <connections>
                 <connection
                   refId="Package\Import IVLP_Person_Expert\IVLP_Person_Expert.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerID="{47928535-BCC3-4562-A70D-D8349A69E719}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_Source_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -2136,7 +2136,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[IVLP_Person_Indicator]</property>
+                  name="OpenRowset">[dbo].[IVLP_Person_Indicator]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -2179,8 +2179,8 @@
               <connections>
                 <connection
                   refId="Package\Import IVLP_Person_Indicator\IVLP_Person_Indicator.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerID="{47928535-BCC3-4562-A70D-D8349A69E719}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_Source_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -2653,7 +2653,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[IVLP_Person_Language]</property>
+                  name="OpenRowset">[dbo].[IVLP_Person_Language]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -2696,8 +2696,8 @@
               <connections>
                 <connection
                   refId="Package\Import IVLP_Person_Language\IVLP_Person_Language.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerID="{47928535-BCC3-4562-A70D-D8349A69E719}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_Source_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -2877,6 +2877,7 @@
       DTS:refId="Package\Load IVLP Persons to ECA-KMT"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
       DTS:DTSID="{CDD191A3-CEA8-45D8-91FD-0469A3AE4298}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -3519,6 +3520,40 @@
       </DTS:ObjectData>
     </DTS:Executable>
   </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{E973C360-118F-45D9-86E4-D5056E6480F3}"
+      DTS:From="Package\Import IVLP_Person"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Import IVLP_Person_Language" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{837328CF-E948-4C32-82B7-C42E461EF017}"
+      DTS:From="Package\Import IVLP_Person_Language"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Import IVLP_Person_Expert" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{3663190D-700C-4D9F-840F-5CC592C373E3}"
+      DTS:From="Package\Import IVLP_Person_Expert"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Import IVLP_Person_Indicator" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{EB7CE33B-6190-4418-BF6D-A5C10C58458E}"
+      DTS:From="Package\Import IVLP_Person_Indicator"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Import IVLP_Person_Comment" />
+  </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
 <!--If you manually edit this section and make a mistake, you can delete it. -->
@@ -3530,31 +3565,119 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="174,42"
           Id="Package\Import IVLP_Person"
-          TopLeft="25.5,8.5" />
-        <NodeLayout
-          Size="225,42"
-          Id="Package\Import IVLP_Person_Language"
-          TopLeft="25.5,76.5" />
-        <NodeLayout
-          Size="210,42"
-          Id="Package\Import IVLP_Person_Expert"
-          TopLeft="28.5,155.5" />
-        <NodeLayout
-          Size="221,42"
-          Id="Package\Import IVLP_Person_Indicator"
-          TopLeft="23,243" />
+          TopLeft="71.5,23.5" />
         <NodeLayout
           Size="225,42"
           Id="Package\Import IVLP_Person_Comment"
-          TopLeft="64.5,326.5" />
+          TopLeft="47.5,398.5" />
+        <NodeLayout
+          Size="210,42"
+          Id="Package\Import IVLP_Person_Expert"
+          TopLeft="53.5,214.5" />
+        <NodeLayout
+          Size="221,42"
+          Id="Package\Import IVLP_Person_Indicator"
+          TopLeft="48,304" />
+        <NodeLayout
+          Size="225,42"
+          Id="Package\Import IVLP_Person_Language"
+          TopLeft="45.5,114.5" />
         <NodeLayout
           Size="226,42"
           Id="Package\Load IVLP Persons to ECA-KMT"
-          TopLeft="412.5,178.5" />
+          TopLeft="542.5,178.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="158.25,65.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,49"
+              Start="0,0"
+              End="0,41.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="158.25,156.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,58"
+              Start="0,0"
+              End="0,50.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,50.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="158.5,256.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,47.5"
+              Start="0,0"
+              End="0,40">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="159.25,346">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,52.5"
+              Start="0,0"
+              End="0,45">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,45" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </Package>
@@ -3635,44 +3758,44 @@
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
-    design-time-name="Package\Import IVLP_Person_Language">
+    design-time-name="Package\Import IVLP_Person_Comment">
     <LayoutInfo>
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="217,42"
-          Id="Package\Import IVLP_Person_Language\Excel IVLP_Person_Language"
-          TopLeft="5.5,5.5" />
+          Size="189,42"
+          Id="Package\Import IVLP_Person_Comment\IVLP_Person_Comment"
+          TopLeft="57.5,127.5" />
         <NodeLayout
-          Size="190,42"
-          Id="Package\Import IVLP_Person_Language\IVLP_Person_Language"
-          TopLeft="74.5,171.5" />
+          Size="217,42"
+          Id="Package\Import IVLP_Person_Comment\Excel IVLP_Person_Comment"
+          TopLeft="5.5,5.5" />
         <EdgeLayout
-          Id="Package\Import IVLP_Person_Language.Paths[Excel Source Output]"
+          Id="Package\Import IVLP_Person_Comment.Paths[Excel Source Output]"
           TopLeft="114,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="55.5,124"
+              EndConnector="38,80"
               Start="0,0"
-              End="55.5,116.5">
+              End="38,72.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,58" />
+                    End="0,36" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,58"
-                    Point2="0,62"
-                    Point3="4,62" />
+                    Point1="0,36"
+                    Point2="0,40"
+                    Point3="4,40" />
                   <mssgle:LineSegment
-                    End="51.5,62" />
+                    End="34,40" />
                   <mssgle:CubicBezierSegment
-                    Point1="51.5,62"
-                    Point2="55.5,62"
-                    Point3="55.5,66" />
+                    Point1="34,40"
+                    Point2="38,40"
+                    Point3="38,44" />
                   <mssgle:LineSegment
-                    End="55.5,116.5" />
+                    End="38,72.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3685,7 +3808,7 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Import IVLP_Person_Language\Excel IVLP_Person_Language">
+    design-time-name="Package\Import IVLP_Person_Comment\Excel IVLP_Person_Comment">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -3698,7 +3821,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Import IVLP_Person_Language\IVLP_Person_Language">
+    design-time-name="Package\Import IVLP_Person_Comment\IVLP_Person_Comment">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -3837,19 +3960,6 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Import IVLP_Person_Indicator\IVLP_Person_Indicator">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
     design-time-name="Package\Import IVLP_Person_Indicator\Excel IVLP_Person_Indicator">
     <Properties>
       <Property>
@@ -3862,45 +3972,58 @@
       </Property>
     </Properties>
   </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import IVLP_Person_Indicator\IVLP_Person_Indicator">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <TaskHost
-    design-time-name="Package\Import IVLP_Person_Comment">
+    design-time-name="Package\Import IVLP_Person_Language">
     <LayoutInfo>
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="217,42"
-          Id="Package\Import IVLP_Person_Comment\Excel IVLP_Person_Comment"
-          TopLeft="5.5,5.5" />
+          Size="190,42"
+          Id="Package\Import IVLP_Person_Language\IVLP_Person_Language"
+          TopLeft="74.5,171.5" />
         <NodeLayout
-          Size="189,42"
-          Id="Package\Import IVLP_Person_Comment\IVLP_Person_Comment"
-          TopLeft="57.5,127.5" />
+          Size="217,42"
+          Id="Package\Import IVLP_Person_Language\Excel IVLP_Person_Language"
+          TopLeft="5.5,5.5" />
         <EdgeLayout
-          Id="Package\Import IVLP_Person_Comment.Paths[Excel Source Output]"
+          Id="Package\Import IVLP_Person_Language.Paths[Excel Source Output]"
           TopLeft="114,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="38,80"
+              EndConnector="55.5,124"
               Start="0,0"
-              End="38,72.5">
+              End="55.5,116.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,36" />
+                    End="0,58" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,36"
-                    Point2="0,40"
-                    Point3="4,40" />
+                    Point1="0,58"
+                    Point2="0,62"
+                    Point3="4,62" />
                   <mssgle:LineSegment
-                    End="34,40" />
+                    End="51.5,62" />
                   <mssgle:CubicBezierSegment
-                    Point1="34,40"
-                    Point2="38,40"
-                    Point3="38,44" />
+                    Point1="51.5,62"
+                    Point2="55.5,62"
+                    Point3="55.5,66" />
                   <mssgle:LineSegment
-                    End="38,72.5" />
+                    End="55.5,116.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3913,7 +4036,7 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Import IVLP_Person_Comment\Excel IVLP_Person_Comment">
+    design-time-name="Package\Import IVLP_Person_Language\Excel IVLP_Person_Language">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -3926,7 +4049,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Import IVLP_Person_Comment\IVLP_Person_Comment">
+    design-time-name="Package\Import IVLP_Person_Language\IVLP_Person_Language">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

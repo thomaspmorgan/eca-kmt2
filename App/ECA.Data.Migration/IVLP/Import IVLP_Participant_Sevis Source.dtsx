@@ -7,12 +7,12 @@
   DTS:CreatorName="BE00003308\Marc Setien"
   DTS:DTSID="{5FB3F403-E202-4A3F-A37E-71C534021BBE}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
   DTS:LocaleID="1033"
   DTS:ObjectName="Import IVLP_Participant_Sevis Source"
   DTS:PackageType="5"
-  DTS:VersionBuild="3"
-  DTS:VersionGUID="{295C0F22-AB5F-42B5-81EC-E8CCABBE2D63}">
+  DTS:VersionBuild="5"
+  DTS:VersionGUID="{47C47346-13C2-4818-81DF-603631E4F18F}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAgvBIj2un10muYX6KoZO+FwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACQXr1YxHsmi5miVhQ1DUb4a40cZJT9S9D42s5DMTkEoQAAAAAOgAAAAAIAACAAAAAHjo5vZga66QWemPw54J7k1Vc8eJfI+NmkRkRgDMU3JiAAAADg1QfBrKALiK17MLiT9ZDLeEq6PKSlggp17XrYejB1b0AAAABvIzKtCMpVVocmJOVzVIjyz2KDBZaXk8ICHWWf4Gw3eck02OkQufw5U5PTATXRR1/Wm9ZOyL2pQcXBCtcNF/km</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADs+n37qQ3oQsyjc94qdAFBtU6YVJA5WdI2bzz/DvUKLAAAAAAOgAAAAAIAACAAAABcIVYwUTmQ/U6nua5H3vgkk30/BbcptM/lGgWl3ZwO1CAAAADoUN9+7+4eA7+c+SwkB+vidc8O/wM35S/jC0S2V+6E00AAAACIgLs8tvBP4bPzKmTZ8DGPCFzF9LN+FKwJNkounQuQOSZ592XoPgT7etk8W1gmUr3yWG11nwctDM/gWAdDA1IT</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -1195,7 +1195,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[IVLP_Participant_Sevis]</property>
+                  name="OpenRowset">[dbo].[IVLP_Participant_Sevis]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -1238,8 +1238,8 @@
               <connections>
                 <connection
                   refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerID="{47928535-BCC3-4562-A70D-D8349A69E719}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_Source_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -1913,37 +1913,37 @@
         <NodeLayout
           Size="214,42"
           Id="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis"
-          TopLeft="5.5,5.5" />
+          TopLeft="26.5,24.5" />
         <NodeLayout
           Size="186,42"
           Id="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis"
           TopLeft="65.5,176.5" />
         <EdgeLayout
           Id="Package\Import IVLP_Participant_Sevis.Paths[Excel Source Output]"
-          TopLeft="112.5,47.5">
+          TopLeft="133.5,66.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="46,129"
+              EndConnector="25,110"
               Start="0,0"
-              End="46,121.5">
+              End="25,102.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,60.5" />
+                    End="0,51" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,60.5"
-                    Point2="0,64.5"
-                    Point3="4,64.5" />
+                    Point1="0,51"
+                    Point2="0,55"
+                    Point3="4,55" />
                   <mssgle:LineSegment
-                    End="42,64.5" />
+                    End="21,55" />
                   <mssgle:CubicBezierSegment
-                    Point1="42,64.5"
-                    Point2="46,64.5"
-                    Point3="46,68.5" />
+                    Point1="21,55"
+                    Point2="25,55"
+                    Point3="25,59" />
                   <mssgle:LineSegment
-                    End="46,121.5" />
+                    End="25,102.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
