@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="IVLP Project Load - Oracle Dataset 2"
   DTS:PackageType="5"
-  DTS:VersionBuild="124"
-  DTS:VersionGUID="{8E08D6A8-3DF1-4B0B-96FF-7481D91F8C31}">
+  DTS:VersionBuild="125"
+  DTS:VersionGUID="{35A96A88-7999-4BDE-AD77-B9A3AD89E525}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -47,7 +47,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACWoCAOE306kjleK97YCyqWqItSgd3P0o8D/HoxKZDvMQAAAAAOgAAAAAIAACAAAABYBJhu9QF19IiMYunbm1vXmKgnWx5xEYkEmyqZ1+THOyAAAADjG/Kku3r2L5/do5p7LS18GxUqtONcO5DGJ9R6oeSb0UAAAAARkRyocrfidSDGKF2RDQb1JWxflEk5p5zv42u5HT4RIC+os7Dq2qQ4Ux3sfyZS4ZbTNiON4h7p0dl9mlApHK4Q</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAD4ofbCfGYq5Cpi0Rokk5S20xZqfm3mGc46DCEMB22ytQAAAAAOgAAAAAIAACAAAAAFuHZ8aarTVVvB99nekO51eT1dnei80wUlAtAxJJ39giAAAABpD/YCF/A592ZXXRcxdOv7HvD+M2XORSwBy7HrwNKsrEAAAACv39n28dyqhY9XBHTqYVwr3x7kEuGoeUxhDKFJEqi016UegI+McQ5OSUoaut+Bfg+s2jpzYmLmpFgR7339Rg3k</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -64,7 +64,7 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Create IVLP Project XREF"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
@@ -74,6 +74,7 @@
       DTS:refId="Package\Create IVLP-KMT Project XREF Final (Completed)"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
       DTS:DTSID="{429d1acb-8bc9-4fc3-8854-0275c85f2546}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -2471,12 +2472,13 @@ where [refTable].[ProjectNumberIVLP] = ?</property>
       DTS:refId="Package\Delete Existing Final Project XREF rows (Completed)"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
       DTS:DTSID="{ed4ed7dc-b64c-4339-93bd-2aeca5add04f}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Delete Existing Final Project XREF rows (Completed)"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -2494,7 +2496,7 @@ where [refTable].[ProjectNumberIVLP] = ?</property>
       DTS:LocaleID="-1"
       DTS:ObjectName="Delete Existing IVLP-KMT Project XREF Interim rows (Completed)"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -10349,7 +10351,7 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
       DTS:LocaleID="-1"
       DTS:ObjectName="Map Source Project Language to ECA Language (Completed)"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
