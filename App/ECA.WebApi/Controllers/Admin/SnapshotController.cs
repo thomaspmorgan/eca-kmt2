@@ -90,7 +90,7 @@ namespace ECA.WebApi.Controllers.Admin
         [Route("ProgramCountryCount/{programId:int}")]
         public async Task<SnapshotDTO> GetCountryCount(int programId)
         {
-            var dto = await service.GetProgramCountryCount(programId);
+            var dto = await service.GetProgramCountryCountAsync(programId);
             return dto;
         }
 
@@ -114,9 +114,9 @@ namespace ECA.WebApi.Controllers.Admin
         /// <returns></returns>
         [ResponseType(typeof(SnapshotDTO))]
         [Route("ProgramImpactStoryCount/{programId:int}")]
-        public SnapshotDTO GetProgramImpactStoryCount(int programId)
+        public async Task<SnapshotDTO> GetProgramImpactStoryCount(int programId)
         {
-            var dto = service.GetProgramImpactStoryCount(programId);
+            var dto = await service.GetProgramImpactStoryCount(programId);
             return dto;
         }
 
@@ -140,9 +140,9 @@ namespace ECA.WebApi.Controllers.Admin
         /// <returns></returns>
         [ResponseType(typeof(SnapshotDTO))]
         [Route("ProgramProminenceCount/{programId:int}")]
-        public SnapshotDTO GetProgramProminenceCount(int programId)
+        public async Task<SnapshotDTO> GetProgramProminenceCount(int programId)
         {
-            var dto = service.GetProgramProminenceCount(programId);
+            var dto = await service.GetProgramProminenceCount(programId);
             return dto;
         }
 
