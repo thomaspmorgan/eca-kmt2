@@ -7,12 +7,12 @@
   DTS:CreatorName="BE00003308\Marc Setien"
   DTS:DTSID="{2F4510F0-6DCC-4A62-9615-08F745C03C54}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
   DTS:LocaleID="1033"
   DTS:ObjectName="Import IVLP_Project Source"
   DTS:PackageType="5"
-  DTS:VersionBuild="32"
-  DTS:VersionGUID="{070FED92-E582-45E5-87D4-C38653A11AF5}">
+  DTS:VersionBuild="39"
+  DTS:VersionGUID="{C3CDB0C3-372D-4F87-8A4D-A67B2A3BC4F4}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACaS3aqDkUtabwcuPiCcuJYtbCGcC6y1RVC3KMtTPTjwAAAAAAOgAAAAAIAACAAAAD8pUnSVg3O9rNa00hlBrSotwnshnRU6hnhuBvR4xz7zSAAAAAA/vtAhqdRua+f9f8373SRYVIPGM7qTTCOTCSTstiGsUAAAAD/Z3si6x3Ynpe2VVv58itoZ0b/vDl7Gx1ewF4YNE7HlwH7SZyNXE+nCAZi23HRvIXfMhik0+RtMs6oxzNfaOVe</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAH5rhq2vprS4QCH2CO06h8PBGVSVwM2yT8twrTxnz2QQAAAAAOgAAAAAIAACAAAACilRjp3WhEHt1u9Kx8JAnesixvKN5ltUCGBFwTfYBxKyAAAAAlVLAFsWS4rap0YzDD0SBwCpBfPeJ55EyWNBgsAIjl9kAAAAAU+iAK0UDB5wsZaPL3sMMLiFvU0Raexm//vRSpc2eSNNcd6Yl1toG60xcojYK7zivqvsKmr4mYJDE34EuPyF39</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -48,7 +48,7 @@
       DTS:ObjectName="Excel IVLP_Language_Officer">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_LANGUAGE_OFFICER.xls;Extended Properties=&quot;Excel 8.0;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_LANGUAGE_OFFICER.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -409,7 +409,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[IVLP_Email]</property>
+                  name="OpenRowset">[dbo].[IVLP_Email]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -452,8 +452,8 @@
               <connections>
                 <connection
                   refId="Package\Import IVLP_Email\IVLP_Email.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerID="{47928535-BCC3-4562-A70D-D8349A69E719}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_Source_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -932,7 +932,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[IVLP_Language_Officer]</property>
+                  name="OpenRowset">[dbo].[IVLP_Language_Officer]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -975,8 +975,8 @@
               <connections>
                 <connection
                   refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerID="{47928535-BCC3-4562-A70D-D8349A69E719}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_Source_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -1532,7 +1532,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[IVLP_Participant]</property>
+                  name="OpenRowset">[dbo].[IVLP_Participant]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -1575,8 +1575,8 @@
               <connections>
                 <connection
                   refId="Package\Import IVLP_Participant\IVLP_Participant.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerID="{47928535-BCC3-4562-A70D-D8349A69E719}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_Source_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -1930,7 +1930,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[IVLP_Project]</property>
+                  name="OpenRowset">[dbo].[IVLP_Project]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -1973,8 +1973,8 @@
               <connections>
                 <connection
                   refId="Package\Import IVLP_Project\IVLP_Project.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerID="{47928535-BCC3-4562-A70D-D8349A69E719}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_Source_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -3158,8 +3158,8 @@ where [refTable].[ORG_ID] = ?</property>
               <connections>
                 <connection
                   refId="Package\Import IVLP_Project\Lookup.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerID="{47928535-BCC3-4562-A70D-D8349A69E719}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_Source_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -3724,7 +3724,7 @@ where [refTable].[ORG_ID] = ?</property>
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[IVLP_Project_Strategic_Goals]</property>
+                  name="OpenRowset">[dbo].[IVLP_Project_Strategic_Goals]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -3767,8 +3767,8 @@ where [refTable].[ORG_ID] = ?</property>
               <connections>
                 <connection
                   refId="Package\Import IVLP_Project_Strategic_Goal\IVLP_Project_Strategic_Goals.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerID="{47928535-BCC3-4562-A70D-D8349A69E719}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_Source_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -4187,7 +4187,7 @@ where [refTable].[ORG_ID] = ?</property>
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[IVLP_Project_Subject]</property>
+                  name="OpenRowset">[dbo].[IVLP_Project_Subject]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -4230,8 +4230,8 @@ where [refTable].[ORG_ID] = ?</property>
               <connections>
                 <connection
                   refId="Package\Import IVLP_Project_Subject\IVLP_Project_Subject.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerID="{47928535-BCC3-4562-A70D-D8349A69E719}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_Source_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -4435,37 +4435,41 @@ where [refTable].[ORG_ID] = ?</property>
         <NodeLayout
           Size="167,42"
           Id="Package\Import IVLP_Email"
-          TopLeft="1008.5,30" />
+          TopLeft="75.5,432" />
+        <NodeLayout
+          Size="225,42"
+          Id="Package\Import IVLP_Language_Officer"
+          TopLeft="49.5,543.5" />
         <NodeLayout
           Size="191,42"
           Id="Package\Import IVLP_Participant"
-          TopLeft="234.5,25" />
+          TopLeft="49.5,113" />
         <NodeLayout
           Size="174,42"
           Id="Package\Import IVLP_Project"
-          TopLeft="6.5,18" />
+          TopLeft="59.5,25" />
         <NodeLayout
           Size="248,42"
           Id="Package\Import IVLP_Project_Strategic_Goal"
-          TopLeft="719.5,28" />
+          TopLeft="33.5,307" />
         <NodeLayout
           Size="215,42"
           Id="Package\Import IVLP_Project_Subject"
-          TopLeft="459.5,28" />
+          TopLeft="44.5,210" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="180.5,42.5">
+          TopLeft="145.75,67">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="54,0"
+              EndConnector="0,46"
               Start="0,0"
-              End="46.5,0">
+              End="0,38.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="46.5,0" />
+                    End="0,38.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4476,18 +4480,18 @@ where [refTable].[ORG_ID] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="425.5,47.5">
+          TopLeft="148.5,155">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="34,0"
+              EndConnector="0,55"
               Start="0,0"
-              End="26.5,0">
+              End="0,47.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="26.5,0" />
+                    End="0,47.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4498,18 +4502,18 @@ where [refTable].[ORG_ID] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="674.5,49">
+          TopLeft="154.75,252">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="45,0"
+              EndConnector="0,55"
               Start="0,0"
-              End="37.5,0">
+              End="0,47.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="37.5,0" />
+                    End="0,47.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4520,18 +4524,18 @@ where [refTable].[ORG_ID] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="967.5,50">
+          TopLeft="158.25,349">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="41,0"
+              EndConnector="0,83"
               Start="0,0"
-              End="33.5,0">
+              End="0,75.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="33.5,0" />
+                    End="0,75.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4540,36 +4544,20 @@ where [refTable].[ORG_ID] = ?</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="225,42"
-          Id="Package\Import IVLP_Language_Officer"
-          TopLeft="34.5,118.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 4]"
-          TopLeft="1092,72">
+          TopLeft="160.5,474">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-945,46.5"
+              EndConnector="0,69.5"
               Start="0,0"
-              End="-945,39">
+              End="0,62">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,19.25" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,19.25"
-                    Point2="0,23.25"
-                    Point3="-4,23.25" />
-                  <mssgle:LineSegment
-                    End="-941,23.25" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-941,23.25"
-                    Point2="-945,23.25"
-                    Point3="-945,27.25" />
-                  <mssgle:LineSegment
-                    End="-945,39" />
+                    End="0,62" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4658,461 +4646,18 @@ where [refTable].[ORG_ID] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
-    design-time-name="Package\Import IVLP_Participant">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
-        <NodeLayout
-          Size="184,42"
-          Id="Package\Import IVLP_Participant\Excel IVLP_Participant"
-          TopLeft="5.5,5.5" />
-        <NodeLayout
-          Size="156,42"
-          Id="Package\Import IVLP_Participant\IVLP_Participant"
-          TopLeft="60.5,136.5" />
-        <EdgeLayout
-          Id="Package\Import IVLP_Participant.Paths[Excel Source Output]"
-          TopLeft="97.5,47.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="41,89"
-              Start="0,0"
-              End="41,81.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,40.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,40.5"
-                    Point2="0,44.5"
-                    Point3="4,44.5" />
-                  <mssgle:LineSegment
-                    End="37,44.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="37,44.5"
-                    Point2="41,44.5"
-                    Point3="41,48.5" />
-                  <mssgle:LineSegment
-                    End="41,81.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Import IVLP_Participant\Excel IVLP_Participant">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Import IVLP_Participant\IVLP_Participant">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <TaskHost
-    design-time-name="Package\Import IVLP_Project">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
-        <NodeLayout
-          Size="139,42"
-          Id="Package\Import IVLP_Project\IVLP_Project"
-          TopLeft="543.5,265.5" />
-        <NodeLayout
-          Size="188,42"
-          Id="Package\Import IVLP_Project\IVLP_Project Pilot Data"
-          TopLeft="5.5,5.5" />
-        <NodeLayout
-          Size="323,42"
-          Id="Package\Import IVLP_Project\Create Standardized ProjectName and OfficeSymbol"
-          TopLeft="134.5,96.5" />
-        <NodeLayout
-          Size="197,42"
-          Id="Package\Import IVLP_Project\Set New Column Lengths"
-          TopLeft="378.5,172.5" />
-        <NodeLayout
-          Size="113,42"
-          Id="Package\Import IVLP_Project\Lookup"
-          TopLeft="723.5,90.5" />
-        <EdgeLayout
-          Id="Package\Import IVLP_Project.Paths[Lookup Match Output]"
-          TopLeft="780,132.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-303,40"
-              Start="0,0"
-              End="-303,32.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,16" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,16"
-                    Point2="0,20"
-                    Point3="-4,20" />
-                  <mssgle:LineSegment
-                    End="-299,20" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-299,20"
-                    Point2="-303,20"
-                    Point3="-303,24" />
-                  <mssgle:LineSegment
-                    End="-303,32.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-199.69138671875,25,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Import IVLP_Project.Paths[Excel Source Output]"
-          TopLeft="99.5,47.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="196.5,49"
-              Start="0,0"
-              End="196.5,41.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,20.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,20.5"
-                    Point2="0,24.5"
-                    Point3="4,24.5" />
-                  <mssgle:LineSegment
-                    End="192.5,24.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="192.5,24.5"
-                    Point2="196.5,24.5"
-                    Point3="196.5,28.5" />
-                  <mssgle:LineSegment
-                    End="196.5,41.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Import IVLP_Project.Paths[Derived Column Output]"
-          TopLeft="457.5,114.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="266,0"
-              Start="0,0"
-              End="258.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="258.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Import IVLP_Project.Paths[Data Conversion Output]"
-          TopLeft="477,214.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="136,51"
-              Start="0,0"
-              End="136,43.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,21.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,21.5"
-                    Point2="0,25.5"
-                    Point3="4,25.5" />
-                  <mssgle:LineSegment
-                    End="132,25.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="132,25.5"
-                    Point2="136,25.5"
-                    Point3="136,29.5" />
-                  <mssgle:LineSegment
-                    End="136,43.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Import IVLP_Project\IVLP_Project Pilot Data">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Import IVLP_Project\IVLP_Project">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Import IVLP_Project\Lookup">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:string">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[IVLP_Organization]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:string">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <TaskHost
-    design-time-name="Package\Import IVLP_Project_Strategic_Goal">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
-        <NodeLayout
-          Size="218,42"
-          Id="Package\Import IVLP_Project_Strategic_Goal\IVLP_Project_Strategic_Goals"
-          TopLeft="94.5,151.5" />
-        <NodeLayout
-          Size="245,42"
-          Id="Package\Import IVLP_Project_Strategic_Goal\Excel IVLP_Project_Strategic_Goals"
-          TopLeft="5.5,5.5" />
-        <EdgeLayout
-          Id="Package\Import IVLP_Project_Strategic_Goal.Paths[Excel Source Output]"
-          TopLeft="128,47.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="75.5,104"
-              Start="0,0"
-              End="75.5,96.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,48" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,48"
-                    Point2="0,52"
-                    Point3="4,52" />
-                  <mssgle:LineSegment
-                    End="71.5,52" />
-                  <mssgle:CubicBezierSegment
-                    Point1="71.5,52"
-                    Point2="75.5,52"
-                    Point3="75.5,56" />
-                  <mssgle:LineSegment
-                    End="75.5,96.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Import IVLP_Project_Strategic_Goal\Excel IVLP_Project_Strategic_Goals">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Import IVLP_Project_Strategic_Goal\IVLP_Project_Strategic_Goals">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <TaskHost
-    design-time-name="Package\Import IVLP_Project_Subject">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
-        <NodeLayout
-          Size="180,42"
-          Id="Package\Import IVLP_Project_Subject\IVLP_Project_Subject"
-          TopLeft="83.5,152.5" />
-        <NodeLayout
-          Size="207,42"
-          Id="Package\Import IVLP_Project_Subject\Excel IVLP_Project_Subject"
-          TopLeft="5.5,5.5" />
-        <EdgeLayout
-          Id="Package\Import IVLP_Project_Subject.Paths[Excel Source Output]"
-          TopLeft="109,47.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="64.5,105"
-              Start="0,0"
-              End="64.5,97.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,48.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,48.5"
-                    Point2="0,52.5"
-                    Point3="4,52.5" />
-                  <mssgle:LineSegment
-                    End="60.5,52.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="60.5,52.5"
-                    Point2="64.5,52.5"
-                    Point3="64.5,56.5" />
-                  <mssgle:LineSegment
-                    End="64.5,97.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Import IVLP_Project_Subject\Excel IVLP_Project_Subject">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Import IVLP_Project_Subject\IVLP_Project_Subject">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <TaskHost
     design-time-name="Package\Import IVLP_Language_Officer">
     <LayoutInfo>
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="217,42"
-          Id="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer"
-          TopLeft="5.5,5.5" />
-        <NodeLayout
           Size="189,42"
           Id="Package\Import IVLP_Language_Officer\IVLP_Language_Officer"
           TopLeft="114.5,86.5" />
+        <NodeLayout
+          Size="217,42"
+          Id="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer"
+          TopLeft="5.5,5.5" />
         <EdgeLayout
           Id="Package\Import IVLP_Language_Officer.Paths[Excel Source Output]"
           TopLeft="114,47.5">
@@ -5165,6 +4710,437 @@ where [refTable].[ORG_ID] = ?</property>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Import IVLP_Language_Officer\IVLP_Language_Officer">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Import IVLP_Participant">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="184,42"
+          Id="Package\Import IVLP_Participant\Excel IVLP_Participant"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Import IVLP_Participant\IVLP_Participant"
+          TopLeft="60.5,136.5" />
+        <EdgeLayout
+          Id="Package\Import IVLP_Participant.Paths[Excel Source Output]"
+          TopLeft="97.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="41,89"
+              Start="0,0"
+              End="41,81.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,40.5"
+                    Point2="0,44.5"
+                    Point3="4,44.5" />
+                  <mssgle:LineSegment
+                    End="37,44.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="37,44.5"
+                    Point2="41,44.5"
+                    Point3="41,48.5" />
+                  <mssgle:LineSegment
+                    End="41,81.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import IVLP_Participant\Excel IVLP_Participant">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import IVLP_Participant\IVLP_Participant">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Import IVLP_Project">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="139,42"
+          Id="Package\Import IVLP_Project\IVLP_Project"
+          TopLeft="62.5,346.5" />
+        <NodeLayout
+          Size="188,42"
+          Id="Package\Import IVLP_Project\IVLP_Project Pilot Data"
+          TopLeft="37.5,11.5" />
+        <NodeLayout
+          Size="323,42"
+          Id="Package\Import IVLP_Project\Create Standardized ProjectName and OfficeSymbol"
+          TopLeft="35.5,102.5" />
+        <NodeLayout
+          Size="197,42"
+          Id="Package\Import IVLP_Project\Set New Column Lengths"
+          TopLeft="41.5,265.5" />
+        <NodeLayout
+          Size="113,42"
+          Id="Package\Import IVLP_Project\Lookup"
+          TopLeft="82.5,182.5" />
+        <EdgeLayout
+          Id="Package\Import IVLP_Project.Paths[Lookup Match Output]"
+          TopLeft="139.5,224.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41"
+              Start="0,0"
+              End="0,33.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,10.9453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Import IVLP_Project.Paths[Excel Source Output]"
+          TopLeft="131.5,53.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="65.5,49"
+              Start="0,0"
+              End="65.5,41.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.5"
+                    Point2="0,24.5"
+                    Point3="4,24.5" />
+                  <mssgle:LineSegment
+                    End="61.5,24.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="61.5,24.5"
+                    Point2="65.5,24.5"
+                    Point3="65.5,28.5" />
+                  <mssgle:LineSegment
+                    End="65.5,41.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Import IVLP_Project.Paths[Derived Column Output]"
+          TopLeft="197,144.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-58,38"
+              Start="0,0"
+              End="-58,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,15"
+                    Point2="0,19"
+                    Point3="-4,19" />
+                  <mssgle:LineSegment
+                    End="-54,19" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-54,19"
+                    Point2="-58,19"
+                    Point3="-58,23" />
+                  <mssgle:LineSegment
+                    End="-58,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Import IVLP_Project.Paths[Data Conversion Output]"
+          TopLeft="140,307.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-8,39"
+              Start="0,0"
+              End="-8,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,15.5"
+                    Point2="0,19.5"
+                    Point3="-4,19.5" />
+                  <mssgle:LineSegment
+                    End="-4,19.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-4,19.5"
+                    Point2="-8,19.5"
+                    Point3="-8,23.5" />
+                  <mssgle:LineSegment
+                    End="-8,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import IVLP_Project\IVLP_Project Pilot Data">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import IVLP_Project\IVLP_Project">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import IVLP_Project\Lookup">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[IVLP_Organization]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Import IVLP_Project_Strategic_Goal">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="218,42"
+          Id="Package\Import IVLP_Project_Strategic_Goal\IVLP_Project_Strategic_Goals"
+          TopLeft="94.5,151.5" />
+        <NodeLayout
+          Size="245,42"
+          Id="Package\Import IVLP_Project_Strategic_Goal\Excel IVLP_Project_Strategic_Goals"
+          TopLeft="5.5,5.5" />
+        <EdgeLayout
+          Id="Package\Import IVLP_Project_Strategic_Goal.Paths[Excel Source Output]"
+          TopLeft="128,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="75.5,104"
+              Start="0,0"
+              End="75.5,96.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,48"
+                    Point2="0,52"
+                    Point3="4,52" />
+                  <mssgle:LineSegment
+                    End="71.5,52" />
+                  <mssgle:CubicBezierSegment
+                    Point1="71.5,52"
+                    Point2="75.5,52"
+                    Point3="75.5,56" />
+                  <mssgle:LineSegment
+                    End="75.5,96.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import IVLP_Project_Strategic_Goal\Excel IVLP_Project_Strategic_Goals">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import IVLP_Project_Strategic_Goal\IVLP_Project_Strategic_Goals">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Import IVLP_Project_Subject">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="180,42"
+          Id="Package\Import IVLP_Project_Subject\IVLP_Project_Subject"
+          TopLeft="83.5,152.5" />
+        <NodeLayout
+          Size="207,42"
+          Id="Package\Import IVLP_Project_Subject\Excel IVLP_Project_Subject"
+          TopLeft="5.5,5.5" />
+        <EdgeLayout
+          Id="Package\Import IVLP_Project_Subject.Paths[Excel Source Output]"
+          TopLeft="109,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="64.5,105"
+              Start="0,0"
+              End="64.5,97.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,48.5"
+                    Point2="0,52.5"
+                    Point3="4,52.5" />
+                  <mssgle:LineSegment
+                    End="60.5,52.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="60.5,52.5"
+                    Point2="64.5,52.5"
+                    Point3="64.5,56.5" />
+                  <mssgle:LineSegment
+                    End="64.5,97.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import IVLP_Project_Subject\Excel IVLP_Project_Subject">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import IVLP_Project_Subject\IVLP_Project_Subject">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
