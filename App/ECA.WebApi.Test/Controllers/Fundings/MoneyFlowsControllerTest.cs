@@ -57,6 +57,26 @@ namespace ECA.WebApi.Test.Controllers.Fundings
             expectedMoneyFlow = new EditedMoneyFlow(id, entityId, entityTypeId);
         }
 
+        #region sources
+        [TestMethod]
+        public async Task TestGetSourceMoneyFlowByIdAsync()
+        {
+            moneyFlowService.Setup(x => x.GetSourceMoneyFlowDTOByIdAsync(It.IsAny<int>())).ReturnsAsync(new SourceMoneyFlowDTO());
+            var response = await controller.GetSourceMoneyFlowByIdAsync(1);
+            moneyFlowService.Verify(x => x.GetSourceMoneyFlowDTOByIdAsync(It.IsAny<int>()), Times.Once());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<SourceMoneyFlowDTO>));
+        }
+
+        [TestMethod]
+        public async Task TestGetSourceMoneyFlowByIdAsync_DoesNotExist()
+        {
+            moneyFlowService.Setup(x => x.GetSourceMoneyFlowDTOByIdAsync(It.IsAny<int>())).ReturnsAsync(null);
+            var response = await controller.GetSourceMoneyFlowByIdAsync(1);
+            moneyFlowService.Verify(x => x.GetSourceMoneyFlowDTOByIdAsync(It.IsAny<int>()), Times.Once());
+            Assert.IsInstanceOfType(response, typeof(NotFoundResult));
+        }
+        #endregion
+
         #region Get moneyflows by project
         [TestMethod]
         public async Task TestGetSourceMoneyFlowsByProjectIdAsync()
@@ -130,7 +150,7 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         public async Task TestGetMoneyFlowsByOfficeAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
-            var response = await controller.GetMoneyFlowsByProgramIdAsync(1, new PagingQueryBindingModel<MoneyFlowDTO>());
+            var response = await controller.GetMoneyFlowsByOfficeIdAsync(1, new PagingQueryBindingModel<MoneyFlowDTO>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
         #endregion

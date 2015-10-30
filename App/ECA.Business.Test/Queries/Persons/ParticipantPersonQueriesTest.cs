@@ -25,6 +25,8 @@ namespace ECA.Business.Test.Queries.Persons
                 ParticipantId = 1,
                 SevisId = "N0000000001",
                 StudyProject = "studyProject",
+                HomeInstitutionAddressId = 3,
+                HostInstitutionAddressId = 4,
             };
             var project = new Project
             {
@@ -48,7 +50,11 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(participantPerson.SevisId, participantPersonResult.SevisId);
             Assert.AreEqual(participantPerson.StudyProject, participantPersonResult.StudyProject);
             Assert.AreEqual(project.ProjectId, participantPersonResult.ProjectId);
+            Assert.AreEqual(participantPerson.HomeInstitutionAddressId, participantPersonResult.HomeInstitutionAddressId);
+            Assert.AreEqual(participantPerson.HostInstitutionAddressId, participantPersonResult.HostInstitutionAddressId);
 
+            Assert.AreEqual(0, participantPersonResult.ParticipantTypeId);
+            Assert.IsFalse(participantPersonResult.ParticipantStatusId.HasValue);
             Assert.IsNull(participantPersonResult.FieldOfStudy);
             Assert.IsNull(participantPersonResult.ProgramCategory);
             Assert.IsNull(participantPersonResult.Position);
@@ -218,12 +224,18 @@ namespace ECA.Business.Test.Queries.Persons
                AddressTypeId = addressType.AddressTypeId,
                IsPrimary = true
             };
-            
 
+            var orgType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.ForeignEducationalInstitution.Id,
+                OrganizationTypeName = OrganizationType.ForeignEducationalInstitution.Value
+            };
             var homeInstitution = new Organization
             {
                 OrganizationId = 1,
-                Name = "homeInstitution"
+                Name = "homeInstitution",
+                OrganizationType = orgType,
+                OrganizationTypeId = orgType.OrganizationTypeId,
             };
 
             homeInstitution.Addresses.Add(address);
@@ -231,7 +243,9 @@ namespace ECA.Business.Test.Queries.Persons
             var participantPerson = new ParticipantPerson
             {
                 ParticipantId = 1,
-                HomeInstitution = homeInstitution
+                HomeInstitution = homeInstitution,
+                HomeInstitutionId = homeInstitution.OrganizationId,
+                HomeInstitutionAddressId = address.AddressId,
             };
             var project = new Project
             {
@@ -246,6 +260,8 @@ namespace ECA.Business.Test.Queries.Persons
             participantPerson.Participant = participant;
             project.Participants.Add(participant);
 
+            context.Organizations.Add(homeInstitution);
+            context.OrganizationTypes.Add(orgType);
             context.Addresses.Add(address);
             context.AddressTypes.Add(addressType);
             context.Projects.Add(project);
@@ -253,8 +269,10 @@ namespace ECA.Business.Test.Queries.Persons
             context.ParticipantPersons.Add(participantPerson);
 
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
+            Assert.IsNotNull(participantPersonResult.HomeInstitution);
+            Assert.AreEqual(homeInstitution.OrganizationId, participantPersonResult.HomeInstitution.OrganizationId);
             Assert.AreEqual(homeInstitution.Name, participantPersonResult.HomeInstitution.Name);
-
+            Assert.AreEqual(address.AddressId, participantPersonResult.HomeInstitutionAddressId);
             var addressResult = participantPersonResult.HomeInstitution.Addresses.FirstOrDefault();
 
             Assert.AreEqual(location.Street1, addressResult.Street1);
@@ -325,10 +343,17 @@ namespace ECA.Business.Test.Queries.Persons
                IsPrimary = true
             };
 
+            var orgType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.ForeignEducationalInstitution.Id,
+                OrganizationTypeName = OrganizationType.ForeignEducationalInstitution.Value
+            };
             var hostInstitution = new Organization
             {
                 OrganizationId = 1,
-                Name = "hostInstitution"
+                Name = "hostInstitution",
+                OrganizationType = orgType,
+                OrganizationTypeId = orgType.OrganizationTypeId,
             };
 
             hostInstitution.Addresses.Add(address);
@@ -336,7 +361,9 @@ namespace ECA.Business.Test.Queries.Persons
             var participantPerson = new ParticipantPerson
             {
                 ParticipantId = 1,
-                HostInstitution = hostInstitution
+                HostInstitution = hostInstitution,
+                HostInstitutionId = hostInstitution.OrganizationId,
+                HostInstitutionAddressId = address.AddressId
             };
 
             var project = new Project
@@ -352,13 +379,17 @@ namespace ECA.Business.Test.Queries.Persons
             participantPerson.Participant = participant;
             project.Participants.Add(participant);
 
+            context.Organizations.Add(hostInstitution);
+            context.OrganizationTypes.Add(orgType);
             context.Projects.Add(project);
             context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
 
+            Assert.IsNotNull(participantPersonResult.HostInstitution);
+            Assert.AreEqual(hostInstitution.OrganizationId, participantPersonResult.HostInstitution.OrganizationId);
             Assert.AreEqual(hostInstitution.Name, participantPersonResult.HostInstitution.Name);
-
+            Assert.AreEqual(address.AddressId, participantPersonResult.HostInstitutionAddressId);
             var addressResult = participantPersonResult.HostInstitution.Addresses.FirstOrDefault();
 
             Assert.AreEqual(location.Street1, addressResult.Street1);
@@ -398,7 +429,8 @@ namespace ECA.Business.Test.Queries.Persons
                 ParticipantId = participantPerson.ParticipantId,
                 ProjectId = project.ProjectId,
                 Project = project,
-                ParticipantType = participantType
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId
             };
             participantPerson.Participant = participant;
             project.Participants.Add(participant);
@@ -409,6 +441,7 @@ namespace ECA.Business.Test.Queries.Persons
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
 
             Assert.AreEqual(participantType.Name, participantPersonResult.ParticipantType);
+            Assert.AreEqual(participantType.ParticipantTypeId, participantPersonResult.ParticipantTypeId);
         }
 
 
@@ -434,7 +467,8 @@ namespace ECA.Business.Test.Queries.Persons
                 ParticipantId = participantPerson.ParticipantId,
                 ProjectId = project.ProjectId,
                 Project = project,
-                Status = participantStatus
+                Status = participantStatus,
+                ParticipantStatusId = participantStatus.ParticipantStatusId,
             };
             participantPerson.Participant = participant;
             project.Participants.Add(participant);
@@ -445,6 +479,7 @@ namespace ECA.Business.Test.Queries.Persons
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
 
             Assert.AreEqual(participantStatus.Status, participantPersonResult.ParticipantStatus);
+            Assert.AreEqual(participantStatus.ParticipantStatusId, participantPersonResult.ParticipantStatusId);
         }
     }
 }

@@ -50,12 +50,22 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets or sets the participantPerson's Host Institution (organization)
         /// </summary>
-        public InstitutionDTO HostInstitution { get; set; }
+        public OrganizationDTO HostInstitution { get; set; }
 
         /// <summary>
         /// Gets or sets the participantPerson's Home Institution (organization)
         /// </summary>
-        public InstitutionDTO HomeInstitution { get; set; }
+        public OrganizationDTO HomeInstitution { get; set; }
+
+        /// <summary>
+        /// Gets or sets the host institition address id for this participant.
+        /// </summary>
+        public int? HostInstitutionAddressId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the home institition address id for this participant.
+        /// </summary>
+        public int? HomeInstitutionAddressId { get; set; }
 
         /// <summary>
         /// Gets or sets the date revised on.
@@ -73,8 +83,18 @@ namespace ECA.Business.Queries.Models.Persons
         public string ParticipantType { get; set; }
 
         /// <summary>
+        /// Gets or sets the participant type id.
+        /// </summary>
+        public int ParticipantTypeId { get; set; }
+
+        /// <summary>
         /// Gets or sets the participant status
         /// </summary>
         public string ParticipantStatus { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participant status id.
+        /// </summary>
+        public int? ParticipantStatusId { get; set; }
     }
 }

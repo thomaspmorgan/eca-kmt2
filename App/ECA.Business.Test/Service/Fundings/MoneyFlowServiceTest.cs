@@ -43,12 +43,163 @@ namespace ECA.Business.Test.Service.Fundings
         [TestCleanup]
         public void TestCleanup()
         {
-            
+
 
         }
         #region Get Source Money Flows
         [TestMethod]
-        public async Task TestCreateGetSourceMoneyFlowDTOsByOrganizationId()
+        public async Task TestGetSourceMoneyFlowDTOById()
+        {
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceProject = new Project
+            {
+                ProjectId = sourceId,
+                Name = "Project"
+            };
+            var recipientProject = new Project
+            {
+                ProjectId = recipientId,
+                Name = "Recip proj"
+            };
+            var projectType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Project.Id,
+                TypeName = MoneyFlowSourceRecipientType.Project.Value
+            };
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+            var moneyFlow = new MoneyFlow
+            {
+                SourceProjectId = sourceId,
+                RecipientProgramId = recipientId,
+                SourceProject = sourceProject,
+                RecipientProject = recipientProject,
+                SourceType = projectType,
+                SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = projectType,
+                RecipientTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 100.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10,
+            };
+            var childMoneyFlow = new MoneyFlow
+            {
+                SourceProjectId = sourceId,
+                RecipientProgramId = recipientId,
+                SourceProject = sourceProject,
+                RecipientProject = recipientProject,
+                SourceType = projectType,
+                SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = projectType,
+                RecipientTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+
+                MoneyFlowId = 100,
+                ParentMoneyFlowId = moneyFlow.MoneyFlowId,
+                Parent = moneyFlow
+            };
+            context.MoneyFlowStatuses.Add(actual);
+            context.MoneyFlowSourceRecipientTypes.Add(projectType);
+            context.MoneyFlows.Add(moneyFlow);
+            context.MoneyFlows.Add(childMoneyFlow);
+            context.Projects.Add(sourceProject);
+            context.Projects.Add(recipientProject);
+
+            Action<SourceMoneyFlowDTO> tester = (dto) =>
+            {
+                Assert.IsNotNull(dto);
+                Assert.AreEqual(moneyFlow.MoneyFlowId, dto.Id);
+            };
+            var results = service.GetSourceMoneyFlowDTOById(childMoneyFlow.MoneyFlowId);
+            var resultsAsync = await service.GetSourceMoneyFlowDTOByIdAsync(childMoneyFlow.MoneyFlowId);
+            tester(results);
+            tester(resultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetSourceMoneyFlowDTOById_MoneyFlowDoesNotExist()
+        {
+            Action<SourceMoneyFlowDTO> tester = (dto) =>
+            {
+                Assert.IsNull(dto);
+            };
+            var results = service.GetSourceMoneyFlowDTOById(1);
+            var resultsAsync = await service.GetSourceMoneyFlowDTOByIdAsync(1);
+            tester(results);
+            tester(resultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetSourceMoneyFlowDTOById_DoesNotHaveParent()
+        {
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceProject = new Project
+            {
+                ProjectId = sourceId,
+                Name = "Project"
+            };
+            var recipientProject = new Project
+            {
+                ProjectId = recipientId,
+                Name = "Recip proj"
+            };
+            var projectType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Project.Id,
+                TypeName = MoneyFlowSourceRecipientType.Project.Value
+            };
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+            var moneyFlow = new MoneyFlow
+            {
+                SourceProjectId = sourceId,
+                RecipientProgramId = recipientId,
+                SourceProject = sourceProject,
+                RecipientProject = recipientProject,
+                SourceType = projectType,
+                SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = projectType,
+                RecipientTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 100.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10,
+            };
+            context.MoneyFlowStatuses.Add(actual);
+            context.MoneyFlowSourceRecipientTypes.Add(projectType);
+            context.MoneyFlows.Add(moneyFlow);
+            context.Projects.Add(sourceProject);
+            context.Projects.Add(recipientProject);
+
+            Action<SourceMoneyFlowDTO> tester = (dto) =>
+            {
+                Assert.IsNull(dto);
+            };
+            var results = service.GetSourceMoneyFlowDTOById(moneyFlow.MoneyFlowId);
+            var resultsAsync = await service.GetSourceMoneyFlowDTOByIdAsync(moneyFlow.MoneyFlowId);
+            tester(results);
+            tester(resultsAsync);
+        }
+
+
+        [TestMethod]
+        public async Task TestGetSourceMoneyFlowDTOsByOrganizationId()
         {
             var sourceId = 1;
             var recipientId = 2;
@@ -113,7 +264,7 @@ namespace ECA.Business.Test.Service.Fundings
         }
 
         [TestMethod]
-        public async Task TestCreateGetSourceMoneyFlowDTOsByOrganizationId_ZeroRemainingAmount()
+        public async Task TestGetSourceMoneyFlowDTOsByOrganizationId_ZeroRemainingAmount()
         {
             var sourceId = 1;
             var recipientId = 2;
@@ -178,7 +329,7 @@ namespace ECA.Business.Test.Service.Fundings
         }
 
         [TestMethod]
-        public async Task TestCreateGetSourceMoneyFlowDTOsByOfficeId()
+        public async Task TestGetSourceMoneyFlowDTOsByOfficeId()
         {
             var sourceId = 1;
             var recipientId = 2;
@@ -243,7 +394,7 @@ namespace ECA.Business.Test.Service.Fundings
         }
 
         [TestMethod]
-        public async Task TestCreateGetSourceMoneyFlowDTOsByOfficeId_ZeroRemainingAmount()
+        public async Task TestGetSourceMoneyFlowDTOsByOfficeId_ZeroRemainingAmount()
         {
             var sourceId = 1;
             var recipientId = 2;
@@ -308,7 +459,7 @@ namespace ECA.Business.Test.Service.Fundings
         }
 
         [TestMethod]
-        public async Task TestCreateGetSourceMoneyFlowDTOsByProgramId()
+        public async Task TestGetSourceMoneyFlowDTOsByProgramId()
         {
             var sourceId = 1;
             var recipientId = 2;
@@ -373,7 +524,7 @@ namespace ECA.Business.Test.Service.Fundings
         }
 
         [TestMethod]
-        public async Task TestCreateGetSourceMoneyFlowDTOsByProgramId_ZeroRemainingAmount()
+        public async Task TestGetSourceMoneyFlowDTOsByProgramId_ZeroRemainingAmount()
         {
             var sourceId = 1;
             var recipientId = 2;
@@ -438,7 +589,7 @@ namespace ECA.Business.Test.Service.Fundings
         }
 
         [TestMethod]
-        public async Task TestCreateGetSourceMoneyFlowDTOsByProjectId()
+        public async Task TestGetSourceMoneyFlowDTOsByProjectId()
         {
             var sourceId = 1;
             var recipientId = 2;
@@ -497,7 +648,7 @@ namespace ECA.Business.Test.Service.Fundings
         }
 
         [TestMethod]
-        public async Task TestCreateGetSourceMoneyFlowDTOsByProjectId_ZeroRemainingAmount()
+        public async Task TestGetSourceMoneyFlowDTOsByProjectId_ZeroRemainingAmount()
         {
             var sourceId = 1;
             var recipientId = 2;
@@ -1366,8 +1517,24 @@ namespace ECA.Business.Test.Service.Fundings
                     recipientEntityId: recipientProject.ProjectId,
                     recipientEntityTypeId: projectMoneyFlowTypeId
                     );
-                moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypes(It.IsAny<int>())).Returns(new List<MoneyFlowSourceRecipientTypeDTO>());
-                moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypesAsync(It.IsAny<int>())).ReturnsAsync(new List<MoneyFlowSourceRecipientTypeDTO>());
+                var allowedSourceEntityTypes = new List<MoneyFlowSourceRecipientTypeDTO>
+                {
+                    new MoneyFlowSourceRecipientTypeDTO
+                    {
+                        Id = MoneyFlowSourceRecipientType.Organization.Id
+                    }
+                };
+                var allowedRecipientEntityTypes = new List<MoneyFlowSourceRecipientTypeDTO>
+                {
+                    new MoneyFlowSourceRecipientTypeDTO
+                    {
+                        Id = MoneyFlowSourceRecipientType.Office.Id
+                    }
+                };
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypes(It.IsAny<int>())).Returns(allowedRecipientEntityTypes);
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypesAsync(It.IsAny<int>())).ReturnsAsync(allowedRecipientEntityTypes);
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetSourceMoneyFlowTypes(It.IsAny<int>())).Returns(allowedSourceEntityTypes);
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetSourceMoneyFlowTypesAsync(It.IsAny<int>())).ReturnsAsync(allowedSourceEntityTypes);
                 Action tester = () =>
                 {
                     Assert.AreEqual(1, context.MoneyFlows.Count());
@@ -1396,6 +1563,25 @@ namespace ECA.Business.Test.Service.Fundings
                     Assert.IsFalse(moneyFlow.RecipientTransportationId.HasValue);
                     Assert.IsFalse(moneyFlow.ParentMoneyFlowId.HasValue);
                 };
+                Action<MoneyFlowServiceCreateValidationEntity> createValidatorTester = (validationEntity) =>
+                {
+                    CollectionAssert.AreEqual(allowedSourceEntityTypes.Select(x => x.Id).ToList(), validationEntity.AllowedSourceEntityTypeIds.ToList());
+                    CollectionAssert.AreEqual(allowedRecipientEntityTypes.Select(x => x.Id).ToList(), validationEntity.AllowedRecipientEntityTypeIds.ToList());
+                    Assert.AreEqual(0, validationEntity.AllowedProjectParticipantIds.Count());
+
+                    Assert.IsNull(validationEntity.ParentMoneyFlowWithdrawlMaximum);
+                    Assert.AreEqual(additionalMoneyFlow.Description, validationEntity.Description);
+                    Assert.AreEqual(additionalMoneyFlow.Value, validationEntity.Value);
+                    Assert.AreEqual(additionalMoneyFlow.FiscalYear, validationEntity.FiscalYear);
+
+                    Assert.IsTrue(validationEntity.HasRecipientEntityType);
+                    Assert.IsTrue(validationEntity.HasSourceEntityType);
+                    Assert.AreEqual(recipientProject.ProjectId, validationEntity.RecipientEntityId);
+                    Assert.AreEqual(sourceProject.ProjectId, validationEntity.SourceEntityId);
+                    Assert.AreEqual(projectMoneyFlowTypeId, validationEntity.SourceEntityTypeId);
+                    Assert.AreEqual(projectMoneyFlowTypeId, validationEntity.RecipientEntityTypeId);
+                };
+                validator.Setup(x => x.ValidateCreate(It.IsAny<MoneyFlowServiceCreateValidationEntity>())).Callback(createValidatorTester);
 
                 context.Revert();
                 service.Create(additionalMoneyFlow);
@@ -1480,14 +1666,50 @@ namespace ECA.Business.Test.Service.Fundings
                     recipientEntityId: recipientProject.ProjectId,
                     recipientEntityTypeId: projectMoneyFlowTypeId
                     );
-                moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypes(It.IsAny<int>())).Returns(new List<MoneyFlowSourceRecipientTypeDTO>());
-                moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypesAsync(It.IsAny<int>())).ReturnsAsync(new List<MoneyFlowSourceRecipientTypeDTO>());
+                var allowedSourceEntityTypes = new List<MoneyFlowSourceRecipientTypeDTO>
+                {
+                    new MoneyFlowSourceRecipientTypeDTO
+                    {
+                        Id = MoneyFlowSourceRecipientType.Organization.Id
+                    }
+                };
+                var allowedRecipientEntityTypes = new List<MoneyFlowSourceRecipientTypeDTO>
+                {
+                    new MoneyFlowSourceRecipientTypeDTO
+                    {
+                        Id = MoneyFlowSourceRecipientType.Office.Id
+                    }
+                };
+
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypes(It.IsAny<int>())).Returns(allowedRecipientEntityTypes);
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypesAsync(It.IsAny<int>())).ReturnsAsync(allowedRecipientEntityTypes);
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetSourceMoneyFlowTypes(It.IsAny<int>())).Returns(allowedSourceEntityTypes);
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetSourceMoneyFlowTypesAsync(It.IsAny<int>())).ReturnsAsync(allowedSourceEntityTypes);
                 Action tester = () =>
                 {
                     Assert.AreEqual(2, context.MoneyFlows.Count());
                     var addedMoneyFlow = context.MoneyFlows.Where(x => x.MoneyFlowId != parentMoneyFlow.MoneyFlowId).First();
-                    Assert.AreEqual(parentMoneyFlow.MoneyFlowId, addedMoneyFlow.ParentMoneyFlowId);                    
+                    Assert.AreEqual(parentMoneyFlow.MoneyFlowId, addedMoneyFlow.ParentMoneyFlowId);
                 };
+                Action<MoneyFlowServiceCreateValidationEntity> createValidatorTester = (validationEntity) =>
+                {
+                    CollectionAssert.AreEqual(allowedSourceEntityTypes.Select(x => x.Id).ToList(), validationEntity.AllowedSourceEntityTypeIds.ToList());
+                    CollectionAssert.AreEqual(allowedRecipientEntityTypes.Select(x => x.Id).ToList(), validationEntity.AllowedRecipientEntityTypeIds.ToList());
+                    Assert.AreEqual(0, validationEntity.AllowedProjectParticipantIds.Count());
+
+                    Assert.AreEqual(maximum, validationEntity.ParentMoneyFlowWithdrawlMaximum);
+                    Assert.AreEqual(additionalMoneyFlow.Description, validationEntity.Description);
+                    Assert.AreEqual(additionalMoneyFlow.Value, validationEntity.Value);
+                    Assert.AreEqual(additionalMoneyFlow.FiscalYear, validationEntity.FiscalYear);
+
+                    Assert.IsTrue(validationEntity.HasRecipientEntityType);
+                    Assert.IsTrue(validationEntity.HasSourceEntityType);
+                    Assert.AreEqual(recipientProject.ProjectId, validationEntity.RecipientEntityId);
+                    Assert.AreEqual(sourceProject.ProjectId, validationEntity.SourceEntityId);
+                    Assert.AreEqual(projectMoneyFlowTypeId, validationEntity.SourceEntityTypeId);
+                    Assert.AreEqual(projectMoneyFlowTypeId, validationEntity.RecipientEntityTypeId);
+                };
+                validator.Setup(x => x.ValidateCreate(It.IsAny<MoneyFlowServiceCreateValidationEntity>())).Callback(createValidatorTester);
 
                 context.Revert();
                 service.Create(additionalMoneyFlow);
@@ -1545,6 +1767,8 @@ namespace ECA.Business.Test.Service.Fundings
                     );
                 moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypes(It.IsAny<int>())).Returns(new List<MoneyFlowSourceRecipientTypeDTO>());
                 moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypesAsync(It.IsAny<int>())).ReturnsAsync(new List<MoneyFlowSourceRecipientTypeDTO>());
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetSourceMoneyFlowTypes(It.IsAny<int>())).Returns(new List<MoneyFlowSourceRecipientTypeDTO>());
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetSourceMoneyFlowTypesAsync(It.IsAny<int>())).ReturnsAsync(new List<MoneyFlowSourceRecipientTypeDTO>());
                 context.Revert();
                 var message = String.Format("The entity of type [{0}] with id [{1}] was not found.", typeof(MoneyFlow).Name, additionalMoneyFlow.ParentMoneyFlowId);
                 Func<Task> f = () =>
@@ -1582,6 +1806,8 @@ namespace ECA.Business.Test.Service.Fundings
                 };
                 moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypes(It.IsAny<int>())).Returns(new List<MoneyFlowSourceRecipientTypeDTO>());
                 moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypesAsync(It.IsAny<int>())).ReturnsAsync(new List<MoneyFlowSourceRecipientTypeDTO>());
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetSourceMoneyFlowTypes(It.IsAny<int>())).Returns(new List<MoneyFlowSourceRecipientTypeDTO>());
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetSourceMoneyFlowTypesAsync(It.IsAny<int>())).ReturnsAsync(new List<MoneyFlowSourceRecipientTypeDTO>());
                 context.SetupActions.Add(() =>
                 {
                     context.Projects.Add(recipientProject);
@@ -1646,6 +1872,8 @@ namespace ECA.Business.Test.Service.Fundings
                 };
                 moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypes(It.IsAny<int>())).Returns(new List<MoneyFlowSourceRecipientTypeDTO>());
                 moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypesAsync(It.IsAny<int>())).ReturnsAsync(new List<MoneyFlowSourceRecipientTypeDTO>());
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetSourceMoneyFlowTypes(It.IsAny<int>())).Returns(new List<MoneyFlowSourceRecipientTypeDTO>());
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetSourceMoneyFlowTypesAsync(It.IsAny<int>())).ReturnsAsync(new List<MoneyFlowSourceRecipientTypeDTO>());
                 context.SetupActions.Add(() =>
                 {
                     context.Projects.Add(sourceProject);
@@ -1699,20 +1927,20 @@ namespace ECA.Business.Test.Service.Fundings
                     dbSet.FindObjectArray = (keys) =>
                     {
                         var id = (int)keys[0];
-                        if(id == sourceProjectId)
+                        if (id == sourceProjectId)
                         {
                             return (Object)context.Projects.Find(keys);
                         }
-                        if(id == recipientPersonId)
+                        if (id == recipientPersonId)
                         {
                             return (Object)context.People.Find(keys);
                         }
-                        if(id == recipientParticipantId)
+                        if (id == recipientParticipantId)
                         {
                             return (Object)context.Participants.Find(keys);
                         }
                         throw new Exception();
-                        
+
                     };
                     dbSet.FindAsyncObjectArray = (keys) =>
                     {
@@ -1745,7 +1973,7 @@ namespace ECA.Business.Test.Service.Fundings
                 var person = new Person
                 {
                     PersonId = recipientPersonId,
-                    FirstName  = "First Name",
+                    FirstName = "First Name",
                 };
                 var recipientParticipant = new Participant
                 {
@@ -1788,33 +2016,42 @@ namespace ECA.Business.Test.Service.Fundings
                     );
                 moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypes(It.IsAny<int>())).Returns(new List<MoneyFlowSourceRecipientTypeDTO>());
                 moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypesAsync(It.IsAny<int>())).ReturnsAsync(new List<MoneyFlowSourceRecipientTypeDTO>());
-                Action tester = () =>
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetSourceMoneyFlowTypes(It.IsAny<int>())).Returns(new List<MoneyFlowSourceRecipientTypeDTO>());
+                moneyFlowSourceRecipientTypeService.Setup(x => x.GetSourceMoneyFlowTypesAsync(It.IsAny<int>())).ReturnsAsync(new List<MoneyFlowSourceRecipientTypeDTO>());
+                Action<MoneyFlowServiceCreateValidationEntity> createValidatorTester = (validationEntity) =>
                 {
-                    Assert.AreEqual(1, context.MoneyFlows.Count());
-                    var moneyFlow = context.MoneyFlows.First();
-                    Assert.AreEqual(description, moneyFlow.Description);
-                    Assert.AreEqual(value, moneyFlow.Value);
-                    Assert.AreEqual(moneyFlowStatusId, moneyFlow.MoneyFlowStatusId);
-                    Assert.AreEqual(now, moneyFlow.TransactionDate);
-                    Assert.AreEqual(fiscalYear, moneyFlow.FiscalYear);
-                    Assert.AreEqual(sourceProject.ProjectId, moneyFlow.SourceProjectId);
-                    Assert.AreEqual(recipientParticipant.ParticipantId, moneyFlow.RecipientParticipantId);
-                    Assert.AreEqual(userId, moneyFlow.History.CreatedBy);
-                    Assert.AreEqual(userId, moneyFlow.History.RevisedBy);
-                    DateTimeOffset.UtcNow.Should().BeCloseTo(moneyFlow.History.CreatedOn, 2000);
-                    DateTimeOffset.UtcNow.Should().BeCloseTo(moneyFlow.History.RevisedOn, 2000);
-
-                    Assert.IsFalse(moneyFlow.SourceItineraryStopId.HasValue);
-                    Assert.IsFalse(moneyFlow.SourceOrganizationId.HasValue);
-                    Assert.IsFalse(moneyFlow.SourceParticipantId.HasValue);
-                    Assert.IsFalse(moneyFlow.SourceProgramId.HasValue);
-                    Assert.IsFalse(moneyFlow.RecipientAccommodationId.HasValue);
-                    Assert.IsFalse(moneyFlow.RecipientItineraryStopId.HasValue);
-                    Assert.IsFalse(moneyFlow.RecipientOrganizationId.HasValue);
-                    Assert.IsFalse(moneyFlow.RecipientProjectId.HasValue);
-                    Assert.IsFalse(moneyFlow.RecipientProgramId.HasValue);
-                    Assert.IsFalse(moneyFlow.RecipientTransportationId.HasValue);
+                    Assert.AreEqual(1, validationEntity.AllowedProjectParticipantIds.Count());
+                    Assert.AreEqual(recipientParticipant.ParticipantId, validationEntity.AllowedProjectParticipantIds.First());                    
                 };
+                validator.Setup(x => x.ValidateCreate(It.IsAny<MoneyFlowServiceCreateValidationEntity>())).Callback(createValidatorTester);
+
+                Action tester = () =>
+                    {
+                        Assert.AreEqual(1, context.MoneyFlows.Count());
+                        var moneyFlow = context.MoneyFlows.First();
+                        Assert.AreEqual(description, moneyFlow.Description);
+                        Assert.AreEqual(value, moneyFlow.Value);
+                        Assert.AreEqual(moneyFlowStatusId, moneyFlow.MoneyFlowStatusId);
+                        Assert.AreEqual(now, moneyFlow.TransactionDate);
+                        Assert.AreEqual(fiscalYear, moneyFlow.FiscalYear);
+                        Assert.AreEqual(sourceProject.ProjectId, moneyFlow.SourceProjectId);
+                        Assert.AreEqual(recipientParticipant.ParticipantId, moneyFlow.RecipientParticipantId);
+                        Assert.AreEqual(userId, moneyFlow.History.CreatedBy);
+                        Assert.AreEqual(userId, moneyFlow.History.RevisedBy);
+                        DateTimeOffset.UtcNow.Should().BeCloseTo(moneyFlow.History.CreatedOn, 2000);
+                        DateTimeOffset.UtcNow.Should().BeCloseTo(moneyFlow.History.RevisedOn, 2000);
+
+                        Assert.IsFalse(moneyFlow.SourceItineraryStopId.HasValue);
+                        Assert.IsFalse(moneyFlow.SourceOrganizationId.HasValue);
+                        Assert.IsFalse(moneyFlow.SourceParticipantId.HasValue);
+                        Assert.IsFalse(moneyFlow.SourceProgramId.HasValue);
+                        Assert.IsFalse(moneyFlow.RecipientAccommodationId.HasValue);
+                        Assert.IsFalse(moneyFlow.RecipientItineraryStopId.HasValue);
+                        Assert.IsFalse(moneyFlow.RecipientOrganizationId.HasValue);
+                        Assert.IsFalse(moneyFlow.RecipientProjectId.HasValue);
+                        Assert.IsFalse(moneyFlow.RecipientProgramId.HasValue);
+                        Assert.IsFalse(moneyFlow.RecipientTransportationId.HasValue);
+                    };
 
                 context.Revert();
                 service.Create(additionalMoneyFlow);
@@ -2511,6 +2748,14 @@ namespace ECA.Business.Test.Service.Fundings
                 Assert.AreEqual(yesterday, moneyFlowToUpdate.History.CreatedOn);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(moneyFlowToUpdate.History.RevisedOn, 2000);
             };
+            Action<MoneyFlowServiceUpdateValidationEntity> updateValidatorTester = (validationEntity) =>
+            {
+                Assert.IsNull(validationEntity.ParentMoneyFlowWithdrawlMaximum);
+                Assert.AreEqual(updatedMoneyFlow.Description, validationEntity.Description);
+                Assert.AreEqual(updatedMoneyFlow.Value, validationEntity.Value);
+                Assert.AreEqual(updatedMoneyFlow.FiscalYear, validationEntity.FiscalYear);
+            };
+            validator.Setup(x => x.ValidateUpdate(It.IsAny<MoneyFlowServiceUpdateValidationEntity>())).Callback(updateValidatorTester);
             context.Revert();
             service.Update(updatedMoneyFlow);
             tester();
@@ -2616,6 +2861,15 @@ namespace ECA.Business.Test.Service.Fundings
                     Assert.AreEqual(yesterday, parentMoneyFlow.History.CreatedOn);
                     Assert.AreEqual(yesterday, parentMoneyFlow.History.RevisedOn);
                 };
+                Action<MoneyFlowServiceUpdateValidationEntity> updateValidatorTester = (validationEntity) =>
+                {
+                    Assert.AreEqual(maximum + moneyFlowToUpdate.Value, validationEntity.ParentMoneyFlowWithdrawlMaximum);
+                    Assert.AreEqual(updatedMoneyFlow.Description, validationEntity.Description);
+                    Assert.AreEqual(updatedMoneyFlow.Value, validationEntity.Value);
+                    Assert.AreEqual(updatedMoneyFlow.FiscalYear, validationEntity.FiscalYear);
+                };
+                validator.Setup(x => x.ValidateUpdate(It.IsAny<MoneyFlowServiceUpdateValidationEntity>())).Callback(updateValidatorTester);
+
                 context.Revert();
                 service.Update(updatedMoneyFlow);
                 tester();

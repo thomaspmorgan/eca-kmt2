@@ -15,7 +15,13 @@
         <tr>
             <th class="col-md-7">
                 <div>
-                    <input st-search type="search" placeholder="Search Offices" class="search-contextual" maxlength="100">
+                    <input id="searchBar" name="searchBar" 
+                           st-search type="search"
+                           ng-model="officeFilter"
+                           ng-model-options="{debounce: 500}"
+                           placeholder="Search Offices"
+                           class="search-contextual"
+                           maxlength="100" />
                     <i class="material-icons md-18 contextual">search</i>
                 </div>
                 <div style="margin-top: 25px; margin-bottom: -25px">
@@ -28,7 +34,7 @@
         <tbody class="list2">
         <tr ng-repeat="office in offices" ng-show="!officesLoading">
             <td class="col-md-7" ng-style="{'padding-left': 60+(20*office.officeLevel-1)}">
-                <span class="owner-office">{{office.officeSymbol}}</span>
+                <span class="owner-office" ng-bind-html="office.officeSymbol | highlight:officeFilter">{{office.officeSymbol}}</span>
                 <h4><a ng-bind-html="office.name | highlight:officeFilter" ng-href="#/offices/{{office.organizationId}}/overview">{{office.name}}</a></h4>
                 <p ng-bind-html="office.description | highlight:officeFilter">{{office.description}}</p>
             </td>

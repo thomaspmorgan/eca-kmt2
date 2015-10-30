@@ -165,6 +165,7 @@
     <Compile Include="Search\ProgramDTODocumentConfiguration.cs" />
     <Compile Include="Search\ProjectDTODocumentConfiguration.cs" />
     <Compile Include="Service\Admin\NewOrganization.cs" />
+    <Compile Include="Service\Admin\ParticipantOrganization.cs" />
     <Compile Include="Service\Admin\PhoneNumberService.cs" />
     <Compile Include="Service\Admin\IPhoneNumberService.cs" />
     <Compile Include="Service\Admin\IEmailAddressService.cs" />
@@ -203,8 +204,11 @@
     <Compile Include="Service\Persons\MembershipService.cs" />
     <Compile Include="Service\Persons\NewPersonEduEmp.cs" />
     <Compile Include="Service\Persons\NewPersonEvaluationNote.cs" />
+    <Compile Include="Service\Persons\ParticipantPersonServiceValidator.cs" />
     <Compile Include="Service\Persons\ParticipantStudentVisitorService.cs" />
     <Compile Include="Service\Persons\ParticipantPersonSevisService.cs" />
+    <Compile Include="Service\Persons\UpdatedParticipantPersonSevis.cs" />
+    <Compile Include="Service\Persons\UpdatedParticipantPerson.cs" />
     <Compile Include="Service\Persons\UpdatedPersonEduEmp.cs" />
     <Compile Include="Service\Persons\UpdatedPersonEvaluationNote.cs" />
     <Compile Include="Service\Persons\UpdatedPersonLanguageProficiency.cs" />
@@ -305,6 +309,7 @@
     <Compile Include="Service\Lookup\SocialMediaTypeDTO.cs" />
     <Compile Include="Service\Lookup\SocialMediaTypeService.cs" />
     <Compile Include="Service\Persons\UpdateContactInfo.cs" />
+    <Compile Include="Service\Persons\UpdatedParticipantPersonValidationEntity.cs" />
     <Compile Include="Service\Persons\UpdateGeneral.cs" />
     <Compile Include="Service\Programs\IProgramStatusService.cs" />
     <Compile Include="Service\Programs\ProgramStatusService.cs" />

@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name staticApp.controller:ProgramsCtrl
+ * @name staticApp.controller:AllOfficesCtrl
  * @description
- * # ProgramsCtrl
+ * # AllOfficesCtrl
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('AllOfficesCtrl', function ($scope, $stateParams, $q, OfficeService, TableService) {
+  .controller('AllOfficesCtrl', function ($scope, $stateParams, $q, $timeout, OfficeService, TableService) {
 
     $scope.offices = [];
     $scope.currentpage = $stateParams.page || 1;
@@ -34,21 +34,6 @@ angular.module('staticApp')
         $scope.loadingOfficesErrorOccurred = true;
     }
 
-    function getOfficesFiltered (params) {
-        var dfd = $q.defer();
-        OfficeService.getAll(params)
-              .then(function (data, status, headers, config) {
-                  dfd.resolve(data.data);
-              },
-              function (data, status, headers, config) {
-                  var errorCode = data.status;
-                  dfd.reject(errorCode);
-
-              });
-        return dfd.promise;
-    };
-
-
     $scope.getOffices = function (tableState) {
         reset();
         $scope.officesLoading = true;
@@ -61,8 +46,8 @@ angular.module('staticApp')
             keyword: TableService.getKeywords()
         };
 
-        $scope.officeFilter = params.keyword;
-
+        $scope.officeFilter = document.getElementById('searchBar').value;
+        
         getOfficesFiltered(params)
           .then(function (data) {
               var offices = data.results;
@@ -71,7 +56,8 @@ angular.module('staticApp')
               if (offices.length > 0) {
                   start = params.start + 1;
               };
-              updatePagingDetails(total, start, offices.length);
+              var count = params.start + offices.length;
+              updatePagingDetails(total, start, count);
               $scope.offices = offices;
               var limit = TableService.getLimit();
               tableState.pagination.numberOfPages = Math.ceil(total / limit);
@@ -81,6 +67,20 @@ angular.module('staticApp')
           .then(function () {
               $scope.officesLoading = false;
           });
+    };
+
+    function getOfficesFiltered(params) {
+        var dfd = $q.defer();
+        OfficeService.getAll(params)
+              .then(function (data, status, headers, config) {
+                  dfd.resolve(data.data);
+              },
+              function (data, status, headers, config) {
+                  var errorCode = data.status;
+                  dfd.reject(errorCode);
+
+              });
+        return dfd.promise;
     };
 
   });

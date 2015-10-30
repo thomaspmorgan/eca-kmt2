@@ -4,16 +4,12 @@ using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
 using ECA.WebApi.Models.Query;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+using ECA.WebApi.Models.Person;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using ECA.WebApi.Security;
 
 namespace ECA.WebApi.Controllers.Persons
 {
@@ -30,15 +26,17 @@ namespace ECA.WebApi.Controllers.Persons
         private static readonly ExpressionSorter<ParticipantPersonSevisDTO> DEFAULT_SORTER = new ExpressionSorter<ParticipantPersonSevisDTO>(x => x.ParticipantId, SortDirection.Ascending);
 
         private IParticipantPersonSevisService service;
+        private IUserProvider userProvider;
 
         /// <summary>
         /// Creates a new ParticipantPersonsSevisController with the given service.
         /// </summary>
         /// <param name="service">The service.</param>
-        public ParticipantPersonsSevisController(IParticipantPersonSevisService service)
+        public ParticipantPersonsSevisController(IParticipantPersonSevisService service, IUserProvider userProvider)
         {
             Contract.Requires(service != null, "The participantPersonSevis service must not be null.");
             this.service = service;
+            this.userProvider = userProvider;
         }
 
         /// <summary>
@@ -103,6 +101,30 @@ namespace ECA.WebApi.Controllers.Persons
             }
         }
 
+
+        /// <summary>
+        /// Updates the new participantPersonSevis with the given participantId.
+        /// </summary>
+        /// <param name="model">The new email address.</param>
+        /// <param name="participantId">The person id.</param>
+        /// <returns>The saved email address.</returns>
+        [Route("ParticipantPersonSevis/{participantId:int}")]
+        [ResponseType(typeof(ParticipantPersonSevisDTO))]
+        public async Task<IHttpActionResult> PutUpdateParticipantPersonSevisAsync(int participantId, [FromBody]UpdatedParticipantPersonSevisBindingModel model)
+        {   
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var participantPersonSevisDTO = await service.UpdateAsync(model.ToUpdatedParticipantPersonSevis(businessUser));
+                await service.SaveChangesAsync();
+                return Ok(participantPersonSevisDTO);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
 
 
         /// <summary>

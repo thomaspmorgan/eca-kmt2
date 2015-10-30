@@ -47,8 +47,8 @@ angular.module('staticApp')
           GetProgramTopThemes: function (id) {
               return DragonBreath.get('ProgramTopThemes', id);
           },
-          GetProgramParticipantLocations: function (id) {
-              return DragonBreath.get('ProgramParticipantLocations', id);
+          GetProgramParticipantsByLocation: function (id) {
+              return DragonBreath.get('ProgramParticipantsByLocation', id);
           },
           GetProgramParticipantsByYear: function (id) {
               return DragonBreath.get('ProgramParticipantsByYear', id);

@@ -15,6 +15,7 @@ angular.module('staticApp')
         $log,
         $modalInstance,
         entity,
+        fiscalYears,
         FilterService,
         MoneyFlowService,
         LookupService,
@@ -30,6 +31,7 @@ angular.module('staticApp')
       console.assert(entity.entityName && entity.entityName.length > 0, "The entity.entityName value must be defined.");
 
       $scope.view = {};
+      $scope.view.fiscalYears = fiscalYears;
       $scope.view.isLoadingSourceMoneyFlows = false;
       $scope.view.entityNameMaxLength = 100;
       $scope.view.entityName = entity.entityName;
@@ -42,6 +44,7 @@ angular.module('staticApp')
       $scope.view.moneyFlowStatii = [];
       $scope.view.moneyFlowTypes = [];
       $scope.view.isLoadingRequiredData = false;
+      $scope.view.isCopyingMoneyFlow = false;
       $scope.view.maxDescriptionLength = 255;
       $scope.view.maxAmount = ConstantsService.maxNumericValue;
       $scope.view.incomingDirectionKey = "incoming";
@@ -50,13 +53,18 @@ angular.module('staticApp')
       $scope.view.isSaving = false;
       $scope.view.isSourceRecipientFieldEnabled = false;
       $scope.view.isSourceRecipientFieldRequired = true;
-      $scope.view.loadingMoneyFlowSourcesLoadingText = "Loading";
+      $scope.view.isSourceMoneyFlowAmountExpended = false;
+      $scope.view.copiedMoneyFlowExceedsSourceLimit = false;
 
       $scope.view.openTransactionDatePicker = function ($event) {
           $event.preventDefault();
           $event.stopPropagation();
           $scope.view.isTransactionDatePickerOpen = true;
       };
+
+      $scope.view.onFiscalYearChange = function () {
+          resetParentMoneyFlow();
+      }
 
       $scope.view.save = function () {
           $scope.view.isSaving = true;
@@ -89,9 +97,13 @@ angular.module('staticApp')
           else {
               $log.error('Direction key ]' + directionKey + '] is not recognized.');
           }
+          resetParentMoneyFlow();
+          loadSourceMoneyFlows($scope.view.moneyFlow);
+      }
+
+      function resetParentMoneyFlow() {
           $scope.view.moneyFlow.parentMoneyFlowId = null;
           $scope.view.selectedSourceMoneyFlow = null;
-          loadSourceMoneyFlows($scope.view.moneyFlow);
       }
 
       $scope.view.moneyFlow = toMoneyFlow(entity);
@@ -99,6 +111,7 @@ angular.module('staticApp')
 
       $scope.view.validateSourceRemainingAmount = function ($value) {
           if ($value
+              && $scope.view.selectedSourceMoneyFlow
               && $scope.view.selectedSourceMoneyFlow !== null
               && $scope.view.selectedSourceMoneyFlow.remainingAmount - $value < 0) {
               return false;
@@ -201,7 +214,7 @@ angular.module('staticApp')
                   sourceName: ''
               });
               $scope.view.isLoadingSourceMoneyFlows = true;
-              loadFn.then(function (response) {
+              return loadFn.then(function (response) {
                   var sources = response.data;
                   $scope.view.isLoadingSourceMoneyFlows = false;
                   $scope.view.sourceMoneyFlows = sources;
@@ -393,9 +406,12 @@ angular.module('staticApp')
           var moneyFlow = null;
           console.assert(entity.entityTypeId, 'The entity must have at the entityTypeId defined.');
           console.assert(entity.entityId, 'The entity must have at the entityId defined.');
-
+          
           if (entity.isCopy) {
               moneyFlow = entity;
+              $scope.view.isSourceMoneyFlowAmountExpended = moneyFlow.isSourceMoneyFlowAmountExpended;
+              $scope.view.copiedMoneyFlowExceedsSourceLimit = moneyFlow.copiedMoneyFlowExceedsSourceLimit;
+              $scope.view.selectedSourceMoneyFlow = moneyFlow.parentMoneyFlow ? moneyFlow.parentMoneyFlow : null;
           }
           else {
               moneyFlow = {
@@ -498,6 +514,8 @@ angular.module('staticApp')
       $q.all([getAllowedRecipientMoneyFlowSourceRecipientTypes(), getAllowedSourceMoneyFlowSourceRecipientTypes(), getAllMoneyFlowTypes(), getAllMoneyFlowStati()])
         .then(function () {
             $scope.view.isLoadingRequiredData = false;
+            if (entity.isCopy) {                
+            }
         })
         .catch(function () {
             $scope.view.isLoadingRequiredData = false;

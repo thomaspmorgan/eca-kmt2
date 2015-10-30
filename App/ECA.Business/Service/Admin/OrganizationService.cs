@@ -132,6 +132,20 @@ namespace ECA.Business.Service.Admin
             return await Task.FromResult<Organization>(organization);
         }
 
+        /// <summary>
+        /// Creates a participant organization
+        /// </summary>
+        /// <param name="participantOrganization">The participant organization to create</param>
+        /// <returns>The organization created</returns>
+        public async Task<Organization> CreateParticipantOrganizationAsync(ParticipantOrganization participantOrganization)
+        {
+            var project = this.Context.Projects.Find(participantOrganization.ProjectId);
+            var organizationType = this.Context.OrganizationTypes.Find(participantOrganization.OrganizationType);
+            var organization = DoCreate(participantOrganization, organizationType);
+            var participant = CreateParticipant(organization, participantOrganization.ParticipantTypeId, project);
+            return await Task.FromResult<Organization>(organization);
+        }
+
         private Organization DoCreate(NewOrganization newOrganization, OrganizationType organizationType)
         {
             organizationValidator.ValidateCreate(GetOrganizationValidationEntity(newOrganization));
@@ -152,6 +166,20 @@ namespace ECA.Business.Service.Admin
             this.Context.Organizations.Add(organization);
             return organization;
 
+        }
+
+        private Participant CreateParticipant(Organization organization, int participantTypeId, Project project)
+        {
+            var participant = new Participant
+            {
+                OrganizationId = organization.OrganizationId,
+                ParticipantTypeId = participantTypeId
+            };
+
+            participant.Project = project;
+            this.Context.Participants.Add(participant);
+            this.logger.Trace("Creating new participant {0}.", organization);
+            return participant;
         }
 
         private OrganizationValidationEntity GetOrganizationValidationEntity(NewOrganization newOrganization)

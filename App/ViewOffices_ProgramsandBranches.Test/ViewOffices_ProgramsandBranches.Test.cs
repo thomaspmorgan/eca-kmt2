@@ -102,19 +102,24 @@ namespace ViewOfficesProgramsandBranches.Test
 
             //verify themes
             HtmlDiv chcOffThemes = new HtmlDiv(browserWindow);
-            chcOffThemes.SearchProperties.Add(HtmlDiv.PropertyNames.TagName, "DIV", HtmlDiv.PropertyNames.InnerText, "Themes American Studies Arts Arts & Culture Civilian Security Conflict Prevention, Mitigation, and Response Democracy / Good Governance / Rule of Law Diversity Entrepreneurship / Job Creation Environment Humanitarian Assistance, Disaster Mitigation Markets and Competitiveness Sustainable Economic Growth & Well - Being Trade & Investment Transitions in Frontline States Transnational Threats - Crime, Narcotics, Trafficking in Person Travel and Tourism", HtmlDiv.PropertyNames.TagInstance, "35");
+            chcOffThemes.SearchProperties.Add(HtmlDiv.PropertyNames.TagName, "DIV", HtmlDiv.PropertyNames.InnerText, "Themes American Studies Civilian Security Conflict Prevention, Mitigation, and Response Democracy/Good Governance/Rule of Law Diversity Entrepreneurship/Job Creation Environment Humanitarian Assistance, Disaster Mitigation Markets and Competitiveness Sustainable Economic Growth & Well-Being Trade & Investment Transitions in Frontline States Transnational Threats - Crime, Narcotics, Trafficking in Person Travel and Tourism", HtmlDiv.PropertyNames.TagInstance, "35", HtmlControl.PropertyNames.ControlType, "Pane");
             chcOffThemes.WaitForControlReady();
             Assert.AreEqual(true, chcOffThemes.Exists);
 
+            //Html chcOffThemes = new HtmlPane(browserWindow);
+            //chcOffThemes.SearchProperties.Add(HtmlDiv.PropertyNames.TagName, "DIV", HtmlDiv.PropertyNames.InnerText, "Themes American Studies Civilian Security Conflict Prevention, Mitigation, and Response Democracy/Good Governance/Rule of Law Diversity Entrepreneurship/Job Creation Environment Humanitarian Assistance, Disaster Mitigation Markets and Competitiveness Sustainable Economic Growth & Well-Being Trade & Investment Transitions in Frontline States Transnational Threats - Crime, Narcotics, Trafficking in Person Travel and Tourism", HtmlDiv.PropertyNames.TagInstance, "35", HtmlControl.PropertyNames.ControlType, "Pane");
+            //chcOffThemes.WaitForControlReady();
+            //Assert.AreEqual(true, chcOffThemes.Exists);
+
             //verify goals
             HtmlDiv chcOffGoals = new HtmlDiv(browserWindow);
-            chcOffGoals.SearchProperties.Add(HtmlDiv.PropertyNames.TagName, "DIV", HtmlDiv.PropertyNames.InnerText, "Goals Democracy and Human Rights Economic Development Global Economic Growth", HtmlDiv.PropertyNames.TagInstance, "38");
+            chcOffGoals.SearchProperties.Add(HtmlDiv.PropertyNames.TagName, "DIV", HtmlDiv.PropertyNames.InnerText, "Goals Democracy and Human Rights", HtmlDiv.PropertyNames.TagInstance, "38", HtmlControl.PropertyNames.ControlType, "Pane");
             chcOffGoals.WaitForControlReady();
             Assert.AreEqual(true, chcOffGoals.Exists);
 
             //verify POC(s)
             HtmlDiv chcOffPoc = new HtmlDiv(browserWindow);
-            chcOffPoc.SearchProperties.Add(HtmlDiv.PropertyNames.TagName, "DIV", HtmlDiv.PropertyNames.InnerText, "Points of Contact Cultural Heritage Center Main Line Maria Kouroupas", HtmlDiv.PropertyNames.TagInstance, "45");
+            chcOffPoc.SearchProperties.Add(HtmlDiv.PropertyNames.TagName, "DIV", HtmlDiv.PropertyNames.InnerText, "Points of Contact Cultural Heritage Center Main Line Maria Kouroupas", HtmlDiv.PropertyNames.TagInstance, "45", HtmlControl.PropertyNames.ControlType, "Pane");
             chcOffPoc.WaitForControlReady();
             Assert.AreEqual(true, chcOffPoc.Exists);
 
@@ -126,10 +131,10 @@ namespace ViewOfficesProgramsandBranches.Test
             Mouse.Click(chcBranchProgTab);
 
             //Identify Showing # - # of ##
-            HtmlDiv showBPList = new HtmlDiv(browserWindow);
-            showBPList.SearchProperties.Add(HtmlDiv.PropertyNames.TagName, "DIV", HtmlDiv.PropertyNames.InnerText, "Showing 1 - 10 of 10 programs", HtmlDiv.PropertyNames.TagInstance, "33");
-            showBPList.WaitForControlReady();
-            Assert.AreEqual(true, showBPList.Exists);
+            //HtmlDiv showBPList = new HtmlDiv(browserWindow);
+            //showBPList.SearchProperties.Add(HtmlDiv.PropertyNames.TagName, "DIV", HtmlDiv.PropertyNames.InnerText, "Showing 1 -", PropertyExpressionOperator.Contains, HtmlDiv.PropertyNames.TagInstance, "33");
+            //showBPList.WaitForControlReady();
+            //Assert.AreEqual(true, showBPList.Exists);
 
             //verify branches and programs tab section
             var connectionString = "Data Source=(local);User Id=ECA;Password=wisconsin-89;Database=ECA_Local;Pooling=False";
@@ -142,10 +147,15 @@ namespace ViewOfficesProgramsandBranches.Test
                 //var officeId = 1036;
 
                 var defaultSorter = new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending);
-                var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, defaultSorter);
+                var queryOperator = new QueryableOperator<OrganizationProgramDTO>(start, limit, defaultSorter);
                 var results = service.GetPrograms(1036, queryOperator);
-                var expectedString = String.Format("Showing {0} - {1} of {2} programs", start+1, limit, results.Total);
-                    Assert.AreEqual(results.Total, showBPList);
+                var expectedString = String.Format("Showing {0} - {1} of {2} programs", start +1, limit, results.Total);
+                //Identify Showing # - # of ##
+                HtmlDiv showBPList = new HtmlDiv(browserWindow);
+                showBPList.SearchProperties.Add(HtmlDiv.PropertyNames.TagName, "DIV", HtmlDiv.PropertyNames.InnerText, expectedString, HtmlDiv.PropertyNames.TagInstance, "33");
+                showBPList.WaitForControlReady();
+                Assert.AreEqual(true, showBPList.Exists);
+                Assert.AreEqual(expectedString, showBPList.InnerText);
 
             }
 

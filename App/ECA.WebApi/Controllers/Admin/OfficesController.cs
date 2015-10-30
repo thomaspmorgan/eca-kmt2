@@ -219,6 +219,7 @@ namespace ECA.WebApi.Controllers.Admin
                 var results = await service.GetOfficesAsync(
                     queryModel.ToQueryableOperator(
                         DEFAULT_OFFICE_SORTER,
+                        x => x.OfficeSymbol,
                         x => x.Name,
                         x => x.Description));
                 return Ok(results);
