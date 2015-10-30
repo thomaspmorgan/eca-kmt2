@@ -23,6 +23,7 @@ namespace ECA.Business.Service.Persons
     public class ParticipantPersonSevisService : DbContextService<EcaContext>, IParticipantPersonSevisService
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private readonly Action<int, object, Type> throwIfModelDoesNotExist;
 
         /// <summary>
         /// Creates a new ParticipantPersonService with the given context to operate against.
@@ -171,8 +172,73 @@ namespace ECA.Business.Service.Persons
             logger.Trace("Retrieved participantPersonSevises by array of participant Ids");
             return results;
         }
-            
+
         #endregion
 
+        #region update
+
+        /// <summary>
+        /// Updates a participant person SEVIS info with given updated SEVIS information.
+        /// </summary>
+        /// <param name="updatedParticipantPersonSevis">The updated participant person SEVIS info.</param>
+        public ParticipantPersonSevisDTO Update(UpdatedParticipantPersonSevis updatedParticipantPersonSevis)
+        {
+            var participantPerson = CreateGetParticipantPersonByIdQuery(updatedParticipantPersonSevis.ParticipantId).FirstOrDefault();
+            throwIfModelDoesNotExist(updatedParticipantPersonSevis.ParticipantId, participantPerson, typeof(ParticipantPerson));
+
+            DoUpdate(participantPerson, updatedParticipantPersonSevis);
+            return  this.GetParticipantPersonSevisById(updatedParticipantPersonSevis.ParticipantId);
+        }
+
+        /// <summary>
+        /// Updates a participant person SEVIS info with given updated SEVIS information.
+        /// </summary>
+        /// <param name="updatedParticipantPersonSevis">The updated participant person SEVIS info.</param>
+        /// <returns>The task.</returns>
+        public async Task<ParticipantPersonSevisDTO> UpdateAsync(UpdatedParticipantPersonSevis updatedParticipantPersonSevis)
+        {
+            var participantPerson = await CreateGetParticipantPersonByIdQuery(updatedParticipantPersonSevis.ParticipantId).FirstOrDefaultAsync();
+            throwIfModelDoesNotExist(updatedParticipantPersonSevis.ParticipantId, participantPerson, typeof(ParticipantPerson));
+
+            DoUpdate(participantPerson, updatedParticipantPersonSevis);
+
+            return await this.GetParticipantPersonSevisByIdAsync(updatedParticipantPersonSevis.ParticipantId);
+        }
+
+        private void DoUpdate(ParticipantPerson participantPerson, UpdatedParticipantPersonSevis updatedParticipantPersonSevis)
+        {
+            //participantPersonValidator.ValidateUpdate(GetUpdatedPersonParticipantValidationEntity(participantType));
+            updatedParticipantPersonSevis.Audit.SetHistory(participantPerson);
+
+            participantPerson.SevisId = updatedParticipantPersonSevis.SevisId;
+            participantPerson.FieldOfStudyId = updatedParticipantPersonSevis.FieldOfStudyId;
+            participantPerson.ProgramCategoryId = updatedParticipantPersonSevis.ProgramCategoryId;
+            participantPerson.PositionId = updatedParticipantPersonSevis.PositionId;
+            participantPerson.IsSentToSevisViaRTI = updatedParticipantPersonSevis.IsSentToSevisViaRTI;
+            participantPerson.IsValidatedViaRTI = updatedParticipantPersonSevis.IsValidatedViaRTI;
+            participantPerson.IsCancelled = updatedParticipantPersonSevis.IsCancelled;
+            participantPerson.IsDS2019Printed = updatedParticipantPersonSevis.IsDS2019Printed;
+            participantPerson.IsNeedsUpdate = updatedParticipantPersonSevis.IsNeedsUpdate;
+            participantPerson.IsDS2019SentToTraveler = updatedParticipantPersonSevis.IsDS2019SentToTraveler;
+            participantPerson.StartDate = updatedParticipantPersonSevis.StartDate;
+            participantPerson.EndDate = updatedParticipantPersonSevis.EndDate;
+            participantPerson.FundingSponsor = updatedParticipantPersonSevis.FundingSponsor;
+            participantPerson.FundingPersonal = updatedParticipantPersonSevis.FundingPersonal;
+            participantPerson.FundingVisGovt = updatedParticipantPersonSevis.FundingVisGovt;
+            participantPerson.FundingVisBNC = updatedParticipantPersonSevis.FundingVisBNC;
+            participantPerson.FundingGovtAgency1 = updatedParticipantPersonSevis.FundingGovtAgency1;
+            participantPerson.FundingGovtAgency2 = updatedParticipantPersonSevis.FundingGovtAgency2;
+            participantPerson.FundingIntlOrg1 = updatedParticipantPersonSevis.FundingIntlOrg1;
+            participantPerson.FundingIntlOrg2 = updatedParticipantPersonSevis.FundingIntlOrg2;
+            participantPerson.FundingOther = updatedParticipantPersonSevis.FundingOther;
+            participantPerson.FundingTotal = updatedParticipantPersonSevis.FundingTotal;
+        }
+
+        private IQueryable<ParticipantPerson> CreateGetParticipantPersonByIdQuery(int participantId)
+        {
+            return Context.ParticipantPersons.Where(x => x.ParticipantId == participantId);
+        }
+
+        #endregion
     }
 }
