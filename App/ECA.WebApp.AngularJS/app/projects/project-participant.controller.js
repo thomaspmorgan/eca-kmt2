@@ -300,10 +300,12 @@ angular.module('staticApp')
           return ParticipantPersonsService.getParticipantPersonsById(participantId)
           .then(function (data) {
               if (data.data.homeInstitution) {
+                  data.data.homeInstitutionId = data.data.homeInstitution.organizationId;
                   data.data.homeInstitution.href = StateService.getOrganizationState(data.data.homeInstitution.organizationId);
                   data.data.homeInstitutionAddress = getPreferredAddress(data.data.homeInstitution, data.data.homeInstitutionAddressId);
               }
               if (data.data.hostInstitution) {
+                  data.data.hostInstitutionId = data.data.hostInstitution.organizationId;
                   data.data.hostInstitution.href = StateService.getOrganizationState(data.data.hostInstitution.organizationId);
                   data.data.hostInstitutionAddress = getPreferredAddress(data.data.hostInstitution, data.data.hostInstitutionAddressId);
               }

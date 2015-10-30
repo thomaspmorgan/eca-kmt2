@@ -180,7 +180,10 @@
     <Compile Include="Service\Fundings\EditedMoneyFlow.cs" />
     <Compile Include="Service\Fundings\MoneyFlowSourceRecipientTypeService.cs" />
     <Compile Include="Service\Admin\ISnapshotService.cs" />
+    <Compile Include="Service\Lookup\IParticipantStatusService.cs" />
     <Compile Include="Service\Lookup\ISevisCommStatusService.cs" />
+    <Compile Include="Service\Lookup\ParticipantStatusDTO.cs" />
+    <Compile Include="Service\Lookup\ParticipantStatusService.cs" />
     <Compile Include="Service\Lookup\SevisCommStatusDTO.cs" />
     <Compile Include="Service\Lookup\SevisCommStatusService.cs" />
     <Compile Include="Service\Lookup\PhoneNumberTypeService.cs" />
