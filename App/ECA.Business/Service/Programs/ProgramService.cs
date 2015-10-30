@@ -259,6 +259,43 @@ namespace ECA.Business.Service.Programs
         }
 
         /// <summary>
+        /// Returns all child programs of the program with the given id, including the parent.
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
+        public List<OrganizationProgramDTO> GetAllChildProgramsWithParent(int programId)
+        {
+            var hierarchyPrograms = CreateGetProgramsHierarchySqlQuery().ToArray();
+            return DoGetAllChildProgramsWithParent(programId, hierarchyPrograms);
+        }
+
+        /// <summary>
+        /// Returns all child programs of the program with the given id, including the parent.
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
+        public async Task<List<OrganizationProgramDTO>> GetAllChildProgramsWithParentAsync(int programId)
+        {
+            var hierarchyPrograms = await CreateGetProgramsHierarchySqlQuery().ToArrayAsync();
+            return DoGetAllChildProgramsWithParent(programId, hierarchyPrograms);
+        }
+
+        private List<OrganizationProgramDTO> DoGetAllChildProgramsWithParent(int programId, IEnumerable<OrganizationProgramDTO> hierarchyPrograms)
+        {
+            var program = hierarchyPrograms.Where(x => x.ProgramId == programId).FirstOrDefault();
+            if (program == null)
+            {
+                return new List<OrganizationProgramDTO>();
+            }
+            else
+            {
+                var childPrograms = hierarchyPrograms.Where(x => x.Path.IndexOf(program.Path) == 0).ToList();
+                return childPrograms;
+            }
+        }
+
+
+        /// <summary>
         /// Returns a paged, filtered, and sorted list of programs that could be a parent to the program with the given id.
         /// </summary>
         /// <param name="programId">The id of the program to get valid parent programs for.</param>
