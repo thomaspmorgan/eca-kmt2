@@ -104,6 +104,13 @@ angular.module('staticApp')
               isNull: function (propertyName) {
                   return this._addFilter(ConstantsService.isNullComparisonType, propertyName);
               },
+              isTrue: function(propertyName){
+                  return this.equal(propertyName, true)
+              },
+              isFalse: function(propertyName){
+                  return this.equal(propertyName, false)
+              },
+
               toParams: function () {
                   return {
                       start: this.start,

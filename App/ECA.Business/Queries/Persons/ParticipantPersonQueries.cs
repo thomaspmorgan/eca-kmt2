@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Queries.Admin;
 
 namespace ECA.Business.Queries.Persons
 {
@@ -24,6 +25,8 @@ namespace ECA.Business.Queries.Persons
         public static IQueryable<SimpleParticipantPersonDTO> CreateGetSimpleParticipantPersonsDTOQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
+
+            var organizationQuery = OrganizationQueries.CreateGetOrganizationDTOsQuery(context);
             var query = (from p in context.ParticipantPersons
                          select new SimpleParticipantPersonDTO
                          {
@@ -31,89 +34,17 @@ namespace ECA.Business.Queries.Persons
                              SevisId = p.SevisId,
                              ProjectId = p.Participant.ProjectId,
                              StudyProject = p.StudyProject,
+                             HomeInstitutionAddressId = p.HomeInstitutionAddressId,
+                             HostInstitutionAddressId = p.HostInstitutionAddressId,
                              FieldOfStudy = p.FieldOfStudy != null ? p.FieldOfStudy.Description : null,
                              ProgramCategory = p.ProgramCategory != null ? p.ProgramCategory.Description : null,
                              Position = p.Position != null ? p.Position.Description : null,
                              ParticipantType = p.Participant.ParticipantType != null ? p.Participant.ParticipantType.Name : null,
+                             ParticipantTypeId = p.Participant.ParticipantTypeId,
                              ParticipantStatus = p.Participant.Status != null ? p.Participant.Status.Status : null,
-                             HomeInstitution = p.HomeInstitution != null ? new InstitutionDTO
-                             {
-                                 Name = p.HomeInstitution.Name,
-                                 Addresses = (from address in p.HomeInstitution.Addresses
-                                              let addressType = address.AddressType
-
-                                              let location = address.Location
-
-                                              let hasCity = location.City != null
-                                              let city = location.City
-
-                                              let hasCountry = location.Country != null
-                                              let country = location.Country
-
-                                              let hasDivision = location.Division != null
-                                              let division = location.Division
-
-                                              select new AddressDTO
-                                              {
-                                                  AddressId = address.AddressId,
-                                                  AddressType = addressType.AddressName,
-                                                  AddressTypeId = addressType.AddressTypeId,
-                                                  City = hasCity ? city.LocationName : null,
-                                                  CityId = location.CityId,
-                                                  Country = hasCountry ? country.LocationName : null,
-                                                  CountryId = location.CountryId,
-                                                  Division = hasDivision ? division.LocationName : null,
-                                                  DivisionId = location.DivisionId,
-                                                  IsPrimary = address.IsPrimary,
-                                                  LocationId = location.LocationId,
-                                                  LocationName = location.LocationName,
-                                                  OrganizationId = address.OrganizationId,
-                                                  PostalCode = location.PostalCode,
-                                                  PersonId = address.PersonId,
-                                                  Street1 = location.Street1,
-                                                  Street2 = location.Street2,
-                                                  Street3 = location.Street3,
-                                              }).OrderByDescending(a => a.IsPrimary).ThenBy(a => a.AddressType),
-                             } : null,
-                             HostInstitution = p.HostInstitution != null ? new InstitutionDTO
-                             {
-                                 Name = p.HostInstitution.Name,
-                                 Addresses = (from address in p.HostInstitution.Addresses
-                                              let addressType = address.AddressType
-
-                                              let location = address.Location
-
-                                              let hasCity = location.City != null
-                                              let city = location.City
-
-                                              let hasCountry = location.Country != null
-                                              let country = location.Country
-
-                                              let hasDivision = location.Division != null
-                                              let division = location.Division
-
-                                              select new AddressDTO
-                                              {
-                                                  AddressId = address.AddressId,
-                                                  AddressType = addressType.AddressName,
-                                                  AddressTypeId = addressType.AddressTypeId,
-                                                  City = hasCity ? city.LocationName : null,
-                                                  CityId = location.CityId,
-                                                  Country = hasCountry ? country.LocationName : null,
-                                                  CountryId = location.CountryId,
-                                                  Division = hasDivision ? division.LocationName : null,
-                                                  DivisionId = location.DivisionId,
-                                                  IsPrimary = address.IsPrimary,
-                                                  LocationId = location.LocationId,
-                                                  LocationName = location.LocationName,
-                                                  OrganizationId = address.OrganizationId,
-                                                  PostalCode = location.PostalCode,
-                                                  PersonId = address.PersonId,
-                                                  Street1 = location.Street1,
-                                                  Street2 = location.Street2,
-                                                  Street3 = location.Street3,
-                                              }).OrderByDescending(a => a.IsPrimary).ThenBy(a => a.AddressType),
-                             } : null
+                             ParticipantStatusId = p.Participant.ParticipantStatusId,
+                             HomeInstitution = organizationQuery.Where(x => x.OrganizationId == p.HomeInstitutionId).FirstOrDefault(),
+                             HostInstitution = organizationQuery.Where(x => x.OrganizationId == p.HostInstitutionId).FirstOrDefault(),
                          });
             return query;
         }
