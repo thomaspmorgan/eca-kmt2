@@ -329,6 +329,21 @@ angular.module('staticApp')
           });
       };
 
+      function saveSevisInfoById(participantId) {
+          return ParticipantPersonsSevisService.updateParticipantPersonsSevis($scope.sevisInfo[participantId])
+          .then(function (data) {
+              $scope.sevisInfo[participantId] = data.data;
+              $scope.sevisInfo[participantId].show = true;
+          }, function (error) {
+              $log.error('Unable to save participant SEVIS info for participantId: ' + participantId);
+              NotificationService.showErrorMessage('Unable to load participant SEVIS info for ' + participantId + '.');
+          });
+      };
+
+      $scope.saveSevisInfo = function (participantId) {
+          saveSevisInfoById(participantId);
+      };
+
       $scope.onSevisTabSelected = function (participantId) {
           $scope.view.tabSevis = true;
           loadSevisInfo(participantId);

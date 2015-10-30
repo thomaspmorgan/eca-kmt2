@@ -10,21 +10,21 @@ namespace ECA.Business.Service.Persons
     /// <summary>
     /// An IParticipantPersonSevisService is capable of performing crud operations on participants and their SEVIS information.
     /// </summary>
-    public interface IParticipantPersonSevisService: ISaveable 
+    public interface IParticipantPersonsSevisService: ISaveable 
     {
         /// <summary>
         /// Returns the participantPersonSevises in the system.
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The participantPersonSevises.</returns>
-        PagedQueryResults<ParticipantPersonSevisDTO> GetParticipantPersonSevises(QueryableOperator<ParticipantPersonSevisDTO> queryOperator);
+        PagedQueryResults<ParticipantPersonSevisDTO> GetParticipantPersonsSevis(QueryableOperator<ParticipantPersonSevisDTO> queryOperator);
 
         /// <summary>
         /// Returns the participantPersonSevises in the system.
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The participantPersonSevises.</returns>
-        Task<PagedQueryResults<ParticipantPersonSevisDTO>> GetParticipantPersonSevisesAsync(QueryableOperator<ParticipantPersonSevisDTO> queryOperator);
+        Task<PagedQueryResults<ParticipantPersonSevisDTO>> GetParticipantPersonsSevisAsync(QueryableOperator<ParticipantPersonSevisDTO> queryOperator);
 
         /// <summary>
         /// Returns the participantPersonSevises for the project with the given id in the system.
@@ -32,7 +32,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="queryOperator">The query operator.</param>
         /// <param name="projectId">The id of the project.</param>
         /// <returns>The participantPersonSevises.</returns>
-        PagedQueryResults<ParticipantPersonSevisDTO> GetParticipantPersonSevisesByProjectId(int projectId, QueryableOperator<ParticipantPersonSevisDTO> queryOperator);
+        PagedQueryResults<ParticipantPersonSevisDTO> GetParticipantPersonsSevisByProjectId(int projectId, QueryableOperator<ParticipantPersonSevisDTO> queryOperator);
 
         /// <summary>
         /// Returns the participantPersonSevises for the project with the given id in the system.
@@ -40,21 +40,21 @@ namespace ECA.Business.Service.Persons
         /// <param name="queryOperator">The query operator.</param>
         /// <param name="projectId">The id of the project.</param>
         /// <returns>The participantPersonSevises.</returns>
-        Task<PagedQueryResults<ParticipantPersonSevisDTO>> GetParticipantPersonSevisesByProjectIdAsync(int projectId, QueryableOperator<ParticipantPersonSevisDTO> queryOperator);
+        Task<PagedQueryResults<ParticipantPersonSevisDTO>> GetParticipantPersonsSevisByProjectIdAsync(int projectId, QueryableOperator<ParticipantPersonSevisDTO> queryOperator);
 
         /// <summary>
         /// Returns the participantPersonSevis by id
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>The participantPersonSevis</returns>
-        ParticipantPersonSevisDTO GetParticipantPersonSevisById(int participantId);
+        ParticipantPersonSevisDTO GetParticipantPersonsSevisById(int participantId);
 
         /// <summary>
         /// Returns the participantPersonSevis by id asyncronously
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>The participantPersonSevis</returns>
-        Task<ParticipantPersonSevisDTO> GetParticipantPersonSevisByIdAsync(int participantId);
+        Task<ParticipantPersonSevisDTO> GetParticipantPersonsSevisByIdAsync(int participantId);
 
         /// Sevis Comm Status
 
@@ -63,31 +63,31 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The participantPersonSevises.</returns>
-        PagedQueryResults<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonSevisCommStatuses(QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator);
+        PagedQueryResults<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonsSevisCommStatuses(QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator);
 
         /// <summary>
         /// Returns the participantPersonSevises in the system.
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The participantPersonSevises.</returns>
-        Task<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>> GetParticipantPersonSevisCommStatusesAsync(QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator);
+        Task<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>> GetParticipantPersonsSevisCommStatusesAsync(QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator);
 
         /// <summary>
         /// Returns a participantPersonSevisCommStatus
         /// </summary>
         /// <param name="participantId">The participantId to lookup</param>
         /// <returns>The participantPersonSevis</returns>
-        PagedQueryResults<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonSevisCommStatusesById(int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator);
+        PagedQueryResults<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonsSevisCommStatusesById(int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator);
 
         /// <summary>
         /// Returns a participantPersonSevisCommStatus asyncronously
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>The participantPersonSevisCommStatuses</returns>
-        Task<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>> GetParticipantPersonSevisCommStatusesByIdAsync(int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator);
+        Task<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>> GetParticipantPersonsSevisCommStatusesByIdAsync(int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator);
 
 
-        IQueryable<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonSevisCommStatusesByParticipantIds(int[] participantIds);
+        IQueryable<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonsSevisCommStatusesByParticipantIds(int[] participantIds);
 
         /// <summary>
         /// Updates a participant person SEVIS info with given updated SEVIS information.

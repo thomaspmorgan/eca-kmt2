@@ -42,24 +42,24 @@
 <div class="row row2" ng-show="view.DoSStatus">
     <div class="col-md-3">&nbsp;</div>
     <div class="form-group col-md-3">
-        <input type="checkbox" ng-model="sevisinfo.isSentToSevisViaRTI" /> Sent to DHS via RTI
+        <input type="checkbox" ng-model="sevisinfo.isSentToSevisViaRTI" ng-change="update(participantid)"/> Sent to DHS via RTI
     </div>
     <div class="form-group col-md-6">
-        <input type="checkbox" ng-model="sevisinfo.isCancelled" /> Cancelled
+        <input type="checkbox" ng-model="sevisinfo.isCancelled" ng-change="update(participantid)"/> Cancelled
     </div>
     <div class="col-md-3">&nbsp;</div>
     <div class="form-group col-md-3">
-        <input type="checkbox" ng-model="sevisinfo.isValidatedViaRTI" /> Validated via RTI
+        <input type="checkbox" ng-model="sevisinfo.isValidatedViaRTI" ng-change="update(participantid)" /> Validated via RTI
     </div>
     <div class="form-group col-md-6">
-        <input type="checkbox" ng-model="sevisinfo.isNeedsUpdate" /> Needs Update
+        <input type="checkbox" ng-model="sevisinfo.isNeedsUpdate" ng-change="update(participantid)"/> Needs Update
     </div>
     <div class="col-md-3">&nbsp;</div>
     <div class="form-group col-md-3">
-        <input type="checkbox" ng-model="sevisinfo.isdS2019Printed" /> DS 2019 Printed
+        <input type="checkbox" ng-model="sevisinfo.isdS2019Printed" ng-change="update(participantid)"/> DS 2019 Printed
     </div>
     <div class="form-group col-md-6">
-        <input type="checkbox" ng-model="sevisinfo.isdS2019SentToTraveler" /> DS 2019 Sent to Traveler
+        <input type="checkbox" ng-model="sevisinfo.isdS2019SentToTraveler" ng-change="update(participantid)"/> DS 2019 Sent to Traveler
     </div>
 </div>
 <div class="form-group row row2">

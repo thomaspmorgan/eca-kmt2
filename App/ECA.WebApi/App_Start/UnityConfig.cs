@@ -164,7 +164,7 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<IPhoneNumberService, PhoneNumberService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPhoneNumberTypeService, PhoneNumberTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPhoneNumberHandler, PhoneNumberHandler>(new HierarchicalLifetimeManager());
-            container.RegisterType<IParticipantPersonSevisService, ParticipantPersonSevisService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IParticipantPersonsSevisService, ParticipantPersonsSevisService>(new HierarchicalLifetimeManager());
             container.RegisterType<ISnapshotService, SnapshotService>(new HierarchicalLifetimeManager());
             container.RegisterType<IParticipantStudentVisitorService, ParticipantStudentVisitorService>(new HierarchicalLifetimeManager());
         }

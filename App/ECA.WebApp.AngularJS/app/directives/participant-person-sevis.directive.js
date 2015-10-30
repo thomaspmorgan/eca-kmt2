@@ -18,7 +18,8 @@
             scope: {
                 participantid: '@',
                 sevisinfo: '=',
-                active: '='
+                active: '=',
+                update: '&'
             },
             templateUrl: 'app/directives/participant-person-sevis.directive.html'
         };

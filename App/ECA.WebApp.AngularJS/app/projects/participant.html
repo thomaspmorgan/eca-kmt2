@@ -234,7 +234,7 @@
                                     </div>
                                 </tab>
                                 <tab heading="SEVIS Information" class="tab" select="onSevisTabSelected(participant.participantId)" deselect="view.tabSevis=false">
-                                    <participant-person-sevis participantid="{{participant.participantId}}" active="view.tabSevis" sevisinfo="sevisInfo[participant.participantId]"/>
+                                    <participant-person-sevis participantid="{{participant.participantId}}" active="view.tabSevis" sevisinfo="sevisInfo[participant.participantId]" update="saveSevisInfo(participantId)"/>
                                 </tab>
                                 <tab heading="Student Visitor Data" class="tab" select="onStudentVisitorTabSelected(participant.participantId)" deselect="view.tabStudentVisitor=false">
                                     <participant-student-visitor participantid="{{participant.participantId}}" active="view.tabStudentVisitor" studentvisitorinfo="studentVisitorInfo[participant.participantId]"/>
