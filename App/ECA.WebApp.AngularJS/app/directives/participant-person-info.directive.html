@@ -20,11 +20,12 @@
         </div>
     </div>
     <form name="view.participantInfoForm">
-        <div class="row row2">
+        <div class="row row2 form-group">
             <div class="col-md-6">
                 <div class="col-md-4 title-label">Status</div>
                 <div class="col-md-8" ng-show="personinfo.participantStatus">
-                    <select ng-options="participantStatus.id as participantStatus.name for participantStatus in view.participantStatii"
+                    <select class="form-control"
+                            ng-options="participantStatus.id as participantStatus.name for participantStatus in view.participantStatii"
                             ng-model="personinfo.participantStatusId" />
 
                 </div>
@@ -32,12 +33,13 @@
             <div class="col-md-6">
                 <div class="col-md-4 title-label">Participant Type</div>
                 <div class="col-md-8" ng-show="personinfo.participantType">
-                    <select ng-options="participantType.id as participantType.name for participantType in view.participantTypes"
+                    <select class="form-control"
+                            ng-options="participantType.id as participantType.name for participantType in view.participantTypes"
                             ng-model="personinfo.participantTypeId" />
                 </div>
             </div>
         </div>
-        <div class="row row2">
+        <div class="row row2 form-group">
             <div class="col-md-6">
                 <div class="col-md-4 title-label">Home Institution</div>
                 <div class="col-md-8">
@@ -53,41 +55,14 @@
                         </ui-select-choices>
                     </ui-select>
 
-                    <ui-select ng-model="personinfo.homeInstitutionAddressId"
-                               style="height:200px;"
+                    <ui-select multiple 
+                               ng-model="view.selectedHomeInstitutionAddresses"
+                               on-select="view.onSelectHomeInstitutionAddress($item, $model)"
+                               limit="1"
+                               style="margin-top:20px;"
                                theme="select2">
-                        <ui-select-match placeholder="Select a home institution address..." allow-clear="true">
-
-                            <div class="mute">
-                                hello
-                            </div>
-                            <div class="mute">
-                                world
-                            </div>
-
-                            <!--<div>
-                                <div ng-show="$select.selected.street1">
-                                    {{$select.selected.street1}}
-                                </div>
-                                <div ng-show="$select.selected.street2" >
-                                    {{$select.selected.street2}}
-                                </div>
-                                <div ng-show="$select.selected.street3">
-                                    {{$select.selected.street3}}
-                                </div>
-                                <div>
-                                    <span ng-show="$select.selected.city">{{$select.selected.city}}</span>
-                                    <span ng-show="$select.selected.city && $select.selected.division">, </span>
-                                    <span ng-show="$select.selected.division">{{$select.selected.division}}</span>
-                                    <span ng-show="$select.selected.postalCode">{{$select.selected.postalCode}}</span>
-                                </div>
-                                <div>
-                                    <span ng-show="$select.selected.country">{{$select.selected.country}}</span>
-                                </div>
-                            </div>-->
-
-
-                            <!--<div>
+                        <ui-select-match placeholder="Select 1 home institution address...">
+                            <div>
                                 <div ng-show="$item.street1">
                                     {{$item.street1}}
                                 </div>
@@ -106,14 +81,9 @@
                                 <div>
                                     <span ng-show="$item.country">{{$item.country}}</span>
                                 </div>
-                            </div>-->
-
-
-
-
+                            </div>
                         </ui-select-match>
-                        <ui-select-choices repeat="address.addressId as address in view.homeInstitutionAddresses track by address.addressId" refresh="view.getInstitutionAddresses(personinfo.homeInstitutionId)">
-
+                        <ui-select-choices repeat="address.addressId as address in view.homeInstitutionAddresses track by address.addressId">
                             <div ng-show="address.street1">
                                 {{address.street1}}
                             </div>
@@ -132,7 +102,6 @@
                             <div>
                                 <span ng-show="address.country">{{address.country}}</span>
                             </div>
-
                         </ui-select-choices>
                     </ui-select>
                 </div>
@@ -144,7 +113,7 @@
                 </div>
                 <div class="col-md-8" ng-show="personinfo.hostInstitution">
                     <a ng-show="personinfo.hostInstitution.href" href="{{personinfo.hostInstitution.href}}">{{personinfo.hostInstitution.name}}</a>
-                    <div style="margin-top:10px;">
+                    <div style="margin-top:20px;">
                         <div ng-show="personinfo.hostInstitutionAddress.street1">
                             {{personinfo.hostInstitutionAddress.street1}}
                         </div>
@@ -176,9 +145,9 @@
             <h5>General</h5>
         </div>
         <div class="col-md-4 text-right">
-            <!--<a ng-click="personinfo.isInfoTabInEditMode = !personinfo.isInfoTabInEditMode">
+            <a ng-click="personinfo.isInfoTabInEditMode = !personinfo.isInfoTabInEditMode">
                 <i class="material-icons md-dark md-24">edit</i>
-            </a>-->
+            </a>
         </div>
     </div>
     <div class="row row2">
@@ -230,7 +199,7 @@
             </div>
             <div class="col-md-8" ng-show="personinfo.hostInstitution">
                 <a ng-show="personinfo.hostInstitution.href" href="{{personinfo.hostInstitution.href}}">{{personinfo.hostInstitution.name}}</a>
-                <div style="margin-top:10px;">
+                <div style="margin-top:20px;">
                     <div ng-show="personinfo.hostInstitutionAddress.street1">
                         {{personinfo.hostInstitutionAddress.street1}}
                     </div>

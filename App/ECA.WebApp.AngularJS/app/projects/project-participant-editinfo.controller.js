@@ -33,6 +33,7 @@ angular.module('staticApp')
       $scope.view.hostInstitutions = [];
       $scope.view.homeInstitutionAddresses = [];
       $scope.view.hostInstitutionsAddresses = [];
+      $scope.view.selectedHomeInstitutionAddresses = [];
       $scope.view.isLoadingEditParticipantInfoRequiredData = false;
 
       $scope.originalPersonInfo = angular.copy($scope.personinfo);
@@ -42,11 +43,20 @@ angular.module('staticApp')
       }
 
       $scope.view.onHomeInstitutionSelect = function ($item, $model) {
+          $scope.view.selectedHomeInstitutionAddresses = [];
           $scope.personinfo.homeInstitutionAddressId = null;
-          $scope.view.getInstitutionAddresses($item.organizationId);
+          if ($model) {
+              $scope.personinfo.homeInstitutionId = $model;
+              return $scope.view.getInstitutionAddresses($model);
+          }
+          else {
+              $scope.personinfo.homeInstitutionId = null;
+          }
       }
 
-
+      $scope.view.onSelectHomeInstitutionAddress = function ($item, $model) {
+          $scope.personinfo.homeInstitutionAddressId = $model;
+      }
 
       $scope.view.getInstitutionAddresses = function (institutionId) {
           return loadOrganizationById(institutionId)
@@ -55,7 +65,7 @@ angular.module('staticApp')
               return $scope.view.homeInstitutionAddresses;
           });
       }
-      
+
       var projectId = $stateParams.projectId;
       var limit = 300;
       var searchLimit = 10;
@@ -141,19 +151,34 @@ angular.module('staticApp')
                 });
       }
 
-      function initializeHomeInstitution() {
+      function initializeHomeInstitution(organization) {
           var homeInstitution = $scope.personinfo.homeInstitution;
           if (homeInstitution) {
               homeInstitution.id = homeInstitution.organizationId;
-              $scope.view.homeInstitutions.push(homeInstitution);
+              return loadOrganizationById(homeInstitution.organizationId)
+              .then(function (org) {
+                  $scope.view.homeInstitutions.push(org);
+                  angular.forEach(org.addresses, function (orgAddress, index) {
+                      $scope.view.homeInstitutionAddresses.push(orgAddress);
+                  });
+                  if ($scope.personinfo.homeInstitutionAddressId) {
+                      $scope.view.selectedHomeInstitutionAddresses.push($scope.personinfo.homeInstitutionAddressId);
+                  }
+
+                  return org;
+              });
+          }
+          else {
+              var dfd = $q.defer();
+              dfd.resolve();
+              return dfd.promise;
           }
       }
 
-
       $scope.view.isLoadingEditParticipantInfoRequiredData = true;
-      $q.all([loadParticipantTypes(), loadParticipantStatii()])
+      $q.all([loadParticipantTypes(), loadParticipantStatii(), initializeHomeInstitution($scope.personinfo.homeInstitution)])
       .then(function (results) {
-          initializeHomeInstitution();
+          //initializeHomeInstitution();
           $scope.view.isLoadingEditParticipantInfoRequiredData = false;
       })
       .catch(function () {
