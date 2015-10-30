@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="IVLP Oracle Dataset 2 Organization and Program Load"
   DTS:PackageType="5"
-  DTS:VersionBuild="170"
-  DTS:VersionGUID="{24077F41-517D-47A4-BC1C-5376EBB71745}">
+  DTS:VersionBuild="180"
+  DTS:VersionGUID="{140D7572-5227-439D-A0A6-E388F6AE5D93}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -47,7 +47,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADx/Wjen5muUF16vMo1ADS5B+tuZPzT7x4xObcYJUjTrwAAAAAOgAAAAAIAACAAAACkUZgQchT9SzV9fslLQZbyIoMifKvSv47Du1dqOoPNhiAAAABm79CGcpHhoTgTJyZW6nR0TI1F5hTF03XW+RsXMFdBuEAAAAB5IBogG/5vfW2xzSOzQK3OkMrLBIQYxVys0cjwoG02U8uIKdKRwEIdRKcNRWLNoAB8CgaWJQ3r06cuchMj1RZK</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAA1Us4dbPnV+AJdkn80Y6yjalWZuNJRuEnZFkm3y7N11AAAAAAOgAAAAAIAACAAAADfawX0FvUNWqxuUsfsw/srD5xe8knii8StFDtphuL+kSAAAAAleiy+iGOfAuoEP5e4yP+MLg/OenG4qsRiBgUsBs0KU0AAAAAvmmwoFzxU48TrmBEJWxWq3HLNgVZuVa/Mviuqld+bnYCUN4B1DPp0zJI4MpuyVM0brT0fevzE8z2xF5cSUDia</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -808,7 +808,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[dbo].[ECA_Local_IVLP_KMT_Program_XREF_Interim]</property>
+                  name="OpenRowset">[dbo].[ECA_IVLP_KMT_Program_XREF_Interim]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -851,8 +851,8 @@
               <connections>
                 <connection
                   refId="Package\Create IVLP Program Interim XREF (Completed)\IVLP Program Mapping XREF.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
+                  connectionManagerID="{FF1415A8-7007-4D37-8D35-38ED28116B2F}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_XREF_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -1294,8 +1294,8 @@
               <connections>
                 <connection
                   refId="Package\Create IVLP Program Interim XREF (Completed)\IVLP Projects (Oracle).Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[ecaoracle2.cloudapp.net/ECA.system]"
-                  connectionManagerRefId="Package.ConnectionManagers[ecaoracle2.cloudapp.net/ECA.system]"
+                  connectionManagerID="{383B9373-8279-4C8A-9356-0030112FB2F3}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_Oracle]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -2016,7 +2016,7 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Create IVLP to KMT Organization Mapping XREF Table"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -2498,8 +2498,8 @@
               <connections>
                 <connection
                   refId="Package\Create New Organizations (Completed)\IVLP Organization (Oracle).Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[ecaoracle2.cloudapp.net/ECA.system]"
-                  connectionManagerRefId="Package.ConnectionManagers[ecaoracle2.cloudapp.net/ECA.system]"
+                  connectionManagerID="{383B9373-8279-4C8A-9356-0030112FB2F3}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_Oracle]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -2667,8 +2667,8 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
               <connections>
                 <connection
                   refId="Package\Create New Organizations (Completed)\Lookup Existing Organizations.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerID="{29B10102-85DE-4811-99A5-00AE4866F2C8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -2827,8 +2827,8 @@ where UPPER([refTable].[OrganizationTypeName]) = UPPER(?)</property>
               <connections>
                 <connection
                   refId="Package\Create New Organizations (Completed)\Lookup OrganizationTypeId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerID="{29B10102-85DE-4811-99A5-00AE4866F2C8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -3046,8 +3046,8 @@ where UPPER([refTable].[OrganizationTypeName]) = UPPER(?)</property>
               <connections>
                 <connection
                   refId="Package\Create New Organizations (Completed)\Write to Organization Table.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerID="{29B10102-85DE-4811-99A5-00AE4866F2C8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -3573,8 +3573,8 @@ where UPPER([refTable].[OrganizationTypeName]) = UPPER(?)</property>
               <connections>
                 <connection
                   refId="Package\Create Organization XREF Data (Completed)\IVLP_Organization (Oracle).Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[ecaoracle2.cloudapp.net/ECA.system]"
-                  connectionManagerRefId="Package.ConnectionManagers[ecaoracle2.cloudapp.net/ECA.system]"
+                  connectionManagerID="{383B9373-8279-4C8A-9356-0030112FB2F3}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_Oracle]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -3806,7 +3806,7 @@ where UPPER([refTable].[OrganizationTypeName]) = UPPER(?)</property>
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[dbo].[ECA_Local_IVLP_KMT_Organization_XREF_Final]</property>
+                  name="OpenRowset">[dbo].[ECA_IVLP_KMT_Organization_XREF_Final]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -3849,8 +3849,8 @@ where UPPER([refTable].[OrganizationTypeName]) = UPPER(?)</property>
               <connections>
                 <connection
                   refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
+                  connectionManagerID="{FF1415A8-7007-4D37-8D35-38ED28116B2F}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_XREF_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -4189,8 +4189,8 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
               <connections>
                 <connection
                   refId="Package\Create Organization XREF Data (Completed)\Lookup ECA Organization Name.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerID="{29B10102-85DE-4811-99A5-00AE4866F2C8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -6180,8 +6180,8 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
               <connections>
                 <connection
                   refId="Package\Create Program Final XREF ProgramId (Completed)\Lookup ECA-KMT ProgramId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerID="{29B10102-85DE-4811-99A5-00AE4866F2C8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -6444,7 +6444,7 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[dbo].[ECA_Local_IVLP_KMT_Program_XREF_Final]</property>
+                  name="OpenRowset">[dbo].[ECA_IVLP_KMT_Program_XREF_Final]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -6487,8 +6487,8 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
               <connections>
                 <connection
                   refId="Package\Create Program Final XREF ProgramId (Completed)\Program Final XREF.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
+                  connectionManagerID="{FF1415A8-7007-4D37-8D35-38ED28116B2F}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_XREF_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -7027,7 +7027,7 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[dbo].[ECA_Local_IVLP_KMT_Program_XREF_Interim]</property>
+                  name="OpenRowset">[dbo].[ECA_IVLP_KMT_Program_XREF_Interim]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -7062,8 +7062,8 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
               <connections>
                 <connection
                   refId="Package\Create Program Final XREF ProgramId (Completed)\Program Interim XREF Data.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
+                  connectionManagerID="{FF1415A8-7007-4D37-8D35-38ED28116B2F}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_XREF_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -9384,12 +9384,12 @@ where [refTable].[Status] = ?</property>
       DTS:LocaleID="-1"
       DTS:ObjectName="Delete Existing Organization XREF rows (Completed)"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{D024B15A-5694-4183-A306-FDF29165B2F8}"
-          SQLTask:SqlStatementSource="DELETE FROM IVLP_XREF.dbo.ECA_Local_IVLP_KMT_Organization_XREF_Final" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:Connection="{FF1415A8-7007-4D37-8D35-38ED28116B2F}"
+          SQLTask:SqlStatementSource="DELETE FROM dbo.ECA_IVLP_KMT_Organization_XREF_Final" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -9402,12 +9402,12 @@ where [refTable].[Status] = ?</property>
       DTS:LocaleID="-1"
       DTS:ObjectName="Delete Existing Program Final XREF rows (Completed)"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{D024B15A-5694-4183-A306-FDF29165B2F8}"
-          SQLTask:SqlStatementSource="DELETE FROM ivlp_xref.dbo.ECA_Local_IVLP_KMT_Program_XREF_Final" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:Connection="{FF1415A8-7007-4D37-8D35-38ED28116B2F}"
+          SQLTask:SqlStatementSource="DELETE FROM dbo.ECA_IVLP_KMT_Program_XREF_Final" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -9420,12 +9420,12 @@ where [refTable].[Status] = ?</property>
       DTS:LocaleID="-1"
       DTS:ObjectName="Delete Existing Program Interim XREF rows (Completed)"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{D024B15A-5694-4183-A306-FDF29165B2F8}"
-          SQLTask:SqlStatementSource="DELETE FROM IVLP_XREF.dbo.ECA_Local_IVLP_KMT_Program_XREF_Interim" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:Connection="{FF1415A8-7007-4D37-8D35-38ED28116B2F}"
+          SQLTask:SqlStatementSource="DELETE FROM dbo.ECA_IVLP_KMT_Program_XREF_Interim" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -9502,8 +9502,8 @@ where [refTable].[Status] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load New Programs (Completed)\Add new program.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerID="{29B10102-85DE-4811-99A5-00AE4866F2C8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -10170,8 +10170,8 @@ where UPPER([refTable].[Name]) = UPPER(?)</property>
               <connections>
                 <connection
                   refId="Package\Load New Programs (Completed)\Does Program Exist?.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerID="{29B10102-85DE-4811-99A5-00AE4866F2C8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -10309,8 +10309,8 @@ where UPPER([refTable].[Name]) = UPPER(?)</property>
               <connections>
                 <connection
                   refId="Package\Load New Programs (Completed)\IVLP Program Mapping XREF.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.IVLP_XREF]"
+                  connectionManagerID="{FF1415A8-7007-4D37-8D35-38ED28116B2F}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_XREF_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -11028,8 +11028,8 @@ where [refTable].[OrganizationTypeName] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load New Programs (Completed)\Lookup Office Organization TypeId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerID="{29B10102-85DE-4811-99A5-00AE4866F2C8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -11187,8 +11187,8 @@ where [refTable].[Name] = ? and [refTable].[OrganizationTypeId] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load New Programs (Completed)\Lookup Owner OrganizationId (default).Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerID="{29B10102-85DE-4811-99A5-00AE4866F2C8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -11362,8 +11362,8 @@ where [refTable].[Name] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load New Programs (Completed)\Lookup Parent Program Id (default).Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerID="{29B10102-85DE-4811-99A5-00AE4866F2C8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -11521,8 +11521,8 @@ where [refTable].[Status] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load New Programs (Completed)\Lookup Program StatusId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerID="{29B10102-85DE-4811-99A5-00AE4866F2C8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -11665,13 +11665,13 @@ where [refTable].[Status] = ?</property>
       DTS:LocaleID="-1"
       DTS:ObjectName="Map Source Programs to ECA Programs (Completed)"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{D024B15A-5694-4183-A306-FDF29165B2F8}"
+          SQLTask:Connection="{FF1415A8-7007-4D37-8D35-38ED28116B2F}"
           SQLTask:BypassPrepare="False"
-          SQLTask:SqlStatementSource="/* Update IVLP Program Mappings per C. Remsen email */&#xA;&#xA;/* &#xA;Our office used to have a Multi-Regional Program Division but it was absorbed a couple of years ago by the IVLP Division &#xA;(and our application was never updated to reflect this change). &#xA;So all projects with the project number prefix E/VM are owned by the IVLP Division.  &#xA;*/&#xA;&#xA;/*&#xA;All PL-402 (they should start with the prefix VCR or VCP) –with the exception of the &#xA;entries with “Gold Star” in the project title – should map to Global Government-to-Government Partnership (G3P)&#xA;*/&#xA;&#xA;/*&#xA;The projects with Gold Star in the project title should map to the Gold Star sub-program. &#xA;We do not have this project-program type in our current application so they were tagged with PL-402.&#xA;*/&#xA;&#xA;&#xA;/* One update */&#xA;UPDATE ivlp_xref.dbo.ECA_local_IVLP_KMT_Program_XREF_Interim&#xA;SET IVLP_KMT_MappedProgramName =&#xA;CASE&#xA;WHEN UPPER(IVLP_PROJECT_NUMBER) LIKE '%E/VM%' OR UPPER(IVLP_PROJECT_NUMBER) LIKE '%E/VP%' &#xA;   THEN 'International Vistor Leadership Program (IVLP)'&#xA;WHEN UPPER(IVLP_PROGRAM) = 'PL-402' AND (IVLP_PROJECT_NUMBER LIKE '%VCR%' OR IVLP_PROJECT_NUMBER LIKE '%VCP%') AND UPPER(IVLP_PROJECT_TITLE) NOT LIKE '%GOLD STAR%'&#xA;   THEN 'IVLP Global Government-to-Government Partnership (G3P)'&#xA;WHEN UPPER(IVLP_PROGRAM) = 'PL-402' AND (IVLP_PROJECT_NUMBER LIKE '%VCR%' OR IVLP_PROJECT_NUMBER LIKE '%VCP%') AND UPPER(IVLP_PROJECT_TITLE) LIKE '%GOLD STAR%'&#xA;   THEN 'IVLP Gold Stars'&#xA;WHEN UPPER(IVLP_PROGRAM) = UPPER('Voluntary Visitors') AND UPPER(IVLP_Project_Number) LIKE '%VFA%'&#xA;   THEN 'IVLP On Demand - EAP, NEA, SCA, WHA'&#xA;WHEN UPPER(IVLP_PROGRAM) = UPPER('Voluntary Visitors') AND UPPER(IVLP_Project_Number) LIKE '%VFE%'&#xA;   THEN 'IVLP On Demand - Africa and Europe'&#xA;WHEN UPPER(IVLP_PROGRAM) = UPPER('Voluntary Visitors') AND (UPPER(IVLP_Project_Number) NOT LIKE '%VFE%' AND UPPER(IVLP_Project_Number) NOT LIKE '%VFA%')&#xA;   THEN 'IVLP On Demand'&#xA;WHEN UPPER(IVLP_PROGRAM) = 'IV Regional Visitors'&#xA;   THEN 'Regional Programs'&#xA;END&#xA;&#xA;&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="/* Update IVLP Program Mappings per C. Remsen email */&#xA;&#xA;/* &#xA;Our office used to have a Multi-Regional Program Division but it was absorbed a couple of years ago by the IVLP Division &#xA;(and our application was never updated to reflect this change). &#xA;So all projects with the project number prefix E/VM are owned by the IVLP Division.  &#xA;*/&#xA;&#xA;/*&#xA;All PL-402 (they should start with the prefix VCR or VCP) –with the exception of the &#xA;entries with “Gold Star” in the project title – should map to Global Government-to-Government Partnership (G3P)&#xA;*/&#xA;&#xA;/*&#xA;The projects with Gold Star in the project title should map to the Gold Star sub-program. &#xA;We do not have this project-program type in our current application so they were tagged with PL-402.&#xA;*/&#xA;&#xA;&#xA;/* One update */&#xA;UPDATE dbo.ECA_IVLP_KMT_Program_XREF_Interim&#xA;SET IVLP_KMT_MappedProgramName =&#xA;CASE&#xA;WHEN UPPER(IVLP_PROJECT_NUMBER) LIKE '%E/VM%' OR UPPER(IVLP_PROJECT_NUMBER) LIKE '%E/VP%' &#xA;   THEN 'International Vistor Leadership Program (IVLP)'&#xA;WHEN UPPER(IVLP_PROGRAM) = 'PL-402' AND (IVLP_PROJECT_NUMBER LIKE '%VCR%' OR IVLP_PROJECT_NUMBER LIKE '%VCP%') AND UPPER(IVLP_PROJECT_TITLE) NOT LIKE '%GOLD STAR%'&#xA;   THEN 'IVLP Global Government-to-Government Partnership (G3P)'&#xA;WHEN UPPER(IVLP_PROGRAM) = 'PL-402' AND (IVLP_PROJECT_NUMBER LIKE '%VCR%' OR IVLP_PROJECT_NUMBER LIKE '%VCP%') AND UPPER(IVLP_PROJECT_TITLE) LIKE '%GOLD STAR%'&#xA;   THEN 'IVLP Gold Stars'&#xA;WHEN UPPER(IVLP_PROGRAM) = UPPER('Voluntary Visitors') AND UPPER(IVLP_Project_Number) LIKE '%VFA%'&#xA;   THEN 'IVLP On Demand - EAP, NEA, SCA, WHA'&#xA;WHEN UPPER(IVLP_PROGRAM) = UPPER('Voluntary Visitors') AND UPPER(IVLP_Project_Number) LIKE '%VFE%'&#xA;   THEN 'IVLP On Demand - Africa and Europe'&#xA;WHEN UPPER(IVLP_PROGRAM) = UPPER('Voluntary Visitors') AND (UPPER(IVLP_Project_Number) NOT LIKE '%VFE%' AND UPPER(IVLP_Project_Number) NOT LIKE '%VFA%')&#xA;   THEN 'IVLP On Demand'&#xA;WHEN UPPER(IVLP_PROGRAM) = 'IV Regional Visitors'&#xA;   THEN 'Regional Programs'&#xA;END&#xA;&#xA;&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -11774,7 +11774,7 @@ where [refTable].[Status] = ?</property>
         <NodeLayout
           Size="305,42"
           Id="Package\Create IVLP Program Interim XREF (Completed)"
-          TopLeft="439.5,383.5" />
+          TopLeft="23.5,484.5" />
         <NodeLayout
           Size="263,42"
           Id="Package\Create New Organizations (Completed)"
@@ -11786,7 +11786,7 @@ where [refTable].[Status] = ?</property>
         <NodeLayout
           Size="321,42"
           Id="Package\Create Program Final XREF ProgramId (Completed)"
-          TopLeft="778.5,568.5" />
+          TopLeft="412.5,667.5" />
         <NodeLayout
           Size="326,42"
           Id="Package\Delete Existing Organization XREF rows (Completed)"
@@ -11802,11 +11802,11 @@ where [refTable].[Status] = ?</property>
         <NodeLayout
           Size="235,42"
           Id="Package\Load New Programs (Completed)"
-          TopLeft="812.5,463.5" />
+          TopLeft="454.5,581.5" />
         <NodeLayout
           Size="326,42"
           Id="Package\Map Source Programs to ECA Programs (Completed)"
-          TopLeft="432.5,464.5" />
+          TopLeft="60.5,581.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="184,67">
@@ -11875,18 +11875,18 @@ where [refTable].[Status] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="593.75,425.5">
+          TopLeft="173.25,526.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,39"
+              EndConnector="0,55"
               Start="0,0"
-              End="0,31.5">
+              End="0,47.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.5" />
+                    End="0,47.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -11897,18 +11897,18 @@ where [refTable].[Status] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 4]"
-          TopLeft="758.5,485">
+          TopLeft="386.5,602.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="54,0"
+              EndConnector="68,0"
               Start="0,0"
-              End="46.5,0">
+              End="60.5,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="46.5,0" />
+                    End="60.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -11941,18 +11941,18 @@ where [refTable].[Status] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 6]"
-          TopLeft="348.5,405">
+          TopLeft="179.25,426.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="91,0"
+              EndConnector="0,58"
               Start="0,0"
-              End="83.5,0">
+              End="0,50.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="83.5,0" />
+                    End="0,50.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -11963,30 +11963,18 @@ where [refTable].[Status] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 7]"
-          TopLeft="930,505.5">
+          TopLeft="572.5,623.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="9,63"
+              EndConnector="0,44"
               Start="0,0"
-              End="9,55.5">
+              End="0,36.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,27.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,27.5"
-                    Point2="0,31.5"
-                    Point3="4,31.5" />
-                  <mssgle:LineSegment
-                    End="5,31.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="5,31.5"
-                    Point2="9,31.5"
-                    Point3="9,35.5" />
-                  <mssgle:LineSegment
-                    End="9,55.5" />
+                    End="0,36.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -12051,7 +12039,7 @@ where [refTable].[Status] = ?</property>
     design-time-name="Package\Create IVLP Program Interim XREF (Completed)">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="183,42"
           Id="Package\Create IVLP Program Interim XREF (Completed)\IVLP Projects (Oracle)"
@@ -12099,9 +12087,7 @@ where [refTable].[Status] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -12135,9 +12121,7 @@ where [refTable].[Status] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -12159,9 +12143,7 @@ where [refTable].[Status] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -12249,9 +12231,7 @@ where [refTable].[Status] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -12285,9 +12265,7 @@ where [refTable].[Status] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -12357,9 +12335,7 @@ where [refTable].[Status] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -12381,9 +12357,7 @@ where [refTable].[Status] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -12405,9 +12379,7 @@ where [refTable].[Status] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -13010,9 +12982,7 @@ where [refTable].[Status] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -13430,9 +13400,7 @@ where [refTable].[Status] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -13454,9 +13422,7 @@ where [refTable].[Status] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -13478,9 +13444,7 @@ where [refTable].[Status] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout

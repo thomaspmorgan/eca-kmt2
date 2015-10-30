@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('staticApp')
-  .config(function ($httpProvider, $urlRouterProvider, adalAuthenticationServiceProvider, insightsProvider) {
+  .config(function ($httpProvider, $urlRouterProvider, adalAuthenticationServiceProvider, insightsProvider, $locationProvider) {
 
       adalAuthenticationServiceProvider.init({
           base: '',
@@ -27,6 +27,7 @@ angular.module('staticApp')
           insightsProvider.config('969bd1b5-3eaf-4149-b62c-05f4a970acef','kmt-prod');
       }
 
+      //$locationProvider.html5Mode(true).hashPrefix('!');
 
       $urlRouterProvider.otherwise('/');
 

@@ -15,6 +15,7 @@ angular.module('staticApp')
         $log,
         $modal,
         $state,
+        StateService,
         OrganizationService,
         PersonService,
         ConstantsService,
@@ -48,6 +49,8 @@ angular.module('staticApp')
       $scope.view.dateFormat = 'dd-MMMM-yyyy';
       $scope.view.totalParticipants = 0;
       $scope.view.tabSevis = false;
+      $scope.view.tabInfo = false;
+
       $scope.view.sevisCommStatuses = null;
 
       $scope.sevisInfo = {};
@@ -281,9 +284,31 @@ angular.module('staticApp')
             });
       };
 
+      function getPreferredAddress(institution, participantPersonInstitutionAddressId) {
+          var address = null;
+          if (institution && institution.addresses && institution.addresses.length > 0) {
+              angular.forEach(institution.addresses, function (institutionAddress, index) {
+                  if (institutionAddress.addressId === participantPersonInstitutionAddressId) {
+                      address = institutionAddress;
+                  }
+              });
+          }
+          return address;
+      }
+
       function loadParticipantInfo(participantId) {
           return ParticipantPersonsService.getParticipantPersonsById(participantId)
           .then(function (data) {
+              if (data.data.homeInstitution) {
+                  data.data.homeInstitutionId = data.data.homeInstitution.organizationId;
+                  data.data.homeInstitution.href = StateService.getOrganizationState(data.data.homeInstitution.organizationId);
+                  data.data.homeInstitutionAddress = getPreferredAddress(data.data.homeInstitution, data.data.homeInstitutionAddressId);
+              }
+              if (data.data.hostInstitution) {
+                  data.data.hostInstitutionId = data.data.hostInstitution.organizationId;
+                  data.data.hostInstitution.href = StateService.getOrganizationState(data.data.hostInstitution.organizationId);
+                  data.data.hostInstitutionAddress = getPreferredAddress(data.data.hostInstitution, data.data.hostInstitutionAddressId);
+              }
               $scope.participantInfo[participantId] = data.data;
               $scope.participantInfo[participantId].show = true;
           }, function (error) {
@@ -329,6 +354,31 @@ angular.module('staticApp')
           });
       };
 
+      $scope.onInfoTabSelected = function (participantId) {
+          $scope.view.tabInfo = true;
+          //the participant info tab is selected by default so this check prevents all participants from being loaded
+          //when the page is rendered
+          if ($scope.participantInfo[participantId] && $scope.participantInfo[participantId].show) {
+              return loadParticipantInfo(participantId);
+          }
+          
+      }
+
+      function saveSevisInfoById(participantId) {
+          return ParticipantPersonsSevisService.updateParticipantPersonsSevis($scope.sevisInfo[participantId])
+          .then(function (data) {
+              $scope.sevisInfo[participantId] = data.data;
+              $scope.sevisInfo[participantId].show = true;
+          }, function (error) {
+              $log.error('Unable to save participant SEVIS info for participantId: ' + participantId);
+              NotificationService.showErrorMessage('Unable to load participant SEVIS info for ' + participantId + '.');
+          });
+      };
+
+      $scope.saveSevisInfo = function (participantId) {
+          saveSevisInfoById(participantId);
+      };
+
       $scope.onSevisTabSelected = function (participantId) {
           $scope.view.tabSevis = true;
           loadSevisInfo(participantId);
@@ -343,10 +393,13 @@ angular.module('staticApp')
           if ($scope.participantInfo[participantId]) {
               if ($scope.participantInfo[participantId].show === true) {
                   $scope.participantInfo[participantId].show = false;
-              } else {
-                  $scope.participantInfo[participantId].show = true;
               }
-          } else {
+              else {
+                  $scope.participantInfo[participantId].show = true;
+                  $scope.view.tabInfo = true;
+              }
+              }
+          else {
               loadParticipantInfo(participantId);
           }
       };

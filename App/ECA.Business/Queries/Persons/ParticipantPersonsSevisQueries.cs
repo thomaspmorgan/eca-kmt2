@@ -14,14 +14,14 @@ namespace ECA.Business.Queries.Persons
     /// <summary>
     /// The ParticipantQueries are used to query a DbContext for Participant information.
     /// </summary>
-    public static class ParticipantPersonSevisQueries
+    public static class ParticipantPersonsSevisQueries
     {
         /// <summary>
         /// Query to get a list of participant people with SEVIS information
         /// </summary>
         /// <param name="context">The context to query</param>
         /// <returns>List of participant people with SEVIS</returns>
-        public static IQueryable<ParticipantPersonSevisDTO> CreateGetParticipantPersonSevisesDTOQuery(EcaContext context)
+        public static IQueryable<ParticipantPersonSevisDTO> CreateGetParticipantPersonsSevisDTOQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var query = (from p in context.ParticipantPersons
@@ -68,11 +68,11 @@ namespace ECA.Business.Queries.Persons
         /// <param name="context">The context to query.</param>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The filtered and sorted query to retrieve participantPersonSevises.</returns>
-        public static IQueryable<ParticipantPersonSevisDTO> CreateGetParticipantPersonSevisesDTOQuery(EcaContext context, QueryableOperator<ParticipantPersonSevisDTO> queryOperator)
+        public static IQueryable<ParticipantPersonSevisDTO> CreateGetParticipantPersonsSevisDTOQuery(EcaContext context, QueryableOperator<ParticipantPersonSevisDTO> queryOperator)
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
-            var query = CreateGetParticipantPersonSevisesDTOQuery(context);
+            var query = CreateGetParticipantPersonsSevisDTOQuery(context);
             query = query.Apply(queryOperator);
             return query;
         }
@@ -84,11 +84,11 @@ namespace ECA.Business.Queries.Persons
         /// <param name="queryOperator">The query operator.</param>
         /// <param name="projectId">The project id.</param>
         /// <returns>The filtered and sorted query to retrieve participantPersonSevises.</returns>
-        public static IQueryable<ParticipantPersonSevisDTO> CreateGetParticipantPersonSevisesDTOByProjectIdQuery(EcaContext context, int projectId, QueryableOperator<ParticipantPersonSevisDTO> queryOperator)
+        public static IQueryable<ParticipantPersonSevisDTO> CreateGetParticipantPersonsSevisDTOByProjectIdQuery(EcaContext context, int projectId, QueryableOperator<ParticipantPersonSevisDTO> queryOperator)
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
-            var query = CreateGetParticipantPersonSevisesDTOQuery(context).Where(x => x.ProjectId == projectId);
+            var query = CreateGetParticipantPersonsSevisDTOQuery(context).Where(x => x.ProjectId == projectId);
             query = query.Apply(queryOperator);
             return query;
         }
@@ -99,10 +99,10 @@ namespace ECA.Business.Queries.Persons
         /// <param name="context">The context to query</param>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>The participantPersonSevis</returns>
-        public static IQueryable<ParticipantPersonSevisDTO> CreateGetParticipantPersonSevisDTOByIdQuery(EcaContext context, int participantId)
+        public static IQueryable<ParticipantPersonSevisDTO> CreateGetParticipantPersonsSevisDTOByIdQuery(EcaContext context, int participantId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var query = CreateGetParticipantPersonSevisesDTOQuery(context).
+            var query = CreateGetParticipantPersonsSevisDTOQuery(context).
                 Where(p => p.ParticipantId == participantId);
             return query;
         }

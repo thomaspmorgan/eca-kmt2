@@ -219,6 +219,7 @@
     <Compile Include="Service\Fundings\UpdatedMoneyFlowTest.cs" />
     <Compile Include="Service\Lookup\EmailAddressTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\LocationTypeServiceTest.cs" />
+    <Compile Include="Service\Lookup\ParticipantStatusServiceTest.cs" />
     <Compile Include="Service\Lookup\SocialMediaTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\AddressTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\ParticipantTypeServiceTest.cs" />

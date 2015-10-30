@@ -7,12 +7,12 @@
   DTS:CreatorName="BE00003308\Marc Setien"
   DTS:DTSID="{1F47B665-F151-4881-8450-0BA7A3868F1D}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
   DTS:LocaleID="1033"
   DTS:ObjectName="Load IVLP Addresses to Location"
   DTS:PackageType="5"
-  DTS:VersionBuild="13"
-  DTS:VersionGUID="{6AF83415-FBDF-490D-9537-9645AC47FF06}">
+  DTS:VersionBuild="14"
+  DTS:VersionGUID="{CF2CA9B5-7FF6-416E-97FD-5BC443E5A181}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAA4qKaIHHLTBEXY5VBW3VJ8ht738h9d+zAAysZyxcaw0wAAAAAOgAAAAAIAACAAAAAZeXlu+b+F3ICFUgO1oo+kqzK4z5kl8I2aO8y56tb7nSAAAACKxfkNz+YY95d9pSlolixQrE0sU8ytgyYQPLwhoyIBAUAAAABw7XF9Uf/RfBEAPGtw8Z11jCShToM5MLAWXiGVRv6/PgQQrQRkP1H29eLRugcHnYky407Pid1AG4bnO9kd8gpb</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAxnkqwdpRzrpvxNU8Yc7moFtqwbWKhIps22lS7E2olSQAAAAAOgAAAAAIAACAAAAAyI9uqtU/b/r5ftC5xqY3bhgjaUJGBhP11chnm/RizSSAAAADgj1Z/joZ/E0T8b3GrZWoeyqUthjU4l6iznQof1A4JMEAAAABhSRDOIg984XkrqgE7zrs7PPYAf0HBLPeBRsUXWlnULJuThbZm7YzZNbe+udTAucb5pPzln4ay3pGFXsGqFrF6</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -42,7 +42,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABxtJUkFN5Q2VaE/qqG+Ob/oTX0QLx8Z+LJ2KNa2werWgAAAAAOgAAAAAIAACAAAAAoVbwS7ppNWR38PYWx+cwRbOMXIUAh6c0cueEXlLOHyiAAAACDborywgOW4SiDGlHb+yX3nh606KNetbjXeilmf+ahkUAAAAC7++ghKBbLFUw55i4mENzG7WYDe718AKFCSmoC70XxEA70vLxjCFG61OBw74G7zeYz02ocR3Gp3NemSSg9F2li</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADYqN9F0kRbhEadwt55qg94f7rRkpcaXEDQRcDvOOK2zAAAAAAOgAAAAAIAACAAAAA1L5NXDfXZsGshyj227HBbfepuM5xuYAKOgPNZQ3MUYSAAAAB2LCaQV4T6qrvUkEpxZBe3YlYZnVkGwiHSoRJO2IXjgUAAAACotGQjOWhj1SCiOHzfOq7sQVh08aof/KcAhtkmHEBsV5c1Uu2OVygKZa7jYrEGhxRuKUKxW+arR5vLie9ro6xU</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -57,7 +57,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACESYVkdjmOqhpIA/Z/qoR8hwb1+i0fzXSjeF6zpeX/7AAAAAAOgAAAAAIAACAAAABapGHRvqFjK01k9OGb3LfJXmo5ly6BeCmPuimcdUD1gSAAAAB7NRumm3UBMnF2ApJqFQjWO/ofEc4MGv9/DbNpp59Ja0AAAAC/WhxGgmEvgWrC19OH+uhUdAU4OH7qDXaU3gdo97oYNue8SBbY1fR+PtdqtMBavSayknsoCVpD1i7xkUbDrT4n</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACyfQlTNHnKBHjH4huSRJj/6ctdlrU0Xao0ZPpephRo3QAAAAAOgAAAAAIAACAAAAAsR8aiL/WIftej/RZdFeVlSCkoOtTW7ayP1mYy+Zl1ySAAAABNtO/0vyLuuMbwsSFcaWa4LJFKn4GSeg+vtP0d0iphAkAAAACaL/ag6kJrG2Z8EFcnBCB4tKptzP1hBNM2kNemeOjivs7PyhUeA9ebLiCjgM1K3JStdWfJbdrC3ABgqxMDsF0k</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -72,7 +72,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABC+vT7WyihuX9QDfpG0pQhckm/d5Cm4RZY8ilMNQgHdgAAAAAOgAAAAAIAACAAAAAhkwObESqnr0U+E4WDinDyG9DnWQ5H+y9g/8LT+kyQpiAAAADtc0fbBT6vtmmU5SUJjZ94Rs4Bvrj6N0L4pl3XmratrEAAAADie691jevoq6KAHy7nrVb8pNHENhHGCzrj6CrpWjY6kPVXE1LPGRdGKkp6lpgMU4LkAvZej8vBMrq+KKz27asj</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAB7BgSHcdW57iAs0Y4AajU9rMg7Q7n2E7MmpD/uWgeuGQAAAAAOgAAAAAIAACAAAAC4EvdMqvFxJ774BLH+Dm3F3z7N6UZR8wuyEtdZLUlaLiAAAABgGDZAEwjzO2Ng+5KawGWk6qBU0q3f94tcPIcuyvY+qEAAAADbD4wxBuGF7QL0SzKATKrHD9uZcvjfmFLKvctIDP2GC0msJUW3BYbc/8ko/9sEgcign/ibvAj3if8cQ0S4QwCf</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -87,7 +87,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABZo4Vf8N8aqhQj9Td07rJFeKysxSZ64KgmdVsTBskbBAAAAAAOgAAAAAIAACAAAACb700Pu1XXz2a1Xu1KQOq5fWbH8ECcQ7ufPJ4TMX40ciAAAABaPftzxhJeAtBpzRmhDNV6+bvOzUujbU99EqnM7kmeWEAAAADCCkMudztsJ5vskfpKapO6WX1LruVgg1/UCvW249x2p3//5YYUEalEL5J/Xw3I70sB6So+RFrQPvOTxlJZQGpH</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABITo1Q6izKgcya/Ifz1fz+OuBu15bO68q+D/l051DuQQAAAAAOgAAAAAIAACAAAADkP7pZZ0C3/JF4nkcGo/0oGSMeZYNanoFgwOJwajmuWCAAAABUebJvAxqqG1i+T3Ww2AO3Vl4mx+y2l8oO8yeeHUJoUUAAAABMGa7UJMLUJM3WhgnPy90ZTOkwbLqN8t8Ewx/PW1oj3ZMPRCbbQkGqiI1cWzLlduiGxoRu323Vv9IC3xFkXGMW</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -531,8 +531,8 @@
               <connections>
                 <connection
                   refId="Package\Load Address to Location Table\ECA Location.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerID="{29B10102-85DE-4811-99A5-00AE4866F2C8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -556,13 +556,13 @@
                       cachedDataType="i4"
                       cachedName="Country_LocationId"
                       externalMetadataColumnId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[Country_LocationId]"
-                      lineageId="Package\Load Address to Location Table\307:invalid" />
+                      lineageId="Package\Load Address to Location Table\418:invalid" />
                     <inputColumn
                       refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].Columns[Region_LocationId]"
                       cachedDataType="i4"
                       cachedName="Region_LocationId"
                       externalMetadataColumnId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[Region_LocationId]"
-                      lineageId="Package\Load Address to Location Table\308:invalid" />
+                      lineageId="Package\Load Address to Location Table\419:invalid" />
                     <inputColumn
                       refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].Columns[ADDRESS_LINE1]"
                       cachedDataType="wstr"
@@ -613,7 +613,7 @@
                       cachedDataType="i4"
                       cachedName="AddressLocationTypeId"
                       externalMetadataColumnId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[LocationTypeId]"
-                      lineageId="Package\Load Address to Location Table\309:invalid" />
+                      lineageId="Package\Load Address to Location Table\420:invalid" />
                     <inputColumn
                       refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].Columns[POSTAL_CD]"
                       cachedDataType="wstr"
@@ -1130,8 +1130,8 @@
               <connections>
                 <connection
                   refId="Package\Load Address to Location Table\IVLP_Address.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerID="{47928535-BCC3-4562-A70D-D8349A69E719}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_Source_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -1453,8 +1453,8 @@ where [refTable].[LocationTypeName] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load Address to Location Table\Lookup Address LocationTypeId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerID="{29B10102-85DE-4811-99A5-00AE4866F2C8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -1612,8 +1612,8 @@ where [refTable].[LocationTypeName] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load Address to Location Table\Lookup Country LocationTypeid.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerID="{29B10102-85DE-4811-99A5-00AE4866F2C8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -1771,8 +1771,8 @@ where UPPER([refTable].[LocationName]) = ? and [refTable].[LocationTypeId] = ?</
               <connections>
                 <connection
                   refId="Package\Load Address to Location Table\Lookup CountryId and RegionId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerID="{29B10102-85DE-4811-99A5-00AE4866F2C8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -1975,8 +1975,8 @@ where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property
               <connections>
                 <connection
                   refId="Package\Load Address to Location Table\Lookup Division ID (Still needs work).Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerID="{29B10102-85DE-4811-99A5-00AE4866F2C8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -2150,8 +2150,8 @@ where [refTable].[LocationTypeName] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load Address to Location Table\Lookup Division Location TypeID.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerID="{29B10102-85DE-4811-99A5-00AE4866F2C8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -2320,6 +2320,10 @@ where [refTable].[LocationTypeName] = ?</property>
           Id="Package\Load Address to Location Table\GROUP BY All"
           TopLeft="228.5,11.5" />
         <NodeLayout
+          Size="233,42"
+          Id="Package\Load Address to Location Table\Lookup Division Location TypeID"
+          TopLeft="660.5,115.5" />
+        <NodeLayout
           Size="227,42"
           Id="Package\Load Address to Location Table\Lookup Country LocationTypeid"
           TopLeft="13.5,105.5" />
@@ -2327,6 +2331,10 @@ where [refTable].[LocationTypeName] = ?</property>
           Size="229,42"
           Id="Package\Load Address to Location Table\Lookup CountryId and RegionId"
           TopLeft="338.5,108.5" />
+        <NodeLayout
+          Size="253,42"
+          Id="Package\Load Address to Location Table\Lookup Division ID (Still needs work)"
+          TopLeft="974.5,109.5" />
         <NodeLayout
           Size="144,42"
           Id="Package\Load Address to Location Table\IVLP_Address"
@@ -2371,6 +2379,54 @@ where [refTable].[LocationTypeName] = ?</property>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Address to Location Table.Paths[Lookup Match Output3]"
+          TopLeft="893.5,133.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="81,0"
+              Start="0,0"
+              End="73.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="73.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-11.44138671875,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Address to Location Table.Paths[Lookup Match Output2]"
+          TopLeft="567.5,133">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="93,0"
+              Start="0,0"
+              End="85.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="85.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-5.44138671875,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -2547,72 +2603,16 @@ where [refTable].[LocationTypeName] = ?</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="253,42"
-          Id="Package\Load Address to Location Table\Lookup Division ID (Still needs work)"
-          TopLeft="974.5,109.5" />
-        <NodeLayout
-          Size="233,42"
-          Id="Package\Load Address to Location Table\Lookup Division Location TypeID"
-          TopLeft="660.5,115.5" />
-        <EdgeLayout
-          Id="Package\Load Address to Location Table.Paths[Lookup Match Output2]"
-          TopLeft="567.5,133">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="93,0"
-              Start="0,0"
-              End="85.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="85.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-5.44138671875,5,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load Address to Location Table.Paths[Lookup Match Output3]"
-          TopLeft="893.5,133.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="81,0"
-              Start="0,0"
-              End="73.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="73.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-11.44138671875,5,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Load Address to Location Table\Lookup Country LocationTypeid">
+    design-time-name="Package\Load Address to Location Table\Lookup Division Location TypeID">
     <Properties>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">false</Value>
+          type="q2:boolean">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -2622,7 +2622,30 @@ where [refTable].[LocationTypeName] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Address to Location Table\Lookup Country LocationTypeid">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[LocationType]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -2645,7 +2668,30 @@ where [refTable].[LocationTypeName] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Address to Location Table\Lookup Division ID (Still needs work)">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Location]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -2680,52 +2726,6 @@ where [refTable].[LocationTypeName] = ?</property>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Load Address to Location Table\Lookup Address LocationTypeId">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:string">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[LocationType]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:string">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load Address to Location Table\Lookup Division ID (Still needs work)">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[Location]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:int">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load Address to Location Table\Lookup Division Location TypeID">
     <Properties>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
