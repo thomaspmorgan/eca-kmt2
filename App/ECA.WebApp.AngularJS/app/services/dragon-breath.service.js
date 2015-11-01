@@ -56,7 +56,8 @@ angular.module('staticApp')
           },
           save: function (object) {
               var dPath = new DragonPath(arguments, 1);
-              return $http.put(dPath.path, object);
+              var objectToSave = arguments[0];
+              return $http.put(dPath.path, objectToSave);
           },
           create: function (object) {
               var dPath = new DragonPath(arguments, 1);
