@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using NLog;
+using ECA.Core.Exceptions;
 
 namespace ECA.Business.Service.Persons
 {
@@ -33,6 +34,13 @@ namespace ECA.Business.Service.Persons
         public ParticipantPersonsSevisService(EcaContext context, List<ISaveAction> saveActions = null) : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            throwIfModelDoesNotExist = (id, instance, type) =>
+            {
+                if (instance == null)
+                {
+                    throw new ModelNotFoundException(String.Format("The model of type [{0}] with id [{1}] was not found.", type.Name, id));
+                }
+            };
         }
 
         #region Get

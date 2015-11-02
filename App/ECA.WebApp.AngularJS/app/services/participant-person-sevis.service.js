@@ -13,7 +13,7 @@
             getParticipantPersonsSevisByProject: getParticipantPersonsSevisByProject,
             getParticipantPersonsSevisById: getParticipantPersonsSevisById,
             getParticipantPersonsSevisCommStatusesById: getParticipantPersonsSevisCommStatusesById,
-            saveParticipantPersonSevis: updateParticipantPersonsSevis
+            updateParticipantPersonsSevis: updateParticipantPersonsSevis
         };
 
         return service;
@@ -48,7 +48,7 @@
 
         function updateParticipantPersonsSevis(sevisInfo) {
             var path = 'participantPersonsSevis';
-            return DragonBreath.save(path, sevisInfo);
+            return DragonBreath.save(sevisInfo, path);
         };
     }
 })();

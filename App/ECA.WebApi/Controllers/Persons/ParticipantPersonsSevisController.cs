@@ -106,11 +106,9 @@ namespace ECA.WebApi.Controllers.Persons
         /// Updates the new participantPersonSevis with the given participantId.
         /// </summary>
         /// <param name="model">The new email address.</param>
-        /// <param name="participantId">The person id.</param>
         /// <returns>The saved email address.</returns>
         [Route("ParticipantPersonsSevis")]
-        [ResponseType(typeof(ParticipantPersonSevisDTO))]
-        public async Task<IHttpActionResult> PutParticipantPersonsSevisAsync(int participantId, [FromBody]UpdatedParticipantPersonSevisBindingModel model)
+        public async Task<IHttpActionResult> PutParticipantPersonsSevisAsync([FromBody]UpdatedParticipantPersonSevisBindingModel model)
         {   
             if (ModelState.IsValid)
             {
@@ -118,7 +116,7 @@ namespace ECA.WebApi.Controllers.Persons
                 var businessUser = userProvider.GetBusinessUser(currentUser);
                 var participantPersonSevisDTO = await service.UpdateAsync(model.ToUpdatedParticipantPersonSevis(businessUser));
                 await service.SaveChangesAsync();
-                return Ok(participantPersonSevisDTO);
+                return Ok();
             }
             else
             {
