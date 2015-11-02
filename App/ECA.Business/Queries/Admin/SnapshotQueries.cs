@@ -93,11 +93,9 @@ namespace ECA.Business.Queries.Admin
         /// <param name="context"></param>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public static IQueryable<int> CreateGetProgramCountriesByProgramIdsQuery(EcaContext context, IEnumerable<int> programIds)
+        public static IQueryable<Location> CreateGetProgramCountriesByProgramIdsQuery(EcaContext context, IEnumerable<int> programIds)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var allLocations = LocationQueries.CreateGetLocationsQuery(context);
-            
             var query = (from program in context.Programs
                          let regions = program.Regions
                          let locations = program.Locations
@@ -107,8 +105,9 @@ namespace ECA.Business.Queries.Admin
                          let allCountries = countryByLocation.Union(countryByRegions)
 
                          where programIds.Contains(program.ProgramId)
-                         select allCountries).SelectMany(x => x).Select(i => i.LocationId).Distinct();
-
+                         select allCountries).SelectMany(x => x);
+            //.Select(i => i.LocationId).Distinct()
+            
             return query;
         }
 
@@ -185,27 +184,21 @@ namespace ECA.Business.Queries.Admin
         /// <param name="context"></param>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public static async Task<SnapshotGraphDTO> CreateGetProgramBudgetByYearQuery(EcaContext context, IEnumerable<int> programIds)
+        public static async Task<List<KeyValuePair<int, int>>> CreateGetProgramBudgetByYearQuery(EcaContext context, IEnumerable<int> programIds)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var budgetByYear = await (from pc in context.Programs
+            var budgetData = await (from pc in context.Programs
                                       where programIds.Contains(pc.ProgramId)
                                       from project in pc.Projects
                                       where project.EndDate.Value.Year >= oldestDate.Year
                                       from mf in project.RecipientProjectMoneyFlows
                                       where mf.FiscalYear >= oldestDate.Year && mf.MoneyFlowTypeId == MoneyFlowType.Incoming.Id
-                                      group mf by mf.FiscalYear into g
-                                      select g).ToListAsync();
+                                      select new {Key = mf.FiscalYear, Value = mf.Value}).ToListAsync();
 
-            SnapshotGraphDTO graphValues = new SnapshotGraphDTO
-            {
-                key = "Budget",
-                values = budgetByYear.Select(g => new KeyValuePair<int, int>(g.Key, g.ToList()
-                                .Sum(m => (int)m.Value)))
-                                .OrderBy(o => o.Key).ToList()
-            };
+            var budgetByYear = budgetData.GroupBy(g => g.Key, g => g.Value)
+                                        .Select(y => new KeyValuePair<int, int>(y.Key, (int)y.Sum())).ToList();
 
-            return graphValues;
+            return budgetByYear;
         }
 
         public static IEnumerable<SnapshotDTO> CreateGetProgramMostFundedCountriesQuery(EcaContext context, IEnumerable<int> programIds)

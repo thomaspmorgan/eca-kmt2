@@ -365,13 +365,14 @@ angular.module('staticApp')
       }
 
       function saveSevisInfoById(participantId) {
-          return ParticipantPersonsSevisService.updateParticipantPersonsSevis($scope.sevisInfo[participantId])
+          var sevisInfo = $scope.sevisInfo[participantId];
+          return ParticipantPersonsSevisService.updateParticipantPersonsSevis(sevisInfo)
           .then(function (data) {
-              $scope.sevisInfo[participantId] = data.data;
+              NotificationService.showSuccessMessage('Participant SEVIS info saved successfully.');
               $scope.sevisInfo[participantId].show = true;
           }, function (error) {
               $log.error('Unable to save participant SEVIS info for participantId: ' + participantId);
-              NotificationService.showErrorMessage('Unable to load participant SEVIS info for ' + participantId + '.');
+              NotificationService.showErrorMessage('Unable to save participant SEVIS info for participant: ' + participantId + '.');
           });
       };
 
