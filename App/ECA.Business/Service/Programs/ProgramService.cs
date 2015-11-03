@@ -44,8 +44,8 @@ namespace ECA.Business.Service.Programs
         /// <param name="saveActions">The save actions.</param>
         /// <param name="programServiceValidator">The program service validator.</param>
         public ProgramService(
-            EcaContext context, 
-            IOfficeService officeService, 
+            EcaContext context,
+            IOfficeService officeService,
             IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity> programServiceValidator,
             List<ISaveAction> saveActions = null)
             : base(context, saveActions)
@@ -137,7 +137,11 @@ namespace ECA.Business.Service.Programs
         public ProgramDTO GetProgramById(int programId)
         {
             var dto = ProgramQueries.CreateGetPublishedProgramByIdQuery(this.Context, programId).FirstOrDefault();
-            var parentPrograms = GetParentPrograms(programId);
+            List<OrganizationProgramDTO> parentPrograms = new List<OrganizationProgramDTO>();
+            if (dto != null && dto.ParentProgramId.HasValue)
+            {
+                parentPrograms = GetParentPrograms(programId);
+            }
             return DoGetProgramById(programId, dto, parentPrograms);
         }
 
@@ -149,13 +153,17 @@ namespace ECA.Business.Service.Programs
         public async Task<ProgramDTO> GetProgramByIdAsync(int programId)
         {
             var dto = await ProgramQueries.CreateGetPublishedProgramByIdQuery(this.Context, programId).FirstOrDefaultAsync();
-            var parentPrograms = await GetParentProgramsAsync(programId);
+            List<OrganizationProgramDTO> parentPrograms = new List<OrganizationProgramDTO>();
+            if (dto != null && dto.ParentProgramId.HasValue)
+            {
+                parentPrograms = await GetParentProgramsAsync(programId);
+            }
             return DoGetProgramById(programId, dto, parentPrograms);
-        }       
+        }
 
         private ProgramDTO DoGetProgramById(int programId, ProgramDTO dto, List<OrganizationProgramDTO> parentPrograms)
         {
-            if(dto != null)
+            if (dto != null)
             {
                 dto.AllParentPrograms = parentPrograms.Select(x =>
                 new SimpleLookupDTO
@@ -247,7 +255,7 @@ namespace ECA.Business.Service.Programs
         private List<OrganizationProgramDTO> DoGetAllChildPrograms(int programId, IEnumerable<OrganizationProgramDTO> hierarchyPrograms)
         {
             var program = hierarchyPrograms.Where(x => x.ProgramId == programId).FirstOrDefault();
-            if(program == null)
+            if (program == null)
             {
                 return new List<OrganizationProgramDTO>();
             }
@@ -337,7 +345,7 @@ namespace ECA.Business.Service.Programs
                 var pagedResults = GetPagedQueryResults(validParentPrograms, queryOperator);
                 return pagedResults;
             }
-            
+
         }
         #endregion
 
@@ -437,7 +445,7 @@ namespace ECA.Business.Service.Programs
         {
             var distinctWebsites = websiteList.Select(x => x.Value).Distinct().ToList();
             var websites = new List<Website>();
-            foreach(string websiteValue in distinctWebsites)
+            foreach (string websiteValue in distinctWebsites)
             {
                 var website = new Website { WebsiteValue = websiteValue };
                 draftProgram.Audit.SetHistory(website);
@@ -534,7 +542,7 @@ namespace ECA.Business.Service.Programs
             Program parentProgram = parentProgramId.HasValue ? await GetProgramEntityByIdAsync(updatedProgram.ParentProgramId.Value) : null;
 
             List<OrganizationProgramDTO> parentProgramParentPrograms = new List<OrganizationProgramDTO>();
-            if(parentProgram != null)
+            if (parentProgram != null)
             {
                 parentProgramParentPrograms = await GetParentProgramsAsync(parentProgram.ProgramId);
             }
@@ -543,10 +551,10 @@ namespace ECA.Business.Service.Programs
             {
                 DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(
                     program: updatedProgram,
-                    owner: owner, 
-                    ownerOfficeSettings: ownerOfficeSettings, 
+                    owner: owner,
+                    ownerOfficeSettings: ownerOfficeSettings,
                     parentProgram: parentProgram,
-                    regionTypesIds: regionTypeIds, 
+                    regionTypesIds: regionTypeIds,
                     parentProgramParentPrograms: parentProgramParentPrograms));
                 this.logger.Trace("Performed update on program.");
             }
@@ -584,26 +592,26 @@ namespace ECA.Business.Service.Programs
         {
             var websiteIds = updatedProgram.Websites.Select(x => x.Id).ToList();
             var websitesToRemove = program.Websites.Where(x => !websiteIds.Where(y => y != null).Contains(x.WebsiteId)).ToList();
-            foreach(Website website in websitesToRemove)
+            foreach (Website website in websitesToRemove)
             {
                 program.Websites.Remove(website);
                 Context.Websites.Remove(website);
             }
             var websitesToAdd = updatedProgram.Websites.Where(x => x.Id == null).ToList();
-            foreach(WebsiteDTO website in websitesToAdd)
+            foreach (WebsiteDTO website in websitesToAdd)
             {
                 var newWebsite = new Website { WebsiteValue = website.Value };
                 updatedProgram.Audit.SetHistory(newWebsite);
                 program.Websites.Add(newWebsite);
             }
             var websitesToUpdate = program.Websites.Where(x => websiteIds.Contains(x.WebsiteId)).ToList();
-            foreach(Website website in websitesToUpdate)
+            foreach (Website website in websitesToUpdate)
             {
                 var updatedWebsite = updatedProgram.Websites.Where(x => x.Id == website.WebsiteId).FirstOrDefault();
                 website.WebsiteValue = updatedWebsite.Value;
                 updatedProgram.Audit.SetHistory(website);
             }
-          }
+        }
         #endregion
 
         /// <summary>
@@ -658,10 +666,10 @@ namespace ECA.Business.Service.Programs
         }
 
         private ProgramServiceValidationEntity GetValidationEntity(
-            EcaProgram program, 
-            Organization owner, 
-            OfficeSettings ownerOfficeSettings, 
-            Program parentProgram, 
+            EcaProgram program,
+            Organization owner,
+            OfficeSettings ownerOfficeSettings,
+            Program parentProgram,
             List<int> regionTypesIds,
             List<OrganizationProgramDTO> parentProgramParentPrograms)
         {
