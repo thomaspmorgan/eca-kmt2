@@ -399,11 +399,11 @@ angular.module('staticApp')
           if ($scope.selectedAction === "Send To SEVIS") {
               var participants = Object.keys($scope.selectedParticipants).map(Number);
               ParticipantPersonsSevisService.sendToSevis(participants)
-              .then(function () {
-                  NotificationService.showSuccessMessage("Successfully queued " + participants.length  + " participant(s).");
+              .then(function (results) {
+                  NotificationService.showSuccessMessage("Successfully queued " + results.data.length + " of " + participants.length  + " participants.");
                   reloadParticipantTable();
               }, function () {
-                  NotificationService.showErrorMessage("Failed to queue " + participants.length + " participant(s).");
+                  NotificationService.showErrorMessage("Failed to queue participants.");
               });
           }
 

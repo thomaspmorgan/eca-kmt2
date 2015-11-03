@@ -179,19 +179,29 @@ namespace ECA.Business.Service.Persons
         /// <returns>List of participant ids that were updated</returns>
         public async Task<int[]> SendToSevis(int[] participantIds)
         {
-            foreach(var participantId in participantIds)
-            {
-                var status = new ParticipantPersonSevisCommStatus
+            var statuses = await Context.ParticipantPersonSevisCommStatuses.GroupBy(x => x.ParticipantId)
+                .Select(s => s.OrderByDescending(x => x.AddedOn).FirstOrDefault())
+                .Where(w => participantIds.Contains(w.ParticipantId)).ToListAsync();
+
+            var participantsUpdated = new List<int>();
+
+            foreach (var status in statuses) {
+                if (status.SevisCommStatusId == SevisCommStatus.ReadyToSubmit.Id)
                 {
-                    ParticipantId = participantId,
-                    SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
-                    AddedOn = DateTimeOffset.Now
+                    var newStatus = new ParticipantPersonSevisCommStatus
+                    {
+                        ParticipantId = status.ParticipantId,
+                        SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+                        AddedOn = DateTimeOffset.Now
 
-                };
+                    };
 
-                Context.ParticipantPersonSevisCommStatuses.Add(status);
+                    Context.ParticipantPersonSevisCommStatuses.Add(newStatus);
+                    participantsUpdated.Add(status.ParticipantId);
+                }
             }
-            return participantIds;
+
+            return participantsUpdated.ToArray();
         }
             
         #endregion

@@ -138,7 +138,7 @@ namespace ECA.WebApi.Controllers.Persons
             {
                 var statuses = await service.SendToSevis(participantIds);
                 await service.SaveChangesAsync();
-                return Ok();
+                return Ok(statuses);
             }
             else
             {
