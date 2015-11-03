@@ -397,11 +397,14 @@ angular.module('staticApp')
 
       $scope.applyAction = function () {
           if ($scope.selectedAction === "Send To SEVIS") {
-              var sevisAction = {
-                  action: $scope.selectedAction,
-                  selectedParticipants: Object.keys($scope.selectedParticipants).map(Number)
-              };
-              console.log(sevisAction);
+              var participants = Object.keys($scope.selectedParticipants).map(Number);
+              ParticipantPersonsSevisService.sendToSevis(participants)
+              .then(function () {
+                  NotificationService.showSuccessMessage("Successfully queued " + participants.length  + " participant(s).");
+                  reloadParticipantTable();
+              }, function () {
+                  NotificationService.showErrorMessage("Failed to queue " + participants.length + " participant(s).");
+              });
           }
 
       }

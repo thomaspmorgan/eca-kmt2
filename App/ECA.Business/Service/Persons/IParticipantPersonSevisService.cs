@@ -4,13 +4,15 @@ using ECA.Core.Query;
 using System.Threading.Tasks;
 using ECA.Core.DynamicLinq;
 using System.Linq;
+using ECA.Data;
+using ECA.Core.Service;
 
 namespace ECA.Business.Service.Persons
 {
     /// <summary>
     /// An IParticipantPersonSevisService is capable of performing crud operations on participants and their SEVIS information.
     /// </summary>
-    public interface IParticipantPersonSevisService
+    public interface IParticipantPersonSevisService : ISaveable
     {
         /// <summary>
         /// Returns the participantPersonSevises in the system.
@@ -86,8 +88,13 @@ namespace ECA.Business.Service.Persons
         /// <returns>The participantPersonSevisCommStatuses</returns>
         Task<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>> GetParticipantPersonSevisCommStatusesByIdAsync(int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator);
 
-
         IQueryable<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonSevisCommStatusesByParticipantIds(int[] participantIds);
-
+        
+        /// <summary>
+        /// Sets sevis communication status for participant ids
+        /// </summary>
+        /// <param name="participantIds">The participant ids to update communcation status</param>
+        /// <returns>List of participant ids that were updated</returns>
+        Task<int[]> SendToSevis(int[] participantIds);
     }
 }

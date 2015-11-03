@@ -41,7 +41,7 @@ INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('4',
 INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('5', 'U.S. Non-Profit Organization (501(c)(3))', 'false')
 INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('6', 'Individual', 'true')
 INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('7', 'Foreign NGO/PVO', 'false')
-INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('8', 'Other', 'false')
+INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('8', 'Other Organization', 'false')
 INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('9', 'Other', 'true')
 INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('10','Foreign Non Traveling Participant', 'true')
 INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('11','U.S. Non Traveling Participant', 'true')

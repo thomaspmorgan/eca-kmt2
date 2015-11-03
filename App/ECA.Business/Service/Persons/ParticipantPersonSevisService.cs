@@ -171,6 +171,28 @@ namespace ECA.Business.Service.Persons
             logger.Trace("Retrieved participantPersonSevises by array of participant Ids");
             return results;
         }
+
+        /// <summary>
+        /// Sets sevis communication status for participant ids
+        /// </summary>
+        /// <param name="participantIds">The participant ids to update communcation status</param>
+        /// <returns>List of participant ids that were updated</returns>
+        public async Task<int[]> SendToSevis(int[] participantIds)
+        {
+            foreach(var participantId in participantIds)
+            {
+                var status = new ParticipantPersonSevisCommStatus
+                {
+                    ParticipantId = participantId,
+                    SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+                    AddedOn = DateTimeOffset.Now
+
+                };
+
+                Context.ParticipantPersonSevisCommStatuses.Add(status);
+            }
+            return participantIds;
+        }
             
         #endregion
 

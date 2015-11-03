@@ -12,7 +12,8 @@
             getParticipantPersonsSevis: getParticipantPersonsSevis,
             getParticipantPersonsSevisByProject: getParticipantPersonsSevisByProject,
             getParticipantPersonsSevisById: getParticipantPersonsSevisById,
-            getParticipantPersonsSevisCommStatusesById: getParticipantPersonsSevisCommStatusesById
+            getParticipantPersonsSevisCommStatusesById: getParticipantPersonsSevisCommStatusesById,
+            sendToSevis: sendToSevis
         };
 
         return service;
@@ -44,5 +45,9 @@
             var path = 'participantPersonSevis/' + id + '/sevisCommStatuses';
             return DragonBreath.get(params, path);
         };
+
+        function sendToSevis(participantIds) {
+            return DragonBreath.create(participantIds, 'participantPersonsSevis/sendToSevis');
+        }
     }
 })();
