@@ -108,7 +108,7 @@ angular.module('staticApp')
                      $scope.getCities("");
                      $scope.pii.isPlaceOfBirthUnknown = false;
                  } else if ($scope.pii.isPlaceOfBirthUnknown) {
-                     $scope.pii.countryOfBirthId = 1;
+                     $scope.pii.countryOfBirthId = 0;
                  }
                  $scope.piiLoading = false;
              });

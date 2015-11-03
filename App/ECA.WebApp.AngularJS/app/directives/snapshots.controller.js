@@ -38,12 +38,15 @@ angular.module('staticApp')
           GetProgramImpactStoryCount();
           GetProgramAlumniCount();
           GetProgramProminenceCount();
-          GetProgramBudgetTotal();
-          GetProgramParticipantCount();
-          $interval(function () {
+
+          $q.all([GetProgramBudgetTotal(), GetProgramParticipantCount()])
+          .then(function () {
               GetProgramCostPerParticipant();
-          }, 5000);
-          
+          })
+          .catch(function () {
+              $scope.view.isSnapshotLoading = false;
+          });          
+
           $scope.view.isSnapshotLoading = false;
       };
 

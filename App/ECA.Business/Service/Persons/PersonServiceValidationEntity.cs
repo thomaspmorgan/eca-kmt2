@@ -1,9 +1,5 @@
 ﻿using ECA.Data;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Persons
 {
@@ -12,18 +8,20 @@ namespace ECA.Business.Service.Persons
     /// </summary>
     public class PersonServiceValidationEntity
     {
-
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="person">The person</param>
         /// <param name="genderId">The gender id</param>
         /// <param name="countriesOfCitizenship">The countries of citizenship</param>
-        public PersonServiceValidationEntity(Person person, int genderId, List<Location> countriesOfCitizenship)
+        public PersonServiceValidationEntity(Person person, int genderId, List<Location> countriesOfCitizenship, 
+                                                int placeOfBirthId, bool isPlaceOfBirthUnknown)
         {
             this.Person = person;
             this.GenderId = genderId;
             this.CountriesOfCitizenship = countriesOfCitizenship;
+            this.PlaceOfBirthId = placeOfBirthId;
+            this.IsPlaceOfBirthUnknown = isPlaceOfBirthUnknown;
         }
 
         public PersonServiceValidationEntity(Person person, List<ProminentCategory> prominentCategories)
@@ -48,6 +46,15 @@ namespace ECA.Business.Service.Persons
 
         public List<ProminentCategory> ProminentCategories { get; private set; }
 
+        /// <summary>
+        /// Place of birth
+        /// </summary>
+        public int PlaceOfBirthId { get; private set; }
+
+        /// <summary>
+        /// Place of birth unknown flag
+        /// </summary>
+        public bool IsPlaceOfBirthUnknown { get; private set; }
     }
 
 }
