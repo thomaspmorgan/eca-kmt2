@@ -168,6 +168,9 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<IParticipantPersonsSevisService, ParticipantPersonsSevisService>(new HierarchicalLifetimeManager());
             container.RegisterType<ISnapshotService, SnapshotService>(new HierarchicalLifetimeManager());
             container.RegisterType<IParticipantStudentVisitorService, ParticipantStudentVisitorService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IFieldOfStudyService, FieldOfStudyService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IProgramCategoryService, ProgramCategoryService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IPositionService, PositionService>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>
