@@ -37,7 +37,7 @@ angular.module('staticApp')
       $scope.view.selectedHostInstitutionAddresses = [];
       $scope.view.isLoadingEditParticipantInfoRequiredData = false;
 
-      $scope.originalPersonInfo = angular.copy($scope.personinfo);
+      $scope.view.originalPersonInfo = angular.copy($scope.personinfo);
 
       $scope.view.loadHomeInstitutions = function ($search) {
           return loadHomeInstitutions($search);
@@ -86,6 +86,11 @@ angular.module('staticApp')
           $scope.personinfo.homeInstitutionAddressId = $model;
       }
 
+      $scope.view.onCancelButtonClick = function () {
+          $scope.view.originalPersonInfo = false;
+          $scope.personinfo = $scope.view.originalPersonInfo;
+          //$scope.personinfo.isInfoTabInEditMode = false;                 
+      }
 
       var projectId = $stateParams.projectId;
       var limit = 300;

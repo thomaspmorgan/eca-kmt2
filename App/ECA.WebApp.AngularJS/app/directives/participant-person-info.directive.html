@@ -14,12 +14,12 @@
             <button class="btn btn-success">
                 Save
             </button>
-            <button class="btn btn-cancel">
+            <button class="btn btn-cancel" ng-click="view.onCancelButtonClick()">
                 Cancel
             </button>
         </div>
     </div>
-    <form name="view.participantInfoForm">
+    <form name="view.participantInfoForm" ng-show="!view.isLoadingEditParticipantInfoRequiredData">
         <div class="row row2 form-group">
             <div class="col-md-6">
                 <div class="col-md-4 title-label">Status</div>
