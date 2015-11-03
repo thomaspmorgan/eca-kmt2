@@ -196,7 +196,91 @@ namespace ECA.Business.Test.Queries.Admin
         [TestMethod]
         public void TestCreateGetProgramBudgetTotalQuery()
         {
-            Assert.AreEqual("todo", "todo");
+            var sourceId = 1;
+            var recipientId = 2;
+            MoneyFlowSourceRecipientType programType;
+            MoneyFlowSourceRecipientType projectType;
+            MoneyFlowStatus actual;
+            programType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Program.Id,
+                TypeName = MoneyFlowSourceRecipientType.Program.Value
+            };
+            projectType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Project.Id,
+                TypeName = MoneyFlowSourceRecipientType.Project.Value
+            };
+            actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+
+            var endDate = DateTime.UtcNow;
+
+            var program = new Program
+            {
+                ProgramId = sourceId,
+                Name = "program"
+            };
+            var project = new Project
+            {
+                ProjectId = recipientId,
+                Name = "project",
+                EndDate = endDate
+            };
+            var moneyFlow = new MoneyFlow
+            {
+                SourceProgramId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceProgram = program,
+                RecipientProject = project,
+                SourceType = programType,
+                SourceTypeId = programType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = projectType,
+                RecipientTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 100.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10,
+                ParentMoneyFlowId = 100
+            };
+            var moneyFlow2 = new MoneyFlow
+            {
+                SourceProgramId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceProgram = program,
+                RecipientProject = project,
+                SourceType = programType,
+                SourceTypeId = programType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = projectType,
+                RecipientTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 150.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 11,
+                ParentMoneyFlowId = 110
+            };
+            project.RecipientProjectMoneyFlows.Add(moneyFlow);
+            project.RecipientProjectMoneyFlows.Add(moneyFlow2);
+            program.Projects.Add(project);
+
+            context.Programs.Add(program);
+            context.Projects.Add(project);
+            context.MoneyFlows.Add(moneyFlow);
+            context.MoneyFlows.Add(moneyFlow2);
+
+            List<int> programIds = new List<int>();
+            programIds.Add(program.ProgramId);
+            var results = SnapshotQueries.CreateGetProgramBudgetTotalQuery(context, programIds);
+            Assert.AreEqual(250, results.DataValue);
         }
 
         [TestMethod]
@@ -311,7 +395,93 @@ namespace ECA.Business.Test.Queries.Admin
         [TestMethod]
         public void TestCreateGetProgramBudgetByYearQuery()
         {
-            Assert.AreEqual("todo", "todo");
+            var sourceId = 1;
+            var recipientId = 2;
+            MoneyFlowSourceRecipientType programType;
+            MoneyFlowSourceRecipientType projectType;
+            MoneyFlowStatus actual;
+            programType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Program.Id,
+                TypeName = MoneyFlowSourceRecipientType.Program.Value
+            };
+            projectType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Project.Id,
+                TypeName = MoneyFlowSourceRecipientType.Project.Value
+            };
+            actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+
+            var endDate = DateTime.UtcNow;
+
+            var program = new Program
+            {
+                ProgramId = sourceId,
+                Name = "program"
+            };
+            var project = new Project
+            {
+                ProjectId = recipientId,
+                Name = "project",
+                ProgramId = program.ProgramId,
+                EndDate = endDate
+            };
+            var moneyFlow = new MoneyFlow
+            {
+                SourceProgramId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceProgram = program,
+                RecipientProject = project,
+                SourceType = programType,
+                SourceTypeId = programType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = projectType,
+                RecipientTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 100.00m,
+                Description = "desc",
+                FiscalYear = 2013,
+                MoneyFlowId = 10,
+                ParentMoneyFlowId = 100
+            };
+            var moneyFlow2 = new MoneyFlow
+            {
+                SourceProgramId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceProgram = program,
+                RecipientProject = project,
+                SourceType = programType,
+                SourceTypeId = programType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = projectType,
+                RecipientTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 150.00m,
+                Description = "desc",
+                FiscalYear = 2014,
+                MoneyFlowId = 11,
+                ParentMoneyFlowId = 110
+            };
+            project.RecipientProjectMoneyFlows.Add(moneyFlow);
+            project.RecipientProjectMoneyFlows.Add(moneyFlow2);
+            program.Projects.Add(project);
+            context.Programs.Add(program);
+            context.Projects.Add(project);
+            context.MoneyFlows.Add(moneyFlow);
+            context.MoneyFlows.Add(moneyFlow2);
+
+            List<int> programIds = new List<int>();
+            programIds.Add(program.ProgramId);
+            var results = SnapshotQueries.CreateGetProgramBudgetByYearQuery(context, programIds);
+            Assert.AreEqual(250, results.Result.Sum(x => x.Value));
+            Assert.AreEqual(results.Result.Where(y => y.Key == 2013).Select(v => v.Value).FirstOrDefault(), 100);
+            Assert.AreEqual(results.Result.Where(y => y.Key == 2014).Select(v => v.Value).FirstOrDefault(), 150);
         }
 
         [TestMethod]

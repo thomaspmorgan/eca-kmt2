@@ -14,14 +14,14 @@ namespace ECA.Business.Service.Persons
         /// <param name="person">The person</param>
         /// <param name="genderId">The gender id</param>
         /// <param name="countriesOfCitizenship">The countries of citizenship</param>
-        public PersonServiceValidationEntity(Person person, int genderId, List<Location> countriesOfCitizenship, 
-                                                int placeOfBirthId, bool isPlaceOfBirthUnknown)
+        public PersonServiceValidationEntity(Person person, int genderId, List<Location> countriesOfCitizenship)
         {
             this.Person = person;
             this.GenderId = genderId;
             this.CountriesOfCitizenship = countriesOfCitizenship;
-            this.PlaceOfBirthId = placeOfBirthId;
-            this.IsPlaceOfBirthUnknown = isPlaceOfBirthUnknown;
+            //this.PlaceOfBirthId = placeOfBirthId;
+            //this.IsPlaceOfBirthUnknown = isPlaceOfBirthUnknown;
+            //int placeOfBirthId, bool isPlaceOfBirthUnknown
         }
 
         public PersonServiceValidationEntity(Person person, List<ProminentCategory> prominentCategories)
@@ -46,15 +46,15 @@ namespace ECA.Business.Service.Persons
 
         public List<ProminentCategory> ProminentCategories { get; private set; }
 
-        /// <summary>
-        /// Place of birth
-        /// </summary>
-        public int PlaceOfBirthId { get; private set; }
+        ///// <summary>
+        ///// Place of birth
+        ///// </summary>
+        //public int PlaceOfBirthId { get; private set; }
 
-        /// <summary>
-        /// Place of birth unknown flag
-        /// </summary>
-        public bool IsPlaceOfBirthUnknown { get; private set; }
+        ///// <summary>
+        ///// Place of birth unknown flag
+        ///// </summary>
+        //public bool IsPlaceOfBirthUnknown { get; private set; }
     }
 
 }

@@ -558,9 +558,8 @@ namespace ECA.Business.Service.Persons
         }
 
         private PersonServiceValidationEntity GetValidationEntity(UpdatePii pii, Person person, Location cityOfBirth, 
-                                                                    List<Location> countriesOfCititzenship, int placeOfBirthId, 
-                                                                        bool isPlaceOfBirthUnknown) {
-            return new PersonServiceValidationEntity(person, pii.GenderId, countriesOfCititzenship, placeOfBirthId, isPlaceOfBirthUnknown);
+                                                                    List<Location> countriesOfCititzenship) {
+            return new PersonServiceValidationEntity(person, pii.GenderId, countriesOfCititzenship);
         }
 
 
