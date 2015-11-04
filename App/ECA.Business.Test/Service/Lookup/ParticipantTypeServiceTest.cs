@@ -37,8 +37,8 @@ namespace ECA.Business.Test.Service.Lookup
         {
             var participantType = new ParticipantType
             {
-                Name = ParticipantType.ForeignEducationalInstitution.Value,
-                ParticipantTypeId = ParticipantType.ForeignEducationalInstitution.Id
+                Name = ParticipantType.ForeignNonTravelingParticipant.Value,
+                ParticipantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id
             };
 
             context.ParticipantTypes.Add(participantType);

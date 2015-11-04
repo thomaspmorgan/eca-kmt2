@@ -3531,8 +3531,8 @@ namespace ECA.Business.Test.Service.Projects
             };
             var participantType = new ParticipantType
             {
-                Name = ParticipantType.ForeignEducationalInstitution.Value,
-                ParticipantTypeId = ParticipantType.ForeignEducationalInstitution.Id
+                Name = ParticipantType.ForeignNonTravelingParticipant.Value,
+                ParticipantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id
             };
             context.SetupActions.Add(() =>
             {
