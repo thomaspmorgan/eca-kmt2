@@ -557,7 +557,7 @@ namespace ECA.Business.Service.Persons
 
         private PersonServiceValidationEntity GetValidationEntity(UpdatePii pii, Person person, Location cityOfBirth, 
                                                                     List<Location> countriesOfCititzenship) {
-            return new PersonServiceValidationEntity(person, pii.GenderId, countriesOfCititzenship);
+            return new PersonServiceValidationEntity(person, pii.GenderId, countriesOfCititzenship, pii.CityOfBirthId, pii.IsPlaceOfBirthUnknown);
         }
 
 

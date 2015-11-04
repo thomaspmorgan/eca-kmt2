@@ -16,6 +16,7 @@ namespace ECA.Business.Test.Service.Persons
             var genderId = 1;
             var dateOfBirth = DateTime.Now;
             var cityOfBirth = new Location();
+            var isPlaceOfBirthUnknown = false;
             var countriesOfCitizenship = new List<Location>();
             var countryOfCitizenship = new Location();
             countriesOfCitizenship.Add(countryOfCitizenship);
@@ -23,7 +24,9 @@ namespace ECA.Business.Test.Service.Persons
             var entity = new PersonServiceValidationEntity(
                 person,
                 genderId,
-                countriesOfCitizenship);
+                countriesOfCitizenship,
+                cityOfBirth.LocationId,
+                isPlaceOfBirthUnknown);
 
             Assert.IsTrue(Object.ReferenceEquals(person, entity.Person));
             Assert.AreEqual(genderId, entity.GenderId);
