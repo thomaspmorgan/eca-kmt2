@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Queries.Models.Persons
 {
@@ -95,6 +91,11 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the country of birth
         /// </summary>
         public string CountryOfBirth { get; set; }
+
+        /// <summary>
+        /// Gets or sets the place of birth unknown flag.
+        /// </summary>
+        public bool? IsPlaceOfBirthUnknown { get; set; }
 
         /// <summary>
         /// Gets or sets the city of birth

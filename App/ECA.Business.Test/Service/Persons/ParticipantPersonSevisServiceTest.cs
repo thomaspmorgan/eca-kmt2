@@ -11,24 +11,27 @@ namespace ECA.Business.Test.Service.Persons
     public class ParticipantPersonSevisServiceTest
     {
         private TestEcaContext context;
-        private ParticipantPersonSevisService service;
+        private ParticipantPersonsSevisService service;
 
         [TestInitialize]
         public void TestInit()
         {
             context = new TestEcaContext();
-            service = new ParticipantPersonSevisService(context);
+            service = new ParticipantPersonsSevisService(context);
         }
 
         [TestMethod]
         public async Task TestSendToSevis()
         {
+            var now = DateTimeOffset.Now;
+            var yesterday = now.AddDays(-1.0);
+
             var status = new ParticipantPersonSevisCommStatus
             {
                 Id = 1,
                 ParticipantId = 1,
                 SevisCommStatusId = SevisCommStatus.InformationRequired.Id,
-                AddedOn = DateTimeOffset.Now
+                AddedOn = yesterday
             };
 
             var status2 = new ParticipantPersonSevisCommStatus
@@ -36,7 +39,7 @@ namespace ECA.Business.Test.Service.Persons
                 Id = 2,
                 ParticipantId = 1,
                 SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id,
-                AddedOn = DateTimeOffset.Now
+                AddedOn = now
             };
 
             context.ParticipantPersonSevisCommStatuses.Add(status);

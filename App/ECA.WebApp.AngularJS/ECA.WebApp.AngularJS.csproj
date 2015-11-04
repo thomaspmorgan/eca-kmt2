@@ -20,7 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <TypeScriptToolsVersion>1.6</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.7</TypeScriptToolsVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <ApplicationInsightsResourceId>/subscriptions/3d6f9d9a-0854-47e7-a31e-c6838bcb192f/resourcegroups/DevGroup/providers/microsoft.insights/components/kmt-dev</ApplicationInsightsResourceId>
@@ -174,6 +174,8 @@
     <Content Include="app\app.config.js" />
     <Content Include="app\application-insights\appinsightsinit.js" />
     <Content Include="app\auth\auth.routes.js" />
+    <Content Include="app\directives\participant-person-info.directive.html" />
+    <Content Include="app\directives\participant-person-info.directive.js" />
     <Content Include="app\directives\snapshots-graphs.controller.js" />
     <Content Include="app\directives\snapshots-graphs.directive.html" />
     <Content Include="app\directives\snapshots-graphs.directive.js" />
@@ -393,6 +395,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="app\projects\project-participant-editinfo.controller.js" />
     <None Include="ECA.WebApp.AngularJS.wpp.targets" />
     <None Include="Properties\PublishProfiles\kmt-dev.pubxml" />
     <None Include="Properties\PublishProfiles\kmt-pre.pubxml" />

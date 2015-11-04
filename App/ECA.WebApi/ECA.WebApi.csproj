@@ -469,12 +469,16 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\Admin\AddressesController.cs" />
     <Compile Include="Controllers\Admin\BookmarksController.cs" />
+    <Compile Include="Controllers\Admin\ParticipantStatusesController.cs" />
     <Compile Include="Controllers\Admin\PhoneNumbersController.cs" />
     <Compile Include="Controllers\Admin\GendersController.cs" />
     <Compile Include="Controllers\Admin\MaritalStatusesController.cs" />
     <Compile Include="Controllers\Admin\LanguagesController.cs" />
     <Compile Include="Controllers\Admin\EmailAddressesController .cs" />
+    <Compile Include="Controllers\Admin\FieldOfStudiesController.cs" />
+    <Compile Include="Controllers\Admin\PositionsController.cs" />
     <Compile Include="Controllers\Admin\ProgramStatusesController.cs" />
+    <Compile Include="Controllers\Admin\ProgramCategoriesController.cs" />
     <Compile Include="Controllers\Admin\SevisCommStatusesController.cs" />
     <Compile Include="Controllers\Admin\SnapshotController.cs" />
     <Compile Include="Controllers\Persons\EduEmpController.cs" />
@@ -494,6 +498,8 @@
     <Compile Include="Controllers\Persons\ParticipantPersonsController.cs" />
     <Compile Include="Models\Admin\CreateOrganizationBindingModel.cs" />
     <Compile Include="Models\Admin\ParticipantOrganizationBindingModel.cs" />
+    <Compile Include="Models\Person\UpdatedParticipantPersonBindingModel.cs" />
+    <Compile Include="Models\Person\UpdatedParticipantPersonSevisBindingModel.cs" />
     <Compile Include="Models\Search\DeleteIndexBindingModel.cs" />
     <Compile Include="Models\Search\DocumentSuggestResponseViewModel.cs" />
     <Compile Include="Models\Search\ECASearchParametersBindingModel.cs" />

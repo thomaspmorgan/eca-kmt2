@@ -94,143 +94,42 @@
                         </td>
                         <td>
                             <a ng-click="toggleParticipantInfo(participant.participantId)">
-                                <i class="material-icons md-dark md-36 pull-right" ng-show="participantInfo[participant.participantId] === undefined || participantInfo[participant.participantId].show === false">expand_less</i>
-                                <i class="material-icons md-dark md-36 pull-right" ng-show="participantInfo[participant.participantId].show">expand_more</i>
+                                <i class="material-icons md-dark md-36 pull-right"
+                                   ng-show="participantInfo[participant.participantId] === undefined || participantInfo[participant.participantId].show === false">
+                                    expand_less
+                                </i>
+                                <i class="material-icons md-dark md-36 pull-right"
+                                   ng-show="participantInfo[participant.participantId] !== undefined && participantInfo[participant.participantId].show">
+                                    expand_more
+                                </i>
                             </a>
+                        </td>
+                    </tr>
+                    <tr ng-show="participantInfo[participant.participantId].isLoadingInfo">
+                        <td colspan="5">
+                            <div class="spinner">
+                                <div class="bounce1"></div>
+                                <div class="bounce2"></div>
+                                <div class="bounce3"></div>
+                            </div>
                         </td>
                     </tr>
                     <tr id="participantInfo" ng-show="participantInfo[participant.participantId].show && participantInfo[participant.participantId].participantId">
                         <td colspan="5">
                             <tabset>
-                                <tab class="tab">
-                                    <tab-heading>Participant Information</tab-heading>
-                                    <div class="row">
-                                        <div ng-show="participantInfo[participant.participantId].participantStatus">
-                                            <div class="col-md-2 title-label">Status</div>
-                                            <div class="col-md-4">{{participantInfo[participant.participantId].participantStatus}}</div>
-                                        </div>
-                                        <div ng-show="participantInfo[participant.participantId].participantType">
-                                            <div class="col-md-2 title-label">Participant Type</div>
-                                            <div class="col-md-4">{{participantInfo[participant.participantId].participantType}}</div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div ng-show="participantInfo[participant.participantId].hostInstitution">
-                                            <div class="col-md-2 title-label">Host Institution</div>
-                                            <div class="col-md-4">
-                                                <div class="row4" ng-show="participantInfo[participant.participantId].hostInstitution.name">
-                                                    <label class="col-md-4 title-label">Name</label>
-                                                    <div class="col-md-8">
-                                                        {{participantInfo[participant.participantId].hostInstitution.name}}
-                                                    </div>
-                                                </div>
-                                                <div ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0]">
-                                                    <div class="row2" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].street1">
-                                                        <label class="col-md-4 title-label">Street 1</label>
-                                                        <div class="col-md-8">
-                                                            {{participantInfo[participant.participantId].hostInstitution.addresses[0].street1}}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row2" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].street2">
-                                                        <label class="col-md-4 title-label">
-                                                            Street 2
-                                                        </label>
-                                                        <div class="col-md-8">
-                                                            {{participantInfo[participant.participantId].hostInstitution.addresses[0].street2}}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row2" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].street3">
-                                                        <label class=" col-md-4 title-label">
-                                                            Street 3
-                                                        </label>
-                                                        <div class="col-md-8">
-                                                            {{participantInfo[participant.participantId].hostInstitution.addresses[0].street3}}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row4" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].country">
-                                                        <label class="col-md-4 title-label">Country</label>
-                                                        <div class="col-md-8">
-                                                            {{participantInfo[participant.participantId].hostInstitution.addresses[0].country}}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row2" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].city">
-                                                        <label class="col-md-4 title-label">City</label>
-                                                        <div class="col-md-8">
-                                                            {{participantInfo[participant.participantId].hostInstitution.addresses[0].city}}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row2" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].postalCode">
-                                                        <label class="col-md-4 title-label">Postal Code</label>
-                                                        <div class="col-md-8">
-                                                            {{participantInfo[participant.participantId].hostInstitution.addresses[0].postalCode}}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div ng-show="participantInfo[participant.participantId].homeInstitution">
-                                            <div class="col-md-2 title-label">Home Institution</div>
-                                            <div class="col-md-4">
-                                                <div class="row4" ng-show="participantInfo[participant.participantId].homeInstitution.name">
-                                                    <label class=" col-md-4 title-label">
-                                                        Name
-                                                    </label>
-                                                    <div class="col-md-8">
-                                                        {{participantInfo[participant.participantId].homeInstitution.name}}
-                                                    </div>
-                                                </div>
-                                                <div ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0]">
-                                                    <div class="row2" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].street1">
-                                                        <label class="col-md-4 title-label">Street 1</label>
-                                                        <div class="col-md-8">
-                                                            {{participantInfo[participant.participantId].homeInstitution.addresses[0].street1}}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row2" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].street2">
-                                                        <label class="col-md-4 title-label">Street 2</label>
-                                                        <div class="col-md-8">
-                                                            {{participantInfo[participant.participantId].homeInstitution.addresses[0].street2}}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row2" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].street3">
-                                                        <label class="col-md-4 title-label">Street 3</label>
-                                                        <div class="col-md-8">
-                                                            {{participantInfo[participant.participantId].homeInstitution.addresses[0].street3}}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row2" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].country">
-                                                        <label class="col-md-4 title-label">Country</label>
-                                                        <div class="col-md-8">
-                                                            {{participantInfo[participant.participantId].homeInstitution.addresses[0].country}}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row2" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].city">
-                                                        <label class="col-md-4 title-label">City</label>
-                                                        <div class="col-md-8">
-                                                            {{participantInfo[participant.participantId].homeInstitution.addresses[0].city}}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row2" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].postalCode">
-                                                        <label class="col-md-4 title-label">Postal Code</label>
-                                                        <div class="col-md-8">
-                                                            {{participantInfo[participant.participantId].homeInstitution.addresses[0].postalCode}}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <tab heading="Participant Information" class="tab" select="onInfoTabSelected(participant.participantId)" deselect="view.tabInfo=false">
+                                    <participant-person-info participantid="{{participant.participantId}}" active="view.tabInfo" editmode="participantInfo[participant.participantId].editInfo" personinfo="participantInfo[participant.participantId]" />
                                 </tab>
                                 <tab heading="SEVIS Information" class="tab" select="onSevisTabSelected(participant.participantId)" deselect="view.tabSevis=false">
-                                    <participant-person-sevis participantid="{{participant.participantId}}" active="view.tabSevis" sevisinfo="sevisInfo[participant.participantId]"/>
+                                    <participant-person-sevis participantid="{{participant.participantId}}" active="view.tabSevis" sevisinfo="sevisInfo[participant.participantId]" update="saveSevisInfo(participantId)" />
                                 </tab>
                                 <tab heading="Student Visitor Data" class="tab" select="onStudentVisitorTabSelected(participant.participantId)" deselect="view.tabStudentVisitor=false">
-                                    <participant-student-visitor participantid="{{participant.participantId}}" active="view.tabStudentVisitor" studentvisitorinfo="studentVisitorInfo[participant.participantId]"/>
+                                    <participant-student-visitor participantid="{{participant.participantId}}" active="view.tabStudentVisitor" studentvisitorinfo="studentVisitorInfo[participant.participantId]" />
                                 </tab>
                             </tabset>
                         </td>
                     </tr>
-                    <tr id="participantMoreInfo" ng-repeat-end ng-show="participantInfo[participant.participantId].show && participantInfo[participant.participantId].participantId === undefined">
+                    <tr id="participantMoreInfo" ng-repeat-end ng-show="participantInfo[participant.participantId].show && participantInfo[participant.participantId].participantId === undefined && !participantInfo[participant.participantId].isLoadingInfo">
                         <td colspan="5">
                             <div class="col-md-12 text-center">
                                 There is no additional information for this participant.

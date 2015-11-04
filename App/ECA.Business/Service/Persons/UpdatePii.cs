@@ -52,6 +52,7 @@ namespace ECA.Business.Service.Persons
             DateTime? dateOfBirth,
             bool? isDateOfBirthUnknown,
             List<int> countriesOfCitizenship,
+            bool? isPlaceOfBirthUnknown,
             string medicalConditions,
             int? maritalStatusId
             )
@@ -73,6 +74,7 @@ namespace ECA.Business.Service.Persons
             this.DateOfBirth = dateOfBirth;
             this.IsDateOfBirthUnknown = isDateOfBirthUnknown;
             this.CountriesOfCitizenship = countriesOfCitizenship;
+            this.IsPlaceOfBirthUnknown = isPlaceOfBirthUnknown;
             this.MedicalConditions = medicalConditions;
             this.MaritalStatusId = maritalStatusId;
             this.Audit = new Create(updatedBy);
@@ -142,6 +144,11 @@ namespace ECA.Business.Service.Persons
         /// Gets or sets the city of birth
         /// </summary>
         public int? CityOfBirthId { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the place of birth unknown flag.
+        /// </summary>
+        public bool? IsPlaceOfBirthUnknown { get; set; }
 
         /// <summary>
         /// Gets or sets the date of birth

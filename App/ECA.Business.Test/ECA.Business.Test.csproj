@@ -219,12 +219,16 @@
     <Compile Include="Service\Fundings\UpdatedMoneyFlowTest.cs" />
     <Compile Include="Service\Lookup\EmailAddressTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\LocationTypeServiceTest.cs" />
+    <Compile Include="Service\Lookup\ParticipantStatusServiceTest.cs" />
     <Compile Include="Service\Lookup\SocialMediaTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\AddressTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\ParticipantTypeServiceTest.cs" />
     <Compile Include="Service\Persons\EvaluationServiceTest.cs" />
     <Compile Include="Service\Persons\MembershipServiceTest.cs" />
     <Compile Include="Service\Persons\ParticipantPersonServiceTest.cs" />
+    <Compile Include="Service\Persons\ParticipantPersonServiceValidatorTest.cs" />
+    <Compile Include="Service\Persons\UpdatedParticipantPersonValidationEntityTest.cs" />
+    <Compile Include="Service\Persons\UpdatedParticipantPersonTest.cs" />
     <Compile Include="Service\Persons\ParticipantPersonSevisServiceTest.cs" />
     <Compile Include="Service\Programs\ProgramStatusServiceTest.cs" />
     <Compile Include="Service\Projects\AdditionalOrganizationProjectParticipantTest.cs" />

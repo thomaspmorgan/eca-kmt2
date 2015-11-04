@@ -1,0 +1,14 @@
+﻿<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="ECA_Oracle"
+  DTS:DTSID="{383B9373-8279-4C8A-9356-0030112FB2F3}"
+  DTS:CreationName="OLEDB">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectionString="Data Source=ecaoracle2.cloudapp.net/ECA;User ID=system;Provider=MSDAORA.1;Persist Security Info=True;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAACAAAAAAAQZgAAAAEAACAAAACbgy9yr2tMoBL+qPBnTEIoTYlARD9tfPIxTs3CNHZttQAAAAAOgAAAAAIAACAAAABb+4+WNqih8AJYigRzrSYiO1T8OQMYQMKa4JqcUq4TYYAAAACyr278roBfkf5de2nV4NRsoZVMWtjPrPz0skaW59t9VFmd81Yoibe9mw+Edk3JMO2kXeFW5sbLuAuSCLtpqTzOdgi4oIGvlDU9lLV8hBEBC1Ygh/7eYJmpnATeMEmLeA+97l/KbWnOgMCBsIdNBuQAZFjWgzj7YCcBe+dQOse5kkAAAAB5gInWXyVs0TnjsMegtBxue58AbLPadSyYDI5oaz6KwCftmDPhaEtJ4rZizQ8WL2mzPO0xSgWYn2CfkTpeYFq1</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

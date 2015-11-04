@@ -3,16 +3,17 @@
 
     angular
         .module('staticApp')
-        .factory('ParticipantPersonsSevisService', participantPersonSevisService);
+        .factory('ParticipantPersonsSevisService', participantPersonsSevisService);
 
-    participantPersonSevisService.$inject = ['$q','DragonBreath'];
+    participantPersonsSevisService.$inject = ['$q','DragonBreath'];
 
-    function participantPersonSevisService($q, DragonBreath) {
+    function participantPersonsSevisService($q, DragonBreath) {
         var service = {
             getParticipantPersonsSevis: getParticipantPersonsSevis,
             getParticipantPersonsSevisByProject: getParticipantPersonsSevisByProject,
             getParticipantPersonsSevisById: getParticipantPersonsSevisById,
             getParticipantPersonsSevisCommStatusesById: getParticipantPersonsSevisCommStatusesById,
+            updateParticipantPersonsSevis: updateParticipantPersonsSevis,
             sendToSevis: sendToSevis
         };
 
@@ -42,12 +43,17 @@
         };
 
         function getParticipantPersonsSevisCommStatusesById(id, params) {
-            var path = 'participantPersonSevis/' + id + '/sevisCommStatuses';
+            var path = 'participantPersonsSevis/' + id + '/sevisCommStatuses';
             return DragonBreath.get(params, path);
         };
 
         function sendToSevis(participantIds) {
             return DragonBreath.create(participantIds, 'participantPersonsSevis/sendToSevis');
         }
+
+        function updateParticipantPersonsSevis(sevisInfo) {
+            var path = 'participantPersonsSevis';
+            return DragonBreath.save(sevisInfo, path);
+        };
     }
 })();

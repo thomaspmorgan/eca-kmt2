@@ -25,7 +25,7 @@ namespace ECA.Data
         /// <summary>
         /// Creates a default instance.
         /// </summary>
-        public EcaContext() : base() 
+        public EcaContext() : base()
         {
             Database.SetInitializer<EcaContext>(null);
         }
@@ -153,8 +153,8 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets Justifications
         /// </summary>
-        public DbSet<Justification> Justifications {get; set;}
-        
+        public DbSet<Justification> Justifications { get; set; }
+
         /// <summary>
         /// Gets or sets language proficiences.
         /// </summary>
@@ -188,12 +188,12 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets OfficeSettings for an office
         /// </summary>
-        public DbSet<OfficeSetting> OfficeSettings {get; set;}
+        public DbSet<OfficeSetting> OfficeSettings { get; set; }
 
         /// <summary>
         /// Gets or sets objectives for a Justification
         /// </summary>
-        public DbSet<Objective> Objectives {get; set;}
+        public DbSet<Objective> Objectives { get; set; }
 
         /// <summary>
         /// Gets or sets organizations.
@@ -249,7 +249,7 @@ namespace ECA.Data
         /// Gets or sets Language Proficiencies for a Person
         /// </summary>
         public DbSet<PersonLanguageProficiency> PersonLanguageProficiencies { get; set; }
-        
+
         /// <summary>
         /// Gets or sets phone numbers.
         /// </summary>
@@ -299,11 +299,6 @@ namespace ECA.Data
         /// Gets or sets publications.
         /// </summary>
         public DbSet<Publication> Publications { get; set; }
-
-        /// <summary>
-        /// Gets or sets the SevisCommStatuses.
-        /// </summary>
-        public DbSet<SevisCommStatus> SevisCommStatuses { get; set; }
 
         /// <summary>
         /// Gets or sets social medias.
@@ -379,9 +374,25 @@ namespace ECA.Data
         // Sevis Lookup Tables
 
         /// <summary>
+        /// Gets or sets the field of studies collection
+        /// </summary>
+        public DbSet<FieldOfStudy> FieldOfStudies { get; set; }
+
+        /// <summary>
+        /// Gets or sets the positions
+        /// </summary>
+        public DbSet<Position> Positions { get; set; }
+
+        /// <summary>
         /// List of SEVIS program categories, used for relating to a participant
         /// </summary>
         public DbSet<ProgramCategory> ProgramCategories { get; set; }
+
+        /// <summary>
+        /// Gets or sets the SevisCommStatuses.
+        /// </summary>
+        public DbSet<SevisCommStatus> SevisCommStatuses { get; set; }
+
 
         /// <summary>
         /// Overrides the DbContext OnModelCreating method.

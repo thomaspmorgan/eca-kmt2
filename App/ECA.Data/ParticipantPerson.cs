@@ -50,7 +50,7 @@ namespace ECA.Data
         /// The study project for the student (if student)
         /// </summary>
         [MaxLength(STUDY_PROJECT_MAX_LENGTH)]
-        public string StudyProject {get; set;}
+        public string StudyProject { get; set; }
 
         /// <summary>
         /// has the participant been sent to Sevis via RTI (manual web interface)
@@ -177,28 +177,50 @@ namespace ECA.Data
         /// <summary>
         /// navigation property for HostInstitution
         /// </summary>
-        public Organization HostInstitution {get; set;}
+        public Organization HostInstitution { get; set; }
 
         /// <summary>
         /// Foreign Key for HostInstitution
         /// </summary>
-        public int? HostInstitutionId {get; set;}
+        public int? HostInstitutionId { get; set; }
 
         /// <summary>
         /// navigation property for HomeInstitution
         /// </summary>
-        public Organization HomeInstitution {get; set;}
+        public Organization HomeInstitution { get; set; }
 
         /// <summary>
         /// Foreign Key for HomeInstitution
         /// </summary>
-        public int? HomeInstitutionId {get; set;}
+        public int? HomeInstitutionId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the host institution address.
+        /// </summary>
+        [ForeignKey("HostInstitutionAddressId")]
+        public virtual Address HostInstitutionAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets the host institution address id.
+        /// </summary>
+        public int? HostInstitutionAddressId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the home institution address.
+        /// </summary>
+        [ForeignKey("HomeInstitutionAddressId")]
+        public virtual Address HomeInstitutionAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets the home institution address id.
+        /// </summary>
+        public int? HomeInstitutionAddressId { get; set; }
 
         /// <summary>
         /// Reference to the participant record
         /// </summary>
         public Participant Participant { get; set; }
-        
+
         /// <summary>
         /// 
         /// </summary>

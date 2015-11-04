@@ -6,14 +6,19 @@ using System.Collections.Generic;
 using ECA.Business.Queries.Models.Admin;
 using System;
 using System.Linq;
+using ECA.Business.Service.Programs;
+using System.Data.Entity;
 
 namespace ECA.Business.Service.Admin
 {
     public class SnapshotService : DbContextService<EcaContext>, ISnapshotService
     {
-        public SnapshotService(EcaContext context, List<ISaveAction> saveActions = null) : base(context, saveActions)
+        public SnapshotService(EcaContext context, IProgramService programService, List<ISaveAction> saveActions = null) : base(context, saveActions)
         {
+            this.programService = programService;
         }
+
+        private IProgramService programService;
 
         /// <summary>
         /// Count of related projects
@@ -22,7 +27,8 @@ namespace ECA.Business.Service.Admin
         /// <returns></returns>
         public SnapshotDTO GetProgramRelatedProjectsCount(int programId)
         {
-            var dto = SnapshotQueries.CreateGetProgramRelatedProjectsCountQuery(Context, programId);
+            var childPrograms = programService.GetAllChildProgramsWithParent(programId);
+            var dto = SnapshotQueries.CreateGetProgramRelatedProjectsCountQuery(Context, childPrograms.Select(p => p.ProgramId).ToList());
             return dto;
         }
 
@@ -33,7 +39,8 @@ namespace ECA.Business.Service.Admin
         /// <returns></returns>
         public SnapshotDTO GetProgramParticipantCount(int programId)
         {
-            var dto = SnapshotQueries.CreateGetProgramParticipantsCountQuery(Context, programId);
+            var childPrograms = programService.GetAllChildProgramsWithParent(programId);
+            var dto = SnapshotQueries.CreateGetProgramParticipantsCountQuery(Context, childPrograms.Select(p => p.ProgramId).ToList());
             return dto;
         }
 
@@ -44,7 +51,8 @@ namespace ECA.Business.Service.Admin
         /// <returns></returns>
         public SnapshotDTO GetProgramBudgetTotal(int programId)
         {
-            var dto = SnapshotQueries.CreateGetProgramBudgetTotalQuery(Context, programId);
+            var childPrograms = programService.GetAllChildProgramsWithParent(programId);
+            var dto = SnapshotQueries.CreateGetProgramBudgetTotalQuery(Context, childPrograms.Select(p => p.ProgramId).ToList());
             return dto;
         }
 
@@ -64,10 +72,17 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public async Task<SnapshotDTO> GetProgramCountryCount(int programId)
+        public async Task<SnapshotDTO> GetProgramCountryCountAsync(int programId)
         {
-            var dto = await SnapshotQueries.CreateGetProgramCountryCountQuery(Context, programId);
-            return dto;
+            var childPrograms = programService.GetAllChildProgramsWithParent(programId);
+
+            var query = SnapshotQueries.CreateGetProgramCountriesByProgramIdsQuery(Context, childPrograms.Select(p => p.ProgramId).ToList());
+            var locationIds = await query.Select(x => x).CountAsync();
+            return new SnapshotDTO()
+            {
+                DataLabel = "COUNTRIES",
+                DataValue = locationIds
+            };
         }
 
         /// <summary>
@@ -77,7 +92,8 @@ namespace ECA.Business.Service.Admin
         /// <returns></returns>
         public SnapshotDTO GetProgramBeneficiaryCount(int programId)
         {
-            var dto = SnapshotQueries.CreateGetProgramBeneficiaryCountQuery(Context, programId);
+            var childPrograms = programService.GetAllChildProgramsWithParent(programId);
+            var dto = SnapshotQueries.CreateGetProgramBeneficiaryCountQuery(Context, childPrograms.Select(p => p.ProgramId).ToList());
             return dto;
         }
 
@@ -86,10 +102,16 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public SnapshotDTO GetProgramImpactStoryCount(int programId)
+        public async Task<SnapshotDTO> GetProgramImpactStoryCount(int programId)
         {
-            var dto = SnapshotQueries.CreateGetProgramImpactStoryCountQuery(Context, programId);
-            return dto;
+            var childPrograms = programService.GetAllChildProgramsWithParent(programId);
+            var query = SnapshotQueries.CreateGetProgramImpactStoryCountQuery(Context, childPrograms.Select(p => p.ProgramId).ToList());
+            var impactIds = await query.Select(x => x).Distinct().CountAsync();
+            return new SnapshotDTO()
+            {
+                DataLabel = "IMPACT STORIES",
+                DataValue = impactIds
+            };
         }
 
         /// <summary>
@@ -99,7 +121,8 @@ namespace ECA.Business.Service.Admin
         /// <returns></returns>
         public SnapshotDTO GetProgramAlumniCount(int programId)
         {
-            var dto = SnapshotQueries.CreateGetProgramAlumniCountQuery(Context, programId);
+            var childPrograms = programService.GetAllChildProgramsWithParent(programId);
+            var dto = SnapshotQueries.CreateGetProgramAlumniCountQuery(Context, childPrograms.Select(p => p.ProgramId).ToList());
             return dto;
         }
 
@@ -108,10 +131,17 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public SnapshotDTO GetProgramProminenceCount(int programId)
+        public async Task<SnapshotDTO> GetProgramProminenceCount(int programId)
         {
-            var dto = SnapshotQueries.CreateGetProgramProminenceCountQuery(Context, programId);
-            return dto;
+            var childPrograms = programService.GetAllChildProgramsWithParent(programId);
+            var query = SnapshotQueries.CreateGetProgramProminenceCountQuery(Context, childPrograms.Select(p => p.ProgramId).ToList());
+            var catIds = await query.Select(x => x).Distinct().CountAsync();
+            
+            return new SnapshotDTO()
+            {
+                DataLabel = "PROMINENCE",
+                DataValue = catIds
+            };
         }
 
         /// <summary>
@@ -121,8 +151,16 @@ namespace ECA.Business.Service.Admin
         /// <returns></returns>
         public async Task<SnapshotGraphDTO> GetProgramBudgetByYear(int programId)
         {
-            var dto = await SnapshotQueries.CreateGetProgramBudgetByYearQuery(Context, programId);
-            return dto;
+            var childPrograms = programService.GetAllChildProgramsWithParent(programId);
+            var dto = await SnapshotQueries.CreateGetProgramBudgetByYearQuery(Context, childPrograms.Select(p => p.ProgramId).ToList());
+
+            SnapshotGraphDTO graphValues = new SnapshotGraphDTO
+            {
+                key = "Budget",
+                values = dto.OrderBy(x => x.Key).ToList()
+            };
+
+            return graphValues;
         }
 
         /// <summary>
@@ -142,8 +180,9 @@ namespace ECA.Business.Service.Admin
         /// <returns></returns>
         public async Task<IEnumerable<string>> GetProgramTopThemes(int programId)
         {
-            var dto = await SnapshotQueries.CreateGetProgramTopThemesQuery(Context, programId);
-            return dto.Take(5);
+            var childPrograms = programService.GetAllChildProgramsWithParent(programId);
+            var dto = await SnapshotQueries.CreateGetProgramTopThemesQuery(Context, childPrograms.Select(p => p.ProgramId).ToList());
+            return dto;
         }
 
         /// <summary>
@@ -153,7 +192,8 @@ namespace ECA.Business.Service.Admin
         /// <returns></returns>
         public async Task<IEnumerable<SnapshotDTO>> GetProgramParticipantsByLocation(int programId)
         {
-            var dto = await SnapshotQueries.CreateGetProgramParticipantsByLocationQuery(Context, programId);
+            var childPrograms = programService.GetAllChildProgramsWithParent(programId);
+            var dto = await SnapshotQueries.CreateGetProgramParticipantsByLocationQuery(Context, childPrograms.Select(p => p.ProgramId).ToList());
             return dto;
         }
 
@@ -164,7 +204,8 @@ namespace ECA.Business.Service.Admin
         /// <returns></returns>
         public async Task<SnapshotGraphDTO> GetProgramParticipantsByYear(int programId)
         {
-            var dto = await SnapshotQueries.CreateGetProgramParticipantsByYearQuery(Context, programId);
+            var childPrograms = programService.GetAllChildProgramsWithParent(programId);
+            var dto = await SnapshotQueries.CreateGetProgramParticipantsByYearQuery(Context, childPrograms.Select(p => p.ProgramId).ToList());
             return dto;
         }
         

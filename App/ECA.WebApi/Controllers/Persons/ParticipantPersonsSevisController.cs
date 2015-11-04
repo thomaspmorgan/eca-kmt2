@@ -4,16 +4,12 @@ using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
 using ECA.WebApi.Models.Query;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+using ECA.WebApi.Models.Person;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using ECA.WebApi.Security;
 
 namespace ECA.WebApi.Controllers.Persons
 {
@@ -29,16 +25,18 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         private static readonly ExpressionSorter<ParticipantPersonSevisDTO> DEFAULT_SORTER = new ExpressionSorter<ParticipantPersonSevisDTO>(x => x.ParticipantId, SortDirection.Ascending);
 
-        private IParticipantPersonSevisService service;
+        private IParticipantPersonsSevisService service;
+        private IUserProvider userProvider;
 
         /// <summary>
         /// Creates a new ParticipantPersonsSevisController with the given service.
         /// </summary>
         /// <param name="service">The service.</param>
-        public ParticipantPersonsSevisController(IParticipantPersonSevisService service)
+        public ParticipantPersonsSevisController(IParticipantPersonsSevisService service, IUserProvider userProvider)
         {
             Contract.Requires(service != null, "The participantPersonSevis service must not be null.");
             this.service = service;
+            this.userProvider = userProvider;
         }
 
         /// <summary>
@@ -48,11 +46,11 @@ namespace ECA.WebApi.Controllers.Persons
         /// <returns>The list of participantPersonSevises.</returns>
         [ResponseType(typeof(PagedQueryResults<ParticipantPersonSevisDTO>))]
         [Route("ParticipantPersonsSevis")]
-        public async Task<IHttpActionResult> GetParticipantPersonsAsync([FromUri]PagingQueryBindingModel<ParticipantPersonSevisDTO> queryModel)
+        public async Task<IHttpActionResult> GetParticipantPersonsSevisAsync([FromUri]PagingQueryBindingModel<ParticipantPersonSevisDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetParticipantPersonSevisesAsync(queryModel.ToQueryableOperator(DEFAULT_SORTER));
+                var results = await this.service.GetParticipantPersonsSevisAsync(queryModel.ToQueryableOperator(DEFAULT_SORTER));
                 return Ok(results);
             }
             else
@@ -69,12 +67,12 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="projectId">The id of the project to get participants for.</param>
         /// <returns>The list of participantPersonSevises.</returns>
         [ResponseType(typeof(PagedQueryResults<ParticipantPersonSevisDTO>))]
-        [Route("Projects/{projectId:int}/ParticipantPersonSevises")]
-        public async Task<IHttpActionResult> GetParticipantPersonSevisesByProjectIdAsync(int projectId, [FromUri]PagingQueryBindingModel<ParticipantPersonSevisDTO> queryModel)
+        [Route("Projects/{projectId:int}/ParticipantPersonsSevis")]
+        public async Task<IHttpActionResult> GetParticipantPersonsSevisByProjectIdAsync(int projectId, [FromUri]PagingQueryBindingModel<ParticipantPersonSevisDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetParticipantPersonSevisesByProjectIdAsync(projectId, queryModel.ToQueryableOperator(DEFAULT_SORTER));
+                var results = await this.service.GetParticipantPersonsSevisByProjectIdAsync(projectId, queryModel.ToQueryableOperator(DEFAULT_SORTER));
                 return Ok(results);
             }
             else
@@ -90,9 +88,9 @@ namespace ECA.WebApi.Controllers.Persons
         /// <returns>The participantPersonSevis with the given id.</returns>
         [ResponseType(typeof(ParticipantPersonSevisDTO))]
         [Route("ParticipantPersonsSevis/{participantId:int}")]
-        public async Task<IHttpActionResult> GetParticipantPersonByIdAsync(int participantId) 
+        public async Task<IHttpActionResult> GetParticipantPersonsSevisByIdAsync(int participantId) 
         {
-            var participantPerson = await service.GetParticipantPersonSevisByIdAsync(participantId);
+            var participantPerson = await service.GetParticipantPersonsSevisByIdAsync(participantId);
             if (participantPerson != null)
             {
                 return Ok(participantPerson);
@@ -104,6 +102,28 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
 
+        /// <summary>
+        /// Updates the new participantPersonSevis with the given participantId.
+        /// </summary>
+        /// <param name="model">The new email address.</param>
+        /// <returns>The saved email address.</returns>
+        [Route("ParticipantPersonsSevis")]
+        public async Task<IHttpActionResult> PutParticipantPersonsSevisAsync([FromBody]UpdatedParticipantPersonSevisBindingModel model)
+        {   
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var participantPersonSevisDTO = await service.UpdateAsync(model.ToUpdatedParticipantPersonSevis(businessUser));
+                await service.SaveChangesAsync();
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
 
         /// <summary>
         /// Retrieves a listing of the paged, sorted, and filtered list of participant's SEVIS comm statuses.
@@ -112,12 +132,12 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="participantId">The id of the project to get participants for.</param>
         /// <returns>The list of participantPerson Sevis Comm Statuses.</returns>
         [ResponseType(typeof(PagedQueryResults<ParticipantPersonSevisCommStatusDTO>))]
-        [Route("ParticipantPersonSevis/{participantId:int}/SevisCommStatuses")]
-        public async Task<IHttpActionResult> GetParticipantPersonSevisCommStatusesByProjectIdAsync(int participantId, [FromUri]PagingQueryBindingModel<ParticipantPersonSevisCommStatusDTO> queryModel)
+        [Route("ParticipantPersonsSevis/{participantId:int}/SevisCommStatuses")]
+        public async Task<IHttpActionResult> GetParticipantPersonsSevisCommStatusesByProjectIdAsync(int participantId, [FromUri]PagingQueryBindingModel<ParticipantPersonSevisCommStatusDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetParticipantPersonSevisCommStatusesByIdAsync(participantId, queryModel.ToQueryableOperator(DEFAULT_SORTER));
+                var results = await this.service.GetParticipantPersonsSevisCommStatusesByIdAsync(participantId, queryModel.ToQueryableOperator(DEFAULT_SORTER));
                 return Ok(results);
             }
             else

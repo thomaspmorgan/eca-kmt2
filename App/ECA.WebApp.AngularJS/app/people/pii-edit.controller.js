@@ -10,13 +10,10 @@ angular.module('staticApp')
   .controller('personPiiEditCtrl', function ($scope, $timeout, ParticipantService, PersonService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService, $q) {
 
       $scope.piiLoading = true;
-
       $scope.datePickerOpen = false;
-
       $scope.maxDateOfBirth = new Date();
-
       $scope.selectedCountriesOfCitizenship = [];
-
+      $scope.unknownCountry = 'Unknown';
       $scope.personIdDeferred = $q.defer();
 
       $scope.updateGender = function () {
@@ -25,6 +22,9 @@ angular.module('staticApp')
 
       $scope.updateCountryOfBirth = function () {
           $scope.pii.countryOfBirth = getObjectById($scope.pii.countryOfBirthId, $scope.countries).name;
+          if ($scope.pii.countryOfBirthId === 0) {
+              $scope.pii.isPlaceOfBirthUnknown = true;
+          }
           $scope.getCities("");
           clearCityOfBirth();
       }
@@ -106,6 +106,9 @@ angular.module('staticApp')
                  });
                  if ($scope.pii.countryOfBirthId) {
                      $scope.getCities("");
+                     $scope.pii.isPlaceOfBirthUnknown = false;
+                 } else if ($scope.pii.isPlaceOfBirthUnknown) {
+                     $scope.pii.countryOfBirthId = 0;
                  }
                  $scope.piiLoading = false;
              });
@@ -136,7 +139,9 @@ angular.module('staticApp')
 
       LocationService.get({ limit: 300, filter: { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country.id } })
         .then(function (data) {
-            $scope.countries = data.results;
+            var countriesOfBirth = data.results;
+            countriesOfBirth.splice(0, 0, { id:0, name: $scope.unknownCountry })
+            $scope.countries = countriesOfBirth;
         });
 
       $scope.cancelEditPii = function () {

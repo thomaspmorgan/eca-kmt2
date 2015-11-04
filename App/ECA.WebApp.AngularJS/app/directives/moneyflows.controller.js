@@ -224,6 +224,14 @@ angular.module('staticApp')
               moneyFlow.isLoadingSource = false;
               var positiveAmount = moneyFlow.amount < 0 ? -moneyFlow.amount : moneyFlow.amount;
               moneyFlow.parentMoneyFlow = response.data;
+              moneyFlow.parentMoneyFlow.isLoadingEntityState = true;
+              moneyFlow.parentMoneyFlow.sourceRecipientEntityTypeId = moneyFlow.parentMoneyFlow.sourceEntityTypeId;
+              moneyFlow.parentMoneyFlow.sourceRecipientEntityId = moneyFlow.parentMoneyFlow.sourceEntityId;
+              getMoneyFlowHref(moneyFlow.parentMoneyFlow)
+              .then(function(href) {
+                  moneyFlow.parentMoneyFlow.isLoadingEntityState = false;
+                  moneyFlow.parentMoneyFlow.href = href;
+              });
               moneyFlow.parentMoneyFlow.moneyFlowLineItemMaximumAmount = positiveAmount + moneyFlow.parentMoneyFlow.remainingAmount;
           })
           .catch(function (response) {

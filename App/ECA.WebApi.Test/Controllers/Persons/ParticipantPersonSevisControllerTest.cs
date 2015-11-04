@@ -5,20 +5,23 @@ using ECA.Business.Service.Persons;
 using Moq;
 using System.Web.Http.Results;
 using System.Threading.Tasks;
+using ECA.WebApi.Security;
 
 namespace ECA.WebApi.Test.Controllers.Persons
 {
     [TestClass]
     public class ParticipantPersonSevisControllerTest
     {
-        private Mock<IParticipantPersonSevisService> serviceMock;
+        private Mock<IParticipantPersonsSevisService> serviceMock;
         private ParticipantPersonsSevisController controller;
-        
+        private Mock<IUserProvider> userProvider;
+
         [TestInitialize]
         public void TestInit()
         {
-            serviceMock = new Mock<IParticipantPersonSevisService>();
-            controller = new ParticipantPersonsSevisController(serviceMock.Object);
+            serviceMock = new Mock<IParticipantPersonsSevisService>();
+            userProvider = new Mock<IUserProvider>();
+            controller = new ParticipantPersonsSevisController(serviceMock.Object, userProvider.Object);
         }
 
         [TestMethod]

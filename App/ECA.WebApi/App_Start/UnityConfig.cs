@@ -161,12 +161,16 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<IEmailAddressService, EmailAddressService>(new HierarchicalLifetimeManager());
             container.RegisterType<IEmailAddressTypeService, EmailAddressTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IEmailAddressHandler, EmailAddressHandler>(new HierarchicalLifetimeManager());
+            container.RegisterType<IParticipantStatusService, ParticipantStatusService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPhoneNumberService, PhoneNumberService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPhoneNumberTypeService, PhoneNumberTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPhoneNumberHandler, PhoneNumberHandler>(new HierarchicalLifetimeManager());
-            container.RegisterType<IParticipantPersonSevisService, ParticipantPersonSevisService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IParticipantPersonsSevisService, ParticipantPersonsSevisService>(new HierarchicalLifetimeManager());
             container.RegisterType<ISnapshotService, SnapshotService>(new HierarchicalLifetimeManager());
             container.RegisterType<IParticipantStudentVisitorService, ParticipantStudentVisitorService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IFieldOfStudyService, FieldOfStudyService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IProgramCategoryService, ProgramCategoryService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IPositionService, PositionService>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>
@@ -196,6 +200,9 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<
                 IBusinessValidator<LocationValidationEntity, LocationValidationEntity>,
                 LocationServiceValidator>();
+            container.RegisterType<
+                IBusinessValidator<object, UpdatedParticipantPersonValidationEntity>,
+                ParticipantPersonServiceValidator>();
         }
 
         public static void RegisterSecurityConcerns(IUnityContainer container)

@@ -3,7 +3,9 @@ using ECA.Business.Service.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
+using ECA.WebApi.Models.Person;
 using ECA.WebApi.Models.Query;
+using ECA.WebApi.Security;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,14 +32,18 @@ namespace ECA.WebApi.Controllers.Persons
         private static readonly ExpressionSorter<SimpleParticipantPersonDTO> DEFAULT_SORTER = new ExpressionSorter<SimpleParticipantPersonDTO>(x => x.ParticipantId, SortDirection.Ascending);
 
         private IParticipantPersonService service;
+        private IUserProvider userProvider;
 
         /// <summary>
         /// Creates a new ParticipantPersonsController with the given service.
         /// </summary>
         /// <param name="service">The service.</param>
-        public ParticipantPersonsController(IParticipantPersonService service)
+        /// <param name="userProvider">The user provider.</param>
+        public ParticipantPersonsController(IParticipantPersonService service, IUserProvider userProvider)
         {
             Contract.Requires(service != null, "The participant service must not be null.");
+            Contract.Requires(userProvider != null, "The user provider must not be null.");
+            this.userProvider = userProvider;
             this.service = service;
         }
 
@@ -100,6 +106,30 @@ namespace ECA.WebApi.Controllers.Persons
             else
             {
                 return NotFound();
+            }
+        }
+
+        /// <summary>
+        /// Updates a project's participant person details with the given client information.
+        /// </summary>
+        /// <param name="model">The updated participant person.</param>
+        /// <returns>An ok result.</returns>
+        [ResponseType(typeof(SimpleParticipantPersonDTO))]
+        [Route("ParticipantPersons/")]
+        public async Task<IHttpActionResult> PutUpdateParticipantPersonAsync([FromBody]UpdatedParticipantPersonBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = this.userProvider.GetCurrentUser();
+                var businessUser = this.userProvider.GetBusinessUser(currentUser);
+                await this.service.UpdateAsync(model.ToUpdatedParticipantPerson(businessUser));
+                await this.service.SaveChangesAsync();
+                var participantPerson = await this.service.GetParticipantPersonByIdAsync(model.ParticipantId);
+                return Ok(participantPerson);
+            }
+            else
+            {
+                return BadRequest(ModelState);
             }
         }
     }

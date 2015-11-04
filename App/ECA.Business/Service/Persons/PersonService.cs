@@ -100,6 +100,7 @@ namespace ECA.Business.Service.Persons
             person.GenderId = updatePii.GenderId;
             person.Ethnicity = updatePii.Ethnicity;
             person.PlaceOfBirthId = updatePii.CityOfBirthId;
+            person.IsPlaceOfBirthUnknown = updatePii.IsPlaceOfBirthUnknown;
             person.DateOfBirth = updatePii.DateOfBirth;
             person.IsDateOfBirthUnknown = updatePii.IsDateOfBirthUnknown;
             person.MedicalConditions = updatePii.MedicalConditions;
@@ -556,8 +557,8 @@ namespace ECA.Business.Service.Persons
             return new PersonServiceValidationEntity(person, prominentCategories);
         }
 
-        private PersonServiceValidationEntity GetValidationEntity(UpdatePii pii, Person person,  
-                                                                  Location cityOfBirth, List<Location> countriesOfCititzenship) {
+        private PersonServiceValidationEntity GetValidationEntity(UpdatePii pii, Person person, Location cityOfBirth, 
+                                                                    List<Location> countriesOfCititzenship) {
             return new PersonServiceValidationEntity(person, pii.GenderId, countriesOfCititzenship);
         }
 
