@@ -154,7 +154,7 @@
                                                    id="transactionDate{{moneyFlow.id}}"
                                                    type="text"
                                                    class="form-control"
-                                                   datepicker-popup="dd-MMM-yyyy"
+                                                   datepicker-popup="dd-MMMM-yyyy"
                                                    ng-model="moneyFlow.transactionDate"
                                                    is-open="moneyFlow.isTransactionDatePickerOpen"
                                                    close-text="Close"
@@ -261,7 +261,7 @@
                                         <p class="mute">{{moneyFlow.description.length}} of {{view.maxDescriptionLength}} characters remaining.</p>
                                     </div>
                                     <div class="pull-right" ng-show="!moneyFlow.isSavingUpdate">
-                                        <button ng-click="view.saveMoneyFlowChanges(moneyFlow)" class="btn btn-primary" ng-disabled="form.moneyFlowForm.$invalid">Save</button>
+                                        <button ng-click="view.saveMoneyFlowChanges(moneyFlow)" class="btn btn-success" ng-disabled="form.moneyFlowForm.$invalid">Save</button>
                                         <button ng-click="view.cancelMoneyFlowChanges(moneyFlow)" class="btn btn-cancel">Cancel</button>
                                     </div>
                                 </div>
