@@ -13,8 +13,15 @@ namespace ECA.Business.Queries.Admin
 {
     public static class SnapshotQueries
     {
+        // Time frame in years used for data lookup filter
         static DateTime oldestDate = DateTime.UtcNow.AddYears(-5);
 
+        /// <summary>
+        /// Count of related projects in all program projects
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="programIds"></param>
+        /// <returns></returns>
         public static SnapshotDTO CreateGetProgramRelatedProjectsCountQuery(EcaContext context, IEnumerable<int> programIds)
         {
             Contract.Requires(context != null, "The context must not be null.");
@@ -23,8 +30,8 @@ namespace ECA.Business.Queries.Admin
                 DataLabel = "RELATED PROJECTS",
                 DataValue = context.Programs
                                 .Where(x => programIds.Contains(x.ProgramId))
-                                .Sum(p => p.Projects.Where(d => d.EndDate.Value.Year >= oldestDate.Year)
-                                                                .Select(r => r.RelatedProjects).Count())
+                                .Select(p => p.Projects.Where(d => d.EndDate.Value.Year >= oldestDate.Year))
+                                                        .Sum(r => (int?)r.Sum(t => (int?)t.RelatedProjects.Count ?? 0) ?? 0)
             };
         }
 
@@ -62,8 +69,7 @@ namespace ECA.Business.Queries.Admin
                 DataValue = (int)context.Programs
                                 .Where(x => programIds.Contains(x.ProgramId))
                                 .Sum(p => (decimal?)p.Projects.Sum(r => (decimal?)r.RecipientProjectMoneyFlows
-                                                                .Where(m => m.MoneyFlowTypeId == MoneyFlowType.Incoming.Id
-                                                                        && m.TransactionDate.Year >= oldestDate.Year 
+                                                                .Where(m => m.TransactionDate.Year >= oldestDate.Year 
                                                                         && m.Value > 0)
                                                                         .Sum(m => (decimal?)m.Value ?? 0) ?? 0) ?? 0)
             };
@@ -93,11 +99,9 @@ namespace ECA.Business.Queries.Admin
         /// <param name="context"></param>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public static IQueryable<int> CreateGetProgramCountriesByProgramIdsQuery(EcaContext context, IEnumerable<int> programIds)
+        public static IQueryable<Location> CreateGetProgramCountriesByProgramIdsQuery(EcaContext context, IEnumerable<int> programIds)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var allLocations = LocationQueries.CreateGetLocationsQuery(context);
-            
             var query = (from program in context.Programs
                          let regions = program.Regions
                          let locations = program.Locations
@@ -107,8 +111,9 @@ namespace ECA.Business.Queries.Admin
                          let allCountries = countryByLocation.Union(countryByRegions)
 
                          where programIds.Contains(program.ProgramId)
-                         select allCountries).SelectMany(x => x).Select(i => i.LocationId).Distinct();
-
+                         select allCountries).SelectMany(x => x);
+            //.Select(i => i.LocationId).Distinct()
+            
             return query;
         }
 
@@ -185,27 +190,21 @@ namespace ECA.Business.Queries.Admin
         /// <param name="context"></param>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public static async Task<SnapshotGraphDTO> CreateGetProgramBudgetByYearQuery(EcaContext context, IEnumerable<int> programIds)
+        public static async Task<List<KeyValuePair<int, int>>> CreateGetProgramBudgetByYearQuery(EcaContext context, IEnumerable<int> programIds)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var budgetByYear = await (from pc in context.Programs
+            var budgetData = await (from pc in context.Programs
                                       where programIds.Contains(pc.ProgramId)
                                       from project in pc.Projects
                                       where project.EndDate.Value.Year >= oldestDate.Year
                                       from mf in project.RecipientProjectMoneyFlows
-                                      where mf.FiscalYear >= oldestDate.Year && mf.MoneyFlowTypeId == MoneyFlowType.Incoming.Id
-                                      group mf by mf.FiscalYear into g
-                                      select g).ToListAsync();
+                                      where mf.FiscalYear >= oldestDate.Year
+                                      select new {Key = mf.FiscalYear, Value = mf.Value}).ToListAsync();
 
-            SnapshotGraphDTO graphValues = new SnapshotGraphDTO
-            {
-                key = "Budget",
-                values = budgetByYear.Select(g => new KeyValuePair<int, int>(g.Key, g.ToList()
-                                .Sum(m => (int)m.Value)))
-                                .OrderBy(o => o.Key).ToList()
-            };
+            var budgetByYear = budgetData.GroupBy(g => g.Key, g => g.Value)
+                                        .Select(y => new KeyValuePair<int, int>(y.Key, (int)y.Sum())).ToList();
 
-            return graphValues;
+            return budgetByYear;
         }
 
         public static IEnumerable<SnapshotDTO> CreateGetProgramMostFundedCountriesQuery(EcaContext context, IEnumerable<int> programIds)

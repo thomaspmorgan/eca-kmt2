@@ -11,6 +11,7 @@ angular.module('staticApp')
       $stateParams,
       $q,
       $log,
+      $interval,
       SnapshotService,
       NotificationService) {
       
@@ -33,13 +34,18 @@ angular.module('staticApp')
 
           GetProgramCountryCount();
           GetProgramRelatedProjectsCount();
-          GetProgramParticipantCount();
-          GetProgramBudgetTotal();
           GetProgramFundingSourcesCount();
           GetProgramImpactStoryCount();
           GetProgramAlumniCount();
           GetProgramProminenceCount();
-          GetProgramCostPerParticipant();
+
+          $q.all([GetProgramBudgetTotal(), GetProgramParticipantCount()])
+          .then(function () {
+              GetProgramCostPerParticipant();
+          })
+          .catch(function () {
+              $scope.view.isSnapshotLoading = false;
+          });          
 
           $scope.view.isSnapshotLoading = false;
       };
@@ -57,7 +63,7 @@ angular.module('staticApp')
       }
 
       function GetProgramParticipantCount() {
-          SnapshotService.GetProgramParticipantCount($scope.view.params.programId)
+          return SnapshotService.GetProgramParticipantCount($scope.view.params.programId)
             .then(function (response) {
                 $scope.view.totalParticipants = response.data;
             })
@@ -69,7 +75,7 @@ angular.module('staticApp')
       }
 
       function GetProgramBudgetTotal() {
-          SnapshotService.GetProgramBudgetTotal($scope.view.params.programId)
+          return SnapshotService.GetProgramBudgetTotal($scope.view.params.programId)
             .then(function (response) {
                 $scope.view.totalBudget = response.data;
             })
@@ -83,8 +89,6 @@ angular.module('staticApp')
       function GetProgramCostPerParticipant() {
           if ($scope.view.totalBudget.dataValue > 0 && $scope.view.totalParticipants.dataValue > 0) {
               $scope.view.totalCostByParticipant = $scope.view.totalBudget.dataValue / $scope.view.totalParticipants.dataValue;
-          } else {
-              $scope.view.totalCostByParticipant = 0;
           }
       }
 

@@ -14,8 +14,7 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Gets the participant id.
         /// </summary>
-        [Required]
-        public int ParticipantId { get; private set; }
+        public int ParticipantId { get;  set; }
 
         /// <summary>
         /// Gets or sets the participant's sevis id

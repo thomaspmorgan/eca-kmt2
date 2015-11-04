@@ -14,14 +14,14 @@ namespace ECA.Business.Queries.Persons
     /// <summary>
     /// The ParticipantQueries are used to query a DbContext for Participant information.
     /// </summary>
-    public static class ParticipantPersonSevisCommStatusQueries
+    public static class ParticipantPersonsSevisCommStatusQueries
     {
         /// <summary>
         /// Query to get a list of participant people with SEVIS information
         /// </summary>
         /// <param name="context">The context to query</param>
         /// <returns>List of participant people with SEVIS</returns>
-        public static IQueryable<ParticipantPersonSevisCommStatusDTO> CreateGetParticipantPersonSevisCommStatusDTOQuery(EcaContext context)
+        public static IQueryable<ParticipantPersonSevisCommStatusDTO> CreateGetParticipantPersonsSevisCommStatusDTOQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var query = (from p in context.ParticipantPersonSevisCommStatuses
@@ -42,11 +42,11 @@ namespace ECA.Business.Queries.Persons
         /// <param name="context">The context to query.</param>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The filtered and sorted query to retrieve participantPersonSevises.</returns>
-        public static IQueryable<ParticipantPersonSevisCommStatusDTO> CreateGetParticipantPersonSevisCommStatusDTOQuery(EcaContext context, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator)
+        public static IQueryable<ParticipantPersonSevisCommStatusDTO> CreateGetParticipantPersonsSevisCommStatusDTOQuery(EcaContext context, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator)
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
-            var query = CreateGetParticipantPersonSevisCommStatusDTOQuery(context);
+            var query = CreateGetParticipantPersonsSevisCommStatusDTOQuery(context);
             query = query.Apply(queryOperator);
             return query;
         }
@@ -57,19 +57,19 @@ namespace ECA.Business.Queries.Persons
         /// <param name="context">The context to query</param>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>The participantPersonSevis</returns>
-        public static IQueryable<ParticipantPersonSevisCommStatusDTO> CreateGetParticipantPersonSevisCommStatusDTOByIdQuery(EcaContext context, int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator)
+        public static IQueryable<ParticipantPersonSevisCommStatusDTO> CreateGetParticipantPersonsSevisCommStatusDTOByIdQuery(EcaContext context, int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var query = CreateGetParticipantPersonSevisCommStatusDTOQuery(context).
+            var query = CreateGetParticipantPersonsSevisCommStatusDTOQuery(context).
                 Where(p => p.ParticipantId == participantId);
             query = query.Apply(queryOperator);
             return query;
         }
 
-        public static IQueryable<ParticipantPersonSevisCommStatusDTO> CreateParticipantPersonSevisCommStatusesDTOsByParticipantIdsQuery(EcaContext context, int[] participantIds)
+        public static IQueryable<ParticipantPersonSevisCommStatusDTO> CreateParticipantPersonsSevisCommStatusesDTOsByParticipantIdsQuery(EcaContext context, int[] participantIds)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var query = CreateGetParticipantPersonSevisCommStatusDTOQuery(context).Where(p => participantIds.Contains(p.ParticipantId));
+            var query = CreateGetParticipantPersonsSevisCommStatusDTOQuery(context).Where(p => participantIds.Contains(p.ParticipantId));
             return query;
         }
     }

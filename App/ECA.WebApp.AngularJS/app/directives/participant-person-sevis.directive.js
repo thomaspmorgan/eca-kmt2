@@ -9,23 +9,26 @@
     
     function participantPersonSevis ($log) {
         // Usage:
-        //     <participant_person_sevis participantId={{id}} active=activevariable></participant_person_sevis>
+        //     <participant_person_sevis participantId={{id}} active=activevariable, update=updatefunction></participant_person_sevis>
         // Creates:
         // 
         var directive = {
-            link: link,
             restrict: 'E',
             scope: {
                 participantid: '@',
                 sevisinfo: '=',
-                active: '='
+                active: '=',
+                update: '&'
             },
-            templateUrl: 'app/directives/participant-person-sevis.directive.html'
+            templateUrl: 'app/directives/participant-person-sevis.directive.html',
+            controller: function ($scope, $attrs) {
+                $scope.save = function () {
+                    $scope.update({ participantId: $scope.participantid });
+                    $scope.view.FundingEdit = false;
+                }
+            }
         };
         return directive;
-
-        function link(scope, element, attrs) {
-        };
 
     }
 

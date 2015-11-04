@@ -73,6 +73,9 @@ angular.module('staticApp')
           getParticipantTypes: function (params) {
               return DragonBreath.getCached(params, 'participanttypes');
           },
+          getParticipantStatii: function (params) {
+              return DragonBreath.getCached(params, 'participantstatuses');
+          },
           getOrganizationTypes: function (params) {
               return DragonBreath.getCached(params, 'organizations/types');
           },

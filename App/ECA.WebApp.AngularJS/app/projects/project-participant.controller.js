@@ -50,6 +50,7 @@ angular.module('staticApp')
       $scope.view.totalParticipants = 0;
       $scope.view.tabSevis = false;
       $scope.view.tabInfo = false;
+      $scope.view.isLoadingParticipantInfo = false;
 
       $scope.view.sevisCommStatuses = null;
 
@@ -297,22 +298,27 @@ angular.module('staticApp')
       }
 
       function loadParticipantInfo(participantId) {
+          $scope.participantInfo[participantId] = {};
+          $scope.participantInfo[participantId].show = true;
+          $scope.participantInfo[participantId].isLoadingInfo = true;
           return ParticipantPersonsService.getParticipantPersonsById(participantId)
           .then(function (data) {
               if (data.data.homeInstitution) {
+                  data.data.homeInstitutionId = data.data.homeInstitution.organizationId;
                   data.data.homeInstitution.href = StateService.getOrganizationState(data.data.homeInstitution.organizationId);
                   data.data.homeInstitutionAddress = getPreferredAddress(data.data.homeInstitution, data.data.homeInstitutionAddressId);
               }
               if (data.data.hostInstitution) {
+                  data.data.hostInstitutionId = data.data.hostInstitution.organizationId;
                   data.data.hostInstitution.href = StateService.getOrganizationState(data.data.hostInstitution.organizationId);
                   data.data.hostInstitutionAddress = getPreferredAddress(data.data.hostInstitution, data.data.hostInstitutionAddressId);
               }
+              data.data.isLoadingInfo = false;
+              data.data.show = true;
               $scope.participantInfo[participantId] = data.data;
-              $scope.participantInfo[participantId].show = true;
           }, function (error) {
               if (error.status === 404) {
-                  $scope.participantInfo[participantId] = {};
-                  $scope.participantInfo[participantId].show = true;
+                  $scope.participantInfo[participantId].isLoadingInfo = false;
               } else {
                   $log.error('Unable to load participant info for ' + participantId + '.');
                   NotificationService.showErrorMessage('Unable to load participant info for ' + participantId + '.');
@@ -359,8 +365,24 @@ angular.module('staticApp')
           if ($scope.participantInfo[participantId] && $scope.participantInfo[participantId].show) {
               return loadParticipantInfo(participantId);
           }
-          
+
       }
+
+      function saveSevisInfoById(participantId) {
+          var sevisInfo = $scope.sevisInfo[participantId];
+          return ParticipantPersonsSevisService.updateParticipantPersonsSevis(sevisInfo)
+          .then(function (data) {
+              NotificationService.showSuccessMessage('Participant SEVIS info saved successfully.');
+              $scope.sevisInfo[participantId].show = true;
+          }, function (error) {
+              $log.error('Unable to save participant SEVIS info for participantId: ' + participantId);
+              NotificationService.showErrorMessage('Unable to save participant SEVIS info for participant: ' + participantId + '.');
+          });
+      };
+
+      $scope.saveSevisInfo = function (participantId) {
+          saveSevisInfoById(participantId);
+      };
 
       $scope.onSevisTabSelected = function (participantId) {
           $scope.view.tabSevis = true;
@@ -383,7 +405,7 @@ angular.module('staticApp')
               }
           }
           else {
-              loadParticipantInfo(participantId);
+              return loadParticipantInfo(participantId);
           }
       };
 

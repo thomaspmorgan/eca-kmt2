@@ -119,6 +119,20 @@ namespace ECA.Business.Service.Programs
         Task<List<OrganizationProgramDTO>> GetAllChildProgramsAsync(int programId);
 
         /// <summary>
+        /// Returns all child programs of the program with the given id, including the parent.
+        /// </summary>
+        /// <param name="programId">The id of the program to retrieve all child programs for.</param>
+        /// <returns>All child, grand child, etc programs of the program with the given id.</returns>
+        List<OrganizationProgramDTO> GetAllChildProgramsWithParent(int programId);
+
+        /// <summary>
+        /// Returns all child programs of the program with the given id, including the parent.
+        /// </summary>
+        /// <param name="programId">The id of the program to retrieve all child programs for.</param>
+        /// <returns>All child, grand child, etc programs of the program with the given id.</returns>
+        Task<List<OrganizationProgramDTO>> GetAllChildProgramsWithParentAsync(int programId);
+
+        /// <summary>
         /// Returns a paged, filtered, and sorted list of programs that could be a parent to the program with the given id.
         /// </summary>
         /// <param name="programId">The id of the program to get valid parent programs for.</param>
@@ -317,6 +331,28 @@ namespace ECA.Business.Service.Programs
         /// <param name="programId"></param>
         /// <returns></returns>
         public async Task<List<OrganizationProgramDTO>> GetAllChildProgramsAsync(int programId)
+        {
+            Contract.Ensures(Contract.Result<Task<List<OrganizationProgramDTO>>>() != null, "The value returned must not be null.");
+            return await Task.FromResult<List<OrganizationProgramDTO>>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
+        public List<OrganizationProgramDTO> GetAllChildProgramsWithParent(int programId)
+        {
+            Contract.Ensures(Contract.Result<List<OrganizationProgramDTO>>() != null, "The value returned must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
+        public async Task<List<OrganizationProgramDTO>> GetAllChildProgramsWithParentAsync(int programId)
         {
             Contract.Ensures(Contract.Result<Task<List<OrganizationProgramDTO>>>() != null, "The value returned must not be null.");
             return await Task.FromResult<List<OrganizationProgramDTO>>(null);

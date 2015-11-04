@@ -106,9 +106,24 @@
                         </td>
                         <td>
                             <a ng-click="toggleParticipantInfo(participant.participantId)">
-                                <i class="material-icons md-dark md-36 pull-right" ng-show="participantInfo[participant.participantId] === undefined || participantInfo[participant.participantId].show === false">expand_less</i>
-                                <i class="material-icons md-dark md-36 pull-right" ng-show="participantInfo[participant.participantId].show">expand_more</i>
+                                <i class="material-icons md-dark md-36 pull-right"
+                                   ng-show="participantInfo[participant.participantId] === undefined || participantInfo[participant.participantId].show === false">
+                                    expand_less
+                                </i>
+                                <i class="material-icons md-dark md-36 pull-right"
+                                   ng-show="participantInfo[participant.participantId] !== undefined && participantInfo[participant.participantId].show">
+                                    expand_more
+                                </i>
                             </a>
+                        </td>
+                    </tr>
+                    <tr ng-show="participantInfo[participant.participantId].isLoadingInfo">
+                        <td colspan="5">
+                            <div class="spinner">
+                                <div class="bounce1"></div>
+                                <div class="bounce2"></div>
+                                <div class="bounce3"></div>
+                            </div>
                         </td>
                     </tr>
                     <tr id="participantInfo" ng-show="participantInfo[participant.participantId].show && participantInfo[participant.participantId].participantId">
@@ -118,7 +133,7 @@
                                     <participant-person-info participantid="{{participant.participantId}}" active="view.tabInfo" editmode="participantInfo[participant.participantId].editInfo" personinfo="participantInfo[participant.participantId]" />
                                 </tab>
                                 <tab heading="SEVIS Information" class="tab" select="onSevisTabSelected(participant.participantId)" deselect="view.tabSevis=false">
-                                    <participant-person-sevis participantid="{{participant.participantId}}" active="view.tabSevis" sevisinfo="sevisInfo[participant.participantId]" />
+                                    <participant-person-sevis participantid="{{participant.participantId}}" active="view.tabSevis" sevisinfo="sevisInfo[participant.participantId]" update="saveSevisInfo(participantId)" />
                                 </tab>
                                 <tab heading="Student Visitor Data" class="tab" select="onStudentVisitorTabSelected(participant.participantId)" deselect="view.tabStudentVisitor=false">
                                     <participant-student-visitor participantid="{{participant.participantId}}" active="view.tabStudentVisitor" studentvisitorinfo="studentVisitorInfo[participant.participantId]" />
@@ -126,7 +141,7 @@
                             </tabset>
                         </td>
                     </tr>
-                    <tr id="participantMoreInfo" ng-repeat-end ng-show="participantInfo[participant.participantId].show && participantInfo[participant.participantId].participantId === undefined">
+                    <tr id="participantMoreInfo" ng-repeat-end ng-show="participantInfo[participant.participantId].show && participantInfo[participant.participantId].participantId === undefined && !participantInfo[participant.participantId].isLoadingInfo">
                         <td colspan="5">
                             <div class="col-md-12 text-center">
                                 There is no additional information for this participant.

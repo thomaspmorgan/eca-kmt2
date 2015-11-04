@@ -1422,7 +1422,7 @@ namespace ECA.Business.Test.Queries.Fundings
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
                 ParentMoneyFlowId = 100
-            };;
+            };
             context.MoneyFlows.Add(moneyFlow);
             context.Programs.Add(sourceProgram);
             context.Projects.Add(recipientProject);
