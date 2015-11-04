@@ -62,20 +62,6 @@ angular.module('staticApp')
       $scope.permissions.isProjectOwner = false;
       var projectId = $stateParams.projectId;
 
-      $scope.onParticipantClick = function (participant) {
-
-          if (participant.personId) {
-              $log.info('Navigating the individual state.');
-              $state.go('people.personalinformation', { personId: participant.personId });
-          }
-          else if (participant.organizationId) {
-              $log.info('Navigating to organization overview state.');
-              $state.go('organizations.overview', { organizationId: participant.organizationId });
-          }
-          else {
-              NotificationService.showErrorMessage('The participant is neither an organization nor a person.');
-          }
-      };
 
       $scope.view.onAddParticipantSelect = function ($item, $model, $label) {
           var clientModel = {
@@ -275,6 +261,19 @@ angular.module('staticApp')
 
           ParticipantService.getParticipantsByProject($stateParams.projectId, params)
             .then(function (data) {
+                angular.forEach(data.results, function (result, index) {
+                    if (result.personId) {
+                        result.href = StateService.getPersonState(result.personId);
+                    }
+                    else if (result.organizationId) {
+                        result.href = StateService.getOrganizationState(result.organizationId);
+                    }
+                    else {
+                        var message = 'Unable to generate href for participant because it is neither an organization or a person.';
+                        $log.error(message);
+                        NotificationService.showErrorMessage(message);
+                    }
+                });
                 $scope.participants = data.results;
                 var limit = TableService.getLimit();
                 tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
@@ -349,7 +348,7 @@ angular.module('staticApp')
       }
 
       $scope.toggleParticipantInfo = function (participantId) {
-          var defaultParticipantInfo = {show: false, participantId: participantId};
+          var defaultParticipantInfo = {show: false};
           $scope.participantInfo[participantId] = $scope.participantInfo[participantId] || defaultParticipantInfo;
           $scope.participantInfo[participantId].show = !$scope.participantInfo[participantId].show;
           if ($scope.participantInfo[participantId].show) {

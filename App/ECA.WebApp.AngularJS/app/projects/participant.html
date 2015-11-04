@@ -82,7 +82,7 @@
                             <input type="checkbox" ng-show="selectedAction" ng-model="selectedParticipants[participant.participantId]" ng-change="selectedParticipant(participant, selectedParticipants[participant.participantId])"/>
                         </td>
                         <td>
-                            <h5 class="list-title"><a ng-click="onParticipantClick(participant)">{{participant.name}}</a></h5>
+                            <h5 class="list-title"><a href="{{participant.href}}">{{participant.name}}</a></h5>
                         </td>
                         <td>{{participant.participantType}}</td>
                         <td>{{participant.participantStatus}}</td>
@@ -105,16 +105,7 @@
                             </a>
                         </td>
                     </tr>
-                    <tr ng-show="participantInfo[participant.participantId].isLoadingInfo">
-                        <td colspan="5">
-                            <div class="spinner">
-                                <div class="bounce1"></div>
-                                <div class="bounce2"></div>
-                                <div class="bounce3"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr id="participantInfo" ng-if="participant.personId && participantInfo[participant.participantId].show && participantInfo[participant.participantId].participantId">
+                    <tr id="participantInfo" ng-if="participant.personId && participantInfo[participant.participantId].show">
                         <td colspan="5">
                             <tabset>
                                 <tab heading="Participant Information" class="tab" select="onInfoTabSelected(participant.participantId)" deselect="view.tabInfo=false">
@@ -129,7 +120,7 @@
                             </tabset>
                         </td>
                     </tr>
-                    <tr id="participantMoreInfo" ng-repeat-end ng-show="participantInfo[participant.participantId].show && participant.organizationId">
+                    <tr id="participantMoreInfo" ng-repeat-end ng-show="participant.organizationId && participantInfo[participant.participantId].show">
                         <td colspan="5">
                             <div class="col-md-12 text-center">
                                 There is no additional information for this participant.
