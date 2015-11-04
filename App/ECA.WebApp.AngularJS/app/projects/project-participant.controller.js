@@ -352,8 +352,8 @@ angular.module('staticApp')
           $scope.participantInfo[participantId] = $scope.participantInfo[participantId] || defaultParticipantInfo;
           $scope.participantInfo[participantId].show = !$scope.participantInfo[participantId].show;
           if ($scope.participantInfo[participantId].show) {
-              $scope.view.tabInfo = true;
-          }
+                  $scope.view.tabInfo = true;
+              }
       };
 
       $scope.openAddNewParticipant = function () {
