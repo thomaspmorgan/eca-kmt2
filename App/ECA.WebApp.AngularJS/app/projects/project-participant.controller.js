@@ -285,47 +285,6 @@ angular.module('staticApp')
             });
       };
 
-      function getPreferredAddress(institution, participantPersonInstitutionAddressId) {
-          var address = null;
-          if (institution && institution.addresses && institution.addresses.length > 0) {
-              angular.forEach(institution.addresses, function (institutionAddress, index) {
-                  if (institutionAddress.addressId === participantPersonInstitutionAddressId) {
-                      address = institutionAddress;
-                  }
-              });
-          }
-          return address;
-      }
-
-      function loadParticipantInfo(participantId) {
-          $scope.participantInfo[participantId] = {};
-          $scope.participantInfo[participantId].show = true;
-          $scope.participantInfo[participantId].isLoadingInfo = true;
-          return ParticipantPersonsService.getParticipantPersonsById(participantId)
-          .then(function (data) {
-              if (data.data.homeInstitution) {
-                  data.data.homeInstitutionId = data.data.homeInstitution.organizationId;
-                  data.data.homeInstitution.href = StateService.getOrganizationState(data.data.homeInstitution.organizationId);
-                  data.data.homeInstitutionAddress = getPreferredAddress(data.data.homeInstitution, data.data.homeInstitutionAddressId);
-              }
-              if (data.data.hostInstitution) {
-                  data.data.hostInstitutionId = data.data.hostInstitution.organizationId;
-                  data.data.hostInstitution.href = StateService.getOrganizationState(data.data.hostInstitution.organizationId);
-                  data.data.hostInstitutionAddress = getPreferredAddress(data.data.hostInstitution, data.data.hostInstitutionAddressId);
-              }
-              data.data.isLoadingInfo = false;
-              data.data.show = true;
-              $scope.participantInfo[participantId] = data.data;
-          }, function (error) {
-              if (error.status === 404) {
-                  $scope.participantInfo[participantId].isLoadingInfo = false;
-              } else {
-                  $log.error('Unable to load participant info for ' + participantId + '.');
-                  NotificationService.showErrorMessage('Unable to load participant info for ' + participantId + '.');
-              }
-          });
-      };
-
       function loadSevisInfo(participantId) {
           return ParticipantPersonsSevisService.getParticipantPersonsSevisById(participantId)
           .then(function (data) {
@@ -360,12 +319,6 @@ angular.module('staticApp')
 
       $scope.onInfoTabSelected = function (participantId) {
           $scope.view.tabInfo = true;
-          //the participant info tab is selected by default so this check prevents all participants from being loaded
-          //when the page is rendered
-          if ($scope.participantInfo[participantId] && $scope.participantInfo[participantId].show) {
-              return loadParticipantInfo(participantId);
-          }
-
       }
 
       function saveSevisInfoById(participantId) {
@@ -395,17 +348,11 @@ angular.module('staticApp')
       }
 
       $scope.toggleParticipantInfo = function (participantId) {
-          if ($scope.participantInfo[participantId]) {
-              if ($scope.participantInfo[participantId].show === true) {
-                  $scope.participantInfo[participantId].show = false;
-              }
-              else {
-                  $scope.participantInfo[participantId].show = true;
-                  $scope.view.tabInfo = true;
-              }
-          }
-          else {
-              return loadParticipantInfo(participantId);
+          var defaultParticipantInfo = {show: false, participantId: participantId};
+          $scope.participantInfo[participantId] = $scope.participantInfo[participantId] || defaultParticipantInfo;
+          $scope.participantInfo[participantId].show = !$scope.participantInfo[participantId].show;
+          if ($scope.participantInfo[participantId].show) {
+              $scope.view.tabInfo = true;
           }
       };
 

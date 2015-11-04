@@ -128,21 +128,39 @@ namespace ECA.Business.Service.Persons
 
         #region Update
 
+        private ParticipantPerson DoCreateParticipantPerson(Participant participant, Audit audit)
+        {
+            var participantPerson = new ParticipantPerson();
+            participantPerson.Participant = participant;
+
+            var createAudit = new Create(audit.User);
+            createAudit.SetHistory(participantPerson);
+            this.Context.ParticipantPersons.Add(participantPerson);
+            return participantPerson;
+        }
+
         /// <summary>
         /// Updates a participant person with given updated participant information.
         /// </summary>
         /// <param name="updatedPerson">The updated participant person.</param>
-        public void Update(UpdatedParticipantPerson updatedPerson)
+        public void CreateOrUpdate(UpdatedParticipantPerson updatedPerson)
         {
-            var participantPerson = CreateGetParticipantPersonByIdQuery(updatedPerson.ParticipantId).FirstOrDefault();
-            throwIfModelDoesNotExist(updatedPerson.ParticipantId, participantPerson, typeof(ParticipantPerson));
+            var participant = CreateGetParticipantByIdQuery(updatedPerson.ParticipantId).FirstOrDefault();
+            throwIfModelDoesNotExist(updatedPerson.ParticipantId, participant, typeof(Participant));
+
+            //should be loaded as part of the query
+            var participantPerson = Context.ParticipantPersons.Find(updatedPerson.ParticipantId);
+            if (participantPerson == null)
+            {
+                participantPerson = DoCreateParticipantPerson(participant, updatedPerson.Audit);
+            }
 
             Organization host = null;
             Organization home = null;
             Address hostAddress = null;
             Address homeAddress = null;
             ParticipantStatus participantStatus = null;
-            
+
             if (updatedPerson.HomeInstitutionId.HasValue)
             {
                 home = CreateGetInstitutionByIdQuery(updatedPerson.HomeInstitutionId.Value).FirstOrDefault();
@@ -173,10 +191,10 @@ namespace ECA.Business.Service.Persons
                 participantStatus = Context.ParticipantStatuses.Find(updatedPerson.ParticipantStatusId.Value);
                 throwIfModelDoesNotExist(updatedPerson.ParticipantStatusId.Value, participantStatus, typeof(ParticipantStatus));
             }
-            
-            DoUpdate(
+
+            DoCreateOrUpdate(
                 updatedPerson: updatedPerson,
-                participant: participantPerson.Participant,
+                participant: participant,
                 participantPerson: participantPerson,
                 participantType: participantType,
                 participantStatus: participantStatus,
@@ -192,10 +210,17 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="updatedPerson">The updated participant person.</param>
         /// <returns>The task.</returns>
-        public async Task UpdateAsync(UpdatedParticipantPerson updatedPerson)
+        public async Task CreateOrUpdateAsync(UpdatedParticipantPerson updatedPerson)
         {
-            var participantPerson = await CreateGetParticipantPersonByIdQuery(updatedPerson.ParticipantId).FirstOrDefaultAsync();
-            throwIfModelDoesNotExist(updatedPerson.ParticipantId, participantPerson, typeof(ParticipantPerson));
+            var participant = await CreateGetParticipantByIdQuery(updatedPerson.ParticipantId).FirstOrDefaultAsync();
+            throwIfModelDoesNotExist(updatedPerson.ParticipantId, participant, typeof(Participant));
+
+            //should be loaded as part of the query
+            var participantPerson = await Context.ParticipantPersons.FindAsync(updatedPerson.ParticipantId);
+            if (participantPerson == null)
+            {
+                participantPerson = DoCreateParticipantPerson(participant, updatedPerson.Audit);
+            }
 
             Organization host = null;
             Organization home = null;
@@ -234,9 +259,9 @@ namespace ECA.Business.Service.Persons
                 throwIfModelDoesNotExist(updatedPerson.ParticipantStatusId.Value, participantStatus, typeof(ParticipantStatus));
             }
 
-            DoUpdate(
+            DoCreateOrUpdate(
                 updatedPerson: updatedPerson,
-                participant: participantPerson.Participant,
+                participant: participant,
                 participantPerson: participantPerson,
                 participantType: participantType,
                 participantStatus: participantStatus,
@@ -247,9 +272,9 @@ namespace ECA.Business.Service.Persons
                 );
         }
 
-        private void DoUpdate(
-            UpdatedParticipantPerson updatedPerson, 
-            Participant participant, 
+        private void DoCreateOrUpdate(
+            UpdatedParticipantPerson updatedPerson,
+            Participant participant,
             ParticipantPerson participantPerson,
             ParticipantType participantType,
             ParticipantStatus participantStatus,
@@ -276,12 +301,12 @@ namespace ECA.Business.Service.Persons
             return new UpdatedParticipantPersonValidationEntity(type);
         }
 
-        #endregion        
+        #endregion
 
-        private IQueryable<ParticipantPerson> CreateGetParticipantPersonByIdQuery(int participantId)
+
+        private IQueryable<Participant> CreateGetParticipantByIdQuery(int participantId)
         {
-            return Context.ParticipantPersons.Where(x => x.ParticipantId == participantId)
-                .Include(x => x.Participant);
+            return Context.Participants.Where(x => x.ParticipantId == participantId).Include(x => x.ParticipantPerson);
         }
 
         private IQueryable<Organization> CreateGetInstitutionByIdQuery(int organizationId)

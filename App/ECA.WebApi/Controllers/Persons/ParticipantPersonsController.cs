@@ -116,13 +116,13 @@ namespace ECA.WebApi.Controllers.Persons
         /// <returns>An ok result.</returns>
         [ResponseType(typeof(SimpleParticipantPersonDTO))]
         [Route("ParticipantPersons/")]
-        public async Task<IHttpActionResult> PutUpdateParticipantPersonAsync([FromBody]UpdatedParticipantPersonBindingModel model)
+        public async Task<IHttpActionResult> PutCreateOrUpdateParticipantPersonAsync([FromBody]UpdatedParticipantPersonBindingModel model)
         {
             if (ModelState.IsValid)
             {
                 var currentUser = this.userProvider.GetCurrentUser();
                 var businessUser = this.userProvider.GetBusinessUser(currentUser);
-                await this.service.UpdateAsync(model.ToUpdatedParticipantPerson(businessUser));
+                await this.service.CreateOrUpdateAsync(model.ToUpdatedParticipantPerson(businessUser));
                 await this.service.SaveChangesAsync();
                 var participantPerson = await this.service.GetParticipantPersonByIdAsync(model.ParticipantId);
                 return Ok(participantPerson);

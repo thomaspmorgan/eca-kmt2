@@ -19,6 +19,7 @@ angular.module('staticApp')
 		LookupService,
         OrganizationService,
         PersonService,
+        StateService,
         ConstantsService,
         AuthService,
         ProjectService,
@@ -36,8 +37,11 @@ angular.module('staticApp')
       $scope.view.selectedHomeInstitutionAddresses = [];
       $scope.view.selectedHostInstitutionAddresses = [];
       $scope.view.isLoadingEditParticipantInfoRequiredData = false;
+      $scope.view.isLoadingInfo = false;
+      $scope.view.isSavingUpdate = false;
+      $scope.view.participantPerson = null;
+      $scope.view.isInfoTabInEditMode = false;
 
-      $scope.view.originalPersonInfo = angular.copy($scope.personinfo);
 
       $scope.view.loadHomeInstitutions = function ($search) {
           return loadHomeInstitutions($search);
@@ -49,9 +53,9 @@ angular.module('staticApp')
 
       $scope.view.onHostInstitutionSelect = function ($item, $model) {
           $scope.view.selectedHostInstitutionAddresses = [];
-          $scope.personinfo.hostInstitutionAddressId = null;
+          $scope.view.participantPerson.hostInstitutionAddressId = null;
           if ($model) {
-              $scope.personinfo.hostInstitutionId = $model;
+              $scope.view.participantPerson.hostInstitutionId = $model;
               return loadOrganizationById($model)
               .then(function (org) {
                   $scope.view.hostInstitutionAddresses = org.addresses;
@@ -59,37 +63,57 @@ angular.module('staticApp')
 
           }
           else {
-              $scope.personinfo.hostInstitutionId = null;
+              $scope.view.participantPerson.hostInstitutionId = null;
           }
       }
 
       $scope.view.onSelectHostInstitutionAddress = function ($item, $model) {
-          $scope.personinfo.hostInstitutionAddressId = $model;
+          $scope.view.participantPerson.hostInstitutionAddressId = $model;
       }
 
       $scope.view.onHomeInstitutionSelect = function ($item, $model) {
           $scope.view.selectedHomeInstitutionAddresses = [];
-          $scope.personinfo.homeInstitutionAddressId = null;
+          $scope.view.participantPerson.homeInstitutionAddressId = null;
           if ($model) {
-              $scope.personinfo.homeInstitutionId = $model;
+              $scope.view.participantPerson.homeInstitutionId = $model;
               return loadOrganizationById($model)
               .then(function (org) {
                   $scope.view.homeInstitutionAddresses = org.addresses;
               });
           }
           else {
-              $scope.personinfo.homeInstitutionId = null;
+              $scope.view.participantPerson.homeInstitutionId = null;
           }
       }
 
       $scope.view.onSelectHomeInstitutionAddress = function ($item, $model) {
-          $scope.personinfo.homeInstitutionAddressId = $model;
+          $scope.view.participantPerson.homeInstitutionAddressId = $model;
       }
 
       $scope.view.onCancelButtonClick = function () {
-          $scope.view.originalPersonInfo = false;
-          $scope.personinfo = $scope.view.originalPersonInfo;
-          //$scope.personinfo.isInfoTabInEditMode = false;                 
+          return loadParticipantInfo($scope.participantid)
+              .then(function (response) {
+                  $scope.view.isInfoTabInEditMode = false;
+              });
+      }
+
+      $scope.view.onSaveButtonClick = function () {
+          $scope.view.isSavingUpdate = true;
+          return ParticipantPersonsService.updateParticipantPerson($scope.view.participantPerson)
+          .then(function (response) {
+              return loadParticipantInfo($scope.participantid)
+              .then(function (response) {
+                  $scope.view.isSavingUpdate = false;
+                  $scope.view.isInfoTabInEditMode = false;
+              });
+              
+          })
+          .catch(function (response) {
+              $scope.view.isSavingUpdate = false;
+              var message = "Unable to update participant person.";
+              $log.error(message);
+              NotificationService.showErrorMessage(message);
+          });
       }
 
       var projectId = $stateParams.projectId;
@@ -195,7 +219,11 @@ angular.module('staticApp')
       }
 
       function initializeHomeInstitution(organization) {
-          var homeInstitution = $scope.personinfo.homeInstitution;
+          $scope.view.homeInstitutions = [];
+          $scope.view.homeInstitutionAddresses = [];
+          $scope.view.selectedHomeInstitutionAddresses = [];
+
+          var homeInstitution = $scope.view.participantPerson.homeInstitution;
           if (homeInstitution) {
               homeInstitution.id = homeInstitution.organizationId;
               return loadOrganizationById(homeInstitution.organizationId)
@@ -204,8 +232,8 @@ angular.module('staticApp')
                   angular.forEach(org.addresses, function (orgAddress, index) {
                       $scope.view.homeInstitutionAddresses.push(orgAddress);
                   });
-                  if ($scope.personinfo.homeInstitutionAddressId) {
-                      $scope.view.selectedHomeInstitutionAddresses.push($scope.personinfo.homeInstitutionAddressId);
+                  if ($scope.view.participantPerson.homeInstitutionAddressId) {
+                      $scope.view.selectedHomeInstitutionAddresses.push($scope.view.participantPerson.homeInstitutionAddressId);
                   }
 
                   return org;
@@ -219,7 +247,11 @@ angular.module('staticApp')
       }
 
       function initializeHostInstitution(organization) {
-          var hostInstitution = $scope.personinfo.hostInstitution;
+          $scope.view.hostInstitutions = [];
+          $scope.view.hostInstitutionAddresses = [];
+          $scope.view.selectedHostInstitutionAddresses = [];
+
+          var hostInstitution = $scope.view.participantPerson.hostInstitution;
           if (hostInstitution) {
               hostInstitution.id = hostInstitution.organizationId;
               return loadOrganizationById(hostInstitution.organizationId)
@@ -228,10 +260,9 @@ angular.module('staticApp')
                   angular.forEach(org.addresses, function (orgAddress, index) {
                       $scope.view.hostInstitutionAddresses.push(orgAddress);
                   });
-                  if ($scope.personinfo.hostInstitutionAddressId) {
-                      $scope.view.selectedHostInstitutionAddresses.push($scope.personinfo.hostInstitutionAddressId);
+                  if ($scope.view.participantPerson.hostInstitutionAddressId) {
+                      $scope.view.selectedHostInstitutionAddresses.push($scope.view.participantPerson.hostInstitutionAddressId);
                   }
-
                   return org;
               });
           }
@@ -242,12 +273,72 @@ angular.module('staticApp')
           }
       }
 
+      function getNewParticipantPerson(participantId) {
+          return {
+              participantId: participantId,
+              participantStatusId: 0,
+              projectId: projectId
+          };
+      }
+
+      function initializePersonInfo(personInfo) {
+          return $q.all([initializeHomeInstitution(personInfo.homeInstitution), initializeHostInstitution(personInfo.hostInstitution)])
+          .then(function (results) {
+
+          });
+      }
+
+      function getPreferredAddress(institution, participantPersonInstitutionAddressId) {
+          var address = null;
+          if (institution && institution.addresses && institution.addresses.length > 0) {
+              angular.forEach(institution.addresses, function (institutionAddress, index) {
+                  if (institutionAddress.addressId === participantPersonInstitutionAddressId) {
+                      address = institutionAddress;
+                  }
+              });
+          }
+          return address;
+      }
+
+      function loadParticipantInfo(participantId) {
+          $scope.view.isLoadingInfo = true;
+          return ParticipantPersonsService.getParticipantPersonsById(participantId)
+          .then(function (response) {
+              if (response.data.homeInstitution) {
+                  response.data.homeInstitutionId = response.data.homeInstitution.organizationId;
+                  response.data.homeInstitution.href = StateService.getOrganizationState(response.data.homeInstitution.organizationId);
+                  response.data.homeInstitutionAddress = getPreferredAddress(response.data.homeInstitution, response.data.homeInstitutionAddressId);
+              }
+              if (response.data.hostInstitution) {
+                  response.data.hostInstitutionId = response.data.hostInstitution.organizationId;
+                  response.data.hostInstitution.href = StateService.getOrganizationState(response.data.hostInstitution.organizationId);
+                  response.data.hostInstitutionAddress = getPreferredAddress(response.data.hostInstitution, response.data.hostInstitutionAddressId);
+              }
+              $scope.view.participantPerson = response.data;
+              return initializePersonInfo(response.data)
+              .then(function (response) {
+                  $scope.view.isLoadingInfo = false;                  
+                  return $scope.view.participantPerson;
+              });
+          })
+          .catch(function (response) {
+              $scope.view.isLoadingInfo = false;
+              if (response.status === 404) {
+                  $log.info('The participant person was not found.');
+                  $scope.view.participantPerson = getNewParticipantPerson(participantId);
+              }
+              else {
+                  $log.error('Unable to load participant info for ' + participantId + '.');
+                  NotificationService.showErrorMessage('Unable to load participant info for ' + participantId + '.');
+              }
+          });
+      };
+
       $scope.view.isLoadingEditParticipantInfoRequiredData = true;
       $q.all([
           loadParticipantTypes(),
           loadParticipantStatii(),
-          initializeHomeInstitution($scope.personinfo.homeInstitution),
-          initializeHostInstitution($scope.personinfo.hostInstitution)])
+          loadParticipantInfo($scope.participantid)])
       .then(function (results) {
           $scope.view.isLoadingEditParticipantInfoRequiredData = false;
       })
