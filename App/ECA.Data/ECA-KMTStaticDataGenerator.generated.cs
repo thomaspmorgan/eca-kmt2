@@ -956,9 +956,29 @@ namespace ECA.Data
 		/// </summary>
 		public static StaticLookup OrganizationalParticipant { get { return new StaticLookup("Organizational Participant", 1); } }
 		/// <summary>
+		/// Returns the Foreign Government lookup with id 2.
+		/// </summary>
+		public static StaticLookup ForeignGovernment { get { return new StaticLookup("Foreign Government", 2); } }
+		/// <summary>
+		/// Returns the U.S. Educational Institution lookup with id 3.
+		/// </summary>
+		public static StaticLookup USEducationalInstitution { get { return new StaticLookup("U.S. Educational Institution", 3); } }
+		/// <summary>
+		/// Returns the Public International Organization (PIO) lookup with id 4.
+		/// </summary>
+		public static StaticLookup PublicInternationalOrganizationPio { get { return new StaticLookup("Public International Organization (PIO)", 4); } }
+		/// <summary>
+		/// Returns the U.S. Non-Profit Organization (501(c)(3)) lookup with id 5.
+		/// </summary>
+		public static StaticLookup USNonProfitOrganization501C3 { get { return new StaticLookup("U.S. Non-Profit Organization (501(c)(3))", 5); } }
+		/// <summary>
 		/// Returns the Individual lookup with id 6.
 		/// </summary>
 		public static StaticLookup Individual { get { return new StaticLookup("Individual", 6); } }
+		/// <summary>
+		/// Returns the Foreign NGO/PVO lookup with id 7.
+		/// </summary>
+		public static StaticLookup ForeignNgoPvo { get { return new StaticLookup("Foreign NGO/PVO", 7); } }
 		/// <summary>
 		/// Returns the Other Organization lookup with id 8.
 		/// </summary>
@@ -991,7 +1011,12 @@ namespace ECA.Data
 		public static StaticLookup GetStaticLookup(int id)
 		{
 			if (1 == id) return ParticipantType.OrganizationalParticipant;
+			if (2 == id) return ParticipantType.ForeignGovernment;
+			if (3 == id) return ParticipantType.USEducationalInstitution;
+			if (4 == id) return ParticipantType.PublicInternationalOrganizationPio;
+			if (5 == id) return ParticipantType.USNonProfitOrganization501C3;
 			if (6 == id) return ParticipantType.Individual;
+			if (7 == id) return ParticipantType.ForeignNgoPvo;
 			if (8 == id) return ParticipantType.OtherOrganization;
 			if (9 == id) return ParticipantType.Other;
 			if (10 == id) return ParticipantType.ForeignNonTravelingParticipant;
@@ -1008,7 +1033,12 @@ namespace ECA.Data
 		public static StaticLookup GetStaticLookup(string value)
 		{
 			if ("Organizational Participant".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.OrganizationalParticipant;
+			if ("Foreign Government".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.ForeignGovernment;
+			if ("U.S. Educational Institution".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.USEducationalInstitution;
+			if ("Public International Organization (PIO)".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.PublicInternationalOrganizationPio;
+			if ("U.S. Non-Profit Organization (501(c)(3))".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.USNonProfitOrganization501C3;
 			if ("Individual".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.Individual;
+			if ("Foreign NGO/PVO".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.ForeignNgoPvo;
 			if ("Other Organization".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.OtherOrganization;
 			if ("Other".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.Other;
 			if ("Foreign Non Traveling Participant".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.ForeignNonTravelingParticipant;
