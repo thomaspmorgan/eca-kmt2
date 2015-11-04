@@ -36,7 +36,7 @@ DECLARE @tblTempTable TABLE (
 -- will not be deleted from databases in which the value already exists.
 INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('1', 'Organizational Participant', 'false')
 INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('6', 'Individual', 'true')
-INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('8', 'Other', 'false')
+INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('8', 'Other Organization', 'false')
 INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('9', 'Other', 'true')
 INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('10','Foreign Non Traveling Participant', 'true')
 INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('11','U.S. Non Traveling Participant', 'true')

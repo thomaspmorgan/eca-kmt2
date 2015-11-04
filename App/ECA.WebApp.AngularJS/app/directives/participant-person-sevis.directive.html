@@ -118,7 +118,9 @@
         <a ng-click="view.PositionAndField=!view.PositionAndField">
             <i class="material-icons md-dark md-36 pull-right" ng-show="view.PositionAndField">expand_more</i>
             <i class="material-icons md-dark md-36 pull-right" ng-show="!view.PositionAndField">expand_less</i>
-            <i class="material-icons md-dark md-24 pull-right" ng-show="view.PositionAndField">edit</i>
+         </a>
+        <a ng-click="view.PositionAndFieldEdit=!view.PositionAndFieldEdit">
+            <i class="material-icons md-dark md-24 pull-right" ng-show="view.PositionAndField && !view.PositionAndFieldEdit">edit</i>
         </a>
     </div>
 </div>

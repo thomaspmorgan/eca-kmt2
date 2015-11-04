@@ -9,9 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Data.Entity;
-using System.Text;
 using System.Threading.Tasks;
-using System.Diagnostics;
 using NLog;
 using ECA.Core.Exceptions;
 using ECA.Business.Validation;
@@ -22,7 +20,7 @@ namespace ECA.Business.Service.Persons
     /// <summary>
     /// A ParticipantPersonService is capable of performing crud operations on participantPersons in the ECA system.
     /// </summary>
-    public class ParticipantPersonService : DbContextService<EcaContext>, ECA.Business.Service.Persons.IParticipantPersonService
+    public class ParticipantPersonService : DbContextService<EcaContext>, IParticipantPersonService
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
 

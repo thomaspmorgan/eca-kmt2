@@ -341,7 +341,6 @@ angular.module('staticApp')
                 .then(function (data) {
                     $scope.cities = data.results;
                 });
-
           }
       }
 
