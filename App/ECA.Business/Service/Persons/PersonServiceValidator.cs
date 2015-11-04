@@ -85,15 +85,16 @@ namespace ECA.Business.Service.Persons
                 yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.CountriesOfCitizenship, COUNTRIES_OF_CITIZENSHIP_NOT_FOUND);
             }
 
-            if (validationEntity.PlaceOfBirthId == null && validationEntity.IsPlaceOfBirthUnknown == true)
-            {
-                yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.PlaceOfBirthId, PLACE_OF_BIRTH_ERROR);
-            }
-
             if (validationEntity.CountriesOfCitizenship != null && validationEntity.CountriesOfCitizenship.Count == 0)
             {
                 yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.CountriesOfCitizenship, COUNTRIES_OF_CITIZENSHIP_REQUIRED);
             }
+
+            if (validationEntity.PlaceOfBirthId != null && validationEntity.IsPlaceOfBirthUnknown == true)
+            {
+                yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.PlaceOfBirthId, PLACE_OF_BIRTH_ERROR);
+            }
+
         }
     }
 }
