@@ -847,7 +847,7 @@ namespace ECA.Business.Test.Service.Admin
             };
 
             context.Projects.Add(project);
-            var participantTypeId = ParticipantType.USEducationalInstitution.Id;
+            var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
             var organizationType = OrganizationType.USEducationalInstitution.Id;
             var participantOrganization = new ParticipantOrganization(new User(0), project.ProjectId, participantTypeId, "name", "description", organizationType, new List<int>(), "http://google.com", new List<int>());
             var organization = await service.CreateParticipantOrganizationAsync(participantOrganization);

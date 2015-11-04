@@ -152,7 +152,8 @@ namespace ECA.Business.Service.Programs
         /// <returns>The program, or null if it doesn't exist.</returns>
         public async Task<ProgramDTO> GetProgramByIdAsync(int programId)
         {
-            var dto = await ProgramQueries.CreateGetPublishedProgramByIdQuery(this.Context, programId).FirstOrDefaultAsync();
+            var query = ProgramQueries.CreateGetPublishedProgramByIdQuery(this.Context, programId);
+            var dto = await query.FirstOrDefaultAsync();
             List<OrganizationProgramDTO> parentPrograms = new List<OrganizationProgramDTO>();
             if (dto != null && dto.ParentProgramId.HasValue)
             {
