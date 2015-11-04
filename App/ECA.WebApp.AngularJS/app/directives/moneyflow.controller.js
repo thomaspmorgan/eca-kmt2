@@ -167,7 +167,12 @@ angular.module('staticApp')
       }
 
       $scope.view.onSelectSourceMoneyFlow = function ($item, $model) {
-          $scope.view.selectedSourceMoneyFlow = $item;
+          if (!$item) {
+              $scope.view.selectedSourceMoneyFlow = null;
+          }
+          else {
+              $scope.view.selectedSourceMoneyFlow = $item;
+          }
       }
 
 
@@ -412,6 +417,7 @@ angular.module('staticApp')
               $scope.view.isSourceMoneyFlowAmountExpended = moneyFlow.isSourceMoneyFlowAmountExpended;
               $scope.view.copiedMoneyFlowExceedsSourceLimit = moneyFlow.copiedMoneyFlowExceedsSourceLimit;
               $scope.view.selectedSourceMoneyFlow = moneyFlow.parentMoneyFlow ? moneyFlow.parentMoneyFlow : null;
+              loadSourceMoneyFlows(moneyFlow);
           }
           else {
               moneyFlow = {

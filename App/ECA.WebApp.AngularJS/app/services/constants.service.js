@@ -26,7 +26,7 @@
 			program: {id: 2, value: "Program"},
 			project: {id: 3, value: "Project"},
 			participant: {id: 4, value: "Participant"},
-			itineraryStop: {id: 5, value: "Itinerary Stop"},
+			itineraryStop: {id: 5, value: "Travel Stop"},
 			accomodation: {id: 6, value: "Accomodation"},
 			transportation: {id: 7, value: "Transportation"},
 			expense: {id: 8, value: "Expense"},

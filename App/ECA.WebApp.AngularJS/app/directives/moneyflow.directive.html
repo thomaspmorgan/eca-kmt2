@@ -3,8 +3,6 @@
 </div>
 <div class="modal-body" in-context-form>
     <div ng-show="!view.isSaving && !view.isLoadingRequiredData && !view.isCopyingMoneyFlow">
-
-
         <form name="form.newMoneyFlow">
             <div class="form-group" id="transactionType">
                 <span class="moneyFlowDirection"
@@ -19,6 +17,7 @@
                     Outgoing
                 </span>
             </div>
+            <hr/>
             <div class="row">
                 <div class="form-group col-md-12">
                     <label>Status<span class="asterisk"> *</span></label>
@@ -37,43 +36,6 @@
             </div>
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label>Transaction Date<span class="asterisk"> *</span></label>
-                    <p class="input-group">
-                        <input name="transactionDate"
-                               type="text"
-                               class="form-control"
-                               datepicker-popup="dd-MMMM-yyyy"
-                               show-weeks="false"
-                               ng-model="view.moneyFlow.transactionDate"
-                               is-open="view.isTransactionDatePickerOpen"
-                               close-text="Close"
-                               placeholder="Enter transaction date..."
-                               ng-required="true" />
-                        <span class="input-group-btn" style="width:0;">
-                            <button type="button" class="btn btn-default" ng-click="view.openTransactionDatePicker($event)"><i class="material-icons md-18">event</i></button>
-                        </span>
-                    </p>
-                    <div ng-show="form.newMoneyFlow.transactionDate.$dirty">
-                        <div class="error" ng-show="form.newMoneyFlow.transactionDate.$error.required">Please select a transaction date.</div>
-                    </div>
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Reference Fiscal Year<span class="asterisk"> *</span></label>
-                    <select class="form-control"
-                            id="fiscalYear"
-                            name="fiscalYear"
-                            ng-change="view.onFiscalYearChange()"
-                            ng-options="fiscalYear as fiscalYear for fiscalYear in view.fiscalYears"
-                            ng-model="view.moneyFlow.fiscalYear"
-                            required></select>
-                    <div ng-show="form.newMoneyFlow.fiscalYear.$dirty">
-                        <div class="error" ng-show="form.newMoneyFlow.fiscalYear.$error.required">Please enter a fiscal year.</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group col-md-6">
                     <label ng-show="!view.moneyFlow.isOutgoing">Source Type<span class="asterisk"> *</span></label>
                     <label ng-show="view.moneyFlow.isOutgoing">Recipient Type <span class="asterisk"> *</span></label>
                     <div>
@@ -83,7 +45,7 @@
                                 ng-options="t.id as t.name for t in view.getAllowedMoneyFlowSourceRecipientTypes(view.moneyFlow)"
                                 ng-model="view.moneyFlow.peerEntityTypeId"
                                 ng-change="view.onSelectSourceType()"
-                                required></select>
+                                required />
                     </div>
                     <div ng-show="form.newMoneyFlow.peerEntityTypeId.$dirty">
                         <div class="error" ng-show="form.newMoneyFlow.peerEntityTypeId.$error.required && !view.moneyFlow.isOutgoing">Please select a source type.</div>
@@ -115,6 +77,50 @@
                     </div>
                     <div ng-show="form.newMoneyFlow.source.$dirty">
                         <div class="error" ng-show="form.newMoneyFlow.source.$error.required ">Please select a {{view.moneyFlow.isOutgoing ? 'recipient' : 'source'}}.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label>Transaction Date<span class="asterisk"> *</span></label>
+                    <p class="input-group">
+                        <input name="transactionDate"
+                               type="text"
+                               class="form-control"
+                               datepicker-popup="dd-MMMM-yyyy"
+                               show-weeks="false"
+                               ng-model="view.moneyFlow.transactionDate"
+                               is-open="view.isTransactionDatePickerOpen"
+                               close-text="Close"
+                               placeholder="Enter transaction date..."
+                               ng-required="true" />
+                        <span class="input-group-btn" style="width:0;">
+                            <button type="button" class="btn btn-default" ng-click="view.openTransactionDatePicker($event)"><i class="material-icons md-18">event</i></button>
+                        </span>
+                    </p>
+                    <div ng-show="form.newMoneyFlow.transactionDate.$dirty">
+                        <div class="error" ng-show="form.newMoneyFlow.transactionDate.$error.required">Please select a transaction date.</div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Reference Fiscal Year<span class="asterisk"> *</span></label>
+                    <ui-select ng-model="view.moneyFlow.fiscalYear"
+                               search-enabled="false"
+                               on-select="view.onFiscalYearChange($item, $model)"
+                               ng-required="true"
+                               theme="select2">
+                        <ui-select-match placeholder="Select a fiscal year...">
+                            {{$select.selected}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="fiscalYear as fiscalYear in view.fiscalYears">
+                            <div style="margin-top:5px;margin-bottom:5px;">
+                                <p><strong>{{fiscalYear}}</strong></p>
+                                <p class="small">{{(view.sourceMoneyFlows | filter : fiscalYear).length}} source fundings.</p>
+                            </div>                            
+                        </ui-select-choices>
+                    </ui-select>
+                    <div ng-show="form.newMoneyFlow.fiscalYear.$dirty">
+                        <div class="error" ng-show="form.newMoneyFlow.fiscalYear.$error.required">Please enter a fiscal year.</div>
                     </div>
                 </div>
             </div>
@@ -162,7 +168,7 @@
                                 </div>
                             </ui-select-choices>
                         </ui-select>
-                        <div ng-show="view.isSourceMoneyFlowAmountExpended">
+                        <div ng-show="view.selectedSourceMoneyFlow && view.isSourceMoneyFlowAmountExpended">
                             <p class="warning">This copied funding item's source funds have been expended.</p>
                         </div>
                     </div>
@@ -193,7 +199,7 @@
                         <div class="error" ng-show="form.newMoneyFlow.amount.$error.required">Please enter a transaction amount.</div>
                         <div class="error" ng-show="form.newMoneyFlow.amount.$error.exceedsSourceAmount">The amount exceeds the remaining source funding.</div>
                     </div>
-                    <div ng-show="view.copiedMoneyFlowExceedsSourceLimit">
+                    <div ng-show="view.selectedSourceMoneyFlow && view.copiedMoneyFlowExceedsSourceLimit">
                         <p class="warning">This copied funding item exceeds the source funding item's remaining funds.</p>
                     </div>
                 </div>

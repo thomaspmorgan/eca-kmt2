@@ -3,24 +3,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #region ActorType
 namespace ECA.Data
 {
@@ -970,9 +952,9 @@ namespace ECA.Data
 	public partial class ParticipantType : ECA.Core.Generation.IStaticLookup
 	{
 		/// <summary>
-		/// Returns the Foreign Educational Institution lookup with id 1.
+		/// Returns the Organizational Participant lookup with id 1.
 		/// </summary>
-		public static StaticLookup ForeignEducationalInstitution { get { return new StaticLookup("Foreign Educational Institution", 1); } }
+		public static StaticLookup OrganizationalParticipant { get { return new StaticLookup("Organizational Participant", 1); } }
 		/// <summary>
 		/// Returns the Foreign Government lookup with id 2.
 		/// </summary>
@@ -1028,7 +1010,7 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(int id)
 		{
-			if (1 == id) return ParticipantType.ForeignEducationalInstitution;
+			if (1 == id) return ParticipantType.OrganizationalParticipant;
 			if (2 == id) return ParticipantType.ForeignGovernment;
 			if (3 == id) return ParticipantType.USEducationalInstitution;
 			if (4 == id) return ParticipantType.PublicInternationalOrganizationPio;
@@ -1050,7 +1032,7 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
-			if ("Foreign Educational Institution".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.ForeignEducationalInstitution;
+			if ("Organizational Participant".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.OrganizationalParticipant;
 			if ("Foreign Government".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.ForeignGovernment;
 			if ("U.S. Educational Institution".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.USEducationalInstitution;
 			if ("Public International Organization (PIO)".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.PublicInternationalOrganizationPio;

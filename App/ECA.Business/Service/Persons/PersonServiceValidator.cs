@@ -53,8 +53,10 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         public const string COUNTRIES_OF_CITIZENSHIP_REQUIRED = "At least one country of citizenship is required.";
 
-
-        public const string PLACE_OF_BIRTH_ERROR = "A place of birth.";
+        /// <summary>
+        /// City of birth not authorized
+        /// </summary>
+        public const string PLACE_OF_BIRTH_ERROR = "A city of birth cannot be set if the country of birth is unknown.";
 
         public override IEnumerable<BusinessValidationResult> DoValidateCreate(PersonServiceValidationEntity validationEntity)
         {
@@ -83,15 +85,16 @@ namespace ECA.Business.Service.Persons
                 yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.CountriesOfCitizenship, COUNTRIES_OF_CITIZENSHIP_NOT_FOUND);
             }
 
-            //if (validationEntity.PlaceOfBirthId == null && validationEntity.IsPlaceOfBirthUnknown == null)
-            //{
-
-            //}
-
             if (validationEntity.CountriesOfCitizenship != null && validationEntity.CountriesOfCitizenship.Count == 0)
             {
                 yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.CountriesOfCitizenship, COUNTRIES_OF_CITIZENSHIP_REQUIRED);
             }
+
+            if (validationEntity.PlaceOfBirthId != null && validationEntity.IsPlaceOfBirthUnknown == true)
+            {
+                yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.PlaceOfBirthId, PLACE_OF_BIRTH_ERROR);
+            }
+
         }
     }
 }

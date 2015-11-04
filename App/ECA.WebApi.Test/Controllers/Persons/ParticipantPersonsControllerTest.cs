@@ -99,9 +99,9 @@ namespace ECA.WebApi.Test.Controllers.Persons
             var model = new UpdatedParticipantPersonBindingModel();
             model.ParticipantTypeId = ParticipantType.Individual.Id;
 
-            var result = await controller.PutUpdateParticipantPersonAsync(model);
+            var result = await controller.PutCreateOrUpdateParticipantPersonAsync(model);
             Assert.IsInstanceOfType(result, typeof(OkNegotiatedContentResult<SimpleParticipantPersonDTO>));
-            service.Verify(x => x.UpdateAsync(It.IsAny<UpdatedParticipantPerson>()), Times.Once());
+            service.Verify(x => x.CreateOrUpdateAsync(It.IsAny<UpdatedParticipantPerson>()), Times.Once());
             service.Verify(x => x.SaveChangesAsync(), Times.Once());
             service.Verify(x => x.GetParticipantPersonByIdAsync(It.IsAny<int>()), Times.Once());
             userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
@@ -115,7 +115,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
             model.ParticipantTypeId = ParticipantType.Individual.Id;
 
             controller.ModelState.AddModelError("key", "error");
-            var result = await controller.PutUpdateParticipantPersonAsync(model);
+            var result = await controller.PutCreateOrUpdateParticipantPersonAsync(model);
             Assert.IsInstanceOfType(result, typeof(InvalidModelStateResult));
         }
         #endregion

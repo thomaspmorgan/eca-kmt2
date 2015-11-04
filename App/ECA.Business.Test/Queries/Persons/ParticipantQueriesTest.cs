@@ -335,8 +335,8 @@ namespace ECA.Business.Test.Queries.Persons
         {
             var participantType = new ParticipantType
             {
-                Name = ParticipantType.PublicInternationalOrganizationPio.Value,
-                ParticipantTypeId = ParticipantType.PublicInternationalOrganizationPio.Id,
+                Name = ParticipantType.ForeignNonTravelingParticipant.Value,
+                ParticipantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id,
             };
             var organization = new Organization
             {
@@ -373,8 +373,8 @@ namespace ECA.Business.Test.Queries.Persons
         {
             var participantType = new ParticipantType
             {
-                Name = ParticipantType.PublicInternationalOrganizationPio.Value,
-                ParticipantTypeId = ParticipantType.PublicInternationalOrganizationPio.Id,
+                Name = ParticipantType.ForeignNonTravelingParticipant.Value,
+                ParticipantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id,
             };
             var organization = new Organization
             {
@@ -430,8 +430,8 @@ namespace ECA.Business.Test.Queries.Persons
         {
             var participantType = new ParticipantType
             {
-                Name = ParticipantType.PublicInternationalOrganizationPio.Value,
-                ParticipantTypeId = ParticipantType.PublicInternationalOrganizationPio.Id,
+                Name = ParticipantType.ForeignNonTravelingParticipant.Value,
+                ParticipantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id,
             };
             var organization = new Organization
             {
