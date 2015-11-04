@@ -20,6 +20,7 @@
     [LocationISO-2] NVARCHAR(10) NULL, 
     [City_LocationId] INT NULL, 
     [Division_LocationId] INT NULL, 
+    [IsDivisionUnknown] BIT NULL, 
     CONSTRAINT [PK_dbo.Location] PRIMARY KEY CLUSTERED ([LocationId] ASC),
     CONSTRAINT [FK_dbo.Location_dbo.Location_Country_LocationId] FOREIGN KEY ([Country_LocationId]) REFERENCES [dbo].[Location] ([LocationId]),
     CONSTRAINT [FK_dbo.Location_dbo.Location_Region_LocationId] FOREIGN KEY ([Region_LocationId]) REFERENCES [dbo].[Location] ([LocationId]),
