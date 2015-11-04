@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProjectParticipantEditInfoCtrl', function (
+  .controller('ProjectParticipantInfoCtrl', function (
         $scope,
         $stateParams,
         $q,
@@ -51,7 +51,7 @@ angular.module('staticApp')
           return loadHostInstitutions($search);
       }
 
-      $scope.view.onHostInstitutionSelect = function ($item, $model) {
+      $scope.view.onSelectHostInstitution = function ($item, $model) {
           $scope.view.selectedHostInstitutionAddresses = [];
           $scope.view.participantPerson.hostInstitutionAddressId = null;
           if ($model) {
@@ -71,7 +71,7 @@ angular.module('staticApp')
           $scope.view.participantPerson.hostInstitutionAddressId = $model;
       }
 
-      $scope.view.onHomeInstitutionSelect = function ($item, $model) {
+      $scope.view.onSelectHomeInstitution = function ($item, $model) {
           $scope.view.selectedHomeInstitutionAddresses = [];
           $scope.view.participantPerson.homeInstitutionAddressId = null;
           if ($model) {
@@ -88,6 +88,14 @@ angular.module('staticApp')
 
       $scope.view.onSelectHomeInstitutionAddress = function ($item, $model) {
           $scope.view.participantPerson.homeInstitutionAddressId = $model;
+      }
+
+      $scope.view.onRemoveHostInstitutionAddress = function ($item, $model) {
+          $scope.view.participantPerson.hostInstitutionAddressId = null;
+      }
+
+      $scope.view.onRemoveHomeInstitutionAddress = function ($item, $model) {
+          $scope.view.participantPerson.homeInstitutionAddressId = null;
       }
 
       $scope.view.onCancelButtonClick = function () {

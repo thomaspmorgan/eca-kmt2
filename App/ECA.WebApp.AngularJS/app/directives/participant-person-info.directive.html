@@ -1,4 +1,4 @@
-<div ng-controller="ProjectParticipantEditInfoCtrl">
+<div ng-controller="ProjectParticipantInfoCtrl">
     <div class="row row2" ng-show="view.isLoadingEditParticipantInfoRequiredData || view.isSavingUpdate || view.isLoadingInfo">
         <div class="spinner">
             <div class="bounce1"></div>
@@ -53,7 +53,7 @@
                     <div class="col-md-4 title-label">Home Institution</div>
                     <div class="col-md-8">
                         <ui-select ng-model="view.participantPerson.homeInstitutionId"
-                                   on-select="view.onHomeInstitutionSelect($item, $model)"
+                                   on-select="view.onSelectHomeInstitution($item, $model)"
                                    theme="select2">
                             <ui-select-match placeholder="Select a home institution..." allow-clear="true">
                                 {{$select.selected.name}}
@@ -66,6 +66,7 @@
                         <ui-select multiple
                                    ng-model="view.selectedHomeInstitutionAddresses"
                                    on-select="view.onSelectHomeInstitutionAddress($item, $model)"
+                                   on-remove="view.onRemoveHomeInstitutionAddress($item, $model)"
                                    limit="1"
                                    style="margin-top:20px;"
                                    theme="select2">
@@ -118,7 +119,7 @@
                     <div class="col-md-4 title-label">Host Institution</div>
                     <div class="col-md-8">
                         <ui-select ng-model="view.participantPerson.hostInstitutionId"
-                                   on-select="view.onHostInstitutionSelect($item, $model)"
+                                   on-select="view.onSelectHostInstitution($item, $model)"
                                    theme="select2">
                             <ui-select-match placeholder="Select a host institution..." allow-clear="true">
                                 {{$select.selected.name}}
@@ -132,6 +133,7 @@
                         <ui-select multiple
                                    ng-model="view.selectedHostInstitutionAddresses"
                                    on-select="view.onSelectHostInstitutionAddress($item, $model)"
+                                   on-remove="view.onRemoveHostInstitutionAddress($item, $model)"
                                    limit="1"
                                    style="margin-top:20px;"
                                    theme="select2">
