@@ -400,6 +400,8 @@ angular.module('staticApp')
               var participants = Object.keys($scope.selectedParticipants).map(Number);
               ParticipantPersonsSevisService.sendToSevis(participants)
               .then(function (results) {
+                  $scope.selectAll = false;
+                  $scope.selectedParticipants = {};
                   NotificationService.showSuccessMessage("Successfully queued " + results.data.length + " of " + participants.length  + " participants.");
                   reloadParticipantTable();
               }, function () {
