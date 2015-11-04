@@ -39,7 +39,7 @@ namespace ECA.Business.Service.Persons
                 if (instance == null)
                 {
                     throw new ModelNotFoundException(String.Format("The model of type [{0}] with id [{1}] was not found.", type.Name, id));
-        }
+                }
             };
         }
 
@@ -180,7 +180,7 @@ namespace ECA.Business.Service.Persons
             logger.Trace("Retrieved participantPersonSevises by array of participant Ids");
             return results;
         }
-            
+
         /// <summary>
         /// Sets sevis communication status for participant ids
         /// </summary>
@@ -190,29 +190,28 @@ namespace ECA.Business.Service.Persons
         {
             var statuses = await Context.ParticipantPersonSevisCommStatuses.GroupBy(x => x.ParticipantId)
                 .Select(s => s.OrderByDescending(x => x.AddedOn).FirstOrDefault())
-                .Where(w => participantIds.Contains(w.ParticipantId)).ToListAsync();
+                .Where(w => w.SevisCommStatusId == SevisCommStatus.ReadyToSubmit.Id && participantIds.Contains(w.ParticipantId))
+                .ToListAsync();
 
             var participantsUpdated = new List<int>();
 
-            foreach (var status in statuses) {
-                if (status.SevisCommStatusId == SevisCommStatus.ReadyToSubmit.Id)
+            foreach (var status in statuses)
+            {
+                var newStatus = new ParticipantPersonSevisCommStatus
                 {
-                    var newStatus = new ParticipantPersonSevisCommStatus
-                    {
-                        ParticipantId = status.ParticipantId,
-                        SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
-                        AddedOn = DateTimeOffset.Now
+                    ParticipantId = status.ParticipantId,
+                    SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+                    AddedOn = DateTimeOffset.Now
 
-                    };
+                };
 
-                    Context.ParticipantPersonSevisCommStatuses.Add(newStatus);
-                    participantsUpdated.Add(status.ParticipantId);
-                }
+                Context.ParticipantPersonSevisCommStatuses.Add(newStatus);
+                participantsUpdated.Add(status.ParticipantId);
             }
 
             return participantsUpdated.ToArray();
         }
-            
+
         #endregion
 
         #region update
@@ -227,7 +226,7 @@ namespace ECA.Business.Service.Persons
             throwIfModelDoesNotExist(updatedParticipantPersonSevis.ParticipantId, participantPerson, typeof(ParticipantPerson));
 
             DoUpdate(participantPerson, updatedParticipantPersonSevis);
-            return  this.GetParticipantPersonsSevisById(updatedParticipantPersonSevis.ParticipantId);
+            return this.GetParticipantPersonsSevisById(updatedParticipantPersonSevis.ParticipantId);
         }
 
         /// <summary>
