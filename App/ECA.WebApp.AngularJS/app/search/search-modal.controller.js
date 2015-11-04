@@ -12,23 +12,22 @@ angular.module('staticApp')
         $stateParams,
         $q,
         $log,
-        $location,
         previousSearch,
         $modalInstance,
         $filter,
-        $anchorScroll,
         $timeout,
         $state,
         SearchService,
         StateService,
+        ConstantsService,
         NotificationService) {
 
       var limit = 10;
 
       $scope.isLoadingRequiredData = true;
       $scope.results = [];
-      $scope.docinfo = null;
-      $scope.tophitinfo = {};
+      $scope.docInfo = null;
+      $scope.topHit = null;
       $scope.currentPage = 0;
       $scope.pageSize = 10;
       $scope.totalpages = 0;
@@ -93,25 +92,20 @@ angular.module('staticApp')
               $scope.currentParams.SearchTerm = $scope.text;
               $scope.currentParams.Start = 0;
               $scope.currentPage = 0;
-              $scope.docinfo = null;
+              $scope.docInfo = null;
               return doSearch($scope.currentParams);
-          }
-          else {
-
           }
       };
 
       // Gets document details on selection
       $scope.getDocumentInfo = function (docItem) {
           $scope.isLoadingDocInfo = true;
-          $scope.docinfo = null;
+          $scope.docInfo = null;
           return SearchService.getDocInfo(docItem.document.id)
           .then(function (response) {
               $log.info('Loaded document information.');
-              $scope.docinfo = response.data;
-              replacePlainTextWithHighlights(docItem.hitHighlights, $scope.docinfo);
-              $location.hash('title');
-              $anchorScroll();
+              $scope.docInfo = response.data;
+              replacePlainTextWithHighlights(docItem.hitHighlights, $scope.docInfo);
               $scope.isLoadingDocInfo = false;
           })
           .catch(function () {
@@ -150,40 +144,34 @@ angular.module('staticApp')
           return doSearch($scope.currentParams);
       }
 
-      // Save the previous search term
-      if (previousSearch) {
-          $scope.search();
-      }
-
       // Closes the search modal
       $scope.onCloseSpotlightSearchClick = function () {
           $modalInstance.close($scope.text);
       };
 
       // Closes the search modal and reloads selection
-      $scope.onGoToSpotlightSearchClick = function (url) {
+      $scope.onDocInfoTitleClick = function (document) {
           $modalInstance.close($scope.text);
-          $location.path(url, true);
+          goToDocumentState(document);
       };
 
-      // Link document to details page
-      $scope.getHref = function (docType, docId) {
-          if (docType && docId) {
-              var plainTextDocType = docType.replace(htmlRegex, '')
-              if (plainTextDocType === 'Office') {
-                  return StateService.getOfficeState(docId);
-              } else if (plainTextDocType === 'Program') {
-                  return StateService.getProgramState(docId);
-              } else if (plainTextDocType === 'Project') {
-                  return StateService.getProjectState(docId);
-              } else if (plainTextDocType === 'Person') {
-                  return StateService.getPersonState(docId);
-              } else if (plainTextDocType === 'Organization') {
-                  return StateService.getOrganizationState(docId);
-              }
-              else {
-                  throw Error('The document type ' + docType + ' is not supported.');
-              }
+      function goToDocumentState(document) {
+          console.assert(document !== null, 'The document must not be null.');
+          var plainTextDocType = document.documentTypeName.replace(htmlRegex, '');
+          var docId = document.key.value;
+          if (plainTextDocType === 'Office') {
+              return StateService.goToOfficeState(docId);
+          } else if (plainTextDocType === 'Program') {
+              return StateService.goToProgramState(docId);
+          } else if (plainTextDocType === 'Project') {
+              return StateService.goToProjectState(docId);
+          } else if (plainTextDocType === 'Person') {
+              return StateService.goToPersonState(docId);
+          } else if (plainTextDocType === 'Organization') {
+              return StateService.goToOrganizationState(docId);
+          }
+          else {
+              throw Error('The document type ' + docType + ' is not supported.');
           }
       }
 
@@ -207,11 +195,11 @@ angular.module('staticApp')
                     replacePlainTextWithHighlights(result.hitHighlights, result.document);
                 })
                 if ($scope.currentPage === 0) {
-                    $scope.tophitinfo = response.data.results.slice(0, 1);
+                    $scope.topHit = response.data.results.slice(0, 1)[0];
                     $scope.results = response.data.results.slice(1);
                 }
                 else {
-                    $scope.tophitinfo = null;
+                    $scope.topHit = null;
                     $scope.results = response.data.results;
                 }
                 $scope.totalResults = response.data.count;
@@ -230,6 +218,9 @@ angular.module('staticApp')
       $q.all([loadFieldNames()])
       .then(function () {
           focusSearchField();
+          if (previousSearch) {
+              $scope.search();
+          }
       });
   });
 
