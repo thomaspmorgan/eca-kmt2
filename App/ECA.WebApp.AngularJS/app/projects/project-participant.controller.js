@@ -262,14 +262,15 @@ angular.module('staticApp')
       $scope.getParticipants = function (tableState) {
           $scope.participantInfo = {};
           $scope.participantsLoading = true;
-
+          
           TableService.setTableState(tableState);
 
           var params = {
               start: TableService.getStart(),
               limit: TableService.getLimit(),
               sort: TableService.getSort(),
-              filter: TableService.getFilter()
+              filter: tableState.filter ? tableState.filter : TableService.getFilter(),
+              keyword: TableService.getKeywords()
           };
 
           ParticipantService.getParticipantsByProject($stateParams.projectId, params)
@@ -423,6 +424,56 @@ angular.module('staticApp')
               }
           });
       };
+
+      $scope.selectAllChanged = function () {
+          if ($scope.selectAll) {
+              for (var i = 0; i < $scope.participants.length; i++) {
+                  var participantId = $scope.participants[0].participantId;
+                  $scope.selectedParticipants[participantId] = true;
+              }
+          } else {
+              $scope.selectedParticipants = {};
+          }
+      }
+
+      $scope.selectedActionChanged = function () {
+          $scope.selectAll = false;
+          $scope.selectedParticipants = {};
+          var tableState = $scope.getParticipantsTableState();
+          tableState.filter = [];
+          if ($scope.selectedAction === "Send To SEVIS") {
+              tableState.filter = { property: 'sevisStatus', comparison: 'eq', value: 'Ready To Submit' };
+          }
+          $scope.getParticipants(tableState);
+      }
+
+      $scope.selectedParticipants = {};
+
+      $scope.selectedParticipantsEmpty = function () {
+          return Object.keys($scope.selectedParticipants).length === 0;
+      }
+
+      $scope.applyAction = function () {
+          if ($scope.selectedAction === "Send To SEVIS") {
+              var participants = Object.keys($scope.selectedParticipants).map(Number);
+              ParticipantPersonsSevisService.sendToSevis(participants)
+              .then(function (results) {
+                  $scope.selectAll = false;
+                  $scope.selectedParticipants = {};
+                  NotificationService.showSuccessMessage("Successfully queued " + results.data.length + " of " + participants.length  + " participants.");
+                  reloadParticipantTable();
+              }, function () {
+                  NotificationService.showErrorMessage("Failed to queue participants.");
+              });
+          }
+
+      }
+
+      $scope.selectedParticipant = function (participant, checked) {
+          if (!checked) {
+              delete $scope.selectedParticipants[participant.participantId];
+          }
+      }
 
       $scope.view.isLoading = true;
       $q.all([loadPermissions(), loadCollaboratorDetails()])

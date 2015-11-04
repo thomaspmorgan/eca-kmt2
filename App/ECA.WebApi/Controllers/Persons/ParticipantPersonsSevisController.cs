@@ -146,5 +146,25 @@ namespace ECA.WebApi.Controllers.Persons
             }
         }
 
+        /// <summary>
+        /// Send to sevis async
+        /// </summary>
+        /// <param name="participantIds">The participant ids to send to sevis</param>
+        /// <returns>Success or error</returns>
+        [Route("ParticipantPersonsSevis/SendToSevis")]
+        public async Task<IHttpActionResult> PostSendToSevisAsync(int[] participantIds)
+        {
+            if (ModelState.IsValid)
+            {
+                var statuses = await service.SendToSevis(participantIds);
+                await service.SaveChangesAsync();
+                return Ok(statuses);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
     }
 }

@@ -3,6 +3,24 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #region ActorType
 namespace ECA.Data
 {
@@ -980,25 +998,29 @@ namespace ECA.Data
 		/// </summary>
 		public static StaticLookup ForeignNgoPvo { get { return new StaticLookup("Foreign NGO/PVO", 7); } }
 		/// <summary>
-		/// Returns the Other lookup with id 8.
+		/// Returns the Other Organization lookup with id 8.
 		/// </summary>
-		public static StaticLookup Other { get { return new StaticLookup("Other", 8); } }
+		public static StaticLookup OtherOrganization { get { return new StaticLookup("Other Organization", 8); } }
 		/// <summary>
-		/// Returns the Foreign Non Traveling Participant lookup with id 9.
+		/// Returns the Other lookup with id 9.
 		/// </summary>
-		public static StaticLookup ForeignNonTravelingParticipant { get { return new StaticLookup("Foreign Non Traveling Participant", 9); } }
+		public static StaticLookup Other { get { return new StaticLookup("Other", 9); } }
 		/// <summary>
-		/// Returns the U.S. Non Traveling Participant lookup with id 10.
+		/// Returns the Foreign Non Traveling Participant lookup with id 10.
 		/// </summary>
-		public static StaticLookup USNonTravelingParticipant { get { return new StaticLookup("U.S. Non Traveling Participant", 10); } }
+		public static StaticLookup ForeignNonTravelingParticipant { get { return new StaticLookup("Foreign Non Traveling Participant", 10); } }
 		/// <summary>
-		/// Returns the Foreign Traveling Participant lookup with id 11.
+		/// Returns the U.S. Non Traveling Participant lookup with id 11.
 		/// </summary>
-		public static StaticLookup ForeignTravelingParticipant { get { return new StaticLookup("Foreign Traveling Participant", 11); } }
+		public static StaticLookup USNonTravelingParticipant { get { return new StaticLookup("U.S. Non Traveling Participant", 11); } }
 		/// <summary>
-		/// Returns the U.S. Traveling Participant lookup with id 12.
+		/// Returns the Foreign Traveling Participant lookup with id 12.
 		/// </summary>
-		public static StaticLookup USTravelingParticipant { get { return new StaticLookup("U.S. Traveling Participant", 12); } }
+		public static StaticLookup ForeignTravelingParticipant { get { return new StaticLookup("Foreign Traveling Participant", 12); } }
+		/// <summary>
+		/// Returns the U.S. Traveling Participant lookup with id 13.
+		/// </summary>
+		public static StaticLookup USTravelingParticipant { get { return new StaticLookup("U.S. Traveling Participant", 13); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -1013,11 +1035,12 @@ namespace ECA.Data
 			if (5 == id) return ParticipantType.USNonProfitOrganization501C3;
 			if (6 == id) return ParticipantType.Individual;
 			if (7 == id) return ParticipantType.ForeignNgoPvo;
-			if (8 == id) return ParticipantType.Other;
-			if (9 == id) return ParticipantType.ForeignNonTravelingParticipant;
-			if (10 == id) return ParticipantType.USNonTravelingParticipant;
-			if (11 == id) return ParticipantType.ForeignTravelingParticipant;
-			if (12 == id) return ParticipantType.USTravelingParticipant;
+			if (8 == id) return ParticipantType.OtherOrganization;
+			if (9 == id) return ParticipantType.Other;
+			if (10 == id) return ParticipantType.ForeignNonTravelingParticipant;
+			if (11 == id) return ParticipantType.USNonTravelingParticipant;
+			if (12 == id) return ParticipantType.ForeignTravelingParticipant;
+			if (13 == id) return ParticipantType.USTravelingParticipant;
 			return null;
 		}
 		///<summary>
@@ -1034,6 +1057,7 @@ namespace ECA.Data
 			if ("U.S. Non-Profit Organization (501(c)(3))".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.USNonProfitOrganization501C3;
 			if ("Individual".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.Individual;
 			if ("Foreign NGO/PVO".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.ForeignNgoPvo;
+			if ("Other Organization".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.OtherOrganization;
 			if ("Other".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.Other;
 			if ("Foreign Non Traveling Participant".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.ForeignNonTravelingParticipant;
 			if ("U.S. Non Traveling Participant".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.USNonTravelingParticipant;
@@ -1334,6 +1358,73 @@ namespace ECA.Data
 }
 #endregion
 
+#region SevisCommStatus
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class SevisCommStatus : ECA.Core.Generation.IStaticLookup
+	{
+		/// <summary>
+		/// Returns the Information Required lookup with id 1.
+		/// </summary>
+		public static StaticLookup InformationRequired { get { return new StaticLookup("Information Required", 1); } }
+		/// <summary>
+		/// Returns the Ready To Submit lookup with id 2.
+		/// </summary>
+		public static StaticLookup ReadyToSubmit { get { return new StaticLookup("Ready To Submit", 2); } }
+		/// <summary>
+		/// Returns the Sent To DHS lookup with id 3.
+		/// </summary>
+		public static StaticLookup SentToDhs { get { return new StaticLookup("Sent To DHS", 3); } }
+		/// <summary>
+		/// Returns the Validated lookup with id 4.
+		/// </summary>
+		public static StaticLookup Validated { get { return new StaticLookup("Validated", 4); } }
+		/// <summary>
+		/// Returns the Queued To Submit lookup with id 5.
+		/// </summary>
+		public static StaticLookup QueuedToSubmit { get { return new StaticLookup("Queued To Submit", 5); } }
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if (1 == id) return SevisCommStatus.InformationRequired;
+			if (2 == id) return SevisCommStatus.ReadyToSubmit;
+			if (3 == id) return SevisCommStatus.SentToDhs;
+			if (4 == id) return SevisCommStatus.Validated;
+			if (5 == id) return SevisCommStatus.QueuedToSubmit;
+			return null;
+		}
+		///<summary>
+		/// Returns the lookup value of this entity with the given value, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given value, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(string value)
+		{
+			if ("Information Required".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.InformationRequired;
+			if ("Ready To Submit".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.ReadyToSubmit;
+			if ("Sent To DHS".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.SentToDhs;
+			if ("Validated".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.Validated;
+			if ("Queued To Submit".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.QueuedToSubmit;
+			return null;
+		}
+
+		/// <summary>
+		/// Returns the static lookup config used to generate this type's static lookups.
+		/// <returns>The static lookup config used to generate this type's static lookups.</returns>
+		/// </summary>
+		public StaticLookupConfig GetConfig()
+		{
+			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "SevisCommStatus", TableName = "SevisCommStatus", IdColumnName = "SevisCommStatusId", ValueColumnName = "SevisCommStatusName" };
+		}
+	}
+}
+#endregion
+
 #region SocialMediaType
 namespace ECA.Data
 {
@@ -1452,6 +1543,7 @@ namespace ECA.Data
 			errors.AddRange(validator.Validate<ProgramStatus>());
 			errors.AddRange(validator.Validate<ProgramType>());
 			errors.AddRange(validator.Validate<ProjectStatus>());
+			errors.AddRange(validator.Validate<SevisCommStatus>());
 			errors.AddRange(validator.Validate<SocialMediaType>());
 			return errors;
 		}

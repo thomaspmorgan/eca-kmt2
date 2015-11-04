@@ -48,51 +48,39 @@
                 <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingAvailableParticipants">autorenew</i>
             </div>
         </div>
-        <div class="col-md-5" ng-show="!view.isAddingParticipant" style="margin-top:75px;">
-            <p class="pull-right" style="font-style:italic">Search not returning a result?</p>
-        </div>
-        <div class="col-md-2" ng-show="!view.isAddingParticipant" style="margin-top:65px;">
-            <button class="btn btn-primary" ng-click="openAddNewParticipant()">ADD NEW PARTICIPANT</button>
-        </div>
     </div>
     <div class="row expand">
-        <div class="dashed col-md-12" ng-show="participants.length === 0">
-            <h4>No participants yet.<span class="light"> Drop files here, <a>upload</a> or <a ng-click="openAddPersonDialog()">add manually</a>.</span></h4>
-        </div>
         <div st-pipe="getParticipants" st-table="participants" exposetablestate="getParticipantsTableState" id="sort-list">
+            <div class="row form-inline">
+                <input type="checkbox" ng-model="selectAll" ng-show="selectedAction" ng-change="selectAllChanged()"/>
+                <select class="form-control input-lg" ng-model="selectedAction" ng-change="selectedActionChanged()">
+                    <option value="">Choose Action</option>
+                    <option value="Send To SEVIS">Send To SEVIS</option>
+                </select>
+                <button class="btn btn-primary" ng-disabled="selectedParticipantsEmpty()" ng-click="applyAction()">Apply</button>
+                <input st-search type="search" placeholder="Search Participants" class="form-control input-lg" ng-model="participantFilter" ng-model-options="{debounce: 500}"/>
+                <i class="material-icons md-18 contextual">search</i>
+                <button class="btn btn-primary pull-right" ng-click="openAddNewParticipant()">Add New Participant</button>
+            </div>
             <table class="col-md-12 alt">
                 <thead>
                     <tr>
+                        <th></th>
                         <th st-sort="'name'" st-sort-default="true" class="col-md-3 sort-label medium">Name</th>
                         <th st-sort="'participantType'" class="col-md-2 sort-label medium">Type</th>
-                        <th class="col-md-2 sort-label medium">Status</th>
-                        <th class="col-md-2 sort-label medium">Sevis Status</th>
+                        <th st-sort="'participantStatus'"class="col-md-2 sort-label medium">Status</th>
+                        <th st-sort="'sevisStatus'"class="col-md-2 sort-label medium">Sevis Status</th>
                         <th class="col-md-2">&nbsp;</th>
                         <th class="col-md-1">&nbsp;</th>
-                    </tr>
-                    <tr>
-                        <th>
-                            <input st-search="'name'" placeholder="" type="search" class="input-lg form-control" />
-                        </th>
-                        <th>
-                            <input st-search="'participantType'" placeholder="" type="search" class="input-lg form-control" />
-                        </th>
-                        <th>
-                            <input st-search="'status'" placeholder="" type="search" class="input-lg form-control" />
-                        </th>
-                        <th>
-                            <input st-search="'sevisStatus'" placeholder="" type="search" class="input-lg form-control" />
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
                     </tr>
                 </thead>
                 <tbody class="list2">
                     <tr class="hover-dark" ng-repeat-start="participant in participants" ng-show="!participantsLoading">
+                        <td>
+                            <!-- Fix for row height difference -->
+                            <span ng-show="!selectedAction">&nbsp;</span>
+                            <input type="checkbox" ng-show="selectedAction" ng-model="selectedParticipants[participant.participantId]" ng-change="selectedParticipant(participant, selectedParticipants[participant.participantId])"/>
+                        </td>
                         <td>
                             <h5 class="list-title"><a ng-click="onParticipantClick(participant)">{{participant.name}}</a></h5>
                         </td>

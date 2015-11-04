@@ -181,6 +181,37 @@ namespace ECA.Business.Service.Persons
             return results;
         }
 
+        /// <summary>
+        /// Sets sevis communication status for participant ids
+        /// </summary>
+        /// <param name="participantIds">The participant ids to update communcation status</param>
+        /// <returns>List of participant ids that were updated</returns>
+        public async Task<int[]> SendToSevis(int[] participantIds)
+        {
+            var statuses = await Context.ParticipantPersonSevisCommStatuses.GroupBy(x => x.ParticipantId)
+                .Select(s => s.OrderByDescending(x => x.AddedOn).FirstOrDefault())
+                .Where(w => w.SevisCommStatusId == SevisCommStatus.ReadyToSubmit.Id && participantIds.Contains(w.ParticipantId))
+                .ToListAsync();
+
+            var participantsUpdated = new List<int>();
+
+            foreach (var status in statuses)
+            {
+                var newStatus = new ParticipantPersonSevisCommStatus
+                {
+                    ParticipantId = status.ParticipantId,
+                    SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+                    AddedOn = DateTimeOffset.Now
+
+                };
+
+                Context.ParticipantPersonSevisCommStatuses.Add(newStatus);
+                participantsUpdated.Add(status.ParticipantId);
+            }
+
+            return participantsUpdated.ToArray();
+        }
+
         #endregion
 
         #region update
@@ -195,7 +226,7 @@ namespace ECA.Business.Service.Persons
             throwIfModelDoesNotExist(updatedParticipantPersonSevis.ParticipantId, participantPerson, typeof(ParticipantPerson));
 
             DoUpdate(participantPerson, updatedParticipantPersonSevis);
-            return  this.GetParticipantPersonsSevisById(updatedParticipantPersonSevis.ParticipantId);
+            return this.GetParticipantPersonsSevisById(updatedParticipantPersonSevis.ParticipantId);
         }
 
         /// <summary>
