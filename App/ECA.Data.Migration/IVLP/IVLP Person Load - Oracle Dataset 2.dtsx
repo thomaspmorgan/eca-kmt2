@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="IVLP Person Load - Oracle Dataset 2"
   DTS:PackageType="5"
-  DTS:VersionBuild="119"
-  DTS:VersionGUID="{AE0D1612-AD37-4980-85C5-D926F2B6F675}">
+  DTS:VersionBuild="120"
+  DTS:VersionGUID="{C1D53FA1-40E8-4348-AF4A-0EA938790499}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables />
@@ -7803,49 +7803,49 @@ where [refTable].[LocationTypeName] = ?</property>
               startId="Package\Load IVLP KMT Person Data (Completed)\Add History Columns.Outputs[Derived Column Output]" />
             <path
               refId="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output8]"
-              endId="Package\Load IVLP KMT Person Data (Completed)\Lookup KMT GenderID.Inputs[Lookup Input]"
+              endId="Package\Load IVLP KMT Person Data (Completed)\Conditional Split.Inputs[Conditional Split Input]"
               name="Lookup Match Output"
-              startId="Package\Load IVLP KMT Person Data (Completed)\Lookup Unknown Division LocationId.Outputs[Lookup Match Output]" />
+              startId="Package\Load IVLP KMT Person Data (Completed)\Lookup Birth Country.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output7]"
-              endId="Package\Load IVLP KMT Person Data (Completed)\Lookup City LocationTypeId.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Load IVLP KMT Person Data (Completed)\Lookup Country LocationTypeId.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output6]"
-              endId="Package\Load IVLP KMT Person Data (Completed)\Lookup KMT MaritalStatusID.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Load IVLP KMT Person Data (Completed)\Lookup KMT GenderID.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output4]"
-              endId="Package\Load IVLP KMT Person Data (Completed)\Union All.Inputs[Union All Input 2]"
-              name="Lookup Match Output"
-              startId="Package\Load IVLP KMT Person Data (Completed)\Lookup Birth City (Non-NULL).Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output5]"
-              endId="Package\Load IVLP KMT Person Data (Completed)\Union All.Inputs[Union All Input 4]"
-              name="Lookup Match Output"
-              startId="Package\Load IVLP KMT Person Data (Completed)\Lookup Birth City (NULL).Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output2]"
-              endId="Package\Load IVLP KMT Person Data (Completed)\Lookup Birth Country.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Load IVLP KMT Person Data (Completed)\Lookup KMT MaritalStatusID.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output1]"
-              endId="Package\Load IVLP KMT Person Data (Completed)\Lookup Unknown Division LocationId.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Load IVLP KMT Person Data (Completed)\Lookup Unknown Division TypeId.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output]"
               endId="Package\Load IVLP KMT Person Data (Completed)\Lookup Unknown Division TypeId.Inputs[Lookup Input]"
               name="Lookup Match Output"
               startId="Package\Load IVLP KMT Person Data (Completed)\Lookup City LocationTypeId.Outputs[Lookup Match Output]" />
             <path
-              refId="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output3]"
-              endId="Package\Load IVLP KMT Person Data (Completed)\Conditional Split.Inputs[Conditional Split Input]"
+              refId="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output6]"
+              endId="Package\Load IVLP KMT Person Data (Completed)\Lookup Unknown Division LocationId.Inputs[Lookup Input]"
               name="Lookup Match Output"
-              startId="Package\Load IVLP KMT Person Data (Completed)\Lookup Birth Country.Outputs[Lookup Match Output]" />
+              startId="Package\Load IVLP KMT Person Data (Completed)\Lookup Unknown Division TypeId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output4]"
+              endId="Package\Load IVLP KMT Person Data (Completed)\Union All.Inputs[Union All Input 4]"
+              name="Lookup Match Output"
+              startId="Package\Load IVLP KMT Person Data (Completed)\Lookup Birth City (NULL).Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output5]"
+              endId="Package\Load IVLP KMT Person Data (Completed)\Lookup Birth Country.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load IVLP KMT Person Data (Completed)\Lookup KMT MaritalStatusID.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output2]"
+              endId="Package\Load IVLP KMT Person Data (Completed)\Lookup KMT MaritalStatusID.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load IVLP KMT Person Data (Completed)\Lookup KMT GenderID.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output1]"
+              endId="Package\Load IVLP KMT Person Data (Completed)\Lookup City LocationTypeId.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load IVLP KMT Person Data (Completed)\Lookup Country LocationTypeId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output]"
+              endId="Package\Load IVLP KMT Person Data (Completed)\Lookup KMT GenderID.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load IVLP KMT Person Data (Completed)\Lookup Unknown Division LocationId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output3]"
+              endId="Package\Load IVLP KMT Person Data (Completed)\Union All.Inputs[Union All Input 2]"
+              name="Lookup Match Output"
+              startId="Package\Load IVLP KMT Person Data (Completed)\Lookup Birth City (Non-NULL).Outputs[Lookup Match Output]" />
             <path
               refId="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup No Match Output]"
               endId="Package\Load IVLP KMT Person Data (Completed)\ECA_KMT_DB Person Table.Inputs[OLE DB Destination Input]"
@@ -8212,6 +8212,12 @@ where [refTable].[LocationTypeName] = ?</property>
                       cachedName="KMT_Country_LocationId"
                       externalMetadataColumnId="Package\Load missing Birth Cities (Completed)\Add Missing City Locations.Inputs[OLE DB Destination Input].ExternalColumns[Country_LocationId]"
                       lineageId="Package\Load missing Birth Cities (Completed)\Aggregate.Outputs[Aggregate Output 1].Columns[KMT_Country_LocationId]" />
+                    <inputColumn
+                      refId="Package\Load missing Birth Cities (Completed)\Add Missing City Locations.Inputs[OLE DB Destination Input].Columns[IsDivisionUnknown]"
+                      cachedDataType="i4"
+                      cachedName="IsDivisionUnknown"
+                      externalMetadataColumnId="Package\Load missing Birth Cities (Completed)\Add Missing City Locations.Inputs[OLE DB Destination Input].ExternalColumns[IsDivisionUnknown]"
+                      lineageId="Package\Load missing Birth Cities (Completed)\Add History Columns.Outputs[Derived Column Output].Columns[IsDivisionUnknown]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -8310,6 +8316,10 @@ where [refTable].[LocationTypeName] = ?</property>
                       refId="Package\Load missing Birth Cities (Completed)\Add Missing City Locations.Inputs[OLE DB Destination Input].ExternalColumns[Division_LocationId]"
                       dataType="i4"
                       name="Division_LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Load missing Birth Cities (Completed)\Add Missing City Locations.Inputs[OLE DB Destination Input].ExternalColumns[IsDivisionUnknown]"
+                      dataType="bool"
+                      name="IsDivisionUnknown" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -11794,45 +11804,45 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
               name="Derived Column Output"
               startId="Package\Load missing Birth Cities (Completed)\Add United States Lookup Columns.Outputs[Derived Column Output]" />
             <path
-              refId="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output5]"
-              endId="Package\Load missing Birth Cities (Completed)\Lookup CountryId.Inputs[Lookup Input]"
+              refId="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output7]"
+              endId="Package\Load missing Birth Cities (Completed)\Lookup Division Location TypeId.Inputs[Lookup Input]"
               name="Lookup Match Output"
-              startId="Package\Load missing Birth Cities (Completed)\Lookup City LocationTypeId.Outputs[Lookup Match Output]" />
+              startId="Package\Load missing Birth Cities (Completed)\Lookup Country LocationTypeId.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output6]"
-              endId="Package\Load missing Birth Cities (Completed)\Lookup United States LocationId.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Load missing Birth Cities (Completed)\Lookup Country Location Type.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output7]"
-              endId="Package\Load missing Birth Cities (Completed)\Lookup Country RegionId.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Load missing Birth Cities (Completed)\Lookup United States LocationId.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output3]"
-              endId="Package\Load missing Birth Cities (Completed)\Lookup City LocationTypeId.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Load missing Birth Cities (Completed)\Lookup Division Location TypeId.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output2]"
-              endId="Package\Load missing Birth Cities (Completed)\Add Missing City Locations.Inputs[OLE DB Destination Input]"
-              name="Lookup Match Output"
-              startId="Package\Load missing Birth Cities (Completed)\Lookup City LocationTypeId (Final).Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output1]"
-              endId="Package\Load missing Birth Cities (Completed)\Add History Columns.Inputs[Derived Column Input]"
-              name="Lookup Match Output"
-              startId="Package\Load missing Birth Cities (Completed)\Lookup Country RegionId.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output]"
               endId="Package\Load missing Birth Cities (Completed)\Conditional Split.Inputs[Conditional Split Input]"
               name="Lookup Match Output"
               startId="Package\Load missing Birth Cities (Completed)\Lookup CountryId.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output4]"
-              endId="Package\Load missing Birth Cities (Completed)\Lookup Division Location TypeId.Inputs[Lookup Input]"
+              endId="Package\Load missing Birth Cities (Completed)\Add Missing City Locations.Inputs[OLE DB Destination Input]"
               name="Lookup Match Output"
-              startId="Package\Load missing Birth Cities (Completed)\Lookup Country LocationTypeId.Outputs[Lookup Match Output]" />
+              startId="Package\Load missing Birth Cities (Completed)\Lookup City LocationTypeId (Final).Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output5]"
+              endId="Package\Load missing Birth Cities (Completed)\Add History Columns.Inputs[Derived Column Input]"
+              name="Lookup Match Output"
+              startId="Package\Load missing Birth Cities (Completed)\Lookup Country RegionId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output2]"
+              endId="Package\Load missing Birth Cities (Completed)\Lookup Country RegionId.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load missing Birth Cities (Completed)\Lookup United States LocationId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output1]"
+              endId="Package\Load missing Birth Cities (Completed)\Lookup United States LocationId.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load missing Birth Cities (Completed)\Lookup Country Location Type.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output]"
+              endId="Package\Load missing Birth Cities (Completed)\Lookup CountryId.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load missing Birth Cities (Completed)\Lookup City LocationTypeId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output3]"
+              endId="Package\Load missing Birth Cities (Completed)\Lookup City LocationTypeId.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load missing Birth Cities (Completed)\Lookup Division Location TypeId.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Load missing Birth Cities (Completed).Paths[Lookup No Match Output]"
               endId="Package\Load missing Birth Cities (Completed)\Union All.Inputs[Union All Input 1]"
@@ -12406,7 +12416,7 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
           Id="Package\Load IVLP KMT Person Data (Completed)\ECA_KMT_DB Person Table"
           TopLeft="1242.5,551.5" />
         <EdgeLayout
-          Id="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output7]"
+          Id="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output1]"
           TopLeft="145.25,272.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -12430,7 +12440,7 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output6]"
+          Id="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output2]"
           TopLeft="447.75,337">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -12454,7 +12464,7 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output3]"
+          Id="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output8]"
           TopLeft="530.5,145.75">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -12478,7 +12488,7 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output2]"
+          Id="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output5]"
           TopLeft="444.25,233">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -12502,7 +12512,7 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output1]"
+          Id="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output6]"
           TopLeft="267.5,464.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -12526,7 +12536,7 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output]"
+          Id="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output7]"
           TopLeft="147.5,378.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -12662,7 +12672,7 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output8]"
+          Id="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output]"
           TopLeft="450,444.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -12798,7 +12808,7 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output5]"
+          Id="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output4]"
           TopLeft="103.5,169">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -12856,7 +12866,7 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output4]"
+          Id="Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output3]"
           TopLeft="634,168.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -12912,9 +12922,9 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
             <s:String>Package\Load IVLP KMT Person Data (Completed).Paths[Non-NULL BirthCity]</s:String>
             <s:String>Package\Load IVLP KMT Person Data (Completed)\Add PlaceOfBirth_LocationId (NULL)</s:String>
             <s:String>Package\Load IVLP KMT Person Data (Completed).Paths[NULL Birth City and NULL Birth Country]</s:String>
-            <s:String>Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output5]</s:String>
-            <s:String>Package\Load IVLP KMT Person Data (Completed).Paths[Derived Column Output]</s:String>
             <s:String>Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output4]</s:String>
+            <s:String>Package\Load IVLP KMT Person Data (Completed).Paths[Derived Column Output]</s:String>
+            <s:String>Package\Load IVLP KMT Person Data (Completed).Paths[Lookup Match Output3]</s:String>
             <s:String>Package\Load IVLP KMT Person Data (Completed)\Conditional Split</s:String>
           </GroupLayout.ChildrenIds>
         </GroupLayout>
@@ -13170,33 +13180,9 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
       <GraphLayout
         Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph" xmlns:s="clr-namespace:System;assembly=mscorlib">
         <NodeLayout
-          Size="243,42"
-          Id="Package\Load missing Birth Cities (Completed)\Lookup City LocationTypeId (Final)"
-          TopLeft="1549,765" />
-        <NodeLayout
-          Size="232,42"
-          Id="Package\Load missing Birth Cities (Completed)\Lookup Division Location TypeId"
-          TopLeft="453.5,289.948275862069" />
-        <NodeLayout
-          Size="229,42"
-          Id="Package\Load missing Birth Cities (Completed)\Lookup Country LocationTypeId"
-          TopLeft="111.5,288.5" />
-        <NodeLayout
-          Size="163,42"
-          Id="Package\Load missing Birth Cities (Completed)\Lookup CountryId"
-          TopLeft="819.5,289.5" />
-        <NodeLayout
           Size="203,42"
           Id="Package\Load missing Birth Cities (Completed)\Add Missing City Locations"
           TopLeft="1854.5,759.5" />
-        <NodeLayout
-          Size="260,42"
-          Id="Package\Load missing Birth Cities (Completed)\ECA_IVLP_KMT_Person_XREF_Interim"
-          TopLeft="101.5,38.5" />
-        <NodeLayout
-          Size="199,42"
-          Id="Package\Load missing Birth Cities (Completed)\Lookup Country RegionId"
-          TopLeft="1534,518" />
         <NodeLayout
           Size="210,42"
           Id="Package\Load missing Birth Cities (Completed)\Lookup City LocationTypeId"
@@ -13206,13 +13192,49 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
           Id="Package\Load missing Birth Cities (Completed)\Derived Column"
           TopLeft="155.5,197.5" />
         <NodeLayout
+          Size="232,42"
+          Id="Package\Load missing Birth Cities (Completed)\Lookup United States LocationId"
+          TopLeft="1235.5,517.53743315508" />
+        <NodeLayout
           Size="342,42"
           Id="Package\Load missing Birth Cities (Completed)\Drop Rows with NULL Birth City and NULL Birth Country"
           TopLeft="64.5,114.5" />
         <NodeLayout
+          Size="199,42"
+          Id="Package\Load missing Birth Cities (Completed)\Lookup Country RegionId"
+          TopLeft="1534,518" />
+        <NodeLayout
+          Size="243,42"
+          Id="Package\Load missing Birth Cities (Completed)\Lookup City LocationTypeId (Final)"
+          TopLeft="1549,765" />
+        <NodeLayout
+          Size="222,42"
+          Id="Package\Load missing Birth Cities (Completed)\Lookup Country Location Type"
+          TopLeft="1226.5,637.5" />
+        <NodeLayout
+          Size="229,42"
+          Id="Package\Load missing Birth Cities (Completed)\Lookup Country LocationTypeId"
+          TopLeft="111.5,288.5" />
+        <NodeLayout
+          Size="232,42"
+          Id="Package\Load missing Birth Cities (Completed)\Lookup Division Location TypeId"
+          TopLeft="453.5,289.948275862069" />
+        <NodeLayout
+          Size="163,42"
+          Id="Package\Load missing Birth Cities (Completed)\Lookup CountryId"
+          TopLeft="819.5,289.5" />
+        <NodeLayout
+          Size="260,42"
+          Id="Package\Load missing Birth Cities (Completed)\ECA_IVLP_KMT_Person_XREF_Interim"
+          TopLeft="101.5,38.5" />
+        <NodeLayout
           Size="177,42"
           Id="Package\Load missing Birth Cities (Completed)\Add History Columns"
           TopLeft="1554,630" />
+        <NodeLayout
+          Size="244,42"
+          Id="Package\Load missing Birth Cities (Completed)\Add United States Lookup Columns"
+          TopLeft="1209.5,774.5" />
         <EdgeLayout
           Id="Package\Load missing Birth Cities (Completed).Paths[OLE DB Source Output]"
           TopLeft="233.5,80.5">
@@ -13236,7 +13258,7 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output4]"
+          Id="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output7]"
           TopLeft="340.5,310.224137931035">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -13256,6 +13278,102 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
               BoundingBox="4.55861328125,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output6]"
+          TopLeft="901,331.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-293.5,169.5"
+              Start="0,0"
+              End="-293.5,162">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,80.75" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,80.75"
+                    Point2="0,84.75"
+                    Point3="-4,84.75" />
+                  <mssgle:LineSegment
+                    End="-289.5,84.75" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-289.5,84.75"
+                    Point2="-293.5,84.75"
+                    Point3="-293.5,88.75" />
+                  <mssgle:LineSegment
+                    End="-293.5,162" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-194.94138671875,89.75,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output5]"
+          TopLeft="1633.5,560">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-19.1666666666667,70"
+              Start="0,0"
+              End="-19.1666666666667,62.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.6237402015678" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,37.6237402015678"
+                    Point2="0,41.6237402015678"
+                    Point3="-4,41.6237402015678" />
+                  <mssgle:LineSegment
+                    End="-15.1666666666667,41.6237402015678" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-15.1666666666667,41.6237402015678"
+                    Point2="-19.1666666666667,41.6237402015678"
+                    Point3="-19.1666666666667,45.6237402015678" />
+                  <mssgle:LineSegment
+                    End="-19.1666666666667,62.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-57.7747200520834,46.6237402015678,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output4]"
+          TopLeft="1792,783.25">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="62.5,0"
+              Start="0,0"
+              End="55,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="55,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-20.69138671875,5,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -13297,98 +13415,120 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output2]"
-          TopLeft="1792,783.25">
+          TopLeft="1467.5,538.76871657754">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="62.5,0"
+              EndConnector="66.5,0"
               Start="0,0"
-              End="55,0">
+              End="59,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="55,0" />
+                    End="59,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-20.69138671875,5,96.3827734375,11.609375"
+              BoundingBox="-18.69138671875,5,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output1]"
-          TopLeft="1633.5,560">
+          TopLeft="1337.5,637.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-19.1666666666667,70"
+              EndConnector="-23.3333333333333,-77.9625668449198"
               Start="0,0"
-              End="-19.1666666666667,62.5">
+              End="-23.3333333333333,-70.4625668449198">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,37.6237402015678" />
+                    End="0,-42.4571459966303" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,37.6237402015678"
-                    Point2="0,41.6237402015678"
-                    Point3="-4,41.6237402015678" />
+                    Point1="0,-42.4571459966303"
+                    Point2="0,-46.4571459966303"
+                    Point3="-4,-46.4571459966303" />
                   <mssgle:LineSegment
-                    End="-15.1666666666667,41.6237402015678" />
+                    End="-19.3333333333333,-46.4571459966303" />
                   <mssgle:CubicBezierSegment
-                    Point1="-15.1666666666667,41.6237402015678"
-                    Point2="-19.1666666666667,41.6237402015678"
-                    Point3="-19.1666666666667,45.6237402015678" />
+                    Point1="-19.3333333333333,-46.4571459966303"
+                    Point2="-23.3333333333333,-46.4571459966303"
+                    Point3="-23.3333333333333,-50.4571459966303" />
                   <mssgle:LineSegment
-                    End="-19.1666666666667,62.5" />
+                    End="-23.3333333333333,-70.4625668449198" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-57.7747200520834,46.6237402015678,96.3827734375,11.609375"
+              BoundingBox="-59.8580533854166,-41.4571459966303,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output]"
-          TopLeft="901,331.5">
+          TopLeft="684.166666666667,216.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-293.5,169.5"
+              EndConnector="216.833333333333,73"
               Start="0,0"
-              End="-293.5,162">
+              End="216.833333333333,65.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,80.75" />
+                    End="0,25.531190926276" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,80.75"
-                    Point2="0,84.75"
-                    Point3="-4,84.75" />
+                    Point1="0,25.531190926276"
+                    Point2="0,29.531190926276"
+                    Point3="4,29.531190926276" />
                   <mssgle:LineSegment
-                    End="-289.5,84.75" />
+                    End="212.833333333333,29.531190926276" />
                   <mssgle:CubicBezierSegment
-                    Point1="-289.5,84.75"
-                    Point2="-293.5,84.75"
-                    Point3="-293.5,88.75" />
+                    Point1="212.833333333333,29.531190926276"
+                    Point2="216.833333333333,29.531190926276"
+                    Point3="216.833333333333,33.531190926276" />
                   <mssgle:LineSegment
-                    End="-293.5,162" />
+                    End="216.833333333333,65.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-194.94138671875,89.75,96.3827734375,11.609375"
+              BoundingBox="60.2252799479167,34.531190926276,96.3827734375,11.609375"
               RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load missing Birth Cities (Completed).Paths[Derived Column Output2]"
+          TopLeft="1334.5,774.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-95"
+              Start="0,0"
+              End="0,-87.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-87.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -13472,46 +13612,6 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output5]"
-          TopLeft="684.166666666667,216.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="216.833333333333,73"
-              Start="0,0"
-              End="216.833333333333,65.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,25.531190926276" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,25.531190926276"
-                    Point2="0,29.531190926276"
-                    Point3="4,29.531190926276" />
-                  <mssgle:LineSegment
-                    End="212.833333333333,29.531190926276" />
-                  <mssgle:CubicBezierSegment
-                    Point1="212.833333333333,29.531190926276"
-                    Point2="216.833333333333,29.531190926276"
-                    Point3="216.833333333333,33.531190926276" />
-                  <mssgle:LineSegment
-                    End="216.833333333333,65.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="60.2252799479167,34.531190926276,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="244,42"
-          Id="Package\Load missing Birth Cities (Completed)\Add United States Lookup Columns"
-          TopLeft="1209.5,774.5" />
-        <EdgeLayout
           Id="Package\Load missing Birth Cities (Completed).Paths[Aggregate Output 1]"
           TopLeft="667,797.75">
           <EdgeLayout.Curve>
@@ -13531,96 +13631,6 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="222,42"
-          Id="Package\Load missing Birth Cities (Completed)\Lookup Country Location Type"
-          TopLeft="1226.5,637.5" />
-        <EdgeLayout
-          Id="Package\Load missing Birth Cities (Completed).Paths[Derived Column Output2]"
-          TopLeft="1334.5,774.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,-95"
-              Start="0,0"
-              End="0,-87.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,-87.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="232,42"
-          Id="Package\Load missing Birth Cities (Completed)\Lookup United States LocationId"
-          TopLeft="1235.5,517.53743315508" />
-        <EdgeLayout
-          Id="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output6]"
-          TopLeft="1337.5,637.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-23.3333333333333,-77.9625668449198"
-              Start="0,0"
-              End="-23.3333333333333,-70.4625668449198">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,-42.4571459966303" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,-42.4571459966303"
-                    Point2="0,-46.4571459966303"
-                    Point3="-4,-46.4571459966303" />
-                  <mssgle:LineSegment
-                    End="-19.3333333333333,-46.4571459966303" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-19.3333333333333,-46.4571459966303"
-                    Point2="-23.3333333333333,-46.4571459966303"
-                    Point3="-23.3333333333333,-50.4571459966303" />
-                  <mssgle:LineSegment
-                    End="-23.3333333333333,-70.4625668449198" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-59.8580533854166,-41.4571459966303,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load missing Birth Cities (Completed).Paths[Lookup Match Output7]"
-          TopLeft="1467.5,538.76871657754">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="66.5,0"
-              Start="0,0"
-              End="59,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="59,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-18.69138671875,5,96.3827734375,11.609375"
-              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <NodeLayout
@@ -13890,6 +13900,111 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
+    design-time-name="Package\Load missing Birth Cities (Completed)\Lookup Birth City (NULL) and Birth Country (Non-NULL)">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">true</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Location]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load missing Birth Cities (Completed)\Add Missing City Locations">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load missing Birth Cities (Completed)\Lookup City LocationTypeId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[LocationType]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load missing Birth Cities (Completed)\Lookup United States LocationId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Location]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load missing Birth Cities (Completed)\Lookup Country RegionId">
+    <Properties>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q2:string">[dbo].[Location]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q3:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q4:string">true</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
     design-time-name="Package\Load missing Birth Cities (Completed)\Lookup City LocationTypeId (Final)">
     <Properties>
       <Property>
@@ -13913,7 +14028,7 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load missing Birth Cities (Completed)\Lookup Division Location TypeId">
+    design-time-name="Package\Load missing Birth Cities (Completed)\Lookup Country Location Type">
     <Properties>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
@@ -13924,29 +14039,6 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
         <Name>UsedTableName</Name>
         <Value
           type="q3:string">[dbo].[LocationType]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:string">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load missing Birth Cities (Completed)\Lookup Birth City (NULL) and Birth Country (Non-NULL)">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:string">true</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[Location]</Value>
       </Property>
       <Property>
         <Name>TableInfoObjectType</Name>
@@ -13987,22 +14079,22 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">true</Value>
+          type="q2:string">true</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load missing Birth Cities (Completed)\Lookup Birth City (Non-NULL) and Birth Country (NULL)">
+    design-time-name="Package\Load missing Birth Cities (Completed)\Lookup Division Location TypeId">
     <Properties>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">true</Value>
+          type="q2:string">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
         <Value
-          type="q3:string">[dbo].[Location]</Value>
+          type="q3:string">[dbo].[LocationType]</Value>
       </Property>
       <Property>
         <Name>TableInfoObjectType</Name>
@@ -14038,19 +14130,6 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load missing Birth Cities (Completed)\Add Missing City Locations">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
     design-time-name="Package\Load missing Birth Cities (Completed)\ECA_IVLP_KMT_Person_XREF_Interim">
     <Properties>
       <Property>
@@ -14064,81 +14143,12 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load missing Birth Cities (Completed)\Lookup Country RegionId">
-    <Properties>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q2:string">[dbo].[Location]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q3:string">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q4:string">true</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load missing Birth Cities (Completed)\Lookup City LocationTypeId">
+    design-time-name="Package\Load missing Birth Cities (Completed)\Lookup Birth City (Non-NULL) and Birth Country (NULL)">
     <Properties>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[LocationType]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:string">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load missing Birth Cities (Completed)\Lookup Country Location Type">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[LocationType]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:int">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load missing Birth Cities (Completed)\Lookup United States LocationId">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">false</Value>
+          type="q2:string">true</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -14148,7 +14158,7 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
