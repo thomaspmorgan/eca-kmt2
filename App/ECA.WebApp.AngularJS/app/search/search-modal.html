@@ -20,41 +20,41 @@
             <p ng-show="totalResults > 0 && !isLoadingResults">Showing {{currentParams.Start + 1}} - {{currentParams.Start + count}} of {{totalResults}} results.</p>
             <p ng-show="totalResults === 0 && !isLoadingResults">Found {{totalResults}} results.</p>
         </div>
-        <div ng-show="tophitinfo.length > 0">
+        <div ng-show="topHit">
             <div class="col-md-3 text-right" style="padding:10px;">
                 <span><strong>TOP HIT</strong></span>
             </div>
             <div class="col-md-9 search-results" style="padding:10px;">
-                <div class="row" ng-class="tophitinfo[0].document.id === docinfo.id ? 'resultrow-selected' : 'resultrow'">
+                <div class="row" ng-class="topHit.document.id === docinfo.id ? 'resultrow-selected' : 'resultrow'">
                     <div class="col-md-1">
-                        <div class="search circle {{tophitinfo[0].document.plaintTextDocumentTypeName | lowercase}}">
-                            {{tophitinfo[0].document.documentTypeNameAbbreviation | uppercase}}
+                        <div class="search circle {{topHit.document.plaintTextDocumentTypeName | lowercase}}">
+                            {{topHit.document.documentTypeNameAbbreviation | uppercase}}
                         </div>
                     </div>
                     <div class="col-md-11">
-                        <a ng-click="getDocumentInfo(tophitinfo[0])" ng-bind-html="tophitinfo[0].document.name"></a>
-                        <div class="mute" ng-bind-html="tophitinfo[0].document.officeSymbol"></div>
+                        <a ng-click="getDocumentInfo(topHit)" ng-bind-html="topHit.document.name"></a>
+                        <div class="mute" ng-bind-html="topHit.document.officeSymbol"></div>
                     </div>
 
                 </div>
             </div>
         </div>
-        <div ng-repeat="docitem in results">
+        <div ng-repeat="result in results">
             <div class="col-md-3 text-right" style="padding:10px;">
                 <span ng-show="$index === 0 || results[$index-1].document.plaintTextDocumentTypeName !== results[$index].document.plaintTextDocumentTypeName">
                     <strong>{{results[$index].document.plaintTextDocumentTypeName | uppercase}}</strong>
                 </span>
             </div>
             <div class="col-md-9 search-results" style="padding:10px;">
-                <div class="row" ng-class="docitem.document.id === docinfo.id ? 'resultrow-selected' : 'resultrow'">
+                <div class="row" ng-class="result.document.id === docinfo.id ? 'resultrow-selected' : 'resultrow'">
                     <div class="col-md-1">
-                        <div class="search circle {{docitem.document.plaintTextDocumentTypeName | lowercase}}">
-                            {{docitem.document.documentTypeNameAbbreviation | uppercase}}
+                        <div class="search circle {{result.document.plaintTextDocumentTypeName | lowercase}}">
+                            {{result.document.documentTypeNameAbbreviation | uppercase}}
                         </div>
                     </div>
                     <div class="col-md-11">
-                        <a ng-click="getDocumentInfo(docitem)" ng-bind-html="docitem.document.name"></a>
-                        <div class="mute" ng-bind-html="docitem.document.officeSymbol"></div>
+                        <a ng-click="getDocumentInfo(result)" ng-bind-html="result.document.name"></a>
+                        <div class="mute" ng-bind-html="result.document.officeSymbol"></div>
                     </div>
 
                 </div>
