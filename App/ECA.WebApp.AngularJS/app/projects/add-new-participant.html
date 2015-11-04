@@ -45,7 +45,7 @@
                                 <ui-select ng-model="newPerson.countryOfBirth" theme="select2" tabindex="5" on-select="countryOfBirthSelected()" ng-disabled="newPerson.selectedDuplicate">
                                     <ui-select-match placeholder="Select a country of birth...">{{$select.selected.name}}</ui-select-match>
                                     <ui-select-choices refresh="searchCountries($select.search)" refresh-delay="250" repeat="country.id as country in countries track by country.id">
-                                        <div ng-bind-html="country.name | highlight: $select.search"></div>
+                                        <div ng-bind-html="country.name"></div>
                                     </ui-select-choices>
                                 </ui-select>
                             </div>
@@ -54,7 +54,7 @@
                                 <ui-select ng-model="newPerson.cityOfBirth" theme="select2" tabindex="6" ng-disabled="newPerson.selectedDuplicate">
                                     <ui-select-match placeholder="Select a city of birth...">{{$select.selected.name}}{{$select.selected.division ? ', ' + $select.selected.division : ''}}</ui-select-match>
                                     <ui-select-choices refresh="searchCities($select.search)" refresh-delay="250" repeat="city.id as city in cities track by city.id">
-                                        <span ng-bind-html="city.name | highlight: $select.search"></span><span ng-show="city.division" ng-bind-html="', ' + city.division"></span>
+                                        <span ng-bind-html="city.name"></span><span ng-show="city.division" ng-bind-html="', ' + city.division"></span>
                                     </ui-select-choices>
                                 </ui-select>
                             </div>

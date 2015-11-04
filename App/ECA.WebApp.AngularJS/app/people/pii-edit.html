@@ -92,12 +92,10 @@
                         <div class="form-group row">
                             <label class="col-md-4 title-label">Country</label>
                             <div class="col-md-8">
-                                <ui-select name="countryOfBirth" ng-model="pii.countryOfBirthId" theme="select2" ng-change="updateCountryOfBirth()">
-                                    <ui-select-match placeholder="Select country">
-                                        <div>{{$select.selected.name}}</div>
-                                    </ui-select-match>
-                                    <ui-select-choices repeat="country.id as country in countries | filter: $select.search">
-                                        <div ng-bind-html="country.name | highlight: $select.search"></div>
+                                <ui-select ng-model="pii.countryOfBirthId" theme="select2" on-select="updateCountryOfBirth()">
+                                    <ui-select-match placeholder="Select country"><div>{{$select.selected.name}}</div></ui-select-match>
+                                    <ui-select-choices refresh="searchCountries($select.search)" refresh-delay="250" repeat="country.id as country in countries track by country.id">
+                                        <div ng-bind-html="country.name"></div>
                                     </ui-select-choices>
                                 </ui-select>
                             </div>
@@ -105,10 +103,12 @@
                         <div class="form-group row">
                             <label class="col-md-4 title-label">City</label>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" name="cityOfBirth" 
-                                       ng-model="pii.cityOfBirthId" ng-disabled="pii.countryOfBirthId == 0"
-                                       typeahead="city.id as city.name for city in getCities($viewValue) | limitTo: 25"
-                                       typeahead-editable="false" typeahead-input-formatter="formatCityOfBirth($model)" />
+                                <ui-select ng-model="pii.cityOfBirthId" theme="select2" ng-disabled="pii.countryOfBirthId == null || pii.countryOfBirthId == 'Unknown'">
+                                    <ui-select-match placeholder="Select a city of birth...">{{$select.selected.name}}{{$select.selected.division ? ', ' + $select.selected.division : ''}}</ui-select-match>
+                                    <ui-select-choices refresh="searchCities($select.search)" refresh-delay="250" repeat="city.id as city in cities track by city.id">
+                                        <span ng-bind-html="city.name"></span><span ng-show="city.division" ng-bind-html="', ' + city.division"></span>
+                                    </ui-select-choices>
+                                </ui-select>
                             </div>
                         </div>
                     </div>
