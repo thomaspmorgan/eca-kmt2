@@ -132,15 +132,6 @@ angular.module('staticApp')
           },
           getSevisCommStatuses: function(params) {
               return DragonBreath.getCached(params,'seviscommstatuses');
-          },
-          getProgramCategories: function (params) {
-              return DragonBreath.getCached(params, 'programcategories');
-          },
-          getPositions: function (params) {
-              return DragonBreath.getCached(params, 'positions');
-          },
-          getFieldOfStudies: function (params) {
-              return DragonBreath.getCached(params, 'fieldofstudies')
           }
       };
   });
