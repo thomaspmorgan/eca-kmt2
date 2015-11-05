@@ -588,7 +588,7 @@ namespace CAM.Business.Service
                 }
                 if (resource != null && resource.ParentResourceId.HasValue)
                 {
-                    previousParentResource = Context.Resources.Find(resource.ParentResourceId.Value);
+                    previousParentResource = await Context.Resources.FindAsync(resource.ParentResourceId.Value);
                 }
                 DoUpdate(updatedEntity, resource, targetParentResource, previousParentResource);
                 await this.Context.SaveChangesAsync();
