@@ -138,7 +138,7 @@ angular.module('staticApp')
                   $log.info('Retrieved [' + resourceAuthorizationsList.length + '] of [' + resultsArray[1].data.total + '] resource authorizations from the server.');
 
                   var groupedResourceAuthorizations = service.groupResourceAuthorizationsByPrincipalId(resourceAuthorizationsList);
-                  groupedResourceAuthorizations = orderByFilter(groupedResourceAuthorizations, "+displayName");
+                  groupedResourceAuthorizations = orderByFilter(groupedResourceAuthorizations, "displayName");
                   for (var i = 0; i < groupedResourceAuthorizations.length; i++) {
                       var groupedResourceAuthorization = groupedResourceAuthorizations[i];
                       groupedResourceAuthorization.isCurrentUser = service.isCurrentUser(groupedResourceAuthorization.emailAddress);
@@ -181,7 +181,7 @@ angular.module('staticApp')
                           isPermissionAlreadyAdded = true;
                       }
                   }
-                  if (!isRolePermission && !isPermissionAlreadyAdded) {
+                  if (/*!isRolePermission && */!isPermissionAlreadyAdded) {
                       permissions.push(service.createAvailablePermission(availablePermission, principal, foreignResourceId, resourceType));
                   }
               }
@@ -199,7 +199,7 @@ angular.module('staticApp')
                   }
               }
               var mergedPermissions = Object.keys(temp).map(function (k) { return temp[k] });
-              return orderByFilter(mergedPermissions, '+permissionName');
+              return orderByFilter(mergedPermissions, 'permissionName');
           },
 
           /**
@@ -266,7 +266,7 @@ angular.module('staticApp')
            */
           groupResourceAuthorizationsByPrincipalId: function (flatPrincipalPermissionList) {
               var groupedPermissionsByPrincipalIds = [];
-              var principalIdOrderedCollaborators = orderByFilter(flatPrincipalPermissionList, '+principalId');
+              var principalIdOrderedCollaborators = orderByFilter(flatPrincipalPermissionList, 'principalId');
               var currentPrincipalId = null;
 
               var currentGroupedPermissionByPrincipalId = null;
@@ -287,6 +287,7 @@ angular.module('staticApp')
                       });
                       currentGroupedPermissionByPrincipalId = groupedPermissionsByPrincipalIds[groupedPermissionsByPrincipalIds.length - 1];
                   }
+                  console.log(currentPrincipalId);
                   var groupedPermission = service.getGroupedPermission(principalIdOrderedCollaborator);
                   if (groupedPermission.isGrantedByRole) {
                       currentGroupedPermissionByPrincipalId.rolePermissions.push(groupedPermission);
@@ -300,9 +301,9 @@ angular.module('staticApp')
               }
               for (var i = 0; i < groupedPermissionsByPrincipalIds.length; i++) {
                   var groupedPrincipal = groupedPermissionsByPrincipalIds[i];
-                  groupedPrincipal.rolePermissions = orderByFilter(groupedPrincipal.rolePermissions, '[+roleName, +permissionName]');
-                  groupedPrincipal.inheritedPermissions = orderByFilter(groupedPrincipal.inheritedPermissions, '+permissionName');
-                  groupedPrincipal.assignedPermissions = orderByFilter(groupedPrincipal.assignedPermissions, '+permissionName');
+                  groupedPrincipal.rolePermissions = orderByFilter(groupedPrincipal.rolePermissions, '[roleName, permissionName]');
+                  groupedPrincipal.inheritedPermissions = orderByFilter(groupedPrincipal.inheritedPermissions, 'permissionName');
+                  groupedPrincipal.assignedPermissions = orderByFilter(groupedPrincipal.assignedPermissions, 'permissionName');
               }
               return groupedPermissionsByPrincipalIds;
           },

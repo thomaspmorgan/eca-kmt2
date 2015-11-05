@@ -78,6 +78,7 @@
     <None Include="Scripts\PostDeploy\StaticData\CAM.Application.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\CAM.Resource.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\CAM.Principal.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\CAM.Role.staticdata.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="CAM.Database.refactorlog" />

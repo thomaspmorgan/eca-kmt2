@@ -45,6 +45,11 @@ namespace ECA.Core.Test.Service
         {
             throw new NotImplementedException();
         }
+
+        public bool AssignPermissionToRoleOnCreate(string roleName, string permissionName)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class StandardEntity

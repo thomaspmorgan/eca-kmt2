@@ -31,6 +31,8 @@ namespace CAM.Business.Test.Service
 
         public bool Exempt { get; set; }
 
+        public Func<string, string, bool> AssignPermissionToRoleOnCreateDelegate { get; set; }
+
         public int GetId()
         {
             return this.Id;
@@ -54,6 +56,11 @@ namespace CAM.Business.Test.Service
         public bool IsExempt()
         {
             return Exempt;
+        }
+
+        public bool AssignPermissionToRoleOnCreate(string roleName, string permissionName)
+        {
+            return AssignPermissionToRoleOnCreateDelegate(roleName, permissionName);
         }
     }
 
@@ -822,6 +829,7 @@ namespace CAM.Business.Test.Service
         }
         #endregion
 
+        #region Get Resource Permissions
         [TestMethod]
         public async Task TestGetResourcePermissions_ForeignResourceIdIsNull()
         {
@@ -912,6 +920,9 @@ namespace CAM.Business.Test.Service
 
         }
 
+        #endregion
+
+        #region Get Resource Types
         [TestMethod]
         public async Task TestGetResourceTypes()
         {
@@ -948,6 +959,7 @@ namespace CAM.Business.Test.Service
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
+        #endregion
 
         #region IPermissableService
         [TestMethod]
@@ -1096,6 +1108,374 @@ namespace CAM.Business.Test.Service
             await service.OnAddedAsync(list);
             tester(true);
         }
+
+        [TestMethod]
+        public async Task TestOnAdded_ShouldAssignAllPermissionsToRole()
+        {
+            var role = new Role
+            {
+                RoleId = 1,
+                RoleName = "super user"
+            };
+
+            var projectResourceType = new ResourceType
+            {
+                ResourceTypeId = ResourceType.Project.Id,
+                ResourceTypeName = ResourceType.Project.Value
+            };
+            var permission1 = new Permission
+            {
+                PermissionId = 1,
+                PermissionName = "permission 1",
+                ResourceType = projectResourceType,
+                ResourceTypeId = projectResourceType.ResourceTypeId
+            };
+            var permission2 = new Permission
+            {
+                PermissionId = 2,
+                PermissionName = "permission 2",
+                ResourceType = projectResourceType,
+                ResourceTypeId = projectResourceType.ResourceTypeId
+            };
+
+            Func<string, string, bool> assignPermissionToRoleOnCreateDelegate = (roleName, permissionName) =>
+            {
+                return true;
+            };
+
+            var id = 1;
+            var entity = new TestPermissableResource
+            {
+                Id = id,
+                PermissableType = PermissableType.Project,
+                AssignPermissionToRoleOnCreateDelegate = assignPermissionToRoleOnCreateDelegate
+            };
+            var list = new List<IPermissable> { entity };
+
+
+            context.SetupActions.Add(() =>
+            {
+                cacheDictionary.Clear();
+                context.ResourceTypes.Add(projectResourceType);
+                context.Roles.Add(role);
+                context.Permissions.Add(permission1);
+                context.Permissions.Add(permission2);
+            });
+
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(0, context.Resources.Count());
+                Assert.AreEqual(1, context.ResourceTypes.Count());
+                Assert.AreEqual(2, context.Permissions.Count());
+                Assert.AreEqual(1, context.Roles.Count());
+                Assert.AreEqual(0, context.RoleResourcePermissions.Count());
+            };
+
+            Action<bool> tester = (isAsync) =>
+            {
+                Assert.AreEqual(1, context.Resources.Count());
+                var child = context.Resources.Where(x => x.ForeignResourceId == id).First();
+
+                Assert.AreEqual(entity.Id, child.ForeignResourceId);
+                Assert.AreEqual(PermissableType.Project.GetResourceTypeId(), child.ResourceTypeId);
+
+                Assert.AreEqual(2, context.RoleResourcePermissions.Count());
+                var firstRoleResourcePermission = context.RoleResourcePermissions.Where(x => x.PermissionId == permission1.PermissionId).First();
+                var secondRoleResourcePermission = context.RoleResourcePermissions.Where(x => x.PermissionId == permission2.PermissionId).First();
+
+                var now = DateTimeOffset.UtcNow;
+                now.Should().BeCloseTo(firstRoleResourcePermission.AssignedOn, 20000);
+                Assert.AreEqual(1, firstRoleResourcePermission.AssignedBy);
+                Assert.IsTrue(Object.ReferenceEquals(child, firstRoleResourcePermission.Resource));
+                Assert.AreEqual(role.RoleId, firstRoleResourcePermission.RoleId);
+                Assert.AreEqual(permission1.PermissionId, firstRoleResourcePermission.PermissionId);
+
+                now.Should().BeCloseTo(secondRoleResourcePermission.AssignedOn, 20000);
+                Assert.AreEqual(1, secondRoleResourcePermission.AssignedBy);
+                Assert.IsTrue(Object.ReferenceEquals(child, secondRoleResourcePermission.Resource));
+                Assert.AreEqual(role.RoleId, secondRoleResourcePermission.RoleId);
+                Assert.AreEqual(permission2.PermissionId, secondRoleResourcePermission.PermissionId);
+
+                Assert.AreEqual(0, cacheDictionary.Count);
+                if (isAsync)
+                {
+                    Assert.AreEqual(1, context.SaveChangesAsyncCount);
+                }
+                else
+                {
+                    Assert.AreEqual(1, context.SaveChangesCount);
+                }
+
+            };
+            context.Revert();
+            beforeTester();
+            service.OnAdded(list);
+            tester(false);
+
+            context.Revert();
+            beforeTester();
+            await service.OnAddedAsync(list);
+            tester(true);
+        }
+
+        [TestMethod]
+        public async Task TestOnAdded_ShouldNotAssignAllPermissionsToRole()
+        {
+            var role = new Role
+            {
+                RoleId = 1,
+                RoleName = "super user"
+            };
+
+            var projectResourceType = new ResourceType
+            {
+                ResourceTypeId = ResourceType.Project.Id,
+                ResourceTypeName = ResourceType.Project.Value
+            };
+            var permission1 = new Permission
+            {
+                PermissionId = 1,
+                PermissionName = "permission 1",
+                ResourceType = projectResourceType,
+                ResourceTypeId = projectResourceType.ResourceTypeId
+            };
+            var permission2 = new Permission
+            {
+                PermissionId = 2,
+                PermissionName = "permission 2",
+                ResourceType = projectResourceType,
+                ResourceTypeId = projectResourceType.ResourceTypeId
+            };
+
+            Func<string, string, bool> assignPermissionToRoleOnCreateDelegate = (roleName, permissionName) =>
+            {
+                return false;
+            };
+
+            var id = 1;
+            var entity = new TestPermissableResource
+            {
+                Id = id,
+                PermissableType = PermissableType.Project,
+                AssignPermissionToRoleOnCreateDelegate = assignPermissionToRoleOnCreateDelegate
+            };
+            var list = new List<IPermissable> { entity };
+
+
+            context.SetupActions.Add(() =>
+            {
+                cacheDictionary.Clear();
+                context.ResourceTypes.Add(projectResourceType);
+                context.Roles.Add(role);
+                context.Permissions.Add(permission1);
+                context.Permissions.Add(permission2);
+            });
+
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(0, context.Resources.Count());
+                Assert.AreEqual(1, context.ResourceTypes.Count());
+                Assert.AreEqual(2, context.Permissions.Count());
+                Assert.AreEqual(1, context.Roles.Count());
+                Assert.AreEqual(0, context.RoleResourcePermissions.Count());
+            };
+
+            Action<bool> tester = (isAsync) =>
+            {
+                Assert.AreEqual(1, context.Resources.Count());
+                var child = context.Resources.Where(x => x.ForeignResourceId == id).First();
+
+                Assert.AreEqual(entity.Id, child.ForeignResourceId);
+                Assert.AreEqual(PermissableType.Project.GetResourceTypeId(), child.ResourceTypeId);
+
+                Assert.AreEqual(0, context.RoleResourcePermissions.Count());
+
+                Assert.AreEqual(0, cacheDictionary.Count);
+                if (isAsync)
+                {
+                    Assert.AreEqual(1, context.SaveChangesAsyncCount);
+                }
+                else
+                {
+                    Assert.AreEqual(1, context.SaveChangesCount);
+                }
+
+            };
+            context.Revert();
+            beforeTester();
+            service.OnAdded(list);
+            tester(false);
+
+            context.Revert();
+            beforeTester();
+            await service.OnAddedAsync(list);
+            tester(true);
+        }
+
+        [TestMethod]
+        public async Task TestOnAdded_ShouldAssignAllPermissionsToRole_NoPermissionsForResourceType()
+        {
+            var role = new Role
+            {
+                RoleId = 1,
+                RoleName = "super user"
+            };
+
+            var projectResourceType = new ResourceType
+            {
+                ResourceTypeId = ResourceType.Project.Id,
+                ResourceTypeName = ResourceType.Project.Value
+            };
+
+            Func<string, string, bool> assignPermissionToRoleOnCreateDelegate = (roleName, permissionName) =>
+            {
+                return true;
+            };
+
+            var id = 1;
+            var entity = new TestPermissableResource
+            {
+                Id = id,
+                PermissableType = PermissableType.Project,
+                AssignPermissionToRoleOnCreateDelegate = assignPermissionToRoleOnCreateDelegate
+            };
+            var list = new List<IPermissable> { entity };
+
+            context.SetupActions.Add(() =>
+            {
+                cacheDictionary.Clear();
+                context.ResourceTypes.Add(projectResourceType);
+                context.Roles.Add(role);
+            });
+
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(0, context.Resources.Count());
+                Assert.AreEqual(1, context.ResourceTypes.Count());
+                Assert.AreEqual(0, context.Permissions.Count());
+                Assert.AreEqual(1, context.Roles.Count());
+                Assert.AreEqual(0, context.RoleResourcePermissions.Count());
+            };
+
+            Action<bool> tester = (isAsync) =>
+            {
+                Assert.AreEqual(1, context.Resources.Count());
+                var child = context.Resources.Where(x => x.ForeignResourceId == id).First();
+
+                Assert.AreEqual(entity.Id, child.ForeignResourceId);
+                Assert.AreEqual(PermissableType.Project.GetResourceTypeId(), child.ResourceTypeId);
+
+                Assert.AreEqual(0, context.RoleResourcePermissions.Count());
+
+                Assert.AreEqual(0, cacheDictionary.Count);
+                if (isAsync)
+                {
+                    Assert.AreEqual(1, context.SaveChangesAsyncCount);
+                }
+                else
+                {
+                    Assert.AreEqual(1, context.SaveChangesCount);
+                }
+
+            };
+            context.Revert();
+            beforeTester();
+            service.OnAdded(list);
+            tester(false);
+
+            context.Revert();
+            beforeTester();
+            await service.OnAddedAsync(list);
+            tester(true);
+        }
+
+        [TestMethod]
+        public async Task TestOnAdded_ShouldAssignAllPermissionsToRole_NoRoles()
+        {
+            var projectResourceType = new ResourceType
+            {
+                ResourceTypeId = ResourceType.Project.Id,
+                ResourceTypeName = ResourceType.Project.Value
+            };
+            var permission1 = new Permission
+            {
+                PermissionId = 1,
+                PermissionName = "permission 1",
+                ResourceType = projectResourceType,
+                ResourceTypeId = projectResourceType.ResourceTypeId
+            };
+            var permission2 = new Permission
+            {
+                PermissionId = 2,
+                PermissionName = "permission 2",
+                ResourceType = projectResourceType,
+                ResourceTypeId = projectResourceType.ResourceTypeId
+            };
+
+            Func<string, string, bool> assignPermissionToRoleOnCreateDelegate = (roleName, permissionName) =>
+            {
+                return true;
+            };
+
+            var id = 1;
+            var entity = new TestPermissableResource
+            {
+                Id = id,
+                PermissableType = PermissableType.Project,
+                AssignPermissionToRoleOnCreateDelegate = assignPermissionToRoleOnCreateDelegate
+            };
+            var list = new List<IPermissable> { entity };
+
+
+            context.SetupActions.Add(() =>
+            {
+                cacheDictionary.Clear();
+                context.ResourceTypes.Add(projectResourceType);
+                context.Permissions.Add(permission1);
+                context.Permissions.Add(permission2);
+            });
+
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(0, context.Resources.Count());
+                Assert.AreEqual(1, context.ResourceTypes.Count());
+                Assert.AreEqual(2, context.Permissions.Count());
+                Assert.AreEqual(0, context.Roles.Count());
+                Assert.AreEqual(0, context.RoleResourcePermissions.Count());
+            };
+
+            Action<bool> tester = (isAsync) =>
+            {
+                Assert.AreEqual(1, context.Resources.Count());
+                var child = context.Resources.Where(x => x.ForeignResourceId == id).First();
+
+                Assert.AreEqual(entity.Id, child.ForeignResourceId);
+                Assert.AreEqual(PermissableType.Project.GetResourceTypeId(), child.ResourceTypeId);
+
+                Assert.AreEqual(0, context.RoleResourcePermissions.Count());
+
+                Assert.AreEqual(0, cacheDictionary.Count);
+                if (isAsync)
+                {
+                    Assert.AreEqual(1, context.SaveChangesAsyncCount);
+                }
+                else
+                {
+                    Assert.AreEqual(1, context.SaveChangesCount);
+                }
+
+            };
+            context.Revert();
+            beforeTester();
+            service.OnAdded(list);
+            tester(false);
+
+            context.Revert();
+            beforeTester();
+            await service.OnAddedAsync(list);
+            tester(true);
+        }
+
 
         [TestMethod]
         public async Task TestOnAdded_HasNewParent()
@@ -1333,7 +1713,6 @@ namespace CAM.Business.Test.Service
             await service.OnAddedAsync(list);
             tester();
         }
-
 
         [TestMethod]
         public async Task TestOnUpdated_IsExempt()

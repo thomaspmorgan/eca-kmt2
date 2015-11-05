@@ -60,5 +60,13 @@ namespace ECA.Core.Data
         /// </summary>
         /// <returns>True, if this permissable instance is exempt from protection by permissions, otherwise, false.</returns>
         bool IsExempt();
+
+        /// <summary>
+        /// Returns true, if the permission should be assigned to the role for this resource when the resource is created.
+        /// </summary>
+        /// <param name="roleName">The name of the role to have a permission assigned to.</param>
+        /// <param name="permissionName">The name of the permission that should be granted.</param>
+        /// <returns>True, if the role should have the permission granted, otherwise, false.</returns>
+        bool AssignPermissionToRoleOnCreate(string roleName, string permissionName);
     }
 }

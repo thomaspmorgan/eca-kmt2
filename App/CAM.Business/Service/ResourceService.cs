@@ -448,6 +448,11 @@ namespace CAM.Business.Service
             }
             else
             {
+                var resourceTypeName = ResourceType.GetStaticLookup(addedEntity.GetPermissableType().GetResourceTypeId());
+                Contract.Assert(resourceTypeName != null, "The resource type should be recognized.");
+                var resourceTypePermissions = GetResourcePermissions(resourceTypeName.Value, null);
+                var roles = Context.Roles.ToList();
+
                 var existingResource = ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, addedEntity.GetId(), addedEntity.GetPermissableType().GetResourceTypeId())
                     .FirstOrDefault();
                 Resource parentResource = null;
@@ -459,7 +464,11 @@ namespace CAM.Business.Service
                         addedEntity.GetParentPermissableType().GetResourceTypeId())
                     .FirstOrDefault();
                 }
-                DoOnAdded(addedEntity, existingResource, parentResource);
+                DoOnAdded(addedEntity: addedEntity,
+                    existingResource: existingResource,
+                    parentResource: parentResource,
+                    resourceTypePermissions: resourceTypePermissions,
+                    roles: roles);
                 logger.Info("Saving cam model context changes.");
                 this.Context.SaveChanges();
             }
@@ -478,6 +487,11 @@ namespace CAM.Business.Service
             }
             else
             {
+                var resourceTypeName = ResourceType.GetStaticLookup(addedEntity.GetPermissableType().GetResourceTypeId());
+                Contract.Assert(resourceTypeName != null, "The resource type should be recognized.");
+                var resourceTypePermissions = await GetResourcePermissionsAsync(resourceTypeName.Value, null);
+                var roles = await Context.Roles.ToListAsync();
+
                 var existingResource = await ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, addedEntity.GetId(), addedEntity.GetPermissableType().GetResourceTypeId())
                     .FirstOrDefaultAsync();
                 Resource parentResource = null;
@@ -489,17 +503,46 @@ namespace CAM.Business.Service
                         addedEntity.GetParentPermissableType().GetResourceTypeId())
                     .FirstOrDefaultAsync();
                 }
-                DoOnAdded(addedEntity, existingResource, parentResource);
+
+                DoOnAdded(addedEntity: addedEntity,
+                    existingResource: existingResource,
+                    parentResource: parentResource,
+                    resourceTypePermissions: resourceTypePermissions,
+                    roles: roles);
                 logger.Info("Saving cam model context changes.");
                 await this.Context.SaveChangesAsync();
             }
         }
 
-        private void DoOnAdded(IPermissable addedEntity, Resource existingResource, Resource parentResource)
+        private void DoOnAdded(IPermissable addedEntity,
+            Resource existingResource,
+            Resource parentResource,
+            List<ResourcePermissionDTO> resourceTypePermissions,
+            List<Role> roles)
         {
             if (existingResource == null)
             {
                 var newResource = AddResourceToCAM(addedEntity, parentResource);
+                var now = DateTimeOffset.UtcNow;
+                foreach (var role in roles)
+                {
+                    foreach (var resourceTypePermission in resourceTypePermissions)
+                    {
+                        var addPermission = addedEntity.AssignPermissionToRoleOnCreate(role.RoleName, resourceTypePermission.PermissionName);
+                        if (addPermission)
+                        {
+                            var rolePermission = new RoleResourcePermission
+                            {
+                                AssignedBy = 1,
+                                AssignedOn = now,
+                                RoleId = role.RoleId,
+                                Resource = newResource,
+                                PermissionId = resourceTypePermission.PermissionId
+                            };
+                            Context.RoleResourcePermissions.Add(rolePermission);
+                        }
+                    }
+                }
             }
             RemoveFromCache(addedEntity);
         }
