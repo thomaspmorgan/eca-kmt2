@@ -52,8 +52,13 @@ angular.module('staticApp')
           }
       }
 
-      $scope.organizationNameChanged = function () {
-          // Reset duplicates if organization name changes
+      $scope.resetPersonDuplicates = function () {
+          if ($scope.personDuplicates.length > 0) {
+              $scope.personDuplicates = [];
+          }
+      }
+
+      $scope.resetOrganizationDuplicates = function () {
           if ($scope.organizationDuplicates.length > 0) {
               $scope.organizationDuplicates = [];
           }
