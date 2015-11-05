@@ -159,8 +159,7 @@ angular.module('staticApp')
           var params = {
               limit: 300,
               filter: [{ property: 'firstName', comparison: 'eq', value: $scope.newPerson.firstName },
-                       { property: 'lastName', comparison: 'eq', value: $scope.newPerson.lastName },
-                       { property: 'genderId', comparison: 'eq', value: $scope.newPerson.gender }]
+                       { property: 'lastName', comparison: 'eq', value: $scope.newPerson.lastName }]
           };
           if ($scope.newPerson.dateOfBirth) {
               params.filter.push({ property: 'dateOfBirth', comparison: 'eq', value: $scope.newPerson.dateOfBirth });
