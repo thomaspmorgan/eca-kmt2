@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="col-md-5" ng-show="!view.isAddingParticipant">
-            <h4>Add an existing or new participant</h4>
+            <h4>Add an existing participant</h4>
             <div style="margin-top:10px;">
                 <span style="font-size:12pt;margin-right:5px;">Filter By:</span>
                 <label class="radio-inline">
@@ -48,6 +48,12 @@
                 <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingAvailableParticipants">autorenew</i>
             </div>
         </div>
+        <div class="col-md-5" ng-show="!view.isAddingParticipant" style="margin-top:75px;">
+            <p class="pull-right" style="font-style:italic">Search not returning a result?</p>
+        </div>
+        <div class="col-md-2" ng-show="!view.isAddingParticipant" style="margin-top:65px;">
+            <button class="btn btn-primary" ng-click="openAddNewParticipant()">ADD NEW PARTICIPANT</button>
+        </div>
     </div>
     <div class="row expand">
         <div st-pipe="getParticipants" st-table="participants" exposetablestate="getParticipantsTableState" id="sort-list">
@@ -60,7 +66,6 @@
                 <button class="btn btn-primary" ng-disabled="selectedParticipantsEmpty()" ng-click="applyAction()">Apply</button>
                 <input st-search type="search" placeholder="Search Participants" class="form-control input-lg" ng-model="participantFilter" ng-model-options="{debounce: 500}"/>
                 <i class="material-icons md-18 contextual">search</i>
-                <button class="btn btn-primary pull-right" ng-click="openAddNewParticipant()">Add New Participant</button>
             </div>
             <table class="col-md-12 alt">
                 <thead>
