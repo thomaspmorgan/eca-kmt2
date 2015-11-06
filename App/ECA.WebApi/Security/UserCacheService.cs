@@ -105,7 +105,7 @@ namespace ECA.WebApi.Security
         public CacheItemPolicy GetCacheItemPolicy()
         {
             var policy = new CacheItemPolicy();
-            policy.AbsoluteExpiration = DateTimeOffset.UtcNow.AddSeconds((double)this.timeToLiveInSeconds);
+            policy.SlidingExpiration = TimeSpan.FromSeconds((double)this.timeToLiveInSeconds);
             policy.RemovedCallback = ItemRemoved;
             return policy;
         }

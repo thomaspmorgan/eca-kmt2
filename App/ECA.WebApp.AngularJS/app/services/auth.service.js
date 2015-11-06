@@ -164,16 +164,6 @@ angular.module('staticApp')
               var permissions = [];
               for (var i = 0; i < availablePermissions.length; i++) {
                   var availablePermission = availablePermissions[i];
-                  var isRolePermission = false;
-                  if (principal.rolePermissions && principal.rolePermissions.length > 0) {
-                      for (var j = 0; j < principal.rolePermissions.length; j++) {
-                          var rolePermission = principal.rolePermissions[j];
-                          if (availablePermission.permissionId === rolePermission.permissionId) {
-                              isRolePermission = true;
-                              break;
-                          }
-                      }
-                  }
                   var isPermissionAlreadyAdded = false;
                   for (var k = 0; k < permissions.length; k++) {
                       var alreadyAddedPermission = permissions[k];
@@ -181,7 +171,7 @@ angular.module('staticApp')
                           isPermissionAlreadyAdded = true;
                       }
                   }
-                  if (/*!isRolePermission && */!isPermissionAlreadyAdded) {
+                  if (!isPermissionAlreadyAdded) {
                       permissions.push(service.createAvailablePermission(availablePermission, principal, foreignResourceId, resourceType));
                   }
               }
@@ -287,7 +277,6 @@ angular.module('staticApp')
                       });
                       currentGroupedPermissionByPrincipalId = groupedPermissionsByPrincipalIds[groupedPermissionsByPrincipalIds.length - 1];
                   }
-                  console.log(currentPrincipalId);
                   var groupedPermission = service.getGroupedPermission(principalIdOrderedCollaborator);
                   if (groupedPermission.isGrantedByRole) {
                       currentGroupedPermissionByPrincipalId.rolePermissions.push(groupedPermission);

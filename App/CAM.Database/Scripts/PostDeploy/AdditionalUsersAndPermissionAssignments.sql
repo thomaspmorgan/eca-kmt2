@@ -1,8 +1,11 @@
 ﻿
 DECLARE @kmtApplicationId INT;
 DECLARE @systemAdminPermissionId INT;
+DECLARE @kmtSuperUserRoleId INT;
+
 SELECT @kmtApplicationId = ResourceId FROM cam.Application WHERE ApplicationName = 'KMT';
 SELECT @systemAdminPermissionId = PermissionId FROM cam.Permission WHERE PermissionName = 'Administrator';
+SELECT @kmtSuperUserRoleId = RoleId FROM cam.Role WHERE RoleName = 'KMT Super User';
 
 DECLARE @systemUserAdGuid UNIQUEIDENTIFIER = convert(uniqueidentifier, 'E6F49140-877B-4819-9E92-1427AF1F06AB');
 DECLARE @thomasMorganAdGuid UNIQUEIDENTIFIER  = convert(uniqueidentifier, '8111908E-EFF7-4DE2-AEA2-F7BA54107008');
@@ -86,3 +89,21 @@ UPDATE SET IsAllowed = 1
 WHEN NOT MATCHED BY TARGET THEN
 	INSERT (PrincipalId, ResourceId, PermissionId, AssignedOn, AssignedBy, IsAllowed)
 	VALUES (PrincipalId, ResourceId, PermissionId, AssignedOn, AssignedBy, IsAllowed);
+
+
+	
+MERGE INTO cam.[PrincipalRole] AS Target
+USING (VALUES
+
+	(@thomasMorganUserId, @kmtSuperUserRoleId, @systemUserId, sysdatetimeoffset()),
+	(@brianGibowskiUserId, @kmtSuperUserRoleId, @systemUserId, sysdatetimeoffset()),
+	(@brandonTuckerUserId, @kmtSuperUserRoleId, @systemUserId, sysdatetimeoffset())
+)
+AS Source(PrincipalId, RoleId, AssignedBy, AssignedOn)
+ON Target.PrincipalId = Source.PrincipalId AND Target.RoleId = Source.RoleId
+--set is allowed to true
+--WHEN MATCHED THEN
+--Insert new records
+WHEN NOT MATCHED BY TARGET THEN
+	INSERT (PrincipalId, RoleId, AssignedBy, AssignedOn)
+	VALUES (PrincipalId, RoleId, AssignedBy, AssignedOn);

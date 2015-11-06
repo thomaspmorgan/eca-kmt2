@@ -324,6 +324,7 @@
     <Build Include="Sevis\Tables\EndProgramReason.sql" />
     <Build Include="Sevis\Tables\ExhangeVisitorTerminationReason.sql" />
     <Build Include="Sevis\Tables\ExchangeVisitorPosition.sql" />
+    <None Include="Scripts\PostDeploy\CAM.GrantKMTSuperUserRolePermissions.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ECA.Database.refactorlog" />

@@ -260,7 +260,7 @@ namespace ECA.WebApi.Test.Security
             var testService = new UserCacheService(cache.Object, expectedTimeToLive);
             var policy = testService.GetCacheItemPolicy();
             Assert.IsNotNull(policy);
-            policy.AbsoluteExpiration.Should().BeCloseTo(DateTimeOffset.UtcNow.AddSeconds((double)expectedTimeToLive));
+            Assert.IsNotNull(policy.SlidingExpiration);
             Assert.IsNotNull(policy.RemovedCallback);
             policy.Invoking(x => x.RemovedCallback(new CacheEntryRemovedArguments(cache.Object, CacheEntryRemovedReason.Removed, new CacheItem(Guid.NewGuid().ToString())))).ShouldNotThrow();
         }
