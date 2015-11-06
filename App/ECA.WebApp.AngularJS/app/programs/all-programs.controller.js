@@ -188,9 +188,6 @@ angular.module('staticApp')
 
           $scope.view.programs = programs;
           $scope.view.programsLoading = false;
-          $timeout(function () {
-              angular.element('#searchBar').focus();
-          }, 500);
           return programs;
       };
 
@@ -208,22 +205,5 @@ angular.module('staticApp')
       .catch(function () {
 
       });
-  })
-.directive('autoFocus', function ($timeout) {
-    return {
-        restrict: 'AC',
-        link: function (_scope, _element) {
-            $timeout(function () {
-                _element[0].focus();
-            }, 500);
-        }
-    };
-})
-.factory('focus', function ($rootScope, $timeout) {
-    return function (name) {
-        $timeout(function () {
-            $rootScope.$broadcast('autoFocus', name);
-        }, 500);
-    }
-});
+  });
 
