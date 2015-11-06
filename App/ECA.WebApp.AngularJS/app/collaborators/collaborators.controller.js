@@ -54,9 +54,11 @@ angular.module('staticApp')
           addForeignResourceIdToPermissionModel(permissionModel);
           if (permission.isAllowed === false) {
               permission.isAllowed = undefined;
-              return removePermission(permissionModel);
+              return removePermission(permissionModel)
+              .then(updateRolePermissionOnPermissionChange(collaborator, permission));
           } else {
-              return addPermission(permissionModel);
+              return addPermission(permissionModel)
+              .then(updateRolePermissionOnPermissionChange(collaborator, permission));
           }
       }
 
@@ -68,10 +70,25 @@ angular.module('staticApp')
           addForeignResourceIdToPermissionModel(permissionModel);
           if (permission.isAllowed === true) {
               permission.isAllowed = undefined;
-              return removePermission(permissionModel);
+              return removePermission(permissionModel)
+              .then(updateRolePermissionOnPermissionChange(collaborator, permission));
           } else {
-              return revokePermission(permissionModel);
+              return revokePermission(permissionModel)
+              .then(updateRolePermissionOnPermissionChange(collaborator, permission));
           }
+      }
+
+      function updateRolePermissionOnPermissionChange(collaborator, permission) {
+          angular.forEach(collaborator.rolePermissions, function (rolePermission, index) {
+              if (rolePermission.permissionId === permission.permissionId
+                  && rolePermission.foreignResourceId === permission.foreignResourceId) {
+                  var isAllowed = true;
+                  if (permission.isAllowed !== undefined) {
+                      isAllowed = permission.isAllowed;
+                  }
+                  rolePermission.isAllowed = isAllowed;
+              }
+          });
       }
 
       function addForeignResourceIdToPermissionModel(permissionModel) {
