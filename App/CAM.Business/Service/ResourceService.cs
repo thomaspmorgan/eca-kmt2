@@ -408,50 +408,69 @@ namespace CAM.Business.Service
         /// Handles the added IPermissable entities.
         /// </summary>
         /// <param name="addedEntities">The added entities.</param>
-        public void OnAdded(IList<IPermissable> addedEntities)
+        public List<AddedPermissableEntityResult> OnAdded(IList<IPermissable> addedEntities)
         {
+            var results = new List<AddedPermissableEntityResult>();
             if (addedEntities.Count > MAX_LEVEL_OF_ENTITIES_TO_REGISTER)
             {
                 logger.Warn("There are more than the recommended number of entities [{0}] being added to CAM performance issues may be arise.", addedEntities.Count);
             }
             foreach (var addedEntity in addedEntities.ToList())
             {
-                OnAdded(addedEntity);
+                var result = OnAdded(addedEntity);
+                if (result != null)
+                {
+                    results.Add(result);
+                }
             }
+            return results;
         }
 
         /// <summary>
         /// Handles the added IPermissable entities.
         /// </summary>
         /// <param name="addedEntities">The added entities.</param>
-        public async Task OnAddedAsync(IList<IPermissable> addedEntities)
+        public async Task<List<AddedPermissableEntityResult>> OnAddedAsync(IList<IPermissable> addedEntities)
         {
+            var results = new List<AddedPermissableEntityResult>();
             if (addedEntities.Count > MAX_LEVEL_OF_ENTITIES_TO_REGISTER)
             {
                 logger.Warn("There are more than the recommended number of entities [{0}] being added to CAM performance issues may be arise.", addedEntities.Count);
             }
             foreach (var addedEntity in addedEntities.ToList())
             {
-                await OnAddedAsync(addedEntity);
+                var result = await OnAddedAsync(addedEntity);
+                if (result != null)
+                {
+                    results.Add(result);
+                }
             }
+            return results;
+        }
+
+        private IQueryable<Role> CreateGetAllRolesQuery()
+        {
+            return Context.Roles.Select(x => x);
         }
 
         /// <summary>
         /// Handles a single added permissable entity by adding it as a cam resource.
         /// </summary>
         /// <param name="addedEntity">The added entity.</param>
-        public void OnAdded(IPermissable addedEntity)
+        public AddedPermissableEntityResult OnAdded(IPermissable addedEntity)
         {
+            Contract.Requires(addedEntity != null, "The added entity must not be null.");
             if (addedEntity.IsExempt())
             {
                 logger.Info("Permissable entity with id [{0]} and permissable type [{1}] was exempt from cam.", addedEntity.GetId(), addedEntity.GetPermissableType());
+                return null;
             }
             else
             {
                 var resourceTypeName = ResourceType.GetStaticLookup(addedEntity.GetPermissableType().GetResourceTypeId());
                 Contract.Assert(resourceTypeName != null, "The resource type should be recognized.");
                 var resourceTypePermissions = GetResourcePermissions(resourceTypeName.Value, null);
-                var roles = Context.Roles.ToList();
+                var roles = CreateGetAllRolesQuery().ToList();
 
                 var existingResource = ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, addedEntity.GetId(), addedEntity.GetPermissableType().GetResourceTypeId())
                     .FirstOrDefault();
@@ -464,13 +483,14 @@ namespace CAM.Business.Service
                         addedEntity.GetParentPermissableType().GetResourceTypeId())
                     .FirstOrDefault();
                 }
-                DoOnAdded(addedEntity: addedEntity,
+                var addedPermissableEntityResult = DoOnAdded(addedEntity: addedEntity,
                     existingResource: existingResource,
                     parentResource: parentResource,
                     resourceTypePermissions: resourceTypePermissions,
                     roles: roles);
                 logger.Info("Saving cam model context changes.");
                 this.Context.SaveChanges();
+                return addedPermissableEntityResult;
             }
 
         }
@@ -479,18 +499,20 @@ namespace CAM.Business.Service
         /// Handles a single added permissable entity by adding it as a cam resource.
         /// </summary>
         /// <param name="addedEntity">The added entity.</param>
-        public async Task OnAddedAsync(IPermissable addedEntity)
+        public async Task<AddedPermissableEntityResult> OnAddedAsync(IPermissable addedEntity)
         {
+            Contract.Requires(addedEntity != null, "The added entity must not be null.");
             if (addedEntity.IsExempt())
             {
                 logger.Info("Permissable entity with id [{0]} and permissable type [{1}] was exempt from cam.", addedEntity.GetId(), addedEntity.GetPermissableType());
+                return null;
             }
             else
             {
                 var resourceTypeName = ResourceType.GetStaticLookup(addedEntity.GetPermissableType().GetResourceTypeId());
                 Contract.Assert(resourceTypeName != null, "The resource type should be recognized.");
                 var resourceTypePermissions = await GetResourcePermissionsAsync(resourceTypeName.Value, null);
-                var roles = await Context.Roles.ToListAsync();
+                var roles = await CreateGetAllRolesQuery().ToListAsync();
 
                 var existingResource = await ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, addedEntity.GetId(), addedEntity.GetPermissableType().GetResourceTypeId())
                     .FirstOrDefaultAsync();
@@ -504,26 +526,29 @@ namespace CAM.Business.Service
                     .FirstOrDefaultAsync();
                 }
 
-                DoOnAdded(addedEntity: addedEntity,
+                var addedPermissableEntityResult = DoOnAdded(addedEntity: addedEntity,
                     existingResource: existingResource,
                     parentResource: parentResource,
                     resourceTypePermissions: resourceTypePermissions,
                     roles: roles);
                 logger.Info("Saving cam model context changes.");
                 await this.Context.SaveChangesAsync();
+                return addedPermissableEntityResult;
             }
         }
 
-        private void DoOnAdded(IPermissable addedEntity,
+        private AddedPermissableEntityResult DoOnAdded(IPermissable addedEntity,
             Resource existingResource,
             Resource parentResource,
             List<ResourcePermissionDTO> resourceTypePermissions,
             List<Role> roles)
         {
+            var modifiedRoles = new List<Role>();
             if (existingResource == null)
             {
                 var newResource = AddResourceToCAM(addedEntity, parentResource);
                 var now = DateTimeOffset.UtcNow;
+
                 foreach (var role in roles)
                 {
                     foreach (var resourceTypePermission in resourceTypePermissions)
@@ -540,11 +565,13 @@ namespace CAM.Business.Service
                                 PermissionId = resourceTypePermission.PermissionId
                             };
                             Context.RoleResourcePermissions.Add(rolePermission);
+                            modifiedRoles.Add(role);
                         }
                     }
                 }
             }
             RemoveFromCache(addedEntity);
+            return new AddedPermissableEntityResult(addedEntity, modifiedRoles.Select(x => x.RoleId).Distinct().ToList());
         }
 
         private Resource AddResourceToCAM(IPermissable permissable, Resource parentResource)

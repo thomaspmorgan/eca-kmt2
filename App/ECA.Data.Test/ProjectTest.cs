@@ -139,7 +139,7 @@ namespace ECA.Data.Test
         }
 
         [TestMethod]
-        public void TestProjectName_Unique()
+        public void TestProjectName_Unique_HasSameParentProgram()
         {
             var parentProgram = new Program
             {
@@ -149,7 +149,7 @@ namespace ECA.Data.Test
             var existingProject = new Project
             {
                 Name = "  HELLO  ",
-                ProgramId = 1,
+                ProgramId = parentProgram.ProgramId,
                 ParentProgram = parentProgram,
                 ProjectId = 1
             };
@@ -158,7 +158,7 @@ namespace ECA.Data.Test
 
             var testProject = new Project
             {
-                ProgramId = parentProgram.ProgramId + 1,
+                ProgramId = parentProgram.ProgramId,
                 Name = "  hello ",
                 Description = "desc"
 
@@ -174,6 +174,43 @@ namespace ECA.Data.Test
             var expectedErrorMessage = String.Format("The project with the name [{0}] already exists.",
                         testProject.Name);
             Assert.AreEqual(expectedErrorMessage, results.First().ErrorMessage);
+        }
+
+        [TestMethod]
+        public void TestProjectName_Unique_HasDifferentParentProgram()
+        {
+            var parentProgram = new Program
+            {
+                Name = "parent program",
+                ProgramId = 2
+            };
+            var existingProject = new Project
+            {
+                Name = "  HELLO  ",
+                ProgramId = parentProgram.ProgramId,
+                ParentProgram = parentProgram,
+                ProjectId = 1
+            };
+            context.Projects.Add(existingProject);
+            context.Programs.Add(parentProgram);
+
+            var testProject = new Project
+            {
+                ProgramId = parentProgram.ProgramId,
+                Name = "  hello ",
+                Description = "desc"
+
+            };
+            var items = new Dictionary<object, object> { { EcaContext.VALIDATABLE_CONTEXT_KEY, context } };
+            var vc = new ValidationContext(testProject, null, items);
+            var results = new List<ValidationResult>();
+            var actual = Validator.TryValidateObject(testProject, vc, results);
+            Assert.IsFalse(actual);
+
+            testProject.ProgramId = parentProgram.ProgramId + 1;
+            results = new List<ValidationResult>();
+            actual = Validator.TryValidateObject(testProject, vc, results);
+            Assert.IsTrue(actual);
         }
 
         [TestMethod]

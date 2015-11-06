@@ -75,13 +75,20 @@ namespace ECA.Core.Test.Service
         private PermissableSaveActionContext context;
         private PermissableSaveAction saveAction;
         private Mock<IPermissableService> permissableService;
+        private Action<List<AddedPermissableEntityResult>> handler;
+        private List<AddedPermissableEntityResult> handlerResults;
 
         [TestInitialize]
         public void TestInit()
         {
+            handlerResults = null;
             permissableService = new Mock<IPermissableService>();
             context = new PermissableSaveActionContext();
-            saveAction = new PermissableSaveAction(permissableService.Object);
+            handler = (x) =>
+            {
+                handlerResults = x;
+            };
+            saveAction = new PermissableSaveAction(permissableService.Object, handler);
         }
 
         #region Permissable Entities
@@ -233,14 +240,22 @@ namespace ECA.Core.Test.Service
             {
                 Assert.IsTrue(Object.ReferenceEquals(saveAction.ModifiedEntities, testList));
             };
-            
-            permissableService.Setup(x => x.OnAdded(It.IsAny<IList<IPermissable>>())).Callback(addedEntitiesTester);            
+            var addedEntityResults = new List<AddedPermissableEntityResult>();
+
+            permissableService.Setup(x => x.OnAdded(It.IsAny<IList<IPermissable>>())).Returns(addedEntityResults).Callback(addedEntitiesTester);            
             permissableService.Setup(x => x.OnUpdated(It.IsAny<IList<IPermissable>>())).Callback(modifiedEntitiesTester);
 
-            permissableService.Setup(x => x.OnAddedAsync(It.IsAny<IList<IPermissable>>())).Returns(Task.FromResult<object>(null)).Callback(addedEntitiesTester);
+            permissableService.Setup(x => x.OnAddedAsync(It.IsAny<IList<IPermissable>>())).ReturnsAsync(addedEntityResults).Callback(addedEntitiesTester);
             permissableService.Setup(x => x.OnUpdatedAsync(It.IsAny<IList<IPermissable>>())).Returns(Task.FromResult<object>(null)).Callback(modifiedEntitiesTester);
-            saveAction.AfterSaveChanges(context);            
+            handlerResults = null;
+            saveAction.AfterSaveChanges(context);
+            Assert.IsNotNull(handlerResults);
+            Assert.IsTrue(Object.ReferenceEquals(handlerResults, addedEntityResults));
+
+            handlerResults = null;
             await saveAction.AfterSaveChangesAsync(context);
+            Assert.IsNotNull(handlerResults);
+            Assert.IsTrue(Object.ReferenceEquals(handlerResults, addedEntityResults));
         }
 
         #endregion
@@ -352,11 +367,36 @@ namespace ECA.Core.Test.Service
         [TestMethod]
         public void TestConstructor()
         {
-            var testInstance = new PermissableSaveAction(permissableService.Object);
+            Action<List<AddedPermissableEntityResult>> handler = (x) =>
+            {
+            };
+            var testInstance = new PermissableSaveAction(permissableService.Object, handler);
             var serviceField = typeof(PermissableSaveAction).GetField("service", BindingFlags.Instance | BindingFlags.NonPublic);
-            var serviceValue = serviceField.GetValue(testInstance);
             Assert.IsNotNull(serviceField);
+
+            var serviceValue = serviceField.GetValue(testInstance);            
             Assert.IsNotNull(serviceValue);
+
+            var delegateField = typeof(PermissableSaveAction).GetField("addedPermissableEntityResultsDelegate", BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.IsNotNull(delegateField);
+            var delegateValue = delegateField.GetValue(testInstance);            
+            Assert.IsNotNull(delegateValue);
+            Assert.IsTrue(Object.ReferenceEquals(handler, delegateValue));
+        }
+
+        [TestMethod]
+        public void TestConstructor_NullHandler()
+        {
+            var testInstance = new PermissableSaveAction(permissableService.Object, null);
+            var serviceField = typeof(PermissableSaveAction).GetField("service", BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.IsNotNull(serviceField);
+            var serviceValue = serviceField.GetValue(testInstance);            
+            Assert.IsNotNull(serviceValue);
+
+            var delegateField = typeof(PermissableSaveAction).GetField("addedPermissableEntityResultsDelegate", BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.IsNotNull(delegateField);
+            var delegateValue = delegateField.GetValue(testInstance);            
+            Assert.IsNotNull(delegateValue);
         }
         #endregion
     }

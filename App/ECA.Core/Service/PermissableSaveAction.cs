@@ -16,17 +16,27 @@ namespace ECA.Core.Service
     public class PermissableSaveAction : ISaveAction
     {
         private readonly IPermissableService service;
+        private Action<List<AddedPermissableEntityResult>> addedPermissableEntityResultsDelegate;
 
         /// <summary>
         /// Creates a new PermissableSaveAction with the given service.
         /// </summary>
         /// <param name="permissableService">The service to handle created or updated entities in a DbContext.</param>
-        public PermissableSaveAction(IPermissableService permissableService)
+        public PermissableSaveAction(IPermissableService permissableService, Action<List<AddedPermissableEntityResult>> addedPermissableEntityResultsDelegate)
         {
             Contract.Requires(permissableService != null, "The permissable service must not be null.");
             this.service = permissableService;
             this.AddedEntities = new List<IPermissable>();
             this.ModifiedEntities = new List<IPermissable>();
+            if (addedPermissableEntityResultsDelegate == null)
+            {
+                this.addedPermissableEntityResultsDelegate = (x) => { };
+            }
+            else
+            {
+                this.addedPermissableEntityResultsDelegate = addedPermissableEntityResultsDelegate;
+            }
+            
         }
 
         /// <summary>
@@ -70,7 +80,8 @@ namespace ECA.Core.Service
         /// <param name="context">The DbContext with the permissable entities.</param>
         public void AfterSaveChanges(DbContext context)
         {
-            this.service.OnAdded(this.AddedEntities);
+            var results = this.service.OnAdded(this.AddedEntities);
+            this.addedPermissableEntityResultsDelegate(results);
             this.service.OnUpdated(this.ModifiedEntities);
         }
 
@@ -80,7 +91,8 @@ namespace ECA.Core.Service
         /// <param name="context">The DbContext with the permissable entities.</param>
         public async Task AfterSaveChangesAsync(DbContext context)
         {
-            await this.service.OnAddedAsync(this.AddedEntities);
+            var results = await this.service.OnAddedAsync(this.AddedEntities);
+            this.addedPermissableEntityResultsDelegate(results);
             await this.service.OnUpdatedAsync(this.ModifiedEntities);
         }
 

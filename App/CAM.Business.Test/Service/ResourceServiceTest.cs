@@ -16,6 +16,7 @@ using ECA.Core.DynamicLinq.Filter;
 using CAM.Business.Queries.Models;
 using ECA.Core.Exceptions;
 using ECA.Core.Data;
+using ECA.Core.Service;
 
 namespace CAM.Business.Test.Service
 {
@@ -1087,8 +1088,10 @@ namespace CAM.Business.Test.Service
                 cacheDictionary.Clear();
             });
 
-            Action<bool> tester = (isAsync) =>
+            Action<bool, List<AddedPermissableEntityResult>> tester = (isAsync, results) =>
             {
+                Assert.IsNotNull(results);
+                Assert.AreEqual(0, results.Count);
                 Assert.AreEqual(0, context.Resources.Count());
                 Assert.AreEqual(0, cacheDictionary.Count);
                 if (isAsync)
@@ -1101,12 +1104,12 @@ namespace CAM.Business.Test.Service
                 }
             };
             context.Revert();
-            service.OnAdded(list);
-            tester(false);
+            var serviceResults = service.OnAdded(list);
+            tester(false, serviceResults);
 
             context.Revert();
-            await service.OnAddedAsync(list);
-            tester(true);
+            serviceResults = await service.OnAddedAsync(list);
+            tester(true, serviceResults);
         }
 
         [TestMethod]
@@ -1171,8 +1174,18 @@ namespace CAM.Business.Test.Service
                 Assert.AreEqual(0, context.RoleResourcePermissions.Count());
             };
 
-            Action<bool> tester = (isAsync) =>
+            Action<bool, List<AddedPermissableEntityResult>> tester = (isAsync, results) =>
             {
+                Assert.IsNotNull(results);
+                Assert.AreEqual(1, results.Count);
+                var firstResult = results.First();
+                Assert.AreEqual(1, firstResult.AffectedRolesById.Count());
+                Assert.AreEqual(role.RoleId, firstResult.AffectedRolesById.First());
+                Assert.IsNotNull(firstResult.PermissableEntity);
+                Assert.AreEqual(entity.Id, firstResult.PermissableEntity.GetId());
+                Assert.AreEqual(entity.PermissableType, firstResult.PermissableEntity.GetPermissableType());
+                Assert.IsNull(firstResult.PermissableEntity.GetParentId());
+
                 Assert.AreEqual(1, context.Resources.Count());
                 var child = context.Resources.Where(x => x.ForeignResourceId == id).First();
 
@@ -1209,13 +1222,13 @@ namespace CAM.Business.Test.Service
             };
             context.Revert();
             beforeTester();
-            service.OnAdded(list);
-            tester(false);
+            var serviceResults = service.OnAdded(list);
+            tester(false, serviceResults);
 
             context.Revert();
             beforeTester();
-            await service.OnAddedAsync(list);
-            tester(true);
+            serviceResults = await service.OnAddedAsync(list);
+            tester(true, serviceResults);
         }
 
         [TestMethod]
@@ -1280,8 +1293,12 @@ namespace CAM.Business.Test.Service
                 Assert.AreEqual(0, context.RoleResourcePermissions.Count());
             };
 
-            Action<bool> tester = (isAsync) =>
+            Action<bool, List<AddedPermissableEntityResult>> tester = (isAsync, results) =>
             {
+                Assert.IsNotNull(results);
+                Assert.AreEqual(1, results.Count);
+                Assert.AreEqual(0, results.First().AffectedRolesById.Count());
+
                 Assert.AreEqual(1, context.Resources.Count());
                 var child = context.Resources.Where(x => x.ForeignResourceId == id).First();
 
@@ -1303,13 +1320,13 @@ namespace CAM.Business.Test.Service
             };
             context.Revert();
             beforeTester();
-            service.OnAdded(list);
-            tester(false);
+            var serviceResults = service.OnAdded(list);
+            tester(false, serviceResults);
 
             context.Revert();
             beforeTester();
-            await service.OnAddedAsync(list);
-            tester(true);
+            serviceResults = await service.OnAddedAsync(list);
+            tester(true, serviceResults);
         }
 
         [TestMethod]
@@ -1357,8 +1374,11 @@ namespace CAM.Business.Test.Service
                 Assert.AreEqual(0, context.RoleResourcePermissions.Count());
             };
 
-            Action<bool> tester = (isAsync) =>
+            Action<bool, List<AddedPermissableEntityResult>> tester = (isAsync, results) =>
             {
+                Assert.IsNotNull(results);
+                Assert.AreEqual(1, results.Count);
+                Assert.AreEqual(0, results.First().AffectedRolesById.Count());
                 Assert.AreEqual(1, context.Resources.Count());
                 var child = context.Resources.Where(x => x.ForeignResourceId == id).First();
 
@@ -1380,13 +1400,13 @@ namespace CAM.Business.Test.Service
             };
             context.Revert();
             beforeTester();
-            service.OnAdded(list);
-            tester(false);
+            var serviceResults = service.OnAdded(list);
+            tester(false, serviceResults);
 
             context.Revert();
             beforeTester();
-            await service.OnAddedAsync(list);
-            tester(true);
+            serviceResults = await service.OnAddedAsync(list);
+            tester(true, serviceResults);
         }
 
         [TestMethod]
@@ -1444,8 +1464,12 @@ namespace CAM.Business.Test.Service
                 Assert.AreEqual(0, context.RoleResourcePermissions.Count());
             };
 
-            Action<bool> tester = (isAsync) =>
+            Action<bool, List<AddedPermissableEntityResult>> tester = (isAsync, results) =>
             {
+                Assert.IsNotNull(results);
+                Assert.AreEqual(1, results.Count);
+                Assert.AreEqual(0, results.First().AffectedRolesById.Count());
+
                 Assert.AreEqual(1, context.Resources.Count());
                 var child = context.Resources.Where(x => x.ForeignResourceId == id).First();
 
@@ -1467,13 +1491,13 @@ namespace CAM.Business.Test.Service
             };
             context.Revert();
             beforeTester();
-            service.OnAdded(list);
-            tester(false);
+            var serviceResults = service.OnAdded(list);
+            tester(false, serviceResults);
 
             context.Revert();
             beforeTester();
-            await service.OnAddedAsync(list);
-            tester(true);
+            serviceResults = await service.OnAddedAsync(list);
+            tester(true, serviceResults);
         }
 
 

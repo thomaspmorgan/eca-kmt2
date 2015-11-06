@@ -586,6 +586,7 @@
     <Compile Include="Security\AnonymousUser.cs" />
     <Compile Include="Security\AuthorizationResult.cs" />
     <Compile Include="Security\BearerTokenUserProvider.cs" />
+    <Compile Include="Security\CamRoleChangeMonitor.cs" />
     <Compile Include="Security\DebugWebApiUser.cs" />
     <Compile Include="Security\ImpersonatedUser.cs" />
     <Compile Include="Security\IResourceAuthorizationHandler.cs" />

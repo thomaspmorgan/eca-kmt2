@@ -124,7 +124,10 @@ namespace ECA.Data
             Contract.Assert(context != null, "The context must not be null.");
 
             var existingProjectsByName = context.Projects
-                .Where(x => x.Name.ToLower().Trim() == this.Name.ToLower().Trim() && x.ProjectId != this.ProjectId)
+                .Where(x => 
+                x.Name.ToLower().Trim() == this.Name.ToLower().Trim() 
+                && x.ProjectId != this.ProjectId
+                && x.ProgramId == this.ProgramId)
                 .FirstOrDefault();
             if (existingProjectsByName != null)
             {
