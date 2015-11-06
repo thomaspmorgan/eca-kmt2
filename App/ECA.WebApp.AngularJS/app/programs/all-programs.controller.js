@@ -120,8 +120,6 @@ angular.module('staticApp')
               params.filter = [];
           }
 
-          $scope.view.programFilter = document.getElementById('searchBar').value;
-
           if ($scope.view.showDraftsOnly) {
               params.filter.push({ property: 'programStatusId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.programStatus.draft.id });
               params.filter.push({ property: 'createdByUserId', comparison: ConstantsService.equalComparisonType, value: $scope.view.ecaUserId });
@@ -188,9 +186,6 @@ angular.module('staticApp')
 
           $scope.view.programs = programs;
           $scope.view.programsLoading = false;
-          $timeout(function () {
-              angular.element('#searchBar').focus();
-          }, 500);
           return programs;
       };
 
@@ -208,22 +203,5 @@ angular.module('staticApp')
       .catch(function () {
 
       });
-  })
-.directive('autoFocus', function ($timeout) {
-    return {
-        restrict: 'AC',
-        link: function (_scope, _element) {
-            $timeout(function () {
-                _element[0].focus();
-            }, 500);
-        }
-    };
-})
-.factory('focus', function ($rootScope, $timeout) {
-    return function (name) {
-        $timeout(function () {
-            $rootScope.$broadcast('autoFocus', name);
-        }, 500);
-    }
-});
+  });
 
