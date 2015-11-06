@@ -248,27 +248,27 @@ namespace ECA.Business.Queries.Admin
             return topThemes.Select(x => x.themeName).Take(5);
         }
 
-        // TODO: needs new query
+        /// <summary>
+        /// Get participants by location for map graph
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="programIds"></param>
+        /// <returns></returns>
         public static async Task<IEnumerable<SnapshotDTO>> CreateGetProgramParticipantsByLocationQuery(EcaContext context, IEnumerable<int> programIds)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var programProjects = await context.Projects
-                                            .Where(p => programIds.Contains(p.ProgramId)).ToListAsync();
-
-            List<SnapshotDTO> graphValues = new List<SnapshotDTO>();
-            foreach (var project in programProjects)
-            {
-                foreach (var loc in project.Locations)
-                {
-                    graphValues.Add(new SnapshotDTO
-                    {
-                        DataLabel = loc.LocationIso,
-                        DataValue = programProjects.Select(p => p.Participants.Select(x => x.ParticipantPerson.HomeInstitution.Addresses
-                                                                                        .Select(a => a.LocationId == loc.LocationId))).Count()
-                    });
-                }
-            }
-
+            var progPartic = await context.Participants.Where(p => programIds.Contains(p.Project.ProgramId)
+                                                                && p.Project.StartDate.Year >= oldestDate.Year)
+                                                        .SelectMany(p => p.Person.Addresses.Where(a => a.IsPrimary == true)).ToListAsync();
+            
+            var graphValues = (from address in progPartic
+                               group address by address.Location.Country.LocationIso into g
+                                select new SnapshotDTO
+                                {
+                                    DataLabel = g.Key,
+                                    DataValue = g.Count()
+                                }).ToList();
+            
             return graphValues;
         }
 

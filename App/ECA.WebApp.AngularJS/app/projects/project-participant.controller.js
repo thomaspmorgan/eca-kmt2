@@ -259,6 +259,15 @@ angular.module('staticApp')
               keyword: TableService.getKeywords()
           };
 
+          // Get the total number or participants
+          ParticipantService.getParticipantsByProject($stateParams.projectId, {start: 0, limit: 1})
+            .then(function (data) {
+                $scope.view.totalParticipants = data.total;
+            }, function () {
+                $log.error('Unable to load project participants.');
+                NotificationService.showErrorMessage('Unable to load project participants.');
+            });
+
           ParticipantService.getParticipantsByProject($stateParams.projectId, params)
             .then(function (data) {
                 angular.forEach(data.results, function (result, index) {
@@ -277,7 +286,6 @@ angular.module('staticApp')
                 $scope.participants = data.results;
                 var limit = TableService.getLimit();
                 tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
-                $scope.view.totalParticipants = data.total;
                 $scope.participantsLoading = false;
             }, function (error) {
                 $log.error('Unable to load project participants.');

@@ -11,6 +11,9 @@ angular.module('staticApp')
   .factory('SnapshotService', function (DragonBreath) {
 
       return {
+          GetProgramCounts: function (id) {
+              return DragonBreath.get('ProgramCounts', id);
+          },
           GetProgramRelatedProjectsCount: function (id) {
               return DragonBreath.get('ProgramRelatedProjectsCount', id);
           },

@@ -30,121 +30,134 @@ namespace ECA.WebApi.Controllers.Admin
         }
 
         /// <summary>
-        /// Get count of related projects associated with a program
+        /// Get snapshot counts for a program
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        [ResponseType(typeof(SnapshotDTO))]
-        [Route("ProgramRelatedProjectsCount/{programId:int}")]
-        public SnapshotDTO GetProgramRelatedProjectsCount(int programId)
+        [ResponseType(typeof(SnapshotCountModelDTO))]
+        [Route("ProgramCounts/{programId:int}")]
+        public SnapshotCountModelDTO GetProgramCounts(int programId)
         {
-            var dto = service.GetProgramRelatedProjectsCount(programId);
+            var dto = service.GetProgramCounts(programId);
             return dto;
         }
+        
+        ///// <summary>
+        ///// Get count of related projects associated with a program
+        ///// </summary>
+        ///// <param name="programId"></param>
+        ///// <returns></returns>
+        //[ResponseType(typeof(SnapshotDTO))]
+        //[Route("ProgramRelatedProjectsCount/{programId:int}")]
+        //public SnapshotDTO GetProgramRelatedProjectsCount(int programId)
+        //{
+        //    var dto = service.GetProgramRelatedProjectsCount(programId);
+        //    return dto;
+        //}
 
-        /// <summary>
-        /// Get count of participants associated with a program
-        /// </summary>
-        /// <param name="programId"></param>
-        /// <returns></returns>
-        [ResponseType(typeof(SnapshotDTO))]
-        [Route("ProgramParticipantCount/{programId:int}")]
-        public SnapshotDTO GetProgramParticipantCount(int programId)
-        {
-            var dto = service.GetProgramParticipantCount(programId);
-            return dto;
-        }
+        ///// <summary>
+        ///// Get count of participants associated with a program
+        ///// </summary>
+        ///// <param name="programId"></param>
+        ///// <returns></returns>
+        //[ResponseType(typeof(SnapshotDTO))]
+        //[Route("ProgramParticipantCount/{programId:int}")]
+        //public SnapshotDTO GetProgramParticipantCount(int programId)
+        //{
+        //    var dto = service.GetProgramParticipantCount(programId);
+        //    return dto;
+        //}
 
-        /// <summary>
-        /// Get total budget for a program
-        /// </summary>
-        /// <param name="programId"></param>
-        /// <returns></returns>
-        [ResponseType(typeof(SnapshotDTO))]
-        [Route("ProgramBudgetTotal/{programId:int}")]
-        public SnapshotDTO GetProgramBudgetTotal(int programId)
-        {
-            var dto = service.GetProgramBudgetTotal(programId);
-            return dto;
-        }
+        ///// <summary>
+        ///// Get total budget for a program
+        ///// </summary>
+        ///// <param name="programId"></param>
+        ///// <returns></returns>
+        //[ResponseType(typeof(SnapshotDTO))]
+        //[Route("ProgramBudgetTotal/{programId:int}")]
+        //public SnapshotDTO GetProgramBudgetTotal(int programId)
+        //{
+        //    var dto = service.GetProgramBudgetTotal(programId);
+        //    return dto;
+        //}
 
-        /// <summary>
-        /// Get count of funding sources associated with a program
-        /// </summary>
-        /// <param name="programId"></param>
-        /// <returns></returns>
-        [ResponseType(typeof(SnapshotDTO))]
-        [Route("ProgramFundingSourcesCount/{programId:int}")]
-        public SnapshotDTO GetProgramFundingSourcesCount(int programId)
-        {
-            var dto = service.GetProgramFundingSourcesCount(programId);
-            return dto;
-        }
+        ///// <summary>
+        ///// Get count of funding sources associated with a program
+        ///// </summary>
+        ///// <param name="programId"></param>
+        ///// <returns></returns>
+        //[ResponseType(typeof(SnapshotDTO))]
+        //[Route("ProgramFundingSourcesCount/{programId:int}")]
+        //public SnapshotDTO GetProgramFundingSourcesCount(int programId)
+        //{
+        //    var dto = service.GetProgramFundingSourcesCount(programId);
+        //    return dto;
+        //}
 
-        /// <summary>
-        /// Get count of countries associated with a program
-        /// </summary>
-        /// <param name="programId"></param>
-        /// <returns></returns>
-        [ResponseType(typeof(SnapshotDTO))]
-        [Route("ProgramCountryCount/{programId:int}")]
-        public async Task<SnapshotDTO> GetCountryCount(int programId)
-        {
-            var dto = await service.GetProgramCountryCountAsync(programId);
-            return dto;
-        }
+        ///// <summary>
+        ///// Get count of countries associated with a program
+        ///// </summary>
+        ///// <param name="programId"></param>
+        ///// <returns></returns>
+        //[ResponseType(typeof(SnapshotDTO))]
+        //[Route("ProgramCountryCount/{programId:int}")]
+        //public async Task<SnapshotDTO> GetCountryCount(int programId)
+        //{
+        //    var dto = await service.GetProgramCountryCountAsync(programId);
+        //    return dto;
+        //}
 
-        /// <summary>
-        /// Get count of beneficiaries associated with a program
-        /// </summary>
-        /// <param name="programId"></param>
-        /// <returns></returns>
-        [ResponseType(typeof(SnapshotDTO))]
-        [Route("ProgramBeneficiaryCount/{programId:int}")]
-        public SnapshotDTO GetProgramBeneficiaryCount(int programId)
-        {
-            var dto = service.GetProgramBeneficiaryCount(programId);
-            return dto;
-        }
+        ///// <summary>
+        ///// Get count of beneficiaries associated with a program
+        ///// </summary>
+        ///// <param name="programId"></param>
+        ///// <returns></returns>
+        //[ResponseType(typeof(SnapshotDTO))]
+        //[Route("ProgramBeneficiaryCount/{programId:int}")]
+        //public SnapshotDTO GetProgramBeneficiaryCount(int programId)
+        //{
+        //    var dto = service.GetProgramBeneficiaryCount(programId);
+        //    return dto;
+        //}
 
-        /// <summary>
-        /// Get count of impact stories associated with a program
-        /// </summary>
-        /// <param name="programId"></param>
-        /// <returns></returns>
-        [ResponseType(typeof(SnapshotDTO))]
-        [Route("ProgramImpactStoryCount/{programId:int}")]
-        public async Task<SnapshotDTO> GetProgramImpactStoryCount(int programId)
-        {
-            var dto = await service.GetProgramImpactStoryCount(programId);
-            return dto;
-        }
+        ///// <summary>
+        ///// Get count of impact stories associated with a program
+        ///// </summary>
+        ///// <param name="programId"></param>
+        ///// <returns></returns>
+        //[ResponseType(typeof(SnapshotDTO))]
+        //[Route("ProgramImpactStoryCount/{programId:int}")]
+        //public async Task<SnapshotDTO> GetProgramImpactStoryCount(int programId)
+        //{
+        //    var dto = await service.GetProgramImpactStoryCount(programId);
+        //    return dto;
+        //}
 
-        /// <summary>
-        /// Get count of alumni associated with a program
-        /// </summary>
-        /// <param name="programId"></param>
-        /// <returns></returns>
-        [ResponseType(typeof(SnapshotDTO))]
-        [Route("ProgramAlumniCount/{programId:int}")]
-        public SnapshotDTO GetProgramAlumniCount(int programId)
-        {
-            var dto = service.GetProgramAlumniCount(programId);
-            return dto;
-        }
+        ///// <summary>
+        ///// Get count of alumni associated with a program
+        ///// </summary>
+        ///// <param name="programId"></param>
+        ///// <returns></returns>
+        //[ResponseType(typeof(SnapshotDTO))]
+        //[Route("ProgramAlumniCount/{programId:int}")]
+        //public SnapshotDTO GetProgramAlumniCount(int programId)
+        //{
+        //    var dto = service.GetProgramAlumniCount(programId);
+        //    return dto;
+        //}
 
-        /// <summary>
-        /// Get count of prominence associated with a program
-        /// </summary>
-        /// <param name="programId"></param>
-        /// <returns></returns>
-        [ResponseType(typeof(SnapshotDTO))]
-        [Route("ProgramProminenceCount/{programId:int}")]
-        public async Task<SnapshotDTO> GetProgramProminenceCount(int programId)
-        {
-            var dto = await service.GetProgramProminenceCount(programId);
-            return dto;
-        }
+        ///// <summary>
+        ///// Get count of prominence associated with a program
+        ///// </summary>
+        ///// <param name="programId"></param>
+        ///// <returns></returns>
+        //[ResponseType(typeof(SnapshotDTO))]
+        //[Route("ProgramProminenceCount/{programId:int}")]
+        //public async Task<SnapshotDTO> GetProgramProminenceCount(int programId)
+        //{
+        //    var dto = await service.GetProgramProminenceCount(programId);
+        //    return dto;
+        //}
 
         /// <summary>
         /// Get total budget by year associated with a program

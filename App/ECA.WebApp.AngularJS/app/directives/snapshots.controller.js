@@ -32,23 +32,44 @@ angular.module('staticApp')
       $scope.init = function () {
           $scope.view.isSnapshotLoading = true;
 
-          GetProgramCountryCount();
-          GetProgramRelatedProjectsCount();
-          GetProgramFundingSourcesCount();
-          GetProgramImpactStoryCount();
-          GetProgramAlumniCount();
-          GetProgramProminenceCount();
+          GetAllProgramCounts();
+          //GetProgramCountryCount();
+          //GetProgramRelatedProjectsCount();
+          //GetProgramFundingSourcesCount();
+          //GetProgramImpactStoryCount();
+          //GetProgramAlumniCount();
+          //GetProgramProminenceCount();
 
-          $q.all([GetProgramBudgetTotal(), GetProgramParticipantCount()])
-          .then(function () {
-              GetProgramCostPerParticipant();
-          })
-          .catch(function () {
-              $scope.view.isSnapshotLoading = false;
-          });          
+          //$q.all([GetAllProgramCounts()])
+          //.then(function () {
+          //    GetProgramCostPerParticipant();
+          //})
+          //.catch(function () {
+          //    $scope.view.isSnapshotLoading = false;
+          //});
 
           $scope.view.isSnapshotLoading = false;
       };
+
+      function GetAllProgramCounts() {
+          SnapshotService.GetProgramCounts($scope.view.params.programId)
+            .then(function (response) {
+                $scope.view.totalRelatedProjects = response.data.ProgramRelatedProjectsCount;
+                $scope.view.totalParticipants = response.data.ProgramParticipantCount;
+                $scope.view.totalBudget = response.data.ProgramBudgetTotal;
+                $scope.view.totalFundingSources = response.data.ProgramFundingSourcesCount;
+                $scope.view.totalCountries = response.data.ProgramCountryCountAsync;
+                $scope.view.totalBeneficiaries = response.data.ProgramBeneficiaryCount;
+                $scope.view.totalImpactStories = response.data.ProgramImpactStoryCount;
+                $scope.view.totalAlumni = response.data.ProgramAlumniCount;
+                $scope.view.totalProminence = response.data.ProgramProminenceCount;
+            })
+            .catch(function () {
+                var message = 'Unable to load program snapshot counts.';
+                NotificationService.showErrorMessage(message);
+                $log.error(message);
+            });
+      }
 
       function GetProgramRelatedProjectsCount() {
           SnapshotService.GetProgramRelatedProjectsCount($scope.view.params.programId)
@@ -151,12 +172,7 @@ angular.module('staticApp')
                 $log.error(message);
             });
       }
-
-
-
-
-
-
+      
       $scope.init();
       
   });
