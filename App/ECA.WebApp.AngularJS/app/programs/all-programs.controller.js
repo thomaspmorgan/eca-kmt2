@@ -120,8 +120,6 @@ angular.module('staticApp')
               params.filter = [];
           }
 
-          $scope.view.programFilter = document.getElementById('searchBar').value;
-
           if ($scope.view.showDraftsOnly) {
               params.filter.push({ property: 'programStatusId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.programStatus.draft.id });
               params.filter.push({ property: 'createdByUserId', comparison: ConstantsService.equalComparisonType, value: $scope.view.ecaUserId });
