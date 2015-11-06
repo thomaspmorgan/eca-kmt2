@@ -244,7 +244,6 @@ namespace ECA.WebApi.Test.Security
         [TestMethod]
         public void TestRemove_NoUsers()
         {
-
             var testService = new UserCacheService(cache.Object, expectedTimeToLive);
             Assert.AreEqual(0, testService.GetCount());
             Assert.AreEqual(0, cacheDictionary.Count);
@@ -263,6 +262,8 @@ namespace ECA.WebApi.Test.Security
             Assert.IsNotNull(policy.SlidingExpiration);
             Assert.IsNotNull(policy.RemovedCallback);
             policy.Invoking(x => x.RemovedCallback(new CacheEntryRemovedArguments(cache.Object, CacheEntryRemovedReason.Removed, new CacheItem(Guid.NewGuid().ToString())))).ShouldNotThrow();
+            Assert.AreEqual(1, policy.ChangeMonitors.Count);
+            Assert.IsInstanceOfType(policy.ChangeMonitors.First(), typeof(CamRoleChangeMonitor));
         }
     }
 }
