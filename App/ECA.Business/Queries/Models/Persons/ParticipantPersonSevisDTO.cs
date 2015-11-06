@@ -27,9 +27,19 @@ namespace ECA.Business.Queries.Models.Persons
         public string SevisId { get; set; }
 
         /// <summary>
+        /// Gets or sets the participantPerson's Field of Study Id
+        /// </summary>
+        public int? FieldOfStudyId { get; set; }
+
+        /// <summary>
         /// Gets or sets the participantPerson's Field of Study
         /// </summary>
         public string FieldOfStudy { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participantPersons's Position Id
+        /// </summary>
+        public int? PositionId { get; set; }
 
         /// <summary>
         /// Gets or sets the participantPersons's Position
@@ -40,6 +50,11 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the participantPerson's StudyProject
         /// </summary>
         public string StudyProject { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participantPerson's ProgramCategory Id
+        /// </summary>
+        public int? ProgramCategoryId { get; set; }
 
         /// <summary>
         /// Gets or sets the participantPerson's ProgramCategory
