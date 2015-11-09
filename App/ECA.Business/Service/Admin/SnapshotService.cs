@@ -7,7 +7,6 @@ using ECA.Business.Queries.Models.Admin;
 using System;
 using System.Linq;
 using ECA.Business.Service.Programs;
-using System.Data.Entity;
 
 namespace ECA.Business.Service.Admin
 {
@@ -20,15 +19,54 @@ namespace ECA.Business.Service.Admin
 
         private IProgramService programService;
 
+        #region Snapshot Counts
+
+        /// <summary>
+        /// Combine all count values into one object
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
+        public SnapshotCountModelDTO GetProgramCounts(int programId)
+        {
+            var programs = programService.GetAllChildProgramsWithParent(programId);
+            var childPrograms = programs.Select(p => p.ProgramId).ToList();
+
+            var task1 = GetProgramRelatedProjectsCount(childPrograms);
+            var task2 = GetProgramParticipantCount(childPrograms);
+            var task3 = GetProgramBudgetTotal(childPrograms);
+            var task4 = GetProgramFundingSourcesCount(programId);
+            var task5 = GetProgramCountryCountAsync(childPrograms);
+            var task6 = GetProgramBeneficiaryCount(childPrograms);
+            var task7 = GetProgramImpactStoryCount(childPrograms);
+            var task8 = GetProgramAlumniCount(childPrograms);
+            var task9 = GetProgramProminenceCount(childPrograms);
+
+            //Task.WaitAll(task1, task2, task3, task4, task5, task7, task8, task9);
+
+            SnapshotCountModelDTO snapshotModel = new SnapshotCountModelDTO
+            {
+                ProgramRelatedProjectsCount = task1,
+                ProgramParticipantCount = task2,
+                ProgramBudgetTotal = task3,
+                ProgramFundingSourcesCount = task4,
+                ProgramCountryCountAsync = task5,
+                ProgramBeneficiaryCount = task6,
+                ProgramImpactStoryCount = task7,
+                ProgramAlumniCount = task8,
+                ProgramProminenceCount = task9
+            };
+
+            return snapshotModel;
+        }
+        
         /// <summary>
         /// Count of related projects
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public SnapshotDTO GetProgramRelatedProjectsCount(int programId)
-        {
-            var childPrograms = programService.GetAllChildProgramsWithParent(programId);
-            var dto = SnapshotQueries.CreateGetProgramRelatedProjectsCountQuery(Context, childPrograms.Select(p => p.ProgramId).ToList());
+        public SnapshotDTO GetProgramRelatedProjectsCount(List<int> programIds)
+        {   
+            var dto = SnapshotQueries.CreateGetProgramRelatedProjectsCountQuery(Context, programIds);
             return dto;
         }
 
@@ -37,10 +75,9 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public SnapshotDTO GetProgramParticipantCount(int programId)
+        public SnapshotDTO GetProgramParticipantCount(List<int> programIds)
         {
-            var childPrograms = programService.GetAllChildProgramsWithParent(programId);
-            var dto = SnapshotQueries.CreateGetProgramParticipantsCountQuery(Context, childPrograms.Select(p => p.ProgramId).ToList());
+            var dto = SnapshotQueries.CreateGetProgramParticipantsCountQuery(Context, programIds);
             return dto;
         }
 
@@ -49,10 +86,9 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public SnapshotDTO GetProgramBudgetTotal(int programId)
+        public SnapshotDTO GetProgramBudgetTotal(List<int> programIds)
         {
-            var childPrograms = programService.GetAllChildProgramsWithParent(programId);
-            var dto = SnapshotQueries.CreateGetProgramBudgetTotalQuery(Context, childPrograms.Select(p => p.ProgramId).ToList());
+            var dto = SnapshotQueries.CreateGetProgramBudgetTotalQuery(Context, programIds);
             return dto;
         }
 
@@ -72,12 +108,11 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public async Task<SnapshotDTO> GetProgramCountryCountAsync(int programId)
+        public SnapshotDTO GetProgramCountryCountAsync(List<int> programIds)
         {
-            var childPrograms = programService.GetAllChildProgramsWithParent(programId);
+            var query = SnapshotQueries.CreateGetProgramCountriesByProgramIdsQuery(Context, programIds);
+            var locationIds = query.Select(x => x).Count();
 
-            var query = SnapshotQueries.CreateGetProgramCountriesByProgramIdsQuery(Context, childPrograms.Select(p => p.ProgramId).ToList());
-            var locationIds = await query.Select(x => x).CountAsync();
             return new SnapshotDTO()
             {
                 DataLabel = "COUNTRIES",
@@ -90,10 +125,9 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public SnapshotDTO GetProgramBeneficiaryCount(int programId)
+        public SnapshotDTO GetProgramBeneficiaryCount(List<int> programIds)
         {
-            var childPrograms = programService.GetAllChildProgramsWithParent(programId);
-            var dto = SnapshotQueries.CreateGetProgramBeneficiaryCountQuery(Context, childPrograms.Select(p => p.ProgramId).ToList());
+            var dto = SnapshotQueries.CreateGetProgramBeneficiaryCountQuery(Context, programIds);
             return dto;
         }
 
@@ -102,11 +136,11 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public async Task<SnapshotDTO> GetProgramImpactStoryCount(int programId)
+        public SnapshotDTO GetProgramImpactStoryCount(List<int> programIds)
         {
-            var childPrograms = programService.GetAllChildProgramsWithParent(programId);
-            var query = SnapshotQueries.CreateGetProgramImpactStoryCountQuery(Context, childPrograms.Select(p => p.ProgramId).ToList());
-            var impactIds = await query.Select(x => x).Distinct().CountAsync();
+            var query = SnapshotQueries.CreateGetProgramImpactStoryCountQuery(Context, programIds);
+            var impactIds = query.Select(x => x).Distinct().Count();
+
             return new SnapshotDTO()
             {
                 DataLabel = "IMPACT STORIES",
@@ -119,10 +153,9 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public SnapshotDTO GetProgramAlumniCount(int programId)
+        public SnapshotDTO GetProgramAlumniCount(List<int> programIds)
         {
-            var childPrograms = programService.GetAllChildProgramsWithParent(programId);
-            var dto = SnapshotQueries.CreateGetProgramAlumniCountQuery(Context, childPrograms.Select(p => p.ProgramId).ToList());
+            var dto = SnapshotQueries.CreateGetProgramAlumniCountQuery(Context, programIds);
             return dto;
         }
 
@@ -131,11 +164,10 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public async Task<SnapshotDTO> GetProgramProminenceCount(int programId)
+        public SnapshotDTO GetProgramProminenceCount(List<int> programIds)
         {
-            var childPrograms = programService.GetAllChildProgramsWithParent(programId);
-            var query = SnapshotQueries.CreateGetProgramProminenceCountQuery(Context, childPrograms.Select(p => p.ProgramId).ToList());
-            var catIds = await query.Select(x => x).Distinct().CountAsync();
+            var query = SnapshotQueries.CreateGetProgramProminenceCountQuery(Context, programIds);
+            var catIds = query.Select(x => x).Distinct().Count();
             
             return new SnapshotDTO()
             {
@@ -143,6 +175,10 @@ namespace ECA.Business.Service.Admin
                 DataValue = catIds
             };
         }
+
+        #endregion
+
+        #region Snapshot graphs
 
         /// <summary>
         /// Budget total by year
@@ -238,6 +274,8 @@ namespace ECA.Business.Service.Admin
         {
             throw new NotImplementedException();
         }
-        
+
+        #endregion
+
     }
 }

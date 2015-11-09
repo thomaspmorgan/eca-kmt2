@@ -124,276 +124,394 @@
         </a>
     </div>
 </div>
-<div class="row row2" ng-show="view.PositionAndField">
-    <div class="row4">
-        <div class="col-md-3">
-            <label class="title-label">Position</label>
-        </div>
-        <div class="col-md-6">
-            {{sevisinfo.position}}
-        </div>
-        <div class="col-md-3">
-            <i class="material-icons md-dark md-36 pull-right">group</i>
-            <i class="material-icons md-dark md-36 pull-right">add</i>
-        </div>
-    </div>
-    <div class="row4">
-        <div class="col-md-3">
-            <label class="title-label">Program Category</label>
-        </div>
-        <div class="col-md-6">
-            {{sevisinfo.programCategory}}
-        </div>
-        <div class="col-md-3">
-            <i class="material-icons md-dark md-36 pull-right">group</i>
-            <i class="material-icons md-dark md-36 pull-right">add</i>
-        </div>
-    </div>
-    <div class="row4">
-        <div class="col-md-3">
-            <label class="title-label">Field Of Study</label>
-        </div>
-        <div class="col-md-6">
-            {{sevisinfo.fieldOfStudy}}
-        </div>
-        <div class="col-md-3">
-            <i class="material-icons md-dark md-36 pull-right">group</i>
-            <i class="material-icons md-dark md-36 pull-right">add</i>
-        </div>
-    </div>
-</div>
-<div class="row row2">
-    <div class="col-md-5"><h5>Funding</h5></div>
-    <div class="col-md-7">
-        <a ng-click="view.Funding=!view.Funding">
-            <i class="material-icons md-dark md-36 pull-right" ng-show="view.Funding">expand_more</i>
-            <i class="material-icons md-dark md-36 pull-right" ng-show="!view.Funding">expand_less</i>
-        </a>
-        <a ng-click="view.FundingEdit=!view.FundingEdit">
-            <i class="material-icons md-dark md-24 pull-right" ng-show="view.Funding && !view.FundingEdit">edit</i>
-         </a>
-    </div>
-</div>
-<div ng-if="!view.FundingEdit">
-    <div class="row" ng-show="view.Funding">
+<div ng-if="!view.PositionAndFieldEdit">
+    <div class="row row2" ng-show="view.PositionAndField">
         <div class="row4">
             <div class="col-md-3">
-                <label class="title-label">Sponsor</label>
+                <label class="title-label">Position</label>
             </div>
-            <div class="col-md-8 text-right">
-                $
+            <div class="col-md-6">
+                {{sevisinfo.position}}
             </div>
-            <div class="col-md-1 text-right">
-                {{sevisinfo.fundingSponsor | number:0}}
+            <div class="col-md-3">
+                <i class="material-icons md-dark md-36 pull-right">group</i>
+                <i class="material-icons md-dark md-36 pull-right">add</i>
             </div>
         </div>
         <div class="row4">
             <div class="col-md-3">
-                <label class="title-label">Personal</label>
+                <label class="title-label">Program Category</label>
             </div>
-            <div class="col-md-8 text-right">
-                $
+            <div class="col-md-6">
+                {{sevisinfo.programCategory}}
             </div>
-            <div class="col-md-1 text-right">
-                {{sevisinfo.fundingPersonal | number:0}}
+            <div class="col-md-3">
+                <i class="material-icons md-dark md-36 pull-right">group</i>
+                <i class="material-icons md-dark md-36 pull-right">add</i>
             </div>
         </div>
         <div class="row4">
             <div class="col-md-3">
-                <label class="title-label">Vis. Gov't</label>
+                <label class="title-label">Field Of Study</label>
             </div>
-            <div class="col-md-8 text-right">
-                $
+            <div class="col-md-6">
+                {{sevisinfo.fieldOfStudy}}
             </div>
-            <div class="col-md-1 text-right">
-                {{sevisinfo.fundingVisGovt | number:0}}
-            </div>
-        </div>
-        <div class="row4">
             <div class="col-md-3">
-                <label class="title-label">Vis.BNC</label>
-            </div>
-            <div class="col-md-8 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                {{sevisinfo.fundingVisBNC | number:0}}
-            </div>
-        </div><div class="row4">
-            <div class="col-md-3">
-                <label class="title-label">Gov't Agency 1</label>
-            </div>
-            <div class="col-md-8 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                {{sevisinfo.fundingGovtAgency1 | number:0}}
-            </div>
-        </div><div class="row4">
-            <div class="col-md-3">
-                <label class="title-label">Gov't Agency 2</label>
-            </div>
-            <div class="col-md-8 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                {{sevisinfo.fundingGovtAgency2 | number:0}}
-            </div>
-        </div><div class="row4">
-            <div class="col-md-3">
-                <label class="title-label">Int'l Org 1</label>
-            </div>
-            <div class="col-md-8 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                {{sevisinfo.fundingIntlOrg1 | number:0}}
-            </div>
-        </div><div class="row4">
-            <div class="col-md-3">
-                <label class="title-label">Int'l Org 2</label>
-            </div>
-            <div class="col-md-8 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                {{sevisinfo.fundingIntlOrg2 | number:0}}
-            </div>
-        </div><div class="row4">
-            <div class="col-md-3">
-                <label class="title-label">Other Org.</label>
-            </div>
-            <div class="col-md-8 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                {{sevisinfo.fundingOther | number:0}}
-            </div>
-        </div><div class="row4">
-            <div class="col-md-3">
-                <label class="title-label">Total</label>
-            </div>
-            <div class="col-md-8 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                {{sevisinfo.fundingSponsor + sevisinfo.fundingPersonal + sevisinfo.fundingVisGovt + sevisinfo.fundingVisBNC + sevisinfo.fundingGovtAgency1 + sevisinfo.fundingGovtAgency2 + sevisinfo.fundingIntlOrg1 + sevisinfo.fundingIntlOrg2 + sevisinfo.fundingOther  | number:0}}
+                <i class="material-icons md-dark md-36 pull-right">group</i>
+                <i class="material-icons md-dark md-36 pull-right">add</i>
             </div>
         </div>
     </div>
 </div>
-<div ng-if="view.FundingEdit">
+<div ng-if="view.PositionAndFieldEdit">
     <div class="row row4">
         <div class="pull-right">
-            <button ng-click="save()" class="btn btn-success" ng-disabled="fundingEditForm.$invalid || fundingEditForm.$pristine">Save</button>
-            <button ng-click="view.FundingEdit=false" class="btn btn-cancel">Cancel</button>
+            <button ng-click="savePositionAndField()" class="btn btn-success" ng-disabled="formPositionAndFieldForm.$invalid || formPositionAndFieldForm.$pristine">Save</button>
+            <button ng-click="view.PositionAndFieldEdit=false" class="btn btn-cancel">Cancel</button>
         </div>
     </div>
-    <form name="fundingEditForm" ng-show="view.Funding">
-        <div class="row4">
+    <form name="formPositionAndFieldForm" ng-show="view.PositionAndField">
+        <div class="row row4">
             <div class="col-md-3">
-                <label class="title-label">Sponsor</label>
+                <label class="title-label">Position<span class="asterisk"> *</span></label>
             </div>
-            <div class="col-md-8 text-right">
-                $
+            <div class="col-md-6">
+                <ui-select ng-model="sevisinfo.positionId" theme="select2" tabindex="1" ng-required="true">
+                    <ui-select-match placeholder="Select a position...">{{$select.selected.description}}</ui-select-match>
+                    <ui-select-choices repeat="position.id as position in edit.positions | filter: {description: $select.search} track by position.id">
+                        <div ng-bind-html="position.description | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
             </div>
-            <div class="col-md-1 text-right">
-                <input type="number" min="0" ng-model="sevisinfo.fundingSponsor" />
+            <div class="col-md-3">
+                <i class="material-icons md-dark md-36 pull-right">group</i>
+                <i class="material-icons md-dark md-36 pull-right">add</i>
             </div>
         </div>
-        <div class="row4">
+        <div class="row row4">
             <div class="col-md-3">
-                <label class="title-label">Personal</label>
+                <label class="title-label">Program Category<span class="asterisk"> *</span></label>
             </div>
-            <div class="col-md-8 text-right">
-                $
+            <div class="col-md-6">
+                <ui-select ng-model="sevisinfo.programCategoryId" theme="select2" tabindex="1" ng-required="true">
+                    <ui-select-match placeholder="Select a program category...">{{$select.selected.description}}</ui-select-match>
+                    <ui-select-choices repeat="programCategory.id as programCategory in edit.programCategories | filter: {description: $select.search} track by programCategory.id">
+                        <div ng-bind-html="programCategory.description | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
             </div>
-            <div class="col-md-1 text-right">
-                <input type="number" min="0" ng-model="sevisinfo.fundingPersonal" />
+            <div class="col-md-3">
+                <i class="material-icons md-dark md-36 pull-right">group</i>
+                <i class="material-icons md-dark md-36 pull-right">add</i>
             </div>
         </div>
-        <div class="row4">
+        <div class="row row4">
             <div class="col-md-3">
-                <label class="title-label">Vis. Gov't</label>
+                <label class="title-label">Field Of Study<span class="asterisk"> *</span></label>
             </div>
-            <div class="col-md-8 text-right">
-                $
+            <div class="col-md-6">
+                <ui-select ng-model="sevisinfo.fieldOfStudyId" theme="select2" tabindex="1" ng-required="true">
+                    <ui-select-match placeholder="Select a field of study...">{{$select.selected.description}}</ui-select-match>
+                    <ui-select-choices refresh="edit.searchFieldOfStudies($select.search)" refresh-delay="250" repeat="fieldOfStudy.id as fieldOfStudy in edit.fieldOfStudies | filter: {description: $select.search} track by fieldOfStudy.id">
+                        <div ng-bind-html="fieldOfStudy.description | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
             </div>
-            <div class="col-md-1 text-right">
-                <input type="number" min="0" ng-model="sevisinfo.fundingVisGovt"  />
-            </div>
-        </div>
-        <div class="row4">
             <div class="col-md-3">
-                <label class="title-label">Vis.BNC</label>
-            </div>
-            <div class="col-md-8 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                <input type="number" min="0" ng-model="sevisinfo.fundingVisBNC" />
-            </div>
-        </div><div class="row4">
-            <div class="col-md-3">
-                <label class="title-label">Gov't Agency 1</label>
-            </div>
-            <div class="col-md-8 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                <input type="number" min="0" ng-model="sevisinfo.fundingGovtAgency1" />
-            </div>
-        </div><div class="row4">
-            <div class="col-md-3">
-                <label class="title-label">Gov't Agency 2</label>
-            </div>
-            <div class="col-md-8 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                <input type="number" min="0" ng-model="sevisinfo.fundingGovtAgency2" />
-            </div>
-        </div><div class="row4">
-            <div class="col-md-3">
-                <label class="title-label">Int'l Org 1</label>
-            </div>
-            <div class="col-md-8 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                <input type="number" min="0" ng-model="sevisinfo.fundingIntlOrg1"  />
-            </div>
-        </div><div class="row4">
-            <div class="col-md-3">
-                <label class="title-label">Int'l Org 2</label>
-            </div>
-            <div class="col-md-8 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                <input type="number" min="0" ng-model="sevisinfo.fundingIntlOrg2"  />
-            </div>
-        </div><div class="row4">
-            <div class="col-md-3">
-                <label class="title-label">Other Org.</label>
-            </div>
-            <div class="col-md-8 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                <input type="number" min="0" ng-model="sevisinfo.fundingOther"  />
-            </div>
-        </div><div class="row4">
-            <div class="col-md-3">
-                <label class="title-label">Total</label>
-            </div>
-            <div class="col-md-8 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                {{sevisinfo.fundingSponsor + sevisinfo.fundingPersonal + sevisinfo.fundingVisGovt + sevisinfo.fundingVisBNC + sevisinfo.fundingGovtAgency1 + sevisinfo.fundingGovtAgency2 + sevisinfo.fundingIntlOrg1 + sevisinfo.fundingIntlOrg2 + sevisinfo.fundingOther  | number:0}}
+                <i class="material-icons md-dark md-36 pull-right">group</i>
+                <i class="material-icons md-dark md-36 pull-right">add</i>
             </div>
         </div>
     </form>
 </div>
-
+    <div class="row row2">
+        <div class="col-md-5"><h5>Funding</h5></div>
+        <div class="col-md-7">
+            <a ng-click="view.Funding=!view.Funding">
+                <i class="material-icons md-dark md-36 pull-right" ng-show="view.Funding">expand_more</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="!view.Funding">expand_less</i>
+            </a>
+            <a ng-click="view.FundingEdit=!view.FundingEdit">
+                <i class="material-icons md-dark md-24 pull-right" ng-show="view.Funding && !view.FundingEdit">edit</i>
+            </a>
+        </div>
+    </div>
+    <div ng-if="!view.FundingEdit">
+        <div ng-show="view.Funding" class="rowalt">
+            <div class="row row4">
+                <div class="col-md-3">
+                    <label class="title-label">Sponsor</label>
+                </div>
+                <div class="col-md-6 text-right">
+                    $
+                </div>
+                <div class="col-md-1 text-right">
+                    {{sevisinfo.fundingSponsor | number:0}}
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-3">
+                    <label class="title-label">Personal</label>
+                </div>
+                <div class="col-md-6 text-right">
+                    $
+                </div>
+                <div class="col-md-1 text-right">
+                    {{sevisinfo.fundingPersonal | number:0}}
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-3">
+                    <label class="title-label">Vis. Gov't</label>
+                </div>
+                <div class="col-md-6 text-right">
+                    $
+                </div>
+                <div class="col-md-1 text-right">
+                    {{sevisinfo.fundingVisGovt | number:0}}
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-3">
+                    <label class="title-label">Vis.BNC</label>
+                </div>
+                <div class="col-md-6 text-right">
+                    $
+                </div>
+                <div class="col-md-1 text-right">
+                    {{sevisinfo.fundingVisBNC | number:0}}
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-3">
+                    &nbsp;
+                </div>
+                <div class="col-md-3">
+                     <span class="title-label">Name</span>
+                </div>
+                <div class="col-md-3">
+                    <span class="title-label">Other Name</span>
+                </div>
+                <div class="col-md-1">
+                    &nbsp;
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-3">
+                    <label class="title-label">Gov't Agency 1</label>
+                </div>
+                <div class="col-md-3">
+                    {{sevisinfo.GovtAgency1Name}}
+                </div>
+                <div class="col-md-2">
+                    {{sevisinfo.GovtAgency1OtherName}}
+                </div>
+                <div class="col-md-1 text-right">
+                    $
+                </div>
+                <div class="col-md-1 text-right">
+                    {{sevisinfo.fundingGovtAgency1 | number:0}}
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-3">
+                    <label class="title-label">Gov't Agency 2</label>
+                </div>
+                <div class="col-md-3">
+                    {{sevisinfo.GovtAgency2Name}}
+                </div>
+                <div class="col-md-2">
+                    {{sevisinfo.GovtAgency2OtherName}}
+                </div>
+                <div class="col-md-1 text-right">
+                    $
+                </div>
+                <div class="col-md-1 text-right">
+                    {{sevisinfo.fundingGovtAgency2 | number:0}}
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-3">
+                    <label class="title-label">Int'l Org 1</label>
+                </div>
+                <div class="col-md-3">
+                    {{sevisinfo.intlOrg1Name}}
+                </div>
+                <div class="col-md-2">
+                    {{sevisinfo.intlOrg1OtherName}}
+                </div>
+                <div class="col-md-1 text-right">
+                    $
+                </div>
+                <div class="col-md-1 text-right">
+                    {{sevisinfo.fundingIntlOrg1 | number:0}}
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-3">
+                    <label class="title-label">Int'l Org 2</label>
+                </div>
+                <div class="col-md-3">
+                    {{sevisinfo.intlOrg2Name}}
+                </div>
+                <div class="col-md-2">
+                    {{sevisinfo.intlOrg2OtherName}}
+                </div>
+                <div class="col-md-1 text-right">
+                    $
+                </div>
+                <div class="col-md-1 text-right">
+                    {{sevisinfo.fundingIntlOrg2 | number:0}}
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-3">
+                    <label class="title-label">Other Org.</label>
+                </div>
+                <div class="col-md-3">
+                    &nbsp;
+                </div>
+                <div class="col-md-2">
+                    {{sevisinfo.OtherName}}
+                </div>
+                <div class="col-md-1 text-right">
+                    $
+                </div>
+                <div class="col-md-1 text-right">
+                    {{sevisinfo.fundingOther | number:0}}
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-3">
+                    <label class="title-label">Total</label>
+                </div>
+                <div class="col-md-6 text-right">
+                    $
+                </div>
+                <div class="col-md-1 text-right">
+                    {{sevisinfo.fundingSponsor + sevisinfo.fundingPersonal + sevisinfo.fundingVisGovt + sevisinfo.fundingVisBNC + sevisinfo.fundingGovtAgency1 + sevisinfo.fundingGovtAgency2 + sevisinfo.fundingIntlOrg1 + sevisinfo.fundingIntlOrg2 + sevisinfo.fundingOther  | number:0}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="view.FundingEdit">
+        <div class="row row4">
+            <div class="pull-right">
+                <button ng-click="saveFunding()" class="btn btn-success" ng-disabled="fundingEditForm.$invalid || fundingEditForm.$pristine">Save</button>
+                <button ng-click="view.FundingEdit=false" class="btn btn-cancel">Cancel</button>
+            </div>
+        </div>
+        <form name="fundingEditForm" class="rowalt" ng-show="view.Funding">
+            <div class="row row4">
+                <div class="col-md-3">
+                    <label class="title-label">Sponsor</label>
+                </div>
+                <div class="col-md-6 text-right">
+                    $
+                </div>
+                <div class="col-md-2 text-right">
+                    <input type="number" min="0" ng-model="sevisinfo.fundingSponsor" />
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-3">
+                    <label class="title-label">Personal</label>
+                </div>
+                <div class="col-md-6 text-right">
+                    $
+                </div>
+                <div class="col-md-2 text-right">
+                    <input type="number" min="0" ng-model="sevisinfo.fundingPersonal" />
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-3">
+                    <label class="title-label">Vis. Gov't</label>
+                </div>
+                <div class="col-md-6 text-right">
+                    $
+                </div>
+                <div class="col-md-2 text-right">
+                    <input type="number" min="0" ng-model="sevisinfo.fundingVisGovt" />
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-3">
+                    <label class="title-label">Vis.BNC</label>
+                </div>
+                <div class="col-md-6 text-right">
+                    $
+                </div>
+                <div class="col-md-2 text-right">
+                    <input type="number" min="0" ng-model="sevisinfo.fundingVisBNC" />
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-3">
+                    <label class="title-label">Gov't Agency 1</label>
+                </div>
+                <div class="col-md-6 text-right">
+                    $
+                </div>
+                <div class="col-md-2 text-right">
+                    <input type="number" min="0" ng-model="sevisinfo.fundingGovtAgency1" />
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-3">
+                    <label class="title-label">Gov't Agency 2</label>
+                </div>
+                <div class="col-md-6 text-right">
+                    $
+                </div>
+                <div class="col-md-2 text-right">
+                    <input type="number" min="0" ng-model="sevisinfo.fundingGovtAgency2" />
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-3">
+                    <label class="title-label">Int'l Org 1</label>
+                </div>
+                <div class="col-md-6 text-right">
+                    $
+                </div>
+                <div class="col-md-2 text-right">
+                    <input type="number" min="0" ng-model="sevisinfo.fundingIntlOrg1" />
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-3">
+                    <label class="title-label">Int'l Org 2</label>
+                </div>
+                <div class="col-md-6 text-right">
+                    $
+                </div>
+                <div class="col-md-2 text-right">
+                    <input type="number" min="0" ng-model="sevisinfo.fundingIntlOrg2" />
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-3">
+                    <label class="title-label">Other Org.</label>
+                </div>
+                <div class="col-md-6 text-right">
+                    $
+                </div>
+                <div class="col-md-2 text-right">
+                    <input type="number" min="0" ng-model="sevisinfo.fundingOther" />
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-3">
+                    <label class="title-label">Total</label>
+                </div>
+                <div class="col-md-6 text-right">
+                    $
+                </div>
+                <div class="col-md-2 text-right">
+                    {{sevisinfo.fundingSponsor + sevisinfo.fundingPersonal + sevisinfo.fundingVisGovt + sevisinfo.fundingVisBNC + sevisinfo.fundingGovtAgency1 + sevisinfo.fundingGovtAgency2 + sevisinfo.fundingIntlOrg1 + sevisinfo.fundingIntlOrg2 + sevisinfo.fundingOther  | number:0}}
+                </div>
+            </div>
+        </form>
+    </div>

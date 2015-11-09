@@ -875,4 +875,32 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="HostInstitutionAddressId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="fcfe8f80-4378-4a41-9299-6c07e03fae8b" ChangeDateTime="11/09/2015 04:50:50">
+    <Property Name="ElementName" Value="[dbo].[ParticipantPerson].[GovtAgency2Name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ParticipantPerson]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="GovtAgency2OtherName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="57d823c2-b8ff-48ab-aa5f-cefa8422e97c" ChangeDateTime="11/09/2015 04:50:58">
+    <Property Name="ElementName" Value="[dbo].[ParticipantPerson].[IntlOrg1Name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ParticipantPerson]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IntlOrg1OtherName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b96d04d0-1cd5-4d60-95fc-a4eaa07312d6" ChangeDateTime="11/09/2015 04:51:06">
+    <Property Name="ElementName" Value="[dbo].[ParticipantPerson].[IntlOrg2Name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ParticipantPerson]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IntlOrg2OtherName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0d5832e9-cf07-4583-b476-13d481a21de1" ChangeDateTime="11/09/2015 04:51:25">
+    <Property Name="ElementName" Value="[dbo].[ParticipantPerson].[GovtAgency1Name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ParticipantPerson]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="GovtAgency1OtherName" />
+  </Operation>
 </Operations>

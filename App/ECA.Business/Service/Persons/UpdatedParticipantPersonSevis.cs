@@ -60,10 +60,19 @@ namespace ECA.Business.Service.Persons
             decimal? fundingVisGovt,
             decimal? fundingVisBNC,
             decimal? fundingGovtAgency1,
+            int? govtAgency1Id,
+            string govtAgency1OtherName,
             decimal? fundingGovtAgency2,
+            int? govtAgency2Id,
+            string govtAgency2OtherName,
             decimal? fundingIntlOrg1,
+            int? intlOrg1Id,
+            string intlOrg1OtherName,
             decimal? fundingIntlOrg2,
+            int? intlOrg2Id,
+            string intlOrg2OtherName,
             decimal? fundingOther,
+            string otherName,
             decimal? fundingTotal)
         {
             this.Audit = new Update(updater);
@@ -85,10 +94,19 @@ namespace ECA.Business.Service.Persons
             this.FundingVisGovt = fundingVisGovt;
             this.FundingVisBNC = fundingVisBNC;
             this.FundingGovtAgency1 = fundingGovtAgency1;
+            this.GovtAgency1Id = govtAgency1Id;
+            this.GovtAgency1OtherName = govtAgency1OtherName;
             this.FundingGovtAgency2 = fundingGovtAgency2;
+            this.GovtAgency2Id = govtAgency2Id;
+            this.GovtAgency2OtherName = govtAgency2OtherName;
             this.FundingIntlOrg1 = fundingIntlOrg1;
+            this.IntlOrg1Id = intlOrg1Id;
+            this.IntlOrg1OtherName = intlOrg1OtherName;
             this.FundingIntlOrg2 = fundingIntlOrg2;
+            this.IntlOrg2Id = intlOrg2Id;
+            this.IntlOrg2OtherName = intlOrg2OtherName;
             this.FundingOther = fundingOther;
+            this.OtherName = otherName;
             this.FundingTotal = fundingTotal;
         }
 
@@ -183,9 +201,29 @@ namespace ECA.Business.Service.Persons
         public decimal? FundingGovtAgency1 { get; set; }
 
         /// <summary>
+        /// Id of  another U.S. government agency
+        /// </summary>
+        public int? GovtAgency1Id { get; set; }
+
+        /// <summary>
+        /// Name of another U.S. government agency
+        /// </summary>
+        public string GovtAgency1OtherName { get; set; }
+
+        /// <summary>
         /// Funding from another U.S. government agency
         /// </summary>
         public decimal? FundingGovtAgency2 { get; set; }
+
+        /// <summary>
+        /// Id of  another U.S. government agency
+        /// </summary>
+        public int? GovtAgency2Id { get; set; }
+
+        /// <summary>
+        /// Name of another U.S. government agency
+        /// </summary>
+        public string GovtAgency2OtherName { get; set; }
 
         /// <summary>
         /// Funding from another international org
@@ -193,14 +231,39 @@ namespace ECA.Business.Service.Persons
         public decimal? FundingIntlOrg1 { get; set; }
 
         /// <summary>
+        /// Id of  another U.S. government agency
+        /// </summary>
+        public int? IntlOrg1Id { get; set; }
+
+        /// <summary>
+        /// Name of another U.S. government agency
+        /// </summary>
+        public string IntlOrg1OtherName { get; set; }
+
+        /// <summary>
         /// Funding from another international org
         /// </summary>
         public decimal? FundingIntlOrg2 { get; set; }
 
         /// <summary>
+        /// Id of  another U.S. government agency
+        /// </summary>
+        public int? IntlOrg2Id { get; set; }
+
+        /// <summary>
+        /// Name of another U.S. government agency
+        /// </summary>
+        public string IntlOrg2OtherName { get; set; }
+
+        /// <summary>
         /// Funding from other source
         /// </summary>
         public decimal? FundingOther { get; set; }
+
+        /// <summary>
+        /// Name of another U.S. government agency
+        /// </summary>
+        public string OtherName { get; set; }
 
         /// <summary>
         /// Total funding
