@@ -469,6 +469,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\Admin\AddressesController.cs" />
     <Compile Include="Controllers\Admin\BookmarksController.cs" />
+    <Compile Include="Controllers\Admin\USGovernmentAgenciesController.cs" />
     <Compile Include="Controllers\Admin\ParticipantStatusesController.cs" />
     <Compile Include="Controllers\Admin\PhoneNumbersController.cs" />
     <Compile Include="Controllers\Admin\GendersController.cs" />
@@ -477,6 +478,7 @@
     <Compile Include="Controllers\Admin\EmailAddressesController .cs" />
     <Compile Include="Controllers\Admin\FieldOfStudiesController.cs" />
     <Compile Include="Controllers\Admin\PositionsController.cs" />
+    <Compile Include="Controllers\Admin\InternationalOrganizationsController.cs" />
     <Compile Include="Controllers\Admin\ProgramStatusesController.cs" />
     <Compile Include="Controllers\Admin\ProgramCategoriesController.cs" />
     <Compile Include="Controllers\Admin\SevisCommStatusesController.cs" />

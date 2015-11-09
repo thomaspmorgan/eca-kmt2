@@ -379,6 +379,11 @@ namespace ECA.Data
         public DbSet<FieldOfStudy> FieldOfStudies { get; set; }
 
         /// <summary>
+        /// Gets or sets International Organizations
+        /// </summary>
+        public DbSet<InternationalOrganization> InternationalOrganizations { get; set; }
+
+        /// <summary>
         /// Gets or sets the positions
         /// </summary>
         public DbSet<Position> Positions { get; set; }
@@ -392,6 +397,11 @@ namespace ECA.Data
         /// Gets or sets the SevisCommStatuses.
         /// </summary>
         public DbSet<SevisCommStatus> SevisCommStatuses { get; set; }
+
+        /// <summary>
+        /// Gets or sets USGovernmentAgencies
+        /// </summary>
+        public DbSet<USGovernmentAgency> USGovernmentAgencies { get; set; }
 
 
         /// <summary>
