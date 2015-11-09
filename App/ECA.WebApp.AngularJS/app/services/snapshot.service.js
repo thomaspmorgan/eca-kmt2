@@ -12,34 +12,7 @@ angular.module('staticApp')
 
       return {
           GetProgramCounts: function (id) {
-              return DragonBreath.get('ProgramCounts', id);
-          },
-          GetProgramRelatedProjectsCount: function (id) {
-              return DragonBreath.get('ProgramRelatedProjectsCount', id);
-          },
-          GetProgramParticipantCount: function (id) {
-              return DragonBreath.get('ProgramParticipantCount', id);
-          },
-          GetProgramBudgetTotal: function (id) {
-              return DragonBreath.get('ProgramBudgetTotal', id);
-          },
-          GetProgramFundingSourcesCount: function (id) {
-              return DragonBreath.get('ProgramFundingSourcesCount', id);
-          },
-          GetProgramCountryCount: function (id) {
-              return DragonBreath.get('ProgramCountryCount', id);
-          },
-          GetProgramBeneficiaryCount: function (id) {
-              return DragonBreath.get('ProgramBeneficiaryCount', id);
-          },
-          GetProgramImpactStoryCount: function (id) {
-              return DragonBreath.get('ProgramImpactStoryCount', id);
-          },
-          GetProgramAlumniCount: function (id) {
-              return DragonBreath.get('ProgramAlumniCount', id);
-          },
-          GetProgramProminenceCount: function (id) {
-              return DragonBreath.get('ProgramProminenceCount', id);
+              return DragonBreath.get('ProgramSnapshotCounts', id);
           },
           GetProgramBudgetByYear: function (id) {
               return DragonBreath.get('ProgramBudgetByYear', id);

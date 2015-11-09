@@ -7,7 +7,6 @@ using ECA.Business.Queries.Models.Admin;
 using System;
 using System.Linq;
 using ECA.Business.Service.Programs;
-using System.Data.Entity;
 
 namespace ECA.Business.Service.Admin
 {
@@ -22,22 +21,39 @@ namespace ECA.Business.Service.Admin
 
         #region Snapshot Counts
 
+        /// <summary>
+        /// Combine all count values into one object
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
         public SnapshotCountModelDTO GetProgramCounts(int programId)
         {
-            var programs = programService.GetAllChildProgramsWithParentAsync(programId);
-            var childPrograms = programs.Result.Select(p => p.ProgramId).ToList();
+            var programs = programService.GetAllChildProgramsWithParent(programId);
+            var childPrograms = programs.Select(p => p.ProgramId).ToList();
+
+            var task1 = GetProgramRelatedProjectsCount(childPrograms);
+            var task2 = GetProgramParticipantCount(childPrograms);
+            var task3 = GetProgramBudgetTotal(childPrograms);
+            var task4 = GetProgramFundingSourcesCount(programId);
+            var task5 = GetProgramCountryCountAsync(childPrograms);
+            var task6 = GetProgramBeneficiaryCount(childPrograms);
+            var task7 = GetProgramImpactStoryCount(childPrograms);
+            var task8 = GetProgramAlumniCount(childPrograms);
+            var task9 = GetProgramProminenceCount(childPrograms);
+
+            //Task.WaitAll(task1, task2, task3, task4, task5, task7, task8, task9);
 
             SnapshotCountModelDTO snapshotModel = new SnapshotCountModelDTO
             {
-                ProgramRelatedProjectsCount = GetProgramRelatedProjectsCount(childPrograms),
-                ProgramParticipantCount = GetProgramParticipantCount(childPrograms),
-                ProgramBudgetTotal = GetProgramBudgetTotal(childPrograms),
-                ProgramFundingSourcesCount = GetProgramFundingSourcesCount(programId),
-                ProgramCountryCountAsync = GetProgramCountryCountAsync(childPrograms),
-                ProgramBeneficiaryCount = GetProgramBeneficiaryCount(childPrograms),
-                ProgramImpactStoryCount = GetProgramImpactStoryCount(childPrograms),
-                ProgramAlumniCount = GetProgramAlumniCount(childPrograms),
-                ProgramProminenceCount = GetProgramProminenceCount(childPrograms)
+                ProgramRelatedProjectsCount = task1,
+                ProgramParticipantCount = task2,
+                ProgramBudgetTotal = task3,
+                ProgramFundingSourcesCount = task4,
+                ProgramCountryCountAsync = task5,
+                ProgramBeneficiaryCount = task6,
+                ProgramImpactStoryCount = task7,
+                ProgramAlumniCount = task8,
+                ProgramProminenceCount = task9
             };
 
             return snapshotModel;
@@ -49,7 +65,7 @@ namespace ECA.Business.Service.Admin
         /// <param name="programId"></param>
         /// <returns></returns>
         public SnapshotDTO GetProgramRelatedProjectsCount(List<int> programIds)
-        {            
+        {   
             var dto = SnapshotQueries.CreateGetProgramRelatedProjectsCountQuery(Context, programIds);
             return dto;
         }
@@ -92,10 +108,11 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public async Task<SnapshotDTO> GetProgramCountryCountAsync(List<int> programIds)
+        public SnapshotDTO GetProgramCountryCountAsync(List<int> programIds)
         {
             var query = SnapshotQueries.CreateGetProgramCountriesByProgramIdsQuery(Context, programIds);
-            var locationIds = await query.Select(x => x).CountAsync();
+            var locationIds = query.Select(x => x).Count();
+
             return new SnapshotDTO()
             {
                 DataLabel = "COUNTRIES",
@@ -119,10 +136,11 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public async Task<SnapshotDTO> GetProgramImpactStoryCount(List<int> programIds)
+        public SnapshotDTO GetProgramImpactStoryCount(List<int> programIds)
         {
             var query = SnapshotQueries.CreateGetProgramImpactStoryCountQuery(Context, programIds);
-            var impactIds = await query.Select(x => x).Distinct().CountAsync();
+            var impactIds = query.Select(x => x).Distinct().Count();
+
             return new SnapshotDTO()
             {
                 DataLabel = "IMPACT STORIES",
@@ -146,10 +164,10 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public async Task<SnapshotDTO> GetProgramProminenceCount(List<int> programIds)
+        public SnapshotDTO GetProgramProminenceCount(List<int> programIds)
         {
             var query = SnapshotQueries.CreateGetProgramProminenceCountQuery(Context, programIds);
-            var catIds = await query.Select(x => x).Distinct().CountAsync();
+            var catIds = query.Select(x => x).Distinct().Count();
             
             return new SnapshotDTO()
             {

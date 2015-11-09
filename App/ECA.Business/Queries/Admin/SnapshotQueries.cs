@@ -29,9 +29,9 @@ namespace ECA.Business.Queries.Admin
             {
                 DataLabel = "RELATED PROJECTS",
                 DataValue = context.Programs
-                                .Where(x => programIds.Contains(x.ProgramId))
-                                .Select(p => p.Projects.Where(d => d.EndDate.Value.Year >= oldestDate.Year))
-                                                        .Sum(r => (int?)r.Sum(t => (int?)t.RelatedProjects.Count ?? 0) ?? 0)
+                            .Where(x => programIds.Contains(x.ProgramId))
+                            .Select(p => p.Projects.Where(d => d.EndDate.Value.Year >= oldestDate.Year))
+                                                    .Sum(r => (int?)r.Sum(t => (int?)t.RelatedProjects.Count ?? 0) ?? 0)
             };
         }
 
@@ -99,7 +99,7 @@ namespace ECA.Business.Queries.Admin
         /// <param name="context"></param>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public static IQueryable<Location> CreateGetProgramCountriesByProgramIdsQuery(EcaContext context, IEnumerable<int> programIds)
+        public static IEnumerable<Location> CreateGetProgramCountriesByProgramIdsQuery(EcaContext context, IEnumerable<int> programIds)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var query = (from program in context.Programs
@@ -112,8 +112,7 @@ namespace ECA.Business.Queries.Admin
 
                          where programIds.Contains(program.ProgramId)
                          select allCountries).SelectMany(x => x);
-            //.Select(i => i.LocationId).Distinct()
-            
+                        
             return query;
         }
 
@@ -134,13 +133,14 @@ namespace ECA.Business.Queries.Admin
         /// <param name="context"></param>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public static IQueryable<int> CreateGetProgramImpactStoryCountQuery(EcaContext context, IEnumerable<int> programIds)
+        public static IEnumerable<int> CreateGetProgramImpactStoryCountQuery(EcaContext context, IEnumerable<int> programIds)
         {
             Contract.Requires(context != null, "The context must not be null.");
 
             var query = context.Programs
                                 .Where(x => programIds.Contains(x.ProgramId))
                                 .Select(i => i).SelectMany(x => x.Impacts).Select(m => m.ImpactId).Distinct();
+
             return query;
         }
 
@@ -170,7 +170,7 @@ namespace ECA.Business.Queries.Admin
         /// <param name="context"></param>
         /// <param name="programId"></param>
         /// <returns></returns>
-        public static IQueryable<int> CreateGetProgramProminenceCountQuery(EcaContext context, IEnumerable<int> programIds)
+        public static IEnumerable<int> CreateGetProgramProminenceCountQuery(EcaContext context, IEnumerable<int> programIds)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var query = (from pc in context.Programs
@@ -181,8 +181,10 @@ namespace ECA.Business.Queries.Admin
                             group category by category.CategoryName into g
                             select g).SelectMany(x => x).Select(c => c.CategoryId).Distinct();
 
-            return query;            
+            return query;
         }
+
+        #region Graph queries
 
         /// <summary>
         /// Count of funding sources for all program projects
@@ -314,7 +316,8 @@ namespace ECA.Business.Queries.Admin
             throw new NotImplementedException();
         }
 
+        #endregion
 
     }
-    
+
 }

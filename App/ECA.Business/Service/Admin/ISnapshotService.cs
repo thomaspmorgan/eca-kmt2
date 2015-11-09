@@ -8,7 +8,7 @@ namespace ECA.Business.Service.Admin
     {
         SnapshotCountModelDTO GetProgramCounts(int programId);
 
-        Task<SnapshotDTO> GetProgramCountryCountAsync(List<int> programIds);
+        SnapshotDTO GetProgramCountryCountAsync(List<int> programIds);
 
         SnapshotDTO GetProgramRelatedProjectsCount(List<int> programIds);
 
@@ -20,11 +20,11 @@ namespace ECA.Business.Service.Admin
 
         SnapshotDTO GetProgramBudgetTotal(List<int> programIds);
 
-        Task<SnapshotDTO> GetProgramImpactStoryCount(List<int> programIds);
+        SnapshotDTO GetProgramImpactStoryCount(List<int> programIds);
 
         SnapshotDTO GetProgramBeneficiaryCount(List<int> programIds);
 
-        Task<SnapshotDTO> GetProgramProminenceCount(List<int> programIds);
+        SnapshotDTO GetProgramProminenceCount(List<int> programIds);
 
         Task<SnapshotGraphDTO> GetProgramBudgetByYear(int programId);
 
