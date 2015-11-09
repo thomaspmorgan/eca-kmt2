@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECA.Data.Configuration
 {
-    class InternationalOrganizationConfiguration : EntityTypeConfiguration<ProgramCategory>
+    class InternationalOrganizationConfiguration : EntityTypeConfiguration<InternationalOrganization>
     {
         public InternationalOrganizationConfiguration()
         {

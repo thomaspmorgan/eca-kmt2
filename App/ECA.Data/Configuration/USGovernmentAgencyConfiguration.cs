@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECA.Data.Configuration
 {
-    class USGovernmentAgencyConfiguration : EntityTypeConfiguration<ProgramCategory>
+    class USGovernmentAgencyConfiguration : EntityTypeConfiguration<USGovernmentAgency>
     {
         public USGovernmentAgencyConfiguration()
         {
