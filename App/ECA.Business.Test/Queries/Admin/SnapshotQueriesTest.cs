@@ -365,7 +365,7 @@ namespace ECA.Business.Test.Queries.Admin
             programIds.Add(program1.ProgramId);
 
             var results = SnapshotQueries.CreateGetProgramCountriesByProgramIdsQuery(context, programIds);
-            Assert.AreEqual(3, results.Count());
+            Assert.AreEqual(3, results.Select(x => x).Count());
         }
 
         [TestMethod]
