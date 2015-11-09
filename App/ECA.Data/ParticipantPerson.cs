@@ -26,6 +26,11 @@ namespace ECA.Data
         private const int STUDY_PROJECT_MAX_LENGTH = 250;
 
         /// <summary>
+        /// Gets the max length of a Study Project
+        /// </summary>
+        private const int AGENCY_ORG_NAME_MAX_LENGTH = 60;
+
+        /// <summary>
         /// constructor to initialize history for a ParticipantPerson
         /// </summary>
         public ParticipantPerson()
@@ -118,9 +123,31 @@ namespace ECA.Data
         public decimal? FundingGovtAgency1 { get; set; }
 
         /// <summary>
+        /// Id of another U.S. government agency
+        /// </summary>
+        public int? GovtAgency1Id { get; set; }
+
+        /// <summary>
+        /// Name of another U.S. government agency
+        /// </summary>
+        [MaxLength(AGENCY_ORG_NAME_MAX_LENGTH)]
+        public string GovtAgency1Name { get; set; }
+
+        /// <summary>
         /// Funding from another U.S. government agency
         /// </summary>
         public decimal? FundingGovtAgency2 { get; set; }
+
+        /// <summary>
+        /// Id of  another U.S. government agency
+        /// </summary>
+        public int? GovtAgency2Id { get; set; }
+
+        /// <summary>
+        /// Name of another U.S. government agency
+        /// </summary>
+        [MaxLength(AGENCY_ORG_NAME_MAX_LENGTH)]
+        public string GovtAgency2Name { get; set; }
 
         /// <summary>
         /// Funding from another international org
@@ -128,14 +155,42 @@ namespace ECA.Data
         public decimal? FundingIntlOrg1 { get; set; }
 
         /// <summary>
+        /// id of another International org
+        /// </summary>
+        public int? IntlOrg1Id { get; set; }
+
+        /// <summary>
+        /// Name of another International org
+        /// </summary>
+        [MaxLength(AGENCY_ORG_NAME_MAX_LENGTH)]
+        public string IntlOrg1Name { get; set; }
+
+        /// <summary>
         /// Funding from another international org
         /// </summary>
         public decimal? FundingIntlOrg2 { get; set; }
 
         /// <summary>
+        /// Id of another International org
+        /// </summary>
+        public int? IntlOrg2Id { get; set; }
+
+        /// <summary>
+        /// Name of another International org
+        /// </summary>
+        [MaxLength(AGENCY_ORG_NAME_MAX_LENGTH)]
+        public string IntlOrg2Name { get; set; }
+
+        /// <summary>
         /// Funding from other source
         /// </summary>
         public decimal? FundingOther { get; set; }
+
+        /// <summary>
+        /// Name of other source
+        /// </summary>
+        [MaxLength(AGENCY_ORG_NAME_MAX_LENGTH)]
+        public string OtherName { get; set; }
 
         /// <summary>
         /// Total funding

@@ -102,9 +102,29 @@ namespace ECA.WebApi.Models.Person
         public decimal? FundingGovtAgency1 { get; set; }
 
         /// <summary>
+        /// Id of  another U.S. government agency
+        /// </summary>
+        public int? GovtAgency1Id { get; set; }
+
+        /// <summary>
+        /// Name of another U.S. government agency
+        /// </summary>
+        public string GovtAgency1Name { get; set; }
+
+        /// <summary>
         /// Funding from another U.S. government agency
         /// </summary>
         public decimal? FundingGovtAgency2 { get; set; }
+
+        /// <summary>
+        /// Id of  another U.S. government agency
+        /// </summary>
+        public int? GovtAgency2Id { get; set; }
+
+        /// <summary>
+        /// Name of another U.S. government agency
+        /// </summary>
+        public string GovtAgency2Name { get; set; }
 
         /// <summary>
         /// Funding from another international org
@@ -112,14 +132,39 @@ namespace ECA.WebApi.Models.Person
         public decimal? FundingIntlOrg1 { get; set; }
 
         /// <summary>
+        /// Id of  another U.S. government agency
+        /// </summary>
+        public int? IntlOrg1Id { get; set; }
+
+        /// <summary>
+        /// Name of another U.S. government agency
+        /// </summary>
+        public string IntlOrg1Name { get; set; }
+
+        /// <summary>
         /// Funding from another international org
         /// </summary>
         public decimal? FundingIntlOrg2 { get; set; }
 
         /// <summary>
+        /// Id of  another U.S. government agency
+        /// </summary>
+        public int? IntlOrg2Id { get; set; }
+
+        /// <summary>
+        /// Name of another U.S. government agency
+        /// </summary>
+        public string IntlOrg2Name { get; set; }
+
+        /// <summary>
         /// Funding from other source
         /// </summary>
         public decimal? FundingOther { get; set; }
+
+        /// <summary>
+        /// Name of another U.S. government agency
+        /// </summary>
+        public string OtherName { get; set; }
 
         /// <summary>
         /// Total funding
@@ -153,10 +198,19 @@ namespace ECA.WebApi.Models.Person
                 fundingVisGovt: this.FundingVisGovt,
                 fundingVisBNC: this.FundingVisBNC,
                 fundingGovtAgency1: this.FundingGovtAgency1,
+                govtAgency1Id: this.GovtAgency1Id,
+                govtAgency1Name: this.GovtAgency1Name,
                 fundingGovtAgency2: this.FundingGovtAgency2,
+                govtAgency2Id: this.GovtAgency2Id,
+                govtAgency2Name: this.GovtAgency2Name,
                 fundingIntlOrg1: this.FundingIntlOrg1,
+                intlOrg1Id: this.IntlOrg1Id,
+                intlOrg1Name: this.IntlOrg1Name,
                 fundingIntlOrg2: this.FundingIntlOrg2,
+                intlOrg2Id: this.IntlOrg2Id,
+                intlOrg2Name: this.IntlOrg2Name,
                 fundingOther: this.FundingOther,
+                otherName: this.OtherName,
                 fundingTotal: this.FundingTotal
             );
         }
