@@ -109,7 +109,7 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Name of another U.S. government agency
         /// </summary>
-        public string GovtAgency1Name { get; set; }
+        public string GovtAgency1OtherName { get; set; }
 
         /// <summary>
         /// Funding from another U.S. government agency
@@ -124,7 +124,7 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Name of another U.S. government agency
         /// </summary>
-        public string GovtAgency2Name { get; set; }
+        public string GovtAgency2OtherName { get; set; }
 
         /// <summary>
         /// Funding from another international org
@@ -139,7 +139,7 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Name of another U.S. government agency
         /// </summary>
-        public string IntlOrg1Name { get; set; }
+        public string IntlOrg1OtherName { get; set; }
 
         /// <summary>
         /// Funding from another international org
@@ -154,7 +154,7 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Name of another U.S. government agency
         /// </summary>
-        public string IntlOrg2Name { get; set; }
+        public string IntlOrg2OtherName { get; set; }
 
         /// <summary>
         /// Funding from other source
@@ -199,16 +199,16 @@ namespace ECA.WebApi.Models.Person
                 fundingVisBNC: this.FundingVisBNC,
                 fundingGovtAgency1: this.FundingGovtAgency1,
                 govtAgency1Id: this.GovtAgency1Id,
-                govtAgency1Name: this.GovtAgency1Name,
+                govtAgency1OtherName: this.GovtAgency1OtherName,
                 fundingGovtAgency2: this.FundingGovtAgency2,
                 govtAgency2Id: this.GovtAgency2Id,
-                govtAgency2Name: this.GovtAgency2Name,
+                govtAgency2OtherName: this.GovtAgency2OtherName,
                 fundingIntlOrg1: this.FundingIntlOrg1,
                 intlOrg1Id: this.IntlOrg1Id,
-                intlOrg1Name: this.IntlOrg1Name,
+                intlOrg1OtherName: this.IntlOrg1OtherName,
                 fundingIntlOrg2: this.FundingIntlOrg2,
                 intlOrg2Id: this.IntlOrg2Id,
-                intlOrg2Name: this.IntlOrg2Name,
+                intlOrg2OtherName: this.IntlOrg2OtherName,
                 fundingOther: this.FundingOther,
                 otherName: this.OtherName,
                 fundingTotal: this.FundingTotal

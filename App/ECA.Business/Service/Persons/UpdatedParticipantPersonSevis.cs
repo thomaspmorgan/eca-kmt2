@@ -61,16 +61,16 @@ namespace ECA.Business.Service.Persons
             decimal? fundingVisBNC,
             decimal? fundingGovtAgency1,
             int? govtAgency1Id,
-            string govtAgency1Name,
+            string govtAgency1OtherName,
             decimal? fundingGovtAgency2,
             int? govtAgency2Id,
-            string govtAgency2Name,
+            string govtAgency2OtherName,
             decimal? fundingIntlOrg1,
             int? intlOrg1Id,
-            string intlOrg1Name,
+            string intlOrg1OtherName,
             decimal? fundingIntlOrg2,
             int? intlOrg2Id,
-            string intlOrg2Name,
+            string intlOrg2OtherName,
             decimal? fundingOther,
             string otherName,
             decimal? fundingTotal)
@@ -95,16 +95,16 @@ namespace ECA.Business.Service.Persons
             this.FundingVisBNC = fundingVisBNC;
             this.FundingGovtAgency1 = fundingGovtAgency1;
             this.GovtAgency1Id = govtAgency1Id;
-            this.GovtAgency1Name = govtAgency1Name;
+            this.GovtAgency1OtherName = govtAgency1OtherName;
             this.FundingGovtAgency2 = fundingGovtAgency2;
             this.GovtAgency2Id = govtAgency2Id;
-            this.GovtAgency2Name = govtAgency2Name;
+            this.GovtAgency2OtherName = govtAgency2OtherName;
             this.FundingIntlOrg1 = fundingIntlOrg1;
             this.IntlOrg1Id = intlOrg1Id;
-            this.IntlOrg1Name = IntlOrg1Name;
+            this.IntlOrg1OtherName = intlOrg1OtherName;
             this.FundingIntlOrg2 = fundingIntlOrg2;
             this.IntlOrg2Id = intlOrg2Id;
-            this.IntlOrg2Name = intlOrg2Name;
+            this.IntlOrg2OtherName = intlOrg2OtherName;
             this.FundingOther = fundingOther;
             this.OtherName = otherName;
             this.FundingTotal = fundingTotal;
@@ -208,7 +208,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Name of another U.S. government agency
         /// </summary>
-        public string GovtAgency1Name { get; set; }
+        public string GovtAgency1OtherName { get; set; }
 
         /// <summary>
         /// Funding from another U.S. government agency
@@ -223,7 +223,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Name of another U.S. government agency
         /// </summary>
-        public string GovtAgency2Name { get; set; }
+        public string GovtAgency2OtherName { get; set; }
 
         /// <summary>
         /// Funding from another international org
@@ -238,7 +238,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Name of another U.S. government agency
         /// </summary>
-        public string IntlOrg1Name { get; set; }
+        public string IntlOrg1OtherName { get; set; }
 
         /// <summary>
         /// Funding from another international org
@@ -253,7 +253,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Name of another U.S. government agency
         /// </summary>
-        public string IntlOrg2Name { get; set; }
+        public string IntlOrg2OtherName { get; set; }
 
         /// <summary>
         /// Funding from other source

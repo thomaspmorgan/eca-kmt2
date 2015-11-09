@@ -167,6 +167,11 @@ namespace ECA.Business.Queries.Models.Persons
         public string GovtAgency1Name { get; set; }
 
         /// <summary>
+        /// Other Name of another U.S. government agency
+        /// </summary>
+        public string GovtAgency1OtherName { get; set; }
+
+        /// <summary>
         /// Funding from another U.S. government agency
         /// </summary>
         public decimal? FundingGovtAgency2 { get; set; }
@@ -180,6 +185,11 @@ namespace ECA.Business.Queries.Models.Persons
         /// Name of another U.S. government agency
         /// </summary>
         public string GovtAgency2Name { get; set; }
+
+        /// <summary>
+        /// Other Name of another U.S. government agency
+        /// </summary>
+        public string GovtAgency2OtherName { get; set; }
 
         /// <summary>
         /// Funding from another international org
@@ -197,6 +207,11 @@ namespace ECA.Business.Queries.Models.Persons
         public string IntlOrg1Name { get; set; }
 
         /// <summary>
+        /// Other Name of another International org
+        /// </summary>
+        public string IntlOrg1OtherName { get; set; }
+
+        /// <summary>
         /// Funding from another international org
         /// </summary>
         public decimal? FundingIntlOrg2 { get; set; }
@@ -210,6 +225,11 @@ namespace ECA.Business.Queries.Models.Persons
         /// Name of another International org
         /// </summary>
         public string IntlOrg2Name { get; set; }
+
+        /// <summary>
+        /// Other Name of another International org
+        /// </summary>
+        public string IntlOrg2OtherName { get; set; }
 
         /// <summary>
         /// Funding from other source
