@@ -27,7 +27,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <ApplicationInsightsResourceId>/subscriptions/3d6f9d9a-0854-47e7-a31e-c6838bcb192f/resourcegroups/DevGroup/providers/microsoft.insights/components/kmtapi-dev</ApplicationInsightsResourceId>
+    <ApplicationInsightsResourceId>/subscriptions/3d6f9d9a-0854-47e7-a31e-c6838bcb192f/resourcegroups/DevGroup/providers/microsoft.insights/components/kmtapi-local</ApplicationInsightsResourceId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
