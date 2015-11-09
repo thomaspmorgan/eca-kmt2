@@ -32,55 +32,34 @@ angular.module('staticApp')
       $scope.init = function () {
           $scope.view.isSnapshotLoading = true;
 
-          GetProgramCountryCount();
-          GetProgramRelatedProjectsCount();
-          GetProgramFundingSourcesCount();
-          GetProgramImpactStoryCount();
-          GetProgramAlumniCount();
-          GetProgramProminenceCount();
+          GetAllProgramCounts();
 
-          $q.all([GetProgramBudgetTotal(), GetProgramParticipantCount()])
+          $q.all([GetAllProgramCounts()])
           .then(function () {
               GetProgramCostPerParticipant();
           })
           .catch(function () {
               $scope.view.isSnapshotLoading = false;
-          });          
+          });
 
           $scope.view.isSnapshotLoading = false;
       };
 
-      function GetProgramRelatedProjectsCount() {
-          SnapshotService.GetProgramRelatedProjectsCount($scope.view.params.programId)
+      function GetAllProgramCounts() {
+          return SnapshotService.GetProgramCounts($scope.view.params.programId)
             .then(function (response) {
-                $scope.view.totalRelatedProjects = response.data;
+                $scope.view.totalRelatedProjects = response.data.programRelatedProjectsCount;
+                $scope.view.totalParticipants = response.data.programParticipantCount;
+                $scope.view.totalBudget = response.data.programBudgetTotal;
+                $scope.view.totalFundingSources = response.data.programFundingSourcesCount;
+                $scope.view.totalCountries = response.data.programCountryCountAsync;
+                $scope.view.totalBeneficiaries = response.data.programBeneficiaryCount;
+                $scope.view.totalImpactStories = response.data.programImpactStoryCount;
+                $scope.view.totalAlumni = response.data.programAlumniCount;
+                $scope.view.totalProminence = response.data.programProminenceCount;
             })
             .catch(function () {
-                var message = 'Unable to load related projects count.';
-                NotificationService.showErrorMessage(message);
-                $log.error(message);
-            });
-      }
-
-      function GetProgramParticipantCount() {
-          return SnapshotService.GetProgramParticipantCount($scope.view.params.programId)
-            .then(function (response) {
-                $scope.view.totalParticipants = response.data;
-            })
-            .catch(function () {
-                var message = 'Unable to load participant count.';
-                NotificationService.showErrorMessage(message);
-                $log.error(message);
-            });
-      }
-
-      function GetProgramBudgetTotal() {
-          return SnapshotService.GetProgramBudgetTotal($scope.view.params.programId)
-            .then(function (response) {
-                $scope.view.totalBudget = response.data;
-            })
-            .catch(function () {
-                var message = 'Unable to load budget total.';
+                var message = 'Unable to load program snapshot counts.';
                 NotificationService.showErrorMessage(message);
                 $log.error(message);
             });
@@ -91,72 +70,6 @@ angular.module('staticApp')
               $scope.view.totalCostByParticipant = $scope.view.totalBudget.dataValue / $scope.view.totalParticipants.dataValue;
           }
       }
-
-      function GetProgramFundingSourcesCount() {
-          SnapshotService.GetProgramFundingSourcesCount($scope.view.params.programId)
-            .then(function (response) {
-                $scope.view.totalFundingSources = response.data;
-            })
-            .catch(function () {
-                var message = 'Unable to load funding sources count.';
-                NotificationService.showErrorMessage(message);
-                $log.error(message);
-            });
-      }
-
-      function GetProgramCountryCount() {
-          SnapshotService.GetProgramCountryCount($scope.view.params.programId)
-            .then(function (response) {
-                $scope.view.totalCountries = response.data;
-            })
-            .catch(function () {
-                var message = 'Unable to load country count.';
-                NotificationService.showErrorMessage(message);
-                $log.error(message);
-            });
-      }
-
-      function GetProgramImpactStoryCount() {
-          SnapshotService.GetProgramImpactStoryCount($scope.view.params.programId)
-            .then(function (response) {
-                $scope.view.totalImpactStories = response.data;
-            })
-            .catch(function () {
-                var message = 'Unable to load impact stories count.';
-                NotificationService.showErrorMessage(message);
-                $log.error(message);
-            });
-      }
-
-      function GetProgramAlumniCount() {
-          SnapshotService.GetProgramAlumniCount($scope.view.params.programId)
-            .then(function (response) {
-                $scope.view.totalAlumni = response.data;
-            })
-            .catch(function () {
-                var message = 'Unable to load alumni count.';
-                NotificationService.showErrorMessage(message);
-                $log.error(message);
-            });
-      }
-
-      function GetProgramProminenceCount() {
-          SnapshotService.GetProgramProminenceCount($scope.view.params.programId)
-            .then(function (response) {
-                $scope.view.totalProminence = response.data;
-            })
-            .catch(function () {
-                var message = 'Unable to load prominence count.';
-                NotificationService.showErrorMessage(message);
-                $log.error(message);
-            });
-      }
-
-
-
-
-
-
-      $scope.init();
       
+      $scope.init();
   });
