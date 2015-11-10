@@ -10,14 +10,14 @@ namespace ECA.Business.Service.Lookup
     /// <summary>
     /// The PositionService service is used to perform crud operations on SEVIS InternationalOrganizations.
     /// </summary>
-    public class InternantionalOrganizationService : LookupService<SimpleSevisLookupDTO>, IProgramCategoryService
+    public class InternationalOrganizationService : LookupService<SimpleSevisLookupDTO>, IInternationalOrganizationService
     {
         /// <summary>
         /// Creates a new instance with the context to query.
         /// </summary>
         /// <param name="saveActions">The save actions.</param>
         /// <param name="context">The context to query.</param>
-        public InternantionalOrganizationService(EcaContext context, List<ISaveAction> saveActions = null)
+        public InternationalOrganizationService(EcaContext context, List<ISaveAction> saveActions = null)
             : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
