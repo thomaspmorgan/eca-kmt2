@@ -76,7 +76,14 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<List<ISaveAction>>(new InjectionFactory((c) =>
             {
                 var list = new List<ISaveAction>();
-                list.Add(new PermissableSaveAction(c.Resolve<IPermissableService>()));
+                list.Add(new PermissableSaveAction(c.Resolve<IPermissableService>(), (addedEntityResults) =>
+                {
+                    if (addedEntityResults.Count > 0
+                    && addedEntityResults.SelectMany(x => x.AffectedRolesById).Count() > 0)
+                    {
+                        CamRoleChangeMonitor.Changed();
+                    }
+                }));
                 list.Add(new GenericDocumentSaveAction<Program>(new AppSettings(), ProgramDTODocumentConfiguration.PROGRAM_DTO_DOCUMENT_TYPE_ID, x => x.ProgramId));
                 list.Add(new GenericDocumentSaveAction<Project>(new AppSettings(), ProjectDTODocumentConfiguration.PROJECT_DTO_DOCUMENT_TYPE_ID, x => x.ProjectId));
                 list.Add(new OfficeDocumentSaveAction(new AppSettings()));
@@ -213,7 +220,7 @@ namespace ECA.WebApi.App_Start
             var appSettings = new AppSettings();
             var cacheLifeInSeconds = 10 * 60; //10 minutes
 #if DEBUG
-            cacheLifeInSeconds = 20;
+            cacheLifeInSeconds = 60;
 #endif
             var connectionString = appSettings.CamContextConnectionString.ConnectionString;
             container.RegisterType<CamModel>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));

@@ -20,13 +20,13 @@ namespace ECA.Core.Service
         /// Will handle objects that have been created.
         /// </summary>
         /// <param name="addedEntities">The added entities.</param>
-        void OnAdded(IList<IPermissable> addedEntities);
+        List<AddedPermissableEntityResult> OnAdded(IList<IPermissable> addedEntities);
 
         /// <summary>
         /// Will handle objects that have been created.
         /// </summary>
         /// <param name="addedEntities">The added entities.</param>
-        Task OnAddedAsync(IList<IPermissable> addedEntities);
+        Task<List<AddedPermissableEntityResult>> OnAddedAsync(IList<IPermissable> addedEntities);
 
         /// <summary>
         /// Will handle objects that have been updated.
@@ -51,9 +51,10 @@ namespace ECA.Core.Service
         /// 
         /// </summary>
         /// <param name="addedEntities"></param>
-        public void OnAdded(IList<IPermissable> addedEntities)
+        public List<AddedPermissableEntityResult> OnAdded(IList<IPermissable> addedEntities)
         {
             Contract.Requires(addedEntities != null, "The added entities must not be null.");
+            return null;
         }
 
         /// <summary>
@@ -61,10 +62,10 @@ namespace ECA.Core.Service
         /// </summary>
         /// <param name="addedEntities"></param>
         /// <returns></returns>
-        public Task OnAddedAsync(IList<IPermissable> addedEntities)
+        public Task<List<AddedPermissableEntityResult>> OnAddedAsync(IList<IPermissable> addedEntities)
         {
             Contract.Requires(addedEntities != null, "The added entities must not be null.");
-            return Task.FromResult<object>(null);
+            return Task.FromResult<List<AddedPermissableEntityResult>>(null);
         }
 
         /// <summary>

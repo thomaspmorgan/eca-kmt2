@@ -106,7 +106,7 @@ namespace ECA.Business.Queries.Admin
                          let regions = program.Regions
                          let locations = program.Locations
 
-                         let countryByRegions = regions.Select(x => x.Country)
+                         let countryByRegions = regions.Where(c => c.LocationTypeId == LocationType.Country.Id).Select(x => x.Country)
                          let countryByLocation = locations.Where(x => x.LocationTypeId == LocationType.Country.Id)
                          let allCountries = countryByLocation.Union(countryByRegions)
 

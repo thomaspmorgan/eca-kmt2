@@ -32,17 +32,14 @@ angular.module('staticApp')
       $scope.init = function () {
           $scope.view.isSnapshotLoading = true;
 
-          GetAllProgramCounts();
-
-          $q.all([GetAllProgramCounts()])
+          GetAllProgramCounts()
           .then(function () {
               GetProgramCostPerParticipant();
+              $scope.view.isSnapshotLoading = false;
           })
           .catch(function () {
               $scope.view.isSnapshotLoading = false;
           });
-
-          $scope.view.isSnapshotLoading = false;
       };
 
       function GetAllProgramCounts() {

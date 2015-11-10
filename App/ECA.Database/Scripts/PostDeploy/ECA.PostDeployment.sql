@@ -38,4 +38,5 @@ Post-Deployment Script Template
 :r .\StaticData\dbo.SocialMediaType.staticdata.sql
 :r .\StaticData\dbo.SevisCommStatus.staticdata.sql
 
---:r .\CAM.InsertResources.sql
+:r .\CAM.InsertResources.sql
+:r .\CAM.GrantKMTSuperUserRolePermissions.sql
