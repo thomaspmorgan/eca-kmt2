@@ -52,3 +52,36 @@ CREATE INDEX [IX_LastName] ON [dbo].[Person] ([LastName])
 GO
 
 CREATE INDEX [IX_FirstName] ON [dbo].[Person] ([FirstName])
+
+GO
+
+CREATE INDEX [IX_SecondLastName] ON [dbo].[Person] ([SecondLastName])
+
+GO
+
+CREATE INDEX [IX_NamePrefix] ON [dbo].[Person] ([NamePrefix])
+
+
+GO
+
+CREATE INDEX [IX_NameSuffix] ON [dbo].[Person] ([NameSuffix])
+
+GO
+
+CREATE INDEX [IX_GivenName] ON [dbo].[Person] ([GivenName])
+
+GO
+
+CREATE INDEX [IX_FamilyName] ON [dbo].[Person] ([FamilyName])
+
+GO
+
+CREATE INDEX [IX_MiddleName] ON [dbo].[Person] ([MiddleName])
+
+GO
+
+CREATE INDEX [IX_Patronym] ON [dbo].[Person] ([Patronym])
+
+GO
+
+CREATE INDEX [IX_Alias] ON [dbo].[Person] ([Alias])

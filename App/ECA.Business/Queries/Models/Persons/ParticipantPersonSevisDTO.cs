@@ -157,9 +157,39 @@ namespace ECA.Business.Queries.Models.Persons
         public decimal? FundingGovtAgency1 { get; set; }
 
         /// <summary>
+        /// Id of another U.S. government agency
+        /// </summary>
+        public int? GovtAgency1Id { get; set; }
+
+        /// <summary>
+        /// Name of another U.S. government agency
+        /// </summary>
+        public string GovtAgency1Name { get; set; }
+
+        /// <summary>
+        /// Other Name of another U.S. government agency
+        /// </summary>
+        public string GovtAgency1OtherName { get; set; }
+
+        /// <summary>
         /// Funding from another U.S. government agency
         /// </summary>
         public decimal? FundingGovtAgency2 { get; set; }
+
+        /// <summary>
+        /// Id of  another U.S. government agency
+        /// </summary>
+        public int? GovtAgency2Id { get; set; }
+
+        /// <summary>
+        /// Name of another U.S. government agency
+        /// </summary>
+        public string GovtAgency2Name { get; set; }
+
+        /// <summary>
+        /// Other Name of another U.S. government agency
+        /// </summary>
+        public string GovtAgency2OtherName { get; set; }
 
         /// <summary>
         /// Funding from another international org
@@ -167,14 +197,49 @@ namespace ECA.Business.Queries.Models.Persons
         public decimal? FundingIntlOrg1 { get; set; }
 
         /// <summary>
+        /// id of another International org
+        /// </summary>
+        public int? IntlOrg1Id { get; set; }
+
+        /// <summary>
+        /// Name of another International org
+        /// </summary>
+        public string IntlOrg1Name { get; set; }
+
+        /// <summary>
+        /// Other Name of another International org
+        /// </summary>
+        public string IntlOrg1OtherName { get; set; }
+
+        /// <summary>
         /// Funding from another international org
         /// </summary>
         public decimal? FundingIntlOrg2 { get; set; }
 
         /// <summary>
+        /// Id of another International org
+        /// </summary>
+        public int? IntlOrg2Id { get; set; }
+
+        /// <summary>
+        /// Name of another International org
+        /// </summary>
+        public string IntlOrg2Name { get; set; }
+
+        /// <summary>
+        /// Other Name of another International org
+        /// </summary>
+        public string IntlOrg2OtherName { get; set; }
+
+        /// <summary>
         /// Funding from other source
         /// </summary>
         public decimal? FundingOther { get; set; }
+
+        /// <summary>
+        /// Name of  other org
+        /// </summary>
+        public string OtherName { get; set; }
 
         /// <summary>
         /// Total funding

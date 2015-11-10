@@ -16,5 +16,7 @@ Post-Deployment Script Template
 :r .\StaticData\CAM.Resource.staticdata.sql
 :r .\StaticData\CAM.Application.staticdata.sql
 :r .\StaticData\CAM.Principal.staticdata.sql
+:r .\StaticData\CAM.Role.staticdata.sql
+
 :r .\AdditionalUsersAndPermissionAssignments.sql
 

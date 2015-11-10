@@ -116,6 +116,14 @@ namespace ECA.Core.Test.Settings
         }
 
         [TestMethod]
+        public void TestAppSettings_ApplicationInsightsInstrumentationKey()
+        {
+            var value = "value";
+            appSettings.Add(AppSettings.APPLICATION_INSIGHTS_INSTRUMENTATION_SETTINGS_KEY, value);
+            Assert.AreEqual(value, settings.AppInsightsInstrumentationKey);
+        }
+
+        [TestMethod]
         public void TestAppSettings_AdTenantId()
         {
             var value = "value";

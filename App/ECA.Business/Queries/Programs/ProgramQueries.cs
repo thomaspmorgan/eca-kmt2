@@ -139,7 +139,6 @@ namespace ECA.Business.Queries.Programs
                             Websites = websites.Select(x => new SimpleLookupDTO { Id = x.WebsiteId, Value = x.WebsiteValue }),
                             ProgramStatusName = status.Status
                         };
-            var s = query.ToString();
             return query;
         }
     }

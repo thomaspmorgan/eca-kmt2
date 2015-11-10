@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Caching;
 using System.Threading.Tasks;
@@ -105,8 +106,9 @@ namespace ECA.WebApi.Security
         public CacheItemPolicy GetCacheItemPolicy()
         {
             var policy = new CacheItemPolicy();
-            policy.AbsoluteExpiration = DateTimeOffset.UtcNow.AddSeconds((double)this.timeToLiveInSeconds);
+            policy.SlidingExpiration = TimeSpan.FromSeconds((double)this.timeToLiveInSeconds);
             policy.RemovedCallback = ItemRemoved;
+            policy.ChangeMonitors.Add(new CamRoleChangeMonitor());
             return policy;
         }
 
@@ -135,6 +137,5 @@ namespace ECA.WebApi.Security
             this.cache.Remove(GetKey(userId));
             this.logger.Info("Removed user with id [{0}] cache.", userId);
         }
-
     }
 }

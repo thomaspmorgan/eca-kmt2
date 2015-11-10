@@ -809,6 +809,34 @@ namespace ECA.Data
 		/// Returns the U.S. Non-Profit Organization (501(c)(3)) lookup with id 10.
 		/// </summary>
 		public static StaticLookup USNonProfitOrganization501C3 { get { return new StaticLookup("U.S. Non-Profit Organization (501(c)(3))", 10); } }
+		/// <summary>
+		/// Returns the U.S. Federal Government lookup with id 11.
+		/// </summary>
+		public static StaticLookup USFederalGovernment { get { return new StaticLookup("U.S. Federal Government", 11); } }
+		/// <summary>
+		/// Returns the U.S. State or Local Government lookup with id 12.
+		/// </summary>
+		public static StaticLookup USStateOrLocalGovernment { get { return new StaticLookup("U.S. State or Local Government", 12); } }
+		/// <summary>
+		/// Returns the International Organization lookup with id 13.
+		/// </summary>
+		public static StaticLookup InternationalOrganization { get { return new StaticLookup("International Organization", 13); } }
+		/// <summary>
+		/// Returns the U.S. Company lookup with id 14.
+		/// </summary>
+		public static StaticLookup USCompany { get { return new StaticLookup("U.S. Company", 14); } }
+		/// <summary>
+		/// Returns the Foreign Company lookup with id 15.
+		/// </summary>
+		public static StaticLookup ForeignCompany { get { return new StaticLookup("Foreign Company", 15); } }
+		/// <summary>
+		/// Returns the Bilateral Commission lookup with id 16.
+		/// </summary>
+		public static StaticLookup BilateralCommission { get { return new StaticLookup("Bilateral Commission", 16); } }
+		/// <summary>
+		/// Returns the U.S. Embassy/American Space lookup with id 17.
+		/// </summary>
+		public static StaticLookup USEmbassyAmericanSpace { get { return new StaticLookup("U.S. Embassy/American Space", 17); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -826,6 +854,13 @@ namespace ECA.Data
 			if (8 == id) return OrganizationType.PublicInternationalOrganizationPio;
 			if (9 == id) return OrganizationType.USEducationalInstitution;
 			if (10 == id) return OrganizationType.USNonProfitOrganization501C3;
+			if (11 == id) return OrganizationType.USFederalGovernment;
+			if (12 == id) return OrganizationType.USStateOrLocalGovernment;
+			if (13 == id) return OrganizationType.InternationalOrganization;
+			if (14 == id) return OrganizationType.USCompany;
+			if (15 == id) return OrganizationType.ForeignCompany;
+			if (16 == id) return OrganizationType.BilateralCommission;
+			if (17 == id) return OrganizationType.USEmbassyAmericanSpace;
 			return null;
 		}
 		///<summary>
@@ -845,6 +880,13 @@ namespace ECA.Data
 			if ("Public International Organization (PIO)".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.PublicInternationalOrganizationPio;
 			if ("U.S. Educational Institution".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.USEducationalInstitution;
 			if ("U.S. Non-Profit Organization (501(c)(3))".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.USNonProfitOrganization501C3;
+			if ("U.S. Federal Government".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.USFederalGovernment;
+			if ("U.S. State or Local Government".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.USStateOrLocalGovernment;
+			if ("International Organization".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.InternationalOrganization;
+			if ("U.S. Company".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.USCompany;
+			if ("Foreign Company".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.ForeignCompany;
+			if ("Bilateral Commission".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.BilateralCommission;
+			if ("U.S. Embassy/American Space".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.USEmbassyAmericanSpace;
 			return null;
 		}
 
@@ -956,29 +998,9 @@ namespace ECA.Data
 		/// </summary>
 		public static StaticLookup OrganizationalParticipant { get { return new StaticLookup("Organizational Participant", 1); } }
 		/// <summary>
-		/// Returns the Foreign Government lookup with id 2.
-		/// </summary>
-		public static StaticLookup ForeignGovernment { get { return new StaticLookup("Foreign Government", 2); } }
-		/// <summary>
-		/// Returns the U.S. Educational Institution lookup with id 3.
-		/// </summary>
-		public static StaticLookup USEducationalInstitution { get { return new StaticLookup("U.S. Educational Institution", 3); } }
-		/// <summary>
-		/// Returns the Public International Organization (PIO) lookup with id 4.
-		/// </summary>
-		public static StaticLookup PublicInternationalOrganizationPio { get { return new StaticLookup("Public International Organization (PIO)", 4); } }
-		/// <summary>
-		/// Returns the U.S. Non-Profit Organization (501(c)(3)) lookup with id 5.
-		/// </summary>
-		public static StaticLookup USNonProfitOrganization501C3 { get { return new StaticLookup("U.S. Non-Profit Organization (501(c)(3))", 5); } }
-		/// <summary>
 		/// Returns the Individual lookup with id 6.
 		/// </summary>
 		public static StaticLookup Individual { get { return new StaticLookup("Individual", 6); } }
-		/// <summary>
-		/// Returns the Foreign NGO/PVO lookup with id 7.
-		/// </summary>
-		public static StaticLookup ForeignNgoPvo { get { return new StaticLookup("Foreign NGO/PVO", 7); } }
 		/// <summary>
 		/// Returns the Other Organization lookup with id 8.
 		/// </summary>
@@ -1011,12 +1033,7 @@ namespace ECA.Data
 		public static StaticLookup GetStaticLookup(int id)
 		{
 			if (1 == id) return ParticipantType.OrganizationalParticipant;
-			if (2 == id) return ParticipantType.ForeignGovernment;
-			if (3 == id) return ParticipantType.USEducationalInstitution;
-			if (4 == id) return ParticipantType.PublicInternationalOrganizationPio;
-			if (5 == id) return ParticipantType.USNonProfitOrganization501C3;
 			if (6 == id) return ParticipantType.Individual;
-			if (7 == id) return ParticipantType.ForeignNgoPvo;
 			if (8 == id) return ParticipantType.OtherOrganization;
 			if (9 == id) return ParticipantType.Other;
 			if (10 == id) return ParticipantType.ForeignNonTravelingParticipant;
@@ -1033,12 +1050,7 @@ namespace ECA.Data
 		public static StaticLookup GetStaticLookup(string value)
 		{
 			if ("Organizational Participant".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.OrganizationalParticipant;
-			if ("Foreign Government".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.ForeignGovernment;
-			if ("U.S. Educational Institution".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.USEducationalInstitution;
-			if ("Public International Organization (PIO)".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.PublicInternationalOrganizationPio;
-			if ("U.S. Non-Profit Organization (501(c)(3))".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.USNonProfitOrganization501C3;
 			if ("Individual".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.Individual;
-			if ("Foreign NGO/PVO".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.ForeignNgoPvo;
 			if ("Other Organization".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.OtherOrganization;
 			if ("Other".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.Other;
 			if ("Foreign Non Traveling Participant".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.ForeignNonTravelingParticipant;
@@ -1289,6 +1301,18 @@ namespace ECA.Data
 		/// Returns the Rejected lookup with id 11.
 		/// </summary>
 		public static StaticLookup Rejected { get { return new StaticLookup("Rejected", 11); } }
+		/// <summary>
+		/// Returns the Nominated lookup with id 12.
+		/// </summary>
+		public static StaticLookup Nominated { get { return new StaticLookup("Nominated", 12); } }
+		/// <summary>
+		/// Returns the Transferred lookup with id 13.
+		/// </summary>
+		public static StaticLookup Transferred { get { return new StaticLookup("Transferred", 13); } }
+		/// <summary>
+		/// Returns the Waitlisted lookup with id 14.
+		/// </summary>
+		public static StaticLookup Waitlisted { get { return new StaticLookup("Waitlisted", 14); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -1306,6 +1330,9 @@ namespace ECA.Data
 			if (9 == id) return ProjectStatus.ProjectPostponed;
 			if (10 == id) return ProjectStatus.Proposed;
 			if (11 == id) return ProjectStatus.Rejected;
+			if (12 == id) return ProjectStatus.Nominated;
+			if (13 == id) return ProjectStatus.Transferred;
+			if (14 == id) return ProjectStatus.Waitlisted;
 			return null;
 		}
 		///<summary>
@@ -1325,6 +1352,9 @@ namespace ECA.Data
 			if ("Project Postponed".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProjectStatus.ProjectPostponed;
 			if ("Proposed".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProjectStatus.Proposed;
 			if ("Rejected".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProjectStatus.Rejected;
+			if ("Nominated".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProjectStatus.Nominated;
+			if ("Transferred".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProjectStatus.Transferred;
+			if ("Waitlisted".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProjectStatus.Waitlisted;
 			return null;
 		}
 

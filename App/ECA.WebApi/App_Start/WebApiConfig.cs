@@ -1,4 +1,5 @@
 ﻿using ECA.Core.Generation;
+using ECA.Core.Settings;
 using ECA.Data;
 using ECA.WebApi.Custom;
 using ECA.WebApi.Custom.Filters;
@@ -20,6 +21,10 @@ namespace ECA.WebApi
     {
         public static void Register(HttpConfiguration config)
         {
+            var appSettings = new AppSettings();
+            Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration.Active.InstrumentationKey = appSettings.AppInsightsInstrumentationKey;
+            Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration.Active.TelemetryInitializers.Add(new KmtApiConfigInitializer());
+
             // Web API configuration and services
 
             // Enable cross-origin resource sharing.
