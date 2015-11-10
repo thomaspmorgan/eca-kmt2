@@ -625,6 +625,7 @@
     <Content Include="app\reports\project-awards.html" />
     <Content Include="app\reports\post-awards.html" />
     <Content Include="app\reports\region-awards.html" />
+    <Content Include="app.tpls.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
