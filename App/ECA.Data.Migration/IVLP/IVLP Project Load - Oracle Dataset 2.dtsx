@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="IVLP Project Load - Oracle Dataset 2"
   DTS:PackageType="5"
-  DTS:VersionBuild="125"
-  DTS:VersionGUID="{35A96A88-7999-4BDE-AD77-B9A3AD89E525}">
+  DTS:VersionBuild="135"
+  DTS:VersionGUID="{93E78FF2-822F-4CC3-9EFD-A33911597EB3}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -47,7 +47,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAD4ofbCfGYq5Cpi0Rokk5S20xZqfm3mGc46DCEMB22ytQAAAAAOgAAAAAIAACAAAAAFuHZ8aarTVVvB99nekO51eT1dnei80wUlAtAxJJ39giAAAABpD/YCF/A592ZXXRcxdOv7HvD+M2XORSwBy7HrwNKsrEAAAACv39n28dyqhY9XBHTqYVwr3x7kEuGoeUxhDKFJEqi016UegI+McQ5OSUoaut+Bfg+s2jpzYmLmpFgR7339Rg3k</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAsMiNkaTKWb2a83K5uIVMN1QALUieZ1yvixDzbpePyJwAAAAAOgAAAAAIAACAAAACNwgpsJCnVzFjPQmSX3j/tQv6H8VHNnRgfFDaDwoOl6iAAAAC4JqiHk+ej/jfp+I747mBo2SGooyUPQbViDhHhnv2uo0AAAAAEFvxiSPH6TSb7e79TYNXV+PpnkRxoQ/tpP2HbpPrVKxxXXxxvhUfccFJl33fY+65ZVZdVYIpCk0ygpkOQaMYa</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -64,7 +64,7 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Create IVLP Project XREF"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
@@ -2478,11 +2478,11 @@ where [refTable].[ProjectNumberIVLP] = ?</property>
       DTS:LocaleID="-1"
       DTS:ObjectName="Delete Existing Final Project XREF rows (Completed)"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{EEE8DD4F-C584-43E4-88F1-4DEBC2EC522B}"
+          SQLTask:Connection="{FF1415A8-7007-4D37-8D35-38ED28116B2F}"
           SQLTask:SqlStatementSource="DELETE FROM dbo.ECA_IVLP_KMT_Project_XREF_Final" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
@@ -2496,7 +2496,7 @@ where [refTable].[ProjectNumberIVLP] = ?</property>
       DTS:LocaleID="-1"
       DTS:ObjectName="Delete Existing IVLP-KMT Project XREF Interim rows (Completed)"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -10351,7 +10351,7 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
       DTS:LocaleID="-1"
       DTS:ObjectName="Map Source Project Language to ECA Language (Completed)"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -10677,21 +10677,21 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
+          Size="165,42"
+          Id="Package\Create IVLP-KMT Project XREF Final (Completed)\Project XREF Data"
+          TopLeft="50.5,15.5" />
+        <NodeLayout
           Size="156,42"
           Id="Package\Create IVLP-KMT Project XREF Final (Completed)\Data Conversion"
           TopLeft="52.5,131.5" />
-        <NodeLayout
-          Size="193,42"
-          Id="Package\Create IVLP-KMT Project XREF Final (Completed)\Completed Project XREF"
-          TopLeft="39.5,374.5" />
         <NodeLayout
           Size="206,42"
           Id="Package\Create IVLP-KMT Project XREF Final (Completed)\Lookup ECA-KMT ProjectId"
           TopLeft="32.5,248.5" />
         <NodeLayout
-          Size="165,42"
-          Id="Package\Create IVLP-KMT Project XREF Final (Completed)\Project XREF Data"
-          TopLeft="50.5,15.5" />
+          Size="193,42"
+          Id="Package\Create IVLP-KMT Project XREF Final (Completed)\Completed Project XREF"
+          TopLeft="39.5,374.5" />
         <EdgeLayout
           Id="Package\Create IVLP-KMT Project XREF Final (Completed).Paths[OLE DB Source Output]"
           TopLeft="131.75,57.5">
@@ -10711,29 +10711,9 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Create IVLP-KMT Project XREF Final (Completed).Paths[Data Conversion Output]"
-          TopLeft="133,173.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,75"
-              Start="0,0"
-              End="0,67.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,67.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -10757,6 +10737,30 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
               BoundingBox="-48.19138671875,32.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create IVLP-KMT Project XREF Final (Completed).Paths[Data Conversion Output]"
+          TopLeft="133,173.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,75"
+              Start="0,0"
+              End="0,67.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,67.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -10816,7 +10820,7 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
     design-time-name="Package\Load IVLP-KMT Project XREF Interim (Completed)">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="252,42"
           Id="Package\Load IVLP-KMT Project XREF Interim (Completed)\Load IVLP-KMT Project XREF Interim"
@@ -10852,7 +10856,9 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -10874,7 +10880,9 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -10896,7 +10904,9 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -10976,7 +10986,9 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -11022,7 +11034,9 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -11068,7 +11082,9 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -11171,7 +11187,9 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -11193,7 +11211,9 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -11239,7 +11259,9 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -11261,7 +11283,9 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -11364,7 +11388,9 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -11386,7 +11412,9 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -11432,7 +11460,9 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -11454,7 +11484,9 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -11689,7 +11721,9 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -11711,7 +11745,9 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -11733,7 +11769,9 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>

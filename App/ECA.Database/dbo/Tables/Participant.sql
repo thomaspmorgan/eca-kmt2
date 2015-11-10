@@ -10,6 +10,7 @@
     [ParticipantStatusId] INT NULL, 
     [StatusDate] DATETIMEOFFSET NULL, 
     [ProjectId] INT NOT NULL, 
+    [IVLP_ParticipantId] NVARCHAR(32) NULL, 
     CONSTRAINT [PK_dbo.Participant] PRIMARY KEY CLUSTERED ([ParticipantId] ASC),
     CONSTRAINT [FK_dbo.Participant_dbo.Organization_OrganizationId] FOREIGN KEY ([OrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId]),
     CONSTRAINT [FK_dbo.Participant_dbo.ParticipantType_ParticipantTypeId] FOREIGN KEY ([ParticipantTypeId]) REFERENCES [dbo].[ParticipantType] ([ParticipantTypeId]) ON DELETE CASCADE,
