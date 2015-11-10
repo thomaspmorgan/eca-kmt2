@@ -11,39 +11,39 @@ using System.Web.Http.Description;
 namespace ECA.WebApi.Controllers.Projects
 {
     /// <summary>
-    /// The FieldOfStudies controller handles crud operations on sevis FieldOfStudies.
+    /// The EducationLevelsController handles crud operations on sevis EducationLevels.
     /// </summary>
     [Authorize]
-    public class FieldOfStudiesController : ApiController
+    public class EducationLevelsController : ApiController
     {
         /// <summary>
-        /// The default sorter for a list of FieldOfStudies.
+        /// The default sorter for a list of sevis EducationLevels.
         /// </summary>
-        private static readonly ExpressionSorter<SimpleSevisLookupDTO> DEFAULT_FIELD_OF_STUDIES_DTO_SORTER = 
+        private static readonly ExpressionSorter<SimpleSevisLookupDTO> DEFAULT_SEVIS_COMM_STATUS_DTO_SORTER = 
             new ExpressionSorter<SimpleSevisLookupDTO>(x => x.Description, SortDirection.Ascending);
-        private IFieldOfStudyService service;
+        private IEducationLevelService service;
 
         /// <summary>
-        /// Creates a new instance with the SEVIS FieldOfStudies service.
+        /// Creates a new instance with the SEVIS EducationLevels service.
         /// </summary>
         /// <param name="service">The service.</param>
-        public FieldOfStudiesController(IFieldOfStudyService service)
+        public EducationLevelsController(IEducationLevelService service)
         {
             Contract.Requires(service != null, "The service must not be null.");
             this.service = service;
         }
 
         /// <summary>
-        /// Returns the SEVIS FieldOfStudies currently in the system.
+        /// Returns the SEVIS EducationLevels currently in the system.
         /// </summary>
         /// <param name="queryModel">The query model.</param>
-        /// <returns>The project SEVIS FieldOfStudies currently in the system.</returns>
+        /// <returns>The project SEVIS EducationLevels currently in the system.</returns>
         [ResponseType(typeof(PagedQueryResults<SimpleSevisLookupDTO>))]
-        public async Task<IHttpActionResult> GetFieldOfStudiesAsync([FromUri]PagingQueryBindingModel<SimpleSevisLookupDTO> queryModel)
+        public async Task<IHttpActionResult> GetEducationLevelsAsync([FromUri]PagingQueryBindingModel<SimpleSevisLookupDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
-                var results = await service.GetAsync(queryModel.ToQueryableOperator(DEFAULT_FIELD_OF_STUDIES_DTO_SORTER));
+                var results = await service.GetAsync(queryModel.ToQueryableOperator(DEFAULT_SEVIS_COMM_STATUS_DTO_SORTER));
                 return Ok(results);
             }
             else

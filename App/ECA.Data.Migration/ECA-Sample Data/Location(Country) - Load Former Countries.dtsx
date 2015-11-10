@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Location Country  - Load Former Countries"
   DTS:PackageType="5"
-  DTS:VersionBuild="4"
-  DTS:VersionGUID="{2862765C-3C7B-4AE7-9E39-1F9132D310E2}">
+  DTS:VersionBuild="5"
+  DTS:VersionGUID="{C9D4CFDC-ED5F-4A5C-A6C3-4C337653C5E6}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -23,7 +23,7 @@
       DTS:ObjectName="Excel Connection Manager">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\ECA\ISO 3166 Country List - Formerly Used Codes.xlsx;Extended Properties=&quot;Excel 12.0 XML;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\ECA\ISO 3166 Country List - Formerly Used Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -751,6 +751,14 @@ where [refTable].[LocationName] = ? AND  [refTable].[LocationTypeId] = 3</proper
                       refId="Package\Load Historical Countries\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Division_LocationId]"
                       dataType="i4"
                       name="Division_LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Load Historical Countries\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[IsDivisionUnknown]"
+                      dataType="bool"
+                      name="IsDivisionUnknown" />
+                    <externalMetadataColumn
+                      refId="Package\Load Historical Countries\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[IsActive]"
+                      dataType="bool"
+                      name="IsActive" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -826,77 +834,21 @@ where [refTable].[LocationName] = ? AND  [refTable].[LocationTypeId] = 3</proper
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="139,42"
-          Id="Package\Load Historical Countries\Excel Source"
-          TopLeft="69.5,21.5" />
-        <NodeLayout
           Size="171,42"
           Id="Package\Load Historical Countries\OLE DB Destination"
           TopLeft="35.5,302.5" />
         <NodeLayout
-          Size="154,42"
-          Id="Package\Load Historical Countries\Derived Column"
-          TopLeft="53.5,126.5" />
-        <EdgeLayout
-          Id="Package\Load Historical Countries.Paths[Excel Source Output]"
-          TopLeft="139,63.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-8.5,63"
-              Start="0,0"
-              End="-8.5,55.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,27.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,27.5"
-                    Point2="0,31.5"
-                    Point3="-4,31.5" />
-                  <mssgle:LineSegment
-                    End="-4.5,31.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-4.5,31.5"
-                    Point2="-8.5,31.5"
-                    Point3="-8.5,35.5" />
-                  <mssgle:LineSegment
-                    End="-8.5,55.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+          Size="139,42"
+          Id="Package\Load Historical Countries\Excel Source"
+          TopLeft="57.5,21.5" />
         <NodeLayout
           Size="113,42"
           Id="Package\Load Historical Countries\Lookup"
           TopLeft="77.5,213.5" />
-        <EdgeLayout
-          Id="Package\Load Historical Countries.Paths[Derived Column Output]"
-          TopLeft="132.25,168.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,45"
-              Start="0,0"
-              End="0,37.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,37.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+        <NodeLayout
+          Size="154,42"
+          Id="Package\Load Historical Countries\Derived Column"
+          TopLeft="53.5,126.5" />
         <EdgeLayout
           Id="Package\Load Historical Countries.Paths[Lookup No Match Output]"
           TopLeft="134,255.5">
@@ -933,11 +885,55 @@ where [refTable].[LocationName] = ? AND  [refTable].[LocationTypeId] = 3</proper
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Historical Countries.Paths[Excel Source Output]"
+          TopLeft="128.75,63.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,63"
+              Start="0,0"
+              End="0,55.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,55.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Historical Countries.Paths[Derived Column Output]"
+          TopLeft="132.25,168.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,45"
+              Start="0,0"
+              End="0,37.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Load Historical Countries\Excel Source">
+    design-time-name="Package\Load Historical Countries\OLE DB Destination">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -950,7 +946,7 @@ where [refTable].[LocationName] = ? AND  [refTable].[LocationTypeId] = 3</proper
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load Historical Countries\OLE DB Destination">
+    design-time-name="Package\Load Historical Countries\Excel Source">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -968,7 +964,7 @@ where [refTable].[LocationName] = ? AND  [refTable].[LocationTypeId] = 3</proper
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">true</Value>
+          type="q2:string">true</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -978,7 +974,7 @@ where [refTable].[LocationName] = ? AND  [refTable].[LocationTypeId] = 3</proper
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
