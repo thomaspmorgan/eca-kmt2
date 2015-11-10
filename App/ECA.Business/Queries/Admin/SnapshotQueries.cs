@@ -258,6 +258,7 @@ namespace ECA.Business.Queries.Admin
         /// <returns></returns>
         public static async Task<IEnumerable<SnapshotDTO>> CreateGetProgramParticipantsByLocationQuery(EcaContext context, IEnumerable<int> programIds)
         {
+            //TODO: fix query
             Contract.Requires(context != null, "The context must not be null.");
             var progPartic = await context.Participants.Where(p => programIds.Contains(p.Project.ProgramId)
                                                                 && p.Project.StartDate.Year >= oldestDate.Year)
