@@ -38,6 +38,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderId = gender.GenderId,
                 FirstName = "first",
                 LastName = "last",
+                FullName = "full name"
             };
 
             var participant = new Participant
@@ -62,7 +63,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(participantType.ParticipantTypeId, participantResult.ParticipantTypeId);
             Assert.AreEqual(participantType.Name, participantResult.ParticipantType);
             Assert.AreEqual(person.PersonId, participantResult.PersonId);
-            Assert.AreEqual(String.Format("{0} {1}", person.FirstName, person.LastName), participantResult.Name);
+            Assert.AreEqual(person.FullName, participantResult.Name);
             Assert.IsNull(participantResult.Country);
             Assert.IsNull(participantResult.City);
         }
@@ -205,126 +206,6 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(address.Location.City.LocationName, participantResult.City);
             Assert.AreEqual(address.Location.Country.LocationName, participantResult.Country);
 
-        }
-
-        [TestMethod]
-        public void TestCreateGetPersonParticipantsQuery_FirstNameIsNull()
-        {
-            var participantType = new ParticipantType
-            {
-                Name = ParticipantType.Individual.Value,
-                ParticipantTypeId = ParticipantType.Individual.Id,
-            };
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var person = new Person
-            {
-                PersonId = 1,
-                Gender = gender,
-                GenderId = gender.GenderId,
-                FirstName = null,
-                LastName = "last"
-            };
-
-            var participant = new Participant
-            {
-                Person = person,
-                PersonId = person.PersonId,
-                ParticipantType = participantType,
-                ParticipantTypeId = participantType.ParticipantTypeId
-            };
-            context.ParticipantTypes.Add(participantType);
-            context.Genders.Add(gender);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-
-            var results = ParticipantQueries.CreateGetPersonParticipantsQuery(context);
-            Assert.AreEqual(1, results.Count());
-            var participantResult = results.First();
-            Assert.AreEqual(person.LastName, participantResult.Name);
-        }
-
-        [TestMethod]
-        public void TestCreateGetPersonParticipantsQuery_LastNameIsNull()
-        {
-            var participantType = new ParticipantType
-            {
-                Name = ParticipantType.Individual.Value,
-                ParticipantTypeId = ParticipantType.Individual.Id,
-            };
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var person = new Person
-            {
-                PersonId = 1,
-                Gender = gender,
-                GenderId = gender.GenderId,
-                FirstName = "first",
-                LastName = null
-            };
-
-            var participant = new Participant
-            {
-                Person = person,
-                PersonId = person.PersonId,
-                ParticipantType = participantType,
-                ParticipantTypeId = participantType.ParticipantTypeId
-            };
-            context.ParticipantTypes.Add(participantType);
-            context.Genders.Add(gender);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-
-            var results = ParticipantQueries.CreateGetPersonParticipantsQuery(context);
-            Assert.AreEqual(1, results.Count());
-            var participantResult = results.First();
-            Assert.AreEqual(String.Format("{0}", person.FirstName, null), participantResult.Name);
-        }
-
-        [TestMethod]
-        public void TestCreateGetPersonParticipantsQuery_BothNamesAreNull()
-        {
-            var participantType = new ParticipantType
-            {
-                Name = ParticipantType.Individual.Value,
-                ParticipantTypeId = ParticipantType.Individual.Id,
-            };
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var person = new Person
-            {
-                PersonId = 1,
-                Gender = gender,
-                GenderId = gender.GenderId,
-                FirstName = null,
-                LastName = null
-            };
-
-            var participant = new Participant
-            {
-                Person = person,
-                PersonId = person.PersonId,
-                ParticipantType = participantType,
-                ParticipantTypeId = participantType.ParticipantTypeId
-            };
-            context.ParticipantTypes.Add(participantType);
-            context.Genders.Add(gender);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-
-            var results = ParticipantQueries.CreateGetPersonParticipantsQuery(context);
-            Assert.AreEqual(1, results.Count());
-            var participantResult = results.First();
-            Assert.AreEqual(String.Empty, participantResult.Name);
         }
         #endregion
 
@@ -505,8 +386,7 @@ namespace ECA.Business.Test.Queries.Persons
             var person = new Person
             {
                 PersonId = 1,
-                FirstName = "firstName",
-                LastName = "lastName"
+                FullName = "firstName lastName"
             };
 
             var history = new History
@@ -548,7 +428,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.IsNull(participant.OrganizationId);
             Assert.AreEqual(participant.ParticipantTypeId, result.ParticipantTypeId);
             Assert.AreEqual(participant.ParticipantType.Name, result.ParticipantType);
-            Assert.AreEqual(person.FirstName + " " + person.LastName, result.Name);
+            Assert.AreEqual(person.FullName, result.Name);
             Assert.AreEqual(status.Status, result.Status);
             Assert.AreEqual(history.RevisedOn, result.RevisedOn);
         }

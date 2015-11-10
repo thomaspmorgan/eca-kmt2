@@ -32,9 +32,7 @@ namespace ECA.Business.Queries.Persons
                         where participant.PersonId.HasValue
                         select new SimpleParticipantDTO
                         {
-                            Name = (person.FirstName != null ? person.FirstName : String.Empty)
-                                  + (person.FirstName != null && person.LastName != null ? " " : String.Empty)
-                                  + (person.LastName != null ? person.LastName : String.Empty),
+                            Name = person.FullName,
                             City = location == null
                                 ? null : location.Location == null
                                 ? null : location.Location.City == null
@@ -52,7 +50,7 @@ namespace ECA.Business.Queries.Persons
                             RevisedOn = participant.History.RevisedOn,
                             ParticipantStatus = participant.Status == null ? null : participant.Status.Status,
                             SevisStatus = participantPerson == null ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName
-        };
+                        };
             return query;
         }
 
@@ -72,12 +70,12 @@ namespace ECA.Business.Queries.Persons
                         select new SimpleParticipantDTO
                         {
                             Name = org.Name,
-                            City = location == null 
-                                ? null : location.Location == null 
-                                ? null : location.Location.City == null 
+                            City = location == null
+                                ? null : location.Location == null
+                                ? null : location.Location.City == null
                                 ? null : location.Location.City.LocationName,
-                            Country = location == null 
-                                ? null : location.Location == null 
+                            Country = location == null
+                                ? null : location.Location == null
                                 ? null : location.Location.Country == null
                                 ? null : location.Location.Country == null
                                 ? null : location.Location.Country.LocationName,
@@ -91,7 +89,7 @@ namespace ECA.Business.Queries.Persons
                             ParticipantStatus = participant.Status == null ? null : participant.Status.Status,
                             SevisStatus = "N/A"
                         };
-                
+
             return query;
         }
 
@@ -160,9 +158,7 @@ namespace ECA.Business.Queries.Persons
                         participant.ParticipantId == participantId
                         select new ParticipantDTO
                         {
-                            Name = (person.FirstName != null ? person.FirstName : String.Empty)
-                                  + (person.FirstName != null && person.LastName != null ? " " : String.Empty)
-                                  + (person.LastName != null ? person.LastName : String.Empty),
+                            Name = person.FullName,
                             OrganizationId = default(int?),
                             ParticipantId = participant.ParticipantId,
                             ParticipantType = participantType.Name,
