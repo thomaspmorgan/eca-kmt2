@@ -141,6 +141,12 @@ angular.module('staticApp')
           },
           getSevisFieldOfStudies: function (params) {
               return DragonBreath.getCached(params, 'fieldofstudies');
+          },
+          getSevisUSGovernmentAgencies: function (params) {
+          return DragonBreath.getCached(params, 'usgovernmentagencies');
+          },
+          getSevisInternationalOrganizations: function (params) {
+              return DragonBreath.getCached(params, 'internationalorganizations');
           }
       };
   });

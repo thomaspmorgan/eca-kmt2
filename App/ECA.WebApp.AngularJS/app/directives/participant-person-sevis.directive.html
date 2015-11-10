@@ -71,15 +71,15 @@
                    class="form-control"
                    datepicker-popup="MM-dd-yyyy"
                    ng-model="sevisinfo.startDate"
-                   is-open="view.isStartDatePickerOpen"
+                   is-open="edit.isStartDatePickerOpen"
                    ng-required="true"
                    close-text="Close"
                    ng-change="update({participantId: participantid})" />
             <span class="input-group-btn">
                 <button type="button"
-                        class="btn btn-inlist"
+                        class="btn"
                         style="height: 42px;"
-                        ng-click="view.openStartDatePicker($event)">
+                        ng-click="edit.openStartDatePicker($event)">
                     <i class="material-icons md-18">event</i>
                 </button>
             </span>
@@ -93,15 +93,15 @@
                    class="form-control"
                    datepicker-popup="MM-dd-yyyy"
                    ng-model="sevisinfo.endDate"
-                   is-open="view.isEndDatePickerOpen"
+                   is-open="edit.isEndDatePickerOpen"
                    ng-required="true"
                    close-text="Close" 
                    ng-change="update({participantId: participantid})" />
             <span class="input-group-btn">
                 <button type="button"
-                        class="btn btn-inlist"
+                        class="btn"
                         style="height: 42px;"
-                        ng-click="view.openEndDatePicker($event)">
+                        ng-click="edit.openEndDatePicker($event)">
                     <i class="material-icons md-18">event</i>
                 </button>
             </span>
@@ -232,7 +232,7 @@
                 <i class="material-icons md-dark md-36 pull-right" ng-show="view.Funding">expand_more</i>
                 <i class="material-icons md-dark md-36 pull-right" ng-show="!view.Funding">expand_less</i>
             </a>
-            <a ng-click="view.FundingEdit=!view.FundingEdit">
+            <a ng-click="edit.onFundingEditChange()">
                 <i class="material-icons md-dark md-24 pull-right" ng-show="view.Funding && !view.FundingEdit">edit</i>
             </a>
         </div>
@@ -302,10 +302,10 @@
                     <label class="title-label">Gov't Agency 1</label>
                 </div>
                 <div class="col-md-3">
-                    {{sevisinfo.GovtAgency1Name}}
+                    {{sevisinfo.govtAgency1Name}}
                 </div>
                 <div class="col-md-2">
-                    {{sevisinfo.GovtAgency1OtherName}}
+                    {{sevisinfo.govtAgency1OtherName}}
                 </div>
                 <div class="col-md-1 text-right">
                     $
@@ -319,10 +319,10 @@
                     <label class="title-label">Gov't Agency 2</label>
                 </div>
                 <div class="col-md-3">
-                    {{sevisinfo.GovtAgency2Name}}
+                    {{sevisinfo.govtAgency2Name}}
                 </div>
                 <div class="col-md-2">
-                    {{sevisinfo.GovtAgency2OtherName}}
+                    {{sevisinfo.govtAgency2OtherName}}
                 </div>
                 <div class="col-md-1 text-right">
                     $
@@ -373,7 +373,7 @@
                     &nbsp;
                 </div>
                 <div class="col-md-2">
-                    {{sevisinfo.OtherName}}
+                    {{sevisinfo.otherName}}
                 </div>
                 <div class="col-md-1 text-right">
                     $
@@ -404,10 +404,10 @@
         </div>
         <form name="fundingEditForm" class="rowalt" ng-show="view.Funding">
             <div class="row row4">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label class="title-label">Sponsor</label>
                 </div>
-                <div class="col-md-6 text-right">
+                <div class="col-md-7 text-right">
                     $
                 </div>
                 <div class="col-md-2 text-right">
@@ -415,10 +415,10 @@
                 </div>
             </div>
             <div class="row row4">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label class="title-label">Personal</label>
                 </div>
-                <div class="col-md-6 text-right">
+                <div class="col-md-7 text-right">
                     $
                 </div>
                 <div class="col-md-2 text-right">
@@ -426,10 +426,10 @@
                 </div>
             </div>
             <div class="row row4">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label class="title-label">Vis. Gov't</label>
                 </div>
-                <div class="col-md-6 text-right">
+                <div class="col-md-7 text-right">
                     $
                 </div>
                 <div class="col-md-2 text-right">
@@ -437,10 +437,10 @@
                 </div>
             </div>
             <div class="row row4">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label class="title-label">Vis.BNC</label>
                 </div>
-                <div class="col-md-6 text-right">
+                <div class="col-md-7 text-right">
                     $
                 </div>
                 <div class="col-md-2 text-right">
@@ -448,10 +448,21 @@
                 </div>
             </div>
             <div class="row row4">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label class="title-label">Gov't Agency 1</label>
                 </div>
-                <div class="col-md-6 text-right">
+                <div class="col-md-3">
+                    <ui-select ng-model="sevisinfo.govtAgency1Id" theme="select2" tabindex="1" ng-required="true" on-select="onGovtAgency1Select($item)">
+                        <ui-select-match placeholder="Select a US Government Agency...">{{$select.selected.description}}</ui-select-match>
+                        <ui-select-choices repeat="usGovernmentAgency.id as usGovernmentAgency in edit.usGovernmentAgencies | filter: {description: $select.search} track by usGovernmentAgency.id">
+                            <div ng-bind-html="usGovernmentAgency.description | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" maxlength="60" ng-model="sevisinfo.govtAgency1OtherName" ng-show="view.GovtAgency1Other"/>
+                </div>
+                <div class="col-md-1 text-right">
                     $
                 </div>
                 <div class="col-md-2 text-right">
@@ -459,10 +470,21 @@
                 </div>
             </div>
             <div class="row row4">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label class="title-label">Gov't Agency 2</label>
                 </div>
-                <div class="col-md-6 text-right">
+                <div class="col-md-3">
+                    <ui-select ng-model="sevisinfo.govtAgency2Id" theme="select2" tabindex="1" ng-required="true" on-select="onGovtAgency2Select($item)">
+                        <ui-select-match placeholder="Select a US Government Agency...">{{$select.selected.description}}</ui-select-match>
+                        <ui-select-choices repeat="usGovernmentAgency.id as usGovernmentAgency in edit.usGovernmentAgencies | filter: {description: $select.search} track by usGovernmentAgency.id">
+                            <div ng-bind-html="usGovernmentAgency.description | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" maxlength="60" ng-model="sevisinfo.govtAgency2OtherName" ng-show="view.GovtAgency2Other"/>
+                </div>
+                <div class="col-md-1 text-right">
                     $
                 </div>
                 <div class="col-md-2 text-right">
@@ -470,10 +492,21 @@
                 </div>
             </div>
             <div class="row row4">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label class="title-label">Int'l Org 1</label>
                 </div>
-                <div class="col-md-6 text-right">
+                <div class="col-md-3">
+                    <ui-select ng-model="sevisinfo.intlOrg1Id" theme="select2" tabindex="1" ng-required="true" on-select="onIntlOrg1Select($item)">
+                        <ui-select-match placeholder="Select an International Organization...">{{$select.selected.description}}</ui-select-match>
+                        <ui-select-choices repeat="internationalOrganization.id as internationalOrganization in edit.internationalOrganizations | filter: {description: $select.search} track by internationalOrganization.id">
+                            <div ng-bind-html="internationalOrganization.description | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" maxlength="60" ng-model="sevisinfo.intlOrg1OtherName" ng-show="view.IntlOrg1Other" />
+                </div>
+                <div class="col-md-1 text-right">
                     $
                 </div>
                 <div class="col-md-2 text-right">
@@ -481,10 +514,21 @@
                 </div>
             </div>
             <div class="row row4">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label class="title-label">Int'l Org 2</label>
                 </div>
-                <div class="col-md-6 text-right">
+                <div class="col-md-3">
+                    <ui-select ng-model="sevisinfo.intlOrg2Id" theme="select2" tabindex="1" ng-required="true" on-select="onIntlOrg2Select($item)">
+                        <ui-select-match placeholder="Select an International Organization...">{{$select.selected.description}}</ui-select-match>
+                        <ui-select-choices repeat="internationalOrganization.id as internationalOrganization in edit.internationalOrganizations | filter: {description: $select.search} track by internationalOrganization.id">
+                            <div ng-bind-html="internationalOrganization.description | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" maxlength="60" ng-model="sevisinfo.intlOrg2OtherName" ng-show="view.IntlOrg2Other" />
+                </div>
+                <div class="col-md-1 text-right">
                     $
                 </div>
                 <div class="col-md-2 text-right">
@@ -492,10 +536,16 @@
                 </div>
             </div>
             <div class="row row4">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label class="title-label">Other Org.</label>
                 </div>
-                <div class="col-md-6 text-right">
+                <div class="col-md-3">
+                    &nbsp;
+                </div>
+                <div class="col-md-3">
+                    <input type="text" maxlength="60" ng-model="sevisinfo.otherName" />
+                </div>
+                <div class="col-md-1 text-right">
                     $
                 </div>
                 <div class="col-md-2 text-right">
@@ -503,10 +553,10 @@
                 </div>
             </div>
             <div class="row row4">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label class="title-label">Total</label>
                 </div>
-                <div class="col-md-6 text-right">
+                <div class="col-md-7 text-right">
                     $
                 </div>
                 <div class="col-md-2 text-right">

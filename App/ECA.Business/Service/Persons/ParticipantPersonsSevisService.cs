@@ -268,10 +268,19 @@ namespace ECA.Business.Service.Persons
             participantPerson.FundingVisGovt = updatedParticipantPersonSevis.FundingVisGovt;
             participantPerson.FundingVisBNC = updatedParticipantPersonSevis.FundingVisBNC;
             participantPerson.FundingGovtAgency1 = updatedParticipantPersonSevis.FundingGovtAgency1;
+            participantPerson.GovtAgency1Id = updatedParticipantPersonSevis.GovtAgency1Id;
+            participantPerson.GovtAgency1OtherName = updatedParticipantPersonSevis.GovtAgency1OtherName;
             participantPerson.FundingGovtAgency2 = updatedParticipantPersonSevis.FundingGovtAgency2;
+            participantPerson.GovtAgency2Id = updatedParticipantPersonSevis.GovtAgency2Id;
+            participantPerson.GovtAgency2OtherName = updatedParticipantPersonSevis.GovtAgency2OtherName;
             participantPerson.FundingIntlOrg1 = updatedParticipantPersonSevis.FundingIntlOrg1;
+            participantPerson.IntlOrg1Id = updatedParticipantPersonSevis.IntlOrg1Id;
+            participantPerson.IntlOrg1OtherName = updatedParticipantPersonSevis.IntlOrg1OtherName;
             participantPerson.FundingIntlOrg2 = updatedParticipantPersonSevis.FundingIntlOrg2;
+            participantPerson.IntlOrg2Id = updatedParticipantPersonSevis.IntlOrg2Id;
+            participantPerson.IntlOrg2OtherName = updatedParticipantPersonSevis.IntlOrg2OtherName;
             participantPerson.FundingOther = updatedParticipantPersonSevis.FundingOther;
+            participantPerson.OtherName = updatedParticipantPersonSevis.OtherName;
             participantPerson.FundingTotal = updatedParticipantPersonSevis.FundingTotal;
         }
 
