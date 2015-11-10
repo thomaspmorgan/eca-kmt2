@@ -171,6 +171,9 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<IFieldOfStudyService, FieldOfStudyService>(new HierarchicalLifetimeManager());
             container.RegisterType<IProgramCategoryService, ProgramCategoryService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPositionService, PositionService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IUSGovernmentAgencyService, USGovernmentAgencyService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IInternationalOrganizationService, InternationalOrganizationService>(new HierarchicalLifetimeManager());
+
         }
 
         /// <summary>
