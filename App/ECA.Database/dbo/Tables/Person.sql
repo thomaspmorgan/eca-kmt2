@@ -11,6 +11,7 @@
 	[Patronym]           NVARCHAR (50)     NULL,
 	[Alias]           NVARCHAR (50)     NULL,
 	[FullName] AS 
+		
 		 LTRIM(RTRIM(
 			CASE WHEN LEN(LTRIM(RTRIM([NamePrefix]))) > 0 THEN LTRIM(RTRIM([NamePrefix])) ELSE '' END + ' ' +
 			CASE WHEN LEN(LTRIM(RTRIM([FirstName]))) > 0 THEN LTRIM(RTRIM([FirstName])) ELSE '' END + ' ' +
@@ -19,7 +20,7 @@
 			CASE WHEN LEN(LTRIM(RTRIM([FamilyName]))) > 0 THEN LTRIM(RTRIM([FamilyName])) ELSE '' END + ' ' +
 			CASE WHEN LEN(LTRIM(RTRIM([Patronym]))) > 0 THEN LTRIM(RTRIM([Patronym])) ELSE '' END + ' ' +
 			CASE WHEN LEN(LTRIM(RTRIM([NameSuffix]))) > 0 THEN LTRIM(RTRIM([NameSuffix])) ELSE '' END
-		)),
+		)) PERSISTED,
     [GenderId]            INT                NOT NULL,
     [DateOfBirth]         DATETIME2 NULL,
     [Ethnicity]           NVARCHAR (100)     NULL,
