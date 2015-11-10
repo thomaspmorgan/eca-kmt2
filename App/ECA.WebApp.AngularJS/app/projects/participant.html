@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="col-md-5" ng-show="!view.isAddingParticipant">
-            <h4>Add an existing or new participant</h4>
+            <h4>Add an existing participant</h4>
             <div style="margin-top:10px;">
                 <span style="font-size:12pt;margin-right:5px;">Filter By:</span>
                 <label class="radio-inline">
@@ -56,45 +56,38 @@
         </div>
     </div>
     <div class="row expand">
-        <div class="dashed col-md-12" ng-show="participants.length === 0">
-            <h4>No participants yet.<span class="light"> Drop files here, <a>upload</a> or <a ng-click="openAddPersonDialog()">add manually</a>.</span></h4>
-        </div>
         <div st-pipe="getParticipants" st-table="participants" exposetablestate="getParticipantsTableState" id="sort-list">
+            <div class="row form-inline">
+                <input type="checkbox" ng-model="selectAll" ng-show="selectedAction" ng-change="selectAllChanged()"/>
+                <select class="form-control input-lg" ng-model="selectedAction" ng-change="selectedActionChanged()">
+                    <option value="">Choose Action</option>
+                    <option value="Send To SEVIS">Send To SEVIS</option>
+                </select>
+                <button class="btn btn-primary" ng-disabled="selectedParticipantsEmpty()" ng-click="applyAction()">Apply</button>
+                <input st-search type="search" placeholder="Search Participants" class="form-control input-lg" ng-model="participantFilter" ng-model-options="{debounce: 500}"/>
+                <i class="material-icons md-18 contextual">search</i>
+            </div>
             <table class="col-md-12 alt">
                 <thead>
                     <tr>
+                        <th></th>
                         <th st-sort="'name'" st-sort-default="true" class="col-md-3 sort-label medium">Name</th>
                         <th st-sort="'participantType'" class="col-md-2 sort-label medium">Type</th>
-                        <th class="col-md-2 sort-label medium">Status</th>
-                        <th class="col-md-2 sort-label medium">Sevis Status</th>
+                        <th st-sort="'participantStatus'"class="col-md-2 sort-label medium">Status</th>
+                        <th st-sort="'sevisStatus'"class="col-md-2 sort-label medium">Sevis Status</th>
                         <th class="col-md-2">&nbsp;</th>
                         <th class="col-md-1">&nbsp;</th>
-                    </tr>
-                    <tr>
-                        <th>
-                            <input st-search="'name'" placeholder="" type="search" class="input-lg form-control" />
-                        </th>
-                        <th>
-                            <input st-search="'participantType'" placeholder="" type="search" class="input-lg form-control" />
-                        </th>
-                        <th>
-                            <input st-search="'status'" placeholder="" type="search" class="input-lg form-control" />
-                        </th>
-                        <th>
-                            <input st-search="'sevisStatus'" placeholder="" type="search" class="input-lg form-control" />
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
                     </tr>
                 </thead>
                 <tbody class="list2">
                     <tr class="hover-dark" ng-repeat-start="participant in participants" ng-show="!participantsLoading">
                         <td>
-                            <h5 class="list-title"><a ng-click="onParticipantClick(participant)">{{participant.name}}</a></h5>
+                            <!-- Fix for row height difference -->
+                            <span ng-show="!selectedAction">&nbsp;</span>
+                            <input type="checkbox" ng-show="selectedAction" ng-model="selectedParticipants[participant.participantId]" ng-change="selectedParticipant(participant, selectedParticipants[participant.participantId])"/>
+                        </td>
+                        <td>
+                            <h5 class="list-title"><a href="{{participant.href}}">{{participant.name}}</a></h5>
                         </td>
                         <td>{{participant.participantType}}</td>
                         <td>{{participant.participantStatus}}</td>
@@ -117,20 +110,11 @@
                             </a>
                         </td>
                     </tr>
-                    <tr ng-show="participantInfo[participant.participantId].isLoadingInfo">
-                        <td colspan="5">
-                            <div class="spinner">
-                                <div class="bounce1"></div>
-                                <div class="bounce2"></div>
-                                <div class="bounce3"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr id="participantInfo" ng-show="participantInfo[participant.participantId].show && participantInfo[participant.participantId].participantId">
-                        <td colspan="5">
+                    <tr id="participantInfo" class="details" ng-if="participant.personId && participantInfo[participant.participantId].show">
+                        <td colspan="7">
                             <tabset>
                                 <tab heading="Participant Information" class="tab" select="onInfoTabSelected(participant.participantId)" deselect="view.tabInfo=false">
-                                    <participant-person-info participantid="{{participant.participantId}}" active="view.tabInfo" editmode="participantInfo[participant.participantId].editInfo" personinfo="participantInfo[participant.participantId]" />
+                                    <participant-person-info participantid="{{participant.participantId}}" active="view.tabInfo" />
                                 </tab>
                                 <tab heading="SEVIS Information" class="tab" select="onSevisTabSelected(participant.participantId)" deselect="view.tabSevis=false">
                                     <participant-person-sevis participantid="{{participant.participantId}}" active="view.tabSevis" sevisinfo="sevisInfo[participant.participantId]" update="saveSevisInfo(participantId)" />
@@ -141,15 +125,15 @@
                             </tabset>
                         </td>
                     </tr>
-                    <tr id="participantMoreInfo" ng-repeat-end ng-show="participantInfo[participant.participantId].show && participantInfo[participant.participantId].participantId === undefined && !participantInfo[participant.participantId].isLoadingInfo">
-                        <td colspan="5">
+                    <tr id="participantMoreInfo" class="details" ng-repeat-end ng-show="participant.organizationId && participantInfo[participant.participantId].show">
+                        <td colspan="7">
                             <div class="col-md-12 text-center">
                                 There is no additional information for this participant.
                             </div>
                         </td>
                     </tr>
                     <tr ng-show="participantsLoading">
-                        <td colspan="5">
+                        <td colspan="7">
                             <div class="spinner">
                                 <div class="bounce1"></div>
                                 <div class="bounce2"></div>

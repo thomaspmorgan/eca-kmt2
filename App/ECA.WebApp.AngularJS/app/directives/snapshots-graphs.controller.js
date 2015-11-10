@@ -11,11 +11,13 @@ angular.module('staticApp')
       $stateParams,
       $q,
       $log,
+      $http,
       SnapshotService,
       NotificationService) {
 
       $scope.view = {};
       $scope.view.isSnapshotGraphLoading = false;
+      $scope.view.isSnapshotMapDataLoaded = false;
       $scope.view.params = $stateParams;
       $scope.view.budgetByYear = [];
       $scope.view.mostFundedCountries = [];
@@ -31,7 +33,7 @@ angular.module('staticApp')
 
           GetProgramBudgetByYear();
           //GetProgramMostFundedCountries();
-          //GetProgramTopThemes();
+          GetProgramTopThemes();
           //GetProgramParticipantsByLocation();
           GetProgramParticipantsByYear();
           //GetProgramParticipantGender();
@@ -60,7 +62,7 @@ angular.module('staticApp')
                             top: 10,
                             right: 10,
                             bottom: 20,
-                            left: 75
+                            left: 85
                         },
                         showLegend: false,
                         x: function(d){ return d.key; },
@@ -82,6 +84,7 @@ angular.module('staticApp')
                             tickFormat: function (d) {
                                 return d3.format('$,d')(d);
                             },
+                            tickPadding: 10,
                             showMaxMin: false
                         },
                         callback: function(chart){
@@ -130,15 +133,24 @@ angular.module('staticApp')
       }
 
       function GetProgramParticipantsByLocation() {
-          SnapshotService.GetProgramParticipantsByLocation($scope.view.params.programId)
-            .then(function (response) {
-                $scope.view.participantsByLocation = response.data;
-            })
-            .catch(function () {
-                var message = 'Unable to load participants by location.';
-                NotificationService.showErrorMessage(message);
-                $log.error(message);
-            });
+          $http.get('app/directives/participantLocations.json').success(function (data) {
+              $scope.view.isSnapshotMapDataLoaded = true;
+              $scope.view.participantsByLocation = data;
+          })
+          .error(function (data, status, headers, config) {
+              $log.error('Unable to load map countries');
+              $scope.view.isSnapshotMapDataLoaded = false;
+          });
+
+          //SnapshotService.GetProgramParticipantsByLocation($scope.view.params.programId)
+          //  .then(function (response) {
+          //      $scope.view.participantsByLocation = response.data;
+          //  })
+          //  .catch(function () {
+          //      var message = 'Unable to load participants by location.';
+          //      NotificationService.showErrorMessage(message);
+          //      $log.error(message);
+          //  });
       }
 
       function GetProgramParticipantsByYear() {
@@ -160,7 +172,7 @@ angular.module('staticApp')
                             top: 10,
                             right: 10,
                             bottom: 20,
-                            left: 35
+                            left: 45
                         },
                         showLegend: false,
                         x: function (d) { return d.key; },
@@ -182,6 +194,7 @@ angular.module('staticApp')
                             tickFormat: function (d) {
                                 return d3.format(',d')(d);
                             },
+                            tickPadding: 10,
                             showMaxMin: false
                         },
                         callback: function (chart) {

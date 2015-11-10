@@ -254,7 +254,137 @@ namespace ECA.Business.Test.Service.Persons
 
         #region Update
         [TestMethod]
-        public async Task TestUpdate_CheckProperties()
+        public async Task TestCreateOrUpdate_ParticipantPersonDoesNotExists_CheckProperties()
+        {
+            var participantId = 1;
+            Participant participant = null;
+            ParticipantType individual = new ParticipantType
+            {
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value,
+                ParticipantTypeId = ParticipantType.Individual.Id
+            };
+            ParticipantStatus status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id,
+                Status = ParticipantStatus.Active.Value
+            };
+            Organization host = new Organization
+            {
+                OrganizationId = 1
+            };
+            Organization home = new Organization
+            {
+                OrganizationId = 2
+            };
+            var hostAddress = new Address
+            {
+                AddressId = 1,
+                OrganizationId = host.OrganizationId,
+                Organization = host
+            };
+            var homeAddress = new Address
+            {
+                AddressId = 2,
+                Organization = home,
+                OrganizationId = home.OrganizationId
+            };
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var createrId = 1;
+            var updaterId = 2;
+            var updater = new User(updaterId);
+
+            context.SetupActions.Add(() =>
+            {
+                participant = new Participant
+                {
+                    ParticipantId = participantId,
+                };
+                participant.History.CreatedBy = createrId;
+                participant.History.RevisedBy = createrId;
+                participant.History.CreatedOn = yesterday;
+                participant.History.RevisedOn = yesterday;
+
+                context.Participants.Add(participant);
+                context.ParticipantStatuses.Add(status);
+                context.ParticipantTypes.Add(individual);
+                context.Organizations.Add(home);
+                context.Organizations.Add(host);
+                context.Addresses.Add(hostAddress);
+                context.Addresses.Add(homeAddress);
+            });
+
+            var updatedPersonParticipant = new UpdatedParticipantPerson(
+                updater: updater,
+                homeInstitutionAddressId: homeAddress.AddressId,
+                homeInstitutionId: home.OrganizationId,
+                hostInstitutionAddressId: hostAddress.AddressId,
+                hostInstitutionId: host.OrganizationId,
+                participantId: participantId,
+                participantStatusId: status.ParticipantStatusId,
+                participantTypeId: individual.ParticipantTypeId
+                );
+            Action beforeUpdateTester = () =>
+            {
+                Assert.AreEqual(1, context.Participants.Count());
+                Assert.AreEqual(0, context.ParticipantPersons.Count());
+                Assert.AreEqual(2, context.Addresses.Count());
+                Assert.AreEqual(2, context.Organizations.Count());
+                Assert.AreEqual(yesterday, participant.History.RevisedOn);
+                Assert.AreEqual(yesterday, participant.History.CreatedOn);
+                Assert.AreEqual(createrId, participant.History.RevisedBy);
+                Assert.AreEqual(createrId, participant.History.CreatedBy);
+
+                Assert.IsFalse(participant.ParticipantStatusId.HasValue);
+            };
+
+            Action tester = () =>
+            {
+                Assert.AreEqual(1, context.Participants.Count());
+                Assert.AreEqual(1, context.ParticipantPersons.Count());
+                Assert.AreEqual(2, context.Addresses.Count());
+                Assert.AreEqual(2, context.Organizations.Count());
+
+                var addedParticipantPerson = context.ParticipantPersons.First();
+
+                Assert.AreEqual(createrId, participant.History.CreatedBy);
+                Assert.AreEqual(updaterId, participant.History.RevisedBy);
+                Assert.AreEqual(yesterday, participant.History.CreatedOn);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(participant.History.RevisedOn, 20000);                
+
+                Assert.AreEqual(updaterId, addedParticipantPerson.History.CreatedBy);
+                Assert.AreEqual(updaterId, addedParticipantPerson.History.RevisedBy);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(addedParticipantPerson.History.RevisedOn, 20000);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(addedParticipantPerson.History.CreatedOn, 20000);                
+
+                Assert.AreEqual(home.OrganizationId, addedParticipantPerson.HomeInstitutionId);
+                Assert.AreEqual(host.OrganizationId, addedParticipantPerson.HostInstitutionId);
+                Assert.AreEqual(homeAddress.AddressId, addedParticipantPerson.HomeInstitutionAddressId);
+                Assert.AreEqual(hostAddress.AddressId, addedParticipantPerson.HostInstitutionAddressId);
+            };
+
+            Action<UpdatedParticipantPersonValidationEntity> validationEntityTester = (entity) =>
+            {
+                Assert.IsNotNull(entity);
+                Assert.IsTrue(Object.ReferenceEquals(individual, entity.ParticipantType));
+            };
+            validator.Setup(x => x.ValidateUpdate(It.IsAny<UpdatedParticipantPersonValidationEntity>())).Callback(validationEntityTester);
+
+            context.Revert();
+            beforeUpdateTester();
+            service.CreateOrUpdate(updatedPersonParticipant);
+            tester();
+            validator.Verify(x => x.ValidateUpdate(It.IsAny<UpdatedParticipantPersonValidationEntity>()), Times.Once());
+
+            context.Revert();
+            beforeUpdateTester();
+            await service.CreateOrUpdateAsync(updatedPersonParticipant);
+            tester();
+            validator.Verify(x => x.ValidateUpdate(It.IsAny<UpdatedParticipantPersonValidationEntity>()), Times.Exactly(2));
+        }
+
+        [TestMethod]
+        public async Task TestCreateOrUpdate_ParticipantPersonExists_CheckProperties()
         {
             var participantId = 1;
             Participant participant = null;
@@ -394,19 +524,19 @@ namespace ECA.Business.Test.Service.Persons
 
             context.Revert();
             beforeUpdateTester();
-            service.Update(updatedPersonParticipant);
+            service.CreateOrUpdate(updatedPersonParticipant);
             tester();
             validator.Verify(x => x.ValidateUpdate(It.IsAny<UpdatedParticipantPersonValidationEntity>()), Times.Once());
 
             context.Revert();
             beforeUpdateTester();
-            await service.UpdateAsync(updatedPersonParticipant);
+            await service.CreateOrUpdateAsync(updatedPersonParticipant);
             tester();
             validator.Verify(x => x.ValidateUpdate(It.IsAny<UpdatedParticipantPersonValidationEntity>()), Times.Exactly(2));
         }
 
         [TestMethod]
-        public async Task TestUpdate_DoesNotHaveHomeOrHostInstitutions()
+        public async Task TestCreateOrUpdate_DoesNotHaveHomeOrHostInstitutions()
         {
             var participantId = 1;
             Participant participant = null;
@@ -473,16 +603,16 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.IsFalse(participantPerson.HostInstitutionAddressId.HasValue);
             };
             context.Revert();
-            service.Update(updatedPersonParticipant);
+            service.CreateOrUpdate(updatedPersonParticipant);
             tester();
 
             context.Revert();
-            await service.UpdateAsync(updatedPersonParticipant);
+            await service.CreateOrUpdateAsync(updatedPersonParticipant);
             tester();
         }
 
         [TestMethod]
-        public async Task TestUpdate_HasHomeAndHostNoAddresses()
+        public async Task TestCreateOrUpdate_HasHomeAndHostNoAddresses()
         {
             var participantId = 1;
             Participant participant = null;
@@ -561,16 +691,51 @@ namespace ECA.Business.Test.Service.Persons
             
 
             context.Revert();
-            service.Update(updatedPersonParticipant);
+            service.CreateOrUpdate(updatedPersonParticipant);
             tester();
 
             context.Revert();
-            await service.UpdateAsync(updatedPersonParticipant);
+            await service.CreateOrUpdateAsync(updatedPersonParticipant);
             tester();
         }
 
         [TestMethod]
-        public async Task TestUpdate_HomeInstitutionDoesNotExist()
+        public async Task TestCreateOrUpdate_ParticipantDoesNotExist()
+        {
+            Assert.AreEqual(0, context.Participants.Count());
+            ParticipantType individual = new ParticipantType
+            {
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value,
+                ParticipantTypeId = ParticipantType.Individual.Id
+            };
+            context.ParticipantTypes.Add(individual);
+
+            var participantId = 1;
+            var updatedPersonParticipant = new UpdatedParticipantPerson(
+                updater: new User(1),
+                homeInstitutionAddressId: null,
+                homeInstitutionId: null,
+                hostInstitutionAddressId: null,
+                hostInstitutionId: null,
+                participantId: participantId,
+                participantStatusId: null,
+                participantTypeId: individual.ParticipantTypeId
+                );
+
+            context.Revert();
+            Action a = () => service.CreateOrUpdate(updatedPersonParticipant);
+            Func<Task> f = () =>
+            {
+                return service.CreateOrUpdateAsync(updatedPersonParticipant);
+            };
+            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Participant).Name, updatedPersonParticipant.ParticipantId);
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestCreateOrUpdate_HomeInstitutionDoesNotExist()
         {
             var participantId = 1;
             Participant participant = null;
@@ -642,10 +807,10 @@ namespace ECA.Business.Test.Service.Persons
                 );
 
             context.Revert();
-            Action a = () => service.Update(updatedPersonParticipant);
+            Action a = () => service.CreateOrUpdate(updatedPersonParticipant);
             Func<Task> f = () =>
             {
-                return service.UpdateAsync(updatedPersonParticipant);
+                return service.CreateOrUpdateAsync(updatedPersonParticipant);
             };
             var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Organization).Name, updatedPersonParticipant.HomeInstitutionId);
             a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
@@ -653,7 +818,7 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public async Task TestUpdate_HostInstitutionDoesNotExist()
+        public async Task TestCreateOrUpdate_HostInstitutionDoesNotExist()
         {
             var participantId = 1;
             Participant participant = null;
@@ -725,10 +890,10 @@ namespace ECA.Business.Test.Service.Persons
                 );
 
             context.Revert();
-            Action a = () => service.Update(updatedPersonParticipant);
+            Action a = () => service.CreateOrUpdate(updatedPersonParticipant);
             Func<Task> f = () =>
             {
-                return service.UpdateAsync(updatedPersonParticipant);
+                return service.CreateOrUpdateAsync(updatedPersonParticipant);
             };
             var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Organization).Name, updatedPersonParticipant.HostInstitutionId);
             a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
@@ -736,7 +901,7 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public async Task TestUpdate_HostInstitutionAddressDoesNotExist()
+        public async Task TestCreateOrUpdate_HostInstitutionAddressDoesNotExist()
         {
             var participantId = 1;
             Participant participant = null;
@@ -813,10 +978,10 @@ namespace ECA.Business.Test.Service.Persons
                 );
 
             context.Revert();
-            Action a = () => service.Update(updatedPersonParticipant);
+            Action a = () => service.CreateOrUpdate(updatedPersonParticipant);
             Func<Task> f = () =>
             {
-                return service.UpdateAsync(updatedPersonParticipant);
+                return service.CreateOrUpdateAsync(updatedPersonParticipant);
             };
             var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Address).Name, updatedPersonParticipant.HostInstitutionAddressId);
             a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
@@ -824,7 +989,7 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public async Task TestUpdate_HomeInstitutionAddressDoesNotExist()
+        public async Task TestCreateOrUpdate_HomeInstitutionAddressDoesNotExist()
         {
             var participantId = 1;
             Participant participant = null;
@@ -901,10 +1066,10 @@ namespace ECA.Business.Test.Service.Persons
                 );
 
             context.Revert();
-            Action a = () => service.Update(updatedPersonParticipant);
+            Action a = () => service.CreateOrUpdate(updatedPersonParticipant);
             Func<Task> f = () =>
             {
-                return service.UpdateAsync(updatedPersonParticipant);
+                return service.CreateOrUpdateAsync(updatedPersonParticipant);
             };
             var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Address).Name, updatedPersonParticipant.HomeInstitutionAddressId);
             a.ShouldThrow<ModelNotFoundException>().WithMessage(message);

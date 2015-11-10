@@ -52,8 +52,13 @@ angular.module('staticApp')
           }
       }
 
-      $scope.organizationNameChanged = function () {
-          // Reset duplicates if organization name changes
+      $scope.resetPersonDuplicates = function () {
+          if ($scope.personDuplicates.length > 0) {
+              $scope.personDuplicates = [];
+          }
+      }
+
+      $scope.resetOrganizationDuplicates = function () {
           if ($scope.organizationDuplicates.length > 0) {
               $scope.organizationDuplicates = [];
           }
@@ -159,8 +164,7 @@ angular.module('staticApp')
           var params = {
               limit: 300,
               filter: [{ property: 'firstName', comparison: 'eq', value: $scope.newPerson.firstName },
-                       { property: 'lastName', comparison: 'eq', value: $scope.newPerson.lastName },
-                       { property: 'genderId', comparison: 'eq', value: $scope.newPerson.gender }]
+                       { property: 'lastName', comparison: 'eq', value: $scope.newPerson.lastName }]
           };
           if ($scope.newPerson.dateOfBirth) {
               params.filter.push({ property: 'dateOfBirth', comparison: 'eq', value: $scope.newPerson.dateOfBirth });
@@ -341,7 +345,6 @@ angular.module('staticApp')
                 .then(function (data) {
                     $scope.cities = data.results;
                 });
-
           }
       }
 

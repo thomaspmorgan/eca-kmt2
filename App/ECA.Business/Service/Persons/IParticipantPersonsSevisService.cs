@@ -3,6 +3,7 @@ using ECA.Core.Query;
 using System.Threading.Tasks;
 using ECA.Core.DynamicLinq;
 using System.Linq;
+using ECA.Data;
 using ECA.Core.Service;
 
 namespace ECA.Business.Service.Persons
@@ -102,5 +103,11 @@ namespace ECA.Business.Service.Persons
         /// <returns>The task.</returns>
         Task<ParticipantPersonSevisDTO> UpdateAsync(UpdatedParticipantPersonSevis updatedParticipantPersonSevis);
 
+        /// <summary>
+        /// Sets sevis communication status for participant ids
+        /// </summary>
+        /// <param name="participantIds">The participant ids to update communcation status</param>
+        /// <returns>List of participant ids that were updated</returns>
+        Task<int[]> SendToSevis(int[] participantIds);
     }
 }

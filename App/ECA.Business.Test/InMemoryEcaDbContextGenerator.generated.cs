@@ -646,6 +646,21 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.ParticipantPerson>(this.SingleOrDefault(x => x.ParticipantId.Equals(keyValues.First())));
 		}
 	}
+	public class ParticipantPersonSevisCommStatusTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ParticipantPersonSevisCommStatus>
+	{
+		public override ECA.Data.ParticipantPersonSevisCommStatus Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///Id
+			return this.SingleOrDefault(x => x.Id.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.ParticipantPersonSevisCommStatus> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///Id
+			return Task.FromResult<ECA.Data.ParticipantPersonSevisCommStatus>(this.SingleOrDefault(x => x.Id.Equals(keyValues.First())));
+		}
+	}
 	public class ParticipantTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Participant>
 	{
 		public override ECA.Data.Participant Find(params object[] keyValues)
@@ -674,6 +689,21 @@ namespace ECA.Business.Test
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
 			///ParticipantStatusId
 			return Task.FromResult<ECA.Data.ParticipantStatus>(this.SingleOrDefault(x => x.ParticipantStatusId.Equals(keyValues.First())));
+		}
+	}
+	public class ParticipantStudentVisitorTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ParticipantStudentVisitor>
+	{
+		public override ECA.Data.ParticipantStudentVisitor Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ParticipantId
+			return this.SingleOrDefault(x => x.ParticipantId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.ParticipantStudentVisitor> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ParticipantId
+			return Task.FromResult<ECA.Data.ParticipantStudentVisitor>(this.SingleOrDefault(x => x.ParticipantId.Equals(keyValues.First())));
 		}
 	}
 	public class ParticipantTypeTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ParticipantType>
@@ -901,6 +931,21 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.Publication>(this.SingleOrDefault(x => x.PublicationId.Equals(keyValues.First())));
 		}
 	}
+	public class SevisCommStatusTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.SevisCommStatus>
+	{
+		public override ECA.Data.SevisCommStatus Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///SevisCommStatusId
+			return this.SingleOrDefault(x => x.SevisCommStatusId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.SevisCommStatus> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///SevisCommStatusId
+			return Task.FromResult<ECA.Data.SevisCommStatus>(this.SingleOrDefault(x => x.SevisCommStatusId.Equals(keyValues.First())));
+		}
+	}
 	public class SocialMediaTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.SocialMedia>
 	{
 		public override ECA.Data.SocialMedia Find(params object[] keyValues)
@@ -1057,8 +1102,10 @@ namespace ECA.Business.Test
 			this.Organizations = new OrganizationTestDbSet();
 			this.OrganizationTypes = new OrganizationTypeTestDbSet();
 			this.ParticipantPersons = new ParticipantPersonTestDbSet();
+			this.ParticipantPersonSevisCommStatuses = new ParticipantPersonSevisCommStatusTestDbSet();
 			this.Participants = new ParticipantTestDbSet();
 			this.ParticipantStatuses = new ParticipantStatusTestDbSet();
+			this.ParticipantStudentVisitors = new ParticipantStudentVisitorTestDbSet();
 			this.ParticipantTypes = new ParticipantTypeTestDbSet();
 			this.People = new PersonTestDbSet();
 			this.PersonEvaluationNotes = new PersonEvaluationNoteTestDbSet();
@@ -1074,6 +1121,7 @@ namespace ECA.Business.Test
 			this.ProjectStatuses = new ProjectStatusTestDbSet();
 			this.ProminentCategories = new ProminentCategoryTestDbSet();
 			this.Publications = new PublicationTestDbSet();
+			this.SevisCommStatuses = new SevisCommStatusTestDbSet();
 			this.SocialMedias = new SocialMediaTestDbSet();
 			this.SocialMediaTypes = new SocialMediaTypeTestDbSet();
 			this.SpecialStatuses = new SpecialStatusTestDbSet();

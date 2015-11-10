@@ -109,8 +109,6 @@ namespace ECA.WebApi.Controllers.Projects
             }
         }
 
-        //ME
-
         /// <summary>
         /// Returns a list of projects.
         /// </summary>

@@ -28,5 +28,6 @@ angular
     'smoothScroll',
     'internationalPhoneNumber',
     'nvd3',
-    'angular-appinsights'
+    'angular-appinsights',
+    'templates'
   ]);

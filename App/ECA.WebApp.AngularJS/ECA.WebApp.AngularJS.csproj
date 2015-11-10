@@ -395,7 +395,8 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="app\projects\project-participant-editinfo.controller.js" />
+    <Content Include="app\projects\project-participant-info.controller.js" />
+    <Content Include="app\directives\participantLocations.json" />
     <None Include="ECA.WebApp.AngularJS.wpp.targets" />
     <None Include="Properties\PublishProfiles\kmt-dev.pubxml" />
     <None Include="Properties\PublishProfiles\kmt-pre.pubxml" />
@@ -624,6 +625,7 @@
     <Content Include="app\reports\project-awards.html" />
     <Content Include="app\reports\post-awards.html" />
     <Content Include="app\reports\region-awards.html" />
+    <Content Include="app.tpls.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

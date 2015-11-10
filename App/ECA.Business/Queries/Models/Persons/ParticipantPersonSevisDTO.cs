@@ -27,9 +27,19 @@ namespace ECA.Business.Queries.Models.Persons
         public string SevisId { get; set; }
 
         /// <summary>
+        /// Gets or sets the participantPerson's Field of Study Id
+        /// </summary>
+        public int? FieldOfStudyId { get; set; }
+
+        /// <summary>
         /// Gets or sets the participantPerson's Field of Study
         /// </summary>
         public string FieldOfStudy { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participantPersons's Position Id
+        /// </summary>
+        public int? PositionId { get; set; }
 
         /// <summary>
         /// Gets or sets the participantPersons's Position
@@ -40,6 +50,11 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the participantPerson's StudyProject
         /// </summary>
         public string StudyProject { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participantPerson's ProgramCategory Id
+        /// </summary>
+        public int? ProgramCategoryId { get; set; }
 
         /// <summary>
         /// Gets or sets the participantPerson's ProgramCategory
@@ -142,9 +157,39 @@ namespace ECA.Business.Queries.Models.Persons
         public decimal? FundingGovtAgency1 { get; set; }
 
         /// <summary>
+        /// Id of another U.S. government agency
+        /// </summary>
+        public int? GovtAgency1Id { get; set; }
+
+        /// <summary>
+        /// Name of another U.S. government agency
+        /// </summary>
+        public string GovtAgency1Name { get; set; }
+
+        /// <summary>
+        /// Other Name of another U.S. government agency
+        /// </summary>
+        public string GovtAgency1OtherName { get; set; }
+
+        /// <summary>
         /// Funding from another U.S. government agency
         /// </summary>
         public decimal? FundingGovtAgency2 { get; set; }
+
+        /// <summary>
+        /// Id of  another U.S. government agency
+        /// </summary>
+        public int? GovtAgency2Id { get; set; }
+
+        /// <summary>
+        /// Name of another U.S. government agency
+        /// </summary>
+        public string GovtAgency2Name { get; set; }
+
+        /// <summary>
+        /// Other Name of another U.S. government agency
+        /// </summary>
+        public string GovtAgency2OtherName { get; set; }
 
         /// <summary>
         /// Funding from another international org
@@ -152,14 +197,49 @@ namespace ECA.Business.Queries.Models.Persons
         public decimal? FundingIntlOrg1 { get; set; }
 
         /// <summary>
+        /// id of another International org
+        /// </summary>
+        public int? IntlOrg1Id { get; set; }
+
+        /// <summary>
+        /// Name of another International org
+        /// </summary>
+        public string IntlOrg1Name { get; set; }
+
+        /// <summary>
+        /// Other Name of another International org
+        /// </summary>
+        public string IntlOrg1OtherName { get; set; }
+
+        /// <summary>
         /// Funding from another international org
         /// </summary>
         public decimal? FundingIntlOrg2 { get; set; }
 
         /// <summary>
+        /// Id of another International org
+        /// </summary>
+        public int? IntlOrg2Id { get; set; }
+
+        /// <summary>
+        /// Name of another International org
+        /// </summary>
+        public string IntlOrg2Name { get; set; }
+
+        /// <summary>
+        /// Other Name of another International org
+        /// </summary>
+        public string IntlOrg2OtherName { get; set; }
+
+        /// <summary>
         /// Funding from other source
         /// </summary>
         public decimal? FundingOther { get; set; }
+
+        /// <summary>
+        /// Name of  other org
+        /// </summary>
+        public string OtherName { get; set; }
 
         /// <summary>
         /// Total funding

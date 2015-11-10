@@ -11,6 +11,11 @@ namespace ECA.Data
     [Table("UserView")]
     public class UserAccount
     {
+        /// <summary>
+        /// The name of a role that should be granted all permissions for permissable entities by resource type.
+        /// </summary>
+        public const string KMT_SUPER_USER_ROLE_NAME = "KMT Super User";
+
         [Key]
         public int PrincipalId { get; set; }
         public string FirstName { get; set; }

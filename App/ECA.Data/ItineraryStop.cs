@@ -32,7 +32,6 @@ namespace ECA.Data
         public virtual ICollection<Material> Materials { get; set; }
         public ICollection<MoneyFlow> SourceItineraryStopMoneyFlows { get; set; }
         public ICollection<MoneyFlow> RecipientItineraryStopMoneyFlows { get; set; }
-        public virtual ICollection<ParticipantStatus> ParticipantStatuses { get; set; }
         public virtual ICollection<Artifact> Artifacts { get; set; }
 
         // relations

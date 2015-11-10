@@ -11,6 +11,9 @@ angular.module('staticApp')
   .factory('ParticipantPersonsService', function ($q, DragonBreath) {
 
       return {
+          updateParticipantPerson: function(params){
+              return DragonBreath.save(params, 'ParticipantPersons');
+          },
           getParticipantPersons: function (params) {
               var defer = $q.defer();
               DragonBreath.get(params, 'participantPersons')

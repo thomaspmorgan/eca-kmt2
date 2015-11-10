@@ -42,6 +42,7 @@ INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_
 INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn], [IsActive]) VALUES ('2', 'Ready To Submit', '0', '2/17/2015 12:00:00 AM -05:00', '0', '2/17/2015 12:00:00 AM -05:00', '1')
 INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn], [IsActive]) VALUES ('3', 'Sent To DHS', '0', '2/17/2015 12:00:00 AM -05:00', '0', '2/17/2015 12:00:00 AM -05:00', '1')
 INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn], [IsActive]) VALUES ('4', 'Validated', '0', '2/17/2015 12:00:00 AM -05:00', '0', '2/17/2015 12:00:00 AM -05:00', '1')
+INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn], [IsActive]) VALUES ('5', 'Queued To Submit', '0', '2/17/2015 12:00:00 AM -05:00', '0', '2/17/2015 12:00:00 AM -05:00', '1')
 
 -- 3: Insert any new items into the table from the table variable
 SET IDENTITY_INSERT [dbo].[SevisCommStatus] ON

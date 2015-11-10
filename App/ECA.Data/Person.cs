@@ -172,6 +172,12 @@ namespace ECA.Data
         /// Gets or sets the place of birth.
         /// </summary>
         public int? PlaceOfBirthId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the full name of the person.  This value is a computed column in the database.
+        /// </summary>
+        public string FullName { get; set; }
+
         public Location PlaceOfBirth { get; set; }
         public bool? IsPlaceOfBirthUnknown { get; set; }
 

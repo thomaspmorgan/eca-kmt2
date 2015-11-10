@@ -14,6 +14,8 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using NLog;
 using ECA.Core.Exceptions;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Service.Persons
 {
@@ -181,6 +183,37 @@ namespace ECA.Business.Service.Persons
             return results;
         }
 
+        /// <summary>
+        /// Sets sevis communication status for participant ids
+        /// </summary>
+        /// <param name="participantIds">The participant ids to update communcation status</param>
+        /// <returns>List of participant ids that were updated</returns>
+        public async Task<int[]> SendToSevis(int[] participantIds)
+        {
+            var statuses = await Context.ParticipantPersonSevisCommStatuses.GroupBy(x => x.ParticipantId)
+                .Select(s => s.OrderByDescending(x => x.AddedOn).FirstOrDefault())
+                .Where(w => w.SevisCommStatusId == SevisCommStatus.ReadyToSubmit.Id && participantIds.Contains(w.ParticipantId))
+                .ToListAsync();
+
+            var participantsUpdated = new List<int>();
+
+            foreach (var status in statuses)
+            {
+                var newStatus = new ParticipantPersonSevisCommStatus
+                {
+                    ParticipantId = status.ParticipantId,
+                    SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+                    AddedOn = DateTimeOffset.Now
+
+                };
+
+                Context.ParticipantPersonSevisCommStatuses.Add(newStatus);
+                participantsUpdated.Add(status.ParticipantId);
+            }
+
+            return participantsUpdated.ToArray();
+        }
+
         #endregion
 
         #region update
@@ -195,7 +228,7 @@ namespace ECA.Business.Service.Persons
             throwIfModelDoesNotExist(updatedParticipantPersonSevis.ParticipantId, participantPerson, typeof(ParticipantPerson));
 
             DoUpdate(participantPerson, updatedParticipantPersonSevis);
-            return  this.GetParticipantPersonsSevisById(updatedParticipantPersonSevis.ParticipantId);
+            return this.GetParticipantPersonsSevisById(updatedParticipantPersonSevis.ParticipantId);
         }
 
         /// <summary>
@@ -235,10 +268,19 @@ namespace ECA.Business.Service.Persons
             participantPerson.FundingVisGovt = updatedParticipantPersonSevis.FundingVisGovt;
             participantPerson.FundingVisBNC = updatedParticipantPersonSevis.FundingVisBNC;
             participantPerson.FundingGovtAgency1 = updatedParticipantPersonSevis.FundingGovtAgency1;
+            participantPerson.GovtAgency1Id = updatedParticipantPersonSevis.GovtAgency1Id;
+            participantPerson.GovtAgency1OtherName = updatedParticipantPersonSevis.GovtAgency1OtherName;
             participantPerson.FundingGovtAgency2 = updatedParticipantPersonSevis.FundingGovtAgency2;
+            participantPerson.GovtAgency2Id = updatedParticipantPersonSevis.GovtAgency2Id;
+            participantPerson.GovtAgency2OtherName = updatedParticipantPersonSevis.GovtAgency2OtherName;
             participantPerson.FundingIntlOrg1 = updatedParticipantPersonSevis.FundingIntlOrg1;
+            participantPerson.IntlOrg1Id = updatedParticipantPersonSevis.IntlOrg1Id;
+            participantPerson.IntlOrg1OtherName = updatedParticipantPersonSevis.IntlOrg1OtherName;
             participantPerson.FundingIntlOrg2 = updatedParticipantPersonSevis.FundingIntlOrg2;
+            participantPerson.IntlOrg2Id = updatedParticipantPersonSevis.IntlOrg2Id;
+            participantPerson.IntlOrg2OtherName = updatedParticipantPersonSevis.IntlOrg2OtherName;
             participantPerson.FundingOther = updatedParticipantPersonSevis.FundingOther;
+            participantPerson.OtherName = updatedParticipantPersonSevis.OtherName;
             participantPerson.FundingTotal = updatedParticipantPersonSevis.FundingTotal;
         }
 
@@ -246,6 +288,17 @@ namespace ECA.Business.Service.Persons
         {
             return Context.ParticipantPersons.Where(x => x.ParticipantId == participantId);
         }
+
+        private string SerializeToXmlString(UpdatedParticipantPersonSevis updatedParticipantPersonSevis)
+        {
+            string retVal = string.Empty;
+            TextWriter writer = new StringWriter();
+            XmlSerializer serializer = new XmlSerializer(updatedParticipantPersonSevis.GetType());
+            serializer.Serialize(writer, updatedParticipantPersonSevis);
+            retVal = writer.ToString();
+            return retVal;
+        }
+
 
         #endregion
     }

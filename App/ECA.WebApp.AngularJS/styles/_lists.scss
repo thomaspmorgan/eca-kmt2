@@ -15,6 +15,10 @@
     tr {
         border-top: 1px solid #e5eae9;
         border-bottom: 0;
+
+        &.details{
+            background-color:white;
+        }
     }
 
     tr:last-child, tr:nth-last-child(2) {
@@ -75,7 +79,10 @@
        width: 100%;
        border-top: 0 !important;
     }
-
+    
+    .rowalt .row4:nth-of-type(even) {
+       background-color: $lightgray;
+    }
 
     .list-title {
         font-weight: 300;
@@ -111,6 +118,11 @@
 
     .icon {
         margin-right: 10px;
+    }
+
+    .form-inline {
+        padding-left: 10px;
+        padding-right: 0px;
     }
 }
 

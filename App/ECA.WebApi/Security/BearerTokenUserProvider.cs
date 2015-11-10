@@ -68,7 +68,7 @@ namespace ECA.WebApi.Security
         /// <returns>True, if the user is valid according to cam.</returns>
         public bool IsUserValid(IWebApiUser user)
         {
-            var cache = GetUserCache(user);            
+            var cache = GetUserCache(user);
             var valid = cache.IsValidCamUser;
             logger.Info("User {0} is valid in CAM:  {1}", user, valid);
             return valid;
@@ -172,7 +172,7 @@ namespace ECA.WebApi.Security
                 IEnumerable<IPermission> permissions = new List<IPermission>();
                 if (camUser != null)
                 {
-                    isValidUser = await userService.IsUserValidAsync(user.Id);                    
+                    isValidUser = await userService.IsUserValidAsync(user.Id);
                     if (isValidUser)
                     {
                         permissions = await GetUserPermissionsAsync(camUser.PrincipalId);
@@ -182,9 +182,14 @@ namespace ECA.WebApi.Security
                 {
                     camUser = new User();
                 }
-                cacheService.Add(new UserCache(user, camUser, isValidUser, permissions));                
+                userCache = new UserCache(user, camUser, isValidUser, permissions);
+                cacheService.Add(userCache);
+                return userCache;
             }
-            return cacheService.GetUserCache(user);
+            else
+            {
+                return userCache;
+            }
         }
 
         /// <summary>
@@ -216,9 +221,14 @@ namespace ECA.WebApi.Security
                 {
                     camUser = new User();
                 }
-                cacheService.Add(new UserCache(user, camUser, isValidUser, permissions)); 
+                userCache = new UserCache(user, camUser, isValidUser, permissions);
+                cacheService.Add(userCache);
+                return userCache;
             }
-            return cacheService.GetUserCache(user);
+            else
+            {
+                return userCache;
+            }
         }
 
         private async Task<IEnumerable<IPermission>> GetUserPermissionsAsync(int principalId)

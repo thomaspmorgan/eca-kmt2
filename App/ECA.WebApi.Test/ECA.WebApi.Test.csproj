@@ -175,6 +175,7 @@
     <Compile Include="Controllers\Fundings\MoneyFlowTypesControllerTest.cs" />
     <Compile Include="Controllers\Admin\BookmarksControllerTest.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonsControllerTest.cs" />
+    <Compile Include="Controllers\Persons\ParticipantPersonSevisControllerTest.cs" />
     <Compile Include="Controllers\Programs\ProgramStatusControllerTest.cs" />
     <Compile Include="Controllers\Projects\ProjectStatusControllerTest.cs" />
     <Compile Include="Controllers\Admin\MaritalStatusesControllerTest.cs" />
@@ -249,6 +250,7 @@
     <Compile Include="Security\ResourceAuthorizationHandlerTest.cs" />
     <Compile Include="Security\ResourceAuthorizeAttributeTest.cs" />
     <Compile Include="Security\StaticPermissionTest.cs" />
+    <Compile Include="Security\CamRoleChangeMonitorTest.cs" />
     <Compile Include="Security\UserCacheServiceTest.cs" />
     <Compile Include="Security\UserCacheTest.cs" />
     <Compile Include="Security\WebApiUserTest.cs" />

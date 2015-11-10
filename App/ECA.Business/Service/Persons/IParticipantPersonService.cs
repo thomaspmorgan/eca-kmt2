@@ -62,14 +62,14 @@ namespace ECA.Business.Service.Persons
         /// Updates a participant person with given updated participant information.
         /// </summary>
         /// <param name="updatedPerson">The updated participant person.</param>
-        void Update(UpdatedParticipantPerson updatedPerson);
+        void CreateOrUpdate(UpdatedParticipantPerson updatedPerson);
 
         /// <summary>
         /// Updates a participant person with given updated participant information.
         /// </summary>
         /// <param name="updatedPerson">The updated participant person.</param>
         /// <returns>The task.</returns>
-        System.Threading.Tasks.Task UpdateAsync(UpdatedParticipantPerson updatedPerson);
+        System.Threading.Tasks.Task CreateOrUpdateAsync(UpdatedParticipantPerson updatedPerson);
     }
 
     /// <summary>
@@ -166,7 +166,7 @@ namespace ECA.Business.Service.Persons
         /// 
         /// </summary>
         /// <param name="updatedPerson"></param>
-        public void Update(UpdatedParticipantPerson updatedPerson)
+        public void CreateOrUpdate(UpdatedParticipantPerson updatedPerson)
         {
             Contract.Requires(updatedPerson != null, "The updated person must not be null.");
         }
@@ -176,7 +176,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="updatedPerson"></param>
         /// <returns></returns>
-        public Task UpdateAsync(UpdatedParticipantPerson updatedPerson)
+        public Task CreateOrUpdateAsync(UpdatedParticipantPerson updatedPerson)
         {
             Contract.Requires(updatedPerson != null, "The updated person must not be null.");
             return Task.FromResult<object>(null);

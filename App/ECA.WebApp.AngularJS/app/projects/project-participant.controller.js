@@ -62,20 +62,6 @@ angular.module('staticApp')
       $scope.permissions.isProjectOwner = false;
       var projectId = $stateParams.projectId;
 
-      $scope.onParticipantClick = function (participant) {
-
-          if (participant.personId) {
-              $log.info('Navigating the individual state.');
-              $state.go('people.personalinformation', { personId: participant.personId });
-          }
-          else if (participant.organizationId) {
-              $log.info('Navigating to organization overview state.');
-              $state.go('organizations.overview', { organizationId: participant.organizationId });
-          }
-          else {
-              NotificationService.showErrorMessage('The participant is neither an organization nor a person.');
-          }
-      };
 
       $scope.view.onAddParticipantSelect = function ($item, $model, $label) {
           var clientModel = {
@@ -262,68 +248,49 @@ angular.module('staticApp')
       $scope.getParticipants = function (tableState) {
           $scope.participantInfo = {};
           $scope.participantsLoading = true;
-
+          
           TableService.setTableState(tableState);
 
           var params = {
               start: TableService.getStart(),
               limit: TableService.getLimit(),
               sort: TableService.getSort(),
-              filter: TableService.getFilter()
+              filter: tableState.filter ? tableState.filter : TableService.getFilter(),
+              keyword: TableService.getKeywords()
           };
+
+          // Get the total number or participants
+          ParticipantService.getParticipantsByProject($stateParams.projectId, {start: 0, limit: 1})
+            .then(function (data) {
+                $scope.view.totalParticipants = data.total;
+            }, function () {
+                $log.error('Unable to load project participants.');
+                NotificationService.showErrorMessage('Unable to load project participants.');
+            });
 
           ParticipantService.getParticipantsByProject($stateParams.projectId, params)
             .then(function (data) {
+                angular.forEach(data.results, function (result, index) {
+                    if (result.personId) {
+                        result.href = StateService.getPersonState(result.personId);
+                    }
+                    else if (result.organizationId) {
+                        result.href = StateService.getOrganizationState(result.organizationId);
+                    }
+                    else {
+                        var message = 'Unable to generate href for participant because it is neither an organization or a person.';
+                        $log.error(message);
+                        NotificationService.showErrorMessage(message);
+                    }
+                });
                 $scope.participants = data.results;
                 var limit = TableService.getLimit();
                 tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
-                $scope.view.totalParticipants = data.total;
                 $scope.participantsLoading = false;
             }, function (error) {
                 $log.error('Unable to load project participants.');
                 NotificationService.showErrorMessage('Unable to load project participants.');
             });
-      };
-
-      function getPreferredAddress(institution, participantPersonInstitutionAddressId) {
-          var address = null;
-          if (institution && institution.addresses && institution.addresses.length > 0) {
-              angular.forEach(institution.addresses, function (institutionAddress, index) {
-                  if (institutionAddress.addressId === participantPersonInstitutionAddressId) {
-                      address = institutionAddress;
-                  }
-              });
-          }
-          return address;
-      }
-
-      function loadParticipantInfo(participantId) {
-          $scope.participantInfo[participantId] = {};
-          $scope.participantInfo[participantId].show = true;
-          $scope.participantInfo[participantId].isLoadingInfo = true;
-          return ParticipantPersonsService.getParticipantPersonsById(participantId)
-          .then(function (data) {
-              if (data.data.homeInstitution) {
-                  data.data.homeInstitutionId = data.data.homeInstitution.organizationId;
-                  data.data.homeInstitution.href = StateService.getOrganizationState(data.data.homeInstitution.organizationId);
-                  data.data.homeInstitutionAddress = getPreferredAddress(data.data.homeInstitution, data.data.homeInstitutionAddressId);
-              }
-              if (data.data.hostInstitution) {
-                  data.data.hostInstitutionId = data.data.hostInstitution.organizationId;
-                  data.data.hostInstitution.href = StateService.getOrganizationState(data.data.hostInstitution.organizationId);
-                  data.data.hostInstitutionAddress = getPreferredAddress(data.data.hostInstitution, data.data.hostInstitutionAddressId);
-              }
-              data.data.isLoadingInfo = false;
-              data.data.show = true;
-              $scope.participantInfo[participantId] = data.data;
-          }, function (error) {
-              if (error.status === 404) {
-                  $scope.participantInfo[participantId].isLoadingInfo = false;
-              } else {
-                  $log.error('Unable to load participant info for ' + participantId + '.');
-                  NotificationService.showErrorMessage('Unable to load participant info for ' + participantId + '.');
-              }
-          });
       };
 
       function loadSevisInfo(participantId) {
@@ -360,12 +327,6 @@ angular.module('staticApp')
 
       $scope.onInfoTabSelected = function (participantId) {
           $scope.view.tabInfo = true;
-          //the participant info tab is selected by default so this check prevents all participants from being loaded
-          //when the page is rendered
-          if ($scope.participantInfo[participantId] && $scope.participantInfo[participantId].show) {
-              return loadParticipantInfo(participantId);
-          }
-
       }
 
       function saveSevisInfoById(participantId) {
@@ -395,18 +356,12 @@ angular.module('staticApp')
       }
 
       $scope.toggleParticipantInfo = function (participantId) {
-          if ($scope.participantInfo[participantId]) {
-              if ($scope.participantInfo[participantId].show === true) {
-                  $scope.participantInfo[participantId].show = false;
-              }
-              else {
-                  $scope.participantInfo[participantId].show = true;
+          var defaultParticipantInfo = {show: false};
+          $scope.participantInfo[participantId] = $scope.participantInfo[participantId] || defaultParticipantInfo;
+          $scope.participantInfo[participantId].show = !$scope.participantInfo[participantId].show;
+          if ($scope.participantInfo[participantId].show) {
                   $scope.view.tabInfo = true;
               }
-          }
-          else {
-              return loadParticipantInfo(participantId);
-          }
       };
 
       $scope.openAddNewParticipant = function () {
@@ -423,6 +378,56 @@ angular.module('staticApp')
               }
           });
       };
+
+      $scope.selectAllChanged = function () {
+          if ($scope.selectAll) {
+              for (var i = 0; i < $scope.participants.length; i++) {
+                  var participantId = $scope.participants[0].participantId;
+                  $scope.selectedParticipants[participantId] = true;
+              }
+          } else {
+              $scope.selectedParticipants = {};
+          }
+      }
+
+      $scope.selectedActionChanged = function () {
+          $scope.selectAll = false;
+          $scope.selectedParticipants = {};
+          var tableState = $scope.getParticipantsTableState();
+          tableState.filter = [];
+          if ($scope.selectedAction === "Send To SEVIS") {
+              tableState.filter = { property: 'sevisStatus', comparison: 'eq', value: 'Ready To Submit' };
+          }
+          $scope.getParticipants(tableState);
+      }
+
+      $scope.selectedParticipants = {};
+
+      $scope.selectedParticipantsEmpty = function () {
+          return Object.keys($scope.selectedParticipants).length === 0;
+      }
+
+      $scope.applyAction = function () {
+          if ($scope.selectedAction === "Send To SEVIS") {
+              var participants = Object.keys($scope.selectedParticipants).map(Number);
+              ParticipantPersonsSevisService.sendToSevis(participants)
+              .then(function (results) {
+                  $scope.selectAll = false;
+                  $scope.selectedParticipants = {};
+                  NotificationService.showSuccessMessage("Successfully queued " + results.data.length + " of " + participants.length  + " participants.");
+                  reloadParticipantTable();
+              }, function () {
+                  NotificationService.showErrorMessage("Failed to queue participants.");
+              });
+          }
+
+      }
+
+      $scope.selectedParticipant = function (participant, checked) {
+          if (!checked) {
+              delete $scope.selectedParticipants[participant.participantId];
+          }
+      }
 
       $scope.view.isLoading = true;
       $q.all([loadPermissions(), loadCollaboratorDetails()])

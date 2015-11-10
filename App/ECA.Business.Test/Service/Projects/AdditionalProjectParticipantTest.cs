@@ -58,8 +58,8 @@ namespace ECA.Business.Test.Service.Projects
             var participant = new Participant();
             var participantType = new ParticipantType
             {
-                ParticipantTypeId = ParticipantType.ForeignEducationalInstitution.Id,
-                Name = ParticipantType.ForeignEducationalInstitution.Value
+                ParticipantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id,
+                Name = ParticipantType.ForeignNonTravelingParticipant.Value
             };
 
             Assert.IsFalse(instance.UpdateParticipantDetailsCalled);

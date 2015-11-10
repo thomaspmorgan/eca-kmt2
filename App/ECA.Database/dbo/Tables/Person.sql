@@ -10,6 +10,16 @@
 	[MiddleName]           NVARCHAR (50)     NULL,
 	[Patronym]           NVARCHAR (50)     NULL,
 	[Alias]           NVARCHAR (50)     NULL,
+	[FullName] AS 
+		 LTRIM(RTRIM(
+			CASE WHEN LEN(LTRIM(RTRIM([NamePrefix]))) > 0 THEN LTRIM(RTRIM([NamePrefix])) ELSE '' END + ' ' +
+			CASE WHEN LEN(LTRIM(RTRIM([FirstName]))) > 0 THEN LTRIM(RTRIM([FirstName])) ELSE '' END + ' ' +
+			CASE WHEN LEN(LTRIM(RTRIM([MiddleName]))) > 0 THEN LTRIM(RTRIM([MiddleName])) ELSE '' END + ' ' +
+			CASE WHEN LEN(LTRIM(RTRIM([LastName]))) > 0 THEN LTRIM(RTRIM([LastName])) ELSE '' END + ' ' +
+			CASE WHEN LEN(LTRIM(RTRIM([FamilyName]))) > 0 THEN LTRIM(RTRIM([FamilyName])) ELSE '' END + ' ' +
+			CASE WHEN LEN(LTRIM(RTRIM([Patronym]))) > 0 THEN LTRIM(RTRIM([Patronym])) ELSE '' END + ' ' +
+			CASE WHEN LEN(LTRIM(RTRIM([NameSuffix]))) > 0 THEN LTRIM(RTRIM([NameSuffix])) ELSE '' END
+		)),
     [GenderId]            INT                NOT NULL,
     [DateOfBirth]         DATETIME2 NULL,
     [Ethnicity]           NVARCHAR (100)     NULL,
@@ -20,7 +30,6 @@
     [Location_LocationId] INT                NULL,
     [MedicalConditions]   NVARCHAR (2000)     NULL,
     [Awards]              NVARCHAR (2000)     NULL,
-    
     [MaritalStatusId] INT NULL, 
     [PlaceOfBirth_LocationId] INT NULL, 
     [HasContactAgreement] BIT NOT NULL DEFAULT 0, 
@@ -52,3 +61,41 @@ CREATE INDEX [IX_LastName] ON [dbo].[Person] ([LastName])
 GO
 
 CREATE INDEX [IX_FirstName] ON [dbo].[Person] ([FirstName])
+
+GO
+
+CREATE INDEX [IX_SecondLastName] ON [dbo].[Person] ([SecondLastName])
+
+GO
+
+CREATE INDEX [IX_NamePrefix] ON [dbo].[Person] ([NamePrefix])
+
+GO
+
+CREATE INDEX [IX_NameSuffix] ON [dbo].[Person] ([NameSuffix])
+
+GO
+
+CREATE INDEX [IX_GivenName] ON [dbo].[Person] ([GivenName])
+
+GO
+
+CREATE INDEX [IX_FamilyName] ON [dbo].[Person] ([FamilyName])
+
+GO
+
+CREATE INDEX [IX_MiddleName] ON [dbo].[Person] ([MiddleName])
+
+GO
+
+CREATE INDEX [IX_Patronym] ON [dbo].[Person] ([Patronym])
+
+GO
+
+CREATE INDEX [IX_Alias] ON [dbo].[Person] ([Alias])
+
+GO
+
+CREATE INDEX [IX_FullName] ON [dbo].[Person] ([FullName])
+
+GO

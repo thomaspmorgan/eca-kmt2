@@ -21,8 +21,7 @@ namespace ECA.Data
         public int ItineraryStatusId { get; set; }
         [Required]
         public virtual ICollection<ItineraryStop> Stops { get; set; }
-        [Required]
-        public virtual ICollection<ParticipantStatus> Participants { get; set; }
+
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset EndDate { get; set; }
 
