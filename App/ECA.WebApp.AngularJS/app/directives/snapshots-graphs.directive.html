@@ -15,15 +15,18 @@
             stroke-width: 5px!important;
             fill-opacity: 1!important;
         }
+        svg.nvd3-svg {
+            height: inherit;
+        }
     </style>
-    <div class="row stat-row" style="padding-top: 25px;">
+    <div class="row stat-row" style="padding-top: 25px">
         <div class="col-md-5">
             <p class="graph-stat-header">BUDGET</p>
             <line-graph data="view.budgetByYear"></line-graph>
-            <nvd3 options="view.budgetByYear.options" data="view.budgetByYear.data"></nvd3>
+            <nvd3 options="view.budgetByYear.options" data="view.budgetByYear.data" style="height:260px"></nvd3>
         </div>
         <div class="col-md-4 stat-column">
-            <!--<p class="graph-stat-header">MOST FUNDED COUNTRIES</p>-->
+            <p class="graph-stat-header">MOST FUNDED COUNTRIES</p>
         </div>
         <div class="col-md-3 stat-column">
             <p class="graph-stat-header">TOP THEMES</p>
@@ -33,7 +36,7 @@
         </div>
     </div>
     <div class="row stat-row" style="padding-top: 25px;">
-        <div class="col-md-7">
+        <div class="col-md-8">
             <p class=" graph-stat-header">PARTICIPANT LOCATIONS</p>
             <div class="row">
                 <!--<div class="col-md-4">
@@ -52,9 +55,9 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-5 stat-column">
+        <div class="col-md-4 stat-column">
             <p class="graph-stat-header">NUMBER OF PARTICIPANTS</p>
-            <nvd3 options="view.participantsByYear.options" data="view.participantsByYear.data"></nvd3>
+            <nvd3 options="view.participantsByYear.options" data="view.participantsByYear.data" style="height:180px;"></nvd3>
         </div>
     </div>
     <!--<div class="row stat-row" style="padding-top: 25px;">
