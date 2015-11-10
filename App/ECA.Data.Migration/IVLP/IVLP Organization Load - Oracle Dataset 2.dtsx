@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="IVLP Organization Load - Oracle Dataset 2"
   DTS:PackageType="5"
-  DTS:VersionBuild="181"
-  DTS:VersionGUID="{25CDE6E8-CEB0-4C90-B083-BCA6839FD500}">
+  DTS:VersionBuild="184"
+  DTS:VersionGUID="{83AD68B8-E642-47AB-B56A-CA298BD9F126}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -47,7 +47,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADlQgbgKDthYI4uQDWc8HOrE71O74kep7EuF65cK2oAjAAAAAAOgAAAAAIAACAAAACT9rAXgo0M0BGqB3i6I4DkrVNHqSrDLzzkUWP08QzyECAAAABQXqellgNPDyhGtSWZACOe7HIhMGHtM45MDWN+zWT/nkAAAAAQ+lKOmCR83NtYs7rK7TBpZiMkgxS3ZGXNGnEeQtEZ7Vn/4O8Ivp77ZveCbZVovjAb+n62IX43PO1f4zEd8rw8</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABVyKiXNb5h3ha3SIBmff7L8unwOBeLMJj8Fk4I7UqShwAAAAAOgAAAAAIAACAAAAC2tIxr7+4wjGEBSUFUJ8w0VRHlEJWbdIVmDT8cKrBKkCAAAAB+blZ0DHDeosPDTwxL+aBO9d7cmLmebsZc9YJBOHpMU0AAAADzsL/eQUdyNP7BehNcqz2MfciO1x0Iq+ubUzl7rH4jz5/us3XT/qrMmwDsFy0ky3bejo3oNICcWDAILQu9SaT5</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -75,7 +75,7 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Create IVLP to KMT Organization Mapping XREF Table"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="3">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -1850,11 +1850,11 @@ where UPPER([refTable].[OrganizationTypeName]) = UPPER(?)</property>
               </outputs>
             </component>
             <component
-              refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table"
+              refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table"
               componentClassID="Microsoft.OLEDBDestination"
               contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
               description="OLE DB Destination"
-              name="Load IVLP_Organization XREF table"
+              name="Load IVLP_Organization XREF Final table"
               usesDispositions="true"
               version="4">
               <properties>
@@ -1907,7 +1907,7 @@ where UPPER([refTable].[OrganizationTypeName]) = UPPER(?)</property>
               </properties>
               <connections>
                 <connection
-                  refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Connections[OleDbConnection]"
+                  refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Connections[OleDbConnection]"
                   connectionManagerID="{FF1415A8-7007-4D37-8D35-38ED28116B2F}:external"
                   connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_XREF_DB]"
                   description="The OLE DB runtime connection used to access the database."
@@ -1915,239 +1915,239 @@ where UPPER([refTable].[OrganizationTypeName]) = UPPER(?)</property>
               </connections>
               <inputs>
                 <input
-                  refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input]"
+                  refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input]"
                   errorOrTruncationOperation="Insert"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[IVLP_WEB_ADDRESS]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].Columns[IVLP_WEB_ADDRESS]"
                       cachedDataType="wstr"
                       cachedLength="200"
                       cachedName="IVLP_WEB_ADDRESS"
-                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_WEB_ADDRESS]"
+                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_WEB_ADDRESS]"
                       lineageId="Package\Create Organization XREF Data (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[IVLP_WEB_ADDRESS]" />
                     <inputColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[IVLP_PARENT_ORG_ID]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].Columns[IVLP_PARENT_ORG_ID]"
                       cachedDataType="wstr"
                       cachedLength="32"
                       cachedName="IVLP_PARENT_ORG_ID"
-                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_PARENT_ORG_ID]"
+                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_PARENT_ORG_ID]"
                       lineageId="Package\Create Organization XREF Data (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[IVLP_PARENT_ORG_ID]" />
                     <inputColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[IVLP_ORG_CREATE_ID]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].Columns[IVLP_ORG_CREATE_ID]"
                       cachedDataType="wstr"
                       cachedLength="32"
                       cachedName="IVLP_ORG_CREATE_ID"
-                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_CREATE_ID]"
+                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_CREATE_ID]"
                       lineageId="Package\Create Organization XREF Data (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[IVLP_ORG_CREATE_ID]" />
                     <inputColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[IVLP_ORG_CREATE_DT]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].Columns[IVLP_ORG_CREATE_DT]"
                       cachedDataType="dbTimeStamp"
                       cachedName="IVLP_ORG_CREATE_DT"
-                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_CREATE_DT]"
+                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_CREATE_DT]"
                       lineageId="Package\Create Organization XREF Data (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[IVLP_ORG_CREATE_DT]" />
                     <inputColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[IVLP_ORG_UPDATE_ID]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].Columns[IVLP_ORG_UPDATE_ID]"
                       cachedDataType="wstr"
                       cachedLength="32"
                       cachedName="IVLP_ORG_UPDATE_ID"
-                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_UPDATE_ID]"
+                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_UPDATE_ID]"
                       lineageId="Package\Create Organization XREF Data (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[IVLP_ORG_UPDATE_ID]" />
                     <inputColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[IVLP_ORG_UPDATE_DT]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].Columns[IVLP_ORG_UPDATE_DT]"
                       cachedDataType="dbTimeStamp"
                       cachedName="IVLP_ORG_UPDATE_DT"
-                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_UPDATE_DT]"
+                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_UPDATE_DT]"
                       lineageId="Package\Create Organization XREF Data (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[IVLP_ORG_UPDATE_DT]" />
                     <inputColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[IVLP_ORG_ID]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].Columns[IVLP_ORG_ID]"
                       cachedDataType="wstr"
                       cachedLength="32"
                       cachedName="IVLP_ORG_ID"
-                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_ID]"
+                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_ID]"
                       lineageId="Package\Create Organization XREF Data (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[IVLP_ORG_ID]" />
                     <inputColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[IVLP_ORG_NAME]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].Columns[IVLP_ORG_NAME]"
                       cachedDataType="wstr"
                       cachedLength="240"
                       cachedName="IVLP_ORG_NAME"
-                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_NAME]"
+                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_NAME]"
                       lineageId="Package\Create Organization XREF Data (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[IVLP_ORG_NAME]" />
                     <inputColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_OrganizationId]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].Columns[ECA_OrganizationId]"
                       cachedDataType="i4"
                       cachedName="ECA_OrganizationId"
-                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_OrganizationId]"
+                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_OrganizationId]"
                       lineageId="Package\Create Organization XREF Data (Completed)\Lookup ECA Organization Name.Outputs[Lookup Match Output].Columns[ECA_OrganizationId]" />
                     <inputColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_OrganizationTypeId]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].Columns[ECA_OrganizationTypeId]"
                       cachedDataType="i4"
                       cachedName="ECA_OrganizationTypeId"
-                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_OrganizationTypeId]"
+                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_OrganizationTypeId]"
                       lineageId="Package\Create Organization XREF Data (Completed)\Lookup ECA Organization Name.Outputs[Lookup Match Output].Columns[ECA_OrganizationTypeId]" />
                     <inputColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_OfficeSymbol]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].Columns[ECA_OfficeSymbol]"
                       cachedDataType="wstr"
                       cachedLength="128"
                       cachedName="ECA_OfficeSymbol"
-                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_OfficeSymbol]"
+                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_OfficeSymbol]"
                       lineageId="Package\Create Organization XREF Data (Completed)\Lookup ECA Organization Name.Outputs[Lookup Match Output].Columns[ECA_OfficeSymbol]" />
                     <inputColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_Description]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].Columns[ECA_Description]"
                       cachedDataType="wstr"
                       cachedLength="3000"
                       cachedName="ECA_Description"
-                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_Description]"
+                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_Description]"
                       lineageId="Package\Create Organization XREF Data (Completed)\Lookup ECA Organization Name.Outputs[Lookup Match Output].Columns[ECA_Description]" />
                     <inputColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_Status]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].Columns[ECA_Status]"
                       cachedDataType="wstr"
                       cachedLength="20"
                       cachedName="ECA_Status"
-                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_Status]"
+                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_Status]"
                       lineageId="Package\Create Organization XREF Data (Completed)\Lookup ECA Organization Name.Outputs[Lookup Match Output].Columns[ECA_Status]" />
                     <inputColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_Name]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].Columns[ECA_Name]"
                       cachedDataType="wstr"
                       cachedLength="600"
                       cachedName="ECA_Name"
-                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_Name]"
+                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_Name]"
                       lineageId="Package\Create Organization XREF Data (Completed)\Lookup ECA Organization Name.Outputs[Lookup Match Output].Columns[ECA_Name]" />
                     <inputColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_Website]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].Columns[ECA_Website]"
                       cachedDataType="wstr"
                       cachedLength="2000"
                       cachedName="ECA_Website"
-                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_Website]"
+                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_Website]"
                       lineageId="Package\Create Organization XREF Data (Completed)\Lookup ECA Organization Name.Outputs[Lookup Match Output].Columns[ECA_Website]" />
                     <inputColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_History_CreatedBy]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].Columns[ECA_History_CreatedBy]"
                       cachedDataType="i4"
                       cachedName="ECA_History_CreatedBy"
-                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_History_CreatedBy]"
+                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_History_CreatedBy]"
                       lineageId="Package\Create Organization XREF Data (Completed)\Lookup ECA Organization Name.Outputs[Lookup Match Output].Columns[ECA_History_CreatedBy]" />
                     <inputColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_History_CreatedOn]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].Columns[ECA_History_CreatedOn]"
                       cachedDataType="dbTimeStampOffset"
                       cachedName="ECA_History_CreatedOn"
                       cachedScale="7"
-                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_History_CreatedOn]"
+                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_History_CreatedOn]"
                       lineageId="Package\Create Organization XREF Data (Completed)\Lookup ECA Organization Name.Outputs[Lookup Match Output].Columns[ECA_History_CreatedOn]" />
                     <inputColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_History_RevisedBy]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].Columns[ECA_History_RevisedBy]"
                       cachedDataType="i4"
                       cachedName="ECA_History_RevisedBy"
-                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_History_RevisedBy]"
+                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_History_RevisedBy]"
                       lineageId="Package\Create Organization XREF Data (Completed)\Lookup ECA Organization Name.Outputs[Lookup Match Output].Columns[ECA_History_RevisedBy]" />
                     <inputColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_History_RevisedOn]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].Columns[ECA_History_RevisedOn]"
                       cachedDataType="dbTimeStampOffset"
                       cachedName="ECA_History_RevisedOn"
                       cachedScale="7"
-                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_History_RevisedOn]"
+                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_History_RevisedOn]"
                       lineageId="Package\Create Organization XREF Data (Completed)\Lookup ECA Organization Name.Outputs[Lookup Match Output].Columns[ECA_History_RevisedOn]" />
                     <inputColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].Columns[ECA_ParentOrganization_OrganizationId]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].Columns[ECA_ParentOrganization_OrganizationId]"
                       cachedDataType="i4"
                       cachedName="ECA_ParentOrganization_OrganizationId"
-                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_ParentOrganization_OrganizationId]"
+                      externalMetadataColumnId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_ParentOrganization_OrganizationId]"
                       lineageId="Package\Create Organization XREF Data (Completed)\Lookup ECA Organization Name.Outputs[Lookup Match Output].Columns[ECA_ParentOrganization_OrganizationId]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_WEB_ADDRESS]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_WEB_ADDRESS]"
                       dataType="wstr"
                       length="200"
                       name="IVLP_WEB_ADDRESS" />
                     <externalMetadataColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_PARENT_ORG_ID]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_PARENT_ORG_ID]"
                       dataType="wstr"
                       length="32"
                       name="IVLP_PARENT_ORG_ID" />
                     <externalMetadataColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_CREATE_ID]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_CREATE_ID]"
                       dataType="wstr"
                       length="32"
                       name="IVLP_ORG_CREATE_ID" />
                     <externalMetadataColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_CREATE_DT]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_CREATE_DT]"
                       dataType="dbTimeStamp"
                       name="IVLP_ORG_CREATE_DT" />
                     <externalMetadataColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_UPDATE_ID]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_UPDATE_ID]"
                       dataType="wstr"
                       length="32"
                       name="IVLP_ORG_UPDATE_ID" />
                     <externalMetadataColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_UPDATE_DT]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_UPDATE_DT]"
                       dataType="dbTimeStamp"
                       name="IVLP_ORG_UPDATE_DT" />
                     <externalMetadataColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_ID]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_ID]"
                       dataType="wstr"
                       length="32"
                       name="IVLP_ORG_ID" />
                     <externalMetadataColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_NAME]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ORG_NAME]"
                       dataType="wstr"
                       length="240"
                       name="IVLP_ORG_NAME" />
                     <externalMetadataColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_OrganizationId]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_OrganizationId]"
                       dataType="i4"
                       name="KMT_OrganizationId" />
                     <externalMetadataColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_OrganizationTypeId]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_OrganizationTypeId]"
                       dataType="i4"
                       name="KMT_OrganizationTypeId" />
                     <externalMetadataColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_OfficeSymbol]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_OfficeSymbol]"
                       dataType="wstr"
                       length="128"
                       name="KMT_OfficeSymbol" />
                     <externalMetadataColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_Description]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_Description]"
                       dataType="wstr"
                       length="3000"
                       name="KMT_Description" />
                     <externalMetadataColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_Status]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_Status]"
                       dataType="wstr"
                       length="20"
                       name="KMT_Status" />
                     <externalMetadataColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_Name]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_Name]"
                       dataType="wstr"
                       length="600"
                       name="KMT_Name" />
                     <externalMetadataColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_Website]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_Website]"
                       dataType="wstr"
                       length="2000"
                       name="KMT_Website" />
                     <externalMetadataColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_History_CreatedBy]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_History_CreatedBy]"
                       dataType="i4"
                       name="KMT_History_CreatedBy" />
                     <externalMetadataColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_History_CreatedOn]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_History_CreatedOn]"
                       dataType="dbTimeStampOffset"
                       name="KMT_History_CreatedOn"
                       scale="7" />
                     <externalMetadataColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_History_RevisedBy]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_History_RevisedBy]"
                       dataType="i4"
                       name="KMT_History_RevisedBy" />
                     <externalMetadataColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_History_RevisedOn]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_History_RevisedOn]"
                       dataType="dbTimeStampOffset"
                       name="KMT_History_RevisedOn"
                       scale="7" />
                     <externalMetadataColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_ParentOrganization_OrganizationId]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input].ExternalColumns[KMT_ParentOrganization_OrganizationId]"
                       dataType="i4"
                       name="KMT_ParentOrganization_OrganizationId" />
                   </externalMetadataColumns>
@@ -2155,22 +2155,22 @@ where UPPER([refTable].[OrganizationTypeName]) = UPPER(?)</property>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Outputs[OLE DB Destination Error Output]"
+                  refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Outputs[OLE DB Destination Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="OLE DB Destination Error Output"
-                  synchronousInputId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input]">
+                  synchronousInputId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      refId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -2507,7 +2507,7 @@ where UPPER([refTable].[Name]) = UPPER( ? )</property>
               startId="Package\Create Organization XREF Data (Completed)\Data Conversion.Outputs[Data Conversion Output]" />
             <path
               refId="Package\Create Organization XREF Data (Completed).Paths[Lookup Match Output]"
-              endId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table.Inputs[OLE DB Destination Input]"
+              endId="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table.Inputs[OLE DB Destination Input]"
               name="Lookup Match Output"
               startId="Package\Create Organization XREF Data (Completed)\Lookup ECA Organization Name.Outputs[Lookup Match Output]" />
             <path
@@ -5811,7 +5811,7 @@ where [refTable].[Status] = ?</property>
       DTS:LocaleID="-1"
       DTS:ObjectName="Delete Existing Organization XREF rows (Completed)"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="3">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -6000,7 +6000,7 @@ where [refTable].[Status] = ?</property>
         <NodeLayout
           Size="205,42"
           Id="Package\Create New Organizations (Completed)\IVLP Organization (Oracle)"
-          TopLeft="37.5,17.5" />
+          TopLeft="51.5,18.5" />
         <NodeLayout
           Size="209,42"
           Id="Package\Create New Organizations (Completed)\Lookup OrganizationTypeId"
@@ -6037,30 +6037,18 @@ where [refTable].[Status] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Create New Organizations (Completed).Paths[OLE DB Source Output]"
-          TopLeft="140,59.5">
+          TopLeft="152.25,60.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="10.5,33"
+              EndConnector="0,32"
               Start="0,0"
-              End="10.5,25.5">
+              End="0,24.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,12.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,12.5"
-                    Point2="0,16.5"
-                    Point3="4,16.5" />
-                  <mssgle:LineSegment
-                    End="6.5,16.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="6.5,16.5"
-                    Point2="10.5,16.5"
-                    Point3="10.5,20.5" />
-                  <mssgle:LineSegment
-                    End="10.5,25.5" />
+                    End="0,24.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -6192,7 +6180,7 @@ where [refTable].[Status] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">true</Value>
+          type="q2:boolean">true</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -6202,7 +6190,7 @@ where [refTable].[Status] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -6276,8 +6264,8 @@ where [refTable].[Status] = ?</property>
           Id="Package\Create Organization XREF Data (Completed)\Data Conversion"
           TopLeft="107.5,102.5" />
         <NodeLayout
-          Size="246,42"
-          Id="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table"
+          Size="271,42"
+          Id="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table"
           TopLeft="145.5,286.5" />
         <EdgeLayout
           Id="Package\Create Organization XREF Data (Completed).Paths[OLE DB Source Output]"
@@ -6319,9 +6307,9 @@ where [refTable].[Status] = ?</property>
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="40,49"
+              EndConnector="52.5,49"
               Start="0,0"
-              End="40,41.5">
+              End="52.5,41.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -6332,20 +6320,20 @@ where [refTable].[Status] = ?</property>
                     Point2="0,24.5"
                     Point3="4,24.5" />
                   <mssgle:LineSegment
-                    End="36,24.5" />
+                    End="48.5,24.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="36,24.5"
-                    Point2="40,24.5"
-                    Point3="40,28.5" />
+                    Point1="48.5,24.5"
+                    Point2="52.5,24.5"
+                    Point3="52.5,28.5" />
                   <mssgle:LineSegment
-                    End="40,41.5" />
+                    End="52.5,41.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-28.19138671875,29.5,96.3827734375,11.609375"
+              BoundingBox="-21.94138671875,29.5,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -6423,7 +6411,7 @@ where [refTable].[Status] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF table">
+    design-time-name="Package\Create Organization XREF Data (Completed)\Load IVLP_Organization XREF Final table">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
