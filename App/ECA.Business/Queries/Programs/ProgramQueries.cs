@@ -52,7 +52,6 @@ namespace ECA.Business.Queries.Programs
                             CreatedByUserId = program.History.CreatedBy,
                             Description = program.Description,
                             Name = program.Name,
-                            NumChildren = 0,
                             OfficeSymbol = owner.OfficeSymbol,
                             Status = program.ProgramStatus.Status,
                             OrgName = owner.Name,

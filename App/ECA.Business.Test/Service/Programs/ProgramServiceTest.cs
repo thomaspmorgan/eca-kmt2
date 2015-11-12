@@ -65,7 +65,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc1",
                     Name = "parent",
-                    NumChildren = 2,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -80,7 +79,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc2",
                     Name = "child",
-                    NumChildren = 20,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -95,7 +93,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc2",
                     Name = "grandchild",
-                    NumChildren = 20,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -160,7 +157,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc1",
                     Name = "parent",
-                    NumChildren = 2,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -175,7 +171,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc2",
                     Name = "child",
-                    NumChildren = 20,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -190,7 +185,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc2",
                     Name = "grandchild",
-                    NumChildren = 20,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -251,7 +245,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc1",
                     Name = "parent",
-                    NumChildren = 2,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -266,7 +259,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc2",
                     Name = "child",
-                    NumChildren = 20,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -281,7 +273,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc2",
                     Name = "grandchild",
-                    NumChildren = 20,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -343,7 +334,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc1",
                     Name = "parent",
-                    NumChildren = 2,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 1,
@@ -358,7 +348,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc2",
                     Name = "child",
-                    NumChildren = 20,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -459,7 +448,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc1",
                     Name = "parent",
-                    NumChildren = 2,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -474,7 +462,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc2",
                     Name = "child",
-                    NumChildren = 20,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -489,7 +476,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc2",
                     Name = "grandchild",
-                    NumChildren = 20,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -550,7 +536,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc1",
                     Name = "parent",
-                    NumChildren = 2,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -565,7 +550,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc2",
                     Name = "child",
-                    NumChildren = 20,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -625,7 +609,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc1",
                     Name = "parent",
-                    NumChildren = 2,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -640,7 +623,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc2",
                     Name = "child",
-                    NumChildren = 20,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 20,
@@ -699,7 +681,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc1",
                     Name = "parent",
-                    NumChildren = 2,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -797,7 +778,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc1",
                     Name = "org 1",
-                    NumChildren = 2,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -812,7 +792,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc2",
                     Name = "org 2",
-                    NumChildren = 20,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 20,
@@ -827,7 +806,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc2",
                     Name = "org 2",
-                    NumChildren = 20,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 20,
@@ -883,7 +861,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc1",
                     Name = "org 1",
-                    NumChildren = 2,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -898,7 +875,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc2",
                     Name = "org 2",
-                    NumChildren = 20,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 20,
@@ -913,7 +889,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc2",
                     Name = "org 2",
-                    NumChildren = 20,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 20,
@@ -971,7 +946,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc1",
                     Name = "org 1",
-                    NumChildren = 2,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -986,7 +960,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc2",
                     Name = "org 2",
-                    NumChildren = 20,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 20,
@@ -1042,7 +1015,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc1",
                     Name = "org 1",
-                    NumChildren = 2,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -1057,7 +1029,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc2",
                     Name = "org 2",
-                    NumChildren = 20,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 20,
@@ -1113,7 +1084,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc1",
                     Name = "org 1",
-                    NumChildren = 2,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -1128,7 +1098,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc2",
                     Name = "org 2",
-                    NumChildren = 20,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 20,
@@ -1143,7 +1112,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc2",
                     Name = "org 2",
-                    NumChildren = 20,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 20,
@@ -1201,7 +1169,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc1",
                     Name = "org 1",
-                    NumChildren = 2,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -1933,7 +1900,6 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(program1.History.CreatedBy, firstResult.CreatedByUserId);
                 Assert.AreEqual(program1.Description, firstResult.Description);
                 Assert.AreEqual(program1.Name, firstResult.Name);
-                Assert.AreEqual(0, firstResult.NumChildren);
                 Assert.AreEqual(owner1.OfficeSymbol, firstResult.OfficeSymbol);
                 Assert.AreEqual(owner1.Name, firstResult.OrgName);
                 Assert.AreEqual(owner1.OrganizationId, firstResult.Owner_OrganizationId);
@@ -2247,7 +2213,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc1",
                     Name = "org 1",
-                    NumChildren = 2,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -2261,7 +2226,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc2",
                     Name = "org 2",
-                    NumChildren = 20,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 20,
@@ -2320,7 +2284,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc1",
                     Name = "org 1",
-                    NumChildren = 2,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -2334,7 +2297,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc2",
                     Name = "org 2",
-                    NumChildren = 20,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 20,
@@ -2393,7 +2355,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc1",
                     Name = "org 1",
-                    NumChildren = 2,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -2407,7 +2368,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc2",
                     Name = "org 2",
-                    NumChildren = 20,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 20,
@@ -2419,7 +2379,7 @@ namespace ECA.Business.Test.Service.Programs
                 };
                 list.Add(dto1);
                 list.Add(dto2);
-                list = list.OrderBy(x => x.NumChildren).ToList();
+                list = list.OrderBy(x => x.ParentProgram_ProgramId).ToList();
                 System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
                 {
                     var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
@@ -2449,7 +2409,7 @@ namespace ECA.Business.Test.Service.Programs
                     Assert.IsTrue(object.ReferenceEquals(dto2, firstResult));
                 };
                 var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending));
-                queryOperator.Sorters.Add(new ExpressionSorter<OrganizationProgramDTO>(x => x.NumChildren, SortDirection.Descending));
+                queryOperator.Sorters.Add(new ExpressionSorter<OrganizationProgramDTO>(x => x.ParentProgram_ProgramId, SortDirection.Descending));
                 var serviceResults = service.GetProgramsHierarchy(queryOperator);
                 var serviceResultsAsync = await service.GetProgramsHierarchyAsync(queryOperator);
                 tester(serviceResults);
@@ -2467,7 +2427,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc1",
                     Name = "org 1",
-                    NumChildren = 2,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
@@ -2481,7 +2440,6 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     Description = "desc2",
                     Name = "org 2",
-                    NumChildren = 20,
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 20,
@@ -2493,7 +2451,7 @@ namespace ECA.Business.Test.Service.Programs
                 };
                 list.Add(dto1);
                 list.Add(dto2);
-                list = list.OrderBy(x => x.NumChildren).ToList();
+                list = list.OrderBy(x => x.ParentProgram_ProgramId).ToList();
                 System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
                 {
                     var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
