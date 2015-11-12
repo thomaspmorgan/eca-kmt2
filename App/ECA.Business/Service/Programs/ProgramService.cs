@@ -137,12 +137,8 @@ namespace ECA.Business.Service.Programs
         public ProgramDTO GetProgramById(int programId)
         {
             var dto = ProgramQueries.CreateGetPublishedProgramByIdQuery(this.Context, programId).FirstOrDefault();
-            List<OrganizationProgramDTO> parentPrograms = new List<OrganizationProgramDTO>();
-            if (dto != null && dto.ParentProgramId.HasValue)
-            {
-                parentPrograms = GetParentPrograms(programId);
-            }
-            return DoGetProgramById(programId, dto, parentPrograms);
+            this.logger.Trace("Retrieved program by id [{0}].", programId);
+            return dto;
         }
 
         /// <summary>
@@ -152,27 +148,7 @@ namespace ECA.Business.Service.Programs
         /// <returns>The program, or null if it doesn't exist.</returns>
         public async Task<ProgramDTO> GetProgramByIdAsync(int programId)
         {
-            var query = ProgramQueries.CreateGetPublishedProgramByIdQuery(this.Context, programId);
-            var dto = await query.FirstOrDefaultAsync();
-            List<OrganizationProgramDTO> parentPrograms = new List<OrganizationProgramDTO>();
-            if (dto != null && dto.ParentProgramId.HasValue)
-            {
-                parentPrograms = await GetParentProgramsAsync(programId);
-            }
-            return DoGetProgramById(programId, dto, parentPrograms);
-        }
-
-        private ProgramDTO DoGetProgramById(int programId, ProgramDTO dto, List<OrganizationProgramDTO> parentPrograms)
-        {
-            if (dto != null)
-            {
-                dto.AllParentPrograms = parentPrograms.Select(x =>
-                new SimpleLookupDTO
-                {
-                    Id = x.ProgramId,
-                    Value = x.Name
-                }).ToList();
-            }
+            var dto = await ProgramQueries.CreateGetPublishedProgramByIdQuery(this.Context, programId).FirstOrDefaultAsync();
             this.logger.Trace("Retrieved program by id [{0}].", programId);
             return dto;
         }
