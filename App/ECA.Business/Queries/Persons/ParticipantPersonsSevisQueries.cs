@@ -1,13 +1,8 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Data;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECA.Business.Queries.Models.Admin;
 
 namespace ECA.Business.Queries.Persons
 {
