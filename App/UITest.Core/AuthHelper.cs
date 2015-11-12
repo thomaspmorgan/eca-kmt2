@@ -57,7 +57,7 @@ namespace UITest.Core
 
             HtmlEdit password = new HtmlEdit(browserWindow);
             password.SearchProperties.Add(HtmlEdit.PropertyNames.TagName, "INPUT", HtmlEdit.PropertyNames.Id, "cred_password_inputtext");
-            password.Text = "ECATeam!2015_3";
+            password.Text = "ECATeam!2015_4";
 
             //Click Sign In button
 
