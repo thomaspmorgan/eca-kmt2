@@ -310,15 +310,6 @@ angular.module('staticApp')
               ]
           };
 
-          if ($scope.newPerson.countriesOfCitizenship.length > 0) {
-              var idsToRemove = $scope.newPerson.countriesOfCitizenship.map(function (c) { return c.id; });
-              params.filter.push({
-                  comparison: ConstantsService.notInComparisonType,
-                  property: 'id',
-                  value: idsToRemove
-              });
-          }
-
           return LocationService.get(params)
             .then(function (data) {
                 $scope.countriesCopy = data.results;
