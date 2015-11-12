@@ -24,7 +24,6 @@ namespace ECA.WebApi.Test.Models.Programs
             Assert.IsNotNull(viewModel.Themes);
             Assert.IsNotNull(viewModel.Goals);
             Assert.IsNotNull(viewModel.Regions);
-            Assert.IsNotNull(viewModel.AllParentPrograms);
         }
 
         [TestMethod]
@@ -53,9 +52,7 @@ namespace ECA.WebApi.Test.Models.Programs
             dto.RowVersion = new byte[1] { (byte)1 };
             dto.StartDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             dto.EndDate = DateTimeOffset.UtcNow.AddDays(1.0);
-            dto.Themes = ToListOfSimpleLookups(6, "theme");
-            dto.AllParentPrograms = ToListOfSimpleLookups(7, "parentprogam");
-            
+            dto.Themes = ToListOfSimpleLookups(6, "theme");            
 
             var viewModel = new ProgramViewModel(dto);
             Assert.AreEqual(dto.Description, viewModel.Description);
@@ -78,7 +75,6 @@ namespace ECA.WebApi.Test.Models.Programs
             CollectionAssert.AreEqual(dto.Goals.ToList(), viewModel.Goals.ToList());
             CollectionAssert.AreEqual(dto.RegionIsos.ToList(), viewModel.RegionIsos.ToList());
             CollectionAssert.AreEqual(dto.Themes.ToList(), viewModel.Themes.ToList());
-            CollectionAssert.AreEqual(dto.AllParentPrograms.ToList(), viewModel.AllParentPrograms.ToList());
             Assert.IsTrue(Object.ReferenceEquals(list, dto.Regions));
         }
 

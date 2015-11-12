@@ -244,6 +244,7 @@ namespace ECA.Business.Test.Queries.Admin
                 NamePrefix = "Mr.",
                 NameSuffix = "III",
                 Patronym = "patronym",
+                FullName = "full name",
                 Gender = new Gender
                 {
                     GenderId = Gender.Female.Id,
@@ -261,16 +262,7 @@ namespace ECA.Business.Test.Queries.Admin
                 PrincipalId = 1,
                 AddedOn = DateTimeOffset.Now,
                 Automatic = false
-            };
-
-            var expectedName = String.Format("{0} {1} {2} {3} {4} {5} ({6})",
-                person.NamePrefix,
-                person.FirstName,
-                person.MiddleName,
-                person.LastName,
-                person.Patronym,
-                person.NameSuffix,
-                person.Alias);
+            };            
 
             context.ParticipantStatuses.Add(status);
             context.Participants.Add(participation);
@@ -287,7 +279,7 @@ namespace ECA.Business.Test.Queries.Admin
             bookmark.AddedOn.Should().BeCloseTo(DateTimeOffset.Now, 3000);
             Assert.AreEqual("Person", firstResult.Type);
             Assert.AreEqual(status.Status, firstResult.OfficeSymbolOrStatus);
-            Assert.AreEqual(expectedName, firstResult.Name);
+            Assert.AreEqual(person.FullName, firstResult.Name);
         }
 
         [TestMethod]

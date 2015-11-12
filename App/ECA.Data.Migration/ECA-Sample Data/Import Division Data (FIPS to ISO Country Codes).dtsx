@@ -7,12 +7,12 @@
   DTS:CreatorName="BE00003308\Marc Setien"
   DTS:DTSID="{1063AE65-19FA-41ED-B318-D4AF47716E4C}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
   DTS:LocaleID="1033"
   DTS:ObjectName="Import Division Data  FIPS to ISO Country Codes"
   DTS:PackageType="5"
-  DTS:VersionBuild="19"
-  DTS:VersionGUID="{D4A3AC04-E3D8-4D48-AF5E-483F2A367DA8}">
+  DTS:VersionBuild="26"
+  DTS:VersionGUID="{A9F10AE0-6152-4D64-AC20-31558EA935E7}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -37,7 +37,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACIN2nlEpXH90JbzH+Ssyq75+HkVaWQizBB45zPUDlESwAAAAAOgAAAAAIAACAAAACfrbDNQw0p+nUIZGjnmOMoQIimTDWvf9XAT9q7dqqwPCAAAACcfDa1jMwWmQcO3FpOG/dCkyA9Ap52AHdVlnJiVO0J80AAAADminD8piS17cGcmvtlNiIl+fRoHlV+BVAIqZu1/qsEA6/Eus/hhDdjjUDokO8rg/i+lxKRYUJckUsrf9jyVqO5</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADrK22ggVbf2IALufSm2DjA9jA2a/6Z8TSl5Rr9VyZDQgAAAAAOgAAAAAIAACAAAAA+bksW3yh1/b7mzbgT4qOZ5vnFZYdsB8EzrxqPyl7eKiAAAACtEFI7Pnp5/MwSd/pCCiOQrxwAH2xqbcjE3z0lmXcCdkAAAAA1gP1P+uFFrKwBq5GBl0fylh8bueBBkY7NIaispl4xaXmmuyY/VxhX0HAuCd5BG0j2kx/IljXn9nS3sn7NLZIZ</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -62,7 +62,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAC6+LDpKn2xbDVT5x3oToIB3t8lSJb8DjcyWHyFfzn5zgAAAAAOgAAAAAIAACAAAABHORi0INlIvdTQ2ndGTU6diqoFaSleGXCyBWuoHfxWZCAAAAA1zfo4FZ5arxPPH74+mObVBgV58qaJ3191zjWiPqY9cEAAAAA9Er+g/duxN0L2yiwK/lk1gsF65K3jojC75ctAFHYvKZDMEnjT6MjLfexXgAqoRSj5HHP4YoYrgn+sD9FEJGXX</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABnXmNyygt67T3x8qACa/w+49BOnBdqbmiU/kWlVny/vwAAAAAOgAAAAAIAACAAAAD0x+dj2A5v58BYpDgbqtFHgvdH75SzAjOjB54KUIeGpyAAAADes8sXbrD1L9jHO3Ar3+0vlSKkVdPSLFDb4Nru509W+0AAAAAIm97qOdWMlp3owhz4PY/gABAwcvY2GvpjyfCCk7hBMdh9G5ATLYyCmimefpBGgQlH9RDt71JEzCFnBPcbugX5</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -657,7 +657,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[Division Non Match Data]</property>
+                  name="OpenRowset">[dbo].[Division Non Match Data]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -700,8 +700,8 @@
               <connections>
                 <connection
                   refId="Package\Import Divisions\Division Non Match Data.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Data_Migration.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Data_Migration.msetien]"
+                  connectionManagerID="{10258656-65F3-4691-94F9-F2D256749F96}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308.ECA_Data_Migration]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -1012,7 +1012,7 @@ where [refTable].[LocationTypeId] = ? and [refTable].[LocationIso] = ?</property
                 <property
                   dataType="System.String"
                   description="Indicates whether to reference metadata in an XML format."
-                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Latitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Longitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street1" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street2" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street3" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PostalCode" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationName" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationIso" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Region_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Country_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationISO-2" dataType="DT_WSTR" length="10" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Latitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Longitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street1" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street2" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street3" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PostalCode" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationName" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationIso" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Region_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Country_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationISO-2" dataType="DT_WSTR" length="10" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="IsDivisionUnknown" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="IsActive" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
                 <property
                   containsID="true"
                   dataType="System.String"
@@ -1030,8 +1030,8 @@ where [refTable].[LocationTypeId] = ? and [refTable].[LocationIso] = ?</property
               <connections>
                 <connection
                   refId="Package\Import Divisions\Get Country ID.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerID="{9ADA9E08-9BED-4C84-813B-772412CD6E50}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -1193,8 +1193,8 @@ where [refTable].[LocationTypeId] = ? and [refTable].[LocationIso] = ?</property
               <connections>
                 <connection
                   refId="Package\Import Divisions\Location.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerID="{9ADA9E08-9BED-4C84-813B-772412CD6E50}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -1361,6 +1361,14 @@ where [refTable].[LocationTypeId] = ? and [refTable].[LocationIso] = ?</property
                       refId="Package\Import Divisions\Location.Inputs[OLE DB Destination Input].ExternalColumns[Division_LocationId]"
                       dataType="i4"
                       name="Division_LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Import Divisions\Location.Inputs[OLE DB Destination Input].ExternalColumns[IsDivisionUnknown]"
+                      dataType="bool"
+                      name="IsDivisionUnknown" />
+                    <externalMetadataColumn
+                      refId="Package\Import Divisions\Location.Inputs[OLE DB Destination Input].ExternalColumns[IsActive]"
+                      dataType="bool"
+                      name="IsActive" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -1459,8 +1467,8 @@ where [refTable].[LocationTypeName] = ?</property>
               <connections>
                 <connection
                   refId="Package\Import Divisions\Lookup Country LocationTypeId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerID="{9ADA9E08-9BED-4C84-813B-772412CD6E50}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -1618,8 +1626,8 @@ where [refTable].[LocationTypeName] = ?</property>
               <connections>
                 <connection
                   refId="Package\Import Divisions\Lookup Division LocationTypeId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerID="{9ADA9E08-9BED-4C84-813B-772412CD6E50}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -1759,7 +1767,7 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ? and [ref
                 <property
                   dataType="System.String"
                   description="Indicates whether to reference metadata in an XML format."
-                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Latitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Longitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street1" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street2" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street3" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PostalCode" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationName" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationIso" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Region_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Country_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationISO-2" dataType="DT_WSTR" length="10" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Latitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Longitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street1" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street2" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street3" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PostalCode" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationName" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationIso" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Region_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Country_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationISO-2" dataType="DT_WSTR" length="10" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="IsDivisionUnknown" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="IsActive" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
                 <property
                   containsID="true"
                   dataType="System.String"
@@ -1777,8 +1785,8 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ? and [ref
               <connections>
                 <connection
                   refId="Package\Import Divisions\Remove duplicates.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerID="{9ADA9E08-9BED-4C84-813B-772412CD6E50}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -2001,8 +2009,8 @@ where [refTable].[fips] = ?</property>
               <connections>
                 <connection
                   refId="Package\Import Divisions\Translate FIPS Country Code to ISO Code.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Data_Migration.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Data_Migration.msetien]"
+                  connectionManagerID="{10258656-65F3-4691-94F9-F2D256749F96}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308.ECA_Data_Migration]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -2198,203 +2206,203 @@ where [refTable].[fips] = ?</property>
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="118,42"
-          Id="Package\Import Divisions\Location"
-          TopLeft="690.5,289.5" />
-        <NodeLayout
-          Size="194,42"
-          Id="Package\Import Divisions\Division Non Match Data"
-          TopLeft="679.5,60.5" />
-        <NodeLayout
           Size="150,42"
           Id="Package\Import Divisions\Get Country ID"
-          TopLeft="396.5,173.5" />
-        <NodeLayout
-          Size="229,42"
-          Id="Package\Import Divisions\Lookup Country LocationTypeId"
-          TopLeft="25.5,163.5" />
-        <NodeLayout
-          Size="154,42"
-          Id="Package\Import Divisions\Derived Column"
-          TopLeft="50.5,84.5" />
-        <NodeLayout
-          Size="190,42"
-          Id="Package\Import Divisions\Administrative Divisions"
-          TopLeft="21.5,5.5" />
-        <NodeLayout
-          Size="228,42"
-          Id="Package\Import Divisions\Lookup Division LocationTypeId"
-          TopLeft="52.5,253.5" />
-        <EdgeLayout
-          Id="Package\Import Divisions.Paths[Lookup Match Output]"
-          TopLeft="140,205.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-10.1666666666667,48"
-              Start="0,0"
-              End="-10.1666666666667,40.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,24.5993031358885" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,24.5993031358885"
-                    Point2="0,28.5993031358885"
-                    Point3="-4,28.5993031358885" />
-                  <mssgle:LineSegment
-                    End="-6.16666666666669,28.5993031358885" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-6.16666666666669,28.5993031358885"
-                    Point2="-10.1666666666667,28.5993031358885"
-                    Point3="-10.1666666666667,32.5993031358885" />
-                  <mssgle:LineSegment
-                    End="-10.1666666666667,40.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-53.2747200520833,33.5993031358885,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="275,42"
-          Id="Package\Import Divisions\Translate FIPS Country Code to ISO Code"
-          TopLeft="127.5,340.5" />
-        <EdgeLayout
-          Id="Package\Import Divisions.Paths[Lookup Match Output1]"
-          TopLeft="166.5,295.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="98.5,45"
-              Start="0,0"
-              End="98.5,37.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,18.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,18.5"
-                    Point2="0,22.5"
-                    Point3="4,22.5" />
-                  <mssgle:LineSegment
-                    End="94.5,22.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="94.5,22.5"
-                    Point2="98.5,22.5"
-                    Point3="98.5,26.5" />
-                  <mssgle:LineSegment
-                    End="98.5,37.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="1.05861328125,27.5,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+          TopLeft="84.5,535.5" />
         <NodeLayout
           Size="163,42"
           Id="Package\Import Divisions\Derived Column 1"
-          TopLeft="386.5,276.5" />
+          TopLeft="74.5,441.5" />
+        <NodeLayout
+          Size="194,42"
+          Id="Package\Import Divisions\Division Non Match Data"
+          TopLeft="59.5,635.5" />
+        <NodeLayout
+          Size="228,42"
+          Id="Package\Import Divisions\Lookup Division LocationTypeId"
+          TopLeft="35.5,254.5" />
+        <NodeLayout
+          Size="118,42"
+          Id="Package\Import Divisions\Location"
+          TopLeft="705.5,533.5" />
+        <NodeLayout
+          Size="154,42"
+          Id="Package\Import Divisions\Derived Column"
+          TopLeft="75.5,85.5" />
+        <NodeLayout
+          Size="275,42"
+          Id="Package\Import Divisions\Translate FIPS Country Code to ISO Code"
+          TopLeft="17.5,357.5" />
+        <NodeLayout
+          Size="229,42"
+          Id="Package\Import Divisions\Lookup Country LocationTypeId"
+          TopLeft="38.5,163.5" />
+        <NodeLayout
+          Size="167,42"
+          Id="Package\Import Divisions\Remove duplicates"
+          TopLeft="412.5,534.5" />
+        <NodeLayout
+          Size="190,42"
+          Id="Package\Import Divisions\Administrative Divisions"
+          TopLeft="57.5,8.5" />
         <EdgeLayout
-          Id="Package\Import Divisions.Paths[Lookup Match Output2]"
-          TopLeft="309.5,340.5">
+          Id="Package\Import Divisions.Paths[Lookup No Match Output1]"
+          TopLeft="579.5,555">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="77,-43"
+              EndConnector="126,0"
               Start="0,0"
-              End="69.5,-43">
+              End="118.5,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,-39" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,-39"
-                    Point2="0,-43"
-                    Point3="4,-43" />
-                  <mssgle:LineSegment
-                    End="69.5,-43" />
+                    End="118.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-11.44138671875,-38,96.3827734375,11.609375"
+              BoundingBox="3.44361328125,5,111.6127734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Import Divisions.Paths[Derived Column Output]"
-          TopLeft="468,276.5">
+          Id="Package\Import Divisions.Paths[Lookup No Match Output]"
+          TopLeft="158,577.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-20.1666666666667,-61"
+              EndConnector="0,58"
               Start="0,0"
-              End="-20.1666666666667,-53.5">
+              End="0,50.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,-32.2137203166227" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,-32.2137203166227"
-                    Point2="0,-36.2137203166227"
-                    Point3="-4,-36.2137203166227" />
-                  <mssgle:LineSegment
-                    End="-16.1666666666667,-36.2137203166227" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-16.1666666666667,-36.2137203166227"
-                    Point2="-20.1666666666667,-36.2137203166227"
-                    Point3="-20.1666666666667,-40.2137203166227" />
-                  <mssgle:LineSegment
-                    End="-20.1666666666667,-53.5" />
+                    End="0,50.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="-55.80638671875,19.4453125,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Import Divisions.Paths[Lookup Match Output3]"
+          TopLeft="234.5,556">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="178,0"
+              Start="0,0"
+              End="170.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="170.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="37.05861328125,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Import Divisions.Paths[Lookup Match Output2]"
+          TopLeft="155.5,399.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,42"
+              Start="0,0"
+              End="0,34.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,11.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Import Divisions.Paths[Lookup Match Output1]"
+          TopLeft="152.25,296.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,61"
+              Start="0,0"
+              End="0,53.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,53.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,20.9453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Import Divisions.Paths[Lookup Match Output]"
+          TopLeft="151.25,205.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,49"
+              Start="0,0"
+              End="0,41.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,14.9453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Import Divisions.Paths[Excel Source Output]"
-          TopLeft="116.5,47.5">
+          TopLeft="152.5,50.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="11,37"
+              EndConnector="0,35"
               Start="0,0"
-              End="11,29.5">
+              End="0,27.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,14.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,14.5"
-                    Point2="0,18.5"
-                    Point3="4,18.5" />
-                  <mssgle:LineSegment
-                    End="7,18.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="7,18.5"
-                    Point2="11,18.5"
-                    Point3="11,22.5" />
-                  <mssgle:LineSegment
-                    End="11,29.5" />
+                    End="0,27.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2405,30 +2413,18 @@ where [refTable].[fips] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Import Divisions.Paths[Derived Column Output1]"
-          TopLeft="127.5,126.5">
+          TopLeft="152.75,127.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="12.5,37"
+              EndConnector="0,36"
               Start="0,0"
-              End="12.5,29.5">
+              End="0,28.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,14.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,14.5"
-                    Point2="0,18.5"
-                    Point3="4,18.5" />
-                  <mssgle:LineSegment
-                    End="8.5,18.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="8.5,18.5"
-                    Point2="12.5,18.5"
-                    Point3="12.5,22.5" />
-                  <mssgle:LineSegment
-                    End="12.5,29.5" />
+                    End="0,28.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2438,115 +2434,25 @@ where [refTable].[fips] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Import Divisions.Paths[Lookup No Match Output]"
-          TopLeft="471.5,173.5">
+          Id="Package\Import Divisions.Paths[Derived Column Output]"
+          TopLeft="157.75,483.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="305,-71"
+              EndConnector="0,52"
               Start="0,0"
-              End="305,-63.5">
+              End="0,44.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,-31.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,-31.5"
-                    Point2="0,-35.5"
-                    Point3="4,-35.5" />
-                  <mssgle:LineSegment
-                    End="301,-35.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="301,-35.5"
-                    Point2="305,-35.5"
-                    Point3="305,-39.5" />
-                  <mssgle:LineSegment
-                    End="305,-63.5" />
+                    End="0,44.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="96.69361328125,-30.5,111.6127734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="167,42"
-          Id="Package\Import Divisions\Remove duplicates"
-          TopLeft="701.5,193.5" />
-        <EdgeLayout
-          Id="Package\Import Divisions.Paths[Lookup Match Output3]"
-          TopLeft="546.5,194.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="155,20"
-              Start="0,0"
-              End="147.5,20">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="73.5,0" />
-                  <mssgle:CubicBezierSegment
-                    Point1="73.5,0"
-                    Point2="77.5,0"
-                    Point3="77.5,4" />
-                  <mssgle:LineSegment
-                    End="77.5,16" />
-                  <mssgle:CubicBezierSegment
-                    Point1="77.5,16"
-                    Point2="77.5,20"
-                    Point3="81.5,20" />
-                  <mssgle:LineSegment
-                    End="147.5,20" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="29.30861328125,-17.609375,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Import Divisions.Paths[Lookup No Match Output1]"
-          TopLeft="785,235.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-35.5,54"
-              Start="0,0"
-              End="-35.5,46.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,23" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,23"
-                    Point2="0,27"
-                    Point3="-4,27" />
-                  <mssgle:LineSegment
-                    End="-31.5,27" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-31.5,27"
-                    Point2="-35.5,27"
-                    Point3="-35.5,31" />
-                  <mssgle:LineSegment
-                    End="-35.5,46.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-73.55638671875,32,111.6127734375,11.609375"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -2558,7 +2464,7 @@ where [refTable].[fips] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">false</Value>
+          type="q2:boolean">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -2568,7 +2474,7 @@ where [refTable].[fips] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -2594,7 +2500,7 @@ where [refTable].[fips] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">false</Value>
+          type="q2:boolean">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -2604,7 +2510,7 @@ where [refTable].[fips] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -2630,7 +2536,7 @@ where [refTable].[fips] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">false</Value>
+          type="q2:boolean">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -2640,7 +2546,7 @@ where [refTable].[fips] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -2653,7 +2559,7 @@ where [refTable].[fips] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">false</Value>
+          type="q2:boolean">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -2663,7 +2569,7 @@ where [refTable].[fips] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -2676,7 +2582,7 @@ where [refTable].[fips] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">false</Value>
+          type="q2:boolean">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -2686,7 +2592,7 @@ where [refTable].[fips] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
