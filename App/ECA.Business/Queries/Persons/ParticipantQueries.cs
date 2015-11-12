@@ -29,6 +29,7 @@ namespace ECA.Business.Queries.Persons
                         let participantPerson = participant.ParticipantPerson
                         let location = person == null ? null : person.Addresses.OrderByDescending(x => x.IsPrimary).FirstOrDefault()
                         let participantType = participant.ParticipantType
+                        let status = participant.Status
                         where participant.PersonId.HasValue
                         select new SimpleParticipantDTO
                         {
@@ -49,7 +50,8 @@ namespace ECA.Business.Queries.Persons
                             ProjectId = participant.ProjectId,
                             RevisedOn = participant.History.RevisedOn,
                             ParticipantStatus = participant.Status == null ? null : participant.Status.Status,
-                            SevisStatus = participantPerson == null ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName
+                            SevisStatus = participantPerson == null ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName,
+                            StatusId = participant.ParticipantStatusId,
                         };
             return query;
         }
@@ -66,6 +68,7 @@ namespace ECA.Business.Queries.Persons
                         let org = participant.Organization
                         let location = org == null ? null : org.Addresses.OrderByDescending(x => x.IsPrimary).FirstOrDefault()
                         let participantType = participant.ParticipantType
+                        let status = participant.Status
                         where participant.PersonId == null
                         select new SimpleParticipantDTO
                         {
@@ -87,7 +90,8 @@ namespace ECA.Business.Queries.Persons
                             ProjectId = participant.ProjectId,
                             RevisedOn = participant.History.RevisedOn,
                             ParticipantStatus = participant.Status == null ? null : participant.Status.Status,
-                            SevisStatus = "N/A"
+                            SevisStatus = "N/A",
+                            StatusId = participant.ParticipantStatusId,
                         };
 
             return query;
@@ -165,7 +169,8 @@ namespace ECA.Business.Queries.Persons
                             ParticipantTypeId = participantType.ParticipantTypeId,
                             PersonId = person.PersonId,
                             ProjectId = participant.ProjectId,
-                            Status = participant.Status.Status,
+                            ParticipantStatus = participant.Status.Status,
+                            StatusId = participant.ParticipantStatusId,
                             StatusDate = participant.StatusDate,
                             RevisedOn = participant.History.RevisedOn
                         };
