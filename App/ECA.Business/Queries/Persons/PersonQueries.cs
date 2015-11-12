@@ -51,15 +51,7 @@ namespace ECA.Business.Queries.Persons
                             NamePrefix = person.NamePrefix,
                             NameSuffix = person.NameSuffix,
                             Patronym = person.Patronym,
-
-                            FullName = (((person.NamePrefix != null && person.NamePrefix.Trim().Length > 0) ? (person.NamePrefix.Trim() + " ") : String.Empty)
-                                        + ((person.FirstName != null && person.FirstName.Trim().Length > 0) ? (person.FirstName.Trim() + " ") : String.Empty)
-                                        + ((person.MiddleName != null && person.MiddleName.Trim().Length > 0) ? (person.MiddleName.Trim() + " ") : String.Empty)
-                                        + ((person.LastName != null && person.LastName.Trim().Length > 0) ? (person.LastName.Trim() + " ") : String.Empty)
-                                        + ((person.Patronym != null && person.Patronym.Trim().Length > 0) ? (person.Patronym.Trim() + " ") : String.Empty)
-                                        + ((person.NameSuffix != null && person.NameSuffix.Trim().Length > 0) ? (person.NameSuffix.Trim() + " ") : String.Empty)
-                                        + ((person.Alias != null && person.Alias.Trim().Length > 0) ? ("(" + person.Alias.Trim() + ")") : String.Empty)
-                                        ).Trim(),
+                            FullName = person.FullName,
                             CurrentStatus = hasCurrentParticipation ? currentParticipation.Status.Status : UNKNOWN_PARTICIPANT_STATUS,
                             CountryOfBirth = person.PlaceOfBirth != null ? person.PlaceOfBirth.Country.LocationName : null,
                             CityOfBirth = person.PlaceOfBirth != null ? person.PlaceOfBirth.LocationName : null,

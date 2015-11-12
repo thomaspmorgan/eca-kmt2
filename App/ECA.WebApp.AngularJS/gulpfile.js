@@ -3,6 +3,7 @@
 var gulp = require('gulp');
 var del = require('del');
 
+
 gulp.task('clean', function () {
     return del(['dist/**/*']);
 });
@@ -24,15 +25,26 @@ gulp.task('localstyles', ['clean'], function () {
         .pipe(gulp.dest('styles'));
 });
 
+gulp.task('cacheTemplates', function () {
+    var minifyHTML = require('gulp-minify-html');
+    var templateCache = require('gulp-angular-templatecache');
+    gulp.src('app/**/*.html')
+        .pipe(minifyHTML({}))
+        .pipe(templateCache({
+            root: 'app',
+            filename: 'app.tpls.js',
+            standalone: true
+        }))
+        .pipe(gulp.dest('dist'))
+});
+
 gulp.task('html', ['styles'], function () {
     var useref = require('gulp-useref');
     var gulpIf = require('gulp-if');
     var uglify = require('gulp-uglify');
     var minifyCss = require('gulp-minify-css');
     var replace = require('gulp-replace');
-
     var assets = useref.assets();
-
     gulp.src('index.html')
         .pipe(assets)
         .pipe(gulpIf('*.js', uglify({ mangle: false })))
@@ -57,6 +69,6 @@ gulp.task('copy', ['clean'], function () {
         .pipe(gulp.dest('dist/images'));
 });
 
-gulp.task('default', ['clean', 'styles', 'html', 'copy', 'localstyles'], function () {
+gulp.task('default', ['clean', 'styles', 'html', 'copy', 'localstyles', 'cacheTemplates'], function () {
 
 });

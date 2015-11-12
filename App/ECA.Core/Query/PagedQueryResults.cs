@@ -53,7 +53,7 @@ namespace ECA.Core.Query
         public static PagedQueryResults<T> ToPagedQueryResults<T>(this IQueryable<T> source, int start, int limit) where T : class
         {
             Contract.Requires(source != null, "The source must not be null.");
-            var results = source.Skip(start).Take(limit).ToList();
+            var results = source.Skip(() => start).Take(() => limit).ToList();
             var total = source.Count();
             return new PagedQueryResults<T>(total, results);
         }
@@ -69,7 +69,7 @@ namespace ECA.Core.Query
         public static async Task<PagedQueryResults<T>> ToPagedQueryResultsAsync<T>(this IQueryable<T> source, int start, int limit) where T : class
         {
             Contract.Requires(source != null, "The source must not be null.");
-            var results = await source.Skip(start).Take(limit).ToListAsync();
+            var results = await source.Skip(() => start).Take(() => limit).ToListAsync();
             var total = await source.CountAsync();
             return new PagedQueryResults<T>(total, results);
         }

@@ -374,9 +374,19 @@ namespace ECA.Data
         // Sevis Lookup Tables
 
         /// <summary>
+        /// Gets or sets the education levels
+        /// </summary>
+        public DbSet<EducationLevel> EducationLevels { get; set; }
+
+        /// <summary>
         /// Gets or sets the field of studies collection
         /// </summary>
         public DbSet<FieldOfStudy> FieldOfStudies { get; set; }
+
+        /// <summary>
+        /// Gets or sets International Organizations
+        /// </summary>
+        public DbSet<InternationalOrganization> InternationalOrganizations { get; set; }
 
         /// <summary>
         /// Gets or sets the positions
@@ -392,6 +402,16 @@ namespace ECA.Data
         /// Gets or sets the SevisCommStatuses.
         /// </summary>
         public DbSet<SevisCommStatus> SevisCommStatuses { get; set; }
+
+        /// <summary>
+        /// Gets or sets the StudenCreations
+        /// </summary>
+        public DbSet<StudentCreation> StudentCreations { get; set; }
+
+        /// <summary>
+        /// Gets or sets USGovernmentAgencies
+        /// </summary>
+        public DbSet<USGovernmentAgency> USGovernmentAgencies { get; set; }
 
 
         /// <summary>

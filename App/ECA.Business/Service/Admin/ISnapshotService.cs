@@ -6,23 +6,25 @@ namespace ECA.Business.Service.Admin
 {
     public interface ISnapshotService
     {
-        Task<SnapshotDTO> GetProgramCountryCountAsync(int programId);
+        SnapshotCountModelDTO GetProgramCounts(int programId);
 
-        SnapshotDTO GetProgramRelatedProjectsCount(int programId);
+        SnapshotDTO GetProgramCountryCountAsync(List<int> programIds);
 
-        SnapshotDTO GetProgramParticipantCount(int programId);
+        SnapshotDTO GetProgramRelatedProjectsCount(List<int> programIds);
+
+        SnapshotDTO GetProgramParticipantCount(List<int> programIds);
 
         SnapshotDTO GetProgramFundingSourcesCount(int programId);
 
-        SnapshotDTO GetProgramAlumniCount(int programId);
+        SnapshotDTO GetProgramAlumniCount(List<int> programIds);
 
-        SnapshotDTO GetProgramBudgetTotal(int programId);
+        SnapshotDTO GetProgramBudgetTotal(List<int> programIds);
 
-        Task<SnapshotDTO> GetProgramImpactStoryCount(int programId);
+        SnapshotDTO GetProgramImpactStoryCount(List<int> programIds);
 
-        SnapshotDTO GetProgramBeneficiaryCount(int programId);
+        SnapshotDTO GetProgramBeneficiaryCount(List<int> programIds);
 
-        Task<SnapshotDTO> GetProgramProminenceCount(int programId);
+        SnapshotDTO GetProgramProminenceCount(List<int> programIds);
 
         Task<SnapshotGraphDTO> GetProgramBudgetByYear(int programId);
 

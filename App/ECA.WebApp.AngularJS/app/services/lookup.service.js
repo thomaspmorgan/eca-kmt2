@@ -132,6 +132,21 @@ angular.module('staticApp')
           },
           getSevisCommStatuses: function(params) {
               return DragonBreath.getCached(params,'seviscommstatuses');
+          },
+          getSevisPositions: function (params) {
+              return DragonBreath.getCached(params, 'positions');
+          },
+          getSevisProgramCategories: function (params) {
+              return DragonBreath.getCached(params, 'programcategories');
+          },
+          getSevisFieldOfStudies: function (params) {
+              return DragonBreath.getCached(params, 'fieldofstudies');
+          },
+          getSevisUSGovernmentAgencies: function (params) {
+          return DragonBreath.getCached(params, 'usgovernmentagencies');
+          },
+          getSevisInternationalOrganizations: function (params) {
+              return DragonBreath.getCached(params, 'internationalorganizations');
           }
       };
   });

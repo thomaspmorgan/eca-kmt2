@@ -21,13 +21,13 @@ namespace ECA.WebApi.Controllers.Projects
         /// </summary>
         private static readonly ExpressionSorter<SimpleSevisLookupDTO> DEFAULT_FIELD_OF_STUDIES_DTO_SORTER = 
             new ExpressionSorter<SimpleSevisLookupDTO>(x => x.Description, SortDirection.Ascending);
-        private IPositionService service;
+        private IFieldOfStudyService service;
 
         /// <summary>
         /// Creates a new instance with the SEVIS FieldOfStudies service.
         /// </summary>
         /// <param name="service">The service.</param>
-        public FieldOfStudiesController(IPositionService service)
+        public FieldOfStudiesController(IFieldOfStudyService service)
         {
             Contract.Requires(service != null, "The service must not be null.");
             this.service = service;
@@ -39,7 +39,7 @@ namespace ECA.WebApi.Controllers.Projects
         /// <param name="queryModel">The query model.</param>
         /// <returns>The project SEVIS FieldOfStudies currently in the system.</returns>
         [ResponseType(typeof(PagedQueryResults<SimpleSevisLookupDTO>))]
-        public async Task<IHttpActionResult> GetPositionsAsync([FromUri]PagingQueryBindingModel<SimpleSevisLookupDTO> queryModel)
+        public async Task<IHttpActionResult> GetFieldOfStudiesAsync([FromUri]PagingQueryBindingModel<SimpleSevisLookupDTO> queryModel)
         {
             if (ModelState.IsValid)
             {

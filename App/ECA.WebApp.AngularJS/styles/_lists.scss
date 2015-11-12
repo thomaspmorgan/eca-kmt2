@@ -79,7 +79,10 @@
        width: 100%;
        border-top: 0 !important;
     }
-
+    
+    .rowalt .row4:nth-of-type(even) {
+       background-color: $lightgray;
+    }
 
     .list-title {
         font-weight: 300;

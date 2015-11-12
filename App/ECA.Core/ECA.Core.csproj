@@ -156,6 +156,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\PagedQueryResults.cs" />
+    <Compile Include="Service\AddedPermissableEntityResult.cs" />
     <Compile Include="Service\DbContextService.cs" />
     <Compile Include="Service\IPermissableService.cs" />
     <Compile Include="Service\ISaveable.cs" />

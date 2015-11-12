@@ -1057,8 +1057,7 @@ namespace ECA.Business.Test.Queries.Fundings
             var sourcePerson = new Person
             {
                 PersonId = sourceId + 1,
-                FirstName = "first1",
-                LastName = "last2",
+                FullName = "full name",
                 GenderId = gender.GenderId,
                 Gender = gender
             };
@@ -1116,7 +1115,7 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(sourceId, dto.EntityId);
             Assert.AreEqual(MoneyFlowSourceRecipientType.Participant.Id, dto.EntityTypeId);
 
-            Assert.AreEqual(recipientPerson.FirstName + " " + recipientPerson.LastName, dto.SourceRecipientName);
+            Assert.AreEqual(recipientPerson.FullName, dto.SourceRecipientName);
             Assert.AreEqual(recipientId, dto.SourceRecipientEntityId);
             Assert.AreEqual(participantType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
             Assert.AreEqual(participantType.TypeName, dto.SourceRecipientTypeName);
@@ -1706,8 +1705,7 @@ namespace ECA.Business.Test.Queries.Fundings
             var sourcePerson = new Person
             {
                 PersonId = sourceId + 1,
-                FirstName = "first1",
-                LastName = "last2",
+                FullName = "full name",
                 Gender = gender,
                 GenderId = gender.GenderId
             };
@@ -1765,7 +1763,7 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(recipientId, dto.EntityId);
             Assert.AreEqual(MoneyFlowSourceRecipientType.Participant.Id, dto.EntityTypeId);
 
-            Assert.AreEqual(sourcePerson.FirstName + " " + sourcePerson.LastName, dto.SourceRecipientName);
+            Assert.AreEqual(sourcePerson.FullName, dto.SourceRecipientName);
             Assert.AreEqual(sourceId, dto.SourceRecipientEntityId);
             Assert.AreEqual(participantType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
             Assert.AreEqual(participantType.TypeName, dto.SourceRecipientTypeName);

@@ -168,7 +168,7 @@ namespace ECA.Business.Service.Persons
         public ContactInfoDTO GetContactInfoById(int personId)
         {
             var contactInfo = PersonQueries.CreateGetContactInfoByIdQuery(this.Context, personId).SingleOrDefault();
-            this.logger.Trace("Retrieved contact info by id {0}.", personId);            
+            this.logger.Trace("Retrieved contact info by id {0}.", personId);
             return contactInfo;
         }
 
@@ -180,7 +180,7 @@ namespace ECA.Business.Service.Persons
         public Task<ContactInfoDTO> GetContactInfoByIdAsync(int personId)
         {
             var contactInfo = PersonQueries.CreateGetContactInfoByIdQuery(this.Context, personId).SingleOrDefaultAsync();
-            this.logger.Trace("Retrieved contact info by id {0}.", personId);             
+            this.logger.Trace("Retrieved contact info by id {0}.", personId);
             return contactInfo;
         }
 
@@ -346,7 +346,7 @@ namespace ECA.Business.Service.Persons
             var countriesOfCitizenship = await GetLocationsByIdAsync(newPerson.CountriesOfCitizenship);
             var person = CreatePerson(newPerson, countriesOfCitizenship);
             var participant = CreateParticipant(person, newPerson.ParticipantTypeId, project);
-            this.logger.Trace("Created participant {0}.", newPerson); 
+            this.logger.Trace("Created participant {0}.", newPerson);
             return person;
         }
 
@@ -402,7 +402,7 @@ namespace ECA.Business.Service.Persons
         /// <returns>A project</returns>
         public async Task<Project> GetProjectByIdAsync(int projectId)
         {
-            this.logger.Trace("Retrieving project with id {0}.", projectId); 
+            this.logger.Trace("Retrieving project with id {0}.", projectId);
             return await CreateGetProjectById(projectId).FirstOrDefaultAsync();
         }
 
@@ -416,12 +416,12 @@ namespace ECA.Business.Service.Persons
             return Context.Projects.Where(x => x.ProjectId == projectId);
         }
 
-       /// <summary>
-       /// Creates a person
-       /// </summary>
-       /// <param name="newPerson">The person to create</param>
-       /// <param name="countriesOfCitizenship">The countries of citizenship</param>
-       /// <returns>The person created</returns>
+        /// <summary>
+        /// Creates a person
+        /// </summary>
+        /// <param name="newPerson">The person to create</param>
+        /// <param name="countriesOfCitizenship">The countries of citizenship</param>
+        /// <returns>The person created</returns>
         private Person CreatePerson(NewPerson newPerson, List<Location> countriesOfCitizenship)
         {
             var person = new Person
@@ -436,7 +436,7 @@ namespace ECA.Business.Service.Persons
 
             newPerson.Audit.SetHistory(person);
             this.Context.People.Add(person);
-            this.logger.Trace("Creating new person {0}.", newPerson); 
+            this.logger.Trace("Creating new person {0}.", newPerson);
             return person;
         }
 
@@ -457,7 +457,7 @@ namespace ECA.Business.Service.Persons
 
             participant.Project = project;
             this.Context.Participants.Add(participant);
-            this.logger.Trace("Creating new participant {0}.", person); 
+            this.logger.Trace("Creating new participant {0}.", person);
             return participant;
         }
 
@@ -487,13 +487,13 @@ namespace ECA.Business.Service.Persons
         {
             return Context.People.Where(x => x.PersonId == personId).Include(x => x.CountriesOfCitizenship);
         }
-        
+
         private IQueryable<SimplePersonDTO> CreateGetSimplePerson(int personId)
         {
             var query = PersonQueries.CreateGetSimplePersonDTOsQuery(this.Context);
             return query.Where(p => p.PersonId == personId);
         }
-        
+
         private void SetCountriesOfCitizenship(List<Location> countriesOfCitizenship, Person person)
         {
             Contract.Requires(countriesOfCitizenship != null, "The country ids must not be null.");
@@ -504,7 +504,7 @@ namespace ECA.Business.Service.Persons
                 person.CountriesOfCitizenship.Add(x);
             });
         }
-        
+
         #endregion
 
         #region Get People
@@ -555,8 +555,9 @@ namespace ECA.Business.Service.Persons
             return new PersonServiceValidationEntity(person, prominentCategories);
         }
 
-        private PersonServiceValidationEntity GetValidationEntity(UpdatePii pii, Person person, Location cityOfBirth, 
-                                                                    List<Location> countriesOfCititzenship) {
+        private PersonServiceValidationEntity GetValidationEntity(UpdatePii pii, Person person, Location cityOfBirth,
+                                                                    List<Location> countriesOfCititzenship)
+        {
             return new PersonServiceValidationEntity(person, pii.GenderId, countriesOfCititzenship, pii.CityOfBirthId, pii.IsPlaceOfBirthUnknown);
         }
 

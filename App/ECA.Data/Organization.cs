@@ -163,6 +163,23 @@ namespace ECA.Data
         {
             return !OFFICE_ORGANIZATION_TYPE_IDS.Contains(this.OrganizationTypeId);
         }
-    }
 
+        /// <summary>
+        /// Returns true if the given role name is equal to the kmt user role name.
+        /// </summary>
+        /// <param name="roleName">The name of the role.</param>
+        /// <param name="permissionName">The name of the permission.</param>
+        /// <returns>True, if the given role name is equal to the kmt super user role.</returns>
+        public bool AssignPermissionToRoleOnCreate(string roleName, string permissionName)
+        {
+            if (String.IsNullOrWhiteSpace(roleName))
+            {
+                return false;
+            }
+            else
+            {
+                return roleName == UserAccount.KMT_SUPER_USER_ROLE_NAME;
+            }
+        }
+    }
 }

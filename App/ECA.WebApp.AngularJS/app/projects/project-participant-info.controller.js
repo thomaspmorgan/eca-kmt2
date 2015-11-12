@@ -24,6 +24,7 @@ angular.module('staticApp')
         AuthService,
         ProjectService,
         NotificationService,
+        ParticipantService,
         ParticipantPersonsService
         ) {
 
@@ -107,21 +108,20 @@ angular.module('staticApp')
 
       $scope.view.onSaveButtonClick = function () {
           $scope.view.isSavingUpdate = true;
-          return ParticipantPersonsService.updateParticipantPerson($scope.view.participantPerson)
-          .then(function (response) {
-              return loadParticipantInfo($scope.participantid)
-              .then(function (response) {
-                  $scope.view.isSavingUpdate = false;
-                  $scope.view.isInfoTabInEditMode = false;
-              });
-              
-          })
-          .catch(function (response) {
-              $scope.view.isSavingUpdate = false;
-              var message = "Unable to update participant person.";
-              $log.error(message);
-              NotificationService.showErrorMessage(message);
-          });
+          return saveParticipantPerson($scope.view.participantPerson)
+            .then(function (response) {
+                return loadParticipantInfo($scope.participantid)
+                .then(function (response) {
+                    $scope.view.isSavingUpdate = false;
+                    $scope.view.isInfoTabInEditMode = false;
+                });
+            })
+            .catch(function (response) {
+                $scope.view.isSavingUpdate = false;
+                var message = "Unable to update participant person.";
+                $log.error(message);
+                NotificationService.showErrorMessage(message);
+            });
       }
 
       var projectId = $stateParams.projectId;
@@ -214,6 +214,10 @@ angular.module('staticApp')
           }
       }
 
+      function saveParticipantPerson(participantPerson) {
+          return ParticipantPersonsService.updateParticipantPerson(participantPerson);
+      }
+
       function loadOrganizations(filter) {
           return OrganizationService.getOrganizations(filter.toParams())
                 .then(function (data) {
@@ -281,10 +285,11 @@ angular.module('staticApp')
           }
       }
 
-      function getNewParticipantPerson(participantId) {
+      function getNewParticipantPerson(participantId, participantStatusId, participantTypeId) {
           return {
               participantId: participantId,
-              participantStatusId: 0,
+              participantStatusId: participantStatusId,
+              participantTypeId: participantTypeId,
               projectId: projectId
           };
       }
@@ -308,6 +313,8 @@ angular.module('staticApp')
           return address;
       }
 
+      var hasAttemptedToSaveNewParticipantPersonCount = 0;
+      var maxAttemptedSaveNewParticipantPersonCount = 5;
       function loadParticipantInfo(participantId) {
           $scope.view.isLoadingInfo = true;
           return ParticipantPersonsService.getParticipantPersonsById(participantId)
@@ -325,22 +332,57 @@ angular.module('staticApp')
               $scope.view.participantPerson = response.data;
               return initializePersonInfo(response.data)
               .then(function (response) {
-                  $scope.view.isLoadingInfo = false;                  
+                  $scope.view.isLoadingInfo = false;
                   return $scope.view.participantPerson;
               });
           })
           .catch(function (response) {
-              $scope.view.isLoadingInfo = false;
               if (response.status === 404) {
-                  $log.info('The participant person was not found.');
-                  $scope.view.participantPerson = getNewParticipantPerson(participantId);
+                  $log.info('The participant person was not found, creating a new participant person automatically.');
+                  $scope.view.isLoadingInfo = false;
+                  return saveNewParticipantPerson(participantId);
               }
               else {
+                  $scope.view.isLoadingInfo = false;
                   $log.error('Unable to load participant info for ' + participantId + '.');
                   NotificationService.showErrorMessage('Unable to load participant info for ' + participantId + '.');
               }
           });
       };
+
+      function saveNewParticipantPerson(participantId) {
+          $scope.view.isLoadingInfo = true;
+          hasAttemptedToSaveNewParticipantPersonCount++;
+          if (hasAttemptedToSaveNewParticipantPersonCount < maxAttemptedSaveNewParticipantPersonCount) {
+              return ParticipantService.getParticipantById(participantId)
+              .then(function (responseData) {
+                  var newParticipantPerson = getNewParticipantPerson(participantId, responseData.statusId, responseData.participantTypeId);
+                  return saveParticipantPerson(newParticipantPerson)
+                      .then(function (response) {
+                          $scope.view.isLoadingInfo = false;
+                          return loadParticipantInfo(participantId);
+                      })
+                      .catch(function (response) {
+                          $scope.view.isLoadingInfo = false;
+                          var message = "Unable to save participant person.";
+                          $log.error(message);
+                          NotificationService.showErrorMessage(message);
+                      });
+
+              })
+              .catch(function (response) {
+                  $scope.view.isLoadingInfo = false;
+                  var message = "Unable to load participant with id " + participantId;
+                  NotificationService.showErrorMessage(message);
+                  $log.error(message);
+              });
+          }
+          else {
+              var message = "Several attempts have been made to save a new participant person and they have failed.";
+              $log.error(message);
+              NotificationService.showErrorMessage(message);
+          }
+      }
 
       $scope.view.isLoadingEditParticipantInfoRequiredData = true;
       $q.all([

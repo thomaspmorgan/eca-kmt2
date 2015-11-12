@@ -32,6 +32,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// Creates a new ParticipantPersonsSevisController with the given service.
         /// </summary>
         /// <param name="service">The service.</param>
+        /// <param name="userProvider">user provider</param>
         public ParticipantPersonsSevisController(IParticipantPersonsSevisService service, IUserProvider userProvider)
         {
             Contract.Requires(service != null, "The participantPersonSevis service must not be null.");
@@ -58,8 +59,7 @@ namespace ECA.WebApi.Controllers.Persons
                 return BadRequest(ModelState);
             }
         }
-
-
+        
         /// <summary>
         /// Retrieves a listing of the paged, sorted, and filtered list of participants and there SEVIS info by project id.
         /// </summary>
@@ -100,8 +100,7 @@ namespace ECA.WebApi.Controllers.Persons
                 return NotFound();
             }
         }
-
-
+        
         /// <summary>
         /// Updates the new participantPersonSevis with the given participantId.
         /// </summary>
@@ -123,8 +122,7 @@ namespace ECA.WebApi.Controllers.Persons
                 return BadRequest(ModelState);
             }
         }
-
-
+        
         /// <summary>
         /// Retrieves a listing of the paged, sorted, and filtered list of participant's SEVIS comm statuses.
         /// </summary>

@@ -136,6 +136,7 @@
     <Compile Include="Queries\Models\Admin\PhoneNumberDTO.cs" />
     <Compile Include="Queries\Models\Admin\EmailAddressDTO.cs" />
     <Compile Include="Queries\Models\Admin\ProgramStatusDTO.cs" />
+    <Compile Include="Queries\Models\Admin\SnapshotCountModelDTO.cs" />
     <Compile Include="Queries\Models\Admin\SnapshotDTO.cs" />
     <Compile Include="Queries\Models\Fundings\SourceMoneyFlowDTO.cs" />
     <Compile Include="Queries\Models\Admin\SnapshotGraphDTO.cs" />
@@ -180,7 +181,15 @@
     <Compile Include="Service\Fundings\EditedMoneyFlow.cs" />
     <Compile Include="Service\Fundings\MoneyFlowSourceRecipientTypeService.cs" />
     <Compile Include="Service\Admin\ISnapshotService.cs" />
+    <Compile Include="Service\Lookup\StudentCreationService.cs" />
+    <Compile Include="Service\Lookup\IStudentCreationsService.cs" />
+    <Compile Include="Service\Lookup\IEducationLevelService.cs" />
+    <Compile Include="Service\Lookup\IUSGovernmentAgencyService.cs" />
+    <Compile Include="Service\Lookup\IInternationalOrganizationService.cs" />
     <Compile Include="Service\Lookup\IProgramCategoryService.cs" />
+    <Compile Include="Service\Lookup\InternationalOrganizationService.cs" />
+    <Compile Include="Service\Lookup\EducationLevelService.cs" />
+    <Compile Include="Service\Lookup\USGovernmentAgencyService.cs" />
     <Compile Include="Service\Lookup\ProgramCategoryService.cs" />
     <Compile Include="Service\Lookup\PositionService.cs" />
     <Compile Include="Service\Lookup\IPositionService.cs" />

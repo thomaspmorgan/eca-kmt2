@@ -161,6 +161,47 @@ namespace ECA.Data.Test
 
         #region Permissable
         [TestMethod]
+        public void TestAssignPermissionToRoleOnCreate_NullRoleName()
+        {
+            var permissable = new Organization();
+            string roleName = null;
+            Assert.IsFalse(permissable.AssignPermissionToRoleOnCreate(roleName, null));
+        }
+
+        [TestMethod]
+        public void TestAssignPermissionToRoleOnCreate_EmptyRoleName()
+        {
+            var permissable = new Organization();
+            string roleName = String.Empty;
+            Assert.IsFalse(permissable.AssignPermissionToRoleOnCreate(roleName, null));
+        }
+
+
+        [TestMethod]
+        public void TestAssignPermissionToRoleOnCreate_WhitespaceRoleName()
+        {
+            var permissable = new Organization();
+            string roleName = " ";
+            Assert.IsFalse(permissable.AssignPermissionToRoleOnCreate(roleName, null));
+        }
+
+        [TestMethod]
+        public void TestAssignPermissionToRoleOnCreate_NotTheKMTSuperUserRoleName()
+        {
+            var permissable = new Organization();
+            string roleName = "role";
+            Assert.IsFalse(permissable.AssignPermissionToRoleOnCreate(roleName, null));
+        }
+
+        [TestMethod]
+        public void TestAssignPermissionToRoleOnCreate_KMTSuperUserRoleName()
+        {
+            var permissable = new Organization();
+            string roleName = UserAccount.KMT_SUPER_USER_ROLE_NAME;
+            Assert.IsTrue(permissable.AssignPermissionToRoleOnCreate(roleName, null));
+        }
+
+        [TestMethod]
         public void TestIsExempt()
         {
             var org = new Organization

@@ -26,6 +26,7 @@
         </div>
         <div class="row permission-list" ng-repeat-end  ng-show="showPermissions[collaborator.principalId]">
             <div class="col-md-6">
+
                 <div class="row">
                     <div class="col-md-8 sort-label medium">Inherited Permissions</div>
                     <div class="col-md-2 sort-label medium">Allow</div>
@@ -38,6 +39,27 @@
                 </div>
                 <div class="row" ng-show="collaborator.inheritedPermissions.length === 0">
                     <div class="col-md-12">No inherited permissions</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 sort-label medium">Role Permissions</div>
+                    <div class="col-md-2 sort-label medium">Allow</div>
+                    <div class="col-md-2 sort-label medium">Deny</div>
+                </div>
+                <div ng-repeat="permission in collaborator.rolePermissions">
+                    <ng-switch on="$first || permission.roleId !== collaborator.rolePermissions[$index - 1].roleId">
+                        <div class="row" ng-switch-when="true">
+                            <div class="col-md-12">{{permission.roleName}}</div>
+                        </div>
+                    </ng-switch>
+                    <div class="row">
+                        <div class="col-md-8">{{permission.permissionName}}</div>
+                        <div class="col-md-2"><input type="checkbox" ng-model="permission.isAllowed" ng-disabled="true" /></div>
+                        <div class="col-md-2"><input type="checkbox" ng-model="permission.isAllowed" ng-true-value="false" ng-false-value="true" ng-disabled="true" /></div>
+                    </div>
+                </div>
+                <div class="row" ng-show="collaborator.rolePermissions.length === 0">
+                    <div class="col-md-12">No role permissions</div>
                 </div>
             </div>
             <div class="col-md-6">

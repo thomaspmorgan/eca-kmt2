@@ -81,6 +81,18 @@ namespace ECA.Core.Settings
         #region Azure
 
         /// <summary>
+        /// The azure settings prefix, used for anything azure related except web jobs dasbhoard and web jobs storage.
+        /// </summary>
+        public const string AZURE_PREFIX = "azure.";
+
+        /// <summary>
+        /// The azure application insights instrumentation settings key.
+        /// 
+        /// http://blogs.msdn.com/b/visualstudioalm/archive/2015/01/07/application-insights-support-for-multiple-environments-stamps-and-app-versions.aspx
+        /// </summary>
+        public const string APPLICATION_INSIGHTS_INSTRUMENTATION_SETTINGS_KEY = AZURE_PREFIX + "InstrumentationKey";
+
+        /// <summary>
         /// The azure web jobs dashboard connection string key.
         /// </summary>
         public const string AZURE_WEB_JOBS_DASHBOARD_KEY = "AzureWebJobsDashboard";
@@ -132,6 +144,11 @@ namespace ECA.Core.Settings
             return connectionString;
         }
         #region App Settings
+        /// <summary>
+        /// Gets the name of the azure queue that will hold messages detailing updated entities that should be indexed for searching.
+        /// </summary>
+        public string AppInsightsInstrumentationKey { get { return GetAppSetting(APPLICATION_INSIGHTS_INSTRUMENTATION_SETTINGS_KEY); } }
+
         /// <summary>
         /// Gets the name of the azure queue that will hold messages detailing updated entities that should be indexed for searching.
         /// </summary>

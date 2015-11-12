@@ -152,6 +152,8 @@
     <Compile Include="Configuration\PersonConfiguration.cs" />
     <Compile Include="Configuration\PositionConfiguration.cs" />
     <Compile Include="Configuration\EducationLevelConfiguration.cs" />
+    <Compile Include="Configuration\InternationalOrganizationConfiguration.cs" />
+    <Compile Include="Configuration\USGovernmentAgencyConfiguration.cs" />
     <Compile Include="Configuration\StudentCreationConfiguration.cs" />
     <Compile Include="Configuration\ProgramConfiguration.cs" />
     <Compile Include="Configuration\ProgramCategoryConfiguration.cs" />
@@ -172,6 +174,8 @@
     <Compile Include="ParticipantStudentVisitor.cs" />
     <Compile Include="ParticipantPersonSevisCommStatus.cs" />
     <Compile Include="EducationLevel.cs" />
+    <Compile Include="InternationalOrganization.cs" />
+    <Compile Include="USGovernmentAgency.cs" />
     <Compile Include="StudentCreation.cs" />
     <Compile Include="ProgramCategory.cs" />
     <Compile Include="SevisCommStatus.cs" />
