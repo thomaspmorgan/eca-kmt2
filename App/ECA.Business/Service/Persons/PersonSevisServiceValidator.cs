@@ -4,14 +4,19 @@ using System.Collections.Generic;
 
 namespace ECA.Business.Service.Persons
 {
-    public class PersonSevisServiceValidator : SevisValidatorBase<PersonSevisServiceValidationEntity, PersonSevisServiceValidationEntity>
+    public class PersonSevisServiceValidator : SevisValidatorBase<object, UpdatedParticipantPersonSevisValidationEntity>
     {
         /// <summary>
         /// Person not found
         /// </summary>
-        public const string PERSON_NOT_FOUND = "The person could not be found.";
+        public const string PERSON_NOT_FOUND = "The participant person could not be found.";
 
-        public override IEnumerable<SevisValidationResult> DoValidateCreate(PersonSevisServiceValidationEntity validationEntity)
+        /// <summary>
+        /// Do validation for create
+        /// </summary>
+        /// <param name="validationEntity">Entity to validate</param>
+        /// <returns>Business validation results</returns>
+        public override IEnumerable<SevisValidationResult> DoValidateCreate(object validationEntity)
         {
             throw new NotImplementedException();
         }
@@ -21,18 +26,13 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="validationEntity">Entity to validate</param>
         /// <returns>Business validation results</returns>
-        public override IEnumerable<SevisValidationResult> DoValidateUpdate(PersonSevisServiceValidationEntity validationEntity)
+        public override IEnumerable<SevisValidationResult> DoValidateUpdate(UpdatedParticipantPersonSevisValidationEntity validationEntity)
         {
-            if (validationEntity.sevisPerson == null)
+            if (validationEntity.participantPerson == null)
             {
                 yield return new SevisValidationResult<PersonSevisServiceValidationEntity>(x => x.sevisPerson, PERSON_NOT_FOUND);
             }
-
-
-
-
-
-
         }
+
     }
 }
