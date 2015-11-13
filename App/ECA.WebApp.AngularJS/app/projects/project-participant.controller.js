@@ -62,7 +62,6 @@ angular.module('staticApp')
       $scope.permissions.isProjectOwner = false;
       var projectId = $stateParams.projectId;
 
-      $scope.selectedAction = null;
 
       $scope.view.onAddParticipantSelect = function ($item, $model, $label) {
           var clientModel = {
