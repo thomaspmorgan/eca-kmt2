@@ -39,6 +39,11 @@ namespace ECA.Business.Service.Projects
         public const string OBJECTIVES_REQUIRED_ERROR_MESSAGE = "At least one objective is required.";
 
         /// <summary>
+        /// The error message when at least one location is inactive and was not previously set on the project.
+        /// </summary>
+        public const string INACTIVE_LOCATIONS_ERROR_MESSAGE = "At least one location is no longer active and was not previously set on the project.";
+
+        /// <summary>
         /// The error message when at least one objective does not exist.
         /// </summary>
         public const string OBJECTIVES_DO_NOT_EXIST_ERROR_MESSAGE = "At least one of the given objectives does not exist in the system.";
@@ -192,6 +197,11 @@ namespace ECA.Business.Service.Projects
             if (invalidObjectiveIds.Count > 0)
             {
                 yield return new BusinessValidationResult<PublishedProject>(x => x.ObjectiveIds, INVALID_OBJECTIVES_ERROR_MESSAGE);
+            }
+
+            if(validationEntity.NewInactiveLocationIds.Count() > 0)
+            {
+                yield return new BusinessValidationResult<PublishedProject>(x => x.LocationIds, INACTIVE_LOCATIONS_ERROR_MESSAGE);
             }
         }
     }

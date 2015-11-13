@@ -22,6 +22,7 @@ namespace ECA.Business.Service.Projects
         /// <param name="locationsExist">The boolean value indicating whether all locations exist in the system.</param>
         /// <param name="categoriesExist">The boolean value indicating whether all categories exist in the system.</param>
         /// <param name="objectivesExist">The boolean value indicating whether all objectives exist in the system.</param>
+        /// <param name="newInactiveLocations">The ids of locations that are inactive and were not previously set on the project.</param>
         /// <param name="goalsExist">The boolean value indicating whether all goals exist in the system.</param>
         /// <param name="themesExist">The boolean value indicating whether all themes exist in the system.</param>
         /// <param name="pointsOfContactExist">the boolean valud indicating whether all points of contact in the system.</param>
@@ -33,6 +34,7 @@ namespace ECA.Business.Service.Projects
         public ProjectServiceUpdateValidationEntity(
             PublishedProject updatedProject, 
             Project projectToUpdate, 
+            List<int> newInactiveLocations,
             bool goalsExist, 
             bool themesExist, 
             bool pointsOfContactExist,
@@ -73,7 +75,13 @@ namespace ECA.Business.Service.Projects
             this.ObjectiveIds = updatedProject.ObjectiveIds;
             this.AllowedCategoryIds = allowedCategoryIds == null ? new List<int>() : allowedCategoryIds.Distinct();
             this.AllowedObjectiveIds = allowedObjectiveIds == null ? new List<int>() : allowedObjectiveIds.Distinct();
+            this.NewInactiveLocationIds = newInactiveLocations == null ? new List<int>() : newInactiveLocations.Distinct();
         }
+
+        /// <summary>
+        /// Gets the ids of locations that are inactive and were not previously set on the project.
+        /// </summary>
+        public IEnumerable<int> NewInactiveLocationIds { get; private set; }
 
         /// <summary>
         /// Gets the category ids.

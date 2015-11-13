@@ -11,6 +11,11 @@
         public int Id { get; set; }
 
         /// <summary>
+        /// Gets or sets is active.
+        /// </summary>
+        public bool IsActive { get; set; }
+
+        /// <summary>
         /// Gets or sets the Location Type Id.
         /// </summary>
         public int LocationTypeId { get; set; }

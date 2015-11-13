@@ -1691,7 +1691,7 @@ namespace ECA.Business.Test.Service.Projects
                 LocationTypeId = countryType.LocationTypeId,
                 LocationType = countryType
             };
-            
+
             var status = new ProjectStatus
             {
                 ProjectStatusId = 1,
@@ -1732,7 +1732,7 @@ namespace ECA.Business.Test.Service.Projects
                 ParentProgram = program
             };
             project.Locations.Add(country1);
-            project.Locations.Add(country2);            
+            project.Locations.Add(country2);
 
             context.Organizations.Add(owner);
             context.Locations.Add(country1);
@@ -1918,7 +1918,7 @@ namespace ECA.Business.Test.Service.Projects
                 Region = region,
                 RegionId = region.LocationId
             };
-            
+
             var status = new ProjectStatus
             {
                 ProjectStatusId = 1,
