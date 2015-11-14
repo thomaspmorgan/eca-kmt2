@@ -47,59 +47,35 @@ namespace CAM.Business.Queries
         /// </summary>
         /// <param name="context">The context to query.</param>
         /// <returns>The query to retrieve all ResourceAuthroizations from the Cam.</returns>
-        public static IQueryable<ResourceAuthorization> CreateGetResourceAuthorizationsByRoleQuery(CamModel context)
+        public static IQueryable<SimpleResourceAuthorization> CreateGetResourceAuthorizationsByRoleQuery(CamModel context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var query = from resource in context.Resources
+       
 
-                        join resourceType in context.ResourceTypes
-                        on resource.ResourceTypeId equals resourceType.ResourceTypeId
+            var query = from role in context.Roles
 
                         join roleResourcePermission in context.RoleResourcePermissions
-                        on resource.ResourceId equals roleResourcePermission.ResourceId
-
-                        join permission in context.Permissions
-                        on roleResourcePermission.PermissionId equals permission.PermissionId
-
-                        join role in context.Roles
-                        on roleResourcePermission.RoleId equals role.RoleId
+                        on role.RoleId equals roleResourcePermission.RoleId
 
                         join principalRole in context.PrincipalRoles
-                        on role.RoleId equals principalRole.RoleId
+                        on roleResourcePermission.RoleId equals principalRole.RoleId                        
 
-                        join principal in context.Principals
-                        on principalRole.PrincipalId equals principal.PrincipalId
+                        where role.IsActive
 
-                        join userAccount in context.UserAccounts
-                        on principal.PrincipalId equals userAccount.PrincipalId
-
-                        join permissionAssignment in context.PermissionAssignments
-                        on resource equals permissionAssignment.Resource into permissionAssignments
-                        from tempPermissionAssignment in permissionAssignments
-                            .Where(x => !x.IsAllowed
-                                && x.PrincipalId == principal.PrincipalId
-                                && x.PermissionId == permission.PermissionId).DefaultIfEmpty()
-
-                        select new ResourceAuthorization
+                        select new SimpleResourceAuthorization
                         {
                             AssignedOn = roleResourcePermission.AssignedOn,
-                            DisplayName = userAccount.DisplayName,
-                            EmailAddress = userAccount.EmailAddress,
-                            ForeignResourceId = resource.ForeignResourceId,
-                            IsAllowed = tempPermissionAssignment == null ? true : tempPermissionAssignment.IsAllowed,
+                            IsAllowed = true,
                             IsGrantedByInheritance = false,
                             IsGrantedByPermission = false,
                             IsGrantedByRole = true,
-                            PermissionDescription = permission.PermissionDescription,
-                            PermissionId = permission.PermissionId,
-                            PermissionName = permission.PermissionName,
-                            PrincipalId = principal.PrincipalId,
-                            ResourceId = resource.ResourceId,
-                            ResourceType = resourceType.ResourceTypeName,
-                            ResourceTypeId = resource.ResourceTypeId,
+                            PermissionId = roleResourcePermission.PermissionId,
+                            PrincipalId = principalRole.PrincipalId,
+                            ResourceId = roleResourcePermission.ResourceId,
                             RoleId = role.RoleId,
-                            RoleName = role.RoleName,
                         };
+
+
             return query;
         }
 
@@ -108,19 +84,13 @@ namespace CAM.Business.Queries
         /// </summary>
         /// <param name="context">The context to query.</param>
         /// <returns>The query to retrieve all ResourceAuthroizations from the Cam.</returns>
-        public static IQueryable<ResourceAuthorization> CreateGetResourceAuthorizationsByInheritedRolePermissionsQuery(CamModel context)
+        public static IQueryable<SimpleResourceAuthorization> CreateGetResourceAuthorizationsByInheritedRolePermissionsQuery(CamModel context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var query = from resource in context.Resources
 
-                        join parentResource in context.Resources
-                        on resource.ParentResourceId equals parentResource.ResourceId
-
-                        join resourceType in context.ResourceTypes
-                        on resource.ResourceTypeId equals resourceType.ResourceTypeId
-
                         join roleResourcePermission in context.RoleResourcePermissions
-                        on parentResource.ResourceId equals roleResourcePermission.ResourceId
+                        on resource.ParentResourceId equals roleResourcePermission.ResourceId
 
                         join permission in context.Permissions
                         on roleResourcePermission.PermissionId equals permission.PermissionId
@@ -129,35 +99,23 @@ namespace CAM.Business.Queries
                         on roleResourcePermission.RoleId equals role.RoleId
 
                         join principalRole in context.PrincipalRoles
-                        on role.RoleId equals principalRole.RoleId
+                        on roleResourcePermission.RoleId equals principalRole.RoleId
 
-                        join principal in context.Principals
-                        on principalRole.PrincipalId equals principal.PrincipalId
+                        where role.IsActive
 
-                        join userAccount in context.UserAccounts
-                        on principal.PrincipalId equals userAccount.PrincipalId
-
-                        where permission.ResourceTypeId == resourceType.ResourceTypeId
-                        select new ResourceAuthorization
+                        select new SimpleResourceAuthorization
                         {
                             AssignedOn = roleResourcePermission.AssignedOn,
-                            DisplayName = userAccount.DisplayName,
-                            EmailAddress = userAccount.EmailAddress,
-                            ForeignResourceId = resource.ForeignResourceId,
                             IsAllowed = true,
                             IsGrantedByInheritance = true,
                             IsGrantedByPermission = false,
                             IsGrantedByRole = true,
-                            PermissionDescription = permission.PermissionDescription,
                             PermissionId = permission.PermissionId,
-                            PermissionName = permission.PermissionName,
-                            PrincipalId = principal.PrincipalId,
+                            PrincipalId = principalRole.PrincipalId,
                             ResourceId = resource.ResourceId,
-                            ResourceType = resourceType.ResourceTypeName,
-                            ResourceTypeId = resource.ResourceTypeId,
-                            RoleId = role.RoleId,
-                            RoleName = role.RoleName,
+                            RoleId = roleResourcePermission.RoleId,
                         };
+
             return query;
         }
 
@@ -167,45 +125,21 @@ namespace CAM.Business.Queries
         /// </summary>
         /// <param name="context">The context to query.</param>
         /// <returns>The query to retrieve all ResourceAuthroizations from the Cam.</returns>
-        public static IQueryable<ResourceAuthorization> CreateGetResourceAuthorizationsByPermissionAssignmentsQuery(CamModel context)
+        public static IQueryable<SimpleResourceAuthorization> CreateGetResourceAuthorizationsByPermissionAssignmentsQuery(CamModel context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var query = from resource in context.Resources
-
-                        join resourceType in context.ResourceTypes
-                        on resource.ResourceTypeId equals resourceType.ResourceTypeId
-
-                        join permissionAssignment in context.PermissionAssignments
-                        on resource.ResourceId equals permissionAssignment.ResourceId
-
-                        join permission in context.Permissions
-                        on permissionAssignment.PermissionId equals permission.PermissionId
-
-                        join principal in context.Principals
-                        on permissionAssignment.PrincipalId equals principal.PrincipalId
-
-                        join userAccount in context.UserAccounts
-                        on principal.PrincipalId equals userAccount.PrincipalId
-
-                        select new ResourceAuthorization
+            var query = from permissionAssignment in context.PermissionAssignments
+                        select new SimpleResourceAuthorization
                         {
                             AssignedOn = permissionAssignment.AssignedOn,
-                            DisplayName = userAccount.DisplayName,
-                            EmailAddress = userAccount.EmailAddress,
-                            ForeignResourceId = resource.ForeignResourceId,
                             IsAllowed = permissionAssignment.IsAllowed,
                             IsGrantedByInheritance = false,
                             IsGrantedByPermission = true,
                             IsGrantedByRole = false,
-                            PermissionDescription = permission.PermissionDescription,
-                            PermissionId = permission.PermissionId,
-                            PermissionName = permission.PermissionName,
-                            PrincipalId = principal.PrincipalId,
-                            ResourceId = resource.ResourceId,
-                            ResourceType = resourceType.ResourceTypeName,
-                            ResourceTypeId = resource.ResourceTypeId,
+                            PermissionId = permissionAssignment.PermissionId,
+                            PrincipalId = permissionAssignment.PrincipalId,
+                            ResourceId = permissionAssignment.ResourceId,
                             RoleId = AUTHORIZATION_ASSIGNED_BY_PERMISSION_ROLE_ID,
-                            RoleName = null
                         };
             return query;
         }
@@ -215,51 +149,30 @@ namespace CAM.Business.Queries
         /// </summary>
         /// <param name="context">The context to query.</param>
         /// <returns>The query to retrieve all ResourceAuthroizations from the Cam.</returns>
-        public static IQueryable<ResourceAuthorization> CreateGetResourceAuthorizationsByInheritedPermissionAssignmentQuery(CamModel context)
+        public static IQueryable<SimpleResourceAuthorization> CreateGetResourceAuthorizationsByInheritedPermissionAssignmentQuery(CamModel context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var query = from resource in context.Resources
 
-                        join resourceType in context.ResourceTypes
-                        on resource.ResourceTypeId equals resourceType.ResourceTypeId
-
-                        join parentResource in context.Resources
-                        on resource.ParentResourceId equals parentResource.ResourceId
-                        
-                        //join to get whether the permission allowed on the parent resource
                         join parentPermissionAssignment in context.PermissionAssignments
-                        on parentResource.ResourceId equals parentPermissionAssignment.ResourceId
+                        on resource.ParentResourceId equals parentPermissionAssignment.ResourceId
 
                         join permission in context.Permissions
                         on parentPermissionAssignment.PermissionId equals permission.PermissionId
 
-                        join principal in context.Principals
-                        on parentPermissionAssignment.PrincipalId equals principal.PrincipalId
+                        where permission.ResourceTypeId == resource.ResourceTypeId
 
-                        join userAccount in context.UserAccounts
-                        on principal.PrincipalId equals userAccount.PrincipalId
-
-                        where permission.ResourceTypeId == resourceType.ResourceTypeId
-
-                        select new ResourceAuthorization
+                        select new SimpleResourceAuthorization
                         {
                             AssignedOn = parentPermissionAssignment.AssignedOn,
-                            DisplayName = userAccount.DisplayName,
-                            EmailAddress = userAccount.EmailAddress,
-                            ForeignResourceId = resource.ForeignResourceId,
                             IsAllowed = parentPermissionAssignment.IsAllowed,
                             IsGrantedByInheritance = true,
                             IsGrantedByPermission = true,
                             IsGrantedByRole = false,
-                            PermissionDescription = permission.PermissionDescription,
                             PermissionId = permission.PermissionId,
-                            PermissionName = permission.PermissionName,
-                            PrincipalId = principal.PrincipalId,
+                            PrincipalId = parentPermissionAssignment.PrincipalId,
                             ResourceId = resource.ResourceId,
-                            ResourceType = resourceType.ResourceTypeName,
-                            ResourceTypeId = resource.ResourceTypeId,
                             RoleId = AUTHORIZATION_ASSIGNED_BY_PERMISSION_ROLE_ID,
-                            RoleName = null
                         };
             return query;
         }
@@ -276,7 +189,50 @@ namespace CAM.Business.Queries
                 .Union(CreateGetResourceAuthorizationsByRoleQuery(context))
                 .Union(CreateGetResourceAuthorizationsByInheritedPermissionAssignmentQuery(context))
                 .Union(CreateGetResourceAuthorizationsByInheritedRolePermissionsQuery(context));
-            return query;
+
+            var resourceAuthQuery = from simplePermission in query
+
+                                    join resource in context.Resources
+                                    on simplePermission.ResourceId equals resource.ResourceId
+
+                                    join permission in context.Permissions
+                                    on simplePermission.PermissionId equals permission.PermissionId
+
+                                    join resourceType in context.ResourceTypes
+                                    on resource.ResourceTypeId equals resourceType.ResourceTypeId
+
+                                    join principal in context.Principals
+                                    on simplePermission.PrincipalId equals principal.PrincipalId
+
+                                    join tempUserAccount in context.UserAccounts
+                                    on principal.PrincipalId equals tempUserAccount.PrincipalId into joinedUserAccounts
+                                    from joinedUserAccount in joinedUserAccounts.DefaultIfEmpty()
+
+                                    join tempRole in context.Roles
+                                    on simplePermission.RoleId equals tempRole.RoleId into joinedRoles
+                                    from joinedRole in joinedRoles.DefaultIfEmpty()
+
+                                    select new ResourceAuthorization
+                                    {
+                                        AssignedOn = simplePermission.AssignedOn,
+                                        DisplayName = joinedUserAccount != null ? joinedUserAccount.DisplayName : null,
+                                        EmailAddress = joinedUserAccount != null ? joinedUserAccount.EmailAddress : null,
+                                        ForeignResourceId = resource.ForeignResourceId,
+                                        IsAllowed = simplePermission.IsAllowed,
+                                        IsGrantedByInheritance = simplePermission.IsGrantedByInheritance,
+                                        IsGrantedByPermission = simplePermission.IsGrantedByPermission,
+                                        IsGrantedByRole = simplePermission.IsGrantedByRole,
+                                        PermissionDescription = permission.PermissionDescription,
+                                        PermissionId = simplePermission.PermissionId,
+                                        PermissionName = permission.PermissionName,
+                                        PrincipalId = principal.PrincipalId,
+                                        ResourceId = simplePermission.ResourceId,
+                                        ResourceType = resourceType.ResourceTypeName,
+                                        ResourceTypeId = resource.ResourceTypeId,
+                                        RoleId = simplePermission.RoleId,
+                                        RoleName = joinedRole != null ? joinedRole.RoleName : null
+                                    };
+            return resourceAuthQuery;
         }
 
         /// <summary>
@@ -352,6 +308,54 @@ namespace CAM.Business.Queries
             }
             query = query.OrderBy(x => x.PermissionName);
             return query;
+        }
+
+        public class SimpleResourceAuthorization
+        {
+            /// <summary>
+            /// Gets or sets the date the permission was assigned.
+            /// </summary>
+            public DateTimeOffset AssignedOn { get; set; }
+
+            /// <summary>
+            /// Gets or sets whether or not this resource authorization is granted by a role.
+            /// </summary>
+            public bool IsGrantedByRole { get; set; }
+
+            /// <summary>
+            /// Gets or sets whether or not this resource authorization is granted by a permission explicity.
+            /// </summary>
+            public bool IsGrantedByPermission { get; set; }
+
+            /// <summary>
+            /// Gets or sets the value indicating whether this permission is granted by a resource's parent permission.
+            /// </summary>
+            public bool IsGrantedByInheritance { get; set; }
+
+            /// <summary>
+            /// Gets or sets the role id this authorization is granted by.
+            /// </summary>
+            public int RoleId { get; set; }
+
+            /// <summary>
+            /// Gets or sets the principal id.
+            /// </summary>
+            public int PrincipalId { get; set; }
+
+            /// <summary>
+            /// Gets or sets the permission id.
+            /// </summary>
+            public int PermissionId { get; set; }
+
+            /// <summary>
+            /// Gets or sets the resource id.
+            /// </summary>
+            public int ResourceId { get; set; }
+
+            /// <summary>
+            /// Gets or sets is allowed.
+            /// </summary>
+            public bool IsAllowed { get; set; }
         }
     }
 }

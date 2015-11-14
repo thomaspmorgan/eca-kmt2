@@ -68,14 +68,14 @@ PRINT 'Inserted ' + CAST(@@RowCount AS VARCHAR(10)) + ' administrator permission
 INSERT INTO cam.RoleResourcePermission(RoleId, ResourceId, PermissionId, AssignedOn, AssignedBy)
 SELECT DISTINCT
 @kmtSuperUserRoleId as RoleId,
-r.ParentResourceId as ResourceId,
+r.ResourceId as ResourceId,
 p.PermissionId as PermissionId,
 SYSDATETIMEOFFSET() as AssignedOn,
 @systemUserId as AssignedBy
 
 FROM cam.Resource r, cam.Permission p
-WHERE r.ResourceTypeId = @projectResourceTypeId
-AND r.ParentResourceId IS NOT NULL
+WHERE r.ResourceTypeId = @programResourceTypeId
+AND r.ResourceId IS NOT NULL
 AND p.ResourceTypeId = @projectResourceTypeId
 AND NOT EXISTS(
 	SELECT 1
@@ -89,14 +89,14 @@ PRINT 'Inserted ' + CAST(@@RowCount AS VARCHAR(10)) + ' project permissions for 
 INSERT INTO cam.RoleResourcePermission(RoleId, ResourceId, PermissionId, AssignedOn, AssignedBy)
 SELECT DISTINCT
 @kmtSuperUserRoleId as RoleId,
-r.ParentResourceId as ResourceId,
+r.ResourceId as ResourceId,
 p.PermissionId as PermissionId,
 SYSDATETIMEOFFSET() as AssignedOn,
 @systemUserId as AssignedBy
 
 FROM cam.Resource r, cam.Permission p
-WHERE r.ResourceTypeId = @programResourceTypeId
-AND r.ParentResourceId IS NOT NULL
+WHERE r.ResourceTypeId = @officeResourceTypeId
+AND r.ResourceId IS NOT NULL
 AND p.ResourceTypeId = @programResourceTypeId
 AND NOT EXISTS(
 	SELECT *
