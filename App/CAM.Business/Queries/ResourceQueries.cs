@@ -50,8 +50,6 @@ namespace CAM.Business.Queries
         public static IQueryable<SimpleResourceAuthorization> CreateGetResourceAuthorizationsByRoleQuery(CamModel context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-       
-
             var query = from role in context.Roles
 
                         join roleResourcePermission in context.RoleResourcePermissions
@@ -199,11 +197,8 @@ namespace CAM.Business.Queries
                                     join resourceType in context.ResourceTypes
                                     on resource.ResourceTypeId equals resourceType.ResourceTypeId
 
-                                    join principal in context.Principals
-                                    on simplePermission.PrincipalId equals principal.PrincipalId
-
                                     join tempUserAccount in context.UserAccounts
-                                    on principal.PrincipalId equals tempUserAccount.PrincipalId into joinedUserAccounts
+                                    on simplePermission.PrincipalId equals tempUserAccount.PrincipalId into joinedUserAccounts
                                     from joinedUserAccount in joinedUserAccounts.DefaultIfEmpty()
 
                                     join tempRole in context.Roles
@@ -223,7 +218,7 @@ namespace CAM.Business.Queries
                                         PermissionDescription = permission.PermissionDescription,
                                         PermissionId = simplePermission.PermissionId,
                                         PermissionName = permission.PermissionName,
-                                        PrincipalId = principal.PrincipalId,
+                                        PrincipalId = simplePermission.PrincipalId,
                                         ResourceId = simplePermission.ResourceId,
                                         ResourceType = resourceType.ResourceTypeName,
                                         ResourceTypeId = resource.ResourceTypeId,
