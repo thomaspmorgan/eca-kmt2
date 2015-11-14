@@ -50,14 +50,14 @@ namespace CAM.Business.Test.Queries
                 ResourceId = resourceId,
                 Role = role,
                 RoleId = role.RoleId,
-                AssignedOn = DateTimeOffset.UtcNow,
             };
             var principalRole = new PrincipalRole
             {
                 Principal = principal,
                 PrincipalId = principal.PrincipalId,
                 Role = role,
-                RoleId = role.RoleId
+                RoleId = role.RoleId,
+                AssignedOn = DateTimeOffset.UtcNow
             };
             context.Principals.Add(principal);
             context.Permissions.Add(permission);
@@ -68,7 +68,7 @@ namespace CAM.Business.Test.Queries
             var results = ResourceQueries.CreateGetResourceAuthorizationsByRoleQuery(context);
             Assert.AreEqual(1, results.Count());
             var firstResult = results.First();
-            Assert.AreEqual(roleResourcePermission.AssignedOn, firstResult.AssignedOn);
+            Assert.AreEqual(principalRole.AssignedOn, firstResult.AssignedOn);
             Assert.AreEqual(true, firstResult.IsAllowed);
             Assert.AreEqual(false, firstResult.IsGrantedByInheritance);
             Assert.AreEqual(false, firstResult.IsGrantedByPermission);
@@ -303,14 +303,14 @@ namespace CAM.Business.Test.Queries
                 ResourceId = programResource.ResourceId,
                 Role = role,
                 RoleId = role.RoleId,
-                AssignedOn = DateTimeOffset.UtcNow,
             };
             var principalRole = new PrincipalRole
             {
                 Role = role,
                 RoleId = role.RoleId,
                 Principal = principal,
-                PrincipalId = principal.PrincipalId
+                PrincipalId = principal.PrincipalId,
+                AssignedOn = DateTimeOffset.UtcNow
             };
             context.PrincipalRoles.Add(principalRole);
             context.Principals.Add(principal);
@@ -325,7 +325,7 @@ namespace CAM.Business.Test.Queries
             var results = ResourceQueries.CreateGetResourceAuthorizationsByInheritedRolePermissionsQuery(context);
             Assert.AreEqual(1, results.Count());
             var firstResult = results.First();
-            Assert.AreEqual(roleResourcePermission.AssignedOn, firstResult.AssignedOn);
+            Assert.AreEqual(principalRole.AssignedOn, firstResult.AssignedOn);
             Assert.AreEqual(true, firstResult.IsAllowed);
             Assert.AreEqual(true, firstResult.IsGrantedByInheritance);
             Assert.AreEqual(false, firstResult.IsGrantedByPermission);
@@ -2106,14 +2106,14 @@ namespace CAM.Business.Test.Queries
                 ResourceId = resource.ResourceId,
                 Role = role,
                 RoleId = role.RoleId,
-                AssignedOn = DateTimeOffset.UtcNow,
             };
             var principalRole = new PrincipalRole
             {
                 Principal = principal,
                 PrincipalId = principal.PrincipalId,
                 Role = role,
-                RoleId = role.RoleId
+                RoleId = role.RoleId,
+                AssignedOn = DateTimeOffset.UtcNow
             };
             context.Principals.Add(principal);
             context.UserAccounts.Add(userAccount);
@@ -2128,7 +2128,7 @@ namespace CAM.Business.Test.Queries
             Assert.AreEqual(1, results.Count());
             var result = results.First();
             Assert.AreEqual(1, result.AllowedPrincipalsCount);
-            Assert.AreEqual(roleResourcePermission.AssignedOn, result.LastRevisedOn);
+            Assert.AreEqual(principalRole.AssignedOn, result.LastRevisedOn);
         }
 
         [TestMethod]
@@ -2412,14 +2412,14 @@ namespace CAM.Business.Test.Queries
                 ResourceId = programResource.ResourceId,
                 Role = role,
                 RoleId = role.RoleId,
-                AssignedOn = DateTimeOffset.UtcNow,
             };
             var principalRole = new PrincipalRole
             {
                 Principal = principal,
                 PrincipalId = principal.PrincipalId,
                 Role = role,
-                RoleId = role.RoleId
+                RoleId = role.RoleId,
+                AssignedOn = DateTimeOffset.UtcNow
             };
             context.Principals.Add(principal);
             context.UserAccounts.Add(userAccount);
@@ -2436,7 +2436,7 @@ namespace CAM.Business.Test.Queries
             Assert.AreEqual(1, results.Count());
             var result = results.First();
             Assert.AreEqual(1, result.AllowedPrincipalsCount);
-            Assert.AreEqual(roleResourcePermission.AssignedOn, result.LastRevisedOn);
+            Assert.AreEqual(principalRole.AssignedOn, result.LastRevisedOn);
         }
 
         [TestMethod]

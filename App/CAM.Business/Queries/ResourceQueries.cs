@@ -62,7 +62,7 @@ namespace CAM.Business.Queries
 
                         select new SimpleResourceAuthorization
                         {
-                            AssignedOn = roleResourcePermission.AssignedOn,
+                            AssignedOn = principalRole.AssignedOn,
                             IsAllowed = true,
                             IsGrantedByInheritance = false,
                             IsGrantedByPermission = false,
@@ -102,7 +102,7 @@ namespace CAM.Business.Queries
 
                         select new SimpleResourceAuthorization
                         {
-                            AssignedOn = roleResourcePermission.AssignedOn,
+                            AssignedOn = principalRole.AssignedOn,
                             IsAllowed = true,
                             IsGrantedByInheritance = true,
                             IsGrantedByPermission = false,
