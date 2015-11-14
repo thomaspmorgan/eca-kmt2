@@ -4,10 +4,12 @@ using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
 using ECA.WebApi.Models.Query;
+using ECA.WebApi.Models.Person;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using ECA.WebApi.Security;
 
 namespace ECA.WebApi.Controllers.Persons
 {
@@ -24,15 +26,17 @@ namespace ECA.WebApi.Controllers.Persons
         private static readonly ExpressionSorter<ParticipantStudentVisitorDTO> DEFAULT_SORTER = new ExpressionSorter<ParticipantStudentVisitorDTO>(x => x.ParticipantId, SortDirection.Ascending);
 
         private IParticipantStudentVisitorService service;
+        private IUserProvider userProvider;
 
         /// <summary>
         /// Creates a new ParticipantStudentVisitorsController with the given service.
         /// </summary>
         /// <param name="service">The service.</param>
-        public ParticipantStudentVisitorsController(IParticipantStudentVisitorService service)
+        public ParticipantStudentVisitorsController(IParticipantStudentVisitorService service, IUserProvider userProvider)
         {
             Contract.Requires(service != null, "The participantPersonSevis service must not be null.");
             this.service = service;
+            this.userProvider = userProvider;
         }
 
         /// <summary>
@@ -97,5 +101,27 @@ namespace ECA.WebApi.Controllers.Persons
             }
         }
 
+
+        /// <summary>
+        /// Updates the new participantStudentVisitor with the given participantId.
+        /// </summary>
+        /// <param name="model">The new participantStudentVisitor.</param>
+        /// <returns>The saved participantStudentVisitor.</returns>
+        [Route("ParticipantStudentVisitors")]
+        public async Task<IHttpActionResult> PutParticipantStudentVisitorAsync([FromBody]UpdatedParticipantStudentVisitorBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var participantStudentVisitorDTO = await service.UpdateAsync(model.ToUpdatedParticipantStudentVisitor(businessUser));
+                await service.SaveChangesAsync();
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
     }
 }
