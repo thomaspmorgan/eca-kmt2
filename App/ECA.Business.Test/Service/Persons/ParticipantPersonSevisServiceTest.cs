@@ -3,12 +3,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Service.Persons;
 using System.Threading.Tasks;
 using ECA.Data;
-using System.Collections.Generic;
 using System.Linq;
-using Moq;
-using ECA.Business.Sevis.Validation;
-using ECA.Business.Validation;
 using ECA.Business.Service;
+using System.Collections.Generic;
+using ECA.Business.Queries.Models.Persons;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -17,18 +15,13 @@ namespace ECA.Business.Test.Service.Persons
     {
         private TestEcaContext context;
         private ParticipantPersonsSevisService sevisService;
-        private Mock<ISevisValidator<object, UpdatedParticipantPersonSevisValidationEntity>> sevisValidator;
         private ParticipantPersonService personService;
-        private Mock<IBusinessValidator<Object, UpdatedParticipantPersonValidationEntity>> personValidator;
 
         [TestInitialize]
         public void TestInit()
         {
             context = new TestEcaContext();
-            sevisValidator = new Mock<ISevisValidator<object, UpdatedParticipantPersonSevisValidationEntity>>();
-            sevisService = new ParticipantPersonsSevisService(context, sevisValidator.Object);
-            personValidator = new Mock<IBusinessValidator<object, UpdatedParticipantPersonValidationEntity>>();
-            personService = new ParticipantPersonService(context, personValidator.Object);
+            sevisService = new ParticipantPersonsSevisService(context);
         }
 
         [TestMethod]
@@ -85,9 +78,7 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public void TestSendToSevis_NullPerson()
         {
-
-
-
+            
         }
         
         [TestMethod]
@@ -122,18 +113,6 @@ namespace ECA.Business.Test.Service.Persons
                 FirstName = "firstName",
                 LastName = "lastName"
             };
-            var history = new History
-            {
-                RevisedOn = DateTimeOffset.Now
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                ParticipantId = 1,
-                SevisId = "N0000000001",
-                StudyProject = "studyProject",
-                HomeInstitutionAddressId = 3,
-                HostInstitutionAddressId = 4,
-            };
             var project = new Project
             {
                 ProjectId = 1
@@ -142,17 +121,6 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ParticipantTypeId = ParticipantType.Individual.Id,
                 Name = "name"
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                PersonId = person.PersonId,
-                Person = person,
-                ProjectId = project.ProjectId,
-                Project = project,
-                ParticipantType = participantType,
-                ParticipantTypeId = participantType.ParticipantTypeId,
-                History = history
             };
             var status = new ParticipantStatus
             {
@@ -171,6 +139,79 @@ namespace ECA.Business.Test.Service.Persons
                 ParticipantId = 1,
                 SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id,
                 AddedOn = now
+            };
+            List<ParticipantPersonSevisCommStatus> cslist = new List<ParticipantPersonSevisCommStatus>();
+            cslist.Add(cstatus);
+            cslist.Add(cstatus2);
+            
+            var history = new History
+            {
+                RevisedOn = DateTimeOffset.Now
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                PersonId = person.PersonId,
+                Person = person,
+                ProjectId = project.ProjectId,
+                Project = project,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId,
+                History = history,
+                Status = status
+            };
+            var fieldofstudy = new FieldOfStudy
+            {
+                FieldOfStudyId = 1
+            };
+            var progcategory = new ProgramCategory
+            {
+                ProgramCategoryId = 1,
+                Description = "program cat 1"
+            };
+            var position = new Position
+            {
+                PositionId = 1,
+                Description = "position 1"
+            };
+            var govagency = new USGovernmentAgency
+            {
+                AgencyId = 1,
+                Description = "agency 1"
+            };
+            var govagency2 = new USGovernmentAgency
+            {
+                AgencyId = 2,
+                Description = "agency 2"
+            };
+            var intlorg1 = new InternationalOrganization
+            {
+                OrganizationId = 1,
+                Description = "Intl org 1"
+            };
+            var intlorg2 = new InternationalOrganization
+            {
+                OrganizationId = 2,
+                Description = "Intl org 2"
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = 1,
+                Participant = participant,
+                SevisId = "N0000000001",
+                StudyProject = "studyProject",
+                HomeInstitutionAddressId = 3,
+                HostInstitutionAddressId = 4,
+                FieldOfStudy = fieldofstudy,
+                ProgramCategoryId = progcategory.ProgramCategoryId,
+                ProgramCategory = progcategory,
+                PositionId = position.PositionId,
+                Position = position,
+                GovtAgency1 = govagency,
+                GovtAgency2 = govagency2,
+                IntlOrg1 = intlorg1,
+                IntlOrg2 = intlorg2,
+                ParticipantPersonSevisCommStatuses = cslist
             };
 
             participant.Status = status;
@@ -224,7 +265,7 @@ namespace ECA.Business.Test.Service.Persons
 
             var response = await sevisService.UpdateAsync(updatedPersonSevis);
             Assert.IsNotNull(response);
-            Assert.AreEqual("Agency Two", response.IntlOrg2OtherName);
+            Assert.AreEqual("Agency 2", response.GovtAgency2OtherName);
         }
 
     }

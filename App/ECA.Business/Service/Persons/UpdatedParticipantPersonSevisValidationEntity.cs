@@ -1,5 +1,4 @@
-﻿
-using ECA.Data;
+﻿using ECA.Data;
 
 namespace ECA.Business.Service.Persons
 {
@@ -11,6 +10,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Creates a new instance.
         /// </summary>
+        /// <param name="participantPerson">The participant person.</param>
         /// <param name="updatedParticipantPersonSevis">The participant person sevis.</param>
         public UpdatedParticipantPersonSevisValidationEntity(ParticipantPerson participantPerson, UpdatedParticipantPersonSevis updatedParticipantPersonSevis)
         {

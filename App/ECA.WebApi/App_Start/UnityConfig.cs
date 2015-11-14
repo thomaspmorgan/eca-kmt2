@@ -8,7 +8,6 @@ using ECA.Business.Service.Persons;
 using ECA.Business.Service.Programs;
 using ECA.Business.Service.Projects;
 using ECA.Business.Service.Reports;
-using ECA.Business.Sevis.Validation;
 using ECA.Business.Validation;
 using ECA.Core.Generation;
 using ECA.Core.Service;
@@ -212,7 +211,7 @@ namespace ECA.WebApi.App_Start
                 IBusinessValidator<object, UpdatedParticipantPersonValidationEntity>,
                 ParticipantPersonServiceValidator>();
             container.RegisterType<
-                ISevisValidator<object, UpdatedParticipantPersonSevisValidationEntity>, 
+                ISevisValidator<UpdatedParticipantPersonSevisValidationEntity>, 
                 PersonSevisServiceValidator>();
         }
 

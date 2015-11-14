@@ -1,18 +1,16 @@
-﻿using ECA.Business.Sevis.Exceptions;
+﻿using ECA.Business.Exceptions;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-namespace ECA.Business.Sevis.Validation
+namespace ECA.Business.Validation
 {
     /// <summary>
     /// The SevisValidatorBase class is used to validate entities before creation or update.
     /// </summary>
-    /// <typeparam name="TCreate">The create sevis entity type.</typeparam>
     /// <typeparam name="TUpdate">The update sevis entity type.</typeparam>
-    [ContractClass(typeof(SevisValidatorBaseContract<,>))]
-    public abstract class SevisValidatorBase<TCreate, TUpdate> : ISevisValidator<TCreate, TUpdate>
-        where TCreate : class
+    [ContractClass(typeof(SevisValidatorBaseContract<>))]
+    public abstract class SevisValidatorBase<TUpdate> : ISevisValidator<TUpdate>
         where TUpdate : class
     {
         private bool throwExceptionOnValidation;
@@ -25,25 +23,6 @@ namespace ECA.Business.Sevis.Validation
         public SevisValidatorBase(bool throwExceptionOnValidation = true)
         {
             this.throwExceptionOnValidation = throwExceptionOnValidation;
-        }
-
-        /// <summary>
-        /// Validates the create sevis entity.
-        /// </summary>
-        /// <param name="validationEntity">The validation entity.</param>
-        /// <returns>The collection of validation results.</returns>
-        public IEnumerable<SevisValidationResult> ValidateCreate(TCreate validationEntity)
-        {
-            if (throwExceptionOnValidation)
-            {
-                var results = DoValidateCreate(validationEntity).ToList();
-                DoThrowException(results);
-                return results;
-            }
-            else
-            {
-                return DoValidateCreate(validationEntity);
-            }
         }
 
         /// <summary>
@@ -74,13 +53,6 @@ namespace ECA.Business.Sevis.Validation
         }
 
         /// <summary>
-        /// Override to perform the create entity validation.
-        /// </summary>
-        /// <param name="validationEntity">The entity to validate.</param>
-        /// <returns>The collection of validation results.</returns>
-        public abstract IEnumerable<SevisValidationResult> DoValidateCreate(TCreate validationEntity);
-
-        /// <summary>
         /// Override to perform the update entity validation.
         /// </summary>
         /// <param name="validationEntity">The entity to validate.</param>
@@ -91,25 +63,11 @@ namespace ECA.Business.Sevis.Validation
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="TCreate"></typeparam>
     /// <typeparam name="TUpdate"></typeparam>
-    [ContractClassFor(typeof(SevisValidatorBase<,>))]
-    public abstract class SevisValidatorBaseContract<TCreate, TUpdate> : SevisValidatorBase<TCreate, TUpdate>
-        where TCreate : class
+    [ContractClassFor(typeof(SevisValidatorBase<>))]
+    public abstract class SevisValidatorBaseContract<TUpdate> : SevisValidatorBase<TUpdate>
         where TUpdate : class
     {
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="validationEntity"></param>
-        /// <returns></returns>
-        public override IEnumerable<SevisValidationResult> DoValidateCreate(TCreate validationEntity)
-        {
-            Contract.Ensures(Contract.Result<IEnumerable<SevisValidationResult>>() != null, "The sevis validator must return a non null value.");
-            return new List<SevisValidationResult>();
-        }
-
         /// <summary>
         /// 
         /// </summary>

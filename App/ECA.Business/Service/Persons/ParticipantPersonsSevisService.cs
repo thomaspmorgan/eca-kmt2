@@ -9,14 +9,9 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Data.Entity;
-using System.Text;
 using System.Threading.Tasks;
-using System.Diagnostics;
 using NLog;
 using ECA.Core.Exceptions;
-using System.IO;
-using System.Xml.Serialization;
-using ECA.Business.Sevis.Validation;
 
 namespace ECA.Business.Service.Persons
 {
@@ -28,20 +23,15 @@ namespace ECA.Business.Service.Persons
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
-        private ISevisValidator<object, UpdatedParticipantPersonSevisValidationEntity> participantPersonSevisValidator;
-
+        
         /// <summary>
         /// Creates a new ParticipantPersonService with the given context to operate against.
         /// </summary>
         /// <param name="saveActions">The save actions.</param>
         /// <param name="context">The context to operate against.</param>
-        public ParticipantPersonsSevisService(EcaContext context,
-            ISevisValidator<Object, UpdatedParticipantPersonSevisValidationEntity> participantPersonSevisValidator = null,
-            List<ISaveAction> saveActions = null) : base(context, saveActions)
+        public ParticipantPersonsSevisService(EcaContext context, List<ISaveAction> saveActions = null) : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(participantPersonSevisValidator != null, "The participant person sevis validator must not be null.");
-            this.participantPersonSevisValidator = participantPersonSevisValidator;
             throwIfModelDoesNotExist = (id, instance, type) =>
             {
                 if (instance == null)
@@ -254,7 +244,6 @@ namespace ECA.Business.Service.Persons
 
         private void DoUpdate(ParticipantPerson participantPerson, UpdatedParticipantPersonSevis updatedParticipantPersonSevis)
         {
-            participantPersonSevisValidator.ValidateUpdate(GetUpdatedParticipantPersonSevisValidationEntity(participantPerson, updatedParticipantPersonSevis));
             updatedParticipantPersonSevis.Audit.SetHistory(participantPerson);
 
             participantPerson.SevisId = updatedParticipantPersonSevis.SevisId;
@@ -298,16 +287,6 @@ namespace ECA.Business.Service.Persons
         private IQueryable<ParticipantPerson> CreateGetParticipantPersonsByIdQuery(int participantId)
         {
             return Context.ParticipantPersons.Where(x => x.ParticipantId == participantId);
-        }
-
-        private string SerializeToXmlString(UpdatedParticipantPersonSevis updatedParticipantPersonSevis)
-        {
-            string retVal = string.Empty;
-            TextWriter writer = new StringWriter();
-            XmlSerializer serializer = new XmlSerializer(updatedParticipantPersonSevis.GetType());
-            serializer.Serialize(writer, updatedParticipantPersonSevis);
-            retVal = writer.ToString();
-            return retVal;
         }
 
 

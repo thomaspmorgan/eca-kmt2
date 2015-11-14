@@ -66,7 +66,9 @@ namespace ECA.Business.Queries.Persons
                              FundingVisBNC = p.FundingVisBNC ?? 0,
                              FundingVisGovt = p.FundingVisGovt ?? 0,
                              SevisCommStatuses = p.ParticipantPersonSevisCommStatuses.Select(s => new ParticipantPersonSevisCommStatusDTO()
-                             { Id = s.Id, ParticipantId = s.ParticipantId, SevisCommStatusId = s.SevisCommStatusId, SevisCommStatusName = s.SevisCommStatus.SevisCommStatusName, AddedOn = s.AddedOn
+                             {
+                                 Id = s.Id, ParticipantId = s.ParticipantId, SevisCommStatusId = s.SevisCommStatusId,
+                                 SevisCommStatusName = s.SevisCommStatus.SevisCommStatusName, AddedOn = s.AddedOn
                              }).OrderBy(s => s.AddedOn),
                              LastBatchDate =  p.ParticipantPersonSevisCommStatuses.Max(s => s.AddedOn)
                          });

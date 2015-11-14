@@ -63,7 +63,7 @@
     </div>
 </div>
 <div class="form-group row row2">
-    <label class="col-md-1 title-label">Start Date</label>
+    <h5 class="col-md-2">Start Date</h5>
     <div class="col-md-3">
         <p class="input-group">
             <input type="text"
@@ -85,7 +85,7 @@
             </span>
         </p>
     </div>
-    <label class="col-md-1 title-label">End Date</label>
+    <h5 class="col-md-2">End Date</h5>
     <div class="col-md-3 ">
         <p class="input-group">
             <input type="text"
@@ -107,7 +107,7 @@
             </span>
         </p>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-2">
         <i class="material-icons md-dark md-36 pull-right">group</i>
         <i class="material-icons md-dark md-36 pull-right">add</i>
     </div>
@@ -215,7 +215,7 @@
                     <ui-select-match placeholder="Select a field of study...">{{$select.selected.description}}</ui-select-match>
                     <ui-select-choices refresh="edit.searchFieldOfStudies($select.search)" refresh-delay="250" repeat="fieldOfStudy.id as fieldOfStudy in edit.fieldOfStudies | filter: {description: $select.search} track by fieldOfStudy.id">
                         <div ng-bind-html="fieldOfStudy.description | highlight: $select.search"></div>
-                    </ui-select-choices>
+                    </ui-select-choices> <!--required-->
                 </ui-select>
             </div>
             <div class="col-md-3">
@@ -396,13 +396,13 @@
         </div>
     </div>
     <div ng-if="view.FundingEdit">
-        <div class="row row4">
-            <div class="pull-right">
-                <button ng-click="saveFunding()" class="btn btn-success" ng-disabled="fundingEditForm.$invalid || fundingEditForm.$pristine">Save</button>
-                <button ng-click="view.FundingEdit=false" class="btn btn-cancel">Cancel</button>
-            </div>
-        </div>
         <form name="fundingEditForm" class="rowalt" ng-show="view.Funding">
+            <div class="row row4">
+                <div class="pull-right" style="padding-right:10px">
+                    <button ng-click="saveFunding()" class="btn btn-success" ng-disabled="fundingEditForm.$invalid || fundingEditForm.$pristine">Save</button>
+                    <button ng-click="view.FundingEdit=false" class="btn btn-cancel">Cancel</button>
+                </div>
+            </div>
             <div class="row row4">
                 <div class="col-md-2">
                     <label class="title-label">Sponsor</label>
@@ -540,16 +540,16 @@
                     <label class="title-label">Other Org.</label>
                 </div>
                 <div class="col-md-3">
-                    &nbsp;
+                    <input type="text" maxlength="60" ng-model="sevisinfo.otherName" style="width:230px" /> <!--required-->
                 </div>
                 <div class="col-md-3">
-                    <input type="text" maxlength="60" ng-model="sevisinfo.otherName" />
+                    
                 </div>
                 <div class="col-md-1 text-right">
                     $
                 </div>
                 <div class="col-md-2 text-right">
-                    <input type="number" min="0" ng-model="sevisinfo.fundingOther" />
+                    <input type="number" min="0" ng-model="sevisinfo.fundingOther" /> <!--required-->
                 </div>
             </div>
             <div class="row row4">

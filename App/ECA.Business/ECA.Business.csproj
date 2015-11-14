@@ -228,6 +228,7 @@
     <Compile Include="Service\Persons\ParticipantPersonsSevisService.cs" />
     <Compile Include="Service\Persons\PersonSevisServiceValidationEntity.cs" />
     <Compile Include="Service\Persons\PersonSevisServiceValidator.cs" />
+    <Compile Include="Service\Persons\SevisValidationService.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonSevis.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPerson.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonSevisValidationEntity.cs" />
@@ -421,6 +422,9 @@
     <Compile Include="Service\Update.cs" />
     <Compile Include="Service\User.cs" />
     <Compile Include="Validation\BusinessValidationResult.cs" />
+    <Compile Include="Validation\ISevisValidator.cs" />
+    <Compile Include="Validation\SevisValidationResult.cs" />
+    <Compile Include="Validation\SevisValidatorBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
