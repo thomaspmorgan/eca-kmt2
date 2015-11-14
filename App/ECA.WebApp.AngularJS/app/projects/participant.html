@@ -59,9 +59,7 @@
         <div st-pipe="getParticipants" st-table="participants" exposetablestate="getParticipantsTableState" id="sort-list">
             <div class="row form-inline">
                 <input type="checkbox" ng-model="selectAll" ng-show="selectedAction" ng-change="selectAllChanged()"/>
-                <select class="form-control input-lg" ng-model="selectedAction" ng-change="selectedActionChanged()">
-                    <option value="">Choose Action</option>
-                    <option value="Send To SEVIS">Send To SEVIS</option>
+                <select class="form-control input-lg" ng-model="selectedAction" ng-change="selectedActionChanged()" ng-options="v as k for (k,v) in actions">
                 </select>
                 <button class="btn btn-primary" ng-disabled="selectedParticipantsEmpty()" ng-click="applyAction()">Apply</button>
                 <input st-search type="search" placeholder="Search Participants" class="form-control input-lg" ng-model="participantFilter" ng-model-options="{debounce: 500}"/>

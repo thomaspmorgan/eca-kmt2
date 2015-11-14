@@ -15,3 +15,13 @@
 	CONSTRAINT [FK_Permission_ToParentResourceType] FOREIGN KEY (ParentResourceTypeId) REFERENCES [cam].[ResourceType]([ResourceTypeId]),
     CONSTRAINT [FK_Permission_ToResourceType] FOREIGN KEY (ResourceTypeId) REFERENCES [cam].[ResourceType]([ResourceTypeId])
 )
+
+GO
+
+CREATE INDEX [IX_Permission_PermissionName] ON [cam].[Permission] ([PermissionName])
+
+GO
+
+CREATE INDEX [IX_Permission_PermissionDescription] ON [cam].[Permission] ([PermissionDescription])
+
+GO
