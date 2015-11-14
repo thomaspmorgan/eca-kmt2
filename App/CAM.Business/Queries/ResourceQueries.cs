@@ -74,8 +74,6 @@ namespace CAM.Business.Queries
                             ResourceId = roleResourcePermission.ResourceId,
                             RoleId = role.RoleId,
                         };
-
-
             return query;
         }
 
@@ -101,7 +99,8 @@ namespace CAM.Business.Queries
                         join principalRole in context.PrincipalRoles
                         on roleResourcePermission.RoleId equals principalRole.RoleId
 
-                        where role.IsActive
+                        where role.IsActive 
+                        && resource.ResourceTypeId == permission.ResourceTypeId
 
                         select new SimpleResourceAuthorization
                         {
@@ -115,7 +114,6 @@ namespace CAM.Business.Queries
                             ResourceId = resource.ResourceId,
                             RoleId = roleResourcePermission.RoleId,
                         };
-
             return query;
         }
 

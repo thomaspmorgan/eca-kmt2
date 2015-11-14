@@ -337,6 +337,91 @@ namespace CAM.Business.Test.Queries
         }
 
         [TestMethod]
+        public void TestCreateGetResourceAuthorizationsByInheritedRolePermissionsQuery_PrincipalHasRole_PermissionIsNotForResourceType()
+        {
+            var principal = new Principal
+            {
+                PrincipalId = 1
+            };
+            var projectResourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Project.Value,
+                ResourceTypeId = ResourceType.Project.Id
+            };
+            var programResourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Program.Value,
+                ResourceTypeId = ResourceType.Program.Id
+            };
+            var projectResource = new Resource
+            {
+                ResourceId = 1,
+                ResourceType = projectResourceType,
+                ResourceTypeId = projectResourceType.ResourceTypeId,
+                ForeignResourceId = 2,
+            };
+            var programResource = new Resource
+            {
+                ResourceId = 2,
+                ResourceType = programResourceType,
+                ResourceTypeId = programResourceType.ResourceTypeId,
+                ForeignResourceId = 20
+            };
+            var officeTypeResource = new ResourceType
+            {
+                ResourceTypeId = ResourceType.Office.Id,
+                ResourceTypeName = ResourceType.Office.Value
+            };
+            projectResource.ParentResource = programResource;
+            projectResource.ParentResourceId = programResource.ResourceId;
+            programResource.ChildResources.Add(projectResource);
+            var editOfficePermission = new Permission
+            {
+                PermissionId = Permission.EditOffice.Id,
+                PermissionName = Permission.EditOffice.Value,
+                PermissionDescription = "desc",
+                ResourceType = officeTypeResource,
+                ResourceTypeId = officeTypeResource.ResourceTypeId,
+            };
+            var role = new Role
+            {
+                RoleName = "role",
+                RoleId = 1,
+                IsActive = true
+            };
+            var roleResourcePermission = new RoleResourcePermission
+            {
+                Permission = editOfficePermission,
+                PermissionId = editOfficePermission.PermissionId,
+                Resource = programResource,
+                ResourceId = programResource.ResourceId,
+                Role = role,
+                RoleId = role.RoleId,
+                AssignedOn = DateTimeOffset.UtcNow,
+            };
+            var principalRole = new PrincipalRole
+            {
+                Role = role,
+                RoleId = role.RoleId,
+                Principal = principal,
+                PrincipalId = principal.PrincipalId
+            };
+            context.PrincipalRoles.Add(principalRole);
+            context.Principals.Add(principal);
+            context.ResourceTypes.Add(officeTypeResource);
+            context.ResourceTypes.Add(projectResourceType);
+            context.ResourceTypes.Add(programResourceType);
+            context.Resources.Add(projectResource);
+            context.Resources.Add(programResource);
+            context.Permissions.Add(editOfficePermission);
+            context.Roles.Add(role);
+            context.RoleResourcePermissions.Add(roleResourcePermission);
+
+            var results = ResourceQueries.CreateGetResourceAuthorizationsByInheritedRolePermissionsQuery(context);
+            Assert.AreEqual(0, results.Count());
+        }
+
+        [TestMethod]
         public void TestCreateGetResourceAuthorizationsByInheritedRolePermissionsQuery_PrincipalHasRole_RoleIsInactive()
         {
             var principal = new Principal
