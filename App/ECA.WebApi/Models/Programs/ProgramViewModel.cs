@@ -28,7 +28,6 @@ namespace ECA.WebApi.Models.Programs
             this.Objectives = new List<JustificationObjectiveDTO>();
             this.Regions = new List<LocationDTO>();
             this.Websites = new List<SimpleLookupDTO>();
-            this.AllParentPrograms = new List<SimpleLookupDTO>();
         }
 
         /// <summary>
@@ -65,7 +64,6 @@ namespace ECA.WebApi.Models.Programs
             this.ProgramStatusName = program.ProgramStatusName;
             this.Websites = program.Websites;
             this.Regions = program.Regions;
-            this.AllParentPrograms = program.AllParentPrograms;
         }
 
         /// <summary>
@@ -142,11 +140,6 @@ namespace ECA.WebApi.Models.Programs
         /// Gets or sets the Goals.
         /// </summary>
         public IEnumerable<SimpleLookupDTO> Goals { get; set; }
-
-        /// <summary>
-        /// Gets or sets all parent programs, root program first.
-        /// </summary>
-        public IEnumerable<SimpleLookupDTO> AllParentPrograms { get; set; }
 
         /// <summary>
         /// Gets or sets the Contacts.

@@ -36,7 +36,7 @@ namespace CAM.Data
         /// <summary>
         /// Gets or sets the assigned on date.
         /// </summary>
-        public DateTimeOffset? AssignedOn { get; set; }
+        public DateTimeOffset AssignedOn { get; set; }
 
         /// <summary>
         /// Gets or sets the principal.

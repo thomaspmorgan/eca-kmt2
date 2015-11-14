@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using NLog;
+using ECA.Core.Exceptions;
 
 namespace ECA.Business.Service.Persons
 {
@@ -23,6 +24,7 @@ namespace ECA.Business.Service.Persons
     public class ParticipantStudentVisitorService : DbContextService<EcaContext>, IParticipantStudentVisitorService
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private readonly Action<int, object, Type> throwIfModelDoesNotExist;
 
         /// <summary>
         /// Creates a new ParticipantStudentVisitorService with the given context to operate against.
@@ -32,6 +34,13 @@ namespace ECA.Business.Service.Persons
         public ParticipantStudentVisitorService(EcaContext context, List<ISaveAction> saveActions = null) : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            throwIfModelDoesNotExist = (id, instance, type) =>
+            {
+                if (instance == null)
+                {
+                    throw new ModelNotFoundException(String.Format("The model of type [{0}] with id [{1}] was not found.", type.Name, id));
+                }
+            };
         }
 
         #region Get
@@ -111,5 +120,68 @@ namespace ECA.Business.Service.Persons
         }
         #endregion
 
+        #region update
+
+        /// <summary>
+        /// Updates a participant person student visitor  info with given updated student visitor  information.
+        /// </summary>
+        /// <param name="updatedParticipantStudentVistor">The updated participant person student visitor  info.</param>
+        public ParticipantStudentVisitorDTO Update(UpdatedParticipantStudentVisitor updatedParticipantStudentVistor)
+        {
+            var participantStudentVisitor = CreateGetParticipantStudentVisitorByIdQuery(updatedParticipantStudentVistor.ParticipantId).FirstOrDefault();
+            throwIfModelDoesNotExist(updatedParticipantStudentVistor.ParticipantId, participantStudentVisitor, typeof(ParticipantStudentVisitor));
+
+            DoUpdate(participantStudentVisitor, updatedParticipantStudentVistor);
+            return this.GetParticipantStudentVisitorById(updatedParticipantStudentVistor.ParticipantId);
+        }
+
+        /// <summary>
+        /// Updates a participant person student visitor info with given updated student visitor  information.
+        /// </summary>
+        /// <param name="updatedParticipantPersonSevis">The updated participant person student visitor  info.</param>
+        /// <returns>The task.</returns>
+        public async Task<ParticipantStudentVisitorDTO> UpdateAsync(UpdatedParticipantStudentVisitor updatedParticipantStudentVisitor)
+        {
+            var participantPerson = await CreateGetParticipantStudentVisitorByIdQuery(updatedParticipantStudentVisitor.ParticipantId).FirstOrDefaultAsync();
+            throwIfModelDoesNotExist(updatedParticipantStudentVisitor.ParticipantId, participantPerson, typeof(ParticipantStudentVisitor));
+
+            DoUpdate(participantPerson, updatedParticipantStudentVisitor);
+
+            return await this.GetParticipantStudentVisitorByIdAsync(updatedParticipantStudentVisitor.ParticipantId);
+        }
+
+        private void DoUpdate(ParticipantStudentVisitor participantStudentVisitor, UpdatedParticipantStudentVisitor updatedParticipantStudentVisitor)
+        {
+            //participantPersonValidator.ValidateUpdate(GetUpdatedPersonParticipantValidationEntity(participantType));
+            updatedParticipantStudentVisitor.Audit.SetHistory(participantStudentVisitor);
+
+            participantStudentVisitor.EducationLevelId = updatedParticipantStudentVisitor.EducationLevelId;
+            participantStudentVisitor.EducationLevelOtherRemarks = updatedParticipantStudentVisitor.EducationLevelOtherRemarks;
+            participantStudentVisitor.PrimaryMajorId = updatedParticipantStudentVisitor.PrimaryMajorId;
+            participantStudentVisitor.SecondaryMajorId = updatedParticipantStudentVisitor.SecondaryMajorId;
+            participantStudentVisitor.MinorId = updatedParticipantStudentVisitor.MinorId;
+            participantStudentVisitor.LengthOfStudy = updatedParticipantStudentVisitor.LengthOfStudy;
+            participantStudentVisitor.IsEnglishProficiencyReqd = updatedParticipantStudentVisitor.IsEnglishLanguageProficiencyReqd;
+            participantStudentVisitor.IsEnglishProficiencyMet = updatedParticipantStudentVisitor.IsEnglishLanguageProficiencyMet;
+            participantStudentVisitor.EnglishProficiencyNotReqdReason = updatedParticipantStudentVisitor.EnglishLanguageProficiencyNotReqdReason;
+            participantStudentVisitor.TuitionExpense = updatedParticipantStudentVisitor.TuitionExpense;
+            participantStudentVisitor.LivingExpense = updatedParticipantStudentVisitor.LivingExpense;
+            participantStudentVisitor.DependentExpense = updatedParticipantStudentVisitor.DependentExpense;
+            participantStudentVisitor.OtherExpense = updatedParticipantStudentVisitor.OtherExpense;
+            participantStudentVisitor.ExpenseRemarks = updatedParticipantStudentVisitor.ExpenseRemarks;
+            participantStudentVisitor.PersonalFunding = updatedParticipantStudentVisitor.PersonalFunding;
+            participantStudentVisitor.SchoolFunding = updatedParticipantStudentVisitor.SchoolFunding;
+            participantStudentVisitor.SchoolFundingRemarks = updatedParticipantStudentVisitor.SchoolFundingRemarks;
+            participantStudentVisitor.OtherFunding = updatedParticipantStudentVisitor.OtherFunding;
+            participantStudentVisitor.OtherFundingRemarks = updatedParticipantStudentVisitor.OtherFundingRemarks;
+            participantStudentVisitor.EmploymentFunding = updatedParticipantStudentVisitor.EmploymentFunding;
+        }
+
+        private IQueryable<ParticipantStudentVisitor> CreateGetParticipantStudentVisitorByIdQuery(int participantId)
+        {
+            return Context.ParticipantStudentVisitors.Where(x => x.ParticipantId == participantId);
+        }
+
+        #endregion
     }
 }

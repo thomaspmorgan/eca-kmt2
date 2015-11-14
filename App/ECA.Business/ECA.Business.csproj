@@ -181,10 +181,14 @@
     <Compile Include="Service\Fundings\EditedMoneyFlow.cs" />
     <Compile Include="Service\Fundings\MoneyFlowSourceRecipientTypeService.cs" />
     <Compile Include="Service\Admin\ISnapshotService.cs" />
+    <Compile Include="Service\Lookup\StudentCreationService.cs" />
+    <Compile Include="Service\Lookup\IStudentCreationsService.cs" />
+    <Compile Include="Service\Lookup\IEducationLevelService.cs" />
     <Compile Include="Service\Lookup\IUSGovernmentAgencyService.cs" />
     <Compile Include="Service\Lookup\IInternationalOrganizationService.cs" />
     <Compile Include="Service\Lookup\IProgramCategoryService.cs" />
     <Compile Include="Service\Lookup\InternationalOrganizationService.cs" />
+    <Compile Include="Service\Lookup\EducationLevelService.cs" />
     <Compile Include="Service\Lookup\USGovernmentAgencyService.cs" />
     <Compile Include="Service\Lookup\ProgramCategoryService.cs" />
     <Compile Include="Service\Lookup\PositionService.cs" />
@@ -222,6 +226,7 @@
     <Compile Include="Service\Persons\ParticipantPersonServiceValidator.cs" />
     <Compile Include="Service\Persons\ParticipantStudentVisitorService.cs" />
     <Compile Include="Service\Persons\ParticipantPersonsSevisService.cs" />
+    <Compile Include="Service\Persons\UpdatedParticipantStudentVisitor.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonSevis.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPerson.cs" />
     <Compile Include="Service\Persons\UpdatedPersonEduEmp.cs" />

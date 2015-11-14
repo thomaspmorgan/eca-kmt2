@@ -180,7 +180,8 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<IPositionService, PositionService>(new HierarchicalLifetimeManager());
             container.RegisterType<IUSGovernmentAgencyService, USGovernmentAgencyService>(new HierarchicalLifetimeManager());
             container.RegisterType<IInternationalOrganizationService, InternationalOrganizationService>(new HierarchicalLifetimeManager());
-
+            container.RegisterType<IEducationLevelService, EducationLevelService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IStudentCreationService, StudentCreationService>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>
@@ -218,9 +219,9 @@ namespace ECA.WebApi.App_Start
         public static void RegisterSecurityConcerns(IUnityContainer container)
         {
             var appSettings = new AppSettings();
-            var cacheLifeInSeconds = 10 * 60; //10 minutes
+            var cacheLifeInSeconds = 20 * 60; //20 minutes
 #if DEBUG
-            cacheLifeInSeconds = 60;
+            cacheLifeInSeconds = 20;
 #endif
             var connectionString = appSettings.CamContextConnectionString.ConnectionString;
             container.RegisterType<CamModel>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));

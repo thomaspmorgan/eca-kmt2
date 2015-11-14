@@ -58,11 +58,6 @@ namespace ECA.Business.Queries.Models.Admin
         public int ProgramLevel { get; set; }
 
         /// <summary>
-        /// Indicates whether the program is a parent.
-        /// </summary>
-        public int NumChildren { get; set; }
-
-        /// <summary>
         /// Gets or sets the program status id.
         /// </summary>
         public int ProgramStatusId { get; set; }

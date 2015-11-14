@@ -39,7 +39,7 @@ namespace ECA.WebApi.Controllers.Projects
         /// <param name="queryModel">The query model.</param>
         /// <returns>The project SEVIS USGovernmentAgencies currently in the system.</returns>
         [ResponseType(typeof(PagedQueryResults<SimpleSevisLookupDTO>))]
-        public async Task<IHttpActionResult> GetSevisCommStatusesAsync([FromUri]PagingQueryBindingModel<SimpleSevisLookupDTO> queryModel)
+        public async Task<IHttpActionResult> GetUSGovnmentAgenciesAsync([FromUri]PagingQueryBindingModel<SimpleSevisLookupDTO> queryModel)
         {
             if (ModelState.IsValid)
             {

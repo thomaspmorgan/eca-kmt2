@@ -24,7 +24,6 @@ namespace ECA.Business.Queries.Models.Programs
             this.Categories = new List<FocusCategoryDTO>();
             this.Objectives = new List<JustificationObjectiveDTO>();
             this.Websites = new List<SimpleLookupDTO>();
-            this.AllParentPrograms = new List<SimpleLookupDTO>();
         }
 
         /// <summary>
@@ -66,11 +65,6 @@ namespace ECA.Business.Queries.Models.Programs
         /// Gets or sets the Parent Program Name.
         /// </summary>
         public string ParentProgramName { get; set; }
-
-        /// <summary>
-        /// Gets or sets all parent programs of this program.
-        /// </summary>
-        public IEnumerable<SimpleLookupDTO> AllParentPrograms { get; set; }
 
         /// <summary>
         /// Gets or sets the Themes.

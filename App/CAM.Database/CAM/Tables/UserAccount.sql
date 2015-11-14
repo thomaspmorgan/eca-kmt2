@@ -26,3 +26,17 @@
 GO
 
 CREATE INDEX [IX_UserAccount_AdGuid] ON [CAM].[UserAccount] ([AdGuid])
+
+GO
+
+CREATE INDEX [IX_UserAccount_DisplayName] ON [cam].[UserAccount] ([DisplayName])
+
+GO
+
+CREATE INDEX [IX_UserAccount_FirstName] ON [cam].[UserAccount] ([FirstName])
+
+GO
+
+CREATE INDEX [IX_UserAccount_LastName] ON [cam].[UserAccount] ([LastName])
+
+GO

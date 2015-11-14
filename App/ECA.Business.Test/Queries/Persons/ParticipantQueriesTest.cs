@@ -383,6 +383,11 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetParticipantDTOByIdQuery()
         {
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = 1,
+                Status = "status",
+            };
             var person = new Person
             {
                 PersonId = 1,
@@ -407,12 +412,11 @@ namespace ECA.Business.Test.Queries.Persons
                 Person = person,
                 ParticipantType = participantType,
                 ParticipantTypeId = participantType.ParticipantTypeId,
-                History = history
+                History = history,
+                Status = status,
+                ParticipantStatusId = status.ParticipantStatusId
             };
-            var status = new ParticipantStatus
-            {
-                Status = "status",
-            };
+            
             participant.Status = status;
             status.Participants.Add(participant);
 
@@ -429,7 +433,8 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(participant.ParticipantTypeId, result.ParticipantTypeId);
             Assert.AreEqual(participant.ParticipantType.Name, result.ParticipantType);
             Assert.AreEqual(person.FullName, result.Name);
-            Assert.AreEqual(status.Status, result.Status);
+            Assert.AreEqual(status.Status, result.ParticipantStatus);
+            Assert.AreEqual(status.ParticipantStatusId, result.StatusId);
             Assert.AreEqual(history.RevisedOn, result.RevisedOn);
         }
 

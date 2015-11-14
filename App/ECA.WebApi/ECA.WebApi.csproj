@@ -505,6 +505,8 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\Admin\AddressesController.cs" />
     <Compile Include="Controllers\Admin\BookmarksController.cs" />
+    <Compile Include="Controllers\Admin\StudentCreationsController.cs" />
+    <Compile Include="Controllers\Admin\EducationLevelsController.cs" />
     <Compile Include="Controllers\Admin\USGovernmentAgenciesController.cs" />
     <Compile Include="Controllers\Admin\ParticipantStatusesController.cs" />
     <Compile Include="Controllers\Admin\PhoneNumbersController.cs" />
@@ -537,6 +539,7 @@
     <Compile Include="Models\Admin\CreateOrganizationBindingModel.cs" />
     <Compile Include="Models\Admin\ParticipantOrganizationBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedParticipantPersonBindingModel.cs" />
+    <Compile Include="Models\Person\UpdatedParticipantStudentVisitorBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedParticipantPersonSevisBindingModel.cs" />
     <Compile Include="Models\Search\DeleteIndexBindingModel.cs" />
     <Compile Include="Models\Search\DocumentSuggestResponseViewModel.cs" />
