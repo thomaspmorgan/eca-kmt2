@@ -667,6 +667,7 @@ namespace CAM.Business.Test.Service
             {
                 RoleName = "role",
                 RoleId = 1,
+                IsActive = true
             };
             var roleResourcePermission = new RoleResourcePermission
             {
@@ -702,6 +703,81 @@ namespace CAM.Business.Test.Service
                 Assert.IsTrue(firstPermission.IsAllowed);
                 Assert.AreEqual(resource.ResourceId, firstPermission.ResourceId);
                 Assert.AreEqual(permission.PermissionId, firstPermission.PermissionId);
+            };
+            var results = service.CreateGetAllowedPermissionsByPrincipalIdQuery(principal.PrincipalId).ToList();
+            tester(results);
+        }
+
+        [TestMethod]
+        public void TestCreateGetAllowedPermissionsByPrincipalIdQuery_PrincipalHasRole_RoleIsInactive()
+        {
+            var principal = new Principal
+            {
+                PrincipalId = 1
+            };
+            var userAccount = new UserAccount
+            {
+                DisplayName = "display",
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                EmailAddress = "someone@isp.com"
+            };
+            principal.UserAccount = userAccount;
+            userAccount.Principal = principal;
+
+            var resourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Project.Value,
+                ResourceTypeId = ResourceType.Project.Id
+            };
+            var resource = new Resource
+            {
+                ResourceId = 1,
+                ResourceType = resourceType,
+                ResourceTypeId = resourceType.ResourceTypeId,
+                ForeignResourceId = 2,
+            };
+            var permission = new CAM.Data.Permission
+            {
+                PermissionId = CAM.Data.Permission.EditProject.Id,
+                PermissionName = CAM.Data.Permission.EditProject.Value,
+                PermissionDescription = "desc"
+            };
+            var role = new Role
+            {
+                RoleName = "role",
+                RoleId = 1,
+                IsActive = false
+            };
+            var roleResourcePermission = new RoleResourcePermission
+            {
+                Permission = permission,
+                PermissionId = permission.PermissionId,
+                Resource = resource,
+                ResourceId = resource.ResourceId,
+                Role = role,
+                RoleId = role.RoleId,
+                AssignedOn = DateTimeOffset.UtcNow,
+            };
+            var principalRole = new PrincipalRole
+            {
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Role = role,
+                RoleId = role.RoleId
+            };
+            context.Principals.Add(principal);
+            context.UserAccounts.Add(userAccount);
+            context.ResourceTypes.Add(resourceType);
+            context.Resources.Add(resource);
+            context.Permissions.Add(permission);
+            context.Roles.Add(role);
+            context.RoleResourcePermissions.Add(roleResourcePermission);
+            context.PrincipalRoles.Add(principalRole);
+
+            Action<IList<IPermission>> tester = (testPermissions) =>
+            {
+                Assert.AreEqual(0, testPermissions.Count);
             };
             var results = service.CreateGetAllowedPermissionsByPrincipalIdQuery(principal.PrincipalId).ToList();
             tester(results);
@@ -875,192 +951,6 @@ namespace CAM.Business.Test.Service
                 Assert.AreEqual(1, testPermissions.Count);
                 var firstPermission = testPermissions.First();
                 Assert.IsFalse(firstPermission.IsAllowed);
-            };
-            var results = service.CreateGetAllowedPermissionsByPrincipalIdQuery(principal.PrincipalId).ToList();
-            tester(results);
-        }
-
-        [TestMethod]
-        public void TestCreateGetAllowedPermissionsByPrincipalIdQuery_PrincipalHasRole_SomeOtherPermissionAssignmentNotAllowed()
-        {
-            var principal = new Principal
-            {
-                PrincipalId = 1
-            };
-            var userAccount = new UserAccount
-            {
-                DisplayName = "display",
-                Principal = principal,
-                PrincipalId = principal.PrincipalId,
-                EmailAddress = "someone@isp.com"
-            };
-            principal.UserAccount = userAccount;
-            userAccount.Principal = principal;
-
-            var resourceType = new ResourceType
-            {
-                ResourceTypeName = ResourceType.Project.Value,
-                ResourceTypeId = ResourceType.Project.Id
-            };
-            var resource = new Resource
-            {
-                ResourceId = 1,
-                ResourceType = resourceType,
-                ResourceTypeId = resourceType.ResourceTypeId,
-                ForeignResourceId = 2,
-            };
-            var permission = new CAM.Data.Permission
-            {
-                PermissionId = CAM.Data.Permission.EditProject.Id,
-                PermissionName = CAM.Data.Permission.EditProject.Value,
-            };
-            var someOtherPermission = new CAM.Data.Permission
-            {
-                PermissionId = CAM.Data.Permission.EditProgram.Id,
-                PermissionName = CAM.Data.Permission.EditProgram.Value
-            };
-            var role = new Role
-            {
-                RoleName = "role",
-                RoleId = 1,
-            };
-            var roleResourcePermission = new RoleResourcePermission
-            {
-                Permission = permission,
-                PermissionId = permission.PermissionId,
-                Resource = resource,
-                ResourceId = resource.ResourceId,
-                Role = role,
-                RoleId = role.RoleId
-            };
-            var principalRole = new PrincipalRole
-            {
-                Principal = principal,
-                PrincipalId = principal.PrincipalId,
-                Role = role,
-                RoleId = role.RoleId
-            };
-            var permissionAssignment = new PermissionAssignment
-            {
-                IsAllowed = false,
-                Permission = someOtherPermission,
-                PermissionId = someOtherPermission.PermissionId,
-                Principal = principal,
-                PrincipalId = principal.PrincipalId,
-                Resource = resource,
-                ResourceId = resource.ResourceId
-            };
-            context.PermissionAssignments.Add(permissionAssignment);
-            context.Principals.Add(principal);
-            context.UserAccounts.Add(userAccount);
-            context.ResourceTypes.Add(resourceType);
-            context.Resources.Add(resource);
-            context.Permissions.Add(permission);
-            context.Roles.Add(role);
-            context.RoleResourcePermissions.Add(roleResourcePermission);
-            context.PrincipalRoles.Add(principalRole);
-
-            Action<IList<IPermission>> tester = (testPermissions) =>
-            {
-                Assert.AreEqual(1, testPermissions.Count);
-                var firstPermission = testPermissions.First();
-                Assert.AreEqual(principal.PrincipalId, firstPermission.PrincipalId);
-                Assert.IsTrue(firstPermission.IsAllowed);
-                Assert.AreEqual(resource.ResourceId, firstPermission.ResourceId);
-                Assert.AreEqual(permission.PermissionId, firstPermission.PermissionId);
-            };
-            var results = service.CreateGetAllowedPermissionsByPrincipalIdQuery(principal.PrincipalId).ToList();
-            tester(results);
-        }
-
-        [TestMethod]
-        public void TestCreateGetAllowedPermissionsByPrincipalIdQuery_PrincipalHasRole_OtherPrincipalHasNotAllowedPermissionAssignment()
-        {
-            var principal = new Principal
-            {
-                PrincipalId = 1
-            };
-            var userAccount = new UserAccount
-            {
-                DisplayName = "display",
-                Principal = principal,
-                PrincipalId = principal.PrincipalId,
-                EmailAddress = "someone@isp.com"
-            };
-            principal.UserAccount = userAccount;
-            userAccount.Principal = principal;
-
-            var resourceType = new ResourceType
-            {
-                ResourceTypeName = ResourceType.Project.Value,
-                ResourceTypeId = ResourceType.Project.Id
-            };
-            var resource = new Resource
-            {
-                ResourceId = 1,
-                ResourceType = resourceType,
-                ResourceTypeId = resourceType.ResourceTypeId,
-                ForeignResourceId = 2,
-            };
-            var permission = new CAM.Data.Permission
-            {
-                PermissionId = CAM.Data.Permission.EditProject.Id,
-                PermissionName = CAM.Data.Permission.EditProject.Value,
-            };
-            var role = new Role
-            {
-                RoleName = "role",
-                RoleId = 1,
-            };
-            var roleResourcePermission = new RoleResourcePermission
-            {
-                Permission = permission,
-                PermissionId = permission.PermissionId,
-                Resource = resource,
-                ResourceId = resource.ResourceId,
-                Role = role,
-                RoleId = role.RoleId
-            };
-            var principalRole = new PrincipalRole
-            {
-                Principal = principal,
-                PrincipalId = principal.PrincipalId,
-                Role = role,
-                RoleId = role.RoleId
-            };
-            var someOtherPrincipal = new Principal
-            {
-                PrincipalId = 100,
-            };
-            var permissionAssignment = new PermissionAssignment
-            {
-                IsAllowed = false,
-                Permission = permission,
-                PermissionId = permission.PermissionId,
-                Principal = someOtherPrincipal,
-                PrincipalId = someOtherPrincipal.PrincipalId,
-                Resource = resource,
-                ResourceId = resource.ResourceId
-            };
-            context.Principals.Add(someOtherPrincipal);
-            context.PermissionAssignments.Add(permissionAssignment);
-            context.Principals.Add(principal);
-            context.UserAccounts.Add(userAccount);
-            context.ResourceTypes.Add(resourceType);
-            context.Resources.Add(resource);
-            context.Permissions.Add(permission);
-            context.Roles.Add(role);
-            context.RoleResourcePermissions.Add(roleResourcePermission);
-            context.PrincipalRoles.Add(principalRole);
-
-            Action<IList<IPermission>> tester = (testPermissions) =>
-            {
-                Assert.AreEqual(1, testPermissions.Count);
-                var firstPermission = testPermissions.First();
-                Assert.AreEqual(principal.PrincipalId, firstPermission.PrincipalId);
-                Assert.IsTrue(firstPermission.IsAllowed);
-                Assert.AreEqual(resource.ResourceId, firstPermission.ResourceId);
-                Assert.AreEqual(permission.PermissionId, firstPermission.PermissionId);
             };
             var results = service.CreateGetAllowedPermissionsByPrincipalIdQuery(principal.PrincipalId).ToList();
             tester(results);

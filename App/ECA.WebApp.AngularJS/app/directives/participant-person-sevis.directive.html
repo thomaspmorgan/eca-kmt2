@@ -397,12 +397,12 @@
     </div>
     <div ng-if="view.FundingEdit">
         <form name="fundingEditForm" class="rowalt" ng-show="view.Funding">
-            <div class="row row4">
+        <div class="row row4">
                 <div class="pull-right" style="padding-right:10px">
-                    <button ng-click="saveFunding()" class="btn btn-success" ng-disabled="fundingEditForm.$invalid || fundingEditForm.$pristine">Save</button>
-                    <button ng-click="view.FundingEdit=false" class="btn btn-cancel">Cancel</button>
-                </div>
+                <button ng-click="saveFunding()" class="btn btn-success" ng-disabled="fundingEditForm.$invalid || fundingEditForm.$pristine">Save</button>
+                <button ng-click="view.FundingEdit=false" class="btn btn-cancel">Cancel</button>
             </div>
+        </div>
             <div class="row row4">
                 <div class="col-md-2">
                     <label class="title-label">Sponsor</label>

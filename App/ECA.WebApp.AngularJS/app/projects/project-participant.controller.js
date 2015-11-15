@@ -58,6 +58,11 @@ angular.module('staticApp')
       $scope.studentVisitorInfo = {};
       $scope.participantInfo = {};
 
+      $scope.actions = {
+          "Select Action": undefined,
+          "Send To SEVIS": 1
+      };
+
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;
       var projectId = $stateParams.projectId;
@@ -334,6 +339,7 @@ angular.module('staticApp')
           return ParticipantPersonsSevisService.updateParticipantPersonsSevis(sevisInfo)
           .then(function (data) {
               NotificationService.showSuccessMessage('Participant SEVIS info saved successfully.');
+              $scope.sevisInfo[participantId] = data.data;
               $scope.sevisInfo[participantId].show = true;
           }, function (error) {
               $log.error('Unable to save participant SEVIS info for participantId: ' + participantId);
@@ -343,6 +349,23 @@ angular.module('staticApp')
 
       $scope.saveSevisInfo = function (participantId) {
           saveSevisInfoById(participantId);
+      };
+
+      function saveStudentVisitorById(participantId) {
+          var studentVisitorInfo = $scope.studentVisitorInfo[participantId];
+          return ParticipantStudentVisitorService.updateParticipantStudentVisitor(studentVisitorInfo)
+          .then(function (data) {
+              NotificationService.showSuccessMessage('Participant student visitor info saved successfully.');
+              $scope.studentVisitorInfo[participantId] = data.data;
+              $scope.studentVisitorInfo[participantId].show = true;
+          }, function (error) {
+              $log.error('Unable to save participant studdent visitor info for participantId: ' + participantId);
+              NotificationService.showErrorMessage('Unable to save participant student visitor info for participant: ' + participantId + '.');
+          });
+      };
+
+      $scope.saveStudentVisitorInfo = function (participantId) {
+          saveStudentVisitorById(participantId);
       };
 
       $scope.onSevisTabSelected = function (participantId) {
@@ -391,11 +414,14 @@ angular.module('staticApp')
       }
 
       $scope.selectedActionChanged = function () {
+
+          console.log($scope.selectedAction);
+
           $scope.selectAll = false;
           $scope.selectedParticipants = {};
           var tableState = $scope.getParticipantsTableState();
           tableState.filter = [];
-          if ($scope.selectedAction === "Send To SEVIS") {
+          if ($scope.selectedAction === 1) {
               tableState.filter = { property: 'sevisStatus', comparison: 'eq', value: 'Ready To Submit' };
           }
           $scope.getParticipants(tableState);
@@ -408,7 +434,7 @@ angular.module('staticApp')
       }
 
       $scope.applyAction = function () {
-          if ($scope.selectedAction === "Send To SEVIS") {
+          if ($scope.selectedAction === 1) {
               var participants = Object.keys($scope.selectedParticipants).map(Number);
               ParticipantPersonsSevisService.sendToSevis(participants)
               .then(function (results) {

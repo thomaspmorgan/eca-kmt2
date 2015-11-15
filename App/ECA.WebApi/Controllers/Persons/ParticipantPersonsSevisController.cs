@@ -116,7 +116,8 @@ namespace ECA.WebApi.Controllers.Persons
                 var businessUser = userProvider.GetBusinessUser(currentUser);
                 var participantPersonSevisDTO = await service.UpdateAsync(model.ToUpdatedParticipantPersonSevis(businessUser));
                 await service.SaveChangesAsync();
-                return Ok();
+                participantPersonSevisDTO = await service.GetParticipantPersonsSevisByIdAsync(participantPersonSevisDTO.ParticipantId);
+                return Ok(participantPersonSevisDTO);
             }
             else
             {

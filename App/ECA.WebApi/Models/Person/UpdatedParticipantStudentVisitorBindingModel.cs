@@ -1,40 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Service.Persons;
+using ECA.Business.Service;
 
-namespace ECA.Business.Queries.Models.Persons
+namespace ECA.WebApi.Models.Person
 {
     /// <summary>
-    /// A ParticipantStudentVisitorDTO is used to represent a participant that is a Student Visitor in the ECA system and their associated related information.
+    /// Binding model for editing membership
     /// </summary>
-    public class ParticipantStudentVisitorDTO
+    public class UpdatedParticipantStudentVisitorBindingModel
     {
-        public ParticipantStudentVisitorDTO()
-        {
-
-        }
         /// <summary>
         /// Gets or sets the students id.
         /// </summary>
         public int ParticipantId { get; set; }
 
         /// <summary>
-        /// Gets or sets the project id,
-        /// </summary>
-        public int ProjectId { get; set; }
-
-        /// <summary>
         /// Gets or sets the student's education Level id
         /// </summary>
         public int? EducationLevelId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the student's education Level
-        /// </summary>
-        public string EducationLevel { get; set; }
 
         /// <summary>
         /// Gets or sets the student's education Level
@@ -47,29 +30,14 @@ namespace ECA.Business.Queries.Models.Persons
         public int? PrimaryMajorId { get; set; }
 
         /// <summary>
-        /// Gets or sets the student's PrimaryMajor
-        /// </summary>
-        public string PrimaryMajor { get; set; }
-
-        /// <summary>
         /// Gets or sets the student's SecondaryMajor Id
         /// </summary>
         public int? SecondaryMajorId { get; set; }
 
         /// <summary>
-        /// Gets or sets the student's SecondaryMajor
-        /// </summary>
-        public string SecondaryMajor { get; set; }
-
-        /// <summary>
         /// Gets or sets the student's Minor Id
         /// </summary>
         public int? MinorId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the student's Minor
-        /// </summary>
-        public string Minor { get; set; }
 
         /// <summary>
         /// Gets or sets the student's length of study in months
@@ -146,5 +114,37 @@ namespace ECA.Business.Queries.Models.Persons
         /// </summary>
         public decimal? EmploymentFunding { get; set; }
 
+            /// <summary>
+            /// Convert binding model to business model 
+            /// </summary>
+            /// <param name="user">The user updating the membership</param>
+            /// <returns>Update membership business model</returns>
+            public UpdatedParticipantStudentVisitor ToUpdatedParticipantStudentVisitor(User user)
+        {
+            return new UpdatedParticipantStudentVisitor(
+                updater: user,
+                participantId: this.ParticipantId,
+                educationLevelId: this.EducationLevelId,
+                educationLevelOtherRemarks: this.EducationLevelOtherRemarks,
+                primaryMajorId: this.PrimaryMajorId,
+                secondaryMajorId: this.SecondaryMajorId,
+                minorId: this.MinorId,
+                lengthOfStudy: this.LengthOfStudy,
+                isEnglishLanguageProficiencyReqd: this.IsEnglishLanguageProficiencyReqd,
+                isEnglishLanguageProficiencyMet: this.IsEnglishLanguageProficiencyMet,
+                englishLanguageProficiencyNotReqdReason: this.EnglishLanguageProficiencyNotReqdReason,
+                tuitionExpense: this.TuitionExpense,
+                livingExpense: this.LivingExpense,
+                dependentExpense: this.DependentExpense,
+                otherExpense: this.OtherExpense,
+                expenseRemarks: this.ExpenseRemarks,
+                personalFunding: this.PersonalFunding,
+                schoolFunding: this.SchoolFunding,
+                schoolFundingRemarks: this.SchoolFundingRemarks,
+                otherFunding: this.OtherFunding,
+                otherFundingRemarks: this.OtherFundingRemarks,
+                employmentFunding: this.EmploymentFunding
+            );
+        }
     }
 }

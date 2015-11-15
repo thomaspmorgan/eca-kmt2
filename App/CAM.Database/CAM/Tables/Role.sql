@@ -13,3 +13,7 @@
     CONSTRAINT [FK_Role_ToResource] FOREIGN KEY ([ResourceId]) REFERENCES [cam].[Resource]([ResourceId]), 
     CONSTRAINT [FK_Role_ToResourceType] FOREIGN KEY ([ResourceTypeId]) REFERENCES [cam].[ResourceType]([ResourceTypeId]) 
 )
+
+GO
+
+CREATE INDEX [IX_Role_RoleName] ON [cam].[Role] ([RoleName])

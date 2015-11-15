@@ -229,6 +229,8 @@
     <Compile Include="Service\Persons\PersonSevisServiceValidationEntity.cs" />
     <Compile Include="Service\Persons\PersonSevisServiceValidator.cs" />
     <Compile Include="Service\Persons\SevisValidationService.cs" />
+    <Compile Include="Service\Persons\NewParticipantStudentVisitor.cs" />
+    <Compile Include="Service\Persons\UpdatedParticipantStudentVisitor.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonSevis.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPerson.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonSevisValidationEntity.cs" />
