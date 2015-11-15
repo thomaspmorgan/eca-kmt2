@@ -1,7 +1,8 @@
 ﻿using ECA.Business.Validation;
-using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Persons
 {
@@ -17,14 +18,13 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="entity"></param>
         /// <returns>List of errors</returns>
-        public IEnumerable<SevisValidationResult> TestSevisValidation(UpdatedParticipantPersonSevisValidationEntity entity)
+        public async Task<IQueryable<SevisValidationResult>> TestSevisValidation(UpdatedParticipantPersonSevisValidationEntity validationEntity)
         {
-            Contract.Requires(entity != null, "The sevis entity must not be null.");
+            Contract.Requires(validationEntity != null, "The validation entity must not be null.");
             var validator = new PersonSevisServiceValidator();
+            var results = await validator.ValidateUpdate(validationEntity).AsQueryable().ToListAsync();
 
-            var results = validator.ValidateUpdate(entity).ToList();
-
-            return results;
+            return results.AsQueryable();
         }
         
         //private string SerializeToXmlString(UpdatedParticipantPersonSevis updatedParticipantPersonSevis)

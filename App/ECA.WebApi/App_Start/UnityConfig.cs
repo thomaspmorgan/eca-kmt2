@@ -211,7 +211,7 @@ namespace ECA.WebApi.App_Start
                 IBusinessValidator<object, UpdatedParticipantPersonValidationEntity>,
                 ParticipantPersonServiceValidator>();
             container.RegisterType<
-                ISevisValidator<UpdatedParticipantPersonSevisValidationEntity>, 
+                ISevisValidator, 
                 PersonSevisServiceValidator>();
         }
 

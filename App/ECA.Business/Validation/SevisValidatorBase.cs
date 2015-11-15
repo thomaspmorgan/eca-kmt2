@@ -10,31 +10,20 @@ namespace ECA.Business.Validation
     /// </summary>
     /// <typeparam name="TUpdate">The update sevis entity type.</typeparam>
     [ContractClass(typeof(SevisValidatorBaseContract<>))]
-    public abstract class SevisValidatorBase<TUpdate> : ISevisValidator<TUpdate>
-        where TUpdate : class
+    public abstract class SevisValidatorBase<UpdatedParticipantPersonSevisValidationEntity> : ISevisValidator
     {
         private bool throwExceptionOnValidation;
-        
-        /// <summary>
-        /// Creates a new SevisValidatorBase.  The validator can be configured to throw an exception
-        /// if sevis validation rules are broken, i.e. validation fails.
-        /// </summary>
-        /// <param name="throwExceptionOnValidation">True, to throw on exception if validation fails.</param>
+
         public SevisValidatorBase(bool throwExceptionOnValidation = true)
         {
             this.throwExceptionOnValidation = throwExceptionOnValidation;
         }
 
-        /// <summary>
-        /// Validates the update sevis entity.
-        /// </summary>
-        /// <param name="validationEntity">The validation entity.</param>
-        /// <returns>The collection of validation results.</returns>
-        public IEnumerable<SevisValidationResult> ValidateUpdate(TUpdate validationEntity)
+        public IEnumerable<SevisValidationResult> ValidateUpdate(Service.Persons.UpdatedParticipantPersonSevisValidationEntity validationEntity)
         {
             if (throwExceptionOnValidation)
             {
-                var results = DoValidateUpdate(validationEntity).ToList();
+                var results = DoValidateUpdate(validationEntity);
                 DoThrowException(results);
                 return results;
             }
@@ -44,9 +33,9 @@ namespace ECA.Business.Validation
             }
         }
 
-        private void DoThrowException(List<SevisValidationResult> validationResults)
+        private void DoThrowException(IEnumerable<SevisValidationResult> validationResults)
         {
-            if (validationResults.Count > 0)
+            if (validationResults.Count() > 0)
             {
                 throw new ValidationException("There was an error validating the changes.", validationResults);
             }
@@ -57,7 +46,7 @@ namespace ECA.Business.Validation
         /// </summary>
         /// <param name="validationEntity">The entity to validate.</param>
         /// <returns>The collection of validation results.</returns>
-        public abstract IEnumerable<SevisValidationResult> DoValidateUpdate(TUpdate validationEntity);
+        public abstract IEnumerable<SevisValidationResult> DoValidateUpdate(Service.Persons.UpdatedParticipantPersonSevisValidationEntity validationEntity);
     }
 
     /// <summary>
@@ -65,15 +54,14 @@ namespace ECA.Business.Validation
     /// </summary>
     /// <typeparam name="TUpdate"></typeparam>
     [ContractClassFor(typeof(SevisValidatorBase<>))]
-    public abstract class SevisValidatorBaseContract<TUpdate> : SevisValidatorBase<TUpdate>
-        where TUpdate : class
+    public abstract class SevisValidatorBaseContract<UpdatedParticipantPersonSevisValidationEntity> : SevisValidatorBase<UpdatedParticipantPersonSevisValidationEntity>
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="validationEntity"></param>
         /// <returns></returns>
-        public override IEnumerable<SevisValidationResult> DoValidateUpdate(TUpdate validationEntity)
+        public override IEnumerable<SevisValidationResult> DoValidateUpdate(Service.Persons.UpdatedParticipantPersonSevisValidationEntity validationEntity)
         {
             Contract.Ensures(Contract.Result<IEnumerable<SevisValidationResult>>() != null, "The sevis validator must return a non null value.");
             return new List<SevisValidationResult>();

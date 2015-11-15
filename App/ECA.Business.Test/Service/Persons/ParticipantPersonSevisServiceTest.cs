@@ -6,7 +6,6 @@ using ECA.Data;
 using System.Linq;
 using ECA.Business.Service;
 using System.Collections.Generic;
-using ECA.Business.Queries.Models.Persons;
 
 namespace ECA.Business.Test.Service.Persons
 {
