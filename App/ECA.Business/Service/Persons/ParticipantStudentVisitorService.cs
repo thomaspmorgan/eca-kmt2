@@ -150,6 +150,18 @@ namespace ECA.Business.Service.Persons
             return await this.GetParticipantStudentVisitorByIdAsync(updatedParticipantStudentVisitor.ParticipantId);
         }
 
+        public async Task CreateParticipantStudentVisitor(int participantId, User creator)
+        {
+            var participant = await Context.Participants.FindAsync(participantId);
+            throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
+
+            var participantStudentVisitor = await Context.ParticipantStudentVisitors.FindAsync(participantId);
+            if (participantStudentVisitor == null)
+            {
+                DoCreateParticipantStudentVistor(participantId, creator);
+            }
+        }
+
         private void DoUpdate(ParticipantStudentVisitor participantStudentVisitor, UpdatedParticipantStudentVisitor updatedParticipantStudentVisitor)
         {
             //participantPersonValidator.ValidateUpdate(GetUpdatedPersonParticipantValidationEntity(participantType));
@@ -175,6 +187,15 @@ namespace ECA.Business.Service.Persons
             participantStudentVisitor.OtherFunding = updatedParticipantStudentVisitor.OtherFunding;
             participantStudentVisitor.OtherFundingRemarks = updatedParticipantStudentVisitor.OtherFundingRemarks;
             participantStudentVisitor.EmploymentFunding = updatedParticipantStudentVisitor.EmploymentFunding;
+        }
+
+        private void DoCreateParticipantStudentVistor(int participantId, User creator)
+        {
+            var newParticipantStudentVisitor = new NewParticipantStudentVisitor(creator,participantId);
+            var participantStudentVisitor = new ParticipantStudentVisitor();
+            participantStudentVisitor.ParticipantId = participantId;
+            newParticipantStudentVisitor.Audit.SetHistory(participantStudentVisitor);
+            Context.ParticipantStudentVisitors.Add(participantStudentVisitor);
         }
 
         private IQueryable<ParticipantStudentVisitor> CreateGetParticipantStudentVisitorByIdQuery(int participantId)

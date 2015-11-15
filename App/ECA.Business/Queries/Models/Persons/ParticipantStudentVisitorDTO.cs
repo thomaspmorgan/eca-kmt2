@@ -29,7 +29,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets or sets the student's education Level id
         /// </summary>
-        public int EducationLevelId { get; set; }
+        public int? EducationLevelId { get; set; }
 
         /// <summary>
         /// Gets or sets the student's education Level
@@ -44,7 +44,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets or sets the student's PrimaryMajor Id
         /// </summary>
-        public int PrimaryMajorId { get; set; }
+        public int? PrimaryMajorId { get; set; }
 
         /// <summary>
         /// Gets or sets the student's PrimaryMajor

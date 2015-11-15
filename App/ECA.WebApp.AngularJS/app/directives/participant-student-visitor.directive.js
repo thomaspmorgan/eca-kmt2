@@ -28,12 +28,12 @@
 
                 $scope.saveFinancialInfo = function () {
                     $scope.update({ participantId: $scope.participantid });
-                    $scope.view.FinancialInfoEdit = false;
+                    $scope.view.FundingEdit = false;
                 };
 
                 $scope.saveEducationInfo = function () {
                     $scope.update({ participantId: $scope.participantid });
-                    $scope.view.EducationInfoEdit = false;
+                    $scope.view.EducationalInformationEdit = false;
                 };
 
                 $scope.edit.searchFieldOfStudies = function (search) {

@@ -68,7 +68,7 @@
     <div ng-if="view.EducationalInformationEdit">
         <div class="row row4">
             <div class="pull-right">
-                <button ng-click="saveEducationInformation()" class="btn btn-success" ng-disabled="formEducationInformation.$invalid || formEducationInformation.$pristine">Save</button>
+                <button ng-click="saveEducationInfo()" class="btn btn-success" ng-disabled="formEducationInformation.$invalid || formEducationInformation.$pristine">Save</button>
                 <button ng-click="view.EducationalInformationEdit=false" class="btn btn-cancel">Cancel</button>
             </div>
         </div>
@@ -156,7 +156,7 @@
         </div>
     </div>
     <div ng-if="!view.FundingEdit">
-        <div ng-show="view.Funding">
+        <div ng-show="view.Funding" class="rowalt">
             <div class="row row3">
                 <div class="col-md-3"><h5>Expense</h5></div>
             </div>
@@ -280,7 +280,7 @@
     <div ng-if="view.FundingEdit">
         <div class="row row4">
             <div class="pull-right">
-                <button ng-click="saveFunding()" class="btn btn-success" ng-disabled="fundingEditForm.$invalid || fundingEditForm.$pristine">Save</button>
+                <button ng-click="saveFinancialInfo()" class="btn btn-success" ng-disabled="fundingEditForm.$invalid || fundingEditForm.$pristine">Save</button>
                 <button ng-click="view.FundingEdit=false" class="btn btn-cancel">Cancel</button>
             </div>
         </div>

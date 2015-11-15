@@ -17,7 +17,7 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Gets or sets the student's education Level id
         /// </summary>
-        public int EducationLevelId { get; set; }
+        public int? EducationLevelId { get; set; }
 
         /// <summary>
         /// Gets or sets the student's education Level
@@ -27,7 +27,7 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Gets or sets the student's PrimaryMajor Id
         /// </summary>
-        public int PrimaryMajorId { get; set; }
+        public int? PrimaryMajorId { get; set; }
 
         /// <summary>
         /// Gets or sets the student's SecondaryMajor Id
@@ -135,6 +135,7 @@ namespace ECA.WebApi.Models.Person
                 englishLanguageProficiencyNotReqdReason: this.EnglishLanguageProficiencyNotReqdReason,
                 tuitionExpense: this.TuitionExpense,
                 livingExpense: this.LivingExpense,
+                dependentExpense: this.DependentExpense,
                 otherExpense: this.OtherExpense,
                 expenseRemarks: this.ExpenseRemarks,
                 personalFunding: this.PersonalFunding,

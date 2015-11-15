@@ -33,24 +33,11 @@ namespace ECA.Data
         /// </summary>
         [Key]
         public int ParticipantId { get; set; }
-
-        /// <summary>
-        /// The Issue Reason Id
-        /// </summary>
-        [Required]
-        public int IssueReasonId { get; set; }
-
-        /// <summary>
-        /// The Issue Reason Id
-        /// </summary>
-        [ForeignKey("IssueReasonId")]
-        public StudentCreation IssueReason { get; set; }
-
+        
         /// <summary>
         /// The educational level ID of the student
         /// </summary>
-        [Required]
-        public int EducationLevelId {get; set;}
+        public int? EducationLevelId {get; set;}
 
         /// <summary>
         /// The educational level of the student
@@ -66,8 +53,7 @@ namespace ECA.Data
         /// <summary>
         /// Primary Major Id
         /// </summary>
-        [Required]
-        public int PrimaryMajorId { get; set; }
+        public int? PrimaryMajorId { get; set; }
 
         /// <summary>
         /// Primary Major
