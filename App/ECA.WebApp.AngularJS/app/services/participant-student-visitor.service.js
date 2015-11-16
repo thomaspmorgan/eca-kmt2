@@ -11,7 +11,8 @@
         var service = {
             getParticipantStudentVisitors: getParticipantStudentVisitors,
             getParticipantStudentVisitorsByProject: getParticipantStudentVisitorsByProject,
-            getParticipantStudentVisitorById: getParticipantStudentVisitorById
+            getParticipantStudentVisitorById: getParticipantStudentVisitorById,
+            updateParticipantStudentVisitor: updateParticipantStudentVisitor
         };
 
         return service;
@@ -37,6 +38,12 @@
 
         function getParticipantStudentVisitorById(id) {
             return DragonBreath.get('ParticipantStudentVisitors', id);
+        };
+
+
+        function updateParticipantStudentVisitor(studentVisitorInfo) {
+            var path = 'ParticipantStudentVisitors';
+            return DragonBreath.save(studentVisitorInfo, path);
         };
     }
 })();

@@ -339,6 +339,7 @@ angular.module('staticApp')
           return ParticipantPersonsSevisService.updateParticipantPersonsSevis(sevisInfo)
           .then(function (data) {
               NotificationService.showSuccessMessage('Participant SEVIS info saved successfully.');
+              $scope.sevisInfo[participantId] = data.data;
               $scope.sevisInfo[participantId].show = true;
           }, function (error) {
               $log.error('Unable to save participant SEVIS info for participantId: ' + participantId);
@@ -348,6 +349,23 @@ angular.module('staticApp')
 
       $scope.saveSevisInfo = function (participantId) {
           saveSevisInfoById(participantId);
+      };
+
+      function saveStudentVisitorById(participantId) {
+          var studentVisitorInfo = $scope.studentVisitorInfo[participantId];
+          return ParticipantStudentVisitorService.updateParticipantStudentVisitor(studentVisitorInfo)
+          .then(function (data) {
+              NotificationService.showSuccessMessage('Participant student visitor info saved successfully.');
+              $scope.studentVisitorInfo[participantId] = data.data;
+              $scope.studentVisitorInfo[participantId].show = true;
+          }, function (error) {
+              $log.error('Unable to save participant studdent visitor info for participantId: ' + participantId);
+              NotificationService.showErrorMessage('Unable to save participant student visitor info for participant: ' + participantId + '.');
+          });
+      };
+
+      $scope.saveStudentVisitorInfo = function (participantId) {
+          saveStudentVisitorById(participantId);
       };
 
       $scope.onSevisTabSelected = function (participantId) {
