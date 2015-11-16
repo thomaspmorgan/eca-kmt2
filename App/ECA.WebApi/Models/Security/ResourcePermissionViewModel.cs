@@ -19,5 +19,33 @@ namespace ECA.WebApi.Models.Security
         /// The id of the permission.
         /// </summary>
         public int PermissionId { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            var otherType = obj as ResourcePermissionViewModel;
+            if (otherType == null)
+            {
+                return false;
+            }
+            return this.PermissionId == otherType.PermissionId;
+        }
+
+        /// <summary>
+        /// Returns the hash code.
+        /// </summary>
+        /// <returns>The hash code.</returns>
+        public override int GetHashCode()
+        {
+            return this.PermissionId.GetHashCode();
+        }
     }
 }

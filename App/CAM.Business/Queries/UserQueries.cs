@@ -39,6 +39,12 @@ namespace CAM.Business.Queries
             return query;
         }
 
+        /// <summary>
+        /// Returns the permissions for the principal with the given id.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="principalId">The id of the principal.</param>
+        /// <returns>The permissions for the principal with the given id.</returns>
         public static IQueryable<SimplePermission> CreateGetSimpleResourceAuthorizationsByPrincipalId(CamModel context, int principalId)
         {
             Contract.Requires(context != null, "The context must not be null.");
@@ -77,7 +83,11 @@ namespace CAM.Business.Queries
                                               join principalRole in context.PrincipalRoles
                                               on roleResourcePermission.RoleId equals principalRole.RoleId
 
+                                              join role in context.Roles
+                                              on roleResourcePermission.RoleId equals role.RoleId
+
                                               where principalRole.PrincipalId == principalId
+                                              && role.IsActive
 
                                               group roleResourcePermission by new
                                               {

@@ -23,6 +23,7 @@ namespace ECA.WebApi.Security
         public UserCache(IWebApiUser user, User camUser, bool isValidCamUser, IEnumerable<IPermission> permissions = null)
         {
             Contract.Requires(user != null, "The user must not be null.");
+            Contract.Requires(camUser != null, "The cam user must not be null.");
             this.UserId = user.Id;
             this.Permissions = permissions ?? new List<IPermission>();
             this.DateCached = DateTime.UtcNow;

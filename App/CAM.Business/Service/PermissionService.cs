@@ -256,13 +256,11 @@ namespace CAM.Business.Service
         /// <returns>The granted, revoked, and inherited permissions of the principal with the given id.</returns>
         public IQueryable<IPermission> CreateGetAllowedPermissionsByPrincipalIdQuery(int principalId)
         {
-            var query = ResourceQueries.CreateGetResourceAuthorizationsQuery(this.Context)
-                .Where(x => x.PrincipalId == principalId);
-            var groupedQuery = CreateCollapsePermissionsQuery(query)
+            var query = UserQueries.CreateGetSimpleResourceAuthorizationsByPrincipalId(this.Context, principalId)
                 .OrderBy(x => x.PrincipalId)
                 .ThenBy(x => x.ResourceId)
                 .ThenBy(x => x.PermissionId);
-            return groupedQuery;
+            return query;
         }
 
         /// <summary>
@@ -286,36 +284,6 @@ namespace CAM.Business.Service
         }
 
         /// <summary>
-        /// Creates a query to group the given permissions by principal, resource, and permission and calculate whether
-        /// the permission is allowed.
-        /// </summary>
-        /// <param name="permissions">The permissions to group.</param>
-        /// <returns>A query to group the given permissions and calculate whether that permission is allowed.</returns>
-        public IQueryable<SimplePermission> CreateCollapsePermissionsQuery(IQueryable<IPermission> permissions)
-        {
-            Contract.Requires(permissions != null, "The permissions must not be null.");
-            var groupedPermissionsQuery = from permission in permissions
-                                         group permission by new
-                                         {
-                                             ResourceId = permission.ResourceId,
-                                             PermissionId = permission.PermissionId,
-                                             PrincipalId = permission.PrincipalId,
-                                             ForeignResourceId = permission.ForeignResourceId,
-                                             ResourceTypeId = permission.ResourceTypeId
-                                         } into g
-                                         select new SimplePermission
-                                         {
-                                             PermissionId = g.Key.PermissionId,
-                                             PrincipalId = g.Key.PrincipalId,
-                                             ResourceId = g.Key.ResourceId,
-                                             ForeignResourceId = g.Key.ForeignResourceId,
-                                             ResourceTypeId = g.Key.ResourceTypeId,
-                                             IsAllowed = !(g.Where(x => !x.IsAllowed).Count() > 0)
-                                         };
-            return groupedPermissionsQuery;
-        }
-
-        /// <summary>
         /// Returns true, if the given permissions contain a permission for the given resource and permission by id.
         /// </summary>
         /// <param name="resourceId">The resource id.</param>
@@ -325,13 +293,17 @@ namespace CAM.Business.Service
         /// <returns>True, if the given permissions contains the desired permission, otherwise, false.</returns>
         public bool HasPermission(int resourceId, int? parentResourceId, int permissionId, List<IPermission> permissions)
         {
-            var queryablePermissions = permissions.AsQueryable();
-            var groupedPermissions = CreateCollapsePermissionsQuery(queryablePermissions).Where(x => x.PermissionId == permissionId);
-            var resoucePermission = groupedPermissions.Where(x => x.ResourceId == resourceId).FirstOrDefault();
+            var resoucePermission = permissions
+                .Where(x => x.PermissionId == permissionId)
+                .Where(x => x.ResourceId == resourceId)
+                .FirstOrDefault();
             IPermission parentPermission = null;
             if (parentResourceId.HasValue)
             {
-                parentPermission = groupedPermissions.Where(x => x.ResourceId == parentResourceId.Value).FirstOrDefault();
+                parentPermission = permissions
+                    .Where(x => x.PermissionId == permissionId)
+                    .Where(x => x.ResourceId == parentResourceId.Value)                    
+                    .FirstOrDefault();
             }
             if (resoucePermission != null)
             {
