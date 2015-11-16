@@ -8,7 +8,6 @@ namespace ECA.Business.Validation
     /// <summary>
     /// The SevisValidatorBase class is used to validate entities before creation or update.
     /// </summary>
-    /// <typeparam name="TUpdate">The update sevis entity type.</typeparam>
     [ContractClass(typeof(SevisValidatorBaseContract<>))]
     public abstract class SevisValidatorBase<UpdatedParticipantPersonSevisValidationEntity> : ISevisValidator
     {
@@ -19,17 +18,17 @@ namespace ECA.Business.Validation
             this.throwExceptionOnValidation = throwExceptionOnValidation;
         }
 
-        public IEnumerable<SevisValidationResult> ValidateUpdate(Service.Persons.UpdatedParticipantPersonSevisValidationEntity validationEntity)
+        public IEnumerable<SevisValidationResult> ValidateSevis(Service.Persons.UpdatedParticipantPersonSevisValidationEntity validationEntity)
         {
             if (throwExceptionOnValidation)
             {
-                var results = DoValidateUpdate(validationEntity);
+                var results = DoValidateSevis(validationEntity);
                 DoThrowException(results);
                 return results;
             }
             else
             {
-                return DoValidateUpdate(validationEntity);
+                return DoValidateSevis(validationEntity);
             }
         }
 
@@ -46,7 +45,7 @@ namespace ECA.Business.Validation
         /// </summary>
         /// <param name="validationEntity">The entity to validate.</param>
         /// <returns>The collection of validation results.</returns>
-        public abstract IEnumerable<SevisValidationResult> DoValidateUpdate(Service.Persons.UpdatedParticipantPersonSevisValidationEntity validationEntity);
+        public abstract IEnumerable<SevisValidationResult> DoValidateSevis(Service.Persons.UpdatedParticipantPersonSevisValidationEntity validationEntity);
     }
 
     /// <summary>
@@ -61,7 +60,7 @@ namespace ECA.Business.Validation
         /// </summary>
         /// <param name="validationEntity"></param>
         /// <returns></returns>
-        public override IEnumerable<SevisValidationResult> DoValidateUpdate(Service.Persons.UpdatedParticipantPersonSevisValidationEntity validationEntity)
+        public override IEnumerable<SevisValidationResult> DoValidateSevis(Service.Persons.UpdatedParticipantPersonSevisValidationEntity validationEntity)
         {
             Contract.Ensures(Contract.Result<IEnumerable<SevisValidationResult>>() != null, "The sevis validator must return a non null value.");
             return new List<SevisValidationResult>();

@@ -14,7 +14,7 @@ namespace ECA.Business.Test.Service.Persons
     {
         private TestEcaContext context;
         private ParticipantPersonsSevisService sevisService;
-        private ParticipantPersonService personService;
+        //private ParticipantPersonService personService;
 
         [TestInitialize]
         public void TestInit()

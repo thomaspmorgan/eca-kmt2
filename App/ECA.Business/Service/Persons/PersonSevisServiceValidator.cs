@@ -15,7 +15,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="validationEntity">Entity to validate</param>
         /// <returns>Business validation results</returns>        
-        public override IEnumerable<SevisValidationResult> DoValidateUpdate(UpdatedParticipantPersonSevisValidationEntity validationEntity)
+        public override IEnumerable<SevisValidationResult> DoValidateSevis(UpdatedParticipantPersonSevisValidationEntity validationEntity)
         {
             if (validationEntity.participantPerson == null)
             {

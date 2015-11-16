@@ -22,7 +22,7 @@ namespace ECA.Business.Service.Persons
         {
             Contract.Requires(validationEntity != null, "The validation entity must not be null.");
             var validator = new PersonSevisServiceValidator();
-            var results = await validator.ValidateUpdate(validationEntity).AsQueryable().ToListAsync();
+            var results = await validator.ValidateSevis(validationEntity).AsQueryable().ToListAsync();
 
             return results.AsQueryable();
         }
