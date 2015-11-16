@@ -3,6 +3,7 @@ using ECA.Data;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Data.Entity.SqlServer;
 
 
 namespace ECA.Business.Service.Lookup
@@ -32,7 +33,7 @@ namespace ECA.Business.Service.Lookup
             return this.Context.StudentCreations.Select(x => new SimpleSevisLookupDTO
             {
                 Id = x.StudentCreationId,
-                Code = x.CreationCode.ToString(),
+                Code = x.CreationCode,
                 Description = x.Description
             });
         }

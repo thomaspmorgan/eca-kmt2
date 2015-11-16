@@ -29,8 +29,6 @@ namespace ECA.Business.Queries.Persons
                          {
                              ParticipantId = p.ParticipantId,
                              ProjectId = p.Participant.ProjectId,
-                             IssueReasonId = p.IssueReasonId,
-                             IssueReason = p.IssueReason == null ? string.Empty : p.IssueReason.Description,
                              EducationLevelId = p.EducationLevelId,
                              EducationLevel = p.EducationLevel == null ? string.Empty : p.EducationLevel.Description,
                              EducationLevelOtherRemarks = p.EducationLevelOtherRemarks,

@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="IVLP Organization Load - Oracle Dataset 2"
   DTS:PackageType="5"
-  DTS:VersionBuild="184"
-  DTS:VersionGUID="{83AD68B8-E642-47AB-B56A-CA298BD9F126}">
+  DTS:VersionBuild="187"
+  DTS:VersionGUID="{15F1FBBC-F0FC-4620-BFAA-BEBC3F05F66F}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -47,7 +47,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABVyKiXNb5h3ha3SIBmff7L8unwOBeLMJj8Fk4I7UqShwAAAAAOgAAAAAIAACAAAAC2tIxr7+4wjGEBSUFUJ8w0VRHlEJWbdIVmDT8cKrBKkCAAAAB+blZ0DHDeosPDTwxL+aBO9d7cmLmebsZc9YJBOHpMU0AAAADzsL/eQUdyNP7BehNcqz2MfciO1x0Iq+ubUzl7rH4jz5/us3XT/qrMmwDsFy0ky3bejo3oNICcWDAILQu9SaT5</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAD63+2I1ki7H6Q6erDBmj9oRZNP3W/F84bpX1TQ8IikdQAAAAAOgAAAAAIAACAAAAB82QsE1sD4QZImCFhtrKxYTuRqoHZgo+SgYnb+42PwGyAAAABJsHiKURj1kPwLcrc1UvbYFappVMruW0bvrCrJJeDCHkAAAAAfx92c+KoEjlgTmG4TQOue6oRF0xg82nC7YrkrETddR+gOfrblX8EALvstCUSAr/YzC2WghR6yvB/3wsQHSkM5</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -75,7 +75,7 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Create IVLP to KMT Organization Mapping XREF Table"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="3">
+      DTS:ThreadHint="2">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -93,7 +93,7 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Create IVLP to KMT Program Mapping  XREF Table"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="2">
+      DTS:ThreadHint="3">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -5811,7 +5811,7 @@ where [refTable].[Status] = ?</property>
       DTS:LocaleID="-1"
       DTS:ObjectName="Delete Existing Organization XREF rows (Completed)"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -5829,7 +5829,7 @@ where [refTable].[Status] = ?</property>
       DTS:LocaleID="-1"
       DTS:ObjectName="Update Parent Organization"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -6180,7 +6180,7 @@ where [refTable].[Status] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">true</Value>
+          type="q2:string">true</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -6190,7 +6190,7 @@ where [refTable].[Status] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>

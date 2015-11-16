@@ -4,13 +4,14 @@ using ECA.Core.Query;
 using System.Threading.Tasks;
 using ECA.Core.DynamicLinq;
 using System.Linq;
+using ECA.Core.Service;
 
 namespace ECA.Business.Service.Persons
 {
     /// <summary>
     /// An IParticipantPersonSevisService is capable of performing crud operations on participants and their SEVIS information.
     /// </summary>
-    public interface IParticipantStudentVisitorService
+    public interface IParticipantStudentVisitorService: ISaveable
     {
         /// <summary>
         /// Returns the participantStudentVisitors in the system.
@@ -55,6 +56,27 @@ namespace ECA.Business.Service.Persons
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>The participantStudentVisitor</returns>
         Task<ParticipantStudentVisitorDTO> GetParticipantStudentVisitorByIdAsync(int participantId);
+
+        /// <summary>
+        /// Updates a participant person student visitor info with given updated student visitor information.
+        /// </summary>
+        /// <param name="updatedParticipantPersonSevis">The updated participant person student visitor info.</param>
+        ParticipantStudentVisitorDTO Update(UpdatedParticipantStudentVisitor updatedPersonStudentVisitor);
+
+        /// <summary>
+        /// Updates a participant person student visitor info with given updated student visitor information.
+        /// </summary>
+        /// <param name="updatedParticipantPersonSevis">The updated participant person student visitor info.</param>
+        /// <returns>The task.</returns>
+        Task<ParticipantStudentVisitorDTO> UpdateAsync(UpdatedParticipantStudentVisitor updatedPersonStudentVisitor);
+
+        /// <summary>
+        /// Creates a new participant student visitor record
+        /// </summary>
+        /// <param name="participantId"></param>
+        /// <param name="creator"></param>
+        /// <returns></returns>
+        Task CreateParticipantStudentVisitor(int participantId, User creator);
 
     }
 }

@@ -147,6 +147,12 @@ angular.module('staticApp')
           },
           getSevisInternationalOrganizations: function (params) {
               return DragonBreath.getCached(params, 'internationalorganizations');
+          },
+          getSevisStudentCreations: function (params) {
+              return DragonBreath.getCached(params, 'studentcreations');
+          },
+          getSevisEducationLevels: function (params) {
+              return DragonBreath.getCached(params, 'educationlevels');
           }
       };
   });

@@ -4,10 +4,12 @@ using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
 using ECA.WebApi.Models.Query;
+using ECA.WebApi.Models.Person;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using ECA.WebApi.Security;
 
 namespace ECA.WebApi.Controllers.Persons
 {
@@ -24,15 +26,21 @@ namespace ECA.WebApi.Controllers.Persons
         private static readonly ExpressionSorter<ParticipantStudentVisitorDTO> DEFAULT_SORTER = new ExpressionSorter<ParticipantStudentVisitorDTO>(x => x.ParticipantId, SortDirection.Ascending);
 
         private IParticipantStudentVisitorService service;
+        private IParticipantService participantService;
+        private IUserProvider userProvider;
 
         /// <summary>
         /// Creates a new ParticipantStudentVisitorsController with the given service.
         /// </summary>
         /// <param name="service">The service.</param>
-        public ParticipantStudentVisitorsController(IParticipantStudentVisitorService service)
+        /// <param name="participantService">the participant service.</param>
+        /// <param name="userProvider">the user provider service.</param>
+        public ParticipantStudentVisitorsController(IParticipantStudentVisitorService service, IParticipantService participantService, IUserProvider userProvider)
         {
             Contract.Requires(service != null, "The participantPersonSevis service must not be null.");
             this.service = service;
+            this.participantService = participantService;
+            this.userProvider = userProvider;
         }
 
         /// <summary>
@@ -93,9 +101,48 @@ namespace ECA.WebApi.Controllers.Persons
             }
             else
             {
-                return NotFound();
+                var participant = await participantService.GetParticipantByIdAsync(participantId);
+                if (participant != null)
+                {
+                    var participantStudentVisitor = await NewParticipantStudentVisitorAsync(participantId);
+                    return Ok(participantStudentVisitor);
+                }
+                else
+                    return NotFound();
             }
         }
 
+
+        /// <summary>
+        /// Updates the new participantStudentVisitor with the given participantId.
+        /// </summary>
+        /// <param name="model">The new participantStudentVisitor.</param>
+        /// <returns>The saved participantStudentVisitor.</returns>
+        [Route("ParticipantStudentVisitors")]
+        public async Task<IHttpActionResult> PutParticipantStudentVisitorAsync([FromBody]UpdatedParticipantStudentVisitorBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var participantStudentVisitorDTO = await service.UpdateAsync(model.ToUpdatedParticipantStudentVisitor(businessUser));
+                await service.SaveChangesAsync();
+                participantStudentVisitorDTO = await service.GetParticipantStudentVisitorByIdAsync(participantStudentVisitorDTO.ParticipantId);
+                return Ok(participantStudentVisitorDTO);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+        
+        private async Task<ParticipantStudentVisitorDTO> NewParticipantStudentVisitorAsync(int participantId)
+        {
+            var currentUser = userProvider.GetCurrentUser();
+            var businessUser = userProvider.GetBusinessUser(currentUser);
+            await service.CreateParticipantStudentVisitor(participantId, businessUser);
+            await service.SaveChangesAsync();
+            return await service.GetParticipantStudentVisitorByIdAsync(participantId);
+        }
     }
 }
