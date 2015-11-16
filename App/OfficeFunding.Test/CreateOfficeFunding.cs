@@ -69,11 +69,14 @@ namespace OfficeFunding.Test
 
             //Add Outgoing Funding Item***
             //
-            AddOffFund.AddOffFundOut(browserWindow);
-            
+            //TestPropertyAttribute?
+
+            OutgoingFund.AddFundOut(browserWindow);
+
+            IncomingFund.AddFundIn(browserWindow);
 
 
-            
+
         }
 
         #region Additional test attributes
