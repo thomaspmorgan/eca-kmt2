@@ -26,6 +26,7 @@ namespace ECA.WebApi.Controllers.Persons
         private static readonly ExpressionSorter<ParticipantPersonSevisDTO> DEFAULT_SORTER = new ExpressionSorter<ParticipantPersonSevisDTO>(x => x.ParticipantId, SortDirection.Ascending);
 
         private IParticipantPersonsSevisService service;
+        private SevisValidationService validation;
         private IUserProvider userProvider;
 
         /// <summary>
@@ -164,6 +165,26 @@ namespace ECA.WebApi.Controllers.Persons
                 return BadRequest(ModelState);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="validationEntity"></param>
+        /// <returns>validation result</returns>
+        [Route("ParticipantPersonsSevis/ValidateSevis")]
+        public async Task<IHttpActionResult> ValidateSevisAsync(UpdatedParticipantPersonSevisValidationEntity validationEntity)
+        {
+            if (ModelState.IsValid)
+            {
+                var statuses = await validation.TestSevisValidation(validationEntity);
+                return Ok(statuses);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
 
     }
 }

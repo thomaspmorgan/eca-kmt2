@@ -1,10 +1,5 @@
-﻿using ECA.Core.Exceptions;
-using ECA.Data;
+﻿using ECA.Data;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Persons
 {
@@ -115,7 +110,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         public int ParticipantId { get; private set; }
 
-               /// <summary>
+        /// <summary>
         /// Gets or sets the participant's sevis id
         /// </summary>
         public string SevisId { get; set; }
@@ -124,17 +119,17 @@ namespace ECA.Business.Service.Persons
         /// Gets or sets the participantPerson's Field of Study
         /// </summary>
         public int? FieldOfStudyId { get; set; }
-
+        
         /// <summary>
         /// Gets or sets the participantPersons's Position
         /// </summary>
         public int? PositionId { get; set; }
-
+        
         /// <summary>
         /// Gets or sets the participantPerson's ProgramCategory
         /// </summary>
         public int? ProgramCategoryId { get; set; }
-
+        
         /// <summary>
         /// has the participant been sent to Sevis via RTI (manual web interface)
         /// </summary>

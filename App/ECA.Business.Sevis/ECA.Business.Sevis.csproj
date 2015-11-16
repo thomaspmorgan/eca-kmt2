@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ECA.Business.Sevis</RootNamespace>
     <AssemblyName>ECA.Business.Sevis</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,26 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exceptions\EcaSevisException.cs" />
-    <Compile Include="Validation\ISevisValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Validation\SevisValidationResult.cs" />
-    <Compile Include="Validation\SevisValidatorBase.cs" />
-    <Compile Include="Exceptions\ValidationException.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ECA.Core.DynamicLinq\ECA.Core.DynamicLinq.csproj">
-      <Project>{2ffe2c53-412a-43ae-840d-470901649ed8}</Project>
-      <Name>ECA.Core.DynamicLinq</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ECA.Core\ECA.Core.csproj">
-      <Project>{983c0be6-5e42-494d-9947-0d67b84016c1}</Project>
-      <Name>ECA.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ECA.Data\ECA.Data.csproj">
-      <Project>{8cef11e6-50e8-4b54-a1a7-a75583ccb6ef}</Project>
-      <Name>ECA.Data</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

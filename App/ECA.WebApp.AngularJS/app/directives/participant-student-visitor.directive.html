@@ -14,52 +14,52 @@
         </div>
     </div>
     <div ng-if="!view.EducationalInformationEdit">
-        <div ng-show="view.EducationalInformation">
-            <div class="row row4">
-                <div class="col-md-3 title-label">Education Level</div>
-                <div class="col-md-3">
-                    {{studentvisitorinfo.educationLevel}}
-                </div>
-                <div class="col-md-3 title-label">'Other' Remarks</div>
-                <div class="col-md-3">
-                    <textarea disabled ng-model="studentvisitorinfo.educationLevelOtherRemarks"></textarea>
-                </div>
+    <div ng-show="view.EducationalInformation">
+        <div class="row row4">
+            <div class="col-md-3 title-label">Education Level</div>
+            <div class="col-md-3">
+                {{studentvisitorinfo.educationLevel}}
             </div>
-            <div class="row row4">
-                <div class="col-md-3 title-label">Primary Major</div>
-                <div class="col-md-3">
-                    {{studentvisitorinfo.primaryMajor}}
-                </div>
-                <div class="col-md-3 title-label">English Proficiency Required?</div>
-                <div class="col-md-3">
-                    {{studentvisitorinfo.isEnglishLanguageProficiencyReqd | boolYesNo}}
-                </div>
+            <div class="col-md-3 title-label">'Other' Remarks</div>
+            <div class="col-md-3">
+                <textarea disabled ng-model="studentvisitorinfo.educationLevelOtherRemarks"></textarea>
             </div>
-            <div class="row row4">
-                <div class="col-md-3 title-label">Secondary Major</div>
-                <div class="col-md-3">
-                    {{studentvisitorinfo.secondaryMajor}}
-                </div>
-                <div class="col-md-3 title-label">English Proficiency Requirements Met?</div>
-                <div class="col-md-3">
-                    {{studentvisitorinfo.isEnglishLanguageProficiencyMet | boolYesNo}}
-                </div>
+        </div>
+        <div class="row row4">
+            <div class="col-md-3 title-label">Primary Major</div>
+            <div class="col-md-3">
+                {{studentvisitorinfo.primaryMajor}} <!--required-->
             </div>
-            <div class="row row4">
-                <div class="col-md-3 title-label">Minor</div>
-                <div class="col-md-3">
-                    {{studentvisitorinfo.minor}}
-                </div>
-                <div class="col-md-3 title-label">Reason if Eng. Prof. Not Reqd</div>
-                <div class="col-md-3">
-                    <textarea disabled ng-model="studentvisitorinfo.englishLanguageProficiencyNotReqdReason"></textarea>
-                </div>
+            <div class="col-md-3 title-label">English Proficiency Required?</div>
+            <div class="col-md-3">
+                {{studentvisitorinfo.isEnglishLanguageProficiencyReqd | boolYesNo}}
             </div>
-            <div class="row row4">
-                <div class="col-md-3 title-label">Length Of Study</div>
-                <div class="col-md-3">
-                    {{studentvisitorinfo.lengthOfStudy}} Months
-                </div>
+        </div>
+        <div class="row row4">
+            <div class="col-md-3 title-label">Secondary Major</div>
+            <div class="col-md-3">
+                {{studentvisitorinfo.secondaryMajor}}
+            </div>
+            <div class="col-md-3 title-label">English Proficiency Requirements Met?</div>
+            <div class="col-md-3">
+                {{studentvisitorinfo.isEnglishLanguageProficiencyMet | boolYesNo}}
+            </div>
+        </div>
+        <div class="row row4">
+            <div class="col-md-3 title-label">Minor</div>
+            <div class="col-md-3">
+                {{studentvisitorinfo.minor}}
+            </div>
+            <div class="col-md-3 title-label">Reason if Eng. Prof. Not Reqd</div>
+            <div class="col-md-3">
+                <textarea disabled ng-model="studentvisitorinfo.englishLanguageProficiencyNotReqdReason"></textarea>
+            </div>
+        </div>
+        <div class="row row4">
+            <div class="col-md-3 title-label">Length Of Study</div>
+            <div class="col-md-3">
+                {{studentvisitorinfo.lengthOfStudy}} Months
+            </div>
                 <div class="col-md-3 title-label">&nbsp;</div>
                 <div class="col-md-3">&nbsp;</div>
             </div>
@@ -138,9 +138,9 @@
                 <div class="col-md-3">
                     <input type="number" max="36" ng-model="studentvisitorinfo.lengthOfStudy" /> Months
                 </div>
-                <div class="col-md-3 title-label">&nbsp;</div>
-                <div class="col-md-3">&nbsp;</div>
-            </div>
+            <div class="col-md-3 title-label">&nbsp;</div>
+            <div class="col-md-3">&nbsp;</div>
+        </div>
        </form>
     </div>
     <div class="row row2">
@@ -157,123 +157,123 @@
     </div>
     <div ng-if="!view.FundingEdit">
         <div ng-show="view.Funding" class="rowalt">
-            <div class="row row3">
-                <div class="col-md-3"><h5>Expense</h5></div>
+        <div class="row row3">
+            <div class="col-md-3"><h5>Expense</h5></div>
+        </div>
+        <div class="row row4">
+            <div class="col-md-3">
+                <label class="title-label">Tuition</label>
             </div>
-            <div class="row row4">
-                <div class="col-md-3">
-                    <label class="title-label">Tuition</label>
-                </div>
-                <div class="col-md-8 text-right">
-                    $
-                </div>
-                <div class="col-md-1 text-right">
-                    {{studentvisitorinfo.tuitionExpense | number:0}}
-                </div>
+            <div class="col-md-8 text-right">
+                $
             </div>
-            <div class="row row4">
-                <div class="col-md-3">
-                    <label class="title-label">Living Expense</label>
-                </div>
-                <div class="col-md-8 text-right">
-                    $
-                </div>
-                <div class="col-md-1 text-right">
-                    {{studentvisitorinfo.livingExpense | number:0}}
-                </div>
+            <div class="col-md-1 text-right">
+                {{studentvisitorinfo.tuitionExpense | number:0}}
             </div>
-            <div class="row row4">
-                <div class="col-md-3">
-                    <label class="title-label">Dependant Expense</label>
-                </div>
-                <div class="col-md-8 text-right">
-                    $
-                </div>
-                <div class="col-md-1 text-right">
-                    {{studentvisitorinfo.dependentExpense | number:0}}
-                </div>
+        </div>
+        <div class="row row4">
+            <div class="col-md-3">
+                <label class="title-label">Living Expense</label>
             </div>
-            <div class="row row4">
-                <div class="col-md-3">
-                    <label class="title-label">Other</label>
-                </div>
-                <div class="col-md-8 text-right">
-                    $
-                </div>
-                <div class="col-md-1 text-right">
-                    {{studentvisitorinfo.otherExpense | number:0}}
-                </div>
+            <div class="col-md-8 text-right">
+                $
             </div>
-            <div class="row row4">
-                <div class="col-md-3">
-                    <label class="title-label">Remarks</label>
-                </div>
-                <div class="col-md-9">
-                    <textarea disabled class="textareaFull" ng-model="studentvisitorinfo.expenseRemarks"></textarea>
-                </div>
+            <div class="col-md-1 text-right">
+                {{studentvisitorinfo.livingExpense | number:0}}
             </div>
-            <div class="row row3">
-                <div class="col-md-3"><h5>Funding</h5></div>
+        </div>
+        <div class="row row4">
+            <div class="col-md-3">
+                <label class="title-label">Dependant Expense</label>
             </div>
-            <div class="row row4">
-                <div class="col-md-3">
-                    <label class="title-label">Personal</label>
-                </div>
-                <div class="col-md-8 text-right">
-                    $
-                </div>
-                <div class="col-md-1 text-right">
-                    {{studentvisitorinfo.personalFunding | number:0}}
-                </div>
+            <div class="col-md-8 text-right">
+                $
             </div>
-            <div class="row row4">
-                <div class="col-md-3">
-                    <label class="title-label">School</label>
-                </div>
-                <div class="col-md-8 text-right">
-                    $
-                </div>
-                <div class="col-md-1 text-right">
-                    {{studentvisitorinfo.schoolFunding | number:0}}
-                </div>
+            <div class="col-md-1 text-right">
+                {{studentvisitorinfo.dependentExpense | number:0}}
             </div>
-            <div class="row row4 expandIndent">
-                <div class="col-md-3" style="padding-left: 40px">
-                    <label class="title-label">Remarks</label>
-                </div>
-                <div class="col-md-9">
-                    <textarea disabled class="textareaFull" ng-model="studentvisitorinfo.schoolFundingRemarks"></textarea>
-                </div>
+        </div>
+        <div class="row row4">
+            <div class="col-md-3">
+                <label class="title-label">Other</label>
             </div>
-            <div class="row row4">
-                <div class="col-md-3">
-                    <label class="title-label">Other</label>
-                </div>
-                <div class="col-md-8 text-right">
-                    $
-                </div>
-                <div class="col-md-1 text-right">
-                    {{studentvisitorinfo.otherFunding | number:0}}
-                </div>
+            <div class="col-md-8 text-right">
+                $
             </div>
-            <div class="row row4">
-                <div class="col-md-3" style="padding-left: 40px">
-                    <label class="title-label">Remarks</label>
-                </div>
-                <div class="col-md-9">
-                    <textarea disabled class="textareaFull" ng-model="studentvisitorinfo.otherFundingRemarks"></textarea>
-                </div>
+            <div class="col-md-1 text-right">
+                {{studentvisitorinfo.otherExpense | number:0}}
             </div>
-            <div class="row row4">
-                <div class="col-md-3">
-                    <label class="title-label">Employment</label>
-                </div>
-                <div class="col-md-8 text-right">
-                    $
-                </div>
-                <div class="col-md-1 text-right">
-                    {{studentvisitorinfo.employmentFunding | number:0}}
-                </div>
+        </div>
+        <div class="row row4">
+            <div class="col-md-3">
+                <label class="title-label">Remarks</label>
+            </div>
+            <div class="col-md-9">
+                <textarea disabled class="textareaFull" ng-model="studentvisitorinfo.expenseRemarks"></textarea>
+            </div>
+        </div>
+        <div class="row row3">
+            <div class="col-md-3"><h5>Funding</h5></div>
+        </div>
+        <div class="row row4">
+            <div class="col-md-3">
+                <label class="title-label">Personal</label>
+            </div>
+            <div class="col-md-8 text-right">
+                $
+            </div>
+            <div class="col-md-1 text-right">
+                {{studentvisitorinfo.personalFunding | number:0}}
+            </div>
+        </div>
+        <div class="row row4">
+            <div class="col-md-3">
+                <label class="title-label">School</label>
+            </div>
+            <div class="col-md-8 text-right">
+                $
+            </div>
+            <div class="col-md-1 text-right">
+                {{studentvisitorinfo.schoolFunding | number:0}}
+            </div>
+        </div>
+        <div class="row row4 expandIndent">
+            <div class="col-md-3" style="padding-left: 40px">
+                <label class="title-label">Remarks</label>
+            </div>
+            <div class="col-md-9">
+                <textarea disabled class="textareaFull" ng-model="studentvisitorinfo.schoolFundingRemarks"></textarea>
+            </div>
+        </div>
+        <div class="row row4">
+            <div class="col-md-3">
+                <label class="title-label">Other</label>
+            </div>
+            <div class="col-md-8 text-right">
+                $
+            </div>
+            <div class="col-md-1 text-right">
+                {{studentvisitorinfo.otherFunding | number:0}}
+            </div>
+        </div>
+        <div class="row row4">
+            <div class="col-md-3" style="padding-left: 40px">
+                <label class="title-label">Remarks</label>
+            </div>
+            <div class="col-md-9">
+                <textarea disabled class="textareaFull" ng-model="studentvisitorinfo.otherFundingRemarks"></textarea>
+            </div>
+        </div>
+        <div class="row row4">
+            <div class="col-md-3">
+                <label class="title-label">Employment</label>
+            </div>
+            <div class="col-md-8 text-right">
+                $
+            </div>
+            <div class="col-md-1 text-right">
+                {{studentvisitorinfo.employmentFunding | number:0}}
+            </div>
             </div>
         </div>
     </div>
@@ -376,7 +376,7 @@
             <div class="row row4">
                 <div class="col-md-2">
                     <label class="title-label">Other</label>
-                </div>
+        </div>
                 <div class="col-md-7 text-right">
                     $
                 </div>
