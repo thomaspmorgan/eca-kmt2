@@ -58,6 +58,11 @@ angular.module('staticApp')
       $scope.studentVisitorInfo = {};
       $scope.participantInfo = {};
 
+      $scope.actions = {
+          "Select Action": undefined,
+          "Send To SEVIS": 1
+      };
+
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;
       var projectId = $stateParams.projectId;
@@ -391,11 +396,14 @@ angular.module('staticApp')
       }
 
       $scope.selectedActionChanged = function () {
+
+          console.log($scope.selectedAction);
+
           $scope.selectAll = false;
           $scope.selectedParticipants = {};
           var tableState = $scope.getParticipantsTableState();
           tableState.filter = [];
-          if ($scope.selectedAction === "Send To SEVIS") {
+          if ($scope.selectedAction === 1) {
               tableState.filter = { property: 'sevisStatus', comparison: 'eq', value: 'Ready To Submit' };
           }
           $scope.getParticipants(tableState);
@@ -408,7 +416,7 @@ angular.module('staticApp')
       }
 
       $scope.applyAction = function () {
-          if ($scope.selectedAction === "Send To SEVIS") {
+          if ($scope.selectedAction === 1) {
               var participants = Object.keys($scope.selectedParticipants).map(Number);
               ParticipantPersonsSevisService.sendToSevis(participants)
               .then(function (results) {

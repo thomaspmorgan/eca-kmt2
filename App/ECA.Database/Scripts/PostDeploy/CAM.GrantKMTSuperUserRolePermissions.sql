@@ -27,6 +27,8 @@ SELECT @kmtAdministratorPermissionId = PermissionId FROM cam.Permission WHERE Pe
 DECLARE @kmtApplicationResourceId INT = 1;
 DECLARE @systemUserId INT = 1;
 
+DELETE FROM cam.RoleResourcePermission WHERE RoleId = @kmtSuperUserRoleId
+
 INSERT INTO cam.RoleResourcePermission(RoleId, ResourceId, PermissionId, AssignedOn, AssignedBy)
 SELECT
 @kmtSuperUserRoleId as RoleId,
@@ -72,12 +74,13 @@ SYSDATETIMEOFFSET() as AssignedOn,
 @systemUserId as AssignedBy
 
 FROM cam.Resource r, cam.Permission p
-WHERE r.ResourceTypeId = @projectResourceTypeId
+WHERE r.ResourceTypeId = @programResourceTypeId
+AND r.ResourceId IS NOT NULL
 AND p.ResourceTypeId = @projectResourceTypeId
 AND NOT EXISTS(
 	SELECT 1
 	FROM cam.RoleResourcePermission rrp
-	WHERE rrp.ResourceId = r.ResourceId
+	WHERE rrp.ResourceId = r.ParentResourceId
 	AND rrp.PermissionId = p.PermissionId
 	AND rrp.RoleId = @kmtSuperUserRoleId
 );
@@ -92,12 +95,13 @@ SYSDATETIMEOFFSET() as AssignedOn,
 @systemUserId as AssignedBy
 
 FROM cam.Resource r, cam.Permission p
-WHERE r.ResourceTypeId = @programResourceTypeId
+WHERE r.ResourceTypeId = @officeResourceTypeId
+AND r.ResourceId IS NOT NULL
 AND p.ResourceTypeId = @programResourceTypeId
 AND NOT EXISTS(
 	SELECT *
 	FROM cam.RoleResourcePermission rrp
-	WHERE rrp.ResourceId = r.ResourceId
+	WHERE rrp.ResourceId = r.ParentResourceId
 	AND rrp.PermissionId = p.PermissionId
 	AND rrp.RoleId = @kmtSuperUserRoleId
 );

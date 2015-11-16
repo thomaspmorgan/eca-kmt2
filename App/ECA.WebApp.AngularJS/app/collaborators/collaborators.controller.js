@@ -54,11 +54,9 @@ angular.module('staticApp')
           addForeignResourceIdToPermissionModel(permissionModel);
           if (permission.isAllowed === false) {
               permission.isAllowed = undefined;
-              return removePermission(permissionModel)
-              .then(updateRolePermissionOnPermissionChange(collaborator, permission));
+              return removePermission(permissionModel);
           } else {
-              return addPermission(permissionModel)
-              .then(updateRolePermissionOnPermissionChange(collaborator, permission));
+              return addPermission(permissionModel);
           }
       }
 
@@ -70,26 +68,12 @@ angular.module('staticApp')
           addForeignResourceIdToPermissionModel(permissionModel);
           if (permission.isAllowed === true) {
               permission.isAllowed = undefined;
-              return removePermission(permissionModel)
-              .then(updateRolePermissionOnPermissionChange(collaborator, permission));
+              return removePermission(permissionModel);
           } else {
-              return revokePermission(permissionModel)
-              .then(updateRolePermissionOnPermissionChange(collaborator, permission));
+              return revokePermission(permissionModel);
           }
       }
 
-      function updateRolePermissionOnPermissionChange(collaborator, permission) {
-          angular.forEach(collaborator.rolePermissions, function (rolePermission, index) {
-              if (rolePermission.permissionId === permission.permissionId
-                  && rolePermission.foreignResourceId === permission.foreignResourceId) {
-                  var isAllowed = true;
-                  if (permission.isAllowed !== undefined) {
-                      isAllowed = permission.isAllowed;
-                  }
-                  rolePermission.isAllowed = isAllowed;
-              }
-          });
-      }
 
       function addForeignResourceIdToPermissionModel(permissionModel) {
           if (parameters.resourceType.id === ConstantsService.resourceType.office.id) {
