@@ -191,7 +191,8 @@
                                     {{$item.value}} ({{$item.locationTypeName}}:  {{$item.divisionIso ? $item.divisionIso + ', ' : ''}}{{$item.countryIso ? $item.countryIso : $item.locationIso}})
                                 </div>
                             </ui-select-match>
-                            <ui-select-choices refresh="editView.searchLocations($select.search)" refresh-delay="250" repeat="location in editView.locations | filter: select.search track by location.id">
+                            <ui-select-choices refresh="editView.searchLocations($select.search)" 
+                                               refresh-delay="250" repeat="location in editView.locations | filter: select.search track by location.id">
                                 <div ng-bind-html="location.name | highlight: $select.search"></div>
                                 <div style="margin-left:10px;" class="small" ng-show="location.locationTypeName">{{location.locationTypeName}}</div>
                                 <div style="margin-left:10px;" class="small" ng-show="location.city">{{location.city}}</div>

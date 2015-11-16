@@ -47,6 +47,7 @@ namespace ECA.Business.Queries.Admin
                             DivisionIso2 = hasDivision ? division.LocationIso2 : null,
                             DivisionId = location.DivisionId,
                             Id = location.LocationId,
+                            IsActive = location.IsActive,
                             LocationTypeId = locationType.LocationTypeId,
                             LocationTypeName = locationType.LocationTypeName,
                             Name = location.LocationName,

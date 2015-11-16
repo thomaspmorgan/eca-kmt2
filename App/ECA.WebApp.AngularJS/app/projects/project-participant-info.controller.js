@@ -114,6 +114,7 @@ angular.module('staticApp')
                 .then(function (response) {
                     $scope.view.isSavingUpdate = false;
                     $scope.view.isInfoTabInEditMode = false;
+                    NotificationService.showSuccessMessage('Successfully updated the participant personal information.');
                 });
             })
             .catch(function (response) {

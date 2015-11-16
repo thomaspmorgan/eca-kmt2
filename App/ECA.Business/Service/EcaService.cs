@@ -666,5 +666,35 @@ namespace ECA.Business.Service
             logger.Trace("Retrieved location by id {0}.", locationId);
             return location;
         }
+
+        /// <summary>
+        /// Returns a query to find locations that were not previously set on an entity and are currently inactive.  This is useful
+        /// when an entity had locations set that have since become inactive and those inactive values should be not removed.
+        /// </summary>
+        /// <param name="entityLocations">The query to retrieve locations of the entity, both active and inactive.</param>
+        /// <param name="allLocationIds">All locations by id that should be set on the entity.</param>
+        /// <returns>The locations that were not previously set on the entity that have since become inactive.</returns>
+        protected IQueryable<Location> CreateGetNewInactiveEntityLocationsQuery(IQueryable<Location> entityLocations, IEnumerable<int> allLocationIds)
+        {
+            var newInactiveLocationsQuery = from location in Context.Locations
+                                    where allLocationIds.Contains(location.LocationId)
+                                    && !location.IsActive
+                                    && !entityLocations.Select(x => x.LocationId).Contains(location.LocationId)
+                                    select location;
+            return newInactiveLocationsQuery;
+        }
+
+        /// <summary>
+        /// Returns a query to find locations for a project by id that were not previously set on the project and are inactive.
+        /// </summary>
+        /// <param name="projectId">The id of the project.</param>
+        /// <param name="allLocationIds">The ids of the locations that the project will have set.</param>
+        /// <returns>The query to retrieve locations that were not previously set on the project and are inactive.</returns>
+        protected IQueryable<Location> GetNewInactiveProjectLocations(int projectId, IEnumerable<int> allLocationIds)
+        {
+            return CreateGetNewInactiveEntityLocationsQuery(
+                Context.Projects.Where(x => x.ProjectId == projectId).SelectMany(x => x.Locations), 
+                allLocationIds);
+        }
     }
 }

@@ -46,6 +46,11 @@ namespace ECA.Data
         }
 
         /// <summary>
+        /// Gets or sets is active.
+        /// </summary>
+        public bool IsActive { get; set; }
+
+        /// <summary>
         /// Gets or sets the Location Id.
         /// </summary>
         public int LocationId { get; set; }

@@ -179,7 +179,7 @@ angular.module('staticApp')
                       $scope.editView.selectedLocations.push(selectedLocation);
                   }
               });
-              
+
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });
@@ -518,6 +518,7 @@ angular.module('staticApp')
           locationsFilter.reset();
           locationsFilter = locationsFilter.skip(0).take(10)
             .notEqual('locationTypeId', ConstantsService.locationType.address.id)
+            .isTrue('isActive')
             .isNotNull('name')
             .sortBy('name');
           if ($scope.editView.selectedLocations.length > 0) {

@@ -459,6 +459,7 @@ namespace ECA.Business.Test.Service.Programs
                 LocationName = "abc",
                 LocationTypeId = locationType.LocationTypeId,
                 LocationType = locationType,
+                IsActive = true,
                 City = city,
                 CityId = city.LocationId,
                 Country = country,
@@ -484,6 +485,7 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(1, results.Results.Count);
 
                 var firstResult = results.Results.First();
+                Assert.IsTrue(firstResult.IsActive);
                 Assert.AreEqual(location.LocationId, firstResult.Id);
                 Assert.AreEqual(location.LocationName, firstResult.Name);
                 Assert.AreEqual(location.LocationTypeId, firstResult.LocationTypeId);
@@ -556,6 +558,7 @@ namespace ECA.Business.Test.Service.Programs
 
             var location = new Location
             {
+                IsActive = true,
                 LocationId = 2,
                 LocationName = "abc",
                 LocationTypeId = locationType.LocationTypeId,
@@ -581,6 +584,7 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(1, results.Results.Count);
 
                 var firstResult = results.Results.First();
+                Assert.IsTrue(firstResult.IsActive);
                 Assert.AreEqual(location.LocationId, firstResult.Id);
                 Assert.AreEqual(location.LocationName, firstResult.Name);
                 Assert.AreEqual(location.LocationTypeId, firstResult.LocationTypeId);
@@ -1144,6 +1148,90 @@ namespace ECA.Business.Test.Service.Programs
                 beforeTester();
                 await service.CreateAsync<Organization>(instance);
                 afterTester();
+                addressValidator.Verify(x => x.ValidateCreate(It.IsAny<EcaAddressValidationEntity>()), Times.Exactly(2));
+            }
+        }
+
+        [TestMethod]
+        public async Task TestCreate_Address_CheckValidationEntity()
+        {
+            using (ShimsContext.Create())
+            {
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.SetOf1<Organization>((c) =>
+                {
+                    return context.Organizations;
+                });
+
+                var organizationId = 5;
+                var organization = new Organization
+                {
+                    OrganizationId = organizationId
+                };
+                var city = new Location
+                {
+                    LocationId = 1,
+                };
+                var country = new Location
+                {
+                    LocationId = 2,
+                };
+                var division = new Location
+                {
+                    LocationId = 3,
+                };
+                var userId = 1;
+                var user = new User(userId);
+                var addressTypeId = AddressType.Business.Id;
+                var isPrimary = true;
+                var street1 = "street1";
+                var street2 = "street2";
+                var street3 = "street3";
+                var postalCode = "12345";
+                var locationName = "location name";
+                var countryId = country.LocationId;
+                var cityId = city.LocationId;
+                var divisionId = division.LocationId;
+
+                var instance = new AdditionalOrganizationAddress(
+                    user,
+                    addressTypeId,
+                    isPrimary,
+                    street1,
+                    street2,
+                    street3,
+                    postalCode,
+                    locationName,
+                    countryId,
+                    cityId,
+                    divisionId,
+                    organizationId
+                );
+                context.SetupActions.Add(() =>
+                {
+                    context.Organizations.Add(organization);
+                    organization.Addresses.ToList().ForEach(x => x.Location = null);
+                    organization.Addresses.Clear();
+                    context.Addresses.RemoveRange(context.Addresses.ToList());
+                    context.Locations.RemoveRange(context.Locations.ToList());
+                    context.Locations.Add(city);
+                    context.Locations.Add(country);
+                    context.Locations.Add(division);
+                });
+                Action<EcaAddressValidationEntity> validationEntityTester = (entity) =>
+                {
+                    Assert.IsTrue(Object.ReferenceEquals(country, entity.Country));
+                    Assert.IsTrue(Object.ReferenceEquals(division, entity.Division));
+                    Assert.IsTrue(Object.ReferenceEquals(city, entity.City));
+                    Assert.AreEqual(addressTypeId, entity.AddressTypeId);
+                };
+                addressValidator.Setup(x => x.ValidateUpdate(It.IsAny<EcaAddressValidationEntity>())).Callback(validationEntityTester);
+
+                context.Revert();
+                service.Create<Organization>(instance);
+                addressValidator.Verify(x => x.ValidateCreate(It.IsAny<EcaAddressValidationEntity>()), Times.Once());
+
+                context.Revert();
+                await service.CreateAsync<Organization>(instance);
                 addressValidator.Verify(x => x.ValidateCreate(It.IsAny<EcaAddressValidationEntity>()), Times.Exactly(2));
             }
         }
@@ -1774,6 +1862,142 @@ namespace ECA.Business.Test.Service.Programs
             addressValidator.Verify(x => x.ValidateUpdate(It.IsAny<EcaAddressValidationEntity>()), Times.Exactly(2));
         }
 
+        [TestMethod]
+        public async Task TestUpdate_TestValidationEntity()
+        {
+            var creatorId = 1;
+            var updatorId = 2;
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var addressLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.Address.Id,
+                LocationTypeName = LocationType.Address.Value
+            };
+            var businessAddressType = new AddressType
+            {
+                AddressName = AddressType.Business.Value,
+                AddressTypeId = AddressType.Business.Id
+            };
+            var homeAddressType = new AddressType
+            {
+                AddressName = AddressType.Home.Value,
+                AddressTypeId = AddressType.Home.Id
+            };
+            var organizationId = 2;
+            var organization = new Organization
+            {
+                OrganizationId = organizationId
+            };
+            var usa = new Location
+            {
+                LocationId = 1,
+                LocationName = "USA"
+            };
+            var england = new Location
+            {
+                LocationId = 2,
+                LocationName = "England"
+            };
+            var nashville = new Location
+            {
+                LocationId = 3,
+                LocationName = "nashville",
+            };
+            var london = new Location
+            {
+                LocationId = 4,
+                LocationName = "london"
+            };
+            var addressId = 1;
+            Location addressLocation = null;
+            Address address = null;
+
+            var user = new User(updatorId);
+            var addressTypeId = homeAddressType.AddressTypeId;
+            var isPrimary = true;
+            var street1 = "street1";
+            var street2 = "street2";
+            var street3 = "street3";
+            var postalCode = "12345";
+            var locationName = "location name";
+            var countryId = england.LocationId;
+            var cityId = nashville.LocationId;
+            var divisionId = london.LocationId;
+            var instance = new UpdatedEcaAddress(
+                user,
+                addressId,
+                homeAddressType.AddressTypeId,
+                isPrimary,
+                street1,
+                street2,
+                street3,
+                postalCode,
+                locationName,
+                countryId,
+                cityId,
+                divisionId
+                );
+            
+            Action<EcaAddressValidationEntity> validationEntityTester = (entity) =>
+            {
+                Assert.IsTrue(Object.ReferenceEquals(england, entity.Country));
+                Assert.IsTrue(Object.ReferenceEquals(london, entity.Division));
+                Assert.IsTrue(Object.ReferenceEquals(nashville, entity.City));
+                Assert.AreEqual(instance.AddressTypeId, entity.AddressTypeId);
+            };
+            addressValidator.Setup(x => x.ValidateUpdate(It.IsAny<EcaAddressValidationEntity>())).Callback(validationEntityTester);
+
+            context.SetupActions.Add(() =>
+            {
+                addressLocation = new Location
+                {
+                    LocationName = "old location name",
+                    LocationType = addressLocationType,
+                    LocationId = 5,
+                    LocationTypeId = addressLocationType.LocationTypeId,
+                };
+                addressLocation.History.CreatedBy = creatorId;
+                addressLocation.History.CreatedOn = yesterday;
+                addressLocation.History.RevisedBy = creatorId;
+
+                address = new Address
+                {
+                    AddressId = addressId,
+                    AddressType = businessAddressType,
+                    AddressTypeId = businessAddressType.AddressTypeId,
+                    IsPrimary = false,
+                    Location = addressLocation,
+                    LocationId = addressLocation.LocationId
+                };
+                address.History.CreatedBy = creatorId;
+                address.History.CreatedOn = yesterday;
+                address.History.RevisedBy = creatorId;
+                address.History.RevisedOn = yesterday;
+                organization.Addresses.Add(address);
+
+                addressLocation.History.RevisedOn = yesterday;
+                organization.Addresses.Clear();
+                organization.Addresses.Add(address);
+
+                context.LocationTypes.Add(addressLocationType);
+                context.AddressTypes.Add(businessAddressType);
+                context.AddressTypes.Add(homeAddressType);
+                context.Organizations.Add(organization);
+                context.Locations.Add(usa);
+                context.Locations.Add(england);
+                context.Locations.Add(nashville);
+                context.Locations.Add(london);
+                context.Locations.Add(addressLocation);
+                context.Addresses.Add(address);
+            });
+            context.Revert();
+            service.Update(instance);
+
+            context.Revert();
+            await service.UpdateAsync(instance);
+
+            addressValidator.Verify(x => x.ValidateUpdate(It.IsAny<EcaAddressValidationEntity>()), Times.Exactly(2));
+        }
 
         [TestMethod]
         public async Task TestUpdate_HasExistingPrimaryAddress_UpdatedAddressIsPrimary()
@@ -3001,6 +3225,7 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(5, context.Locations.Count());
                 var addedLocation = context.Locations.Where(x => x.LocationName == additionalLocation.LocationName).First();
 
+                Assert.IsTrue(addedLocation.IsActive);
                 Assert.AreEqual(additionalLocation.LocationName, addedLocation.LocationName);
                 Assert.IsTrue(Object.ReferenceEquals(city, addedLocation.City));
                 Assert.IsTrue(Object.ReferenceEquals(country, addedLocation.Country));
@@ -3105,6 +3330,7 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(5, context.Locations.Count());
                 var addedLocation = context.Locations.Where(x => x.LocationName == additionalLocation.LocationName).First();
 
+                Assert.IsTrue(addedLocation.IsActive);
                 Assert.AreEqual(additionalLocation.LocationName, addedLocation.LocationName);
                 Assert.IsTrue(Object.ReferenceEquals(city, addedLocation.City));
                 Assert.IsTrue(Object.ReferenceEquals(country, addedLocation.Country));
@@ -3171,6 +3397,7 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(2, context.Locations.Count());
                 var addedLocation = context.Locations.Where(x => x.LocationName == additionalLocation.LocationName).First();
 
+                Assert.IsTrue(addedLocation.IsActive);
                 Assert.AreEqual(additionalLocation.LocationName, addedLocation.LocationName);
                 Assert.IsTrue(Object.ReferenceEquals(city, addedLocation.City));
                 Assert.IsNull(addedLocation.Division);
@@ -3266,6 +3493,7 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(5, context.Locations.Count());
                 var addedLocation = context.Locations.Where(x => x.LocationName == additionalLocation.LocationName).First();
 
+                Assert.IsTrue(addedLocation.IsActive);
                 Assert.AreEqual(additionalLocation.LocationName, addedLocation.LocationName);
                 Assert.IsTrue(Object.ReferenceEquals(city, addedLocation.City));
                 Assert.IsTrue(Object.ReferenceEquals(country, addedLocation.Country));
@@ -3339,6 +3567,7 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(3, context.Locations.Count());
                 var addedLocation = context.Locations.Where(x => x.LocationName == additionalLocation.LocationName).First();
 
+                Assert.IsTrue(addedLocation.IsActive);
                 Assert.AreEqual(additionalLocation.LocationName, addedLocation.LocationName);
                 Assert.IsTrue(Object.ReferenceEquals(city, addedLocation.City));
                 Assert.IsTrue(Object.ReferenceEquals(division, addedLocation.Division));
@@ -3434,6 +3663,7 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(5, context.Locations.Count());
                 var addedLocation = context.Locations.Where(x => x.LocationName == additionalLocation.LocationName).First();
 
+                Assert.IsTrue(addedLocation.IsActive);
                 Assert.AreEqual(additionalLocation.LocationName, addedLocation.LocationName);
                 Assert.IsTrue(Object.ReferenceEquals(city, addedLocation.City));
                 Assert.IsTrue(Object.ReferenceEquals(country, addedLocation.Country));
@@ -3517,6 +3747,7 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(4, context.Locations.Count());
                 var addedLocation = context.Locations.Where(x => x.LocationName == additionalLocation.LocationName).First();
 
+                Assert.IsTrue(addedLocation.IsActive);
                 Assert.AreEqual(additionalLocation.LocationName, addedLocation.LocationName);
                 Assert.IsTrue(Object.ReferenceEquals(city, addedLocation.City));
                 Assert.IsTrue(Object.ReferenceEquals(country, addedLocation.Country));
@@ -3826,7 +4057,7 @@ namespace ECA.Business.Test.Service.Programs
             service.Invoking(x => x.Create(additionalLocation)).ShouldThrow<ModelNotFoundException>().WithMessage(message);
             f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
         }
-        
+
         [TestMethod]
         public async Task TestCreate_Location_Building_LocationByNameExists()
         {
@@ -4350,7 +4581,7 @@ namespace ECA.Business.Test.Service.Programs
             service.Invoking(x => x.Create(additionalLocation)).ShouldThrow<UniqueModelException>().WithMessage(message);
             f.ShouldThrow<UniqueModelException>().WithMessage(message);
         }
-        
+
         #endregion
 
         #region Update
@@ -4393,7 +4624,8 @@ namespace ECA.Business.Test.Service.Programs
             {
                 locationToUpdate = new Location
                 {
-                    LocationId = locationToUpdateId
+                    LocationId = locationToUpdateId,
+                    IsActive = true
                 };
                 locationToUpdate.History.CreatedBy = creatorId;
                 locationToUpdate.History.RevisedBy = creatorId;
@@ -4409,6 +4641,7 @@ namespace ECA.Business.Test.Service.Programs
             Action beforeTester = () =>
             {
                 Assert.AreEqual(5, context.Locations.Count());
+                Assert.IsTrue(locationToUpdate.IsActive);
             };
 
             var updator = new User(revisorId);
@@ -4429,6 +4662,7 @@ namespace ECA.Business.Test.Service.Programs
             {
                 Assert.AreEqual(5, context.Locations.Count());
 
+                Assert.IsTrue(locationToUpdate.IsActive);
                 Assert.AreEqual(updatedLocation.LocationName, locationToUpdate.LocationName);
                 Assert.IsTrue(Object.ReferenceEquals(city, locationToUpdate.City));
                 Assert.IsTrue(Object.ReferenceEquals(country, locationToUpdate.Country));
@@ -5515,7 +5749,7 @@ namespace ECA.Business.Test.Service.Programs
                 LocationName = "country",
                 LocationId = 2,
                 Region = region,
-                RegionId= region.LocationId,
+                RegionId = region.LocationId,
             };
             var division = new Location
             {

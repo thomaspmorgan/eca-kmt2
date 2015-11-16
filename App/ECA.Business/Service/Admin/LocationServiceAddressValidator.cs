@@ -19,6 +19,21 @@ namespace ECA.Business.Service.Admin
         public const string INVALID_ADDRESS_TYPE_MESSAGE = "The address type is invalid.";
 
         /// <summary>
+        /// The error message to add when an address' country is inactive.
+        /// </summary>
+        public const string INACTIVE_COUNTRY_FORMAT_ERROR_MESSAGE = "The country named [{0}] is inactive.";
+
+        /// <summary>
+        /// The error message to add when an address' division is inactive.
+        /// </summary>
+        public const string INACTIVE_DIVISION_FORMAT_ERROR_MESSAGE = "The division named [{0}] is inactive.";
+
+        /// <summary>
+        /// The error message to add when an address' city is inactive.
+        /// </summary>
+        public const string INACTIVE_CITY_FORMAT_ERROR_MESSAGE = "The city named [{0}] is inactive.";
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="validationEntity"></param>
@@ -48,6 +63,18 @@ namespace ECA.Business.Service.Admin
             if (AddressType.GetStaticLookup(validationEntity.AddressTypeId) == null)
             {
                 yield return new BusinessValidationResult<EcaAddress>(x => x.AddressTypeId, INVALID_ADDRESS_TYPE_MESSAGE);
+            }
+            if (!validationEntity.Country.IsActive)
+            {
+                yield return new BusinessValidationResult<EcaAddress>(x => x.CountryId, string.Format(INACTIVE_COUNTRY_FORMAT_ERROR_MESSAGE, validationEntity.Country.LocationName));
+            }
+            if (!validationEntity.Division.IsActive)
+            {
+                yield return new BusinessValidationResult<EcaAddress>(x => x.DivisionId, string.Format(INACTIVE_DIVISION_FORMAT_ERROR_MESSAGE, validationEntity.Division.LocationName));
+            }
+            if (!validationEntity.City.IsActive)
+            {
+                yield return new BusinessValidationResult<EcaAddress>(x => x.CityId, string.Format(INACTIVE_CITY_FORMAT_ERROR_MESSAGE, validationEntity.City.LocationName));
             }
         }
     }

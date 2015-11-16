@@ -63,53 +63,60 @@ namespace ViewOffices.Test
             var linkText = testOffice.Name;
             var total = dtos.Total; */
 
-             var browserWindow = AuthHelper.KMTLogin();
-             ContentMenu.AccessMenu(browserWindow);
+            var browserWindow = AuthHelper.KMTLogin();
+            ContentMenu.AccessMenu(browserWindow);
 
-             //select offices section
-             HtmlHyperlink offices = new HtmlHyperlink(browserWindow);
-             offices.SearchProperties.Add(HtmlHyperlink.PropertyNames.InnerText, "Offices", HtmlHyperlink.PropertyNames.ControlType, "Hyperlink", HtmlHyperlink.PropertyNames.TagInstance, "2");
-             offices.WaitForControlReady();
-             Mouse.Click(offices);
+            //select offices section
+            HtmlHyperlink offices = new HtmlHyperlink(browserWindow);
+            offices.SearchProperties.Add(HtmlHyperlink.PropertyNames.InnerText, "Offices", HtmlHyperlink.PropertyNames.ControlType, "Hyperlink", HtmlHyperlink.PropertyNames.TagInstance, "2");
+            offices.WaitForControlReady();
+            Mouse.Click(offices);
 
-             //Verify office directory
-             HtmlDiv officeDirect = new HtmlDiv(browserWindow);
-             officeDirect.SearchProperties.Add(HtmlDiv.PropertyNames.InnerText, "ECA Office Directory", HtmlDiv.PropertyNames.TagName, "DIV");
-             officeDirect.WaitForControlReady();
-             Assert.AreEqual(true, officeDirect.Exists);
+            //Verify office directory
+            HtmlDiv officeDirect = new HtmlDiv(browserWindow);
+            officeDirect.SearchProperties.Add(HtmlDiv.PropertyNames.InnerText, "ECA Office Directory", HtmlDiv.PropertyNames.TagName, "DIV");
+            officeDirect.WaitForControlReady();
+            Assert.AreEqual(true, officeDirect.Exists);
 
-             //search field
-             HtmlEdit offSearch = new HtmlEdit(browserWindow);
-             offSearch.SearchProperties.Add(HtmlEdit.PropertyNames.TagName, "INPUT", HtmlEdit.PropertyNames.ControlType, "Edit", HtmlEdit.PropertyNames.TagInstance, "1");
-             offSearch.WaitForControlReady();
-             Assert.AreEqual(true, offSearch.Exists);
+            //search field
+            HtmlEdit offSearch = new HtmlEdit(browserWindow);
+            offSearch.SearchProperties.Add(HtmlEdit.PropertyNames.TagName, "INPUT", HtmlEdit.PropertyNames.ControlType, "Edit", HtmlEdit.PropertyNames.TagInstance, "1");
+            offSearch.WaitForControlReady();
+            Assert.AreEqual(true, offSearch.Exists);
 
-             //showing count
-             HtmlDiv showingOff = new HtmlDiv(browserWindow);
-             showingOff.SearchProperties.Add(HtmlDiv.PropertyNames.TagName, "DIV", HtmlDiv.PropertyNames.InnerText, "Showing 1 - 25 of 56 offices");
-             showingOff.WaitForControlReady();
-             Assert.AreEqual(true, showingOff.Exists);
+
 
             //showingOff DB Verify-- use sql connection for verifying the office count
             var connectionString = "Data Source=(local);User Id=ECA;Password=wisconsin-89;Database=ECA_Local;Pooling=False";
             using (var context = new EcaContext(connectionString))
             using (var service = new OfficeService(context))
             {
+                var start = 0;
+                var limit = 25;
+
                 var defaultSorter = new ExpressionSorter<SimpleOfficeDTO>(x => x.OfficeSymbol, SortDirection.Ascending);
-                var queryOperator = new QueryableOperator<SimpleOfficeDTO>(0, 10, defaultSorter);
+                var queryOperator = new QueryableOperator<SimpleOfficeDTO>(0, 25, defaultSorter);
                 var results = service.GetOffices(queryOperator);
-                Assert.AreEqual(results.Total, 56);
+                var expectedString = String.Format("Showing {0} - {1} of {2} offices", start + 1, limit, results.Total);
+                //showing count
+                HtmlDiv showingOff = new HtmlDiv(browserWindow);
+                showingOff.SearchProperties.Add(HtmlDiv.PropertyNames.TagName, "DIV", HtmlDiv.PropertyNames.InnerText, "Showing 1 - 25 of 56 offices");
+                showingOff.WaitForControlReady();
+                Assert.AreEqual(true, showingOff.Exists);
+                Assert.AreEqual(expectedString, showingOff.InnerText);
             }
-            
+
             //verify the view count of Offices with Cultural in the name
             using (var context = new EcaContext(connectionString))
             using (var service = new OfficeService(context))
             {
                 var defaultSorter = new ExpressionSorter<SimpleOfficeDTO>(x => x.OfficeSymbol, SortDirection.Ascending);
-                var filter = new ExpressionFilter<SimpleOfficeDTO>(x => x.Name, ComparisonType.Like, "Cultural");
-                var queryOperator = new QueryableOperator<SimpleOfficeDTO>(0, 10, defaultSorter, new List<IFilter> { filter });
+                var set = new HashSet<string>();
+                set.Add("Cultural");
+                var keywordfilter = new SimpleKeywordFilter<SimpleOfficeDTO>(set, x => x.Name, x => x.Description, x => x.OfficeSymbol);
+                var queryOperator = new QueryableOperator<SimpleOfficeDTO>(0, 10, defaultSorter, new List<IFilter> { keywordfilter });
                 var results = service.GetOffices(queryOperator);
-                Assert.AreEqual(results.Total, 3);
+                Assert.AreEqual(results.Total, 9);
             }
 
 
