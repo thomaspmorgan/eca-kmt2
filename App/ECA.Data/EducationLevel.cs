@@ -21,14 +21,14 @@ namespace ECA.Data
         public int EducationLevelId { get; set; }
 
         [MinLength(DESCRIPTION_CODE_LENGTH), MaxLength(DESCRIPTION_CODE_LENGTH)]
-        public char EducationLevelCode { get; set; }
+        public string EducationLevelCode { get; set; }
 
         [MaxLength(DESCRIPTION_CODE_LENGTH)]
         public string Description { get; set; }
 
-        public char F_1_Ind { get; set; }
+        public string F_1_Ind { get; set; }
 
-        public char M_1_Ind { get; set; }
+        public string M_1_Ind { get; set; }
 
         public History History { get; set; }
     }

@@ -19,7 +19,7 @@ namespace ECA.Data
         [Key]
         public int StudentCreationId { get; set; }
 
-        public char CreationCode { get; set; }
+        public string CreationCode { get; set; }
 
         [MaxLength(DESCRIPTION_CODE_LENGTH)]
         public string Description { get; set; }

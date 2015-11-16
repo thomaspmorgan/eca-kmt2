@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="IVLP Project Load - Oracle Dataset 2"
   DTS:PackageType="5"
-  DTS:VersionBuild="135"
-  DTS:VersionGUID="{93E78FF2-822F-4CC3-9EFD-A33911597EB3}">
+  DTS:VersionBuild="138"
+  DTS:VersionGUID="{BB5272E8-06C0-4260-B288-8E660222C3D2}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -47,7 +47,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAsMiNkaTKWb2a83K5uIVMN1QALUieZ1yvixDzbpePyJwAAAAAOgAAAAAIAACAAAACNwgpsJCnVzFjPQmSX3j/tQv6H8VHNnRgfFDaDwoOl6iAAAAC4JqiHk+ej/jfp+I747mBo2SGooyUPQbViDhHhnv2uo0AAAAAEFvxiSPH6TSb7e79TYNXV+PpnkRxoQ/tpP2HbpPrVKxxXXxxvhUfccFJl33fY+65ZVZdVYIpCk0ygpkOQaMYa</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAA+t0P1VLdq+CLdwCFXCF8xmVnw+8qK6IzDxisyzYb7gQAAAAAOgAAAAAIAACAAAABWZ0HDe4lSz3DND4e2AdJKILRc1qNh1uPDSqzPgdP7giAAAADvGjghvxdkmdozd3MnicJQbOfxqUHKMA64xuHjp1g+NEAAAAAGuPJKe/np38lo40TSL5VqmiQqCqdUqaF178W6PDe0Sdoto59r9rmqUtabjXz7PQA6CaOnOzgzIH576vumwI5Z</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -7932,13 +7932,6 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER(?)</property>
                       externalMetadataColumnId="Package\Load New Projects (Completed)\Add New Project.Inputs[OLE DB Destination Input].ExternalColumns[ProjectStatusId]"
                       lineageId="Package\Load New Projects (Completed)\Lookup ProjectStatusId.Outputs[Lookup Match Output].Columns[KMT_ProjectStatusId]" />
                     <inputColumn
-                      refId="Package\Load New Projects (Completed)\Add New Project.Inputs[OLE DB Destination Input].Columns[PROJECT_TITLE_Unicode]"
-                      cachedDataType="wstr"
-                      cachedLength="140"
-                      cachedName="PROJECT_TITLE_Unicode"
-                      externalMetadataColumnId="Package\Load New Projects (Completed)\Add New Project.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
-                      lineageId="Package\Load New Projects (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[PROJECT_TITLE_Unicode]" />
-                    <inputColumn
                       refId="Package\Load New Projects (Completed)\Add New Project.Inputs[OLE DB Destination Input].Columns[PROJECT_NUMBER_Unicode]"
                       cachedDataType="wstr"
                       cachedLength="15"
@@ -7977,6 +7970,13 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER(?)</property>
                       cachedPrecision="10"
                       externalMetadataColumnId="Package\Load New Projects (Completed)\Add New Project.Inputs[OLE DB Destination Input].ExternalColumns[AudienceReach]"
                       lineageId="Package\Load New Projects (Completed)\Add Required Columns.Outputs[Derived Column Output].Columns[Validate_IVLP_EST_PARTICIPANT_CNT]" />
+                    <inputColumn
+                      refId="Package\Load New Projects (Completed)\Add New Project.Inputs[OLE DB Destination Input].Columns[IVLP_PROJECT_NUMBER]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="IVLP_PROJECT_NUMBER"
+                      externalMetadataColumnId="Package\Load New Projects (Completed)\Add New Project.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      lineageId="Package\Load New Projects (Completed)\IVLP Project Mapping XREF Interim.Outputs[OLE DB Source Output].Columns[IVLP_PROJECT_NUMBER]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -11721,9 +11721,7 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -11745,9 +11743,7 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -11769,9 +11765,7 @@ where UPPER([refTable].[ProjectTypeName]) = UPPER( ? )</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>

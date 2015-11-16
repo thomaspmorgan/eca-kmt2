@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="IVLP Participant Load - Oracle Dataset 2"
   DTS:PackageType="5"
-  DTS:VersionBuild="34"
-  DTS:VersionGUID="{172ADB2D-6D46-487E-BD0A-C420DC985807}">
+  DTS:VersionBuild="52"
+  DTS:VersionGUID="{56FBD916-69C3-4092-924B-8F0323165222}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAC0PNIb6SIFx9kPExDIZ3GK0T2Ifrz6RHsDu6HXd9NCegAAAAAOgAAAAAIAACAAAADY6SaoBjExC8co4hsjQNBDmL5eIoMwcxHdd3T/Zj8+hiAAAADYq6kJi21SPpTsGIQ45SOJKK35GAghIUxLuVEaG/Sg1EAAAADvArE+Ocqpq7vEc3TGktw0Sx7m6dOFXSTqCf+5ehPOfaykt6pwh9zxB1O1juGohKYBxTkhKRWcOiZgrXj1OTQ3</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAQAF7R4wki/o00obJ2Ki9szpIloveivzHDJsK1ohRXSgAAAAAOgAAAAAIAACAAAACVja5+Veuec6WEpOTNoghlchFIY969g+/qogfZRsX/2yAAAABqEclQuZBBk1PlxRsGTRu2N9s4HzSFu0iOisZ7cQ6k5kAAAACy9MTVdG9h+UomXztdBtTngnAAbScYjbu7BHHNvrpl90Pz/LvKSK2zGeEMMPtaaJY3IN6u2Z4cjBQQQmT9TfJC</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -42,7 +42,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAyZio9o15s0V8ZSWmauz4rjGJkPMKnqUZRkLIVzHc5VQAAAAAOgAAAAAIAACAAAAA9b1nXGBaJ1qKOA/rIwMTaPnc80gdjL0VtQtjy/HCqkyAAAADdnOhPOgbxkPgpeeFsCn6PENS/sPj//m+dQhoaVjYTBEAAAADTxiLPoo+AJGE58SjetjxsgcHMRDut0r1buNg9W5B5DVRI4uV6fLhKdInEXYuKT9SRXGW/iFG/CHgzCvnus+E9</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAD15UWM1Y46Cr8rK5Jgzf+bJwTOPDwyB8Y352HjNwP10QAAAAAOgAAAAAIAACAAAACAzB8J4ZFTNWdY0aYjHW5QwgALjxuUzyJ4wg8K51HQECAAAABFmm1ZimJ+xK0ZM6hafkgbe20d+nEE8yf/B1A5jXPtukAAAAAp2sk6e99chfttaKeAeJjJdljrkuqNES7H2wPAXxaxjPCoL1qdjTirMsgmJy1eEn1oQf7GHySo0IzyfgK/0k9b</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -2021,7 +2021,7 @@ where [refTable].[IVLP_ParticipantId] = ?</property>
                   dataType="System.Int32"
                   description="Specifies the cache type of the lookup table."
                   name="CacheType"
-                  typeConverter="CacheType">0</property>
+                  typeConverter="CacheType">2</property>
                 <property
                   dataType="System.Int32"
                   description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
@@ -5531,6 +5531,12 @@ where [refTable].[IVLP_ParticipantId] = ?</property>
                       cachedName="IVLP_PARTICIPANT_ID"
                       externalMetadataColumnId="Package\Load IVLP Participants (Completed)\Participant.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_ParticipantId]"
                       lineageId="Package\Load IVLP Participants (Completed)\ECA_IVLP_KMT_Participant_XREF_Interim.Outputs[OLE DB Source Output].Columns[IVLP_PARTICIPANT_ID]" />
+                    <inputColumn
+                      refId="Package\Load IVLP Participants (Completed)\Participant.Inputs[OLE DB Destination Input].Columns[IVLP_INIT_UPLOAD_DATE]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="IVLP_INIT_UPLOAD_DATE"
+                      externalMetadataColumnId="Package\Load IVLP Participants (Completed)\Participant.Inputs[OLE DB Destination Input].ExternalColumns[StatusDate]"
+                      lineageId="Package\Load IVLP Participants (Completed)\ECA_IVLP_KMT_Participant_XREF_Interim.Outputs[OLE DB Source Output].Columns[IVLP_INIT_UPLOAD_DATE]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -7699,7 +7705,9 @@ where UPPER([refTable].[LanguageName]) = UPPER(?)</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -7721,7 +7729,9 @@ where UPPER([refTable].[LanguageName]) = UPPER(?)</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -7743,7 +7753,9 @@ where UPPER([refTable].[LanguageName]) = UPPER(?)</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -7765,7 +7777,9 @@ where UPPER([refTable].[LanguageName]) = UPPER(?)</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -7787,7 +7801,9 @@ where UPPER([refTable].[LanguageName]) = UPPER(?)</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -7809,7 +7825,9 @@ where UPPER([refTable].[LanguageName]) = UPPER(?)</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -7997,7 +8015,7 @@ where UPPER([refTable].[LanguageName]) = UPPER(?)</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">false</Value>
+          type="q2:boolean">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -8007,7 +8025,7 @@ where UPPER([refTable].[LanguageName]) = UPPER(?)</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -8083,7 +8101,9 @@ where UPPER([refTable].[LanguageName]) = UPPER(?)</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -8201,7 +8221,9 @@ where UPPER([refTable].[LanguageName]) = UPPER(?)</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -8223,7 +8245,9 @@ where UPPER([refTable].[LanguageName]) = UPPER(?)</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -8359,117 +8383,85 @@ where UPPER([refTable].[LanguageName]) = UPPER(?)</property>
         <NodeLayout
           Size="206,42"
           Id="Package\Load IVLP Participants (Completed)\Lookup Existing Participant"
-          TopLeft="108.5,141.5" />
+          TopLeft="73.5,138.5" />
         <NodeLayout
           Size="186,42"
           Id="Package\Load IVLP Participants (Completed)\Add Required Columns"
-          TopLeft="93.5,274.5" />
+          TopLeft="86.5,273.5" />
         <NodeLayout
           Size="129,42"
           Id="Package\Load IVLP Participants (Completed)\Participant"
-          TopLeft="80.5,372.5" />
+          TopLeft="111.5,373.5" />
         <EdgeLayout
           Id="Package\Load IVLP Participants (Completed).Paths[OLE DB Source Output]"
-          TopLeft="169.5,59.5">
+          TopLeft="173,59.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="42,82"
+              EndConnector="0,79"
               Start="0,0"
-              End="42,74.5">
+              End="0,71.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,37" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,37"
-                    Point2="0,41"
-                    Point3="4,41" />
-                  <mssgle:LineSegment
-                    End="38,41" />
-                  <mssgle:CubicBezierSegment
-                    Point1="38,41"
-                    Point2="42,41"
-                    Point3="42,45" />
-                  <mssgle:LineSegment
-                    End="42,74.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load IVLP Participants (Completed).Paths[Lookup No Match Output]"
-          TopLeft="211.5,183.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-25,91"
-              Start="0,0"
-              End="-25,83.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,41.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,41.5"
-                    Point2="0,45.5"
-                    Point3="-4,45.5" />
-                  <mssgle:LineSegment
-                    End="-21,45.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-21,45.5"
-                    Point2="-25,45.5"
-                    Point3="-25,49.5" />
-                  <mssgle:LineSegment
-                    End="-25,83.5" />
+                    End="0,71.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-68.30638671875,50.5,111.6127734375,11.609375"
+              BoundingBox="0,0,0,0"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load IVLP Participants (Completed).Paths[Derived Column Output]"
-          TopLeft="186.5,316.5">
+          Id="Package\Load IVLP Participants (Completed).Paths[Lookup No Match Output]"
+          TopLeft="178,180.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-41.5,56"
+              EndConnector="0,93"
               Start="0,0"
-              End="-41.5,48.5">
+              End="0,85.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,24" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,24"
-                    Point2="0,28"
-                    Point3="-4,28" />
-                  <mssgle:LineSegment
-                    End="-37.5,28" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-37.5,28"
-                    Point2="-41.5,28"
-                    Point3="-41.5,32" />
-                  <mssgle:LineSegment
-                    End="-41.5,48.5" />
+                    End="0,85.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="-55.80638671875,36.9453125,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load IVLP Participants (Completed).Paths[Derived Column Output]"
+          TopLeft="177.75,315.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,58"
+              Start="0,0"
+              End="0,50.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,50.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -8576,7 +8568,9 @@ where UPPER([refTable].[LanguageName]) = UPPER(?)</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -8694,7 +8688,9 @@ where UPPER([refTable].[LanguageName]) = UPPER(?)</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
