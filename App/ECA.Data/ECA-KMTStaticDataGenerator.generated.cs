@@ -940,6 +940,42 @@ namespace ECA.Data
 		/// Returns the Suspended lookup with id 8.
 		/// </summary>
 		public static StaticLookup Suspended { get { return new StaticLookup("Suspended", 8); } }
+		/// <summary>
+		/// Returns the Alternate lookup with id 9.
+		/// </summary>
+		public static StaticLookup Alternate { get { return new StaticLookup("Alternate", 9); } }
+		/// <summary>
+		/// Returns the Approved lookup with id 10.
+		/// </summary>
+		public static StaticLookup Approved { get { return new StaticLookup("Approved", 10); } }
+		/// <summary>
+		/// Returns the Cancelled lookup with id 11.
+		/// </summary>
+		public static StaticLookup Cancelled { get { return new StaticLookup("Cancelled", 11); } }
+		/// <summary>
+		/// Returns the Disapproved lookup with id 12.
+		/// </summary>
+		public static StaticLookup Disapproved { get { return new StaticLookup("Disapproved", 12); } }
+		/// <summary>
+		/// Returns the Intention lookup with id 13.
+		/// </summary>
+		public static StaticLookup Intention { get { return new StaticLookup("Intention", 13); } }
+		/// <summary>
+		/// Returns the No Funds lookup with id 14.
+		/// </summary>
+		public static StaticLookup NoFunds { get { return new StaticLookup("No Funds", 14); } }
+		/// <summary>
+		/// Returns the Pending lookup with id 15.
+		/// </summary>
+		public static StaticLookup Pending { get { return new StaticLookup("Pending", 15); } }
+		/// <summary>
+		/// Returns the Transferred lookup with id 16.
+		/// </summary>
+		public static StaticLookup Transferred { get { return new StaticLookup("Transferred", 16); } }
+		/// <summary>
+		/// Returns the Waitlisted lookup with id 17.
+		/// </summary>
+		public static StaticLookup Waitlisted { get { return new StaticLookup("Waitlisted", 17); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -955,6 +991,15 @@ namespace ECA.Data
 			if (6 == id) return ParticipantStatus.Terminated;
 			if (7 == id) return ParticipantStatus.Rejected;
 			if (8 == id) return ParticipantStatus.Suspended;
+			if (9 == id) return ParticipantStatus.Alternate;
+			if (10 == id) return ParticipantStatus.Approved;
+			if (11 == id) return ParticipantStatus.Cancelled;
+			if (12 == id) return ParticipantStatus.Disapproved;
+			if (13 == id) return ParticipantStatus.Intention;
+			if (14 == id) return ParticipantStatus.NoFunds;
+			if (15 == id) return ParticipantStatus.Pending;
+			if (16 == id) return ParticipantStatus.Transferred;
+			if (17 == id) return ParticipantStatus.Waitlisted;
 			return null;
 		}
 		///<summary>
@@ -972,6 +1017,15 @@ namespace ECA.Data
 			if ("Terminated".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Terminated;
 			if ("Rejected".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Rejected;
 			if ("Suspended".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Suspended;
+			if ("Alternate".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Alternate;
+			if ("Approved".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Approved;
+			if ("Cancelled".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Cancelled;
+			if ("Disapproved".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Disapproved;
+			if ("Intention".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Intention;
+			if ("No Funds".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.NoFunds;
+			if ("Pending".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Pending;
+			if ("Transferred".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Transferred;
+			if ("Waitlisted".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Waitlisted;
 			return null;
 		}
 
@@ -1090,6 +1144,14 @@ namespace ECA.Data
 		/// Returns the Cell lookup with id 3.
 		/// </summary>
 		public static StaticLookup Cell { get { return new StaticLookup("Cell", 3); } }
+		/// <summary>
+		/// Returns the Visiting lookup with id 4.
+		/// </summary>
+		public static StaticLookup Visiting { get { return new StaticLookup("Visiting", 4); } }
+		/// <summary>
+		/// Returns the Undetermined lookup with id 5.
+		/// </summary>
+		public static StaticLookup Undetermined { get { return new StaticLookup("Undetermined", 5); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -1100,6 +1162,8 @@ namespace ECA.Data
 			if (1 == id) return PhoneNumberType.Home;
 			if (2 == id) return PhoneNumberType.Work;
 			if (3 == id) return PhoneNumberType.Cell;
+			if (4 == id) return PhoneNumberType.Visiting;
+			if (5 == id) return PhoneNumberType.Undetermined;
 			return null;
 		}
 		///<summary>
@@ -1112,6 +1176,8 @@ namespace ECA.Data
 			if ("Home".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Home;
 			if ("Work".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Work;
 			if ("Cell".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Cell;
+			if ("Visiting".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Visiting;
+			if ("Undetermined".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Undetermined;
 			return null;
 		}
 
