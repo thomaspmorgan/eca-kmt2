@@ -35,26 +35,20 @@ angular.module('staticApp')
                           var permissionFound = false;
                           var hasPermissionCallback = config[key][hasPermissionCallbackName];
                           console.assert(hasPermissionCallback, "The config object for the permission named [" + key + '] must have a callback function named [' + hasPermissionCallbackName + '].');
-                          if (userPermissions.length === 0) {
-                              $log.warn('Granting user permission [' + key + '] for resource [' + resourceId + '] of type [' + resourceType + '] because zero permissions were returned from the server.');
-                              hasPermissionCallback();
-                          }
-                          else {
-                              for (var i = 0; i < userPermissions.length; i++) {
-                                  var userPermission = userPermissions[i];
-                                  console.assert(userPermission.permissionName, "The user permission object should have a permissionName property.");
-                                  if (userPermission.permissionName === key) {
-                                      permissionFound = true;
-                                      hasPermissionCallback();
-                                  }
+                          for (var i = 0; i < userPermissions.length; i++) {
+                              var userPermission = userPermissions[i];
+                              console.assert(userPermission.permissionName, "The user permission object should have a permissionName property.");
+                              if (userPermission.permissionName === key) {
+                                  permissionFound = true;
+                                  hasPermissionCallback();
                               }
-                              if (!permissionFound) {
-                                  var notAuthorizedCallback = config[key][notAuthorizedCallbackName];
-                                  console.assert(notAuthorizedCallback, "The config object for the permission named [" + key + '] must have a callback function named [' + notAuthorizedCallbackName + '].');
-                                  notAuthorizedCallback();
-                              }
-                              $log.info('User has [' + key + '] permission = ' + permissionFound);
                           }
+                          if (!permissionFound) {
+                              var notAuthorizedCallback = config[key][notAuthorizedCallbackName];
+                              console.assert(notAuthorizedCallback, "The config object for the permission named [" + key + '] must have a callback function named [' + notAuthorizedCallbackName + '].');
+                              notAuthorizedCallback();
+                          }
+                          $log.info('User has [' + key + '] permission = ' + permissionFound);
                       }
                   }
               });
