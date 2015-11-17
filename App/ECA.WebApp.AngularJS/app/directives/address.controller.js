@@ -186,31 +186,40 @@ angular.module('staticApp')
       }
 
       function checkInactiveLocations(address) {
-          $q.all([
-              loadLocationById(address.countryId),
-              loadLocationById(address.divisionId),
-              loadLocationById(address.cityId)
-          ])
-          .then(function (loadLocationByIdResults) {
-              angular.forEach(loadLocationByIdResults, function (locations, index) {
-                  angular.forEach(locations, function (location, locationIndex) {
-                      if (address.countryId === location.id) {
-                          $scope.view.isCountryInactive = !location.isActive;
-                      }
-                      else if (address.divisionId === location.id) {
-                          $scope.view.isDivisionInactive = !location.isActive;
-                      }
-                      else if (address.cityId === location.id) {
-                          $scope.view.isCityInactive = !location.isActive;
-                      }
+          var promises = [];
+          if (address.countryId) {
+              promises.push(loadLocationById(address.countryId));
+          }
+          if (address.divisionId) {
+              promises.push(loadLocationById(address.divisionId));
+          }
+          if (address.cityId) {
+              promises.push(loadLocationById(address.cityId));
+          }
+
+          if (promises.length > 0) {
+              $q.all(promises)
+              .then(function (loadLocationByIdResults) {
+                  angular.forEach(loadLocationByIdResults, function (locations, index) {
+                      angular.forEach(locations, function (location, locationIndex) {
+                          if (address.countryId === location.id) {
+                              $scope.view.isCountryInactive = !location.isActive;
+                          }
+                          else if (address.divisionId === location.id) {
+                              $scope.view.isDivisionInactive = !location.isActive;
+                          }
+                          else if (address.cityId === location.id) {
+                              $scope.view.isCityInactive = !location.isActive;
+                          }
+                      });
                   });
+              })
+              .catch(function (response) {
+                  var message = 'Unable to check active locations.';
+                  $log.error(message);
+                  NotificationService.showErrorMessage(message);
               });
-          })
-          .catch(function (response) {
-              var message = 'Unable to check active locations.';
-              $log.error(message);
-              NotificationService.showErrorMessage(message);
-          });
+          }
       }
 
       function loadLocationById(id) {
