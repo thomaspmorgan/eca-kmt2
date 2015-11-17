@@ -3,7 +3,7 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Linq.Expressions;
 
-namespace ECA.Business.Sevis.Validation
+namespace ECA.Business.Validation
 {
     public class SevisValidationResult
     {
