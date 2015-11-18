@@ -30,7 +30,7 @@ namespace ECA.Business.Queries.Admin
                 DataLabel = "RELATED PROJECTS",
                 DataValue = context.Programs
                             .Where(x => programIds.Contains(x.ProgramId))
-                            .Select(p => p.Projects.Where(d => d.EndDate.Value.Year >= oldestDate.Year && d.ProjectStatusId == ProjectStatus.Active.Id))
+                            .Select(p => p.Projects.Where(d => d.EndDate.Value.Year >= oldestDate.Year && d.Status.ProjectStatusId == ProjectStatus.Active.Id))
                                                     .Sum(r => (int?)r.Sum(t => (int?)t.RelatedProjects.Count ?? 0) ?? 0)
             };
         }

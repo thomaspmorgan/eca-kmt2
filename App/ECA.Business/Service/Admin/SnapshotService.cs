@@ -28,9 +28,9 @@ namespace ECA.Business.Service.Admin
         /// <returns></returns>
         public SnapshotCountModelDTO GetProgramCounts(int programId)
         {
-            var programs = programService.GetAllChildProgramsWithParent(programId).Where(x => x.ProgramStatusId == ProgramStatus.Active.Id);
+            var programs = programService.GetAllChildProgramsWithParent(programId);
             var childPrograms = programs.Select(p => p.ProgramId).ToList();
-
+            //.Where(x => x.ProgramStatusId == ProgramStatus.Active.Id)
             SnapshotCountModelDTO snapshotModel = new SnapshotCountModelDTO
             {
                 ProgramRelatedProjectsCount = GetProgramRelatedProjectsCount(childPrograms),
