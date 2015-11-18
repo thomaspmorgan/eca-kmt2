@@ -347,12 +347,15 @@ namespace ECA.Business.Service.Programs
             var parentProgramId = draftProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? GetProgramEntityById(draftProgram.ParentProgramId.Value) : null;
 
+            var inactiveRegionIds = GetLocationsById(draftProgram.RegionIds).Where(x => !x.IsActive).Select(x => x.LocationId).ToList();
+
             var program = DoCreate(draftProgram, GetValidationEntity(
                     program: draftProgram,
                     owner: owner,
                     ownerOfficeSettings: ownerOfficeSettings,
                     parentProgram: parentProgram,
                     regionTypesIds: regionTypeIds,
+                    inactiveRegionIds: inactiveRegionIds,
                     parentProgramParentPrograms: new List<OrganizationProgramDTO>()));
             this.logger.Trace("Created program.");
 
@@ -378,12 +381,15 @@ namespace ECA.Business.Service.Programs
             var parentProgramId = draftProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? await GetProgramEntityByIdAsync(draftProgram.ParentProgramId.Value) : null;
 
+            var inactiveRegionIds = (await GetLocationsByIdAsync(draftProgram.RegionIds)).Where(x => !x.IsActive).Select(x => x.LocationId).ToList();
+
             var program = DoCreate(draftProgram, GetValidationEntity(
                     program: draftProgram,
                     owner: owner,
                     ownerOfficeSettings: ownerOfficeSettings,
                     parentProgram: parentProgram,
                     regionTypesIds: regionTypeIds,
+                    inactiveRegionIds: inactiveRegionIds,
                     parentProgramParentPrograms: new List<OrganizationProgramDTO>()));
             this.logger.Trace("Created program.");
             return program;
@@ -463,31 +469,35 @@ namespace ECA.Business.Service.Programs
             var programToUpdate = GetProgramEntityById(updatedProgram.Id);
             this.logger.Trace("Retrieved program with id [{0}].", updatedProgram.Id);
 
-            var regionTypeIds = GetLocationTypeIds(updatedProgram.RegionIds);
-            this.logger.Trace("Retrieved region type by region ids [{0}].", String.Join(", ", updatedProgram.RegionIds));
-
-            var owner = GetOrganizationById(updatedProgram.OwnerOrganizationId);
-            this.logger.Trace("Retrieved owner organization by id [{0}].", updatedProgram.OwnerOrganizationId);
-
-            var ownerOfficeSettings = officeService.GetOfficeSettings(owner.OrganizationId);
-            this.logger.Trace("Retrieved office settings for owner organization with id [{0}].", owner.OrganizationId);
-
-            var parentProgramId = updatedProgram.ParentProgramId;
-            Program parentProgram = parentProgramId.HasValue ? GetProgramEntityById(updatedProgram.ParentProgramId.Value) : null;
-
-            List<OrganizationProgramDTO> parentProgramParentPrograms = new List<OrganizationProgramDTO>();
-            if (parentProgram != null)
-            {
-                parentProgramParentPrograms = GetParentPrograms(parentProgram.ProgramId);
-            }
             if (programToUpdate != null)
             {
+                var regionTypeIds = GetLocationTypeIds(updatedProgram.RegionIds);
+                this.logger.Trace("Retrieved region type by region ids [{0}].", String.Join(", ", updatedProgram.RegionIds));
+
+                var owner = GetOrganizationById(updatedProgram.OwnerOrganizationId);
+                this.logger.Trace("Retrieved owner organization by id [{0}].", updatedProgram.OwnerOrganizationId);
+
+                var ownerOfficeSettings = officeService.GetOfficeSettings(owner.OrganizationId);
+                this.logger.Trace("Retrieved office settings for owner organization with id [{0}].", owner.OrganizationId);
+
+                var parentProgramId = updatedProgram.ParentProgramId;
+                Program parentProgram = parentProgramId.HasValue ? GetProgramEntityById(updatedProgram.ParentProgramId.Value) : null;
+
+                List<OrganizationProgramDTO> parentProgramParentPrograms = new List<OrganizationProgramDTO>();
+                if (parentProgram != null)
+                {
+                    parentProgramParentPrograms = GetParentPrograms(parentProgram.ProgramId);
+                }
+
+                var inactiveRegionIds = GetNewInactiveProgramLocations(updatedProgram.Id, updatedProgram.RegionIds).Select(x => x.LocationId).ToList();
+
                 DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(
                     program: updatedProgram,
                     owner: owner,
                     ownerOfficeSettings: ownerOfficeSettings,
                     parentProgram: parentProgram,
                     regionTypesIds: regionTypeIds,
+                    inactiveRegionIds: inactiveRegionIds,
                     parentProgramParentPrograms: parentProgramParentPrograms));
                 this.logger.Trace("Performed update on program.");
             }
@@ -506,32 +516,35 @@ namespace ECA.Business.Service.Programs
             var programToUpdate = await GetProgramEntityByIdAsync(updatedProgram.Id);
             this.logger.Trace("Retrieved program with id [{0}].", updatedProgram.Id);
 
-            var regionTypeIds = await GetLocationTypeIdsAsync(updatedProgram.RegionIds);
-            this.logger.Trace("Retrieved region type by region ids [{0}].", String.Join(", ", updatedProgram.RegionIds));
-
-            var owner = GetOrganizationById(updatedProgram.OwnerOrganizationId);
-            this.logger.Trace("Retrieved owner organization by id [{0}].", updatedProgram.OwnerOrganizationId);
-
-            var ownerOfficeSettings = await officeService.GetOfficeSettingsAsync(owner.OrganizationId);
-            this.logger.Trace("Retrieved office settings for owner organization with id [{0}].", owner.OrganizationId);
-
-            var parentProgramId = updatedProgram.ParentProgramId;
-            Program parentProgram = parentProgramId.HasValue ? await GetProgramEntityByIdAsync(updatedProgram.ParentProgramId.Value) : null;
-
-            List<OrganizationProgramDTO> parentProgramParentPrograms = new List<OrganizationProgramDTO>();
-            if (parentProgram != null)
-            {
-                parentProgramParentPrograms = await GetParentProgramsAsync(parentProgram.ProgramId);
-            }
-
             if (programToUpdate != null)
             {
+                var regionTypeIds = await GetLocationTypeIdsAsync(updatedProgram.RegionIds);
+                this.logger.Trace("Retrieved region type by region ids [{0}].", String.Join(", ", updatedProgram.RegionIds));
+
+                var owner = GetOrganizationById(updatedProgram.OwnerOrganizationId);
+                this.logger.Trace("Retrieved owner organization by id [{0}].", updatedProgram.OwnerOrganizationId);
+
+                var ownerOfficeSettings = await officeService.GetOfficeSettingsAsync(owner.OrganizationId);
+                this.logger.Trace("Retrieved office settings for owner organization with id [{0}].", owner.OrganizationId);
+
+                var parentProgramId = updatedProgram.ParentProgramId;
+                Program parentProgram = parentProgramId.HasValue ? await GetProgramEntityByIdAsync(updatedProgram.ParentProgramId.Value) : null;
+
+                List<OrganizationProgramDTO> parentProgramParentPrograms = new List<OrganizationProgramDTO>();
+                if (parentProgram != null)
+                {
+                    parentProgramParentPrograms = await GetParentProgramsAsync(parentProgram.ProgramId);
+                }
+
+                var inactiveRegionIds = await GetNewInactiveProgramLocations(updatedProgram.Id, updatedProgram.RegionIds).Select(x => x.LocationId).ToListAsync();
+
                 DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(
                     program: updatedProgram,
                     owner: owner,
                     ownerOfficeSettings: ownerOfficeSettings,
                     parentProgram: parentProgram,
                     regionTypesIds: regionTypeIds,
+                    inactiveRegionIds: inactiveRegionIds,
                     parentProgramParentPrograms: parentProgramParentPrograms));
                 this.logger.Trace("Performed update on program.");
             }
@@ -648,6 +661,7 @@ namespace ECA.Business.Service.Programs
             OfficeSettings ownerOfficeSettings,
             Program parentProgram,
             List<int> regionTypesIds,
+            List<int> inactiveRegionIds,
             List<OrganizationProgramDTO> parentProgramParentPrograms)
         {
             return new ProgramServiceValidationEntity(
@@ -655,6 +669,7 @@ namespace ECA.Business.Service.Programs
                 name: program.Name,
                 description: program.Description,
                 regionLocationTypeIds: regionTypesIds,
+                inactiveRegionIds: inactiveRegionIds,
                 contactIds: program.ContactIds,
                 owner: owner,
                 themeIds: program.ThemeIds,

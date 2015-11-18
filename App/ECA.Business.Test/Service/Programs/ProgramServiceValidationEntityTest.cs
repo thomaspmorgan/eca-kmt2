@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Service.Programs;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int> { 1 };
             var categoryIds = new List<int> { 1 };
             var objectiveIds = new List<int> { 1 };
+            var inactiveRegionids = new List<int> { 1, 1, 1 };
             var parentPrograms = new List<OrganizationProgramDTO>();
             var focus = new Focus();
             var owner = new Organization();
@@ -35,6 +37,7 @@ namespace ECA.Business.Test.Service.Programs
                 name,
                 description, 
                 regionLocationTypeIds,
+                inactiveRegionids,
                 contactIds,
                 themeIds,
                 goalIds,
@@ -60,6 +63,7 @@ namespace ECA.Business.Test.Service.Programs
             Assert.IsTrue(Object.ReferenceEquals(description, entity.Description));
             Assert.IsTrue(Object.ReferenceEquals(officeSettings, entity.OwnerOfficeSettings));
             Assert.IsTrue(Object.ReferenceEquals(parentPrograms, entity.ParentProgramParentPrograms));
+            CollectionAssert.AreEqual(inactiveRegionids.Distinct().ToList(), entity.InactiveRegionIds.ToList());
 
             Assert.AreEqual(parentProgramId, entity.ParentProgramId);
             Assert.AreEqual(programId, entity.ProgramId);
@@ -75,6 +79,7 @@ namespace ECA.Business.Test.Service.Programs
             var regionIds = new List<int> { 1 };
             var categoryIds = new List<int> { 1 };
             var objectiveIds = new List<int> { 1 };
+            var inactiveRegionids = new List<int>();
             var focus = new Focus();
             var owner = new Organization();
             var parentProgramId = 2;
@@ -88,6 +93,7 @@ namespace ECA.Business.Test.Service.Programs
                 name,
                 description,
                 regionLocationTypeIds,
+                inactiveRegionids,
                 contactIds,
                 themeIds,
                 goalIds,
@@ -102,6 +108,7 @@ namespace ECA.Business.Test.Service.Programs
                 );
 
             Assert.IsNotNull(entity.ParentProgramParentPrograms);
+            Assert.IsNotNull(entity.InactiveRegionIds);
         }
     }
 }

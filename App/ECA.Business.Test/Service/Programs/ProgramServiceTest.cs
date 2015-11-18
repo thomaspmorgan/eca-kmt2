@@ -2444,6 +2444,65 @@ namespace ECA.Business.Test.Service.Programs
         }
 
         [TestMethod]
+        public async Task TestCreate_CheckValidatorValues()
+        {   
+            var parentProgramId = 3;
+            var parentProgram = new Program { ProgramId = parentProgramId };
+            context.Programs.Add(parentProgram);
+            var ownerId = 12;
+            context.Organizations.Add(new Organization { OrganizationId = ownerId });
+
+            var userId = 1;
+            var user = new User(userId);
+            var name = "name";
+            var description = "description";
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var pointOfContactIds = new List<int>();
+            var themeIds = new List<int> { 1 };
+            var goalIds = new List<int> { 2 };
+            var regionIds = new List<int> { 3 };
+            var categoryIds = new List<int> { 4 };
+            var objectiveIds = new List<int> { 5 };
+            var websites = new List<WebsiteDTO>();
+
+            var draftProgram = new DraftProgram(
+               createdBy: user,
+               name: name,
+               description: description,
+               startDate: startDate,
+               endDate: endDate,
+               ownerOrganizationId: ownerId,
+               parentProgramId: parentProgramId,
+               goalIds: goalIds,
+               pointOfContactIds: pointOfContactIds,
+               themeIds: themeIds,
+               regionIds: regionIds,
+               categoryIds: categoryIds,
+               objectiveIds: objectiveIds,
+               websites: websites
+               );
+            Action<ProgramServiceValidationEntity> validationEntityTester = (testEntity) =>
+            {
+                Assert.AreEqual(name, testEntity.Name);
+                Assert.AreEqual(description, testEntity.Description);
+                Assert.AreEqual(context.Organizations.First().OrganizationId, testEntity.OwnerOrganization.OrganizationId);
+                Assert.AreEqual(parentProgramId, testEntity.ParentProgramId);
+
+                CollectionAssert.AreEqual(categoryIds.ToList(), testEntity.CategoryIds.ToList());
+                CollectionAssert.AreEqual(pointOfContactIds.ToList(), testEntity.ContactIds.ToList());
+                CollectionAssert.AreEqual(themeIds.ToList(), testEntity.ThemeIds.ToList());
+                CollectionAssert.AreEqual(goalIds.ToList(), testEntity.GoalIds.ToList());
+                CollectionAssert.AreEqual(regionIds.ToList(), testEntity.RegionIds.ToList());
+                CollectionAssert.AreEqual(objectiveIds.ToList(), testEntity.ObjectiveIds.ToList());
+            };
+            mockValidator.Setup(x => x.ValidateCreate(It.IsAny<ProgramServiceValidationEntity>())).Callback(validationEntityTester);
+            service.Create(draftProgram);
+            await service.CreateAsync(draftProgram);
+            mockValidator.Verify(x => x.ValidateCreate(It.IsAny<ProgramServiceValidationEntity>()), Times.Exactly(2));
+        }
+
+        [TestMethod]
         public void TestCreate_DoesNotHaveParentProgram()
         {
             var ownerId = 12;
@@ -3573,6 +3632,109 @@ namespace ECA.Business.Test.Service.Programs
 
                 Assert.AreEqual(revisorId, updatedProgram.History.RevisedBy);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(updatedProgram.History.RevisedOn, DbContextHelper.DATE_PRECISION);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_CheckValidatorValues()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+
+                var parentProgramId = 3;
+                var parentProgram = new Program { ProgramId = parentProgramId };
+                var ownerId = 12;
+                context.Organizations.Add(new Organization { OrganizationId = ownerId });
+
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "old name",
+                    Description = "old description",
+                    StartDate = DateTimeOffset.UtcNow,
+                    EndDate = DateTime.UtcNow.AddDays(1.0),
+                    ProgramStatusId = ProgramStatus.Draft.Id,
+                    ParentProgram = null,
+                    RowVersion = new byte[] { (byte)1 },
+
+                };
+                context.Programs.Add(program);
+                context.Programs.Add(parentProgram);
+
+                var userId = 1;
+                var user = new User(userId);
+                var name = "name";
+                var description = "description";
+                var statusId = ProgramStatus.Completed.Id;
+                var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var endDate = DateTime.UtcNow.AddDays(1.0);
+                var pointOfContactIds = new List<int>();
+                var themeIds = new List<int> { 1 };
+                var goalIds = new List<int> { 2 };
+                var regionIds = new List<int> { 3 };
+                var categoryIds = new List<int> { 4 };
+                var objectiveIds = new List<int> { 5 };
+                var websites = new List<WebsiteDTO>();
+                var rowVersion = new byte[] { (byte)1 };
+
+                var updatedEcaProgram = new EcaProgram(
+                        updatedBy: new User(userId),
+                        id: program.ProgramId,
+                        name: name,
+                        description: description,
+                        startDate: startDate,
+                        endDate: endDate,
+                        ownerOrganizationId: ownerId,
+                        parentProgramId: parentProgramId,
+                        programStatusId: statusId,
+                        programRowVersion: rowVersion,
+                        goalIds: goalIds,
+                        pointOfContactIds: pointOfContactIds,
+                        themeIds: themeIds,
+                        regionIds: regionIds,
+                        categoryIds: categoryIds,
+                        objectiveIds: objectiveIds,
+                        websites: websites
+                        );
+                Action<ProgramServiceValidationEntity> validationEntityTester = (testEntity) =>
+                {
+                    Assert.AreEqual(name, testEntity.Name);
+                    Assert.AreEqual(description, testEntity.Description);
+                    Assert.AreEqual(context.Organizations.First().OrganizationId, testEntity.OwnerOrganization.OrganizationId);
+                    Assert.AreEqual(parentProgramId, testEntity.ParentProgramId);
+
+                    CollectionAssert.AreEqual(categoryIds.ToList(), testEntity.CategoryIds.ToList());
+                    CollectionAssert.AreEqual(pointOfContactIds.ToList(), testEntity.ContactIds.ToList());
+                    CollectionAssert.AreEqual(themeIds.ToList(), testEntity.ThemeIds.ToList());
+                    CollectionAssert.AreEqual(goalIds.ToList(), testEntity.GoalIds.ToList());
+                    CollectionAssert.AreEqual(regionIds.ToList(), testEntity.RegionIds.ToList());
+                    CollectionAssert.AreEqual(objectiveIds.ToList(), testEntity.ObjectiveIds.ToList());
+                };
+                mockValidator.Setup(x => x.ValidateUpdate(It.IsAny<ProgramServiceValidationEntity>())).Callback(validationEntityTester);
+                service.Update(updatedEcaProgram);
+                await service.UpdateAsync(updatedEcaProgram);
+                mockValidator.Verify(x => x.ValidateUpdate(It.IsAny<ProgramServiceValidationEntity>()), Times.Exactly(2));
             }
         }
 
