@@ -64,6 +64,7 @@ angular.module('staticApp')
               DragonBreath.get(params, path)
                 .success(function (data) {
                     me.setChildrenOfProgramHierarchy(data.results);
+                    debugger;
                     defer.resolve(data);
                 });
               return defer.promise;
