@@ -16,7 +16,7 @@
 </div>
 <div class="modal-body">
     <div class="col-md-8" ng-show="!isLoadingResults">
-        <div class="subheader listCount">
+        <div class="subheader listCount" style="margin-bottom:10px">
             <p ng-show="totalResults > 0 && !isLoadingResults">Showing {{currentParams.Start + 1}} - {{currentParams.Start + count}} of {{totalResults}} results.</p>
             <p ng-show="totalResults === 0 && !isLoadingResults">Found {{totalResults}} results.</p>
         </div>
