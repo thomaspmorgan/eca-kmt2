@@ -30,7 +30,7 @@ namespace ECA.Business.Queries.Admin
                 DataLabel = "RELATED PROJECTS",
                 DataValue = context.Programs
                             .Where(x => programIds.Contains(x.ProgramId))
-                            .Select(p => p.Projects.Where(d => d.EndDate.Value.Year >= oldestDate.Year))
+                            .Select(p => p.Projects.Where(d => d.EndDate.Value.Year >= oldestDate.Year && d.Status.ProjectStatusId == ProjectStatus.Active.Id))
                                                     .Sum(r => (int?)r.Sum(t => (int?)t.RelatedProjects.Count ?? 0) ?? 0)
             };
         }
@@ -49,7 +49,7 @@ namespace ECA.Business.Queries.Admin
                 DataLabel = "PARTICIPANTS",
                 DataValue = context.Programs
                                 .Where(x => programIds.Contains(x.ProgramId))
-                                .Select(p => p.Projects.Where(d => d.EndDate.Value.Year >= oldestDate.Year))
+                                .Select(p => p.Projects.Where(d => d.EndDate.Value.Year >= oldestDate.Year && d.ProjectStatusId == ProjectStatus.Active.Id))
                                                         .Sum(c => (int?)c.Sum(t => (int?)t.Participants.Count ?? 0) ?? 0)
             };
         }
@@ -69,7 +69,7 @@ namespace ECA.Business.Queries.Admin
                 DataValue = (int)context.Programs
                                 .Where(x => programIds.Contains(x.ProgramId))
                                 .Sum(p => (decimal?)p.Projects.Sum(r => (decimal?)r.RecipientProjectMoneyFlows
-                                                                .Where(m => m.TransactionDate.Year >= oldestDate.Year 
+                                                                .Where(m => m.TransactionDate.Year >= oldestDate.Year
                                                                         && m.Value > 0)
                                                                         .Sum(m => (decimal?)m.Value ?? 0) ?? 0) ?? 0)
             };
@@ -158,7 +158,8 @@ namespace ECA.Business.Queries.Admin
                 DataLabel = "ALUMNI",
                 DataValue = context.Programs
                                 .Where(x => programIds.Contains(x.ProgramId))
-                                .Select(p => p.Projects.Where(d => d.EndDate.Value.Year >= oldestDate.Year))
+                                .Select(p => p.Projects.Where(d => d.EndDate.Value.Year >= oldestDate.Year 
+                                                                && d.ProjectStatusId == ProjectStatus.Active.Id))
                                 .Sum(c => (int?)c.Sum(t => (int?)t.Participants.Where(d => d.StatusDate.Value.Year >= oldestDate.Year)
                                                         .Count(s => s.ParticipantStatusId == ParticipantStatus.Alumnus.Id) ?? 0) ?? 0)
             };
@@ -177,7 +178,8 @@ namespace ECA.Business.Queries.Admin
                             where programIds.Contains(pc.ProgramId)
                             from project in pc.Projects
                             where project.EndDate.Value.Year >= oldestDate.Year
-                            from category in project.Categories
+                                && project.ProjectStatusId == ProjectStatus.Active.Id
+                         from category in project.Categories
                             group category by category.CategoryName into g
                             select g).SelectMany(x => x).Select(c => c.CategoryId).Distinct();
 
@@ -197,8 +199,10 @@ namespace ECA.Business.Queries.Admin
             Contract.Requires(context != null, "The context must not be null.");
             var budgetData = await (from pc in context.Programs
                                       where programIds.Contains(pc.ProgramId)
-                                      from project in pc.Projects
+                                        && pc.ProgramStatusId == ProgramStatus.Active.Id
+                                    from project in pc.Projects
                                       where project.EndDate.Value.Year >= oldestDate.Year
+                                        && project.ProjectStatusId == ProjectStatus.Active.Id
                                       from mf in project.RecipientProjectMoneyFlows
                                       where mf.FiscalYear >= oldestDate.Year
                                       select new {Key = mf.FiscalYear, Value = mf.Value}).ToListAsync();
@@ -225,7 +229,8 @@ namespace ECA.Business.Queries.Admin
         {
             Contract.Requires(context != null, "The context must not be null.");
             var programThemes = await context.Programs
-                                        .Where(p => programIds.Contains(p.ProgramId))
+                                        .Where(p => programIds.Contains(p.ProgramId) 
+                                            && p.ProgramStatusId == ProgramStatus.Active.Id)
                                         .Select(t => t.Themes.GroupBy(n => n.ThemeId)).ToListAsync();
             List<string> allThemes = new List<string>();
 
@@ -260,7 +265,8 @@ namespace ECA.Business.Queries.Admin
         {
             Contract.Requires(context != null, "The context must not be null.");
             var progPartic = await context.Participants.Where(p => programIds.Contains(p.Project.ProgramId)
-                                                                && p.Project.StartDate.Year >= oldestDate.Year)
+                                                                && p.Project.StartDate.Year >= oldestDate.Year
+                                                                && p.Project.ProjectStatusId == ProjectStatus.Active.Id)
                                                         .SelectMany(p => p.Person.Addresses.Where(a => a.IsPrimary == true)).ToListAsync();
             
             var graphValues = (from address in progPartic
@@ -284,7 +290,8 @@ namespace ECA.Business.Queries.Admin
         {
             Contract.Requires(context != null, "The context must not be null.");
             var pby = await context.Participants.Where(p => programIds.Contains(p.Project.ProgramId)
-                                                        && p.Project.StartDate.Year >= oldestDate.Year)
+                                                        && p.Project.StartDate.Year >= oldestDate.Year
+                                                        && p.Project.ProjectStatusId == ProjectStatus.Active.Id)
                                                         .GroupBy(x => x.Project.StartDate.Year).ToListAsync();
 
             SnapshotGraphDTO graphValues = new SnapshotGraphDTO

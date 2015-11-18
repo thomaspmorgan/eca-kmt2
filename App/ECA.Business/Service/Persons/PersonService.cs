@@ -77,6 +77,10 @@ namespace ECA.Business.Service.Persons
             }
             var personToUpdate = await GetPersonModelByIdAsync(pii.PersonId);
             var cityOfBirth = await GetLocationByIdAsync(pii.CityOfBirthId.GetValueOrDefault());
+            if (pii.CityOfBirthId == null)
+            {
+                pii.IsPlaceOfBirthUnknown = true;
+            }
             var countriesOfCitizenship = await GetLocationsByIdAsync(pii.CountriesOfCitizenship);
             DoUpdate(pii, personToUpdate, cityOfBirth, countriesOfCitizenship);
 
