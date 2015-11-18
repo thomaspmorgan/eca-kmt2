@@ -536,7 +536,7 @@ namespace ECA.Business.Service.Programs
                     parentProgramParentPrograms = await GetParentProgramsAsync(parentProgram.ProgramId);
                 }
 
-                var inactiveRegionIds = await GetNewInactiveProgramLocations(updatedProgram.Id, updatedProgram.RegionIds).Select(x => x.LocationId).ToListAsync();
+                var inactiveRegionIds = await (GetNewInactiveProgramLocations(updatedProgram.Id, updatedProgram.RegionIds).Select(x => x.LocationId)).ToListAsync();
 
                 DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(
                     program: updatedProgram,

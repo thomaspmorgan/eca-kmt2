@@ -231,7 +231,7 @@ angular.module('staticApp')
       }
 
       $scope.view.deleteWebsite = function ($index) {
-              $scope.view.program.websites.splice($index, 1);
+          $scope.view.program.websites.splice($index, 1);
       }
 
       function doCancel() {
@@ -273,7 +273,7 @@ angular.module('staticApp')
           }
 
           // Remove undefined elements and empty strings
-          $scope.view.program.websites = $scope.view.program.websites.filter(function (n) { return (n.value && n.value.length > 0 ) });
+          $scope.view.program.websites = $scope.view.program.websites.filter(function (n) { return (n.value && n.value.length > 0) });
 
           return ProgramService.update($scope.view.program)
           .then(function (response) {
@@ -462,6 +462,7 @@ angular.module('staticApp')
       function loadRegions() {
           regionsFilter.reset();
           regionsFilter = regionsFilter.skip(0).take(10)
+            .isTrue('isActive')
             .equal('locationTypeId', ConstantsService.locationType.region.id)
             .sortBy('name');
 
