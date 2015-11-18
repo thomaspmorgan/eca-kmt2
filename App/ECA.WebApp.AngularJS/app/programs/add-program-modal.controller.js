@@ -378,7 +378,7 @@ angular.module('staticApp')
       var regionFilter = FilterService.add('programmodal_regionfilter');
       function loadRegions() {
           regionFilter.reset();
-          regionFilter = regionFilter.skip(0).take(maxLimit).equal('locationTypeId', ConstantsService.locationType.region.id);
+          regionFilter = regionFilter.skip(0).take(maxLimit).isTrue('isActive').equal('locationTypeId', ConstantsService.locationType.region.id);
           return LookupService.getAllRegions(regionFilter.toParams())
             .then(function (data) {
                 $scope.view.regions = data.results;

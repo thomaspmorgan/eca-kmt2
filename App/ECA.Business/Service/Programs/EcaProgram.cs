@@ -140,8 +140,14 @@ namespace ECA.Business.Models.Programs
         /// </summary>
         public List<int> ThemeIds { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the focus category ids.
+        /// </summary>
         public List<int> FocusCategoryIds { get; set; }
 
+        /// <summary>
+        /// Gets or sets the justification objective ids.
+        /// </summary>
         public List<int> JustificationObjectiveIds { get; set; }
 
         /// <summary>

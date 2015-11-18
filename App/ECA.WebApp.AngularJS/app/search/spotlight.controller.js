@@ -28,7 +28,7 @@ angular.module('staticApp')
               animation: true,
               templateUrl: 'app/search/search-modal.html',
               controller: 'SearchModalCtrl',
-              windowClass: 'search-modal',
+              windowClass: 'full-screen-modal',
               backdrop: 'static',
               keyboard: false,
               resolve: {

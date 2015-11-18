@@ -160,7 +160,7 @@ angular.module('staticApp')
               animation: true,
               templateUrl: 'app/locations/search-locations.html',
               controller: 'SearchLocationsCtrl',
-              size: 'lg',
+              windowClass: 'full-screen-modal',
               resolve: {}
           });
 

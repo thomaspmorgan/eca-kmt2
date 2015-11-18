@@ -21,6 +21,12 @@ namespace ECA.Business.Service.Programs
         public const string NO_OBJECTIVES_GIVEN_ERROR_MESSAGE = "There must be at least one one justification/objective for a program with this organization.";
 
         /// <summary>
+        /// The error message when at least one location is inactive.
+        /// </summary>
+        public const string INACTIVE_LOCATIONS_ERROR_MESSAGE = "At least one location is no longer active.";
+
+
+        /// <summary>
         /// The error message to display when a program is having it's parent program changed to a program that is already a child of that program.
         /// </summary>
         public const string CIRCULAR_PARENT_PROGRAM_ERROR_MESSAGE = "The given parent program is already a child program of this program.";
@@ -142,6 +148,10 @@ namespace ECA.Business.Service.Programs
             if(validationEntity.ParentProgramParentPrograms.Select(x => x.ProgramId).ToList().Contains(validationEntity.ProgramId))
             {
                 yield return new BusinessValidationResult<EcaProgram>(x => x.ParentProgramId, CIRCULAR_PARENT_PROGRAM_ERROR_MESSAGE);
+            }
+            if(validationEntity.InactiveRegionIds.Count() > 0)
+            {
+                yield return new BusinessValidationResult<EcaProgram>(x => x.RegionIds, INACTIVE_LOCATIONS_ERROR_MESSAGE);
             }
         }
 
