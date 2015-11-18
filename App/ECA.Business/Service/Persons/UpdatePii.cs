@@ -32,6 +32,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="dateOfBirth">The date of birth</param>
         /// <param name="isDateOfBirthUnknown">True if date of birth is unknown</param>
         /// <param name="countriesOfCitizenship">The coutries of citizenship</param>
+        /// <param name="isPlaceOfBirthUnknown">The city of birth is unknown</param>
         /// <param name="medicalConditions">The medical conditions</param>
         /// <param name="maritalStatusId">The marital status id</param>
         public UpdatePii(

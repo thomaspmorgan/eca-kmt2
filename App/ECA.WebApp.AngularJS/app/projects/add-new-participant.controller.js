@@ -18,7 +18,7 @@ angular.module('staticApp')
       $scope.newPerson.selectedDuplicate = undefined;
       $scope.newPerson.isDateOfBirthUnknown = false;
       $scope.newPerson.IsPlaceOfBirthUnknown = false;
-      $scope.newPerson.unknownCountry = 'Unknown';
+      $scope.unknownCountry = 'Unknown';
 
       // Initialize model for organization tab
       $scope.newOrganization = {};
