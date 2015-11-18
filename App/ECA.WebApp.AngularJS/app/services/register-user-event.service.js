@@ -15,7 +15,7 @@ angular.module('staticApp')
               var user = $rootScope.userInfo;
               if (user.isAuthenticated) {
                   $log.info('Check if user registered...');
-                  $q.when(AuthService.getUserInfo())
+                  AuthService.getUserInfo()
                   .then(function (userInfoResponse) {
                       var userInfo = userInfoResponse.data;
                       $log.info('User [' + userInfo.userName + '] authenticated.');

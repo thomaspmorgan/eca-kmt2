@@ -51,7 +51,7 @@ with cte as
 		cte
 		Join Organization as Org on Owner_OrganizationId = Org.OrganizationId
 		join program t on cte.ProgramId = t.parentProgram_ProgramId
-		Join ProgramStatus On cte.ProgramStatusId = ProgramStatus.ProgramStatusId
+		Join ProgramStatus On t.ProgramStatusId = ProgramStatus.ProgramStatusId
 )
    
 select * from cte order by sortOrder

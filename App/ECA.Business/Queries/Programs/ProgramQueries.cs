@@ -6,7 +6,6 @@ using ECA.Data;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using ECA.Business.Service.Admin;
-using ECA.Business.Service;
 using ECA.Business.Queries.Admin;
 
 namespace ECA.Business.Queries.Programs
@@ -74,7 +73,6 @@ namespace ECA.Business.Queries.Programs
         public static IQueryable<ProgramDTO> CreateGetPublishedProgramsQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-
             var regionTypeId = LocationType.Region.Id;
             var countryTypeId = LocationType.Country.Id;
             var allLocations = LocationQueries.CreateGetLocationsQuery(context);
@@ -115,7 +113,7 @@ namespace ECA.Business.Queries.Programs
                             CountryIsos = countries.Select(x => new SimpleLookupDTO { Id = x.Id, Value = x.LocationIso }),
                             Categories = categories.Select(c => new FocusCategoryDTO { Id = c.CategoryId, Name = c.CategoryName, FocusName = c.Focus.FocusName }),
                             Description = program.Description,
-                            EndDate = program.EndDate,                            
+                            EndDate = program.EndDate,
                             Goals = goals.Select(x => new SimpleLookupDTO { Id = x.GoalId, Value = x.GoalName }),
                             Id = program.ProgramId,
                             Objectives = objectives.Select(o => new JustificationObjectiveDTO { Id = o.ObjectiveId, Name = o.ObjectiveName, JustificationName = o.Justification.JustificationName }),
@@ -138,6 +136,7 @@ namespace ECA.Business.Queries.Programs
                             Websites = websites.Select(x => new SimpleLookupDTO { Id = x.WebsiteId, Value = x.WebsiteValue }),
                             ProgramStatusName = status.Status
                         };
+
             return query;
         }
     }

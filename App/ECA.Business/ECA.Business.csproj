@@ -138,6 +138,7 @@
     <Compile Include="Queries\Models\Admin\ProgramStatusDTO.cs" />
     <Compile Include="Queries\Models\Admin\SnapshotCountModelDTO.cs" />
     <Compile Include="Queries\Models\Admin\SnapshotDTO.cs" />
+    <Compile Include="Queries\Models\Fundings\FiscalYearSummaryDTO.cs" />
     <Compile Include="Queries\Models\Fundings\SourceMoneyFlowDTO.cs" />
     <Compile Include="Queries\Models\Admin\SnapshotGraphDTO.cs" />
     <Compile Include="Queries\Models\Persons\LanguageProficiencyDTO.cs" />

@@ -18,6 +18,7 @@ angular.module('staticApp')
       $scope.newPerson.selectedDuplicate = undefined;
       $scope.newPerson.isDateOfBirthUnknown = false;
       $scope.newPerson.IsPlaceOfBirthUnknown = false;
+      $scope.unknownCountry = 'Unknown';
 
       // Initialize model for organization tab
       $scope.newOrganization = {};
@@ -110,6 +111,9 @@ angular.module('staticApp')
       }
 
       $scope.countryOfBirthSelected = function () {
+          if (!$scope.newPerson.countryOfBirthId) {
+              $scope.newPerson.isPlaceOfBirthUnknown = true;
+          }
           $scope.newPerson.cityOfBirth = undefined;
           loadCities();
       }
@@ -296,7 +300,9 @@ angular.module('staticApp')
 
           return LocationService.get(params)
             .then(function (data) {
-                $scope.countries = data.results;
+                var countriesOfBirth = data.results;
+                countriesOfBirth.splice(0, 0, { id: 0, name: $scope.unknownCountry })
+                $scope.countries = countriesOfBirth;
             });
       }
 
@@ -312,7 +318,9 @@ angular.module('staticApp')
 
           return LocationService.get(params)
             .then(function (data) {
-                $scope.countriesCopy = data.results;
+                var countriesOfBirth = data.results;
+                countriesOfBirth.splice(0, 0, { id: 0, name: $scope.unknownCountry })
+                $scope.countriesCopy = countriesOfBirth;
             });
       }
 
@@ -330,6 +338,8 @@ angular.module('staticApp')
 
               if (search) {
                   params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
+              } else if ($scope.newPerson.cityOfBirth) {
+                  params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: $scope.newPerson.cityOfBirth });
               }
 
               return LocationService.get(params)

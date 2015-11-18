@@ -15,6 +15,7 @@ angular.module('staticApp')
         $log,
         $modal,
         $state,
+        orderByFilter,
 		FilterService,
 		LookupService,
         OrganizationService,
@@ -70,6 +71,7 @@ angular.module('staticApp')
 
       $scope.view.onSelectHostInstitutionAddress = function ($item, $model) {
           $scope.view.participantPerson.hostInstitutionAddressId = $model;
+          $scope.view.selectedHostInstitutionAddresses = [$model];
       }
 
       $scope.view.onSelectHomeInstitution = function ($item, $model) {
@@ -89,6 +91,7 @@ angular.module('staticApp')
 
       $scope.view.onSelectHomeInstitutionAddress = function ($item, $model) {
           $scope.view.participantPerson.homeInstitutionAddressId = $model;
+          $scope.view.selectedHomeInstitutionAddresses = [$model];
       }
 
       $scope.view.onRemoveHostInstitutionAddress = function ($item, $model) {
@@ -190,7 +193,7 @@ angular.module('staticApp')
 
           if (search && search.length > 0) {
               homeInstitutionFilter = homeInstitutionFilter.like('name', search);
-              loadOrganizations(homeInstitutionFilter)
+              return loadOrganizations(homeInstitutionFilter)
               .then(function (data) {
                   $scope.view.homeInstitutions = data.results;
                   return $scope.view.homeInstitutions;
@@ -207,7 +210,7 @@ angular.module('staticApp')
 
           if (search && search.length > 0) {
               hostInstitutionFilter = hostInstitutionFilter.like('name', search);
-              loadOrganizations(hostInstitutionFilter)
+              return loadOrganizations(hostInstitutionFilter)
               .then(function (data) {
                   $scope.view.hostInstitutions = data.results;
                   return $scope.view.hostInstitutions;
@@ -242,6 +245,8 @@ angular.module('staticApp')
               return loadOrganizationById(homeInstitution.organizationId)
               .then(function (org) {
                   $scope.view.homeInstitutions.push(org);
+                  org.addresses = org.addresses || [];
+                  org.addresses = orderByFilter(org.addresses, '-isPrimary')
                   angular.forEach(org.addresses, function (orgAddress, index) {
                       $scope.view.homeInstitutionAddresses.push(orgAddress);
                   });
@@ -270,6 +275,8 @@ angular.module('staticApp')
               return loadOrganizationById(hostInstitution.organizationId)
               .then(function (org) {
                   $scope.view.hostInstitutions.push(org);
+                  org.addresses = org.addresses || [];
+                  org.addresses = orderByFilter(org.addresses, '-isPrimary')
                   angular.forEach(org.addresses, function (orgAddress, index) {
                       $scope.view.hostInstitutionAddresses.push(orgAddress);
                   });
@@ -305,11 +312,13 @@ angular.module('staticApp')
       function getPreferredAddress(institution, participantPersonInstitutionAddressId) {
           var address = null;
           if (institution && institution.addresses && institution.addresses.length > 0) {
-              angular.forEach(institution.addresses, function (institutionAddress, index) {
+              for (var i = 0; i < institution.addresses.length; i++) {
+                  var institutionAddress = institution.addresses[i];
                   if (institutionAddress.addressId === participantPersonInstitutionAddressId) {
                       address = institutionAddress;
+                      break;
                   }
-              });
+              }
           }
           return address;
       }
