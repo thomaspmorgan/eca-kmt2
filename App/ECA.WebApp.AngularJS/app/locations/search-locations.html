@@ -14,6 +14,7 @@
                         <th st-sort="'division'" class="col-md-2 sort-label medium">Division</th>
                         <th st-sort="'country'" class="col-md-2 sort-label medium">Country</th>
                         <th st-sort="'region'" class="col-md-2 sort-label medium">Region</th>
+                        <th class="col-md-2 sort-label medium">Active</th>
                     </tr>
                     <tr class="row">
                         <th>
@@ -82,6 +83,9 @@
                                 </ui-select-choices>
                             </ui-select>
                         </th>
+                        <th>
+                            &nbsp;
+                        </th>
                     </tr>
                 </thead>
                 <tbody class="list2" ng-repeat="location in view.locations" ng-show="!view.isLoadingRequiredData && !view.isLoadingLocations">
@@ -103,6 +107,9 @@
                         </td>
                         <td>
                             {{location.region}}
+                        </td>
+                        <td>
+                            {{location.isActive | boolYesNo}}
                         </td>
                     </tr>
                 </tbody>

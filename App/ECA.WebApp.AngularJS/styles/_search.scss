@@ -28,22 +28,6 @@
     width: 100%;
 }
 
-.search-modal .modal-dialog {
-    width: 95%;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin-top: 25px;
-}
-
-div.search-modal .modal-content .modal-body {
-    min-height:70vh;
-    overflow:auto;
-}
-
-
 .search-contextual {
     border: 1px solid $bordergray;
     color: $primarytext;
@@ -62,10 +46,6 @@ div.search-modal .modal-content .modal-body {
     border-left: 1px solid $bordergray;
     border-right: 1px solid $bordergray;
 }
-
-/*.resultoffice {
-    font-size: 13px;
-}*/
 
 .material-icons.flip-horizontal {
     transform: rotateY(180deg);
