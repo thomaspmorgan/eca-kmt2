@@ -332,69 +332,92 @@ namespace ECA.Business.Queries.Fundings
 
         #region Summaries
 
-        public static IQueryable<SimpleFiscalYearSummaryDTO> CreateGetIncomingFiscalYearSummaryDTOQuery(EcaContext context)
-        {
-            var query = from moneyFlow in CreateIncomingMoneyFlowDTOsQuery(context)
-                        where moneyFlow.Amount >= 0
-                        group moneyFlow by new
-                        {
-                            FiscalYear = moneyFlow.FiscalYear,
-                            EntityId = moneyFlow.EntityId,
-                            EntityTypeId = moneyFlow.EntityTypeId,
-                            StatusId = moneyFlow.MoneyFlowStatusId,
-                        } into g
-                        select new SimpleFiscalYearSummaryDTO
-                        {
-                            Amount = g.Sum(x => x.Amount),
-                            EntityId = g.Key.EntityId,
-                            EntityTypeId = g.Key.EntityTypeId,
-                            FiscalYear = g.Key.FiscalYear,
-                            StatusId = g.Key.StatusId
-                        };
-            return query;
-        }
-
-        public static IQueryable<SimpleFiscalYearSummaryDTO> CreateGetOutgoingFiscalYearSummaryDTOQuery(EcaContext context)
-        {
-
-            var query = from moneyFlow in CreateOutgoingMoneyFlowDTOsQuery(context)
-                        where moneyFlow.Amount < 0
-                        group moneyFlow by new
-                        {
-                            FiscalYear = moneyFlow.FiscalYear,
-                            EntityId = moneyFlow.EntityId,
-                            EntityTypeId = moneyFlow.EntityTypeId,
-                            StatusId = moneyFlow.MoneyFlowStatusId,
-                        } into g
-                        select new SimpleFiscalYearSummaryDTO
-                        {
-                            Amount = g.Sum(x => x.Amount),
-                            EntityId = g.Key.EntityId,
-                            EntityTypeId = g.Key.EntityTypeId,
-                            FiscalYear = g.Key.FiscalYear,
-                            StatusId = g.Key.StatusId
-                        };
-            return query;
-        }
-
-        //public static IQueryable<FiscalYearSummaryDTO> CreateGetFiscalYearSummaryDTOQuery(EcaContext context)
+        //public static IQueryable<SimpleFiscalYearSummaryDTO> CreateGetIncomingFiscalYearSummaryDTOQuery(EcaContext context)
         //{
-        //    var query = from incomingSummary in CreateGetIncomingFiscalYearSummaryDTOQuery(context)
-        //                from outgoingSummary in CreateGetOutgoingFiscalYearSummaryDTOQuery(context)
-        //                let totalRemaining = 
-
-        //                where incomingSummary.EntityId == outgoingSummary.EntityId
-        //                && incomingSummary.EntityTypeId == outgoingSummary.EntityTypeId
-        //                && incomingSummary.FiscalYear == outgoingSummary.FiscalYear
-        //                && incomingSummary.StatusId == outgoingSummary.StatusId
-
-        //                select new FiscalYearSummaryDTO
+        //    var query = from moneyFlow in CreateIncomingMoneyFlowDTOsQuery(context)
+        //                where moneyFlow.Amount >= 0
+        //                group moneyFlow by new
         //                {
-
+        //                    FiscalYear = moneyFlow.FiscalYear,
+        //                    EntityId = moneyFlow.EntityId,
+        //                    EntityTypeId = moneyFlow.EntityTypeId,
+        //                    StatusId = moneyFlow.MoneyFlowStatusId,
+        //                } into g
+        //                select new SimpleFiscalYearSummaryDTO
+        //                {
+        //                    Amount = g.Sum(x => x.Amount),
+        //                    EntityId = g.Key.EntityId,
+        //                    EntityTypeId = g.Key.EntityTypeId,
+        //                    FiscalYear = g.Key.FiscalYear,
+        //                    StatusId = g.Key.StatusId
         //                };
-
-
+        //    return query;
         //}
+
+        //public static IQueryable<SimpleFiscalYearSummaryDTO> CreateGetOutgoingFiscalYearSummaryDTOQuery(EcaContext context)
+        //{
+
+        //    var query = from moneyFlow in CreateOutgoingMoneyFlowDTOsQuery(context)
+        //                where moneyFlow.Amount < 0
+        //                group moneyFlow by new
+        //                {
+        //                    FiscalYear = moneyFlow.FiscalYear,
+        //                    EntityId = moneyFlow.EntityId,
+        //                    EntityTypeId = moneyFlow.EntityTypeId,
+        //                    StatusId = moneyFlow.MoneyFlowStatusId,
+        //                } into g
+        //                select new SimpleFiscalYearSummaryDTO
+        //                {
+        //                    Amount = g.Sum(x => x.Amount),
+        //                    EntityId = g.Key.EntityId,
+        //                    EntityTypeId = g.Key.EntityTypeId,
+        //                    FiscalYear = g.Key.FiscalYear,
+        //                    StatusId = g.Key.StatusId
+        //                };
+        //    return query;
+        //}
+
+        public static IQueryable<FiscalYearSummaryDTO> CreateGetFiscalYearSummaryDTOQuery(EcaContext context)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var query = from moneyFlow in CreateGetMoneyFlowDTOsQuery(context)
+                        group moneyFlow by new
+                        {
+                            FiscalYear = moneyFlow.FiscalYear,
+                            EntityId = moneyFlow.EntityId,
+                            EntityTypeId = moneyFlow.EntityTypeId,
+                            StatusId = moneyFlow.MoneyFlowStatusId,
+                        } into g
+
+                        let incomingAmount = g.Where(x => x.Amount >= 0).Sum(x => x.Amount)
+                        let outgoingAmount = -1 * g.Where(x => x.Amount < 0).Sum(x => x.Amount)
+                        let first = g.FirstOrDefault()
+                        select new FiscalYearSummaryDTO
+                        {
+                            EntityId = g.Key.EntityId,
+                            EntityTypeId = g.Key.EntityTypeId,
+                            FiscalYear = g.Key.FiscalYear,
+                            IncomingAmount = incomingAmount,
+                            OutgoingAmount = outgoingAmount,
+                            RemainingAmount = incomingAmount - outgoingAmount,
+                            Status = first != null ? first.MoneyFlowStatus : string.Empty,
+                            StatusId = g.Key.StatusId
+                        };
+
+            return query;
+        }
+
+        public static IQueryable<FiscalYearSummaryDTO> CreateGetFiscalYearSummaryDTOByEntityIdAndEntityTypeIdQuery(EcaContext context, int entityId, int moneyFlowSourceRecipientTypeId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            return CreateGetFiscalYearSummaryDTOQuery(context).Where(x => x.EntityId == entityId && x.EntityTypeId == moneyFlowSourceRecipientTypeId);
+        }
+
+        public static IQueryable<FiscalYearSummaryDTO> CreateGetFiscalYearSummaryDTOByProjectId(EcaContext context, int projectId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            return CreateGetFiscalYearSummaryDTOByEntityIdAndEntityTypeIdQuery(context, projectId, MoneyFlowSourceRecipientType.Project.Id);
+        }
 
         #endregion
 
