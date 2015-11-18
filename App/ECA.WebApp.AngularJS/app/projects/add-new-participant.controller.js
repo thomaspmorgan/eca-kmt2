@@ -111,7 +111,7 @@ angular.module('staticApp')
       }
 
       $scope.countryOfBirthSelected = function () {
-          if (!$scope.newPerson.countryOfBirthId) {
+          if ($scope.newPerson.countryOfBirth == 0) {
               $scope.newPerson.isPlaceOfBirthUnknown = true;
           }
           $scope.newPerson.cityOfBirth = undefined;

@@ -84,13 +84,13 @@ angular.module('staticApp')
                      location.name = obj.value;
                      return location;
                  });
-                 if ($scope.pii.countryOfBirthId) {
-                     loadCities();
+                 if ($scope.pii.countryOfBirthId == 0) {
                      $scope.pii.isPlaceOfBirthUnknown = false;
                  } else if ($scope.pii.isPlaceOfBirthUnknown) {
                      $scope.pii.countryOfBirthId = 0;
                  }
                  $scope.piiLoading = false;
+                 loadCities();
              });
       };
 
