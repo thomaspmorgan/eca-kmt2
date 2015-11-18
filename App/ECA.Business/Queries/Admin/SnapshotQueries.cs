@@ -70,7 +70,8 @@ namespace ECA.Business.Queries.Admin
                                 .Where(x => programIds.Contains(x.ProgramId))
                                 .Sum(p => (decimal?)p.Projects.Sum(r => (decimal?)r.RecipientProjectMoneyFlows
                                                                 .Where(m => m.TransactionDate.Year >= oldestDate.Year
-                                                                        && m.Value > 0)
+                                                                        && m.Value > 0 
+                                                                        && m.MoneyFlowStatusId == MoneyFlowStatus.Appropriated.Id)
                                                                         .Sum(m => (decimal?)m.Value ?? 0) ?? 0) ?? 0)
             };
         }
@@ -205,7 +206,8 @@ namespace ECA.Business.Queries.Admin
                                         && project.ProjectStatusId == ProjectStatus.Active.Id
                                       from mf in project.RecipientProjectMoneyFlows
                                       where mf.FiscalYear >= oldestDate.Year
-                                      select new {Key = mf.FiscalYear, Value = mf.Value}).ToListAsync();
+                                       && mf.MoneyFlowStatusId == MoneyFlowStatus.Appropriated.Id
+                                    select new {Key = mf.FiscalYear, Value = mf.Value}).ToListAsync();
 
             var budgetByYear = budgetData.GroupBy(g => g.Key, g => g.Value)
                                         .Select(y => new KeyValuePair<int, int>(y.Key, (int)y.Sum())).ToList();
