@@ -30,30 +30,18 @@ namespace ECA.Business.Service.Admin
         {
             var programs = programService.GetAllChildProgramsWithParent(programId);
             var childPrograms = programs.Select(p => p.ProgramId).ToList();
-
-            var task1 = GetProgramRelatedProjectsCount(childPrograms);
-            var task2 = GetProgramParticipantCount(childPrograms);
-            var task3 = GetProgramBudgetTotal(childPrograms);
-            var task4 = GetProgramFundingSourcesCount(programId);
-            var task5 = GetProgramCountryCountAsync(childPrograms);
-            var task6 = GetProgramBeneficiaryCount(childPrograms);
-            var task7 = GetProgramImpactStoryCount(childPrograms);
-            var task8 = GetProgramAlumniCount(childPrograms);
-            var task9 = GetProgramProminenceCount(childPrograms);
-
-            //Task.WaitAll(task1, task2, task3, task4, task5, task7, task8, task9);
-
+            //.Where(x => x.ProgramStatusId == ProgramStatus.Active.Id)
             SnapshotCountModelDTO snapshotModel = new SnapshotCountModelDTO
             {
-                ProgramRelatedProjectsCount = task1,
-                ProgramParticipantCount = task2,
-                ProgramBudgetTotal = task3,
-                ProgramFundingSourcesCount = task4,
-                ProgramCountryCountAsync = task5,
-                ProgramBeneficiaryCount = task6,
-                ProgramImpactStoryCount = task7,
-                ProgramAlumniCount = task8,
-                ProgramProminenceCount = task9
+                ProgramRelatedProjectsCount = GetProgramRelatedProjectsCount(childPrograms),
+                ProgramParticipantCount = GetProgramParticipantCount(childPrograms),
+                ProgramBudgetTotal = GetProgramBudgetTotal(childPrograms),
+                ProgramFundingSourcesCount = GetProgramFundingSourcesCount(programId),
+                ProgramCountryCountAsync = GetProgramCountryCountAsync(childPrograms),
+                ProgramBeneficiaryCount = GetProgramBeneficiaryCount(childPrograms),
+                ProgramImpactStoryCount = GetProgramImpactStoryCount(childPrograms),
+                ProgramAlumniCount = GetProgramAlumniCount(childPrograms),
+                ProgramProminenceCount = GetProgramProminenceCount(childPrograms)
             };
 
             return snapshotModel;
