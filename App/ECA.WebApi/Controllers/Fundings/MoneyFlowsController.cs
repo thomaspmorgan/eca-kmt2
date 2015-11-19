@@ -135,6 +135,19 @@ namespace ECA.WebApi.Controllers.Fundings
             return DoDeleteAsync(id, organizationId, MoneyFlowSourceRecipientType.Organization.Id);
         }
 
+        /// <summary>
+        /// Returns the fiscal year summaries for the organization with the given id.
+        /// </summary>
+        /// <param name="organizationId">The id of the organization.</param>
+        /// <returns>The fiscal year summaries by organization id.</returns>
+        [Route("Organizations/{organizationId:int}/MoneyFlows/FiscalYears/Summary")]
+        [ResponseType(typeof(List<FiscalYearSummaryDTO>))]
+        public async Task<IHttpActionResult> GetFiscalYearSummarysByOrganizationId(int organizationId)
+        {
+            var results = await this.moneyFlowService.GetFiscalYearSummariesByOrganizationIdAsync(organizationId);
+            return Ok(results);
+        }
+
         #endregion
 
         #region Office

@@ -27,11 +27,11 @@ namespace ECA.Business.Queries.Models.Fundings
 
         public int EntityTypeId { get; set; }
 
-        public decimal IncomingAmount { get; set; }
+        public decimal? IncomingAmount { get; set; }
 
-        public decimal OutgoingAmount { get; set; }
+        public decimal? OutgoingAmount { get; set; }
 
-        public decimal RemainingAmount { get; set; }
+        public decimal? RemainingAmount { get; set; }
 
         public int StatusId { get; set; }
 

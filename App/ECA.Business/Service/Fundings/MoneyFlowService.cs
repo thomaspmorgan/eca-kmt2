@@ -39,8 +39,8 @@ namespace ECA.Business.Service.Fundings
         /// <param name="validator">The business validator.</param>
         /// <param name="saveActions">The save actions.</param>
         public MoneyFlowService(
-            EcaContext context, 
-            IMoneyFlowSourceRecipientTypeService moneyFlowSourceRecipientTypeService, 
+            EcaContext context,
+            IMoneyFlowSourceRecipientTypeService moneyFlowSourceRecipientTypeService,
             IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity> validator,
             List<ISaveAction> saveActions = null)
             : base(context, saveActions)
@@ -62,14 +62,14 @@ namespace ECA.Business.Service.Fundings
                 if (instance == null && actualMoneyFlow != null)
                 {
                     throw new BusinessSecurityException(
-                        String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.", 
-                        userId, 
+                        String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        userId,
                         actualMoneyFlow.MoneyFlowId));
                 }
             };
             throwSecurityViolationIfOrgIsOffice = (organizationId, officeDto) =>
             {
-                if(officeDto != null)
+                if (officeDto != null)
                 {
                     throw new BusinessSecurityException(
                         String.Format("The organization with the given id [{0}] is an office named [{1}].  This office must be accessed using office related methods only.",
@@ -79,7 +79,7 @@ namespace ECA.Business.Service.Fundings
             };
         }
 
-        #region Get
+        #region Get Source Money Flows
 
         /// <summary>
         /// Returns the remaining amount of money from the moneyflow with the given id.
@@ -109,7 +109,8 @@ namespace ECA.Business.Service.Fundings
             {
                 return null;
             }
-            else {
+            else
+            {
                 return sourceMoneyFlowDTO.RemainingAmount;
             }
         }
@@ -266,7 +267,9 @@ namespace ECA.Business.Service.Fundings
         {
             return MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByOfficeId(this.Context, officeId).Where(x => x.RemainingAmount > 0m);
         }
+        #endregion
 
+        #region Get Money Flows
         /// <summary>
         /// Returns the money flows for the project with the given id.
         /// </summary>
@@ -407,6 +410,175 @@ namespace ECA.Business.Service.Fundings
         }
         #endregion
 
+        #region Get Money Flow Summaries
+
+        /// <summary>
+        /// Returns the fiscal year summaries for the project with the given id.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <returns>The fiscal year summaries.</returns>
+        public List<FiscalYearSummaryDTO> GetFiscalYearSummariesByProjectId(int projectId)
+        {
+            var summaries = MoneyFlowQueries.CreateGetFiscalYearSummaryDTOByProjectId(this.Context, projectId).ToList();
+            var statii = this.Context.MoneyFlowStatuses.ToList();
+            return AddMissingFiscalYearSummaryDTOs(summaries, statii);
+        }
+
+        /// <summary>
+        /// Returns the fiscal year summaries for the project with the given id.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <returns>The fiscal year summaries.</returns>
+        public async Task<List<FiscalYearSummaryDTO>> GetFiscalYearSummariesByProjectIdAsync(int projectId)
+        {
+            var summaries = await MoneyFlowQueries.CreateGetFiscalYearSummaryDTOByProjectId(this.Context, projectId).ToListAsync();
+            var statii = await this.Context.MoneyFlowStatuses.ToListAsync();
+            return AddMissingFiscalYearSummaryDTOs(summaries, statii);
+        }
+
+        /// <summary>
+        /// Returns the fiscal year summaries for the program with the given id.
+        /// </summary>
+        /// <param name="programId">The program id.</param>
+        /// <returns>The fiscal year summaries.</returns>
+        public List<FiscalYearSummaryDTO> GetFiscalYearSummariesByProgramId(int programId)
+        {
+            var summaries = MoneyFlowQueries.CreateGetFiscalYearSummaryDTOByProgramId(this.Context, programId).ToList();
+            var statii = this.Context.MoneyFlowStatuses.ToList();
+            return AddMissingFiscalYearSummaryDTOs(summaries, statii);
+        }
+
+        /// <summary>
+        /// Returns the fiscal year summaries for the program with the given id.
+        /// </summary>
+        /// <param name="programId">The program id.</param>
+        /// <returns>The fiscal year summaries.</returns>
+        public async Task<List<FiscalYearSummaryDTO>> GetFiscalYearSummariesByProgramIdAsync(int programId)
+        {
+            var summaries = await MoneyFlowQueries.CreateGetFiscalYearSummaryDTOByProgramId(this.Context, programId).ToListAsync();
+            var statii = await this.Context.MoneyFlowStatuses.ToListAsync();
+            return AddMissingFiscalYearSummaryDTOs(summaries, statii);
+        }
+
+        /// <summary>
+        /// Returns the fiscal year summaries for the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The office id.</param>
+        /// <returns>The fiscal year summaries.</returns>
+        public List<FiscalYearSummaryDTO> GetFiscalYearSummariesByOfficeId(int officeId)
+        {
+            var summaries = MoneyFlowQueries.CreateGetFiscalYearSummaryDTOByOfficeId(this.Context, officeId).ToList();
+            var statii = this.Context.MoneyFlowStatuses.ToList();
+            return AddMissingFiscalYearSummaryDTOs(summaries, statii);
+        }
+
+        /// <summary>
+        /// Returns the fiscal year summaries for the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The office id.</param>
+        /// <returns>The fiscal year summaries.</returns>
+        public async Task<List<FiscalYearSummaryDTO>> GetFiscalYearSummariesByOfficeIdAsync(int officeId)
+        {
+            var summaries = await MoneyFlowQueries.CreateGetFiscalYearSummaryDTOByOfficeId(this.Context, officeId).ToListAsync();
+            var statii = await this.Context.MoneyFlowStatuses.ToListAsync();
+            return AddMissingFiscalYearSummaryDTOs(summaries, statii);
+        }
+
+        /// <summary>
+        /// Returns the fiscal year summaries for the organization with the given id.
+        /// </summary>
+        /// <param name="organizationId">The organization id.</param>
+        /// <returns>The fiscal year summaries.</returns>
+        public List<FiscalYearSummaryDTO> GetFiscalYearSummariesByOrganizationId(int organizationId)
+        {
+            var office = CreateGetOfficeByOrganizationIdQuery(organizationId).FirstOrDefault();
+            throwSecurityViolationIfOrgIsOffice(organizationId, office);
+            var summaries = MoneyFlowQueries.CreateGetFiscalYearSummaryDTOByOrganizationId(this.Context, organizationId).ToList();
+            var statii = this.Context.MoneyFlowStatuses.ToList();
+            return AddMissingFiscalYearSummaryDTOs(summaries, statii);
+        }
+
+        /// <summary>
+        /// Returns the fiscal year summaries for the organization with the given id.
+        /// </summary>
+        /// <param name="organizationId">The organization id.</param>
+        /// <returns>The fiscal year summaries.</returns>
+        public async Task<List<FiscalYearSummaryDTO>> GetFiscalYearSummariesByOrganizationIdAsync(int organizationId)
+        {
+            var office = await CreateGetOfficeByOrganizationIdQuery(organizationId).FirstOrDefaultAsync();
+            throwSecurityViolationIfOrgIsOffice(organizationId, office);
+            var summaries = await MoneyFlowQueries.CreateGetFiscalYearSummaryDTOByOrganizationId(this.Context, organizationId).ToListAsync();
+            var statii = await this.Context.MoneyFlowStatuses.ToListAsync();
+            return AddMissingFiscalYearSummaryDTOs(summaries, statii);
+        }
+
+        /// <summary>
+        /// Returns the fiscal year summaries for the person with the given id.
+        /// </summary>
+        /// <param name="personId">The person id.</param>
+        /// <returns>The fiscal year summaries.</returns>
+        public List<FiscalYearSummaryDTO> GetFiscalYearSummariesByPersonId(int personId)
+        {
+            var summaries = MoneyFlowQueries.CreateGetFiscalYearSummaryDTOByPersonId(this.Context, personId).ToList();
+            var statii = this.Context.MoneyFlowStatuses.ToList();
+            return AddMissingFiscalYearSummaryDTOs(summaries, statii);
+        }
+
+        /// <summary>
+        /// Returns the fiscal year summaries for the person with the given id.
+        /// </summary>
+        /// <param name="personId">The person id.</param>
+        /// <returns>The fiscal year summaries.</returns>
+        public async Task<List<FiscalYearSummaryDTO>> GetFiscalYearSummariesByPersonIdAsync(int personId)
+        {
+            var summaries = await MoneyFlowQueries.CreateGetFiscalYearSummaryDTOByPersonId(this.Context, personId).ToListAsync();
+            var statii = await this.Context.MoneyFlowStatuses.ToListAsync();
+            return AddMissingFiscalYearSummaryDTOs(summaries, statii);
+        }
+
+        public List<FiscalYearSummaryDTO> AddMissingFiscalYearSummaryDTOs(List<FiscalYearSummaryDTO> fiscalYearSummaries, List<MoneyFlowStatus> statii)
+        {
+            if (fiscalYearSummaries.Count == 0)
+            {
+                return fiscalYearSummaries;
+            }
+            else
+            {
+                var orderedSummaries = fiscalYearSummaries.OrderByDescending(x => x.FiscalYear).ToList();
+                var oldestSummary = orderedSummaries.Last();
+                var newestSummary = orderedSummaries.First();
+                var entityId = oldestSummary.EntityId;
+                var entityTypeId = oldestSummary.EntityTypeId;
+                
+                for (var i = oldestSummary.FiscalYear; i <= newestSummary.FiscalYear; i++)
+                {
+                    foreach(var status in statii)
+                    {
+                        var existingSummary = fiscalYearSummaries.Where(x => x.FiscalYear == i && x.StatusId == status.MoneyFlowStatusId).FirstOrDefault();
+                        if(existingSummary == null)
+                        {
+                            var emptyFiscalYearSummary = new FiscalYearSummaryDTO
+                            {
+                                EntityId = entityId,
+                                EntityTypeId = entityTypeId,
+                                FiscalYear = i,
+                                IncomingAmount = 0.0m,
+                                OutgoingAmount = 0.0m,
+                                RemainingAmount = 0.0m,
+                                Status = status.MoneyFlowStatusName,
+                                StatusId = status.MoneyFlowStatusId
+                            };
+                            fiscalYearSummaries.Add(emptyFiscalYearSummary);
+                        }
+                    }
+                }
+                return fiscalYearSummaries.OrderByDescending(x => x.FiscalYear).ThenByDescending(x => x.StatusId).ToList();
+            }
+        }
+
+        #endregion
+
+
         /// <summary>
         /// Returns the eca.data entity type mapping for the given MoneyFlowSourceRecipientType id.
         /// </summary>
@@ -451,7 +623,7 @@ namespace ECA.Business.Service.Fundings
         /// <param name="moneyFlow">The new money flow.</param>
         /// <returns>The ECA.Data money flow entity.</returns>
         public MoneyFlow Create(AdditionalMoneyFlow moneyFlow)
-        {   
+        {
             var hasSourceEntityType = IsMoneyFlowType(moneyFlow.SourceEntityTypeId);
             var hasRecipientEntityType = IsMoneyFlowType(moneyFlow.RecipientEntityTypeId);
             object sourceEntity = null;
@@ -468,7 +640,7 @@ namespace ECA.Business.Service.Fundings
             }
             if (moneyFlow.ParentMoneyFlowId.HasValue)
             {
-                parentMoneyFlow = this.Context.MoneyFlows.Find(moneyFlow.ParentMoneyFlowId.Value);                
+                parentMoneyFlow = this.Context.MoneyFlows.Find(moneyFlow.ParentMoneyFlowId.Value);
                 throwIfEntityNotFound(parentMoneyFlow, moneyFlow.ParentMoneyFlowId.Value, typeof(MoneyFlow));
                 parentFiscalYear = parentMoneyFlow.FiscalYear;
                 parentMoneyFlowWithdrawalLimit = GetMoneyFlowWithdrawalMaximum(parentMoneyFlow.MoneyFlowId);
@@ -506,7 +678,7 @@ namespace ECA.Business.Service.Fundings
         /// <param name="moneyFlow">The new money flow.</param>
         /// <returns>The ECA.Data money flow entity.</returns>
         public async Task<MoneyFlow> CreateAsync(AdditionalMoneyFlow moneyFlow)
-        {   
+        {
             var hasSourceEntityType = IsMoneyFlowType(moneyFlow.SourceEntityTypeId);
             var hasRecipientEntityType = IsMoneyFlowType(moneyFlow.RecipientEntityTypeId);
             object sourceEntity = null;
@@ -523,7 +695,7 @@ namespace ECA.Business.Service.Fundings
             }
             if (moneyFlow.ParentMoneyFlowId.HasValue)
             {
-                parentMoneyFlow = await this.Context.MoneyFlows.FindAsync(moneyFlow.ParentMoneyFlowId.Value);                
+                parentMoneyFlow = await this.Context.MoneyFlows.FindAsync(moneyFlow.ParentMoneyFlowId.Value);
                 throwIfEntityNotFound(parentMoneyFlow, moneyFlow.ParentMoneyFlowId.Value, typeof(MoneyFlow));
                 parentFiscalYear = parentMoneyFlow.FiscalYear;
                 parentMoneyFlowWithdrawalLimit = await GetMoneyFlowWithdrawalMaximumAsync(parentMoneyFlow.MoneyFlowId);
@@ -564,11 +736,11 @@ namespace ECA.Business.Service.Fundings
         }
 
         private MoneyFlowServiceCreateValidationEntity GetCreateValidationEntity(
-            AdditionalMoneyFlow moneyFlow, 
+            AdditionalMoneyFlow moneyFlow,
             decimal? parentMoneyFlowWithdrawalMaximum,
             int? parentFiscalYear,
-            bool hasSourceEntityType, 
-            bool hasRecipientEntityType, 
+            bool hasSourceEntityType,
+            bool hasRecipientEntityType,
             List<int> allowedRecipientEntityTypeIds,
             List<int> allowedSourceEntityTypeIds,
             List<int> allowedProjectParticipantIds)
@@ -580,8 +752,8 @@ namespace ECA.Business.Service.Fundings
                 allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
                 allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
                 allowedProjectParticipantIds: allowedProjectParticipantIds,
-                description: moneyFlow.Description, 
-                transactionDate: moneyFlow.TransactionDate, 
+                description: moneyFlow.Description,
+                transactionDate: moneyFlow.TransactionDate,
                 value: moneyFlow.Value,
                 hasRecipientEntityType: hasRecipientEntityType,
                 hasSourceEntityType: hasSourceEntityType,
@@ -644,8 +816,8 @@ namespace ECA.Business.Service.Fundings
             if (moneyFlowToUpdate == null)
             {
                 throw new ModelNotFoundException(String.Format(
-                    "The money flow with id [{0}] and source entity id [{1}] was not found.", 
-                    updatedMoneyFlow.Id, 
+                    "The money flow with id [{0}] and source entity id [{1}] was not found.",
+                    updatedMoneyFlow.Id,
                     updatedMoneyFlow.SourceOrRecipientEntityId));
             }
             validator.ValidateUpdate(GetUpdateValidationEntity(updatedMoneyFlow, parentMoneyFlowWithdrawalMaximum, parentMoneyFlow == null ? default(int?) : parentMoneyFlow.FiscalYear));
@@ -661,9 +833,9 @@ namespace ECA.Business.Service.Fundings
         private MoneyFlowServiceUpdateValidationEntity GetUpdateValidationEntity(UpdatedMoneyFlow moneyFlow, decimal? parentMoneyFlowWithdrawalMaximum, int? parentFiscalYear)
         {
             return new MoneyFlowServiceUpdateValidationEntity(
-                description: moneyFlow.Description, 
+                description: moneyFlow.Description,
                 parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
-                value: moneyFlow.Value, 
+                value: moneyFlow.Value,
                 fiscalYear: moneyFlow.FiscalYear,
                 parentFiscalYear: parentFiscalYear);
         }
