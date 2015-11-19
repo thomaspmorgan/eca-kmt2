@@ -26,16 +26,6 @@ namespace ECA.Business.Service.Persons
 
             return results.AsQueryable();
         }
-        
-        //private string SerializeToXmlString(UpdatedParticipantPersonSevis updatedParticipantPersonSevis)
-        //{
-        //    string retVal = string.Empty;
-        //    TextWriter writer = new StringWriter();
-        //    XmlSerializer serializer = new XmlSerializer(updatedParticipantPersonSevis.GetType());
-        //    serializer.Serialize(writer, updatedParticipantPersonSevis);
-        //    retVal = writer.ToString();
-        //    return retVal;
-        //}
 
     }
 }

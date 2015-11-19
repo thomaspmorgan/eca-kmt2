@@ -22,6 +22,7 @@ namespace ECA.Business.Service.Programs
         /// <param name="description">The description of the program.</param>
         /// <param name="regionLocationTypeIds">The region ids.</param>
         /// <param name="owner">The owner.</param>
+        /// <param name="inactiveRegionIds">The regions by id that are inactive.</param>
         /// <param name="parentProgramId">The parent program id.</param>
         /// <param name="contactIds">The list of contacts by id.</param>
         /// <param name="parentProgram">The parent program.</param>
@@ -39,6 +40,7 @@ namespace ECA.Business.Service.Programs
             string name, 
             string description, 
             List<int> regionLocationTypeIds, 
+            List<int> inactiveRegionIds,
             List<int> contactIds, 
             List<int> themeIds, 
             List<int> goalIds, 
@@ -65,6 +67,7 @@ namespace ECA.Business.Service.Programs
             this.CategoryIds = categoryIds;
             this.ObjectiveIds = objectiveIds;
             this.OwnerOfficeSettings = ownerOfficeSettings;
+            this.InactiveRegionIds = inactiveRegionIds == null ? new List<int>() : inactiveRegionIds.Distinct();
             this.ParentProgramParentPrograms = parentProgramParentPrograms ?? new List<OrganizationProgramDTO>();
         }
 
@@ -126,7 +129,7 @@ namespace ECA.Business.Service.Programs
         /// <summary>
         /// Gets or sets all parent programs of the parent program.
         /// </summary>
-        public IList<OrganizationProgramDTO> ParentProgramParentPrograms { get; set; }
+        public IList<OrganizationProgramDTO> ParentProgramParentPrograms { get; private set; }
 
         /// <summary>
         /// Gets the parent program id.
@@ -136,11 +139,16 @@ namespace ECA.Business.Service.Programs
         /// <summary>
         /// Gets the name.
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         /// <summary>
         /// Gest the description.
         /// </summary>
-        public string Description { get; set; }
+        public string Description { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the regions by id that are inactive.
+        /// </summary>
+        public IEnumerable<int> InactiveRegionIds { get; private set; }
     }
 }

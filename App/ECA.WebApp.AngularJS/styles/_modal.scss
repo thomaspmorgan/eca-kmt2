@@ -63,9 +63,17 @@
     margin-bottom: 20px;
 }
 
-/*.search-modal {
-    .ng-modal-dialog {
-        height: 95%;
-        width: 95%;
-    }
-}*/
+.full-screen-modal .modal-dialog {
+    width: 95%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-top: 10px;
+}
+
+div.full-screen-modal .modal-content .modal-body {
+    min-height:70vh;
+    overflow:auto;
+}

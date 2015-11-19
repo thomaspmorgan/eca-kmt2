@@ -624,6 +624,18 @@ namespace ECA.Business.Service
         /// </summary>
         /// <param name="locationIds">Ids to lookup</param>
         /// <returns>A list of locations</returns>
+        protected List<Location> GetLocationsById(List<int> locationIds)
+        {
+            var locations = CreateGetLocationsById(locationIds).ToList();
+            logger.Trace("Retrieved locations by ids {0}.", String.Join(", ", locationIds));
+            return locations;
+        }
+
+        /// <summary>
+        /// Get a list of locations
+        /// </summary>
+        /// <param name="locationIds">Ids to lookup</param>
+        /// <returns>A list of locations</returns>
         protected async Task<List<Location>> GetLocationsByIdAsync(List<int> locationIds)
         {
             var locations = await CreateGetLocationsById(locationIds).ToListAsync();
@@ -695,6 +707,23 @@ namespace ECA.Business.Service
             return CreateGetNewInactiveEntityLocationsQuery(
                 Context.Projects.Where(x => x.ProjectId == projectId).SelectMany(x => x.Locations), 
                 allLocationIds);
+        }
+
+        /// <summary>
+        /// Returns a query to find locations for a program by id that were not previously set on the program and are inactive.
+        /// </summary>
+        /// <param name="programId">The id of the program.</param>
+        /// <param name="allLocationIds">The ids of the locations that the program will have set.</param>
+        /// <returns>The query to retrieve locations that were not previously set on the program and are inactive.</returns>
+        protected IQueryable<Location> GetNewInactiveProgramLocations(int programId, IEnumerable<int> allLocationIds)
+        {
+            var programLocations = (from program in Context.Programs
+                                    let regions = program.Regions
+                                    let locations = program.Locations
+                                    where program.ProgramId == programId
+                                    select regions.Union(locations)).SelectMany(x => x).Distinct();
+
+            return CreateGetNewInactiveEntityLocationsQuery(programLocations, allLocationIds);
         }
     }
 }

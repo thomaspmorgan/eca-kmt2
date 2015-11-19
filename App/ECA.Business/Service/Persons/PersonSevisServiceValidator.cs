@@ -1,5 +1,7 @@
 ﻿using ECA.Business.Validation;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Service.Persons
 {
@@ -21,6 +23,23 @@ namespace ECA.Business.Service.Persons
             {
                 yield return new SevisValidationResult<PersonSevisServiceValidationEntity>(x => x.sevisPerson, PERSON_NOT_FOUND);
             }
+
+
+
+
+        }
+
+
+
+
+        private string SerializeToXmlString(UpdatedParticipantPersonSevis updatedParticipantPersonSevis)
+        {
+            string retVal = string.Empty;
+            TextWriter writer = new StringWriter();
+            XmlSerializer serializer = new XmlSerializer(updatedParticipantPersonSevis.GetType());
+            serializer.Serialize(writer, updatedParticipantPersonSevis);
+            retVal = writer.ToString();
+            return retVal;
         }
 
     }

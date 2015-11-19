@@ -158,6 +158,7 @@
     <Compile Include="Configuration\ProgramConfiguration.cs" />
     <Compile Include="Configuration\ProgramCategoryConfiguration.cs" />
     <Compile Include="Configuration\ProgramSubjectConfiguration.cs" />
+    <Compile Include="DataPointConfiguration.cs" />
     <Compile Include="ECA-KMTStaticDataGenerator.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
