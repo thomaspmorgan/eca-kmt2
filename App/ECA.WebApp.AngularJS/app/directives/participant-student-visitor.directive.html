@@ -8,7 +8,7 @@
                 <i class="material-icons md-dark md-36 pull-right" ng-show="view.EducationalInformation">expand_more</i>
                 <i class="material-icons md-dark md-36 pull-right" ng-show="!view.EducationalInformation">expand_less</i>
             </a>
-            <a ng-click="view.EducationalInformationEdit=!view.EducationalInformationEdit">
+            <a ng-click="edit.onEducationalInformationEditChange()">
                 <i class="material-icons md-dark md-24 pull-right" ng-show="view.EducationalInformation && !view.EducationalInformationEdit">edit</i>
             </a>
         </div>
@@ -92,8 +92,8 @@
                 <div class="col-md-3 title-label">Primary Major<span class="asterisk"> *</span></div>
                 <div class="col-md-3">
                     <ui-select ng-model="studentvisitorinfo.primaryMajorId" theme="select2" tabindex="1" ng-required="true">
-                        <ui-select-match placeholder="Select a primary major...">{{$select.selected.description}}</ui-select-match>
-                        <ui-select-choices refresh="edit.searchFieldOfStudies($select.search)" refresh-delay="250" repeat="fieldOfStudy.id as fieldOfStudy in edit.fieldOfStudies | filter: {description: $select.search} track by fieldOfStudy.id">
+                        <ui-select-match allow-clear="true" placeholder="Select a primary major...">{{$select.selected.description}}</ui-select-match>
+                        <ui-select-choices refresh="edit.searchFieldOfStudiesMajor($select.search)" refresh-delay="250" repeat="fieldOfStudy.id as fieldOfStudy in edit.fieldOfStudiesMajor | filter: {description: $select.search} track by fieldOfStudy.id">
                             <div ng-bind-html="fieldOfStudy.description | highlight: $select.search"></div>
                         </ui-select-choices>
                     </ui-select>
@@ -107,8 +107,8 @@
                 <div class="col-md-3 title-label">Secondary Major</div>
                 <div class="col-md-3">
                     <ui-select ng-model="studentvisitorinfo.secondaryMajorId" theme="select2" tabindex="1" ng-required="false">
-                        <ui-select-match placeholder="Select a secondary major...">{{$select.selected.description}}</ui-select-match>
-                        <ui-select-choices refresh="edit.searchFieldOfStudies($select.search)" refresh-delay="250" repeat="fieldOfStudy.id as fieldOfStudy in edit.fieldOfStudies | filter: {description: $select.search} track by fieldOfStudy.id">
+                        <ui-select-match allow-clear="true" placeholder="Select a secondary major...">{{$select.selected.description}}</ui-select-match>
+                        <ui-select-choices refresh="edit.searchFieldOfStudiesSecondary($select.search)" refresh-delay="250" repeat="fieldOfStudy.id as fieldOfStudy in edit.fieldOfStudiesSecondary | filter: {description: $select.search} track by fieldOfStudy.id">
                             <div ng-bind-html="fieldOfStudy.description | highlight: $select.search"></div>
                         </ui-select-choices>
                     </ui-select>
@@ -122,8 +122,8 @@
                 <div class="col-md-3 title-label">Minor</div>
                 <div class="col-md-3">
                     <ui-select ng-model="studentvisitorinfo.minorId" theme="select2" tabindex="1" ng-required="false">
-                        <ui-select-match placeholder="Select a minor...">{{$select.selected.description}}</ui-select-match>
-                        <ui-select-choices refresh="edit.searchFieldOfStudies($select.search)" refresh-delay="250" repeat="fieldOfStudy.id as fieldOfStudy in edit.fieldOfStudies | filter: {description: $select.search} track by fieldOfStudy.id">
+                        <ui-select-match allow-clear="true" placeholder="Select a minor...">{{$select.selected.description}}</ui-select-match>
+                        <ui-select-choices refresh="edit.searchFieldOfStudiesMinor($select.search)" refresh-delay="250" repeat="fieldOfStudy.id as fieldOfStudy in edit.fieldOfStudiesMinor | filter: {description: $select.search} track by fieldOfStudy.id">
                             <div ng-bind-html="fieldOfStudy.description | highlight: $select.search"></div>
                         </ui-select-choices>
                     </ui-select>

@@ -62,6 +62,12 @@
                     }
                 };
 
+                $scope.edit.onPositionAndFieldEditChange = function () {
+                    $scope.view.PositionAndFieldEdit = !$scope.view.PositionAndFieldEdit;
+                    if ($scope.view.PositionAndFieldEdit)
+                        loadFieldOfStudies($scope.sevisinfo.fieldOfStudy);
+                }
+
                 $scope.onGovtAgency1Select = function (item) {
                     if (item.description != null)
                         if (item.description == "OTHER")
