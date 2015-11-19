@@ -55,5 +55,13 @@
             var path = 'participantPersonsSevis';
             return DragonBreath.save(sevisInfo, path);
         };
+
+        function validateParticipantPersonsSevis(sevisInfo) {
+            var path = 'ParticipantPersonsSevis/ValidateSevis';
+            return DragonBreath.get(sevisInfo, path);
+        };
+
+
+
     }
 })();

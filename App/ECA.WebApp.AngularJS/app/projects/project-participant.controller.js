@@ -351,6 +351,19 @@ angular.module('staticApp')
           saveSevisInfoById(participantId);
       };
 
+      $scope.validateSevisInfo = function () {
+          var sevisInfo = $scope.sevisInfo[participantId];
+          return ParticipantPersonsSevisService.validateParticipantPersonsSevis(sevisInfo)
+          .then(function (data) {
+              $log.error('Validated participant SEVIS info for participantId: ' + participantId);
+              $scope.errorInfo = data.data;
+              $scope.warningInfo = data.data;
+          }, function (error) {
+              $log.error('Unable to validate participant SEVIS info for participantId: ' + participantId);
+              NotificationService.showErrorMessage('Unable to validate participant SEVIS info for participant: ' + participantId + '.');
+          });
+      };
+
       function saveStudentVisitorById(participantId) {
           var studentVisitorInfo = $scope.studentVisitorInfo[participantId];
           return ParticipantStudentVisitorService.updateParticipantStudentVisitor(studentVisitorInfo)

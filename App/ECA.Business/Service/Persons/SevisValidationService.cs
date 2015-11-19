@@ -18,7 +18,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="entity"></param>
         /// <returns>List of errors</returns>
-        public async Task<IQueryable<SevisValidationResult>> TestSevisValidation(UpdatedParticipantPersonSevisValidationEntity validationEntity)
+        public async Task<IQueryable<SevisValidationResult>> PreSevisValidation(UpdatedParticipantPersonSevisValidationEntity validationEntity)
         {
             Contract.Requires(validationEntity != null, "The validation entity must not be null.");
             var validator = new PersonSevisServiceValidator();
