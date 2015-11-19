@@ -1,287 +1,327 @@
 ﻿<div ng-controller="MoneyFlowsCtrl">
-    <h4 class="tab-subheader">
-        Funding List
-        <button class="btn btn-primary right" ng-show="!view.isLoadingRequiredData && !view.isLoadingMoneyFlows && view.canEditMoneyFlows" ng-click="view.onAddFundingItemClick()">ADD FUNDING ITEM</button>
-    </h4>
-    <p class="subheader listCount" ng-show="view.total > 0">Showing {{view.start}} - {{view.end}} of {{view.total}} funding items.</p>
-    <div st-pipe="view.getMoneyFlows" st-table="view.moneyFlows" exposetablestate="getMoneyFlowsTableState" id="sort-list">
-        <table class="col-md-12">
-            <thead>
-                <tr class="row">
-                    <th st-sort="'transactionDate'" st-sort-default="reverse" class="col-md-2 sort-label medium">Transaction Date</th>
-                    <th st-sort="'moneyFlowStatus'" class="col-md-1 sort-label medium">Status</th>
-                    <th st-sort="'sourceRecipientTypeName'" class="col-md-1 sort-label medium">Type</th>
-                    <th st-sort="'sourceRecipientName'" class="col-md-2 sort-label medium">From/To</th>
-                    <th st-sort="'amount'" class="col-md-1 sort-label medium">Amount</th>
-                    <th st-sort="'fiscalYear'" class="col-md-1 sort-label medium">FY</th>
-                    <th st-sort="'description'" class="col-md-2 sort-label medium">Description</th>
-                    <th class="col-md-2">&nbsp;</th>
-                </tr>
-                <tr class="row">
-                    <th>
-                        <div equality-filter property="'transactionDate'" propertytype="'date'"></div>
-                    </th>
-                    <th>
-                        <ui-select multiple
-                                   ui-select-st-search
-                                   ui-select-st-search-model-id="id"
-                                   ui-select-st-search-property="moneyFlowStatusId"
-                                   ui-select-st-search-comparison-type="in"
-                                   close-on-select="false"
-                                   ng-model="view.selectedFilterMoneyFlowStatii"
-                                   theme="select2"
-                                   append-to-body="true"
-                                   title="Choose money flow statii to filter."
-                                   style="min-width: 150px;">
-                            <ui-select-match placeholder="Filter statuses...">
-                                <div>{{$item.name}}</div>
-                            </ui-select-match>
-                            <ui-select-choices repeat="status in view.moneyFlowStatii | filter: select.search track by status.id">
-                                <div ng-bind-html="status.name | highlight: $select.search"></div>
-                            </ui-select-choices>
-                        </ui-select>
-                    </th>
-                    <th>
-                        <ui-select multiple
-                                   ui-select-st-search
-                                   ui-select-st-search-model-id="id"
-                                   ui-select-st-search-property="sourceRecipientEntityTypeId"
-                                   ui-select-st-search-comparison-type="in"
-                                   close-on-select="false"
-                                   ng-model="view.selectedFilterSourceRecipientTypes"
-                                   theme="select2"
-                                   append-to-body="true"
-                                   style="min-width: 130px;">
-                            <ui-select-match placeholder="Filter types...">
-                                <div>{{$item.name}}</div>
-                            </ui-select-match>
-                            <ui-select-choices repeat="t in view.moneyFlowSourceRecipientTypes | filter: select.search track by t.id">
-                                <div ng-bind-html="t.name | highlight: $select.search"></div>
-                            </ui-select-choices>
-                        </ui-select>
-                    </th>
-                    <th>
-                        <input st-search="'sourceRecipientName'" placeholder="" type="search" class="form-control" />
-                    </th>
-                    <th>
-                        <div equality-filter property="'amount'" propertytype="'float'"></div>
-                    </th>
-                    <th>
-                        <div equality-filter property="'fiscalYear'" propertytype="'int'"></div>
-                    </th>
-                    <th>
-                        <input st-search="'description'" maxlength="100" placeholder="" type="search" class="form-control" />
-                    </th>
-                    <th>&nbsp;</th>
-                </tr>
-            </thead>
-            <tbody class="list2" ng-show="!view.isLoadingRequiredData && !view.isLoadingMoneyFlows">
-                <tr class="row hover" ng-repeat-start="moneyFlow in view.moneyFlows">
-                    <td class="col-md-1">
-                        <span style="text-align: left">{{moneyFlow.transactionDate | date:'MM/dd/yyyy'}}</span>
-                    </td>
-                    <td>
-                        {{moneyFlow.moneyFlowStatus}}
-                    </td>
-                    <td>{{moneyFlow.sourceRecipientTypeName}}</td>
-                    <td>
-                        <a ng-show="!moneyFlow.loadingEntityState" href="{{moneyFlow.href}}">{{moneyFlow.sourceRecipientName}}</a>
-                        <i class="material-icons material-icons-spin md-24" ng-show="moneyFlow.loadingEntityState">autorenew</i>
-                    </td>
-                    <td>
-                        <span class="{{moneyFlow.amount < 0 ? 'outgoingMoneyFlow' : 'incomingMoneyFlow'}}">{{moneyFlow.amount | currency}}</span>
-                    </td>
-                    <td>
-                        {{moneyFlow.fiscalYear}}
-                    </td>
-                    <td>
-                        <div>
-                            <span>{{moneyFlow.description | limitTo: 20}}</span><span ng-show="moneyFlow.description.length > 20">....</span>
-                            <a ng-click="view.onToggleExpandClick(moneyFlow)" class="pull-right" ng-show="moneyFlow.description.length > 20">
-                                <i class="material-icons md-dark md-24 pull-right" ng-show="moneyFlow.showDescription">expand_more</i>
-                                <i class="material-icons md-dark md-24 pull-right" ng-show="!moneyFlow.showDescription">expand_less</i>
-                            </a>
-                        </div>
-                    </td>
-                    <td ng-show="!view.moneyFlowsLoading && !moneyFlow.currentlyEditing && view.canEditMoneyFlows">
-                        <div class="right" style="display:none;" showonparentrow>
+    <div class="row">
+        <h4 class="tab-subheader">
+            Summary
+        </h4>
+        <div st-pipe="view.getFiscalYearSummaries" st-table="view.fiscalYearSummaries" exposetabletable="getFiscalYearSummariesTableState" ng-show="!view.isLoadingFiscalYearSummaries">
+            <table class="col-md-12">
+                <thead>
+                    <tr class="row">
+                        <th class="col-md-3 sort-label medium">Fiscal Year</th>
+                        <th class="col-md-3 sort-label medium">Status</th>
+                        <th class="col-md-2 sort-label medium">Incoming</th>
+                        <th class="col-md-2 sort-label medium">Outgoing</th>
+                        <th class="col-md-2 sort-label medium">Total Remaining</th>
+                    </tr>
+                </thead>
+                <tbody class="list2">
+                    <tr class="row hover" ng-repeat="summary in view.fiscalYearSummaries">
+                        <td class="col-md-3">
+                            <!--{{summary.fiscalYear}}-->
+                            {{key}}
+                        </td>
+                        <td class="col-md-3">
+                            {{value.status}}
+                        </td>
+                        <td class="col-md-2">
+                            {{value.incomingAmount | currency}}
+                        </td>
+                        <td class="col-md-2">
+                            {{value.outgoingAmount | currency}}
+                        </td>
+                        <td class="col-md-2">
+                            {{value.remainingAmount | currency}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <h4 class="tab-subheader">
+            Funding List
+            <button class="btn btn-primary right" ng-show="!view.isLoadingRequiredData && !view.isLoadingMoneyFlows && view.canEditMoneyFlows" ng-click="view.onAddFundingItemClick()">ADD FUNDING ITEM</button>
+        </h4>
+        <p class="subheader listCount" ng-show="view.total > 0">Showing {{view.start}} - {{view.end}} of {{view.total}} funding items.</p>
+        <div st-pipe="view.getMoneyFlows" st-table="view.moneyFlows" exposetablestate="getMoneyFlowsTableState" id="sort-list">
+            <table class="col-md-12">
+                <thead>
+                    <tr class="row">
+                        <th st-sort="'transactionDate'" st-sort-default="reverse" class="col-md-2 sort-label medium">Transaction Date</th>
+                        <th st-sort="'moneyFlowStatus'" class="col-md-1 sort-label medium">Status</th>
+                        <th st-sort="'sourceRecipientTypeName'" class="col-md-1 sort-label medium">Type</th>
+                        <th st-sort="'sourceRecipientName'" class="col-md-2 sort-label medium">From/To</th>
+                        <th st-sort="'amount'" class="col-md-1 sort-label medium">Amount</th>
+                        <th st-sort="'fiscalYear'" class="col-md-1 sort-label medium">FY</th>
+                        <th st-sort="'description'" class="col-md-2 sort-label medium">Description</th>
+                        <th class="col-md-2">&nbsp;</th>
+                    </tr>
+                    <tr class="row">
+                        <th>
+                            <div equality-filter property="'transactionDate'" propertytype="'date'"></div>
+                        </th>
+                        <th>
+                            <ui-select multiple
+                                       ui-select-st-search
+                                       ui-select-st-search-model-id="id"
+                                       ui-select-st-search-property="moneyFlowStatusId"
+                                       ui-select-st-search-comparison-type="in"
+                                       close-on-select="false"
+                                       ng-model="view.selectedFilterMoneyFlowStatii"
+                                       theme="select2"
+                                       append-to-body="true"
+                                       title="Choose money flow statii to filter."
+                                       style="min-width: 150px;">
+                                <ui-select-match placeholder="Filter statuses...">
+                                    <div>{{$item.name}}</div>
+                                </ui-select-match>
+                                <ui-select-choices repeat="status in view.moneyFlowStatii | filter: select.search track by status.id">
+                                    <div ng-bind-html="status.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </th>
+                        <th>
+                            <ui-select multiple
+                                       ui-select-st-search
+                                       ui-select-st-search-model-id="id"
+                                       ui-select-st-search-property="sourceRecipientEntityTypeId"
+                                       ui-select-st-search-comparison-type="in"
+                                       close-on-select="false"
+                                       ng-model="view.selectedFilterSourceRecipientTypes"
+                                       theme="select2"
+                                       append-to-body="true"
+                                       style="min-width: 130px;">
+                                <ui-select-match placeholder="Filter types...">
+                                    <div>{{$item.name}}</div>
+                                </ui-select-match>
+                                <ui-select-choices repeat="t in view.moneyFlowSourceRecipientTypes | filter: select.search track by t.id">
+                                    <div ng-bind-html="t.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </th>
+                        <th>
+                            <input st-search="'sourceRecipientName'" placeholder="" type="search" class="form-control" />
+                        </th>
+                        <th>
+                            <div equality-filter property="'amount'" propertytype="'float'"></div>
+                        </th>
+                        <th>
+                            <div equality-filter property="'fiscalYear'" propertytype="'int'"></div>
+                        </th>
+                        <th>
+                            <input st-search="'description'" maxlength="100" placeholder="" type="search" class="form-control" />
+                        </th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody class="list2" ng-show="!view.isLoadingRequiredData && !view.isLoadingMoneyFlows">
+                    <tr class="row hover" ng-repeat-start="moneyFlow in view.moneyFlows">
+                        <td class="col-md-1">
+                            <span style="text-align: left">{{moneyFlow.transactionDate | date:'MM/dd/yyyy'}}</span>
+                        </td>
+                        <td>
+                            {{moneyFlow.moneyFlowStatus}}
+                        </td>
+                        <td>{{moneyFlow.sourceRecipientTypeName}}</td>
+                        <td>
+                            <a ng-show="!moneyFlow.loadingEntityState" href="{{moneyFlow.href}}">{{moneyFlow.sourceRecipientName}}</a>
+                            <i class="material-icons material-icons-spin md-24" ng-show="moneyFlow.loadingEntityState">autorenew</i>
+                        </td>
+                        <td>
+                            <span class="{{moneyFlow.amount < 0 ? 'outgoingMoneyFlow' : 'incomingMoneyFlow'}}">{{moneyFlow.amount | currency}}</span>
+                        </td>
+                        <td>
+                            {{moneyFlow.fiscalYear}}
+                        </td>
+                        <td>
                             <div>
-                                <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy" ng-click="view.onCopyClick(moneyFlow)">
-                                    <i class="material-icons md-24 copyEditDeleteOption" ng-show="!moneyFlow.isCopyingMoneyFlow">content_copy</i>
-                                    <i class="material-icons md-24 material-icons-spin copyEditDeleteOption" ng-show="moneyFlow.isCopyingMoneyFlow">autorenew</i>
+                                <span>{{moneyFlow.description | limitTo: 20}}</span><span ng-show="moneyFlow.description.length > 20">....</span>
+                                <a ng-click="view.onToggleExpandClick(moneyFlow)" class="pull-right" ng-show="moneyFlow.description.length > 20">
+                                    <i class="material-icons md-dark md-24 pull-right" ng-show="moneyFlow.showDescription">expand_more</i>
+                                    <i class="material-icons md-dark md-24 pull-right" ng-show="!moneyFlow.showDescription">expand_less</i>
+                                </a>
+                            </div>
+                        </td>
+                        <td ng-show="!view.moneyFlowsLoading && !moneyFlow.currentlyEditing && view.canEditMoneyFlows">
+                            <div class="right" style="display:none;" showonparentrow>
+                                <div>
+                                    <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy" ng-click="view.onCopyClick(moneyFlow)">
+                                        <i class="material-icons md-24 copyEditDeleteOption" ng-show="!moneyFlow.isCopyingMoneyFlow">content_copy</i>
+                                        <i class="material-icons md-24 material-icons-spin copyEditDeleteOption" ng-show="moneyFlow.isCopyingMoneyFlow">autorenew</i>
+                                    </div>
+                                </div>
+                                <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Edit" ng-click="view.onEditClick(moneyFlow)">
+                                    <i class="material-icons md-24 copyEditDeleteOption">edit</i>
+                                </div>
+                                <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Delete" ng-click="view.onDeleteClick(moneyFlow)">
+                                    <i class="material-icons md-24 copyEditDeleteOption" ng-show="!moneyFlow.isDeleting">delete</i>
+                                    <i class="material-icons md-24 material-icons-spin copyEditDeleteOption" ng-show="moneyFlow.isDeleting">autorenew</i>
                                 </div>
                             </div>
-                            <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Edit" ng-click="view.onEditClick(moneyFlow)">
-                                <i class="material-icons md-24 copyEditDeleteOption">edit</i>
-                            </div>
-                            <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Delete" ng-click="view.onDeleteClick(moneyFlow)">
-                                <i class="material-icons md-24 copyEditDeleteOption" ng-show="!moneyFlow.isDeleting">delete</i>
-                                <i class="material-icons md-24 material-icons-spin copyEditDeleteOption" ng-show="moneyFlow.isDeleting">autorenew</i>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr ng-show="moneyFlow.isDeleting">
-                    <td colspan="16">
-                        <div class="spinner">
-                            <div class="bounce1"></div>
-                            <div class="bounce2"></div>
-                            <div class="bounce3"></div>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="expandedDescription" ng-show="moneyFlow.showDescription">
-                    <td colspan="16" style="padding-top:5px; padding-bottom:5px;">
-                        <div>
-                            Description: {{moneyFlow.description}}
-                        </div>
-                    </td>
-                </tr>
-                <tr class="expandedDescription" ng-show="moneyFlow.currentlyEditing" ng-repeat-end>
-                    <td colspan="16">
-                        <div id="{{view.getMoneyFlowDivId(moneyFlow)}}">
-                            <div class="spinner" ng-show="moneyFlow.isSavingUpdate">
+                        </td>
+                    </tr>
+                    <tr ng-show="moneyFlow.isDeleting">
+                        <td colspan="16">
+                            <div class="spinner">
                                 <div class="bounce1"></div>
                                 <div class="bounce2"></div>
                                 <div class="bounce3"></div>
                             </div>
-                            <form name="form.moneyFlowForm" ng-show="!moneyFlow.isSavingUpdate">
-                                <div class="row row2" style="margin-left:0;padding:5px;">
-                                    <div class="form-group col-md-6">
-                                        <label for="transactionDate{{moneyFlow.id}}">Transaction Date<span class="asterisk"> *</span></label>
-                                        <p class="input-group">
-                                            <input name="transactionDate"
-                                                   id="transactionDate{{moneyFlow.id}}"
-                                                   type="text"
-                                                   class="form-control"
-                                                   datepicker-popup="dd-MMMM-yyyy"
-                                                   ng-model="moneyFlow.transactionDate"
-                                                   is-open="moneyFlow.isTransactionDatePickerOpen"
-                                                   close-text="Close"
-                                                   show-weeks="false"
-                                                   ng-required="true" />
-                                            <span class="input-group-btn">
-                                                <button type="button" class="btn btn-default" ng-click="view.openTransactionDatePicker($event, moneyFlow, form.moneyFlowForm)">
-                                                    <i class="material-icons md-18">event</i>
-                                                </button>
-                                            </span>
-                                        </p>
-                                        <div ng-show="form.moneyFlowForm.transactionDate.$dirty || form.moneyFlowForm.transactionDate.$error.required">
-                                            <div class="error" ng-show="form.moneyFlowForm.transactionDate.$error.required">Please select a transaction date.</div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="moneyFlowStatus{{moneyFlow.id}}">Status<span class="asterisk"> *</span></label>
-                                        <select class="form-control"
-                                                id="moneyFlowStatus{{moneyFlow.id}}"
-                                                name="moneyFlowStatusId"
-                                                ng-options="t.id as t.name for t in view.moneyFlowStatii"
-                                                ng-model="moneyFlow.moneyFlowStatusId"
-                                                required></select>
-                                        <div ng-show="form.moneyFlowForm.moneyFlowStatusId.$dirty || form.addressForm.moneyFlowStatusId.$error.required">
-                                            <div class="error" ng-show="form.moneyFlowForm.moneyFlowStatusId.$error.required">Please select a funding status.</div>
-                                        </div>
-                                    </div>
+                        </td>
+                    </tr>
+                    <tr class="expandedDescription" ng-show="moneyFlow.showDescription">
+                        <td colspan="16" style="padding-top:5px; padding-bottom:5px;">
+                            <div>
+                                Description: {{moneyFlow.description}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="expandedDescription" ng-show="moneyFlow.currentlyEditing" ng-repeat-end>
+                        <td colspan="16">
+                            <div id="{{view.getMoneyFlowDivId(moneyFlow)}}">
+                                <div class="spinner" ng-show="moneyFlow.isSavingUpdate">
+                                    <div class="bounce1"></div>
+                                    <div class="bounce2"></div>
+                                    <div class="bounce3"></div>
                                 </div>
-                                <div class="row row2" style="margin-left:0;padding:5px;">
-                                    <div class="form-group col-md-6">
-                                        <label>Source</label>
-                                        <div ng-show="!moneyFlow.parentMoneyFlowId">
-                                            No source funding item.
+                                <form name="form.moneyFlowForm" ng-show="!moneyFlow.isSavingUpdate">
+                                    <div class="row row2" style="margin-left:0;padding:5px;">
+                                        <div class="form-group col-md-6">
+                                            <label for="transactionDate{{moneyFlow.id}}">Transaction Date<span class="asterisk"> *</span></label>
+                                            <p class="input-group">
+                                                <input name="transactionDate"
+                                                       id="transactionDate{{moneyFlow.id}}"
+                                                       type="text"
+                                                       class="form-control"
+                                                       datepicker-popup="dd-MMMM-yyyy"
+                                                       ng-model="moneyFlow.transactionDate"
+                                                       is-open="moneyFlow.isTransactionDatePickerOpen"
+                                                       close-text="Close"
+                                                       show-weeks="false"
+                                                       ng-required="true" />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" ng-click="view.openTransactionDatePicker($event, moneyFlow, form.moneyFlowForm)">
+                                                        <i class="material-icons md-18">event</i>
+                                                    </button>
+                                                </span>
+                                            </p>
+                                            <div ng-show="form.moneyFlowForm.transactionDate.$dirty || form.moneyFlowForm.transactionDate.$error.required">
+                                                <div class="error" ng-show="form.moneyFlowForm.transactionDate.$error.required">Please select a transaction date.</div>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <div ng-show="moneyFlow.isLoadingSource">
-                                                <i class="material-icons material-icons-spin md-24">autorenew</i>
+                                        <div class="form-group col-md-6">
+                                            <label for="moneyFlowStatus{{moneyFlow.id}}">Status<span class="asterisk"> *</span></label>
+                                            <select class="form-control"
+                                                    id="moneyFlowStatus{{moneyFlow.id}}"
+                                                    name="moneyFlowStatusId"
+                                                    ng-options="t.id as t.name for t in view.moneyFlowStatii"
+                                                    ng-model="moneyFlow.moneyFlowStatusId"
+                                                    required></select>
+                                            <div ng-show="form.moneyFlowForm.moneyFlowStatusId.$dirty || form.addressForm.moneyFlowStatusId.$error.required">
+                                                <div class="error" ng-show="form.moneyFlowForm.moneyFlowStatusId.$error.required">Please select a funding status.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row row2" style="margin-left:0;padding:5px;">
+                                        <div class="form-group col-md-6">
+                                            <label>Source</label>
+                                            <div ng-show="!moneyFlow.parentMoneyFlowId">
+                                                No source funding item.
+                                            </div>
+                                            <div>
+                                                <div ng-show="moneyFlow.isLoadingSource">
+                                                    <i class="material-icons material-icons-spin md-24">autorenew</i>
+                                                </div>
+                                                <div ng-show="moneyFlow.parentMoneyFlow && !moneyFlow.isLoadingSource">
+                                                    <span ng-show="moneyFlow.parentMoneyFlow.isLoadingEntityState">{{moneyFlow.parentMoneyFlow.sourceName}}</span>
+                                                    <a ng-show="!moneyFlow.parentMoneyFlow.isLoadingEntityState" href="{{moneyFlow.parentMoneyFlow.href}}">{{moneyFlow.parentMoneyFlow.sourceName}}</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Remaining Unassigned</label>
+                                            <div ng-show="!moneyFlow.parentMoneyFlowId">
+                                                N/A
                                             </div>
                                             <div ng-show="moneyFlow.parentMoneyFlow && !moneyFlow.isLoadingSource">
-                                                <span ng-show="moneyFlow.parentMoneyFlow.isLoadingEntityState">{{moneyFlow.parentMoneyFlow.sourceName}}</span>
-                                                <a ng-show="!moneyFlow.parentMoneyFlow.isLoadingEntityState" href="{{moneyFlow.parentMoneyFlow.href}}">{{moneyFlow.parentMoneyFlow.sourceName}}</a>
+                                                <span ng-class="{dirtyMoneyFlowAmount: form.moneyFlowForm.amount.$dirty}">
+                                                    {{moneyFlow.parentMoneyFlow.moneyFlowLineItemMaximumAmount - (moneyFlow.editableAmount ? moneyFlow.editableAmount : 0) | currency}}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="fiscalYear">Reference Fiscal Year<span class="asterisk"> *</span></label>
+                                            <select class="form-control"
+                                                    id="fiscalYear{{moneyFlow.id}}"
+                                                    name="fiscalYear"
+                                                    ng-disabled="moneyFlow.parentMoneyFlowId"
+                                                    ng-options="fiscalYear as fiscalYear for fiscalYear in view.getFiscalYears(moneyFlow)"
+                                                    ng-model="moneyFlow.fiscalYear"
+                                                    required></select>
+                                            <div ng-show="form.moneyFlowForm.fiscalYear.$dirty || form.moneyFlowForm.fiscalYear.$error.required">
+                                                <div class="error" ng-show="form.moneyFlowForm.fiscalYear.$error.required">Please enter a fiscal year.</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="amount{{moneyFlow.id}}">Amount<span class="asterisk"> *</span></label>
+                                            <input name="amount"
+                                                   ng-model="moneyFlow.editableAmount"
+                                                   max="{{moneyFlow.parentMoneyFlow ? moneyFlow.parentMoneyFlow.moneyFlowLineItemMaximumAmount : view.maxAmount}}"
+                                                   type="number"
+                                                   ng-blur="view.onEditableAmountChange($event, moneyFlow)"
+                                                   step="any"
+                                                   min="0"
+                                                   class="form-control"
+                                                   ui-validate="{exceedsSourceAmount: 'view.validateSourceRemainingAmount($value, moneyFlow)'}"
+                                                   placeholder="Enter amount."
+                                                   id="amount{{moneyFlow.id}}"
+                                                   ng-required="true" />
+
+                                            <div ng-show="form.moneyFlowForm.amount.$dirty">
+                                                <div class="error" ng-show="form.moneyFlowForm.amount.$error.required">Please enter a transaction amount.</div>
+                                                <div class="error" ng-show="form.moneyFlowForm.amount.$error.exceedsSourceAmount">The amount exceeds the remaining source funding.</div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <label>Remaining Unassigned</label>
-                                        <div ng-show="!moneyFlow.parentMoneyFlowId">
-                                            N/A
+                                    <div class="row row2" style="margin-left:0;padding:5px;">
+                                        <div class="form-group col-md-12">
+                                            <label for="description{{moneyFlow.id}}">Description<span class="asterisk"> *</span></label>
+                                            <textarea name="description"
+                                                      maxlength="{{view.maxDescriptionLength}}"
+                                                      class="largerArea"
+                                                      ng-model="moneyFlow.description"
+                                                      id="description{{moneyFlow.id}}"
+                                                      required
+                                                      placeholder="Enter description..."></textarea>
+                                            <div ng-show="form.moneyFlowForm.description.$dirty || form.moneyFlowForm.description.$error.required">
+                                                <div class="error" ng-show="form.moneyFlowForm.description.$error.required">Please enter a description.</div>
+                                            </div>
+                                            <p class="mute">{{moneyFlow.description.length}} of {{view.maxDescriptionLength}} characters remaining.</p>
                                         </div>
-                                        <div ng-show="moneyFlow.parentMoneyFlow && !moneyFlow.isLoadingSource">
-                                            <span ng-class="{dirtyMoneyFlowAmount: form.moneyFlowForm.amount.$dirty}">
-                                                {{moneyFlow.parentMoneyFlow.moneyFlowLineItemMaximumAmount - (moneyFlow.editableAmount ? moneyFlow.editableAmount : 0) | currency}}
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group col-md-6">
-                                        <label for="fiscalYear">Reference Fiscal Year<span class="asterisk"> *</span></label>
-                                        <select class="form-control"
-                                                id="fiscalYear{{moneyFlow.id}}"
-                                                name="fiscalYear"
-                                                ng-disabled="moneyFlow.parentMoneyFlowId"
-                                                ng-options="fiscalYear as fiscalYear for fiscalYear in view.getFiscalYears(moneyFlow)"
-                                                ng-model="moneyFlow.fiscalYear"
-                                                required></select>
-                                        <div ng-show="form.moneyFlowForm.fiscalYear.$dirty || form.moneyFlowForm.fiscalYear.$error.required">
-                                            <div class="error" ng-show="form.moneyFlowForm.fiscalYear.$error.required">Please enter a fiscal year.</div>
+                                        <div class="pull-right" ng-show="!moneyFlow.isSavingUpdate">
+                                            <button ng-click="view.saveMoneyFlowChanges(moneyFlow)" class="btn btn-success" ng-disabled="form.moneyFlowForm.$invalid">Save</button>
+                                            <button ng-click="view.cancelMoneyFlowChanges(moneyFlow)" class="btn btn-cancel">Cancel</button>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="amount{{moneyFlow.id}}">Amount<span class="asterisk"> *</span></label>
-                                        <input name="amount"
-                                               ng-model="moneyFlow.editableAmount"
-                                               max="{{moneyFlow.parentMoneyFlow ? moneyFlow.parentMoneyFlow.moneyFlowLineItemMaximumAmount : view.maxAmount}}"
-                                               type="number"
-                                               ng-blur="view.onEditableAmountChange($event, moneyFlow)"
-                                               step="any"
-                                               min="0"
-                                               class="form-control"
-                                               ui-validate="{exceedsSourceAmount: 'view.validateSourceRemainingAmount($value, moneyFlow)'}"
-                                               placeholder="Enter amount."
-                                               id="amount{{moneyFlow.id}}"
-                                               ng-required="true" />
-
-                                        <div ng-show="form.moneyFlowForm.amount.$dirty">
-                                            <div class="error" ng-show="form.moneyFlowForm.amount.$error.required">Please enter a transaction amount.</div>
-                                            <div class="error" ng-show="form.moneyFlowForm.amount.$error.exceedsSourceAmount">The amount exceeds the remaining source funding.</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row row2" style="margin-left:0;padding:5px;">
-                                    <div class="form-group col-md-12">
-                                        <label for="description{{moneyFlow.id}}">Description<span class="asterisk"> *</span></label>
-                                        <textarea name="description"
-                                                  maxlength="{{view.maxDescriptionLength}}"
-                                                  class="largerArea"
-                                                  ng-model="moneyFlow.description"
-                                                  id="description{{moneyFlow.id}}"
-                                                  required
-                                                  placeholder="Enter description..."></textarea>
-                                        <div ng-show="form.moneyFlowForm.description.$dirty || form.moneyFlowForm.description.$error.required">
-                                            <div class="error" ng-show="form.moneyFlowForm.description.$error.required">Please enter a description.</div>
-                                        </div>
-                                        <p class="mute">{{moneyFlow.description.length}} of {{view.maxDescriptionLength}} characters remaining.</p>
-                                    </div>
-                                    <div class="pull-right" ng-show="!moneyFlow.isSavingUpdate">
-                                        <button ng-click="view.saveMoneyFlowChanges(moneyFlow)" class="btn btn-success" ng-disabled="form.moneyFlowForm.$invalid">Save</button>
-                                        <button ng-click="view.cancelMoneyFlowChanges(moneyFlow)" class="btn btn-cancel">Cancel</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-            <tbody ng-show="view.isLoadingRequiredData || view.isLoadingMoneyFlows" id="spinner">
-                <tr>
-                    <td colspan="16">
-                        <div class="spinner">
-                            <div class="bounce1"></div>
-                            <div class="bounce2"></div>
-                            <div class="bounce3"></div>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div st-template="app/partials/pagination.html" st-pagination="" st-items-by-page="view.limit" st-displayed-pages="10" ng-show="!view.isLoadingMoneyFlows"></div>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody ng-show="view.isLoadingRequiredData || view.isLoadingMoneyFlows" id="spinner">
+                    <tr>
+                        <td colspan="16">
+                            <div class="spinner">
+                                <div class="bounce1"></div>
+                                <div class="bounce2"></div>
+                                <div class="bounce3"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div st-template="app/partials/pagination.html" st-pagination="" st-items-by-page="view.limit" st-displayed-pages="10" ng-show="!view.isLoadingMoneyFlows"></div>
+        </div>
     </div>
 </div>

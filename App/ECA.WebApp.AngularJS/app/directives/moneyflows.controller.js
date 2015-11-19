@@ -32,11 +32,13 @@ angular.module('staticApp')
       $scope.view = {};
       $scope.view.params = $stateParams;
       $scope.view.moneyFlows = [];
+      $scope.view.fiscalYearSummaries = [];
       $scope.view.moneyFlowSourceRecipientTypes = [];
       $scope.view.moneyFlowStatii = [];
       $scope.view.moneyFlowTypes = [];
       $scope.view.isLoadingRequiredData = false;
       $scope.view.isLoadingMoneyFlows = false;
+      $scope.view.isLoadingFiscalYearSummaries = false;
       $scope.view.start = 0;
       $scope.view.end = 0;
       $scope.view.total = 0;
@@ -50,6 +52,17 @@ angular.module('staticApp')
 
       //the program id, project id, etc...
       $scope.view.entityId = $stateParams[$scope.$parent.stateParamName];
+
+      $scope.view.getFiscalYearSummaries = function (tableState) {
+          TableService.setTableState(tableState);
+          var params = {
+              start: TableService.getStart(),
+              limit: TableService.getLimit(),
+              sort: TableService.getSort(),
+              filter: TableService.getFilter()
+          };
+          return loadFiscalYearSummaries(params, tableState);
+      };
 
       $scope.view.getMoneyFlows = function (tableState) {
           TableService.setTableState(tableState);
@@ -446,7 +459,7 @@ angular.module('staticApp')
               NotificationService.showErrorMessage(message);
               $scope.view.isLoadingMoneyFlows = false;
           });
-      }
+      }      
 
       function getMoneyFlowServiceFunctionByTypeId(moneyFlowSourceRecipientTypeId) {
           if (moneyFlowSourceRecipientTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id) {
@@ -467,6 +480,46 @@ angular.module('staticApp')
           else {
               throw Error('A mapping to a money flow service function for the money flow source recipient type id [' + moneyFlowSourceRecipientTypeId + '] does not exist.');
           }
+      }
+
+      function getFiscalYearSummariesFunctionByTypeId(moneyFlowSourceRecipientTypeId) {
+          if (moneyFlowSourceRecipientTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id) {
+              return MoneyFlowService.getFiscalYearSummariesByProgramId;
+          }
+          else if (moneyFlowSourceRecipientTypeId === ConstantsService.moneyFlowSourceRecipientType.project.id) {
+              return MoneyFlowService.getFiscalYearSummariesByProjectId;
+          }
+          else if (moneyFlowSourceRecipientTypeId === ConstantsService.moneyFlowSourceRecipientType.office.id) {
+              return MoneyFlowService.getFiscalYearSummariesByOfficeId;
+          }
+          else if (moneyFlowSourceRecipientTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id) {
+              return MoneyFlowService.getFiscalYearSummariesByOrganizationId;
+          }
+          else if (moneyFlowSourceRecipientTypeId === ConstantsService.moneyFlowSourceRecipientType.participant.id) {
+              return MoneyFlowService.getFiscalYearSummariesByPersonId;
+          }
+          else {
+              throw Error('A mapping to a money flow service function for the money flow source recipient type id [' + moneyFlowSourceRecipientTypeId + '] does not exist.');
+          }
+      }
+
+      function loadFiscalYearSummaries(params, tableState) {
+          $scope.view.isLoadingFiscalYearSummaries = true;
+          var entityId = $scope.view.entityId;
+          var fn = getFiscalYearSummariesFunctionByTypeId($scope.sourceEntityTypeId)
+          return fn(entityId)
+          .then(function (response) {
+              $scope.view.isLoadingFiscalYearSummaries = false;
+              $scope.view.fiscalYearSummaries = response.data;
+              return $scope.view.fiscalYearSummaries;
+          })
+          .catch(function (response) {
+              $scope.view.isLoadingFiscalYearSummaries = false;
+              var message = "Unable to load fiscal year summaries.";
+              $log.error(message);
+              NotificationService.showErrorMessage(message);
+          });
+
       }
 
 
