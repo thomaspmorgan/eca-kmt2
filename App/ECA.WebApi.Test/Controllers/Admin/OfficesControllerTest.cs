@@ -40,6 +40,7 @@ namespace ECA.WebApi.Test.Controllers.Admin
             serviceMock.Setup(x => x.GetProgramsAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<OrganizationProgramDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<OrganizationProgramDTO>(0, new List<OrganizationProgramDTO>()));
             serviceMock.Setup(x => x.GetOfficeSettingsAsync(It.IsAny<int>())).ReturnsAsync(new OfficeSettings());
+            serviceMock.Setup(x => x.GetOfficeDataPointConfigurationsAsync(It.IsAny<int>())).ReturnsAsync(new List<DataPointConfigurationDTO>());
             controller = new OfficesController(serviceMock.Object, focusCategoryService.Object, justificationObjectiveService.Object, resourceService.Object, authorizationHandler.Object);
         }
 
@@ -149,5 +150,12 @@ namespace ECA.WebApi.Test.Controllers.Admin
             Assert.IsInstanceOfType(result, typeof(OkNegotiatedContentResult<OfficeSettings>));
         }
         #endregion
+
+        [TestMethod]
+        public async Task TestGetOfficeDataPointConfigurationsAsync()
+        {
+            var result = await controller.GetOfficeDataPointConfigurationsByOfficeIdAsync(1);
+            Assert.IsInstanceOfType(result, typeof(OkNegotiatedContentResult<List<DataPointConfigurationDTO>>));
+        }
     }
 }

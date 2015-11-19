@@ -114,6 +114,13 @@ namespace ECA.Business.Service.Admin
         /// <param name="officeId">The id of the office.</param>
         /// <returns>The settings of the office.</returns>
         Task<OfficeSettings> GetOfficeSettingsAsync(int officeId);
+
+        /// <summary>
+        /// Returns all data point configurations for the specified office
+        /// </summary>
+        /// <param name="officeId">The office id</param>
+        /// <returns>List of data point configurations</returns>
+        Task<List<DataPointConfigurationDTO>> GetOfficeDataPointConfigurationsAsync(int officeId);
     }
 
     /// <summary>
@@ -266,6 +273,11 @@ namespace ECA.Business.Service.Admin
         public Task<OfficeSettings> GetOfficeSettingsAsync(int officeId)
         {
             return Task.FromResult<OfficeSettings>(null);
+        }
+
+        public Task<List<DataPointConfigurationDTO>> GetOfficeDataPointConfigurationsAsync(int officeId)
+        {
+            return Task.FromResult<List<DataPointConfigurationDTO>>(null);
         }
     }
 }

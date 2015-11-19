@@ -110,6 +110,8 @@ namespace ECA.Data
         /// </summary>
         public DbSet<ActivityType> ActivityTypes { get; set; }
 
+        public DbSet<DataPointConfiguration> DataPointConfigurations { get; set; }
+
         /// <summary>
         /// Gets or sets external ids.
         /// </summary>
