@@ -2139,6 +2139,7 @@ namespace ECA.Business.Test.Service.Fundings
             Assert.AreEqual(0.0m, addedSummary.IncomingAmount);
             Assert.AreEqual(0.0m, addedSummary.OutgoingAmount);
             Assert.AreEqual(0.0m, addedSummary.RemainingAmount);
+            Assert.IsTrue(addedSummary.IsEmpty);
         }
 
         [TestMethod]
@@ -2184,6 +2185,8 @@ namespace ECA.Business.Test.Service.Fundings
             Assert.AreEqual(4, results.Count);
             Assert.AreEqual(summary2.FiscalYear, results.First().FiscalYear);
             Assert.AreEqual(summary1.FiscalYear, results.Last().FiscalYear);
+            Assert.IsTrue(results[1].IsEmpty);
+            Assert.IsTrue(results[2].IsEmpty);
         }
 
         [TestMethod]

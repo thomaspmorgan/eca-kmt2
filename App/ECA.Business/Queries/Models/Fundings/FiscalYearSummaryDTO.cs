@@ -36,5 +36,7 @@ namespace ECA.Business.Queries.Models.Fundings
         public int StatusId { get; set; }
 
         public string Status { get; set; }
+
+        public bool IsEmpty { get; set; }
     }
 }

@@ -562,6 +562,7 @@ namespace ECA.Business.Service.Fundings
                                 EntityId = entityId,
                                 EntityTypeId = entityTypeId,
                                 FiscalYear = i,
+                                IsEmpty = true,
                                 IncomingAmount = 0.0m,
                                 OutgoingAmount = 0.0m,
                                 RemainingAmount = 0.0m,

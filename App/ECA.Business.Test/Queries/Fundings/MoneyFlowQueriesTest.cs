@@ -2348,6 +2348,8 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(moneyFlow.FiscalYear, recipientSummaryDto.FiscalYear);
             Assert.AreEqual(programType.MoneyFlowSourceRecipientTypeId, sourceSummaryDto.EntityTypeId);
             Assert.AreEqual(projectType.MoneyFlowSourceRecipientTypeId, recipientSummaryDto.EntityTypeId);
+            Assert.IsFalse(sourceSummaryDto.IsEmpty);
+            Assert.IsFalse(recipientSummaryDto.IsEmpty);
 
             Assert.AreEqual(moneyFlow.Value, sourceSummaryDto.OutgoingAmount);
             Assert.AreEqual(0.0m, recipientSummaryDto.OutgoingAmount);
@@ -2430,6 +2432,8 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(moneyFlow1.FiscalYear, recipientSummaryDto.FiscalYear);
             Assert.AreEqual(programType.MoneyFlowSourceRecipientTypeId, sourceSummaryDto.EntityTypeId);
             Assert.AreEqual(projectType.MoneyFlowSourceRecipientTypeId, recipientSummaryDto.EntityTypeId);
+            Assert.IsFalse(sourceSummaryDto.IsEmpty);
+            Assert.IsFalse(recipientSummaryDto.IsEmpty);
 
             Assert.AreEqual(moneyFlow1.Value + moneyFlow2.Value, sourceSummaryDto.OutgoingAmount);
             Assert.AreEqual(0.0m, recipientSummaryDto.OutgoingAmount);
@@ -2922,4 +2926,5 @@ namespace ECA.Business.Test.Queries.Fundings
 
     }
 }
+
 

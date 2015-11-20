@@ -351,6 +351,7 @@ namespace ECA.Business.Queries.Fundings
                             EntityId = g.Key.EntityId,
                             EntityTypeId = g.Key.EntityTypeId,
                             FiscalYear = g.Key.FiscalYear,
+                            IsEmpty = false,
                             IncomingAmount = incomingAmount,
                             OutgoingAmount = outgoingAmount,
                             RemainingAmount = incomingAmount - outgoingAmount,
