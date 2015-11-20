@@ -1,4 +1,5 @@
-﻿using ECA.Business.Validation;
+﻿using ECA.Business.Queries.Models.Persons;
+using ECA.Business.Validation;
 using System.Collections.Generic;
 //using System.Data;
 //using System.IO;
@@ -6,7 +7,7 @@ using System.Collections.Generic;
 
 namespace ECA.Business.Service.Persons
 {
-    public class PersonSevisServiceValidator : SevisValidatorBase<UpdatedParticipantPersonSevisValidationEntity>
+    public class PersonSevisServiceValidator : SevisValidatorBase<ParticipantPersonSevisValidationDTO>
     {
         /// <summary>
         /// Person not found
@@ -18,9 +19,9 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="validationEntity">Entity to validate</param>
         /// <returns>Business validation results</returns>        
-        public override IEnumerable<SevisValidationResult> DoValidateSevis(UpdatedParticipantPersonSevisValidationEntity validationEntity)
+        public override IEnumerable<SevisValidationResult> DoValidateSevis(ParticipantPersonSevisValidationDTO validationEntity)
         {
-            if (validationEntity.participantPerson == null)
+            if (validationEntity.sevisPerson == null)
             {
                 yield return new SevisValidationResult<PersonSevisServiceValidationEntity>(x => x.sevisPerson, PERSON_NOT_FOUND);
             }

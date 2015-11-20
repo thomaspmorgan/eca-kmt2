@@ -1,4 +1,5 @@
-﻿using ECA.Business.Validation;
+﻿using ECA.Business.Queries.Models.Persons;
+using ECA.Business.Validation;
 using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="entity"></param>
         /// <returns>List of errors</returns>
-        public async Task<IQueryable<SevisValidationResult>> PreSevisValidation(UpdatedParticipantPersonSevisValidationEntity validationEntity)
+        public async Task<IQueryable<SevisValidationResult>> PreSevisValidation(ParticipantPersonSevisValidationDTO validationEntity)
         {
             Contract.Requires(validationEntity != null, "The validation entity must not be null.");
             var validator = new PersonSevisServiceValidator();
