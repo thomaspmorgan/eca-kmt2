@@ -5,11 +5,14 @@
                 Summary<i class="material-icons material-icons-spin" ng-show="view.isLoadingFiscalYearSummaries">autorenew</i>
             </tab-heading>
             <div style="margin-top:20px;">
-                <div class="col-md-9">
+                <div class="col-md-4">
                     <label>
                         <input type="checkbox" ng-model="view.showEmptyFiscalYearSummaries" ng-change="view.onShowEmptyFiscalYearSummaries()" />
                         Show zero amount summaries
                     </label>
+                </div>
+                <div class="col-md-5">
+                    &nbsp;
                 </div>
                 <div class="col-md-3 text-right">
                     <button class="btn btn-primary" ng-disabled="view.isLoadingFiscalYearSummaries" ng-click="view.onReloadFiscalYearSummariesClick()">Reload</button>
