@@ -133,6 +133,7 @@
     <Compile Include="Queries\Admin\PhoneNumberQueries.cs" />
     <Compile Include="Queries\Admin\EmailAddressQueries.cs" />
     <Compile Include="Queries\Admin\SnapshotQueries.cs" />
+    <Compile Include="Queries\Models\Admin\DataPointConfigurationDTO.cs" />
     <Compile Include="Queries\Models\Admin\PhoneNumberDTO.cs" />
     <Compile Include="Queries\Models\Admin\EmailAddressDTO.cs" />
     <Compile Include="Queries\Models\Admin\ProgramStatusDTO.cs" />

@@ -113,6 +113,19 @@ namespace ECA.WebApi.Controllers.Admin
         }
 
         /// <summary>
+        /// Returns the data point configurations for the specified office id
+        /// </summary>
+        /// <param name="id">The id of the office</param>
+        /// <returns>The data point configurations</returns>
+        [ResponseType(typeof(List<DataPointConfigurationDTO>))]
+        [Route("Offices/{id}/DataPointConfigurations")]
+        public async Task<IHttpActionResult> GetOfficeDataPointConfigurationsByOfficeIdAsync(int id)
+        {
+            var dataPointConfigurations = await this.service.GetOfficeDataPointConfigurationsAsync(id);
+            return Ok(dataPointConfigurations);
+        }
+
+        /// <summary>
         /// Returns the first level child offices/branches/divisions of the office with the given id.
         /// </summary>
         /// <param name="id">The office id.</param>

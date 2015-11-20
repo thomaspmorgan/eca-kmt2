@@ -112,5 +112,20 @@ namespace ECA.Business.Queries.Admin
             Contract.Requires(context != null, "The context must not be null.");
             return CreateGetOfficeSettingDTOQuery(context).Where(x => x.OfficeId == officeId);
         }
+
+        public static IQueryable<DataPointConfigurationDTO> CreateGetOfficeDataPointConfigurationsDTOByOfficeIdQuery(EcaContext context, int officeId)
+        {
+            var dataPointConfigurations = context.DataPointConfigurations.Select(x => new DataPointConfigurationDTO
+            {
+                DataPointConfigurationId = x.DataPointConfigurationId,
+                OfficeId = x.OfficeId,
+                ProgramId = x.ProgramId,
+                ProjectId = x.ProjectId,
+                Category = x.Category,
+                Property = x.Property,
+                IsHidden = x.IsHidden
+            });
+            return dataPointConfigurations;
+        }
     }
 }

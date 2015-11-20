@@ -2102,5 +2102,37 @@ namespace ECA.Business.Test.Service.Admin
         }
 
         #endregion
+
+        #region Date Point Configurations
+        [TestMethod]
+        public async Task TestGetDataPointConfigurations()
+        {
+            var dataPointConfig = new DataPointConfiguration
+            {
+                DataPointConfigurationId = 1,
+                OfficeId = 1,
+                Category = "Office",
+                Property = "Themes",
+                IsHidden = false
+            };
+
+            context.DataPointConfigurations.Add(dataPointConfig);
+
+            var serviceResult = await service.GetOfficeDataPointConfigurationsAsync(1);
+
+            var result = serviceResult.FirstOrDefault();
+            Assert.AreEqual(dataPointConfig.OfficeId, result.OfficeId);
+            Assert.AreEqual(dataPointConfig.Category, result.Category);
+            Assert.AreEqual(dataPointConfig.Property, result.Property);
+            Assert.AreEqual(dataPointConfig.IsHidden, result.IsHidden);
+        }
+
+        [TestMethod]
+        public async Task TestGetDataPointConfigurations_Empty()
+        {
+            var serviceResult = await service.GetOfficeDataPointConfigurationsAsync(1);
+            Assert.AreEqual(0, serviceResult.Count);
+        }
+        #endregion
     }
 }
