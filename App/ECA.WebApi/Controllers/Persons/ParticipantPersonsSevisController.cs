@@ -172,7 +172,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="validationEntity"></param>
         /// <returns>validation result</returns>
         [Route("ParticipantPersonsSevis/ValidateSevis")]
-        public async Task<IHttpActionResult> ValidateSevisAsync(UpdatedParticipantPersonSevisValidationEntity validationEntity)
+        public async Task<IHttpActionResult> ValidateSevisAsync(ParticipantPersonSevisValidationDTO validationEntity)
         {
             if (ModelState.IsValid)
             {
