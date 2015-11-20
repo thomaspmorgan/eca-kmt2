@@ -115,7 +115,7 @@ namespace ECA.Business.Queries.Admin
 
         public static IQueryable<DataPointConfigurationDTO> CreateGetOfficeDataPointConfigurationsDTOByOfficeIdQuery(EcaContext context, int officeId)
         {
-            var dataPointConfigurations = context.DataPointConfigurations.Select(x => new DataPointConfigurationDTO
+            var dataPointConfigurations = context.DataPointConfigurations.Where(x => x.OfficeId == officeId).Select(x => new DataPointConfigurationDTO
             {
                 DataPointConfigurationId = x.DataPointConfigurationId,
                 OfficeId = x.OfficeId,

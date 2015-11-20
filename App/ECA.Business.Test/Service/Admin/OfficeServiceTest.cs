@@ -2118,7 +2118,7 @@ namespace ECA.Business.Test.Service.Admin
 
             context.DataPointConfigurations.Add(dataPointConfig);
 
-            var serviceResult = await service.GetOfficeDataPointConfigurationsAsync(1);
+            var serviceResult = await service.GetOfficeDataPointConfigurationsAsync(dataPointConfig.OfficeId.Value);
 
             var result = serviceResult.FirstOrDefault();
             Assert.AreEqual(dataPointConfig.OfficeId, result.OfficeId);
@@ -2130,7 +2130,17 @@ namespace ECA.Business.Test.Service.Admin
         [TestMethod]
         public async Task TestGetDataPointConfigurations_Empty()
         {
-            var serviceResult = await service.GetOfficeDataPointConfigurationsAsync(1);
+            var dataPointConfig = new DataPointConfiguration
+            {
+                DataPointConfigurationId = 1,
+                OfficeId = 1,
+                Category = "Office",
+                Property = "Themes",
+                IsHidden = false
+            };
+
+            context.DataPointConfigurations.Add(dataPointConfig);
+            var serviceResult = await service.GetOfficeDataPointConfigurationsAsync(2);
             Assert.AreEqual(0, serviceResult.Count);
         }
         #endregion

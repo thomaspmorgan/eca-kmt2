@@ -147,6 +147,23 @@ angular.module('staticApp')
           });
       }
 
+      $scope.openDataPointsModal = function () {
+          var modalInstance = $modal.open({
+              animation: true,
+              templateUrl: '/app/data-points/data-points.html',
+              controller: 'DataPointsCtrl',
+              size: 'lg',
+              resolve: {
+                  parameters: function () {
+                      return {
+                          resourceType: stateParams.resourceType,
+                          foreignResourceId: stateParams.foreignResourceId
+                      }
+                  }
+              }
+          });
+      }
+
       $scope.toggleBookmark = function () {
           $scope.togglingBookmark = true;
           if ($scope.isBookmarked) {

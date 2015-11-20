@@ -51,6 +51,10 @@ angular.module('staticApp')
           },
           removePermission: function (permissionModel) {
               return DragonBreath.create(permissionModel, 'offices/collaborator/remove');
+          },
+          getDataPointConfigurations: function (officeId) {
+              var path = 'offices/' + officeId + '/DataPointConfigurations';
+              return DragonBreath.get(path);
           }
       };
   });
