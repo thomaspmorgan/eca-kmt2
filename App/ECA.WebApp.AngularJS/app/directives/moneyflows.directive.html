@@ -1,84 +1,5 @@
 ﻿<div ng-controller="MoneyFlowsCtrl">
     <tabset>
-        <tab class="tab">
-            <tab-heading>
-                Summary<i class="material-icons material-icons-spin" ng-show="view.isLoadingFiscalYearSummaries">autorenew</i>
-            </tab-heading>
-            <div style="margin-top:20px;">
-                <div class="col-md-4">
-                    <label>
-                        <input type="checkbox" ng-model="view.showEmptyFiscalYearSummaries" ng-change="view.onShowEmptyFiscalYearSummaries()" />
-                        Show zero amount summaries
-                    </label>
-                </div>
-                <div class="col-md-5">
-                    &nbsp;
-                </div>
-                <div class="col-md-3 text-right">
-                    <button class="btn btn-primary" ng-disabled="view.isLoadingFiscalYearSummaries" ng-click="view.onReloadFiscalYearSummariesClick()">Reload</button>
-                </div>
-            </div>
-            <div st-pipe="view.getFiscalYearSummaries"
-                 st-table="view.fiscalYearSummaries"
-                 exposetablestate="getFiscalYearSummariesTableState"
-                 exposetablestateto="view.getScope()">
-                <table class="col-md-12" style="margin-top:30px;">
-                    <thead>
-                        <tr class="row">
-                            <th class="col-md-3 medium">Fiscal Year</th>
-                            <th class="col-md-3 medium">Status</th>
-                            <th class="col-md-2 medium text-right">Incoming</th>
-                            <th class="col-md-2 medium text-right">Outgoing</th>
-                            <th class="col-md-2 medium text-right">Total Remaining</th>
-                        </tr>
-                    </thead>
-                    <tbody class="list2">
-                        <tr ng-show="view.isLoadingFiscalYearSummaries">
-                            <td colspan="5">
-                                <div class="spinner">
-                                    <div class="bounce1"></div>
-                                    <div class="bounce2"></div>
-                                    <div class="bounce3"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="row hover" ng-repeat="value in view.fiscalYearSummaries | filter: view.filterFiscalYearSummaries | groupBy: 'fiscalYear' | toArray: true | orderBy: '-$key'" ng-show="!view.isLoadingFiscalYearSummaries">
-                            <td class="col-md-3">
-                                {{value.$key}}
-                            </td>
-                            <td class="col-md-3">
-                                <ul>
-                                    <li ng-repeat="summary in value">
-                                        {{summary.status}}
-                                    </li>
-                                </ul>
-                            </td>
-                            <td class="col-md-2">
-                                <ul>
-                                    <li ng-repeat="summary in value" class="text-right">
-                                        {{summary.incomingAmount | currency}}
-                                    </li>
-                                </ul>
-                            </td>
-                            <td class="col-md-2">
-                                <ul>
-                                    <li ng-repeat="summary in value" class="text-right">
-                                        {{summary.outgoingAmount | currency}}
-                                    </li>
-                                </ul>
-                            </td>
-                            <td class="col-md-2">
-                                <ul>
-                                    <li ng-repeat="summary in value" class="text-right">
-                                        <span class="{{summary.remainingAmount < 0 ? 'outgoingMoneyFlow' : summary.remainingAmount > 0 ? 'incomingMoneyFlow' : ''}}">{{summary.remainingAmount | currency}}</span>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </tab>
         <tab heading="Funding Items" class="tab">
             <div style="margin-top:20px;">
                 <div class="col-md-8">
@@ -100,8 +21,8 @@
                             <th st-sort="'moneyFlowStatus'" class="col-md-1 sort-label medium">Status</th>
                             <th st-sort="'sourceRecipientTypeName'" class="col-md-1 sort-label medium">Type</th>
                             <th st-sort="'sourceRecipientName'" class="col-md-2 sort-label medium">From/To</th>
-                            <th st-sort="'amount'" class="col-md-1 sort-label medium">Amount</th>
-                            <th st-sort="'fiscalYear'" class="col-md-1 sort-label medium">FY</th>
+                            <th st-sort="'amount'" class="col-md-1 sort-label medium text-right">Amount</th>
+                            <th st-sort="'fiscalYear'" class="col-md-1 sort-label medium text-right">FY</th>
                             <th st-sort="'description'" class="col-md-2 sort-label medium">Description</th>
                             <th class="col-md-2">&nbsp;</th>
                         </tr>
@@ -176,11 +97,16 @@
                                 <a ng-show="!moneyFlow.loadingEntityState" href="{{moneyFlow.href}}">{{moneyFlow.sourceRecipientName}}</a>
                                 <i class="material-icons material-icons-spin md-24" ng-show="moneyFlow.loadingEntityState">autorenew</i>
                             </td>
-                            <td>
-                                <span class="{{moneyFlow.amount < 0 ? 'outgoingMoneyFlow' : 'incomingMoneyFlow'}}">{{moneyFlow.amount | currency}}</span>
+                            <td class="text-right" style="padding:25px;">
+                                <div>
+                                    <span class="{{moneyFlow.amount < 0 ? 'outgoingMoneyFlow' : 'incomingMoneyFlow'}}">{{moneyFlow.amount | currency}}</span>
+                                </div>
+                                
                             </td>
-                            <td>
-                                {{moneyFlow.fiscalYear}}
+                            <td class="text-right" style="padding:25px;">
+                                <div>
+                                    {{moneyFlow.fiscalYear}}
+                                </div>                                
                             </td>
                             <td>
                                 <div>
@@ -371,6 +297,85 @@
                     </tbody>
                 </table>
                 <div st-template="app/partials/pagination.html" st-pagination="" st-items-by-page="view.limit" st-displayed-pages="10" ng-show="!view.isLoadingMoneyFlows"></div>
+            </div>
+        </tab>
+        <tab class="tab">
+            <tab-heading>
+                Summary<i class="material-icons material-icons-spin" ng-show="view.isLoadingFiscalYearSummaries">autorenew</i>
+            </tab-heading>
+            <div style="margin-top:20px;">
+                <div class="col-md-4">
+                    <label>
+                        <input type="checkbox" ng-model="view.showEmptyFiscalYearSummaries" ng-change="view.onShowEmptyFiscalYearSummaries()" />
+                        Show zero amount summaries
+                    </label>
+                </div>
+                <div class="col-md-5">
+                    &nbsp;
+                </div>
+                <div class="col-md-3 text-right">
+                    <button class="btn btn-primary" ng-disabled="view.isLoadingFiscalYearSummaries" ng-click="view.onReloadFiscalYearSummariesClick()">Reload</button>
+                </div>
+            </div>
+            <div st-pipe="view.getFiscalYearSummaries"
+                 st-table="view.fiscalYearSummaries"
+                 exposetablestate="getFiscalYearSummariesTableState"
+                 exposetablestateto="view.getScope()">
+                <table class="col-md-12" style="margin-top:30px;">
+                    <thead>
+                        <tr class="row">
+                            <th class="col-md-3 medium">Fiscal Year</th>
+                            <th class="col-md-3 medium">Status</th>
+                            <th class="col-md-2 medium text-right">Incoming</th>
+                            <th class="col-md-2 medium text-right">Outgoing</th>
+                            <th class="col-md-2 medium text-right">Total Remaining</th>
+                        </tr>
+                    </thead>
+                    <tbody class="list2">
+                        <tr ng-show="view.isLoadingFiscalYearSummaries">
+                            <td colspan="5">
+                                <div class="spinner">
+                                    <div class="bounce1"></div>
+                                    <div class="bounce2"></div>
+                                    <div class="bounce3"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="row hover" ng-repeat="value in view.fiscalYearSummaries | filter: view.filterFiscalYearSummaries | groupBy: 'fiscalYear' | toArray: true | orderBy: '-$key'" ng-show="!view.isLoadingFiscalYearSummaries">
+                            <td class="col-md-3">
+                                {{value.$key}}
+                            </td>
+                            <td class="col-md-3">
+                                <ul>
+                                    <li ng-repeat="summary in value">
+                                        {{summary.status}}
+                                    </li>
+                                </ul>
+                            </td>
+                            <td class="col-md-2">
+                                <ul>
+                                    <li ng-repeat="summary in value" class="text-right">
+                                        {{summary.incomingAmount | currency}}
+                                    </li>
+                                </ul>
+                            </td>
+                            <td class="col-md-2">
+                                <ul>
+                                    <li ng-repeat="summary in value" class="text-right">
+                                        {{summary.outgoingAmount | currency}}
+                                    </li>
+                                </ul>
+                            </td>
+                            <td class="col-md-2">
+                                <ul>
+                                    <li ng-repeat="summary in value" class="text-right">
+                                        <span class="{{summary.remainingAmount < 0 ? 'outgoingMoneyFlow' : summary.remainingAmount > 0 ? 'incomingMoneyFlow' : ''}}">{{summary.remainingAmount | currency}}</span>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </tab>
     </tabset>

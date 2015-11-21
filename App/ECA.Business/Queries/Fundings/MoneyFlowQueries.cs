@@ -341,7 +341,7 @@ namespace ECA.Business.Queries.Fundings
                         } into g
 
                         let incomingAmount = g.Where(x => x.Amount >= 0).Sum(x => (decimal?)x.Amount) ?? 0.0m
-                        let outgoingAmount = -1 * g.Where(x => x.Amount < 0).Sum(x => (decimal?)x.Amount) ?? 0.0m
+                        let outgoingAmount = g.Where(x => x.Amount < 0).Sum(x => (decimal?)x.Amount) ?? 0.0m
 
                         join status in context.MoneyFlowStatuses
                         on g.Key.StatusId equals status.MoneyFlowStatusId
@@ -354,7 +354,7 @@ namespace ECA.Business.Queries.Fundings
                             IsEmpty = false,
                             IncomingAmount = incomingAmount,
                             OutgoingAmount = outgoingAmount,
-                            RemainingAmount = incomingAmount - outgoingAmount,
+                            RemainingAmount = incomingAmount + outgoingAmount,
                             Status = status.MoneyFlowStatusName,
                             StatusId = g.Key.StatusId
                         };

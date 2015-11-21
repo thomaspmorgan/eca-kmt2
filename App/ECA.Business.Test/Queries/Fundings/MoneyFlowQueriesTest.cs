@@ -2351,7 +2351,7 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.IsFalse(sourceSummaryDto.IsEmpty);
             Assert.IsFalse(recipientSummaryDto.IsEmpty);
 
-            Assert.AreEqual(moneyFlow.Value, sourceSummaryDto.OutgoingAmount);
+            Assert.AreEqual(-moneyFlow.Value, sourceSummaryDto.OutgoingAmount);
             Assert.AreEqual(0.0m, recipientSummaryDto.OutgoingAmount);
 
             Assert.AreEqual(0.0m, sourceSummaryDto.IncomingAmount);
@@ -2435,7 +2435,7 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.IsFalse(sourceSummaryDto.IsEmpty);
             Assert.IsFalse(recipientSummaryDto.IsEmpty);
 
-            Assert.AreEqual(moneyFlow1.Value + moneyFlow2.Value, sourceSummaryDto.OutgoingAmount);
+            Assert.AreEqual(-(moneyFlow1.Value + moneyFlow2.Value), sourceSummaryDto.OutgoingAmount);
             Assert.AreEqual(0.0m, recipientSummaryDto.OutgoingAmount);
 
             Assert.AreEqual(0.0m, sourceSummaryDto.IncomingAmount);

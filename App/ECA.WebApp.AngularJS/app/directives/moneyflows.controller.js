@@ -39,7 +39,7 @@ angular.module('staticApp')
       $scope.view.isLoadingRequiredData = false;
       $scope.view.isLoadingMoneyFlows = false;
       $scope.view.isLoadingFiscalYearSummaries = false;
-      $scope.view.showEmptyFiscalYearSummaries = true;
+      $scope.view.showEmptyFiscalYearSummaries = false;
       $scope.view.start = 0;
       $scope.view.end = 0;
       $scope.view.total = 0;
