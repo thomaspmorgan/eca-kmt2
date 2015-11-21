@@ -145,6 +145,7 @@
     <Compile Include="Queries\Models\Persons\LanguageProficiencyDTO.cs" />
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisCommStatusDTO.cs" />
+    <Compile Include="Queries\Models\Persons\ParticipantPersonSevisValidationDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantStudentVisitorDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisDTO.cs" />
     <Compile Include="Queries\Models\Persons\SimpleParticipantPersonDTO.cs" />
