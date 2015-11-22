@@ -215,40 +215,6 @@ namespace ECA.Business.Test.Service.Projects
         }
 
         [TestMethod]
-        public async Task TestCreate_CheckRegions()
-        {
-            var region = new Location
-            {
-                LocationId = 1,
-                LocationName = "locationName"
-            };
-
-            var program = new Program
-            {
-                ProgramId = 1,
-            };
-
-            program.Regions.Add(region);
-
-            context.Locations.Add(region);
-            context.Programs.Add(program);
-
-            var draftProject = new DraftProject(new User(1), "name", "description", program.ProgramId);
-
-            Action<Project> tester = (project) =>
-            {
-                Assert.IsNotNull(project);
-                CollectionAssert.AreEqual(context.Locations.Select(x => x.LocationId).ToList(), project.Regions.Select(x => x.LocationId).ToList());
-            };
-
-            var createdProject = service.Create(draftProject);
-            var createdProjectAsync = await service.CreateAsync(draftProject);
-            tester(createdProject);
-            tester(createdProjectAsync);
-        }
-
-
-        [TestMethod]
         public async Task TestCreate_CheckCategories()
         {
             var category = new Category
@@ -2457,8 +2423,7 @@ namespace ECA.Business.Test.Service.Projects
         #region Update
 
         [TestMethod]
-        [ExpectedException(typeof(ModelNotFoundException))]
-        public async Task TestUpdateAsync_ProjectDoesNotExist()
+        public async Task TestUpdate_ProjectDoesNotExist()
         {
             var updatedProject = new PublishedProject(
                 updatedBy: new User(1),
@@ -2472,38 +2437,22 @@ namespace ECA.Business.Test.Service.Projects
                 categoryIds: null,
                 objectiveIds: null,
                 locationIds: null,
+                regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
-
-            await service.UpdateAsync(updatedProject);
+            var message = String.Format("The project with id [{0}] was not found.", updatedProject.ProjectId);
+            Action a = () => service.Update(updatedProject);
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(updatedProject);
+            };
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ModelNotFoundException))]
-        public void TestUpdate_ProjectDoesNotExist()
-        {
-            var updatedProject = new PublishedProject(
-                updatedBy: new User(1),
-                projectId: 1,
-                name: "new name",
-                description: "new description",
-                projectStatusId: ProjectStatus.Pending.Id,
-                goalIds: null,
-                themeIds: null,
-                pointsOfContactIds: null,
-                categoryIds: null,
-                objectiveIds: null,
-                locationIds: null,
-                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
-                );
-
-            service.Update(updatedProject);
-        }
-
-        [TestMethod]
-        public async Task TestUpdateAsync_CheckProperties()
+        public async Task TestUpdate_CheckProperties()
         {
             var oldName = "old name";
             var oldDescription = "old desc";
@@ -2520,30 +2469,36 @@ namespace ECA.Business.Test.Service.Projects
                 RevisedBy = 1,
                 RevisedOn = createdDate
             };
-            var projectToUpdate = new Project
+            Project projectToUpdate = null;
+            Program program = null;
+            Organization office = null;
+            context.SetupActions.Add(() =>
             {
-                Description = oldDescription,
-                EndDate = oldEndDate,
-                History = oldHistory,
-                Name = oldName,
-                ProjectId = projectId,
-                StartDate = oldStartDate,
-                ProjectStatusId = ProjectStatus.Other.Id
+                projectToUpdate = new Project
+                {
+                    Description = oldDescription,
+                    EndDate = oldEndDate,
+                    History = oldHistory,
+                    Name = oldName,
+                    ProjectId = projectId,
+                    StartDate = oldStartDate,
+                    ProjectStatusId = ProjectStatus.Other.Id
 
-            };
-            var program = new Program
-            {
-                ProgramId = 1
-            };
-            var office = new Organization();
-            office.OwnerPrograms.Add(program);
-            program.Owner = office;
-            context.Organizations.Add(office);
-            projectToUpdate.ProgramId = program.ProgramId;
-            projectToUpdate.ParentProgram = program;
-            program.Projects.Add(projectToUpdate);
-            context.Programs.Add(program);
-            context.Projects.Add(projectToUpdate);
+                };
+                program = new Program
+                {
+                    ProgramId = 1
+                };
+                office = new Organization();
+                office.OwnerPrograms.Add(program);
+                program.Owner = office;
+                context.Organizations.Add(office);
+                projectToUpdate.ProgramId = program.ProgramId;
+                projectToUpdate.ParentProgram = program;
+                program.Projects.Add(projectToUpdate);
+                context.Programs.Add(program);
+                context.Projects.Add(projectToUpdate);
+            });
 
             var updater = new User(updaterId);
             var updatedProject = new PublishedProject(
@@ -2558,128 +2513,71 @@ namespace ECA.Business.Test.Service.Projects
                 categoryIds: null,
                 objectiveIds: null,
                 locationIds: null,
+                regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
 
-            await service.UpdateAsync(updatedProject);
-            validator.Verify(x => x.ValidateUpdate(It.IsAny<ProjectServiceUpdateValidationEntity>()));
-            Assert.AreEqual(oldHistory.CreatedBy, projectToUpdate.History.CreatedBy);
-            Assert.AreEqual(oldHistory.CreatedOn, projectToUpdate.History.CreatedOn);
-            Assert.AreEqual(updater.Id, oldHistory.RevisedBy);
-            DateTimeOffset.UtcNow.Should().BeCloseTo(oldHistory.RevisedOn, DbContextHelper.DATE_PRECISION);
-
-            Assert.AreEqual(updatedProject.Description, projectToUpdate.Description);
-            Assert.AreEqual(updatedProject.EndDate, projectToUpdate.EndDate);
-            Assert.AreEqual(updatedProject.Name, projectToUpdate.Name);
-            Assert.AreEqual(updatedProject.ProjectId, projectToUpdate.ProjectId);
-            Assert.AreEqual(updatedProject.ProjectStatusId, projectToUpdate.ProjectStatusId);
-            Assert.AreEqual(updatedProject.StartDate, projectToUpdate.StartDate);
-        }
-
-        [TestMethod]
-        public void TestUpdate_CheckProperties()
-        {
-            var oldName = "old name";
-            var oldDescription = "old desc";
-            var oldStartDate = DateTimeOffset.UtcNow.AddDays(-2.0);
-            var oldEndDate = DateTime.UtcNow.AddDays(-1.0);
-            var projectStatusId = ProjectStatus.Draft.Id;
-            var createdDate = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var projectId = 1;
-            var updaterId = 2;
-            var oldHistory = new History
+            Action tester = () =>
             {
-                CreatedBy = 1,
-                CreatedOn = createdDate,
-                RevisedBy = 1,
-                RevisedOn = createdDate
-            };
+                Assert.AreEqual(oldHistory.CreatedBy, projectToUpdate.History.CreatedBy);
+                Assert.AreEqual(oldHistory.CreatedOn, projectToUpdate.History.CreatedOn);
+                Assert.AreEqual(updater.Id, oldHistory.RevisedBy);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(oldHistory.RevisedOn, DbContextHelper.DATE_PRECISION);
 
-            var projectToUpdate = new Project
-            {
-                Description = oldDescription,
-                EndDate = oldEndDate,
-                History = oldHistory,
-                Name = oldName,
-                ProjectId = projectId,
-                StartDate = oldStartDate,
-                ProjectStatusId = ProjectStatus.Other.Id
+                Assert.AreEqual(updatedProject.Description, projectToUpdate.Description);
+                Assert.AreEqual(updatedProject.EndDate, projectToUpdate.EndDate);
+                Assert.AreEqual(updatedProject.Name, projectToUpdate.Name);
+                Assert.AreEqual(updatedProject.ProjectId, projectToUpdate.ProjectId);
+                Assert.AreEqual(updatedProject.ProjectStatusId, projectToUpdate.ProjectStatusId);
+                Assert.AreEqual(updatedProject.StartDate, projectToUpdate.StartDate);
             };
-            var program = new Program
-            {
-                ProgramId = 1
-            };
-            var office = new Organization();
-            office.OwnerPrograms.Add(program);
-            program.Owner = office;
-            context.Organizations.Add(office);
-            projectToUpdate.ProgramId = program.ProgramId;
-            projectToUpdate.ParentProgram = program;
-            program.Projects.Add(projectToUpdate);
-            context.Programs.Add(program);
-            context.Projects.Add(projectToUpdate);
-
-            var updater = new User(updaterId);
-            var updatedProject = new PublishedProject(
-                updatedBy: updater,
-                projectId: projectId,
-                name: "new name",
-                description: "new description",
-                projectStatusId: ProjectStatus.Pending.Id,
-                goalIds: null,
-                themeIds: null,
-                pointsOfContactIds: null,
-                categoryIds: null,
-                objectiveIds: null,
-                locationIds: null,
-                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
-                );
-
+            context.Revert();
             service.Update(updatedProject);
-            validator.Verify(x => x.ValidateUpdate(It.IsAny<ProjectServiceUpdateValidationEntity>()));
-            Assert.AreEqual(oldHistory.CreatedBy, projectToUpdate.History.CreatedBy);
-            Assert.AreEqual(oldHistory.CreatedOn, projectToUpdate.History.CreatedOn);
-            Assert.AreEqual(updater.Id, oldHistory.RevisedBy);
-            DateTimeOffset.UtcNow.Should().BeCloseTo(oldHistory.RevisedOn, DbContextHelper.DATE_PRECISION);
+            tester();
 
-            Assert.AreEqual(updatedProject.Description, projectToUpdate.Description);
-            Assert.AreEqual(updatedProject.EndDate, projectToUpdate.EndDate);
-            Assert.AreEqual(updatedProject.Name, projectToUpdate.Name);
-            Assert.AreEqual(updatedProject.ProjectId, projectToUpdate.ProjectId);
-            Assert.AreEqual(updatedProject.ProjectStatusId, projectToUpdate.ProjectStatusId);
-            Assert.AreEqual(updatedProject.StartDate, projectToUpdate.StartDate);
+            context.Revert();
+            await service.UpdateAsync(updatedProject);
+            tester();
+            validator.Verify(x => x.ValidateUpdate(It.IsAny<ProjectServiceUpdateValidationEntity>()), Times.Exactly(2));
         }
 
         [TestMethod]
-        public async Task TestUpdateAsync_CheckContacts()
+        public async Task TestUpdate_CheckContacts()
         {
-            var projectToUpdate = new Project
+            var projectToUpdateId = 1;
+            Project projectToUpdate = null;
+            Program program = null;
+            Organization office = null;
+            context.SetupActions.Add(() =>
             {
-                ProjectId = 1,
-                ProjectStatusId = ProjectStatus.Other.Id
+                office = new Organization();
+                projectToUpdate = new Project
+                {
+                    ProjectId = projectToUpdateId,
+                    ProjectStatusId = ProjectStatus.Other.Id
+                };
+                program = new Program
+                {
+                    ProgramId = 1
+                };
+                office.OwnerPrograms.Add(program);
+                program.Owner = office;
+                context.Organizations.Add(office);
+                projectToUpdate.ProgramId = program.ProgramId;
+                projectToUpdate.ParentProgram = program;
+                program.Projects.Add(projectToUpdate);
+                context.Programs.Add(program);
+                context.Projects.Add(projectToUpdate);
 
-            };
-            var program = new Program
-            {
-                ProgramId = 1
-            };
-            var office = new Organization();
-            office.OwnerPrograms.Add(program);
-            program.Owner = office;
-            context.Organizations.Add(office);
-            projectToUpdate.ProgramId = program.ProgramId;
-            projectToUpdate.ParentProgram = program;
-            program.Projects.Add(projectToUpdate);
-            context.Programs.Add(program);
-            context.Projects.Add(projectToUpdate);
+            });
+
 
             var contactIds = new List<int> { 1 };
             var updater = new User(1);
             var updatedProject = new PublishedProject(
                 updatedBy: updater,
-                projectId: projectToUpdate.ProjectId,
+                projectId: projectToUpdateId,
                 name: "new name",
                 description: "new description",
                 projectStatusId: ProjectStatus.Pending.Id,
@@ -2689,86 +2587,61 @@ namespace ECA.Business.Test.Service.Projects
                 categoryIds: null,
                 objectiveIds: null,
                 locationIds: null,
+                regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
-            await service.UpdateAsync(updatedProject);
-            Assert.AreEqual(1, projectToUpdate.Contacts.Count);
-            Assert.AreEqual(contactIds.First(), projectToUpdate.Contacts.First().ContactId);
-        }
-
-        [TestMethod]
-        public void TestUpdate_CheckContacts()
-        {
-            var projectToUpdate = new Project
-            {
-                ProjectId = 1,
-                ProjectStatusId = ProjectStatus.Other.Id
-
-            };
-            var program = new Program
-            {
-                ProgramId = 1
-            };
-            var office = new Organization();
-            office.OwnerPrograms.Add(program);
-            program.Owner = office;
-            context.Organizations.Add(office);
-            projectToUpdate.ProgramId = program.ProgramId;
-            projectToUpdate.ParentProgram = program;
-            program.Projects.Add(projectToUpdate);
-            context.Programs.Add(program);
-            context.Projects.Add(projectToUpdate);
-
-            var contactIds = new List<int> { 1 };
-            var updater = new User(1);
-            var updatedProject = new PublishedProject(
-                updatedBy: updater,
-                projectId: projectToUpdate.ProjectId,
-                name: "new name",
-                description: "new description",
-                projectStatusId: ProjectStatus.Pending.Id,
-                goalIds: null,
-                themeIds: null,
-                pointsOfContactIds: contactIds,
-                categoryIds: null,
-                objectiveIds: null,
-                locationIds: null,
-                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
-                );
+            Action tester = () =>
+             {
+                 Assert.AreEqual(1, projectToUpdate.Contacts.Count);
+                 Assert.AreEqual(contactIds.First(), projectToUpdate.Contacts.First().ContactId);
+             };
+            context.Revert();
             service.Update(updatedProject);
-            Assert.AreEqual(1, projectToUpdate.Contacts.Count);
-            Assert.AreEqual(contactIds.First(), projectToUpdate.Contacts.First().ContactId);
+            tester();
+
+            context.Revert();
+            await service.UpdateAsync(updatedProject);
+            tester();
+
         }
 
         [TestMethod]
-        public async Task TestUpdateAsync_CheckThemes()
+        public async Task TestUpdate_CheckThemes()
         {
-            var projectToUpdate = new Project
+            var projectToUpdateId = 1;
+            Project projectToUpdate = null;
+            Program program = null;
+            Organization office = null;
+            context.SetupActions.Add(() =>
             {
-                ProjectId = 1,
-                ProjectStatusId = ProjectStatus.Other.Id
-            };
-            var program = new Program
-            {
-                ProgramId = 1
-            };
-            var office = new Organization();
-            office.OwnerPrograms.Add(program);
-            program.Owner = office;
-            context.Organizations.Add(office);
-            projectToUpdate.ProgramId = program.ProgramId;
-            projectToUpdate.ParentProgram = program;
-            program.Projects.Add(projectToUpdate);
-            context.Programs.Add(program);
-            context.Projects.Add(projectToUpdate);
+                office = new Organization();
+                projectToUpdate = new Project
+                {
+                    ProjectId = projectToUpdateId,
+                    ProjectStatusId = ProjectStatus.Other.Id
+                };
+                program = new Program
+                {
+                    ProgramId = 1
+                };
+                office.OwnerPrograms.Add(program);
+                program.Owner = office;
+                context.Organizations.Add(office);
+                projectToUpdate.ProgramId = program.ProgramId;
+                projectToUpdate.ParentProgram = program;
+                program.Projects.Add(projectToUpdate);
+                context.Programs.Add(program);
+                context.Projects.Add(projectToUpdate);
+
+            });
+
 
             var themeIds = new List<int> { 1 };
             var updater = new User(1);
             var updatedProject = new PublishedProject(
                 updatedBy: updater,
-                projectId: projectToUpdate.ProjectId,
+                projectId: projectToUpdateId,
                 name: "new name",
                 description: "new description",
                 projectStatusId: ProjectStatus.Pending.Id,
@@ -2778,86 +2651,61 @@ namespace ECA.Business.Test.Service.Projects
                 categoryIds: null,
                 objectiveIds: null,
                 locationIds: null,
+                regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
-            await service.UpdateAsync(updatedProject);
-            Assert.AreEqual(1, projectToUpdate.Themes.Count);
-            Assert.AreEqual(themeIds.First(), projectToUpdate.Themes.First().ThemeId);
-        }
 
-        [TestMethod]
-        public void TestUpdate_CheckThemes()
-        {
-            var projectToUpdate = new Project
+            Action tester = () =>
             {
-                ProjectId = 1,
-                ProjectStatusId = ProjectStatus.Other.Id
+                Assert.AreEqual(1, projectToUpdate.Themes.Count);
+                Assert.AreEqual(themeIds.First(), projectToUpdate.Themes.First().ThemeId);
             };
-            var program = new Program
-            {
-                ProgramId = 1
-            };
-            var office = new Organization();
-            office.OwnerPrograms.Add(program);
-            program.Owner = office;
-            context.Organizations.Add(office);
-            projectToUpdate.ProgramId = program.ProgramId;
-            projectToUpdate.ParentProgram = program;
-            program.Projects.Add(projectToUpdate);
-            context.Programs.Add(program);
-            context.Projects.Add(projectToUpdate);
 
-            var themeIds = new List<int> { 1 };
-            var updater = new User(1);
-            var updatedProject = new PublishedProject(
-                updatedBy: updater,
-                projectId: projectToUpdate.ProjectId,
-                name: "new name",
-                description: "new description",
-                projectStatusId: ProjectStatus.Pending.Id,
-                goalIds: null,
-                themeIds: themeIds,
-                pointsOfContactIds: null,
-                categoryIds: null,
-                objectiveIds: null,
-                locationIds: null,
-                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
-                );
+            context.Revert();
             service.Update(updatedProject);
-            Assert.AreEqual(1, projectToUpdate.Themes.Count);
-            Assert.AreEqual(themeIds.First(), projectToUpdate.Themes.First().ThemeId);
+            tester();
+
+            context.Revert();
+            await service.UpdateAsync(updatedProject);
+            tester();
         }
 
 
         [TestMethod]
-        public async Task TestUpdateAsync_CheckGoals()
+        public async Task TestUpdate_CheckGoals()
         {
-            var projectToUpdate = new Project
+            var projectToUpdateId = 1;
+            Project projectToUpdate = null;
+            Program program = null;
+            Organization office = null;
+            context.SetupActions.Add(() =>
             {
-                ProjectId = 1,
-                ProjectStatusId = ProjectStatus.Other.Id
-            };
-            var program = new Program
-            {
-                ProgramId = 1
-            };
-            var office = new Organization();
-            office.OwnerPrograms.Add(program);
-            program.Owner = office;
-            context.Organizations.Add(office);
-            projectToUpdate.ProgramId = program.ProgramId;
-            projectToUpdate.ParentProgram = program;
-            program.Projects.Add(projectToUpdate);
-            context.Programs.Add(program);
-            context.Projects.Add(projectToUpdate);
+                office = new Organization();
+                projectToUpdate = new Project
+                {
+                    ProjectId = projectToUpdateId,
+                    ProjectStatusId = ProjectStatus.Other.Id
+                };
+                program = new Program
+                {
+                    ProgramId = 1
+                };
+                office.OwnerPrograms.Add(program);
+                program.Owner = office;
+                context.Organizations.Add(office);
+                projectToUpdate.ProgramId = program.ProgramId;
+                projectToUpdate.ParentProgram = program;
+                program.Projects.Add(projectToUpdate);
+                context.Programs.Add(program);
+                context.Projects.Add(projectToUpdate);
+            });
 
             var goalIds = new List<int> { 1 };
             var updater = new User(1);
             var updatedProject = new PublishedProject(
                 updatedBy: updater,
-                projectId: projectToUpdate.ProjectId,
+                projectId: projectToUpdateId,
                 name: "new name",
                 description: "new description",
                 projectStatusId: ProjectStatus.Pending.Id,
@@ -2867,85 +2715,61 @@ namespace ECA.Business.Test.Service.Projects
                 categoryIds: null,
                 objectiveIds: null,
                 locationIds: null,
+                regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
-            await service.UpdateAsync(updatedProject);
-            Assert.AreEqual(1, projectToUpdate.Goals.Count);
-            Assert.AreEqual(goalIds.First(), projectToUpdate.Goals.First().GoalId);
-        }
 
-        [TestMethod]
-        public void TestUpdate_CheckGoals()
-        {
-            var projectToUpdate = new Project
+            Action tester = () =>
             {
-                ProjectId = 1,
-                ProjectStatusId = ProjectStatus.Other.Id
+                Assert.AreEqual(1, projectToUpdate.Goals.Count);
+                Assert.AreEqual(goalIds.First(), projectToUpdate.Goals.First().GoalId);
             };
-            var program = new Program
-            {
-                ProgramId = 1
-            };
-            var office = new Organization();
-            office.OwnerPrograms.Add(program);
-            program.Owner = office;
-            context.Organizations.Add(office);
-            projectToUpdate.ProgramId = program.ProgramId;
-            projectToUpdate.ParentProgram = program;
-            program.Projects.Add(projectToUpdate);
-            context.Programs.Add(program);
-            context.Projects.Add(projectToUpdate);
-
-            var goalIds = new List<int> { 1 };
-            var updater = new User(1);
-            var updatedProject = new PublishedProject(
-                updatedBy: updater,
-                projectId: projectToUpdate.ProjectId,
-                name: "new name",
-                description: "new description",
-                projectStatusId: ProjectStatus.Pending.Id,
-                goalIds: goalIds,
-                themeIds: null,
-                pointsOfContactIds: null,
-                categoryIds: null,
-                objectiveIds: null,
-                locationIds: null,
-                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
-                );
+            context.Revert();
             service.Update(updatedProject);
-            Assert.AreEqual(1, projectToUpdate.Goals.Count);
-            Assert.AreEqual(goalIds.First(), projectToUpdate.Goals.First().GoalId);
+            tester();
+
+            context.Revert();
+            await service.UpdateAsync(updatedProject);
+            tester();
+
         }
 
         [TestMethod]
-        public void TestUpdate_CheckCategories()
+        public async Task TestUpdate_CheckCategories()
         {
-            var projectToUpdate = new Project
+            var projectToUpdateId = 1;
+            Project projectToUpdate = null;
+            Program program = null;
+            Organization office = null;
+            context.SetupActions.Add(() =>
             {
-                ProjectId = 1,
-                ProjectStatusId = ProjectStatus.Other.Id
-            };
-            var program = new Program
-            {
-                ProgramId = 1
-            };
-            var office = new Organization();
-            office.OwnerPrograms.Add(program);
-            program.Owner = office;
-            context.Organizations.Add(office);
-            projectToUpdate.ProgramId = program.ProgramId;
-            projectToUpdate.ParentProgram = program;
-            program.Projects.Add(projectToUpdate);
-            context.Programs.Add(program);
-            context.Projects.Add(projectToUpdate);
+                office = new Organization();
+                projectToUpdate = new Project
+                {
+                    ProjectId = projectToUpdateId,
+                    ProjectStatusId = ProjectStatus.Other.Id
+                };
+                program = new Program
+                {
+                    ProgramId = 1
+                };
+                office.OwnerPrograms.Add(program);
+                program.Owner = office;
+                context.Organizations.Add(office);
+                projectToUpdate.ProgramId = program.ProgramId;
+                projectToUpdate.ParentProgram = program;
+                program.Projects.Add(projectToUpdate);
+                context.Programs.Add(program);
+                context.Projects.Add(projectToUpdate);
+
+            });
 
             var categoryIds = new List<int> { 1 };
             var updater = new User(1);
             var updatedProject = new PublishedProject(
                 updatedBy: updater,
-                projectId: projectToUpdate.ProjectId,
+                projectId: projectToUpdateId,
                 name: "new name",
                 description: "new description",
                 projectStatusId: ProjectStatus.Pending.Id,
@@ -2955,85 +2779,61 @@ namespace ECA.Business.Test.Service.Projects
                 categoryIds: categoryIds,
                 objectiveIds: null,
                 locationIds: null,
+                regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
+
+            Action tester = () =>
+            {
+                Assert.AreEqual(1, projectToUpdate.Categories.Count);
+                Assert.AreEqual(categoryIds.First(), projectToUpdate.Categories.First().CategoryId);
+            };
+            context.Revert();
             service.Update(updatedProject);
-            Assert.AreEqual(1, projectToUpdate.Categories.Count);
-            Assert.AreEqual(categoryIds.First(), projectToUpdate.Categories.First().CategoryId);
-        }
+            tester();
 
-        [TestMethod]
-        public async Task TestUpdateAsync_CheckCategories()
-        {
-            var projectToUpdate = new Project
-            {
-                ProjectId = 1,
-                ProjectStatusId = ProjectStatus.Other.Id
-            };
-            var program = new Program
-            {
-                ProgramId = 1
-            };
-            var office = new Organization();
-            office.OwnerPrograms.Add(program);
-            program.Owner = office;
-            context.Organizations.Add(office);
-            projectToUpdate.ProgramId = program.ProgramId;
-            projectToUpdate.ParentProgram = program;
-            program.Projects.Add(projectToUpdate);
-            context.Programs.Add(program);
-            context.Projects.Add(projectToUpdate);
-
-            var categoryIds = new List<int> { 1 };
-            var updater = new User(1);
-            var updatedProject = new PublishedProject(
-                updatedBy: updater,
-                projectId: projectToUpdate.ProjectId,
-                name: "new name",
-                description: "new description",
-                projectStatusId: ProjectStatus.Pending.Id,
-                goalIds: null,
-                themeIds: null,
-                pointsOfContactIds: null,
-                categoryIds: categoryIds,
-                objectiveIds: null,
-                locationIds: null,
-                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
-                );
+            context.Revert();
             await service.UpdateAsync(updatedProject);
-            Assert.AreEqual(1, projectToUpdate.Categories.Count);
-            Assert.AreEqual(categoryIds.First(), projectToUpdate.Categories.First().CategoryId);
+            tester();
+
         }
 
         [TestMethod]
-        public void TestUpdate_CheckObjectives()
+        public async Task TestUpdate_CheckObjectives()
         {
-            var projectToUpdate = new Project
+            var projectToUpdateId = 1;
+            Project projectToUpdate = null;
+            Program program = null;
+            Organization office = null;
+            context.SetupActions.Add(() =>
             {
-                ProjectId = 1,
-                ProjectStatusId = ProjectStatus.Other.Id
-            };
-            var program = new Program
-            {
-                ProgramId = 1
-            };
-            var office = new Organization();
-            office.OwnerPrograms.Add(program);
-            program.Owner = office;
-            context.Organizations.Add(office);
-            projectToUpdate.ProgramId = program.ProgramId;
-            projectToUpdate.ParentProgram = program;
-            program.Projects.Add(projectToUpdate);
-            context.Programs.Add(program);
-            context.Projects.Add(projectToUpdate);
+                office = new Organization();
+                projectToUpdate = new Project
+                {
+                    ProjectId = projectToUpdateId,
+                    ProjectStatusId = ProjectStatus.Other.Id
+                };
+                program = new Program
+                {
+                    ProgramId = 1
+                };
+                office.OwnerPrograms.Add(program);
+                program.Owner = office;
+                context.Organizations.Add(office);
+                projectToUpdate.ProgramId = program.ProgramId;
+                projectToUpdate.ParentProgram = program;
+                program.Projects.Add(projectToUpdate);
+                context.Programs.Add(program);
+                context.Projects.Add(projectToUpdate);
+
+            });
 
             var objectiveIds = new List<int> { 1 };
             var updater = new User(1);
             var updatedProject = new PublishedProject(
                 updatedBy: updater,
-                projectId: projectToUpdate.ProjectId,
+                projectId: projectToUpdateId,
                 name: "new name",
                 description: "new description",
                 projectStatusId: ProjectStatus.Pending.Id,
@@ -3043,41 +2843,124 @@ namespace ECA.Business.Test.Service.Projects
                 categoryIds: null,
                 locationIds: null,
                 objectiveIds: objectiveIds,
+                regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
+
+            Action tester = () =>
+            {
+                Assert.AreEqual(1, projectToUpdate.Objectives.Count);
+                Assert.AreEqual(objectiveIds.First(), projectToUpdate.Objectives.First().ObjectiveId);
+            };
+            context.Revert();
             service.Update(updatedProject);
-            Assert.AreEqual(1, projectToUpdate.Objectives.Count);
-            Assert.AreEqual(objectiveIds.First(), projectToUpdate.Objectives.First().ObjectiveId);
+            tester();
+
+            context.Revert();
+            await service.UpdateAsync(updatedProject);
+            tester();
+
         }
 
         [TestMethod]
-        public async Task TestUpdateAsync_CheckObjectives()
+        public async Task TestUpdate_CheckLocations()
         {
-            var projectToUpdate = new Project
+            var projectToUpdateId = 1;
+            Project projectToUpdate = null;
+            Program program = null;
+            Organization office = null;
+            context.SetupActions.Add(() =>
             {
-                ProjectId = 1,
-                ProjectStatusId = ProjectStatus.Other.Id
-            };
-            var program = new Program
-            {
-                ProgramId = 1
-            };
-            var office = new Organization();
-            office.OwnerPrograms.Add(program);
-            program.Owner = office;
-            context.Organizations.Add(office);
-            projectToUpdate.ProgramId = program.ProgramId;
-            projectToUpdate.ParentProgram = program;
-            program.Projects.Add(projectToUpdate);
-            context.Programs.Add(program);
-            context.Projects.Add(projectToUpdate);
+                office = new Organization();
+                projectToUpdate = new Project
+                {
+                    ProjectId = projectToUpdateId,
+                    ProjectStatusId = ProjectStatus.Other.Id
+                };
+                program = new Program
+                {
+                    ProgramId = 1
+                };
+                office.OwnerPrograms.Add(program);
+                program.Owner = office;
+                context.Organizations.Add(office);
+                projectToUpdate.ProgramId = program.ProgramId;
+                projectToUpdate.ParentProgram = program;
+                program.Projects.Add(projectToUpdate);
+                context.Programs.Add(program);
+                context.Projects.Add(projectToUpdate);
 
-            var objectiveIds = new List<int> { 1 };
+            });
+
+            var locationIds = new List<int> { 1 };
             var updater = new User(1);
             var updatedProject = new PublishedProject(
                 updatedBy: updater,
-                projectId: projectToUpdate.ProjectId,
+                projectId: projectToUpdateId,
+                name: "new name",
+                description: "new description",
+                projectStatusId: ProjectStatus.Pending.Id,
+                goalIds: null,
+                themeIds: null,
+                pointsOfContactIds: null,
+                categoryIds: null,
+                locationIds: locationIds,
+                objectiveIds: null,
+                regionIds: null,
+                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                );
+
+            Action tester = () =>
+            {
+                Assert.AreEqual(1, projectToUpdate.Locations.Count);
+                Assert.AreEqual(locationIds.First(), projectToUpdate.Locations.First().LocationId);
+            };
+            context.Revert();
+            service.Update(updatedProject);
+            tester();
+
+            context.Revert();
+            await service.UpdateAsync(updatedProject);
+            tester();
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_CheckRegions()
+        {
+            var projectToUpdateId = 1;
+            Project projectToUpdate = null;
+            Program program = null;
+            Organization office = null;
+            context.SetupActions.Add(() =>
+            {
+                office = new Organization();
+                projectToUpdate = new Project
+                {
+                    ProjectId = projectToUpdateId,
+                    ProjectStatusId = ProjectStatus.Other.Id
+                };
+                program = new Program
+                {
+                    ProgramId = 1
+                };
+                office.OwnerPrograms.Add(program);
+                program.Owner = office;
+                context.Organizations.Add(office);
+                projectToUpdate.ProgramId = program.ProgramId;
+                projectToUpdate.ParentProgram = program;
+                program.Projects.Add(projectToUpdate);
+                context.Programs.Add(program);
+                context.Projects.Add(projectToUpdate);
+
+            });
+
+            var regionIds = new List<int> { 1 };
+            var updater = new User(1);
+            var updatedProject = new PublishedProject(
+                updatedBy: updater,
+                projectId: projectToUpdateId,
                 name: "new name",
                 description: "new description",
                 projectStatusId: ProjectStatus.Pending.Id,
@@ -3086,102 +2969,26 @@ namespace ECA.Business.Test.Service.Projects
                 pointsOfContactIds: null,
                 categoryIds: null,
                 locationIds: null,
-                objectiveIds: objectiveIds,
-                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
-                );
-            await service.UpdateAsync(updatedProject);
-            Assert.AreEqual(1, projectToUpdate.Objectives.Count);
-            Assert.AreEqual(objectiveIds.First(), projectToUpdate.Objectives.First().ObjectiveId);
-        }
-
-        [TestMethod]
-        public void TestUpdate_CheckLocations()
-        {
-            var projectToUpdate = new Project
-            {
-                ProjectId = 1,
-                ProjectStatusId = ProjectStatus.Other.Id
-            };
-            var program = new Program
-            {
-                ProgramId = 1
-            };
-            var office = new Organization();
-            office.OwnerPrograms.Add(program);
-            program.Owner = office;
-            context.Organizations.Add(office);
-            projectToUpdate.ProgramId = program.ProgramId;
-            projectToUpdate.ParentProgram = program;
-            program.Projects.Add(projectToUpdate);
-            context.Programs.Add(program);
-            context.Projects.Add(projectToUpdate);
-
-            var locationIds = new List<int> { 1 };
-            var updater = new User(1);
-            var updatedProject = new PublishedProject(
-                updatedBy: updater,
-                projectId: projectToUpdate.ProjectId,
-                name: "new name",
-                description: "new description",
-                projectStatusId: ProjectStatus.Pending.Id,
-                goalIds: null,
-                themeIds: null,
-                pointsOfContactIds: null,
-                categoryIds: null,
-                locationIds: locationIds,
                 objectiveIds: null,
+                regionIds: regionIds,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
+
+            Action tester = () =>
+            {
+                Assert.AreEqual(1, projectToUpdate.Regions.Count);
+                Assert.AreEqual(regionIds.First(), projectToUpdate.Regions.First().LocationId);
+            };
+            context.Revert();
             service.Update(updatedProject);
-            Assert.AreEqual(1, projectToUpdate.Locations.Count);
-            Assert.AreEqual(locationIds.First(), projectToUpdate.Locations.First().LocationId);
-        }
+            tester();
 
-        [TestMethod]
-        public async Task TestUpdateAsync_CheckLocations()
-        {
-            var projectToUpdate = new Project
-            {
-                ProjectId = 1,
-                ProjectStatusId = ProjectStatus.Other.Id
-            };
-            var program = new Program
-            {
-                ProgramId = 1
-            };
-            var office = new Organization();
-            office.OwnerPrograms.Add(program);
-            program.Owner = office;
-            context.Organizations.Add(office);
-            projectToUpdate.ProgramId = program.ProgramId;
-            projectToUpdate.ParentProgram = program;
-            program.Projects.Add(projectToUpdate);
-            context.Programs.Add(program);
-            context.Projects.Add(projectToUpdate);
-
-            var locationIds = new List<int> { 1 };
-            var updater = new User(1);
-            var updatedProject = new PublishedProject(
-                updatedBy: updater,
-                projectId: projectToUpdate.ProjectId,
-                name: "new name",
-                description: "new description",
-                projectStatusId: ProjectStatus.Pending.Id,
-                goalIds: null,
-                themeIds: null,
-                pointsOfContactIds: null,
-                categoryIds: null,
-                locationIds: locationIds,
-                objectiveIds: null,
-                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
-                );
+            context.Revert();
             await service.UpdateAsync(updatedProject);
-            Assert.AreEqual(1, projectToUpdate.Locations.Count);
-            Assert.AreEqual(locationIds.First(), projectToUpdate.Locations.First().LocationId);
+            tester();
         }
+
 
         #endregion
 

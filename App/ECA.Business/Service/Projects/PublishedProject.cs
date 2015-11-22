@@ -39,6 +39,7 @@ namespace ECA.Business.Service.Projects
             IEnumerable<int> categoryIds,
             IEnumerable<int> objectiveIds,
             IEnumerable<int> locationIds,
+            IEnumerable<int> regionIds,
             DateTimeOffset startDate,
             DateTimeOffset endDate
             )
@@ -54,6 +55,7 @@ namespace ECA.Business.Service.Projects
             this.CategoryIds = categoryIds ?? new List<int>();
             this.ObjectiveIds = objectiveIds ?? new List<int>();
             this.LocationIds = locationIds ?? new List<int>();
+            this.RegionsIds = regionIds ?? new List<int>();
             this.StartDate = startDate;
             this.EndDate = endDate;
             this.Audit = new Update(updatedBy);
@@ -64,6 +66,7 @@ namespace ECA.Business.Service.Projects
             this.CategoryIds = this.CategoryIds.Distinct();
             this.ObjectiveIds = this.ObjectiveIds.Distinct();
             this.LocationIds = this.LocationIds.Distinct();
+            this.RegionsIds = this.RegionsIds.Distinct();
         }
 
         /// <summary>
@@ -110,6 +113,11 @@ namespace ECA.Business.Service.Projects
         /// Gets the points of contact by id.
         /// </summary>
         public IEnumerable<int> PointsOfContactIds { get; private set; }
+
+        /// <summary>
+        /// Gets the region ids.
+        /// </summary>
+        public IEnumerable<int> RegionsIds { get; private set; }
 
         /// <summary>
         /// Gets the locations by id.

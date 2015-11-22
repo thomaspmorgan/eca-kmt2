@@ -25,6 +25,7 @@ namespace ECA.Business.Test.Service.Projects
             var categoryIds = new List<int> { 4 };
             var objectiveIds = new List<int> { 5 };
             var locationIds = new List<int> { 6 };
+            var regionIds = new List<int> { 7 };
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow.AddDays(1.0);
             var user = new User(1);
@@ -40,6 +41,7 @@ namespace ECA.Business.Test.Service.Projects
                 categoryIds,
                 objectiveIds,
                 locationIds,
+                regionIds,
                 startDate,
                 endDate);
 
@@ -57,6 +59,7 @@ namespace ECA.Business.Test.Service.Projects
             CollectionAssert.AreEqual(themeIds.ToList(), instance.ThemeIds.ToList());
             CollectionAssert.AreEqual(categoryIds.Distinct().ToList(), instance.CategoryIds.ToList());
             CollectionAssert.AreEqual(objectiveIds.Distinct().ToList(), instance.ObjectiveIds.ToList());
+            CollectionAssert.AreEqual(regionIds.Distinct().ToList(), instance.RegionsIds.ToList());
 
             var update = (Update)instance.Audit;
             Assert.AreEqual(user.Id, update.User.Id);
@@ -74,8 +77,9 @@ namespace ECA.Business.Test.Service.Projects
             var pocIds = new List<int> { 2, 2 };
             var themeIds = new List<int> { 3, 3 };
             var categoryIds = new List<int> { 4, 4 };
-            var objectiveIds = new List<int> { 5 , 5 };
+            var objectiveIds = new List<int> { 5, 5 };
             var locationIds = new List<int> { 6, 6 };
+            var regionIds = new List<int> { 7, 7 };
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow.AddDays(1.0);
             var user = new User(1);
@@ -91,6 +95,7 @@ namespace ECA.Business.Test.Service.Projects
                 locationIds: locationIds,
                 categoryIds: categoryIds,
                 objectiveIds: objectiveIds,
+                regionIds: regionIds,
                 startDate: startDate,
                 endDate: endDate
                 );
@@ -101,6 +106,7 @@ namespace ECA.Business.Test.Service.Projects
             CollectionAssert.AreEqual(themeIds.Distinct().ToList(), instance.ThemeIds.ToList());
             CollectionAssert.AreEqual(categoryIds.Distinct().ToList(), instance.CategoryIds.ToList());
             CollectionAssert.AreEqual(objectiveIds.Distinct().ToList(), instance.ObjectiveIds.ToList());
+            CollectionAssert.AreEqual(regionIds.Distinct().ToList(), instance.RegionsIds.ToList());
         }
 
         [TestMethod]
@@ -125,6 +131,7 @@ namespace ECA.Business.Test.Service.Projects
                 categoryIds: null,
                 objectiveIds: null,
                 locationIds: null,
+                regionIds: null,
                 startDate: startDate,
                 endDate: endDate
                 );
@@ -134,6 +141,7 @@ namespace ECA.Business.Test.Service.Projects
             Assert.IsNotNull(instance.PointsOfContactIds);
             Assert.IsNotNull(instance.CategoryIds);
             Assert.IsNotNull(instance.ObjectiveIds);
+            Assert.IsNotNull(instance.RegionsIds);
         }
     }
 }
