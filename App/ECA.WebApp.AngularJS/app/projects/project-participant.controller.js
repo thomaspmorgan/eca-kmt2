@@ -15,6 +15,7 @@ angular.module('staticApp')
         $log,
         $modal,
         $state,
+        MessageBox,
         StateService,
         OrganizationService,
         PersonService,
@@ -50,7 +51,6 @@ angular.module('staticApp')
       $scope.view.totalParticipants = 0;
       $scope.view.tabSevis = false;
       $scope.view.tabInfo = false;
-      $scope.view.isLoadingParticipantInfo = false;
 
       $scope.view.sevisCommStatuses = null;
 
@@ -67,6 +67,17 @@ angular.module('staticApp')
       $scope.permissions.isProjectOwner = false;
       var projectId = $stateParams.projectId;
 
+      $scope.view.onDeleteParticipantClick = function (participant) {
+          MessageBox.confirm({
+              title: 'Confirm',
+              message: 'Are you sure you wish to delete the participant named ' + participant.name + '.',
+              okText: 'Yes',
+              cancelText: 'No',
+              okCallback: function () {
+                  deleteParticipant(participant, projectId);
+              }
+          });
+      };
 
       $scope.view.onAddParticipantSelect = function ($item, $model, $label) {
           var clientModel = {
@@ -80,6 +91,19 @@ angular.module('staticApp')
               clientModel.organizationId = $item.organizationId;
           }
           addParticipant(clientModel);
+      }
+
+      function deleteParticipant(participant, projectId) {
+          return ParticipantService.deleteParticipant(participant.participantId, projectId)
+          .then(function (response) {
+              NotificationService.showSuccessMessage("Successfully deleted the participant " + participant.name + '.');
+              reloadParticipantTable();
+          })
+          .catch(function (response) {
+              var message = "Unable to delete participant.";
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
+          })
       }
 
       function addParticipant(clientModel) {

@@ -91,9 +91,24 @@
                         <td>{{participant.participantStatus}}</td>
                         <td>{{participant.sevisStatus}}</td>
                         <td>
-                            <img class="icon" src="images/duplicateA.png" alt="">
+                            <!--<img class="icon" src="images/duplicateA.png" alt="">
                             <img class="icon" src="images/editA.png" alt="">
-                            <img class="icon" src="images/trash.png" alt="">
+                            <img class="icon" src="images/trash.png" alt="">-->
+                            <div class="right" style="display:none;" showonparentrow>
+                                <div>
+                                    <!--<div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy" ng-click="view.onCopyClick(moneyFlow)">
+                                        <i class="material-icons md-24 copyEditDeleteOption" ng-show="!moneyFlow.isCopyingMoneyFlow">content_copy</i>
+                                        <i class="material-icons md-24 material-icons-spin copyEditDeleteOption" ng-show="moneyFlow.isCopyingMoneyFlow">autorenew</i>
+                                    </div>
+                                </div>
+                                <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Edit" ng-click="view.onEditClick(participant)">
+                                    <i class="material-icons md-24 copyEditDeleteOption">edit</i>
+                                </div>-->
+                                <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Delete" ng-click="view.onDeleteParticipantClick(participant)">
+                                    <i class="material-icons md-24 copyEditDeleteOption" ng-show="!moneyFlow.isDeleting">delete</i>
+                                    <i class="material-icons md-24 material-icons-spin copyEditDeleteOption" ng-show="moneyFlow.isDeleting">autorenew</i>
+                                </div>
+                            </div>
                         </td>
                         <td>
                             <a ng-click="toggleParticipantInfo(participant.participantId)">
