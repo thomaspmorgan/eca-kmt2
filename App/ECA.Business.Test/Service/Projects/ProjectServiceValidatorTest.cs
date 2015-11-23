@@ -2734,7 +2734,7 @@ namespace ECA.Business.Test.Service.Projects
             var validationErrors = validator.DoValidateUpdate(entity).ToList();
             Assert.AreEqual(1, validationErrors.Count);
             Assert.AreEqual(ProjectServiceValidator.REGION_IS_NOT_A_REGION_LOCATION_TYPE_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
-            Assert.AreEqual("RegionsIds", validationErrors.First().Property);
+            Assert.AreEqual("RegionIds", validationErrors.First().Property);
         }
 
         [TestMethod]
@@ -2816,7 +2816,7 @@ namespace ECA.Business.Test.Service.Projects
             Assert.AreEqual(1, validator.DoValidateUpdate(entity).Count());
             Assert.AreEqual(1, validationErrors.Count);
             Assert.AreEqual(ProjectServiceValidator.REGION_IS_NOT_A_REGION_LOCATION_TYPE_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
-            Assert.AreEqual("RegionsIds", validationErrors.First().Property);
+            Assert.AreEqual("RegionIds", validationErrors.First().Property);
 
             regionLocationTypeIds.Clear();
             entity = createEntity();
@@ -2902,7 +2902,7 @@ namespace ECA.Business.Test.Service.Projects
             var validationErrors = validator.DoValidateUpdate(entity).ToList();
             Assert.AreEqual(1, validationErrors.Count);
             Assert.AreEqual(ProjectServiceValidator.REGION_IS_NOT_A_REGION_LOCATION_TYPE_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
-            Assert.AreEqual("RegionsIds", validationErrors.First().Property);
+            Assert.AreEqual("RegionIds", validationErrors.First().Property);
 
             regionLocationTypeIds.Clear();
             entity = createEntity();

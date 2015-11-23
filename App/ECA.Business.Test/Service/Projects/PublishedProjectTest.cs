@@ -59,7 +59,7 @@ namespace ECA.Business.Test.Service.Projects
             CollectionAssert.AreEqual(themeIds.ToList(), instance.ThemeIds.ToList());
             CollectionAssert.AreEqual(categoryIds.Distinct().ToList(), instance.CategoryIds.ToList());
             CollectionAssert.AreEqual(objectiveIds.Distinct().ToList(), instance.ObjectiveIds.ToList());
-            CollectionAssert.AreEqual(regionIds.Distinct().ToList(), instance.RegionsIds.ToList());
+            CollectionAssert.AreEqual(regionIds.Distinct().ToList(), instance.RegionIds.ToList());
 
             var update = (Update)instance.Audit;
             Assert.AreEqual(user.Id, update.User.Id);
@@ -106,7 +106,7 @@ namespace ECA.Business.Test.Service.Projects
             CollectionAssert.AreEqual(themeIds.Distinct().ToList(), instance.ThemeIds.ToList());
             CollectionAssert.AreEqual(categoryIds.Distinct().ToList(), instance.CategoryIds.ToList());
             CollectionAssert.AreEqual(objectiveIds.Distinct().ToList(), instance.ObjectiveIds.ToList());
-            CollectionAssert.AreEqual(regionIds.Distinct().ToList(), instance.RegionsIds.ToList());
+            CollectionAssert.AreEqual(regionIds.Distinct().ToList(), instance.RegionIds.ToList());
         }
 
         [TestMethod]
@@ -141,7 +141,7 @@ namespace ECA.Business.Test.Service.Projects
             Assert.IsNotNull(instance.PointsOfContactIds);
             Assert.IsNotNull(instance.CategoryIds);
             Assert.IsNotNull(instance.ObjectiveIds);
-            Assert.IsNotNull(instance.RegionsIds);
+            Assert.IsNotNull(instance.RegionIds);
         }
     }
 }

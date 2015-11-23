@@ -327,7 +327,7 @@ namespace ECA.Business.Service.Projects
             }
             this.logger.Trace("Retrieved project by id {0}.", updatedProject.ProjectId);
 
-            var allLocationIds = updatedProject.LocationIds.Union(updatedProject.RegionsIds);
+            var allLocationIds = updatedProject.LocationIds.Union(updatedProject.RegionIds);
             var locationsExist = CheckAllLocationsExist(allLocationIds);
             this.logger.Trace("Checked all locations with id {0} existed.", String.Join(", ", allLocationIds));
 
@@ -359,7 +359,7 @@ namespace ECA.Business.Service.Projects
             var newInactiveLocationIds = GetNewInactiveProjectLocations(updatedProject.ProjectId, updatedProject.LocationIds).Select(x => x.LocationId).ToList();
             this.logger.Trace("Loaded locations that were not previously set on the project and are inactive.");
 
-            var regionLocationTypeIds = LocationQueries.CreateGetLocationTypeIdsQuery(this.Context, updatedProject.RegionsIds.ToList()).ToList();
+            var regionLocationTypeIds = LocationQueries.CreateGetLocationTypeIdsQuery(this.Context, updatedProject.RegionIds.ToList()).ToList();
             this.logger.Trace("Loaded region location types.");
 
             validator.ValidateUpdate(GetUpdateValidationEntity(
@@ -394,7 +394,7 @@ namespace ECA.Business.Service.Projects
             }
             this.logger.Trace("Retrieved project by id {0}.", updatedProject.ProjectId);
 
-            var allLocationIds = updatedProject.LocationIds.Union(updatedProject.RegionsIds);
+            var allLocationIds = updatedProject.LocationIds.Union(updatedProject.RegionIds);
             var locationsExist = await CheckAllLocationsExistAsync(allLocationIds);
             this.logger.Trace("Checked all locations with id {0} existed.", String.Join(", ", allLocationIds));
 
@@ -426,7 +426,7 @@ namespace ECA.Business.Service.Projects
             var newInactiveLocationIds = await GetNewInactiveProjectLocations(updatedProject.ProjectId, updatedProject.LocationIds).Select(x => x.LocationId).ToListAsync();
             this.logger.Trace("Loaded locations that were not previously set on the project and are inactive.");
 
-            var regionLocationTypeIds = await LocationQueries.CreateGetLocationTypeIdsQuery(this.Context, updatedProject.RegionsIds.ToList()).ToListAsync();
+            var regionLocationTypeIds = await LocationQueries.CreateGetLocationTypeIdsQuery(this.Context, updatedProject.RegionIds.ToList()).ToListAsync();
             this.logger.Trace("Loaded region location types.");
 
             validator.ValidateUpdate(GetUpdateValidationEntity(
@@ -458,7 +458,7 @@ namespace ECA.Business.Service.Projects
             SetCategories(updatedProject.CategoryIds.ToList(), projectToUpdate);
             SetObjectives(updatedProject.ObjectiveIds.ToList(), projectToUpdate);
             SetLocations<Project>(updatedProject.LocationIds.ToList(), x => x.Locations, projectToUpdate);
-            SetRegions(updatedProject.RegionsIds.ToList(), projectToUpdate);
+            SetRegions(updatedProject.RegionIds.ToList(), projectToUpdate);
             projectToUpdate.Name = updatedProject.Name;
             projectToUpdate.Description = updatedProject.Description;
             projectToUpdate.EndDate = updatedProject.EndDate;

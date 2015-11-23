@@ -209,7 +209,7 @@ namespace ECA.Business.Service.Projects
             }
             if(validationEntity.RegionLocationTypeIds.Count() > 1)
             {
-                yield return new BusinessValidationResult<PublishedProject>(x => x.RegionsIds, REGION_IS_NOT_A_REGION_LOCATION_TYPE_ERROR_MESSAGE);
+                yield return new BusinessValidationResult<PublishedProject>(x => x.RegionIds, REGION_IS_NOT_A_REGION_LOCATION_TYPE_ERROR_MESSAGE);
             }
         }
     }

@@ -1956,6 +1956,92 @@ namespace ECA.Business.Test.Service.Projects
         }
 
         [TestMethod]
+        public async Task TestGetProjectById_CheckCountries_CheckRegions()
+        {
+            var now = DateTimeOffset.UtcNow;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var revisedOn = DateTimeOffset.UtcNow.AddDays(-2.0);
+            var createdOn = DateTimeOffset.UtcNow.AddDays(-3.0);
+
+            var regionType = new LocationType
+            {
+                LocationTypeId = LocationType.Region.Id
+            };
+            var region = new Location
+            {
+                LocationId = 1,
+                LocationName = "region",
+                LocationIso = "regionIso",
+                LocationIso2 = "regioniso2",
+                LocationTypeId = regionType.LocationTypeId,
+                LocationType = regionType
+            };
+
+            var status = new ProjectStatus
+            {
+                ProjectStatusId = 1,
+                Status = "status"
+            };
+            var owner = new Organization
+            {
+                OrganizationId = 20,
+                Name = "owner"
+            };
+            var program = new Program
+            {
+                ProgramId = 10,
+                Name = "program",
+                Owner = owner,
+                OwnerId = owner.OrganizationId
+            };
+            owner.OwnerPrograms.Add(program);
+            var project = new Project
+            {
+                ProjectId = 1,
+                Name = "name",
+                Description = "description",
+                Themes = new HashSet<Theme>(),
+                StartDate = yesterday,
+                EndDate = now,
+                Locations = new HashSet<Location>(),
+                Regions = new HashSet<Location>(),
+                Goals = new HashSet<Goal>(),
+                Status = status,
+                Contacts = new HashSet<Contact>(),
+                History = new History
+                {
+                    RevisedOn = revisedOn,
+                    CreatedOn = createdOn
+                },
+                ProgramId = program.ProgramId,
+                ParentProgram = program
+            };
+            project.Regions.Add(region);
+
+            context.Organizations.Add(owner);
+            context.Locations.Add(region);
+            context.Projects.Add(project);
+            context.LocationTypes.Add(regionType);
+            context.ProjectStatuses.Add(status);
+            context.Programs.Add(program);
+
+            Action<ProjectDTO> tester = (serviceResult) =>
+            {
+                Assert.IsNotNull(serviceResult);
+                Assert.AreEqual(1, serviceResult.Regions.Count());
+                Assert.AreEqual(region.LocationName, serviceResult.Regions.First().Name);
+                Assert.AreEqual(region.LocationId, serviceResult.Regions.First().Id);
+            };
+
+            var result = service.GetProjectById(project.ProjectId);
+            var resultAsync = await service.GetProjectByIdAsync(project.ProjectId);
+
+            tester(result);
+            tester(resultAsync);
+        }
+
+
+        [TestMethod]
         public async Task TestGetProjectById_CheckLocations()
         {
             var now = DateTimeOffset.UtcNow;

@@ -126,5 +126,10 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or sets the locations.
         /// </summary>
         public IEnumerable<LocationDTO> Locations { get; set; }
+
+        /// <summary>
+        /// Gets or sets the regions.
+        /// </summary>
+        public IEnumerable<LocationDTO> Regions { get; set; }
     }
 }

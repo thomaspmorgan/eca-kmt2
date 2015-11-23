@@ -146,56 +146,47 @@ namespace ECA.Business.Queries.Admin
                         let owner = program.Owner
                         let status = project.Status
                         let themes = project.Themes
-                        let regions = project.Regions
                         let goals = project.Goals
                         let contacts = project.Contacts
                         let categories = project.Categories
                         let objectives = project.Objectives
-
 
                         let locations = from location in allLocations
                                         join projectLocation in project.Locations
                                         on location.Id equals projectLocation.LocationId
                                         select location
 
+                        //get country locations of project locations that are not countries or regions
+                        let locationCountries = from location in project.Locations
+                                                join country in context.Locations
+                                                on location.CountryId equals country.LocationId
+                                                where location.LocationTypeId != regionTypeId 
+                                                && location.LocationTypeId != countryTypeId
+                                                select country
 
-                        let locationsWithCountries = (from location in allLocations
+                        //get project locations that are themselves countries
+                        let countries = from location in project.Locations
+                                        where location.LocationTypeId == countryTypeId
+                                        select location
 
-                                                      join projectLocation in project.Locations
-                                                      on location.Id equals projectLocation.LocationId
+                        //get the countries of the project locations that are regions...
+                        let regionCountries = from location in project.Locations
+                                              join country in context.Locations
+                                              on location.LocationId equals country.RegionId
+                                              where location.LocationTypeId == regionTypeId
+                                              && country.LocationTypeId == countryTypeId
+                                              && !project.Locations.Contains(country)
+                                              select country
 
-                                                      join countryLocation in allLocations
-                                                      on location.CountryId equals countryLocation.Id
+                        let allCountries = locationCountries
+                        .Union(regionCountries)
+                        .Union(countries)
 
-                                                      where location.LocationTypeId != regionTypeId
-                                                      && location.LocationTypeId != countryTypeId
+                        let regions = from location in allLocations
+                                      join region in project.Regions
+                                      on location.Id equals region.LocationId
+                                      select location
 
-                                                      select countryLocation)
-
-                        let countries = (from location in allLocations
-
-                                         join projectLocation in project.Locations
-                                         on location.Id equals projectLocation.LocationId
-
-                                         where location.LocationTypeId == countryTypeId
-
-                                         select location)
-
-                        let regionCountries = (from location in allLocations
-
-                                               join projectLocation in project.Locations
-                                               on location.Id equals projectLocation.LocationId
-
-                                               join countryLocation in allLocations
-                                               on location.Id equals countryLocation.RegionId
-
-                                               where countryLocation.LocationTypeId == countryTypeId
-
-                                               select countryLocation)
-
-                        let allCountries = locationsWithCountries
-                            .Union(countries)
-                            .Union(regionCountries)
                         select new ProjectDTO
                         {
                             Id = project.ProjectId,
@@ -212,12 +203,13 @@ namespace ECA.Business.Queries.Admin
                             OwnerName = owner.Name,
                             OwnerOfficeSymbol = owner.OfficeSymbol,
                             Themes = themes.Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName }),
-                            CountryIsos = allCountries.Select(x => new SimpleLookupDTO { Id = x.Id, Value = x.LocationIso }).Distinct(),
+                            CountryIsos = allCountries.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationIso }).Distinct(),
                             Locations = locations,
                             Goals = goals.Select(x => new SimpleLookupDTO { Id = x.GoalId, Value = x.GoalName }),
                             Contacts = contacts.Select(x => new SimpleLookupDTO { Id = x.ContactId, Value = x.FullName + " (" + x.Position + ")" }),
                             Objectives = objectives.Select(o => new JustificationObjectiveDTO { Id = o.ObjectiveId, Name = o.ObjectiveName, JustificationName = o.Justification.JustificationName }),
                             Categories = categories.Select(c => new FocusCategoryDTO { Id = c.CategoryId, Name = c.CategoryName, FocusName = c.Focus.FocusName }),
+                            Regions = regions
                         };
             return query;
         }

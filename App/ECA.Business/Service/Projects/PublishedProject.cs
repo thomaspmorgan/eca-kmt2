@@ -55,7 +55,7 @@ namespace ECA.Business.Service.Projects
             this.CategoryIds = categoryIds ?? new List<int>();
             this.ObjectiveIds = objectiveIds ?? new List<int>();
             this.LocationIds = locationIds ?? new List<int>();
-            this.RegionsIds = regionIds ?? new List<int>();
+            this.RegionIds = regionIds ?? new List<int>();
             this.StartDate = startDate;
             this.EndDate = endDate;
             this.Audit = new Update(updatedBy);
@@ -66,7 +66,7 @@ namespace ECA.Business.Service.Projects
             this.CategoryIds = this.CategoryIds.Distinct();
             this.ObjectiveIds = this.ObjectiveIds.Distinct();
             this.LocationIds = this.LocationIds.Distinct();
-            this.RegionsIds = this.RegionsIds.Distinct();
+            this.RegionIds = this.RegionIds.Distinct();
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace ECA.Business.Service.Projects
         /// <summary>
         /// Gets the region ids.
         /// </summary>
-        public IEnumerable<int> RegionsIds { get; private set; }
+        public IEnumerable<int> RegionIds { get; private set; }
 
         /// <summary>
         /// Gets the locations by id.
